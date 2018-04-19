@@ -1,0 +1,248 @@
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2017. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+
+$hamburger-types: (slider);
+$hamburger-layer-color: #5596e6;
+$hamburger-layer-width: 20px;
+$hamburger-layer-height: 2px;
+$hamburger-layer-spacing: 4px;
+$hamburger-hover-opacity: 1;
+
+@import "node_modules/hamburgers/_sass/hamburgers/hamburgers";
+
+.app-header-wrapper {
+  height: 3.082rem;
+}
+
+.app-header {
+  color: $color__white;
+  position: fixed;
+  z-index: 6002;
+  width: 100%;
+
+  a {
+    text-decoration: none;
+    color: $color__white;
+
+    &:hover {
+      color: $color__blue-30;
+      svg {
+        fill: $color__blue-30;
+      }
+    }
+
+    &.link-disabled {
+      cursor: not-allowed;
+      &:hover { color: inherit; }
+    }
+  }
+
+  svg { fill: $color__white; }
+
+  &__container {
+    color: $color__white;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    &.primary {
+      background: $color__navy-gray-1;
+      padding: 0 1rem;
+    }
+
+    &.secondary {
+      background: $color__blue-90;
+      padding: 0 1rem 0 0;
+    }
+  }
+
+  .navigation-container nav {
+    margin-left: 0;
+    ul { display: flex; }
+
+    li {
+      padding: 0 1rem;
+      font-size: .875rem;
+      line-height: 27px;
+      &:last-child { padding-right: 0; }
+    }
+
+    .admin-container {
+      font-size: .675rem;
+      font-weight: 600;
+      position: relative;
+
+      button {
+        display: flex;
+        font-family: inherit;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        align-items: center;
+        margin: 0;
+
+        span {
+          padding: 0.35rem 1rem 0.35rem 0px;
+          color: $color__white;
+        }
+
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+
+      ul {
+        top: 38.1875px;
+        right: -1rem;
+        display: none;
+        position: absolute;
+        width: 250px;
+        text-align: left;
+        z-index: 6001;
+        background: $color__navy-gray-3;
+        box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.3);
+
+        li {
+          padding: 0;
+          font-size: .875rem;
+          font-weight: 400;
+          white-space: nowrap;
+          &:first-child {
+            display: flex;
+            border-bottom: solid 1px $color__navy-gray-5;
+            padding: 12px 16px;
+            img {
+              width: 36px;
+              height: 36px;
+            }
+            span {
+              margin-left: 16px;
+              color: $color__white;
+              font-weight: bold;
+            }
+          }
+          &:last-child {
+            border-top: solid 1px $color__navy-gray-5;
+          }
+          a {
+            padding: 12px 16px;
+            color: $color__white;
+            display: block;
+            &:hover {
+              background-color: $color__blue-30;
+            }
+            img {
+              padding-right: 12px;
+            }
+          }
+        }
+        .link-disabled li:hover { background-color: inherit; }
+      }
+
+      &:hover button,
+      &.is-open button {
+        background: $color__navy-gray-3;
+
+        span {
+          color: $color__blue-30;
+        }
+      }
+
+      &.is-open ul {
+        display: block;
+      }
+    }
+  }
+
+  .docs-container {
+    justify-self: flex-start;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    font-size: .675rem;
+    padding: .35rem 0;
+
+    a { display: flex; }
+    span { padding-left: .5rem; }
+    svg {
+      width: .675rem;
+      height: .675rem;
+    }
+  }
+
+
+  .app-menu-btn-container {
+    width: 60px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover,
+    &:focus,
+    &.is-open {
+      background-color: #3f8ee3;
+      .hamburger-inner {
+        &,
+        &::before,
+        &::after {
+          background-color: $color__white;
+        }
+      }
+    }
+
+    .tooltip {
+      padding: 1em;
+      border: 1px solid $color__gray-1;
+      box-shadow: 0 3px 3px 0 rgba($color__white,0.1);
+      background: $color__white;
+      position: absolute;
+      left: 10px;
+      top: 50px;
+      visibility: hidden;
+      color: $color__blue-90;
+      z-index: 6002;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      pointer-events: none;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: -6.5px;
+        left: 50%;
+        margin-left: -6.5px;
+        width: 0;
+        height: 0;
+        border-bottom: 6.5px solid $color__white;
+        border-right: 6.5px solid transparent;
+        border-left: 6.5px solid transparent;
+      }
+    }
+
+    &:hover > .tooltip {
+      visibility: visible;
+      transition-delay: 500ms;
+      transition-property: visibility
+    }
+  }
+
+  .logo-container {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+
+    .logo {
+      margin-left: 12px;
+    }
+
+  }
+}

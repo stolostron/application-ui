@@ -1,0 +1,112 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2017. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/styles';
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'node_modules/carbon-components/scss/globals/scss/_helper-mixins';
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page-content-container {
+  padding: 54px 5% 54px;
+}
+
+.content-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bx--loading-overlay {
+  z-index: 10000; // need higher z-index with modals open
+}
+
+.no-resource {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 418px;
+  height: 411px;
+  background-color: rgba($color__white,  .65);
+  margin: auto;
+  color: $color__blue-90;
+  padding: 20px 40px;
+  border-top: 4px solid $color__blue-51;
+  box-shadow: 0 1px 2px lighten(#000, 90%);
+
+  .no-resource-icon {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    display: block;
+    margin: 0 auto 30px;
+  }
+
+  .no-resource-title {
+    font-weight: 300;
+    margin-bottom: 9px;
+    font-size: 1.8125rem;
+    text-align: center;
+    color: $color__navy-gray-6;
+  }
+
+  .no-resource-detail {
+    font-weight: 300;
+    font-size: 1rem;
+    margin-bottom: 21px;
+    text-align: center;
+    line-height: 1.2;
+    color: $color__navy-gray-6;
+
+    > a {
+      font-weight: 700;
+      margin-right: 5px;
+      font-size: .875rem;
+    }
+  }
+}
+
+.bx--inline-notification.persistent {
+  .bx--inline-notification__close-button {
+    display: none;
+  }
+}
+
+.bx--form-item {
+
+  .bx--tooltip__trigger {
+    
+    svg {
+      visibility: hidden;
+      vertical-align: middle;
+      pointer-events: visible;
+    }
+  }
+
+  &:hover,
+  &:focus-within {
+    svg {
+      visibility: visible;
+    }
+  }
+}
+
+.bx--footer.bx--footer-auto-width > div button {
+  width: auto;
+}

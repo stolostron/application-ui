@@ -1,0 +1,10 @@
+.vscode
+.idea
+*.log
+.DS_Store
+node_modules
+public
+test-reports
+coverage
+jestTestLogs.tap
+config/config-development.json

@@ -1,0 +1,18 @@
+{
+    "presets": [
+        "es2015",
+        "react",
+        "stage-2"
+    ],
+    "plugins": [
+        "transform-class-properties"
+    ],
+    "env": {
+        "client": {
+            "plugins": ["syntax-dynamic-import", "transform-object-assign"]
+        },
+        "server": {
+            "plugins": ["dynamic-import-node", "transform-object-rest-spread"]
+        }
+    }
+}

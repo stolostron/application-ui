@@ -1,0 +1,78 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+ @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+ 
+ .topologyDiagram {
+    background-color: $color__white;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 2rem;
+    border: 1px solid $color__navy-gray-8;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1)
+}
+
+svg {
+    height: 100%;
+    width: 100%;
+}
+  
+.links line, .nodes circle {
+    stroke: $color__navy-gray-4;
+    stroke-width: 1.5px;
+    stroke-opacity: 0.6;
+}
+
+.node {
+
+    .selected {
+        fill: $color__green-30;
+        stroke: $color__navy-gray-3;
+        stroke-width: 5px;
+        stroke-opacity: 0.5;
+    }
+
+    text {
+        text-anchor: middle;
+        font-size: .75rem;
+        fill: $color__navy-gray-4;
+    }
+}
+
+.link {
+    text {
+        text-anchor: middle;
+        font-size: .6rem;
+        fill: $color__navy-gray-4;
+    }
+
+    .directionDecorator {
+        stroke: $color__navy-gray-4;
+        fill: $color__navy-gray-6;
+    }
+}
+
+.detailsCard {
+    position: absolute;
+    right: 2rem;
+    top: 12rem;
+    animation: slidein 600ms cubic-bezier(.175, .885, .32, 1.275);
+    z-index: 10;
+}
+
+@keyframes slidein {
+    0% {
+      opacity: 0;
+      right: -5rem;
+    }
+  
+    100% {
+      opacity: 1;
+      right: 2rem;
+    }
+  }

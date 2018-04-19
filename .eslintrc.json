@@ -1,0 +1,68 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true,
+        "commonjs": true,
+        "jest": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:jsx-a11y/recommended"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "html",
+        "import",
+        "jsx-a11y"
+    ],
+    "settings": {
+        "html/html-extensions": [
+            ".dust"
+        ]
+    },
+    "rules": {
+        "indent": ["error", 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3 }, "MemberExpression": 1 }],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "eol-last": ["error", "always"],
+        "semi": ["error", "never"],
+        "prefer-arrow-callback": [
+            "error"
+        ],
+        "no-trailing-spaces": [2],
+        "no-unused-vars": [2],
+        "react/jsx-tag-spacing": [2],
+        "react/display-name": [1],
+        "react/prop-types": [0],
+        "react/no-render-return-value": [1],
+        "react/no-find-dom-node": [1],
+        "react/jsx-indent": [2, 2],
+        "react/jsx-indent-props": [2, 2],
+        "import/no-unresolved": [
+            "error",
+            {
+                "commonjs": true
+            }
+        ],
+        "jsx-a11y/anchor-is-valid": [0],
+        "jsx-a11y/label-has-for": [ 2, {
+            "required": {
+                "some": [ "nesting", "id" ]
+            }
+        }]
+    }
+}

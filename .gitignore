@@ -4,6 +4,7 @@
 .DS_Store
 node_modules
 public
+dll
 test-reports
 coverage
 jestTestLogs.tap

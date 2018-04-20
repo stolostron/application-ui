@@ -71,7 +71,7 @@ module.exports = {
             {
               loader: 'sass-loader?sourceMap',
               options: {
-                data: '$font-path: "'+ config.get('contextPath') + '/api/fonts";'
+                data: '$font-path: "'+ config.get('contextPath') + '/fonts";'
               }
             }
           ]
@@ -90,21 +90,6 @@ module.exports = {
         loader: 'svg-sprite-loader?' + JSON.stringify({
           name: '[name]_[hash]',
         })
-      },
-      {
-        test: /\.handlebars$/,
-        loader: 'handlebars-loader',
-        query: {
-          partialDirs: [
-            path.resolve(__dirname, './templates/partials')
-          ],
-          helperDirs: [
-            path.resolve(__dirname, './templates/helpers')
-          ],
-          precompileOptions: {
-            knownHelpersOnly: false
-          }
-        }
       }
     ],
     noParse: [
@@ -130,9 +115,6 @@ module.exports = {
     new webpack.DllReferencePlugin({
       context: __dirname,
       manifest: require('./dll/vendor-manifest.json')
-    }),
-    new ExtractTextPlugin({
-      filename: PRODUCTION ? 'api/css/login.[contenthash].css' : 'api/css/login.css'
     }),
     new ExtractTextPlugin({
       filename: PRODUCTION ? 'css/[name].[contenthash].css' : 'css/[name].css',
@@ -171,7 +153,8 @@ module.exports = {
       onEnd: {
         copy: [
           { source: 'node_modules/carbon-icons/dist/carbon-icons.svg', destination: 'public/graphics' },
-          { source: 'fonts', destination: 'public/api/fonts' },
+          { source: 'graphics/*.svg', destination: 'public/graphics'},
+          { source: 'fonts', destination: 'public/fonts' },
         ]
       }
     }),

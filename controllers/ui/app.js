@@ -23,10 +23,7 @@ const ReactDOMServer = require('react-dom/server'),
       router = express.Router({ mergeParams: true })
 
 
-var log4js = require('log4js'),
-    logger = log4js.getLogger('app')
-
-let App, Login, reducers, nav //laziy initialize to reduce startup time seen on k8s
+let App, reducers, nav //laziy initialize to reduce startup time seen on k8s
 
 router.get('*', (req, res) => {
   reducers = reducers === undefined ? require('../../src-web/reducers') : reducers

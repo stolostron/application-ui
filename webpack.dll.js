@@ -14,7 +14,7 @@ module.exports = {
   entry: {
     vendor: [
       'carbon-components-react',
-      'classnames',
+      'd3',
       'loadable-components',
       'lodash',
       'moment',

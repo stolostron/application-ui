@@ -149,22 +149,6 @@ export const getSingleResourceItem = createSelector(
   (items, props) => items && items.length > 0 && props.predicate(items, props)
 )
 
-export const resourceItemByName = (items, props) => {
-  const key = ResourceDefinitions.getURIKey(props.resourceType)
-  return lodash.find(items, item => {
-    switch (props.resourceType.name) {
-    case RESOURCE_TYPES.PERSISTENT_VOLUME.name:
-    case RESOURCE_TYPES.CLUSTER_SERVICE_BROKER.name:
-    case RESOURCE_TYPES.CLUSTER_ROLE_BINDING.name:
-    case RESOURCE_TYPES.IMAGE.name:
-    case RESOURCE_TYPES.NODE.name:
-      return lodash.get(item, key) === props.name
-    default:
-      return props.namespace ? (lodash.get(item, key) === props.name) && (lodash.get(item, 'metadata.namespace') === props.namespace) : (lodash.get(item, key) === props.name)
-    }
-  })
-}
-
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
 
   var items,index

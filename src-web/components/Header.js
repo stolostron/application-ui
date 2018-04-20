@@ -22,7 +22,7 @@ resources(() => {
 class Header extends React.PureComponent {
 
   render() {
-    const { user, leftNavOpen, userDropdownOpen, docLink } = this.props
+    const { user, leftNavOpen, userDropdownOpen } = this.props
     const locale = this.context.locale
     const contextPath = getContextRoot()
     return (
@@ -44,20 +44,14 @@ class Header extends React.PureComponent {
               <nav aria-label={msgs.get('nav.label', locale)}>
                 <ul>
                   <li>
-                    <a href={docLink} target='knowledge_center'> {msgs.get('nav.docs', locale)}</a>
-                  </li>
-                  <li>
-                    <a href='http://ibm.biz/icpsupport' target='icp_support'> {msgs.get('nav.support', locale)}</a>
-                  </li>
-                  <li>
                     <div className={'admin-container ' + (userDropdownOpen ? 'is-open' : '')}>
                       <button id='user-dropdown' onClick={this.props.handleUserDropdownClick}>
                         <img src={`${contextPath}/graphics/User_Icon.svg`} alt={msgs.get('svg.description.user', locale)} />
                       </button>
                       <ul className='dropdown-content'>
                         <li><img src={`${contextPath}/graphics/User_Icon.svg`} alt={msgs.get('svg.description.user', locale)} /><span>{user}</span></li>
-                        <li><a href='#' onClick={this.handleAboutWindow}>{msgs.get('dropdown.user.about', locale)}</a></li>
-                        <li><a href='#' id='logout' onClick={this.handleLogout}>{msgs.get('dropdown.user.logout', locale)}</a></li>
+                        <li><a href='#'>{msgs.get('dropdown.user.about', locale)}</a></li>
+                        <li><a href='#'>{msgs.get('dropdown.user.logout', locale)}</a></li>
                       </ul>
                     </div>
                   </li>

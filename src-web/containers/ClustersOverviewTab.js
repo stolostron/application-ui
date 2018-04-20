@@ -15,6 +15,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { updateSecondaryHeader } from '../actions/common'
 import { fetchClusters } from '../actions/multicluster'
 import msgs from '../../nls/platform.properties'
+import headerMsgs from '../../nls/header.properties'
 import PropTypes from 'prop-types'
 import HCMClient from '../../lib/client/hcm-client'
 import TopologyDiagram from '../components/TopologyDiagram'
@@ -38,7 +39,7 @@ class Clusters extends React.Component {
 
   componentWillMount() {
     this.props.fetchResources(RESOURCE_TYPES.HCM_CLUSTER.name)
-    this.props.updateSecondaryHeader(msgs.get('routes.clusters', this.context.locale))
+    this.props.updateSecondaryHeader(headerMsgs.get('routes.clusters', this.context.locale))
     HCMClient.getClusters(
       (success) =>{
         this.setState({ topology:  success.topology })
@@ -77,8 +78,8 @@ class Clusters extends React.Component {
             <CardFooter>
               {status && (<CardStatus
                 status={status == 'healthy' ? CardStatus.appStatus.RUNNING : CardStatus.appStatus.NOT_RUNNING}
-                runningText={`${msgs.get('healthy', this.context.locale)}`}
-                notRunningText={`${msgs.get('unhealthy', this.context.locale)}`}
+                runningText={`${msgs.get('table.header.status.healthy', this.context.locale)}`}
+                notRunningText={`${msgs.get('table.header.status.unhealthy', this.context.locale)}`}
               />)}
             </CardFooter>
           </Card>)}
@@ -95,15 +96,15 @@ const ClusterCard = ({ context, ClusterName, TotalDeployments, TotalNodes, Statu
       cardTitle={ClusterName}
       cardIcon="services"
       cardInfo={[
-        `${msgs.get('routes.platform.nodes', context.locale)}: ${TotalNodes}`,
-        `${msgs.get('routes.workloads.deployments', context.locale)}: ${TotalDeployments}`,
+        `${msgs.get('table.header.nodes', context.locale)}: ${TotalNodes}`,
+        `${msgs.get('table.header.deployments', context.locale)}: ${TotalDeployments}`,
       ]} >
     </CardContent>
     <CardFooter>
       <CardStatus
         status={ Status == 'healthy' ? CardStatus.appStatus.RUNNING : CardStatus.appStatus.NOT_RUNNING }
-        runningText={`${msgs.get('healthy', context.locale)}`}
-        notRunningText={`${msgs.get('unhealthy', context.locale)}`}
+        runningText={`${msgs.get('table.header.status.healthy', context.locale)}`}
+        notRunningText={`${msgs.get('table.header.status.unhealthy', context.locale)}`}
       />
     </CardFooter>
   </Card>

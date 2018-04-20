@@ -141,7 +141,8 @@ class HeaderContainer extends React.Component {
         item: parent,
         expanded: expanded,
         subItem: item
-      }
+      },
+      leftNavOpen: !item,
     })
   }
 

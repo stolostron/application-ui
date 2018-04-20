@@ -21,7 +21,7 @@ import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import headerMsgs from '../../../nls/header.properties'
 import config from '../../../lib/shared/config'
-import { RESOURCE_TYPES, ROLES } from '../../../lib/shared/constants'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 class ResourceList extends React.Component {
 
@@ -86,7 +86,6 @@ class ResourceList extends React.Component {
       namespace
     } = this.props
     const { locale } = this.context
-    const tableActions = this.getTableActionsByRole()
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
       return <Notification
@@ -122,7 +121,7 @@ class ResourceList extends React.Component {
         handleSort={TableHelper.handleSort.bind(this, sortDirection, sortColumn, sortTable)}
         handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
         searchValue={searchValue}
-        tableActions={tableActions} />
+        tableActions={staticResourceData.tableActions} />
 
     const resourceName = msgs.get('no-resource.' + resourceType.name.toLowerCase(), locale)
     return (
@@ -144,37 +143,6 @@ class ResourceList extends React.Component {
 
   handleResourceDeletedEvent(event) {
     this.props.deleteResource(event)
-  }
-
-  getTableActionsByRole() {
-    const { role, staticResourceData, resourceType } = this.props
-    const GLOBAL_RESOURCES = [RESOURCE_TYPES.CLUSTER_SERVICE_BROKER.name, RESOURCE_TYPES.NAMESPACE.name, RESOURCE_TYPES.PERSISTENT_VOLUME.name, RESOURCE_TYPES.RESOURCE_QUOTA.name]
-    const isGlobalResource = GLOBAL_RESOURCES.find(resource => resource === resourceType.name)
-    let actions = []
-    switch (role) {
-    case ROLES.VIEWER:
-      break
-    case ROLES.EDITOR:
-      if (!isGlobalResource) {
-        actions = staticResourceData.actions && staticResourceData.actions.filter(action => (action === 'table.actions.edit' || action === 'table.actions.scale' || action === 'table.actions.edit.scope'))
-      }
-      break
-    case ROLES.OPERATOR:
-      if (!isGlobalResource) {
-        actions = staticResourceData.actions && staticResourceData.actions.filter(action => action !== 'table.actions.remove')
-      }
-      break
-    case ROLES.ADMIN:
-      if (!isGlobalResource) {
-        actions = staticResourceData.actions
-      }
-      break
-    case ROLES.CLUSTER_ADMIN:
-    default:
-      actions = staticResourceData.actions
-      break
-    }
-    return actions
   }
 }
 

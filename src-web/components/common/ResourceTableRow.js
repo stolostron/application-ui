@@ -16,7 +16,6 @@ import msgs from '../../../nls/platform.properties'
 import { withRouter } from 'react-router-dom'
 import { transform } from '../../../lib/client/resource-helper'
 import { resourceActions } from './ResourceTableRowMenuItemActions'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import lodash from 'lodash'
 
 class ResourceTableRow extends React.PureComponent {
@@ -53,15 +52,7 @@ ResourceTableRow.contextTypes = {
   locale: PropTypes.string
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { resourceType } = ownProps
-  if (resourceType.name === RESOURCE_TYPES.VA.name) {
-    const access_ip = state.uiconfig.uiConfiguration.access_ip
-    const resource = { ...ownProps.resource, access_ip }
-    return { resource }
-  }
-  return {}
-}
+const mapStateToProps = state => state
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const resourceType = ownProps.resourceType

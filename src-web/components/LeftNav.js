@@ -98,7 +98,7 @@ class LeftNav extends React.Component {
 
   handleClick(subitem, item) {
     const { selection } = this.props
-    this.props.handleNavItemClick(subitem, item, !selection.item || selection.item.id !== item.id ? true : !selection.expanded)
+    this.props.handleNavItemClick(subitem, item, !subitem ? !selection.expanded : true)
   }
 }
 

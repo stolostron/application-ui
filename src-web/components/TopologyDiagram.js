@@ -9,7 +9,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import * as d3 from 'd3'
 import resources from '../../lib/shared/resources'
 
@@ -180,6 +179,14 @@ class TopologyDiagram extends React.PureComponent {
         d.fx = null
         d.fy = null
       }
+
+      // Adds Zoom and Drag to diagram
+      svg.call(d3.zoom()
+        .scaleExtent([ 0.25, 8 ])
+        .on('zoom', () => {
+          node.attr('transform', d3.event.transform)
+          link.attr('transform', d3.event.transform)
+        }))
     }
 
     render() {
@@ -196,8 +203,4 @@ class TopologyDiagram extends React.PureComponent {
     }
 }
 
-TopologyDiagram.contextTypes = {
-  locale: PropTypes.string
-}
-
-export default withRouter(TopologyDiagram)
+export default TopologyDiagram

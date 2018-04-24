@@ -9,7 +9,7 @@
     ],
     "env": {
         "client": {
-            "plugins": ["syntax-dynamic-import", "transform-object-assign"]
+            "plugins": ["syntax-dynamic-import"]
         },
         "server": {
             "plugins": ["dynamic-import-node", "transform-object-rest-spread"]

@@ -1,4 +1,4 @@
-# hcm-ui
+# hcm-ui[![Build Status](https://travis.ibm.com/IBMPrivateCloud/hcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/hcm-ui)
 
 ## Build
 

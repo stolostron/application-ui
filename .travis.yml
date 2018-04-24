@@ -1,0 +1,37 @@
+sudo: required
+language: node_js
+
+os:
+  - linux-ppc64le
+  - linux
+
+cache:
+  apt: true
+  directories:
+    - "$TRAVIS_CACHE_DIR"
+
+branches:
+  only:
+    - master
+    - /^[0-9]+\..*$/
+    - /^v[0-9]+\..*$/
+    - /^release-[0-9]+\..*$/
+
+services:
+  - docker
+
+before_install:
+  - source travis-env.sh
+  - make docker-login
+
+install:
+  - make install
+
+before_script:
+  - make test
+
+script:
+  - make image
+
+after_success:
+- test "$TRAVIS_PULL_REQUEST" = "false" && make release || echo  "success"

@@ -14,7 +14,8 @@
     "build:dll": "webpack --config webpack.dll.js --progress",
     "shrinkwrap:clean": "del-cli node_modules npm-shrinkwrap.json && npm install --no-optional && npm prune && npm shrinkwrap",
     "lint": "eslint --ext .jsx,.js .",
-    "lint:fix": "eslint --ext .jsx,.js --fix ."
+    "lint:fix": "eslint --ext .jsx,.js --fix .",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -45,7 +46,6 @@
     "express": "^4.16.3",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.1",
-    "http-proxy-middleware": "^0.18.0",
     "loadable-components": "^1.4.0",
     "lodash": "^4.17.5",
     "log4js": "^2.5.3",

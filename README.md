@@ -10,7 +10,7 @@ npm run build[:watch|:production]
 ## Running
 1. The folloing environment variables need to be set.
 ```
-hcmUrl
+hcmUiApiUrl
 ```
 2. Start the server
 ```

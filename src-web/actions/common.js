@@ -7,9 +7,10 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import * as Actions from './index'
-import hcmClient from '../../lib/client/hcm-client'
 import lodash from 'lodash'
+
+import * as Actions from './index'
+import apolloClient from '../../lib/client/apollo-client'
 
 export const changeTablePage = ({page, pageSize}, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -73,14 +74,9 @@ export const deleteResource = (item, resourceType) => ({
 export const fetchResources = (resourceType) => {
   return (dispatch) => {
     dispatch(requestResource(resourceType))
-
-    if (resourceType.name.startsWith('HCM')) {
-      return hcmClient.get(
-        resourceType,
-        response => dispatch(receiveResourceSuccess(response, resourceType)),
-        err => dispatch(receiveResourceError(err, resourceType)),
-      )
-    }
+    return apolloClient.get(resourceType)
+      .then(response => dispatch(receiveResourceSuccess({ items: lodash.cloneDeep(response.data.items) }, resourceType)))
+      .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
 }
 

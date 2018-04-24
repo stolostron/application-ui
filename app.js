@@ -52,6 +52,13 @@ require('./lib/shared/dust-helpers')
 
 var app = express()
 
+var proxy = require('http-proxy-middleware')
+app.use('/graphql', proxy({
+  target: appConfig.get('hcmUiApiUrl'),
+  changeOrigin: true,
+  secure: false
+}))
+
 app.engine('dust', consolidate.dust)
 app.set('env', 'production')
 app.set('views', __dirname + '/views')

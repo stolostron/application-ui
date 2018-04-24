@@ -12,12 +12,10 @@ import resources from '../../lib/shared/resources'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
-import { updateSecondaryHeader } from '../actions/common'
-import { fetchClusters } from '../actions/multicluster'
+import { updateSecondaryHeader, fetchResources } from '../actions/common'
 import msgs from '../../nls/platform.properties'
 import headerMsgs from '../../nls/header.properties'
 import PropTypes from 'prop-types'
-import HCMClient from '../../lib/client/hcm-client'
 import TopologyDiagram from '../components/TopologyDiagram'
 
 import {
@@ -38,20 +36,16 @@ class Clusters extends React.Component {
   state = { topology: { nodes: [], links: []} }
 
   componentWillMount() {
-    this.props.fetchResources(RESOURCE_TYPES.HCM_CLUSTER.name)
     this.props.updateSecondaryHeader(headerMsgs.get('routes.clusters', this.context.locale))
-    HCMClient.getClusters(
-      (success) =>{
-        this.setState({ topology:  success.topology })
-      }
-    )
+    this.props.fetchResources(RESOURCE_TYPES.HCM_CLUSTER)
   }
+
   handleSelectedNodeChange = (selectedNodeId) =>{
     this.setState({ selectedNodeId })
   }
 
   render() {
-    const currentNode = this.state.topology.nodes.find((n) => n.uid === this.state.selectedNodeId) || {}
+    const currentNode = this.props.topology.nodes.find((n) => n.uid === this.state.selectedNodeId) || {}
 
     const title = currentNode && currentNode.name
     const details = []
@@ -65,8 +59,8 @@ class Clusters extends React.Component {
       <div className='clusters'>
         <div className='topologyDiagram'>
           <TopologyDiagram
-            nodes={this.state.topology.nodes}
-            links={this.state.topology.links}
+            nodes={this.props.topology.nodes}
+            links={this.props.topology.links}
             onSelectedNodeChange={this.handleSelectedNodeChange}
             selectedNodeId={this.state.selectedNodeId}
           />
@@ -114,19 +108,33 @@ Clusters.contextTypes = {
   locale: PropTypes.string
 }
 
-const mapStateToProps = (state) =>
-  ({
+const mapStateToProps = (state) =>{
+  const clusters = state[RESOURCE_TYPES.HCM_CLUSTER.list] ? state[RESOURCE_TYPES.HCM_CLUSTER.list].items : []
+
+  const topology = { nodes: [
+    { uid: 'manager', type: '1', name: 'Cluster Manager' }
+  ], links: []}
+
+  clusters.forEach((cluster) =>{
+    const clustName = cluster.ClusterName
+    topology.nodes.push({ uid: clustName, type: '2', name: clustName, cluster })
+    topology.links.push({ source: 'manager', target: clustName, label: 'manages', type: '1' })
+  })
+
+  return {
     // TODO: handle status and error states
     // const error = state[type.list].err
     // props[`status_${type.list}`] = state[type.list].status
     // props[`error_${type.list}`] = error && error.response && error.response.status
-    clusters: state[RESOURCE_TYPES.HCM_CLUSTER.list] ? state[RESOURCE_TYPES.HCM_CLUSTER.list].items : []
-  })
+    clusters,
+    topology
+  }
+}
 
 const mapDispatchToProps = dispatch => {
   return {
     updateSecondaryHeader: title => dispatch(updateSecondaryHeader(title)),
-    fetchResources: resourceType => dispatch(fetchClusters(resourceType))
+    fetchResources: resourceType => dispatch(fetchResources(resourceType))
   }
 }
 

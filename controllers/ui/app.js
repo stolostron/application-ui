@@ -36,7 +36,7 @@ router.get('*', (req, res) => {
 
   App = App === undefined ? require('../../src-web/containers/App').default : App
   const context = getContext(req)
-  const baseNavRoutes = navUtil.getLeftNavConfig(req, 'platform-ui', process.env.NODE_ENV === 'development')
+  const baseNavRoutes = navUtil.getLeftNavConfig(req, 'hcm-ui', process.env.NODE_ENV === 'development')
   nav = nav === undefined ? require('../../src-web/actions/nav') : nav
   store.dispatch(nav.navReceiveSuccess(baseNavRoutes))
 

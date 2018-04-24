@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
 !}
 
-{>"page" title="{title}" id="platform-ui" trackAnalytics="true"/}
+{>"page" title="{title}" id="hcm-ui" trackAnalytics="true"/}
 {<head}
     <link rel='stylesheet' href="{contextPath}/{manifest.main.css}">
 {/head}

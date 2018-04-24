@@ -12,11 +12,9 @@ var express = require('express'),
     router = express.Router()
 
 //controllers
-var app = require('./app'),
-    hcmController = require('./hcm')
+var app = require('./app')
 
 // router.use(csrf) TODO: Revisit csrf
-router.all('/hcm/*', hcmController)
 router.all(['/', '/*'], app)
 
 module.exports = router

@@ -1,7 +1,6 @@
 {
     "contextPath": "/console",
     "httpPort": 3000,
-    "hcmUrl": "",
     "hcmUiApiUrl": "",
     "hcmPollInterval": 500,
     "hcmPollTimeout": 5000

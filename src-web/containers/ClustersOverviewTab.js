@@ -17,13 +17,9 @@ import msgs from '../../nls/platform.properties'
 import headerMsgs from '../../nls/header.properties'
 import PropTypes from 'prop-types'
 import TopologyDiagram from '../components/TopologyDiagram'
+import { ClusterDetailsCard, ClusterSummaryCard } from '../components/ClusterCards'
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardStatus,
-} from 'carbon-components-react'
+import { Button } from 'carbon-components-react'
 
 resources(() => {
   require('../../scss/clusters.scss')
@@ -57,52 +53,29 @@ class Clusters extends React.Component {
 
     return (
       <div className='clusters'>
-        <div className='topologyDiagram'>
+        <div className="buttonGroup">
+          <Button
+            small
+            icon="add--glyph"
+            iconDescription={msgs.get('cluster.add', this.context.locale)}
+            onClick={() => alert('TODO: Show dialog to start managing existing clusters.') }   // TODO: Show modal
+          > {msgs.get('cluster.add', this.context.locale)} </Button>
+        </div>
+        <div className='topologyDiagramContainer'>
           <TopologyDiagram
             nodes={this.props.topology.nodes}
             links={this.props.topology.links}
             onSelectedNodeChange={this.handleSelectedNodeChange}
             selectedNodeId={this.state.selectedNodeId}
           />
-          { this.state.selectedNodeId && (<Card className="detailsCard" >
-            <CardContent
-              cardTitle={title}
-              cardIcon="services"
-              cardInfo={details} />
-            <CardFooter>
-              {status && (<CardStatus
-                status={status == 'healthy' ? CardStatus.appStatus.RUNNING : CardStatus.appStatus.NOT_RUNNING}
-                runningText={`${msgs.get('table.header.status.healthy', this.context.locale)}`}
-                notRunningText={`${msgs.get('table.header.status.unhealthy', this.context.locale)}`}
-              />)}
-            </CardFooter>
-          </Card>)}
+          { this.state.selectedNodeId && <ClusterDetailsCard context={this.context} title={title} details={details} status={status} /> }
         </div>
-        {this.props.clusters.map((cluster, i) => <ClusterCard key={i} context={this.context} {...cluster} />)}
+        {this.props.clusters.map((cluster, i) => <ClusterSummaryCard key={i} context={this.context} {...cluster} />)}
       </div>
     )
   }
 }
 
-const ClusterCard = ({ context, ClusterName, TotalDeployments, TotalNodes, Status }) => (
-  <Card className="cluster-card" >
-    <CardContent
-      cardTitle={ClusterName}
-      cardIcon="services"
-      cardInfo={[
-        `${msgs.get('table.header.nodes', context.locale)}: ${TotalNodes}`,
-        `${msgs.get('table.header.deployments', context.locale)}: ${TotalDeployments}`,
-      ]} >
-    </CardContent>
-    <CardFooter>
-      <CardStatus
-        status={ Status == 'healthy' ? CardStatus.appStatus.RUNNING : CardStatus.appStatus.NOT_RUNNING }
-        runningText={`${msgs.get('table.header.status.healthy', context.locale)}`}
-        notRunningText={`${msgs.get('table.header.status.unhealthy', context.locale)}`}
-      />
-    </CardFooter>
-  </Card>
-)
 
 Clusters.contextTypes = {
   locale: PropTypes.string

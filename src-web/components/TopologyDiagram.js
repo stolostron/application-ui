@@ -64,7 +64,7 @@ class TopologyDiagram extends React.PureComponent {
 
 
     generateDiagram(height, width) {
-      const svg = d3.select('svg')
+      const svg = d3.select('svg.topologyDiagram')
       svg.on('click', this.handleBackgroundClick)
 
       // Add links to the diagram.
@@ -191,8 +191,8 @@ class TopologyDiagram extends React.PureComponent {
 
     render() {
       return (
-        <div key={Math.random()} className="topologyDiagram" ref={this.setContainerRef} >
-          <svg />
+        <div key={Math.random()} className="topologyDiagramContainer" ref={this.setContainerRef} >
+          <svg className="topologyDiagram" />
         </div>
       )
     }

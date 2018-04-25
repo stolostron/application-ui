@@ -36,7 +36,6 @@ class TopologyDiagram extends React.PureComponent {
       onSelectedNodeChange: PropTypes.func,
     }
 
-    state = { }
     constructor (props) {
       super(props)
 
@@ -47,25 +46,13 @@ class TopologyDiagram extends React.PureComponent {
 
     handleNodeClick = (node) => {
       this.props.onSelectedNodeChange(node.uid)
-      this.setState({ nodeClicked: true})
-    }
-    handleBackgroundClick = () => {
-      // FIXME: Jorge: When clicking on a node, the background click is also triggered,
-      //        so using this workaround to skip after a node is clicked. There must be a better way.
-      if(this.state.nodeClicked !== true){
-        this.props.onSelectedNodeChange(undefined)
-      }
-      this.setState((prevState) => {
-        if (prevState.nodeClicked) {
-          return { nodeClicked: false }
-        }
-      })
+      d3.event.stopPropagation()
     }
 
 
     generateDiagram(height, width) {
       const svg = d3.select('svg.topologyDiagram')
-      svg.on('click', this.handleBackgroundClick)
+      svg.on('click', this.props.onSelectedNodeChange) // Gets called without args so it will set the selection to undefined
 
       // Add links to the diagram.
       // Links are added first because nodes will be drawn on top later.

@@ -1,5 +1,5 @@
 {
-    "contextPath": "/console",
+    "contextPath": "/hcmconsole",
     "httpPort": 3000,
     "hcmUiApiUrl": "",
     "featureFlags": {

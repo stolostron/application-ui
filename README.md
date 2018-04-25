@@ -10,9 +10,9 @@ npm run build[:watch|:production]
 ## Running
 1. The folloing environment variables need to be set.
 ```
-hcmUiApiUrl
+hcmUiApiUrl=http://localhost:4000/hcmuiapi/graphql
 ```
 2. Start the server
 ```
-npm start[:production]
+npm run start[:production]
 ```

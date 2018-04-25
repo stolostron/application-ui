@@ -111,7 +111,7 @@ var port = process.env.PORT || appConfig.get('httpPort')
 // start server
 logger.info('Starting express server.')
 server.listen(port, () => {
-  logger.info(`HCM UI listening on http port ${port}.`)
+  logger.info(`HCM UI is now running on http://localhost:${port}${CONTEXT_PATH}`)
 })
 
 process.on('SIGTERM', () => {

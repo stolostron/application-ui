@@ -21,7 +21,6 @@ import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import headerMsgs from '../../../nls/header.properties'
 import config from '../../../lib/shared/config'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 class ResourceList extends React.Component {
 
@@ -35,7 +34,6 @@ class ResourceList extends React.Component {
   componentWillMount() {
     const { updateSecondaryHeader, tabs, title } = this.props
     updateSecondaryHeader(headerMsgs.get(title, this.context.locale), tabs)
-
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
       this.setState({ intervalId: intervalId })
@@ -50,18 +48,11 @@ class ResourceList extends React.Component {
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
-      if (this.props.resourceType.name === RESOURCE_TYPES.VA.name) {
-        this.props.fetchResources(this.props.namespace, this.props.user)
-      } else {
-        this.props.fetchResources(this.props.namespace)
-      }
+      this.props.fetchResources()
     }
   }
 
   componentWillUnmount() {
-    if (this.socket)
-      this.socket.close()
-
     clearInterval(this.state.intervalId)
   }
 

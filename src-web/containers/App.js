@@ -48,7 +48,7 @@ class App extends React.Component {
         <SecondaryHeader />
         <Switch>
           <Route path={`${match.url}/clusters`} render={() => <Clusters serverProps={serverProps} />} />
-          <Redirect to={`${config.contextPath}/clusters/overview}`} />
+          <Redirect to={`${config.contextPath}/clusters/overview`} />
         </Switch>
       </div>
     )

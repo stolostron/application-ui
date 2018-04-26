@@ -8,8 +8,8 @@ import {
 import msgs from '../../nls/platform.properties'
 
 
-const ClusterSummaryCard = ({ context, ClusterName, TotalDeployments, TotalNodes, Status }) => (
-  <Card className="clusterCard" >
+const ClusterSummaryCard = ({ context, ClusterName, TotalDeployments, TotalNodes, Status, ...other }) => (
+  <Card className="clusterCard" {...other} >
     <CardContent
       cardTitle={ClusterName}
       cardIcon="services"

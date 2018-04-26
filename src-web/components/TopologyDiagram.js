@@ -27,8 +27,8 @@ class TopologyDiagram extends React.PureComponent {
         name: PropTypes.string,
       })),
       links: PropTypes.arrayOf(PropTypes.shape({
-        source: PropTypes.string,
-        target: PropTypes.string,
+        source: PropTypes.any,
+        target: PropTypes.any,
         label: PropTypes.string,
         type: PropTypes.string,
       })),

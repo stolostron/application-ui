@@ -29,7 +29,7 @@ resources(() => {
 class Clusters extends React.Component {
 
   // TODO: Jorge: Use Redux state
-  state = { topology: { nodes: [], links: []} }
+  state = { }
 
   componentWillMount() {
     this.props.updateSecondaryHeader(headerMsgs.get('routes.clusters', this.context.locale))
@@ -38,6 +38,10 @@ class Clusters extends React.Component {
 
   handleSelectedNodeChange = (selectedNodeId) =>{
     this.setState({ selectedNodeId })
+  }
+
+  handleCardFocus = clusterId => () => {
+    this.setState({ selectedNodeId: clusterId })
   }
 
   render() {
@@ -70,7 +74,14 @@ class Clusters extends React.Component {
           />
           { this.state.selectedNodeId && <ClusterDetailsCard context={this.context} title={title} details={details} status={status} /> }
         </div>
-        {this.props.clusters.map((cluster, i) => <ClusterSummaryCard key={i} context={this.context} {...cluster} />)}
+        {this.props.clusters.map((cluster, i) => (
+          <ClusterSummaryCard
+            key={i}
+            context={this.context}
+            onFocus={this.handleCardFocus(cluster.ClusterName)}
+            {...cluster}
+          />)
+        )}
       </div>
     )
   }

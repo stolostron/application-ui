@@ -23,7 +23,7 @@ const ReactDOMServer = require('react-dom/server'),
       router = express.Router({ mergeParams: true })
 
 
-let App, reducers, nav //laziy initialize to reduce startup time seen on k8s
+let App, Login, reducers, nav  //laziy initialize to reduce startup time seen on k8s
 
 router.get('*', (req, res) => {
   reducers = reducers === undefined ? require('../../src-web/reducers') : reducers
@@ -32,7 +32,8 @@ router.get('*', (req, res) => {
     thunkMiddleware, // lets us dispatch() functions
   ))
 
-  req.user = 'admin'
+  Login = Login === undefined ? require('../../src-web/actions/login') : Login
+  store.dispatch(Login.receiveLoginSuccess(req.user))
 
   App = App === undefined ? require('../../src-web/containers/App').default : App
   const context = getContext(req)

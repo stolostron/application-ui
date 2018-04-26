@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import msgs from '../../nls/header.properties'
 import resources from '../../lib/shared/resources'
+import { requestLogout } from '../actions/login'
 import { getContextRoot } from '../../lib/client/http-util'
 import PropTypes from 'prop-types'
 
@@ -20,6 +21,11 @@ resources(() => {
 })
 
 class Header extends React.PureComponent {
+
+  handleLogout = (event) => {
+    event.preventDefault()
+    this.props.requestLogout()
+  }
 
   render() {
     const { user, leftNavOpen, userDropdownOpen } = this.props
@@ -51,7 +57,7 @@ class Header extends React.PureComponent {
                       <ul className='dropdown-content'>
                         <li><img src={`${contextPath}/graphics/User_Icon.svg`} alt={msgs.get('svg.description.user', locale)} /><span>{user}</span></li>
                         <li><a href='#'>{msgs.get('dropdown.user.about', locale)}</a></li>
-                        <li><a href='#'>{msgs.get('dropdown.user.logout', locale)}</a></li>
+                        <li><a href='#' onClick={this.handleLogout}>{msgs.get('dropdown.user.logout', locale)}</a></li>
                       </ul>
                     </div>
                   </li>
@@ -74,5 +80,10 @@ const mapStateToProps = state => {
     user: state.user,
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    requestLogout: () => dispatch(requestLogout()),
+  }
+}
 
-export default withRouter(connect(mapStateToProps)(Header))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header))

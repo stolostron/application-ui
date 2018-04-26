@@ -2,8 +2,13 @@
     "contextPath": "/hcmconsole",
     "httpPort": 3000,
     "hcmUiApiUrl": "",
+    "cfcRouterUrl": "",
     "featureFlags": {
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 5000
-    }
+    },
+    "PLATFORM_IDENTITY_PROVIDER_URL": "",
+    "WLP_CLIENT_ID": "",
+    "WLP_CLIENT_SECRET": "",
+    "WLP_REDIRECT_URL": "https://localhost:3000/auth/liberty/callback"
 }

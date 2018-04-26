@@ -12,7 +12,8 @@ var log4js = require('log4js'),
     logger = log4js.getLogger('server'),
     watchr = require('watchr'),
     moment = require('moment'),
-    mime = require('mime-types')
+    mime = require('mime-types'),
+    fs = require('fs')
 
 
 var log4js_config = process.env.LOG4JS_CONFIG ? JSON.parse(process.env.LOG4JS_CONFIG) : undefined
@@ -103,15 +104,24 @@ app.get('/favicon.ico', (req, res) => res.sendStatus(204))
 app.locals.config = require('./lib/shared/config')
 app.locals.manifest = require('./public/webpack-assets.json')
 
-var http = require('http')
-var server = http.createServer(app)
+var server
+if (process.env.NODE_ENV === 'development') {
+  var https = require('https')
+  var privateKey  = fs.readFileSync('./sslcert/server.key', 'utf8')
+  var certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
+  var credentials = {key: privateKey, cert: certificate}
+  server = https.createServer(credentials, app)
+} else {
+  var http = require('http')
+  server = http.createServer(app)
+}
 
 var port = process.env.PORT || appConfig.get('httpPort')
 
 // start server
 logger.info('Starting express server.')
 server.listen(port, () => {
-  logger.info(`HCM UI is now running on http://localhost:${port}${CONTEXT_PATH}`)
+  logger.info(`HCM UI is now running on ${process.env.NODE_ENV === 'development' ? 'https' : 'http'}://localhost:${port}${CONTEXT_PATH}`)
 })
 
 process.on('SIGTERM', () => {

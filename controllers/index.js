@@ -9,6 +9,7 @@
 'use strict'
 var express = require('express'),
     router = express.Router(),
+    auth = require('./auth'),
     config = require('../config')
 
 //controllers
@@ -16,6 +17,7 @@ var status = require('./status'),
     ui = require('./ui')
 
 router.all(['/', '/status', '/livenessProbe', '/readinessProbe'], status)
+router.all('/auth/liberty/callback', auth)
 router.use(config.get('contextPath'), ui)
 
 module.exports = router

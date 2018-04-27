@@ -53,6 +53,28 @@ require('./lib/shared/dust-helpers')
 
 var app = express()
 
+var morgan = require('morgan')
+if (process.env.NODE_ENV === 'production') {
+  app.use(
+    '*',
+    morgan('combined', {
+      skip: (req, res) => res.statusCode < 400,
+    }),
+  )
+} else {
+  app.use('*', morgan('dev'))
+}
+
+var proxy = require('http-proxy-middleware')
+app.use('/hcmconsole/graphql', proxy({
+  target: appConfig.get('hcmUiApiUrl') || 'http://localhost:4000/hcmuiapi',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/hcmconsole/graphql': '/graphql'
+  },
+  secure: false
+}))
+
 app.engine('dust', consolidate.dust)
 app.set('env', 'production')
 app.set('views', __dirname + '/views')

@@ -9,7 +9,7 @@
 'use strict'
 
 export default {
-  defaultSortField: 'name',
+  defaultSortField: 'cluster',
   primaryKey: 'name',
   tableKeys: [
     {
@@ -17,12 +17,30 @@ export default {
       resourceKey: 'name',
     },
     {
+      msgKey: 'table.header.cluster',
+      resourceKey: 'cluster',
+    },
+    {
       msgKey: 'table.header.namespace',
       resourceKey: 'Namespace',
     },
     {
-      msgKey: 'table.header.cluster',
-      resourceKey: 'cluster',
+      msgKey: 'table.header.status',
+      resourceKey: 'Status',
+    },
+    {
+      msgKey: 'table.header.chartName',
+      resourceKey: 'ChartName',
+    },
+    {
+      msgKey: 'table.header.currentVersion',
+      resourceKey: 'ChartVersion',
+    },
+    {
+      msgKey: 'table.header.udpated',
+      resourceKey: 'HDetails.LastDeployed.seconds',
+      type: 'timestamp'
     },
   ],
 }
+

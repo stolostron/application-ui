@@ -17,8 +17,8 @@ export default {
       resourceKey: 'name',
     },
     {
-      msgKey: 'table.header.namespace',
-      resourceKey: 'Namespace',
+      msgKey: 'table.header.status',
+      resourceKey: 'Status',
     },
     {
       msgKey: 'table.header.cluster',

@@ -7,7 +7,6 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-
 /*
 Since these selectors are common (i.e used across different components and different parts of the store)
 we have to create unique selectors each invocation and the selectors need additional metata data sent
@@ -122,7 +121,7 @@ export const makeGetVisibleTableItemsSelector = (resourceType) => {
       let normalizedItems = normalize(result.items, [createResourcesSchema(pk)]).entities.items
       return Object.assign(result, {
         normalizedItems: normalizedItems,
-        items: result.items.map(item => lodash.get(item, pk))
+        items: result.items.map(item => `${lodash.get(item, pk)}-${lodash.get(item, 'cluster')}`) // to support multi cluster, use ${name}-${cluster} as unique id
       })
     }
   )

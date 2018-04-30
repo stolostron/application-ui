@@ -8,21 +8,8 @@
  *******************************************************************************/
 'use strict'
 
-export default {
-  defaultSortField: 'name',
-  primaryKey: 'name',
-  tableKeys: [
-    {
-      msgKey: 'table.header.name',
-      resourceKey: 'name',
-    },
-    {
-      msgKey: 'table.header.namespace',
-      resourceKey: 'Namespace',
-    },
-    {
-      msgKey: 'table.header.cluster',
-      resourceKey: 'cluster',
-    },
-  ],
-}
+import { withRouter } from 'react-router-dom'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import { typedResourcePageWithList } from '../components/common/ResourcePage'
+
+export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_NAMESPACES))

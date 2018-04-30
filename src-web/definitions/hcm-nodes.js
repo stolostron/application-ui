@@ -15,89 +15,44 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      link: false
     },
     {
-      msgKey: 'table.header.cluster',
-      resourceKey: 'cluster',
-      link: false
+      msgKey: 'table.header.role',
+      resourceKey: 'NodeDetails.Labels',
+      transformFunction: getRole
     },
     {
       msgKey: 'table.header.status',
       resourceKey: 'NodeDetails.Status',
-      link: false
     },
     {
       msgKey: 'table.header.osimage',
       resourceKey: 'NodeDetails.OSImage',
-      link: false
     },
     {
       msgKey: 'table.header.cpus',
       resourceKey: 'NodeDetails.Cpu',
-      link: false
+    },
+    {
+      msgKey: 'table.header.cluster',
+      resourceKey: 'cluster',
     },
   ],
-  detailKeys: {
-    title: 'serviceinstance.details',
-    headerRows: ['type', 'detail'],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: 'name',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'name'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'cluster',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'cluster'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'NodeDetails.Status',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'NodeDetails.Status'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'NodeDetails.OSImage',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'NodeDetails.OSImage'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'NodeDetails.Cpu',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'NodeDetails.Cpu'
-          }
-        ]
-      },
-    ]
-  },
 }
 
+export function getRole(item) {
+  let roles = []
+  if (item.NodeDetails.Labels.proxy === 'true') {
+    roles.push('proxy')
+  }
+  if (item.NodeDetails.Labels.management === 'true') {
+    roles.push('management')
+  }
+  if (item.NodeDetails.Labels.role === 'master') {
+    roles.push('master')
+  }
+  if (item.NodeDetails.Labels.va === 'true') {
+    roles.push('va')
+  }
+  return roles.length > 0 ? roles.join(', ') : 'worker'
+}

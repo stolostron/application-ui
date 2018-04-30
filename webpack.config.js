@@ -140,6 +140,7 @@ module.exports = {
       asset: '[path].gz[query]',
       algorithm: 'gzip',
       test: /\.js$|\.css$/,
+      minRatio: 1,
     }),
     new AssetsPlugin({
       path: path.join(__dirname, 'public'),

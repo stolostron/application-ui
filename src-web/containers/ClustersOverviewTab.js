@@ -6,6 +6,7 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
+'use strict'
 
 import React from 'react'
 import resources from '../../lib/shared/resources'

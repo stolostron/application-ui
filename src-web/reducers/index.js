@@ -33,7 +33,9 @@ export { nav } from './nav'
 export const HCMClusterList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_CLUSTER))
 export const HCMPodList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PODS))
 export const HCMNodeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_NODES))
+export const HCMNamespaceList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_NAMESPACES))
 export const HCMPersistentVolumeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PVS))
+export const HCMReleaseList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_RELEASES))
 
 function predicate(resourceType, action) {
   if (lodash.isEqual(resourceType, action.resourceType))

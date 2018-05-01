@@ -37,6 +37,8 @@ export const HCMNamespaceList = createResourceReducer(resourceReducerFunction, p
 export const HCMPersistentVolumeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PVS))
 export const HCMReleaseList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_RELEASES))
 
+export { default as catalog } from './catalog'
+
 function predicate(resourceType, action) {
   if (lodash.isEqual(resourceType, action.resourceType))
     return true

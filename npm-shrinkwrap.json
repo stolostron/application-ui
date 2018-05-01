@@ -2391,6 +2391,11 @@
         "supports-color": "2.0.0"
       }
     },
+    "change-emitter": {
+      "version": "0.1.6",
+      "resolved": "https://registry.npmjs.org/change-emitter/-/change-emitter-0.1.6.tgz",
+      "integrity": "sha1-6LL+PX8at9aaMhma/5HqaTFAlRU="
+    },
     "chardet": {
       "version": "0.4.2",
       "resolved": "https://registry.npmjs.org/chardet/-/chardet-0.4.2.tgz",
@@ -10817,6 +10822,21 @@
         "prop-types": "15.6.1"
       }
     },
+    "react-lazyload": {
+      "version": "2.3.0",
+      "resolved": "https://registry.npmjs.org/react-lazyload/-/react-lazyload-2.3.0.tgz",
+      "integrity": "sha512-0z3qmL+qtSERdfKFpn0yKXm+1Gg1ZLZBXnCzHhSGiu1L8iDARuCkbOypxEx9+ETxZvMnXj98xvWCs5jyXTuM2w=="
+    },
+    "react-lifecycles-compat": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.2.tgz",
+      "integrity": "sha512-pbZOSMVVkvppW7XRn9fcHK5OgEDnYLwMva7P6TgS44/SN9uGGjfh3Z1c8tomO+y4IsHQ6Fsz2EGwmE7sMeNZgQ=="
+    },
+    "react-onclickoutside": {
+      "version": "6.7.1",
+      "resolved": "https://registry.npmjs.org/react-onclickoutside/-/react-onclickoutside-6.7.1.tgz",
+      "integrity": "sha512-p84kBqGaMoa7VYT0vZ/aOYRfJB+gw34yjpda1Z5KeLflg70HipZOT+MXQenEhdkPAABuE2Astq4zEPdMqUQxcg=="
+    },
     "react-redux": {
       "version": "5.0.7",
       "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-5.0.7.tgz",
@@ -11000,6 +11020,19 @@
       "dev": true,
       "requires": {
         "resolve": "1.7.1"
+      }
+    },
+    "recompose": {
+      "version": "0.27.0",
+      "resolved": "https://registry.npmjs.org/recompose/-/recompose-0.27.0.tgz",
+      "integrity": "sha512-hivr1EopLhzjchhv2Y7VcLA2H5NGztwV/qfYqmIAhTkNowNQ9PyXdfq9Q8QCa0TMrPM1NtStlUyi5I/p8XfUNQ==",
+      "requires": {
+        "babel-runtime": "6.26.0",
+        "change-emitter": "0.1.6",
+        "fbjs": "0.8.16",
+        "hoist-non-react-statics": "2.5.0",
+        "react-lifecycles-compat": "3.0.2",
+        "symbol-observable": "1.2.0"
       }
     },
     "redent": {

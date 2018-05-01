@@ -15,6 +15,7 @@ import ClustersPodsTab from './ClustersPodsTab'
 import ClustersNodesTab from './ClustersNodesTab'
 import ClustersNamespacesTab from './ClustersNamespacesTab'
 import ClustersPVsTab from './ClustersPVsTab'
+import ClustersChartsTab from './ChartsTab'
 import ClustersReleasesTab from './ClustersReleasesTab'
 import Page from '../components/common/Page'
 
@@ -26,6 +27,7 @@ const Clusters =({ match }) =>
       <Route path={`${match.url}/nodes`} render={() => <ClustersNodesTab secondaryHeaderProps={{title: 'routes.clusters.nodes'}} />} />
       <Route path={`${match.url}/namespaces`} render={() => <ClustersNamespacesTab secondaryHeaderProps={{title: 'routes.clusters.namespaces'}} />} />
       <Route path={`${match.url}/pvs`} render={() => <ClustersPVsTab secondaryHeaderProps={{title: 'routes.clusters.pvs'}} />} />
+      <Route path={`${match.url}/charts`} render={() => <ClustersChartsTab secondaryHeaderProps={{title: 'routes.clusters.charts'}} />} />
       <Route path={`${match.url}/releases`} render={() => <ClustersReleasesTab secondaryHeaderProps={{title: 'routes.clusters.releases'}} />} />
       <Redirect to={`${match.url}/overview`} />
     </Switch>

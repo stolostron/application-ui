@@ -17,13 +17,15 @@ import hcmnodes from './hcm-nodes'
 import hcmnamespaces from './hcm-namespaces'
 import hcmpvs from './hcm-pvs'
 import hcmreleases from './hcm-releases'
+import hcmrepositories from './hcm-repositories'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_PODS.name]: hcmpods,
   [RESOURCE_TYPES.HCM_NODES.name]: hcmnodes,
   [RESOURCE_TYPES.HCM_NAMESPACES.name]: hcmnamespaces,
   [RESOURCE_TYPES.HCM_PVS.name]: hcmpvs,
-  [RESOURCE_TYPES.HCM_RELEASES.name]: hcmreleases
+  [RESOURCE_TYPES.HCM_RELEASES.name]: hcmreleases,
+  [RESOURCE_TYPES.HCM_REPOSITORIES.name]: hcmrepositories
 }
 
 function getResourceData(resourceType) {

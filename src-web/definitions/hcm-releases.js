@@ -37,7 +37,7 @@ export default {
       resourceKey: 'ChartVersion',
     },
     {
-      msgKey: 'table.header.udpated',
+      msgKey: 'table.header.updated',
       resourceKey: 'HDetails.LastDeployed.seconds',
       type: 'timestamp'
     },

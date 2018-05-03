@@ -36,6 +36,7 @@ export const HCMNodeList = createResourceReducer(resourceReducerFunction, predic
 export const HCMNamespaceList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_NAMESPACES))
 export const HCMPersistentVolumeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PVS))
 export const HCMReleaseList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_RELEASES))
+export const HCMRepositoryList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_REPOSITORIES))
 
 export { default as catalog } from './catalog'
 

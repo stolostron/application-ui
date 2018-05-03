@@ -17,7 +17,9 @@ import ClustersNamespacesTab from './ClustersNamespacesTab'
 import ClustersPVsTab from './ClustersPVsTab'
 import ClustersChartsTab from './ClustersChartsTab'
 import ClustersReleasesTab from './ClustersReleasesTab'
+import ClustersRepositoriesTab from './ClustersRepositoriesTab'
 import Page from '../components/common/Page'
+
 
 const Clusters =({ match }) =>
   <Page>
@@ -29,6 +31,7 @@ const Clusters =({ match }) =>
       <Route path={`${match.url}/pvs`} render={() => <ClustersPVsTab secondaryHeaderProps={{title: 'routes.clusters.pvs'}} />} />
       <Route path={`${match.url}/charts`} render={() => <ClustersChartsTab secondaryHeaderProps={{title: 'routes.clusters.charts'}} />} />
       <Route path={`${match.url}/releases`} render={() => <ClustersReleasesTab secondaryHeaderProps={{title: 'routes.clusters.releases'}} />} />
+      <Route path={`${match.url}/repositories`} render={() => <ClustersRepositoriesTab secondaryHeaderProps={{title: 'routes.clusters.repositories'}} />} />
       <Redirect to={`${match.url}/overview`} />
     </Switch>
   </Page>

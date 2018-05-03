@@ -10,7 +10,10 @@ export const addOrRemove = (termsList = [], term) => {
 const initialStateCatalog = {
   items: [],
   repos: [],
-  selection: '',
+  selection: {
+    name: '',
+    url: ''
+  },
   catalogFetchLoading: false,
   catalogFetchFailure: false,
   filters: {
@@ -33,8 +36,8 @@ const catalog = (state = initialStateCatalog, action) => {
     }
   }
   case Actions.CATALOG_RESOURCE_SELECT: {
-    const { selection } = action.payload
-    return { ...state, selection }
+    const { name, url, repoName } = action.payload
+    return { ...state, selection: { name, url, repoName } }
   }
   case Actions.RESOURCES_FETCH_REQUEST_LOADING: {
     const { status = !state.catalogFetchLoading } = action.payload
@@ -55,23 +58,10 @@ const catalog = (state = initialStateCatalog, action) => {
       filters: { ...state.filters, searchText },
     }
   }
-  // TODO: Add back with the addition of fetchRepos actions
-  // - 04/30/18 11:33:19 sidney.wijngaarde1@ibm.com
-  // case Actions.CATALOG_RESOURCE_FILTER_REPOS: {
-  //   const { repo } = action.payload
-  //   return {
-  //     ...state,
-  //     filters: {
-  //       ...state.filters,
-  //       selectedRepos: addOrRemove(state.filters.selectedRepos, repo),
-  //     },
-  //   }
-  // }
   case Actions.REPO_FETCH_REQUEST_SUCCESS: {
     const { repos } = action.payload
     return { ...state, repos }
   }
-
   case Actions.CATALOG_DROPDOWN_FILTERS_VISIBILITY_TOGGLE: {
     const { visibility } = action.payload
     const visibilityWithDefault = // if undefined or not a boolean, toggle.

@@ -9,8 +9,10 @@
 
 import React from 'react'
 import { bindActionCreators } from 'redux'
+import { Redirect } from 'react-router'
 import { connect } from 'react-redux'
 import { Loading } from 'carbon-components-react'
+import { getContextRoot } from '../../lib/client/http-util'
 import {
   CatalogFormWrapper,
   CatalogSearchFiltersWrapper,
@@ -18,6 +20,8 @@ import {
   ResourceWrapper,
   SearchInput,
 } from '../components/Catalog'
+
+import ChartsModal from './ClustersChartsModal.js'
 import { updateSecondaryHeader } from '../actions/common'
 import Notification from '../components/common/Notification'
 import msgs from '../../nls/platform.properties'
@@ -39,12 +43,8 @@ const mapStateToProps = ({
     catalogFetchFailure,
     catalogFetchLoading,
     repos,
-    dropdownFiltersVisibility,
     filters: {
-      selectedArchitectures,
       selectedRepos,
-      selectedCategory,
-      selectedClassifications,
     },
   },
 }) => {
@@ -52,12 +52,8 @@ const mapStateToProps = ({
     items: mapAndMultiFilterResoucesSelector(catalog),
     repoNames: repos.map(({ name }) => name),
     catalogFetchFailure,
-    dropdownFiltersVisibility,
     selectedRepos,
-    selectedArchitectures,
-    selectedCategory,
     catalogFetchLoading,
-    selectedClassifications,
   }
 }
 
@@ -68,7 +64,15 @@ const NotificationError = ({ description }) => (
 const ResourcesLoadingSpinner = () => (
   <Loading withOverlay className="content-spinner" />
 )
+
 class Catalog extends React.Component {
+  constructor() {
+    super()
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  state = { shouldRedirect: false }
+
   componentWillMount() {
     const { updateSecondaryHeader, secondaryHeaderProps } = this.props
     updateSecondaryHeader(headerMsgs.get(secondaryHeaderProps.title, this.context.locale))
@@ -76,10 +80,17 @@ class Catalog extends React.Component {
 
   componentDidMount() {
     this.props.actions.fetchResources()
-    // this.props.actions.fetchRepos()
   }
+
+  handleSubmit() {
+    this.setState({ shouldRedirect: true })
+  }
+
   render() {
-    const { locale } = this.context
+    if (this.state.shouldRedirect) {
+      return <Redirect to={`${getContextRoot()}/clusters/releases`} />
+    }
+
     const {
       catalogFetchFailure,
       items,
@@ -91,30 +102,32 @@ class Catalog extends React.Component {
       <div>
         {catalogFetchFailure && (
           <NotificationError
-            description={msgs.get('catalog.errorfetch', locale)}
+            description={msgs.get('catalog.errorfetch', this.context.locale)}
           />
         )}
         <CatalogFormWrapper>
           <CatalogSearchFiltersWrapper
-            aria-label={msgs.get('catalog.helmchartsearch', locale)}
+            aria-label={msgs.get('catalog.helmchartsearch', this.context.locale)}
           >
             <SearchInput
-              placeHolderText={msgs.get('searchbar.searchofferings', locale)}
+              placeHolderText={msgs.get('searchbar.searchofferings', this.context.locale)}
               onChange={actions.catalogResourceFilterSearch}
-              labelText={msgs.get('catalog.filter', locale)}
+              labelText={msgs.get('catalog.filter', this.context.locale)}
             />
           </CatalogSearchFiltersWrapper>
           {catalogFetchLoading ? (
             <ResourcesLoadingSpinner />
           ) : (
-            <ResourceWrapper description={msgs.get('catalog.notes', locale)}>
+            <ResourceWrapper description={msgs.get('catalog.notes', this.context.locale)}>
+              <ChartsModal handleSubmit={this.handleSubmit} />
               {items.map(({
                 name,
                 repoName,
+                url,
               }) => (
                 <Resource
                   key={`${name}${repoName}`}
-                  onSelectChart={() => actions.catalogResourceSelect(name)}
+                  onSelectChart={() => actions.catalogResourceSelect({ name, url, repoName })}
                   name={name}
                   repoName={repoName}
                 />

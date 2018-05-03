@@ -13,13 +13,7 @@ import { Link } from 'react-router-dom'
 import { callOnEnter } from '../../shared/utils'
 
 export const Resource = ({ onSelectChart, name, repoName }, { locale }) => (
-  <Link
-    id={`resourceLink_${name}`}
-    role="button"
-    className="category-border"
-    to=''
-    onKeyPress={callOnEnter(onSelectChart)}
-  >
+  <div onClick={onSelectChart} className="category-border">
     <div className="resource-tile__wrapper">
       <div className="content-wrapper">
         <div className="resource-tile__text">
@@ -32,7 +26,7 @@ export const Resource = ({ onSelectChart, name, repoName }, { locale }) => (
         </div>
       </div>
     </div>
-  </Link>
+  </div>
 )
 
 export const ResourceWrapper = ({ children, description }) => (

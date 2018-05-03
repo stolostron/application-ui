@@ -72,8 +72,9 @@ export const multiFilter = (data = [], filterObj, searchStr) => {
 
 // resources mapper for the data that comes with /charts/ call.
 const mapResources = items =>
-  items.map(({ Name, RepoName }) => ({
+  items.map(({ Name, RepoName, URLs }) => ({
     name: Name,
+    url: URLs && URLs.length && URLs[0],
     repoName: RepoName,
   }))
 

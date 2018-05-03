@@ -1,8 +1,16 @@
-import { sortBy } from 'lodash'
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
 
 import apolloClient from '../../lib/client/apollo-client'
 import * as Actions from './index'
 import { contextPath } from '../../lib/shared/config'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 /* Resource URL constructors */
 export const getIndividualResourceUrl = (
@@ -24,12 +32,6 @@ const catalogFetchErrorStatusChange = status => ({
   payload: { status },
 })
 
-// TODO: Uncomment and use with fetchRepos - 04/26/18 16:17:12 sidney.wijngaarde1@ibm.com
-// const repoFetchRequestSuccess = repos => ({
-//   type: Actions.REPO_FETCH_REQUEST_SUCCESS,
-//   payload: { repos },
-// })
-
 const resourcesFetchRequestSuccess = items => ({
   type: Actions.RESOURCES_FETCH_REQUEST_SUCCESS,
   payload: { items },
@@ -40,21 +42,14 @@ const resourcesFetchRequestLoading = status => ({
   payload: { status },
 })
 
-// export const fetchRepos = () => {
-//   return (dispatch) => {
-//     // TODO: Use Apollo Client - 04/26/18 16:17:12 sidney.wijngaarde1@ibm.com
-//   }
-// }
-
 export const fetchResources = () => {
   return (dispatch) => {
     dispatch(resourcesFetchRequestLoading(true))
 
-    return apolloClient.get({ list: 'HCMChartsList' })
-      .then((res={ data: { items: [] } }) => {
-        const sortedResources = sortBy(res.data.items, chart => chart.Name)
+    return apolloClient.get(RESOURCE_TYPES.HCM_CHARTS)
+      .then((res) => {
         dispatch(resourcesFetchRequestLoading(false))
-        dispatch(resourcesFetchRequestSuccess(sortedResources))
+        dispatch(resourcesFetchRequestSuccess(res.data.items))
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -65,9 +60,27 @@ export const fetchResources = () => {
   }
 }
 
-export const catalogResourceSelect = selection => ({
+export const catalogReleaseInstall = (input) => {
+  return (dispatch) => {
+    dispatch(resourcesFetchRequestLoading(true))
+
+    return apolloClient.installHelmChart(input)
+      .then(() => {
+        // TODO: Add a success screen to the flow - 05/02/18 14:01:43 sidney.wijngaarde1@ibm.com
+        dispatch(resourcesFetchRequestLoading(false))
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.warn(err)
+        dispatch(catalogFetchErrorStatusChange(true))
+        return err
+      })
+  }
+}
+
+export const catalogResourceSelect = ({ name, url, repoName }) => ({
   type: Actions.CATALOG_RESOURCE_SELECT,
-  payload: { selection },
+  payload: { name, url, repoName },
 })
 
 export const catalogResourceFilterSearch = searchText => ({

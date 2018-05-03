@@ -17,6 +17,21 @@ body {
   }
 }
 
+.chartmodal--body {
+	min-height: 15rem;
+	overflow-y: visible;
+
+    .bx--form-item {
+		margin-right: 0;
+		margin-bottom: 0;
+	}
+
+
+	&__label {
+		margin-top: 2rem;
+	}
+}
+
 .bx--tooltip__trigger {
   font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
   font-size: 1rem;

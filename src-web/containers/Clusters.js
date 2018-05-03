@@ -15,7 +15,7 @@ import ClustersPodsTab from './ClustersPodsTab'
 import ClustersNodesTab from './ClustersNodesTab'
 import ClustersNamespacesTab from './ClustersNamespacesTab'
 import ClustersPVsTab from './ClustersPVsTab'
-import ClustersChartsTab from './ChartsTab'
+import ClustersChartsTab from './ClustersChartsTab'
 import ClustersReleasesTab from './ClustersReleasesTab'
 import Page from '../components/common/Page'
 

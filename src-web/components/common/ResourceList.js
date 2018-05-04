@@ -78,7 +78,7 @@ class ResourceList extends React.Component {
     const { locale } = this.context
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
-      if (err && err.data.Code === 1) {
+      if (err && err.data && err.data.Code === 1) {
         return (
           <NoResource
             title={msgs.get('no-cluster.title', locale)}

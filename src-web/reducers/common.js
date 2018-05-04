@@ -167,7 +167,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.RESOURCE_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.ERROR,
-      err: action.err && action.err.error // TODO: cleanup nesting
+      err: action.err
     })
   case Actions.POST_REQUEST:
     return Object.assign({}, state, {

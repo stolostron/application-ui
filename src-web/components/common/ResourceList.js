@@ -72,17 +72,27 @@ class ResourceList extends React.Component {
       staticResourceData,
       searchValue,
       resourceType,
-      statusCode,
+      err,
       children,
-      namespace
     } = this.props
     const { locale } = this.context
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
+      if (err && err.data.Code === 1) {
+        return (
+          <NoResource
+            title={msgs.get('no-cluster.title', locale)}
+            detail={msgs.get('no-cluster.detail', locale)}>
+            {actions}
+          </NoResource>
+        )
+      }
+      //eslint-disable-next-line no-console
+      console.error(err)
       return <Notification
         title=''
         className='persistent'
-        subtitle={msgs.get(`error.${(statusCode === 401 || statusCode === 403) ? 'unauthorized' : 'default'}.description`, locale)}
+        subtitle={msgs.get('error.default.description', locale)}
         kind='error' />
     }
 
@@ -94,7 +104,6 @@ class ResourceList extends React.Component {
         return null
       return React.cloneElement(action, { resourceType })
     })
-
     if (items || searchValue)
       return <ResourceTable
         actions={actions}
@@ -118,7 +127,7 @@ class ResourceList extends React.Component {
     return (
       <NoResource
         title={msgs.get('no-resource.title', [resourceName], locale)}
-        detail={msgs.get(`no-resource.detail${namespace.split(',').length > 1 ? '' : '-namespace'}`, [resourceName, namespace], locale)}>
+        detail={msgs.get('no-resource.detail', [resourceName], locale)}>
         {actions}
       </NoResource>
     )
@@ -139,7 +148,6 @@ class ResourceList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { list: typeListName } = ownProps.resourceType,
-        error = state[typeListName].err,
         visibleResources = ownProps.getVisibleResources(state, {'storeRoot': typeListName})
   return {
     items: visibleResources.normalizedItems,
@@ -152,7 +160,7 @@ const mapStateToProps = (state, ownProps) => {
     sortDirection: state[typeListName].sortDirection,
     sortColumn: state[typeListName].sortColumn,
     searchValue: state[typeListName].search,
-    statusCode: error && error.response && error.response.status,
+    err: state[typeListName].err,
   }
 }
 

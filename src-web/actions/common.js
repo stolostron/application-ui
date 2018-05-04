@@ -75,7 +75,12 @@ export const fetchResources = (resourceType) => {
   return (dispatch) => {
     dispatch(requestResource(resourceType))
     return apolloClient.get(resourceType)
-      .then(response => dispatch(receiveResourceSuccess({ items: lodash.cloneDeep(response.data.items) }, resourceType)))
+      .then(response => {
+        if (response.errors) {
+          return dispatch(receiveResourceError(response.errors[0], resourceType))
+        }
+        return dispatch(receiveResourceSuccess({ items: lodash.cloneDeep(response.data.items)}, resourceType))
+      })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
 }

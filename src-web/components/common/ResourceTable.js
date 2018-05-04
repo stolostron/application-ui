@@ -72,6 +72,7 @@ class ResourceTable extends React.Component {
                     <ResourceTableHeader staticResourceData={staticResourceData} sortDirection={sortDirection} sortColumn={sortColumn} handleSort={handleSort} resourceType={resourceType} tableActions={tableActions} />
                   </TableHead>
                   <TableBody>
+                    {/* eslint-disable-next-line react/no-array-index-key */}
                     {itemIds.map((id, key) => <ResourceTableRow even={key % 2 === 0} resourceType={resourceType} key={key} resource={items[id]} staticResourceData={staticResourceData} tableActions={tableActions} />)}
                   </TableBody>
                 </Table>

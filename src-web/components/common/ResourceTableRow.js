@@ -31,6 +31,7 @@ class ResourceTableRow extends React.PureComponent {
     return (
       <TableRow even={even} data-row-name={lodash.get(resource, lodash.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
         {staticResourceData.tableKeys.map((key, index) =>
+          /* eslint-disable-next-line react/no-array-index-key */
           <TableData key={`${key.resourceKey}-${index}`}>
             {transform(resource, key, locale)}
           </TableData>
@@ -39,6 +40,7 @@ class ResourceTableRow extends React.PureComponent {
           <TableData>
             <OverflowMenu flipped={true} iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
               {tableActions.map((action, index) =>
+                /* eslint-disable-next-line react/no-array-index-key */
                 <OverflowMenuItem data-table-action={action} isDelete={action ==='table.actions.remove' || action ==='table.actions.delete'} onClick={() => this.props.getResourceAction(action, resource)} key={`${action}-${index}`} itemText={msgs.get(action, locale)} />)}
             </OverflowMenu>
           </TableData>

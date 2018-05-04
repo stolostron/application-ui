@@ -48,6 +48,7 @@
         "react/jsx-tag-spacing": [2],
         "react/display-name": [1],
         "react/prop-types": [0],
+        "react/no-array-index-key": "error",
         "react/no-render-return-value": [1],
         "react/no-find-dom-node": [1],
         "react/jsx-indent": [2, 2],

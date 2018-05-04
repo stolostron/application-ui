@@ -75,9 +75,9 @@ class Clusters extends React.Component {
           />
           { this.state.selectedNodeId && <ClusterDetailsCard context={this.context} title={title} details={details} status={status} /> }
         </div>
-        {this.props.clusters.map((cluster, i) => (
+        {this.props.clusters.map((cluster) => (
           <ClusterSummaryCard
-            key={i}
+            key={cluster}
             context={this.context}
             onFocus={this.handleCardFocus(cluster.ClusterName)}
             {...cluster}

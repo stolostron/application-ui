@@ -25,7 +25,7 @@ class ResourceTableHeader extends React.PureComponent {
       {staticResourceData.tableKeys.map((key, index) => {
         const active = this.state.activeColumn === key.resourceKey || key.resourceKey === sortColumn || (!sortColumn && key.resourceKey === ResourceDefinitions.getDefaultSortField(resourceType))
         return <TableHeader
-          key={`${key}-${index}`}
+          key={`${key}-${index}`} /* eslint-disable-line react/no-array-index-key */
           sortDir={key.resourceKey === sortColumn ? sortDirection.toUpperCase() : 'asc'}
           data-key={key.resourceKey}
           data-default-key={staticResourceData.defaultSortField}

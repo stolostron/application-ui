@@ -54,6 +54,7 @@ export const fetchResources = () => {
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.warn(err)
+        dispatch(resourcesFetchRequestLoading(false))
         dispatch(catalogFetchErrorStatusChange(true))
         return err
       })
@@ -62,17 +63,16 @@ export const fetchResources = () => {
 
 export const catalogReleaseInstall = (input) => {
   return (dispatch) => {
-    dispatch(resourcesFetchRequestLoading(true))
+    dispatch(catalogInstallLoading(true))
 
     return apolloClient.installHelmChart(input)
       .then(() => {
         // TODO: Add a success screen to the flow - 05/02/18 14:01:43 sidney.wijngaarde1@ibm.com
-        dispatch(resourcesFetchRequestLoading(false))
+        dispatch(catalogInstallLoading(false))
+        dispatch(catalogInstallSuccess())
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.warn(err)
-        dispatch(catalogFetchErrorStatusChange(true))
+        dispatch(catalogInstallFailure(true))
         return err
       })
   }
@@ -91,4 +91,23 @@ export const catalogResourceFilterSearch = searchText => ({
 export const catalogResourceFilterRepos = repo => ({
   type: Actions.CATALOG_RESOURCE_FILTER_REPOS,
   payload: { repo },
+})
+
+export const catalogInstallFailure = (status) => ({
+  type: Actions.CATALOG_INSTALL_FAILURE,
+  payload: { status }
+})
+
+export const catalogInstallValidationFailure = (status) => ({
+  type: Actions.CATALOG_INSTALL_VALIDATION_FAILURE,
+  payload: { status }
+})
+
+export const catalogInstallSuccess = () => ({
+  type: Actions.CATALOG_INSTALL_SUCCESS
+})
+
+export const catalogInstallLoading = status => ({
+  type: Actions.CATALOG_INSTALL_LOADING,
+  payload: { status },
 })

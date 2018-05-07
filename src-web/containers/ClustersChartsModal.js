@@ -10,20 +10,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { reduce, get } from 'lodash'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Notification from '../components/common/Notification'
 import msgs from '../../nls/platform.properties'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { fetchResources } from '../actions/common'
-import { catalogResourceSelect, catalogReleaseInstall } from '../actions/catalog'
+
+import * as Actions from '../actions/catalog'
+
 import {
   ComposedModal,
   Dropdown,
   DropdownItem,
   FormLabel,
-  MultiSelect,
+  Loading,
   ModalBody,
   ModalFooter,
   ModalHeader,
+  MultiSelect,
   TextInput
 } from 'carbon-components-react'
 
@@ -31,10 +36,18 @@ const identity = elem => elem
 
 class ChartsModal extends React.PureComponent {
   static propTypes = {
-    catalogReleaseInstall: PropTypes.func.isRequired,
-    catalogResourceSelect: PropTypes.func.isRequired,
+    actions: PropTypes.shape({
+      catalogInstallFailure: PropTypes.func.isRequired,
+      catalogInstallValidationFailure: PropTypes.func.isRequired,
+      catalogReleaseInstall: PropTypes.func.isRequired,
+      catalogResourceSelect: PropTypes.func.isRequired,
+      fetchResources: PropTypes.func.isRequired,
+    }),
+    catalogInstallFailure: PropTypes.bool,
+    catalogInstallLoading: PropTypes.bool,
+    catalogInstallValidationFailure: PropTypes.bool,
+    clusterToNamespaces: PropTypes.object,
     clusters: PropTypes.array,
-    fetchResources: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     modalHeading: PropTypes.string,
     namespaces: PropTypes.array,
@@ -57,7 +70,7 @@ class ChartsModal extends React.PureComponent {
   }
 
   componentWillMount() {
-    this.props.fetchResources()
+    this.props.actions.fetchResources(RESOURCE_TYPES.HCM_NAMESPACES)
   }
 
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
@@ -83,7 +96,10 @@ class ChartsModal extends React.PureComponent {
       releaseName: '',
     })
 
-    this.props.catalogResourceSelect({})
+    this.props.actions.catalogResourceSelect({})
+    // Reset error status
+    this.props.actions.catalogInstallValidationFailure(false)
+    this.props.actions.catalogInstallFailure(false)
   }
 
   handleInputChange(e) {
@@ -99,13 +115,20 @@ class ChartsModal extends React.PureComponent {
   }
 
   handleSubmit() {
-    // TODO: Validation - 05/02/18 14:07:09 sidney.wijngaarde1@ibm.com
-    this.props.catalogReleaseInstall({
-      ChartName: this.props.selection.name,
+    const { selection, clusterToNamespaces } = this.props
+    const { clusters, namespace } = this.state
+    const isInvalid = clusters.some(cluster => !clusterToNamespaces[cluster].includes(namespace))
+
+    if (isInvalid) {
+      return this.props.actions.catalogInstallValidationFailure(true)
+    }
+
+    this.props.actions.catalogReleaseInstall({
+      ChartName: selection.name,
       Namespace: this.state.namespace,
       ReleaseName: this.state.releaseName,
-      RepoName: this.props.selection.repoName,
-      URL: this.props.selection.url,
+      RepoName: selection.repoName,
+      URL: selection.url,
     })
 
     this.handleClose()
@@ -119,7 +142,7 @@ class ChartsModal extends React.PureComponent {
         className='modal nav-modal'
         role='region'
         aria-label={this.props.modalHeading}
-        open={this.props.selection.name}>
+        open={this.props.selection.name || this.props.catalogInstallLoading}>
         <ModalHeader buttonOnClick={this.handleOpen}>
           <div>
             <p className='bx--modal-header__label'>{msgs.get('catalog.installChart', this.context.locale)}</p>
@@ -127,6 +150,12 @@ class ChartsModal extends React.PureComponent {
           </div>
         </ModalHeader>
         <ModalBody className='chartmodal--body'>
+          {this.props.catalogInstallLoading &&
+            <Loading withOverlay className='content-spinner' />}
+          {this.props.catalogInstallFailure &&
+            <Notification allowClose type="error" description={msgs.get('catalog.installError')} />}
+          {this.props.catalogInstallValidationFailure &&
+            <Notification allowClose type="error" description={msgs.get('catalog.installValidationError')} />}
           <TextInput
             id='helm-release-name'
             value={this.state.releaseName}
@@ -169,6 +198,13 @@ class ChartsModal extends React.PureComponent {
 }
 
 const mapStateToProps = state => {
+  const {
+    catalogInstallValidationFailure,
+    catalogInstallFailure,
+    catalogInstallLoading,
+    selection
+  } = state.catalog
+
   const namespaceList = get(state, `${RESOURCE_TYPES.HCM_NAMESPACES.list}.items`, [])
 
   // TODO: Create a selector - 05/01/18 14:50:44 sidney.wijngaarde1@ibm.com
@@ -185,20 +221,21 @@ const mapStateToProps = state => {
       }
 
       return ret
-    }, { clusters: {}, namespaces: {}, clusterToNamespaces: {} })
+    }, { clusters: {}, namespaces: {}, clusterToNamespaces: { testing: [] } })
 
   return {
+    catalogInstallFailure,
+    catalogInstallValidationFailure,
+    catalogInstallLoading,
+    clusterToNamespaces,
     clusters: Object.keys(clusters),
     namespaces: Object.keys(namespaces),
-    clusterToNamespaces,
-    selection: state.catalog.selection
+    selection,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchResources: () => fetchResources(RESOURCE_TYPES.HCM_NAMESPACES)(dispatch),
-  catalogReleaseInstall: fields => catalogReleaseInstall(fields)(dispatch),
-  catalogResourceSelect: (fields) => dispatch(catalogResourceSelect(fields))
+  actions: bindActionCreators({ ...Actions, fetchResources }, dispatch),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartsModal)

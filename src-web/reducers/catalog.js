@@ -11,17 +11,17 @@ const initialStateCatalog = {
   items: [],
   repos: [],
   selection: {
+    repoName: '',
+    url: '',
     name: '',
-    url: ''
   },
-  catalogFetchLoading: false,
   catalogFetchFailure: false,
+  catalogFetchLoading: false,
+  catalogInstallValidationFailure: false,
+  catalogInstallFailure: true,
+  catalogInstallLoading: false,
   filters: {
     searchText: '',
-    selectedRepos: [],
-    selectedArchitectures: [], // e.g. x86
-    selectedClassifications: [], // e.g. Beta
-    selectedCategory: '', // e.g. 'IoT'
   },
   dropdownFiltersVisibility: false,
 }
@@ -42,6 +42,14 @@ const catalog = (state = initialStateCatalog, action) => {
   case Actions.RESOURCES_FETCH_REQUEST_LOADING: {
     const { status = !state.catalogFetchLoading } = action.payload
     return { ...state, catalogFetchLoading: status }
+  }
+  case Actions.CATALOG_INSTALL_FAILURE: {
+    const { status } = action.payload
+    return { ...state, catalogInstallFailure: status }
+  }
+  case Actions.CATALOG_INSTALL_VALIDATION_FAILURE: {
+    const { status } = action.payload
+    return { ...state, catalogInstallValidationFailure: status }
   }
   case Actions.RESOURCES_FETCH_REQUEST_SUCCESS: {
     const { items } = action.payload
@@ -74,4 +82,5 @@ const catalog = (state = initialStateCatalog, action) => {
     return state
   }
 }
+
 export default catalog

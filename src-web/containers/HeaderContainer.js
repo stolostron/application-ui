@@ -113,9 +113,9 @@ class HeaderContainer extends React.Component {
   }
 
   handleMenuClick() {
-    this.setState({
-      leftNavOpen: !this.state.leftNavOpen
-    }, () => {
+    this.setState((prevState) => ({
+      leftNavOpen: !prevState.leftNavOpen
+    }), () => {
       if (this.state.leftNavOpen) {
         document.addEventListener('click', this.handleMouseClick)
       } else {
@@ -125,9 +125,9 @@ class HeaderContainer extends React.Component {
   }
 
   handleUserDropdownClick() {
-    this.setState({
-      userDropdownOpen: !this.state.userDropdownOpen
-    }, () => {
+    this.setState((prevState) => ({
+      userDropdownOpen: !prevState.userDropdownOpen
+    }), () => {
       if (this.state.userDropdownOpen) {
         document.addEventListener('click', this.handleMouseClick)
       } else {

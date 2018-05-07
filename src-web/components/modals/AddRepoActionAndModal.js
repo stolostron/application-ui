@@ -9,6 +9,7 @@
 'use strict'
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button, Modal, TextInput } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
@@ -17,6 +18,9 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 
 class AddRepoActionAndModal extends React.PureComponent {
+  static propTypes = {
+    onAddRepo: PropTypes.func
+  }
 
   state = { modalOpen: false, nameInput: '', urlInput: '' }
 

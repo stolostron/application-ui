@@ -22,6 +22,9 @@ resources(() => {
 })
 
 class ResourceTable extends React.Component {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
+
   render() {
     const {
       resourceType,

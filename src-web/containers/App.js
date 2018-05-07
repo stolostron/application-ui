@@ -25,6 +25,8 @@ resources(() => {
 })
 
 class App extends React.Component {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
 
   constructor(props) {
     super(props)

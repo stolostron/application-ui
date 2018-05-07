@@ -17,6 +17,8 @@ import {
 } from 'carbon-components-react'
 import msgs from '../../nls/platform.properties'
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
 
 const ClusterSummaryCard = ({ context, ClusterName, TotalDeployments, TotalNodes, Status, ...other }) => (
   <Card className="clusterCard" {...other} >

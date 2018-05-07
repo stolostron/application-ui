@@ -22,6 +22,8 @@ resources(() => {
 })
 
 class Header extends React.PureComponent {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
 
   handleLogout = (event) => {
     event.preventDefault()

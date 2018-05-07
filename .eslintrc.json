@@ -47,7 +47,6 @@
         "no-unused-vars": [2],
         "react/jsx-tag-spacing": [2],
         "react/display-name": [1],
-        "react/prop-types": [0],
         "react/no-access-state-in-setstate": "error",
         "react/no-array-index-key": "error",
         "react/no-did-mount-set-state": "error",

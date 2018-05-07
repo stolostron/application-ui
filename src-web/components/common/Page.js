@@ -10,6 +10,8 @@
 
 import React from 'react'
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
 /**
  * Functional React component that serves as a base
  * for all pages and renders the header

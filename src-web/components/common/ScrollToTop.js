@@ -15,6 +15,8 @@ import { withRouter } from 'react-router-dom'
  * See: https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/guides/scroll-restoration.md
  * **/
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
 class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {

@@ -15,6 +15,9 @@ import msgs from '../../../nls/platform.properties'
 import * as ResourceDefinitions from '../../definitions'
 
 class ResourceTableHeader extends React.PureComponent {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
+
   constructor(props) {
     super(props)
     this.state = { activeColumn: undefined }

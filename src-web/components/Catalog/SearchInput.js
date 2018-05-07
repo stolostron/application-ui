@@ -11,6 +11,9 @@ import React from 'react'
 import { Search } from 'carbon-components-react'
 import { debounce } from 'lodash'
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
+
 const SearchInput = ({
   placeHolderText,
   onChange,

@@ -32,6 +32,7 @@ const identity = elem => elem
 class ChartsModal extends React.PureComponent {
   static propTypes = {
     clusters: PropTypes.array,
+    modalHeading: PropTypes.string,
     namespaces: PropTypes.array,
     handleSubmit: PropTypes.func.isRequired,
     selection: PropTypes.shape({

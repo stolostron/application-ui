@@ -57,6 +57,8 @@ const mapStateToProps = ({
   }
 }
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
 const NotificationError = ({ description }) => (
   <Notification allowClose type="error" description={description} />
 )
@@ -66,6 +68,8 @@ const ResourcesLoadingSpinner = () => (
 )
 
 class Catalog extends React.Component {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
   constructor() {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)

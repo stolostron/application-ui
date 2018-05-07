@@ -14,6 +14,8 @@ import { Route, Switch } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
 const WrappedResourceList = props =>
   <div>
     <ResourceList

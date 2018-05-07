@@ -13,6 +13,8 @@ import PropTypes from 'prop-types'
 import { Search } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
 const ResourceSearch = ({
   handleSearch,
   searchLabel,

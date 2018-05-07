@@ -23,6 +23,8 @@ import headerMsgs from '../../../nls/header.properties'
 import config from '../../../lib/shared/config'
 
 class ResourceList extends React.Component {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
 
   constructor(props) {
     super(props)

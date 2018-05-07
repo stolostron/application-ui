@@ -13,6 +13,9 @@ import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 
+/* FIXME: Please fix disabled eslint rules when making changes to this file. */
+/* eslint-disable react/prop-types */
+
 const NoResource = ({
   title,
   detail,

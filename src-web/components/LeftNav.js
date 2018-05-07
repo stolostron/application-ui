@@ -22,6 +22,9 @@ resources(() => {
 })
 
 class LeftNav extends React.Component {
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/prop-types */
+
   constructor(props) {
     super(props)
     this.renderRoutes = this.renderRoutes.bind(this)

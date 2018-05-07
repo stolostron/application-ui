@@ -9,16 +9,18 @@
 'use strict'
 
 import React from 'react'
+import { connect } from 'react-redux'
 import { Button, Modal, TextInput } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
-import apolloClient from '../../../lib/client/apollo-client'
+import { createResource } from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 
 class AddRepoActionAndModal extends React.PureComponent {
 
   state = { modalOpen: false, nameInput: '', urlInput: '' }
 
-  handleOpenModal = () => {
+  handleModalOpen = () => {
     this.setState({ modalOpen: true, nameInput: '', urlInput: '', urlInputValidationMsg: undefined })
   }
   handleModalCancel = () => {
@@ -26,12 +28,10 @@ class AddRepoActionAndModal extends React.PureComponent {
   }
   handleModalSubmit = () => {
     if (this.validateUrlInput()) {
-      apolloClient.addHemlRepo(this.state.nameInput, this.state.urlInput).then(() => {
-        // TODO: added repo, now need to refresh repo list.
-
-        this.setState({ modalOpen: false, nameInput: '', urlInput: '', urlInputValidationMsg: undefined })
-      })
-      // TODO: handle any error from the HCM api call.
+      this.props.onAddRepo(this.state.nameInput, this.state.urlInput)
+        .then(() => {
+          this.setState({ modalOpen: false, nameInput: '', urlInput: '', urlInputValidationMsg: undefined })
+        })
     }
   }
 
@@ -61,7 +61,7 @@ class AddRepoActionAndModal extends React.PureComponent {
   render(){
     return (
       <div>
-        <Button icon="add--glyph" small key='myButton' onClick={this.handleOpenModal}>
+        <Button icon="add--glyph" small key='myButton' onClick={this.handleModalOpen}>
           { msgs.get('helmRepo.addRepo', this.context.locale) }
         </Button>
         <Modal
@@ -96,5 +96,11 @@ class AddRepoActionAndModal extends React.PureComponent {
   }
 }
 
-export default AddRepoActionAndModal
+const mapDispatchToProps = dispatch => {
+  return {
+    onAddRepo: (Name, URL) => dispatch(createResource(RESOURCE_TYPES.HCM_REPOSITORIES, { Name, URL }))
+  }
+}
+
+export default connect(() => ({}), mapDispatchToProps)(AddRepoActionAndModal)
 

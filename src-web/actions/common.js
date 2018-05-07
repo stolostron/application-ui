@@ -167,3 +167,19 @@ export const resetResource = (resourceType) => ({
   type: Actions.RESOURCE_RESET,
   resourceType: resourceType
 })
+
+export const createResource = (resourceType, variables) => {
+  return (dispatch) => {
+    dispatch(postResource(resourceType))
+
+    return apolloClient.createResource(resourceType, variables )
+      .then(response => {
+        if (response.errors) {
+          return dispatch(receivePostError(response.errors[0], resourceType))
+        }
+
+        return dispatch(receivePostResource(lodash.cloneDeep(response.data.setHelmRepo), resourceType))
+      })
+      .catch(err => dispatch(receivePostError(err, resourceType)))
+  }
+}

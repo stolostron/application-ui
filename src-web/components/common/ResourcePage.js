@@ -15,7 +15,7 @@ import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
 
 /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types, react/jsx-no-bind */
 const WrappedResourceList = props =>
   <div>
     <ResourceList

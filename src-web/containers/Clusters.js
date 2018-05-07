@@ -21,7 +21,7 @@ import ClustersRepositoriesTab from './ClustersRepositoriesTab'
 import Page from '../components/common/Page'
 
 /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-/* eslint-disable react/prop-types */
+/* eslint-disable react/prop-types, react/jsx-no-bind */
 const Clusters =({ match }) =>
   <Page>
     <Switch>

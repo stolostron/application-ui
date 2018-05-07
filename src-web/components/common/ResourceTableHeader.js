@@ -16,7 +16,7 @@ import * as ResourceDefinitions from '../../definitions'
 
 class ResourceTableHeader extends React.PureComponent {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, react/jsx-no-bind */
 
   constructor(props) {
     super(props)

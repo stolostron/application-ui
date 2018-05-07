@@ -22,19 +22,19 @@ const NODE_SEPARATION = 100
 
 class TopologyDiagram extends React.PureComponent {
     static propTypes = {
-      nodes: PropTypes.arrayOf(PropTypes.shape({
-        uid: PropTypes.string,
-        type: PropTypes.string,
-        name: PropTypes.string,
-      })),
       links: PropTypes.arrayOf(PropTypes.shape({
         source: PropTypes.any,
         target: PropTypes.any,
         label: PropTypes.string,
         type: PropTypes.string,
       })),
-      selectedNodeId: PropTypes.string,
+      nodes: PropTypes.arrayOf(PropTypes.shape({
+        uid: PropTypes.string,
+        type: PropTypes.string,
+        name: PropTypes.string,
+      })),
       onSelectedNodeChange: PropTypes.func,
+      selectedNodeId: PropTypes.string,
     }
 
     constructor (props) {

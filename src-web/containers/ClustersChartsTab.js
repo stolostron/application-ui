@@ -69,7 +69,8 @@ const ResourcesLoadingSpinner = () => (
 
 class Catalog extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types */
+  /* eslint-disable react/prop-types, react/jsx-no-bind */
+
   constructor() {
     super()
     this.handleSubmit = this.handleSubmit.bind(this)

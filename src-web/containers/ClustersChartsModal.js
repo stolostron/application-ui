@@ -31,18 +31,18 @@ const identity = elem => elem
 
 class ChartsModal extends React.PureComponent {
   static propTypes = {
+    catalogReleaseInstall: PropTypes.func.isRequired,
+    catalogResourceSelect: PropTypes.func.isRequired,
     clusters: PropTypes.array,
+    fetchResources: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     modalHeading: PropTypes.string,
     namespaces: PropTypes.array,
-    handleSubmit: PropTypes.func.isRequired,
     selection: PropTypes.shape({
       name: PropTypes.string,
       repoName: PropTypes.string,
       url: PropTypes.string,
     }),
-    catalogReleaseInstall: PropTypes.func.isRequired,
-    catalogResourceSelect: PropTypes.func.isRequired,
-    fetchResources: PropTypes.func.isRequired,
   }
 
   constructor() {
@@ -60,6 +60,8 @@ class ChartsModal extends React.PureComponent {
     this.props.fetchResources()
   }
 
+  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
+  /* eslint-disable react/no-unused-state */
   state = {
     clusters: [],
     namespace: '',

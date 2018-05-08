@@ -28,7 +28,7 @@
     "npm": "5.6.0"
   },
   "dependencies": {
-    "@icp/security-middleware": "^2.0.17",
+    "@icp/security-middleware": "^2.0.18",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-link-http": "^1.5.4",

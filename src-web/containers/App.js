@@ -19,6 +19,7 @@ import config from '../../lib/shared/config'
 import HeaderContainer from '../containers/HeaderContainer'
 
 export const Clusters = loadable(() => import(/* webpackChunkName: "clusters" */ './Clusters'))
+export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 
 resources(() => {
   require('../../scss/common.scss')
@@ -50,8 +51,9 @@ class App extends React.Component {
         <HeaderContainer />
         <SecondaryHeader />
         <Switch>
+          <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/clusters`} render={() => <Clusters serverProps={serverProps} />} />
-          <Redirect to={`${config.contextPath}/clusters/overview`} />
+          <Redirect to={`${config.contextPath}/topology`} />
         </Switch>
       </div>
     )

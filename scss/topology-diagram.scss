@@ -11,8 +11,7 @@
  .topologyDiagramContainer {
     background-color: $color__white;
     width: 100%;
-    height: 400px;
-    margin-bottom: 2rem;
+    height: 100%;
     border: 1px solid $color__navy-gray-8;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1)
 }
@@ -21,7 +20,27 @@ svg.topologyDiagram {
     height: 100%;
     width: 100%;
 }
+
+.detailsCard {
+    position: absolute;
+    right: 2rem;
+    top: 12rem;
+    animation: slidein 600ms cubic-bezier(.175, .885, .32, 1.275);
+    z-index: 10;
+}
+
+@keyframes slidein {
+    0% {
+      opacity: 0;
+      right: -5rem;
+    }
   
+    100% {
+      opacity: 1;
+      right: 2rem;
+    }
+  }
+
 .links line, .nodes circle {
     stroke: $color__navy-gray-4;
     stroke-width: 1.5px;
@@ -29,7 +48,6 @@ svg.topologyDiagram {
 }
 
 .node {
-
     .selected {
         fill: $color__green-30;
         stroke: $color__navy-gray-3;

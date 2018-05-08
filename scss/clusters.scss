@@ -1,35 +1,30 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+ 
 .clusters {
     display: flex;
     flex-wrap: wrap;
-
-    .buttonGroup {
-        display: flex;
-        flex-grow: 1;
-        flex-direction: row-reverse;
-        float: right;
-        margin-bottom: .5rem;
-    }
 }
 
-.detailsCard {
+.topologyOnly {
     position: absolute;
-    right: 2rem;
-    top: 14rem;
-    animation: slidein 600ms cubic-bezier(.175, .885, .32, 1.275);
-    z-index: 10;
+    top: 8rem;
+    bottom: 1rem;
+    margin: 1rem;
+    width: 95%;
 }
 
-@keyframes slidein {
-    0% {
-      opacity: 0;
-      right: -5rem;
-    }
-  
-    100% {
-      opacity: 1;
-      right: 2rem;
-    }
-  }
+.topologyWithCards {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 2rem;
+}
 
 .clusterCard {
     margin: 0 1rem 1rem 0;

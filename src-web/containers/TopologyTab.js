@@ -18,25 +18,29 @@ import msgs from '../../nls/platform.properties'
 import headerMsgs from '../../nls/header.properties'
 import PropTypes from 'prop-types'
 import TopologyDiagram from '../components/TopologyDiagram'
-import { ClusterDetailsCard, ClusterSummaryCard } from '../components/ClusterCards'
+import { ClusterDetailsCard } from '../components/ClusterCards'
 
-import { Button } from 'carbon-components-react'
 
 resources(() => {
   require('../../scss/clusters.scss')
 })
 
 
-class Clusters extends React.Component {
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
+class TopologyTab extends React.Component {
+  static propTypes = {
+    fetchResources: PropTypes.func,
+    topology: PropTypes.shape({
+      nodes: PropTypes.array,
+      links: PropTypes.array,
+    }),
+    updateSecondaryHeader: PropTypes.func,
+  }
 
-  // TODO: Jorge: Use Redux state
   state = { }
 
   componentWillMount() {
-    this.props.updateSecondaryHeader(headerMsgs.get('routes.clusters', this.context.locale))
-    this.props.fetchResources(RESOURCE_TYPES.HCM_CLUSTER)
+    this.props.updateSecondaryHeader(headerMsgs.get('routes.topology', this.context.locale))
+    this.props.fetchResources(RESOURCE_TYPES.HCM_CLUSTER) // FIXME: Fetch topology data instead of clusters.
   }
 
   handleSelectedNodeChange = (selectedNodeId) =>{
@@ -53,49 +57,35 @@ class Clusters extends React.Component {
     const title = currentNode && currentNode.name
     const details = []
     if (currentNode && currentNode.cluster){
-      details.push(`Nodes: ${currentNode.cluster.TotalNodes}`)
-      details.push(`Clusters: ${currentNode.cluster.TotalDeployments}`)
+      details.push(`${msgs.get('table.header.nodes', this.context.locale)}: ${currentNode.cluster.TotalNodes}`)
+      details.push(`${msgs.get('table.header.deployments', this.context.locale)}: ${currentNode.cluster.TotalDeployments}`)
     }
     const status = currentNode.cluster && currentNode.cluster.Status
 
     return (
-      <div className='clusters'>
-        <div className="buttonGroup">
-          <Button
-            small
-            icon="add--glyph"
-            iconDescription={msgs.get('cluster.add', this.context.locale)}
-            onClick={() => alert('TODO: Show dialog to start managing existing clusters.') }   // TODO: Show modal
-          > {msgs.get('cluster.add', this.context.locale)} </Button>
-        </div>
-        <div className='topologyDiagramContainer'>
-          <TopologyDiagram
-            nodes={this.props.topology.nodes}
-            links={this.props.topology.links}
-            onSelectedNodeChange={this.handleSelectedNodeChange}
-            selectedNodeId={this.state.selectedNodeId}
-          />
-          { this.state.selectedNodeId && <ClusterDetailsCard context={this.context} title={title} details={details} status={status} /> }
-        </div>
-        {this.props.clusters.map((cluster) => (
-          <ClusterSummaryCard
-            key={cluster}
-            context={this.context}
-            onFocus={this.handleCardFocus(cluster.ClusterName)}
-            {...cluster}
-          />)
-        )}
+      <div className='topologyOnly'>
+        <TopologyDiagram
+          nodes={this.props.topology.nodes}
+          links={this.props.topology.links}
+          onSelectedNodeChange={this.handleSelectedNodeChange}
+          selectedNodeId={this.state.selectedNodeId}
+        />
+        { this.state.selectedNodeId &&
+          <ClusterDetailsCard context={this.context} title={title} details={details} status={status} /> }
       </div>
     )
   }
 }
 
 
-Clusters.contextTypes = {
+TopologyTab.contextTypes = {
   locale: PropTypes.string
 }
 
 const mapStateToProps = (state) =>{
+
+  // FIXME: Use topology data.
+
   const clusters = state[RESOURCE_TYPES.HCM_CLUSTER.list] ? state[RESOURCE_TYPES.HCM_CLUSTER.list].items : []
 
   const topology = { nodes: [
@@ -108,14 +98,7 @@ const mapStateToProps = (state) =>{
     topology.links.push({ source: 'manager', target: clustName, label: 'manages', type: '1' })
   })
 
-  return {
-    // TODO: handle status and error states
-    // const error = state[type.list].err
-    // props[`status_${type.list}`] = state[type.list].status
-    // props[`error_${type.list}`] = error && error.response && error.response.status
-    clusters,
-    topology
-  }
+  return { topology }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -125,4 +108,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Clusters))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopologyTab))

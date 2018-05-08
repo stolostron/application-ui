@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, Redirect, withRouter} from 'react-router-dom'
-import ClustersOverviewTab from './ClustersOverviewTab'
+import ClustersOverviewTab from './ClustersTab'
 import ClustersPodsTab from './ClustersPodsTab'
 import ClustersNodesTab from './ClustersNodesTab'
 import ClustersNamespacesTab from './ClustersNamespacesTab'

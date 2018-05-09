@@ -19,7 +19,7 @@ var prodExternals = {}
 
 module.exports = {
   context: __dirname,
-  devtool: PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
+  devtool: PRODUCTION ? 'source-map' : 'cheap-module-source-map',
   stats: { children: false },
   entry: {
     'common': ['./scss/common.scss'],

@@ -10,6 +10,7 @@
 import lodash from 'lodash'
 
 import * as Actions from './index'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
 
 export const changeTablePage = ({page, pageSize}, resourceType) => ({
@@ -53,6 +54,14 @@ export const requestResource = (resourceType) => ({
   resourceType
 })
 
+export const receiveTopologySuccess = (response, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_SUCCESS,
+  status: Actions.REQUEST_STATUS.DONE,
+  nodes: response.resources || [],
+  links: response.relationships || [],
+  resourceType
+})
+
 export const addResource = (item, resourceType) => ({
   type: Actions.RESOURCE_ADD,
   resourceType: item.kind || resourceType,
@@ -79,6 +88,11 @@ export const fetchResources = (resourceType) => {
         if (response.errors) {
           return dispatch(receiveResourceError(response.errors[0], resourceType))
         }
+        if (resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name)
+          return dispatch(receiveTopologySuccess({
+            resources: lodash.cloneDeep(response.data.resources),
+            relationships: lodash.cloneDeep(response.data.relationships),
+          }, resourceType))
         return dispatch(receiveResourceSuccess({ items: lodash.cloneDeep(response.data.items)}, resourceType))
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))

@@ -39,6 +39,7 @@ export const HCMReleaseList = createResourceReducer(resourceReducerFunction, pre
 export const HCMRepositoryList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_REPOSITORIES))
 
 export { default as catalog } from './catalog'
+export { topology } from './topology'
 
 function predicate(resourceType, action) {
   if (lodash.isEqual(resourceType, action.resourceType))

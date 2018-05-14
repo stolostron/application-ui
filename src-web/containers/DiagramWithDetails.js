@@ -73,12 +73,8 @@ DiagramWithDetails.contextTypes = {
 const mapStateToProps = (state) =>{
   const { nodes = [], links = [], selectedNodeId, status } = state.topology
 
-  // FIXME: Must move this logic to the hcm-ui-api.
-  // The call to retrieve links is returning all links, so we need to filter it down
-  // to only the links that apply to the current set of nodes. We also need to change
-  // "to/from" to "source/target" to satisfy D3's requirement.
-  const modifiedLinks = links.filter((l) => l.from && l.from.uid && l.to && l.to.uid && nodes.find(n => n.uid === l.from.uid) && nodes.find(n => n.uid === l.to.uid))
-    .map((l)=>({ source: l.from.uid, target: l.to.uid, label: l.type, type: l.type}))
+  // We need to change "to/from" to "source/target" to satisfy D3's API.
+  const modifiedLinks = links.map((l)=>({ source: l.from.uid, target: l.to.uid, label: l.type, type: l.type}))
 
 
   return {

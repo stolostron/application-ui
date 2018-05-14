@@ -96,8 +96,8 @@ export const fetchResources = (resourceType, vars) => {
           return dispatch(receiveTopologySuccess({
             clusters: lodash.cloneDeep(response.data.clusters).map((c) => c.ClusterName),
             resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
-            resources: lodash.cloneDeep(response.data.resources),
-            relationships: lodash.cloneDeep(response.data.relationships),
+            resources: lodash.cloneDeep(response.data.topology.resources),
+            relationships: lodash.cloneDeep(response.data.topology.relationships),
           }, resourceType))
         return dispatch(receiveResourceSuccess({ items: lodash.cloneDeep(response.data.items)}, resourceType))
       })

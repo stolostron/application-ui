@@ -59,6 +59,10 @@ export const receiveTopologySuccess = (response, resourceType) => ({
   status: Actions.REQUEST_STATUS.DONE,
   nodes: response.resources || [],
   links: response.relationships || [],
+  filters: {
+    clusters: response.clusters,
+    types: response.resourceTypes,
+  },
   resourceType
 })
 
@@ -80,16 +84,18 @@ export const deleteResource = (item, resourceType) => ({
   item
 })
 
-export const fetchResources = (resourceType) => {
+export const fetchResources = (resourceType, vars) => {
   return (dispatch) => {
     dispatch(requestResource(resourceType))
-    return apolloClient.get(resourceType)
+    return apolloClient.get(resourceType, vars)
       .then(response => {
         if (response.errors) {
           return dispatch(receiveResourceError(response.errors[0], resourceType))
         }
         if (resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name)
           return dispatch(receiveTopologySuccess({
+            clusters: lodash.cloneDeep(response.data.clusters).map((c) => c.ClusterName),
+            resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
             resources: lodash.cloneDeep(response.data.resources),
             relationships: lodash.cloneDeep(response.data.relationships),
           }, resourceType))

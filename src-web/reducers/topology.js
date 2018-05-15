@@ -4,13 +4,12 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 const initialState = {
   availableFilters: {
     clusters: [],
-    types: [],
+    labels: [],
     namespaces: [],
+    types: [],
   },
   activeFilters: {
-    // cluster: [],
-    type: ['cluster'],
-    // namespace: [],
+    type: [{ label: 'cluster' }],
   },
   links: [],
   nodes: [],
@@ -27,6 +26,7 @@ export const topology = (state = initialState, action) => {
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
       const filters = {
         types: action.filters.types.map(i => ({label: i })),
+        labels: action.filters.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
         clusters: action.filters.clusters.map(c => ({ label: c.ClusterName })),
         namespaces: action.filters.namespaces.map(n => ({ label: n.name})),
       }
@@ -48,7 +48,7 @@ export const topology = (state = initialState, action) => {
   }
   case Actions.TOPOLOGY_FILTERS_UPDATE: {
     const activeFilters = {...state.activeFilters} || {}
-    activeFilters[action.filterType] = action.filters.map((f) => f.label)
+    activeFilters[action.filterType] = action.filters
     return {...state, activeFilters}
   }
   case Actions.TOPOLOGY_SELECTION_UPDATE: {

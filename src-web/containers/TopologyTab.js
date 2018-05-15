@@ -32,11 +32,18 @@ class TopologyTab extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.shape({
       clusters: PropTypes.arrayOf(PropTypes.string),
+      labels: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        value: PropTypes.string,
+      })),
       namespaces: PropTypes.arrayOf(PropTypes.string),
       types: PropTypes.arrayOf(PropTypes.string),
     }),
     availableFilters: PropTypes.shape({
       clusters: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+      })),
+      labels: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
       })),
       namespaces: PropTypes.arrayOf(PropTypes.shape({
@@ -79,8 +86,6 @@ class TopologyTab extends React.Component {
   render() {
     const { activeFilters, availableFilters } = this.props
 
-    const selectedTypeFilters = availableFilters.types.filter(f => activeFilters.type.find(a => a === f.label ) )
-
     return (
       <div className='topologyOnly'>
         {status === Actions.REQUEST_STATUS.ERROR &&
@@ -103,16 +108,22 @@ class TopologyTab extends React.Component {
           {availableFilters.types.length > 0 && <MultiSelect
             type='inline'
             label={msgs.get('filter.type', this.context.locale)}
-            items={this.props.availableFilters.types}
-            initialSelectedItems={selectedTypeFilters}
+            items={availableFilters.types}
+            initialSelectedItems={activeFilters.type}
             onChange={this.handleFilter('type')}
           />}
           {availableFilters.namespaces.length > 0 && <MultiSelect
             type='inline'
             label={msgs.get('filter.namespace', this.context.locale)}
-            items={this.props.availableFilters.namespaces}
+            items={availableFilters.namespaces}
             onChange={this.handleFilter('namespace')}
           />}
+          {availableFilters.labels.length > 0 && <MultiSelect
+            type='inline'
+            label={msgs.get('filter.label', this.context.locale)}
+            items={this.props.availableFilters.labels}
+            onChange={this.handleFilter('label')}
+          /> }
           {/* status === Actions.REQUEST_STATUS.IN_PROGRESS &&
             <Loading small withOverlay={false} />
           */}
@@ -132,13 +143,25 @@ const mapStateToProps = (state) =>{
 
   return {
     activeFilters,
-    availableFilters,
+    availableFilters: lodash.cloneDeep(availableFilters),
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchResources: (resourceType, filters) => dispatch(fetchResources(resourceType, { filter: {...filters}})),
+    fetchResources: (resourceType, filters) => {
+      const f = lodash.cloneDeep(filters)
+      if (f.namespace){
+        f.namespace = f.namespace.map(n => n.label)
+      }
+      if (f.type){
+        f.type = f.type.map(n => n.label)
+      }
+      if (f.label){
+        f.label = f.label.map(l => ({ name: l.name, value: l.value }))
+      }
+      dispatch(fetchResources(resourceType, { filter: {...f}}))
+    },
     onSelectedFilterChange: (filterType, filter) => {
       dispatch(updateTopologyFilters(filterType, filter))
     },

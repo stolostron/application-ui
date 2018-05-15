@@ -61,6 +61,7 @@ export const receiveTopologySuccess = (response, resourceType) => ({
   links: response.relationships || [],
   filters: {
     clusters: response.clusters,
+    labels: response.labels,
     namespaces: response.namespaces,
     types: response.resourceTypes,
   },
@@ -96,6 +97,7 @@ export const fetchResources = (resourceType, vars) => {
         if (resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name)
           return dispatch(receiveTopologySuccess({
             clusters: lodash.cloneDeep(response.data.clusters),
+            labels: lodash.cloneDeep(response.data.labels),
             namespaces: lodash.cloneDeep(response.data.namespaces),
             resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
             resources: lodash.cloneDeep(response.data.topology.resources),

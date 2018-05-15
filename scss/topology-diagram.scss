@@ -29,7 +29,8 @@
     display: flex;
     flex-wrap: nowrap;
     margin-left: 2rem;
-    div {
+
+    & > div {
         flex-grow: 0;
         margin: 0 .5rem 0 0;
     }

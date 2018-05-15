@@ -74,8 +74,10 @@ const mapStateToProps = (state) =>{
   const { nodes = [], links = [], selectedNodeId, status } = state.topology
 
   // We need to change "to/from" to "source/target" to satisfy D3's API.
-  const modifiedLinks = links.map((l)=>({ source: l.from.uid, target: l.to.uid, label: l.type, type: l.type}))
+  let modifiedLinks = links.map((l)=>({ source: l.from.uid, target: l.to.uid, label: l.type, type: l.type}))
 
+  // FIXME: We don't have a way to show links to self, so removing those links until the diagram can paint those correctly.
+  modifiedLinks = modifiedLinks.filter(l => l.source !== l.target)
 
   return {
     links: modifiedLinks,

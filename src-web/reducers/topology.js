@@ -27,7 +27,8 @@ export const topology = (state = initialState, action) => {
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
       const filters = {
         types: action.filters.types.map(i => ({label: i })),
-        clusters: action.filters.clusters.map(i => ({label: i })),
+        clusters: action.filters.clusters.map(c => ({ label: c.ClusterName })),
+        namespaces: action.filters.namespaces.map(n => ({ label: n.name})),
       }
       return { ...state,
         status: Actions.REQUEST_STATUS.DONE,

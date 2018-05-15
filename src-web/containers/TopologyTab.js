@@ -32,10 +32,14 @@ class TopologyTab extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.shape({
       clusters: PropTypes.arrayOf(PropTypes.string),
+      namespaces: PropTypes.arrayOf(PropTypes.string),
       types: PropTypes.arrayOf(PropTypes.string),
     }),
     availableFilters: PropTypes.shape({
       clusters: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+      })),
+      namespaces: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
       })),
       types: PropTypes.arrayOf(PropTypes.shape({
@@ -91,25 +95,24 @@ class TopologyTab extends React.Component {
           {/* WIP: Add filter by cluster
           availableFilters.clusters.length > 0 && <MultiSelect
             type='inline'
-            label='Clusters'
+            label={msgs.get('filter.cluster', this.context.locale)}
             items={this.props.availableFilters.clusters}
             initialSelectedItems={this.props.availableFilters.clusters}
             onChange={this.handleFilter('cluster')}
           /> */}
           {availableFilters.types.length > 0 && <MultiSelect
             type='inline'
-            label='Type'
+            label={msgs.get('filter.type', this.context.locale)}
             items={this.props.availableFilters.types}
             initialSelectedItems={selectedTypeFilters}
             onChange={this.handleFilter('type')}
           />}
-          {/* WIP: Add filter by namespace
-          <MultiSelect
+          {availableFilters.namespaces.length > 0 && <MultiSelect
             type='inline'
-            label='Namespace'
-            items={[{ label: 'default' }, { label: 'kube-system'}]}
+            label={msgs.get('filter.namespace', this.context.locale)}
+            items={this.props.availableFilters.namespaces}
             onChange={this.handleFilter('namespace')}
-          /> */}
+          />}
           {/* status === Actions.REQUEST_STATUS.IN_PROGRESS &&
             <Loading small withOverlay={false} />
           */}

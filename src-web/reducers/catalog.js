@@ -18,7 +18,7 @@ const initialStateCatalog = {
   catalogFetchFailure: false,
   catalogFetchLoading: false,
   catalogInstallValidationFailure: false,
-  catalogInstallFailure: true,
+  catalogInstallFailure: false,
   catalogInstallLoading: false,
   filters: {
     searchText: '',

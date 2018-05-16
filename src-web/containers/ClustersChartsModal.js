@@ -34,6 +34,11 @@ import {
 
 const identity = elem => elem
 
+const Spacer = ({ children }) => <div style={{ width: '100%', marginTop: '2em' }}>{children}</div>
+Spacer.propTypes = {
+  children: PropTypes.node
+}
+
 class ChartsModal extends React.PureComponent {
   static propTypes = {
     actions: PropTypes.shape({
@@ -64,6 +69,7 @@ class ChartsModal extends React.PureComponent {
     this.handleClose = this.handleClose.bind(this)
     this.handleClusterSelect = this.handleClusterSelect.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.handleTargetNum = this.handleTargetNum.bind(this)
     this.handleNamespaceSelect = this.handleNamespaceSelect.bind(this)
     this.handleOpen = this.handleOpen.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -78,6 +84,8 @@ class ChartsModal extends React.PureComponent {
   state = {
     clusters: [],
     namespace: '',
+    selected: [],
+    targetNum: '',
     releaseName: '',
   }
 
@@ -85,6 +93,8 @@ class ChartsModal extends React.PureComponent {
     this.setState({
       clusters: [],
       namespace: '',
+      selected: [],
+      targetNum:'',
       releaseName: '',
     })
   }
@@ -93,6 +103,8 @@ class ChartsModal extends React.PureComponent {
     this.setState({
       clusters: [],
       namespace: '',
+      selected: [],
+      targetNum: '',
       releaseName: '',
     })
 
@@ -106,8 +118,20 @@ class ChartsModal extends React.PureComponent {
     this.setState({ releaseName: e.target.value })
   }
 
+  handleTargetNum(e) {
+    this.setState({ targetNum: e.target.value })
+  }
+
   handleClusterSelect(value) {
-    this.setState({ clusters: value.selectedItems })
+    // If we choose an optimal deselect everything else
+    const optimal = value.selectedItems.find(item => item.includes('Optimal') && !this.state.selected.includes(item))
+    if (optimal) {
+      const selected = [this.props.clusters.find(cluster => optimal === cluster)]
+      return this.setState({ selected, isOptimal: true, clusters: selected, key: Math.random() })
+    }
+
+    const clusters = value.selectedItems.filter(item => !item.includes('Optimal'))
+    this.setState({ selected: clusters, isOptimal: false, clusters, key: Math.random() })
   }
 
   handleNamespaceSelect(value) {
@@ -116,15 +140,35 @@ class ChartsModal extends React.PureComponent {
 
   handleSubmit() {
     const { selection, clusterToNamespaces } = this.props
-    const { clusters, namespace } = this.state
-    const isInvalid = clusters.some(cluster => !clusterToNamespaces[cluster].includes(namespace))
+    const { selected, clusters, targetNum, namespace } = this.state
+    let DstClusters
 
-    if (isInvalid) {
-      return this.props.actions.catalogInstallValidationFailure(true)
+    const optimal = selected.find(cluster => cluster.includes('Optimal'))
+    if (optimal) {
+      DstClusters = {
+        Labels: null,
+        Names: ['*'],
+        SortBy: optimal.split(' ')[2],
+        Status: ['healthy'],
+        TargetNum: parseInt(targetNum),
+      }
+    } else {
+      const isInvalid = clusters.some(cluster => !clusterToNamespaces[cluster].includes(namespace))
+
+      if (isInvalid) {
+        return this.props.actions.catalogInstallValidationFailure(true)
+      }
+
+      DstClusters = {
+        Names: clusters,
+        Labels: null,
+        Status: ['healthy'],
+      }
     }
 
     this.props.actions.catalogReleaseInstall({
       ChartName: selection.name,
+      DstClusters,
       Namespace: this.state.namespace,
       ReleaseName: this.state.releaseName,
       RepoName: selection.repoName,
@@ -136,6 +180,8 @@ class ChartsModal extends React.PureComponent {
   }
 
   render() {
+    // eslint-disable-next-line
+    console.log(this.state, this.props.clusters)
     return (
       <ComposedModal
         id='nav-modal'
@@ -168,8 +214,20 @@ class ChartsModal extends React.PureComponent {
           <MultiSelect.Filterable
             onChange={this.handleClusterSelect}
             placeholder=''
+            initialSelectedItems={this.state.selected}
+            key={this.state.key || 'select'}
             itemToString={identity}
             items={this.props.clusters} />
+
+          {this.state.isOptimal &&
+            <Spacer>
+              <TextInput
+                id='helm-release-target-num'
+                value={this.state.targetNum}
+                onChange={this.handleTargetNum}
+                labelText={msgs.get('catalog.installTargetNum', this.context.locale)} />
+            </Spacer>
+          }
 
           <FormLabel className='chartmodal--body__label'>
             {msgs.get('catalog.installTargetNamespaces', this.context.locale)}
@@ -228,7 +286,7 @@ const mapStateToProps = state => {
     catalogInstallValidationFailure,
     catalogInstallLoading,
     clusterToNamespaces,
-    clusters: Object.keys(clusters),
+    clusters: ['Optimal for load', 'Optimal for cpu', 'Optimal for memory'].concat(Object.keys(clusters)),
     namespaces: Object.keys(namespaces),
     selection,
   }

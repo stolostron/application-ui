@@ -6,18 +6,10 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
- 
+
 .clusters {
     display: flex;
     flex-wrap: wrap;
-}
-
-.topologyOnly {
-    position: absolute;
-    top: 8rem;
-    bottom: 1rem;
-    margin: 1rem;
-    width: 95%;
 }
 
 .topologyWithCards {

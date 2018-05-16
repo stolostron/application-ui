@@ -16,16 +16,24 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
+.topologyTab {
+    position: absolute; //FIXME: Avoid absolute positioning, use flex instead.
+    top: 8rem;
+    bottom: 1rem;
+    margin: 1rem;
+    width: 95%;
+}
+
 .topologyWithDetails {
-    position: absolute;
-    top: 2rem;
+    position: absolute; //FIXME: Avoid absolute positioning, use flex instead.
+    top: 2.25rem;
     bottom: 2rem;
     left: 2rem;
     height: 95%;
     width: 100%;
 }
 
-.diagramActionBar {
+.topologyFilters {
     display: flex;
     flex-wrap: nowrap;
     margin-left: 2rem;

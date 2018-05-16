@@ -24,17 +24,11 @@ export const topology = (state = initialState, action) => {
       return {...state, status: Actions.REQUEST_STATUS.IN_PROGRESS}
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
-      const filters = {
-        types: action.filters.types.map(i => ({label: i })),
-        labels: action.filters.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
-        clusters: action.filters.clusters.map(c => ({ label: c.ClusterName })),
-        namespaces: action.filters.namespaces.map(n => ({ label: n.name})),
-      }
       return { ...state,
         status: Actions.REQUEST_STATUS.DONE,
-        availableFilters: filters,
         nodes: action.nodes,
-        links: action.links }
+        links: action.links,
+      }
     }
     case Actions.RESOURCE_RECEIVE_FAILURE: {
       return { ...state, status: Actions.REQUEST_STATUS.ERROR, nodes: action.nodes, links: action.links }
@@ -45,6 +39,29 @@ export const topology = (state = initialState, action) => {
   switch (action.type){
   case '@@INIT':{
     return initialState
+  }
+  case Actions.TOPOLOGY_FILTERS_REQUEST: {
+    return {...state,
+      filtersStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
+    }
+  }
+  case Actions.TOPOLOGY_FILTERS_RECEIVE_ERROR: {
+    return {...state,
+      status: Actions.REQUEST_STATUS.ERROR,
+      err: action.err,
+    }
+  }
+  case Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS: {
+    const filters = {
+      types: action.types.map(i => ({label: i })),
+      labels: action.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
+      clusters: action.clusters.map(c => ({ label: c.ClusterName })),
+      namespaces: action.namespaces.map(n => ({ label: n.name})),
+    }
+    return {...state,
+      availableFilters: filters,
+      filtersStatus: Actions.REQUEST_STATUS.DONE,
+    }
   }
   case Actions.TOPOLOGY_FILTERS_UPDATE: {
     const activeFilters = {...state.activeFilters} || {}

@@ -15,6 +15,9 @@ though props that indicate which part of the store it should select from.
 //See https://github.com/reactjs/reselect#sharing-selectors-with-props-across-multiple-components
 //See https://github.com/reactjs/reselect#q-can-i-share-a-selector-across-multiple-components
 
+The selector pattern is an abstraction that standardizes an application’s store querying logic.
+It is simple: for any part of the store that an application needs access to, define a function that
+when given the full store, returns the desired part (or derivation) of the store.
 */
 
 import { createSelector } from 'reselect'
@@ -41,7 +44,7 @@ function getFromState(state, root, attribute) {
   return storeRoot[attribute]
 }
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   items: [],
   itemsPerPage: Actions.PAGE_SIZES.DEFAULT,
   page: 1,
@@ -240,7 +243,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.RESOURCE_DELETE:
     items = state.items.slice(0)
-    index = lodash.findIndex(items, o => o.metadata.uid === action.item.metadata.uid)
+    index = lodash.findIndex(items, o => lodash.get(o, 'metadata.uid') === lodash.get(action, 'item.metadata.uid'))
     if(index > -1) {
       items.splice(index, 1)
       return Object.assign({}, state, {

@@ -26,10 +26,8 @@ class Notification extends React.Component {
     if (!this.state.hide) {
       const { type } = this.props
       return (
-        <div
-          className={`bx--inline-notification bx--inline-notification--${type}`}
-          role="alert"
-        >
+        <div className={`bx--inline-notification bx--inline-notification--${type}`}
+          role="alert">
           <div className="bx--inline-notification__details">
             <svg className="bx--inline-notification__icon" aria-label="close">
               <use

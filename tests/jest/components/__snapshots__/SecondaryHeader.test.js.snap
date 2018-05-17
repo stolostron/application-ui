@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecondaryHeader component renders as expected 1`] = `
+<div
+  aria-label="Overview secondary"
+  className="secondary-header-wrapper-min"
+  role="region"
+>
+  <div
+    className="secondary-header simple-header"
+  >
+    <h1
+      className="bx--detail-page-header-title"
+    >
+      Overview
+    </h1>
+  </div>
+</div>
+`;

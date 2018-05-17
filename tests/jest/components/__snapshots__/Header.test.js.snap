@@ -1,0 +1,476 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecondaryHeader component renders as expected 1`] = `
+<div
+  className="app-header-wrapper"
+>
+  <header
+    className="app-header"
+  >
+    <div
+      className="app-header__container secondary"
+    >
+      <div
+        className="app-menu-btn-container "
+      >
+        <button
+          className="hamburger hamburger--slider "
+          onClick={[MockFunction]}
+        >
+          <span
+            className="hamburger-box"
+          >
+            <span
+              className="hamburger-inner"
+            />
+          </span>
+        </button>
+        <div
+          className="tooltip"
+        />
+      </div>
+      <div
+        className="logo-container"
+      >
+        <img
+          className="logo"
+          src="getContextRoot/graphics/CloudPrivate-Text_Logo.svg"
+        />
+      </div>
+      <div
+        className="navigation-container"
+      >
+        <nav>
+          <ul>
+            <li>
+              <div
+                className="admin-container "
+              >
+                <button
+                  id="user-dropdown"
+                  onClick={[MockFunction]}
+                >
+                  <img
+                    src="getContextRoot/graphics/User_Icon.svg"
+                  />
+                </button>
+                <ul
+                  className="dropdown-content"
+                >
+                  <li>
+                    <img
+                      src="getContextRoot/graphics/User_Icon.svg"
+                    />
+                    <span>
+                      admin
+                    </span>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                    />
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={[Function]}
+                    />
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`SecondaryHeader component should toggle the hamburger icon on click 1`] = `
+<div
+  className="app-header-wrapper"
+>
+  <header
+    className="app-header"
+  >
+    <div
+      className="app-header__container secondary"
+    >
+      <div
+        className="app-menu-btn-container "
+      >
+        <button
+          className="hamburger hamburger--slider "
+          onClick={
+            [MockFunction] {
+              "calls": Array [
+                Array [],
+              ],
+            }
+          }
+        >
+          <span
+            className="hamburger-box"
+          >
+            <span
+              className="hamburger-inner"
+            />
+          </span>
+        </button>
+        <div
+          className="tooltip"
+        />
+      </div>
+      <div
+        className="logo-container"
+      >
+        <img
+          className="logo"
+          src="getContextRoot/graphics/CloudPrivate-Text_Logo.svg"
+        />
+      </div>
+      <div
+        className="navigation-container"
+      >
+        <nav>
+          <ul>
+            <li>
+              <div
+                className="admin-container "
+              >
+                <button
+                  id="user-dropdown"
+                  onClick={[MockFunction]}
+                >
+                  <img
+                    src="getContextRoot/graphics/User_Icon.svg"
+                  />
+                </button>
+                <ul
+                  className="dropdown-content"
+                >
+                  <li>
+                    <img
+                      src="getContextRoot/graphics/User_Icon.svg"
+                    />
+                    <span>
+                      admin
+                    </span>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                    />
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={[Function]}
+                    />
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`SecondaryHeader component should toggle the hamburger icon on click 2`] = `
+<div
+  className="app-header-wrapper"
+>
+  <header
+    className="app-header"
+  >
+    <div
+      className="app-header__container secondary"
+    >
+      <div
+        className="app-menu-btn-container "
+      >
+        <button
+          className="hamburger hamburger--slider "
+          onClick={
+            [MockFunction] {
+              "calls": Array [
+                Array [],
+                Array [],
+              ],
+            }
+          }
+        >
+          <span
+            className="hamburger-box"
+          >
+            <span
+              className="hamburger-inner"
+            />
+          </span>
+        </button>
+        <div
+          className="tooltip"
+        />
+      </div>
+      <div
+        className="logo-container"
+      >
+        <img
+          className="logo"
+          src="getContextRoot/graphics/CloudPrivate-Text_Logo.svg"
+        />
+      </div>
+      <div
+        className="navigation-container"
+      >
+        <nav>
+          <ul>
+            <li>
+              <div
+                className="admin-container "
+              >
+                <button
+                  id="user-dropdown"
+                  onClick={[MockFunction]}
+                >
+                  <img
+                    src="getContextRoot/graphics/User_Icon.svg"
+                  />
+                </button>
+                <ul
+                  className="dropdown-content"
+                >
+                  <li>
+                    <img
+                      src="getContextRoot/graphics/User_Icon.svg"
+                    />
+                    <span>
+                      admin
+                    </span>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                    />
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={[Function]}
+                    />
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`SecondaryHeader component should toggle the user dropdown on click 1`] = `
+<div
+  className="app-header-wrapper"
+>
+  <header
+    className="app-header"
+  >
+    <div
+      className="app-header__container secondary"
+    >
+      <div
+        className="app-menu-btn-container "
+      >
+        <button
+          className="hamburger hamburger--slider "
+          onClick={
+            [MockFunction] {
+              "calls": Array [
+                Array [],
+                Array [],
+              ],
+            }
+          }
+        >
+          <span
+            className="hamburger-box"
+          >
+            <span
+              className="hamburger-inner"
+            />
+          </span>
+        </button>
+        <div
+          className="tooltip"
+        />
+      </div>
+      <div
+        className="logo-container"
+      >
+        <img
+          className="logo"
+          src="getContextRoot/graphics/CloudPrivate-Text_Logo.svg"
+        />
+      </div>
+      <div
+        className="navigation-container"
+      >
+        <nav>
+          <ul>
+            <li>
+              <div
+                className="admin-container "
+              >
+                <button
+                  id="user-dropdown"
+                  onClick={
+                    [MockFunction] {
+                      "calls": Array [
+                        Array [],
+                      ],
+                    }
+                  }
+                >
+                  <img
+                    src="getContextRoot/graphics/User_Icon.svg"
+                  />
+                </button>
+                <ul
+                  className="dropdown-content"
+                >
+                  <li>
+                    <img
+                      src="getContextRoot/graphics/User_Icon.svg"
+                    />
+                    <span>
+                      admin
+                    </span>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                    />
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={[Function]}
+                    />
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+`;
+
+exports[`SecondaryHeader component should toggle the user dropdown on click 2`] = `
+<div
+  className="app-header-wrapper"
+>
+  <header
+    className="app-header"
+  >
+    <div
+      className="app-header__container secondary"
+    >
+      <div
+        className="app-menu-btn-container "
+      >
+        <button
+          className="hamburger hamburger--slider "
+          onClick={
+            [MockFunction] {
+              "calls": Array [
+                Array [],
+                Array [],
+              ],
+            }
+          }
+        >
+          <span
+            className="hamburger-box"
+          >
+            <span
+              className="hamburger-inner"
+            />
+          </span>
+        </button>
+        <div
+          className="tooltip"
+        />
+      </div>
+      <div
+        className="logo-container"
+      >
+        <img
+          className="logo"
+          src="getContextRoot/graphics/CloudPrivate-Text_Logo.svg"
+        />
+      </div>
+      <div
+        className="navigation-container"
+      >
+        <nav>
+          <ul>
+            <li>
+              <div
+                className="admin-container "
+              >
+                <button
+                  id="user-dropdown"
+                  onClick={
+                    [MockFunction] {
+                      "calls": Array [
+                        Array [],
+                        Array [],
+                      ],
+                    }
+                  }
+                >
+                  <img
+                    src="getContextRoot/graphics/User_Icon.svg"
+                  />
+                </button>
+                <ul
+                  className="dropdown-content"
+                >
+                  <li>
+                    <img
+                      src="getContextRoot/graphics/User_Icon.svg"
+                    />
+                    <span>
+                      admin
+                    </span>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                    />
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={[Function]}
+                    />
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+`;

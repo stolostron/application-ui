@@ -21,6 +21,7 @@ services:
   - docker
 
 before_install:
+  - make cicd-log-init
   - source travis-env.sh
   - make docker-login
 
@@ -29,6 +30,7 @@ install:
 
 before_script:
   - make test
+  - make cicd-log-test
 
 script:
   - make image
@@ -50,3 +52,7 @@ after_success:
           fi
         fi
       fi
+  - make cicd-log-success
+
+after_failure:
+  - make cicd-log-fail

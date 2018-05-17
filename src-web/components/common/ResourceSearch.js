@@ -29,6 +29,7 @@ const ResourceSearch = ({
     labelText={searchLabel ? searchLabel : msgs.get('search.label', context.locale)}
     placeHolderText={searchPlaceholder ? searchPlaceholder : msgs.get('search.placeholder', context.locale)}
     value={searchValue}
+    id='resource-search'
     onChange={handleSearch} />
 
 ResourceSearch.contextTypes = {

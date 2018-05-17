@@ -9,4 +9,4 @@ test-reports
 coverage
 jestTestLogs.tap
 config/config-development.json
-/test-output/
+test-output

@@ -27,7 +27,7 @@ const ClusterSummaryCard = ({ context, ClusterName, TotalDeployments, TotalNodes
       cardIcon="services"
       cardInfo={[
         `${msgs.get('table.header.nodes', context.locale)}: ${TotalNodes}`,
-        `${msgs.get('table.header.deployments', context.locale)}: ${TotalDeployments}`,
+        `${msgs.get('table.header.deployments', context.locale)}: ${TotalDeployments}`
       ]} >
     </CardContent>
     <CardFooter>

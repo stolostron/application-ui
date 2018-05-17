@@ -21,7 +21,7 @@ resources(() => {
   require('../../scss/header.scss')
 })
 
-class Header extends React.PureComponent {
+export class Header extends React.PureComponent {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
   /* eslint-disable react/prop-types */
 

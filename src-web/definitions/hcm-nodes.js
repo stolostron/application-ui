@@ -8,6 +8,8 @@
  *******************************************************************************/
 'use strict'
 
+import lodash from 'lodash'
+
 export default {
   defaultSortField: 'cluster',
   primaryKey: 'name',
@@ -42,16 +44,16 @@ export default {
 
 export function getRole(item) {
   let roles = []
-  if (item.NodeDetails.Labels.proxy === 'true') {
+  if (lodash.get(item, 'NodeDetails.Labels.proxy') === 'true') {
     roles.push('proxy')
   }
-  if (item.NodeDetails.Labels.management === 'true') {
+  if (lodash.get(item, 'NodeDetails.Labels.management') === 'true') {
     roles.push('management')
   }
-  if (item.NodeDetails.Labels.role === 'master') {
+  if (lodash.get(item, 'NodeDetails.Labels.role') === 'master') {
     roles.push('master')
   }
-  if (item.NodeDetails.Labels.va === 'true') {
+  if (lodash.get(item, 'NodeDetails.Labels.va') === 'true') {
     roles.push('va')
   }
   return roles.length > 0 ? roles.join(', ') : 'worker'

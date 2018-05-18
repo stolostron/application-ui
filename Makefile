@@ -45,6 +45,7 @@ run: check-env app-version
 	-e WLP_CLIENT_ID=$(WLP_CLIENT_ID) \
 	-e WLP_CLIENT_SECRET=$(WLP_CLIENT_SECRET) \
 	-e WLP_REDIRECT_URL=$(WLP_REDIRECT_URL) \
+	-e hcmUiApiUrl=$(hcmUiApiUrl) \
 	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
 
 push: check-env app-version

@@ -5,10 +5,18 @@ os:
   - linux-ppc64le
   - linux
 
+addons:
+  packages:
+    - openjdk-8-jdk
+  chrome: stable
+
 cache:
   apt: true
   directories:
     - "$TRAVIS_CACHE_DIR"
+
+before_cache:
+  - sudo rm -rf $TRAVIS_CACHE_DIR/selenium-standalone
 
 branches:
   only:
@@ -29,11 +37,14 @@ install:
   - make install
 
 before_script:
-  - make test
-  - make cicd-log-test
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - make image
+  - make run
 
 script:
-  - make image
+  - make test
+  - make cicd-log-test
 
 after_success:
   - test "$TRAVIS_PULL_REQUEST" = "false" && make release || echo  "success"

@@ -23,7 +23,7 @@ module.exports = {
   stats: { children: false },
   entry: {
     'common': ['./scss/common.scss'],
-    'main': ['./src-web/index.js']
+    'main': ['babel-polyfill', './src-web/index.js']
   },
 
   externals: Object.assign(PRODUCTION ? prodExternals : {}, {

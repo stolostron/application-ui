@@ -52,8 +52,6 @@ export const fetchResources = () => {
         dispatch(resourcesFetchRequestSuccess(res.data.items))
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.warn(err)
         dispatch(resourcesFetchRequestLoading(false))
         dispatch(catalogFetchErrorStatusChange(true))
         return err
@@ -61,20 +59,21 @@ export const fetchResources = () => {
   }
 }
 
-export const catalogReleaseInstall = (input) => {
-  return (dispatch) => {
-    dispatch(catalogInstallLoading(true))
+export const catalogReleaseInstall = input => async (dispatch) => {
+  dispatch(catalogInstallLoading(true))
 
-    return apolloClient.installHelmChart(input)
-      .then(() => {
-        // TODO: Add a success screen to the flow - 05/02/18 14:01:43 sidney.wijngaarde1@ibm.com
-        dispatch(catalogInstallLoading(false))
-        dispatch(catalogInstallSuccess())
-      })
-      .catch((err) => {
-        dispatch(catalogInstallFailure(true))
-        return err
-      })
+  try {
+    const result = await apolloClient.installHelmChart(input)
+
+    if (result.errors && result.errors.length) {
+      throw result.errors
+    }
+
+    dispatch(catalogInstallLoading(false))
+    dispatch(catalogInstallSuccess())
+  } catch (err) {
+    dispatch(catalogInstallFailure(true))
+    throw err
   }
 }
 

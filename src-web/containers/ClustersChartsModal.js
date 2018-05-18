@@ -34,11 +34,6 @@ import {
 
 const identity = elem => elem
 
-const Spacer = ({ children }) => <div style={{ width: '100%', marginTop: '2em' }}>{children}</div>
-Spacer.propTypes = {
-  children: PropTypes.node
-}
-
 class ChartsModal extends React.PureComponent {
   static propTypes = {
     actions: PropTypes.shape({
@@ -48,7 +43,6 @@ class ChartsModal extends React.PureComponent {
       catalogResourceSelect: PropTypes.func.isRequired,
       fetchResources: PropTypes.func.isRequired,
     }),
-    catalogInstallFailure: PropTypes.bool,
     catalogInstallLoading: PropTypes.bool,
     catalogInstallValidationFailure: PropTypes.bool,
     clusterToNamespaces: PropTypes.object,
@@ -79,22 +73,32 @@ class ChartsModal extends React.PureComponent {
     this.props.actions.fetchResources(RESOURCE_TYPES.HCM_NAMESPACES)
   }
 
-  /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/no-unused-state */
   state = {
     clusters: [],
     namespace: '',
-    selected: [],
     targetNum: '',
+    targetClusters: [],
     releaseName: '',
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps && nextProps.clusters !== this.props.clusters) {
+      this.setState({
+        clusters: [
+          msgs.get('catalog.optimalLoad', this.context.locale),
+          msgs.get('catalog.optimalCPU', this.context.locale),
+          msgs.get('catalog.optimalMemory', this.context.locale),
+        ].concat(nextProps.clusters)
+      })
+    }
   }
 
   handleOpen() {
     this.setState({
       clusters: [],
       namespace: '',
-      selected: [],
       targetNum:'',
+      targetClusters: [],
       releaseName: '',
     })
   }
@@ -103,15 +107,14 @@ class ChartsModal extends React.PureComponent {
     this.setState({
       clusters: [],
       namespace: '',
-      selected: [],
       targetNum: '',
+      targetClusters: [],
       releaseName: '',
     })
 
     this.props.actions.catalogResourceSelect({})
     // Reset error status
     this.props.actions.catalogInstallValidationFailure(false)
-    this.props.actions.catalogInstallFailure(false)
   }
 
   handleInputChange(e) {
@@ -123,65 +126,84 @@ class ChartsModal extends React.PureComponent {
   }
 
   handleClusterSelect(value) {
-    // If we choose an optimal deselect everything else
-    const optimal = value.selectedItems.find(item => item.includes('Optimal') && !this.state.selected.includes(item))
-    if (optimal) {
-      const selected = [this.props.clusters.find(cluster => optimal === cluster)]
-      return this.setState({ selected, isOptimal: true, clusters: selected, key: Math.random() })
-    }
+    const { clusters, targetClusters } = this.state
 
-    const clusters = value.selectedItems.filter(item => !item.includes('Optimal'))
-    this.setState({ selected: clusters, isOptimal: false, clusters, key: Math.random() })
+    const isOptimal = value.selectedItems.find(item => this.optimalMap(item) && !targetClusters.includes(item))
+
+    const selection = isOptimal
+      // If we choose an optimal deselect everything else
+      ? [clusters.find(cluster => isOptimal === cluster)]
+      // Else remove optimal selections
+      : value.selectedItems.filter(item => !this.optimalMap(item))
+
+    this.setState({ targetClusters: selection, isOptimal, key: Math.random() })
   }
 
   handleNamespaceSelect(value) {
     this.setState({ namespace: value.itemText })
   }
 
-  handleSubmit() {
+  optimalMap(nls) {
+    const { locale } = this.context
+    switch (nls) {
+    case msgs.get('catalog.optimalLoad', locale):
+      return 'load'
+
+    case msgs.get('catalog.optimalMemory', locale):
+      return 'memory'
+
+    case msgs.get('catalog.optimalCPU', locale):
+      return 'cpu'
+    }
+  }
+
+  async handleSubmit() {
     const { selection, clusterToNamespaces } = this.props
-    const { selected, clusters, targetNum, namespace } = this.state
+    const { targetClusters, isOptimal, targetNum, namespace } = this.state
     let DstClusters
 
-    const optimal = selected.find(cluster => cluster.includes('Optimal'))
-    if (optimal) {
+    if (isOptimal) {
+      const [optimal] = targetClusters
+
       DstClusters = {
         Labels: null,
         Names: ['*'],
-        SortBy: optimal.split(' ')[2],
+        SortBy: this.optimalMap(optimal),
         Status: ['healthy'],
         TargetNum: parseInt(targetNum),
       }
     } else {
-      const isInvalid = clusters.some(cluster => !clusterToNamespaces[cluster].includes(namespace))
+      const isInvalid = targetClusters.some(target => !clusterToNamespaces[target].includes(namespace))
 
       if (isInvalid) {
         return this.props.actions.catalogInstallValidationFailure(true)
       }
 
       DstClusters = {
-        Names: clusters,
+        Names: targetClusters,
         Labels: null,
         Status: ['healthy'],
       }
     }
 
-    this.props.actions.catalogReleaseInstall({
-      ChartName: selection.name,
-      DstClusters,
-      Namespace: this.state.namespace,
-      ReleaseName: this.state.releaseName,
-      RepoName: selection.repoName,
-      URL: selection.url,
-    })
+    try {
+      await this.props.actions.catalogReleaseInstall({
+        ChartName: selection.name,
+        DstClusters,
+        Namespace: this.state.namespace,
+        ReleaseName: this.state.releaseName,
+        RepoName: selection.repoName,
+        URL: selection.url,
+      })
 
-    this.handleClose()
-    this.props.handleSubmit()
+      this.handleClose()
+      this.props.handleSubmit()
+    } catch (err) {
+      this.handleClose()
+    }
   }
 
   render() {
-    // eslint-disable-next-line
-    console.log(this.state, this.props.clusters)
     return (
       <ComposedModal
         id='nav-modal'
@@ -198,8 +220,6 @@ class ChartsModal extends React.PureComponent {
         <ModalBody className='chartmodal--body'>
           {this.props.catalogInstallLoading &&
             <Loading withOverlay className='content-spinner' />}
-          {this.props.catalogInstallFailure &&
-            <Notification allowClose type="error" description={msgs.get('catalog.installError')} />}
           {this.props.catalogInstallValidationFailure &&
             <Notification allowClose type="error" description={msgs.get('catalog.installValidationError')} />}
           <TextInput
@@ -214,19 +234,19 @@ class ChartsModal extends React.PureComponent {
           <MultiSelect.Filterable
             onChange={this.handleClusterSelect}
             placeholder=''
-            initialSelectedItems={this.state.selected}
+            initialSelectedItems={this.state.targetClusters}
             key={this.state.key || 'select'}
             itemToString={identity}
-            items={this.props.clusters} />
+            items={this.state.clusters} />
 
           {this.state.isOptimal &&
-            <Spacer>
-              <TextInput
-                id='helm-release-target-num'
-                value={this.state.targetNum}
-                onChange={this.handleTargetNum}
-                labelText={msgs.get('catalog.installTargetNum', this.context.locale)} />
-            </Spacer>
+          <div className='chartmodal--body__spacer'>
+            <TextInput
+              id='helm-release-target-num'
+              value={this.state.targetNum}
+              onChange={this.handleTargetNum}
+              labelText={msgs.get('catalog.installTargetNum', this.context.locale)} />
+          </div>
           }
 
           <FormLabel className='chartmodal--body__label'>
@@ -258,7 +278,6 @@ class ChartsModal extends React.PureComponent {
 const mapStateToProps = state => {
   const {
     catalogInstallValidationFailure,
-    catalogInstallFailure,
     catalogInstallLoading,
     selection
   } = state.catalog
@@ -282,11 +301,10 @@ const mapStateToProps = state => {
     }, { clusters: {}, namespaces: {}, clusterToNamespaces: { testing: [] } })
 
   return {
-    catalogInstallFailure,
     catalogInstallValidationFailure,
     catalogInstallLoading,
     clusterToNamespaces,
-    clusters: ['Optimal for load', 'Optimal for cpu', 'Optimal for memory'].concat(Object.keys(clusters)),
+    clusters: Object.keys(clusters),
     namespaces: Object.keys(namespaces),
     selection,
   }

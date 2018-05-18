@@ -42,6 +42,7 @@ const mapStateToProps = ({
   catalog: {
     catalogFetchFailure,
     catalogFetchLoading,
+    catalogInstallFailure,
     repos,
     filters: {
       selectedRepos,
@@ -52,6 +53,7 @@ const mapStateToProps = ({
     items: mapAndMultiFilterResoucesSelector(catalog),
     repoNames: repos.map(({ name }) => name),
     catalogFetchFailure,
+    catalogInstallFailure,
     selectedRepos,
     catalogFetchLoading,
   }
@@ -97,6 +99,7 @@ class Catalog extends React.Component {
 
     const {
       catalogFetchFailure,
+      catalogInstallFailure,
       items,
       actions,
       catalogFetchLoading,
@@ -109,6 +112,8 @@ class Catalog extends React.Component {
             description={msgs.get('catalog.errorfetch', this.context.locale)}
           />
         )}
+        {catalogInstallFailure &&
+          <Notification allowClose type="error" description={msgs.get('catalog.installError')} />}
         <CatalogFormWrapper>
           <CatalogSearchFiltersWrapper
             aria-label={msgs.get('catalog.helmchartsearch', this.context.locale)}

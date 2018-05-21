@@ -20,6 +20,7 @@ resources(() => {
 const NODE_RADIUS = 20
 const NODE_SEPARATION = 100
 
+var currentZoom = 'translate(0,0) scale(1)'
 class TopologyDiagram extends React.PureComponent {
     static propTypes = {
       links: PropTypes.arrayOf(PropTypes.shape({
@@ -34,7 +35,6 @@ class TopologyDiagram extends React.PureComponent {
         name: PropTypes.string,
       })),
       onSelectedNodeChange: PropTypes.func,
-      selectedNodeId: PropTypes.string,
     }
 
     constructor (props) {
@@ -53,16 +53,19 @@ class TopologyDiagram extends React.PureComponent {
 
     generateDiagram(height, width) {
       const svg = d3.select('svg.topologyDiagram')
-      svg.on('click', this.props.onSelectedNodeChange) // Gets called without args so it will set the selection to undefined
 
-      // Add links to the diagram.
-      // Links are added first because nodes will be drawn on top later.
-      const link = svg.append('g')
-        .attr('class', 'links')
-        .selectAll('line')
+      // Remove old links.
+      // TODO: add a uid to links, so we don't have to remove all links. (See nodes)
+      svg.select('g.links')
+        .selectAll('g.link').remove()
+
+      // Add new links to the diagram.
+      const link = svg.select('g.links')
+        .selectAll('g.link')
         .data(this.props.links)
         .enter().append('g')
         .attr('class', 'link')
+        .attr('transform', currentZoom)
 
       link.append('line')
         .attr('stroke-width', (d) => { return Math.sqrt(d.type) })
@@ -76,18 +79,25 @@ class TopologyDiagram extends React.PureComponent {
         .attr('points', `0,${NODE_RADIUS}, -2,${NODE_RADIUS + 5}, 2,${NODE_RADIUS + 5}`)
 
 
+      // Remove nodes that aren't in the current this.props.nodes array
+      svg.select('g.nodes')
+        .selectAll('g.node')
+        .data(this.props.nodes, (n) => n.uid)
+        .exit().remove()
+
       // Add nodes to the diagram
-      const node = svg.append('g')
-        .attr('class', 'nodes')
-        .selectAll('circle')
-        .data(this.props.nodes)
+      const node = svg.select('g.nodes')
+        .selectAll('g.node')
+        .data(this.props.nodes, (n) => n.uid)
         .enter().append('g')
         .attr('class','node')
+        .attr('transform', currentZoom)
         .on('click', this.handleNodeClick)
 
       const color = d3.scaleOrdinal(d3.schemeCategory20)
       node.append('circle')
-        .attr('class', (d) => this.props.selectedNodeId === d.uid ? 'node selected' : 'node')
+        .attr('class', 'node')
+        .attr('tabindex', '1')
         .attr('r', NODE_RADIUS)
         .attr('fill', (d) => { return color(d.type) })
         .call(d3.drag()
@@ -100,15 +110,16 @@ class TopologyDiagram extends React.PureComponent {
       node.append('text')
         .text((d) => { return d.name })
 
+
       const simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('link', d3.forceLink().id((d) => d.uid).strength(.1).distance(NODE_SEPARATION))
         .force('charge', d3.forceManyBody())
         .force('collide', d3.forceCollide().strength(.5).radius(NODE_RADIUS)) // Prevents nodes from overlapping
+        .on('tick', ticked)
 
       simulation
         .nodes(this.props.nodes)
-        .on('tick', ticked)
 
       simulation.force('link')
         .links(this.props.links)
@@ -116,6 +127,7 @@ class TopologyDiagram extends React.PureComponent {
 
       function ticked() {
         // Compute position of link line
+        const link = svg.select('g.links').selectAll('g.link')
         link.selectAll('line')
           .attr('x1', (d) => { return d.source.x })
           .attr('y1', (d) => { return d.source.y })
@@ -140,8 +152,8 @@ class TopologyDiagram extends React.PureComponent {
             return `translate(${x}, ${y}) rotate(${angle + 90})`
           })
 
-
         // Compute position of node circle
+        const node = svg.select('g.nodes').selectAll('g.node')
         node.selectAll('circle')
           .attr('cx', (d) => { return d.x })
           .attr('cy', (d) => { return d.y })
@@ -168,21 +180,44 @@ class TopologyDiagram extends React.PureComponent {
         d.fy = null
       }
 
+      const nodes = svg.select('g.nodes').selectAll('g.node')
+      const links = svg.select('g.links').selectAll('g.link')
       // Adds Zoom and Drag to diagram
       svg.call(d3.zoom()
         .scaleExtent([ 0.25, 8 ])
         .on('zoom', () => {
-          node.attr('transform', d3.event.transform)
-          link.attr('transform', d3.event.transform)
+          currentZoom = d3.event.transform
+          nodes.attr('transform', d3.event.transform)
+          links.attr('transform', d3.event.transform)
         }))
+    }
+
+    componentWillReceiveProps(nextProps){
+      if(this.props.links !== nextProps.links){
+        nextProps = nextProps.links.map((newLink) => {
+          const existing = this.props.links.find((oldLink) =>
+            newLink.source === oldLink.source.uid && newLink.target === oldLink.target.uid)
+          if(existing){
+            newLink.source = existing.source
+            newLink.target = existing.target
+          }
+        })
+      }
     }
 
     render() {
       return (
-        <div key={Math.random()} className="topologyDiagramContainer" ref={this.setContainerRef} >
+        <div className="topologyDiagramContainer" ref={this.setContainerRef} >
           <svg className="topologyDiagram" />
         </div>
       )
+    }
+
+    componentDidMount(){
+      const svg = d3.select('svg.topologyDiagram')
+      svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted first.
+      svg.append('g').attr('class', 'nodes')
+      svg.on('click', this.props.onSelectedNodeChange)
     }
 
     componentDidUpdate(){

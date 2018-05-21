@@ -76,8 +76,12 @@ svg.topologyDiagram {
 }
 
 .node {
-    .selected {
+    &:hover {  // TODO: This is a placeholder style.  Must style according to design.
         fill: $color__green-30;
+    }
+    &:focus {  // TODO: This is a placeholder style.  Must style according to design.
+        fill: $color__green-30;
+        outline: none;
         stroke: $color__navy-gray-3;
         stroke-width: 5px;
         stroke-opacity: 0.5;

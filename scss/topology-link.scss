@@ -1,0 +1,28 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+ @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+ 
+.link {
+  line {
+      stroke: $color__navy-gray-4;
+      stroke-width: 1.5px;
+      stroke-opacity: 0.6;
+  }
+
+  text {
+      text-anchor: middle;
+      font-size: .6rem;
+      fill: $color__navy-gray-4;
+  }
+
+  .directionDecorator {
+      stroke: $color__navy-gray-4;
+      fill: $color__navy-gray-6;
+  }
+}

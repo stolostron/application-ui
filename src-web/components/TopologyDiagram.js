@@ -11,17 +11,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
+import lodash from 'lodash'
 import resources from '../../lib/shared/resources'
 
 resources(() => {
   require('../../scss/topology-diagram.scss')
+  require('../../scss/topology-link.scss')
+  require('../../scss/topology-node.scss')
 })
 
 const NODE_RADIUS = 20
 const NODE_SEPARATION = 100
 
 var currentZoom = 'translate(0,0) scale(1)'
-class TopologyDiagram extends React.PureComponent {
+class TopologyDiagram extends React.Component {
     static propTypes = {
       links: PropTypes.arrayOf(PropTypes.shape({
         source: PropTypes.any,
@@ -96,7 +99,6 @@ class TopologyDiagram extends React.PureComponent {
 
       const color = d3.scaleOrdinal(d3.schemeCategory20)
       node.append('circle')
-        .attr('class', 'node')
         .attr('tabindex', '1')
         .attr('r', NODE_RADIUS)
         .attr('fill', (d) => { return color(d.type) })
@@ -109,6 +111,7 @@ class TopologyDiagram extends React.PureComponent {
         .text((d) => { return d.name })
       node.append('text')
         .text((d) => { return d.name })
+        .attr('tabindex', '-1')
 
 
       const simulation = d3.forceSimulation()
@@ -205,6 +208,11 @@ class TopologyDiagram extends React.PureComponent {
       }
     }
 
+    shouldComponentUpdate(nextProps){
+      return !lodash.isEqual(this.props.nodes, nextProps.nodes) ||
+      !lodash.isEqual(this.props.links, nextProps.links)
+    }
+
     render() {
       return (
         <div className="topologyDiagramContainer" ref={this.setContainerRef} >
@@ -215,7 +223,7 @@ class TopologyDiagram extends React.PureComponent {
 
     componentDidMount(){
       const svg = d3.select('svg.topologyDiagram')
-      svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted first.
+      svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
       svg.append('g').attr('class', 'nodes')
       svg.on('click', this.props.onSelectedNodeChange)
     }

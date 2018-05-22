@@ -15,7 +15,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Loading } from 'carbon-components-react'
 import TopologyDiagram from '../components/TopologyDiagram'
-import { ClusterDetailsCard } from '../components/ClusterCards'
+import { DetailsView } from '../components/topology/DetailsView'
 import * as Actions from '../actions'
 import { updateTopologySelection } from '../actions/topology'
 
@@ -60,7 +60,7 @@ class DiagramWithDetails extends React.Component {
         {this.props.status === Actions.REQUEST_STATUS.IN_PROGRESS &&
           <Loading withOverlay={false} />}
         { this.props.selectedNodeId &&
-          <ClusterDetailsCard context={this.context} title={title} details={details} /> }
+          <DetailsView context={this.context} title={title} details={details} /> }
       </div>
     )
   }

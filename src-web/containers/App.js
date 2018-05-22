@@ -47,7 +47,7 @@ class App extends React.Component {
     const { match } = this.props
 
     return (
-      <div>
+      <div className='expand-vertically'>
         <HeaderContainer />
         <SecondaryHeader />
         <Switch>
@@ -71,7 +71,7 @@ App.childContextTypes = {
 }
 
 export default props => ( // eslint-disable-line react/display-name
-  <div>
+  <div className='expand-vertically'>
     <Route path={config.contextPath} serverProps={props} component={App} />
   </div>
 )

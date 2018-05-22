@@ -18,7 +18,7 @@
 </head>
 
 <body class="bx--global-light-ui" aria-label={title}>
-    <div id="page">
+    <div id="page" style="height:100%">
         {content|s}
     </div>
     {+body/}

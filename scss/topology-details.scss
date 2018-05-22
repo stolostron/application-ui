@@ -8,20 +8,26 @@
  *******************************************************************************/
  @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
-.clusters {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-}
+.topologyDetails {
+  position: absolute;
+  top: 12rem;
+  right: 1rem;
+  background-color: $color__white;
+  box-shadow:-1px 0 7px 0 rgba(0,0,0,0.10);
+  border-top: 6px solid #3c6df0;
+  width: 300px;
+  height: 50%;
 
-.topologyWithCards {
-    background-color: $color__white;
+  h3 {
+    margin: .5rem 0 0 .5rem;
+  }
+
+  hr {
     border: 1px solid $color__navy-gray-8;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-    width: 100%;
-}
+    width: 98%;
+  }
 
-.clusterCard {
-    margin: 0 1rem 1rem 0;
+  div {
+    margin: .5rem 0 0 .5rem;
+  }
 }

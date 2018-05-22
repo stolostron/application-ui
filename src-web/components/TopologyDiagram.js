@@ -15,6 +15,7 @@ import lodash from 'lodash'
 import resources from '../../lib/shared/resources'
 
 resources(() => {
+  require('../../scss/topology-details.scss')
   require('../../scss/topology-diagram.scss')
   require('../../scss/topology-link.scss')
   require('../../scss/topology-node.scss')
@@ -33,7 +34,7 @@ class TopologyDiagram extends React.Component {
         type: PropTypes.string,
       })),
       nodes: PropTypes.arrayOf(PropTypes.shape({
-        uid: PropTypes.string,
+        uid: PropTypes.string.isRequired,
         type: PropTypes.string,
         name: PropTypes.string,
       })),
@@ -187,7 +188,7 @@ class TopologyDiagram extends React.Component {
       const links = svg.select('g.links').selectAll('g.link')
       // Adds Zoom and Drag to diagram
       svg.call(d3.zoom()
-        .scaleExtent([ 0.25, 8 ])
+        .scaleExtent([ 0.25, 2 ])
         .on('zoom', () => {
           currentZoom = d3.event.transform
           nodes.attr('transform', d3.event.transform)

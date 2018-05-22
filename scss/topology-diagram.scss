@@ -6,37 +6,27 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
- @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
  
- .topologyDiagramContainer {
-    background-color: $color__white;
-    width: 100%;
+.topologyDiagramContainer {
     height: 100%;
-    border: 1px solid $color__navy-gray-8;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .topologyTab {
-    position: absolute; //FIXME: Avoid absolute positioning, use flex instead.
-    top: 8rem;
-    bottom: 1rem;
-    margin: 1rem;
-    width: 95%;
+    height: calc(100% - 54px - 80px);
+    margin: 0 .5rem 0 .5rem;
 }
 
 .topologyWithDetails {
-    position: absolute; //FIXME: Avoid absolute positioning, use flex instead.
-    top: 2.25rem;
-    bottom: 2rem;
-    left: 2rem;
-    height: 95%;
-    width: 100%;
+    flex-grow: 2;
+    height: calc(100% - 54px);
 }
 
 .topologyFilters {
+    background-color: $color__white;
     display: flex;
     flex-wrap: nowrap;
-    margin-left: 2rem;
+    margin: 1rem 0 .5rem 1rem;
 
     & > div {
         flex-grow: 0;

@@ -1,3 +1,4 @@
+import lodash from 'lodash'
 import * as Actions from '../actions'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
@@ -16,6 +17,7 @@ const initialState = {
   selectedNodeId: '',
   status: Actions.REQUEST_STATUS.INCEPTION,
 }
+
 
 export const topology = (state = initialState, action) => {
   if (action.resourceType && action.resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name){
@@ -56,7 +58,7 @@ export const topology = (state = initialState, action) => {
       types: action.types.map(i => ({label: i })),
       labels: action.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
       clusters: action.clusters.map(c => ({ label: c.ClusterName })),
-      namespaces: action.namespaces.map(n => ({ label: n.name})),
+      namespaces: lodash.uniqBy(action.namespaces, 'name').map(n => ({ label: n.name})),
     }
     return {...state,
       availableFilters: filters,

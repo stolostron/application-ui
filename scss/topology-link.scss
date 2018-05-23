@@ -8,10 +8,12 @@
  *******************************************************************************/
  @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
+$linkColor: rgba(140,155,165,0.50);
+
 .link {
   line {
-      stroke: #D1D7F4;
-      stroke-width: 3px;
+      stroke: $linkColor;
+      stroke-width: 1px;
       stroke-opacity: 1;
   }
 
@@ -22,8 +24,7 @@
   }
 
   .directionDecorator {
-      stroke: #D1D7F4;
-      stroke-width: 3px;
-      fill: #D1D7F4;
+      stroke: $linkColor;
+      fill: $linkColor;
   }
 }

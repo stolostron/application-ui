@@ -56,12 +56,13 @@ class TopologyDiagram extends React.Component {
 
 
     generateDiagram(height, width) {
-      const svg = d3.select('svg.topologyDiagram')
+      const polygonTypes = ['cluster', 'service']
+      const circleArray = this.props.nodes.filter(node => polygonTypes.indexOf(node.type) === -1)
+      const polygonArray = this.props.nodes.filter(node => polygonTypes.indexOf(node.type) !== -1)
 
+      const svg = d3.select('svg.topologyDiagram')
       // Remove old links.
-      // TODO: add a uid to links, so we don't have to remove all links. (See nodes)
-      svg.select('g.links')
-        .selectAll('g.link').remove()
+      cleanUpDiagramLinks(svg)
 
       // Add new links to the diagram.
       const link = svg.select('g.links')
@@ -71,17 +72,8 @@ class TopologyDiagram extends React.Component {
         .attr('class', 'link')
         .attr('transform', currentZoom)
 
-      link.append('line')
-        .attr('stroke-width', (d) => { return Math.sqrt(d.type) })
-
-      link.append('text')
-        .attr('class', 'linkText')
-        .text((d) => { return d.label })
-
-      link.append('polygon')
-        .attr('class', 'directionDecorator')
-        .attr('points', `0,${NODE_RADIUS}, -2,${NODE_RADIUS + 5}, 2,${NODE_RADIUS + 5}`)
-
+      // Add links to the diagram
+      createLinkSVG(link)
 
       // Remove nodes that aren't in the current this.props.nodes array
       svg.select('g.nodes')
@@ -90,30 +82,50 @@ class TopologyDiagram extends React.Component {
         .exit().remove()
 
       // Add nodes to the diagram
-      const node = svg.select('g.nodes')
+      const circleNode = svg.select('g.nodes')
         .selectAll('g.node')
-        .data(this.props.nodes, (n) => n.uid)
+        .data(circleArray, (n) => n.uid)
         .enter().append('g')
         .attr('class','node')
         .attr('transform', currentZoom)
+        .attr('type', (d) => { return d.name })
         .on('click', this.handleNodeClick)
 
-      const color = d3.scaleOrdinal(d3.schemeCategory20)
-      node.append('circle')
-        .attr('tabindex', '1')
-        .attr('r', NODE_RADIUS)
-        .attr('fill', (d) => { return color(d.type) })
-        .call(d3.drag()
-          .on('start', dragstarted)
-          .on('drag', dragged)
-          .on('end', dragended))
-
-      node.append('title')
+      // circle shallow
+      createCircleSVG(circleNode, 'shadow', '19.6078431')
+      // main circle
+      createCircleSVG(circleNode, 'main', '19.6078431', '1')
+      // central circle
+      createCircleSVG(circleNode, 'centralCircle', '4', '', '21.650625', '25.65625')
+      circleNode.append('title')
         .text((d) => { return d.name })
-      node.append('text')
+      circleNode.append('text')
         .text((d) => { return d.name })
         .attr('tabindex', '-1')
 
+
+      // Add nodes to the diagram
+      const polygonNode = svg.select('g.nodes')
+        .selectAll('g.node')
+        .data(polygonArray, (n) => n.uid)
+        .enter().append('g')
+        .attr('class','node')
+        .attr('transform', currentZoom)
+        .attr('type', (d) => { return d.name })
+        .on('click', this.handleNodeClick)
+
+      // polygon shallow
+      createPolygonSVG(polygonNode, 'shadow')
+      // main polygon
+      createPolygonSVG(polygonNode, 'main', '1')
+      // central circle
+      createCircleSVG(polygonNode, 'centralCircle', '4', '', '21.650625', '25.65625')
+
+      polygonNode.append('title')
+        .text((d) => { return d.name })
+      polygonNode.append('text')
+        .text((d) => { return d.name })
+        .attr('tabindex', '-1')
 
       const simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
@@ -127,6 +139,54 @@ class TopologyDiagram extends React.Component {
       simulation.force('link')
         .links(this.props.links)
 
+      function cleanUpDiagramLinks(svg) {
+        // Remove old links.
+        // TODO: add a uid to links, so we don't have to remove all links. (See nodes)
+        svg.select('g.links')
+          .selectAll('g.link').remove()
+      }
+
+      function createLinkSVG(link) {
+        link.append('line')
+          .attr('stroke-width', (d) => { return Math.sqrt(d.type) })
+
+        link.append('text')
+          .attr('class', 'linkText')
+          .text((d) => { return d.label })
+
+        link.append('polygon')
+          .attr('class', 'directionDecorator')
+          .attr('points', `0,${NODE_RADIUS}, -2,${NODE_RADIUS + 5}, 2,${NODE_RADIUS + 5}`)
+      }
+
+      function createPolygonSVG(node, className, tabindex) {
+        node.append('polygon')
+          .attr('tabindex', tabindex)
+          .attr('class', (d) => {
+            return `${d.type} ${className}`
+          })
+          .attr('tabindex', tabindex)
+          .attr('points', '21.65075 0.65625 0 13.15625 0 38.15625 21.65075 50.65625 43.30125 38.15625 43.30125 13.15625')
+          .call(d3.drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended))
+      }
+
+      function createCircleSVG(node, className, rad, tabindex, cx, cy) {
+        node.append('circle')
+          .attr('cx', cx)
+          .attr('cy', cy)
+          .attr('r', rad)
+          .attr('class', (d) => {
+            return `${d.type} ${className}`
+          })
+          .attr('tabindex', tabindex)
+          .call(d3.drag()
+            .on('start', dragstarted)
+            .on('drag', dragged)
+            .on('end', dragended))
+      }
 
       function ticked() {
         // Compute position of link line
@@ -157,13 +217,20 @@ class TopologyDiagram extends React.Component {
 
         // Compute position of node circle
         const node = svg.select('g.nodes').selectAll('g.node')
+        // Compute position of direction indicator
+        node.selectAll('polygon')
+          .attr('transform', (d) => {
+            const x = d.x
+            const y = d.y
+            return `translate(${x - 21.650625}, ${y - 25.65625})`
+          })
         node.selectAll('circle')
           .attr('cx', (d) => { return d.x })
           .attr('cy', (d) => { return d.y })
         //Compute position of node's text
         node.selectAll('text')
           .attr('x', (d) => { return d.x })
-          .attr('y', (d) => { return d.y })
+          .attr('y', (d) => { return d.y + 35 })
       }
 
       function dragstarted(d) {

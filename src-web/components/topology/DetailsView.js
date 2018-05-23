@@ -12,8 +12,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 
-const DetailsView = ({ context, details = [], title = '', /* status */ }) => (
-  <section className='topologyDetails'>
+const DetailsView = ({ context, details = [], title = '', resourceType = 'default' , /* status */ }) => (
+  <section className={`topologyDetails ${resourceType}`}>
     <h3>{title}</h3>
     <hr />
     {details.map((d) =>
@@ -32,7 +32,8 @@ DetailsView.propTypes = {
     labelKey: PropTypes.string,
     value: PropTypes.string,
   })),
-  title: PropTypes.string,
+  resourceType: PropTypes.string,
+  title: PropTypes.string
 }
 
 export { DetailsView }

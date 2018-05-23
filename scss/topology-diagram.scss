@@ -7,7 +7,6 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
- 
 .topologyDiagramContainer {
     height: 100%;
 }
@@ -51,10 +50,8 @@ svg.topologyDiagram {
       opacity: 0;
       right: -5rem;
     }
-  
     100% {
       opacity: 1;
       right: 2rem;
     }
   }
-

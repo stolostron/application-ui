@@ -37,7 +37,7 @@ class DiagramWithDetails extends React.Component {
   render() {
     const currentNode = this.props.nodes.find((n) => n.uid === this.props.selectedNodeId) || {}
     const title = currentNode && currentNode.name
-
+    const resourceType = currentNode.type
     const details = []
     if (currentNode){
       currentNode.type && details.push({
@@ -73,7 +73,7 @@ class DiagramWithDetails extends React.Component {
         {this.props.status === Actions.REQUEST_STATUS.IN_PROGRESS &&
           <Loading withOverlay={false} />}
         { this.props.selectedNodeId &&
-          <DetailsView context={this.context} title={title} details={details} /> }
+          <DetailsView context={this.context} title={title} details={details} resourceType={resourceType} /> }
       </div>
     )
   }

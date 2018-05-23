@@ -7,12 +7,12 @@
  * Contract with IBM Corp.
  *******************************************************************************/
  @import 'node_modules/carbon-components/scss/globals/scss/_colors';
- 
+
 .link {
   line {
-      stroke: $color__navy-gray-4;
-      stroke-width: 1.5px;
-      stroke-opacity: 0.6;
+      stroke: #D1D7F4;
+      stroke-width: 3px;
+      stroke-opacity: 1;
   }
 
   text {
@@ -22,7 +22,8 @@
   }
 
   .directionDecorator {
-      stroke: $color__navy-gray-4;
-      fill: $color__navy-gray-6;
+      stroke: #D1D7F4;
+      stroke-width: 3px;
+      fill: #D1D7F4;
   }
 }

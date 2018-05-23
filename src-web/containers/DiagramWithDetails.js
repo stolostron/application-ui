@@ -40,13 +40,26 @@ class DiagramWithDetails extends React.Component {
 
     const details = []
     if (currentNode){
-      // TODO: This logic should be moved down to the DetailsCard component.
-      // This is just a placeholder for now.
-      details.push(`uid: ${currentNode.uid}`)
-      details.push(`cluster: ${currentNode.cluster}`)
-      details.push(`type: ${currentNode.type}`)
-      details.push(`namespace: ${currentNode.namespace}`)
-      details.push(`topology: ${currentNode.topology}`)
+      currentNode.type && details.push({
+        type: 'label',
+        labelKey: 'resource.type',
+        value: currentNode.type,
+      })
+      currentNode.cluster && details.push({
+        type: 'label',
+        labelKey: 'resource.cluster',
+        value: currentNode.cluster,
+      })
+      currentNode.namespace && details.push({
+        type: 'label',
+        labelKey: 'resource.namespace',
+        value: currentNode.namespace,
+      })
+      currentNode.topology && details.push({
+        type: 'label',
+        labelKey: 'resource.topology',
+        value: currentNode.topology,
+      })
     }
 
     return (

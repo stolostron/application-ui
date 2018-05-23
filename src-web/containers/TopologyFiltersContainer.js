@@ -74,7 +74,7 @@ class TopologyFiltersContainer extends React.Component {
         {/* TODO: Add filter by cluster
         availableFilters.clusters.length > 0 && <MultiSelect
           type='inline'
-          label={msgs.get('filter.cluster', this.context.locale)}
+          label={msgs.get('resource.cluster', this.context.locale)}
           items={this.props.availableFilters.clusters}
           initialSelectedItems={this.props.availableFilters.clusters}
           onChange={this.handleFilter('cluster')}
@@ -82,7 +82,7 @@ class TopologyFiltersContainer extends React.Component {
         <MultiSelect
           key={Math.random()}
           type='inline'
-          label={msgs.get('filter.type', this.context.locale)}
+          label={msgs.get('resource.type', this.context.locale)}
           items={availableFilters.types}
           initialSelectedItems={this.getSelectedFilters(availableFilters.types, activeFilters.type)}
           onChange={this.handleFilter('type')}
@@ -90,7 +90,7 @@ class TopologyFiltersContainer extends React.Component {
         />
         <MultiSelect
           type='inline'
-          label={msgs.get('filter.namespace', this.context.locale)}
+          label={msgs.get('resource.namespace', this.context.locale)}
           items={availableFilters.namespaces}
           initialSelectedItems={this.getSelectedFilters(availableFilters.namespaces, activeFilters.namespace)}
           onChange={this.handleFilter('namespace')}
@@ -98,7 +98,7 @@ class TopologyFiltersContainer extends React.Component {
         />
         <MultiSelect
           type='inline'
-          label={msgs.get('filter.label', this.context.locale)}
+          label={msgs.get('resource.label', this.context.locale)}
           items={this.props.availableFilters.labels}
           initialSelectedItems={this.getSelectedFilters(availableFilters.labels, activeFilters.label)}
           onChange={this.handleFilter('label')}

@@ -25,9 +25,28 @@
   hr {
     border: 1px solid $color__navy-gray-8;
     width: 98%;
+    margin-bottom: 1rem;
   }
 
   div {
     margin: .5rem 0 0 .5rem;
+  }
+
+  .sectionContent {
+    margin-left: 1rem;
+  }
+
+  .label {
+    font-family:IBMPlexSans-SemiBold;
+    font-size: .75rem;
+    color: $color__blue-90;
+    letter-spacing: 1.27px;
+    line-height: 1rem;;  
+  }
+
+  .value {
+    font-family:IBMPlexSans;
+    font-size: .75rem;
+    color: $color__navy-gray-6;
   }
 }

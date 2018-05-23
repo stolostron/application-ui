@@ -10,19 +10,28 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import msgs from '../../../nls/platform.properties'
 
-const DetailsView = ({ /* context, */ details = [], title = '', /* status */ }) => (
-  <div className='topologyDetails'>
+const DetailsView = ({ context, details = [], title = '', /* status */ }) => (
+  <section className='topologyDetails'>
     <h3>{title}</h3>
     <hr />
     {details.map((d) =>
-      <div key={d}> {d} </div>
+      <div className='sectionContent' key={d.labelKey}>
+        <span className='label'>{msgs.get(d.labelKey, context.locale)}: </span>
+        <span className='value'>{d.value}</span>
+      </div>
     )}
-  </div>
+  </section>
 )
 
 DetailsView.propTypes = {
-  details: PropTypes.arrayOf(PropTypes.string),
+  context: PropTypes.object,
+  details: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.oneOf(['label']).isRequired,
+    labelKey: PropTypes.string,
+    value: PropTypes.string,
+  })),
   title: PropTypes.string,
 }
 

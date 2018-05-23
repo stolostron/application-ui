@@ -24,9 +24,11 @@ import { createSelector } from 'reselect'
 import lodash from 'lodash'
 import { normalize } from 'normalizr'
 import { createResourcesSchema } from '../../lib/client/resource-schema'
+import { transform } from '../../lib/client/resource-helper'
 import * as Actions from '../actions'
 import getResourceDefinitions, * as ResourceDefinitions from '../definitions'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import msgs from '../../nls/platform.properties'
 
 export const getItems = (state, props) => getFromState(state,props.storeRoot, 'items')
 export const getItemsPerPage = (state, props) => getFromState(state,props.storeRoot, 'itemsPerPage')
@@ -62,7 +64,28 @@ export const INITIAL_STATE = {
 const makeGetFilteredItemsSelector = (resourceType) => {
   return createSelector(
     [getItems, getSearch],
-    (items, search) => items.filter((item) => search === undefined || lodash.get(item, ResourceDefinitions.getDefaultSearchField(resourceType)).toLowerCase().indexOf(search.toLowerCase()) !== -1)
+    (items, search) => items.filter((item) => {
+      if (lodash.isEmpty(search))
+        return true
+
+      const tableKeys = ResourceDefinitions.getTableKeys(resourceType)
+      const context = JSON.parse(document.getElementById('context').textContent)
+
+      // search when user specify the field e.g. cluster=myprod
+      const searchField = search.toLowerCase().split('=')
+      if (!lodash.isEmpty(searchField[1])) {
+        const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchField[0].toLowerCase())
+        if (tableKey)
+          return transform(item, tableKey, context.locale).toString().toLowerCase().indexOf(searchField[1].toLowerCase()) !== -1
+      }
+
+      // return all results when user types cluster=
+      if (searchField[1] === '')
+        return true
+
+      // by default, search all fields
+      return tableKeys.find(tableKey => transform(item, tableKey, context.locale).toString().toLowerCase().indexOf(search.toLowerCase()) !== -1)
+    })
   )
 }
 

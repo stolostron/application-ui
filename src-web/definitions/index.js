@@ -84,6 +84,11 @@ export function getDefaultSortField(resourceType) {
   return sf
 }
 
+export function getTableKeys(resourceType) {
+  var def = getResourceData(resourceType)
+  return def.tableKeys
+}
+
 export function getLink(link, resource) {
   if(typeof(link) === 'boolean') {
     return `/${resource.metadata.namespace}/${resource.metadata.name}`

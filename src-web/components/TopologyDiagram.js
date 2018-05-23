@@ -118,8 +118,7 @@ class TopologyDiagram extends React.Component {
       const simulation = d3.forceSimulation()
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('link', d3.forceLink().id((d) => d.uid).strength(.1).distance(NODE_SEPARATION))
-        .force('charge', d3.forceManyBody())
-        .force('collide', d3.forceCollide().strength(.5).radius(NODE_RADIUS)) // Prevents nodes from overlapping
+        .force('collide', d3.forceCollide().strength(.5).radius(NODE_RADIUS * 2)) // Prevents nodes from overlapping
         .on('tick', ticked)
 
       simulation

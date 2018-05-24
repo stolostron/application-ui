@@ -7,6 +7,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+import lodash from 'lodash'
+import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'name',
@@ -17,6 +19,16 @@ export default {
       resourceKey: 'name',
     },
     {
+      msgKey: 'table.header.labels',
+      resourceKey: 'PDetails.labels',
+      transformFunction: getLabels
+    },
+    {
+      msgKey: 'table.header.status',
+      resourceKey: 'State',
+      transformFunction: getStatus
+    },
+    {
       msgKey: 'table.header.namespace',
       resourceKey: 'Namespace',
     },
@@ -25,4 +37,15 @@ export default {
       resourceKey: 'cluster',
     },
   ],
+}
+export function getLabels(item) {
+  const labels = lodash.map(item.PDetails.Labels, (value, key) => {
+    if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
+      return `${key}=${value}`
+  })
+  return lodash.compact(labels).join(',')
+}
+
+export function getStatus(item, locale) {
+  return item.State ? msgs.get('table.cell.running', locale) : msgs.get('table.cell.notrunning', locale)
 }

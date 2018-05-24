@@ -42,5 +42,8 @@ export default {
       type: 'timestamp'
     },
   ],
+  tableActions: [
+    'table.actions.remove',
+  ]
 }
 

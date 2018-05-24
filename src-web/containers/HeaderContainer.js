@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import resources from '../../lib/shared/resources'
+import Modal from '../components/common/Modal'
 import Header from '../components/Header'
 import LeftNav from '../components/LeftNav'
 
@@ -47,7 +48,7 @@ class HeaderContainer extends React.Component {
   }
 
   render() {
-    const { history, navRoutes } = this.props
+    const { history, navRoutes, locale } = this.props
     return (
       <div>
         <div ref={ref => this.headerWrapper = ref}>
@@ -63,6 +64,7 @@ class HeaderContainer extends React.Component {
             handleMenuClick={this.handleMenuClick}
             navRoutes={navRoutes} />
         </div>
+        <Modal locale={locale} />
       </div>
     )
   }

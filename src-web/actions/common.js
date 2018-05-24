@@ -109,6 +109,21 @@ export const fetchResources = (resourceType, vars) => {
   }
 }
 
+export const removeResource = (resourceType, vars) => async dispatch => {
+  dispatch(delResource(resourceType))
+  try {
+    const response = await apolloClient.remove(resourceType, vars)
+    if (response.errors) {
+      return dispatch(receiveDelError(response.errors, resourceType))
+    }
+
+    dispatch(receiveDelResource(response, resourceType))
+    dispatch(updateModal({ open: false }))
+  } catch (err) {
+    dispatch(receiveDelError(err, resourceType))
+  }
+}
+
 export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,

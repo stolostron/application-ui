@@ -66,7 +66,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var proxy = require('http-proxy-middleware')
-app.use('/hcmconsole/graphql', proxy({
+app.use('/hcmconsole/graphql', cookieParser(), (req, res, next) => {
+  const accessToken = req.cookies['cfc-access-token-cookie']
+  req.headers.Authorization = `Bearer ${accessToken}`
+  next()
+}, proxy({
   target: appConfig.get('hcmUiApiUrl') || 'http://localhost:4000/hcmuiapi',
   changeOrigin: true,
   pathRewrite: {

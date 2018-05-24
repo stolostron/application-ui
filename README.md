@@ -37,7 +37,7 @@ or npm run build:production
 >    or copy the script from `https://github.ibm.com/IBMPrivateCloud/platform-ui/blob/master/setup-dev.sh` then execute it
 > 4. Copy the environment variables printed at the end of the script and proceed to step 2.
 
-2. The folloing environment variables need to be set.
+2. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
 hcmUiApiUrl=http://localhost:4000/hcmuiapi
 cfcRouterUrl

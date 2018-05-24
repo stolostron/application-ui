@@ -186,9 +186,9 @@
       }
     },
     "@icp/security-middleware": {
-      "version": "2.0.18",
-      "resolved": "https://eu.artifactory.swg-devops.com:443/artifactory/api/npm/hyc-ibm-pvt-cloud-npm-local/@icp/security-middleware/-/@icp/security-middleware-2.0.18.tgz",
-      "integrity": "sha1-JI2+G5G0ZIeBgdbtHKe7gy4hNAA=",
+      "version": "2.0.19",
+      "resolved": "https://eu.artifactory.swg-devops.com:443/artifactory/api/npm/hyc-ibm-pvt-cloud-npm-local/@icp/security-middleware/-/@icp/security-middleware-2.0.19.tgz",
+      "integrity": "sha1-EUWyD5OzQpvbXcsUIHL0T77J6uU=",
       "requires": {
         "fs": "0.0.1-security",
         "log4js": "2.5.3",

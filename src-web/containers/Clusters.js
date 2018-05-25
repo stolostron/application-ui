@@ -25,7 +25,7 @@ import Page from '../components/common/Page'
 const Clusters =({ match }) =>
   <Page>
     <Switch>
-      <Route path={`${match.url}/overview`} render={() => <ClustersOverviewTab secondaryHeaderProps={{title: 'routes.clusters.overview'}} />} />
+      <Route path={`${match.url}/overview`} render={() => <ClustersOverviewTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
       <Route path={`${match.url}/pods`} render={() => <ClustersPodsTab secondaryHeaderProps={{title: 'routes.clusters.pods'}} />} />
       <Route path={`${match.url}/nodes`} render={() => <ClustersNodesTab secondaryHeaderProps={{title: 'routes.clusters.nodes'}} />} />
       <Route path={`${match.url}/namespaces`} render={() => <ClustersNamespacesTab secondaryHeaderProps={{title: 'routes.clusters.namespaces'}} />} />

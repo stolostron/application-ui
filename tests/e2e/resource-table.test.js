@@ -9,6 +9,7 @@
 
 const config = require('../../config')
 const ROUTE = {
+  'verify-clusters-list-content': '/clusters',
   'verify-clusters-pods-list-content': '/clusters/pods',
   'verify-clusters-nodes-list-content': '/clusters/nodes',
   'verify-clusters-namespaces-list-content': '/clusters/namespaces',

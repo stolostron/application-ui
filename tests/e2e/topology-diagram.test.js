@@ -8,7 +8,7 @@
  *******************************************************************************/
 
 const config = require('../../config')
-const ROUTE ='/clusters/overview'
+const ROUTE ='/topology'
 
 module.exports = {
   //'@disabled': true,

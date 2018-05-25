@@ -27,10 +27,5 @@ module.exports = {
 
 function verifyPageContent() {
   const self = this
-  self.waitForElementPresent('@pageContainer')
-  self.waitForElementNotPresent('@spinner')
-  self.api.pause(1000)
-  self.client.api.element('css selector', '.topologyDiagramContainer', res => {
-    res.status === 0 ? self.waitForElementVisible('@topologyDiagram') : self.waitForElementVisible('@noResource')
-  })
+  self.waitForElementVisible('@topologyDiagram')
 }

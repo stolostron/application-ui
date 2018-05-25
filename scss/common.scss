@@ -116,3 +116,52 @@ body {
 .bx--footer.bx--footer-auto-width > div button {
   width: auto;
 }
+
+
+.multi-select-filter {
+  padding: 10px;
+  min-width: 300px;
+  
+  .multi-select-filter-title {
+    font-size: 12px;
+    color: $color__blue-90;
+    margin-bottom: 6px;
+    position: relative;
+    line-height: 25px;
+  }
+
+  .bx--tooltip__trigger {
+    position: absolute;
+    top: 0;
+    right: 4px;
+        
+    & > div {
+      opacity: 0;
+      padding: 3px;
+      outline: 0;
+    }
+  }
+
+  &:hover .bx--tooltip__trigger > div {
+    opacity: 1;
+    transition: all 250ms ease-in-out;
+  }
+
+  .bx--multi-select.bx--combo-box input[role='combobox'] {
+    &:focus {
+      padding: 5px;
+      border-color: $color__blue-51;
+      background-color: #ffffff
+    }
+  
+    &:focus::placeholder {
+      color: lightGray;
+    }
+  }
+
+  .bx--multi-select {
+    .bx--list-box__menu {
+      max-height: 40rem;
+    }
+  }
+}

@@ -12,7 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { MultiSelect } from 'carbon-components-react'
+import FilterableMultiSelect from '../components/common/FilterableMultiSelect'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
 import { fetchTopologyFilters, updateTopologyFilters } from '../actions/topology'
@@ -52,22 +52,8 @@ class TopologyFiltersContainer extends React.Component {
     this.props.fetchFilters()
   }
 
-  /**
-   * The <MultiSelect> component uses a shallow compare when computing which items
-   * are selected. This function helps to make sure that the array of selected items
-   * reference the objects from the items array for the shallow compare to work.
-   */
-  getSelectedFilters = (items = [], selected = []) =>
-    items.filter(i => selected.find(f => i.label === f.label))
-
-
-  handleFilter = filterType => selection => {
-    this.props.onSelectedFilterChange(filterType, selection.selectedItems)
-  }
-
-
   render() {
-    const { activeFilters, availableFilters, fetching } = this.props
+    const { activeFilters, availableFilters, fetching, onSelectedFilterChange } = this.props
 
     return (
       <div className='topologyFilters'>
@@ -79,31 +65,30 @@ class TopologyFiltersContainer extends React.Component {
           initialSelectedItems={this.props.availableFilters.clusters}
           onChange={this.handleFilter('cluster')}
         /> */}
-        <MultiSelect
+        <FilterableMultiSelect
           key={Math.random()}
-          type='inline'
-          label={msgs.get('resource.type', this.context.locale)}
-          items={availableFilters.types}
-          initialSelectedItems={this.getSelectedFilters(availableFilters.types, activeFilters.type)}
-          onChange={this.handleFilter('type')}
-          disabled={fetching}
-        />
-        <MultiSelect
-          type='inline'
-          label={msgs.get('resource.namespace', this.context.locale)}
-          items={availableFilters.namespaces}
-          initialSelectedItems={this.getSelectedFilters(availableFilters.namespaces, activeFilters.namespace)}
-          onChange={this.handleFilter('namespace')}
-          disabled={fetching}
-        />
-        <MultiSelect
-          type='inline'
-          label={msgs.get('resource.label', this.context.locale)}
-          items={this.props.availableFilters.labels}
-          initialSelectedItems={this.getSelectedFilters(availableFilters.labels, activeFilters.label)}
-          onChange={this.handleFilter('label')}
-          disabled={fetching}
-        />
+          filterType={'label'}
+          title={msgs.get('resource.labels', this.context.locale)}
+          availableFilters={availableFilters.labels}
+          activeFilters={activeFilters.label}
+          onChange={onSelectedFilterChange}
+          disabled={fetching} />
+        <FilterableMultiSelect
+          key={Math.random()}
+          filterType={'type'}
+          title={msgs.get('resource.types', this.context.locale)}
+          availableFilters={availableFilters.types}
+          activeFilters={activeFilters.type}
+          onChange={onSelectedFilterChange}
+          disabled={fetching} />
+        <FilterableMultiSelect
+          key={Math.random()}
+          filterType={'namespace'}
+          title={msgs.get('resource.namespaces', this.context.locale)}
+          availableFilters={availableFilters.namespaces}
+          activeFilters={activeFilters.namespace}
+          onChange={onSelectedFilterChange}
+          disabled={fetching} />
       </div>
     )
   }

@@ -46,14 +46,14 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  color: #152935;
+  color: $color__blue-90;
   font-weight: 700;
   margin-bottom: 0.625rem;
   font-size: 0.875rem;
 }
 
 .bx--pagination .bx--text-input {
-  color: #152935;
+  color: $color__blue-90;
   background-color: #ebf0f7;
 }
 
@@ -86,11 +86,11 @@ body {
   height: 2.5rem;
   width: 102px;
   min-width: 2.5rem;
-  background-color: #3d70b2;
+  background-color: $color__blue-51;
   position: relative;
   padding-left: 22px;
   padding-top: 10px;
-  color: #ffffff;
+  color: $color__white;
   font-size: 16px;
   font-weight: 400;
   line-height: 18px;
@@ -154,7 +154,7 @@ body {
 }
 
 .filterButton.visible .anchor {
-  color: #ffffff;
+  color: $color__white;
 }
 
 .d-filter__checkboxes-wrapper {
@@ -179,7 +179,7 @@ body {
   box-sizing: border-box;
   vertical-align: middle;
   transition: 250ms;
-  fill: #ffffff;
+  fill: $color__white;
   padding-top: 2px;
   margin-bottom: 4px;
 }
@@ -188,25 +188,25 @@ body {
   box-sizing: border-box;
   vertical-align: middle;
   transition: 250ms;
-  fill: #ffffff;
+  fill: $color__white;
   padding-top: 2px;
   cursor: pointer;
 }
 
 .filterButton:hover,
 .filterButton:focus {
-  background-color: #3d70b2;
+  background-color: $color__blue-51;
   outline: 1px solid transparent;
-  color: #ffffff;
+  color: $color__white;
 }
 
 .filterButton:hover svg,
 .filterButton:focus svg {
-  fill: #fff;
+  fill: $color__white;
 }
 
 .checkbox {
-  border: 2px solid #8c9ba5;
+  border: 2px solid $color__navy-gray-7;
   border-radius: 2px;
   margin-right: 0.75rem;
   font-size: 1rem;
@@ -227,7 +227,7 @@ body {
 }
 
 .category-description {
-  color: #5a6872;
+  color: $color__navy-gray-6;
   margin-right: 10px;
   font-size: 14px;
   display: block;
@@ -255,7 +255,7 @@ body {
 .licenseTabSelected {
   font-size: 14px;
   cursor: pointer;
-  color: #3d70b2;
+  color: $color__blue-51;
 }
 
 .licenseli {
@@ -275,11 +275,11 @@ body {
 }
 
 .licenseTab:active {
-  color: #3d70b2;
+  color: $color__blue-51;
 }
 
 .licenseTab:hover {
-  color: #3d70b2;
+  color: $color__blue-51;
 }
 
 .licenseTabDelimiter {
@@ -288,7 +288,7 @@ body {
 }
 
 .searchDiv {
-  background-color: #f5f7fa;
+  background-color: $color__gray-3;
   box-shadow: none;
 }
 
@@ -302,7 +302,7 @@ body {
 }
 
 .bx--interior-left-nav {
-  background-color: #f5f7fa;
+  background-color: $color__gray-3;
   border-right-width: 0px;
   top: auto;
 }
@@ -310,7 +310,7 @@ body {
 .bx--interior-left-nav--collapseable
   .left-nav-list__item--active > .left-nav-list__item-link {
   position: relative;
-  background-color: #f5f7fa;
+  background-color: $color__gray-3;
 }
 
 .bx--interior-left-nav-collapse {
@@ -351,7 +351,7 @@ body {
 
 .category-section-parent {
   display: block;
-  color: #3d70b2;
+  color: $color__blue-51;
   font-size: 18px;
   font-weight: 400;
   line-height: 18px;
@@ -369,7 +369,7 @@ body {
   margin-right: 1%;
   border-radius: 0.9375rem;
   font-size: 0.75rem;
-  background-color: #c0e6ff;
+  background-color: $color__blue-10;
   color: #080d11;
 }
 
@@ -418,7 +418,7 @@ body {
 
         &:hover {
           background-color: #ebeff5;
-          box-shadow: 0 0 6px 0 #dfe6eb;
+          box-shadow: 0 0 6px 0 $color__navy-gray-8;
         }
 
         .content-wrapper {
@@ -434,7 +434,7 @@ body {
         }
 
         .resource-tile__text {
-          color: #152935;
+          color: $color__blue-90;
           width: calc(100% - 50px);
           display: inline;
           padding-left: 16px;
@@ -444,7 +444,7 @@ body {
           max-width: 20.3125em;
 
           .text__headline--catalog {
-            color: #152935;
+            color: $color__blue-90;
             line-height: 16px;
             font-weight: 700;
             font-size: 14px;
@@ -454,7 +454,7 @@ body {
           }
 
           .text__desc--catalog {
-            color: #152935;
+            color: $color__blue-90;
             line-height: 1.5;
             letter-spacing: 0.5px;
             font-weight: 400;
@@ -482,8 +482,8 @@ body {
                 color: transparent;
                 text-align: right;
                 background-size: 100% 100%;
-                background: -webkit-linear-gradient(left, rgba(245, 247, 250, 0), #f5f7fa 80%, #f5f7fa);
-                background: linear-gradient(to right, rgba(245, 247, 250, 0), #f5f7fa 80%, #f5f7fa);
+                background: -webkit-linear-gradient(left, rgba(245, 247, 250, 0), $color__gray-3 80%, $color__gray-3);
+                background: linear-gradient(to right, rgba(245, 247, 250, 0), $color__gray-3 80%, $color__gray-3);
               }
 
               &:before {
@@ -529,7 +529,7 @@ body {
       height: 50px;
       margin-bottom: 50px;
       background-size: 30px 30px;
-      border: 1px solid #3d70b2;
+      border: 1px solid $color__blue-51;
       border-radius: 50%;
       border-width: 1px;
       justify-content: center;
@@ -543,7 +543,7 @@ body {
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
       background-size: 30px 30px;
-      background-color: #fff;
+      background-color: $color__white;
       z-index: 0;
 
       @media screen and (min-width: 500px) {

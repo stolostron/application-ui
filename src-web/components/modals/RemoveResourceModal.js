@@ -40,7 +40,7 @@ const RemoveResourceModal = ({ data: { name }, handleClose, handleSubmit, label,
             subtitle={reqErrorMsg} />}
       </div>
       <p>
-        {msgs.get('modal.remove.confirm', [name], this.context.locale)}
+        {msgs.get('modal.remove.confirm', [name], locale)}
       </p>
     </Modal>
   </div>

@@ -48,7 +48,7 @@ class App extends React.Component {
 
     return (
       <div className='expand-vertically'>
-        <HeaderContainer />
+        <HeaderContainer locale={serverProps.context.locale} />
         <SecondaryHeader />
         <Switch>
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />

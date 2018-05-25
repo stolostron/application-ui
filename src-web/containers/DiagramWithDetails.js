@@ -33,6 +33,7 @@ class DiagramWithDetails extends React.Component {
     status: PropTypes.string,
   }
 
+  handleDetailsClose = () => this.props.onSelectedNodeChange()
 
   render() {
     const currentNode = this.props.nodes.find((n) => n.uid === this.props.selectedNodeId) || {}
@@ -73,7 +74,13 @@ class DiagramWithDetails extends React.Component {
         {this.props.status === Actions.REQUEST_STATUS.IN_PROGRESS &&
           <Loading withOverlay={false} />}
         { this.props.selectedNodeId &&
-          <DetailsView context={this.context} title={title} details={details} resourceType={resourceType} /> }
+          <DetailsView
+            context={this.context}
+            details={details}
+            onClose={this.handleDetailsClose}
+            resourceType={resourceType}
+            title={title}
+          /> }
       </div>
     )
   }

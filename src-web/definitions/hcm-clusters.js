@@ -10,8 +10,8 @@
 import lodash from 'lodash'
 
 export default {
-  defaultSortField: 'cluster',
-  primaryKey: 'name',
+  defaultSortField: 'ClusterName',
+  primaryKey: 'ClusterName',
   tableKeys: [
     {
       msgKey: 'table.header.name',

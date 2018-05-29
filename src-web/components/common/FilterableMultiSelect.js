@@ -15,6 +15,14 @@ import msgs from '../../../nls/platform.properties'
 
 class FilterableMultiSelect extends React.Component {
 
+  static propTypes = {
+    activeFilters: PropTypes.array,
+    availableFilters: PropTypes.array,
+    disabled: PropTypes.bool,
+    filterType: PropTypes.string,
+    onChange: PropTypes.func,
+    title: PropTypes.string
+  }
   /**
    * The <MultiSelect> component uses a shallow compare when computing which items
    * are selected. This function helps to make sure that the array of selected items
@@ -62,15 +70,6 @@ class FilterableMultiSelect extends React.Component {
       </div>
     )
   }
-}
-
-FilterableMultiSelect.propTypes = {
-  activeFilters: PropTypes.object,
-  availableFilters: PropTypes.object,
-  disabled: PropTypes.bool,
-  filterType: PropTypes.string,
-  onChange: PropTypes.func,
-  title: PropTypes.string
 }
 
 export default FilterableMultiSelect

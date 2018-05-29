@@ -46,7 +46,7 @@
   .main {
     stroke-width: 3px;
     stroke-opacity: 1;
-    fill: #ffffff;
+    fill: $color__gray-3;
   }
 
   .centralCircle {
@@ -57,52 +57,52 @@
 }
 
 .cluster {
-  stroke: #3C6DF0;
-  fill: #3C6DF0;
-  border-top: 6px solid #3c6df0;
+  stroke: $color__blue-40;
+  fill: $color__blue-40;
+  border-top: 6px solid $color__blue-40;
 }
 .container {
-  stroke: #48D4BB;
-  fill: #48D4BB;
-  border-top: 6px solid #48D4BB;
+  stroke: $color__teal-40;
+  fill: $color__teal-40;
+  border-top: 6px solid $color__teal-40;
 }
 .daemonset {
-  stroke: #00A68F;
-  fill: #00A68F;
-  border-top: 6px solid #00A68F;
+  stroke: $color__teal-60;
+  fill: $color__teal-60;
+  border-top: 6px solid $color__teal-60;
 }
 .deployment {
-  stroke: #473793;
-  fill: #473793;
-  border-top: 6px solid #473793;
+  stroke: $color__purple-60;
+  fill: $color__purple-60;
+  border-top: 6px solid $color__purple-60;
 }
 .host {
-  stroke: #FF3CA0;
-  fill: #FF3CA0;
-  border-top: 6px solid #FF3CA0;
+  stroke: $color__red-30;
+  fill: $color__red-30;
+  border-top: 6px solid $color__red-30;
 }
 .internet {
-  stroke: #83ffa6;
-  fill: #83ffa6;
-  border-top: 6px solid #83ffa6;
+  stroke: $color__green-10;
+  fill: $color__green-10;
+  border-top: 6px solid $color__green-10;
 }
 .pod {
-  stroke: #becfff;
-  fill: #becfff;
-  border-top: 6px solid #becfff;
+  stroke: $color__purple-10;
+  fill: $color__purple-10;
+  border-top: 6px solid $color__purple-10;
 }
 .service {
-  stroke: #ffce9b;
-  fill: #ffce9b;
-  border-top: 6px solid #ffce9b;
+  stroke: $color__blue-60;
+  fill: $color__blue-60;
+  border-top: 6px solid $color__blue-60;
 }
 .statefulset {
-  stroke: #69ff13;
-  fill: #69ff13;
-  border-top: 6px solid #69ff13;
+  stroke: $color__green-40;
+  fill: $color__green-40;
+  border-top: 6px solid $color__green-40;
 }
 .default {
-  stroke: #ff6671;
-  fill: #ff6671;
-  border-top: 6px solid #ff6671;
+  stroke: $color__blue-40;
+  fill: $color__blue-40;
+  border-top: 6px solid $color__blue-40;
 }

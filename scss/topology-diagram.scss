@@ -55,4 +55,22 @@ svg.topologyDiagram {
       opacity: 1;
       right: 2rem;
     }
-  }
+}
+
+.zoom-in {
+  position: absolute;
+  bottom: 72px;
+  right: 40px;
+}
+
+.zoom-out {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+}
+
+.zoom-target {
+  position: absolute;
+  bottom: 115px;
+  right: 40px;
+}

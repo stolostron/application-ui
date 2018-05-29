@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import lodash from 'lodash'
 import resources from '../../lib/shared/resources'
+import config from '../../lib/shared/config'
 
 resources(() => {
   require('../../scss/topology-details.scss')
@@ -120,7 +121,6 @@ class TopologyDiagram extends React.Component {
       createPolygonSVG(polygonNode, 'main', '1')
       // central circle
       createCircleSVG(polygonNode, 'centralCircle', '4', '', '21.650625', '25.65625')
-
       polygonNode.append('title')
         .text((d) => { return d.name })
       polygonNode.append('text')
@@ -254,7 +254,7 @@ class TopologyDiagram extends React.Component {
       const links = svg.select('g.links').selectAll('g.link')
       // Adds Zoom and Drag to diagram
       svg.call(d3.zoom()
-        .scaleExtent([ 0.25, 2 ])
+        .scaleExtent([ 0.25, 4 ])
         .on('zoom', () => {
           currentZoom = d3.event.transform
           nodes.attr('transform', d3.event.transform)
@@ -280,10 +280,49 @@ class TopologyDiagram extends React.Component {
       !lodash.isEqual(this.props.links, nextProps.links)
     }
 
+    getSvgSpace(svg){
+      const nodes = svg.select('g.nodes').selectAll('g.node')
+      const links = svg.select('g.links').selectAll('g.link')
+      const svgSpace = d3.zoom()
+        .scaleExtent([ 0.25, 4 ])
+        .on('zoom', () => {
+          currentZoom = d3.event.transform
+          nodes.attr('transform', d3.event.transform)
+          links.attr('transform', d3.event.transform)
+        })
+      return svgSpace
+    }
+
+    handleZoomIn = () => {
+      const svg = d3.select('svg.topologyDiagram')
+      this.getSvgSpace(svg).scaleBy(svg, 1.3)
+    }
+
+    handleZoomOut = () => {
+      const svg = d3.select('svg.topologyDiagram')
+      this.getSvgSpace(svg).scaleBy(svg, 1 / 1.3)
+    }
+
+    handleTarget = () => {
+      const svg = d3.select('svg.topologyDiagram')
+      var width = svg.style('width').replace('px', '')/2
+      var height = svg.style('height').replace('px', '')/2
+      this.getSvgSpace(svg).translateTo(svg, width, height)
+    }
+
     render() {
       return (
         <div className="topologyDiagramContainer" ref={this.setContainerRef} >
           <svg className="topologyDiagram" />
+          <button onClick={this.handleZoomIn}>
+            <img alt='zoom-in' className='zoom-in' src={`${config.contextPath}/graphics/zoom-in.svg`} />
+          </button>
+          <button onClick={this.handleZoomOut}>
+            <img alt='zoom-out' className='zoom-out' src={`${config.contextPath}/graphics/zoom-out.svg`} />
+          </button>
+          <button onClick={this.handleTarget}>
+            <img alt='zoom-target' className='zoom-target' src={`${config.contextPath}/graphics/zoom-center.svg`} />
+          </button>
         </div>
       )
     }

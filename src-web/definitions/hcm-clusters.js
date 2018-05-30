@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 import lodash from 'lodash'
+import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'ClusterName',
@@ -24,7 +25,9 @@ export default {
     },
     {
       msgKey: 'table.header.endpoint',
-      resourceKey: 'ClusterEndpoint'
+      resourceKey: 'Labels.clusterip',
+      link: getICPDash,
+      transformFunction: linkText
     },
     {
       msgKey: 'table.header.status',
@@ -57,6 +60,14 @@ export default {
       resourceKey: 'TotalServices',
     },
   ],
+}
+
+export function linkText(_, locale) {
+  return msgs.get('table.actions.launch', locale)
+}
+
+export function getICPDash(item) {
+  return (item.Labels && item.Labels.clusterip) ? `https://${item.Labels.clusterip}:8443/console` : ''
 }
 
 export function getLabels(item) {

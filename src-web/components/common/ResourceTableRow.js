@@ -14,13 +14,14 @@ import { TableRow, TableData, OverflowMenu, OverflowMenuItem } from 'carbon-comp
 import { connect } from 'react-redux'
 import msgs from '../../../nls/platform.properties'
 import { withRouter } from 'react-router-dom'
+import { getLink } from '../../definitions'
 import { transform } from '../../../lib/client/resource-helper'
 import { resourceActions } from './ResourceTableRowMenuItemActions'
 import lodash from 'lodash'
 
 class ResourceTableRow extends React.PureComponent {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind */
+  /* eslint-disable react/prop-types, react/jsx-no-bind, react/no-array-index-key */
 
   render() {
     const {
@@ -33,9 +34,11 @@ class ResourceTableRow extends React.PureComponent {
     return (
       <TableRow even={even} data-row-name={lodash.get(resource, lodash.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
         {staticResourceData.tableKeys.map((key, index) =>
-          /* eslint-disable-next-line react/no-array-index-key */
           <TableData key={`${key.resourceKey}-${index}`}>
-            {transform(resource, key, locale)}
+            {key.link ?
+              <a href={getLink(key.link, resource)}>{transform(resource, key, locale)}</a> :
+              transform(resource, key, locale)
+            }
           </TableData>
         )}
         {tableActions && tableActions.length > 0 &&

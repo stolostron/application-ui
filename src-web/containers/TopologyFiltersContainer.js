@@ -55,6 +55,26 @@ class TopologyFiltersContainer extends React.Component {
   render() {
     const { activeFilters, availableFilters, fetching, onSelectedFilterChange } = this.props
 
+    const filters = [
+      {
+        type: 'label',
+        titleKey: 'resource.labels',
+        availableKey: 'labels',
+        activeKey: 'label'
+      },
+      {
+        type: 'type',
+        titleKey: 'resource.types',
+        availableKey: 'types',
+        activeKey: 'type'
+      },
+      {
+        type: 'namespace',
+        titleKey: 'resource.namespaces',
+        availableKey: 'namespaces',
+        activeKey: 'namespace'
+      }
+    ]
     return (
       <div className='topologyFilters'>
         {/* TODO: Add filter by cluster
@@ -65,30 +85,16 @@ class TopologyFiltersContainer extends React.Component {
           initialSelectedItems={this.props.availableFilters.clusters}
           onChange={this.handleFilter('cluster')}
         /> */}
-        <FilterableMultiSelect
-          key={Math.random()}
-          filterType={'label'}
-          title={msgs.get('resource.labels', this.context.locale)}
-          availableFilters={availableFilters.labels}
-          activeFilters={activeFilters.label}
-          onChange={onSelectedFilterChange}
-          disabled={fetching} />
-        <FilterableMultiSelect
-          key={Math.random()}
-          filterType={'type'}
-          title={msgs.get('resource.types', this.context.locale)}
-          availableFilters={availableFilters.types}
-          activeFilters={activeFilters.type}
-          onChange={onSelectedFilterChange}
-          disabled={fetching} />
-        <FilterableMultiSelect
-          key={Math.random()}
-          filterType={'namespace'}
-          title={msgs.get('resource.namespaces', this.context.locale)}
-          availableFilters={availableFilters.namespaces}
-          activeFilters={activeFilters.namespace}
-          onChange={onSelectedFilterChange}
-          disabled={fetching} />
+        {filters.map((filter) =>
+          <FilterableMultiSelect
+            key={Math.random()}
+            filterType={filter.type}
+            title={msgs.get(filter.titleKey, this.context.locale)}
+            availableFilters={availableFilters[filter.availableKey]}
+            activeFilters={activeFilters[filter.activeKey]}
+            onChange={onSelectedFilterChange}
+            disabled={fetching} />
+        )}
       </div>
     )
   }

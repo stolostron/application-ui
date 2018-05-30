@@ -10,7 +10,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MultiSelect, Tooltip } from 'carbon-components-react'
+import { MultiSelect } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 
 class FilterableMultiSelect extends React.Component {
@@ -34,34 +34,40 @@ class FilterableMultiSelect extends React.Component {
 
   handleFilter = selection => {
     this.props.onChange(this.props.filterType, selection.selectedItems)
+    this.updateTooltip()
+  }
+
+  componentDidMount () {
+    this.updateTooltip()
+  }
+
+  updateTooltip () {
+    this.multiSelect.inputNode.title = this.tooltip.join('\n')
   }
 
   render() {
     const {
-      availableFilters,
-      activeFilters=[{label: msgs.get('resource.filterAll', this.context.locale)}],
       title,
+      availableFilters,
+      activeFilters=[],
       disabled } = this.props
 
+    this.tooltip = []
+    if (disabled) {
+      this.tooltip.push(msgs.get('resource.filterLabel', [title], this.context.locale))
+    } else if (!activeFilters.length) {
+      this.tooltip.push(msgs.get('resource.filterAll', this.context.locale))
+    } else {
+      this.tooltip = activeFilters.map(filter => filter.label).sort()
+    }
     return (
       <div className='multi-select-filter'>
         <div className='multi-select-filter-title'>
           {title}
-          <Tooltip triggerText='' iconDescription=''>
-            <p className='bx--tooltip__label'>
-              {msgs.get('resource.filterTooltip', [title.toLowerCase()], this.context.locale)}
-            </p>
-            <p>
-              {activeFilters.map((filter) => (
-                <div key={filter.label}>
-                  {filter.label}
-                </div>)
-              )}
-            </p>
-          </Tooltip>
         </div>
         <MultiSelect.Filterable
-          placeholder={msgs.get('resource.filterLabel', [title], this.context.locale)}
+          ref={this.saveMultiSelectRef}
+          placeholder={this.tooltip.join(', ')}
           items={availableFilters}
           initialSelectedItems={this.getSelectedFilters(availableFilters, activeFilters)}
           onChange={this.handleFilter}
@@ -69,6 +75,10 @@ class FilterableMultiSelect extends React.Component {
         />
       </div>
     )
+  }
+
+  saveMultiSelectRef = ref => {
+    this.multiSelect = ref
   }
 }
 

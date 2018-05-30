@@ -94,74 +94,59 @@ body {
   }
 }
 
-.bx--form-item {
-
-  .bx--tooltip__trigger {
-    
-    svg {
-      visibility: hidden;
-      vertical-align: middle;
-      pointer-events: visible;
-    }
-  }
-
-  &:hover,
-  &:focus-within {
-    svg {
-      visibility: visible;
-    }
-  }
-}
-
 .bx--footer.bx--footer-auto-width > div button {
   width: auto;
 }
 
 
+@keyframes slideopen {
+  0% {
+    max-height: 0;
+  }
+  100% {
+    max-height: 25rem;
+  }
+}
+
 .multi-select-filter {
   padding: 10px;
   min-width: 300px;
-  
+
   .multi-select-filter-title {
     font-size: 12px;
     color: $color__blue-90;
-    margin-bottom: 6px;
     position: relative;
     line-height: 25px;
   }
 
-  .bx--tooltip__trigger {
-    position: absolute;
-    top: 0;
-    right: 4px;
-        
-    & > div {
-      opacity: 0;
-      padding: 3px;
-      outline: 0;
-    }
-  }
 
-  &:hover .bx--tooltip__trigger > div {
-    opacity: 1;
-    transition: all 250ms ease-in-out;
+  .bx--list-box__menu-icon {
+    right: -12px;
   }
 
   .bx--multi-select.bx--combo-box input[role='combobox'] {
+    cursor: pointer;
     &:focus {
       padding: 5px;
       border-color: $color__blue-51;
-      background-color: #ffffff
+      background-color: #ffffff;
+      cursor: text;
     }
-  
+
     &:focus::placeholder {
       color: lightGray;
+      text-overflow: ellipsis;
     }
+  }
+
+  .bx--multi-select.bx--combo-box input[placeholder] {
+    text-overflow:ellipsis;
   }
 
   .bx--multi-select {
     .bx--list-box__menu {
-      max-height: 40rem;
+      max-height: 25rem;
+      animation: slideopen 200ms  ease-in-out;
     }
   }
 }

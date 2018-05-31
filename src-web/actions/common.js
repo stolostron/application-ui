@@ -116,11 +116,10 @@ export const removeResource = (resourceType, vars) => async dispatch => {
     if (response.errors) {
       return dispatch(receiveDelError(response.errors, resourceType))
     }
-
-    dispatch(receiveDelResource(response, resourceType))
-    dispatch(updateModal({ open: false }))
+    // assume every resource will have a 'Name' property
+    dispatch(receiveDelResource(response, resourceType, vars.Name))
   } catch (err) {
-    dispatch(receiveDelError(err, resourceType))
+    return dispatch(receiveDelError(err, resourceType))
   }
 }
 
@@ -183,11 +182,12 @@ export const delResource = (resourceType) => ({ // TODO: Consider renaming
   resourceType
 })
 
-export const receiveDelResource = (item, resourceType) => ({
+export const receiveDelResource = (item, resourceType, resourceName) => ({
   type: Actions.DEL_RECEIVE_SUCCESS,
   delStatus: Actions.REQUEST_STATUS.DONE,
   resourceType: item.kind || resourceType,
-  item
+  item,
+  resourceName
 })
 
 export const receiveDelError = (err, resourceType) => ({

@@ -265,12 +265,22 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       items: items
     })
   case Actions.RESOURCE_DELETE:
-    items = state.items.slice(0)
+    items = [...state.items]
     index = lodash.findIndex(items, o => lodash.get(o, 'metadata.uid') === lodash.get(action, 'item.metadata.uid'))
     if(index > -1) {
       items.splice(index, 1)
       return Object.assign({}, state, {
-        items: items,
+        items: items
+      })
+    }
+    return state
+  case Actions.DEL_RECEIVE_SUCCESS:
+    items = [...state.items]
+    index = lodash.findIndex(items, o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName'))
+    if(index > -1) {
+      items.splice(index, 1)
+      return Object.assign({}, state, {
+        items: items
       })
     }
     return state

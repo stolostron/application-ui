@@ -21,5 +21,8 @@ export default {
       resourceKey: 'URL',
     }
   ],
+  tableActions: [
+    'table.actions.remove',
+  ]
 }
 

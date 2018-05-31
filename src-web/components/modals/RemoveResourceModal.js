@@ -65,7 +65,10 @@ const mapStateToProps = state => state.modal
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handleSubmit: () => dispatch(removeResource(ownProps.resourceType, ownProps.data)),
+    handleSubmit: () => {
+      dispatch(removeResource(ownProps.resourceType, ownProps.data))
+      dispatch(updateModal({open: false, type: 'resource-remove'}))
+    },
     handleClose: () => {
       dispatch(clearRequestStatus())
       dispatch(updateModal({open: false, type: 'resource-remove'}))

@@ -6,22 +6,9 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
- @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+'use strict'
 
-.clusters {
-    display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-}
-
-.topologyWithCards {
-    background-color: $color__white;
-    border: 1px solid $color__navy-gray-8;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-    width: 100%;
-}
-
-.clusterCard {
-    margin: 0 1rem 1rem 0;
-}
+export const NODE_RADIUS = 20
+export const NODE_SEPARATION = 100
+export const CLUSTER_MARGIN = 20
+export const CLUSTER_MARGIN_TOP = 50

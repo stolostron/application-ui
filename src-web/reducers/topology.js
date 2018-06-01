@@ -10,7 +10,7 @@ const initialState = {
     types: [],
   },
   activeFilters: {
-    type: [{ label: 'cluster' }],
+    namespace: [{ label: 'default'}], // Sets the default filters
   },
   links: [],
   nodes: [],

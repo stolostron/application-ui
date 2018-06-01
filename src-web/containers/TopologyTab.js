@@ -16,17 +16,12 @@ import { InlineNotification } from 'carbon-components-react'
 import lodash from 'lodash'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { updateSecondaryHeader, fetchResources } from '../actions/common'
-import resources from '../../lib/shared/resources'
 import headerMsgs from '../../nls/header.properties'
 import msgs from '../../nls/platform.properties'
 import * as Actions from '../actions'
 import { updateTopologyFilters } from '../actions/topology'
 import DiagramWithDetails from './DiagramWithDetails'
 import TopologyFiltersContainer from './TopologyFiltersContainer'
-
-resources(() => {
-  require('../../scss/clusters.scss')
-})
 
 
 class TopologyTab extends React.Component {

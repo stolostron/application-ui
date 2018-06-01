@@ -26,6 +26,7 @@ resources(() => {
 
 class DiagramWithDetails extends React.Component {
   static propTypes = {
+    clusters: PropTypes.array,
     links: PropTypes.array,
     nodes: PropTypes.array,
     onSelectedNodeChange: PropTypes.func,
@@ -66,6 +67,7 @@ class DiagramWithDetails extends React.Component {
     return (
       <div className='topologyWithDetails'>
         <TopologyDiagram
+          clusters={this.props.clusters}
           nodes={this.props.nodes}
           links={this.props.links}
           onSelectedNodeChange={this.props.onSelectedNodeChange}
@@ -99,9 +101,23 @@ const mapStateToProps = (state) =>{
   // FIXME: We don't have a way to show links to self, so removing those links until the diagram can paint those correctly.
   modifiedLinks = modifiedLinks.filter(l => l.source !== l.target)
 
+
+  const nodesWithoutClusters = nodes.filter(n => n.type !== 'cluster')
+  const clusters = nodes.reduce((prev, curr) => {
+    if (curr.cluster !== null && !prev.find(c => c.id === curr.cluster)){
+      prev.push({
+        id: curr.cluster,
+        index: prev.length,
+        name: nodes.find(n => n.id === curr.cluster).name || curr.cluster
+      })
+    }
+    return prev
+  }, [])
+
   return {
+    clusters,
     links: modifiedLinks,
-    nodes,
+    nodes: nodesWithoutClusters,
     selectedNodeId,
     status,
   }

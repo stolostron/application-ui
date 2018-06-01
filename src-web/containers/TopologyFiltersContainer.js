@@ -57,6 +57,12 @@ class TopologyFiltersContainer extends React.Component {
 
     const filters = [
       {
+        type: 'namespace',
+        titleKey: 'resource.namespaces',
+        availableKey: 'namespaces',
+        activeKey: 'namespace'
+      },
+      {
         type: 'label',
         titleKey: 'resource.labels',
         availableKey: 'labels',
@@ -68,12 +74,6 @@ class TopologyFiltersContainer extends React.Component {
         availableKey: 'types',
         activeKey: 'type'
       },
-      {
-        type: 'namespace',
-        titleKey: 'resource.namespaces',
-        availableKey: 'namespaces',
-        activeKey: 'namespace'
-      }
     ]
     return (
       <div className='topologyFilters'>

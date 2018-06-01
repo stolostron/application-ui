@@ -50,7 +50,7 @@ class DiagramWithDetails extends React.Component {
       currentNode.cluster && details.push({
         type: 'label',
         labelKey: 'resource.cluster',
-        value: currentNode.cluster,
+        value: this.props.clusters.find(n => n.id === currentNode.cluster).name
       })
       currentNode.namespace && details.push({
         type: 'label',

@@ -7,6 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+import React from 'react'
 import lodash from 'lodash'
 import msgs from '../../nls/platform.properties'
 
@@ -26,8 +27,7 @@ export default {
     {
       msgKey: 'table.header.endpoint',
       resourceKey: 'Labels.clusterip',
-      link: getICPDash,
-      transformFunction: linkText
+      transformFunction: getExternalLink
     },
     {
       msgKey: 'table.header.status',
@@ -62,12 +62,8 @@ export default {
   ],
 }
 
-export function linkText(_, locale) {
-  return msgs.get('table.actions.launch', locale)
-}
-
-export function getICPDash(item) {
-  return (item.Labels && item.Labels.clusterip) ? `https://${item.Labels.clusterip}:8443/console` : ''
+export function getExternalLink(item, locale) {
+  return (item.Labels && item.Labels.clusterip) ? <a href={`https://${item.Labels.clusterip}:8443/console`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
 }
 
 export function getLabels(item) {

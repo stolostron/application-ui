@@ -28,6 +28,10 @@ export default {
       resourceKey: 'NodeDetails.Status',
     },
     {
+      msgKey: 'table.header.arch',
+      resourceKey: 'NodeDetails.Arch',
+    },
+    {
       msgKey: 'table.header.osimage',
       resourceKey: 'NodeDetails.OSImage',
     },

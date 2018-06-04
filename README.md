@@ -61,6 +61,11 @@ npm run start
 
 5.Open a browser to `https://localhost:{httpPort}/hcmconsole` and log in using your cluster admin credentials.
 
+## Storybook
+<pre>
+npm run storybook
+</pre>
+Launch storybook at: http://localhost:6006/
 
 ## Testing
 
@@ -91,6 +96,7 @@ The full list of npm scripts are described below.
 | `npm run lint`                   | Runs linting on the code base.                                                                                                   |
 | `npm run lint:fix`               | Attempts to fix any linting errors automatically.                                                                                |
 | `npm run shrinkwrap:clean`       | Regenerates a clean `npm-shrinkwrap.json` - THIS COMMAND SHOULD ONLY BE USED IN EXTREME CIRCUMSTANCES.                           |
+| `npm run storybook`              | Start the storybook  |
 
 > Note: The build process leverages the Dll and DllReference plugins to extract out vendor plugins for faster build times and improved browser caching.  A separate bundle is created for 3rd-party client-side libraries.  The generated bundle is sourced (_public/dll.vendor.js_) along with its manifest (_vendor-manifest.json_).  If new client dependencies are added or existing versions of dependencies are updated this module needs be regenerated and recommitted back into source control via  `npm run build:dll`.
 

@@ -33,6 +33,7 @@ class TopologyDiagram extends React.Component {
     static propTypes = {
       clusters: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
+        index: PropTypes.number,
         name: PropTypes.string
       })),
       links: PropTypes.arrayOf(PropTypes.shape({

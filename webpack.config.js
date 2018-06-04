@@ -113,8 +113,8 @@ module.exports = {
       CONSOLE_CONTEXT_URL: JSON.stringify(config.get('contextPath'))
     }),
     new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./dll/vendor-manifest.json')
+      context: process.env.STORYBOOK ? path.join(__dirname, '..') : __dirname,
+      manifest: require('./dll/vendor-manifest.json'),
     }),
     new ExtractTextPlugin({
       filename: PRODUCTION ? 'css/[name].[contenthash].css' : 'css/[name].css',

@@ -156,15 +156,12 @@ class TopologyDiagram extends React.Component {
       return (
         <div className="topologyDiagramContainer" ref={this.setContainerRef} >
           <svg className="topologyDiagram" />
-          <button onClick={this.handleZoomIn}>
-            <img alt='zoom-in' className='zoom-in' src={`${config.contextPath}/graphics/zoom-in.svg`} />
-          </button>
-          <button onClick={this.handleZoomOut}>
-            <img alt='zoom-out' className='zoom-out' src={`${config.contextPath}/graphics/zoom-out.svg`} />
-          </button>
-          <button onClick={this.handleTarget}>
-            <img alt='zoom-target' className='zoom-target' src={`${config.contextPath}/graphics/zoom-center.svg`} />
-          </button>
+          <input type='image' alt='zoom-in' className='zoom-in'
+            onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
+          <input type='image' alt='zoom-out' className='zoom-out'
+            onClick={this.handleZoomOut} src={`${config.contextPath}/graphics/zoom-out.svg`} />
+          <input type='image' alt='zoom-target' className='zoom-target'
+            onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
         </div>
       )
     }

@@ -32,7 +32,7 @@ export class SecondaryHeader extends React.Component {
   }
 
   render() {
-    const { tabs, title, breadcrumbItems } = this.props
+    const { tabs, title, breadcrumbItems, extra } = this.props
     const { locale } = this.context
     if ((tabs && tabs.length > 0) || (breadcrumbItems && breadcrumbItems.length > 0)) {
       return (
@@ -45,6 +45,7 @@ export class SecondaryHeader extends React.Component {
                 </Breadcrumb>
                 <Tabs selected={this.getSelectedTab() || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
                   {this.renderTabs()}
+                  {(extra && extra.length > 0) && this.renderExtra()}
                 </Tabs>
               </DetailPageHeader>
             ) : (
@@ -89,6 +90,15 @@ export class SecondaryHeader extends React.Component {
     })
   }
 
+  renderExtra() {
+    const { extra, role } = this.props,
+          { locale } = this.context
+    return extra.map(item => {
+      if (!(item.id === 'logs-tab' && (role === ROLES.VIEWER || role === ROLES.EDITOR)))
+        return <Tab label={msgs.get(item.label, locale)} key={item.id} id={item.id} href={item.url} onClick={this.clickTab.bind(this, item.url)} />
+    })
+  }
+
   getSelectedTab() {
     const { tabs, location } = this.props
     const selectedTab = tabs.map((tab, index) => {
@@ -117,7 +127,8 @@ const mapStateToProps = (state) => {
     tabs: state.secondaryHeader.tabs,
     breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,
-    role: state.role && state.role.role
+    role: state.role && state.role.role,
+    extra: state.secondaryHeader.extra
   }
 }
 

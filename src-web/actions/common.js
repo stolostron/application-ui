@@ -123,12 +123,13 @@ export const removeResource = (resourceType, vars) => async dispatch => {
   }
 }
 
-export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
+export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links, extra) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,
   tabs,
   breadcrumbItems,
-  links
+  links,
+  extra
 })
 
 export const updateModal = (data) => ({

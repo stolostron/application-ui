@@ -1,0 +1,83 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+ @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+.dashboard-section-title {
+    margin-bottom: .625rem;
+    padding: 0;
+    h2 {
+        font-size: 1.125rem;
+        color: $color__blue-90;
+        font-weight: 300;
+        overflow: hidden;
+
+        &:after {
+            content: "";
+            display: inline-block;
+            height: 0.5em;
+            vertical-align: bottom;
+            width: 100%;
+            margin-right: -100%;
+            margin-left: 1.125rem;
+            border-top: 1px solid $color__gray-1;
+        }
+    }
+}
+
+.dashboard-section-modules {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.925rem;
+
+    > div {
+        flex-basis: 33%;
+        &:first-child {
+            margin-left: -.625rem;
+        }
+    }
+}
+
+.dashboard-comboBox {
+    width: 80%;
+    padding: 70px 0px 0px 9%;
+    margin-bottom: -2.5rem;
+}
+
+.dashboard-filterButton {
+    position: absolute;
+    left: 5.5%;
+    top: 19.4%;
+    transform: scale(1.2);
+    fill: $color__navy-gray-7;
+}
+
+.dashboard-settings{
+    position: absolute;
+    right: 20px;
+    top: 19%;
+    display: flex;
+}
+
+.dashboard-settingsButton{
+    padding-top: 10px;
+    margin: 0 -70px 0 0;
+    fill: $color__navy-gray-7;
+}
+
+.dashboard-slider{
+    transform: scale(0.5)
+}
+
+.dashboard-toolbar{
+    display: flex;
+}
+
+.dashboard-main{
+    padding-top: 0.8rem;
+}

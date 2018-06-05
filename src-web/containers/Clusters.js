@@ -10,6 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, Redirect, withRouter} from 'react-router-dom'
+import ClustersApplicationsTab from './ClustersApplicationsTab'
 import ClustersOverviewTab from './ClustersTab'
 import ClustersPodsTab from './ClustersPodsTab'
 import ClustersNodesTab from './ClustersNodesTab'
@@ -26,6 +27,7 @@ const Clusters =({ match }) =>
   <Page>
     <Switch>
       <Route path={`${match.url}/overview`} render={() => <ClustersOverviewTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
+      <Route path={`${match.url}/applications`} render={() => <ClustersApplicationsTab secondaryHeaderProps={{title: 'routes.clusters.applications'}} />} />
       <Route path={`${match.url}/pods`} render={() => <ClustersPodsTab secondaryHeaderProps={{title: 'routes.clusters.pods'}} />} />
       <Route path={`${match.url}/nodes`} render={() => <ClustersNodesTab secondaryHeaderProps={{title: 'routes.clusters.nodes'}} />} />
       <Route path={`${match.url}/namespaces`} render={() => <ClustersNamespacesTab secondaryHeaderProps={{title: 'routes.clusters.namespaces'}} />} />

@@ -1,6 +1,44 @@
 $critical: #F21A06;
 $warning: #F46C0F;
-$ok: #3CC674;
+$healthy: #3CC674;
+
+.dashboard-card {
+  padding: 0;
+  margin-bottom: 3rem;
+
+  &.bx--module {
+    .bx--module__inner {
+      background-color: transparent;
+      color: #fff;
+    }
+
+    .bx--module__title, .bx--module__body, .bx--module__header {
+      color: #fff;
+      border: none;
+    }
+
+    td {
+      color: #000;
+    }
+  }
+
+  &__critical {
+    background: linear-gradient(135deg,  #f21804 0%,#eaa391 99%);
+  }
+
+  &__warning {
+    background: linear-gradient(135deg, #ed5a00 0%,#ff7400 41%,#f7d2ad 100%);
+  }
+
+  &__healthy {
+    background-color: #fff;
+    color: #000;
+
+    .bx--module__title, .bx--module__body, .bx--module__header {
+      color: #000!important;
+    }
+  }
+}
 
 .dashboard-overview {
   display: flex;
@@ -14,22 +52,26 @@ $ok: #3CC674;
   margin: 0 1rem;
 }
 
+@mixin circle($size) {
+  height: $size;
+  width: $size;
+  border-radius: 100%;
+}
 
-$orbSize: 3rem;
+$orbSize: 4rem;
+$innerOrbSize: $orbSize - 0.4rem;
 
 .dashboard-orb {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  border-radius: 100%;
-  height: 4.3rem;
-  width: 4.3rem;
+  color: #000;
+  @include circle($orbSize);
   padding: 0;
 
   &__inner {
-    height: $orbSize - 0.5rem;
-    width: $orbSize - 0.5rem;
+    @include circle($innerOrbSize);
   }
 
   &__critical {
@@ -37,18 +79,17 @@ $orbSize: 3rem;
   }
 
   &__warning {
-    border: 2px solid $warning;
+    border: 3px solid $warning;
   }
 
-  &__ok {
-    border: 2px solid $ok;
+  &__healthy {
+    border: 3px solid $healthy;
   }
 }
 
 .dashboard-table {
   margin-top: 1rem;
   min-width: 0;
-
 }
 
 .dashboard-status {

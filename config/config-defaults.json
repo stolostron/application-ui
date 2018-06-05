@@ -6,7 +6,7 @@
     "featureFlags": {
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 5000,
-        "fullDashboard": true
+        "fullDashboard": false
     },
     "PLATFORM_IDENTITY_PROVIDER_URL": "",
     "WLP_CLIENT_ID": "",

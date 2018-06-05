@@ -10,7 +10,7 @@
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
 import React from 'react'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import DashboardApplicationTab from './dashboard/DashboardApplicationTab'
 
@@ -64,9 +64,10 @@ if (fullDashboard) {
 
 const DashboardTab = ({ match }) =>
   <Switch>
+    <Route exact path={match.url} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
     <Route path={`${match.url}/infrastructure`} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
     <Route path={`${match.url}/governance`} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
-    <Route path={match.url} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
+    <Redirect to={`${match.url}`} />
   </Switch>
 
 export default withRouter(DashboardTab)

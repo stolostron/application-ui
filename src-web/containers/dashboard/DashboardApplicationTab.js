@@ -35,7 +35,7 @@ const TYPES = [
   RESOURCE_TYPES.HCM_RELEASES
 ]
 
-const fullDashboard = (parseInt(config['featureFlags:fullDashboard']) === 4)
+const fullDashboard = (config['featureFlags:fullDashboard'])
 const POLL_INTERVAL = 60000 // 1 min
 
 class Dashboard extends React.Component {

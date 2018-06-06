@@ -5,10 +5,12 @@ $healthy: #3CC674;
 .dashboard-card {
   padding: 0;
   margin-bottom: 3rem;
+  height: 24rem;
 
   &.bx--module {
     .bx--module__inner {
       background-color: transparent;
+      box-shadow: none;
       color: #fff;
     }
 

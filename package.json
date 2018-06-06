@@ -20,7 +20,7 @@
     "test:e2e": "nightwatch",
     "test:update-snapshot": "jest --updateSnapshot",
     "test:install-selenium": "selenium-standalone install --version=3.9.0 --drivers.chrome.version=2.36",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s ./public,./node_modules/carbon-components/css",
     "build-storybook": "build-storybook"
   },
   "repository": {

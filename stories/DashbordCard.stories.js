@@ -26,10 +26,16 @@ const criticalCardProps = {
       status: 'critical',
     },
     {
+      link: 'www.ibm.coim',
+      percentage: 35,
+      resourceName: 'Cluster 2',
+      status: 'warning',
+    },
+    {
       link: 'www.ibm.com',
       percentage: 50,
-      resourceName: 'Cluster 2',
-      status: 'ok',
+      resourceName: 'Cluster 3',
+      status: 'healthy',
     },
   ],
 }
@@ -42,38 +48,50 @@ const warningCardProps = {
   warning: 3,
   table: [
     {
-      link: 'link',
+      link: 'www.ibm.coim',
       percentage: 25,
       resourceName: 'Cluster 1',
+      status: 'critical',
+    },
+    {
+      link: 'www.ibm.coim',
+      percentage: 35,
+      resourceName: 'Cluster 2',
       status: 'warning',
     },
     {
-      link: 'link',
+      link: 'www.ibm.com',
       percentage: 50,
-      resourceName: 'Cluster 2',
-      status: 'ok',
+      resourceName: 'Cluster 3',
+      status: 'healthy',
     },
   ],
 }
 
 
-const okCardProps = {
-  title: 'My Card - OK',
+const healthyCardProps = {
+  title: 'My Card - healthy',
   critical: 0,
-  healthy: 0,
-  warning: 13,
+  healthy: 13,
+  warning: 0,
   table: [
     {
-      link: 'link',
+      link: 'www.ibm.coim',
       percentage: 25,
       resourceName: 'Cluster 1',
+      status: 'critical',
+    },
+    {
+      link: 'www.ibm.coim',
+      percentage: 35,
+      resourceName: 'Cluster 2',
       status: 'warning',
     },
     {
-      link: 'link',
-      percentage: 250,
-      resourceName: 'Cluster 2',
-      status: 'ok',
+      link: 'www.ibm.com',
+      percentage: 50,
+      resourceName: 'Cluster 3',
+      status: 'healthy',
     },
   ],
 }
@@ -88,7 +106,7 @@ storiesOf('DashbordCard', module)
     <DashboardCard  {...warningCardProps} />
   ))
 
-  .add('ok', () => (
-    <DashboardCard  {...okCardProps} />
+  .add('healthy', () => (
+    <DashboardCard  {...healthyCardProps} />
   ))
 

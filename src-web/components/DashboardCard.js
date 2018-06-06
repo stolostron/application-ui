@@ -1,7 +1,21 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+
 import React from 'react'
 import PropTypes from 'prop-types'
-import config from '../../lib/shared/config'
 import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData } from 'carbon-components-react'
+import config from '../../lib/shared/config'
+import resources from '../../lib/shared/resources'
+
+resources(() => {
+  require('../../scss/dashboard-card.scss')
+})
 
 const DashboardOrb = ({ status = 'healthy', value, className = '' }) => (
   <div className={`dashboard-count ${className}`}>
@@ -14,7 +28,7 @@ const DashboardOrb = ({ status = 'healthy', value, className = '' }) => (
 
 const OrbPropType = {
   className: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.oneOf(['critical', 'warning', 'healthy']),
   value: PropTypes.number,
 }
 
@@ -34,7 +48,7 @@ const TableRowPropType = {
   link: PropTypes.string,
   percentage: PropTypes.number,
   resourceName: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.oneOf(['critical', 'warning', 'healthy']),
 }
 
 DashboardTableRow.propTypes = TableRowPropType
@@ -51,25 +65,25 @@ DashboardTable.propTypes = {
   table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType))
 }
 
-const getTableStatus = overview => {
-  switch (true) {
-  case overview.find(({ status }) => status === 'critical').value > 0:
+const getTableStatus = (critical, healthy, warning) => {
+  switch(true){
+  case critical > 0:
     return 'critical'
-
-  case overview.find(({ status }) => status === 'warning').value > 0:
+  case warning > 0:
     return 'warning'
-
   default:
     return 'healthy'
   }
 }
 
-const DashboardCard = ({ title, data: { overview, table }, ...rest }) => (
-  <Module className={`dashboard-card dashboard-card__${getTableStatus(overview)}`} size="single" {...rest}>
+const DashboardCard = ({ critical = 0, healthy = 0, title, table, warning = 0, ...rest }) => (
+  <Module className={`dashboard-card dashboard-card__${getTableStatus(critical, healthy, warning)}`} size="single" {...rest}>
     <ModuleHeader>{title}</ModuleHeader>
     <ModuleBody>
       <div className="dashboard-overview">
-        {overview.map(stat => <DashboardOrb {...stat} key={stat.status} />)}
+        <DashboardOrb key='critical-orb' status='critical' value={critical} />
+        <DashboardOrb key='warning-orb' status='warning' value={warning} />
+        <DashboardOrb key='healthy-orb' status='healthy' value={healthy} />
       </div>
       <DashboardTable table={table} />
     </ModuleBody>
@@ -77,11 +91,11 @@ const DashboardCard = ({ title, data: { overview, table }, ...rest }) => (
 )
 
 DashboardCard.propTypes = {
-  data: PropTypes.shape({
-    overview: PropTypes.arrayOf(PropTypes.shape(OrbPropType)),
-    table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType))
-  }),
-  title: PropTypes.string
+  critical: PropTypes.number,
+  healthy: PropTypes.number,
+  table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType)),
+  title: PropTypes.string,
+  warning: PropTypes.number,
 }
 
 export default DashboardCard

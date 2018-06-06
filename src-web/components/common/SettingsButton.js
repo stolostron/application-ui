@@ -25,10 +25,6 @@ class TagInput extends React.Component {
     }
   }
 
-  onChange(value) {
-    this.setState({value: value})
-  }
-
   render() {
     return (
       <div className='dashboard-settings'>
@@ -45,7 +41,6 @@ class TagInput extends React.Component {
             min={0}
             max={100}
             hideTextInput
-            onChange={(value) => this.onChange(value)}
           />
         </div>
       </div>

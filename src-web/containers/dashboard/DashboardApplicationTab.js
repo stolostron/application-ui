@@ -18,9 +18,9 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { REQUEST_STATUS } from '../../actions/index'
 import HealthOverview from '../../components/dashboard/HealthOverview'
 import ResourceOverview from '../../components/dashboard/ResourceOverview'
-import TagInput from '../../components/common/TagInput'
-import FilterButton from '../../components/common/FilterButton'
-import SettingsButton from '../../components/common/SettingsButton'
+// import TagInput from '../../components/common/TagInput'
+// import FilterButton from '../../components/common/FilterButton'
+// import SettingsButton from '../../components/common/SettingsButton'
 import config from '../../../lib/shared/config'
 import headerMsgs from '../../../nls/header.properties'
 import PropTypes from 'prop-types'
@@ -71,9 +71,9 @@ class Dashboard extends React.Component {
       <div>
         {fullDashboard && (
           <div className='dashboard-toolbar'>
-            <TagInput />
+            {/* <TagInput />
             <FilterButton />
-            <SettingsButton />
+            <SettingsButton /> */}
           </div>)
         }
         <div className='dashboard-main'>

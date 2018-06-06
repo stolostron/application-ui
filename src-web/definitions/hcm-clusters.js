@@ -67,11 +67,13 @@ export function getExternalLink(item, locale) {
 }
 
 export function getLabels(item) {
-  const labels = lodash.map(item.Labels, (value, key) => {
-    if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
-      return `${key}=${value}`
-  })
-  return lodash.compact(labels).join(',')
+  return <ul>
+    {lodash.map(item.Labels, (value, key) => {
+      if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
+        return <li>{`${key}=${value}`}</li>
+    })
+    }
+  </ul>
 }
 
 export function getStorage(item, locale) {

@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 import lodash from 'lodash'
+import React from 'react'
 import msgs from '../../nls/platform.properties'
 
 export default {
@@ -39,11 +40,13 @@ export default {
   ],
 }
 export function getLabels(item) {
-  const labels = lodash.map(item.PDetails.Labels, (value, key) => {
-    if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
-      return `${key}=${value}`
-  })
-  return lodash.compact(labels).join(',')
+  return <ul>
+    {lodash.map(item.PDetails.Labels, (value, key) => {
+      if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
+        return <li>{`${key}=${value}`}</li>
+    })
+    }
+  </ul>
 }
 
 export function getStatus(item, locale) {

@@ -7,6 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+import React from 'react'
 import lodash from 'lodash'
 
 export default {
@@ -20,6 +21,7 @@ export default {
     {
       msgKey: 'table.header.components',
       resourceKey: 'Components',
+      transformFunction: createListFromArray('Components'),
     },
     {
       msgKey: 'table.header.dependencies',
@@ -28,26 +30,47 @@ export default {
     {
       msgKey: 'table.header.labels',
       resourceKey: 'Labels',
-      transformFunction: getLabels
+      transformFunction: createListFromKeyValue('Labels')
     },
     {
       msgKey: 'table.header.annotations',
       resourceKey: 'Annotations',
-      transformFunction: getAnnotations
+      transformFunction: createListFromKeyValue('Annotations')
     },
   ],
 }
-export function getAnnotations(item) {
-  const annotations = lodash.map(item.Annotations, (value, key) => {
-    return `${key}=${value !== '' ? value : '""'}`
-  })
-  return lodash.compact(annotations).join(', ')
+
+/**
+ * Create an HTML unordered list <ul> from an array of strings
+ *
+ * @param {[String]} items Array of strings
+ */
+export function createListFromArray(dataKey){
+  return function createList(item = {}) {
+    return <ul>
+      {lodash.map(item[dataKey], (value) => {
+        return <li key={value}>{value}</li>
+      })}
+    </ul>
+  }
 }
 
-export function getLabels(item) {
-  const labels = lodash.map(item.Labels, (value, key) => {
-    return `${key}=${value !== '' ? value : '""'}`
-  })
-  return lodash.compact(labels).join(', ')
+/**
+ * Create an HTML unordered list <ul> from an object (key-value)
+ *
+ * @param {} items Object
+ */
+export function createListFromKeyValue(dataKey) {
+  return function createList(item = {}) {
+
+    return <ul>
+      {lodash.map(item[dataKey], (value, key) => {
+        return <li key={key+value}>
+          {`${key}=${value !== '' ? value : '""'}`}
+        </li>
+      })
+      }
+    </ul>
+  }
 }
 

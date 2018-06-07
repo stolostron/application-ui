@@ -64,10 +64,10 @@ if (fullDashboard) {
 
 const DashboardTab = ({ match }) =>
   <Switch>
-    <Route exact path={match.url} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
+    <Route path={`${match.url}/application`} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
     <Route path={`${match.url}/infrastructure`} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
     <Route path={`${match.url}/governance`} render={() => <DashboardApplicationTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
-    <Redirect to={`${match.url}`} />
+    <Redirect to={`${match.url}/application`} />
   </Switch>
 
 export default withRouter(DashboardTab)

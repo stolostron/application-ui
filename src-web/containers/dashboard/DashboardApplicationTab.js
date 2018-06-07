@@ -13,7 +13,7 @@ import Page from '../../components/common/Page'
 import resources from '../../../lib/shared/resources'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { updateSecondaryHeader, fetchResources } from '../../actions/common'
+import { updateSecondaryHeader } from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { REQUEST_STATUS } from '../../actions/index'
 import HealthOverview from '../../components/dashboard/HealthOverview'
@@ -24,19 +24,17 @@ import ResourceOverview from '../../components/dashboard/ResourceOverview'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import PropTypes from 'prop-types'
+import { fetchDashboardResources } from '../../actions/dashboard'
 
 resources(() => {
   require('../../../scss/dashboard.scss')
 })
 
-const TYPES = [
-  RESOURCE_TYPES.HCM_CLUSTERS,
-  RESOURCE_TYPES.HCM_PODS,
-  RESOURCE_TYPES.HCM_RELEASES
-]
+const TYPE = RESOURCE_TYPES.HCM_DASHBOARD
 
 const fullDashboard = (config['featureFlags:fullDashboard'])
-const POLL_INTERVAL = 60000 // 1 min
+const liveUpdates = (config['featureFlags:dashboardLiveUpdates'])
+const updatesPollInterval = (config['featureFlags:dashboardRefreshInterval'])
 
 class Dashboard extends React.Component {
 
@@ -50,8 +48,8 @@ class Dashboard extends React.Component {
     const { tabs, title, extra } = this.props.secondaryHeaderProps
     updateSecondaryHeader(msgs.get(title, this.context.locale), tabs, extra)
 
-    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      var intervalId = setInterval(this.reload.bind(this), POLL_INTERVAL)
+    if (liveUpdates) {
+      var intervalId = setInterval(this.reload.bind(this), updatesPollInterval)
       this.setState({ intervalId: intervalId })
     }
   }
@@ -65,7 +63,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { serverProps } = this.props
+    const { serverProps, healthOverview, resourceOverview } = this.props
 
     return (
       <div>
@@ -79,8 +77,8 @@ class Dashboard extends React.Component {
         <div className='dashboard-main'>
           <Page serverProps={serverProps}>
             <div className='dashboard'>
-              <HealthOverview />
-              <ResourceOverview />
+              <HealthOverview healthData={healthOverview} />
+              <ResourceOverview resourceData={resourceOverview} />
             </div>
           </Page>
         </div>
@@ -89,11 +87,10 @@ class Dashboard extends React.Component {
   }
 
   reload(onMount) {
-    const { fetchResources } = this.props
-    TYPES.forEach(type => {
-      if (onMount || this.props[`status_${type.list}`] === REQUEST_STATUS.DONE)
-        fetchResources(type)
-    })
+    const { fetchDashboardResources } = this.props
+    if (onMount || this.props.status === REQUEST_STATUS.DONE) {
+      fetchDashboardResources(TYPE)
+    }
   }
 }
 
@@ -101,12 +98,21 @@ Dashboard.contextTypes = {
   locale: PropTypes.string
 }
 
-const mapStateToProps = (state) => state
+const mapStateToProps = (state) => {
+  return {
+    error: state[TYPE.list].err,
+    healthOverview: state[TYPE.list].healthOverview,
+    resourceOverview: state[TYPE.list].resourceOverview,
+    status: state[TYPE.list].status,
+  }
+}
+
 
 const mapDispatchToProps = dispatch => {
   return {
     updateSecondaryHeader: (title, tabs, extra) => dispatch(updateSecondaryHeader(title, tabs, undefined, undefined, extra)),
-    fetchResources: resourceType => dispatch(fetchResources(resourceType))
+    fetchDashboardResources: resourceType => dispatch(fetchDashboardResources(resourceType)),
+    // TODO: add dashboard filter container
   }
 }
 

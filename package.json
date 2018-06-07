@@ -48,6 +48,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
     "body-parser": "^1.18.2",
+    "carbon-addons-data-viz-react": "^1.20.3",
     "carbon-components": "^8.18.13",
     "carbon-components-react": "^5.42.1",
     "carbon-icons": "^6.3.2",

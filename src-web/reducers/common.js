@@ -191,6 +191,12 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       page: action.items.length === 0 ? 1 : action.items.length > state.itemsPerPage * (state.page - 1) ? state.page : state.page - 1,
       resourceVersion: action.resourceVersion
     })
+  case Actions.DASHBOARD_RECEIVE_SUCCESS:
+    return Object.assign({}, state, {
+      status: Actions.REQUEST_STATUS.DONE,
+      resourceOverview: action.resourceOverview,
+      healthOverview: action.healthOverview
+    })
   case Actions.RESOURCE_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.ERROR,

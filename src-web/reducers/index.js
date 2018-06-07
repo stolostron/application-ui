@@ -38,6 +38,7 @@ export const HCMNamespaceList = createResourceReducer(resourceReducerFunction, p
 export const HCMPersistentVolumeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PVS))
 export const HCMReleaseList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_RELEASES))
 export const HCMRepositoryList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_REPOSITORIES))
+export const HCMDashboardList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_DASHBOARD))
 
 export { default as catalog } from './catalog'
 export { topology } from './topology'

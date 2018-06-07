@@ -34,12 +34,10 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 1.925rem;
+    justify-content: space-evenly;
 
     > div {
         flex-basis: 33%;
-        &:first-child {
-            margin-left: -.625rem;
-        }
     }
 }
 
@@ -57,28 +55,33 @@
     fill: $color__navy-gray-7;
 }
 
-.dashboard-settings{
+.dashboard-settings {
     position: absolute;
     right: 20px;
     top: 19%;
     display: flex;
 }
 
-.dashboard-settingsButton{
+.dashboard-settings-button {
     padding-top: 10px;
     margin: 0 -70px 0 0;
     fill: $color__navy-gray-7;
 }
 
-.dashboard-slider{
+.dashboard-slider {
     transform: scale(0.5)
 }
 
-.dashboard-toolbar{
+.dashboard-toolbar {
     display: flex;
     padding-bottom: 2rem;
 }
 
-.dashboard-main{
+.dashboard-main {
     margin-top: -2rem;
+}
+
+.dashboard-chart {
+    //margin: 0 auto;
+    text-align: center;
 }

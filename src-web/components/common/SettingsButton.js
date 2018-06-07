@@ -28,7 +28,7 @@ class TagInput extends React.Component {
   render() {
     return (
       <div className='dashboard-settings'>
-        <div className='dashboard-settingsButton'>
+        <div className='dashboard-settings-button'>
           <Icon
             className='icon--settings--glyph'
             name='icon--settings--glyph'

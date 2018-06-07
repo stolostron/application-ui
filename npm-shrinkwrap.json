@@ -3448,6 +3448,19 @@
       "integrity": "sha1-Sm+gc5nCa7pH8LJJa00PtAjFVQ0=",
       "dev": true
     },
+    "carbon-addons-data-viz-react": {
+      "version": "1.20.3",
+      "resolved": "https://registry.npmjs.org/carbon-addons-data-viz-react/-/carbon-addons-data-viz-react-1.20.3.tgz",
+      "integrity": "sha1-vQSul5UNYpo6TexcCi7kCRSiNJQ=",
+      "requires": {
+        "carbon-components": "^8.0.0",
+        "carbon-components-react": "^5.0.0",
+        "carbon-icons": "^6.1.0",
+        "classnames": "^2.2.5",
+        "d3": "^4.10.2",
+        "lodash": "^4.17.5"
+      }
+    },
     "carbon-components": {
       "version": "8.18.14",
       "resolved": "https://registry.npmjs.org/carbon-components/-/carbon-components-8.18.14.tgz",

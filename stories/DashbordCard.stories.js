@@ -10,7 +10,7 @@
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
-import DashboardCard from '../src-web/components/DashboardCard'
+import { DashboardCard } from '../src-web/components/DashboardCard'
 
 
 const criticalCardProps = {

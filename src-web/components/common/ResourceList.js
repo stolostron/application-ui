@@ -19,7 +19,6 @@ import TableHelper from '../../util/table-helper'
 import { Loading, Notification } from 'carbon-components-react'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
-import headerMsgs from '../../../nls/header.properties'
 import config from '../../../lib/shared/config'
 
 class ResourceList extends React.Component {
@@ -35,7 +34,7 @@ class ResourceList extends React.Component {
 
   componentWillMount() {
     const { updateSecondaryHeader, tabs, title } = this.props
-    updateSecondaryHeader(headerMsgs.get(title, this.context.locale), tabs)
+    updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
       this.setState({ intervalId: intervalId })

@@ -19,15 +19,15 @@ const ReactDOMServer = require('react-dom/server'),
       config = require('../../config'),
       cookieUtil = require('../../lib/server/cookie-util'),
       appUtil = require('../../lib/server/app-util'),
-      navUtil = require('../../lib/server/nav-util'),
       Provider = require('react-redux').Provider,
-      router = express.Router({ mergeParams: true })
+      router = express.Router({ mergeParams: true }),
+      lodash = require('lodash'),
+      request = require('../../lib/server/request')
 
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
 
-let App, Login, reducers, nav  //laziy initialize to reduce startup time seen on k8s
-
+let App, Login, reducers  //laziy initialize to reduce startup time seen on k8s
 router.get('/logout', (req, res) => {
   var LOGOUT_API = '/v1/auth/logout'
   var callbackUrl = req.headers['host']
@@ -50,26 +50,63 @@ router.get('*', (req, res) => {
 
   App = App === undefined ? require('../../src-web/containers/App').default : App
   const context = getContext(req)
-  const baseNavRoutes = navUtil.getLeftNavConfig(req, 'hcm-ui', process.env.NODE_ENV === 'development')
-  nav = nav === undefined ? require('../../src-web/actions/nav') : nav
-  store.dispatch(nav.navReceiveSuccess(baseNavRoutes))
-
-  res.render('main', Object.assign({
-    manifest: appUtil.app().locals.manifest,
-    content: ReactDOMServer.renderToString(
-      <Provider store={store}>
-        <StaticRouter
-          location={req.originalUrl}
-          context={context}>
-          <App />
-        </StaticRouter>
-      </Provider>
-    ),
-    contextPath: config.get('contextPath'),
-    state: store.getState(),
-    props: context
-  }, context))
+  fetchHeader(req, res, store, context)
 })
+
+function fetchHeader(req, res, store, context) {
+  var options = {
+    method: 'GET',
+    url: `${config.get('cfcRouterUrl')}/console/api/v1/header`,
+    json: true,
+    qs: {
+      serviceId: 'hcm-ui',
+      dev: process.env.NODE_ENV === 'development',
+      accessUrl: config.get('cfcRouterUrl')
+    },
+    headers: {
+      Cookie: createCookie(req)
+    }
+  }
+  request(options, null, [200], (err, headerRes) => {
+    if (err) {
+      return res.status(500).send(err)
+    }
+
+    const { headerHtml: header, props: propsH, state: stateH, files: filesH } = headerRes.body
+
+    if(process.env.NODE_ENV === 'development') {
+      lodash.forOwn(filesH, value => {
+        value.path = `/hcmconsole/api/proxy${value.path}` //preprend with proxy route
+      })
+    }
+    res.render('main', Object.assign({
+      manifest: appUtil.app().locals.manifest,
+      content: ReactDOMServer.renderToString(
+        <Provider store={store}>
+          <StaticRouter
+            location={req.originalUrl}
+            context={context}>
+            <App />
+          </StaticRouter>
+        </Provider>
+      ),
+      contextPath: config.get('contextPath'),
+      state: store.getState(),
+      props: context,
+      header: header,
+      propsH: propsH,
+      stateH: stateH,
+      filesH: filesH
+    }, context))
+  })
+}
+
+function createCookie(req) {
+  var cookieNames = cookieUtil.getCookieNames()
+  return cookieNames.map(cookieName => {
+    return `${cookieName}=${req.cookies[cookieName]}`
+  }).join('; ')
+}
 
 function getContext(req) {
   const req_context = context(req)

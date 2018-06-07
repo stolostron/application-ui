@@ -79,6 +79,24 @@ app.use('/hcmconsole/graphql', cookieParser(), (req, res, next) => {
   secure: false
 }))
 
+if (process.env.NODE_ENV === 'development') {
+  app.use('/console', cookieParser(), proxy({
+    target: appConfig.get('cfcRouterUrl'),
+    changeOrigin: true,
+    secure: false,
+    ws: true
+  }))
+}
+
+app.use('/hcmconsole/api/proxy', cookieParser(), proxy({
+  target: appConfig.get('cfcRouterUrl'),
+  changeOrigin: true,
+  pathRewrite: {
+    '^/hcmconsole/api/proxy': ''
+  },
+  secure: false
+}))
+
 app.engine('dust', consolidate.dust)
 app.set('env', 'production')
 app.set('views', __dirname + '/views')

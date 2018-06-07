@@ -25,7 +25,6 @@ import ChartsModal from './ClustersChartsModal.js'
 import { updateSecondaryHeader } from '../actions/common'
 import Notification from '../components/common/Notification'
 import msgs from '../../nls/platform.properties'
-import headerMsgs from '../../nls/header.properties'
 import * as Actions from '../actions/catalog'
 import '../../scss/catalog.scss'
 import { mapAndMultiFilterResoucesSelector } from '../shared/filters'
@@ -81,7 +80,7 @@ class Catalog extends React.Component {
 
   componentWillMount() {
     const { updateSecondaryHeader, secondaryHeaderProps } = this.props
-    updateSecondaryHeader(headerMsgs.get(secondaryHeaderProps.title, this.context.locale))
+    updateSecondaryHeader(msgs.get(secondaryHeaderProps.title, this.context.locale))
   }
 
   componentDidMount() {

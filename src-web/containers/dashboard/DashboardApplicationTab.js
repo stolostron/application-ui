@@ -22,7 +22,7 @@ import ResourceOverview from '../../components/dashboard/ResourceOverview'
 // import FilterButton from '../../components/common/FilterButton'
 // import SettingsButton from '../../components/common/SettingsButton'
 import config from '../../../lib/shared/config'
-import headerMsgs from '../../../nls/header.properties'
+import msgs from '../../../nls/platform.properties'
 import PropTypes from 'prop-types'
 
 resources(() => {
@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
   componentWillMount() {
     const { updateSecondaryHeader } = this.props
     const { tabs, title, extra } = this.props.secondaryHeaderProps
-    updateSecondaryHeader(headerMsgs.get(title, this.context.locale), tabs, extra)
+    updateSecondaryHeader(msgs.get(title, this.context.locale), tabs, extra)
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(this.reload.bind(this), POLL_INTERVAL)

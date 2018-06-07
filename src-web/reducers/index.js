@@ -27,7 +27,6 @@ import lodash from 'lodash'
 export { user, loggedIn } from './user'
 export { secondaryHeader } from './common'
 
-export { nav } from './nav'
 export { modal } from './modal'
 
 //the exported function name must match the resourceType value

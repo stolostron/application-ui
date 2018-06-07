@@ -16,7 +16,6 @@ import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
-import HeaderContainer from '../containers/HeaderContainer'
 
 export const Clusters = loadable(() => import(/* webpackChunkName: "clusters" */ './Clusters'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
@@ -34,7 +33,7 @@ class App extends React.Component {
     super(props)
 
     if (client)
-      this.serverProps = JSON.parse(document.getElementById('props').textContent)
+      this.serverProps = JSON.parse(document.getElementById('propshcm').textContent)
   }
 
   getServerProps() {
@@ -49,13 +48,12 @@ class App extends React.Component {
 
     return (
       <div className='expand-vertically'>
-        <HeaderContainer locale={serverProps.context.locale} />
         <SecondaryHeader />
         <Switch>
-          <Route path={`${match.url}/dashboard`} render={() => <DashboardTab serverProps={serverProps} />} />
+          <Route path={`${match.url}/overview`} render={() => <DashboardTab serverProps={serverProps} />} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/clusters`} render={() => <Clusters serverProps={serverProps} />} />
-          <Redirect to={`${config.contextPath}/topology`} />
+          <Redirect to={`${config.contextPath}/overview`} />
         </Switch>
       </div>
     )

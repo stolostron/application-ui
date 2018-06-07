@@ -16,7 +16,6 @@ import { InlineNotification } from 'carbon-components-react'
 import lodash from 'lodash'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { updateSecondaryHeader, fetchResources } from '../actions/common'
-import headerMsgs from '../../nls/header.properties'
 import msgs from '../../nls/platform.properties'
 import * as Actions from '../actions'
 import { updateTopologyFilters } from '../actions/topology'
@@ -32,7 +31,7 @@ class TopologyTab extends React.Component {
   }
 
   componentWillMount() {
-    this.props.updateSecondaryHeader(headerMsgs.get('routes.topology', this.context.locale))
+    this.props.updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
     this.props.fetchResources(RESOURCE_TYPES.HCM_TOPOLOGY, this.props.activeFilters)
   }
 

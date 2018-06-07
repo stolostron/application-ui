@@ -19,10 +19,3 @@ jest.mock('../../../nls/platform.properties', () => ({
     return msgs[key]
   })
 }))
-
-jest.mock('../../../nls/header.properties', () => ({
-  get: jest.fn((key) => {
-    const msgs = require('./header-properties.json')
-    return msgs[key]
-  })
-}))

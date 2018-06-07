@@ -114,7 +114,7 @@ module.exports = {
     }),
     new webpack.DllReferencePlugin({
       context: process.env.STORYBOOK ? path.join(__dirname, '..') : __dirname,
-      manifest: require('./dll/vendor-manifest.json'),
+      manifest: require('./dll/vendorhcm-manifest.json'),
     }),
     new ExtractTextPlugin({
       filename: PRODUCTION ? 'css/[name].[contenthash].css' : 'css/[name].css',

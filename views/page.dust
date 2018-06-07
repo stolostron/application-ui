@@ -14,19 +14,30 @@
     {>meta-tags/}
     <title>{title}</title>
     <link rel='stylesheet' href="{contextPath}/{manifest.common.css}">
+    <link rel='stylesheet' href="{filesH.css.path}">
     {+head/}
 </head>
 
 <body class="bx--global-light-ui" aria-label={title}>
+   <div id="header">
+     {header|s}
+    </div>
     <div id="page" style="height:100%">
         {content|s}
     </div>
     {+body/}
+    <script charset="UTF-8">
+        window.__PRELOADED_STATE__= {stateH|js|s}
+    </script>
     <script id='config' type='application/json'>{config|js|s}</script>
     <script id='context' type='application/json'>{context|js|s}</script>
-    <script id='props' type='application/json'>{props|js|s}</script>
-    <script src="{contextPath}/{manifest.vendor.js}"></script>
+    <script id='propshcm' type='application/json'>{props|js|s}</script>
+    <script src="{contextPath}/{manifest.vendorhcm.js}"></script>
     <script src="{contextPath}/{manifest.common.js}"></script>
+    <script id='props' type='application/json'>{propsH|js|s}</script>
+    <script src="{filesH.nls.path}"></script>
+    <script src="{filesH.dll.path}"></script>
+    <script src="{filesH.js.path}"></script>  
     {+script/}
 </body>
 

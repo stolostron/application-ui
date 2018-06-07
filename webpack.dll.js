@@ -12,7 +12,7 @@ process.env.BABEL_ENV = 'client'
 
 module.exports = {
   entry: {
-    vendor: [
+    'vendorhcm': [
       'carbon-components-react',
       'd3',
       'loadable-components',

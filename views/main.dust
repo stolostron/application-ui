@@ -12,7 +12,6 @@
     <link rel='stylesheet' href="{contextPath}/{manifest.main.css}">
 {/head}
 {<script}
-    <script src="{@properties href="nls/header.properties" locale=context.locale/}"></script>
     <script src="{@properties href="nls/platform.properties" locale=context.locale/}"></script>
     <script charset="UTF-8">
         window.__PRELOADED_STATE__= {state|js|s}

@@ -26,7 +26,7 @@ import Page from '../components/common/Page'
 const Clusters =({ match }) =>
   <Page>
     <Switch>
-      <Route path={`${match.url}/overview`} render={() => <ClustersOverviewTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
+      <Route path={`${match.url}/clusters`} render={() => <ClustersOverviewTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
       <Route path={`${match.url}/applications`} render={() => <ClustersApplicationsTab secondaryHeaderProps={{title: 'routes.clusters.applications'}} />} />
       <Route path={`${match.url}/pods`} render={() => <ClustersPodsTab secondaryHeaderProps={{title: 'routes.clusters.pods'}} />} />
       <Route path={`${match.url}/nodes`} render={() => <ClustersNodesTab secondaryHeaderProps={{title: 'routes.clusters.nodes'}} />} />
@@ -35,7 +35,7 @@ const Clusters =({ match }) =>
       <Route path={`${match.url}/charts`} render={() => <ClustersChartsTab secondaryHeaderProps={{title: 'routes.clusters.charts'}} />} />
       <Route path={`${match.url}/releases`} render={() => <ClustersReleasesTab secondaryHeaderProps={{title: 'routes.clusters.releases'}} />} />
       <Route path={`${match.url}/repositories`} render={() => <ClustersRepositoriesTab secondaryHeaderProps={{title: 'routes.clusters.repositories'}} />} />
-      <Redirect to={`${match.url}/overview`} />
+      <Redirect to={`${match.url}/clusters`} />
     </Switch>
   </Page>
 

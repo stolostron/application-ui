@@ -10,6 +10,9 @@
 import React from 'react'
 
 import { storiesOf } from '@storybook/react'
+import centered from '@storybook/addon-centered'
+import { withInfo } from '@storybook/addon-info'
+
 import { DashboardCard } from '../src-web/components/DashboardCard'
 
 
@@ -97,8 +100,10 @@ const healthyCardProps = {
 }
 
 storiesOf('DashbordCard', module)
-
-  .add('critical', () => (
+  .addDecorator(centered)
+  .add('critical', withInfo(`
+    Card component to be used in the dashboard.
+  `)(() =>
     <DashboardCard  {...criticalCardProps} />
   ))
 

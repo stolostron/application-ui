@@ -23,6 +23,7 @@ when given the full store, returns the desired part (or derivation) of the store
 import { createSelector } from 'reselect'
 import lodash from 'lodash'
 import { normalize } from 'normalizr'
+import ReactDOMServer from 'react-dom/server'
 import { createResourcesSchema } from '../../lib/client/resource-schema'
 import { transform } from '../../lib/client/resource-helper'
 import * as Actions from '../actions'
@@ -75,8 +76,9 @@ const makeGetFilteredItemsSelector = (resourceType) => {
       const searchField = search.toLowerCase().split('=')
       if (!lodash.isEmpty(searchField[1])) {
         const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchField[0].toLowerCase())
-        if (tableKey)
-          return transform(item, tableKey, context.locale).toString().toLowerCase().indexOf(searchField[1].toLowerCase()) !== -1
+        if (tableKey) {
+          return ReactDOMServer.renderToString(transform(item, tableKey, context.locale)).toString().toLowerCase().indexOf(searchField[1].toLowerCase()) !== -1
+        }
       }
 
       // return all results when user types cluster=

@@ -21,6 +21,7 @@ module.exports = {
       'normalizr',
       'prop-types',
       'react-dom',
+      'react-dom/server',
       'react-redux',
       'react-router-dom',
       'react-transition-group',

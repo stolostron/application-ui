@@ -25,6 +25,7 @@ import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import PropTypes from 'prop-types'
 import { fetchDashboardResources } from '../../actions/dashboard'
+import { Loading } from 'carbon-components-react'
 
 resources(() => {
   require('../../../scss/dashboard.scss')
@@ -40,7 +41,9 @@ class Dashboard extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      xhrPoll: false
+    }
   }
 
   componentWillMount() {
@@ -55,7 +58,8 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    this.reload(true)
+    const { fetchDashboardResources } = this.props
+    fetchDashboardResources(TYPE)
   }
 
   componentWillUnmount() {
@@ -63,7 +67,11 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { serverProps, healthOverview, resourceOverview } = this.props
+    const { serverProps, healthOverview, resourceOverview, status } = this.props
+
+    //TODO: xubin add healthOverview checker
+    if (status !== REQUEST_STATUS.DONE && !resourceOverview && !this.state.xhrPoll)
+      return <Loading withOverlay={false} className='content-spinner' />
 
     return (
       <div>
@@ -88,6 +96,7 @@ class Dashboard extends React.Component {
 
   reload(onMount) {
     const { fetchDashboardResources } = this.props
+    this.setState({ xhrPoll: true })
     if (onMount || this.props.status === REQUEST_STATUS.DONE) {
       fetchDashboardResources(TYPE)
     }

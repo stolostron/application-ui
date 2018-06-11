@@ -16,6 +16,7 @@ import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
+import Modal from '../components/common/Modal'
 
 export const Clusters = loadable(() => import(/* webpackChunkName: "clusters" */ './Clusters'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
@@ -55,6 +56,7 @@ class App extends React.Component {
           <Route path={`${match.url}/clusters`} render={() => <Clusters serverProps={serverProps} />} />
           <Redirect to={`${config.contextPath}/overview`} />
         </Switch>
+        <Modal locale={serverProps.context.locale} />
       </div>
     )
   }

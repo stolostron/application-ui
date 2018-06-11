@@ -20,15 +20,22 @@ body {
 .chartmodal--body {
 	min-height: 15rem;
 	overflow-y: visible;
+	padding: 2rem 0;
 
-    .bx--form-item {
-		margin-right: 0;
-		margin-bottom: 0;
+	& > *  {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	.bx--form-item, &__label {
+		display: block;
+		width: 90%;
+		margin: 0 auto;
 	}
 
 
 	&__label {
-		margin-top: 2rem;
+		margin: 2rem auto 0.5rem;
 	}
 }
 

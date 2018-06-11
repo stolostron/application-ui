@@ -29,6 +29,7 @@ class ResourceOverview extends React.Component {
               warning={item.warning}
               healthy={item.healthy}
               table={item.table}
+              percentage={item.percentage}
               title={msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`, locale)}
               key={item.name}
             />)}

@@ -40,7 +40,7 @@ const DashboardTableRow = ({ link, percentage = 0, resourceName, status, ...rest
   <TableRow {...rest}>
     <TableData className='dashboard-status'>
       <img src={`${config.contextPath}/graphics/${status}.svg`} alt='Row Status' />
-      {link ? <a href={link}>{resourceName}</a> : <p>{resourceName}</p> }
+      {link ? <a href={`https://${link}:8443`}>{resourceName}</a> : <p>{resourceName}</p> }
     </TableData>
     <TableData>{`${percentage}%`}</TableData>
   </TableRow>

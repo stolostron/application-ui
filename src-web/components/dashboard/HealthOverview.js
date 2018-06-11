@@ -15,7 +15,7 @@ import DashboardSection from '../common/DashboardSection'
 import msgs from '../../../nls/platform.properties'
 
 const pieChartProps = {
-  data: [['Healthy', 2], ['Warning', 0], ['Critical', 1]],
+  data: [['Healthy', '2'], ['Warning', '0'], ['Critical', '1']],
   radius: 96,
   color: ['#3CC674', '#F46C0F', '#F21A06'],
   id: 'pie-chart',
@@ -23,7 +23,7 @@ const pieChartProps = {
 }
 
 const barGraphProps = {
-  data: [[[14,4,1], '1d'], [[49,10,3], '2d'], [[40,10,2], '3d'], [[23,5,2], '4d'], [[33,5,1], '5d'], [[23,8,2], '6d'], [[45,3,1], '7d']],
+  data: [[['14','4','1'], '7d'], [['49','10','3'], '6d'], [['40','10','2'], '5d'], [['23','5','2'], '4d'], [['33','5','1'], '3d'], [['23','8','2'], '2d'], [['45','3','1'], '1d']],
   margin: {
     top: 30,
     right: 20,

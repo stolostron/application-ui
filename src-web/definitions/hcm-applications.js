@@ -21,11 +21,12 @@ export default {
     {
       msgKey: 'table.header.components',
       resourceKey: 'Components',
-      transformFunction: createListFromArray('Components'),
+      transformFunction: createComponentsAndDependenciesList('Components'),
     },
     {
       msgKey: 'table.header.dependencies',
       resourceKey: 'Dependencies',
+      transformFunction: createComponentsAndDependenciesList('Dependencies'),
     },
     {
       msgKey: 'table.header.labels',
@@ -41,15 +42,18 @@ export default {
 }
 
 /**
- * Create an HTML unordered list <ul> from an array of strings
+ * Create an HTML list from an array of AppNodes.
+ * Used to display components and dependencies of an application.
  *
- * @param {[String]} items Array of strings
  */
-export function createListFromArray(dataKey){
+export function createComponentsAndDependenciesList(dataKey){
   return function createList(item = {}) {
+
     return <ul>
       {lodash.map(item[dataKey], (value) => {
-        return <li key={value}>{value}</li>
+        return <li key={value.Name+value.Cluster}>
+          {`${value.Name}[${value.Cluster}]`}
+        </li>
       })}
     </ul>
   }
@@ -58,7 +62,6 @@ export function createListFromArray(dataKey){
 /**
  * Create an HTML unordered list <ul> from an object (key-value)
  *
- * @param {} items Object
  */
 export function createListFromKeyValue(dataKey) {
   return function createList(item = {}) {

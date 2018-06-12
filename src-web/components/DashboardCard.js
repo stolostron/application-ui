@@ -14,6 +14,8 @@ import config from '../../lib/shared/config'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
 
+const MAX_TABLE_ROWS = 5
+
 resources(() => {
   require('../../scss/dashboard-card.scss')
 })
@@ -36,13 +38,13 @@ const OrbPropType = {
 
 DashboardOrb.propTypes = OrbPropType
 
-const DashboardTableRow = ({ link, percentage = 0, resourceName, status, ...rest }) => (
+const DashboardTableRow = ({ link, percentage, resourceName, status, ...rest }) => (
   <TableRow {...rest}>
     <TableData className='dashboard-status'>
-      <img src={`${config.contextPath}/graphics/${status}.svg`} alt='Row Status' />
+      {status && <img src={`${config.contextPath}/graphics/${status}.svg`} alt='Row Status' />}
       {link ? <a href={`https://${link}:8443`}>{resourceName}</a> : <p>{resourceName}</p> }
     </TableData>
-    <TableData>{`${percentage}%`}</TableData>
+    {percentage != null ? <TableData>{`${percentage}%`}</TableData> : <TableData />}
   </TableRow>
 )
 
@@ -55,16 +57,22 @@ export const TableRowPropType = {
 
 DashboardTableRow.propTypes = TableRowPropType
 
-const DashboardTable = ({ table, ...rest }) => (
-  <Table className='dashboard-table' {...rest}>
-    <TableBody>
-      {table.map((row, ind) => {
-        {/* only show top 5 items*/}
-        return (ind < 5) && <DashboardTableRow even={!(ind % 2)} {...row} key={row.resourceName} />})
-      }
-    </TableBody>
-  </Table>
-)
+const DashboardTable = ({ table, ...rest }) => {
+  const numOfEmptyRow = MAX_TABLE_ROWS - table.length
+  return (
+    <Table className='dashboard-table' {...rest}>
+      <TableBody>
+        {table.map((row, ind) => {
+          {/* only show top 5 items*/}
+          return (ind < 5) && <DashboardTableRow even={!(ind % 2)} {...row} key={row.resourceName} />})
+        }
+        {(numOfEmptyRow > 0) &&  Array.from({length: numOfEmptyRow}, (v, i) => i).map((item) => {
+          return <DashboardTableRow even={!((item+table.length) % 2)} key={`empty-row-${item}`} />})
+        }
+      </TableBody>
+    </Table>
+  )
+}
 
 DashboardTable.propTypes = {
   table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType))

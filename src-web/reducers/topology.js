@@ -54,11 +54,34 @@ export const topology = (state = initialState, action) => {
     }
   }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS: {
+    // The 'clusters' filter is different from other filters.
+    // Here we are building the filter options using the cluster labels. When a filter is
+    // is selected, we have to use the clusters associated with the label (filterValues).
+    const clusterFilters = []
+    action.clusters.forEach(c => {
+      clusterFilters.push({
+        label: `name: ${c.ClusterName}`, //FIXME: NLS. Labels received from the API aren't translated either.
+        filterValues: [c.ClusterName],
+      })
+      Object.keys(c.Labels).forEach(labelKey => {
+        const existingLabel = clusterFilters.find(l => l.label === `${labelKey}: ${c.Labels[labelKey]}`)
+        if(existingLabel) {
+          existingLabel.filterValues.push(c.ClusterName)
+        }
+        else {
+          clusterFilters.push({
+            label: `${labelKey}: ${c.Labels[labelKey]}`,
+            filterValues: [c.ClusterName],
+          })
+        }
+      })
+    })
+
     const filters = {
-      types: action.types.map(i => ({label: i })),
+      clusters: clusterFilters,
       labels: action.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
-      clusters: action.clusters.map(c => ({ label: c.ClusterName })),
       namespaces: lodash.uniqBy(action.namespaces, 'name').map(n => ({ label: n.name})),
+      types: action.types.map(i => ({label: i })),
     }
     return {...state,
       availableFilters: filters,

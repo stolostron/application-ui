@@ -57,16 +57,16 @@ class TopologyFiltersContainer extends React.Component {
 
     const filters = [
       {
+        type: 'cluster',
+        titleKey: 'resource.clusters',
+        availableKey: 'clusters',
+        activeKey: 'cluster'
+      },
+      {
         type: 'namespace',
         titleKey: 'resource.namespaces',
         availableKey: 'namespaces',
         activeKey: 'namespace'
-      },
-      {
-        type: 'label',
-        titleKey: 'resource.labels',
-        availableKey: 'labels',
-        activeKey: 'label'
       },
       {
         type: 'type',
@@ -74,17 +74,15 @@ class TopologyFiltersContainer extends React.Component {
         availableKey: 'types',
         activeKey: 'type'
       },
+      {
+        type: 'label',
+        titleKey: 'resource.labels',
+        availableKey: 'labels',
+        activeKey: 'label'
+      },
     ]
     return (
       <div className='topologyFilters'>
-        {/* TODO: Add filter by cluster
-        availableFilters.clusters.length > 0 && <MultiSelect
-          type='inline'
-          label={msgs.get('resource.cluster', this.context.locale)}
-          items={this.props.availableFilters.clusters}
-          initialSelectedItems={this.props.availableFilters.clusters}
-          onChange={this.handleFilter('cluster')}
-        /> */}
         {filters.map((filter) =>
           <FilterableMultiSelect
             key={Math.random()}

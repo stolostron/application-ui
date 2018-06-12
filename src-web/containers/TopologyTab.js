@@ -78,6 +78,15 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchResources: (resourceType, filters) => {
       const f = lodash.cloneDeep(filters)
+      if (f.cluster){
+        // Each cluster label can be associated with multiple filterValues
+        // This creates a single list of values for the clusters filter.
+        let clusterFilters = []
+        f.cluster.forEach(n => {
+          clusterFilters = lodash.union(clusterFilters, n.filterValues)
+        })
+        f.cluster = clusterFilters
+      }
       if (f.namespace){
         f.namespace = f.namespace.map(n => n.label)
       }

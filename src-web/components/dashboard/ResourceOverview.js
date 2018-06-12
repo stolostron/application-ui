@@ -18,11 +18,11 @@ import { DashboardCard, TableRowPropType } from '../DashboardCard'
 class ResourceOverview extends React.Component {
   render() {
     const { locale } = this.context
-    const { resourceData = [] } = this.props
+    const { cardItems = [] } = this.props
     return (
       <div id='resource-overview'>
         <DashboardSection name={msgs.get('dashboard.section.resource-overview', locale)}>
-          {resourceData.map(item =>
+          {cardItems.map(item =>
             item.name &&
             <DashboardCard
               critical={item.critical}
@@ -44,7 +44,7 @@ DashboardSection.contextTypes = {
 }
 
 ResourceOverview.propTypes = {
-  resourceData: PropTypes.arrayOf(PropTypes.shape({
+  cardItems: PropTypes.arrayOf(PropTypes.shape({
     critical: PropTypes.number,
     healthy: PropTypes.number,
     warning: PropTypes.number,

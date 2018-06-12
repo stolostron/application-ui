@@ -196,8 +196,9 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.DASHBOARD_RECEIVE_SUCCESS:
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.DONE,
-      resourceOverview: action.resourceOverview,
-      healthOverview: action.healthOverview
+      cardItems: action.cardItems,
+      pieChartItems: action.pieChartItems,
+      barChartItems: action.barChartItems
     })
   case Actions.RESOURCE_RECEIVE_FAILURE:
     return Object.assign({}, state, {

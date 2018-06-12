@@ -21,9 +21,9 @@ export const fetchDashboardResources = (resourceType, vars) => {
           return dispatch(receiveResourceError(response.errors[0], resourceType))
         }
         return dispatch(receiveDashboardSuccess({
-          // TODO: add health Overview, get data from GraphQL query
-          healthOverview: response.data.healthOverview,
-          resourceOverview: response.data.dashboard,
+          pieChartItems: response.data.dashboard.pieChartItems,
+          barChartItems: response.data.dashboard.barChartItems,
+          cardItems: response.data.dashboard.cardItems,
         }, resourceType))
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))

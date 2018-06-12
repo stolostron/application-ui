@@ -23,7 +23,7 @@ const DashboardOrb = ({ status = 'healthy', value, className = '', parentStatus 
     <div className="dashboard-orb">
       <div className={`dashboard-orb dashboard-orb__inner dashboard-orb__${status}`}>{value}</div>
     </div>
-    <p className={`dashboard-card-text__${parentStatus}`}>{status == 'warning' ? `${status} (Sample)` : status}</p>
+    <p className={`dashboard-card-text__${parentStatus}`}>{status}</p>
   </div>
 )
 

@@ -67,10 +67,9 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { serverProps, healthOverview, resourceOverview, status } = this.props
+    const { serverProps, cardItems, pieChartItems, barChartItems, status } = this.props
 
-    //TODO: xubin add healthOverview checker
-    if (status !== REQUEST_STATUS.DONE && !resourceOverview && !this.state.xhrPoll)
+    if (status !== REQUEST_STATUS.DONE && !cardItems && !this.state.xhrPoll)
       return <Loading withOverlay={false} className='content-spinner' />
 
     return (
@@ -85,8 +84,8 @@ class Dashboard extends React.Component {
         <div className='dashboard-main'>
           <Page serverProps={serverProps}>
             <div className='dashboard'>
-              <HealthOverview healthData={healthOverview} />
-              <ResourceOverview resourceData={resourceOverview} />
+              <HealthOverview pieChartItems={pieChartItems} barChartItems={barChartItems} />
+              <ResourceOverview cardItems={cardItems} />
             </div>
           </Page>
         </div>
@@ -110,8 +109,9 @@ Dashboard.contextTypes = {
 const mapStateToProps = (state) => {
   return {
     error: state[TYPE.list].err,
-    healthOverview: state[TYPE.list].healthOverview,
-    resourceOverview: state[TYPE.list].resourceOverview,
+    cardItems: state[TYPE.list].cardItems,
+    pieChartItems: state[TYPE.list].pieChartItems,
+    barChartItems: state[TYPE.list].barChartItems,
     status: state[TYPE.list].status,
   }
 }

@@ -71,9 +71,9 @@ export const receiveTopologySuccess = (response, resourceType) => ({
 export const receiveDashboardSuccess = (response, resourceType) => ({
   type: Actions.DASHBOARD_RECEIVE_SUCCESS,
   status: Actions.REQUEST_STATUS.DONE,
-  // TODO: add health Overview
-  // healthOverview: response.healthOverview,
-  resourceOverview: response.resourceOverview,
+  pieChartItems: response.pieChartItems,
+  barChartItems: response.barChartItems,
+  cardItems: response.cardItems,
   resourceType
 })
 

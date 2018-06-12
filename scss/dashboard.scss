@@ -35,6 +35,7 @@
     flex-wrap: wrap;
     margin-bottom: 1.925rem;
     justify-content: space-evenly;
+    margin-top: 2rem;
 
     > div {
         flex-basis: 33%;
@@ -81,7 +82,13 @@
     margin-top: -2rem;
 }
 
-.dashboard-chart {
-    //margin: 0 auto;
+.dashboard-pie-chart {
     text-align: center;
+}
+
+.dashboard-bar-chart {
+    text-align: center;
+    p {
+        margin-top: -1.8rem
+    }
 }

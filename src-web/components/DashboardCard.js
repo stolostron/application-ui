@@ -13,6 +13,7 @@ import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData
 import config from '../../lib/shared/config'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
+import truncate from '../util/truncate-middle'
 
 const MAX_TABLE_ROWS = 5
 
@@ -42,7 +43,7 @@ const DashboardTableRow = ({ link, percentage, resourceName, status, ...rest }) 
   <TableRow {...rest}>
     <TableData className='dashboard-status'>
       {status && <img src={`${config.contextPath}/graphics/${status}.svg`} alt='Row Status' />}
-      {link ? <a href={`https://${link}:8443`}>{resourceName}</a> : <p>{resourceName}</p> }
+      {link ? <a href={`https://${link}:8443`}>{truncate(resourceName, 34)}</a> : <p>{truncate(resourceName, 34)}</p> }
     </TableData>
     {percentage != null ? <TableData>{`${percentage}%`}</TableData> : <TableData />}
   </TableRow>

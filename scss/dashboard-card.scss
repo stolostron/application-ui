@@ -27,6 +27,13 @@ $healthy: #3CC674;
     td {
       color: #000;
     }
+    .bx--module__content p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      display: block;
+      max-width: 15rem;
+    }
   }
 
   &__critical {

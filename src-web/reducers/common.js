@@ -62,6 +62,18 @@ export const INITIAL_STATE = {
   postErrorMsg: ''
 }
 
+/**
+ * Search in a table cell.  Uses the transformed data for the cell.
+ *
+ * @param {*} item - Table row data
+ * @param {*} tableKey - Table column key
+ * @param {*} context - React context
+ * @param {*} searchText - String to match
+ */
+function searchTableCell(item, tableKey, context, searchText){
+  return ReactDOMServer.renderToString(transform(item, tableKey, context.locale)).toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+}
+
 const makeGetFilteredItemsSelector = (resourceType) => {
   return createSelector(
     [getItems, getSearch],
@@ -77,7 +89,7 @@ const makeGetFilteredItemsSelector = (resourceType) => {
       if (!lodash.isEmpty(searchField[1])) {
         const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchField[0].toLowerCase())
         if (tableKey) {
-          return ReactDOMServer.renderToString(transform(item, tableKey, context.locale)).toString().toLowerCase().indexOf(searchField[1].toLowerCase()) !== -1
+          return searchTableCell(item, tableKey, context, searchField[1])
         }
       }
 
@@ -86,7 +98,7 @@ const makeGetFilteredItemsSelector = (resourceType) => {
         return true
 
       // by default, search all fields
-      return tableKeys.find(tableKey => transform(item, tableKey, context.locale).toString().toLowerCase().indexOf(search.toLowerCase()) !== -1)
+      return tableKeys.find(tableKey => searchTableCell(item, tableKey, context, search))
     })
   )
 }

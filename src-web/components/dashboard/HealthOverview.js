@@ -43,34 +43,48 @@ const barGraphProps = {
 }
 
 
+const DashboardPieCharts = ({ pieChartItems = [], locale }) => (
+  pieChartItems.map(item =>
+    item.name &&
+    (<div className='dashboard-pie-chart' key={item.name} >
+      <PieChart data={item.data} id={item.name} {...pieChartProps} />
+      <p>{msgs.get(`dashboard.chart.${lodash.camelCase(item.name)}`, locale)}</p>
+    </div>))
+)
+
+DashboardPieCharts.propTypes = {
+  locale: PropTypes.string,
+  pieChartItems: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    data: PropTypes.array
+  })),
+}
+
+/* TODO: add historical chart */
+const DashboardBarCharts = ({ locale }) => (
+  <div className='dashboard-bar-chart'>
+    <BarGraph{...barGraphProps} />
+    <p>{msgs.get('dashboard.chart.historicBarChart', locale)}</p>
+  </div>
+)
+
+DashboardBarCharts.propTypes = {
+  barChartItems: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    data: PropTypes.array
+  })),
+  locale: PropTypes.string,
+}
+
 
 class HealthOverview extends React.Component {
   render() {
     const { locale } = this.context
-    /* eslint-disable-next-line no-unused-vars */
-    const { pieChartItems = [], barChartItems = [] } = this.props
     return (
       <div id='health-overview'>
         <DashboardSection name={msgs.get('dashboard.section.health-overview', locale)}>
-          {pieChartItems.map(item =>
-            item.name &&
-            (<div className='dashboard-pie-chart' key={item.name} >
-              <PieChart data={item.data} id={item.name} {...pieChartProps} />
-              <p>{msgs.get(`dashboard.chart.${lodash.camelCase(item.name)}`, locale)}</p>
-            </div>))
-          }
-          {/* TODO: add historical chart
-          {barChartItems.map(item =>
-            item.name &&
-            (<div className='dashboard-chart'>
-              <BarGraph data={item.data} id={item.name} {...barGraphProps} />
-              <p>{msgs.get(msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`), locale)}</p>
-            </div>))
-          }*/}
-          <div className='dashboard-bar-chart'>
-            <BarGraph{...barGraphProps} />
-            <p>{msgs.get('dashboard.chart.historicBarChart', locale)}</p>
-          </div>
+          <DashboardPieCharts {...this.props} locale={locale} />
+          <DashboardBarCharts {...this.props} locale={locale} />
         </DashboardSection>
       </div>
     )
@@ -80,17 +94,6 @@ class HealthOverview extends React.Component {
 
 HealthOverview.contextTypes = {
   locale: PropTypes.string
-}
-
-HealthOverview.propTypes = {
-  barChartItems: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    data: PropTypes.array
-  })),
-  pieChartItems: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    data: PropTypes.array
-  })),
 }
 
 export default HealthOverview

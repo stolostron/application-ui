@@ -25,7 +25,7 @@ import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import PropTypes from 'prop-types'
 import { fetchDashboardResources } from '../../actions/dashboard'
-import { Loading } from 'carbon-components-react'
+import { Loading, Notification } from 'carbon-components-react'
 
 resources(() => {
   require('../../../scss/dashboard.scss')
@@ -82,6 +82,13 @@ class Dashboard extends React.Component {
           </div>)
         }
         <div className='dashboard-main'>
+          {(status === REQUEST_STATUS.ERROR) &&
+          <Notification
+            title=''
+            className='dashboard-notification'
+            subtitle={msgs.get('dashboard.error.default', this.context.locale)}
+            kind='error' />
+          }
           <Page serverProps={serverProps}>
             <div className='dashboard'>
               <HealthOverview pieChartItems={pieChartItems} barChartItems={barChartItems} />

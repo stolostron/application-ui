@@ -9,10 +9,14 @@
 'use strict'
 
 import { updateModal } from '../../actions/common'
+import { createDashboard } from '../../actions/applications'
 import lodash from 'lodash'
 
 export const resourceActions = (action, dispatch, resourceType, data) => {
   switch (action) {
+  case 'table.actions.create.dashboard': {
+    return dispatch(createDashboard(data.Name))
+  }
   case 'table.actions.edit': {
     let _data = { ...data }
     delete _data.status

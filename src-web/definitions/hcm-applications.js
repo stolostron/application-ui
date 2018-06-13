@@ -9,6 +9,7 @@
 'use strict'
 import React from 'react'
 import lodash from 'lodash'
+import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'Name',
@@ -31,13 +32,21 @@ export default {
     {
       msgKey: 'table.header.labels',
       resourceKey: 'Labels',
-      transformFunction: createListFromKeyValue('Labels')
+      transformFunction: createLabelsList,
     },
     {
       msgKey: 'table.header.annotations',
       resourceKey: 'Annotations',
-      transformFunction: createListFromKeyValue('Annotations')
+      transformFunction: createAnnotationsList,
     },
+    {
+      msgKey: 'table.header.dashboard',
+      resourceKey: 'Dashboard',
+      transformFunction: createDashboardLink,
+    },
+  ],
+  tableActions: [
+    'table.actions.create.dashboard',
   ],
 }
 
@@ -60,20 +69,40 @@ export function createComponentsAndDependenciesList(dataKey){
 }
 
 /**
- * Create an HTML unordered list <ul> from an object (key-value)
+ * Create an HTML list <ul> containing the application labels.
  *
  */
-export function createListFromKeyValue(dataKey) {
-  return function createList(item = {}) {
-
-    return <ul>
-      {lodash.map(item[dataKey], (value, key) => {
-        return <li key={key+value}>
-          {`${key}=${value !== '' ? value : '""'}`}
-        </li>
-      })
-      }
-    </ul>
-  }
+export function createLabelsList(item = {}) {
+  return <ul>
+    {lodash.map(item['Labels'], (value, key) => {
+      return <li key={key+value}>
+        {`${key}=${value !== '' ? value : '""'}`}
+      </li>
+    })
+    }
+  </ul>
 }
 
+/**
+ * Create an HTML list <ul> containing the application annotations.
+ *
+ */
+export function createAnnotationsList(item = {}) {
+  return <ul>
+    {lodash.map(item['Annotations'], (value, key) => {
+      // Removing the dashboard annotation to avoid duplication because
+      // the dashboard link is shown in a separate column.
+      return key !== 'dashboard' && <li key={key+value}>
+        {`${key}=${value !== '' ? value : '""'}`}
+      </li>
+    })
+    }
+  </ul>
+}
+
+export function createDashboardLink(item = {}, locale){
+  if(item.Dashboard && item.Dashboard !== '')
+    return <a target="_blank" href={item.Dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
+
+  return '-'
+}

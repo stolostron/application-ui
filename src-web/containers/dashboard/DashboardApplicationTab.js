@@ -96,7 +96,7 @@ class Dashboard extends React.Component {
   reload(onMount) {
     const { fetchDashboardResources } = this.props
     this.setState({ xhrPoll: true })
-    if (onMount || this.props.status === REQUEST_STATUS.DONE) {
+    if (onMount || this.props.status === REQUEST_STATUS.DONE || this.props.status === REQUEST_STATUS.ERROR) {
       fetchDashboardResources(TYPE)
     }
   }

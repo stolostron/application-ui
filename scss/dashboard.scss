@@ -84,6 +84,9 @@
 
 .dashboard-pie-chart {
     text-align: center;
+    .bx--graph-container {
+        margin: auto
+    }
 }
 
 .dashboard-bar-chart {

@@ -10,6 +10,12 @@
 import React from 'react'
 import lodash from 'lodash'
 import msgs from '../../nls/platform.properties'
+import config from '../../lib/shared/config'
+import resources from '../../lib/shared/resources'
+
+resources(() => {
+  require('../../scss/table.scss')
+})
 
 export default {
   defaultSortField: 'ClusterName',
@@ -32,6 +38,7 @@ export default {
     {
       msgKey: 'table.header.status',
       resourceKey: 'Status',
+      transformFunction: getStatusIcon
     },
     {
       msgKey: 'table.header.nodes',
@@ -46,18 +53,6 @@ export default {
       msgKey: 'table.header.memory',
       resourceKey: 'TotalMemory',
       transformFunction: getMemory
-    },
-    {
-      msgKey: 'table.header.pods',
-      resourceKey: 'TotalPods',
-    },
-    {
-      msgKey: 'table.header.deployments',
-      resourceKey: 'TotalDeployments',
-    },
-    {
-      msgKey: 'table.header.services',
-      resourceKey: 'TotalServices',
     },
   ],
 }
@@ -74,6 +69,24 @@ export function getLabels(item) {
     })
     }
   </ul>
+}
+
+export function getStatusIcon(item, locale) {
+//  TODO: need talk to UI designer, maybe use carbon icons?
+//  <Icon
+//    className='icon--checkmark--glyph'
+//    name='icon--filter--glyph'/>
+//  <Icon
+//    className='icon--close--glyph'
+//    name='icon--filter--glyph' />
+
+  return (
+    <div className='table-status-row'>
+      <img className='table-status-icon' src={`${config.contextPath}/graphics/${item.Status==='healthy'?item.Status:'critical'}.svg`}
+        alt={msgs.get(`table.cell.status.${item.Status}`, locale)} />
+      <p>{item.Status}</p>
+    </div>
+  )
 }
 
 export function getStorage(item, locale) {

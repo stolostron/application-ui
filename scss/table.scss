@@ -75,3 +75,16 @@
   padding-top: 1rem;
   font-weight: 200;
 }
+
+.table-status-row {
+    display: flex;
+    margin-left: -.5rem;
+    img {
+      height: 1rem;
+      margin-right: 0.4rem;
+    }
+
+    p {
+      text-transform: capitalize;
+    }
+}

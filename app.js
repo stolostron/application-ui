@@ -71,7 +71,7 @@ app.use('/hcmconsole/graphql', cookieParser(), (req, res, next) => {
   req.headers.Authorization = `Bearer ${accessToken}`
   next()
 }, proxy({
-  target: appConfig.get('hcmUiApiUrl') || 'http://localhost:4000/hcmuiapi',
+  target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
   changeOrigin: true,
   pathRewrite: {
     '^/hcmconsole/graphql': '/graphql'

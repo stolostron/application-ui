@@ -1,6 +1,9 @@
-$critical: #F21A06;
-$warning: #F46C0F;
-$healthy: #3CC674;
+@import 'node_modules/carbon-components/scss/globals/scss/_vars';
+
+
+$critical: $support-01;
+$healthy: $support-02;
+$warning: $support-03;
 
 .bx--module.bx--module--single {
   max-width: 26rem;
@@ -17,11 +20,11 @@ $healthy: #3CC674;
     .bx--module__inner {
       background-color: transparent;
       box-shadow: none;
-      color: #fff;
+      color: $color__white;
     }
 
     .bx--module__title, .bx--module__body, .bx--module__header {
-      color: #fff;
+      color: $color__white;
     }
 
     td {
@@ -37,15 +40,15 @@ $healthy: #3CC674;
   }
 
   &__critical {
-    background: linear-gradient(135deg,  #f21804 0%,#eaa391 99%);
+    background: linear-gradient(135deg,  $critical 0%, $color__red-40 40%, $color__red-30 100%);
   }
 
   &__warning {
-    background: linear-gradient(135deg, #ed5a00 0%,#ff7400 41%,#f7d2ad 100%);
+    background: linear-gradient(135deg, $warning 0%, $color__yellow-20 20%, $color__yellow-10 75%);
   }
 
   &__healthy {
-    background-color: #fff;
+    background-color: $color__white;
     color: #000;
 
     .bx--module__title, .bx--module__body, .bx--module__header {
@@ -79,7 +82,7 @@ $innerOrbSize: $orbSize - 0.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: $color__white;
   color: #000;
   @include circle($orbSize);
   padding: 0;
@@ -111,20 +114,29 @@ $innerOrbSize: $orbSize - 0.4rem;
   align-items: center;
   height: 2rem;
   padding: 0.5em 0;
-  img {
-    margin-right: 1em;
+  .table-status-icon {
+    margin-right: 1rem;
     height: 1rem;
+    &__healthy {
+      fill: $healthy
+    }
+    &__critical {
+      fill: $critical
+    }
+    &__warning {
+      fill: $warning
+    }
   }
 }
 
 .dashboard-card-text {
   font-weight: bold;
   &__critical {
-    color: #fff;
+    color: $color__white;
   }
 
   &__warning {
-    color: #fff;
+    color: $color__white;
   }
 
   &__healthy {

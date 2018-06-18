@@ -17,7 +17,7 @@ import msgs from '../../../nls/platform.properties'
 
 const pieChartProps = {
   radius: 96,
-  color: ['#3CC674', '#F46C0F', '#F21A06'],
+  color: ['#5aa700', '#efc100', '#e0182d'],
 }
 
 // https://github.com/carbon-design-system/carbon-addons-data-viz-react/issues/111
@@ -39,7 +39,7 @@ const barGraphProps = {
   xAxisLabel: '',
   id: 'bar-graph-1',
   containerId: 'bar-graph-container',
-  color: ['#3CC674', '#F46C0F', '#F21A06']
+  color: ['#5aa700', '#efc100', '#e0182d'],
 }
 
 

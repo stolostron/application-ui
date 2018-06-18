@@ -9,8 +9,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData } from 'carbon-components-react'
-import config from '../../lib/shared/config'
+import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData, Icon } from 'carbon-components-react'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
 import truncate from '../util/truncate-middle'
@@ -39,15 +38,31 @@ const OrbPropType = {
 
 DashboardOrb.propTypes = OrbPropType
 
-const DashboardTableRow = ({ link, percentage, resourceName, status, ...rest }) => (
-  <TableRow {...rest}>
-    <TableData className='dashboard-status'>
-      {status && <img src={`${config.contextPath}/graphics/${status}.svg`} alt='Row Status' />}
-      {link ? <a href={`https://${link}:8443`}>{truncate(resourceName, 34)}</a> : <p>{truncate(resourceName, 34)}</p> }
-    </TableData>
-    {percentage != null ? <TableData>{`${percentage}%`}</TableData> : <TableData />}
-  </TableRow>
-)
+const DashboardTableRow = ({ link, percentage, resourceName, status, ...rest }) => {
+  let iconName
+  switch (status) {
+  case 'healthy':
+    iconName = 'icon--checkmark--glyph'
+    break
+  case 'warning':
+    iconName = 'icon--warning--glyph'
+    break
+  case 'critical':
+    iconName = 'icon--error--glyph'
+    break
+  }
+  return (
+    <TableRow {...rest}>
+      <TableData className='dashboard-status'>
+        <div className='table-status-icon'>
+          {status && <Icon className={`table-status-icon__${status}`} name={iconName} />}
+        </div>
+        {link ? <a href={`https://${link}:8443`}>{truncate(resourceName, 34)}</a> : <p>{truncate(resourceName, 34)}</p> }
+      </TableData>
+      {percentage != null ? <TableData>{`${percentage}%`}</TableData> : <TableData />}
+    </TableRow>
+  )
+}
 
 export const TableRowPropType = {
   link: PropTypes.string,

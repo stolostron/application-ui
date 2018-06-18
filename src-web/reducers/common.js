@@ -31,6 +31,7 @@ import getResourceDefinitions, * as ResourceDefinitions from '../definitions'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 
+
 export const getItems = (state, props) => getFromState(state,props.storeRoot, 'items')
 export const getItemsPerPage = (state, props) => getFromState(state,props.storeRoot, 'itemsPerPage')
 export const getPage = (state, props) => getFromState(state,props.storeRoot, 'page')
@@ -298,7 +299,15 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return state
   case Actions.DEL_RECEIVE_SUCCESS:
     items = [...state.items]
-    index = lodash.findIndex(items, o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName'))
+    switch (action.resourceType) {
+    case RESOURCE_TYPES.HCM_RELEASES:
+      const targetObject = lodash.get(action, 'resource')
+      index = lodash.findIndex(items, { 'name':targetObject.name, 'cluster':targetObject.cluster })
+      break
+    default:
+      index = lodash.findIndex(items, o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName'))
+      break
+    }
     if(index > -1) {
       items.splice(index, 1)
       return Object.assign({}, state, {

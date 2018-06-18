@@ -43,6 +43,10 @@ const catalog = (state = initialStateCatalog, action) => {
     const { status = !state.catalogFetchLoading } = action.payload
     return { ...state, catalogFetchLoading: status }
   }
+  case Actions.CATALOG_INSTALL_LOADING: {
+    const { status } = action.payload
+    return { ...state, catalogInstallLoading: status }
+  }
   case Actions.CATALOG_INSTALL_FAILURE: {
     const { status } = action.payload
     return { ...state, catalogInstallFailure: status }

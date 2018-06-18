@@ -61,13 +61,14 @@ RemoveResourceModal.propTypes = {
   reqStatus:  PropTypes.string,
 }
 
-const mapStateToProps = state => state.modal
+const mapStateToProps = state =>  {
+  return state.modal
+}
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: () => {
       dispatch(removeResource(ownProps.resourceType, ownProps.data))
-      dispatch(updateModal({open: false, type: 'resource-remove'}))
     },
     handleClose: () => {
       dispatch(clearRequestStatus())

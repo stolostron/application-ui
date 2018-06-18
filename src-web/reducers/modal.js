@@ -34,17 +34,24 @@ export const modal = (state = {}, action) => {
   case Actions.DEL_RECEIVE_SUCCESS: {
     return Object.assign({}, state, {
       reqStatus: Actions.REQUEST_STATUS.DONE,
-      reqCount: state.reqCount - 1
+      reqCount: state.reqCount - 1,
+      open: false
     })
   }
   case Actions.POST_RECEIVE_FAILURE:
   case Actions.PUT_RECEIVE_FAILURE:
   case Actions.DEL_RECEIVE_FAILURE: {
+    let message
+    if (action.err && action.err.error) {
+      message = action.err.error.message
+    } else {
+      message = action.err[0].message
+    }
     return Object.assign({}, state, {
       reqCount: state.reqCount > 0 ? state.reqCount - 1 : 0,
       reqErrCount: state.reqErrCount ? state.reqErrCount + 1 : 1,
       reqStatus: Actions.REQUEST_STATUS.ERROR,
-      reqErrorMsg: action.err && action.err.error && action.err.error.message
+      reqErrorMsg: message
     })
   }
   default:

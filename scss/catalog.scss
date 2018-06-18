@@ -581,9 +581,10 @@ body {
   }
 }
 
-.content-spinner {
+.bx--loading.content-spinner{
+  width: 10.5rem;
+  height: 10.5rem;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 5.25rem);
+  left: calc(50% - 5.25rem);
 }

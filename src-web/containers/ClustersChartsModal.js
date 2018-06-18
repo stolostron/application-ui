@@ -218,8 +218,7 @@ class ChartsModal extends React.PureComponent {
           </div>
         </ModalHeader>
         <ModalBody className='chartmodal--body'>
-          {this.props.catalogInstallLoading &&
-            <Loading withOverlay className='content-spinner' />}
+          { (this.props.catalogInstallLoading) && <Loading />}
           {this.props.catalogInstallValidationFailure &&
             <Notification allowClose type="error" description={msgs.get('catalog.installValidationError')} />}
           <TextInput

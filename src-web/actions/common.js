@@ -10,7 +10,7 @@
 import lodash from 'lodash'
 
 import * as Actions from './index'
-import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import {RESOURCE_TYPES} from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
 
 export const changeTablePage = ({page, pageSize}, resourceType) => ({
@@ -91,7 +91,7 @@ export const modifyResource = (item, resourceType) => ({
 
 export const deleteResource = (item, resourceType) => ({
   type: Actions.RESOURCE_DELETE,
-  resourceType:  item.kind || resourceType,
+  resourceType: item.kind || resourceType,
   item
 })
 
@@ -112,7 +112,7 @@ export const fetchResources = (resourceType, vars) => {
             resources: lodash.cloneDeep(response.data.topology.resources),
             relationships: lodash.cloneDeep(response.data.topology.relationships),
           }, resourceType))
-        return dispatch(receiveResourceSuccess({ items: lodash.cloneDeep(response.data.items)}, resourceType))
+        return dispatch(receiveResourceSuccess({items: lodash.cloneDeep(response.data.items)}, resourceType))
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
@@ -125,8 +125,7 @@ export const removeResource = (resourceType, vars) => async dispatch => {
     if (response.errors) {
       return dispatch(receiveDelError(response.errors, resourceType))
     }
-    // assume every resource will have a 'Name' property
-    dispatch(receiveDelResource(response, resourceType, vars.Name))
+    dispatch(receiveDelResource(response, resourceType, vars))
   } catch (err) {
     return dispatch(receiveDelError(err, resourceType))
   }
@@ -192,12 +191,12 @@ export const delResource = (resourceType) => ({ // TODO: Consider renaming
   resourceType
 })
 
-export const receiveDelResource = (item, resourceType, resourceName) => ({
+export const receiveDelResource = (item, resourceType, resource) => ({
   type: Actions.DEL_RECEIVE_SUCCESS,
   delStatus: Actions.REQUEST_STATUS.DONE,
   resourceType: item.kind || resourceType,
   item,
-  resourceName
+  resource
 })
 
 export const receiveDelError = (err, resourceType) => ({
@@ -221,7 +220,7 @@ export const createResource = (resourceType, variables) => {
   return (dispatch) => {
     dispatch(postResource(resourceType))
 
-    return apolloClient.createResource(resourceType, variables )
+    return apolloClient.createResource(resourceType, variables)
       .then(response => {
         if (response.errors) {
           return dispatch(receivePostError(response.errors[0], resourceType))

@@ -39,21 +39,22 @@ $warning: $support-03;
     }
   }
 
+  background-color: $color__white;
+  color: #000;
+  .bx--module__title, .bx--module__body, .bx--module__header {
+    color: #000!important;
+  }
   &__critical {
-    background: linear-gradient(135deg,  $critical 0%, $color__red-40 40%, $color__red-30 100%);
+    border-left: 6px solid $critical;
   }
 
   &__warning {
-    background: linear-gradient(135deg, $warning 0%, $color__yellow-20 20%, $color__yellow-10 75%);
+    border-left: 6px solid $warning;
   }
 
   &__healthy {
-    background-color: $color__white;
-    color: #000;
+    border-left: 6px solid $healthy;
 
-    .bx--module__title, .bx--module__body, .bx--module__header {
-      color: #000!important;
-    }
   }
 }
 
@@ -131,17 +132,7 @@ $innerOrbSize: $orbSize - 0.4rem;
 
 .dashboard-card-text {
   font-weight: bold;
-  &__critical {
-    color: $color__white;
-  }
-
-  &__warning {
-    color: $color__white;
-  }
-
-  &__healthy {
-    color: #000;
-  }
+  color: #000;
 }
 
 .dashboard-card-separator-text {

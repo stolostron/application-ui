@@ -20,18 +20,17 @@ resources(() => {
   require('../../scss/dashboard-card.scss')
 })
 
-const DashboardOrb = ({ status = 'healthy', value, className = '', parentStatus = 'healthy' }) => (
+const DashboardOrb = ({ status = 'healthy', value, className = '' }) => (
   <div className={`dashboard-count ${className}`}>
     <div className="dashboard-orb">
       <div className={`dashboard-orb dashboard-orb__inner dashboard-orb__${status}`}>{value}</div>
     </div>
-    <p className={`dashboard-card-text__${parentStatus}`}>{status}</p>
+    <p className={'dashboard-card-text'}>{status}</p>
   </div>
 )
 
 const OrbPropType = {
   className: PropTypes.string,
-  parentStatus: PropTypes.string,
   status: PropTypes.oneOf(['critical', 'warning', 'healthy']),
   value: PropTypes.number
 }
@@ -112,11 +111,11 @@ export const DashboardCard = ({ critical = 0, healthy = 0, title, table, warning
       <ModuleHeader>{title}</ModuleHeader>
       <ModuleBody>
         <div className="dashboard-overview">
-          <DashboardOrb key='critical-orb' status='critical' value={critical} parentStatus={cardStatus} />
-          <DashboardOrb key='warning-orb' status='warning' value={warning} parentStatus={cardStatus} />
-          <DashboardOrb key='healthy-orb' status='healthy' value={healthy} parentStatus={cardStatus} />
+          <DashboardOrb key='critical-orb' status='critical' value={critical} />
+          <DashboardOrb key='warning-orb' status='warning' value={warning} />
+          <DashboardOrb key='healthy-orb' status='healthy' value={healthy} />
         </div>
-        <div className={`dashboard-card-separator-text dashboard-card-text__${cardStatus}`}>{msgs.get('dashboard.module.separator')}</div>
+        <div className={'dashboard-card-separator-text dashboard-card-text'}>{msgs.get('dashboard.module.separator')}</div>
         <DashboardTable table={table} />
       </ModuleBody>
     </Module>

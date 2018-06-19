@@ -80,6 +80,7 @@ export function getStatusIcon(item) {
   case 'warning':
     iconName = 'icon--warning--glyph'
     break
+  case 'failed':
   case 'critical':
     iconName = 'icon--error--glyph'
     break
@@ -87,7 +88,7 @@ export function getStatusIcon(item) {
   return (
     <div className='table-status-row'>
       <div className='table-status-icon'>
-        <Icon className={`table-status-icon__${item.Status}`} name={iconName} />
+        {iconName && <Icon className={`table-status-icon__${item.Status}`} name={iconName} /> }
       </div>
       <p>{item.Status}</p>
     </div>

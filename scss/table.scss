@@ -92,6 +92,9 @@
       &__warning {
         fill: $warning
       }
+      &__failed {
+        fill: $critical
+      }
     }
 
     p {

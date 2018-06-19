@@ -9,11 +9,8 @@
 
 const config = require('../../config')
 const ROUTE = {
-  'verify-clusters-list-content': '/clusters',
+  'verify-clusters-list-content': '/clusters/clusters',
   'verify-clusters-pods-list-content': '/clusters/pods',
-  'verify-clusters-nodes-list-content': '/clusters/nodes',
-  'verify-clusters-namespaces-list-content': '/clusters/namespaces',
-  'verify-clusters-pvs-list-content': '/clusters/pvs',
   'verify-clusters-charts-list-content': '/clusters/charts',
   'verify-clusters-releases-list-content': '/clusters/releases',
   'verify-clusters-repositories-list-content': '/clusters/repositories'
@@ -28,25 +25,17 @@ module.exports = {
     loginPage.authenticate()
   },
 
+  'verify-clusters-list-content': (browser) => {
+    verifyResourcePage(browser)
+  },
+
   'verify-clusters-pods-list-content': (browser) => {
     verifyResourcePage(browser)
   },
 
-  'verify-clusters-nodes-list-content': (browser) => {
-    verifyResourcePage(browser)
-  },
-
-  'verify-clusters-namespaces-list-content': (browser) => {
-    verifyResourcePage(browser)
-  },
-
-  'verify-clusters-pvs-list-content': (browser) => {
-    verifyResourcePage(browser)
-  },
-
-  //  'verify-clusters-charts-list-content': (browser) => {
-  //    verifyResourcePage(browser)
-  //  },
+  // 'verify-clusters-charts-list-content': (browser) => {
+  //   verifyResourcePage(browser)
+  // },
 
   'verify-clusters-releases-list-content': (browser) => {
     verifyResourcePage(browser)

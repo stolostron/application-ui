@@ -65,7 +65,7 @@ export function getLabels(item) {
   return <ul>
     {lodash.map(item.Labels, (value, key) => {
       if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
-        return <li key={key+value}>{`${key}=${value}`}</li>
+        return <li key={`${key}=${value}`}>{`${key}=${value}`}</li>
     })
     }
   </ul>

@@ -29,6 +29,7 @@ import * as Actions from '../actions/catalog'
 import '../../scss/catalog.scss'
 import { mapAndMultiFilterResoucesSelector } from '../shared/filters'
 import { withForceCheck } from '../shared/utils'
+import Page from '../components/common/Page'
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
@@ -105,7 +106,7 @@ class Catalog extends React.Component {
     } = this.props
 
     return (
-      <div>
+      <Page>
         {catalogFetchFailure && (
           <NotificationError
             description={msgs.get('catalog.errorfetch', this.context.locale)}
@@ -143,7 +144,7 @@ class Catalog extends React.Component {
             </ResourceWrapper>
           )}
         </CatalogFormWrapper>
-      </div>
+      </Page>
     )
   }
 }

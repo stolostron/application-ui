@@ -18,9 +18,14 @@ import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 
-export const Clusters = loadable(() => import(/* webpackChunkName: "clusters" */ './Clusters'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const DashboardTab = loadable(() => import(/* webpackChunkName: "dashboard" */ './DashboardTab'))
+export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
+export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ClustersApplicationsTab'))
+export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
+export const ChartsTab = loadable(() => import(/* webpackChunkName: "charts" */ './ClustersChartsTab'))
+export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
+export const RepositoriesTab = loadable(() => import(/* webpackChunkName: "repositories" */ './ClustersRepositoriesTab'))
 
 resources(() => {
   require('../../scss/common.scss')
@@ -53,7 +58,12 @@ class App extends React.Component {
         <Switch>
           <Route path={`${match.url}/overview`} render={() => <DashboardTab serverProps={serverProps} />} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
-          <Route path={`${match.url}/clusters`} render={() => <Clusters serverProps={serverProps} />} />
+          <Route path={`${match.url}/clusters/clusters`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
+          <Route path={`${match.url}/clusters/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.clusters.applications'}} />} />
+          <Route path={`${match.url}/clusters/pods`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.clusters.pods'}} />} />
+          <Route path={`${match.url}/clusters/charts`} render={() => <ChartsTab secondaryHeaderProps={{title: 'routes.clusters.charts'}} />} />
+          <Route path={`${match.url}/clusters/releases`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.clusters.releases'}} />} />
+          <Route path={`${match.url}/clusters/repositories`} render={() => <RepositoriesTab secondaryHeaderProps={{title: 'routes.clusters.repositories'}} />} />
           <Redirect to={`${config.contextPath}/overview`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />

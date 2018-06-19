@@ -13,6 +13,7 @@ import ResourceList from './ResourceList'
 import { Route, Switch } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
+import Page from './Page'
 
 /* FIXME: Please fix disabled eslint rules when making changes to this file. */
 /* eslint-disable react/prop-types, react/jsx-no-bind */
@@ -49,14 +50,16 @@ const typedResourcePageWithList = (resourceType, detailsTabs, buttons) => {
 
     render() {
       return (
-        <ResourcePageWithList
-          {...this.props}
-          detailsTabs={detailsTabs}
-          resourceType={resourceType}
-          staticResourceData={staticResourceData}
-          getVisibleResources={getVisibleResources}
-          buttons={buttons}>
-        </ResourcePageWithList>
+        <Page>
+          <ResourcePageWithList
+            {...this.props}
+            detailsTabs={detailsTabs}
+            resourceType={resourceType}
+            staticResourceData={staticResourceData}
+            getVisibleResources={getVisibleResources}
+            buttons={buttons}>
+          </ResourcePageWithList>
+        </Page>
       )
     }
   }

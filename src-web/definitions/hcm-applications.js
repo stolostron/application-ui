@@ -40,6 +40,10 @@ export default {
       transformFunction: createAnnotationsList,
     },
     {
+      msgKey: 'table.header.status',
+      resourceKey: 'Status',
+    },
+    {
       msgKey: 'table.header.dashboard',
       resourceKey: 'Dashboard',
       transformFunction: createDashboardLink,

@@ -34,7 +34,7 @@ export const modal = (state = {}, action) => {
   case Actions.DEL_RECEIVE_SUCCESS: {
     return Object.assign({}, state, {
       reqStatus: Actions.REQUEST_STATUS.DONE,
-      reqCount: state.reqCount - 1,
+      reqCount: state.reqCount > 0 ? state.reqCount - 1 : 0,
       open: false
     })
   }

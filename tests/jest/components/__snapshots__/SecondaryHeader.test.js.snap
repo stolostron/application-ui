@@ -1,0 +1,348 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecondaryHeader component 1 renders as expected 1`] = `
+<div
+  aria-label="hello world secondary"
+  className="secondary-header-wrapper-min"
+  role="region"
+>
+  <div
+    className="secondary-header simple-header"
+  >
+    <h1
+      className="bx--detail-page-header-title"
+    >
+      hello world
+    </h1>
+  </div>
+</div>
+`;
+
+exports[`SecondaryHeader component 2 renders as expected 1`] = `
+<div
+  aria-label="hello world"
+  className="secondary-header-wrapper"
+  role="region"
+>
+  <div
+    className="secondary-header"
+  >
+    <header
+      aria-label="hello world secondary"
+      className="bx--detail-page-header bx--detail-page-header--with-tabs"
+      data-header-active={false}
+      role="banner"
+    >
+      <div
+        className="bx--detail-page-header-content"
+      >
+        <div
+          className="bx--detail-page-header-title-container"
+        >
+          <div
+            className="bx--detail-page-header-icon-container"
+          >
+            <svg
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M0 0h24v24H0z"
+                fill="#D8D8D8"
+                fillRule="evenodd"
+              />
+            </svg>
+          </div>
+          <h1
+            className="bx--detail-page-header-title"
+          >
+            hello world
+          </h1>
+          <div
+            className="bx--detail-page-header-status-container"
+          >
+            <div
+              className="bx--detail-page-header-status-icon"
+              style={
+                Object {
+                  "backgroundColor": undefined,
+                }
+              }
+            />
+             
+            <span
+              className="bx--detail-page-header-status-text"
+            >
+              Running
+            </span>
+          </div>
+        </div>
+        <div>
+          <nav
+            aria-label="hello world undefined"
+            className="bx--tabs"
+            href="#"
+            role="navigation"
+            selected={0}
+          >
+            <div
+              aria-label="listbox"
+              className="bx--tabs-trigger"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="listbox"
+              tabIndex={0}
+            >
+              <a
+                className="bx--tabs-trigger-text"
+                href="#"
+                onClick={[Function]}
+                tabIndex={-1}
+              >
+                Application
+              </a>
+              <svg
+                alt="show menu options"
+                aria-label="show menu options"
+                className={undefined}
+                fill={undefined}
+                fillRule="evenodd"
+                height="5"
+                name="caret--down"
+                role="img"
+                style={undefined}
+                viewBox="0 0 10 5"
+                width="10"
+              >
+                <title>
+                  show menu options
+                </title>
+                <path
+                  d="M10 0L5 5 0 0z"
+                />
+              </svg>
+            </div>
+            <ul
+              className="bx--tabs__nav bx--tabs__nav--hidden"
+              role="tablist"
+            >
+              <li
+                className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+                id="dashboard-application"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+                selected={true}
+                tabIndex={-1}
+              >
+                <a
+                  className="bx--tabs__nav-link"
+                  href="/hcmconsole/dashboard"
+                  role="tab"
+                  tabIndex={0}
+                >
+                  Application
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div
+            className="tab-content"
+            hidden={false}
+            selected={true}
+          />
+        </div>
+      </div>
+      <div
+        className="bx--detail-page-header-menu"
+      />
+    </header>
+  </div>
+</div>
+`;
+
+exports[`SecondaryHeader component 3 renders as expected 1`] = `
+<div
+  aria-label="hello world"
+  className="secondary-header-wrapper"
+  role="region"
+>
+  <div
+    className="secondary-header"
+  >
+    <header
+      aria-label="hello world secondary"
+      className="bx--detail-page-header bx--detail-page-header--with-tabs"
+      data-header-active={false}
+      role="banner"
+    >
+      <div
+        className="bx--detail-page-header-content"
+      >
+        <div
+          className="bx--detail-page-header-title-container"
+        >
+          <div
+            className="bx--detail-page-header-icon-container"
+          >
+            <svg
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M0 0h24v24H0z"
+                fill="#D8D8D8"
+                fillRule="evenodd"
+              />
+            </svg>
+          </div>
+          <h1
+            className="bx--detail-page-header-title"
+          >
+            hello world
+          </h1>
+          <div
+            className="bx--detail-page-header-status-container"
+          >
+            <div
+              className="bx--detail-page-header-status-icon"
+              style={
+                Object {
+                  "backgroundColor": undefined,
+                }
+              }
+            />
+             
+            <span
+              className="bx--detail-page-header-status-text"
+            >
+              Running
+            </span>
+          </div>
+        </div>
+        <div>
+          <nav
+            aria-label="hello world undefined"
+            className="bx--tabs"
+            href="#"
+            role="navigation"
+            selected={1}
+          >
+            <div
+              aria-label="listbox"
+              className="bx--tabs-trigger"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="listbox"
+              tabIndex={0}
+            >
+              <a
+                className="bx--tabs-trigger-text"
+                href="#"
+                onClick={[Function]}
+                tabIndex={-1}
+              >
+                provide a label
+              </a>
+              <svg
+                alt="show menu options"
+                aria-label="show menu options"
+                className={undefined}
+                fill={undefined}
+                fillRule="evenodd"
+                height="5"
+                name="caret--down"
+                role="img"
+                style={undefined}
+                viewBox="0 0 10 5"
+                width="10"
+              >
+                <title>
+                  show menu options
+                </title>
+                <path
+                  d="M10 0L5 5 0 0z"
+                />
+              </svg>
+            </div>
+            <ul
+              className="bx--tabs__nav bx--tabs__nav--hidden"
+              role="tablist"
+            >
+              <li
+                className="bx--tabs__nav-item"
+                id="logs-tab"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+                selected={false}
+                tabIndex={-1}
+              >
+                <a
+                  className="bx--tabs__nav-link"
+                  href="/hcmconsole/dashboard"
+                  role="tab"
+                  tabIndex={0}
+                >
+                  Application
+                </a>
+              </li>
+              <li
+                className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+                id="logs-tab"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="presentation"
+                selected={true}
+                tabIndex={-1}
+              >
+                <a
+                  className="bx--tabs__nav-link"
+                  href="/hello"
+                  role="tab"
+                  tabIndex={0}
+                >
+                  provide a label
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div
+            className="tab-content"
+            hidden={true}
+            selected={false}
+          />
+          <div
+            className="tab-content"
+            hidden={false}
+            selected={true}
+          />
+        </div>
+      </div>
+      <div
+        className="bx--detail-page-header-menu"
+      />
+    </header>
+  </div>
+</div>
+`;
+
+exports[`SecondaryHeader component 4 renders as expected 1`] = `
+<div
+  aria-label="hello world secondary"
+  className="secondary-header-wrapper-min"
+  role="region"
+>
+  <div
+    className="secondary-header simple-header"
+  >
+    <h1
+      className="bx--detail-page-header-title"
+    >
+      hello world
+    </h1>
+  </div>
+</div>
+`;

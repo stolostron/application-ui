@@ -1,0 +1,827 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardCard component 1 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single dashboard-card dashboard-card__critical"
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test
+      </h1>
+    </div>
+    <div
+      className="bx--module__content"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+            >
+              1
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            critical
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+            >
+              1
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            warning
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+            >
+              1
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            healthy
+          </p>
+        </div>
+      </div>
+      <div
+        className="dashboard-card-separator-text dashboard-card-text"
+      >
+        TOP 5
+      </div>
+      <div
+        className="bx--responsive-table-container"
+      >
+        <table
+          className="dashboard-table bx--responsive-table"
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "borderSpacing": 0,
+            }
+          }
+        >
+          <tbody
+            className="bx--table-body"
+          >
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                >
+                  <svg
+                    alt="Provide a description that will be used as the title"
+                    aria-label="Provide a description that will be used as the title"
+                    className="table-status-icon__critical"
+                    fill={undefined}
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--error--glyph"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide a description that will be used as the title
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z"
+                    />
+                  </svg>
+                </div>
+                <a
+                  href="https://1.1.1.1:8443"
+                >
+                  auth-idp-platfor...-cert-gen-h2rt4
+                </a>
+              </td>
+              <td
+                className=""
+              >
+                0%
+              </td>
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                >
+                  <svg
+                    alt="Provide a description that will be used as the title"
+                    aria-label="Provide a description that will be used as the title"
+                    className="table-status-icon__warning"
+                    fill={undefined}
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--warning--glyph"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide a description that will be used as the title
+                    </title>
+                    <path
+                      d="M8 1L0 15h16L8 1zm-.8 5h1.5v1.4L8.3 11h-.8l-.4-3.6V6h.1zm.8 8c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"
+                    />
+                  </svg>
+                </div>
+                <p>
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </p>
+              </td>
+              <td
+                className=""
+              >
+                0%
+              </td>
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                >
+                  <svg
+                    alt="Provide a description that will be used as the title"
+                    aria-label="Provide a description that will be used as the title"
+                    className="table-status-icon__healthy"
+                    fill={undefined}
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--checkmark--glyph"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide a description that will be used as the title
+                    </title>
+                    <path
+                      d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM6.7 11.5L3.4 8.1l1.4-1.4 1.9 1.9 4.1-4.1 1.4 1.4-5.5 5.6z"
+                    />
+                  </svg>
+                </div>
+                <p>
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </p>
+              </td>
+              <td
+                className=""
+              >
+                0%
+              </td>
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DashboardCard component 2 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single dashboard-card dashboard-card__warning"
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test 2
+      </h1>
+    </div>
+    <div
+      className="bx--module__content"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            critical
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+            >
+              1
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            warning
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            healthy
+          </p>
+        </div>
+      </div>
+      <div
+        className="dashboard-card-separator-text dashboard-card-text"
+      >
+        TOP 5
+      </div>
+      <div
+        className="bx--responsive-table-container"
+      >
+        <table
+          className="dashboard-table bx--responsive-table"
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "borderSpacing": 0,
+            }
+          }
+        >
+          <tbody
+            className="bx--table-body"
+          >
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                >
+                  <svg
+                    alt="Provide a description that will be used as the title"
+                    aria-label="Provide a description that will be used as the title"
+                    className="table-status-icon__warning"
+                    fill={undefined}
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--warning--glyph"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      Provide a description that will be used as the title
+                    </title>
+                    <path
+                      d="M8 1L0 15h16L8 1zm-.8 5h1.5v1.4L8.3 11h-.8l-.4-3.6V6h.1zm.8 8c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"
+                    />
+                  </svg>
+                </div>
+                <p>
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </p>
+              </td>
+              <td
+                className=""
+              >
+                0%
+              </td>
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DashboardCard component 3 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single dashboard-card dashboard-card__healthy"
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test 3
+      </h1>
+    </div>
+    <div
+      className="bx--module__content"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            critical
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            warning
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+            >
+              1
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            healthy
+          </p>
+        </div>
+      </div>
+      <div
+        className="dashboard-card-separator-text dashboard-card-text"
+      >
+        TOP 5
+      </div>
+      <div
+        className="bx--responsive-table-container"
+      >
+        <table
+          className="dashboard-table bx--responsive-table"
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "borderSpacing": 0,
+            }
+          }
+        >
+          <tbody
+            className="bx--table-body"
+          >
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p>
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </p>
+              </td>
+              <td
+                className=""
+              >
+                0%
+              </td>
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DashboardCard component 4 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single dashboard-card dashboard-card__healthy"
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test 4
+      </h1>
+    </div>
+    <div
+      className="bx--module__content"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            critical
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            warning
+          </p>
+        </div>
+        <div
+          className="dashboard-count "
+        >
+          <div
+            className="dashboard-orb"
+          >
+            <div
+              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+            >
+              0
+            </div>
+          </div>
+          <p
+            className="dashboard-card-text"
+          >
+            healthy
+          </p>
+        </div>
+      </div>
+      <div
+        className="dashboard-card-separator-text dashboard-card-text"
+      >
+        TOP 5
+      </div>
+      <div
+        className="bx--responsive-table-container"
+      >
+        <table
+          className="dashboard-table bx--responsive-table"
+          style={
+            Object {
+              "borderCollapse": "collapse",
+              "borderSpacing": 0,
+            }
+          }
+        >
+          <tbody
+            className="bx--table-body"
+          >
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row bx--parent-row--even"
+            >
+              <td
+                className="dashboard-status"
+              >
+                <div
+                  className="table-status-icon"
+                />
+                <p />
+              </td>
+              <td
+                className=""
+              />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+`;

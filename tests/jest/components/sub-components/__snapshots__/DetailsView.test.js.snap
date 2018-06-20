@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DetailsView component 1 renders as expected 1`] = `
+<section
+  className="topologyDetails test"
+>
+  <h3
+    className="detailsHeader"
+  >
+    <svg
+      height="48px"
+      viewBox="0 0 48 48"
+      width="48px"
+    >
+      <circle
+        className="test detailsIcon"
+        cx="24"
+        cy="24"
+        r="20"
+      />
+      <circle
+        className="test"
+        cx="24"
+        cy="24"
+        r="4"
+      />
+    </svg>
+    <span
+      className="titleText"
+    >
+      test
+    </span>
+    <svg
+      alt="Close topology details view"
+      aria-label="Close topology details view"
+      className="closeIcon"
+      fill={undefined}
+      fillRule="evenodd"
+      height="10"
+      name="icon--close"
+      onClick={[MockFunction]}
+      role="img"
+      style={undefined}
+      viewBox="0 0 10 10"
+      width="10"
+    >
+      <title>
+        Close topology details view
+      </title>
+      <path
+        d="M9.8 8.6L8.4 10 5 6.4 1.4 10 0 8.6 3.6 5 .1 1.4 1.5 0 5 3.6 8.6 0 10 1.4 6.4 5z"
+      />
+    </svg>
+  </h3>
+  <hr />
+  <div
+    className="sectionContent"
+  >
+    <span
+      className="label"
+    >
+      : 
+    </span>
+    <span
+      className="value"
+    >
+      value
+    </span>
+  </div>
+</section>
+`;

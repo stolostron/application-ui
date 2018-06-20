@@ -37,7 +37,7 @@ const fullDashboard = (config['featureFlags:fullDashboard'])
 const liveUpdates = (config['featureFlags:dashboardLiveUpdates'])
 const updatesPollInterval = (config['featureFlags:dashboardRefreshInterval'])
 
-class Dashboard extends React.Component {
+export class Dashboard extends React.Component {
 
   constructor(props) {
     super(props)

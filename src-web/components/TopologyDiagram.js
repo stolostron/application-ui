@@ -18,6 +18,7 @@ import LayoutHelper from './topology/layoutHelper'
 import LinkHelper from './topology/linkHelper'
 import NodeHelper from './topology/nodeHelper'
 import SimulationHelper from './topology/simulationHelper'
+import lodash from 'lodash'
 
 
 resources(() => {
@@ -167,8 +168,11 @@ class TopologyDiagram extends React.Component {
     }
 
     componentDidMount(){
-      const ownerElement = this.containerRef.attributes.class && this.containerRef.attributes.class.ownerElement
+      const ownerElement = lodash.get(this, 'containerRef.attributes.class.ownerElement') ?
+        lodash.get(this, 'containerRef.attributes.class.ownerElement') :
+        {clientHeight: 500, clientWidth: 1200}
       const { clientHeight: height, clientWidth: width } = ownerElement
+
 
       const svg = d3.select('svg.topologyDiagram')
 
@@ -183,7 +187,9 @@ class TopologyDiagram extends React.Component {
     }
 
     componentDidUpdate(){
-      const ownerElement = this.containerRef.attributes.class && this.containerRef.attributes.class.ownerElement
+      const ownerElement = lodash.get(this, 'containerRef.attributes.class.ownerElement') ?
+        lodash.get(this, 'containerRef.attributes.class.ownerElement') :
+        {clientHeight: 500, clientWidth: 1200}
       this.generateDiagram(ownerElement.clientHeight, ownerElement.clientWidth)
     }
 }

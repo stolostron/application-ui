@@ -15,14 +15,15 @@ import { Modal, Loading, Notification } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withRouter } from 'react-router-dom'
 import { REQUEST_STATUS } from '../../actions/index'
-import { removeResource, clearRequestStatus, receiveDelError, updateModal } from '../../actions/common'
+import { clearRequestStatus, updateModal } from '../../actions/common'
+import { undeployApplication } from '../../actions/applications'
 
-const RemoveResourceModal = ({ data: { name, Name }, handleClose, handleSubmit, label, locale, open, reqErrorMsg, reqStatus }) =>
+const UndeployApplicationModal = ({ data: { Name }, handleClose, handleSubmit, label, locale, open, reqErrorMsg, reqStatus }) =>
   <div>
     {reqStatus === REQUEST_STATUS.IN_PROGRESS && <Loading />}
     <Modal
       danger
-      id='remove-resource-modal'
+      id='undeploy-application-modal'
       open={open}
       primaryButtonText={msgs.get(label.primaryBtn, locale)}
       secondaryButtonText={msgs.get('modal.button.cancel', locale)}
@@ -40,14 +41,14 @@ const RemoveResourceModal = ({ data: { name, Name }, handleClose, handleSubmit, 
             subtitle={reqErrorMsg} />}
       </div>
       <p>
-        {msgs.get('modal.remove.confirm', [name || Name], locale)}
+        {msgs.get('modal.undeploy-hcmapplication.confirm', [Name], locale)}
       </p>
     </Modal>
   </div>
 
-RemoveResourceModal.propTypes = {
+UndeployApplicationModal.propTypes = {
   data: PropTypes.shape({
-    name: PropTypes.string
+    Name: PropTypes.string
   }),
   handleClose: PropTypes.func,
   handleSubmit: PropTypes.func,
@@ -61,23 +62,20 @@ RemoveResourceModal.propTypes = {
   reqStatus:  PropTypes.string,
 }
 
-const mapStateToProps = state =>  {
-  return state.modal
-}
+const mapStateToProps = state => state.modal
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: () => {
-      dispatch(removeResource(ownProps.resourceType, ownProps.data))
+      dispatch(undeployApplication(ownProps.data.Name)).then(() =>{
+        dispatch(updateModal({open: false, type: 'undeploy-application'}))
+      })
     },
     handleClose: () => {
       dispatch(clearRequestStatus())
-      dispatch(updateModal({open: false, type: 'resource-remove'}))
+      dispatch(updateModal({open: false, type: 'undeploy-application'}))
     },
-    receiveDelError: (resourceType, err) => {
-      dispatch(receiveDelError(err, resourceType))
-    }
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RemoveResourceModal))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UndeployApplicationModal))

@@ -61,6 +61,8 @@ class ResourceList extends React.Component {
     const {
       items,
       itemIds,
+      mutateStatus,
+      mutateErrorMsg,
       page,
       pageSize,
       sortDirection,
@@ -105,25 +107,33 @@ class ResourceList extends React.Component {
         return null
       return React.cloneElement(action, { resourceType })
     })
-    if (items || searchValue)
-      return <ResourceTable
-        actions={actions}
-        staticResourceData={staticResourceData}
-        page={page}
-        pageSize={pageSize}
-        itemIds={itemIds}
-        sortDirection={sortDirection}
-        sortColumn={sortColumn}
-        status={status}
-        items={items}
-        totalFilteredItems={totalFilteredItems}
-        resourceType={resourceType}
-        changeTablePage={changeTablePage}
-        handleSort={TableHelper.handleSort.bind(this, sortDirection, sortColumn, sortTable)}
-        handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
-        searchValue={searchValue}
-        tableActions={staticResourceData.tableActions} />
-
+    if (items || searchValue) {
+      return <div>
+        { mutateStatus === REQUEST_STATUS.ERROR &&
+          <Notification
+            title=''
+            subtitle={mutateErrorMsg}
+            kind='error' />
+        }
+        <ResourceTable
+          actions={actions}
+          staticResourceData={staticResourceData}
+          page={page}
+          pageSize={pageSize}
+          itemIds={itemIds}
+          sortDirection={sortDirection}
+          sortColumn={sortColumn}
+          status={status}
+          items={items}
+          totalFilteredItems={totalFilteredItems}
+          resourceType={resourceType}
+          changeTablePage={changeTablePage}
+          handleSort={TableHelper.handleSort.bind(this, sortDirection, sortColumn, sortTable)}
+          handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
+          searchValue={searchValue}
+          tableActions={staticResourceData.tableActions} />
+      </div>
+    }
     const resourceName = msgs.get('no-resource.' + resourceType.name.toLowerCase(), locale)
     return (
       <NoResource
@@ -162,6 +172,8 @@ const mapStateToProps = (state, ownProps) => {
     sortColumn: state[typeListName].sortColumn,
     searchValue: state[typeListName].search,
     err: state[typeListName].err,
+    mutateStatus: state[typeListName].mutateStatus,
+    mutateErrorMsg: state[typeListName].mutateErrorMsg,
   }
 }
 

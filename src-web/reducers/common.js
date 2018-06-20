@@ -256,6 +256,8 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.CLEAR_REQUEST_STATUS:
     return Object.assign({}, state, {
+      mutateStatus: undefined,
+      mutateErrorMsg: undefined,
       postStatus: undefined,
       postStatusCode: undefined,
       postErrorMsg: undefined,
@@ -286,6 +288,19 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     index > -1 ? items.splice(index, 1, action.item) : items.push(action.item)
     return Object.assign({}, state, {
       items: items
+    })
+  case Actions.RESOURCE_MUTATE:
+    return Object.assign({}, state, {
+      mutateStatus: Actions.REQUEST_STATUS.IN_PROGRESS
+    })
+  case Actions.RESOURCE_MUTATE_FAILURE:
+    return Object.assign({}, state, {
+      mutateStatus: Actions.REQUEST_STATUS.ERROR,
+      mutateErrorMsg: action.err.error && action.err.error.data && action.err.error.data.Message
+    })
+  case Actions.RESOURCE_MUTATE_SUCCESS:
+    return Object.assign({}, state, {
+      mutateStatus: Actions.REQUEST_STATUS.DONE
     })
   case Actions.RESOURCE_DELETE:
     items = [...state.items]

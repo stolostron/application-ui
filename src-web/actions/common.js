@@ -95,6 +95,26 @@ export const deleteResource = (item, resourceType) => ({
   item
 })
 
+export const mutateResource = (resourceType, resourceName) => ({
+  type: Actions.RESOURCE_MUTATE,
+  resourceName,
+  resourceType,
+})
+
+export const mutateResourceSuccess = (resourceType, resourceName) => ({
+  type: Actions.RESOURCE_MUTATE_SUCCESS,
+  resourceName,
+  resourceType,
+})
+
+export const mutateResourceFailure = (resourceType, error) => ({
+  type: Actions.RESOURCE_MUTATE_FAILURE,
+  postStatus: Actions.REQUEST_STATUS.ERROR,
+  err: { error },
+  resourceType,
+})
+
+
 export const fetchResources = (resourceType, vars) => {
   return (dispatch) => {
     dispatch(requestResource(resourceType))

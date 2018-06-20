@@ -19,9 +19,16 @@ import { transform } from '../../../lib/client/resource-helper'
 import { resourceActions } from './ResourceTableRowMenuItemActions'
 import lodash from 'lodash'
 
+const deleteActions = [
+  'table.actions.applications.undeploy',
+  'table.actions.remove',
+  'table.actions.delete'
+]
 class ResourceTableRow extends React.PureComponent {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
-  /* eslint-disable react/prop-types, react/jsx-no-bind, react/no-array-index-key */
+  /* eslint-disable react/prop-types */
+
+  getOverflowMenuHandler = (action, resource) => () => this.props.getResourceAction(action, resource)
 
   render() {
     const {
@@ -33,8 +40,8 @@ class ResourceTableRow extends React.PureComponent {
     const { locale } = this.context
     return (
       <TableRow even={even} data-row-name={lodash.get(resource, lodash.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
-        {staticResourceData.tableKeys.map((key, index) =>
-          <TableData key={`${key.resourceKey}-${index}`}>
+        {staticResourceData.tableKeys.map((key) =>
+          <TableData key={key.resourceKey}>
             {key.link ?
               <a href={getLink(key.link, resource)}>{transform(resource, key, locale)}</a> :
               transform(resource, key, locale)
@@ -44,9 +51,14 @@ class ResourceTableRow extends React.PureComponent {
         {tableActions && tableActions.length > 0 &&
           <TableData>
             <OverflowMenu flipped={true} iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
-              {tableActions.map((action, index) =>
-                /* eslint-disable-next-line react/no-array-index-key */
-                <OverflowMenuItem data-table-action={action} isDelete={action ==='table.actions.remove' || action ==='table.actions.delete'} onClick={() => this.props.getResourceAction(action, resource)} key={`${action}-${index}`} itemText={msgs.get(action, locale)} />)}
+              {tableActions.map((action) =>
+                <OverflowMenuItem
+                  data-table-action={action}
+                  isDelete={deleteActions.indexOf(action) > -1}
+                  onClick={this.getOverflowMenuHandler(action, resource)}
+                  key={action}
+                  itemText={msgs.get(action, locale)}
+                />)}
             </OverflowMenu>
           </TableData>
         }

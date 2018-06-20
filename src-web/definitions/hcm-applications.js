@@ -46,7 +46,10 @@ export default {
     },
   ],
   tableActions: [
-    'table.actions.create.dashboard',
+    'table.actions.applications.dashboard',
+    'table.actions.applications.deploy',
+    'table.actions.applications.undeploy',
+    'table.actions.remove',
   ],
 }
 

@@ -42,6 +42,20 @@ export const deployApplication = (appName) => {
   }
 }
 
+export const registerApplication = (yaml) => {
+  return (dispatch) => {
+    dispatch(mutateResource(RESOURCE_TYPES.HCM_APPLICATIONS))
+    return apolloClient.registerApplication(yaml)
+      .then(result => {
+        if (result.errors && result.errors.length > 0){
+          dispatch(mutateResourceFailure(RESOURCE_TYPES.HCM_APPLICATIONS, result.errors[0]))
+        } else {
+          dispatch(mutateResourceSuccess(RESOURCE_TYPES.HCM_APPLICATIONS))
+        }
+        return result
+      })
+  }
+}
 
 export const undeployApplication = (appName) => {
   return (dispatch) => {

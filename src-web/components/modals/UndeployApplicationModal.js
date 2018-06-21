@@ -67,9 +67,8 @@ const mapStateToProps = state => state.modal
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     handleSubmit: () => {
-      dispatch(undeployApplication(ownProps.data.Name)).then(() =>{
-        dispatch(updateModal({open: false, type: 'undeploy-application'}))
-      })
+      dispatch(undeployApplication(ownProps.data.Name))
+      dispatch(updateModal({open: false, type: 'undeploy-application'}))
     },
     handleClose: () => {
       dispatch(clearRequestStatus())

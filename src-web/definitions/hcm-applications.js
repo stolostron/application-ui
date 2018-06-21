@@ -97,9 +97,9 @@ export function createLabelsList(item = {}) {
 export function createAnnotationsList(item = {}) {
   return <ul>
     {lodash.map(item['Annotations'], (value, key) => {
-      // Removing the dashboard annotation to avoid duplication because
-      // the dashboard link is shown in a separate column.
-      return key !== 'dashboard' && <li key={key+value}>
+      // Removing 'dashboard' and 'status' annotations to avoid duplication
+      // because these are shown in a separate column.
+      return key !== 'dashboard' && key !== 'status' && <li key={key+value}>
         {`${key}=${value !== '' ? value : '""'}`}
       </li>
     })

@@ -8,8 +8,12 @@
  *******************************************************************************/
 'use strict'
 
+import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithList } from '../components/common/ResourcePage'
+import RegisterApplicationModal from '../components/modals/RegisterApplicationModal'
 
-export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_APPLICATIONS))
+const registerApplication = <RegisterApplicationModal key='registerApplicationModal' />
+
+export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_APPLICATIONS, null, [registerApplication]))

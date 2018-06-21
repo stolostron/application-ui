@@ -49,7 +49,7 @@ export const topology = (state = initialState, action) => {
   }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_ERROR: {
     return {...state,
-      status: Actions.REQUEST_STATUS.ERROR,
+      filtersStatus: Actions.REQUEST_STATUS.ERROR,
       err: action.err,
     }
   }

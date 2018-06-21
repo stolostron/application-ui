@@ -126,6 +126,11 @@ body {
 
   .bx--multi-select.bx--combo-box input[role='combobox'] {
     cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+
     &:focus {
       padding: 5px;
       border-color: $color__blue-51;

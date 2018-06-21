@@ -13,6 +13,7 @@ import { shallow, mount } from 'enzyme'
 import renderer from 'react-test-renderer'
 
 import TopologyDiagram from '../../../src-web/components/TopologyDiagram'
+import * as Actions from '../../../src-web/actions'
 
 describe('TopologyDiagram component 1', () => {
   const mockData = {
@@ -93,6 +94,7 @@ describe('TopologyDiagram component 2', () => {
         links={mockData.links}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
         selectedNodeId={mockData.selectedNodeId}
+        status={Actions.REQUEST_STATUS.DONE}
       />
     )
     expect(component).toMatchSnapshot()
@@ -109,6 +111,7 @@ describe('TopologyDiagram component 3', () => {
         links={mockData.links}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
         selectedNodeId={mockData.selectedNodeId}
+        status={Actions.REQUEST_STATUS.DONE}
       />
     )
     //zoom in / zoom out button

@@ -43,6 +43,7 @@ class TopologyFiltersContainer extends React.Component {
       namespaces: PropTypes.arrayOf(filterItemShape),
       types: PropTypes.arrayOf(filterItemShape),
     }),
+    failure: PropTypes.bool,
     fetchFilters: PropTypes.func,
     fetching: PropTypes.bool,
     onSelectedFilterChange: PropTypes.func,
@@ -53,7 +54,7 @@ class TopologyFiltersContainer extends React.Component {
   }
 
   render() {
-    const { activeFilters, availableFilters, fetching, onSelectedFilterChange } = this.props
+    const { activeFilters, availableFilters, fetching, failure, onSelectedFilterChange } = this.props
 
     const filters = [
       {
@@ -91,7 +92,9 @@ class TopologyFiltersContainer extends React.Component {
             availableFilters={availableFilters[filter.availableKey]}
             activeFilters={activeFilters[filter.activeKey]}
             onChange={onSelectedFilterChange}
-            disabled={fetching} />
+            fetching={fetching}
+            failure={failure}
+          />
         )}
       </div>
     )
@@ -110,6 +113,7 @@ const mapStateToProps = (state) =>{
     activeFilters,
     availableFilters,
     fetching: filtersStatus !== Actions.REQUEST_STATUS.DONE,
+    failure: filtersStatus === Actions.REQUEST_STATUS.ERROR
   }
 }
 

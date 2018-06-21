@@ -23,7 +23,7 @@ export const updateTopologySelection = (nodeId) => ({
   selectedNodeId: nodeId,
 })
 
-const  receiveFitersError = (err) => ({
+const  receiveFiltersError = (err) => ({
   type: Actions.TOPOLOGY_FILTERS_RECEIVE_ERROR,
   err
 })
@@ -36,7 +36,7 @@ export const fetchTopologyFilters = () => {
     return apolloClient.getTopologyFilters()
       .then(response => {
         if (response.errors) {
-          return dispatch(receiveFitersError(response.errors[0]))
+          return dispatch(receiveFiltersError(response.errors[0]))
         }
         dispatch({
           type: Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS,
@@ -46,7 +46,7 @@ export const fetchTopologyFilters = () => {
           types: lodash.cloneDeep(response.data.resourceTypes),
         })
       })
-      .catch(err => dispatch(receiveFitersError(err)))
+      .catch(err => dispatch(receiveFiltersError(err)))
   }
 }
 

@@ -17,12 +17,8 @@ export default class SimulationHelper {
    *
    * Contains functions to manage the D3 force simulations to position nodes.
    */
-  constructor(height, width) {
-    this.height = height
-    this.width = width
-  }
 
-  createSimulation = (clusters, nodes, links, onTicked) => {
+  createSimulation = (height, width, clusters, nodes, links, onTicked) => {
     this.simulation = d3.forceSimulation()
       .force('link', d3.forceLink().id((d) => d.uid).strength(.1).distance(NODE_SEPARATION))
       .force('collide', d3.forceCollide().strength(.5).radius(NODE_RADIUS * 2)) // Prevents nodes from overlapping
@@ -34,11 +30,10 @@ export default class SimulationHelper {
     this.simulation.force('link')
       .links(links)
 
-
     this.clusterSimulations = clusters.map(({id, index}) => {
-      const centerX = this.width * (index * 2 + 1) / (clusters.length * 2)
+      const centerX = width * (index * 2 + 1) / (clusters.length * 2)
       const clusterSimulation = d3.forceSimulation()
-        .force('center', d3.forceCenter(centerX, this.height / 2))
+        .force('center', d3.forceCenter(centerX, height / 2))
         .force('forceX', d3.forceX(centerX).strength(.05))
       clusterSimulation.nodes(nodes.filter(n => n.cluster === id))
 

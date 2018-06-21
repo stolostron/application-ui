@@ -13,10 +13,8 @@ import PropTypes from 'prop-types'
 import resources from '../../lib/shared/resources'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Loading } from 'carbon-components-react'
 import TopologyDiagram from '../components/TopologyDiagram'
 import { DetailsView } from '../components/topology/DetailsView'
-import * as Actions from '../actions'
 import { updateTopologySelection } from '../actions/topology'
 
 resources(() => {
@@ -72,9 +70,8 @@ class DiagramWithDetails extends React.Component {
           links={this.props.links}
           onSelectedNodeChange={this.props.onSelectedNodeChange}
           selectedNodeId={this.props.selectedNodeId}
+          status={this.props.status}
         />
-        {this.props.status === Actions.REQUEST_STATUS.IN_PROGRESS &&
-          <Loading withOverlay={false} />}
         { this.props.selectedNodeId &&
           <DetailsView
             context={this.context}

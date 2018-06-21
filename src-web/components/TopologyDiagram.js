@@ -11,6 +11,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
+import * as Actions from '../actions'
+import { Loading, Notification } from 'carbon-components-react'
 import resources from '../../lib/shared/resources'
 import config from '../../lib/shared/config'
 import ClusterHelper from './topology/clusterHelper'
@@ -18,8 +20,8 @@ import LayoutHelper from './topology/layoutHelper'
 import LinkHelper from './topology/linkHelper'
 import NodeHelper from './topology/nodeHelper'
 import SimulationHelper from './topology/simulationHelper'
+import msgs from '../../nls/platform.properties'
 import lodash from 'lodash'
-
 
 resources(() => {
   require('../../scss/topology-details.scss')
@@ -49,6 +51,7 @@ class TopologyDiagram extends React.Component {
         name: PropTypes.string,
       })),
       onSelectedNodeChange: PropTypes.func,
+      status: PropTypes.string,
     }
 
     constructor (props) {
@@ -57,6 +60,9 @@ class TopologyDiagram extends React.Component {
       this.setContainerRef = elem => {
         this.containerRef = elem
       }
+
+      this.simulationHelper = new SimulationHelper()
+      this.generateDiagram = this.generateDiagram.bind(this)
     }
 
     handleNodeClick = (node) => {
@@ -65,8 +71,10 @@ class TopologyDiagram extends React.Component {
     }
 
 
-    generateDiagram(height, width) {
+    generateDiagram() {
       const svg = d3.select('svg.topologyDiagram')
+      const  {clientHeight:height, clientWidth:width} = lodash.get(this, 'containerRef.attributes.class.ownerElement')
+        || {clientHeight: 500, clientWidth: 1200}
 
       // Create or refresh clusters rendering
       const clusterHelper = new ClusterHelper(height, width, this.props.clusters)
@@ -76,7 +84,7 @@ class TopologyDiagram extends React.Component {
       // Stop all running simulations.
       this.simulationHelper.stopSimulations()
       // Start a new simulation to position the nodes.
-      this.simulationHelper.createSimulation(this.props.clusters, this.props.nodes, this.props.links, ticked)
+      this.simulationHelper.createSimulation(height, width, this.props.clusters, this.props.nodes, this.props.links, ticked)
 
       // Create or refresh the links in the diagram.
       const linkHelper = new LinkHelper(this.props.links)
@@ -102,23 +110,6 @@ class TopologyDiagram extends React.Component {
       // Add zoom feature to diagram
       svg.call(this.getSvgSpace(svg))
     }
-
-    // D3 changes the links source/target from a string id to a reference to the actual
-    // node object, so when the links get updated we lose those references. The logic
-    // here preserves those references from previous links.
-    componentWillReceiveProps(nextProps){
-      if(this.props.links !== nextProps.links){
-        nextProps.links.map((newLink) => {
-          const existing = this.props.links.find((oldLink) =>
-            newLink.source === oldLink.source.uid && newLink.target === oldLink.target.uid)
-          if(existing){
-            newLink.source = existing.source
-            newLink.target = existing.target
-          }
-        })
-      }
-    }
-
 
     getSvgSpace(svg){
       const clusters = svg.select('g.clusters').selectAll('g.cluster')
@@ -154,6 +145,21 @@ class TopologyDiagram extends React.Component {
     }
 
     render() {
+      const { status } = this.props
+      const { locale } = this.context
+
+      if (status === Actions.REQUEST_STATUS.ERROR) {
+        return <Notification
+          title=''
+          className='persistent'
+          subtitle={msgs.get('error.default.description', locale)}
+          kind='error' />
+      }
+
+      if (status !== Actions.REQUEST_STATUS.DONE)
+        return <Loading withOverlay={false} className='content-spinner' />
+
+
       return (
         <div className="topologyDiagramContainer" ref={this.setContainerRef} >
           <svg className="topologyDiagram" />
@@ -167,30 +173,23 @@ class TopologyDiagram extends React.Component {
       )
     }
 
-    componentDidMount(){
-      const ownerElement = lodash.get(this, 'containerRef.attributes.class.ownerElement') ?
-        lodash.get(this, 'containerRef.attributes.class.ownerElement') :
-        {clientHeight: 500, clientWidth: 1200}
-      const { clientHeight: height, clientWidth: width } = ownerElement
-
-
-      const svg = d3.select('svg.topologyDiagram')
-
-      svg.append('g').attr('class', 'clusters')
-      svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
-      svg.append('g').attr('class', 'nodes')
-      svg.on('click', this.props.onSelectedNodeChange)
-
-      this.simulationHelper = new SimulationHelper(height, width)
-
-      this.generateDiagram(height, width)
+    componentDidMount() {
+      window.addEventListener('resize', lodash.debounce(this.generateDiagram, 100))
+    }
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.generateDiagram)
     }
 
     componentDidUpdate(){
-      const ownerElement = lodash.get(this, 'containerRef.attributes.class.ownerElement') ?
-        lodash.get(this, 'containerRef.attributes.class.ownerElement') :
-        {clientHeight: 500, clientWidth: 1200}
-      this.generateDiagram(ownerElement.clientHeight, ownerElement.clientWidth)
+      if (this.containerRef) {
+        const svg = d3.select('svg.topologyDiagram')
+        svg.append('g').attr('class', 'clusters')
+        svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
+        svg.append('g').attr('class', 'nodes')
+        svg.on('click', this.props.onSelectedNodeChange)
+
+        this.generateDiagram()
+      }
     }
 }
 

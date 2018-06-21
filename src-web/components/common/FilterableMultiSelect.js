@@ -18,7 +18,8 @@ class FilterableMultiSelect extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.array,
     availableFilters: PropTypes.array,
-    disabled: PropTypes.bool,
+    failure: PropTypes.bool,
+    fetching: PropTypes.bool,
     filterType: PropTypes.string,
     onChange: PropTypes.func,
     title: PropTypes.string
@@ -50,11 +51,14 @@ class FilterableMultiSelect extends React.Component {
       title,
       availableFilters,
       activeFilters=[],
-      disabled } = this.props
+      fetching,
+      failure} = this.props
 
     this.tooltip = []
-    if (disabled) {
-      this.tooltip.push(msgs.get('resource.filterLabel', [title], this.context.locale))
+    if (failure) {
+      this.tooltip.push(msgs.get('resource.error', this.context.locale))
+    } else if (fetching) {
+      this.tooltip.push(msgs.get('resource.loading', this.context.locale))
     } else if (!activeFilters.length) {
       this.tooltip.push(msgs.get('resource.filterAll', this.context.locale))
     } else {
@@ -71,7 +75,7 @@ class FilterableMultiSelect extends React.Component {
           items={availableFilters}
           initialSelectedItems={this.getSelectedFilters(availableFilters, activeFilters)}
           onChange={this.handleFilter}
-          disabled={disabled}
+          disabled={fetching}
         />
       </div>
     )

@@ -12,12 +12,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { InlineNotification } from 'carbon-components-react'
 import lodash from 'lodash'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { updateSecondaryHeader, fetchResources } from '../actions/common'
 import msgs from '../../nls/platform.properties'
-import * as Actions from '../actions'
 import { updateTopologyFilters } from '../actions/topology'
 import DiagramWithDetails from './DiagramWithDetails'
 import TopologyFiltersContainer from './TopologyFiltersContainer'
@@ -44,18 +42,7 @@ class TopologyTab extends React.Component {
   render() {
     return (
       <div className='topologyTab'>
-        {status === Actions.REQUEST_STATUS.ERROR &&
-          <InlineNotification
-            kind="error"
-            title={msgs.get('error', this.context.locale)}
-            subtitle={msgs.get('error.default.description', this.context.locale)}
-            iconDescription={msgs.get('error.dismiss', this.context.locale)}
-          />
-        }
         <TopologyFiltersContainer />
-        {/* status === Actions.REQUEST_STATUS.IN_PROGRESS &&
-          <Loading small withOverlay={false} />
-        */}
         <DiagramWithDetails />
       </div>
     )

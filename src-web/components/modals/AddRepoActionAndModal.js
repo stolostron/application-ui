@@ -65,7 +65,7 @@ class AddRepoActionAndModal extends React.PureComponent {
   render(){
     return (
       <div>
-        <Button icon="add--glyph" small key='addRepoButton' onClick={this.handleModalOpen}>
+        <Button icon="add--glyph" small id='add-repo' key='add-repo' onClick={this.handleModalOpen}>
           { msgs.get('helmRepo.addRepo', this.context.locale) }
         </Button>
         <Modal

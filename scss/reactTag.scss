@@ -8,30 +8,65 @@
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
+
+/* Styles for the button */
+.tagInput-filterButton {
+  transform: scale(1.2);
+  fill: $color__navy-gray-7;
+  display: inline-block;
+  float: left;
+  margin: 0.4rem;
+  &:hover {
+    fill: $color__navy-gray-1;
+  }
+}
+
+.tagInput-clearAll {
+  float: left;
+  margin: 0.45rem 1rem;
+  color: $color__blue-50;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+
+/* Styles for the combo */
+.tagInput-comboBox {
+  float: left;
+}
+
+
+/* Styles for the input */
 div.ReactTags__tags {
   position: relative;
 }
 
-/* Styles for the input */
 div.ReactTags__tagInput {
   width: 200px;
   border-radius: 2px;
   display: inline-block;
+  margin-left: 0.5rem;
 }
+
 div.ReactTags__tagInput input.ReactTags__tagInputField,
 div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
   height: 31px;
-  margin: 0 0 0 10px;
   font-size: 12px;
   width: 100%;
   border: 1px solid $color__navy-gray-9;
 }
 
+div.ReactTags__selected {
+  margin-left: 0.5rem;
+}
+
+
 /* Styles for selected tags */
 div.ReactTags__selected span.ReactTags__tag {
   display: inline-block;
   background: $color__blue-50 no-repeat right 8px center;
-  background-size: auto auto;
   background-size: 10px;
   color: $color__white;
   padding: 5px 10px 5px 10px;
@@ -48,6 +83,7 @@ div.ReactTags__selected a.ReactTags__remove {
   font-size: 14px;
   font-weight: bold
 }
+
 
 /* Styles for suggestions */
 div.ReactTags__suggestions {

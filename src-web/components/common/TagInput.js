@@ -8,8 +8,11 @@
  *******************************************************************************/
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { WithContext as ReactTags } from 'react-tag-input'
 import resources from '../../../lib/shared/resources'
+import { Icon } from 'carbon-components-react'
+import msgs from '../../../nls/platform.properties'
 
 resources(() => {
   require('../../../scss/reactTag.scss')
@@ -25,32 +28,28 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter]
 class TagInput extends React.Component {
   constructor(props) {
     super(props)
-
-    //TODO: get data from store
-    this.state = {
-      tags: [
-        { id: 'tag1', text: 'tag1' },
-        { id: 'tag2', text: 'tag2' }
-      ],
-      suggestions: [
-        { id: 'tag1', text: 'tag1' },
-        { id: 'tag2', text: 'tag2' },
-        { id: 'tag3', text: 'tag3' },
-        { id: 'tag4', text: 'tag4' },
-        { id: 'tag5', text: 'tag5' },
-        { id: 'tag6', text: 'tag6' }
-      ]
-    }
     this.handleDelete = this.handleDelete.bind(this)
     this.handleAddition = this.handleAddition.bind(this)
     this.handleDrag = this.handleDrag.bind(this)
+    this.handleClearAllClick = this.handleClearAllClick.bind(this)
+  }
+
+  componentWillMount() {
+    const { tags=[] } = this.props
+    this.setState({
+      tags: tags
+    })
   }
 
   handleDelete(i) {
     const { tags } = this.state
+    const { onSelectedFilterChange } = this.props
     this.setState({
       tags: tags.filter((tag, index) => index !== i),
     })
+    if (onSelectedFilterChange) {
+      onSelectedFilterChange (this.state.tags)
+    }
   }
 
   handleAddition(tag) {
@@ -68,22 +67,49 @@ class TagInput extends React.Component {
     this.setState({ tags: newTags })
   }
 
+  handleClearAllClick() {
+    this.setState({ tags: [] })
+  }
+
+  onFilterButtonClick() {
+    // TODO: add filter modal
+  }
+
   render() {
-    const { tags, suggestions } = this.state
+    const { suggestions=[], onFilterButtonClick=this.onFilterButtonClick } = this.props
+    const { tags } = this.state
     return (
-      <div className='dashboard-comboBox'>
-        <ReactTags
-          inline
-          placeholder="Add new filter tags..."
-          tags={tags}
-          suggestions={suggestions}
-          handleDelete={this.handleDelete}
-          handleAddition={this.handleAddition}
-          handleDrag={this.handleDrag}
-          delimiters={delimiters} />
+      <div className='tagInput-filter'>
+        <div className='tagInput-filterButton'>
+          <Icon
+            className='icon--filter--glyph'
+            name='icon--filter--glyph'
+            description={'filter'}
+            onClick={onFilterButtonClick} />
+        </div>
+        <div className='tagInput-comboBox'>
+          <ReactTags
+            inline={true}
+            placeholder={msgs.get('placeholder.filterInput.tags', this.context.locale)}
+            tags={tags}
+            suggestions={suggestions}
+            handleDelete={this.handleDelete}
+            handleAddition={this.handleAddition}
+            handleDrag={this.handleDrag}
+            delimiters={delimiters} />
+        </div>
+        <div role='presentation' className='tagInput-clearAll' onClick={this.handleClearAllClick}>{msgs.get('actions.clearAll', this.context.locale)}</div>
+
       </div>
     )
   }
+}
+
+TagInput.propTypes = {
+  onFilterButtonClick: PropTypes.func,
+  onSelectedFilterChange: PropTypes.func,
+  suggestions: PropTypes.array,
+  tags: PropTypes.array,
 }
 
 export default TagInput

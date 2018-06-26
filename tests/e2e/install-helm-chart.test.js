@@ -14,11 +14,15 @@ const ROUTE = {
   'delete-helm-release': '/clusters/releases'
 }
 
+const getReleaseName = chartName => `selenium-${chartName}-${Date.now()}`
+let releaseName
+
 module.exports = {
   before: function (browser) {
     let loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
+    releaseName = getReleaseName('acs')
   },
 
   'add-helm-repo': (browser) => {
@@ -35,8 +39,8 @@ module.exports = {
     const chartPage = browser.page.HelmChartsPage()
     chartPage.navigate(url)
     chartPage.verifyPageContent()
-    chartPage.installHelmRelease(browser, 'acs', 'default')
-    chartPage.verifyHelmReleaseInstall('acs')
+    chartPage.installHelmRelease(browser, 'acs', releaseName, 'default')
+    chartPage.verifyHelmReleaseInstall(releaseName)
   },
 
   'delete-helm-release': (browser) => {
@@ -44,8 +48,8 @@ module.exports = {
     const chartPage = browser.page.HelmChartsPage()
     chartPage.navigate(url)
     chartPage.verifyPageContent()
-    chartPage.deleteHelmRelease('acs')
-    chartPage.verifyHelmReleaseDelete('acs')
+    chartPage.deleteHelmRelease(releaseName)
+    chartPage.verifyHelmReleaseDelete(releaseName)
   },
 
   after: function (browser, done) {

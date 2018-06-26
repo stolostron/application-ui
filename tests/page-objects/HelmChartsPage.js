@@ -40,12 +40,12 @@ function verifyPageContent() {
   this.waitForElementNotPresent('@spinner')
 }
 
-function installHelmRelease(browser, name, namespace) {
+function installHelmRelease(browser, chartName, relName, namespace) {
   this.waitForElementVisible('@chartSearch')
-  this.setValue('@chartSearch', name)
+  this.setValue('@chartSearch', chartName)
   this.click('@chart')
   this.waitForElementVisible('@modal')
-  this.setValue('@releaseNameInput', `selenium-${name}`)
+  this.setValue('@releaseNameInput', relName)
   this.click('@releaseClusterInput')
   this.sendKeys('@releaseClusterInput', browser.Keys.DOWN_ARROW)
 
@@ -57,17 +57,19 @@ function installHelmRelease(browser, name, namespace) {
   this.click('@releaseNamespaceDropdown')
 
   this.waitForElementVisible(`[value="${namespace}"]`)
+  browser.pause(1000)
   this.click(`[value="${namespace}"]`)
+  browser.pause(1000)
 
   this.click('@installBtn')
   this.waitForElementVisible('@spinner')
   this.waitForElementNotPresent('@spinner')
 }
 
-function deleteHelmRelease(name) {
+function deleteHelmRelease(relName) {
   this.waitForElementNotPresent('@spinner')
   this.waitForElementVisible('@resourceSearch')
-  this.setValue('@resourceSearch', `selenium-${name}`)
+  this.setValue('@resourceSearch', relName)
   this.click('@overflowMenu')
   this.waitForElementVisible('@overflowMenuRemove')
   this.click('@overflowMenuRemove')
@@ -76,15 +78,15 @@ function deleteHelmRelease(name) {
   this.waitForElementNotPresent('@spinner')
 }
 
-function verifyHelmReleaseInstall(name) {
+function verifyHelmReleaseInstall(relName) {
   this.waitForElementNotPresent('@spinner')
   this.waitForElementVisible('@resourceSearch')
-  this.setValue('@resourceSearch', `selenium-${name}`)
-  this.expect.element(`[data-row-name=selenium-${name}]`).to.be.present
+  this.setValue('@resourceSearch', relName)
+  this.expect.element(`[data-row-name=${relName}]`).to.be.present
 }
 
-function verifyHelmReleaseDelete(name) {
+function verifyHelmReleaseDelete(relName) {
   this.waitForElementVisible('@resourceSearch')
-  this.setValue('@resourceSearch', `selenium-${name}`)
+  this.setValue('@resourceSearch', relName)
   this.expect.element('@searchNoResults').to.be.present
 }

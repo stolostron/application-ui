@@ -19,6 +19,7 @@ import msgs from '../../nls/platform.properties'
 import { updateTopologyFilters } from '../actions/topology'
 import DiagramWithDetails from './DiagramWithDetails'
 import TopologyFiltersContainer from './TopologyFiltersContainer'
+import config from '../../lib/shared/config'
 
 
 class TopologyTab extends React.Component {
@@ -28,15 +29,28 @@ class TopologyTab extends React.Component {
     updateSecondaryHeader: PropTypes.func,
   }
 
+
   componentWillMount() {
     this.props.updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
-    this.props.fetchResources(RESOURCE_TYPES.HCM_TOPOLOGY, this.props.activeFilters)
+    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+      var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
+      this.setState({ intervalId: intervalId })
+    }
+    this.reload()
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeFilters !== this.props.activeFilters) {
       this.props.fetchResources(RESOURCE_TYPES.HCM_TOPOLOGY, nextProps.activeFilters)
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId)
+  }
+
+  reload() {
+    this.props.fetchResources(RESOURCE_TYPES.HCM_TOPOLOGY, this.props.activeFilters)
   }
 
   render() {

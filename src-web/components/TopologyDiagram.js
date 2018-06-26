@@ -57,10 +57,14 @@ class TopologyDiagram extends React.Component {
     constructor (props) {
       super(props)
 
+      // NOTE: Must use state because D3 will modify the nodes and links objects.
+      //       A react component must not modify its props. Modifying the state directly
+      //       is also an anti-pattern, but I think it's the best alternative here.
+      this.state = { links: props.links, nodes: props.nodes }
+
       this.setContainerRef = elem => {
         this.containerRef = elem
       }
-
       this.simulationHelper = new SimulationHelper()
       this.generateDiagram = this.generateDiagram.bind(this)
     }
@@ -84,15 +88,15 @@ class TopologyDiagram extends React.Component {
       // Stop all running simulations.
       this.simulationHelper.stopSimulations()
       // Start a new simulation to position the nodes.
-      this.simulationHelper.createSimulation(height, width, this.props.clusters, this.props.nodes, this.props.links, ticked)
+      this.simulationHelper.createSimulation(height, width, this.props.clusters, this.state.nodes, this.state.links, ticked)
 
       // Create or refresh the links in the diagram.
-      const linkHelper = new LinkHelper(this.props.links)
+      const linkHelper = new LinkHelper(this.state.links)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
 
       // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.props.nodes, this.simulationHelper.getSimulation())
+      const nodeHelper = new NodeHelper(this.state.nodes, this.simulationHelper.getSimulation())
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
 
@@ -179,6 +183,35 @@ class TopologyDiagram extends React.Component {
     componentWillUnmount() {
       window.removeEventListener('resize', this.generateDiagram)
     }
+
+
+    shouldComponentUpdate(nextProps, nextState){
+      return !lodash.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
+      || !lodash.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
+    }
+
+    // IMPORTANT: See comment in constructor about usage of local state because of D3.
+    componentWillReceiveProps(nextProps){
+      // Keep existing node objects to preserve data added by D3. Also the links reference these
+      // objects, so we must preserve that reference.
+      let nodes = lodash.cloneDeep(nextProps.nodes)
+      nodes = nodes.map(node => this.state.nodes.find(n => n.uid === node.uid) || node)
+
+      // D3 changes the link's source/target attributes to a reference to the node
+      // object, so when the links get updated we must keep those references.
+      const links = lodash.cloneDeep(nextProps.links)
+      links.forEach(link => {
+        const existingLink = this.state.links.find((oldLink) =>
+          link.source === oldLink.source.uid && link.target === oldLink.target.uid)
+        if (existingLink){
+          link.source = existingLink.source
+          link.target = existingLink.target
+        }
+      })
+
+      this.setState({ links, nodes })
+    }
+
 
     componentDidUpdate(){
       if (this.containerRef) {

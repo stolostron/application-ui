@@ -34,7 +34,7 @@ export default class SimulationHelper {
       const centerX = width * (index * 2 + 1) / (clusters.length * 2)
       const clusterSimulation = d3.forceSimulation()
         .force('center', d3.forceCenter(centerX, height / 2))
-        .force('forceX', d3.forceX(centerX).strength(.05))
+        .force('forceX', d3.forceX(centerX).strength(.01))
       clusterSimulation.nodes(nodes.filter(n => n.cluster === id))
 
       return clusterSimulation

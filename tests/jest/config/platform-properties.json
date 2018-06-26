@@ -3,6 +3,8 @@
   "action": "Action",
   "actions.add": "Add",
   "actions.cancel": "Cancel",
+  "actions.clearAll": "Clear All",
+  "actions.register.application": "Register Application",
   "cluster.add": "Add Cluster",
   "catalog.catalog": "Catalog",
   "catalog.errorfetch": "Error loading charts",
@@ -17,6 +19,7 @@
   "error": "Error",
   "error.default.description": "An unexpected error occurred. Please try again.",
   "error.dismiss": "Dismiss error notification",
+  "error.parse": "Parsing error",
   "pagination.itemsPerPage": "items per page",
   "pagination.pageRange": "{0} of {1} pages",
   "pagination.itemRange": "{0}-{1}",
@@ -144,5 +147,6 @@
   "dashboard.card.memory": "Memory Health",
   "dashboard.card.cpu": "CPU Health",
   "dashboard.error.default": "Resource request failed. Please try again.",
-  "svg.description.overflowMenu": "Open and close list of options"
+  "svg.description.overflowMenu": "Open and close list of options",
+  "placeholder.filterInput.tags": "Add new filter tags..."
 }

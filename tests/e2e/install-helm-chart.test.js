@@ -35,7 +35,7 @@ module.exports = {
     const chartPage = browser.page.HelmChartsPage()
     chartPage.navigate(url)
     chartPage.verifyPageContent()
-    chartPage.installHelmRelease(browser, 'acs', 'toronto', 'default')
+    chartPage.installHelmRelease(browser, 'acs', 'default')
     chartPage.verifyHelmReleaseInstall('acs')
   },
 

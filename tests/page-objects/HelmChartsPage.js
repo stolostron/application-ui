@@ -40,16 +40,17 @@ function verifyPageContent() {
   this.waitForElementNotPresent('@spinner')
 }
 
-function installHelmRelease(browser, name, cluster, namespace) {
+function installHelmRelease(browser, name, namespace) {
   this.waitForElementVisible('@chartSearch')
   this.setValue('@chartSearch', name)
   this.click('@chart')
   this.waitForElementVisible('@modal')
   this.setValue('@releaseNameInput', `selenium-${name}`)
   this.click('@releaseClusterInput')
-  this.setValue('@releaseClusterInput', cluster)
   this.sendKeys('@releaseClusterInput', browser.Keys.DOWN_ARROW)
 
+  // Wait for clusters list to populate
+  browser.pause(5000)
   this.click('@selectedCluster')
 
   this.waitForElementNotPresent('@clusterDropdown')

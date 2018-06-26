@@ -64,8 +64,9 @@ class FilterableMultiSelect extends React.Component {
     } else {
       this.tooltip = activeFilters.map(filter => filter.label).sort()
     }
+    // set id to title for testing
     return (
-      <div className='multi-select-filter'>
+      <div className='multi-select-filter' id={title}>
         <div className='multi-select-filter-title'>
           {title}
         </div>

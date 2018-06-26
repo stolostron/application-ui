@@ -10,22 +10,58 @@
 module.exports = {
   elements: {
     spinner: '.content-spinner',
-    noResource: '.no-resource',
-    pageContainer: '.page-content-container',
     topologyDiagram : '.topologyDiagram',
-    removeModal: '#remove-resource-modal',
-    removeModalBtn: '#remove-resource-modal .bx--btn--danger--primary',
-    resourceModal: '#resource-modal',
-    resourceModalBtn: '#resource-modal .bx--btn--primary',
     notification: '.bx--inline-notification',
     notificationText: '.bx--inline-notification__subtitle'
   },
   commands: [{
-    verifyPageContent
+    verifyTopologyLoads,
+    waitUntilFiltersLoaded,
+    filterTopology,
+    openDetailsView,
+    closeDetailsView
   }]
 }
 
-function verifyPageContent() {
-  const self = this
-  self.waitForElementVisible('@topologyDiagram')
+function verifyTopologyLoads() {
+  this.waitForElementVisible('@topologyDiagram')
+  this.waitForElementNotPresent('@spinner')
+}
+
+function waitUntilFiltersLoaded(cb) {
+  this.api.useXpath()
+  this.waitForElementNotPresent('//input[@placeholder=\'Loading...\']', 10000, ()=>{
+    this.api.useCss()
+    this.api.elements('css selector', '.multi-select-filter', res => cb(res))
+  })
+}
+
+function filterTopology(filter, checkBox, cb) {
+  this.click(`.topologyFilters #${filter} .bx--list-box__field .bx--list-box__menu-icon`)
+  this.waitForElementPresent('.bx--list-box__menu', 3000, ()=>{
+    this.api.useXpath()
+    this.click(checkBox?`//input[@name='${checkBox}']/..`:
+      '//div[@class=\'bx--list-box__menu\']//input[@type=\'checkbox\']/..') // checkbox is readonly, so click parent
+    this.api.useCss()
+    this.waitForElementNotPresent('.bx--list-box__menu', 3000, ()=>{
+      this.waitForElementNotPresent('@spinner', ()=>{
+        this.api.elements('css selector', '.topologyDiagramContainer > svg > g.clusters', res => cb(res))
+      })
+    })
+  })
+}
+
+function openDetailsView(cb) {
+  // for now just click on the first node in the diagram
+  this.click('.topologyDiagramContainer > svg > g.nodes > g.node')
+  this.waitForElementPresent('.topologyDetails', 3000, ()=>{
+    this.api.elements('css selector', 'section.topologyDetails', res => cb(res))
+  })
+}
+
+function closeDetailsView(cb) {
+  this.click('section.topologyDetails svg.closeIcon')
+  this.waitForElementNotPresent('.topologyDetails', 3000, ()=>{
+    this.api.elements('css selector', 'section.topologyDetails', res => cb(res))
+  })
 }

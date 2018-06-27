@@ -10,17 +10,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import AceEditor from 'react-ace'
 
-const AceEditor = (props) => {
-  if (typeof window !== 'undefined') {
-    const Ace = require('react-ace').default
-    require('brace/mode/yaml')
-    require('brace/theme/monokai')
-    return <Ace {...props} />
-  }
-  return null
-}
-
+import 'brace/mode/yaml'
+import 'brace/theme/monokai'
 
 class IsomorphicEditor extends React.Component {
   constructor(props) {

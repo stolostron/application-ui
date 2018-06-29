@@ -28,6 +28,14 @@ let jestConfig = {
   collectCoverageFrom: [
     'src-web/**/*.{js,jsx}'
   ],
+  coverageThreshold: {
+    global: {
+      branches: 20,
+      functions: 20,
+      lines: 20,
+      statements: 20,
+    },
+  },
   testMatch: [
     '<rootDir>/tests/jest/*/*.test.js?(x)',
     '<rootDir>/tests/jest/*/*/*.test.js?(x)'

@@ -34,6 +34,11 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.resource-list-filter {
+  margin-top: -2rem;
+  padding-bottom: 3rem;
+}
+
 .bx--loading-overlay {
   z-index: 10000; // need higher z-index with modals open
 }

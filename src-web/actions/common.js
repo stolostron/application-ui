@@ -138,6 +138,7 @@ export const fetchResources = (resourceType, vars) => {
   }
 }
 
+
 export const removeResource = (resourceType, vars) => async dispatch => {
   dispatch(delResource(resourceType))
   try {

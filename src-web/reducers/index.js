@@ -42,9 +42,15 @@ export const HCMDashboardList = createResourceReducer(resourceReducerFunction, p
 
 export { default as catalog } from './catalog'
 export { topology } from './topology'
+export { resourceFilters } from './filter'
 
 function predicate(resourceType, action) {
   if (lodash.isEqual(resourceType, action.resourceType))
     return true
-  return lodash.find(lodash.values(resourceType), type => type.indexOf(action.resourceType) > -1)
+  return lodash.find(lodash.values(resourceType), type => {
+    if (typeof type === 'string') {
+      return type.indexOf(action.resourceType) > -1
+    }
+    return false
+  })
 }

@@ -15,11 +15,14 @@ import { REQUEST_STATUS } from '../../actions/index'
 import NoResource from './NoResource'
 import { connect } from 'react-redux'
 import { changeTablePage, searchTable, sortTable, fetchResources, updateSecondaryHeader } from '../../actions/common'
+import { fetchFilters, updateResourceFilters, combineFilters } from '../../actions/filters'
 import TableHelper from '../../util/table-helper'
 import { Loading, Notification } from 'carbon-components-react'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
+import TagInput from './TagInput'
+
 
 class ResourceList extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
@@ -39,17 +42,24 @@ class ResourceList extends React.Component {
       var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
       this.setState({ intervalId: intervalId })
     }
+    const { fetchResources, fetchFilters, selectedFilters=[] } = this.props
+    fetchFilters()
+    fetchResources(selectedFilters)
   }
 
-  componentDidMount() {
-    const { fetchResources } = this.props
-    fetchResources()
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedFilters !== this.props.selectedFilters) {
+      this.setState({ xhrPoll: false })
+      this.props.fetchResources(nextProps.selectedFilters)
+    }
   }
 
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
-      this.props.fetchResources()
+      const { fetchResources, fetchFilters, selectedFilters=[] } = this.props
+      fetchFilters()
+      fetchResources(selectedFilters)
     }
   }
 
@@ -77,6 +87,9 @@ class ResourceList extends React.Component {
       resourceType,
       err,
       children,
+      resourceFilters,
+      onSelectedFilterChange,
+      selectedFilters,
     } = this.props
     const { locale } = this.context
 
@@ -114,6 +127,15 @@ class ResourceList extends React.Component {
             title=''
             subtitle={mutateErrorMsg}
             kind='error' />
+        }
+        { resourceType.filter &&
+          <div className='resource-list-filter'>
+            <TagInput
+              tags={selectedFilters}
+              availableFilters={resourceFilters}
+              onSelectedFilterChange={onSelectedFilterChange}
+            />
+          </div>
         }
         <ResourceTable
           actions={actions}
@@ -158,7 +180,7 @@ class ResourceList extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { list: typeListName } = ownProps.resourceType,
+  const { list: typeListName, name: resourceName } = ownProps.resourceType,
         visibleResources = ownProps.getVisibleResources(state, {'storeRoot': typeListName})
   return {
     items: visibleResources.normalizedItems,
@@ -174,17 +196,26 @@ const mapStateToProps = (state, ownProps) => {
     err: state[typeListName].err,
     mutateStatus: state[typeListName].mutateStatus,
     mutateErrorMsg: state[typeListName].mutateErrorMsg,
+    resourceFilters: state['resourceFilters'].filters,
+    selectedFilters: state['resourceFilters'].selectedFilters && state['resourceFilters'].selectedFilters[resourceName],
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const resourceType = ownProps.resourceType
   return {
-    fetchResources: () => dispatch(fetchResources(resourceType)),
+    fetchResources: (selectedFilters) => {
+      //TODO: searchTable if customized tags
+      dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
+    },
     changeTablePage: page => dispatch(changeTablePage(page, resourceType)),
     searchTable: search => dispatch(searchTable(search, resourceType)),
     sortTable: (sortDirection, sortColumn) => dispatch(sortTable(sortDirection, sortColumn, resourceType)),
     updateSecondaryHeader: (title, tabs) => dispatch(updateSecondaryHeader(title, tabs)),
+    fetchFilters: () => dispatch(fetchFilters()),
+    onSelectedFilterChange: (selectedFilters) => {
+      dispatch(updateResourceFilters(resourceType, selectedFilters))
+    }
   }
 }
 

@@ -9,21 +9,15 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { WithContext as ReactTags } from 'react-tag-input'
+import ReactTags from 'react-tag-autocomplete'
 import resources from '../../../lib/shared/resources'
 import { Icon } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
+// import FilterModal from '../modals/FilterModal'
 
 resources(() => {
   require('../../../scss/reactTag.scss')
 })
-
-const KeyCodes = {
-  comma: 188,
-  enter: 13,
-}
-
-const delimiters = [KeyCodes.comma, KeyCodes.enter]
 
 class TagInput extends React.Component {
   constructor(props) {
@@ -37,23 +31,29 @@ class TagInput extends React.Component {
   componentWillMount() {
     const { tags=[] } = this.props
     this.setState({
-      tags: tags
+      tags: tags,
     })
+  }
+
+  updateSelectedTags(tags) {
+    const { onSelectedFilterChange } = this.props
+    this.setState({ tags: tags })
+    onSelectedFilterChange && onSelectedFilterChange(tags)
   }
 
   handleDelete(i) {
     const { tags } = this.state
-    const { onSelectedFilterChange } = this.props
-    this.setState({
-      tags: tags.filter((tag, index) => index !== i),
-    })
-    if (onSelectedFilterChange) {
-      onSelectedFilterChange (this.state.tags)
-    }
+    this.updateSelectedTags(tags.filter((tag, index) => index !== i))
   }
 
   handleAddition(tag) {
-    this.setState(state => ({ tags: [...state.tags, tag] }))
+    const { availableFilters=[] } = this.props
+    const suggestions = this.convertObjectToArray(availableFilters)
+    if (!tag.type) {
+      // user can only add a tag that exists in suggestions
+      tag = suggestions.find(element => element.name === tag.name)
+    }
+    if (tag) this.updateSelectedTags([...this.state.tags, tag], tag)
   }
 
   handleDrag(tag, currPos, newPos) {
@@ -63,52 +63,88 @@ class TagInput extends React.Component {
     newTags.splice(currPos, 1)
     newTags.splice(newPos, 0, tag)
 
-    // re-render
-    this.setState({ tags: newTags })
-  }
-
-  handleClearAllClick() {
-    this.setState({ tags: [] })
+    this.updateSelectedTags(newTags)
   }
 
   onFilterButtonClick() {
-    // TODO: add filter modal
+    this.handleModalOpen()
+  }
+
+  handleClearAllClick() {
+    this.updateSelectedTags([])
+  }
+
+  handleModalOpen = () => {
+    this.setState((prevState) => Object.assign({}, prevState, {
+      modalOpen: true
+    }))
+  }
+
+  handleModalClose = () => {
+    this.setState((prevState) => Object.assign({}, prevState, {
+      modalOpen: true
+    }))
+  }
+
+  convertObjectToArray(input) {
+    if (Array.isArray(input)) {
+      return input
+    } else {
+      let result = []
+      Object.values(input).forEach(value => {
+        if (Array.isArray(value)) {
+          Object.values(value).forEach(element => {
+            result = [...result, element]
+          })
+        }
+      })
+      return result
+    }
   }
 
   render() {
-    const { suggestions=[], onFilterButtonClick=this.onFilterButtonClick } = this.props
+    const { availableFilters=[], onFilterButtonClick=this.onFilterButtonClick, hideModalButton } = this.props
     const { tags } = this.state
+    const suggestions = this.convertObjectToArray(availableFilters)
     return (
       <div className='tagInput-filter'>
-        <div className='tagInput-filterButton'>
-          <Icon
-            className='icon--filter--glyph'
-            name='icon--filter--glyph'
-            description={'filter'}
-            onClick={onFilterButtonClick} />
-        </div>
+        {!hideModalButton &&
+          <div className='tagInput-filterButton'>
+            <Icon
+              className='icon--filter--glyph'
+              name='icon--filter--glyph'
+              description={'filter'}
+              onClick={onFilterButtonClick} />
+          </div>
+        }
+        {/*<FilterModal selected={tags}*/}
+        {/*suggestions={suggestions}*/}
+        {/*modalOpen={this.state.modalOpen}*/}
+        {/*handleModalOpen={this.handleModalOpen()}*/}
+        {/*handleModalClose={this.handleModalClose()}*/}
+        {/*/>*/}
         <div className='tagInput-comboBox'>
           <ReactTags
-            inline={true}
             placeholder={msgs.get('placeholder.filterInput.tags', this.context.locale)}
             tags={tags}
             suggestions={suggestions}
             handleDelete={this.handleDelete}
             handleAddition={this.handleAddition}
-            handleDrag={this.handleDrag}
-            delimiters={delimiters} />
+            autoresize={false}
+            minQueryLength={1}
+          />
         </div>
         <div role='presentation' className='tagInput-clearAll' onClick={this.handleClearAllClick}>{msgs.get('actions.clearAll', this.context.locale)}</div>
-
       </div>
     )
   }
 }
 
 TagInput.propTypes = {
+  availableFilters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  hideModalButton: PropTypes.bool,
   onFilterButtonClick: PropTypes.func,
   onSelectedFilterChange: PropTypes.func,
-  suggestions: PropTypes.array,
   tags: PropTypes.array,
 }
 

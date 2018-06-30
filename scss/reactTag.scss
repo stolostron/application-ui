@@ -8,6 +8,32 @@
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
+/**
+ * <div class="react-tags">
+ *   <div class="react-tags__selected">
+ *     <button class="react-tags__selected-tag">
+ *       <span class="react-tags__selected-tag-name" />
+ *     </button>
+ *   </div>
+ *   <div class="react-tags__search">
+ *     <div class="react-tags__search-input">
+ *       <input />
+ *       <div />
+ *     </div>
+ *     <div class="react-tags__suggestions">
+ *       <ul>
+ *         <li class="is-active">
+ *           <mark />
+ *         </li>
+ *         <li class="is-disabled">
+ *           <mark />
+ *         </li>
+ *       </ul>
+ *     </div>
+ *   </div>
+ */
+
+
 
 /* Styles for the button */
 .tagInput-filterButton {
@@ -15,7 +41,7 @@
   fill: $color__navy-gray-7;
   display: inline-block;
   float: left;
-  margin: 0.4rem;
+  margin: 1.3rem 0.5rem;
   &:hover {
     fill: $color__navy-gray-1;
   }
@@ -23,93 +49,141 @@
 
 .tagInput-clearAll {
   float: left;
-  margin: 0.45rem 1rem;
   color: $color__blue-50;
+  margin: 1.3rem;
+  width: 4rem;
+
   &:hover {
     text-decoration: underline;
     cursor: pointer;
   }
+  //position: absolute;   // remove for one-line
+  //left: 18rem;          // remove for one-line
 }
+
 
 
 /* Styles for the combo */
 .tagInput-comboBox {
   float: left;
+  padding-bottom: 0.5rem;
 }
 
-
-/* Styles for the input */
-div.ReactTags__tags {
+.react-tags {
   position: relative;
+  padding: 6px 0 0 6px;
+
+  /* shared font styles */
+  font-size: 1em;
+  line-height: 1.2;
+
+  /* clicking anywhere will focus the input */
+  cursor: text;
 }
 
-div.ReactTags__tagInput {
-  width: 200px;
-  border-radius: 2px;
-  display: inline-block;
-  margin-left: 0.5rem;
+.react-tags.is-focused {
+  border-color: $color__white;
 }
 
-div.ReactTags__tagInput input.ReactTags__tagInputField,
-div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
-  height: 31px;
-  font-size: 12px;
-  width: 100%;
-  border: 1px solid $color__navy-gray-9;
+.react-tags__selected {
+  display: inline;
 }
 
-div.ReactTags__selected {
-  margin-left: 0.5rem;
-}
-
-
-/* Styles for selected tags */
-div.ReactTags__selected span.ReactTags__tag {
+.react-tags__selected-tag {
   display: inline-block;
   background: $color__blue-50 no-repeat right 8px center;
-  background-size: 10px;
   color: $color__white;
-  padding: 5px 10px 5px 10px;
-  border-radius: 22px;
-  font-size: 14px;
+  padding: 0.2rem 1rem;
+  border-radius: 1.5rem;
   transition: all .6s ease-out;
-  margin-right: 5px;
+  margin-right: 0.5rem;
+
+  /* match the font styles */
+  font-size: inherit;
+  line-height: inherit;
+
+  :after {
+    content: '\2715';
+    color: $color__white;
+    margin-left: 1rem;
+  }
+  :hover,
+  .react-tags__selected-tag:focus {
+    border-color: $color__white;
+  }
 }
 
-div.ReactTags__selected a.ReactTags__remove {
-  color: $color__white;
-  margin-left: 15px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: bold
+
+
+/* Styles for search input */
+.react-tags__search {
+  display: inline-block;
+
+  /* match tag layout */
+  padding: 7px 2px;
+  margin-bottom: 6px;
+
+  /* prevent autoresize overflowing the container */
+  max-width: 100%;
 }
+
+.react-tags__search input {
+  /* prevent autoresize overflowing the container */
+  max-width: 100%;
+
+  /* remove styles and layout from this element */
+  border: 0;
+  outline: none;
+  height: 2rem;
+
+  /* match the font styles */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+
 
 
 /* Styles for suggestions */
-div.ReactTags__suggestions {
+.react-tags__suggestions {
   position: absolute;
+  z-index: 2000;
+  top: 100%;
+  left: 0;
+  width: 100%;
 }
 
-div.ReactTags__suggestions ul {
-  list-style-type: none;
-  box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+.react-tags__suggestions ul {
+  margin: 4px -1px;
+  padding: 0;
+  list-style: none;
   background: $color__white;
-  width: 200px;
+  border: 1px solid #D1D1D1;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-div.ReactTags__suggestions li {
-  border-bottom: 1px solid $color__navy-gray-9;
-  padding: 5px 10px;
-  margin: 0;
+.react-tags__suggestions li {
+  border-bottom: 1px solid #ddd;
+  padding: 6px 8px;
 }
 
-div.ReactTags__suggestions li mark {
+.react-tags__suggestions li mark {
   text-decoration: underline;
   background: none;
   font-weight: 600;
 }
 
-div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
-  background: $color__navy-gray-7;
+.react-tags__suggestions li:hover {
   cursor: pointer;
+  background: #eee;
+}
+
+.react-tags__suggestions li.is-active {
+  background: #b7cfe0;
+}
+
+.react-tags__suggestions li.is-disabled {
+  opacity: 0.5;
+  cursor: auto;
 }

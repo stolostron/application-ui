@@ -43,6 +43,7 @@ function verifyPageContent() {
 function installHelmRelease(browser, chartName, relName, namespace) {
   this.waitForElementVisible('@chartSearch')
   this.setValue('@chartSearch', chartName)
+  browser.pause(1000)
   this.click('@chart')
   this.waitForElementVisible('@modal')
   this.setValue('@releaseNameInput', relName)

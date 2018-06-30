@@ -24,6 +24,7 @@ module.exports = {
       'react-dom/server',
       'react-redux',
       'react-router-dom',
+      'react-tag-autocomplete',
       'react-transition-group',
       'react',
       'redux-logger',

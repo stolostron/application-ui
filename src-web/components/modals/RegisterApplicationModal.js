@@ -83,7 +83,7 @@ class RegisterApplicationModal extends React.PureComponent {
             />
           }
           <YamlEditor onYamlChange={this.handleEditorChange} yaml={this.state.yaml} />
-          {this.state.processing && <Loading small withOverlay={false} />}
+          {this.state.processing && <Loading />}
         </Modal>
       </div>
     )

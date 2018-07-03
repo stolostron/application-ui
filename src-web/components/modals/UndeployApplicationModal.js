@@ -38,7 +38,7 @@ const UndeployApplicationModal = ({ data: { Name }, handleClose, handleSubmit, l
           <Notification
             kind='error'
             title=''
-            subtitle={reqErrorMsg} />}
+            subtitle={reqErrorMsg || msgs.get('error.default.description', locale)} />}
       </div>
       <p>
         {msgs.get('modal.undeploy-hcmapplication.confirm', [Name], locale)}

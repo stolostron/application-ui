@@ -125,7 +125,7 @@ class ResourceList extends React.Component {
         { mutateStatus === REQUEST_STATUS.ERROR &&
           <Notification
             title=''
-            subtitle={mutateErrorMsg}
+            subtitle={mutateErrorMsg || msgs.get('error.default.description', locale)}
             kind='error' />
         }
         { resourceType.filter &&

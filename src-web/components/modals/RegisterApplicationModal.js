@@ -26,6 +26,7 @@ const initialState = {
   modalOpen: false,
   processing: false,
   yaml: '',
+  yamlParsingError: null,
 }
 
 class RegisterApplicationModal extends React.PureComponent {
@@ -61,7 +62,7 @@ class RegisterApplicationModal extends React.PureComponent {
   render(){
     return (
       <div>
-        <Button icon="add--glyph" small key='registerApplication' onClick={this.handleModalOpen}>
+        <Button icon="add--glyph" small id='register-application' key='register-application' onClick={this.handleModalOpen}>
           { msgs.get('actions.register.application', this.context.locale) }
         </Button>
         <Modal

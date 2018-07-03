@@ -29,21 +29,23 @@ export  const combineFilters = (selectedFilters) => {
   return {filter: {resourceFilter: tempObject}}
 }
 
-export const fetchFilters = () => {
+export const fetchFilters = (inputType) => {
   const resourceType = RESOURCE_TYPES.HCM_FILTER_LIST
   return (dispatch) => {
-    dispatch(requestResource(resourceType))
-    return apolloClient.get(resourceType)
-      .then(response => {
-        if (response.errors) {
-          return dispatch(receiveResourceError(response.errors[0], resourceType))
-        }
-        return dispatch(receiveFiltersSuccess({
-          clusterLabels: lodash.get(response, 'data.filters.clusterLabels'),
-          clusterNames: lodash.get(response, 'data.filters.clusterNames'),
-        }, resourceType))
-      })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+    if (inputType && inputType.filter) {
+      dispatch(requestResource(resourceType))
+      return apolloClient.get(resourceType)
+        .then(response => {
+          if (response.errors) {
+            return dispatch(receiveResourceError(response.errors[0], resourceType))
+          }
+          return dispatch(receiveFiltersSuccess({
+            clusterLabels: lodash.get(response, 'data.filters.clusterLabels'),
+            clusterNames: lodash.get(response, 'data.filters.clusterNames'),
+          }, resourceType))
+        })
+        .catch(err => dispatch(receiveResourceError(err, resourceType)))
+    }
   }
 }
 

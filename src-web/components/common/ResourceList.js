@@ -222,7 +222,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     searchTable: search => dispatch(searchTable(search, resourceType)),
     sortTable: (sortDirection, sortColumn) => dispatch(sortTable(sortDirection, sortColumn, resourceType)),
     updateSecondaryHeader: (title, tabs) => dispatch(updateSecondaryHeader(title, tabs)),
-    fetchFilters: () => dispatch(fetchFilters()),
+    fetchFilters: () => dispatch(fetchFilters(resourceType)),
     onSelectedFilterChange: (selectedFilters) => {
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     }

@@ -50,6 +50,7 @@ module.exports = {
     verifyPageContent,
     verifyResourceNotPresent,
     verifyResourceIsPresent,
+    verifyResourceIsRefreshing,
     verifyYamlValidationError,
   }]
 }
@@ -131,6 +132,23 @@ function deleteApplication(){
  * Verifications
  */
 
+function verifyAppDeployed(name){
+  this.verifyResourceIsRefreshing(name)
+  this.expect.element('@inlineNotificationError').to.be.not.present
+  this.assert.containsText(`[data-row-name="${name}"`, 'Deployed')
+}
+
+function verifyDashboardLink(name){
+  this.verifyResourceIsRefreshing(name)
+  this.expect.element('a').to.be.present
+}
+
+function verifyDeploymentRemoved(name){
+  this.verifyResourceIsRefreshing(name)
+  this.expect.element('@inlineNotificationError').to.be.not.present
+  this.assert.containsText(`[data-row-name="${name}"`, 'Registered')
+}
+
 function verifyModalSubmitted(){
   this.waitForElementNotPresent('@modalRegisterApp')
   this.expect.element('@modalRegisterApp').to.be.not.present
@@ -156,24 +174,9 @@ function verifyResourceNotPresent(name){
   this.expect.element(`[data-row-name="${name}"`).to.be.not.present
 }
 
-function verifyDashboardLink(){
-  this.expect.element('a').to.be.present
-}
-
-function verifyAppDeployed(name){
-  // FIXME: Need a better way to wait until the status gets updated. I'm using
-  //        a pause here for now because this logic will be updated in the UI.
-  this.api.pause(5000)
-  this.expect.element('@inlineNotificationError').to.be.not.present
-  this.assert.containsText(`[data-row-name="${name}"`, 'Deployed')
-}
-
-function verifyDeploymentRemoved(name){
-  // FIXME: Need a better way to wait until the status gets updated. I'm using
-  //        a pause here for now because this logic will be updated in the UI.
-  this.api.pause(10000)
-  this.expect.element('@inlineNotificationError').to.be.not.present
-  this.assert.containsText(`[data-row-name="${name}"`, 'Registered')
+function verifyResourceIsRefreshing(name){
+  this.expect.element(`#loading-${name}`).to.be.present
+  this.waitForElementNotPresent(`#loading-${name}`, 20000)
 }
 
 function verifyYamlValidationError(){

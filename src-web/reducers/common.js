@@ -60,7 +60,8 @@ export const INITIAL_STATE = {
   putErrorMsg: '',
   postStatus: undefined,
   postStatusCode: undefined,
-  postErrorMsg: ''
+  postErrorMsg: '',
+  pendingActions: [],
 }
 
 /**
@@ -291,16 +292,20 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.RESOURCE_MUTATE:
     return Object.assign({}, state, {
-      mutateStatus: Actions.REQUEST_STATUS.IN_PROGRESS
+      mutateStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
+      mutateErrorMsg: null,
+      pendingActions: [...state.pendingActions, { name: action.resourceName, action: Actions.RESOURCE_MUTATE }]
     })
   case Actions.RESOURCE_MUTATE_FAILURE:
     return Object.assign({}, state, {
       mutateStatus: Actions.REQUEST_STATUS.ERROR,
-      mutateErrorMsg: action.err.error && action.err.error.data && action.err.error.data.Message
+      mutateErrorMsg: action.err.message || action.err.error && action.err.error.data && action.err.error.data.Message,
+      pendingActions: state.pendingActions.filter(r => r && r.name !== action.resourceName),
     })
   case Actions.RESOURCE_MUTATE_SUCCESS:
     return Object.assign({}, state, {
-      mutateStatus: Actions.REQUEST_STATUS.DONE
+      mutateStatus: Actions.REQUEST_STATUS.DONE,
+      pendingActions: state.pendingActions.filter(r => r && r.name !== action.resourceName),
     })
   case Actions.RESOURCE_DELETE:
     items = [...state.items]

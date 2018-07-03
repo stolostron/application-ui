@@ -182,8 +182,18 @@ class ResourceList extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const { list: typeListName, name: resourceName } = ownProps.resourceType,
         visibleResources = ownProps.getVisibleResources(state, {'storeRoot': typeListName})
+
+  const pendingActions = state[typeListName].pendingActions
+  const items = visibleResources.normalizedItems
+  if (items && pendingActions){
+    Object.keys(items).map(key => {
+      if (pendingActions.find(pending => pending.name === items[key].Name))
+        items[key].hasPendingActions = true
+    })
+  }
+
   return {
-    items: visibleResources.normalizedItems,
+    items,
     itemIds: visibleResources.items,
     totalFilteredItems: visibleResources.totalResults,
     totalPages: visibleResources.totalPages,

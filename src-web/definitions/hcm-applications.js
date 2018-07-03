@@ -9,6 +9,7 @@
 'use strict'
 import React from 'react'
 import lodash from 'lodash'
+import { Loading } from 'carbon-components-react'
 import msgs from '../../nls/platform.properties'
 
 export default {
@@ -42,6 +43,7 @@ export default {
     {
       msgKey: 'table.header.status',
       resourceKey: 'Status',
+      transformFunction: getStatus,
     },
     {
       msgKey: 'table.header.dashboard',
@@ -112,4 +114,12 @@ export function createDashboardLink(item = {}, locale){
     return <a target="_blank" href={item.Dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
+}
+
+
+export function getStatus(item = {}){
+  return item.hasPendingActions ?
+    <Loading id={`loading-${item.Name}`} small withOverlay={false} />
+    :
+    item.Status
 }

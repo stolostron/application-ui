@@ -11,7 +11,12 @@ const config = require('../../config')
 const fs = require('fs')
 const path = require('path')
 
-const appName = `selenium-players_${Date.now()}`
+const date = new Date()
+const day = date.getDate().toString().padStart(2, 0)
+const hours = date.getHours().toString().padStart(2, 0)
+const minutes = date.getMinutes().toString().padStart(2, 0)
+const seconds = date.getSeconds().toString().padStart(2, 0)
+const appName = `selenium-players_${day}_${hours}_${minutes}_${seconds}`
 let appsPage
 
 module.exports = {
@@ -29,14 +34,16 @@ module.exports = {
     appsPage.verifyPageContent()
   },
 
-  'Applications: Register new application': (browser) => {
+  'Applications: Register new application - yaml validation': (browser) => {
     appsPage.openAppRegistrationModal()
     appsPage.verifyModalOpened()
     appsPage.enterTextInYamlEditor(browser, 'BadYaml:\nThis is bad Yaml')
     appsPage.submitRegisterAppModal()
     appsPage.verifyYamlValidationError(browser)
     appsPage.closeAppRegistrationModal()
+  },
 
+  'Applications: Register new application template': (browser) => {
     let templateYaml = fs.readFileSync(path.join(__dirname, '..', 'resources', 'players_case1_template.yaml'), 'utf8')
     templateYaml = templateYaml.replace('{{application-name}}', appName)
 
@@ -45,8 +52,9 @@ module.exports = {
     appsPage.enterTextInYamlEditor(browser, templateYaml)
     appsPage.submitRegisterAppModal()
     appsPage.verifyModalSubmitted()
+  },
 
-
+  'Applications: Register new application instance': (browser) => {
     let instanceYaml = fs.readFileSync(path.join(__dirname, '..', 'resources', 'players_instance.yaml'), 'utf8')
     instanceYaml = instanceYaml.replace('{{application-name}}', appName)
 
@@ -64,19 +72,16 @@ module.exports = {
   },
 
   'Applications: Generate dashboard': () => {
-    appsPage.findResource(appName)
     appsPage.generateDashboardLink(appName)
     appsPage.verifyDashboardLink(appName)
   },
 
   'Applications: Remove the deployment': () => {
-    appsPage.findResource(appName)
     appsPage.removeDeployment(appName)
     appsPage.verifyDeploymentRemoved(appName)
   },
 
   'Applications: Delete the application': () => {
-    appsPage.findResource(appName)
     appsPage.deleteApplication(appName)
     appsPage.verifyResourceNotPresent(appName)
   },

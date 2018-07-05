@@ -56,6 +56,8 @@ class RegisterApplicationModal extends React.PureComponent {
 
   handleEditorChange = (yaml) => this.setState({ yaml })
 
+  handleNotificationClosed = () => this.setState({ yamlParsingError: null })
+
   isSubmitDisabled = () => this.state.processing === true
 
 
@@ -81,6 +83,7 @@ class RegisterApplicationModal extends React.PureComponent {
               title={msgs.get('error.parse', this.context.locale)}
               iconDescription=''
               subtitle={this.state.yamlParsingError.reason}
+              onCloseButtonClick={this.handleNotificationClosed}
             />
           }
           <YamlEditor onYamlChange={this.handleEditorChange} yaml={this.state.yaml} />

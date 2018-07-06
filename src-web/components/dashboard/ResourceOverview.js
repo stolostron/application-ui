@@ -32,6 +32,7 @@ class ResourceOverview extends React.Component {
               percentage={item.percentage}
               title={msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`, locale)}
               key={item.name}
+              id={`card-${item.name.replace(' ', '-')}`}
             />)}
         </DashboardSection>
       </div>

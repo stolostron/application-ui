@@ -41,8 +41,10 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - make image
   - make run
+  - chmod +x copyright-check.sh
 
 script:
+  - make copyright-check
   - make test
   - make cicd-log-test
 

@@ -1,5 +1,5 @@
 ###############################################################################
-# Licensed Materials - Property of IBM Copyright IBM Corporation 2017. All Rights Reserved.
+# Licensed Materials - Property of IBM Copyright IBM Corporation 2017, 2018. All Rights Reserved.
 # U.S. Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP
 # Schedule Contract with IBM Corp.
 #
@@ -10,6 +10,10 @@
 include Configfile
 
 SHELL := /bin/bash
+
+.PHONY: copyright-check
+copyright-check:
+	./copyright-check.sh
 
 lint:
 	npm run lint

@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+
 import * as Actions from '../actions/index'
 // if term already exists in termsList, remove it. otherwise, add it.
 // only works for value types, not arrays or objects.

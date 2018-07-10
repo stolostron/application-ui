@@ -8,8 +8,10 @@
  *******************************************************************************/
 'use strict'
 
-import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithList } from '../components/common/ResourcePage'
+import {withRouter} from 'react-router-dom'
+import pageWithUrlQuery from '../components/common/withUrlQuery'
 
-export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_PODS))
+const resourceType = RESOURCE_TYPES.HCM_PODS
+export default withRouter(pageWithUrlQuery(typedResourcePageWithList(resourceType), resourceType))

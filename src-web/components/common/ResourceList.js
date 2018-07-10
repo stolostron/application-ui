@@ -23,7 +23,6 @@ import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import TagInput from './TagInput'
 
-
 class ResourceList extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
   /* eslint-disable react/prop-types, react/jsx-no-bind */
@@ -31,7 +30,7 @@ class ResourceList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      xhrPoll: false
+      xhrPoll: false,
     }
   }
 
@@ -90,6 +89,7 @@ class ResourceList extends React.Component {
       resourceFilters,
       onSelectedFilterChange,
       selectedFilters,
+      updateBrowserURL,
     } = this.props
     const { locale } = this.context
 
@@ -134,6 +134,7 @@ class ResourceList extends React.Component {
               tags={selectedFilters}
               availableFilters={resourceFilters}
               onSelectedFilterChange={onSelectedFilterChange}
+              updateBrowserURL={updateBrowserURL}
             />
           </div>
         }
@@ -153,7 +154,8 @@ class ResourceList extends React.Component {
           handleSort={TableHelper.handleSort.bind(this, sortDirection, sortColumn, sortTable)}
           handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
           searchValue={searchValue}
-          tableActions={staticResourceData.tableActions} />
+          tableActions={staticResourceData.tableActions}
+        />
       </div>
     }
     const resourceName = msgs.get('no-resource.' + resourceType.name.toLowerCase(), locale)
@@ -212,7 +214,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const resourceType = ownProps.resourceType
+  const { updateBrowserURL, resourceType } = ownProps
   return {
     fetchResources: (selectedFilters) => {
       //TODO: searchTable if customized tags
@@ -224,6 +226,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     updateSecondaryHeader: (title, tabs) => dispatch(updateSecondaryHeader(title, tabs)),
     fetchFilters: () => dispatch(fetchFilters(resourceType)),
     onSelectedFilterChange: (selectedFilters) => {
+      updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     }
   }

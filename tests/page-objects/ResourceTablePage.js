@@ -57,7 +57,7 @@ function verifyPageContent() {
   self.waitForElementNotPresent('@spinner')
   self.api.pause(10000)
   self.client.api.element('css selector', '.resource-table-container__table', res => {
-    res.status === 0 ? self.waitForElementVisible('@table') : self.waitForElementVisible('@noResource')
+    res.status === 0 ? self.waitForElementVisible('@table') : self.waitForElementVisible('@notification')
   })
 }
 

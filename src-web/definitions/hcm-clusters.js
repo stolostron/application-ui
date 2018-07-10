@@ -43,6 +43,7 @@ export default {
     {
       msgKey: 'table.header.nodes',
       resourceKey: 'TotalNodes',
+      transformFunction: getTotalReadyNodes
     },
     {
       msgKey: 'table.header.storage',
@@ -93,6 +94,10 @@ export function getStatusIcon(item) {
       <p>{item.Status}</p>
     </div>
   )
+}
+
+export function getTotalReadyNodes(item) {
+  return `${item.TotalReadyNodes}/${item.TotalNodes}`
 }
 
 export function getStorage(item, locale) {

@@ -10,7 +10,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Loading, Modal } from 'carbon-components-react'
+import { Modal, Table, TableBody, TableRow, TableData } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 
@@ -18,28 +18,68 @@ resources(() => {
   require('../../../scss/modal.scss')
 })
 
+// WIP, still waiting Lise to finalize the design
+/* eslint-disable-next-line */
+const FilterTableRow = ({ filterName, availableFilters=[], selectedFilters=[] }) => (
+  <TableRow>
+    <TableData>
+      {filterName}
+    </TableData>
+  </TableRow>
+)
+/* eslint-disable react/no-unused-prop-types */
+FilterTableRow.propTypes = {
+  filterData: PropTypes.array,
+  filterKey: PropTypes.string,
+}
 
 class FilterModal extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.handleSubmitClick = this.handleSubmitClick.bind(this)
+    this.state = {
+      tags: props.tags || [],
+    }
+  }
+
+  createFilterTable(tags, availableFilters) {
+    return (
+      <Table className='filter-table' >
+        <TableBody>
+          {Object.keys(availableFilters).map(filterKey =>
+            <FilterTableRow
+              availableFilters={availableFilters[filterKey]}
+              filterName = {filterKey}
+              key={filterKey}
+              selectedFilters={tags}
+            />
+          )}
+        </TableBody>
+      </Table>
+    )
+  }
+
+  handleSubmitClick() {
+    const { handleModalSubmit } = this.props
+    handleModalSubmit(this.state.tags)
+  }
 
   render(){
-    //eslint-disable-next-line
-    const { tags=[], suggestions=[], handleModalClose, handleModalOpen, modalOpen } = this.props
+    const { availableFilters=[], handleModalClose } = this.props
+    const { modalOpen } = this.props
     return (
       <div>
-        <Button icon="add--glyph" small key='registerApplication' onClick={this.handleModalOpen}>
-          { msgs.get('actions.register.application', this.context.locale) }
-        </Button>
         <Modal
           className='modal-with-editor'
-          open={this.state.modalOpen}
-          modalHeading={ msgs.get('actions.register.application', this.context.locale) }
-          primaryButtonText={ msgs.get('actions.register.application', this.context.locale) }
-          primaryButtonDisabled={this.isSubmitDisabled()}
+          open={modalOpen}
+          modalHeading={ msgs.get('modal.resource-filter.label', this.context.locale) }
+          primaryButtonText={ msgs.get('actions.save', this.context.locale) }
+          primaryButtonDisabled={false}
           secondaryButtonText={ msgs.get('actions.cancel', this.context.locale) }
-          onRequestSubmit={this.handleModalSubmit}
-          onRequestClose={this.handleModalCancel}
+          onRequestSubmit={ this.handleSubmitClick }
+          onRequestClose={ handleModalClose }
         >
-          {this.state.processing && <Loading small withOverlay={false} />}
+          {this.createFilterTable(this.state.tags, availableFilters)}
         </Modal>
       </div>
     )
@@ -47,10 +87,10 @@ class FilterModal extends React.PureComponent {
 }
 
 FilterModal.propTypes = {
+  availableFilters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   handleModalClose: PropTypes.func,
-  handleModalOpen: PropTypes.func,
+  handleModalSubmit: PropTypes.func,
   modalOpen: PropTypes.bool,
-  suggestions: PropTypes.array,
   tags: PropTypes.array,
 }
 

@@ -36,29 +36,41 @@
 
 
 /* Styles for the button */
-.tagInput-filterButton {
-  transform: scale(1.2);
+.tagInput-copyButton {
+  transform: scale(0.9);
   fill: $color__navy-gray-7;
   display: inline-block;
   float: left;
-  margin: 1.3rem 0.5rem;
+  margin-top: 0.5rem;
+  margin-left: 3rem;
+  &:hover {
+    fill: $color__navy-gray-1;
+  }
+}
+
+.tagInput-filterButton {
+  transform: scale(0.8);
+  fill: $color__navy-gray-7;
+  display: inline-block;
+  float: left;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
   &:hover {
     fill: $color__navy-gray-1;
   }
 }
 
 .tagInput-clearAll {
-  float: left;
   color: $color__blue-50;
-  margin: 1.3rem;
   width: 4rem;
-
+  left: calc(100% - 7.5rem);
+  margin-top: 2rem;
+  float: right;
+  font-weight: bold;
   &:hover {
     text-decoration: underline;
     cursor: pointer;
   }
-  //position: absolute;   // remove for one-line
-  //left: 18rem;          // remove for one-line
 }
 
 
@@ -67,14 +79,22 @@
 .tagInput-comboBox {
   float: left;
   padding-bottom: 0.5rem;
+  width: calc(100% - 6rem);
+  &__hasTags {
+    height: 7rem;
+  }
+
+  &__noTag {
+    height: 4rem;
+  }
 }
 
 .react-tags {
   position: relative;
-  padding: 6px 0 0 6px;
+  padding-top: 0.5rem;
 
   /* shared font styles */
-  font-size: 1em;
+  font-size: 0.9em;
   line-height: 1.2;
 
   /* clicking anywhere will focus the input */
@@ -86,7 +106,25 @@
 }
 
 .react-tags__selected {
-  display: inline;
+  margin-top: 3.5rem;
+  overflow: hidden;
+  flex-wrap: wrap;
+  display: inline-flex;
+  max-height: 2.25rem;
+  transition: max-height 0s 0.1s ease-in;
+  &:hover {
+    height: auto;
+    max-height: 6.9rem; // expand to display 3 rows
+    overflow: auto;
+    transition: max-height 0.1s 0.1s ease-in;
+    box-shadow: 0px 8px 4px -4px $color__navy-gray-7;
+    border-width: 0;
+    background-color: $color__gray-3;
+    width: 100%;
+    position: relative;
+    z-index: 100
+  ;
+  }
 }
 
 .react-tags__selected-tag {
@@ -97,7 +135,8 @@
   border-radius: 1.5rem;
   transition: all .6s ease-out;
   margin-right: 0.5rem;
-
+  margin-bottom: 0.5rem;
+  height: 1.75rem;
   /* match the font styles */
   font-size: inherit;
   line-height: inherit;
@@ -117,19 +156,17 @@
 
 /* Styles for search input */
 .react-tags__search {
-  display: inline-block;
-
-  /* match tag layout */
-  padding: 7px 2px;
-  margin-bottom: 6px;
-
-  /* prevent autoresize overflowing the container */
-  max-width: 100%;
+  margin-top: -4.2rem;
+  width: 100%;
+  position: absolute;
+  top: 5rem;
 }
 
 .react-tags__search input {
-  /* prevent autoresize overflowing the container */
-  max-width: 100%;
+  width: 100%;
+  // color of input box, cannot find a referenced one from Carbon _colors.scss
+  background-color: #e2e9f3;
+  padding-left: 1rem;
 
   /* remove styles and layout from this element */
   border: 0;
@@ -137,8 +174,9 @@
   height: 2rem;
 
   /* match the font styles */
-  font-size: inherit;
-  line-height: inherit;
+  font-size: 0.875rem;
+  font-family: "ibm-plex-sans", Helvetica Neue, Arial, sans-serif;
+  color: $color__blue-90;
 }
 
 

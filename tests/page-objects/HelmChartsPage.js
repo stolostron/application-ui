@@ -16,6 +16,7 @@ module.exports = {
     deleteBtn: '.bx--btn--danger--primary',
     installBtn: '.bx--modal-footer .bx--btn--primary',
     modal: '.bx--modal',
+    removeResourceModal: '#remove-resource-modal',
     notificationText: '.bx--inline-notification__subtitle',
     overflowMenu: '.bx--overflow-menu',
     overflowMenuRemove: '.bx--overflow-menu-options__btn',
@@ -67,20 +68,22 @@ function installHelmRelease(browser, chartName, relName, namespace) {
   this.waitForElementNotPresent('@spinner')
 }
 
-function deleteHelmRelease(relName) {
+function deleteHelmRelease(browser, relName) {
   this.waitForElementNotPresent('@spinner')
+  browser.pause(5000)
   this.waitForElementVisible('@resourceSearch')
   this.setValue('@resourceSearch', relName)
   this.click('@overflowMenu')
   this.waitForElementVisible('@overflowMenuRemove')
   this.click('@overflowMenuRemove')
-  this.waitForElementVisible('@modal')
+  this.waitForElementVisible('@removeResourceModal')
   this.click('@deleteBtn')
   this.waitForElementNotPresent('@spinner')
 }
 
-function verifyHelmReleaseInstall(relName) {
+function verifyHelmReleaseInstall(browser, relName) {
   this.waitForElementNotPresent('@spinner')
+  browser.pause(3000)
   this.waitForElementVisible('@resourceSearch')
   this.setValue('@resourceSearch', relName)
   this.expect.element(`[data-row-name=${relName}]`).to.be.present

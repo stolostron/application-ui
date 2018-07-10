@@ -17,25 +17,51 @@ describe('TagInput component 1', () => {
   const fn = jest.fn()
   const tagFilterProps = {
     tags: [
-      { id: 'tag1', name: 'tag1' },
-      { id: 'tag2', name: 'tag2' }
+      {
+        'name': 'cloud=IBM',
+        'id': 'cloud=IBM',
+        'key': 'cloud',
+        'value': 'IBM',
+        'type': 'clusterLabel'
+      },
     ],
-    suggestions: [
-      { id: 'tag1', name: 'tag1' },
-      { id: 'tag2', name: 'tag2' },
-      { id: 'tag3', name: 'tag3' },
-      { id: 'tag4', name: 'tag4' },
-      { id: 'tag5', name: 'tag5' },
-      { id: 'tag6', name: 'tag6' }
-    ]
+    availableFilters: {
+      'clusterLabels': [
+        {
+          'name': 'cloud=IBM',
+          'id': 'cloud=IBM',
+          'key': 'cloud',
+          'value': 'IBM',
+          'type': 'clusterLabel'
+        },
+        {
+          'name': 'clusterip=9.42.23.230',
+          'id': 'clusterip=9.42.23.230',
+          'key': 'clusterip',
+          'value': '9.42.23.230',
+          'type': 'clusterLabel'
+        }
+      ],
+      'clusterNames': [
+        {
+          'name': 'cluster=crucial-owl',
+          'id': 'crucial-owl',
+          'value': 'crucial-owl',
+          'type': 'clusterName'
+        }
+      ]
+    }
   }
   it('renders as expected', () => {
     const component = shallow(
-      <TagInput  {...tagFilterProps} hideModalButton={true} onFilterButtonClick={fn} />
+      <TagInput  {...tagFilterProps} hideModalButton={false} onSelectedFilterChange={fn} />
     )
     expect(component).toMatchSnapshot()
     //clear all out button
+    component.find('.tagInput-filterButton').at(0).simulate('click')
+    expect(component).toMatchSnapshot()
     component.find('.tagInput-clearAll').at(0).simulate('click')
     expect(component).toMatchSnapshot()
+    expect(fn).toHaveBeenCalled()
   })
 })

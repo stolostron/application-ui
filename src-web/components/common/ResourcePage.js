@@ -20,9 +20,7 @@ import Page from './Page'
 const WrappedResourceList = props =>
   <div>
     <ResourceList
-      resourceType={props.resourceType}
-      staticResourceData={props.staticResourceData}
-      getVisibleResources={props.getVisibleResources}
+      {...props}
       tabs={props.secondaryHeaderProps.tabs}
       title={props.secondaryHeaderProps.title}>
       {props.buttons}

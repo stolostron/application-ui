@@ -2,6 +2,7 @@
   "common.app.name": "IBM Hybrid Cloud Manager",
   "action": "Action",
   "actions.add": "Add",
+  "actions.save": "Save",
   "actions.cancel": "Cancel",
   "actions.clearAll": "Clear All",
   "actions.register.application": "Register Application",
@@ -115,11 +116,13 @@
   "modal.undeploy-hcmapplication.confirm": "Are you sure you want to remove deployment of the application {0}?",
   "modal.undeploy-hcmapplication.heading": "Remove Deployment",
   "modal.undeploy-hcmapplication.label": "Application",
+  "modal.resource-filter.label": "Resource Filter",
   "modal.button.cancel": "Cancel",
   "no-cluster.title": "No cluster found",
   "no-cluster.detail": "Please connect at least one cluster first.",
   "no-resource.title": "No {0} found.",
   "no-resource.detail": "Your cluster does not contain any {0}.",
+  "no-resource.hcmcluster": "Clusters",
   "no-resource.hcmrelease": "HelmReleases",
   "no-resource.hcmpersistentvolume": "PersistentVolumes",
   "no-resource.hcmnamespace": "Namespaces",
@@ -148,5 +151,6 @@
   "dashboard.card.cpu": "CPU Health",
   "dashboard.error.default": "Resource request failed. Please try again.",
   "svg.description.overflowMenu": "Open and close list of options",
-  "placeholder.filterInput.tags": "Add new filter tags..."
+  "placeholder.filterInput.tags": "Add new filter tags...",
+  "button.copyButton.feedback": "Copied to clipboard"
 }

@@ -40,7 +40,7 @@ module.exports = {
     chartPage.navigate(url)
     chartPage.verifyPageContent()
     chartPage.installHelmRelease(browser, 'acs', releaseName, 'default')
-    chartPage.verifyHelmReleaseInstall(releaseName)
+    chartPage.verifyHelmReleaseInstall(browser, releaseName)
   },
 
   'delete-helm-release': (browser) => {
@@ -48,7 +48,7 @@ module.exports = {
     const chartPage = browser.page.HelmChartsPage()
     chartPage.navigate(url)
     chartPage.verifyPageContent()
-    chartPage.deleteHelmRelease(releaseName)
+    chartPage.deleteHelmRelease(browser, releaseName)
     chartPage.verifyHelmReleaseDelete(releaseName)
   },
 

@@ -58,11 +58,11 @@ class App extends React.Component {
         <Switch>
           <Route path={`${match.url}/overview`} render={() => <DashboardTab serverProps={serverProps} />} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
-          <Route path={`${match.url}/clusters/clusters`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
+          <Route path={`${match.url}/clusters/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
           <Route path={`${match.url}/clusters/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.clusters.applications'}} />} />
-          <Route path={`${match.url}/clusters/pods`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.clusters.pods'}} />} />
+          <Route path={`${match.url}/clusters/pods:filters?`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.clusters.pods'}} />} />
           <Route path={`${match.url}/clusters/charts`} render={() => <ChartsTab secondaryHeaderProps={{title: 'routes.clusters.charts'}} />} />
-          <Route path={`${match.url}/clusters/releases`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.clusters.releases'}} />} />
+          <Route path={`${match.url}/clusters/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.clusters.releases'}} />} />
           <Route path={`${match.url}/clusters/repositories`} render={() => <RepositoriesTab secondaryHeaderProps={{title: 'routes.clusters.repositories'}} />} />
           <Redirect to={`${config.contextPath}/overview`} />
         </Switch>

@@ -20,7 +20,7 @@ export const resourceFilters = (state = {}, action) => {
       },
     })
   case Actions.RESOURCE_FILTERS_UPDATE: {
-    const selectedFilters = {...state.selectedFilters} || {}
+    const selectedFilters = state.selectedFilters ? {...state.selectedFilters} : {}
     selectedFilters[action.resourceName] = action.selectedFilters
     return {...state, selectedFilters}
   }

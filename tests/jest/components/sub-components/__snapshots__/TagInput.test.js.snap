@@ -5,45 +5,44 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <TagInput
-    hideModalButton={true}
-    onFilterButtonClick={[MockFunction]}
-    suggestions={
-      Array [
-        Object {
-          "id": "tag1",
-          "name": "tag1",
-        },
-        Object {
-          "id": "tag2",
-          "name": "tag2",
-        },
-        Object {
-          "id": "tag3",
-          "name": "tag3",
-        },
-        Object {
-          "id": "tag4",
-          "name": "tag4",
-        },
-        Object {
-          "id": "tag5",
-          "name": "tag5",
-        },
-        Object {
-          "id": "tag6",
-          "name": "tag6",
-        },
-      ]
+    availableFilters={
+      Object {
+        "clusterLabels": Array [
+          Object {
+            "id": "cloud=IBM",
+            "key": "cloud",
+            "name": "cloud=IBM",
+            "type": "clusterLabel",
+            "value": "IBM",
+          },
+          Object {
+            "id": "clusterip=9.42.23.230",
+            "key": "clusterip",
+            "name": "clusterip=9.42.23.230",
+            "type": "clusterLabel",
+            "value": "9.42.23.230",
+          },
+        ],
+        "clusterNames": Array [
+          Object {
+            "id": "crucial-owl",
+            "name": "cluster=crucial-owl",
+            "type": "clusterName",
+            "value": "crucial-owl",
+          },
+        ],
+      }
     }
+    hideModalButton={false}
+    onSelectedFilterChange={[MockFunction]}
     tags={
       Array [
         Object {
-          "id": "tag1",
-          "name": "tag1",
-        },
-        Object {
-          "id": "tag2",
-          "name": "tag2",
+          "id": "cloud=IBM",
+          "key": "cloud",
+          "name": "cloud=IBM",
+          "type": "clusterLabel",
+          "value": "IBM",
         },
       ]
     }
@@ -61,13 +60,56 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        false,
+        <FilterModal
+          availableFilters={
+            Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            }
+          }
+          handleModalClose={[Function]}
+          handleModalSubmit={[Function]}
+          modalOpen={false}
+          selected={
+            Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ]
+          }
+        />,
         <div
-          className="tagInput-comboBox"
+          className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
             allowBackspace={true}
-            allowNew={false}
+            allowNew={true}
             autofocus={true}
             autoresize={false}
             delimiterChars={Array []}
@@ -82,35 +124,137 @@ ShallowWrapper {
             maxSuggestionsLength={6}
             minQueryLength={1}
             placeholder="Add new filter tags..."
-            suggestions={Array []}
-            tagComponent={null}
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
             tags={
               Array [
                 Object {
-                  "id": "tag1",
-                  "name": "tag1",
-                },
-                Object {
-                  "id": "tag2",
-                  "name": "tag2",
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
                 },
               ]
             }
           />
         </div>,
         <div
-          className="tagInput-clearAll"
-          onClick={[Function]}
-          role="presentation"
+          className="tagInput-copyButton"
         >
-          Clear All
+          <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>
+        </div>,
+        <div
+          className="tagInput-filterButton"
+        >
+          <Icon
+            className="icon--filter"
+            description="Provide a description that will be used as the title"
+            fillRule="evenodd"
+            name="icon--filter"
+            onClick={[Function]}
+            role="img"
+          />
+        </div>,
+        <div
+          className="tagInput-clear-button"
+        >
+          <div
+            className="tagInput-clearAll"
+            onClick={[Function]}
+            role="presentation"
+          >
+            Clear All
+          </div>
         </div>,
       ],
       "className": "tagInput-filter",
     },
     "ref": null,
     "rendered": Array [
-      false,
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "availableFilters": Object {
+            "clusterLabels": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+            ],
+            "clusterNames": Array [
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+          },
+          "handleModalClose": [Function],
+          "handleModalSubmit": [Function],
+          "modalOpen": false,
+          "selected": Array [
+            Object {
+              "id": "cloud=IBM",
+              "key": "cloud",
+              "name": "cloud=IBM",
+              "type": "clusterLabel",
+              "value": "IBM",
+            },
+          ],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
       Object {
         "instance": null,
         "key": undefined,
@@ -118,7 +262,7 @@ ShallowWrapper {
         "props": Object {
           "children": <ReactTags
             allowBackspace={true}
-            allowNew={false}
+            allowNew={true}
             autofocus={true}
             autoresize={false}
             delimiterChars={Array []}
@@ -133,22 +277,44 @@ ShallowWrapper {
             maxSuggestionsLength={6}
             minQueryLength={1}
             placeholder="Add new filter tags..."
-            suggestions={Array []}
-            tagComponent={null}
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
             tags={
               Array [
                 Object {
-                  "id": "tag1",
-                  "name": "tag1",
-                },
-                Object {
-                  "id": "tag2",
-                  "name": "tag2",
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
                 },
               ]
             }
           />,
-          "className": "tagInput-comboBox",
+          "className": "tagInput-comboBox tagInput-comboBox__hasTags",
         },
         "ref": null,
         "rendered": Object {
@@ -157,7 +323,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "allowBackspace": true,
-            "allowNew": false,
+            "allowNew": true,
             "autofocus": true,
             "autoresize": false,
             "delimiterChars": Array [],
@@ -170,16 +336,36 @@ ShallowWrapper {
             "maxSuggestionsLength": 6,
             "minQueryLength": 1,
             "placeholder": "Add new filter tags...",
-            "suggestions": Array [],
-            "tagComponent": null,
-            "tags": Array [
+            "suggestions": Array [
               Object {
-                "id": "tag1",
-                "name": "tag1",
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
               },
               Object {
-                "id": "tag2",
-                "name": "tag2",
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+            "tagComponent": [Function],
+            "tags": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
               },
             ],
           },
@@ -194,13 +380,121 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Clear All",
-          "className": "tagInput-clearAll",
-          "onClick": [Function],
-          "role": "presentation",
+          "children": <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>,
+          "className": "tagInput-copyButton",
         },
         "ref": null,
-        "rendered": "Clear All",
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />,
+            "onCopy": undefined,
+            "options": undefined,
+            "text": "about:blank",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "className": "copy-button",
+              "feedback": "Copied!",
+              "feedbackTimeout": 2000,
+              "iconDescription": "Copy to clipboard",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Icon
+            className="icon--filter"
+            description="Provide a description that will be used as the title"
+            fillRule="evenodd"
+            name="icon--filter"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-filterButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--filter",
+            "description": "Provide a description that will be used as the title",
+            "fillRule": "evenodd",
+            "name": "icon--filter",
+            "onClick": [Function],
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="tagInput-clearAll"
+            onClick={[Function]}
+            role="presentation"
+          >
+            Clear All
+          </div>,
+          "className": "tagInput-clear-button",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Clear All",
+            "className": "tagInput-clearAll",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": "Clear All",
+          "type": "div",
+        },
         "type": "div",
       },
     ],
@@ -213,13 +507,56 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          false,
+          <FilterModal
+            availableFilters={
+              Object {
+                "clusterLabels": Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                ],
+                "clusterNames": Array [
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ],
+              }
+            }
+            handleModalClose={[Function]}
+            handleModalSubmit={[Function]}
+            modalOpen={false}
+            selected={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
+          />,
           <div
-            className="tagInput-comboBox"
+            className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
               allowBackspace={true}
-              allowNew={false}
+              allowNew={true}
               autofocus={true}
               autoresize={false}
               delimiterChars={Array []}
@@ -234,35 +571,137 @@ ShallowWrapper {
               maxSuggestionsLength={6}
               minQueryLength={1}
               placeholder="Add new filter tags..."
-              suggestions={Array []}
-              tagComponent={null}
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
               tags={
                 Array [
                   Object {
-                    "id": "tag1",
-                    "name": "tag1",
-                  },
-                  Object {
-                    "id": "tag2",
-                    "name": "tag2",
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
                   },
                 ]
               }
             />
           </div>,
           <div
-            className="tagInput-clearAll"
-            onClick={[Function]}
-            role="presentation"
+            className="tagInput-copyButton"
           >
-            Clear All
+            <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>
+          </div>,
+          <div
+            className="tagInput-filterButton"
+          >
+            <Icon
+              className="icon--filter"
+              description="Provide a description that will be used as the title"
+              fillRule="evenodd"
+              name="icon--filter"
+              onClick={[Function]}
+              role="img"
+            />
+          </div>,
+          <div
+            className="tagInput-clear-button"
+          >
+            <div
+              className="tagInput-clearAll"
+              onClick={[Function]}
+              role="presentation"
+            >
+              Clear All
+            </div>
           </div>,
         ],
         "className": "tagInput-filter",
       },
       "ref": null,
       "rendered": Array [
-        false,
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "availableFilters": Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            },
+            "handleModalClose": [Function],
+            "handleModalSubmit": [Function],
+            "modalOpen": false,
+            "selected": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         Object {
           "instance": null,
           "key": undefined,
@@ -270,7 +709,7 @@ ShallowWrapper {
           "props": Object {
             "children": <ReactTags
               allowBackspace={true}
-              allowNew={false}
+              allowNew={true}
               autofocus={true}
               autoresize={false}
               delimiterChars={Array []}
@@ -285,22 +724,44 @@ ShallowWrapper {
               maxSuggestionsLength={6}
               minQueryLength={1}
               placeholder="Add new filter tags..."
-              suggestions={Array []}
-              tagComponent={null}
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
               tags={
                 Array [
                   Object {
-                    "id": "tag1",
-                    "name": "tag1",
-                  },
-                  Object {
-                    "id": "tag2",
-                    "name": "tag2",
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
                   },
                 ]
               }
             />,
-            "className": "tagInput-comboBox",
+            "className": "tagInput-comboBox tagInput-comboBox__hasTags",
           },
           "ref": null,
           "rendered": Object {
@@ -309,7 +770,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "allowBackspace": true,
-              "allowNew": false,
+              "allowNew": true,
               "autofocus": true,
               "autoresize": false,
               "delimiterChars": Array [],
@@ -322,16 +783,36 @@ ShallowWrapper {
               "maxSuggestionsLength": 6,
               "minQueryLength": 1,
               "placeholder": "Add new filter tags...",
-              "suggestions": Array [],
-              "tagComponent": null,
-              "tags": Array [
+              "suggestions": Array [
                 Object {
-                  "id": "tag1",
-                  "name": "tag1",
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
                 },
                 Object {
-                  "id": "tag2",
-                  "name": "tag2",
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+              "tagComponent": [Function],
+              "tags": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
                 },
               ],
             },
@@ -346,13 +827,121 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Clear All",
-            "className": "tagInput-clearAll",
-            "onClick": [Function],
-            "role": "presentation",
+            "children": <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>,
+            "className": "tagInput-copyButton",
           },
           "ref": null,
-          "rendered": "Clear All",
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />,
+              "onCopy": undefined,
+              "options": undefined,
+              "text": "about:blank",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "className": "copy-button",
+                "feedback": "Copied!",
+                "feedbackTimeout": 2000,
+                "iconDescription": "Copy to clipboard",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--filter"
+              description="Provide a description that will be used as the title"
+              fillRule="evenodd"
+              name="icon--filter"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-filterButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--filter",
+              "description": "Provide a description that will be used as the title",
+              "fillRule": "evenodd",
+              "name": "icon--filter",
+              "onClick": [Function],
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="tagInput-clearAll"
+              onClick={[Function]}
+              role="presentation"
+            >
+              Clear All
+            </div>,
+            "className": "tagInput-clear-button",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Clear All",
+              "className": "tagInput-clearAll",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": "Clear All",
+            "type": "div",
+          },
           "type": "div",
         },
       ],
@@ -374,45 +963,44 @@ ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <TagInput
-    hideModalButton={true}
-    onFilterButtonClick={[MockFunction]}
-    suggestions={
-      Array [
-        Object {
-          "id": "tag1",
-          "name": "tag1",
-        },
-        Object {
-          "id": "tag2",
-          "name": "tag2",
-        },
-        Object {
-          "id": "tag3",
-          "name": "tag3",
-        },
-        Object {
-          "id": "tag4",
-          "name": "tag4",
-        },
-        Object {
-          "id": "tag5",
-          "name": "tag5",
-        },
-        Object {
-          "id": "tag6",
-          "name": "tag6",
-        },
-      ]
+    availableFilters={
+      Object {
+        "clusterLabels": Array [
+          Object {
+            "id": "cloud=IBM",
+            "key": "cloud",
+            "name": "cloud=IBM",
+            "type": "clusterLabel",
+            "value": "IBM",
+          },
+          Object {
+            "id": "clusterip=9.42.23.230",
+            "key": "clusterip",
+            "name": "clusterip=9.42.23.230",
+            "type": "clusterLabel",
+            "value": "9.42.23.230",
+          },
+        ],
+        "clusterNames": Array [
+          Object {
+            "id": "crucial-owl",
+            "name": "cluster=crucial-owl",
+            "type": "clusterName",
+            "value": "crucial-owl",
+          },
+        ],
+      }
     }
+    hideModalButton={false}
+    onSelectedFilterChange={[MockFunction]}
     tags={
       Array [
         Object {
-          "id": "tag1",
-          "name": "tag1",
-        },
-        Object {
-          "id": "tag2",
-          "name": "tag2",
+          "id": "cloud=IBM",
+          "key": "cloud",
+          "name": "cloud=IBM",
+          "type": "clusterLabel",
+          "value": "IBM",
         },
       ]
     }
@@ -430,13 +1018,56 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        false,
+        <FilterModal
+          availableFilters={
+            Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            }
+          }
+          handleModalClose={[Function]}
+          handleModalSubmit={[Function]}
+          modalOpen={false}
+          selected={
+            Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ]
+          }
+        />,
         <div
-          className="tagInput-comboBox"
+          className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
             allowBackspace={true}
-            allowNew={false}
+            allowNew={true}
             autofocus={true}
             autoresize={false}
             delimiterChars={Array []}
@@ -451,24 +1082,137 @@ ShallowWrapper {
             maxSuggestionsLength={6}
             minQueryLength={1}
             placeholder="Add new filter tags..."
-            suggestions={Array []}
-            tagComponent={null}
-            tags={Array []}
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
+            tags={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
           />
         </div>,
         <div
-          className="tagInput-clearAll"
-          onClick={[Function]}
-          role="presentation"
+          className="tagInput-copyButton"
         >
-          Clear All
+          <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>
+        </div>,
+        <div
+          className="tagInput-filterButton"
+        >
+          <Icon
+            className="icon--filter"
+            description="Provide a description that will be used as the title"
+            fillRule="evenodd"
+            name="icon--filter"
+            onClick={[Function]}
+            role="img"
+          />
+        </div>,
+        <div
+          className="tagInput-clear-button"
+        >
+          <div
+            className="tagInput-clearAll"
+            onClick={[Function]}
+            role="presentation"
+          >
+            Clear All
+          </div>
         </div>,
       ],
       "className": "tagInput-filter",
     },
     "ref": null,
     "rendered": Array [
-      false,
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "availableFilters": Object {
+            "clusterLabels": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+            ],
+            "clusterNames": Array [
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+          },
+          "handleModalClose": [Function],
+          "handleModalSubmit": [Function],
+          "modalOpen": false,
+          "selected": Array [
+            Object {
+              "id": "cloud=IBM",
+              "key": "cloud",
+              "name": "cloud=IBM",
+              "type": "clusterLabel",
+              "value": "IBM",
+            },
+          ],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
       Object {
         "instance": null,
         "key": undefined,
@@ -476,7 +1220,7 @@ ShallowWrapper {
         "props": Object {
           "children": <ReactTags
             allowBackspace={true}
-            allowNew={false}
+            allowNew={true}
             autofocus={true}
             autoresize={false}
             delimiterChars={Array []}
@@ -491,11 +1235,44 @@ ShallowWrapper {
             maxSuggestionsLength={6}
             minQueryLength={1}
             placeholder="Add new filter tags..."
-            suggestions={Array []}
-            tagComponent={null}
-            tags={Array []}
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
+            tags={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
           />,
-          "className": "tagInput-comboBox",
+          "className": "tagInput-comboBox tagInput-comboBox__hasTags",
         },
         "ref": null,
         "rendered": Object {
@@ -504,7 +1281,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "allowBackspace": true,
-            "allowNew": false,
+            "allowNew": true,
             "autofocus": true,
             "autoresize": false,
             "delimiterChars": Array [],
@@ -517,8 +1294,949 @@ ShallowWrapper {
             "maxSuggestionsLength": 6,
             "minQueryLength": 1,
             "placeholder": "Add new filter tags...",
-            "suggestions": Array [],
-            "tagComponent": null,
+            "suggestions": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+            "tagComponent": [Function],
+            "tags": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>,
+          "className": "tagInput-copyButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />,
+            "onCopy": undefined,
+            "options": undefined,
+            "text": "about:blank",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "className": "copy-button",
+              "feedback": "Copied!",
+              "feedbackTimeout": 2000,
+              "iconDescription": "Copy to clipboard",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Icon
+            className="icon--filter"
+            description="Provide a description that will be used as the title"
+            fillRule="evenodd"
+            name="icon--filter"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-filterButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--filter",
+            "description": "Provide a description that will be used as the title",
+            "fillRule": "evenodd",
+            "name": "icon--filter",
+            "onClick": [Function],
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="tagInput-clearAll"
+            onClick={[Function]}
+            role="presentation"
+          >
+            Clear All
+          </div>,
+          "className": "tagInput-clear-button",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Clear All",
+            "className": "tagInput-clearAll",
+            "onClick": [Function],
+            "role": "presentation",
+          },
+          "ref": null,
+          "rendered": "Clear All",
+          "type": "div",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <FilterModal
+            availableFilters={
+              Object {
+                "clusterLabels": Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                ],
+                "clusterNames": Array [
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ],
+              }
+            }
+            handleModalClose={[Function]}
+            handleModalSubmit={[Function]}
+            modalOpen={false}
+            selected={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
+          />,
+          <div
+            className="tagInput-comboBox tagInput-comboBox__hasTags"
+          >
+            <ReactTags
+              allowBackspace={true}
+              allowNew={true}
+              autofocus={true}
+              autoresize={false}
+              delimiterChars={Array []}
+              delimiters={
+                Array [
+                  9,
+                  13,
+                ]
+              }
+              handleAddition={[Function]}
+              handleDelete={[Function]}
+              maxSuggestionsLength={6}
+              minQueryLength={1}
+              placeholder="Add new filter tags..."
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
+              tags={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                ]
+              }
+            />
+          </div>,
+          <div
+            className="tagInput-copyButton"
+          >
+            <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>
+          </div>,
+          <div
+            className="tagInput-filterButton"
+          >
+            <Icon
+              className="icon--filter"
+              description="Provide a description that will be used as the title"
+              fillRule="evenodd"
+              name="icon--filter"
+              onClick={[Function]}
+              role="img"
+            />
+          </div>,
+          <div
+            className="tagInput-clear-button"
+          >
+            <div
+              className="tagInput-clearAll"
+              onClick={[Function]}
+              role="presentation"
+            >
+              Clear All
+            </div>
+          </div>,
+        ],
+        "className": "tagInput-filter",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "availableFilters": Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            },
+            "handleModalClose": [Function],
+            "handleModalSubmit": [Function],
+            "modalOpen": false,
+            "selected": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <ReactTags
+              allowBackspace={true}
+              allowNew={true}
+              autofocus={true}
+              autoresize={false}
+              delimiterChars={Array []}
+              delimiters={
+                Array [
+                  9,
+                  13,
+                ]
+              }
+              handleAddition={[Function]}
+              handleDelete={[Function]}
+              maxSuggestionsLength={6}
+              minQueryLength={1}
+              placeholder="Add new filter tags..."
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
+              tags={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                ]
+              }
+            />,
+            "className": "tagInput-comboBox tagInput-comboBox__hasTags",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "allowBackspace": true,
+              "allowNew": true,
+              "autofocus": true,
+              "autoresize": false,
+              "delimiterChars": Array [],
+              "delimiters": Array [
+                9,
+                13,
+              ],
+              "handleAddition": [Function],
+              "handleDelete": [Function],
+              "maxSuggestionsLength": 6,
+              "minQueryLength": 1,
+              "placeholder": "Add new filter tags...",
+              "suggestions": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+              "tagComponent": [Function],
+              "tags": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>,
+            "className": "tagInput-copyButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />,
+              "onCopy": undefined,
+              "options": undefined,
+              "text": "about:blank",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "className": "copy-button",
+                "feedback": "Copied!",
+                "feedbackTimeout": 2000,
+                "iconDescription": "Copy to clipboard",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--filter"
+              description="Provide a description that will be used as the title"
+              fillRule="evenodd"
+              name="icon--filter"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-filterButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--filter",
+              "description": "Provide a description that will be used as the title",
+              "fillRule": "evenodd",
+              "name": "icon--filter",
+              "onClick": [Function],
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="tagInput-clearAll"
+              onClick={[Function]}
+              role="presentation"
+            >
+              Clear All
+            </div>,
+            "className": "tagInput-clear-button",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": "Clear All",
+              "className": "tagInput-clearAll",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": "Clear All",
+            "type": "div",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`TagInput component 1 renders as expected 3`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <TagInput
+    availableFilters={
+      Object {
+        "clusterLabels": Array [
+          Object {
+            "id": "cloud=IBM",
+            "key": "cloud",
+            "name": "cloud=IBM",
+            "type": "clusterLabel",
+            "value": "IBM",
+          },
+          Object {
+            "id": "clusterip=9.42.23.230",
+            "key": "clusterip",
+            "name": "clusterip=9.42.23.230",
+            "type": "clusterLabel",
+            "value": "9.42.23.230",
+          },
+        ],
+        "clusterNames": Array [
+          Object {
+            "id": "crucial-owl",
+            "name": "cluster=crucial-owl",
+            "type": "clusterName",
+            "value": "crucial-owl",
+          },
+        ],
+      }
+    }
+    hideModalButton={false}
+    onSelectedFilterChange={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Array [],
+          ],
+        ],
+      }
+    }
+    tags={
+      Array [
+        Object {
+          "id": "cloud=IBM",
+          "key": "cloud",
+          "name": "cloud=IBM",
+          "type": "clusterLabel",
+          "value": "IBM",
+        },
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <FilterModal
+          availableFilters={
+            Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            }
+          }
+          handleModalClose={[Function]}
+          handleModalSubmit={[Function]}
+          modalOpen={false}
+          selected={Array []}
+        />,
+        <div
+          className="tagInput-comboBox tagInput-comboBox__noTag"
+        >
+          <ReactTags
+            allowBackspace={true}
+            allowNew={true}
+            autofocus={true}
+            autoresize={false}
+            delimiterChars={Array []}
+            delimiters={
+              Array [
+                9,
+                13,
+              ]
+            }
+            handleAddition={[Function]}
+            handleDelete={[Function]}
+            maxSuggestionsLength={6}
+            minQueryLength={1}
+            placeholder="Add new filter tags..."
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
+            tags={Array []}
+          />
+        </div>,
+        <div
+          className="tagInput-copyButton"
+        >
+          <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>
+        </div>,
+        <div
+          className="tagInput-filterButton"
+        >
+          <Icon
+            className="icon--filter"
+            description="Provide a description that will be used as the title"
+            fillRule="evenodd"
+            name="icon--filter"
+            onClick={[Function]}
+            role="img"
+          />
+        </div>,
+        <div
+          className="tagInput-clear-button"
+        />,
+      ],
+      "className": "tagInput-filter",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "availableFilters": Object {
+            "clusterLabels": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+            ],
+            "clusterNames": Array [
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+          },
+          "handleModalClose": [Function],
+          "handleModalSubmit": [Function],
+          "modalOpen": false,
+          "selected": Array [],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <ReactTags
+            allowBackspace={true}
+            allowNew={true}
+            autofocus={true}
+            autoresize={false}
+            delimiterChars={Array []}
+            delimiters={
+              Array [
+                9,
+                13,
+              ]
+            }
+            handleAddition={[Function]}
+            handleDelete={[Function]}
+            maxSuggestionsLength={6}
+            minQueryLength={1}
+            placeholder="Add new filter tags..."
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
+            tags={Array []}
+          />,
+          "className": "tagInput-comboBox tagInput-comboBox__noTag",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "allowBackspace": true,
+            "allowNew": true,
+            "autofocus": true,
+            "autoresize": false,
+            "delimiterChars": Array [],
+            "delimiters": Array [
+              9,
+              13,
+            ],
+            "handleAddition": [Function],
+            "handleDelete": [Function],
+            "maxSuggestionsLength": 6,
+            "minQueryLength": 1,
+            "placeholder": "Add new filter tags...",
+            "suggestions": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+            "tagComponent": [Function],
             "tags": Array [],
           },
           "ref": null,
@@ -532,13 +2250,102 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": "Clear All",
-          "className": "tagInput-clearAll",
-          "onClick": [Function],
-          "role": "presentation",
+          "children": <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>,
+          "className": "tagInput-copyButton",
         },
         "ref": null,
-        "rendered": "Clear All",
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": <CopyButton
+              className="copy-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />,
+            "onCopy": undefined,
+            "options": undefined,
+            "text": "about:blank",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "className": "copy-button",
+              "feedback": "Copied!",
+              "feedbackTimeout": 2000,
+              "iconDescription": "Copy to clipboard",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Icon
+            className="icon--filter"
+            description="Provide a description that will be used as the title"
+            fillRule="evenodd"
+            name="icon--filter"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-filterButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--filter",
+            "description": "Provide a description that will be used as the title",
+            "fillRule": "evenodd",
+            "name": "icon--filter",
+            "onClick": [Function],
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": false,
+          "className": "tagInput-clear-button",
+        },
+        "ref": null,
+        "rendered": false,
         "type": "div",
       },
     ],
@@ -551,13 +2358,46 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          false,
+          <FilterModal
+            availableFilters={
+              Object {
+                "clusterLabels": Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                ],
+                "clusterNames": Array [
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ],
+              }
+            }
+            handleModalClose={[Function]}
+            handleModalSubmit={[Function]}
+            modalOpen={false}
+            selected={Array []}
+          />,
           <div
-            className="tagInput-comboBox"
+            className="tagInput-comboBox tagInput-comboBox__noTag"
           >
             <ReactTags
               allowBackspace={true}
-              allowNew={false}
+              allowNew={true}
               autofocus={true}
               autoresize={false}
               delimiterChars={Array []}
@@ -572,24 +2412,111 @@ ShallowWrapper {
               maxSuggestionsLength={6}
               minQueryLength={1}
               placeholder="Add new filter tags..."
-              suggestions={Array []}
-              tagComponent={null}
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
               tags={Array []}
             />
           </div>,
           <div
-            className="tagInput-clearAll"
-            onClick={[Function]}
-            role="presentation"
+            className="tagInput-copyButton"
           >
-            Clear All
+            <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>
           </div>,
+          <div
+            className="tagInput-filterButton"
+          >
+            <Icon
+              className="icon--filter"
+              description="Provide a description that will be used as the title"
+              fillRule="evenodd"
+              name="icon--filter"
+              onClick={[Function]}
+              role="img"
+            />
+          </div>,
+          <div
+            className="tagInput-clear-button"
+          />,
         ],
         "className": "tagInput-filter",
       },
       "ref": null,
       "rendered": Array [
-        false,
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "availableFilters": Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            },
+            "handleModalClose": [Function],
+            "handleModalSubmit": [Function],
+            "modalOpen": false,
+            "selected": Array [],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
         Object {
           "instance": null,
           "key": undefined,
@@ -597,7 +2524,7 @@ ShallowWrapper {
           "props": Object {
             "children": <ReactTags
               allowBackspace={true}
-              allowNew={false}
+              allowNew={true}
               autofocus={true}
               autoresize={false}
               delimiterChars={Array []}
@@ -612,11 +2539,34 @@ ShallowWrapper {
               maxSuggestionsLength={6}
               minQueryLength={1}
               placeholder="Add new filter tags..."
-              suggestions={Array []}
-              tagComponent={null}
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
               tags={Array []}
             />,
-            "className": "tagInput-comboBox",
+            "className": "tagInput-comboBox tagInput-comboBox__noTag",
           },
           "ref": null,
           "rendered": Object {
@@ -625,7 +2575,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "allowBackspace": true,
-              "allowNew": false,
+              "allowNew": true,
               "autofocus": true,
               "autoresize": false,
               "delimiterChars": Array [],
@@ -638,8 +2588,29 @@ ShallowWrapper {
               "maxSuggestionsLength": 6,
               "minQueryLength": 1,
               "placeholder": "Add new filter tags...",
-              "suggestions": Array [],
-              "tagComponent": null,
+              "suggestions": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+              "tagComponent": [Function],
               "tags": Array [],
             },
             "ref": null,
@@ -653,13 +2624,102 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Clear All",
-            "className": "tagInput-clearAll",
-            "onClick": [Function],
-            "role": "presentation",
+            "children": <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>,
+            "className": "tagInput-copyButton",
           },
           "ref": null,
-          "rendered": "Clear All",
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": <CopyButton
+                className="copy-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />,
+              "onCopy": undefined,
+              "options": undefined,
+              "text": "about:blank",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "className": "copy-button",
+                "feedback": "Copied!",
+                "feedbackTimeout": 2000,
+                "iconDescription": "Copy to clipboard",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--filter"
+              description="Provide a description that will be used as the title"
+              fillRule="evenodd"
+              name="icon--filter"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-filterButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--filter",
+              "description": "Provide a description that will be used as the title",
+              "fillRule": "evenodd",
+              "name": "icon--filter",
+              "onClick": [Function],
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": false,
+            "className": "tagInput-clear-button",
+          },
+          "ref": null,
+          "rendered": false,
           "type": "div",
         },
       ],

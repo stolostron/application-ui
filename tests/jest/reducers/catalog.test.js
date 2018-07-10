@@ -13,6 +13,7 @@ For a given input, a selector should always produce the same output.
  */
 
 import catalog from '../../../src-web/reducers/catalog'
+import { addOrRemove } from '../../../src-web/reducers/catalog'
 import * as Actions from '../../../src-web/actions'
 
 describe('catalog reducer', () => {
@@ -150,5 +151,13 @@ describe('catalog reducer', () => {
     }
     const expectedValue = { dropdownFiltersVisibility: true, test: 'test' }
     expect(catalog(state, action)).toEqual(expectedValue)
+  })
+})
+
+
+describe('catalog addOrRemove', () => {
+  it('should return as expected', () => {
+    const expectedValue = ['t', 'test']
+    expect(addOrRemove('t', 'test')).toEqual(expectedValue)
   })
 })

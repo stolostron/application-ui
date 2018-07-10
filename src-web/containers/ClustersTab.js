@@ -11,5 +11,7 @@
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithList } from '../components/common/ResourcePage'
+import pageWithUrlQuery from '../components/common/withUrlQuery'
 
-export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_CLUSTERS))
+const resourceType = RESOURCE_TYPES.HCM_CLUSTERS
+export default withRouter(pageWithUrlQuery(typedResourcePageWithList(resourceType), resourceType))

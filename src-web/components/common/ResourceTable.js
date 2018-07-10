@@ -42,7 +42,8 @@ class ResourceTable extends React.Component {
       handleSearch,
       actions,
       searchValue,
-      tableActions } = this.props
+      tableActions,
+    } = this.props
 
     return (
       <div className='resource-table-container'>

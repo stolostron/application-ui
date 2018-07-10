@@ -14,6 +14,8 @@ import apolloClient from '../../lib/client/apollo-client'
 import { receiveResourceError, requestResource}  from './common'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
+export const STRING_SPLITTER = '='
+
 export  const combineFilters = (selectedFilters) => {
   let tempObject = []
   if (selectedFilters && selectedFilters.length > 0) {

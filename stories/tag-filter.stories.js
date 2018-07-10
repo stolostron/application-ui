@@ -18,17 +18,109 @@ import TagInput from '../src-web/components/common/TagInput'
 
 const tagFilterProps = {
   tags: [
-    { id: 'tag1', name: 'tag1' },
-    { id: 'tag2', name: 'tag2' }
+    {
+      'name': 'cloud=IBM',
+      'id': 'cloud=IBM',
+      'key': 'cloud',
+      'value': 'IBM',
+      'type': 'clusterLabel'
+    },
   ],
-  availableFilters: [
-    { id: 'tag1', name: 'tag1' },
-    { id: 'tag2', name: 'tag2' },
-    { id: 'tag3', name: 'tag3' },
-    { id: 'tag4', name: 'tag4' },
-    { id: 'tag5', name: 'tag5' },
-    { id: 'tag6', name: 'tag6' }
-  ]
+  availableFilters: {
+    'clusterLabels': [
+      {
+        'name': 'cloud=IBM',
+        'id': 'cloud=IBM',
+        'key': 'cloud',
+        'value': 'IBM',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'clusterip=9.42.23.230',
+        'id': 'clusterip=9.42.23.230',
+        'key': 'clusterip',
+        'value': '9.42.23.230',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'datacenter=toronto',
+        'id': 'datacenter=toronto',
+        'key': 'datacenter',
+        'value': 'toronto',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'environment=Dev',
+        'id': 'environment=Dev',
+        'key': 'environment',
+        'value': 'Dev',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'owner=marketing',
+        'id': 'owner=marketing',
+        'key': 'owner',
+        'value': 'marketing',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'region=US',
+        'id': 'region=US',
+        'key': 'region',
+        'value': 'US',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'runtime=kubernetes',
+        'id': 'runtime=kubernetes',
+        'key': 'runtime',
+        'value': 'kubernetes',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'vendor=ICP',
+        'id': 'vendor=ICP',
+        'key': 'vendor',
+        'value': 'ICP',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'clusterip=9.42.23.217',
+        'id': 'clusterip=9.42.23.217',
+        'key': 'clusterip',
+        'value': '9.42.23.217',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'datacenter=raleigh',
+        'id': 'datacenter=raleigh',
+        'key': 'datacenter',
+        'value': 'raleigh',
+        'type': 'clusterLabel'
+      },
+      {
+        'name': 'environment=Prod',
+        'id': 'environment=Prod',
+        'key': 'environment',
+        'value': 'Prod',
+        'type': 'clusterLabel'
+      }
+    ],
+    'clusterNames': [
+      {
+        'name': 'cluster=crucial-owl',
+        'id': 'crucial-owl',
+        'value': 'crucial-owl',
+        'type': 'clusterName'
+      },
+      {
+        'name': 'cluster=myminikube',
+        'id': 'myminikube',
+        'value': 'myminikube',
+        'type': 'clusterName'
+      }
+    ]
+  }
 }
 
 storiesOf('TagInput', module)

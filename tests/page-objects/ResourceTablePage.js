@@ -76,7 +76,7 @@ function createResource(formData, resourceName) {
 }
 
 function deleteResource(resourceName) {
-  this.handleTableAction(resourceName, 'table.actions.remove')
+  this.handleTableAction(resourceName, 'table.actions.applications.remove')
   this.waitForElementVisible('@removeModal')
   this.click('@removeModalBtn')
   this.waitForElementNotPresent('@removeModal')

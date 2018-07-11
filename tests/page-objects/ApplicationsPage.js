@@ -24,7 +24,7 @@ module.exports = {
     overflowMenu: '.bx--overflow-menu',
     overflowMenuDashboard: '[data-table-action="table.actions.applications.dashboard"]',
     overflowMenuDeploy: '[data-table-action="table.actions.applications.deploy"]',
-    overflowMenuRemove: '[data-table-action="table.actions.remove"]',
+    overflowMenuRemove: '[data-table-action="table.actions.applications.remove"]',
     overflowMenuUndeploy: '[data-table-action="table.actions.applications.undeploy"]',
     registerAppBtn: '#register-application',
     registerAppModal: '.bx--modal',

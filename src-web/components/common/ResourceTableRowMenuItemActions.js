@@ -40,6 +40,7 @@ export const resourceActions = (action, dispatch, resourceType, data) => {
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
         data: { apiVersion: resourceType.api_version, kind: resourceType.name, ..._data }}))
   }
+  case 'table.actions.applications.remove':
   case 'table.actions.remove': {
     return dispatch(updateModal(
       { open: true, type: 'resource-remove', resourceType,

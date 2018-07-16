@@ -58,10 +58,8 @@ push: check-env app-version
 test:
 	npm install \
 	del@3.0.0 \
-	babel-jest@21.2.0 \
 	enzyme@3.3.0 \
 	enzyme-adapter-react-16@1.1.1 \
-	enzyme-to-json@3.3.1 \
 	jest@22.4.2 \
 	react-test-renderer@16.2.0 \
 	jsonfile@4.0.0 \

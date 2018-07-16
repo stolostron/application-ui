@@ -34,13 +34,11 @@ module.exports = {
       'react-redux',
       'react-router-dom',
       'react-tag-autocomplete',
-      'react-transition-group',
       'react',
       'redux-logger',
       'redux-thunk',
       'redux',
-      'reselect',
-      'whatwg-fetch'
+      'reselect'
     ]
   },
   output: {

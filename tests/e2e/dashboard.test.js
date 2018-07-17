@@ -16,7 +16,7 @@ module.exports = {
     loginPage.navigate()
     loginPage.authenticate()
 
-    const url = `${browser.launch_url}${config.get('contextPath')}/overview/application`
+    const url = `${browser.launch_url}${config.get('contextPath')}/overview`
     page = browser.page.DashboardPage()
     page.navigate(url)
   },

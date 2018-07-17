@@ -73,7 +73,7 @@ after_failure:
         sudo apt-get install -y expect
         mkdir selenium-test && mkdir selenium-test/$TRAVIS_JOB_NUMBER && cp -R test-output selenium-test/$TRAVIS_JOB_NUMBER
         expect upload-selenium.sh
-        echo Selenium test failed! Result available at http://9.42.23.217:81/"$TRAVIS_JOB_NUMBER"/test-output/
+        echo Selenium test failed! Result available at http://9.42.23.217:81/$TRAVIS_JOB_NUMBER/test-output/
       fi
   - make cicd-log-fail
 notifications:

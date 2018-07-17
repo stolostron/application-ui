@@ -9,9 +9,9 @@
 
 const config = require('../../config')
 const ROUTE = {
-  'add-helm-repo': '/clusters/repositories',
-  'install-helm-release': '/clusters/charts',
-  'delete-helm-release': '/clusters/releases'
+  'add-helm-repo': '/repositories',
+  'install-helm-release': '/charts',
+  'delete-helm-release': '/releases'
 }
 
 const getReleaseName = chartName => `selenium-${chartName}-${Date.now()}`

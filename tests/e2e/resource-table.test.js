@@ -9,11 +9,11 @@
 
 const config = require('../../config')
 const ROUTE = {
-  'verify-clusters-list-content': '/clusters/clusters',
-  'verify-clusters-pods-list-content': '/clusters/pods',
-  'verify-clusters-charts-list-content': '/clusters/charts',
-  'verify-clusters-releases-list-content': '/clusters/releases',
-  'verify-clusters-repositories-list-content': '/clusters/repositories'
+  'verify-clusters-list-content': '/clusters',
+  'verify-clusters-pods-list-content': '/pods',
+  'verify-clusters-charts-list-content': '/charts',
+  'verify-clusters-releases-list-content': '/releases',
+  'verify-clusters-repositories-list-content': '/repositories'
 }
 
 module.exports = {

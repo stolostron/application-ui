@@ -94,7 +94,7 @@ class Catalog extends React.Component {
 
   render() {
     if (this.state.shouldRedirect) {
-      return <Redirect to={`${getContextRoot()}/clusters/releases`} />
+      return <Redirect to={`${getContextRoot()}/releases`} />
     }
 
     const {

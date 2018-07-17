@@ -128,22 +128,21 @@ class TagInput extends React.Component {
   }
 
   handleModalOpen = () => {
-    this.setState((prevState) => Object.assign({}, prevState, {
-      modalOpen: true
-    }))
+    this.setState({ modalOpen: true })
   }
 
   handleModalClose = () => {
-    this.setState((prevState) => Object.assign({}, prevState, {
-      modalOpen: false
-    }))
+    this.setState({ modalOpen: false })
   }
 
-  handleModalSubmit = () => {
+  handleModalSubmit = (selections) => {
     // WIP, waiting for Lise to finalize the design
-    this.setState((prevState) => Object.assign({}, prevState, {
-      modalOpen: false
-    }))
+    const { onSelectedFilterChange } = this.props
+    this.setState({
+      modalOpen: false,
+      tags: selections
+    })
+    onSelectedFilterChange && onSelectedFilterChange(selections)
   }
 
   render() {
@@ -153,12 +152,20 @@ class TagInput extends React.Component {
     const haveTagSelected = tags.length > 0 ? 'hasTags' : 'noTag'
     return (
       <div className='tagInput-filter'>
-        <FilterModal selected={tags}
+        <FilterModal
+          selected={tags}
           availableFilters={availableFilters}
           modalOpen={this.state.modalOpen}
           handleModalClose={this.handleModalClose}
           handleModalSubmit={this.handleModalSubmit}
         />
+        <div className='tagInput-searchIcon'>
+          <Icon
+            className='icon--search--glyph'
+            name='icon--search--glyph'
+            description={msgs.get('taginput.icon.search', this.context.locale)}
+          />
+        </div>
         <div className={`tagInput-comboBox tagInput-comboBox__${haveTagSelected}`}>
           <ReactTags
             placeholder={msgs.get('placeholder.filterInput.tags', this.context.locale)}
@@ -166,31 +173,36 @@ class TagInput extends React.Component {
             suggestions={suggestions}
             handleDelete={this.handleDelete}
             handleAddition={this.handleAddition}
-            autoresize={false}
+            autoresize={true}
             minQueryLength={1}
             allowNew={true}
             tagComponent={FilterTag}
           />
         </div>
+        <div className='tagInput-cleanButton'>
+          <Icon
+            className='icon--close--outline'
+            name='icon--close--outline'
+            description={msgs.get('taginput.icon.clean', this.context.locale)}
+            onClick={this.handleClearAllClick} />
+        </div>
         <div className='tagInput-copyButton'>
           <CopyToClipboard text={this.onCopyButtonClick()}>
-            <CopyButton className='copy-button' />
+            <CopyButton className='tagInput-button' />
           </CopyToClipboard>
         </div>
         {!hideModalButton &&
         <div className='tagInput-filterButton'>
-          <Icon
-            className='icon--filter'
-            name='icon--filter'
-            onClick={this.onFilterButtonClick} />
+          <button type="button" className="tagInput-button"
+            onClick={this.onFilterButtonClick}>
+            <Icon
+              className='icon--filter'
+              name='icon--filter'
+              description={msgs.get('taginput.icon.filter', this.context.locale)}
+            />
+          </button>
         </div>
         }
-        <div className='tagInput-clear-button'>
-          {tags.length > 0 &&
-          <div role='presentation' className='tagInput-clearAll'
-            onClick={this.handleClearAllClick}>{msgs.get('actions.clearAll', this.context.locale)}</div>
-          }
-        </div>
       </div>
     )
   }

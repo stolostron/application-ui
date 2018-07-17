@@ -53,7 +53,11 @@ function filterTopology(filter, checkBox, cb) {
 
 function openDetailsView(cb) {
   // for now just click on the first node in the diagram
-  this.click('.topologyDiagramContainer > svg > g.nodes > g.node')
+  // A single node may get covered by other elements, try server different nodes.
+  this.click('.topologyDiagramContainer > svg > g.nodes > g.node:nth-child(1)')
+  this.click('.topologyDiagramContainer > svg > g.nodes > g.node:nth-child(2)')
+  this.click('.topologyDiagramContainer > svg > g.nodes > g.node:nth-child(3)')
+  this.click('.topologyDiagramContainer > svg > g.nodes > g.node:nth-child(4)')
   this.waitForElementPresent('.topologyDetails', 3000, ()=>{
     this.api.elements('css selector', 'section.topologyDetails', res => cb(res))
   })

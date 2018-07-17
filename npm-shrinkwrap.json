@@ -3365,6 +3365,13 @@
         "classnames": "2.2.5",
         "d3": "4.13.0",
         "lodash": "4.17.10"
+      },
+      "dependencies": {
+        "carbon-icons": {
+          "version": "6.3.2",
+          "resolved": "https://registry.npmjs.org/carbon-icons/-/carbon-icons-6.3.2.tgz",
+          "integrity": "sha512-6c2xYOxvHP5iJGNsuqC/YclcWn0EpBHb+awmoQLgDcIyOThAtVB8RpIRYeLFB6PbJk4P0sqNpFggwY/o/cCj3g=="
+        }
       }
     },
     "carbon-components": {
@@ -3378,6 +3385,11 @@
         "warning": "3.0.0"
       },
       "dependencies": {
+        "carbon-icons": {
+          "version": "6.3.2",
+          "resolved": "https://registry.npmjs.org/carbon-icons/-/carbon-icons-6.3.2.tgz",
+          "integrity": "sha512-6c2xYOxvHP5iJGNsuqC/YclcWn0EpBHb+awmoQLgDcIyOThAtVB8RpIRYeLFB6PbJk4P0sqNpFggwY/o/cCj3g=="
+        },
         "flatpickr": {
           "version": "2.6.3",
           "resolved": "https://registry.npmjs.org/flatpickr/-/flatpickr-2.6.3.tgz",
@@ -3409,9 +3421,9 @@
       }
     },
     "carbon-icons": {
-      "version": "6.3.2",
-      "resolved": "https://registry.npmjs.org/carbon-icons/-/carbon-icons-6.3.2.tgz",
-      "integrity": "sha512-6c2xYOxvHP5iJGNsuqC/YclcWn0EpBHb+awmoQLgDcIyOThAtVB8RpIRYeLFB6PbJk4P0sqNpFggwY/o/cCj3g=="
+      "version": "7.0.7",
+      "resolved": "https://registry.npmjs.org/carbon-icons/-/carbon-icons-7.0.7.tgz",
+      "integrity": "sha512-3vgkdXJRgCViCrH3fLUdyAXo0I8wmohO6QETv7vWFx6yc7s+SirWFBSFL38zUx4MHtR8iTxIlLEzkeU6FlFtXg=="
     },
     "case-sensitive-paths-webpack-plugin": {
       "version": "2.1.2",

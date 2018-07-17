@@ -11,7 +11,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { updateResourceFilters, STRING_SPLITTER } from '../../actions/filters'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import queryString from 'query-string'
 
 const pageWithUrlQuery = (ChildComponent, resourceType) => {
 // HOC to handle the url query parameters
@@ -25,32 +26,44 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
 
     createLocationSearch(queries) {
       // create location search in React router
-      // .....?tag1=value1&tag2=value2
-      let result = {filters:{}}
-      queries.forEach((item) => {
-        if (item.type) {
-          if (!Array.isArray(result.filters[item.type])) {
-            result.filters[item.type] = Array.of(item.name)
-          } else {
-            result.filters[item.type].push(item.name)
+      // .....？{filters:{clusterLabel:[cloud=IBM]}}
+      if (queries.length > 0) {
+        let result = {}
+        queries.forEach((item) => {
+          if (item.type) {
+            if (!Array.isArray(result[item.type])) {
+              result[item.type] = Array.of(item.name)
+            } else {
+              result[item.type].push(item.name)
+            }
           }
-        }
-      })
-      const query = JSON.stringify(result)
-      return query
+        })
+        const query = JSON.stringify(result)
+        return query
+      } else {
+        return false
+      }
     }
 
     updateBrowserURL(tags) {
       const { history, location } = this.props
-      if (history) {
+      const paramString = this.createLocationSearch(tags)
+      if (history && paramString) {
         // update the URL with filter tags
-        history.push(`${location.pathname}?${this.createLocationSearch(tags)}`)
+        history.push(`${location.pathname}?tags=${paramString}`)
       }
     }
 
     constructor(props) {
       super(props)
       this.updateBrowserURL = this.updateBrowserURL.bind(this)
+      this.state = {
+        firstTimeLoad: true
+      }
+    }
+
+    componentWillReceiveProps() {
+      this.setState({firstTimeLoad: false})
     }
 
     convertObjectToFilterArray(object) {
@@ -76,17 +89,18 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
 
     convertQueryParams() {
       const { location, putParamsFiltersIntoStore } = this.props
-      let uri_dec = decodeURIComponent(location.search)
-      uri_dec = uri_dec.startsWith('?', 0) ? uri_dec.substring(1) : uri_dec
+      const uri_dec = decodeURIComponent(location.search)
+      const paramString = queryString.parse(uri_dec)
       try {
-        const result = JSON.parse(uri_dec)
-        // handle query filters
-        if (result && result.filters) {
-          putParamsFiltersIntoStore(this.convertObjectToFilterArray(result.filters))
+        const tags = paramString.tags
+        if (tags) {
+          const result = JSON.parse(tags)
+          if (result && this.state.firstTimeLoad) {
+            putParamsFiltersIntoStore(this.convertObjectToFilterArray(result))
+          }
         }
       } catch(e) {
         // eslint-disable-next-line
-        console.log(e)
       }
     }
 

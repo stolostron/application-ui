@@ -105,13 +105,24 @@ ShallowWrapper {
           }
         />,
         <div
+          className="tagInput-searchIcon"
+        >
+          <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />
+        </div>,
+        <div
           className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
-            autoresize={false}
+            autoresize={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -163,6 +174,18 @@ ShallowWrapper {
           />
         </div>,
         <div
+          className="tagInput-cleanButton"
+        >
+          <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />
+        </div>,
+        <div
           className="tagInput-copyButton"
         >
           <CopyToClipboard
@@ -171,7 +194,7 @@ ShallowWrapper {
             text="about:blank"
           >
             <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -182,25 +205,19 @@ ShallowWrapper {
         <div
           className="tagInput-filterButton"
         >
-          <Icon
-            className="icon--filter"
-            description="Provide a description that will be used as the title"
-            fillRule="evenodd"
-            name="icon--filter"
+          <button
+            className="tagInput-button"
             onClick={[Function]}
-            role="img"
-          />
-        </div>,
-        <div
-          className="tagInput-clear-button"
-        >
-          <div
-            className="tagInput-clearAll"
-            onClick={[Function]}
-            role="presentation"
+            type="button"
           >
-            Clear All
-          </div>
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>
         </div>,
       ],
       "className": "tagInput-filter",
@@ -260,11 +277,43 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />,
+          "className": "tagInput-searchIcon",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--search--glyph",
+            "description": "search icon",
+            "fillRule": "evenodd",
+            "name": "icon--search--glyph",
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
           "children": <ReactTags
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
-            autoresize={false}
+            autoresize={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -325,7 +374,7 @@ ShallowWrapper {
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
-            "autoresize": false,
+            "autoresize": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -380,13 +429,47 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-cleanButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--close--outline",
+            "description": "remove all tags",
+            "fillRule": "evenodd",
+            "name": "icon--close--outline",
+            "onClick": [Function],
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
           "children": <CopyToClipboard
             onCopy={undefined}
             options={undefined}
             text="about:blank"
           >
             <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -402,7 +485,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "children": <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -418,7 +501,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "className": "copy-button",
+              "className": "tagInput-button",
               "feedback": "Copied!",
               "feedbackTimeout": 2000,
               "iconDescription": "Copy to clipboard",
@@ -437,48 +520,20 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <Icon
-            className="icon--filter"
-            description="Provide a description that will be used as the title"
-            fillRule="evenodd"
-            name="icon--filter"
+          "children": <button
+            className="tagInput-button"
             onClick={[Function]}
-            role="img"
-          />,
-          "className": "tagInput-filterButton",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "className": "icon--filter",
-            "description": "Provide a description that will be used as the title",
-            "fillRule": "evenodd",
-            "name": "icon--filter",
-            "onClick": [Function],
-            "role": "img",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": <div
-            className="tagInput-clearAll"
-            onClick={[Function]}
-            role="presentation"
+            type="button"
           >
-            Clear All
-          </div>,
-          "className": "tagInput-clear-button",
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>,
+          "className": "tagInput-filterButton",
         },
         "ref": null,
         "rendered": Object {
@@ -486,14 +541,34 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Clear All",
-            "className": "tagInput-clearAll",
+            "children": <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />,
+            "className": "tagInput-button",
             "onClick": [Function],
-            "role": "presentation",
+            "type": "button",
           },
           "ref": null,
-          "rendered": "Clear All",
-          "type": "div",
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--filter",
+              "description": "open modal for tags",
+              "fillRule": "evenodd",
+              "name": "icon--filter",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "button",
         },
         "type": "div",
       },
@@ -552,13 +627,24 @@ ShallowWrapper {
             }
           />,
           <div
+            className="tagInput-searchIcon"
+          >
+            <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />
+          </div>,
+          <div
             className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
-              autoresize={false}
+              autoresize={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -610,6 +696,18 @@ ShallowWrapper {
             />
           </div>,
           <div
+            className="tagInput-cleanButton"
+          >
+            <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />
+          </div>,
+          <div
             className="tagInput-copyButton"
           >
             <CopyToClipboard
@@ -618,7 +716,7 @@ ShallowWrapper {
               text="about:blank"
             >
               <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -629,25 +727,19 @@ ShallowWrapper {
           <div
             className="tagInput-filterButton"
           >
-            <Icon
-              className="icon--filter"
-              description="Provide a description that will be used as the title"
-              fillRule="evenodd"
-              name="icon--filter"
+            <button
+              className="tagInput-button"
               onClick={[Function]}
-              role="img"
-            />
-          </div>,
-          <div
-            className="tagInput-clear-button"
-          >
-            <div
-              className="tagInput-clearAll"
-              onClick={[Function]}
-              role="presentation"
+              type="button"
             >
-              Clear All
-            </div>
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>
           </div>,
         ],
         "className": "tagInput-filter",
@@ -707,11 +799,43 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
+            "children": <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />,
+            "className": "tagInput-searchIcon",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--search--glyph",
+              "description": "search icon",
+              "fillRule": "evenodd",
+              "name": "icon--search--glyph",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
             "children": <ReactTags
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
-              autoresize={false}
+              autoresize={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -772,7 +896,7 @@ ShallowWrapper {
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
-              "autoresize": false,
+              "autoresize": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -827,13 +951,47 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
+            "children": <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-cleanButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--close--outline",
+              "description": "remove all tags",
+              "fillRule": "evenodd",
+              "name": "icon--close--outline",
+              "onClick": [Function],
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
             "children": <CopyToClipboard
               onCopy={undefined}
               options={undefined}
               text="about:blank"
             >
               <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -849,7 +1007,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "children": <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -865,7 +1023,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "className": "copy-button",
+                "className": "tagInput-button",
                 "feedback": "Copied!",
                 "feedbackTimeout": 2000,
                 "iconDescription": "Copy to clipboard",
@@ -884,48 +1042,20 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": <Icon
-              className="icon--filter"
-              description="Provide a description that will be used as the title"
-              fillRule="evenodd"
-              name="icon--filter"
+            "children": <button
+              className="tagInput-button"
               onClick={[Function]}
-              role="img"
-            />,
-            "className": "tagInput-filterButton",
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "className": "icon--filter",
-              "description": "Provide a description that will be used as the title",
-              "fillRule": "evenodd",
-              "name": "icon--filter",
-              "onClick": [Function],
-              "role": "img",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": <div
-              className="tagInput-clearAll"
-              onClick={[Function]}
-              role="presentation"
+              type="button"
             >
-              Clear All
-            </div>,
-            "className": "tagInput-clear-button",
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>,
+            "className": "tagInput-filterButton",
           },
           "ref": null,
           "rendered": Object {
@@ -933,14 +1063,34 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Clear All",
-              "className": "tagInput-clearAll",
+              "children": <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />,
+              "className": "tagInput-button",
               "onClick": [Function],
-              "role": "presentation",
+              "type": "button",
             },
             "ref": null,
-            "rendered": "Clear All",
-            "type": "div",
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "className": "icon--filter",
+                "description": "open modal for tags",
+                "fillRule": "evenodd",
+                "name": "icon--filter",
+                "role": "img",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "button",
           },
           "type": "div",
         },
@@ -1063,13 +1213,24 @@ ShallowWrapper {
           }
         />,
         <div
+          className="tagInput-searchIcon"
+        >
+          <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />
+        </div>,
+        <div
           className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
-            autoresize={false}
+            autoresize={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -1121,6 +1282,18 @@ ShallowWrapper {
           />
         </div>,
         <div
+          className="tagInput-cleanButton"
+        >
+          <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />
+        </div>,
+        <div
           className="tagInput-copyButton"
         >
           <CopyToClipboard
@@ -1129,7 +1302,7 @@ ShallowWrapper {
             text="about:blank"
           >
             <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -1140,25 +1313,19 @@ ShallowWrapper {
         <div
           className="tagInput-filterButton"
         >
-          <Icon
-            className="icon--filter"
-            description="Provide a description that will be used as the title"
-            fillRule="evenodd"
-            name="icon--filter"
+          <button
+            className="tagInput-button"
             onClick={[Function]}
-            role="img"
-          />
-        </div>,
-        <div
-          className="tagInput-clear-button"
-        >
-          <div
-            className="tagInput-clearAll"
-            onClick={[Function]}
-            role="presentation"
+            type="button"
           >
-            Clear All
-          </div>
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>
         </div>,
       ],
       "className": "tagInput-filter",
@@ -1218,11 +1385,43 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />,
+          "className": "tagInput-searchIcon",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--search--glyph",
+            "description": "search icon",
+            "fillRule": "evenodd",
+            "name": "icon--search--glyph",
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
           "children": <ReactTags
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
-            autoresize={false}
+            autoresize={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -1283,7 +1482,7 @@ ShallowWrapper {
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
-            "autoresize": false,
+            "autoresize": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -1338,13 +1537,47 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-cleanButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--close--outline",
+            "description": "remove all tags",
+            "fillRule": "evenodd",
+            "name": "icon--close--outline",
+            "onClick": [Function],
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
           "children": <CopyToClipboard
             onCopy={undefined}
             options={undefined}
             text="about:blank"
           >
             <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -1360,7 +1593,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "children": <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -1376,7 +1609,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "className": "copy-button",
+              "className": "tagInput-button",
               "feedback": "Copied!",
               "feedbackTimeout": 2000,
               "iconDescription": "Copy to clipboard",
@@ -1395,48 +1628,20 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <Icon
-            className="icon--filter"
-            description="Provide a description that will be used as the title"
-            fillRule="evenodd"
-            name="icon--filter"
+          "children": <button
+            className="tagInput-button"
             onClick={[Function]}
-            role="img"
-          />,
-          "className": "tagInput-filterButton",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "function",
-          "props": Object {
-            "className": "icon--filter",
-            "description": "Provide a description that will be used as the title",
-            "fillRule": "evenodd",
-            "name": "icon--filter",
-            "onClick": [Function],
-            "role": "img",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": <div
-            className="tagInput-clearAll"
-            onClick={[Function]}
-            role="presentation"
+            type="button"
           >
-            Clear All
-          </div>,
-          "className": "tagInput-clear-button",
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>,
+          "className": "tagInput-filterButton",
         },
         "ref": null,
         "rendered": Object {
@@ -1444,14 +1649,34 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": "Clear All",
-            "className": "tagInput-clearAll",
+            "children": <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />,
+            "className": "tagInput-button",
             "onClick": [Function],
-            "role": "presentation",
+            "type": "button",
           },
           "ref": null,
-          "rendered": "Clear All",
-          "type": "div",
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--filter",
+              "description": "open modal for tags",
+              "fillRule": "evenodd",
+              "name": "icon--filter",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "button",
         },
         "type": "div",
       },
@@ -1510,13 +1735,24 @@ ShallowWrapper {
             }
           />,
           <div
+            className="tagInput-searchIcon"
+          >
+            <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />
+          </div>,
+          <div
             className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
-              autoresize={false}
+              autoresize={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -1568,6 +1804,18 @@ ShallowWrapper {
             />
           </div>,
           <div
+            className="tagInput-cleanButton"
+          >
+            <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />
+          </div>,
+          <div
             className="tagInput-copyButton"
           >
             <CopyToClipboard
@@ -1576,7 +1824,7 @@ ShallowWrapper {
               text="about:blank"
             >
               <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -1587,25 +1835,19 @@ ShallowWrapper {
           <div
             className="tagInput-filterButton"
           >
-            <Icon
-              className="icon--filter"
-              description="Provide a description that will be used as the title"
-              fillRule="evenodd"
-              name="icon--filter"
+            <button
+              className="tagInput-button"
               onClick={[Function]}
-              role="img"
-            />
-          </div>,
-          <div
-            className="tagInput-clear-button"
-          >
-            <div
-              className="tagInput-clearAll"
-              onClick={[Function]}
-              role="presentation"
+              type="button"
             >
-              Clear All
-            </div>
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>
           </div>,
         ],
         "className": "tagInput-filter",
@@ -1665,11 +1907,43 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
+            "children": <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />,
+            "className": "tagInput-searchIcon",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--search--glyph",
+              "description": "search icon",
+              "fillRule": "evenodd",
+              "name": "icon--search--glyph",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
             "children": <ReactTags
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
-              autoresize={false}
+              autoresize={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -1730,7 +2004,7 @@ ShallowWrapper {
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
-              "autoresize": false,
+              "autoresize": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -1785,13 +2059,47 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
+            "children": <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-cleanButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--close--outline",
+              "description": "remove all tags",
+              "fillRule": "evenodd",
+              "name": "icon--close--outline",
+              "onClick": [Function],
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
             "children": <CopyToClipboard
               onCopy={undefined}
               options={undefined}
               text="about:blank"
             >
               <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -1807,7 +2115,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "children": <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -1823,7 +2131,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "className": "copy-button",
+                "className": "tagInput-button",
                 "feedback": "Copied!",
                 "feedbackTimeout": 2000,
                 "iconDescription": "Copy to clipboard",
@@ -1842,48 +2150,20 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": <Icon
-              className="icon--filter"
-              description="Provide a description that will be used as the title"
-              fillRule="evenodd"
-              name="icon--filter"
+            "children": <button
+              className="tagInput-button"
               onClick={[Function]}
-              role="img"
-            />,
-            "className": "tagInput-filterButton",
-          },
-          "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "className": "icon--filter",
-              "description": "Provide a description that will be used as the title",
-              "fillRule": "evenodd",
-              "name": "icon--filter",
-              "onClick": [Function],
-              "role": "img",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": <div
-              className="tagInput-clearAll"
-              onClick={[Function]}
-              role="presentation"
+              type="button"
             >
-              Clear All
-            </div>,
-            "className": "tagInput-clear-button",
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>,
+            "className": "tagInput-filterButton",
           },
           "ref": null,
           "rendered": Object {
@@ -1891,14 +2171,34 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Clear All",
-              "className": "tagInput-clearAll",
+              "children": <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />,
+              "className": "tagInput-button",
               "onClick": [Function],
-              "role": "presentation",
+              "type": "button",
             },
             "ref": null,
-            "rendered": "Clear All",
-            "type": "div",
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "className": "icon--filter",
+                "description": "open modal for tags",
+                "fillRule": "evenodd",
+                "name": "icon--filter",
+                "role": "img",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "button",
           },
           "type": "div",
         },
@@ -1950,15 +2250,7 @@ ShallowWrapper {
       }
     }
     hideModalButton={false}
-    onSelectedFilterChange={
-      [MockFunction] {
-        "calls": Array [
-          Array [
-            Array [],
-          ],
-        ],
-      }
-    }
+    onSelectedFilterChange={[MockFunction]}
     tags={
       Array [
         Object {
@@ -2016,16 +2308,37 @@ ShallowWrapper {
           handleModalClose={[Function]}
           handleModalSubmit={[Function]}
           modalOpen={false}
-          selected={Array []}
+          selected={
+            Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ]
+          }
         />,
         <div
-          className="tagInput-comboBox tagInput-comboBox__noTag"
+          className="tagInput-searchIcon"
+        >
+          <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />
+        </div>,
+        <div
+          className="tagInput-comboBox tagInput-comboBox__hasTags"
         >
           <ReactTags
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
-            autoresize={false}
+            autoresize={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -2063,7 +2376,29 @@ ShallowWrapper {
               ]
             }
             tagComponent={[Function]}
-            tags={Array []}
+            tags={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
+          />
+        </div>,
+        <div
+          className="tagInput-cleanButton"
+        >
+          <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
           />
         </div>,
         <div
@@ -2075,7 +2410,7 @@ ShallowWrapper {
             text="about:blank"
           >
             <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -2086,18 +2421,20 @@ ShallowWrapper {
         <div
           className="tagInput-filterButton"
         >
-          <Icon
-            className="icon--filter"
-            description="Provide a description that will be used as the title"
-            fillRule="evenodd"
-            name="icon--filter"
+          <button
+            className="tagInput-button"
             onClick={[Function]}
-            role="img"
-          />
+            type="button"
+          >
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>
         </div>,
-        <div
-          className="tagInput-clear-button"
-        />,
       ],
       "className": "tagInput-filter",
     },
@@ -2137,7 +2474,15 @@ ShallowWrapper {
           "handleModalClose": [Function],
           "handleModalSubmit": [Function],
           "modalOpen": false,
-          "selected": Array [],
+          "selected": Array [
+            Object {
+              "id": "cloud=IBM",
+              "key": "cloud",
+              "name": "cloud=IBM",
+              "type": "clusterLabel",
+              "value": "IBM",
+            },
+          ],
         },
         "ref": null,
         "rendered": null,
@@ -2148,11 +2493,43 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
+          "children": <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />,
+          "className": "tagInput-searchIcon",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--search--glyph",
+            "description": "search icon",
+            "fillRule": "evenodd",
+            "name": "icon--search--glyph",
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
           "children": <ReactTags
             allowBackspace={true}
             allowNew={true}
             autofocus={true}
-            autoresize={false}
+            autoresize={true}
             delimiterChars={Array []}
             delimiters={
               Array [
@@ -2190,9 +2567,19 @@ ShallowWrapper {
               ]
             }
             tagComponent={[Function]}
-            tags={Array []}
+            tags={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
           />,
-          "className": "tagInput-comboBox tagInput-comboBox__noTag",
+          "className": "tagInput-comboBox tagInput-comboBox__hasTags",
         },
         "ref": null,
         "rendered": Object {
@@ -2203,7 +2590,7 @@ ShallowWrapper {
             "allowBackspace": true,
             "allowNew": true,
             "autofocus": true,
-            "autoresize": false,
+            "autoresize": true,
             "delimiterChars": Array [],
             "delimiters": Array [
               9,
@@ -2237,7 +2624,49 @@ ShallowWrapper {
               },
             ],
             "tagComponent": [Function],
-            "tags": Array [],
+            "tags": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-cleanButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--close--outline",
+            "description": "remove all tags",
+            "fillRule": "evenodd",
+            "name": "icon--close--outline",
+            "onClick": [Function],
+            "role": "img",
           },
           "ref": null,
           "rendered": null,
@@ -2256,7 +2685,7 @@ ShallowWrapper {
             text="about:blank"
           >
             <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -2272,7 +2701,7 @@ ShallowWrapper {
           "nodeType": "class",
           "props": Object {
             "children": <CopyButton
-              className="copy-button"
+              className="tagInput-button"
               feedback="Copied!"
               feedbackTimeout={2000}
               iconDescription="Copy to clipboard"
@@ -2288,7 +2717,7 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "class",
             "props": Object {
-              "className": "copy-button",
+              "className": "tagInput-button",
               "feedback": "Copied!",
               "feedbackTimeout": 2000,
               "iconDescription": "Copy to clipboard",
@@ -2307,45 +2736,56 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <Icon
-            className="icon--filter"
-            description="Provide a description that will be used as the title"
-            fillRule="evenodd"
-            name="icon--filter"
+          "children": <button
+            className="tagInput-button"
             onClick={[Function]}
-            role="img"
-          />,
+            type="button"
+          >
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>,
           "className": "tagInput-filterButton",
         },
         "ref": null,
         "rendered": Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "function",
+          "nodeType": "host",
           "props": Object {
-            "className": "icon--filter",
-            "description": "Provide a description that will be used as the title",
-            "fillRule": "evenodd",
-            "name": "icon--filter",
+            "children": <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />,
+            "className": "tagInput-button",
             "onClick": [Function],
-            "role": "img",
+            "type": "button",
           },
           "ref": null,
-          "rendered": null,
-          "type": [Function],
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--filter",
+              "description": "open modal for tags",
+              "fillRule": "evenodd",
+              "name": "icon--filter",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "button",
         },
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": false,
-          "className": "tagInput-clear-button",
-        },
-        "ref": null,
-        "rendered": false,
         "type": "div",
       },
     ],
@@ -2390,16 +2830,37 @@ ShallowWrapper {
             handleModalClose={[Function]}
             handleModalSubmit={[Function]}
             modalOpen={false}
-            selected={Array []}
+            selected={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
           />,
           <div
-            className="tagInput-comboBox tagInput-comboBox__noTag"
+            className="tagInput-searchIcon"
+          >
+            <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />
+          </div>,
+          <div
+            className="tagInput-comboBox tagInput-comboBox__hasTags"
           >
             <ReactTags
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
-              autoresize={false}
+              autoresize={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -2437,7 +2898,29 @@ ShallowWrapper {
                 ]
               }
               tagComponent={[Function]}
-              tags={Array []}
+              tags={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                ]
+              }
+            />
+          </div>,
+          <div
+            className="tagInput-cleanButton"
+          >
+            <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
             />
           </div>,
           <div
@@ -2449,7 +2932,7 @@ ShallowWrapper {
               text="about:blank"
             >
               <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -2460,18 +2943,20 @@ ShallowWrapper {
           <div
             className="tagInput-filterButton"
           >
-            <Icon
-              className="icon--filter"
-              description="Provide a description that will be used as the title"
-              fillRule="evenodd"
-              name="icon--filter"
+            <button
+              className="tagInput-button"
               onClick={[Function]}
-              role="img"
-            />
+              type="button"
+            >
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>
           </div>,
-          <div
-            className="tagInput-clear-button"
-          />,
         ],
         "className": "tagInput-filter",
       },
@@ -2511,7 +2996,15 @@ ShallowWrapper {
             "handleModalClose": [Function],
             "handleModalSubmit": [Function],
             "modalOpen": false,
-            "selected": Array [],
+            "selected": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
           },
           "ref": null,
           "rendered": null,
@@ -2522,11 +3015,43 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
+            "children": <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />,
+            "className": "tagInput-searchIcon",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--search--glyph",
+              "description": "search icon",
+              "fillRule": "evenodd",
+              "name": "icon--search--glyph",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
             "children": <ReactTags
               allowBackspace={true}
               allowNew={true}
               autofocus={true}
-              autoresize={false}
+              autoresize={true}
               delimiterChars={Array []}
               delimiters={
                 Array [
@@ -2564,9 +3089,19 @@ ShallowWrapper {
                 ]
               }
               tagComponent={[Function]}
-              tags={Array []}
+              tags={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                ]
+              }
             />,
-            "className": "tagInput-comboBox tagInput-comboBox__noTag",
+            "className": "tagInput-comboBox tagInput-comboBox__hasTags",
           },
           "ref": null,
           "rendered": Object {
@@ -2577,7 +3112,7 @@ ShallowWrapper {
               "allowBackspace": true,
               "allowNew": true,
               "autofocus": true,
-              "autoresize": false,
+              "autoresize": true,
               "delimiterChars": Array [],
               "delimiters": Array [
                 9,
@@ -2611,7 +3146,49 @@ ShallowWrapper {
                 },
               ],
               "tagComponent": [Function],
-              "tags": Array [],
+              "tags": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-cleanButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--close--outline",
+              "description": "remove all tags",
+              "fillRule": "evenodd",
+              "name": "icon--close--outline",
+              "onClick": [Function],
+              "role": "img",
             },
             "ref": null,
             "rendered": null,
@@ -2630,7 +3207,7 @@ ShallowWrapper {
               text="about:blank"
             >
               <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -2646,7 +3223,7 @@ ShallowWrapper {
             "nodeType": "class",
             "props": Object {
               "children": <CopyButton
-                className="copy-button"
+                className="tagInput-button"
                 feedback="Copied!"
                 feedbackTimeout={2000}
                 iconDescription="Copy to clipboard"
@@ -2662,7 +3239,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "class",
               "props": Object {
-                "className": "copy-button",
+                "className": "tagInput-button",
                 "feedback": "Copied!",
                 "feedbackTimeout": 2000,
                 "iconDescription": "Copy to clipboard",
@@ -2681,15 +3258,623 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": <Icon
+            "children": <button
+              className="tagInput-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>,
+            "className": "tagInput-filterButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />,
+              "className": "tagInput-button",
+              "onClick": [Function],
+              "type": "button",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "className": "icon--filter",
+                "description": "open modal for tags",
+                "fillRule": "evenodd",
+                "name": "icon--filter",
+                "role": "img",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "button",
+          },
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`TagInput component 1 renders as expected 4`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <TagInput
+    availableFilters={
+      Object {
+        "clusterLabels": Array [
+          Object {
+            "id": "cloud=IBM",
+            "key": "cloud",
+            "name": "cloud=IBM",
+            "type": "clusterLabel",
+            "value": "IBM",
+          },
+          Object {
+            "id": "clusterip=9.42.23.230",
+            "key": "clusterip",
+            "name": "clusterip=9.42.23.230",
+            "type": "clusterLabel",
+            "value": "9.42.23.230",
+          },
+        ],
+        "clusterNames": Array [
+          Object {
+            "id": "crucial-owl",
+            "name": "cluster=crucial-owl",
+            "type": "clusterName",
+            "value": "crucial-owl",
+          },
+        ],
+      }
+    }
+    hideModalButton={false}
+    onSelectedFilterChange={[MockFunction]}
+    tags={
+      Array [
+        Object {
+          "id": "cloud=IBM",
+          "key": "cloud",
+          "name": "cloud=IBM",
+          "type": "clusterLabel",
+          "value": "IBM",
+        },
+      ]
+    }
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <FilterModal
+          availableFilters={
+            Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            }
+          }
+          handleModalClose={[Function]}
+          handleModalSubmit={[Function]}
+          modalOpen={false}
+          selected={
+            Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ]
+          }
+        />,
+        <div
+          className="tagInput-searchIcon"
+        >
+          <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />
+        </div>,
+        <div
+          className="tagInput-comboBox tagInput-comboBox__hasTags"
+        >
+          <ReactTags
+            allowBackspace={true}
+            allowNew={true}
+            autofocus={true}
+            autoresize={true}
+            delimiterChars={Array []}
+            delimiters={
+              Array [
+                9,
+                13,
+              ]
+            }
+            handleAddition={[Function]}
+            handleDelete={[Function]}
+            maxSuggestionsLength={6}
+            minQueryLength={1}
+            placeholder="Add new filter tags..."
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
+            tags={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
+          />
+        </div>,
+        <div
+          className="tagInput-cleanButton"
+        >
+          <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />
+        </div>,
+        <div
+          className="tagInput-copyButton"
+        >
+          <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="tagInput-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />
+          </CopyToClipboard>
+        </div>,
+        <div
+          className="tagInput-filterButton"
+        >
+          <button
+            className="tagInput-button"
+            onClick={[Function]}
+            type="button"
+          >
+            <Icon
               className="icon--filter"
-              description="Provide a description that will be used as the title"
+              description="open modal for tags"
               fillRule="evenodd"
               name="icon--filter"
+              role="img"
+            />
+          </button>
+        </div>,
+      ],
+      "className": "tagInput-filter",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "availableFilters": Object {
+            "clusterLabels": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+            ],
+            "clusterNames": Array [
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+          },
+          "handleModalClose": [Function],
+          "handleModalSubmit": [Function],
+          "modalOpen": false,
+          "selected": Array [
+            Object {
+              "id": "cloud=IBM",
+              "key": "cloud",
+              "name": "cloud=IBM",
+              "type": "clusterLabel",
+              "value": "IBM",
+            },
+          ],
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Icon
+            className="icon--search--glyph"
+            description="search icon"
+            fillRule="evenodd"
+            name="icon--search--glyph"
+            role="img"
+          />,
+          "className": "tagInput-searchIcon",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--search--glyph",
+            "description": "search icon",
+            "fillRule": "evenodd",
+            "name": "icon--search--glyph",
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <ReactTags
+            allowBackspace={true}
+            allowNew={true}
+            autofocus={true}
+            autoresize={true}
+            delimiterChars={Array []}
+            delimiters={
+              Array [
+                9,
+                13,
+              ]
+            }
+            handleAddition={[Function]}
+            handleDelete={[Function]}
+            maxSuggestionsLength={6}
+            minQueryLength={1}
+            placeholder="Add new filter tags..."
+            suggestions={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ]
+            }
+            tagComponent={[Function]}
+            tags={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
+          />,
+          "className": "tagInput-comboBox tagInput-comboBox__hasTags",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "allowBackspace": true,
+            "allowNew": true,
+            "autofocus": true,
+            "autoresize": true,
+            "delimiterChars": Array [],
+            "delimiters": Array [
+              9,
+              13,
+            ],
+            "handleAddition": [Function],
+            "handleDelete": [Function],
+            "maxSuggestionsLength": 6,
+            "minQueryLength": 1,
+            "placeholder": "Add new filter tags...",
+            "suggestions": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+              Object {
+                "id": "clusterip=9.42.23.230",
+                "key": "clusterip",
+                "name": "clusterip=9.42.23.230",
+                "type": "clusterLabel",
+                "value": "9.42.23.230",
+              },
+              Object {
+                "id": "crucial-owl",
+                "name": "cluster=crucial-owl",
+                "type": "clusterName",
+                "value": "crucial-owl",
+              },
+            ],
+            "tagComponent": [Function],
+            "tags": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Icon
+            className="icon--close--outline"
+            description="remove all tags"
+            fillRule="evenodd"
+            name="icon--close--outline"
+            onClick={[Function]}
+            role="img"
+          />,
+          "className": "tagInput-cleanButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "icon--close--outline",
+            "description": "remove all tags",
+            "fillRule": "evenodd",
+            "name": "icon--close--outline",
+            "onClick": [Function],
+            "role": "img",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <CopyToClipboard
+            onCopy={undefined}
+            options={undefined}
+            text="about:blank"
+          >
+            <CopyButton
+              className="tagInput-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
               onClick={[Function]}
+            />
+          </CopyToClipboard>,
+          "className": "tagInput-copyButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": <CopyButton
+              className="tagInput-button"
+              feedback="Copied!"
+              feedbackTimeout={2000}
+              iconDescription="Copy to clipboard"
+              onClick={[Function]}
+            />,
+            "onCopy": undefined,
+            "options": undefined,
+            "text": "about:blank",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "className": "tagInput-button",
+              "feedback": "Copied!",
+              "feedbackTimeout": 2000,
+              "iconDescription": "Copy to clipboard",
+              "onClick": [Function],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <button
+            className="tagInput-button"
+            onClick={[Function]}
+            type="button"
+          >
+            <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
+              role="img"
+            />
+          </button>,
+          "className": "tagInput-filterButton",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--filter"
+              description="open modal for tags"
+              fillRule="evenodd"
+              name="icon--filter"
               role="img"
             />,
-            "className": "tagInput-filterButton",
+            "className": "tagInput-button",
+            "onClick": [Function],
+            "type": "button",
           },
           "ref": null,
           "rendered": Object {
@@ -2698,9 +3883,418 @@ ShallowWrapper {
             "nodeType": "function",
             "props": Object {
               "className": "icon--filter",
-              "description": "Provide a description that will be used as the title",
+              "description": "open modal for tags",
               "fillRule": "evenodd",
               "name": "icon--filter",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "button",
+        },
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <FilterModal
+            availableFilters={
+              Object {
+                "clusterLabels": Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                ],
+                "clusterNames": Array [
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ],
+              }
+            }
+            handleModalClose={[Function]}
+            handleModalSubmit={[Function]}
+            modalOpen={false}
+            selected={
+              Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ]
+            }
+          />,
+          <div
+            className="tagInput-searchIcon"
+          >
+            <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />
+          </div>,
+          <div
+            className="tagInput-comboBox tagInput-comboBox__hasTags"
+          >
+            <ReactTags
+              allowBackspace={true}
+              allowNew={true}
+              autofocus={true}
+              autoresize={true}
+              delimiterChars={Array []}
+              delimiters={
+                Array [
+                  9,
+                  13,
+                ]
+              }
+              handleAddition={[Function]}
+              handleDelete={[Function]}
+              maxSuggestionsLength={6}
+              minQueryLength={1}
+              placeholder="Add new filter tags..."
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
+              tags={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                ]
+              }
+            />
+          </div>,
+          <div
+            className="tagInput-cleanButton"
+          >
+            <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />
+          </div>,
+          <div
+            className="tagInput-copyButton"
+          >
+            <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="tagInput-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>
+          </div>,
+          <div
+            className="tagInput-filterButton"
+          >
+            <button
+              className="tagInput-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>
+          </div>,
+        ],
+        "className": "tagInput-filter",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "availableFilters": Object {
+              "clusterLabels": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+              ],
+              "clusterNames": Array [
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+            },
+            "handleModalClose": [Function],
+            "handleModalSubmit": [Function],
+            "modalOpen": false,
+            "selected": Array [
+              Object {
+                "id": "cloud=IBM",
+                "key": "cloud",
+                "name": "cloud=IBM",
+                "type": "clusterLabel",
+                "value": "IBM",
+              },
+            ],
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--search--glyph"
+              description="search icon"
+              fillRule="evenodd"
+              name="icon--search--glyph"
+              role="img"
+            />,
+            "className": "tagInput-searchIcon",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--search--glyph",
+              "description": "search icon",
+              "fillRule": "evenodd",
+              "name": "icon--search--glyph",
+              "role": "img",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <ReactTags
+              allowBackspace={true}
+              allowNew={true}
+              autofocus={true}
+              autoresize={true}
+              delimiterChars={Array []}
+              delimiters={
+                Array [
+                  9,
+                  13,
+                ]
+              }
+              handleAddition={[Function]}
+              handleDelete={[Function]}
+              maxSuggestionsLength={6}
+              minQueryLength={1}
+              placeholder="Add new filter tags..."
+              suggestions={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                  Object {
+                    "id": "clusterip=9.42.23.230",
+                    "key": "clusterip",
+                    "name": "clusterip=9.42.23.230",
+                    "type": "clusterLabel",
+                    "value": "9.42.23.230",
+                  },
+                  Object {
+                    "id": "crucial-owl",
+                    "name": "cluster=crucial-owl",
+                    "type": "clusterName",
+                    "value": "crucial-owl",
+                  },
+                ]
+              }
+              tagComponent={[Function]}
+              tags={
+                Array [
+                  Object {
+                    "id": "cloud=IBM",
+                    "key": "cloud",
+                    "name": "cloud=IBM",
+                    "type": "clusterLabel",
+                    "value": "IBM",
+                  },
+                ]
+              }
+            />,
+            "className": "tagInput-comboBox tagInput-comboBox__hasTags",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "allowBackspace": true,
+              "allowNew": true,
+              "autofocus": true,
+              "autoresize": true,
+              "delimiterChars": Array [],
+              "delimiters": Array [
+                9,
+                13,
+              ],
+              "handleAddition": [Function],
+              "handleDelete": [Function],
+              "maxSuggestionsLength": 6,
+              "minQueryLength": 1,
+              "placeholder": "Add new filter tags...",
+              "suggestions": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+                Object {
+                  "id": "clusterip=9.42.23.230",
+                  "key": "clusterip",
+                  "name": "clusterip=9.42.23.230",
+                  "type": "clusterLabel",
+                  "value": "9.42.23.230",
+                },
+                Object {
+                  "id": "crucial-owl",
+                  "name": "cluster=crucial-owl",
+                  "type": "clusterName",
+                  "value": "crucial-owl",
+                },
+              ],
+              "tagComponent": [Function],
+              "tags": Array [
+                Object {
+                  "id": "cloud=IBM",
+                  "key": "cloud",
+                  "name": "cloud=IBM",
+                  "type": "clusterLabel",
+                  "value": "IBM",
+                },
+              ],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Icon
+              className="icon--close--outline"
+              description="remove all tags"
+              fillRule="evenodd"
+              name="icon--close--outline"
+              onClick={[Function]}
+              role="img"
+            />,
+            "className": "tagInput-cleanButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "className": "icon--close--outline",
+              "description": "remove all tags",
+              "fillRule": "evenodd",
+              "name": "icon--close--outline",
               "onClick": [Function],
               "role": "img",
             },
@@ -2715,11 +4309,113 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "children": false,
-            "className": "tagInput-clear-button",
+            "children": <CopyToClipboard
+              onCopy={undefined}
+              options={undefined}
+              text="about:blank"
+            >
+              <CopyButton
+                className="tagInput-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />
+            </CopyToClipboard>,
+            "className": "tagInput-copyButton",
           },
           "ref": null,
-          "rendered": false,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": <CopyButton
+                className="tagInput-button"
+                feedback="Copied!"
+                feedbackTimeout={2000}
+                iconDescription="Copy to clipboard"
+                onClick={[Function]}
+              />,
+              "onCopy": undefined,
+              "options": undefined,
+              "text": "about:blank",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "className": "tagInput-button",
+                "feedback": "Copied!",
+                "feedbackTimeout": 2000,
+                "iconDescription": "Copy to clipboard",
+                "onClick": [Function],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <button
+              className="tagInput-button"
+              onClick={[Function]}
+              type="button"
+            >
+              <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />
+            </button>,
+            "className": "tagInput-filterButton",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <Icon
+                className="icon--filter"
+                description="open modal for tags"
+                fillRule="evenodd"
+                name="icon--filter"
+                role="img"
+              />,
+              "className": "tagInput-button",
+              "onClick": [Function],
+              "type": "button",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "className": "icon--filter",
+                "description": "open modal for tags",
+                "fillRule": "evenodd",
+                "name": "icon--filter",
+                "role": "img",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": "button",
+          },
           "type": "div",
         },
       ],

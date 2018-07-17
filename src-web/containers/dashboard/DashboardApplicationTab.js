@@ -69,7 +69,7 @@ export class Dashboard extends React.Component {
   render() {
     const { serverProps, cardItems, pieChartItems, barChartItems, status } = this.props
 
-    if (status !== REQUEST_STATUS.DONE && !cardItems && !this.state.xhrPoll)
+    if ((status !== REQUEST_STATUS.DONE || !cardItems || !pieChartItems) && !this.state.xhrPoll)
       return <Loading withOverlay={false} className='content-spinner' />
 
     return (

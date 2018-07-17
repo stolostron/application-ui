@@ -60,8 +60,9 @@ describe('TagInput component 1', () => {
     //clear all out button
     component.find('.tagInput-filterButton').at(0).simulate('click')
     expect(component).toMatchSnapshot()
-    component.find('.tagInput-clearAll').at(0).simulate('click')
+    component.find('.tagInput-cleanButton').at(0).simulate('click')
     expect(component).toMatchSnapshot()
-    expect(fn).toHaveBeenCalled()
+    component.find('.tagInput-copyButton').at(0).simulate('click')
+    expect(component).toMatchSnapshot()
   })
 })

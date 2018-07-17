@@ -15,7 +15,9 @@ export const resourceFilters = (state = {}, action) => {
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.DONE,
       filters: {
-        clusterNames: action.filters.clusterNames,
+        // disable cluster name filtering until server side fixes the issue
+        // https://github.ibm.com/IBMPrivateCloud/roadmap/issues/10981
+        // clusterNames: action.filters.clusterNames,
         clusterLabels: action.filters.clusterLabels,
       },
     })

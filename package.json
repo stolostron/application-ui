@@ -49,7 +49,7 @@
     "carbon-addons-data-viz-react": "^1.20.3",
     "carbon-components": "^8.18.13",
     "carbon-components-react": "^5.42.1",
-    "carbon-icons": "^6.3.2",
+    "carbon-icons": "^7.0.7",
     "consolidate": "^0.15.1",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.1.4",

@@ -10,7 +10,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Table, TableBody, TableRow, TableData } from 'carbon-components-react'
+import { Modal } from 'carbon-components-react'
+import NestedTable from '../common/NestedTable'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 
@@ -18,45 +19,47 @@ resources(() => {
   require('../../../scss/modal.scss')
 })
 
-// WIP, still waiting Lise to finalize the design
-/* eslint-disable-next-line */
-const FilterTableRow = ({ filterName, availableFilters=[], selectedFilters=[] }) => (
-  <TableRow>
-    <TableData>
-      {filterName}
-    </TableData>
-  </TableRow>
-)
-/* eslint-disable react/no-unused-prop-types */
-FilterTableRow.propTypes = {
-  filterData: PropTypes.array,
-  filterKey: PropTypes.string,
-}
 
 class FilterModal extends React.PureComponent {
   constructor(props) {
     super(props)
     this.handleSubmitClick = this.handleSubmitClick.bind(this)
+    this.selectionChanged = this.selectionChanged.bind(this)
     this.state = {
-      tags: props.tags || [],
+      tags: props.selected || [],
     }
   }
 
-  createFilterTable(tags, availableFilters) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps && nextProps.selected !== this.props.selected) {
+      this.setState({tags: nextProps.selected})
+    }
+  }
+
+  convertFilterArray(queries) {
+    const filterArray = []
+    for (let [type, value] of Object.entries(queries)) {
+      filterArray.push({
+        key: type,
+        value
+      })
+    }
+    return filterArray
+  }
+
+  createFilterTable(availableFilters, selectedFilters, selectionChanged) {
     return (
-      <Table className='filter-table' >
-        <TableBody>
-          {Object.keys(availableFilters).map(filterKey =>
-            <FilterTableRow
-              availableFilters={availableFilters[filterKey]}
-              filterName = {filterKey}
-              key={filterKey}
-              selectedFilters={tags}
-            />
-          )}
-        </TableBody>
-      </Table>
+      <NestedTable
+        availableItems={this.convertFilterArray(availableFilters)}
+        header={ msgs.get('modal.formfield.name', this.context.locale) }
+        selectedItems={selectedFilters}
+        selectionChanged={selectionChanged}
+      />
     )
+  }
+
+  selectionChanged(selections) {
+    this.setState({tags:selections})
   }
 
   handleSubmitClick() {
@@ -79,7 +82,7 @@ class FilterModal extends React.PureComponent {
           onRequestSubmit={ this.handleSubmitClick }
           onRequestClose={ handleModalClose }
         >
-          {this.createFilterTable(this.state.tags, availableFilters)}
+          {this.createFilterTable(availableFilters, this.state.tags, this.selectionChanged)}
         </Modal>
       </div>
     )
@@ -91,7 +94,7 @@ FilterModal.propTypes = {
   handleModalClose: PropTypes.func,
   handleModalSubmit: PropTypes.func,
   modalOpen: PropTypes.bool,
-  tags: PropTypes.array,
+  selected: PropTypes.array,
 }
 
 

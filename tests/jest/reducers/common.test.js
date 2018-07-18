@@ -17,7 +17,7 @@ import {secondaryHeader, resourceReducerFunction, INITIAL_STATE} from '../../../
 describe('secondaryHeader creation', () => {
   it('should return a default state', () => {
     const action = {}
-    const expectedValue = {title: '', tabs: [], breadcrumbItems: [], links: [], extra:[]}
+    const expectedValue = {title: '', tabs: [], breadcrumbItems: [], links: []}
     expect(secondaryHeader(undefined, action)).toEqual(expectedValue)
   })
   it('should return a state with title', () => {

@@ -52,29 +52,19 @@ describe('SecondaryHeader component 3', () => {
   const location = {
     pathname: '/hello'
   }
-  const extra = [{
-    id: 'dashboard-application',
-    label: 'tabs.dashboard.application',
-    url: '123',
-  }]
   it('renders as expected', () => {
     const component = renderer.create(
       //eslint-disable-next-line
-      <SecondaryHeader title='hello world' role='Viewer' extra={extra} tabs={tabs} location={location} />
+      <SecondaryHeader title='hello world' role='Viewer' tabs={tabs} location={location} />
     )
     expect(component.toJSON()).toMatchSnapshot()
   })
 })
 
 describe('SecondaryHeader component 4', () => {
-  const extra = [{
-    id: 'dashboard-application',
-    label: 'tabs.dashboard.application',
-    url: '123',
-  }]
   it('renders as expected', () => {
     const component = renderer.create(
-      <SecondaryHeader title='hello world' extra={extra} />
+      <SecondaryHeader title='hello world' />
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

@@ -96,7 +96,6 @@ const mapStateToProps = (state) => {
     tabs: state.secondaryHeader.tabs,
     links: state.secondaryHeader.links,
     role: state.role && state.role.role,
-    extra: state.secondaryHeader.extra
   }
 }
 

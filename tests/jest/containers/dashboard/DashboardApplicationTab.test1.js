@@ -11,7 +11,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { Dashboard } from '../../../../src-web/containers/dashboard/DashboardApplicationTab'
+import { Dashboard } from '../../../../src-web/containers/DashboardTab'
 
 const secondaryHeader = {
   title: 'routes.dashboard',
@@ -22,8 +22,6 @@ const secondaryHeader = {
       url: '/dashboard'
     }
   ],
-  extra: [
-  ]
 }
 
 const cardItems = [

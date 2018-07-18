@@ -169,15 +169,14 @@ export const makeGetVisibleTableItemsSelector = (resourceType) => {
   )
 }
 
-export const secondaryHeader = (state = {title: '', tabs: [], breadcrumbItems: [], links: [], extra:[]}, action) => {
+export const secondaryHeader = (state = {title: '', tabs: [], breadcrumbItems: [], links: []}, action) => {
   switch (action.type) {
   case Actions.SECONDARY_HEADER_UPDATE:
     return Object.assign({}, state, {
       title: action.title,
       tabs: action.tabs,
       breadcrumbItems: action.breadcrumbItems,
-      links: action.links,
-      extra: action.extra
+      links: action.links
     })
   default:
     return state

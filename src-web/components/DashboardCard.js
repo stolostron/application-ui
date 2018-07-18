@@ -106,7 +106,7 @@ const getTableStatus = (critical, healthy, warning) => {
 
 export const DashboardCard = ({ critical = 0, healthy = 0, title, table, warning = 0, ...rest }) => {
   const cardStatus = getTableStatus(critical, healthy, warning)
-  return (
+  return table && (
     <Module className={`dashboard-card dashboard-card__${cardStatus}`} size="single" {...rest}>
       <ModuleHeader>{title}</ModuleHeader>
       <ModuleBody>

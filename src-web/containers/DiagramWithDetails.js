@@ -108,11 +108,14 @@ const mapStateToProps = (state) =>{
   const nodesWithoutClusters = nodes.filter(n => n.type !== 'cluster')
   const clusters = nodes.reduce((prev, curr) => {
     if (curr.cluster !== null && !prev.find(c => c.id === curr.cluster)){
-      prev.push({
-        id: curr.cluster,
-        index: prev.length,
-        name: nodes.find(n => n.id === curr.cluster).name || curr.cluster
-      })
+      const node = nodes.find(n => n.id === curr.cluster)
+      if (node && node.name) {
+        prev.push({
+          id: curr.cluster,
+          index: prev.length,
+          name: node.name
+        })
+      }
     }
     return prev
   }, [])

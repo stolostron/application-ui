@@ -30,7 +30,7 @@ function verifyTopologyLoads() {
 
 function waitUntilFiltersLoaded(cb) {
   this.api.useXpath()
-  this.waitForElementNotPresent('//input[@placeholder=\'Loading...\']', 10000, ()=>{
+  this.waitForElementNotPresent('//input[@placeholder=\'Loading...\']', 20000, ()=>{
     this.api.useCss()
     this.api.elements('css selector', '.multi-select-filter', res => cb(res))
   })
@@ -45,7 +45,7 @@ function filterTopology(filter, checkBox, cb) {
     this.api.useCss()
     this.waitForElementNotPresent('.bx--list-box__menu', 3000, ()=>{
       this.waitForElementNotPresent('@spinner', ()=>{
-        this.api.elements('css selector', '.topologyDiagramContainer > svg > g.clusters', res => cb(res))
+        this.api.elements('css selector', '.topologyDiagramContainer > .clusterViewerDiagram', res => cb(res))
       })
     })
   })
@@ -53,7 +53,7 @@ function filterTopology(filter, checkBox, cb) {
 
 function openDetailsView(cb) {
   // for now just click on the first node in the diagram
-  this.click('.topologyDiagramContainer > svg > g.nodes > g.node > text')
+  this.click('.topologyDiagramContainer> .clusterViewerDiagram > .clusterViewerContainer > svg > g.nodes > g.node')
   this.waitForElementPresent('.topologyDetails', 3000, ()=>{
     this.api.elements('css selector', 'section.topologyDetails', res => cb(res))
   })

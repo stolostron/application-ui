@@ -12,7 +12,6 @@ const ROUTE ='/topology'
 
 const NUMBER_OF_FILTERS = 4
 const FILTER_NAME = 'Clusters'
-const NUMBER_OF_CLUSTERS = 1
 
 module.exports = {
   //'@disabled': true,
@@ -39,8 +38,8 @@ module.exports = {
       // filter topology
       page.filterTopology(FILTER_NAME, null, (res)=>{
 
-        // make sure there are NUMBER_OF_CLUSTERS
-        browser.assert.equal(res.value.length, NUMBER_OF_CLUSTERS)
+        // make sure there are any clusters
+        browser.assert.ok(res.value.length > 0)
       })
     })
   },

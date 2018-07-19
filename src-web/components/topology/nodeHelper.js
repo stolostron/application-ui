@@ -9,6 +9,9 @@
 'use strict'
 
 import * as d3 from 'd3'
+import SVG from 'svg.js'
+
+const polygonTypes = ['cluster', 'service']
 
 
 export default class NodeHelper {
@@ -17,10 +20,10 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(nodes, simulation) {
+  constructor(svg, nodes, linkHelper) {
+    this.svg = svg
     this.nodes = nodes
-    this.simulation = simulation
-    this.svg = d3.select('svg.topologyDiagram')
+    this.linkHelper = linkHelper
   }
 
 
@@ -36,9 +39,9 @@ export default class NodeHelper {
 
 
   addNodesToDiagram = (currentZoom, nodeClickHandler) => {
-    const polygonTypes = ['cluster', 'service']
-    const circleArray = this.nodes.filter(node => polygonTypes.indexOf(node.type) === -1)
-    const polygonArray = this.nodes.filter(node => polygonTypes.indexOf(node.type) !== -1)
+    const circleArray = this.nodes.filter(node => node.layout && !polygonTypes.includes(node.layout.type))
+    const polygonArray = this.nodes.filter(node => node.layout && polygonTypes.includes(node.layout.type))
+    const draw = SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
 
     const circleNode = this.svg.select('g.nodes')
       .selectAll('g.node')
@@ -54,13 +57,9 @@ export default class NodeHelper {
     // main circle
     this.createCircleSVG(circleNode, 'main', '19.6078431', '1')
     // central circle
-    this.createCircleSVG(circleNode, 'centralCircle', '4', '', '21.650625', '25.65625')
-    circleNode.append('title')
-      .text((d) => { return d.name })
-    circleNode.append('text')
-      .text((d) => { return d.name })
-      .attr('tabindex', '-1')
-
+    this.createCircleSVG(circleNode, 'centralCircle', '4')
+    // add label
+    this.createLabel(draw, circleNode)
 
     // Add nodes to the diagram
     const polygonNode = this.svg.select('g.nodes')
@@ -78,59 +77,144 @@ export default class NodeHelper {
     this.createPolygonSVG(polygonNode, 'main', '1')
     // central circle
     this.createCircleSVG(polygonNode, 'centralCircle', '4', '', '21.650625', '25.65625')
-    polygonNode.append('title')
+    // add label
+    this.createLabel(draw, polygonNode)
+  }
+
+
+  createPolygonSVG = (node, className, tabindex=-1) => {
+    node.append('polygon')
+      .attr('points', '21.65075 0.65625 0 13.15625 0 38.15625 21.65075 50.65625 43.30125 38.15625 43.30125 13.15625')
+      .attr('tabindex', tabindex)
+      .attr('class', ({layout}) => {
+        return `${layout.type} ${className}`
+      })
+      .call(d3.drag()
+        .on('drag', this.dragNode))
+  }
+
+  createCircleSVG = (node, className, rad, tabindex=-1) => {
+    node.append('circle')
+      .attr('r', rad)
+      .attr('class', ({layout}) => {
+        return `${layout.type} ${className}`
+      })
+      .attr('tabindex', tabindex)
+      .call(d3.drag()
+        .on('drag', this.dragNode))
+  }
+
+  createLabel = (draw, node) => {
+    node.append('title')
       .text((d) => { return d.name })
-    polygonNode.append('text')
-      .text((d) => { return d.name })
+    node.append('g')
+      .attr('class','nodeLabel')
+      .html(({layout})=>{
+        var text = draw.text((add) => {
+          layout.label.split('\n').forEach(line=>{
+            if (line) {
+              add.tspan(line).newLine()
+            }
+          })
+          if (layout.info) {
+            add.tspan(layout.info).fill('gray').font({size: 9}).newLine()
+          }
+        })
+        text
+          .leading(0.8)
+        return text.svg()
+      })
       .attr('tabindex', '-1')
   }
 
+  moveNodes = (transition) => {
+    // center nodes that have no position yet
+    this.centerNodes()
 
-  createPolygonSVG = (node, className, tabindex) => {
-    node.append('polygon')
-      .attr('tabindex', tabindex)
-      .attr('class', (d) => {
-        return `${d.type} ${className}`
+    // position nodes and labels
+    const nodes = this.svg.select('g.nodes').selectAll('g.node')
+    nodes.selectAll('polygon')
+      .transition(transition)
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout
+        return `translate(${x - 21.650625}, ${y - 25.65625})`
       })
-      .attr('tabindex', tabindex)
-      .attr('points', '21.65075 0.65625 0 13.15625 0 38.15625 21.65075 50.65625 43.30125 38.15625 43.30125 13.15625')
-      .call(d3.drag()
-        .on('start', this.dragstarted)
-        .on('drag', this.dragged)
-        .on('end', this.dragended))
-  }
+    nodes.selectAll('circle')
+      .transition(transition)
+      .attr('cx', ({layout}) => { return layout.x })
+      .attr('cy', ({layout}) => { return layout.y })
 
-  createCircleSVG = (node, className, rad, tabindex, cx, cy) => {
-    node.append('circle')
-      .attr('cx', cx)
-      .attr('cy', cy)
-      .attr('r', rad)
-      .attr('class', (d) => {
-        return `${d.type} ${className}`
+    this.svg.select('g.nodes').selectAll('g.nodeLabel')
+      .each(({layout},i,ns)=>{
+        d3.select(ns[i]).selectAll('text')
+          .transition(transition)
+          .attr('x', () => {return layout.x})
+          .attr('y', () => {return layout.y+(polygonTypes.includes(layout.type)?24:20)})
+        d3.select(ns[i]).selectAll('tspan')
+          .transition(transition)
+          .attr('x', () => {return layout.x})
       })
-      .attr('tabindex', tabindex)
-      .call(d3.drag()
-        .on('start', this.dragstarted)
-        .on('drag', this.dragged)
-        .on('end', this.dragended))
   }
 
+  // center everything so transition zooms out from center
+  centerNodes = () => {
+    const nodes = this.svg.select('g.nodes').selectAll('g.node')
+      .filter(({layout})=>{return !layout.positioned})
+    nodes.selectAll('polygon')
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout.center
+        return `translate(${x - 21.650625}, ${y - 25.65625})`
+      })
+    nodes.selectAll('circle')
+      .attr('cx', ({layout}) => { return layout.center.x })
+      .attr('cy', ({layout}) => { return layout.center.y })
 
-  dragstarted =(d) => {
-    if (!d3.event.active) this.simulation.alphaTarget(0.2).restart()
-    d.fx = d.x
-    d.fy = d.y
+    this.svg.select('g.nodes').selectAll('g.nodeLabel')
+      .filter(({layout})=>{return !layout.positioned})
+      .each(({layout},i,ns)=>{
+        d3.select(ns[i]).selectAll('text')
+          .attr('x', () => {return layout.center.x})
+          .attr('y', () => {return layout.center.y})
+        d3.select(ns[i]).selectAll('tspan')
+          .attr('x', () => {return layout.center.x})
+      })
+    nodes.each(({layout})=>{
+      layout.positioned = true
+    })
   }
 
-  dragged = (d) => {
-    d.fx = d3.event.x
-    d.fy = d3.event.y
-  }
+  dragNode = (d, i, ns) => {
+    let {layout} = d
+    let node = d3.select(ns[i].parentNode)
+    layout.x += d3.event.dx
+    layout.y += d3.event.dy
+    layout.dragged = {x:layout.x, y:layout.y}
 
-  dragended = (d) => {
-    if (!d3.event.active) this.simulation.alphaTarget(0)
-    d.fx = null
-    d.fy = null
+    // drag circle
+    node.selectAll('circle')
+      .attr('cx', layout.x)
+      .attr('cy', layout.y)
+
+    // drag polygons
+    node.selectAll('polygon')
+      .attr('transform', () => {
+        let x = layout.x
+        let y = layout.y
+        return `translate(${x - 21.650625}, ${y - 25.65625})`
+      })
+
+    // drag label
+    const nodeLabels = node.selectAll('g.nodeLabel')
+    nodeLabels.each((d,i,ns)=>{
+      d3.select(ns[i]).selectAll('text')
+        .attr('x', () => {return layout.x})
+        .attr('y', () => {return layout.y+(polygonTypes.includes(layout.type)?24:20)})
+      d3.select(ns[i]).selectAll('tspan')
+        .attr('x', () => {return layout.x})
+    })
+
+    // drag any connecting link
+    this.linkHelper.dragLinks(d)
   }
 }
 

@@ -54,6 +54,9 @@
     "consolidate": "^0.15.1",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.1.4",
+    "cytoscape": "^3.2.5",
+    "cytoscape-cola": "^2.0.0",
+    "cytoscape-dagre": "^2.1.0",
     "d3": "^4.13.0",
     "dustjs-helpers": "^1.7.4",
     "dustjs-linkedin": "^2.7.5",
@@ -87,6 +90,7 @@
     "redux-thunk": "^2.2.0",
     "requestretry": "^1.13.0",
     "reselect": "^3.0.1",
+    "svg.js": "^2.6.5",
     "watchr": "^4.0.1"
   },
   "devDependencies": {

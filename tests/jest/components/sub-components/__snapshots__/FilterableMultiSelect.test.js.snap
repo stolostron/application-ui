@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterableMultiSelect components renders as expected 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <FilterableMultiSelect
+    activeFilters={Array []}
+    availableFilters={Array []}
+    failure={false}
+    fetching={false}
+    filterType="test"
+    onChange={[MockFunction]}
+    title="test"
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="multi-select-filter-title"
+        >
+          test
+        </div>,
+        <FilterableMultiSelect
+          compareItems={[Function]}
+          disabled={false}
+          filterItems={[Function]}
+          initialSelectedItems={Array []}
+          itemToString={[Function]}
+          items={Array []}
+          locale="en"
+          onChange={[Function]}
+          placeholder="all"
+          sortItems={[Function]}
+        />,
+      ],
+      "className": "multi-select-filter",
+      "id": "test",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "test",
+          "className": "multi-select-filter-title",
+        },
+        "ref": null,
+        "rendered": "test",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "compareItems": [Function],
+          "disabled": false,
+          "filterItems": [Function],
+          "initialSelectedItems": Array [],
+          "itemToString": [Function],
+          "items": Array [],
+          "locale": "en",
+          "onChange": [Function],
+          "placeholder": "all",
+          "sortItems": [Function],
+        },
+        "ref": [Function],
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="multi-select-filter-title"
+          >
+            test
+          </div>,
+          <FilterableMultiSelect
+            compareItems={[Function]}
+            disabled={false}
+            filterItems={[Function]}
+            initialSelectedItems={Array []}
+            itemToString={[Function]}
+            items={Array []}
+            locale="en"
+            onChange={[Function]}
+            placeholder="all"
+            sortItems={[Function]}
+          />,
+        ],
+        "className": "multi-select-filter",
+        "id": "test",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "test",
+            "className": "multi-select-filter-title",
+          },
+          "ref": null,
+          "rendered": "test",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "compareItems": [Function],
+            "disabled": false,
+            "filterItems": [Function],
+            "initialSelectedItems": Array [],
+            "itemToString": [Function],
+            "items": Array [],
+            "locale": "en",
+            "onChange": [Function],
+            "placeholder": "all",
+            "sortItems": [Function],
+          },
+          "ref": [Function],
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;

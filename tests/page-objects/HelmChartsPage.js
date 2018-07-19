@@ -38,15 +38,15 @@ module.exports = {
 }
 
 function verifyPageContent() {
-  this.waitForElementNotPresent('@spinner')
+  this.waitForElementNotPresent('@spinner', 60000)
 }
 
 function installHelmRelease(browser, chartName, relName, namespace) {
-  this.waitForElementVisible('@chartSearch')
+  this.waitForElementVisible('@chartSearch', 60000)
   this.setValue('@chartSearch', chartName)
   browser.pause(1000)
   this.click('@chart')
-  this.waitForElementVisible('@modal')
+  this.waitForElementVisible('@modal', 60000)
   this.setValue('@releaseNameInput', relName)
   this.click('@releaseClusterInput')
   this.sendKeys('@releaseClusterInput', browser.Keys.DOWN_ARROW)
@@ -55,17 +55,17 @@ function installHelmRelease(browser, chartName, relName, namespace) {
   browser.pause(5000)
   this.click('@selectedCluster')
 
-  this.waitForElementNotPresent('@clusterDropdown')
+  this.waitForElementNotPresent('@clusterDropdown', 60000)
   this.click('@releaseNamespaceDropdown')
 
-  this.waitForElementVisible(`[value="${namespace}"]`)
+  this.waitForElementVisible(`[value="${namespace}"]`, 60000)
   browser.pause(1000)
   this.click(`[value="${namespace}"]`)
   browser.pause(1000)
 
   this.click('@installBtn')
-  this.waitForElementVisible('@spinner')
-  this.waitForElementNotPresent('@spinner')
+  this.waitForElementVisible('@spinner', 60000)
+  this.waitForElementNotPresent('@spinner', 60000)
 }
 
 function deleteHelmRelease(browser, relName) {

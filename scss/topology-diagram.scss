@@ -8,6 +8,8 @@
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 .topologyDiagramContainer {
+    display: flex;
+    flex-wrap: nowrap;
     height: 100%;
 }
 
@@ -31,36 +33,4 @@
     & > div {
         flex-grow: 0;
     }
-}
-
-svg.topologyDiagram {
-    height: 100%;
-    width: 100%;
-}
-
-.cluster {
-    background-color: $color__white;
-    
-    .clusterArea {
-        fill: $color__white;
-        stroke: $color__gray-1;
-    }
-}
-
-.zoom-in {
-  position: absolute;
-  bottom: 72px;
-  right: 40px;
-}
-
-.zoom-out {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-}
-
-.zoom-target {
-  position: absolute;
-  bottom: 115px;
-  right: 40px;
 }

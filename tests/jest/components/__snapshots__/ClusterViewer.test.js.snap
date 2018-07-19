@@ -1,0 +1,433 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClusterViewer 3 components renders as expected 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <ClusterViewer
+    id="cluster_id"
+    links={
+      Array [
+        Object {
+          "label": "link",
+          "source": 1,
+          "target": 2,
+          "type": "link",
+        },
+        Object {
+          "label": "link",
+          "source": 2,
+          "target": 3,
+          "type": "link",
+        },
+      ]
+    }
+    name="name"
+    nodes={
+      Array [
+        Object {
+          "__typename": "Resource",
+          "cluster": "cluster_id",
+          "id": "1",
+          "name": "1",
+          "namespace": "default",
+          "topology": "cluster",
+          "type": "service",
+          "uid": "1",
+        },
+        Object {
+          "__typename": "Resource",
+          "cluster": "cluster_id",
+          "id": "2",
+          "name": "2",
+          "namespace": "default",
+          "topology": "service",
+          "type": "service",
+          "uid": "2",
+        },
+        Object {
+          "__typename": "Resource",
+          "cluster": "cluster_id",
+          "id": "3",
+          "name": "3",
+          "namespace": "default",
+          "topology": "service",
+          "type": "service",
+          "uid": "3",
+        },
+      ]
+    }
+    onSelectedNodeChange={[MockFunction]}
+    selectedNodeId={undefined}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="clusterViewerTitle"
+        >
+          Cluster: {0}
+        </div>,
+        <div
+          className="clusterViewerContainer"
+        >
+          <svg
+            className="topologyDiagram"
+            id="namecluster_id"
+          />
+          <input
+            alt="zoom-in"
+            className="zoom-in"
+            onClick={[Function]}
+            src="undefined/graphics/zoom-in.svg"
+            type="image"
+          />
+          <input
+            alt="zoom-out"
+            className="zoom-out"
+            onClick={[Function]}
+            src="undefined/graphics/zoom-out.svg"
+            type="image"
+          />
+          <input
+            alt="zoom-target"
+            className="zoom-target"
+            onClick={[Function]}
+            src="undefined/graphics/zoom-center.svg"
+            type="image"
+          />
+        </div>,
+      ],
+      "className": "clusterViewerDiagram",
+    },
+    "ref": [Function],
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Cluster: {0}",
+          "className": "clusterViewerTitle",
+        },
+        "ref": null,
+        "rendered": "Cluster: {0}",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <svg
+              className="topologyDiagram"
+              id="namecluster_id"
+            />,
+            <input
+              alt="zoom-in"
+              className="zoom-in"
+              onClick={[Function]}
+              src="undefined/graphics/zoom-in.svg"
+              type="image"
+            />,
+            <input
+              alt="zoom-out"
+              className="zoom-out"
+              onClick={[Function]}
+              src="undefined/graphics/zoom-out.svg"
+              type="image"
+            />,
+            <input
+              alt="zoom-target"
+              className="zoom-target"
+              onClick={[Function]}
+              src="undefined/graphics/zoom-center.svg"
+              type="image"
+            />,
+          ],
+          "className": "clusterViewerContainer",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "className": "topologyDiagram",
+              "id": "namecluster_id",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "svg",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "alt": "zoom-in",
+              "className": "zoom-in",
+              "onClick": [Function],
+              "src": "undefined/graphics/zoom-in.svg",
+              "type": "image",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "alt": "zoom-out",
+              "className": "zoom-out",
+              "onClick": [Function],
+              "src": "undefined/graphics/zoom-out.svg",
+              "type": "image",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "alt": "zoom-target",
+              "className": "zoom-target",
+              "onClick": [Function],
+              "src": "undefined/graphics/zoom-center.svg",
+              "type": "image",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": "input",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="clusterViewerTitle"
+          >
+            Cluster: {0}
+          </div>,
+          <div
+            className="clusterViewerContainer"
+          >
+            <svg
+              className="topologyDiagram"
+              id="namecluster_id"
+            />
+            <input
+              alt="zoom-in"
+              className="zoom-in"
+              onClick={[Function]}
+              src="undefined/graphics/zoom-in.svg"
+              type="image"
+            />
+            <input
+              alt="zoom-out"
+              className="zoom-out"
+              onClick={[Function]}
+              src="undefined/graphics/zoom-out.svg"
+              type="image"
+            />
+            <input
+              alt="zoom-target"
+              className="zoom-target"
+              onClick={[Function]}
+              src="undefined/graphics/zoom-center.svg"
+              type="image"
+            />
+          </div>,
+        ],
+        "className": "clusterViewerDiagram",
+      },
+      "ref": [Function],
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Cluster: {0}",
+            "className": "clusterViewerTitle",
+          },
+          "ref": null,
+          "rendered": "Cluster: {0}",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <svg
+                className="topologyDiagram"
+                id="namecluster_id"
+              />,
+              <input
+                alt="zoom-in"
+                className="zoom-in"
+                onClick={[Function]}
+                src="undefined/graphics/zoom-in.svg"
+                type="image"
+              />,
+              <input
+                alt="zoom-out"
+                className="zoom-out"
+                onClick={[Function]}
+                src="undefined/graphics/zoom-out.svg"
+                type="image"
+              />,
+              <input
+                alt="zoom-target"
+                className="zoom-target"
+                onClick={[Function]}
+                src="undefined/graphics/zoom-center.svg"
+                type="image"
+              />,
+            ],
+            "className": "clusterViewerContainer",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "className": "topologyDiagram",
+                "id": "namecluster_id",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "svg",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alt": "zoom-in",
+                "className": "zoom-in",
+                "onClick": [Function],
+                "src": "undefined/graphics/zoom-in.svg",
+                "type": "image",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alt": "zoom-out",
+                "className": "zoom-out",
+                "onClick": [Function],
+                "src": "undefined/graphics/zoom-out.svg",
+                "type": "image",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "alt": "zoom-target",
+                "className": "zoom-target",
+                "onClick": [Function],
+                "src": "undefined/graphics/zoom-center.svg",
+                "type": "image",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": "input",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
+
+exports[`ClusterViewer no components renders as expected 1`] = `
+<div
+  className="clusterViewerDiagram"
+>
+  <div
+    className="clusterViewerTitle"
+  >
+    Cluster: {0}
+  </div>
+  <div
+    className="clusterViewerContainer"
+  >
+    <svg
+      className="topologyDiagram"
+      id={NaN}
+    />
+    <input
+      alt="zoom-in"
+      className="zoom-in"
+      onClick={[Function]}
+      src="undefined/graphics/zoom-in.svg"
+      type="image"
+    />
+    <input
+      alt="zoom-out"
+      className="zoom-out"
+      onClick={[Function]}
+      src="undefined/graphics/zoom-out.svg"
+      type="image"
+    />
+    <input
+      alt="zoom-target"
+      className="zoom-target"
+      onClick={[Function]}
+      src="undefined/graphics/zoom-center.svg"
+      type="image"
+    />
+  </div>
+</div>
+`;

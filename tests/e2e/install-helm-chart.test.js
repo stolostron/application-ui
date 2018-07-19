@@ -18,6 +18,7 @@ const getReleaseName = chartName => `selenium-${chartName}-${Date.now()}`
 let releaseName
 
 module.exports = {
+  '@disabled': true,
   before: function (browser) {
     let loginPage = browser.page.LoginPage()
     loginPage.navigate()

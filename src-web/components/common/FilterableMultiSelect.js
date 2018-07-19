@@ -43,7 +43,9 @@ class FilterableMultiSelect extends React.Component {
   }
 
   updateTooltip () {
-    this.multiSelect.inputNode.title = this.tooltip.join('\n')
+    if (this.multiSelect) {
+      this.multiSelect.inputNode.title = this.tooltip.join('\n')
+    }
   }
 
   render() {

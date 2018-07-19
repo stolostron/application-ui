@@ -10,28 +10,19 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import * as d3 from 'd3'
 import * as Actions from '../actions'
 import { Loading, Notification } from 'carbon-components-react'
 import resources from '../../lib/shared/resources'
-import config from '../../lib/shared/config'
-import ClusterHelper from './topology/clusterHelper'
-import LayoutHelper from './topology/layoutHelper'
-import LinkHelper from './topology/linkHelper'
-import NodeHelper from './topology/nodeHelper'
-import SimulationHelper from './topology/simulationHelper'
+import ClusterViewer from './topology/ClusterViewer'
 import msgs from '../../nls/platform.properties'
-import lodash from 'lodash'
+import _ from 'lodash'
 
 resources(() => {
   require('../../scss/topology-details.scss')
   require('../../scss/topology-diagram.scss')
-  require('../../scss/topology-link.scss')
-  require('../../scss/topology-node.scss')
 })
 
 
-var currentZoom = 'translate(0,0) scale(1)'
 class TopologyDiagram extends React.Component {
     static propTypes = {
       clusters: PropTypes.arrayOf(PropTypes.shape({
@@ -56,100 +47,35 @@ class TopologyDiagram extends React.Component {
 
     constructor (props) {
       super(props)
-
-      // NOTE: Must use state because D3 will modify the nodes and links objects.
-      //       A react component must not modify its props. Modifying the state directly
-      //       is also an anti-pattern, but I think it's the best alternative here.
-      this.state = { links: props.links, nodes: props.nodes }
-
-      this.setContainerRef = elem => {
-        this.containerRef = elem
-      }
-      this.simulationHelper = new SimulationHelper()
-      this.generateDiagram = this.generateDiagram.bind(this)
+      this.state = { clusters: props.clusters }
     }
 
-    handleNodeClick = (node) => {
-      this.props.onSelectedNodeChange(node.uid)
-      d3.event.stopPropagation()
-    }
-
-
-    generateDiagram() {
-      const svg = d3.select('svg.topologyDiagram')
-      const  {clientHeight:height, clientWidth:width} = lodash.get(this, 'containerRef.attributes.class.ownerElement')
-        || {clientHeight: 500, clientWidth: 1200}
-
-      // Create or refresh clusters rendering
-      const clusterHelper = new ClusterHelper(height, width, this.props.clusters)
-      clusterHelper.removeOldClustersFromDiagram()
-      clusterHelper.addClustersToDiagram()
-
-      // Stop all running simulations.
-      this.simulationHelper.stopSimulations()
-      // Start a new simulation to position the nodes.
-      this.simulationHelper.createSimulation(height, width, this.props.clusters, this.state.nodes, this.state.links, ticked)
-
-      // Create or refresh the links in the diagram.
-      const linkHelper = new LinkHelper(this.state.links)
-      linkHelper.removeOldLinksFromDiagram()
-      linkHelper.addLinksToDiagram(currentZoom)
-
-      // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.state.nodes, this.simulationHelper.getSimulation())
-      nodeHelper.removeOldNodesFromDiagram()
-      nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
-
-
-      const layoutHelper = new LayoutHelper(height, width, this.props.clusters)
-      function ticked() {
-        // Compute position of links
-        layoutHelper.moveLinks()
-
-        // Compute position of nodes
-        layoutHelper.moveNodes( )
-      }
-
-
-      // Add zoom feature to diagram
-      svg.call(this.getSvgSpace(svg))
-    }
-
-    getSvgSpace(svg){
-      const clusters = svg.select('g.clusters').selectAll('g.cluster')
-      const nodes = svg.select('g.nodes').selectAll('g.node')
-      const links = svg.select('g.links').selectAll('g.link')
-      const svgSpace = d3.zoom()
-        .scaleExtent([ 0.25, 4 ])
-        .on('zoom', () => {
-          currentZoom = d3.event.transform
-          clusters.attr('transform', d3.event.transform)
-          nodes.attr('transform', d3.event.transform)
-          links.attr('transform', d3.event.transform)
+    componentWillReceiveProps(nextProps){
+      let clusters = _.cloneDeep(nextProps.clusters)
+      clusters.forEach(cluster=>{
+        const set = new Set()
+        cluster.nodes = nextProps.nodes.filter(node=>{
+          if (node.cluster===cluster.id) {
+            set.add(node.uid)
+            return true
+          }
         })
-      return svgSpace
+        cluster.links = nextProps.links.filter(link=>{
+          return set.has(link.source) || set.has(link.target)
+        })
+      })
+      this.setState({ clusters })
     }
 
-    handleZoomIn = () => {
-      const svg = d3.select('svg.topologyDiagram')
-      this.getSvgSpace(svg).scaleBy(svg, 1.3)
-    }
-
-    handleZoomOut = () => {
-      const svg = d3.select('svg.topologyDiagram')
-      this.getSvgSpace(svg).scaleBy(svg, 1 / 1.3)
-    }
-
-    handleTarget = () => {
-      const svg = d3.select('svg.topologyDiagram')
-      var width = svg.style('width').replace('px', '')/2
-      var height = svg.style('height').replace('px', '')/2
-      this.getSvgSpace(svg).translateTo(svg, width, height)
-      this.getSvgSpace(svg).scaleTo(svg, 1)
+    shouldComponentUpdate(nextProps){
+      return !_.isEqual(this.props.clusters.map(n => n.id), nextProps.clusters.map(n => n.id)) ||
+         !_.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
+         !_.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid))
     }
 
     render() {
-      const { status } = this.props
+      const { status, onSelectedNodeChange} = this.props
+      const { clusters } = this.state
       const { locale } = this.context
 
       if (status === Actions.REQUEST_STATUS.ERROR) {
@@ -163,66 +89,20 @@ class TopologyDiagram extends React.Component {
       if (status !== Actions.REQUEST_STATUS.DONE)
         return <Loading withOverlay={false} className='content-spinner' />
 
-
       return (
-        <div className="topologyDiagramContainer" ref={this.setContainerRef} >
-          <svg className="topologyDiagram" />
-          <input type='image' alt='zoom-in' className='zoom-in'
-            onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
-          <input type='image' alt='zoom-out' className='zoom-out'
-            onClick={this.handleZoomOut} src={`${config.contextPath}/graphics/zoom-out.svg`} />
-          <input type='image' alt='zoom-target' className='zoom-target'
-            onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
+        <div className="topologyDiagramContainer" >
+          {clusters.map(({id, name, nodes, links}) =>
+            <ClusterViewer
+              key={id}
+              id={id}
+              name={name}
+              nodes={nodes}
+              links={links}
+              onSelectedNodeChange={onSelectedNodeChange}
+            />
+          )}
         </div>
       )
-    }
-
-    componentDidMount() {
-      window.addEventListener('resize', lodash.debounce(this.generateDiagram, 100))
-    }
-    componentWillUnmount() {
-      window.removeEventListener('resize', this.generateDiagram)
-    }
-
-
-    shouldComponentUpdate(nextProps, nextState){
-      return !lodash.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
-      || !lodash.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
-    }
-
-    // IMPORTANT: See comment in constructor about usage of local state because of D3.
-    componentWillReceiveProps(nextProps){
-      // Keep existing node objects to preserve data added by D3. Also the links reference these
-      // objects, so we must preserve that reference.
-      let nodes = lodash.cloneDeep(nextProps.nodes)
-      nodes = nodes.map(node => this.state.nodes.find(n => n.uid === node.uid) || node)
-
-      // D3 changes the link's source/target attributes to a reference to the node
-      // object, so when the links get updated we must keep those references.
-      const links = lodash.cloneDeep(nextProps.links)
-      links.forEach(link => {
-        const existingLink = this.state.links.find((oldLink) =>
-          link.source === oldLink.source.uid && link.target === oldLink.target.uid)
-        if (existingLink){
-          link.source = existingLink.source
-          link.target = existingLink.target
-        }
-      })
-
-      this.setState({ links, nodes })
-    }
-
-
-    componentDidUpdate(){
-      if (this.containerRef) {
-        const svg = d3.select('svg.topologyDiagram')
-        svg.append('g').attr('class', 'clusters')
-        svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
-        svg.append('g').attr('class', 'nodes')
-        svg.on('click', this.props.onSelectedNodeChange)
-
-        this.generateDiagram()
-      }
     }
 }
 

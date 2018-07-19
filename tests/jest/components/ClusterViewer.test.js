@@ -9,13 +9,12 @@
 'use strict'
 
 import React from 'react'
-import { shallow, mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 
-import TopologyDiagram from '../../../src-web/components/TopologyDiagram'
-import * as Actions from '../../../src-web/actions'
+import ClusterViewer from '../../../src-web/components/topology/ClusterViewer'
 
-describe('TopologyDiagram component 1', () => {
+describe('ClusterViewer no components', () => {
   const mockData = {
     clusters: [],
     nodes:[],
@@ -24,8 +23,7 @@ describe('TopologyDiagram component 1', () => {
   }
   it('renders as expected', () => {
     const component = renderer.create(
-      <TopologyDiagram
-        clusters={mockData.clusters}
+      <ClusterViewer
         nodes={mockData.nodes}
         links={mockData.links}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
@@ -37,20 +35,18 @@ describe('TopologyDiagram component 1', () => {
 })
 
 const mockData = {
-  clusters: [
-    {
-      id: 'this_is_id',
-      name: 'name'
-    }
-  ],
+  cluster: {
+    id: 'cluster_id',
+    name: 'name'
+  },
   nodes:[
     {
-      'id': '5b0ef443663e4b001bb7e198',
-      'uid': 'toronto',
-      'name': 'toronto',
-      'cluster': null,
-      'type': 'cluster',
-      'namespace': null,
+      'id': '1',
+      'uid': '1',
+      'name': '1',
+      'cluster': 'cluster_id',
+      'type': 'service',
+      'namespace': 'default',
       'topology': 'cluster',
       '__typename': 'Resource'
     },
@@ -58,9 +54,9 @@ const mockData = {
       'id': '2',
       'uid': '2',
       'name': '2',
-      'cluster': null,
+      'cluster': 'cluster_id',
       'type': 'service',
-      'namespace': null,
+      'namespace': 'default',
       'topology': 'service',
       '__typename': 'Resource'
     },
@@ -68,13 +64,19 @@ const mockData = {
       'id': '3',
       'uid': '3',
       'name': '3',
-      'cluster': null,
+      'cluster': 'cluster_id',
       'type': 'service',
-      'namespace': null,
+      'namespace': 'default',
       'topology': 'service',
       '__typename': 'Resource'
     }],
   links:[
+    {
+      source: 1,
+      target: 2,
+      label: 'link',
+      type: 'link'
+    },
     {
       source: 2,
       target: 3,
@@ -85,39 +87,18 @@ const mockData = {
   onSelectedNodeChange: jest.fn()
 }
 
-describe('TopologyDiagram component 2', () => {
+describe('ClusterViewer 3 components', () => {
   it('renders as expected', () => {
     const component = shallow(
-      <TopologyDiagram
-        clusters={mockData.clusters}
+      <ClusterViewer
+        id={mockData.cluster.id}
+        name={mockData.cluster.name}
         nodes={mockData.nodes}
         links={mockData.links}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
         selectedNodeId={mockData.selectedNodeId}
-        status={Actions.REQUEST_STATUS.DONE}
       />
     )
-    expect(component).toMatchSnapshot()
-  })
-})
-
-describe('TopologyDiagram component 3', () => {
-  // enzyme full rendering, http://airbnb.io/enzyme/docs/api/mount.html
-  it('renders as expected', () => {
-    const component = mount(
-      <TopologyDiagram
-        clusters={mockData.clusters}
-        nodes={mockData.nodes}
-        links={mockData.links}
-        onSelectedNodeChange={mockData.onSelectedNodeChange}
-        selectedNodeId={mockData.selectedNodeId}
-        status={Actions.REQUEST_STATUS.DONE}
-      />
-    )
-    //zoom in / zoom out button
-    component.find('input').at(0).simulate('click')
-    expect(component).toMatchSnapshot()
-    component.find('input').at(1).simulate('click')
     expect(component).toMatchSnapshot()
   })
 })

@@ -1,0 +1,55 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+.clusterViewerDiagram {
+    flex: 1;
+    height: calc(100% - 40px);
+}
+
+.clusterViewerTitle {
+    color: $color__blue-90;
+    line-height: 25px;
+    margin: 1rem 1rem 0 1rem;
+}
+
+.clusterViewerContainer {
+    height: 100%;
+    background-color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+    margin: 0 1rem 1rem 1rem;
+    position: relative;
+}
+
+svg.topologyDiagram {
+    height: 100%;
+    width: 100%;
+}
+
+.zoom-in {
+  position: absolute;
+  bottom: 72px;
+  right: 40px;
+}
+
+.zoom-out {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+}
+
+.zoom-target {
+  position: absolute;
+  bottom: 115px;
+  right: 40px;
+}

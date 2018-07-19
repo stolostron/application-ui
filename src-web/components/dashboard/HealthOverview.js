@@ -44,12 +44,14 @@ const barGraphProps = {
 
 
 const DashboardPieCharts = ({ pieChartItems = [], locale }) => (
-  pieChartItems.map(item =>
-    item.name &&
+  pieChartItems.map((item) => {
+    const modifiedData = item.data.filter(dataItem => dataItem && dataItem.length > 1 && dataItem[1] != 0)
+    return item.name &&
     (<div className='dashboard-pie-chart' key={item.name} >
-      <PieChart data={item.data} id={item.name} {...pieChartProps} />
+      <PieChart data={modifiedData} id={item.name} {...pieChartProps} />
       <p>{msgs.get(`dashboard.chart.${lodash.camelCase(item.name)}`, locale)}</p>
-    </div>))
+    </div>)
+  })
 )
 
 DashboardPieCharts.propTypes = {

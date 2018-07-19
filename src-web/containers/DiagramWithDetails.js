@@ -105,7 +105,7 @@ const mapStateToProps = (state) =>{
   modifiedLinks = modifiedLinks.filter(l => l.source !== l.target)
 
 
-  const nodesWithoutClusters = nodes.filter(n => n.type !== 'cluster')
+  const nodesWithoutClusters = nodes.filter(n => n.type !== 'cluster' && n.uid)
   const clusters = nodes.reduce((prev, curr) => {
     if (curr.cluster !== null && !prev.find(c => c.id === curr.cluster)){
       const node = nodes.find(n => n.id === curr.cluster)

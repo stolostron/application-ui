@@ -47,7 +47,7 @@ export default {
 }
 
 export function getRole(item) {
-  let roles = []
+  const roles = []
   if (lodash.get(item, 'NodeDetails.Labels.proxy') === 'true') {
     roles.push('proxy')
   }

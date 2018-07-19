@@ -23,7 +23,7 @@ export const modal = (state = {}, action) => {
   case Actions.POST_REQUEST:
   case Actions.PUT_REQUEST:
   case Actions.DEL_REQUEST: {
-    let reqCount = (state.reqCount || 0)
+    const reqCount = (state.reqCount || 0)
     return Object.assign({}, state, {
       reqStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
       reqCount: reqCount + 1

@@ -38,7 +38,7 @@ class FilterModal extends React.PureComponent {
 
   convertFilterArray(queries) {
     const filterArray = []
-    for (let [type, value] of Object.entries(queries)) {
+    for (const [type, value] of Object.entries(queries)) {
       filterArray.push({
         key: type,
         value

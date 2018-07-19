@@ -33,7 +33,7 @@ if (!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && config['featureFlags:reduxLo
 delete window.__PRELOADED_STATE__
 
 // Create Redux store with initial state
-let store = createStore(combineReducers(reducers), preloadedState, composeEnhancers(
+const store = createStore(combineReducers(reducers), preloadedState, composeEnhancers(
   applyMiddleware(...middleware)
 ))
 

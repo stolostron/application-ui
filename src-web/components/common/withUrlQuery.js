@@ -28,7 +28,7 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
       // create location search in React router
       // .....？{filters:{clusterLabel:[cloud=IBM]}}
       if (queries.length > 0) {
-        let result = {}
+        const result = {}
         queries.forEach((item) => {
           if (item.type) {
             if (!Array.isArray(result[item.type])) {
@@ -70,7 +70,7 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
 
     convertObjectToFilterArray(object) {
       const tempArray = []
-      for (let [type, value] of Object.entries(object)) {
+      for (const [type, value] of Object.entries(object)) {
         if ( Array.isArray(value) ) {
           value.forEach(element => {
             if (element && element.includes(STRING_SPLITTER)) {

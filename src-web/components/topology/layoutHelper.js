@@ -39,7 +39,7 @@ export default class LayoutHelper {
 
     // for each cluster, group into sections
     // group by type
-    let nodeGroups = this.getNodeGroups(nodes)
+    const nodeGroups = this.getNodeGroups(nodes)
 
     // group by connections
     this.groupNodesByConnections(nodeGroups, links)
@@ -90,13 +90,13 @@ export default class LayoutHelper {
     })
 
     // combine pods into their controllers
-    let controllerAsService = []
+    const controllerAsService = []
     if (groupMap['controller']) {
       if (groupMap['pod']) {
         let i=groupMap['pod'].nodes.length
         while(--i>=0) {
-          let node = groupMap['pod'].nodes[i]
-          let controller = controllerMap[node.layout.qname]
+          const node = groupMap['pod'].nodes[i]
+          const controller = controllerMap[node.layout.qname]
           if (controller) {
             controller.layout.pods.push(node)
             groupMap['pod'].nodes.splice(i,1)
@@ -108,8 +108,8 @@ export default class LayoutHelper {
       if (groupMap['service']) {
         let i=groupMap['service'].nodes.length
         while(--i>=0) {
-          let node = groupMap['service'].nodes[i]
-          let controller = controllerMap[node.layout.qname]
+          const node = groupMap['service'].nodes[i]
+          const controller = controllerMap[node.layout.qname]
           if (controller) {
             controller.layout.services.push(node)
             groupMap['service'].nodes.splice(i,1)
@@ -120,7 +120,7 @@ export default class LayoutHelper {
       }
 
       groupMap['controller'].nodes.forEach(controller=>{
-        let {type, layout} = controller
+        const {type, layout} = controller
         if (layout.pods.length) {
           layout.info = `${type} of ${layout.pods.length} pods`
         }
@@ -133,7 +133,7 @@ export default class LayoutHelper {
         return layout.qname === qname
       })
       if (inx!==-1) {
-        let controller = groupMap['controller'].nodes.splice(inx,1)[0]
+        const controller = groupMap['controller'].nodes.splice(inx,1)[0]
         controller.layout.type = 'service'
         groupMap['service'].nodes.push(controller)
       }
@@ -145,15 +145,15 @@ export default class LayoutHelper {
   groupNodesByConnections = (nodeGroups, links) => {
     _.forOwn(nodeGroups, (group, type) => {
       // sort nodes/links into sections
-      let connected = nodeGroups[type].connected = []
-      let unconnected = nodeGroups[type].unconnected = []
-      let nodeMap = _.keyBy(group.nodes, 'uid')
-      let unconnectedSet = new Set(Object.keys(nodeMap))
+      const connected = nodeGroups[type].connected = []
+      const unconnected = nodeGroups[type].unconnected = []
+      const nodeMap = _.keyBy(group.nodes, 'uid')
+      const unconnectedSet = new Set(Object.keys(nodeMap))
       let i=links.length
       while(--i>=0) {
-        let link = links[i]
+        const link = links[i]
         if (link.source && link.target && nodeMap[link.source] && nodeMap[link.target]) {
-          let inx = connected.findIndex((s=>{
+          const inx = connected.findIndex((s=>{
             return s.nodeMap[link.source] || s.nodeMap[link.target]
           }))
           // if section doesn't exist, add it
@@ -175,9 +175,9 @@ export default class LayoutHelper {
           grp.edges.push(link)
 
           // update nodes/ keep track of how many links to this node for layout options
-          let keys = ['source', 'target']
+          const keys = ['source', 'target']
           keys.forEach(key => {
-            let value = link[key]
+            const value = link[key]
             let node = grp.nodeMap[value]
             if (!node) {
               node = grp.nodeMap[value] = nodeMap[value]
@@ -196,13 +196,13 @@ export default class LayoutHelper {
   }
 
   createSections = (center, nodeGroups) => {
-    let sections = []
-    let sectionKeys = ['internet', 'host', 'service', 'controller', 'pod', 'container', 'unmanaged']
+    const sections = []
+    const sectionKeys = ['internet', 'host', 'service', 'controller', 'pod', 'container', 'unmanaged']
     sectionKeys.forEach(key=>{
       if (nodeGroups[key]) {
         const {connected, unconnected} = nodeGroups[key]
         connected.forEach(({nodeMap, edges})=>{
-          let section = {elements: {nodes:[], edges:[]} }
+          const section = {elements: {nodes:[], edges:[]} }
           _.forOwn(nodeMap, (node, uid) => {
             node.layout.center = center
             section.elements.nodes.push({
@@ -227,7 +227,7 @@ export default class LayoutHelper {
           sections.push(section)
         })
 
-        let section = {elements: {nodes:[]} }
+        const section = {elements: {nodes:[]} }
         unconnected.forEach(node=>{
           node.layout.center =center
           section.elements.nodes.push({
@@ -246,10 +246,11 @@ export default class LayoutHelper {
 
   setSectionLayouts = (sections, bounds) => {
     const NODE_SIZE = 60
-    let {x, y, width, height} = bounds
+    const {y} = bounds
+    let {x, width, height} = bounds
     // get rough idea how many to allocate for each section based on # of nodes
     const columns = sections.map(section => {
-      let count = section.elements.nodes.length
+      const count = section.elements.nodes.length
       return count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
     })
     const totalColumns = columns.reduce((acc, cur) => acc + cur)
@@ -262,7 +263,7 @@ export default class LayoutHelper {
     x+= (Math.max(width-totalWidth, NODE_SIZE) / 2) + 10
     sections.forEach((section, index)=>{
       const w = widths[index]
-      let {elements} = section
+      const {elements} = section
       if (elements.edges) {
         section.options = {
           name: 'dagre', //cola
@@ -302,11 +303,11 @@ export default class LayoutHelper {
     // layout each sections
     let totalLayouts = allSections.length
     allSections.forEach(({elements, options})=>{
-      let section = cy.add(elements)
-      let layout = section.layout(options)
+      const section = cy.add(elements)
+      const layout = section.layout(options)
       layout.pon('layoutstop').then(()=>{
         section.forEach(ele=>{
-          let data = ele.data()
+          const data = ele.data()
           if (ele.isNode()) {
             Object.assign(data.node.layout, ele.position())
           } else {
@@ -353,8 +354,8 @@ export default class LayoutHelper {
         i--
       }
       if (i>0) {
-        let left = label.substring(0, i)
-        let right = label.substring(i+1)
+        const left = label.substring(0, i)
+        const right = label.substring(i+1)
         return left + label[i] +'\n' + this.wrapLabel(right, width)
       }
     }

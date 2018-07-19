@@ -40,6 +40,7 @@
         "prefer-arrow-callback": ["error"],
         "no-trailing-spaces": "error",
         "no-unused-vars": "error",
+        "prefer-const": "error",
         "react/jsx-tag-spacing": "error",
         "react/display-name": "error",
         "react/no-access-state-in-setstate": "error",

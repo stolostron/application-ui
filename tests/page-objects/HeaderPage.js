@@ -44,7 +44,7 @@ function resetHomepage(browser, url) {
 }
 
 function setHomepage(browser, url) {
-  let newHomepage = `${url}/tools/cli`
+  const newHomepage = `${url}/tools/cli`
   browser.url(newHomepage)
   this.waitForElementVisible('@adminBtn')
     .click('@adminBtn')

@@ -111,7 +111,7 @@ const makeGetTransformedItemsSelector = (resourceType) => {
     (items) => {
       const resourceData = getResourceDefinitions(resourceType)
       return items.map(item => {
-        let customData = {}
+        const customData = {}
         const context = JSON.parse(document.getElementById('context').textContent)
         resourceData.tableKeys.forEach(key => {
           if (key.transformFunction && typeof key.transformFunction === 'function') {
@@ -143,7 +143,7 @@ const makeGetPagedItemsSelector = (resourceType) => {
   return createSelector(
     [makeGetSortedItemsSelector(resourceType), getPage, getItemsPerPage],
     (items, page, itemsPerPage) => {
-      let offset = (page - 1) * itemsPerPage
+      const offset = (page - 1) * itemsPerPage
       let lastIndex = offset + itemsPerPage
       lastIndex = lastIndex <= items.length ? lastIndex : items.length
       return {
@@ -160,7 +160,7 @@ export const makeGetVisibleTableItemsSelector = (resourceType) => {
   return createSelector(
     [makeGetPagedItemsSelector(resourceType)],
     result => {
-      let normalizedItems = normalize(result.items, [createResourcesSchema(pk)]).entities.items
+      const normalizedItems = normalize(result.items, [createResourcesSchema(pk)]).entities.items
       return Object.assign(result, {
         normalizedItems: normalizedItems,
         items: result.items.map(item => `${lodash.get(item, pk)}-${lodash.get(item, 'cluster')}`) // to support multi cluster, use ${name}-${cluster} as unique id

@@ -20,7 +20,7 @@ let releaseName
 module.exports = {
   '@disabled': true,
   before: function (browser) {
-    let loginPage = browser.page.LoginPage()
+    const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
     releaseName = getReleaseName('acs')

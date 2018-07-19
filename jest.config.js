@@ -16,7 +16,7 @@ const tapReporter = [
   }
 ]
 
-let jestConfig = {
+const jestConfig = {
   collectCoverage: true,
   coverageReporters: [
     'json-summary',

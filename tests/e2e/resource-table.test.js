@@ -20,7 +20,7 @@ module.exports = {
   //'@disabled': true,
 
   before: function (browser) {
-    let loginPage = browser.page.LoginPage()
+    const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
   },
@@ -55,7 +55,7 @@ module.exports = {
 
 function verifyResourcePage(browser, hasTabs) {
   const url = `${browser.launch_url}${config.get('contextPath')}${ROUTE[browser.currentTest.name]}`
-  let resourceTablePage = browser.page.ResourceTablePage()
+  const resourceTablePage = browser.page.ResourceTablePage()
   resourceTablePage.navigate(url)
   resourceTablePage.verifyPageContent()
   resourceTablePage.verifySecondaryHeader(hasTabs)

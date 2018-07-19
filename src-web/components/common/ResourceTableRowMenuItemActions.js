@@ -27,7 +27,7 @@ export const resourceActions = (action, dispatch, resourceType, data) => {
         data: { apiVersion: resourceType.api_version, kind: resourceType.name, ...data }}))
   }
   case 'table.actions.edit': {
-    let _data = { ...data }
+    const _data = { ...data }
     delete _data.status
     delete _data.metadata.selfLink
     delete _data.metadata.uid

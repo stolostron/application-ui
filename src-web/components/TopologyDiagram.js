@@ -51,7 +51,7 @@ class TopologyDiagram extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-      let clusters = _.cloneDeep(nextProps.clusters)
+      const clusters = _.cloneDeep(nextProps.clusters)
       clusters.forEach(cluster=>{
         const set = new Set()
         cluster.nodes = nextProps.nodes.filter(node=>{

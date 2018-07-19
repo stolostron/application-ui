@@ -17,7 +17,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 export const STRING_SPLITTER = '='
 
 export  const combineFilters = (selectedFilters) => {
-  let tempObject = []
+  const tempObject = []
   if (selectedFilters && selectedFilters.length > 0) {
     selectedFilters.forEach(item => {
       if (item && item.type) {

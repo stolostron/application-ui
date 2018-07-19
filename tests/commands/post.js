@@ -17,7 +17,7 @@ post.prototype.command = function (url, body, auth, cb) {
   const self = this
   const request = require('../../lib/server/request')
 
-  let options = {
+  const options = {
     url,
     method: 'POST',
     json: body

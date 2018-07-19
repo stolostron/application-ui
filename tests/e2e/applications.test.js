@@ -21,7 +21,7 @@ let appsPage
 
 module.exports = {
   before: function (browser) {
-    let loginPage = browser.page.LoginPage()
+    const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
 

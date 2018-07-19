@@ -43,7 +43,7 @@ function getResourceData(resourceType) {
 export default getResourceData
 
 export function getPrimaryKey(resourceType) {
-  let def = getResourceData(resourceType)
+  const def = getResourceData(resourceType)
   let pk = def.primaryKey
 
   if (!pk)
@@ -53,7 +53,7 @@ export function getPrimaryKey(resourceType) {
 }
 
 export function getURIKey(resourceType) {
-  let def = getResourceData(resourceType)
+  const def = getResourceData(resourceType)
   let uriKey = def.uriKey
 
   if (!uriKey)

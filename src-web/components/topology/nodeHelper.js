@@ -184,8 +184,8 @@ export default class NodeHelper {
   }
 
   dragNode = (d, i, ns) => {
-    let {layout} = d
-    let node = d3.select(ns[i].parentNode)
+    const {layout} = d
+    const node = d3.select(ns[i].parentNode)
     layout.x += d3.event.dx
     layout.y += d3.event.dy
     layout.dragged = {x:layout.x, y:layout.y}
@@ -198,8 +198,8 @@ export default class NodeHelper {
     // drag polygons
     node.selectAll('polygon')
       .attr('transform', () => {
-        let x = layout.x
-        let y = layout.y
+        const x = layout.x
+        const y = layout.y
         return `translate(${x - 21.650625}, ${y - 25.65625})`
       })
 

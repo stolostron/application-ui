@@ -17,20 +17,20 @@ module.exports = {
   //'@disabled': true,
 
   before: function (browser) {
-    let loginPage = browser.page.LoginPage()
+    const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
   },
 
   'verify-topology-diagram-loads': (browser) => {
     const url = `${browser.launch_url}${config.get('contextPath')}${ROUTE}`
-    let page = browser.page.TopologyDiagramPage()
+    const page = browser.page.TopologyDiagramPage()
     page.navigate(url)
     page.verifyTopologyLoads()
   },
 
   'verify-topology-diagram-filtering': (browser) => {
-    let page = browser.page.TopologyDiagramPage()
+    const page = browser.page.TopologyDiagramPage()
     page.waitUntilFiltersLoaded((res)=>{
       // make sure there are NUMBER_OF_FILTERS
       browser.assert.equal(res.value.length, NUMBER_OF_FILTERS)

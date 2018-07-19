@@ -115,7 +115,7 @@ class TagInput extends React.Component {
   }
 
   onCopyButtonClick() {
-    let result = window.location.href
+    const result = window.location.href
     return decodeURIComponent(result)
   }
 

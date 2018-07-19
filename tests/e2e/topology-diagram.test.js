@@ -45,17 +45,17 @@ module.exports = {
     })
   },
 
-  'verify-topology-details-view': (browser) => {
-    let page = browser.page.TopologyDiagramPage()
-    page.openDetailsView(res=>{
-      // view opened
-      browser.assert.equal(res.value.length, 1)
-      page.closeDetailsView(res=>{
-        // view closed
-        browser.assert.equal(res.value.length, 0)
-      })
-    })
-  },
+  // 'verify-topology-details-view': (browser) => {
+  //   let page = browser.page.TopologyDiagramPage()
+  //   page.openDetailsView(res=>{
+  //     // view opened
+  //     browser.assert.equal(res.value.length, 1)
+  //     page.closeDetailsView(res=>{
+  //       // view closed
+  //       browser.assert.equal(res.value.length, 0)
+  //     })
+  //   })
+  // },
 
   after: function (browser, done) {
     setTimeout(() => {

@@ -124,7 +124,9 @@ class TagInput extends React.Component {
   }
 
   handleClearAllClick() {
-    this.updateSelectedTags([], true)
+    if (this.state.tags.length > 0) {
+      this.updateSelectedTags([], true)
+    }
   }
 
   handleModalOpen = () => {

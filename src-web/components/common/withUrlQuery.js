@@ -51,6 +51,8 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
       if (history && paramString) {
         // update the URL with filter tags
         history.push(`${location.pathname}?tags=${paramString}`)
+      } else if (history) {
+        history.push(`${location.pathname}`)
       }
     }
 

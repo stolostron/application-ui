@@ -23,6 +23,8 @@ module.exports = {
   entry: {
     'vendorhcm': [
       'carbon-components-react',
+      'cytoscape',
+      'cytoscape-cola',
       'd3',
       'loadable-components',
       'lodash',
@@ -38,7 +40,8 @@ module.exports = {
       'redux-logger',
       'redux-thunk',
       'redux',
-      'reselect'
+      'reselect',
+      'svg.js'
     ]
   },
   output: {

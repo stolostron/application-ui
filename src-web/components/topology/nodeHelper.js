@@ -11,8 +11,7 @@
 import * as d3 from 'd3'
 import SVG from 'svg.js'
 
-const polygonTypes = ['cluster', 'service']
-
+import { CIRCLE_NODE_RADIUS, POLY_NODE_RADIUS, POLY_TYPES } from './constants.js'
 
 export default class NodeHelper {
   /**
@@ -39,8 +38,8 @@ export default class NodeHelper {
 
 
   addNodesToDiagram = (currentZoom, nodeClickHandler) => {
-    const circleArray = this.nodes.filter(node => node.layout && !polygonTypes.includes(node.layout.type))
-    const polygonArray = this.nodes.filter(node => node.layout && polygonTypes.includes(node.layout.type))
+    const circleArray = this.nodes.filter(node => node.layout && !POLY_TYPES.includes(node.layout.type))
+    const polygonArray = this.nodes.filter(node => node.layout && POLY_TYPES.includes(node.layout.type))
     const draw = SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
 
     const circleNode = this.svg.select('g.nodes')
@@ -149,7 +148,8 @@ export default class NodeHelper {
         d3.select(ns[i]).selectAll('text')
           .transition(transition)
           .attr('x', () => {return layout.x})
-          .attr('y', () => {return layout.y+(polygonTypes.includes(layout.type)?24:20)})
+          .attr('y', () => {return layout.y+(POLY_TYPES.includes(layout.type) ?
+            POLY_NODE_RADIUS : CIRCLE_NODE_RADIUS)})
         d3.select(ns[i]).selectAll('tspan')
           .transition(transition)
           .attr('x', () => {return layout.x})
@@ -159,7 +159,7 @@ export default class NodeHelper {
   // center everything so transition zooms out from center
   centerNodes = () => {
     const nodes = this.svg.select('g.nodes').selectAll('g.node')
-      .filter(({layout})=>{return !layout.positioned})
+      .filter(d=>{return !d.layout || !d.layout.positioned})
     nodes.selectAll('polygon')
       .attr('transform', ({layout}) => {
         const {x, y} = layout.center
@@ -208,7 +208,8 @@ export default class NodeHelper {
     nodeLabels.each((d,i,ns)=>{
       d3.select(ns[i]).selectAll('text')
         .attr('x', () => {return layout.x})
-        .attr('y', () => {return layout.y+(polygonTypes.includes(layout.type)?24:20)})
+        .attr('y', () => {return layout.y+(POLY_TYPES.includes(layout.type) ?
+          POLY_NODE_RADIUS : CIRCLE_NODE_RADIUS )})
       d3.select(ns[i]).selectAll('tspan')
         .attr('x', () => {return layout.x})
     })

@@ -64,6 +64,9 @@ class TopologyDiagram extends React.Component {
           return set.has(link.source) || set.has(link.target)
         })
       })
+      clusters.sort((a,b) => {
+        return a.name.localeCompare(b.name)
+      })
       this.setState({ clusters })
     }
 

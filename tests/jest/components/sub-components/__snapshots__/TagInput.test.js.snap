@@ -108,10 +108,10 @@ ShallowWrapper {
           className="tagInput-searchIcon"
         >
           <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />
         </div>,
@@ -278,10 +278,10 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />,
           "className": "tagInput-searchIcon",
@@ -292,10 +292,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "className": "icon--search--glyph",
+            "className": "icon--search",
             "description": "search icon",
             "fillRule": "evenodd",
-            "name": "icon--search--glyph",
+            "name": "icon--search",
             "role": "img",
           },
           "ref": null,
@@ -630,10 +630,10 @@ ShallowWrapper {
             className="tagInput-searchIcon"
           >
             <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />
           </div>,
@@ -800,10 +800,10 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />,
             "className": "tagInput-searchIcon",
@@ -814,10 +814,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "className": "icon--search--glyph",
+              "className": "icon--search",
               "description": "search icon",
               "fillRule": "evenodd",
-              "name": "icon--search--glyph",
+              "name": "icon--search",
               "role": "img",
             },
             "ref": null,
@@ -1216,10 +1216,10 @@ ShallowWrapper {
           className="tagInput-searchIcon"
         >
           <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />
         </div>,
@@ -1386,10 +1386,10 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />,
           "className": "tagInput-searchIcon",
@@ -1400,10 +1400,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "className": "icon--search--glyph",
+            "className": "icon--search",
             "description": "search icon",
             "fillRule": "evenodd",
-            "name": "icon--search--glyph",
+            "name": "icon--search",
             "role": "img",
           },
           "ref": null,
@@ -1738,10 +1738,10 @@ ShallowWrapper {
             className="tagInput-searchIcon"
           >
             <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />
           </div>,
@@ -1908,10 +1908,10 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />,
             "className": "tagInput-searchIcon",
@@ -1922,10 +1922,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "className": "icon--search--glyph",
+              "className": "icon--search",
               "description": "search icon",
               "fillRule": "evenodd",
-              "name": "icon--search--glyph",
+              "name": "icon--search",
               "role": "img",
             },
             "ref": null,
@@ -2324,10 +2324,10 @@ ShallowWrapper {
           className="tagInput-searchIcon"
         >
           <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />
         </div>,
@@ -2494,10 +2494,10 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />,
           "className": "tagInput-searchIcon",
@@ -2508,10 +2508,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "className": "icon--search--glyph",
+            "className": "icon--search",
             "description": "search icon",
             "fillRule": "evenodd",
-            "name": "icon--search--glyph",
+            "name": "icon--search",
             "role": "img",
           },
           "ref": null,
@@ -2846,10 +2846,10 @@ ShallowWrapper {
             className="tagInput-searchIcon"
           >
             <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />
           </div>,
@@ -3016,10 +3016,10 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />,
             "className": "tagInput-searchIcon",
@@ -3030,10 +3030,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "className": "icon--search--glyph",
+              "className": "icon--search",
               "description": "search icon",
               "fillRule": "evenodd",
-              "name": "icon--search--glyph",
+              "name": "icon--search",
               "role": "img",
             },
             "ref": null,
@@ -3432,10 +3432,10 @@ ShallowWrapper {
           className="tagInput-searchIcon"
         >
           <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />
         </div>,
@@ -3602,10 +3602,10 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <Icon
-            className="icon--search--glyph"
+            className="icon--search"
             description="search icon"
             fillRule="evenodd"
-            name="icon--search--glyph"
+            name="icon--search"
             role="img"
           />,
           "className": "tagInput-searchIcon",
@@ -3616,10 +3616,10 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "className": "icon--search--glyph",
+            "className": "icon--search",
             "description": "search icon",
             "fillRule": "evenodd",
-            "name": "icon--search--glyph",
+            "name": "icon--search",
             "role": "img",
           },
           "ref": null,
@@ -3954,10 +3954,10 @@ ShallowWrapper {
             className="tagInput-searchIcon"
           >
             <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />
           </div>,
@@ -4124,10 +4124,10 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <Icon
-              className="icon--search--glyph"
+              className="icon--search"
               description="search icon"
               fillRule="evenodd"
-              name="icon--search--glyph"
+              name="icon--search"
               role="img"
             />,
             "className": "tagInput-searchIcon",
@@ -4138,10 +4138,10 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "className": "icon--search--glyph",
+              "className": "icon--search",
               "description": "search icon",
               "fillRule": "evenodd",
-              "name": "icon--search--glyph",
+              "name": "icon--search",
               "role": "img",
             },
             "ref": null,

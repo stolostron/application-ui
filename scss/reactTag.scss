@@ -37,13 +37,12 @@
 
 /* Styles for the button */
 .tagInput-searchIcon {
-  transform: scale(1.2);
+  transform: scale(1.1);
   position: absolute;
   z-index: 200;
   fill: $color__navy-gray-7;
   float: left;
-  margin-top: 0.8rem;
-  margin-left: 0.6rem;
+  margin: 0.6rem 0 0 0.6rem;
 }
 
 .tagInput-cleanButton {
@@ -51,8 +50,7 @@
   fill: $color__navy-gray-7;
   display: inline-block;
   float: left;
-  margin-top: 0.6rem;
-  margin-left: -2rem;
+  margin: 0.6rem 0 0 -2rem;
   position: relative;
   z-index: 11;
   &:hover {
@@ -61,15 +59,14 @@
 }
 
 .tagInput-copyButton {
-  transform: scale(0.9);
+  transform: scale(0.8);
   display: inline-block;
   float: left;
   height: 2.8rem;
   width: 2.8rem;
-  margin-left: 0.2rem;
-  margin-top: -0.2rem;
-  background: $color__blue-51;
+  margin: -0.25rem 0 0 0.3rem;
   background: $color__white;
+  border: 2px solid $color__blue-51;
   &:hover {
     button svg {
       fill: $color__white;
@@ -77,8 +74,8 @@
     background: $color__blue-51;
   }
   button {
-    margin-left: 0.5rem;
-    margin-top: -0.5rem;
+    margin-left: 0.4rem;
+    margin-top: -0.6rem;
     svg {
       fill: $color__navy-gray-7;
     }
@@ -86,12 +83,12 @@
 }
 
 .tagInput-filterButton {
-  transform: scale(0.9);
+  transform: scale(0.8);
   display: inline-block;
   float: left;
   height: 2.8rem;
   width: 2.8rem;
-  margin-top: -0.2rem;
+  margin: -0.25rem 0 0 -0.51rem;
   background: $color__blue-51;
   &:hover {
     button svg {
@@ -116,13 +113,12 @@
 .tagInput-comboBox {
   float: left;
   padding-bottom: 0.5rem;
-  width: calc(100% - 6.3rem);
+  width: calc(100% - 5.4rem);
   height: 4rem;
 }
 
 .react-tags {
   position: relative;
-  padding: 6px 0 0 6px;
   border-radius: 1px;
   background: $color__white;
   /* shared font styles */
@@ -131,18 +127,24 @@
   padding-right: 2rem;
   /* clicking anywhere will focus the input */
   cursor: text;
+  max-height: 2.25rem;
+  overflow: hidden;
   z-index: 10;
   &.is-focused {
-    /* cannot find a matched color in carbon*/
     box-shadow: 0px 0px 0 1px $color__blue-10;
+    max-height: 10rem;
+    transition: max-height .6s ease-out;
+    height: auto;
+    overflow: visible;
   }
-  div:first-child{
-    margin-left: 2.5rem;
-  }
-  input:first-child {
-    margin-left: -2rem;
+  &:hover {
+    max-height: 10rem;
+    transition: max-height .6s ease-out;
+    height: auto;
+    overflow: visible;
   }
 }
+
 
 .react-tags__selected {
   display: inline;
@@ -151,15 +153,13 @@
 .react-tags__selected-tag {
   display: inline-block;
   box-sizing: border-box;
-  margin: 0 6px 6px 0;
   background: $color__blue-50 no-repeat right 8px center;
   color: $color__white;
   padding: 0.1rem 1rem;
   border-radius: 1.5rem;
   border-color: transparent;
   transition: all .6s ease-out;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem -2rem 0.5rem 2.5rem;
   height: 1.25rem;
 
   /* match the font styles */
@@ -179,21 +179,13 @@
 
 
 .react-tags__search {
+  // display: inline;
+  position: relative;
   display: inline-block;
-
-  /* match tag layout */
-  padding: 7px 2px;
-  margin-bottom: 6px;
   z-index: 200;
-  /* prevent autoresize overflowing the container */
   max-width: 100%;
-}
-
-@media screen and (min-width: 30em) {
-  .react-tags__search {
-    /* this will become the offsetParent for suggestions */
-    position: relative;
-  }
+  margin: 0.75rem 0.5rem 0.75rem 3rem;
+  padding-right: 2rem;
 }
 
 .react-tags__search input {
@@ -220,14 +212,8 @@
   top: 100%;
   left: 0;
   width: 100%;
-}
-
-@media screen and (min-width: 30em) {
-
-  .react-tags__suggestions {
-    width: 240px;
-  }
-
+  z-index: 500;
+  overflow: visible;
 }
 
 .react-tags__suggestions ul {

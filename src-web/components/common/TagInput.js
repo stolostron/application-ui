@@ -163,8 +163,8 @@ class TagInput extends React.Component {
         />
         <div className='tagInput-searchIcon'>
           <Icon
-            className='icon--search--glyph'
-            name='icon--search--glyph'
+            className='icon--search'
+            name='icon--search'
             description={msgs.get('taginput.icon.search', this.context.locale)}
           />
         </div>

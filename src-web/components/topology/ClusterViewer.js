@@ -26,7 +26,7 @@ resources(() => {
   require('../../../scss/topology-node.scss')
 })
 
-var currentZoom = 'translate(0,0) scale(1)'
+var currentZoom = {x:0, y:0, k:1}
 
 class ClusterViewer extends React.Component {
 
@@ -57,16 +57,10 @@ class ClusterViewer extends React.Component {
       this.containerRef = elem
     }
     this.layoutHelper = new LayoutHelper()
-    this.generateDiagram = this.generateDiagram.bind(this)
   }
 
   componentDidMount() {
     this.generateDiagram()
-    window.addEventListener('resize', _.debounce(this.generateDiagram, 100))
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.generateDiagram)
   }
 
   componentDidUpdate(){
@@ -126,14 +120,12 @@ class ClusterViewer extends React.Component {
       this.svg.on('click', this.props.onSelectedNodeChange)
     }
 
-    const  {clientHeight:height, clientWidth:width} = _.get(this, 'containerRef.attributes.class.ownerElement')
-      || {clientHeight: 500, clientWidth: 1200}
-
-    const bounds = this.layoutHelper.getClusterBounds(height, width)
-
     // consolidate nodes/filter links/add layout data to each element
     const {nodes, links} = this.state
-    this.layoutHelper.layout(bounds, nodes, links, ()=>{
+    this.layoutBBox = this.layoutHelper.layout(nodes, links, ()=>{
+
+      // resize diagram to fit all the nodes
+      this.zoomFit()
 
       // Create or refresh the nodes in the diagram.
       const transition = d3.transition()
@@ -150,21 +142,25 @@ class ClusterViewer extends React.Component {
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
       nodeHelper.moveNodes(transition)
+
     })
 
     // Add zoom feature to diagram
     this.svg.call(this.getSvgSpace())
+
   }
 
   getSvgSpace(){
-    const nodes = this.svg.select('g.nodes').selectAll('g.node')
-    const links = this.svg.select('g.links').selectAll('g.link')
     const svgSpace = d3.zoom()
       .scaleExtent([ 0.25, 4 ])
       .on('zoom', () => {
         currentZoom = d3.event.transform
-        nodes.attr('transform', d3.event.transform)
-        links.attr('transform', d3.event.transform)
+        const {id, name} = this.props
+        const svg = d3.select('#'+name+id)
+        svg.select('g.nodes').selectAll('g.node')
+          .attr('transform', d3.event.transform)
+        svg.select('g.links').selectAll('g.link')
+          .attr('transform', d3.event.transform)
       })
     return svgSpace
   }
@@ -178,12 +174,21 @@ class ClusterViewer extends React.Component {
   }
 
   handleTarget = () => {
-    const width = this.svg.style('width').replace('px', '')/2
-    const height = this.svg.style('height').replace('px', '')/2
-    this.getSvgSpace().translateTo(this.svg, width, height)
-    this.getSvgSpace().scaleTo(this.svg, 1)
+    this.zoomFit()
   }
 
+  zoomFit = () => {
+    const {width, height} = this.layoutBBox
+    if (width && height) {
+      const root = this.svg.select('g.nodes')
+      const parent = root.node().parentElement
+      const fullWidth = parent.clientWidth
+      const fullHeight = parent.clientHeight
+      const scale = Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight))
+      this.getSvgSpace().translateTo(this.svg, width/2, height/2)
+      this.getSvgSpace().scaleTo(this.svg, scale)
+    }
+  }
 }
 
 export default ClusterViewer

@@ -2,7 +2,7 @@
   "src_folders": [
     "tests/e2e"
   ],
-  "output_folder": "test-output",
+  "output_folder": "test-output/e2e",
   "custom_assertions_path": "",
   "page_objects_path": "tests/page-objects",
   "custom_commands_path": "tests/commands",
@@ -26,7 +26,7 @@
       "silent": true,
       "screenshots": {
         "enabled": true,
-        "path": "test-output/screenshots",
+        "path": "test-output/e2e/screenshots",
         "on_failure": true
       },
       "desiredCapabilities": {

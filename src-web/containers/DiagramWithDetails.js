@@ -24,6 +24,7 @@ resources(() => {
 
 class DiagramWithDetails extends React.Component {
   static propTypes = {
+    activeFilters: PropTypes.object,
     clusters: PropTypes.array,
     links: PropTypes.array,
     nodes: PropTypes.array,
@@ -69,6 +70,7 @@ class DiagramWithDetails extends React.Component {
           nodes={this.props.nodes}
           links={this.props.links}
           onSelectedNodeChange={this.props.onSelectedNodeChange}
+          activeFilters={this.props.activeFilters}
           selectedNodeId={this.props.selectedNodeId}
           status={this.props.status}
         />
@@ -90,7 +92,7 @@ DiagramWithDetails.contextTypes = {
 }
 
 const mapStateToProps = (state) =>{
-  const { nodes = [], links = [], selectedNodeId, status } = state.topology
+  const { nodes = [], links = [], activeFilters, selectedNodeId, status } = state.topology
 
   // We need to change "to/from" to "source/target" to satisfy D3's API.
   let modifiedLinks = links.map((l)=>({
@@ -124,6 +126,7 @@ const mapStateToProps = (state) =>{
     clusters,
     links: modifiedLinks,
     nodes: nodesWithoutClusters,
+    activeFilters,
     selectedNodeId,
     status,
   }

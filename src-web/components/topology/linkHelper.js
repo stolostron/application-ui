@@ -61,47 +61,60 @@ export default class LinkHelper {
       .attr('class', 'link')
       .attr('transform', currentZoom)
 
+    // line
     links.append('line')
+      .attr('x1', ({layout}) => { return layout.center.x })
+      .attr('y1', ({layout}) => { return layout.center.y })
+      .attr('x2', ({layout}) => { return layout.center.x })
+      .attr('y2', ({layout}) => { return layout.center.y })
 
-    links.append('text')
-      .attr('class', 'linkText')
-      .text((d) => { return d.label })
-
+    // arrow
     links.append('polygon')
       .attr('class', 'directionDecorator')
       .attr('points', ({layout}) => {
         const radius = POLY_TYPES.includes(layout.target.type) ?
           POLY_NODE_RADIUS : CIRCLE_NODE_RADIUS
-        return `0,${radius}, -2,${radius + 5}, 2,${radius + 5}`
+        return `0,${radius}, -4,${radius + 7}, 4,${radius + 7}`
       })
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout.center
+        return `translate(${x}, ${y})`
+      })
+
+    // label
+    links.append('text')
+      .attr('class', 'linkText')
+      .text((d) => { return d.label })
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout.center
+        return `translate(${x}, ${y})`
+      })
+
   }
 
-  moveLinks = (transition) => {
-    this.centerLinks()
+  moveLinks = (moveTrans, opacityTrans) => {
     const links = this.svg.select('g.links').selectAll('g.link')
 
     // set position of line
     links.selectAll('line')
-      .transition(transition)
+      .interrupt()
+      .transition(moveTrans)
       .attr('x1', ({layout}) => { return layout.source.x })
       .attr('y1', ({layout}) => { return layout.source.y })
       .attr('x2', ({layout}) => { return layout.target.x })
       .attr('y2', ({layout}) => { return layout.target.y })
-
-    // set position of link text
-    links.selectAll('text')
-      .transition(transition)
-      .attr('transform', ({layout}) => {
-        const {source, target} = layout
-        const x = (source.x + target.x)/2
-        const y = (source.y + target.y)/2
-        const angle = Math.atan2(target.y - source.y,target.x - source.x) * 180 / Math.PI
-        return `translate(${x}, ${y}) rotate(${x > target.x ? angle + 180 : angle})`
+      .on('end', (d,i,ns)=>{
+        d3.select(ns[i])
+          .transition(opacityTrans)
+          .style('opacity', ({layout}) => {
+            return layout.hidden ? 0.2 : 1.0
+          })
       })
 
-    // set position of direction indicator
+    // set position of arrow
     links.selectAll('polygon')
-      .transition(transition)
+      .interrupt()
+      .transition(moveTrans)
       .attr('transform', ({layout}) => {
         const {source, target} = layout
         const x = target.x
@@ -109,38 +122,40 @@ export default class LinkHelper {
         const angle = Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI
         return `translate(${x}, ${y}) rotate(${angle + 90})`
       })
-  }
+      .on('end', (d,i,ns)=>{
+        d3.select(ns[i])
+          .transition(opacityTrans)
+          .style('opacity', ({layout}) => {
+            return layout.hidden ? 0.2 : 1.0
+          })
+      })
 
-  // center everything so transition zooms out from center
-  centerLinks = () => {
-    const links = this.svg.select('g.links').selectAll('g.link')
-      .filter(({layout})=>{return !layout.positioned})
-    links.selectAll('line')
-      .attr('x1', ({layout}) => { return layout.center.x })
-      .attr('y1', ({layout}) => { return layout.center.y })
-      .attr('x2', ({layout}) => { return layout.center.x })
-      .attr('y2', ({layout}) => { return layout.center.y })
+      // set position of label
     links.selectAll('text')
+      .interrupt()
+      .transition(moveTrans)
       .attr('transform', ({layout}) => {
-        const {x, y} = layout.center
-        return `translate(${x}, ${y})`
+        const {source, target} = layout
+        const x = (source.x + target.x)/2
+        const y = (source.y + target.y)/2
+        const angle = Math.atan2(target.y - source.y,target.x - source.x) * 180 / Math.PI
+        return `translate(${x}, ${y}) rotate(${x > target.x ? angle + 180 : angle})`
       })
-    links.selectAll('polygon')
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout.center
-        return `translate(${x}, ${y})`
+      .on('end', (d,i,ns)=>{
+        d3.select(ns[i])
+          .transition(opacityTrans)
+          .style('opacity', ({layout}) => {
+            return layout.hidden ? 0.0 : 1.0
+          })
       })
-    links.each(({layout})=>{
-      layout.positioned = true
-    })
   }
 
   dragLinks = (d) => {
     this.svg.select('g.links').selectAll('g.link').each((l,i,ns)=>{
-      if (l.source === d.uid || l.target === d.uid) {
+      if (l.layout.source.uid === d.layout.uid || l.layout.target.uid === d.layout.uid) {
         const link = d3.select(ns[i])
         const line = link.selectAll('line')
-        if (l.source === d.uid) {
+        if (l.layout.source.uid === d.layout.uid) {
           line
             .attr('x1', ({layout}) => {return layout.source.x = d.layout.x})
             .attr('y1', ({layout}) => { return layout.source.y = d.layout.y })

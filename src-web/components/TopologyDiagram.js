@@ -25,6 +25,7 @@ resources(() => {
 
 class TopologyDiagram extends React.Component {
     static propTypes = {
+      activeFilters: PropTypes.object,
       clusters: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string
@@ -51,6 +52,8 @@ class TopologyDiagram extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
+      // sort nodes and links into each cluster
+      // sort clusters alphabetically
       const clusters = _.cloneDeep(nextProps.clusters)
       clusters.forEach(cluster=>{
         const set = new Set()
@@ -77,7 +80,7 @@ class TopologyDiagram extends React.Component {
     }
 
     render() {
-      const { status, onSelectedNodeChange} = this.props
+      const { activeFilters, status, onSelectedNodeChange} = this.props
       const { clusters } = this.state
       const { locale } = this.context
 
@@ -101,6 +104,7 @@ class TopologyDiagram extends React.Component {
               name={name}
               nodes={nodes}
               links={links}
+              activeFilters={activeFilters}
               onSelectedNodeChange={onSelectedNodeChange}
             />
           )}

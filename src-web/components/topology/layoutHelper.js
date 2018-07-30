@@ -17,7 +17,7 @@ cytoscape.use( dagre )
 
 import { NODE_SIZE } from './constants.js'
 
-const SECTION_ORDER = ['internet', 'host', 'service', 'controller', 'pod', 'container', 'unmanaged']
+const SECTION_ORDER = ['host', 'service', 'controller', 'pod', 'container', 'unmanaged']
 
 export default class LayoutHelper {
   /**
@@ -25,20 +25,38 @@ export default class LayoutHelper {
    *
    * Contains functions to manage sections.
    */
-  layout = (nodes, links, cb) => {
+
+  constructor () {
+    this.internetClones = {}
+  }
+
+  layout = (nodes, links, hiddenNodes, hiddenLinks, cb) => {
+
+    // sort out internet nodes--they can appear everywhere
+    const internetNodes = {}
+    nodes = nodes.filter(n=>{
+      if (n.type==='internet') {
+        internetNodes[n.uid] = n
+        return false
+      }
+      return true
+    })
 
     // for each cluster, group into sections
     // group by type
     const groups = this.getNodeGroups(nodes)
 
     // group by connections
-    this.groupNodesByConnections(groups, links)
+    this.groupNodesByConnections(groups, internetNodes, links)
+
+    // need to clone internet, otherwise everything coalesce around two internet nodes (in & out)
+    this.cloneInternetNodes(groups, internetNodes, nodes)
 
     // create sections
-    var sections = this.createSections({x: 200, y:200}, groups)
+    var sections = this.createSections(groups)
 
     // layout sections
-    const layoutBBox = this.setSectionLayouts(sections)
+    const layoutBBox = this.setSectionLayouts(sections, hiddenNodes, hiddenLinks)
 
     // then layout all sections
     this.runSectionLayouts(sections, nodes, cb)
@@ -59,10 +77,13 @@ export default class LayoutHelper {
         group = groupMap[type] = {nodes:[]}
       }
       node.layout = Object.assign(node.layout || {}, {
+        uid: node.uid,
         type: node.type,
         label: this.layoutLabel(node.name)
       }
       )
+      delete node.layout.source
+      delete node.layout.target
       switch (type) {
       case 'controller':
         Object.assign(node.layout, {
@@ -133,18 +154,19 @@ export default class LayoutHelper {
         groupMap['service'].nodes.push(controller)
       }
     })
-
     return {nodeGroups: groupMap, allNodeMap}
   }
 
-  groupNodesByConnections = (groups, links) => {
+  groupNodesByConnections = (groups, internetNodes, links) => {
     const {nodeGroups, allNodeMap} = groups
     const sourceMap = {}
     const targetMap = {}
     const anyConnectedSet = new Set()
     links
       .filter(link=>{
-        return (link.source && link.target && allNodeMap[link.source] && allNodeMap[link.target])
+        return (link.source && link.target &&
+            (allNodeMap[link.source] || internetNodes[link.source]) &&
+            (allNodeMap[link.target] || internetNodes[link.target] ))
       })
       .forEach(link=>{
         // all sources of this target
@@ -166,6 +188,9 @@ export default class LayoutHelper {
         anyConnectedSet.add(link.target)
       })
     const connectedSet = new Set()
+    const directions = [
+      {map:sourceMap, next:'source', other:'target'},
+      {map:targetMap, next:'target', other:'source'}]
     SECTION_ORDER.forEach(type=>{
       if (nodeGroups[type]) {
         const group = nodeGroups[type]
@@ -185,8 +210,11 @@ export default class LayoutHelper {
             connected.push(grp)
 
             // then add everything connected to this node to this group
-            this.groupNodesByConnectionsHelper(uid, grp, sourceMap, targetMap, connectedSet, allNodeMap)
+            this.gatherNodesByConnections(uid, grp, internetNodes, directions, connectedSet, allNodeMap)
+
           } else if (!anyConnectedSet.has(uid)) {
+
+            // the rest are unconnected
             unconnected.push(node)
           }
         })
@@ -194,49 +222,83 @@ export default class LayoutHelper {
     })
   }
 
-  groupNodesByConnectionsHelper = (node, grp, sourceMap, targetMap, connectedSet, allNodeMap) => {
+  gatherNodesByConnections = (uid, grp, internetNodes, directions, connectedSet, allNodeMap) => {
     // already connected to another group??
-    if (!connectedSet.has(node)) {
-      connectedSet.add(node)
-      grp.nodeMap[node] = allNodeMap[node]
+    if (!connectedSet.has(uid)) {
+      connectedSet.add(uid)
 
-      // any sources for this node??
-      if (sourceMap[node]) {
-        sourceMap[node].forEach(({link, source})=>{
-          if (!connectedSet.has(source)) {
-            // add link
-            link.layout = {
-              source: allNodeMap[link.source].layout,
-              target: allNodeMap[link.target].layout
+      // add this node to this group
+      const node = grp.nodeMap[uid] = allNodeMap[uid]
+
+      // recurse up and down to get everything
+      directions.forEach(({map, next, other})=>{
+        if (map[uid]) {
+          map[uid].forEach(entry => {
+            const {link} = entry
+            const end = entry[next]
+            if (!connectedSet.has(end)) {
+              // add link
+              link.layout = {}
+              link.layout[next] = internetNodes[link[next]] || allNodeMap[link[next]].layout
+              link.layout[other] = internetNodes[link[other]] || allNodeMap[link[other]].layout
+              grp.edges.push(link)
+
+              // add link to node as 'source' or 'target'
+              let nexts = node.layout[next]
+              if (!nexts) {
+                nexts = node.layout[next] = []
+              }
+              nexts.push(allNodeMap[link[next]])
+
+              // reiterate until nothing else connected
+              if (!internetNodes[end]) {
+                this.gatherNodesByConnections(link[next], grp, internetNodes, directions, connectedSet, allNodeMap)
+              }
             }
-            grp.edges.push(link)
-
-            // reiterate until nothing else connected
-            this.groupNodesByConnectionsHelper(source, grp, sourceMap, targetMap, connectedSet, allNodeMap)
-          }
-        })
-      }
-
-      // any targets for this node??
-      if (targetMap[node]) {
-        targetMap[node].forEach(({link, target})=>{
-          if (!connectedSet.has(target)) {
-            // add link
-            link.layout = {
-              source: allNodeMap[link.source].layout,
-              target: allNodeMap[link.target].layout
-            }
-            grp.edges.push(link)
-
-            // reiterate until nothing else connected
-            this.groupNodesByConnectionsHelper(target, grp, sourceMap, targetMap, connectedSet, allNodeMap)
-          }
-        })
-      }
+          })
+        }
+      })
     }
   }
 
-  createSections = (center, groups) => {
+  cloneInternetNodes = (groups, internetNodes, nodes) => {
+    const {nodeGroups} = groups
+    if (Object.keys(internetNodes).length) {
+      const directions = ['source', 'target']
+      SECTION_ORDER.forEach(type=>{
+        if (nodeGroups[type] && nodeGroups[type].connected) {
+          nodeGroups[type].connected.forEach(({nodeMap, edges}, index)=>{
+            edges.forEach(edge=>{
+              directions.forEach(direction=>{
+                const next = edge[direction]
+                if (internetNodes[next]) {
+                  const iuid = next+'_'+type+'_'+index
+                  if (!nodeMap[iuid]) {
+                    let clone = this.internetClones[iuid]
+                    if (!clone) {
+                      clone = this.internetClones[iuid] = _.cloneDeep(internetNodes[next])
+                      clone.layout = {
+                        uid: iuid,
+                        type: clone.type,
+                        label: this.layoutLabel(clone.name),
+                        cloned: true
+                      }
+                    }
+                    nodeMap[iuid] = clone
+                    nodes.push(nodeMap[iuid])
+                  }
+                  edge.layout[direction] = nodeMap[iuid].layout
+                }
+              })
+            })
+          })
+        }
+      })
+
+    }
+  }
+
+  createSections = (groups) => {
     const {nodeGroups} = groups
     const sections = {connected:[], unconnected:[]}
     SECTION_ORDER.forEach(type=>{
@@ -244,19 +306,32 @@ export default class LayoutHelper {
         const {connected, unconnected} = nodeGroups[type]
         connected.forEach(({nodeMap, edges})=>{
           const section = {elements: {nodes:[], edges:[]} }
-          _.forOwn(nodeMap, (node, uid) => {
-            node.layout.center = center
-            section.elements.nodes.push({
+          _.forOwn(nodeMap, (node) => {
+            const n = {
               data: {
-                id: uid,
+                id: node.layout.uid,
                 node
               }
-            })
+            }
+            // reuse old layout where possible
+            // to make layout faster and more stable
+            const {layout} = node
+            if (layout.x || layout.y) {
+              n.position = {
+                x: layout.undragged ? layout.undragged.x : layout.x,
+                y: layout.undragged ? layout.undragged.y : layout.y
+              }
+            }
+            section.elements.nodes.push(n)
           })
           edges.forEach(edge=>{
-            edge.layout.center = center
+            const {layout} = edge
             section.elements.edges.push({
-              data: edge
+              data: {
+                source: layout.source.uid,
+                target: layout.target.uid,
+                edge
+              }
             })
           })
           sections.connected.push(section)
@@ -264,7 +339,6 @@ export default class LayoutHelper {
 
         const section = {elements: {nodes:[]} }
         unconnected.forEach(node=>{
-          node.layout.center =center
           section.elements.nodes.push({
             data: {
               id: node.uid,
@@ -278,7 +352,7 @@ export default class LayoutHelper {
     return sections
   }
 
-  setSectionLayouts = (sections) => {
+  setSectionLayouts = (sections, hiddenNodes, hiddenLinks) => {
     const {connected, unconnected} = sections
     const connectedDim = this.setConnectedLayouts(connected)
     const unconnectedDim = this.setGridLayouts(unconnected)
@@ -286,6 +360,7 @@ export default class LayoutHelper {
     // move unconnected below connected
     unconnected.forEach(({options})=>{
       options.boundingBox.y1 += connectedDim.height
+      options.center.y += connectedDim.height
     })
 
     // center top over bottom
@@ -293,14 +368,35 @@ export default class LayoutHelper {
       const dx = (connectedDim.width-unconnectedDim.width)/2
       unconnected.forEach(({options})=>{
         options.boundingBox.x1 += dx
+        options.center.x += dx
       })
     } else {
       const dx = (unconnectedDim.width-connectedDim.width)/2
       connected.forEach(({options})=>{
         options.boundingBox.x1 += dx
+        options.center.x += dx
       })
     }
 
+    // center nodes and links in their bbox
+    const both = [connected, unconnected]
+    both.forEach(d=>{
+      d.forEach(({elements, options})=>{
+        const {nodes, edges} = elements
+        const {center} = options
+        nodes.forEach(({data: {node: {layout}}})=>{
+          layout.center = center
+          layout.hidden = hiddenNodes.has(layout.uid)
+        })
+        if (edges) {
+          edges.forEach(({data: {edge}})=>{
+            const {layout} = edge
+            layout.center = center
+            layout.hidden = hiddenLinks.has(edge.uid)
+          })
+        }
+      })
+    })
 
     return {x:0, y:0,
       width:Math.max(connectedDim.width, unconnectedDim.width)+NODE_SIZE*2,
@@ -325,12 +421,17 @@ export default class LayoutHelper {
       if (elements.edges) {
         section.options = {
           name: 'cola',
+          animate: false,
           boundingBox: {
             x1: x,
             y1: 0,
             w,
             h
           },
+          center: {
+            x: x + w/2,
+            y: h/2
+          }
         }
       }
       height = Math.max(h, height)
@@ -368,6 +469,10 @@ export default class LayoutHelper {
             const {node: nodeb} = b.data()
             return nodea.layout.type.localeCompare(nodeb.layout.type)
           },
+          center: {
+            x: x + w/2,
+            y: h/2
+          },
           cols
         }
       }
@@ -395,7 +500,7 @@ export default class LayoutHelper {
           if (ele.isNode()) {
             Object.assign(data.node.layout, ele.position())
           } else {
-            Object.assign(data.layout, {
+            Object.assign(data, {
               isLoop: ele.isLoop()
             })
           }
@@ -407,11 +512,15 @@ export default class LayoutHelper {
           nodes.forEach((n)=>{
             if (n.layout && n.layout.dragged) {
               const {layout} = n
+              layout.undragged = {
+                x: layout.x,
+                y: layout.y
+              }
               layout.x = layout.dragged.x
               layout.y = layout.dragged.y
             }
           })
-          cb()
+          cb(nodes)
         }
       })
       layout.run()

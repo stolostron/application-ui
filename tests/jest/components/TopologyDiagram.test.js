@@ -9,13 +9,15 @@
 'use strict'
 
 import React from 'react'
-import { mount } from 'enzyme'
+import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 
-import ClusterViewer from '../../../src-web/components/topology/ClusterViewer'
+import TopologyDiagram from '../../../src-web/components/TopologyDiagram'
+import * as Actions from '../../../src-web/actions'
 
-describe('ClusterViewer no components', () => {
+describe('TopologyDiagram component 1', () => {
   const mockData = {
+    activeFilters: {},
     clusters: [],
     nodes:[],
     links:[],
@@ -23,11 +25,14 @@ describe('ClusterViewer no components', () => {
   }
   it('renders as expected', () => {
     const component = renderer.create(
-      <ClusterViewer
+      <TopologyDiagram
+        clusters={mockData.clusters}
         nodes={mockData.nodes}
         links={mockData.links}
+        activeFilters={mockData.activeFilters}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
         selectedNodeId={mockData.selectedNodeId}
+        status={Actions.REQUEST_STATUS.DONE}
       />
     )
     expect(component.toJSON()).toMatchSnapshot()
@@ -35,8 +40,18 @@ describe('ClusterViewer no components', () => {
 })
 
 const mockData = {
-  'id':'5b57cb37d7f883001b15d7f9',
-  'name':'crucial-owl',
+  'clusters':[
+    {
+      'id':'5b57cb37d7f883001b15d7f9',
+      'index':0,
+      'name':'crucial-owl'
+    },
+    {
+      'id':'5b57cbb101ce3f001b7018f0',
+      'index':1,
+      'name':'myminikube'
+    }
+  ],
   'nodes':[
     {
       'id':'5b57cb3825f660891c811e11',
@@ -237,6 +252,136 @@ const mockData = {
       'namespace':'default',
       'topology':'pods',
       '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c812113',
+      'uid':'86ccc5c3-8455-11e8-8c39-005056a021ea',
+      'name':'undercooked-dragonfly-hcm-demoaccessories-templatedb-6f96fb684b',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'pod',
+      'namespace':'default',
+      'topology':'pods',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c812115',
+      'uid':'e8753e7b-845c-11e8-8c39-005056a021ea',
+      'name':'exiled-anteater-hcm-demoaccessories-instancedb-54c5456447-794h6',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'pod',
+      'namespace':'default',
+      'topology':'pods',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c812129',
+      'uid':'86c446fb-8455-11e8-8c39-005056a021ea',
+      'name':'undercooked-dragonfly-hcm-demoaccessories-instancedb-58cffl4hzl',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'pod',
+      'namespace':'default',
+      'topology':'pods',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c81213f',
+      'uid':'e8754e5b-845c-11e8-8c39-005056a021ea',
+      'name':'exiled-anteater-hcm-demoaccessories-templatedb-68885d9b6d-x6fvp',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'pod',
+      'namespace':'default',
+      'topology':'pods',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c812160',
+      'uid':'86ba5c47-8455-11e8-8c39-005056a021ea',
+      'name':'undercooked-dragonfly-hcm-demoaccessories-instancedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'deployment',
+      'namespace':'default',
+      'topology':'kube-controllers',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c812166',
+      'uid':'86bc3371-8455-11e8-8c39-005056a021ea',
+      'name':'undercooked-dragonfly-hcm-demoaccessories-templatedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'deployment',
+      'namespace':'default',
+      'topology':'kube-controllers',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c812174',
+      'uid':'e850ce0d-845c-11e8-8c39-005056a021ea',
+      'name':'exiled-anteater-hcm-demoaccessories-instancedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'deployment',
+      'namespace':'default',
+      'topology':'kube-controllers',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b57cbb125f660891c81217d',
+      'uid':'e852a03a-845c-11e8-8c39-005056a021ea',
+      'name':'exiled-anteater-hcm-demoaccessories-templatedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'deployment',
+      'namespace':'default',
+      'topology':'kube-controllers',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b5adfd625f660891c939943',
+      'uid':'86b49b1a-8455-11e8-8c39-005056a021ea',
+      'name':'undercooked-dragonfly-hcm-demoaccessories-instancedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'service',
+      'namespace':'default',
+      'topology':'services',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b5adfd625f660891c939952',
+      'uid':'f7c89aa0-7b9f-11e8-8c39-005056a021ea',
+      'name':'kubernetes',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'service',
+      'namespace':'default',
+      'topology':'services',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b5adfd625f660891c939956',
+      'uid':'e848c469-845c-11e8-8c39-005056a021ea',
+      'name':'exiled-anteater-hcm-demoaccessories-instancedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'service',
+      'namespace':'default',
+      'topology':'services',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b5adfd625f660891c939967',
+      'uid':'86b97b73-8455-11e8-8c39-005056a021ea',
+      'name':'undercooked-dragonfly-hcm-demoaccessories-templatedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'service',
+      'namespace':'default',
+      'topology':'services',
+      '__typename':'Resource'
+    },
+    {
+      'id':'5b5adfd625f660891c939968',
+      'uid':'e84fcf01-845c-11e8-8c39-005056a021ea',
+      'name':'exiled-anteater-hcm-demoaccessories-templatedb',
+      'cluster':'5b57cbb101ce3f001b7018f0',
+      'type':'service',
+      'namespace':'default',
+      'topology':'services',
+      '__typename':'Resource'
     }
   ],
   'links':[
@@ -268,20 +413,22 @@ const mockData = {
         'label':'default'
       }
     ]
-  }
+  },
+  'selectedNodeId':'',
+  'status':'DONE'
 }
 
-
-describe('ClusterViewer 3 components', () => {
+describe('TopologyDiagram component 2', () => {
   it('renders as expected', () => {
-    const component = mount(
-      <ClusterViewer
-        id={mockData.id}
-        name={mockData.name}
+    const component = shallow(
+      <TopologyDiagram
+        clusters={mockData.clusters}
         nodes={mockData.nodes}
         links={mockData.links}
         activeFilters={mockData.activeFilters}
         onSelectedNodeChange={jest.fn()}
+        selectedNodeId={mockData.selectedNodeId}
+        status={mockData.status}
       />
     )
     expect(component).toMatchSnapshot()

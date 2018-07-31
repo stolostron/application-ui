@@ -23,36 +23,35 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'ClusterName',
+      resourceKey: 'name',
     },
     {
       msgKey: 'table.header.labels',
-      resourceKey: 'Labels',
+      resourceKey: 'labels',
       transformFunction: getLabels
     },
     {
       msgKey: 'table.header.endpoint',
-      resourceKey: 'Labels.clusterip',
+      resourceKey: 'labels.clusterip',
       transformFunction: getExternalLink
     },
     {
       msgKey: 'table.header.status',
-      resourceKey: 'Status',
+      resourceKey: 'status',
       transformFunction: getStatusIcon
     },
     {
       msgKey: 'table.header.nodes',
-      resourceKey: 'TotalNodes',
-      transformFunction: getTotalReadyNodes
+      resourceKey: 'nodes',
     },
     {
       msgKey: 'table.header.storage',
-      resourceKey: 'TotalStorage',
+      resourceKey: 'totalStorage',
       transformFunction: getStorage
     },
     {
       msgKey: 'table.header.memory',
-      resourceKey: 'TotalMemory',
+      resourceKey: 'totalMemory',
       transformFunction: getMemory
     },
   ],
@@ -64,7 +63,7 @@ export function getExternalLink(item, locale) {
 
 export function getLabels(item) {
   return <ul>
-    {lodash.map(item.Labels, (value, key) => {
+    {lodash.map(item.labels, (value, key) => {
       if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
         return <li key={`${key}=${value}`}>{`${key}=${value}`}</li>
     })
@@ -74,24 +73,28 @@ export function getLabels(item) {
 
 export function getStatusIcon(item) {
   let iconName
-  switch (item.Status) {
-  case 'healthy':
+  let className
+  switch (item.status) {
+  case 'ok':
     iconName = 'icon--checkmark--glyph'
+    className = 'healthy'
     break
   case 'warning':
     iconName = 'icon--warning--glyph'
+    className = 'warning'
     break
   case 'failed':
   case 'critical':
     iconName = 'icon--error--glyph'
+    className = 'critical'
     break
   }
   return (
     <div className='table-status-row'>
       <div className='table-status-icon'>
-        {iconName && <Icon className={`table-status-icon__${item.Status}`} name={iconName} /> }
+        {iconName && <Icon className={`table-status-icon__${className}`} name={iconName} /> }
       </div>
-      <p>{item.Status}</p>
+      <p>{className}</p>
     </div>
   )
 }

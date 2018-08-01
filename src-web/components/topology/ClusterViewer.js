@@ -174,7 +174,7 @@ class ClusterViewer extends React.Component {
 
     // consolidate nodes/filter links/add layout data to each element
     const {nodes, links, hiddenNodes, hiddenLinks} = this.state
-    this.layoutBBox = this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutNodes)=>{
+    this.layoutBBox = this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutNodes, cyMap)=>{
 
       // resize diagram to fit all the nodes
       const firstLayout = !this.lastLayoutBBox
@@ -185,23 +185,20 @@ class ClusterViewer extends React.Component {
       }
 
       // Create or refresh the nodes in the diagram.
-      const moveTrans = d3.transition()
-        .duration(firstLayout?400:1000)
-        .ease(d3.easeSinOut)
-      const opacityTrans = d3.transition()
-        .duration(400)
+      const transformation = d3.transition()
+        .duration(firstLayout?400:800)
         .ease(d3.easeSinOut)
 
       // Create or refresh the links in the diagram.
       const linkHelper = new LinkHelper(this.svg, links)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
-      linkHelper.moveLinks(moveTrans, opacityTrans)
+      linkHelper.moveLinks(transformation)
 
-      const nodeHelper = new NodeHelper(this.svg, layoutNodes, linkHelper)
+      const nodeHelper = new NodeHelper(this.svg, layoutNodes, linkHelper, cyMap)
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
-      nodeHelper.moveNodes(moveTrans)
+      nodeHelper.moveNodes(transformation)
 
       this.lastLayoutBBox = this.layoutBBox
     })

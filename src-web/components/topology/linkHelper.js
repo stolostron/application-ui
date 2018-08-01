@@ -92,29 +92,25 @@ export default class LinkHelper {
 
   }
 
-  moveLinks = (moveTrans, opacityTrans) => {
+  moveLinks = (transition) => {
     const links = this.svg.select('g.links').selectAll('g.link')
 
     // set position of line
     links.selectAll('line')
       .interrupt()
-      .transition(moveTrans)
+      .transition(transition)
       .attr('x1', ({layout}) => { return layout.source.x })
       .attr('y1', ({layout}) => { return layout.source.y })
       .attr('x2', ({layout}) => { return layout.target.x })
       .attr('y2', ({layout}) => { return layout.target.y })
-      .on('end', (d,i,ns)=>{
-        d3.select(ns[i])
-          .transition(opacityTrans)
-          .style('opacity', ({layout}) => {
-            return layout.hidden ? 0.2 : 1.0
-          })
+      .style('opacity', ({layout}) => {
+        return layout.hidden ? 0.2 : 1.0
       })
 
     // set position of arrow
     links.selectAll('polygon')
       .interrupt()
-      .transition(moveTrans)
+      .transition(transition )
       .attr('transform', ({layout}) => {
         const {source, target} = layout
         const x = target.x
@@ -122,18 +118,14 @@ export default class LinkHelper {
         const angle = Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI
         return `translate(${x}, ${y}) rotate(${angle + 90})`
       })
-      .on('end', (d,i,ns)=>{
-        d3.select(ns[i])
-          .transition(opacityTrans)
-          .style('opacity', ({layout}) => {
-            return layout.hidden ? 0.2 : 1.0
-          })
+      .style('opacity', ({layout}) => {
+        return layout.hidden ? 0.2 : 1.0
       })
 
       // set position of label
     links.selectAll('text')
       .interrupt()
-      .transition(moveTrans)
+      .transition(transition)
       .attr('transform', ({layout}) => {
         const {source, target} = layout
         const x = (source.x + target.x)/2
@@ -141,12 +133,30 @@ export default class LinkHelper {
         const angle = Math.atan2(target.y - source.y,target.x - source.x) * 180 / Math.PI
         return `translate(${x}, ${y}) rotate(${x > target.x ? angle + 180 : angle})`
       })
-      .on('end', (d,i,ns)=>{
-        d3.select(ns[i])
-          .transition(opacityTrans)
-          .style('opacity', ({layout}) => {
-            return layout.hidden ? 0.0 : 1.0
-          })
+      .style('opacity', ({layout}) => {
+        return layout.hidden ? 0.0 : 1.0
+      })
+  }
+
+  highlightNodes = (highlight, edgeSet) => {
+    const links = this.svg.select('g.links').selectAll('g.link')
+    links
+      .interrupt()
+    links.selectAll('line')
+      .style('opacity', ({uid}) => {
+        return highlight && !edgeSet.has(uid) ? 0.4 : 1.0
+      })
+
+    // set position of arrow
+    links.selectAll('polygon')
+      .style('opacity', ({uid}) => {
+        return highlight && !edgeSet.has(uid) ? 0.4 : 1.0
+      })
+
+      // set position of label
+    links.selectAll('text')
+      .style('opacity', ({uid}) => {
+        return highlight && !edgeSet.has(uid) ? 0.4 : 1.0
       })
   }
 

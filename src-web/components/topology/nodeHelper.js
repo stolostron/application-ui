@@ -19,8 +19,9 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, linkHelper) {
+  constructor(svg, nodes, linkHelper, cyMap) {
     this.svg = svg
+    this.cyMap = cyMap
     this.nodes = nodes
     this.linkHelper = linkHelper
   }
@@ -37,7 +38,6 @@ export default class NodeHelper {
       })
       .exit().remove()
   }
-
 
   addNodesToDiagram = (currentZoom, nodeClickHandler) => {
     const circleArray = this.nodes.filter(node => node.layout && !POLY_TYPES.includes(node.layout.type))

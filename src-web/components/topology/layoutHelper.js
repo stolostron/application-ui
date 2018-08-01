@@ -53,7 +53,8 @@ export default class LayoutHelper {
     this.cloneInternetNodes(groups, internetNodes, nodes)
 
     // create sections
-    var sections = this.createSections(groups)
+    const cy = cytoscape({ headless: true }) // start headless cytoscape
+    var sections = this.createSections(cy, groups)
 
     // layout sections
     const layoutBBox = this.setSectionLayouts(sections, hiddenNodes, hiddenLinks)
@@ -298,14 +299,14 @@ export default class LayoutHelper {
     }
   }
 
-  createSections = (groups) => {
+  createSections = (cy, groups) => {
     const {nodeGroups} = groups
     const sections = {connected:[], unconnected:[]}
     SECTION_ORDER.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected, unconnected} = nodeGroups[type]
         connected.forEach(({nodeMap, edges})=>{
-          const section = {elements: {nodes:[], edges:[]} }
+          const elements = {nodes:[], edges:[]}
           _.forOwn(nodeMap, (node) => {
             const n = {
               data: {
@@ -313,20 +314,11 @@ export default class LayoutHelper {
                 node
               }
             }
-            // reuse old layout where possible
-            // to make layout faster and more stable
-            const {layout} = node
-            if (layout.x || layout.y) {
-              n.position = {
-                x: layout.undragged ? layout.undragged.x : layout.x,
-                y: layout.undragged ? layout.undragged.y : layout.y
-              }
-            }
-            section.elements.nodes.push(n)
+            elements.nodes.push(n)
           })
           edges.forEach(edge=>{
             const {layout} = edge
-            section.elements.edges.push({
+            elements.edges.push({
               data: {
                 source: layout.source.uid,
                 target: layout.target.uid,
@@ -334,19 +326,19 @@ export default class LayoutHelper {
               }
             })
           })
-          sections.connected.push(section)
+          sections.connected.push({elements: cy.add(elements)})
         })
 
-        const section = {elements: {nodes:[]} }
+        const elements = {nodes:[]}
         unconnected.forEach(node=>{
-          section.elements.nodes.push({
+          elements.nodes.push({
             data: {
               id: node.uid,
               node
             }
           })
         })
-        sections.unconnected.push(section)
+        sections.unconnected.push({elements: cy.add(elements)})
       }
     })
     return sections
@@ -354,8 +346,9 @@ export default class LayoutHelper {
 
   setSectionLayouts = (sections, hiddenNodes, hiddenLinks) => {
     const {connected, unconnected} = sections
-    const connectedDim = this.setConnectedLayouts(connected)
-    const unconnectedDim = this.setGridLayouts(unconnected)
+    const numOfSections = connected.length + unconnected.length
+    const connectedDim = this.setConnectedLayoutOptions(connected, numOfSections)
+    const unconnectedDim = this.setUnconnectedLayoutOptions(unconnected)
 
     // move unconnected below connected
     unconnected.forEach(({options})=>{
@@ -382,14 +375,17 @@ export default class LayoutHelper {
     const both = [connected, unconnected]
     both.forEach(d=>{
       d.forEach(({elements, options})=>{
-        const {nodes, edges} = elements
+        const nodes = elements.nodes()
+        const edges = elements.edges()
         const {center} = options
-        nodes.forEach(({data: {node: {layout}}})=>{
+        nodes.forEach(ele=>{
+          const {node: {layout}} = ele.data()
           layout.center = center
           layout.hidden = hiddenNodes.has(layout.uid)
         })
         if (edges) {
-          edges.forEach(({data: {edge}})=>{
+          edges.forEach(ele=>{
+            const {edge} = ele.data()
             const {layout} = edge
             layout.center = center
             layout.hidden = hiddenLinks.has(edge.uid)
@@ -404,77 +400,117 @@ export default class LayoutHelper {
     }
   }
 
-  setConnectedLayouts = (connected) => {
+  setConnectedLayoutOptions = (connected, numOfSections) => {
     let x = 0
     let height = 0
-    // get rough idea how many to allocate for each section based on # of nodes
-    const columns = connected.map(section => {
-      const count = section.elements.nodes.length
-      return count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
-    })
-    const sizes = columns.map(count => {
-      return {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
-    })
-    connected.forEach((section, index)=>{
-      const {w, h} = sizes[index]
-      const {elements} = section
-      if (elements.edges) {
-        section.options = {
-          name: 'cola',
-          animate: false,
-          boundingBox: {
-            x1: x,
-            y1: 0,
-            w,
-            h
-          },
-          center: {
-            x: x + w/2,
-            y: h/2
-          }
-        }
-      }
+    connected.forEach(section => {
+      section.options = this.getConnectedLayoutOptions(x, section.elements, numOfSections)
+      const {boundingBox: {w, h}} = section.options
       height = Math.max(h, height)
-      x+=w
+      x+=w+NODE_SIZE*2
     })
     return {width:x, height}
   }
 
-  setGridLayouts = (unconnected) => {
+  getConnectedLayoutOptions = (x, elements, numOfSections) => {
+    const nodes = elements.nodes().length
+    const leaves = elements.leaves().length
+    const roots = elements.roots().length
+
+    // use dagre if the # of roots or leaves is one and the section is small
+    let dagre = nodes===2
+    if ((leaves===1&&roots>1) || (leaves>1&&roots==1)) {
+      dagre = nodes<10
+    }
+    if (dagre) {
+      return this.getDagreLayoutOptions(x, elements, numOfSections)
+    } else {
+      return this.getColaLayoutOptions(x, elements)
+    }
+  }
+
+  getColaLayoutOptions = (x, elements) => {
+    // get rough idea how many to allocate for each section based on # of nodes
+    let count = elements.nodes().length
+    count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
+    const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
+    return {
+      name: 'cola',
+      animate: false,
+      fit: true,
+      boundingBox: {
+        x1: x,
+        y1: 0,
+        w,
+        h
+      },
+      center: {
+        x: x + w/2,
+        y: h/2
+      }
+    }
+  }
+
+  getDagreLayoutOptions = (x, elements, numOfSections) => {
+    // get rough idea how many to allocate for each section based on # of nodes
+    const count = elements.nodes().length
+    const thresh = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
+    const {w, h} = ltr ?
+      {w: thresh*NODE_SIZE*3, h: thresh*NODE_SIZE*2} :
+      {h: thresh*NODE_SIZE*3, w: thresh*NODE_SIZE*2}
+
+    // do left to right if a small section in a small diagram
+    const ltr = numOfSections<=6 && count<=3
+    return {
+      name: 'dagre',
+      boundingBox: {
+        x1: x,
+        y1: 0,
+        w,
+        h
+      },
+      center: {
+        x: x + w/2,
+        y: h/2
+      },
+      fit: true,
+      padding: 30, // fit padding
+      rankDir: ltr ? 'LR' : 'TB', // 'TB' for top to bottom flow, 'LR' for left to right,
+    }
+  }
+
+  setUnconnectedLayoutOptions = (unconnected) => {
     let x = 0
     let height = 0
     // get rough idea how many to allocate for each section based on # of nodes
     const columns = unconnected.map(section => {
-      const count = section.elements.nodes.length
+      const count = section.elements.nodes().length
       return count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 5:(count<=24? 6:(count<=30? 7:8))))
     })
     unconnected.forEach((section, index)=>{
-      const count = section.elements.nodes.length
+      const count = section.elements.length
       const cols = Math.min(count, columns[index])
       const h = Math.ceil(count/columns[index])*NODE_SIZE*2
       const w = cols*NODE_SIZE*2
-      const {elements} = section
-      if (!elements.edges) {
-        section.options = {
-          name: 'grid',
-          avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space
-          boundingBox: {
-            x1: x,
-            y1: 0,
-            w,
-            h
-          },
-          sort: (a,b) => {
-            const {node: nodea} = a.data()
-            const {node: nodeb} = b.data()
-            return nodea.layout.type.localeCompare(nodeb.layout.type)
-          },
-          center: {
-            x: x + w/2,
-            y: h/2
-          },
-          cols
-        }
+      section.options = {
+        name: 'grid',
+        avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space
+        boundingBox: {
+          x1: x,
+          y1: 0,
+          w,
+          h
+        },
+        sort: (a,b) => {
+          const {node: nodea} = a.data()
+          const {node: nodeb} = b.data()
+          return nodea.layout.type.localeCompare(nodeb.layout.type)
+        },
+        center: {
+          x: x + w/2,
+          y: h/2
+        },
+        cols
       }
       height = Math.max(h, height)
       x+=w+NODE_SIZE
@@ -483,26 +519,21 @@ export default class LayoutHelper {
   }
 
   runSectionLayouts = (sections, nodes, cb) => {
-    // start headless cytoscape
-    const cy = cytoscape({
-      headless: true
-    })
-
     // layout each sections
+    const cyMap = {}
     const allSections = sections.connected.concat(sections.unconnected)
     let totalLayouts = allSections.length
     allSections.forEach(({elements, options})=>{
-      const section = cy.add(elements)
-      const layout = section.layout(options)
-      layout.pon('layoutstop').then(()=>{
-        section.forEach(ele=>{
+      const layout = elements.layout(options)
+      layout.pon('layoutstop').then(({layout: {options: {eles}}})=>{
+        const elements = _.cloneDeep(eles)
+        eles.forEach(ele=>{
           const data = ele.data()
           if (ele.isNode()) {
             Object.assign(data.node.layout, ele.position())
+            cyMap[data.id] = {elements, ele}
           } else {
-            Object.assign(data, {
-              isLoop: ele.isLoop()
-            })
+            data.edge.layout.isLoop = ele.isLoop()
           }
         })
 
@@ -520,7 +551,7 @@ export default class LayoutHelper {
               layout.y = layout.dragged.y
             }
           })
-          cb(nodes)
+          cb(nodes, cyMap)
         }
       })
       layout.run()

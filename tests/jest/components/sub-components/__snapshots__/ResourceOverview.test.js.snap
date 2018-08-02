@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceOverview no components renders as expected 1`] = `
+<div
+  id="resource-overview"
+>
+  <div>
+    <div
+      className="dashboard-section-title"
+    >
+      <h2>
+        Resource Overview
+      </h2>
+    </div>
+    <div
+      className="dashboard-section-modules"
+    />
+  </div>
+</div>
+`;
+
+exports[`ResourceOverview no components renders as expected 2`] = `
+<div
+  id="resource-overview"
+>
+  <div>
+    <div
+      className="dashboard-section-title"
+    >
+      <h2>
+        Resource Overview
+      </h2>
+    </div>
+    <div
+      className="dashboard-section-modules"
+    />
+  </div>
+</div>
+`;

@@ -21,7 +21,7 @@ export default {
     },
     {
       msgKey: 'table.header.labels',
-      resourceKey: 'PDetails.labels',
+      resourceKey: 'labels',
       transformFunction: getLabels
     },
     {
@@ -31,17 +31,25 @@ export default {
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'Namespace',
+      resourceKey: 'namespace',
     },
     {
       msgKey: 'table.header.cluster',
       resourceKey: 'cluster',
     },
+    {
+      msgKey: 'table.header.hostIP',
+      resourceKey: 'hostIP',
+    },
+    {
+      msgKey: 'table.header.podIP',
+      resourceKey: 'podIP',
+    },
   ],
 }
 export function getLabels(item) {
   return <ul>
-    {lodash.map(item.PDetails.Labels, (value, key) => {
+    {lodash.map(item.labels, (value, key) => {
       if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
         return <li key={`${key}=${value}`}>{`${key}=${value}`}</li>
     })
@@ -50,5 +58,14 @@ export function getLabels(item) {
 }
 
 export function getStatus(item, locale) {
-  return item.State ? msgs.get('table.cell.running', locale) : msgs.get('table.cell.notrunning', locale)
+  switch (item.status) {
+  case 'Running':
+    return msgs.get('table.cell.running', locale)
+
+  case 'Succeeded':
+    return msgs.get('table.cell.succeeded', locale)
+
+  default:
+    return msgs.get('table.cell.notrunning', locale)
+  }
 }

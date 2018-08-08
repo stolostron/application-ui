@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TopologyDiagram component 1 renders as expected 1`] = `
+exports[`ClustersTopologyDiagram component 1 renders as expected 1`] = `
 <div
   className="topologyDiagramContainer"
 />
 `;
 
-exports[`TopologyDiagram component 2 renders as expected 1`] = `
+exports[`ClustersTopologyDiagram component 2 renders as expected 1`] = `
 ShallowWrapper {
   "length": 1,
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <TopologyDiagram
+  Symbol(enzyme.__unrendered__): <ClustersTopologyDiagram
     activeFilters={
       Object {
         "namespace": Array [
@@ -410,7 +410,7 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": Array [
-        <ClusterViewer
+        <TopologyViewer
           activeFilters={
             Object {
               "namespace": Array [
@@ -426,7 +426,7 @@ ShallowWrapper {
           nodes={undefined}
           onSelectedNodeChange={[MockFunction]}
         />,
-        <ClusterViewer
+        <TopologyViewer
           activeFilters={
             Object {
               "namespace": Array [
@@ -501,7 +501,7 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <ClusterViewer
+          <TopologyViewer
             activeFilters={
               Object {
                 "namespace": Array [
@@ -517,7 +517,7 @@ ShallowWrapper {
             nodes={undefined}
             onSelectedNodeChange={[MockFunction]}
           />,
-          <ClusterViewer
+          <TopologyViewer
             activeFilters={
               Object {
                 "namespace": Array [

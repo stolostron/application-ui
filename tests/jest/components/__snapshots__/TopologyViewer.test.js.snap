@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ClusterViewer 3 components renders as expected 1`] = `
+exports[`TopologyViewer 3 components renders as expected 1`] = `
 ReactWrapper {
   "length": 1,
-  Symbol(enzyme.__unrendered__): <ClusterViewer
+  Symbol(enzyme.__unrendered__): <TopologyViewer
     activeFilters={
       Object {
         "namespace": Array [
@@ -708,7 +708,7 @@ hcmm-{uid}",
   },
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__node__): Object {
-    "instance": ClusterViewer {
+    "instance": TopologyViewer {
       "_reactInternalFiber": FiberNode {
         "_debugID": 5,
         "_debugIsCurrentlyTiming": false,
@@ -742,14 +742,14 @@ hcmm-{uid}",
               "lastEffect": null,
               "memoizedProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "memoizedState": null,
               "mode": 0,
               "nextEffect": null,
               "pendingProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "ref": null,
               "return": [Circular],
@@ -954,7 +954,7 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -987,13 +987,13 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "ref": null,
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -1023,7 +1023,7 @@ hcmm-{uid}",
                 "updateQueue": null,
               },
               "stateNode": <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
@@ -1040,12 +1040,12 @@ hcmm-{uid}",
             "memoizedProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -1074,7 +1074,7 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "memoizedState": null,
             "mode": 0,
@@ -1082,12 +1082,12 @@ hcmm-{uid}",
             "pendingProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -1116,21 +1116,21 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "ref": [Function],
             "return": [Circular],
             "sibling": null,
             "stateNode": <div
-              class="clusterViewerDiagram"
+              class="topologyViewerDiagram"
             >
               <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>
               <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -3277,15 +3277,15 @@ hcmm-{uid}",
               "stateNode": Object {
                 "containerInfo": <div>
                   <div
-                    class="clusterViewerDiagram"
+                    class="topologyViewerDiagram"
                   >
                     <div
-                      class="clusterViewerTitle"
+                      class="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>
                     <div
-                      class="clusterViewerContainer"
+                      class="topologyViewerContainer"
                     >
                       <svg
                         class="topologyDiagram"
@@ -4771,14 +4771,14 @@ hcmm-{uid}",
                 "lastEffect": null,
                 "memoizedProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "memoizedState": null,
                 "mode": 0,
                 "nextEffect": null,
                 "pendingProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "ref": null,
                 "return": [Circular],
@@ -4983,7 +4983,7 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "memoizedState": null,
                   "mode": 0,
@@ -5016,13 +5016,13 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "ref": null,
                   "return": [Circular],
                   "sibling": null,
                   "stateNode": <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -5052,7 +5052,7 @@ hcmm-{uid}",
                   "updateQueue": null,
                 },
                 "stateNode": <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
@@ -5069,12 +5069,12 @@ hcmm-{uid}",
               "memoizedProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -5103,7 +5103,7 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "memoizedState": null,
               "mode": 0,
@@ -5111,12 +5111,12 @@ hcmm-{uid}",
               "pendingProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -5145,21 +5145,21 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "ref": [Function],
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerDiagram"
+                class="topologyViewerDiagram"
               >
                 <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>
                 <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -5900,15 +5900,15 @@ hcmm-{uid}",
             "stateNode": Object {
               "containerInfo": <div>
                 <div
-                  class="clusterViewerDiagram"
+                  class="topologyViewerDiagram"
                 >
                   <div
-                    class="clusterViewerTitle"
+                    class="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>
                   <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -8085,14 +8085,14 @@ hcmm-{uid}",
             "lastEffect": null,
             "memoizedProps": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "memoizedState": null,
             "mode": 0,
             "nextEffect": null,
             "pendingProps": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "ref": null,
             "return": [Circular],
@@ -8297,7 +8297,7 @@ hcmm-{uid}",
                     type="image"
                   />,
                 ],
-                "className": "clusterViewerContainer",
+                "className": "topologyViewerContainer",
               },
               "memoizedState": null,
               "mode": 0,
@@ -8330,13 +8330,13 @@ hcmm-{uid}",
                     type="image"
                   />,
                 ],
-                "className": "clusterViewerContainer",
+                "className": "topologyViewerContainer",
               },
               "ref": null,
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -8366,7 +8366,7 @@ hcmm-{uid}",
               "updateQueue": null,
             },
             "stateNode": <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>,
@@ -8383,12 +8383,12 @@ hcmm-{uid}",
           "memoizedProps": Object {
             "children": Array [
               <div
-                className="clusterViewerTitle"
+                className="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
               <div
-                className="clusterViewerContainer"
+                className="topologyViewerContainer"
               >
                 <svg
                   className="topologyDiagram"
@@ -8417,7 +8417,7 @@ hcmm-{uid}",
                 />
               </div>,
             ],
-            "className": "clusterViewerDiagram",
+            "className": "topologyViewerDiagram",
           },
           "memoizedState": null,
           "mode": 0,
@@ -8425,12 +8425,12 @@ hcmm-{uid}",
           "pendingProps": Object {
             "children": Array [
               <div
-                className="clusterViewerTitle"
+                className="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
               <div
-                className="clusterViewerContainer"
+                className="topologyViewerContainer"
               >
                 <svg
                   className="topologyDiagram"
@@ -8459,21 +8459,21 @@ hcmm-{uid}",
                 />
               </div>,
             ],
-            "className": "clusterViewerDiagram",
+            "className": "topologyViewerDiagram",
           },
           "ref": [Function],
           "return": [Circular],
           "sibling": null,
           "stateNode": <div
-            class="clusterViewerDiagram"
+            class="topologyViewerDiagram"
           >
             <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>
             <div
-              class="clusterViewerContainer"
+              class="topologyViewerContainer"
             >
               <svg
                 class="topologyDiagram"
@@ -8526,14 +8526,14 @@ hcmm-{uid}",
             "lastEffect": null,
             "memoizedProps": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "memoizedState": null,
             "mode": 0,
             "nextEffect": null,
             "pendingProps": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "ref": null,
             "return": [Circular],
@@ -8738,7 +8738,7 @@ hcmm-{uid}",
                     type="image"
                   />,
                 ],
-                "className": "clusterViewerContainer",
+                "className": "topologyViewerContainer",
               },
               "memoizedState": null,
               "mode": 0,
@@ -8771,13 +8771,13 @@ hcmm-{uid}",
                     type="image"
                   />,
                 ],
-                "className": "clusterViewerContainer",
+                "className": "topologyViewerContainer",
               },
               "ref": null,
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -8807,7 +8807,7 @@ hcmm-{uid}",
               "updateQueue": null,
             },
             "stateNode": <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>,
@@ -8824,12 +8824,12 @@ hcmm-{uid}",
           "memoizedProps": Object {
             "children": Array [
               <div
-                className="clusterViewerTitle"
+                className="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
               <div
-                className="clusterViewerContainer"
+                className="topologyViewerContainer"
               >
                 <svg
                   className="topologyDiagram"
@@ -8858,7 +8858,7 @@ hcmm-{uid}",
                 />
               </div>,
             ],
-            "className": "clusterViewerDiagram",
+            "className": "topologyViewerDiagram",
           },
           "memoizedState": null,
           "mode": 0,
@@ -8866,12 +8866,12 @@ hcmm-{uid}",
           "pendingProps": Object {
             "children": Array [
               <div
-                className="clusterViewerTitle"
+                className="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
               <div
-                className="clusterViewerContainer"
+                className="topologyViewerContainer"
               >
                 <svg
                   className="topologyDiagram"
@@ -8900,21 +8900,21 @@ hcmm-{uid}",
                 />
               </div>,
             ],
-            "className": "clusterViewerDiagram",
+            "className": "topologyViewerDiagram",
           },
           "ref": [Function],
           "return": [Circular],
           "sibling": null,
           "stateNode": <div
-            class="clusterViewerDiagram"
+            class="topologyViewerDiagram"
           >
             <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>
             <div
-              class="clusterViewerContainer"
+              class="topologyViewerContainer"
             >
               <svg
                 class="topologyDiagram"
@@ -8967,14 +8967,14 @@ hcmm-{uid}",
             "lastEffect": null,
             "memoizedProps": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "memoizedState": null,
             "mode": 0,
             "nextEffect": null,
             "pendingProps": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "ref": null,
             "return": [Circular],
@@ -9179,7 +9179,7 @@ hcmm-{uid}",
                     type="image"
                   />,
                 ],
-                "className": "clusterViewerContainer",
+                "className": "topologyViewerContainer",
               },
               "memoizedState": null,
               "mode": 0,
@@ -9212,13 +9212,13 @@ hcmm-{uid}",
                     type="image"
                   />,
                 ],
-                "className": "clusterViewerContainer",
+                "className": "topologyViewerContainer",
               },
               "ref": null,
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -9248,7 +9248,7 @@ hcmm-{uid}",
               "updateQueue": null,
             },
             "stateNode": <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>,
@@ -9265,12 +9265,12 @@ hcmm-{uid}",
           "memoizedProps": Object {
             "children": Array [
               <div
-                className="clusterViewerTitle"
+                className="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
               <div
-                className="clusterViewerContainer"
+                className="topologyViewerContainer"
               >
                 <svg
                   className="topologyDiagram"
@@ -9299,7 +9299,7 @@ hcmm-{uid}",
                 />
               </div>,
             ],
-            "className": "clusterViewerDiagram",
+            "className": "topologyViewerDiagram",
           },
           "memoizedState": null,
           "mode": 0,
@@ -9307,12 +9307,12 @@ hcmm-{uid}",
           "pendingProps": Object {
             "children": Array [
               <div
-                className="clusterViewerTitle"
+                className="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
               <div
-                className="clusterViewerContainer"
+                className="topologyViewerContainer"
               >
                 <svg
                   className="topologyDiagram"
@@ -9341,21 +9341,21 @@ hcmm-{uid}",
                 />
               </div>,
             ],
-            "className": "clusterViewerDiagram",
+            "className": "topologyViewerDiagram",
           },
           "ref": [Function],
           "return": [Circular],
           "sibling": null,
           "stateNode": <div
-            class="clusterViewerDiagram"
+            class="topologyViewerDiagram"
           >
             <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>
             <div
-              class="clusterViewerContainer"
+              class="topologyViewerContainer"
             >
               <svg
                 class="topologyDiagram"
@@ -11487,14 +11487,14 @@ hcmm-{uid}",
               "lastEffect": null,
               "memoizedProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "memoizedState": null,
               "mode": 0,
               "nextEffect": null,
               "pendingProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "ref": null,
               "return": [Circular],
@@ -11699,7 +11699,7 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -11732,13 +11732,13 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "ref": null,
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -11768,7 +11768,7 @@ hcmm-{uid}",
                 "updateQueue": null,
               },
               "stateNode": <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
@@ -11785,12 +11785,12 @@ hcmm-{uid}",
             "memoizedProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -11819,7 +11819,7 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "memoizedState": null,
             "mode": 0,
@@ -11827,12 +11827,12 @@ hcmm-{uid}",
             "pendingProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -11861,21 +11861,21 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "ref": [Function],
             "return": [Circular],
             "sibling": null,
             "stateNode": <div
-              class="clusterViewerDiagram"
+              class="topologyViewerDiagram"
             >
               <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>
               <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -14022,15 +14022,15 @@ hcmm-{uid}",
               "stateNode": Object {
                 "containerInfo": <div>
                   <div
-                    class="clusterViewerDiagram"
+                    class="topologyViewerDiagram"
                   >
                     <div
-                      class="clusterViewerTitle"
+                      class="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>
                     <div
-                      class="clusterViewerContainer"
+                      class="topologyViewerContainer"
                     >
                       <svg
                         class="topologyDiagram"
@@ -15516,14 +15516,14 @@ hcmm-{uid}",
                 "lastEffect": null,
                 "memoizedProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "memoizedState": null,
                 "mode": 0,
                 "nextEffect": null,
                 "pendingProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "ref": null,
                 "return": [Circular],
@@ -15728,7 +15728,7 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "memoizedState": null,
                   "mode": 0,
@@ -15761,13 +15761,13 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "ref": null,
                   "return": [Circular],
                   "sibling": null,
                   "stateNode": <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -15797,7 +15797,7 @@ hcmm-{uid}",
                   "updateQueue": null,
                 },
                 "stateNode": <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
@@ -15814,12 +15814,12 @@ hcmm-{uid}",
               "memoizedProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -15848,7 +15848,7 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "memoizedState": null,
               "mode": 0,
@@ -15856,12 +15856,12 @@ hcmm-{uid}",
               "pendingProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -15890,21 +15890,21 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "ref": [Function],
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerDiagram"
+                class="topologyViewerDiagram"
               >
                 <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>
                 <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -16645,15 +16645,15 @@ hcmm-{uid}",
             "stateNode": Object {
               "containerInfo": <div>
                 <div
-                  class="clusterViewerDiagram"
+                  class="topologyViewerDiagram"
                 >
                   <div
-                    class="clusterViewerTitle"
+                    class="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>
                   <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -18815,15 +18815,15 @@ hcmm-{uid}",
       },
       "_reactInternalInstance": Object {},
       "containerRef": <div
-        class="clusterViewerDiagram"
+        class="topologyViewerDiagram"
       >
         <div
-          class="clusterViewerTitle"
+          class="topologyViewerTitle"
         >
           Cluster: {0}
         </div>
         <div
-          class="clusterViewerContainer"
+          class="topologyViewerContainer"
         >
           <svg
             class="topologyDiagram"
@@ -20976,15 +20976,15 @@ hcmm-{uid}",
     "ref": null,
     "rendered": Object {
       "instance": <div
-        class="clusterViewerDiagram"
+        class="topologyViewerDiagram"
       >
         <div
-          class="clusterViewerTitle"
+          class="topologyViewerTitle"
         >
           Cluster: {0}
         </div>
         <div
-          class="clusterViewerContainer"
+          class="topologyViewerContainer"
         >
           <svg
             class="topologyDiagram"
@@ -21015,12 +21015,12 @@ hcmm-{uid}",
       "props": Object {
         "children": Array [
           <div
-            className="clusterViewerTitle"
+            className="topologyViewerTitle"
           >
             Cluster: {0}
           </div>,
           <div
-            className="clusterViewerContainer"
+            className="topologyViewerContainer"
           >
             <svg
               className="topologyDiagram"
@@ -21049,13 +21049,13 @@ hcmm-{uid}",
             />
           </div>,
         ],
-        "className": "clusterViewerDiagram",
+        "className": "topologyViewerDiagram",
       },
       "ref": [Function],
       "rendered": Array [
         Object {
           "instance": <div
-            class="clusterViewerTitle"
+            class="topologyViewerTitle"
           >
             Cluster: {0}
           </div>,
@@ -21063,7 +21063,7 @@ hcmm-{uid}",
           "nodeType": "host",
           "props": Object {
             "children": "Cluster: {0}",
-            "className": "clusterViewerTitle",
+            "className": "topologyViewerTitle",
           },
           "ref": null,
           "rendered": Array [
@@ -21073,7 +21073,7 @@ hcmm-{uid}",
         },
         Object {
           "instance": <div
-            class="clusterViewerContainer"
+            class="topologyViewerContainer"
           >
             <svg
               class="topologyDiagram"
@@ -21128,7 +21128,7 @@ hcmm-{uid}",
                 type="image"
               />,
             ],
-            "className": "clusterViewerContainer",
+            "className": "topologyViewerContainer",
           },
           "ref": null,
           "rendered": Array [
@@ -21225,7 +21225,7 @@ hcmm-{uid}",
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
-      "instance": ClusterViewer {
+      "instance": TopologyViewer {
         "_reactInternalFiber": FiberNode {
           "_debugID": 5,
           "_debugIsCurrentlyTiming": false,
@@ -21259,14 +21259,14 @@ hcmm-{uid}",
                 "lastEffect": null,
                 "memoizedProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "memoizedState": null,
                 "mode": 0,
                 "nextEffect": null,
                 "pendingProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "ref": null,
                 "return": [Circular],
@@ -21471,7 +21471,7 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "memoizedState": null,
                   "mode": 0,
@@ -21504,13 +21504,13 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "ref": null,
                   "return": [Circular],
                   "sibling": null,
                   "stateNode": <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -21540,7 +21540,7 @@ hcmm-{uid}",
                   "updateQueue": null,
                 },
                 "stateNode": <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
@@ -21557,12 +21557,12 @@ hcmm-{uid}",
               "memoizedProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -21591,7 +21591,7 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "memoizedState": null,
               "mode": 0,
@@ -21599,12 +21599,12 @@ hcmm-{uid}",
               "pendingProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -21633,21 +21633,21 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "ref": [Function],
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerDiagram"
+                class="topologyViewerDiagram"
               >
                 <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>
                 <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -23794,15 +23794,15 @@ hcmm-{uid}",
                 "stateNode": Object {
                   "containerInfo": <div>
                     <div
-                      class="clusterViewerDiagram"
+                      class="topologyViewerDiagram"
                     >
                       <div
-                        class="clusterViewerTitle"
+                        class="topologyViewerTitle"
                       >
                         Cluster: {0}
                       </div>
                       <div
-                        class="clusterViewerContainer"
+                        class="topologyViewerContainer"
                       >
                         <svg
                           class="topologyDiagram"
@@ -25288,14 +25288,14 @@ hcmm-{uid}",
                   "lastEffect": null,
                   "memoizedProps": Object {
                     "children": "Cluster: {0}",
-                    "className": "clusterViewerTitle",
+                    "className": "topologyViewerTitle",
                   },
                   "memoizedState": null,
                   "mode": 0,
                   "nextEffect": null,
                   "pendingProps": Object {
                     "children": "Cluster: {0}",
-                    "className": "clusterViewerTitle",
+                    "className": "topologyViewerTitle",
                   },
                   "ref": null,
                   "return": [Circular],
@@ -25500,7 +25500,7 @@ hcmm-{uid}",
                           type="image"
                         />,
                       ],
-                      "className": "clusterViewerContainer",
+                      "className": "topologyViewerContainer",
                     },
                     "memoizedState": null,
                     "mode": 0,
@@ -25533,13 +25533,13 @@ hcmm-{uid}",
                           type="image"
                         />,
                       ],
-                      "className": "clusterViewerContainer",
+                      "className": "topologyViewerContainer",
                     },
                     "ref": null,
                     "return": [Circular],
                     "sibling": null,
                     "stateNode": <div
-                      class="clusterViewerContainer"
+                      class="topologyViewerContainer"
                     >
                       <svg
                         class="topologyDiagram"
@@ -25569,7 +25569,7 @@ hcmm-{uid}",
                     "updateQueue": null,
                   },
                   "stateNode": <div
-                    class="clusterViewerTitle"
+                    class="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
@@ -25586,12 +25586,12 @@ hcmm-{uid}",
                 "memoizedProps": Object {
                   "children": Array [
                     <div
-                      className="clusterViewerTitle"
+                      className="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>,
                     <div
-                      className="clusterViewerContainer"
+                      className="topologyViewerContainer"
                     >
                       <svg
                         className="topologyDiagram"
@@ -25620,7 +25620,7 @@ hcmm-{uid}",
                       />
                     </div>,
                   ],
-                  "className": "clusterViewerDiagram",
+                  "className": "topologyViewerDiagram",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -25628,12 +25628,12 @@ hcmm-{uid}",
                 "pendingProps": Object {
                   "children": Array [
                     <div
-                      className="clusterViewerTitle"
+                      className="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>,
                     <div
-                      className="clusterViewerContainer"
+                      className="topologyViewerContainer"
                     >
                       <svg
                         className="topologyDiagram"
@@ -25662,21 +25662,21 @@ hcmm-{uid}",
                       />
                     </div>,
                   ],
-                  "className": "clusterViewerDiagram",
+                  "className": "topologyViewerDiagram",
                 },
                 "ref": [Function],
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerDiagram"
+                  class="topologyViewerDiagram"
                 >
                   <div
-                    class="clusterViewerTitle"
+                    class="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>
                   <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -26417,15 +26417,15 @@ hcmm-{uid}",
               "stateNode": Object {
                 "containerInfo": <div>
                   <div
-                    class="clusterViewerDiagram"
+                    class="topologyViewerDiagram"
                   >
                     <div
-                      class="clusterViewerTitle"
+                      class="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>
                     <div
-                      class="clusterViewerContainer"
+                      class="topologyViewerContainer"
                     >
                       <svg
                         class="topologyDiagram"
@@ -28602,14 +28602,14 @@ hcmm-{uid}",
               "lastEffect": null,
               "memoizedProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "memoizedState": null,
               "mode": 0,
               "nextEffect": null,
               "pendingProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "ref": null,
               "return": [Circular],
@@ -28814,7 +28814,7 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -28847,13 +28847,13 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "ref": null,
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -28883,7 +28883,7 @@ hcmm-{uid}",
                 "updateQueue": null,
               },
               "stateNode": <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
@@ -28900,12 +28900,12 @@ hcmm-{uid}",
             "memoizedProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -28934,7 +28934,7 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "memoizedState": null,
             "mode": 0,
@@ -28942,12 +28942,12 @@ hcmm-{uid}",
             "pendingProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -28976,21 +28976,21 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "ref": [Function],
             "return": [Circular],
             "sibling": null,
             "stateNode": <div
-              class="clusterViewerDiagram"
+              class="topologyViewerDiagram"
             >
               <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>
               <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -29043,14 +29043,14 @@ hcmm-{uid}",
               "lastEffect": null,
               "memoizedProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "memoizedState": null,
               "mode": 0,
               "nextEffect": null,
               "pendingProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "ref": null,
               "return": [Circular],
@@ -29255,7 +29255,7 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -29288,13 +29288,13 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "ref": null,
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -29324,7 +29324,7 @@ hcmm-{uid}",
                 "updateQueue": null,
               },
               "stateNode": <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
@@ -29341,12 +29341,12 @@ hcmm-{uid}",
             "memoizedProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -29375,7 +29375,7 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "memoizedState": null,
             "mode": 0,
@@ -29383,12 +29383,12 @@ hcmm-{uid}",
             "pendingProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -29417,21 +29417,21 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "ref": [Function],
             "return": [Circular],
             "sibling": null,
             "stateNode": <div
-              class="clusterViewerDiagram"
+              class="topologyViewerDiagram"
             >
               <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>
               <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -29484,14 +29484,14 @@ hcmm-{uid}",
               "lastEffect": null,
               "memoizedProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "memoizedState": null,
               "mode": 0,
               "nextEffect": null,
               "pendingProps": Object {
                 "children": "Cluster: {0}",
-                "className": "clusterViewerTitle",
+                "className": "topologyViewerTitle",
               },
               "ref": null,
               "return": [Circular],
@@ -29696,7 +29696,7 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -29729,13 +29729,13 @@ hcmm-{uid}",
                       type="image"
                     />,
                   ],
-                  "className": "clusterViewerContainer",
+                  "className": "topologyViewerContainer",
                 },
                 "ref": null,
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -29765,7 +29765,7 @@ hcmm-{uid}",
                 "updateQueue": null,
               },
               "stateNode": <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>,
@@ -29782,12 +29782,12 @@ hcmm-{uid}",
             "memoizedProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -29816,7 +29816,7 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "memoizedState": null,
             "mode": 0,
@@ -29824,12 +29824,12 @@ hcmm-{uid}",
             "pendingProps": Object {
               "children": Array [
                 <div
-                  className="clusterViewerTitle"
+                  className="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
                 <div
-                  className="clusterViewerContainer"
+                  className="topologyViewerContainer"
                 >
                   <svg
                     className="topologyDiagram"
@@ -29858,21 +29858,21 @@ hcmm-{uid}",
                   />
                 </div>,
               ],
-              "className": "clusterViewerDiagram",
+              "className": "topologyViewerDiagram",
             },
             "ref": [Function],
             "return": [Circular],
             "sibling": null,
             "stateNode": <div
-              class="clusterViewerDiagram"
+              class="topologyViewerDiagram"
             >
               <div
-                class="clusterViewerTitle"
+                class="topologyViewerTitle"
               >
                 Cluster: {0}
               </div>
               <div
-                class="clusterViewerContainer"
+                class="topologyViewerContainer"
               >
                 <svg
                   class="topologyDiagram"
@@ -32004,14 +32004,14 @@ hcmm-{uid}",
                 "lastEffect": null,
                 "memoizedProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "memoizedState": null,
                 "mode": 0,
                 "nextEffect": null,
                 "pendingProps": Object {
                   "children": "Cluster: {0}",
-                  "className": "clusterViewerTitle",
+                  "className": "topologyViewerTitle",
                 },
                 "ref": null,
                 "return": [Circular],
@@ -32216,7 +32216,7 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "memoizedState": null,
                   "mode": 0,
@@ -32249,13 +32249,13 @@ hcmm-{uid}",
                         type="image"
                       />,
                     ],
-                    "className": "clusterViewerContainer",
+                    "className": "topologyViewerContainer",
                   },
                   "ref": null,
                   "return": [Circular],
                   "sibling": null,
                   "stateNode": <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -32285,7 +32285,7 @@ hcmm-{uid}",
                   "updateQueue": null,
                 },
                 "stateNode": <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>,
@@ -32302,12 +32302,12 @@ hcmm-{uid}",
               "memoizedProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -32336,7 +32336,7 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "memoizedState": null,
               "mode": 0,
@@ -32344,12 +32344,12 @@ hcmm-{uid}",
               "pendingProps": Object {
                 "children": Array [
                   <div
-                    className="clusterViewerTitle"
+                    className="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
                   <div
-                    className="clusterViewerContainer"
+                    className="topologyViewerContainer"
                   >
                     <svg
                       className="topologyDiagram"
@@ -32378,21 +32378,21 @@ hcmm-{uid}",
                     />
                   </div>,
                 ],
-                "className": "clusterViewerDiagram",
+                "className": "topologyViewerDiagram",
               },
               "ref": [Function],
               "return": [Circular],
               "sibling": null,
               "stateNode": <div
-                class="clusterViewerDiagram"
+                class="topologyViewerDiagram"
               >
                 <div
-                  class="clusterViewerTitle"
+                  class="topologyViewerTitle"
                 >
                   Cluster: {0}
                 </div>
                 <div
-                  class="clusterViewerContainer"
+                  class="topologyViewerContainer"
                 >
                   <svg
                     class="topologyDiagram"
@@ -34539,15 +34539,15 @@ hcmm-{uid}",
                 "stateNode": Object {
                   "containerInfo": <div>
                     <div
-                      class="clusterViewerDiagram"
+                      class="topologyViewerDiagram"
                     >
                       <div
-                        class="clusterViewerTitle"
+                        class="topologyViewerTitle"
                       >
                         Cluster: {0}
                       </div>
                       <div
-                        class="clusterViewerContainer"
+                        class="topologyViewerContainer"
                       >
                         <svg
                           class="topologyDiagram"
@@ -36033,14 +36033,14 @@ hcmm-{uid}",
                   "lastEffect": null,
                   "memoizedProps": Object {
                     "children": "Cluster: {0}",
-                    "className": "clusterViewerTitle",
+                    "className": "topologyViewerTitle",
                   },
                   "memoizedState": null,
                   "mode": 0,
                   "nextEffect": null,
                   "pendingProps": Object {
                     "children": "Cluster: {0}",
-                    "className": "clusterViewerTitle",
+                    "className": "topologyViewerTitle",
                   },
                   "ref": null,
                   "return": [Circular],
@@ -36245,7 +36245,7 @@ hcmm-{uid}",
                           type="image"
                         />,
                       ],
-                      "className": "clusterViewerContainer",
+                      "className": "topologyViewerContainer",
                     },
                     "memoizedState": null,
                     "mode": 0,
@@ -36278,13 +36278,13 @@ hcmm-{uid}",
                           type="image"
                         />,
                       ],
-                      "className": "clusterViewerContainer",
+                      "className": "topologyViewerContainer",
                     },
                     "ref": null,
                     "return": [Circular],
                     "sibling": null,
                     "stateNode": <div
-                      class="clusterViewerContainer"
+                      class="topologyViewerContainer"
                     >
                       <svg
                         class="topologyDiagram"
@@ -36314,7 +36314,7 @@ hcmm-{uid}",
                     "updateQueue": null,
                   },
                   "stateNode": <div
-                    class="clusterViewerTitle"
+                    class="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>,
@@ -36331,12 +36331,12 @@ hcmm-{uid}",
                 "memoizedProps": Object {
                   "children": Array [
                     <div
-                      className="clusterViewerTitle"
+                      className="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>,
                     <div
-                      className="clusterViewerContainer"
+                      className="topologyViewerContainer"
                     >
                       <svg
                         className="topologyDiagram"
@@ -36365,7 +36365,7 @@ hcmm-{uid}",
                       />
                     </div>,
                   ],
-                  "className": "clusterViewerDiagram",
+                  "className": "topologyViewerDiagram",
                 },
                 "memoizedState": null,
                 "mode": 0,
@@ -36373,12 +36373,12 @@ hcmm-{uid}",
                 "pendingProps": Object {
                   "children": Array [
                     <div
-                      className="clusterViewerTitle"
+                      className="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>,
                     <div
-                      className="clusterViewerContainer"
+                      className="topologyViewerContainer"
                     >
                       <svg
                         className="topologyDiagram"
@@ -36407,21 +36407,21 @@ hcmm-{uid}",
                       />
                     </div>,
                   ],
-                  "className": "clusterViewerDiagram",
+                  "className": "topologyViewerDiagram",
                 },
                 "ref": [Function],
                 "return": [Circular],
                 "sibling": null,
                 "stateNode": <div
-                  class="clusterViewerDiagram"
+                  class="topologyViewerDiagram"
                 >
                   <div
-                    class="clusterViewerTitle"
+                    class="topologyViewerTitle"
                   >
                     Cluster: {0}
                   </div>
                   <div
-                    class="clusterViewerContainer"
+                    class="topologyViewerContainer"
                   >
                     <svg
                       class="topologyDiagram"
@@ -37162,15 +37162,15 @@ hcmm-{uid}",
               "stateNode": Object {
                 "containerInfo": <div>
                   <div
-                    class="clusterViewerDiagram"
+                    class="topologyViewerDiagram"
                   >
                     <div
-                      class="clusterViewerTitle"
+                      class="topologyViewerTitle"
                     >
                       Cluster: {0}
                     </div>
                     <div
-                      class="clusterViewerContainer"
+                      class="topologyViewerContainer"
                     >
                       <svg
                         class="topologyDiagram"
@@ -39332,15 +39332,15 @@ hcmm-{uid}",
         },
         "_reactInternalInstance": Object {},
         "containerRef": <div
-          class="clusterViewerDiagram"
+          class="topologyViewerDiagram"
         >
           <div
-            class="clusterViewerTitle"
+            class="topologyViewerTitle"
           >
             Cluster: {0}
           </div>
           <div
-            class="clusterViewerContainer"
+            class="topologyViewerContainer"
           >
             <svg
               class="topologyDiagram"
@@ -41493,15 +41493,15 @@ hcmm-{uid}",
       "ref": null,
       "rendered": Object {
         "instance": <div
-          class="clusterViewerDiagram"
+          class="topologyViewerDiagram"
         >
           <div
-            class="clusterViewerTitle"
+            class="topologyViewerTitle"
           >
             Cluster: {0}
           </div>
           <div
-            class="clusterViewerContainer"
+            class="topologyViewerContainer"
           >
             <svg
               class="topologyDiagram"
@@ -41532,12 +41532,12 @@ hcmm-{uid}",
         "props": Object {
           "children": Array [
             <div
-              className="clusterViewerTitle"
+              className="topologyViewerTitle"
             >
               Cluster: {0}
             </div>,
             <div
-              className="clusterViewerContainer"
+              className="topologyViewerContainer"
             >
               <svg
                 className="topologyDiagram"
@@ -41566,13 +41566,13 @@ hcmm-{uid}",
               />
             </div>,
           ],
-          "className": "clusterViewerDiagram",
+          "className": "topologyViewerDiagram",
         },
         "ref": [Function],
         "rendered": Array [
           Object {
             "instance": <div
-              class="clusterViewerTitle"
+              class="topologyViewerTitle"
             >
               Cluster: {0}
             </div>,
@@ -41580,7 +41580,7 @@ hcmm-{uid}",
             "nodeType": "host",
             "props": Object {
               "children": "Cluster: {0}",
-              "className": "clusterViewerTitle",
+              "className": "topologyViewerTitle",
             },
             "ref": null,
             "rendered": Array [
@@ -41590,7 +41590,7 @@ hcmm-{uid}",
           },
           Object {
             "instance": <div
-              class="clusterViewerContainer"
+              class="topologyViewerContainer"
             >
               <svg
                 class="topologyDiagram"
@@ -41645,7 +41645,7 @@ hcmm-{uid}",
                   type="image"
                 />,
               ],
-              "className": "clusterViewerContainer",
+              "className": "topologyViewerContainer",
             },
             "ref": null,
             "rendered": Array [
@@ -41751,17 +41751,17 @@ hcmm-{uid}",
 }
 `;
 
-exports[`ClusterViewer no components renders as expected 1`] = `
+exports[`TopologyViewer no components renders as expected 1`] = `
 <div
-  className="clusterViewerDiagram"
+  className="topologyViewerDiagram"
 >
   <div
-    className="clusterViewerTitle"
+    className="topologyViewerTitle"
   >
     Cluster: {0}
   </div>
   <div
-    className="clusterViewerContainer"
+    className="topologyViewerContainer"
   >
     <svg
       className="topologyDiagram"

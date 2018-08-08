@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import * as Actions from '../actions'
 import { Loading, Notification } from 'carbon-components-react'
 import resources from '../../lib/shared/resources'
-import ClusterViewer from './topology/ClusterViewer'
+import TopologyViewer from './topology/TopologyViewer'
 import msgs from '../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -23,7 +23,7 @@ resources(() => {
 })
 
 
-class TopologyDiagram extends React.Component {
+class ClustersTopologyDiagram extends React.Component {
     static propTypes = {
       activeFilters: PropTypes.object,
       clusters: PropTypes.arrayOf(PropTypes.shape({
@@ -98,7 +98,7 @@ class TopologyDiagram extends React.Component {
       return (
         <div className="topologyDiagramContainer" >
           {clusters.map(({id, name, nodes, links}) =>
-            <ClusterViewer
+            <TopologyViewer
               key={id}
               id={id}
               name={name}
@@ -113,4 +113,4 @@ class TopologyDiagram extends React.Component {
     }
 }
 
-export default TopologyDiagram
+export default ClustersTopologyDiagram

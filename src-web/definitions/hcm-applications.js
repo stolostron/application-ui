@@ -19,6 +19,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'Name',
+      transformFunction: createApplicationLink,
     },
     {
       msgKey: 'table.header.components',
@@ -57,6 +58,10 @@ export default {
     'table.actions.applications.undeploy',
     'table.actions.applications.remove',
   ],
+}
+
+export function createApplicationLink(item = {}){
+  return <a href={`/hcmconsole/application/overview/${encodeURIComponent(item.Name)}`}>{item.Name}</a>
 }
 
 /**

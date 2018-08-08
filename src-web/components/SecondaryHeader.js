@@ -11,9 +11,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { DetailPageHeader, Tabs, Tab } from 'carbon-components-react'
+import { Breadcrumb, DetailPageHeader, Tabs, Tab } from 'carbon-components-react'
 import resources from '../../lib/shared/resources'
-import { withRouter    } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'
 
 resources(() => {
@@ -26,24 +26,31 @@ export class SecondaryHeader extends React.Component {
 
   constructor(props) {
     super(props)
+    this.renderBreadCrumb = this.renderBreadCrumb.bind(this)
     this.renderTabs = this.renderTabs.bind(this)
   }
 
   render() {
-    const { tabs, title } = this.props
+    const { tabs, title, breadcrumbItems } = this.props
     const { locale } = this.context
-    if ((tabs && tabs.length > 0)) {
+    if ((tabs && tabs.length > 0) || (breadcrumbItems && breadcrumbItems.length > 0)) {
       return (
         <div className='secondary-header-wrapper' role='region' aria-label={title}>
           <div className='secondary-header'>
             {tabs && tabs.length > 0 ? (
               <DetailPageHeader hasTabs={true} title={decodeURIComponent(title)} aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}>
+                <Breadcrumb>
+                  {breadcrumbItems && this.renderBreadCrumb()}
+                </Breadcrumb>
                 <Tabs selected={this.getSelectedTab() || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
                   {this.renderTabs()}
                 </Tabs>
               </DetailPageHeader>
             ) : (
               <DetailPageHeader hasTabs={true} title={decodeURIComponent(title)} aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}>
+                <Breadcrumb>
+                  {this.renderBreadCrumb()}
+                </Breadcrumb>
               </DetailPageHeader>
             )}
           </div>
@@ -58,6 +65,18 @@ export class SecondaryHeader extends React.Component {
         </div>
       )
     }
+  }
+
+  renderBreadCrumb() {
+    const { breadcrumbItems } = this.props
+    return breadcrumbItems && breadcrumbItems.map((breadcrumb, index) => {
+      const key = `${breadcrumb}-${index}`
+      return (
+        <div key={key} className='bx--breadcrumb-item' title={decodeURIComponent(breadcrumb.label)}>
+          <Link to={breadcrumb.url} className='bx--link'>{decodeURIComponent(breadcrumb.label)}</Link>
+        </div>
+      )
+    })
   }
 
   renderTabs() {
@@ -94,6 +113,7 @@ const mapStateToProps = (state) => {
   return {
     title: state.secondaryHeader.title,
     tabs: state.secondaryHeader.tabs,
+    breadcrumbItems: state.secondaryHeader.breadcrumbItems,
     links: state.secondaryHeader.links,
     role: state.role && state.role.role,
   }

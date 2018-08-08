@@ -24,13 +24,13 @@ module.exports = {
 
   'verify-topology-diagram-loads': (browser) => {
     const url = `${browser.launch_url}${config.get('contextPath')}${ROUTE}`
-    const page = browser.page.TopologyDiagramPage()
+    const page = browser.page.ClustersTopologyDiagramPage()
     page.navigate(url)
     page.verifyTopologyLoads()
   },
 
   'verify-topology-diagram-filtering': (browser) => {
-    const page = browser.page.TopologyDiagramPage()
+    const page = browser.page.ClustersTopologyDiagramPage()
     page.waitUntilFiltersLoaded((res)=>{
       // make sure there are NUMBER_OF_FILTERS
       browser.assert.equal(res.value.length, NUMBER_OF_FILTERS)
@@ -45,7 +45,7 @@ module.exports = {
   },
 
   // 'verify-topology-details-view': (browser) => {
-  //   let page = browser.page.TopologyDiagramPage()
+  //   let page = browser.page.ClustersTopologyDiagramPage()
   //   page.openDetailsView(res=>{
   //     // view opened
   //     browser.assert.equal(res.value.length, 1)

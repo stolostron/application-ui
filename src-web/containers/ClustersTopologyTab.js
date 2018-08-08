@@ -17,12 +17,12 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { updateSecondaryHeader, fetchResources } from '../actions/common'
 import msgs from '../../nls/platform.properties'
 import { updateTopologyFilters } from '../actions/topology'
-import DiagramWithDetails from './DiagramWithDetails'
-import TopologyFiltersContainer from './TopologyFiltersContainer'
+import ClustersTopologyDetails from './ClustersTopologyDetails'
+import ClustersTopologyFilters from './ClustersTopologyFilters'
 import config from '../../lib/shared/config'
 
 
-class TopologyTab extends React.Component {
+class ClustersTopologyTab extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     fetchResources: PropTypes.func,
@@ -56,14 +56,14 @@ class TopologyTab extends React.Component {
   render() {
     return (
       <div className='topologyTab'>
-        <TopologyFiltersContainer />
-        <DiagramWithDetails />
+        <ClustersTopologyFilters />
+        <ClustersTopologyDetails />
       </div>
     )
   }
 }
 
-TopologyTab.contextTypes = {
+ClustersTopologyTab.contextTypes = {
   locale: PropTypes.string
 }
 
@@ -106,4 +106,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopologyTab))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClustersTopologyTab))

@@ -11,7 +11,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { Dashboard } from '../../../../src-web/containers/DashboardTab'
+import { ClustersDashboardTab } from '../../../../src-web/containers/ClustersDashboardTab'
 
 const secondaryHeader = {
   title: 'routes.dashboard',
@@ -88,7 +88,7 @@ const pieChartItems =  [
 describe('SecondaryHeader component 1', () => {
   it('renders as expected', () => {
     const component = renderer.create(
-      <Dashboard secondaryHeaderProps={secondaryHeader} cardItems={cardItems} pieChartItems={pieChartItems} />
+      <ClustersDashboardTab secondaryHeaderProps={secondaryHeader} cardItems={cardItems} pieChartItems={pieChartItems} />
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

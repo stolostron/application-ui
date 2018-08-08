@@ -8,18 +8,18 @@
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
-.clusterViewerDiagram {
+.topologyViewerDiagram {
     flex: 1;
     height: calc(100% - 40px);
 }
 
-.clusterViewerTitle {
+.topologyViewerTitle {
     color: $color__blue-90;
     line-height: 25px;
     margin: 1rem 1rem 0 1rem;
 }
 
-.clusterViewerContainer {
+.topologyViewerContainer {
     height: 100%;
     background-color: #fff;
     display: -ms-flexbox;

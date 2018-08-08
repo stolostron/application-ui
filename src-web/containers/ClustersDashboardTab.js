@@ -37,7 +37,7 @@ const fullDashboard = (config['featureFlags:fullDashboard'])
 const liveUpdates = (config['featureFlags:dashboardLiveUpdates'])
 const updatesPollInterval = (config['featureFlags:dashboardRefreshInterval'])
 
-export class Dashboard extends React.Component {
+export class ClustersDashboardTab extends React.Component {
 
   constructor(props) {
     super(props)
@@ -109,7 +109,7 @@ export class Dashboard extends React.Component {
   }
 }
 
-Dashboard.contextTypes = {
+ClustersDashboardTab.contextTypes = {
   locale: PropTypes.string
 }
 
@@ -132,4 +132,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClustersDashboardTab))

@@ -1,0 +1,28 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2017. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+.structured-list-module {
+  .bx--module__inner {
+    flex: 1;
+  }
+  .bx--structured-list {
+    margin-bottom: 1rem;
+  }
+  .bx--structured-list-td:last-child p {
+    word-break: break-all;
+  }
+  .bx--structured-list-td:first-child p:first-child {
+    font-weight: 700;
+  }
+  .bx--structured-list-td p span {
+    display: flex;
+    flex-direction: column;
+  }
+}

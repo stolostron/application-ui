@@ -12,7 +12,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
-import TopologyDiagram from '../src-web/components/TopologyDiagram'
+import ClustersTopologyDiagram from '../src-web/components/ClustersTopologyDiagram'
 
 
 const renderWith1Cluster = {
@@ -55,12 +55,12 @@ storiesOf('Topology - Diagram', module)
   Generate a topology diagram consisting of nodes and links.
   `)(() =>
     <div style={{height: '800px', width:'100%', marginTop: '25px'}}>
-      <TopologyDiagram  {...renderWith1Cluster} />
+      <ClustersTopologyDiagram  {...renderWith1Cluster} />
     </div>
   ))
 
   .add('with 2 clusters', () => (
     <div style={{height: '800px', width:'100%', marginTop: '25px'}}>
-      <TopologyDiagram  {...renderWith2Clusters} />
+      <ClustersTopologyDiagram  {...renderWith2Clusters} />
     </div>
   ))

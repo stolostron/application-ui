@@ -12,10 +12,10 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 
-import TopologyDiagram from '../../../src-web/components/TopologyDiagram'
+import ClustersTopologyDiagram from '../../../src-web/components/ClustersTopologyDiagram'
 import * as Actions from '../../../src-web/actions'
 
-describe('TopologyDiagram component 1', () => {
+describe('ClustersTopologyDiagram component 1', () => {
   const mockData = {
     activeFilters: {},
     clusters: [],
@@ -25,7 +25,7 @@ describe('TopologyDiagram component 1', () => {
   }
   it('renders as expected', () => {
     const component = renderer.create(
-      <TopologyDiagram
+      <ClustersTopologyDiagram
         clusters={mockData.clusters}
         nodes={mockData.nodes}
         links={mockData.links}
@@ -418,10 +418,10 @@ const mockData = {
   'status':'DONE'
 }
 
-describe('TopologyDiagram component 2', () => {
+describe('ClustersTopologyDiagram component 2', () => {
   it('renders as expected', () => {
     const component = shallow(
-      <TopologyDiagram
+      <ClustersTopologyDiagram
         clusters={mockData.clusters}
         nodes={mockData.nodes}
         links={mockData.links}

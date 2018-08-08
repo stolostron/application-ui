@@ -29,7 +29,7 @@ const filterItemShape = PropTypes.shape({
   value: PropTypes.string,
 })
 
-class TopologyFiltersContainer extends React.Component {
+class ClustersTopologyFilters extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.shape({
       clusters: PropTypes.arrayOf(filterItemShape),
@@ -101,7 +101,7 @@ class TopologyFiltersContainer extends React.Component {
   }
 }
 
-TopologyFiltersContainer.contextTypes = {
+ClustersTopologyFilters.contextTypes = {
   locale: PropTypes.string
 }
 
@@ -126,4 +126,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TopologyFiltersContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClustersTopologyFilters))

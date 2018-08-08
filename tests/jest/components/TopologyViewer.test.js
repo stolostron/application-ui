@@ -12,9 +12,9 @@ import React from 'react'
 import { mount } from 'enzyme'
 import renderer from 'react-test-renderer'
 
-import ClusterViewer from '../../../src-web/components/topology/ClusterViewer'
+import TopologyViewer from '../../../src-web/components/topology/TopologyViewer'
 
-describe('ClusterViewer no components', () => {
+describe('TopologyViewer no components', () => {
   const mockData = {
     clusters: [],
     nodes:[],
@@ -23,7 +23,7 @@ describe('ClusterViewer no components', () => {
   }
   it('renders as expected', () => {
     const component = renderer.create(
-      <ClusterViewer
+      <TopologyViewer
         nodes={mockData.nodes}
         links={mockData.links}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
@@ -272,10 +272,10 @@ const mockData = {
 }
 
 
-describe('ClusterViewer 3 components', () => {
+describe('TopologyViewer 3 components', () => {
   it('renders as expected', () => {
     const component = mount(
-      <ClusterViewer
+      <TopologyViewer
         id={mockData.id}
         name={mockData.name}
         nodes={mockData.nodes}

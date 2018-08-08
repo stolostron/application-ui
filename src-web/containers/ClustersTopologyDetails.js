@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import resources from '../../lib/shared/resources'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import TopologyDiagram from '../components/TopologyDiagram'
+import ClustersTopologyDiagram from '../components/ClustersTopologyDiagram'
 import { DetailsView } from '../components/topology/DetailsView'
 import { updateTopologySelection } from '../actions/topology'
 
@@ -22,7 +22,7 @@ resources(() => {
 })
 
 
-class DiagramWithDetails extends React.Component {
+class ClustersTopologyDetails extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     clusters: PropTypes.array,
@@ -65,7 +65,7 @@ class DiagramWithDetails extends React.Component {
 
     return (
       <div className='topologyWithDetails'>
-        <TopologyDiagram
+        <ClustersTopologyDiagram
           clusters={this.props.clusters}
           nodes={this.props.nodes}
           links={this.props.links}
@@ -87,7 +87,7 @@ class DiagramWithDetails extends React.Component {
   }
 }
 
-DiagramWithDetails.contextTypes = {
+ClustersTopologyDetails.contextTypes = {
   locale: PropTypes.string
 }
 
@@ -138,4 +138,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DiagramWithDetails))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClustersTopologyDetails))

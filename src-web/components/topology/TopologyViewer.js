@@ -21,14 +21,14 @@ import _ from 'lodash'
 
 
 resources(() => {
-  require('../../../scss/cluster-viewer.scss')
+  require('../../../scss/topology-viewer.scss')
   require('../../../scss/topology-link.scss')
   require('../../../scss/topology-node.scss')
 })
 
 var currentZoom = {x:0, y:0, k:1}
 
-class ClusterViewer extends React.Component {
+class TopologyViewer extends React.Component {
 
   static propTypes = {
     activeFilters: PropTypes.object,
@@ -125,11 +125,11 @@ class ClusterViewer extends React.Component {
     const { id, name } = this.props
     const { locale } = this.context
     return (
-      <div className="clusterViewerDiagram" ref={this.setContainerRef} >
-        <div className='clusterViewerTitle'>
+      <div className="topologyViewerDiagram" ref={this.setContainerRef} >
+        <div className='topologyViewerTitle'>
           {msgs.get('cluster.name', [name], locale)}
         </div>
-        <div className='clusterViewerContainer'>
+        <div className='topologyViewerContainer'>
           <svg id={name+id} className="topologyDiagram" />
           <input type='image' alt='zoom-in' className='zoom-in'
             onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
@@ -250,4 +250,4 @@ class ClusterViewer extends React.Component {
   }
 }
 
-export default ClusterViewer
+export default TopologyViewer

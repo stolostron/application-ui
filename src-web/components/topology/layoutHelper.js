@@ -9,10 +9,8 @@
 'use strict'
 
 import cytoscape from 'cytoscape'
-import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
 import _ from 'lodash'
-cytoscape.use( cycola )
 cytoscape.use( dagre )
 
 import { NODE_SIZE } from './constants.js'
@@ -350,25 +348,39 @@ export default class LayoutHelper {
     const connectedDim = this.setConnectedLayoutOptions(connected, numOfSections)
     const unconnectedDim = this.setUnconnectedLayoutOptions(unconnected)
 
-    // move unconnected below connected
-    unconnected.forEach(({options})=>{
-      options.boundingBox.y1 += connectedDim.height
-      options.center.y += connectedDim.height
-    })
-
-    // center top over bottom
-    if (connectedDim.width>unconnectedDim.width) {
-      const dx = (connectedDim.width-unconnectedDim.width)/2
+    // TODO: use Masonry Layout
+    let width, height
+    if (numOfSections<=3) {
+      // move unconnected to right of connected
       unconnected.forEach(({options})=>{
-        options.boundingBox.x1 += dx
-        options.center.x += dx
+        options.boundingBox.x1 += connectedDim.width
+        options.center.x += connectedDim.width
       })
+      width = connectedDim.width + unconnectedDim.width + NODE_SIZE*2
+      height = Math.max(connectedDim.height, unconnectedDim.height)
     } else {
-      const dx = (unconnectedDim.width-connectedDim.width)/2
-      connected.forEach(({options})=>{
-        options.boundingBox.x1 += dx
-        options.center.x += dx
+      // move unconnected below connected
+      unconnected.forEach(({options})=>{
+        options.boundingBox.y1 += connectedDim.height
+        options.center.y += connectedDim.height
       })
+
+      // center top over bottom
+      if (connectedDim.width>unconnectedDim.width) {
+        const dx = (connectedDim.width-unconnectedDim.width)/2
+        unconnected.forEach(({options})=>{
+          options.boundingBox.x1 += dx
+          options.center.x += dx
+        })
+      } else {
+        const dx = (unconnectedDim.width-connectedDim.width)/2
+        connected.forEach(({options})=>{
+          options.boundingBox.x1 += dx
+          options.center.x += dx
+        })
+      }
+      width = Math.max(connectedDim.width, unconnectedDim.width)+NODE_SIZE*2
+      height = connectedDim.height+unconnectedDim.height
     }
 
     // center nodes and links in their bbox
@@ -394,10 +406,7 @@ export default class LayoutHelper {
       })
     })
 
-    return {x:0, y:0,
-      width:Math.max(connectedDim.width, unconnectedDim.width)+NODE_SIZE*2,
-      height:connectedDim.height+unconnectedDim.height
-    }
+    return {x:0, y:0, width, height}
   }
 
   setConnectedLayoutOptions = (connected, numOfSections) => {
@@ -435,9 +444,10 @@ export default class LayoutHelper {
     count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
     return {
-      name: 'cola',
+      name: 'cose',
       animate: false,
-      fit: true,
+      padding: 10,
+      nodeSpacing: 15,
       boundingBox: {
         x1: x,
         y1: 0,

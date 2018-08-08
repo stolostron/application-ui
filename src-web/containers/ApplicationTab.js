@@ -59,9 +59,9 @@ class ApplicationTab extends React.Component {
     return {
       tabs: [
         {
-          id: 'dashboard',
-          label: 'tabs.application.overview',
-          url: `${BASE_PAGE_PATH}/overview/${name}`
+          id: 'topology',
+          label: 'tabs.application.topology',
+          url: `${BASE_PAGE_PATH}/topology/${name}`
         },
         {
           id: 'resources',
@@ -69,10 +69,10 @@ class ApplicationTab extends React.Component {
           url: `${BASE_PAGE_PATH}/resources/${name}`
         },
         {
-          id: 'topology',
-          label: 'tabs.application.topology',
-          url: `${BASE_PAGE_PATH}/topology/${name}`
-        }
+          id: 'dashboard',
+          label: 'tabs.application.overview',
+          url: `${BASE_PAGE_PATH}/overview/${name}`
+        },
       ]
     }
   }

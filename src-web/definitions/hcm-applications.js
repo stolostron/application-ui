@@ -61,7 +61,7 @@ export default {
 }
 
 export function createApplicationLink(item = {}){
-  return <a href={`/hcmconsole/application/overview/${encodeURIComponent(item.Name)}`}>{item.Name}</a>
+  return <a href={`/hcmconsole/application/topology/${encodeURIComponent(item.Name)}`}>{item.Name}</a>
 }
 
 /**

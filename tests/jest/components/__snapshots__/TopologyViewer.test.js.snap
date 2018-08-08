@@ -41756,16 +41756,11 @@ exports[`TopologyViewer no components renders as expected 1`] = `
   className="topologyViewerDiagram"
 >
   <div
-    className="topologyViewerTitle"
-  >
-    Cluster: {0}
-  </div>
-  <div
     className="topologyViewerContainer"
   >
     <svg
       className="topologyDiagram"
-      id={NaN}
+      id="undefined"
     />
     <input
       alt="zoom-in"

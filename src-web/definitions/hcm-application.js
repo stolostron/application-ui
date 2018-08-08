@@ -34,7 +34,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'metadata.description'
           }
         ]
       },
@@ -45,7 +45,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'metadata.created'
           }
         ]
       },
@@ -67,7 +67,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'metadata.region'
           }
         ]
       },
@@ -78,7 +78,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'metadata.owner'
           }
         ]
       },
@@ -89,7 +89,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'metadata.size'
           }
         ]
       },
@@ -100,7 +100,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'metadata.status'
           }
         ]
       },

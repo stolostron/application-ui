@@ -34,7 +34,17 @@ ApplicationDetailsContainer .contextTypes = {
 }
 
 const mapStateToProps = () =>{
-  const application = {}
+  const application = {
+    metadata: {
+      name: 'stapp',
+      created: '12 hous ago',
+      region: 'US East',
+      owner: 'John H. Doe',
+      size: '107 KB',
+      status: 'OK',
+    }
+  }
+
   return {
     application,
   }

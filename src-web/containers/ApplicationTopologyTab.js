@@ -14,10 +14,10 @@ import { withRouter } from 'react-router-dom'
 import { updateSecondaryHeader } from '../actions/common'
 import msgs from '../../nls/platform.properties'
 import PropTypes from 'prop-types'
-//import { Loading, Notification } from 'carbon-components-react'
+import ApplicationTopologyDetails from './ApplicationTopologyDetails'
 
 resources(() => {
-  require('../../scss/dashboard.scss')
+  require('../../scss/application.scss')
 })
 
 export class ApplicationTopologyTab extends React.Component {
@@ -57,8 +57,8 @@ export class ApplicationTopologyTab extends React.Component {
 
   render() {
     return (
-      <div>
-        Topology TBD
+      <div className='applicationTopologyTab'>
+        <ApplicationTopologyDetails />
       </div>
     )
   }

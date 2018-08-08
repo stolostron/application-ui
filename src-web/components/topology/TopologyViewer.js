@@ -126,11 +126,11 @@ class TopologyViewer extends React.Component {
     const { locale } = this.context
     return (
       <div className="topologyViewerDiagram" ref={this.setContainerRef} >
-        <div className='topologyViewerTitle'>
+        {name && <div className='topologyViewerTitle'>
           {msgs.get('cluster.name', [name], locale)}
-        </div>
+        </div>}
         <div className='topologyViewerContainer'>
-          <svg id={name+id} className="topologyDiagram" />
+          <svg id={(name||'')+id} className="topologyDiagram" />
           <input type='image' alt='zoom-in' className='zoom-in'
             onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
           <input type='image' alt='zoom-out' className='zoom-out'
@@ -163,7 +163,7 @@ class TopologyViewer extends React.Component {
     }
 
     if (!this.svg) {
-      const {id, name} = this.props
+      const {id, name=''} = this.props
       this.svg = d3.select('#'+name+id)
       this.svg.append('g').attr('class', 'clusters')
       this.svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
@@ -210,7 +210,7 @@ class TopologyViewer extends React.Component {
       .on('zoom', () => {
         currentZoom = d3.event.transform
         const {id, name} = this.props
-        const svg = d3.select('#'+name+id)
+        const svg = d3.select('#'+(name||'')+id)
         const transition = d3.transition()
           .duration(duration)
           .ease(d3.easeSinOut)

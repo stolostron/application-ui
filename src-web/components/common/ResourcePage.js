@@ -39,8 +39,7 @@ const typedResourcePageWithList = (resourceType, detailsTabs, buttons) => {
   const staticResourceData = getResourceDefinitions(resourceType)
   const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
 
-  // eslint-disable-next-line react/display-name
-  return class extends React.PureComponent {
+  return class ResourcePage extends React.PureComponent {
 
     constructor(props) {
       super(props)

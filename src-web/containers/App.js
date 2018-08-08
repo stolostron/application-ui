@@ -24,6 +24,7 @@ export const ClustersDashboardTab = loadable(() => import(/* webpackChunkName: "
 export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ClustersApplicationsTab'))
 export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
+export const PoliciesTab = loadable(() => import(/* webpackChunkName: "policies" */ './PoliciesTab'))
 export const ChartsTab = loadable(() => import(/* webpackChunkName: "charts" */ './ClustersChartsTab'))
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
 export const RepositoriesTab = loadable(() => import(/* webpackChunkName: "repositories" */ './ClustersRepositoriesTab'))
@@ -68,7 +69,7 @@ class App extends React.Component {
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />
           <Route path={`${match.url}/repositories`} render={() => <RepositoriesTab secondaryHeaderProps={{title: 'routes.repositories'}} />} />
           <Route path={`${match.url}/admin`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.admin'}} />} />
-          <Route path={`${match.url}/compliance`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.compliance'}} />} />
+          <Route path={`${match.url}/policies`} render={() => <PoliciesTab secondaryHeaderProps={{title: 'routes.policies'}} />} />
           <Route path={`${match.url}/event`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.event'}} />} />
           <Redirect to={`${config.contextPath}/overview`} />
         </Switch>

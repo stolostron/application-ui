@@ -138,27 +138,28 @@ export default class LinkHelper {
       })
   }
 
-  highlightNodes = (highlight, edgeSet) => {
+  highlightLinks = (highlight, edgeSet, opacity) => {
     const links = this.svg.select('g.links').selectAll('g.link')
     links
       .interrupt()
     links.selectAll('line')
       .style('opacity', ({uid}) => {
-        return highlight && !edgeSet.has(uid) ? 0.4 : 1.0
+        return highlight && !edgeSet.has(uid) ? opacity : 1.0
       })
 
     // set position of arrow
     links.selectAll('polygon')
       .style('opacity', ({uid}) => {
-        return highlight && !edgeSet.has(uid) ? 0.4 : 1.0
+        return highlight && !edgeSet.has(uid) ? opacity : 1.0
       })
 
       // set position of label
     links.selectAll('text')
       .style('opacity', ({uid}) => {
-        return highlight && !edgeSet.has(uid) ? 0.4 : 1.0
+        return highlight && !edgeSet.has(uid) ? opacity : 1.0
       })
   }
+
 
   dragLinks = (d) => {
     this.svg.select('g.links').selectAll('g.link').each((l,i,ns)=>{

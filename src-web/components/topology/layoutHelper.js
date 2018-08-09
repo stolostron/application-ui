@@ -9,8 +9,10 @@
 'use strict'
 
 import cytoscape from 'cytoscape'
+import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
 import _ from 'lodash'
+cytoscape.use( cycola )
 cytoscape.use( dagre )
 
 import { NODE_SIZE } from './constants.js'
@@ -429,12 +431,45 @@ export default class LayoutHelper {
     // use dagre if the # of roots or leaves is one and the section is small
     let dagre = nodes===2
     if ((leaves===1&&roots>1) || (leaves>1&&roots==1)) {
-      dagre = nodes<10
+      dagre = nodes<10 && roots<3 && (leaves+roots) !== nodes
     }
     if (dagre) {
       return this.getDagreLayoutOptions(x, elements, numOfSections)
-    } else {
+    } else if (nodes<16) {
+      // cola gets out of hand above a certain amount
       return this.getColaLayoutOptions(x, elements)
+    } else {
+      return this.getCoseLayoutOptions(x, elements)
+    }
+  }
+
+  getCoseLayoutOptions = (x, elements) => {
+    // get rough idea how many to allocate for each section based on # of nodes
+    let count = elements.nodes().length
+    count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
+    const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
+
+    // to stabilize cose layout, need to set initial poisitons
+    let xx = 0
+    elements.nodes().forEach(ele=>{
+      ele.position('x', xx)
+      xx+=100
+    })
+    return {
+      name: 'cose',
+      animate: false,
+      padding: 10,
+      nodeSpacing: 15,
+      boundingBox: {
+        x1: x,
+        y1: 0,
+        w,
+        h
+      },
+      center: {
+        x: x + w/2,
+        y: h/2
+      }
     }
   }
 
@@ -444,10 +479,9 @@ export default class LayoutHelper {
     count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
     return {
-      name: 'cose',
+      name: 'cola',
       animate: false,
-      padding: 10,
-      nodeSpacing: 15,
+      fit: true,
       boundingBox: {
         x1: x,
         y1: 0,

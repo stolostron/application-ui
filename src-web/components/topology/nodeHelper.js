@@ -19,11 +19,12 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, linkHelper, cyMap) {
+  constructor(svg, nodes, linkHelper, cyMap, resetHighlightMode) {
     this.svg = svg
     this.cyMap = cyMap
     this.nodes = nodes
     this.linkHelper = linkHelper
+    this.resetHighlightMode = resetHighlightMode
   }
 
 
@@ -54,7 +55,10 @@ export default class NodeHelper {
       .attr('class','node')
       .attr('transform', currentZoom)
       .attr('type', (d) => { return d.name })
-      .on('click', nodeClickHandler)
+      .on('click', (d)=>{
+        this.highlightNodes(d)
+        nodeClickHandler(d)
+      })
 
     // circle shadow
     this.createCircleSVG(circleNode, 'shadow', '19.6078431')
@@ -73,7 +77,10 @@ export default class NodeHelper {
       .attr('class','node')
       .attr('transform', currentZoom)
       .attr('type', (d) => { return d.name })
-      .on('click', nodeClickHandler)
+      .on('click', (d)=>{
+        this.highlightNodes(d)
+        nodeClickHandler(d)
+      })
 
     // polygon shallow
     this.createPolygonSVG(polygonNode, 'shadow')
@@ -83,6 +90,12 @@ export default class NodeHelper {
     this.createCircleSVG(polygonNode, 'centralCircle', '4', '', '21.650625', '25.65625')
     // add label
     this.createLabel(draw, polygonNode)
+
+    // unhighlite shapes
+    this.svg
+      .on('click', ()=>{
+        this.highlightNodes()
+      })
   }
 
 
@@ -169,6 +182,40 @@ export default class NodeHelper {
           .transition(transition)
           .attr('x', () => {return layout.x})
       })
+  }
+
+  highlightNodes = (node) => {
+    const opacity = 0.1
+    const nodeSet = new Set()
+    const edgeSet = new Set()
+    let highlight = false
+    if (node) {
+      const {elements, ele} = this.cyMap[node.layout.uid]
+      if (elements.nodes().length>3) {
+        nodeSet.add(node.layout.uid)
+        ele.successors()
+          .add(ele.predecessors())
+          .forEach(ele=>{
+            const data = ele.data()
+            if (ele.isNode()) {
+              nodeSet.add(data.node.layout.uid)
+            } else {
+              edgeSet.add(data.edge.uid)
+            }
+          })
+        highlight = edgeSet.size>0
+      }
+    } else {
+      this.resetHighlightMode()
+    }
+    this.svg.select('g.nodes').selectAll('g.node')
+      .interrupt()
+      .style('opacity', ({layout}) => {
+        return highlight && !nodeSet.has(layout.uid) ? opacity : 1.0
+      })
+
+    // highlight links
+    this.linkHelper.highlightLinks(highlight, edgeSet, opacity)
   }
 
   dragNode = (d, i, ns) => {

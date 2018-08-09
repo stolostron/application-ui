@@ -51,7 +51,7 @@ class TopologyViewer extends React.Component {
 
   constructor (props) {
     super(props)
-
+    this.highlightMode = false
     this.state = {
       activeFilters: props.activeFilters,
       links: props.links,
@@ -145,8 +145,8 @@ class TopologyViewer extends React.Component {
   handleNodeClick = (node) => {
     this.props.onSelectedNodeChange(node.uid)
     d3.event.stopPropagation()
+    this.highlightMode = true
   }
-
 
   resetDiagram = () => {
     if (this.svg) {
@@ -158,7 +158,7 @@ class TopologyViewer extends React.Component {
   }
 
   generateDiagram() {
-    if (!this.containerRef) {
+    if (!this.containerRef || this.highlightMode) {
       return
     }
 
@@ -195,7 +195,9 @@ class TopologyViewer extends React.Component {
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transformation)
 
-      const nodeHelper = new NodeHelper(this.svg, layoutNodes, linkHelper, cyMap)
+      const nodeHelper = new NodeHelper(this.svg, layoutNodes, linkHelper, cyMap, ()=>{
+        this.highlightMode = false
+      })
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
       nodeHelper.moveNodes(transformation)

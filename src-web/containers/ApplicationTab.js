@@ -10,12 +10,14 @@
 
 import React from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
+import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Page from '../components/common/Page'
 import PropTypes from 'prop-types'
-import ApplicationDashboardTab from './ApplicationDashboardTab'
-import ApplicationResourcesTab from './ApplicationResourcesTab'
-import ApplicationTopologyTab from './ApplicationTopologyTab'
+
+export const ApplicationDashboardTab = loadable(() => import(/* webpackChunkName: "appDashboad" */ './ApplicationDashboardTab'))
+export const ApplicationResourcesTab = loadable(() => import(/* webpackChunkName: "appResources" */ './ApplicationResourcesTab'))
+export const ApplicationTopologyTab = loadable(() => import(/* webpackChunkName: "appTopology" */ './ApplicationTopologyTab'))
 
 const BASE_PAGE_PATH = `${config.contextPath}/application`
 

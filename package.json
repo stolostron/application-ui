@@ -17,6 +17,7 @@
     "lint:fix": "eslint --ext .jsx,.js --fix .",
     "test:unit": "jest --colors",
     "test": "jest --silent",
+    "test:watch": "jest --watch",
     "test:e2e": "nightwatch",
     "test:update-snapshot": "jest --updateSnapshot",
     "test:install-selenium": "selenium-standalone install --version=3.9.0 --drivers.chrome.version=2.36",

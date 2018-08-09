@@ -69,18 +69,18 @@ export const topology = (state = initialState, action) => {
     const clusterFilters = []
     action.clusters.forEach(c => {
       clusterFilters.push({
-        label: `name: ${c.ClusterName}`, //FIXME: NLS. Labels received from the API aren't translated either.
-        filterValues: [c.ClusterName],
+        label: `name: ${c.name}`, //FIXME: NLS. Labels received from the API aren't translated either.
+        filterValues: [c.name],
       })
-      Object.keys(c.Labels).forEach(labelKey => {
-        const existingLabel = clusterFilters.find(l => l.label === `${labelKey}: ${c.Labels[labelKey]}`)
+      Object.keys(c.labels).forEach(labelKey => {
+        const existingLabel = clusterFilters.find(l => l.label === `${labelKey}: ${c.labels[labelKey]}`)
         if(existingLabel) {
-          existingLabel.filterValues.push(c.ClusterName)
+          existingLabel.filterValues.push(c.name)
         }
         else {
           clusterFilters.push({
-            label: `${labelKey}: ${c.Labels[labelKey]}`,
-            filterValues: [c.ClusterName],
+            label: `${labelKey}: ${c.labels[labelKey]}`,
+            filterValues: [c.name],
           })
         }
       })

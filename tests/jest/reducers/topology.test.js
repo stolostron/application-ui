@@ -110,8 +110,8 @@ describe('topology reducer', () => {
       type: Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS,
       clusters: [
         {
-          ClusterName: 'myminikube',
-          Labels: {
+          name: 'myminikube',
+          labels: {
             clusterip: '9.42.23.217',
             location: 'toronto',
             provider: 'IBM',

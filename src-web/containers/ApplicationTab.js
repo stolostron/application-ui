@@ -15,68 +15,51 @@ import config from '../../lib/shared/config'
 import Page from '../components/common/Page'
 import PropTypes from 'prop-types'
 
-export const ApplicationDashboardTab = loadable(() => import(/* webpackChunkName: "appDashboad" */ './ApplicationDashboardTab'))
-export const ApplicationResourcesTab = loadable(() => import(/* webpackChunkName: "appResources" */ './ApplicationResourcesTab'))
-export const ApplicationTopologyTab = loadable(() => import(/* webpackChunkName: "appTopology" */ './ApplicationTopologyTab'))
-
+// need to restart node after changes here
 const BASE_PAGE_PATH = `${config.contextPath}/application`
+const TABS = ['dashboard','topology']
+export const ApplicationDashboardTab = loadable(() => import(/* webpackChunkName: "appDashboad" */ './ApplicationDashboardTab'))
+export const ApplicationTopologyTab = loadable(() => import(/* webpackChunkName: "appTopology" */ './ApplicationTopologyTab'))
 
 class ApplicationTab extends React.Component {
 
-  componentWillMount() {
-    const secondProps = this.getSecondaryHeaderProps()
-    this.getOverviewTab = this.getTabComponent.bind(this, 'overview', secondProps)
-    this.getResourcesTab = this.getTabComponent.bind(this, 'resources', secondProps)
-    this.getTopologyTab = this.getTabComponent.bind(this, 'topology', secondProps)
-  }
-
-  render() {
-    const { location: {pathname} } = this.props
-    const name = pathname.split('/').pop()
-    return (
-      <Page>
-        <Switch>
-          <Route path={`${BASE_PAGE_PATH}/overview/${name}`} render={this.getOverviewTab} />
-          <Route path={`${BASE_PAGE_PATH}/resources/${name}`} render={this.getResourcesTab} />
-          <Route path={`${BASE_PAGE_PATH}/topology/${name}`} render={this.getTopologyTab} />
-        </Switch>
-      </Page>
-    )
-  }
-
   getTabComponent(tabId, secondProps) {
     switch (tabId) {
-    case 'overview':
+    case 'dashboard':
       return (<ApplicationDashboardTab secondaryHeaderProps={secondProps} />)
-    case 'resources':
-      return (<ApplicationResourcesTab secondaryHeaderProps={secondProps} />)
     case 'topology':
       return (<ApplicationTopologyTab secondaryHeaderProps={secondProps} />)
     }
   }
 
-  getSecondaryHeaderProps() {
+  componentWillMount() {
+    // create tabs for all other tabs
     const { location: {pathname} } = this.props
     const name = pathname.split('/').pop()
-    return {
-      tabs: [
-        {
-          id: 'topology',
-          label: 'tabs.application.topology',
-          url: `${BASE_PAGE_PATH}/topology/${name}`
-        },
-        {
-          id: 'resources',
-          label: 'tabs.application.resources',
-          url: `${BASE_PAGE_PATH}/resources/${name}`
-        },
-        {
-          id: 'dashboard',
-          label: 'tabs.application.overview',
-          url: `${BASE_PAGE_PATH}/overview/${name}`
-        },
-      ]
-    }
+    this.secondProps= {tabs: TABS.map(tab=>{
+      return {
+        id: tab,
+        label: 'tabs.application.'+tab,
+        url: `${BASE_PAGE_PATH}/${tab}/${name}`
+      }
+    })}
+
+    this.binding = {}
+    TABS.forEach(tab=>{
+      this.binding[tab] = this.getTabComponent.bind(this, tab, this.secondProps)
+    })
+  }
+
+  render() {
+    return (
+      <Page>
+        <Switch>
+          {this.secondProps.tabs.map(({ id, url}) => (
+            <Route key={id} path={url} render={this.binding[id]} />
+          ))}
+        </Switch>
+      </Page>
+    )
   }
 }
 

@@ -9,46 +9,47 @@
 'use strict'
 import React from 'react'
 import lodash from 'lodash'
+import { Link } from 'react-router-dom'
 import { Loading } from 'carbon-components-react'
 import msgs from '../../nls/platform.properties'
 
 export default {
-  defaultSortField: 'Name',
-  primaryKey: 'Name',
+  defaultSortField: 'name',
+  primaryKey: 'name',
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'Name',
+      resourceKey: 'name',
       transformFunction: createApplicationLink,
     },
     {
       msgKey: 'table.header.components',
-      resourceKey: 'Components',
-      transformFunction: createComponentsAndDependenciesList('Components'),
+      resourceKey: 'components',
+      transformFunction: createComponentsAndDependenciesList('components'),
     },
     {
       msgKey: 'table.header.dependencies',
-      resourceKey: 'Dependencies',
-      transformFunction: createComponentsAndDependenciesList('Dependencies'),
+      resourceKey: 'dependencies',
+      transformFunction: createComponentsAndDependenciesList('dependencies'),
     },
     {
       msgKey: 'table.header.labels',
-      resourceKey: 'Labels',
+      resourceKey: 'labels',
       transformFunction: createLabelsList,
     },
     {
       msgKey: 'table.header.annotations',
-      resourceKey: 'Annotations',
+      resourceKey: 'annotations',
       transformFunction: createAnnotationsList,
     },
     {
       msgKey: 'table.header.status',
-      resourceKey: 'Status',
+      resourceKey: 'status',
       transformFunction: getStatus,
     },
     {
       msgKey: 'table.header.dashboard',
-      resourceKey: 'Dashboard',
+      resourceKey: 'dashboard',
       transformFunction: createDashboardLink,
     },
   ],
@@ -61,7 +62,7 @@ export default {
 }
 
 export function createApplicationLink(item = {}){
-  return <a href={`/hcmconsole/application/topology/${encodeURIComponent(item.Name)}`}>{item.Name}</a>
+  return <Link to={`/hcmconsole/application/topology/${encodeURIComponent(item.name)}`}>{item.name}</Link>
 }
 
 /**
@@ -74,8 +75,8 @@ export function createComponentsAndDependenciesList(dataKey){
 
     return <ul>
       {lodash.map(item[dataKey], (value) => {
-        return <li key={value.Name+value.Cluster}>
-          {`${value.Name}[${value.Cluster}]`}
+        return <li key={value.name + value.cluster}>
+          {`${value.name}[${value.cluster}]`}
         </li>
       })}
     </ul>
@@ -88,7 +89,7 @@ export function createComponentsAndDependenciesList(dataKey){
  */
 export function createLabelsList(item = {}) {
   return <ul>
-    {lodash.map(item['Labels'], (value, key) => {
+    {lodash.map(item['labels'], (value, key) => {
       return <li key={key+value}>
         {`${key}=${value !== '' ? value : '""'}`}
       </li>
@@ -103,10 +104,10 @@ export function createLabelsList(item = {}) {
  */
 export function createAnnotationsList(item = {}) {
   return <ul>
-    {lodash.map(item['Annotations'], (value, key) => {
+    {lodash.map(item['annotations'], (value, key) => {
       // Removing 'dashboard' and 'status' annotations to avoid duplication
       // because these are shown in a separate column.
-      return key !== 'dashboard' && key !== 'status' && <li key={key+value}>
+      return key !== 'dashboard' && key !== 'status' && <li key={key + value}>
         {`${key}=${value !== '' ? value : '""'}`}
       </li>
     })
@@ -115,7 +116,7 @@ export function createAnnotationsList(item = {}) {
 }
 
 export function createDashboardLink(item = {}, locale){
-  if(item.Dashboard && item.Dashboard !== '')
+  if(item.dashboard && item.dashboard !== '')
     return <a target="_blank" href={item.Dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
@@ -124,7 +125,7 @@ export function createDashboardLink(item = {}, locale){
 
 export function getStatus(item = {}){
   return item.hasPendingActions ?
-    <Loading id={`loading-${item.Name}`} small withOverlay={false} />
+    <Loading id={`loading-${item.name}`} small withOverlay={false} />
     :
-    item.Status
+    item.status
 }

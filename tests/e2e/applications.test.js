@@ -20,6 +20,8 @@ const appName = `selenium-players_${day}_${hours}_${minutes}_${seconds}`
 let appsPage
 
 module.exports = {
+  '@disabled': true,
+
   before: function (browser) {
     const loginPage = browser.page.LoginPage()
     loginPage.navigate()

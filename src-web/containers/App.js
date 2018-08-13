@@ -18,11 +18,10 @@ import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 
-export const ApplicationTab = loadable(() => import(/* webpackChunkName: "application" */ './ApplicationTab'))
 export const ClustersTopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './ClustersTopologyTab'))
 export const ClustersDashboardTab = loadable(() => import(/* webpackChunkName: "dashboard" */ './ClustersDashboardTab'))
 export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
-export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ClustersApplicationsTab'))
+export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
 export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
 export const PoliciesTab = loadable(() => import(/* webpackChunkName: "policies" */ './PoliciesTab'))
 export const ChartsTab = loadable(() => import(/* webpackChunkName: "charts" */ './ClustersChartsTab'))
@@ -59,11 +58,10 @@ class App extends React.Component {
       <div className='expand-vertically'>
         <SecondaryHeader />
         <Switch>
+          <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
           <Route path={`${match.url}/overview`} render={() => <ClustersDashboardTab serverProps={serverProps} />} />
           <Route path={`${match.url}/topology`} render={() => <ClustersTopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
-          <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
-          <Route path={`${match.url}/application`} render={() => <ApplicationTab serverProps={serverProps} />} />
           <Route path={`${match.url}/pods:filters?`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.pods'}} />} />
           <Route path={`${match.url}/charts`} render={() => <ChartsTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />

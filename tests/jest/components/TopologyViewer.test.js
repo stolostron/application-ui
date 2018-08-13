@@ -19,6 +19,10 @@ describe('TopologyViewer no components', () => {
     clusters: [],
     nodes:[],
     links:[],
+    staticResourceData: {
+      topologyOrder: ['application', 'appservice', 'dependency'],
+      topologyNodeDescription: jest.fn()
+    },
     onSelectedNodeChange: jest.fn()
   }
   it('renders as expected', () => {
@@ -26,6 +30,7 @@ describe('TopologyViewer no components', () => {
       <TopologyViewer
         nodes={mockData.nodes}
         links={mockData.links}
+        staticResourceData={mockData.staticResourceData}
         onSelectedNodeChange={mockData.onSelectedNodeChange}
         selectedNodeId={mockData.selectedNodeId}
       />
@@ -268,7 +273,12 @@ const mockData = {
         'label':'default'
       }
     ]
-  }
+  },
+  staticResourceData: {
+    topologyOrder: ['application', 'appservice', 'dependency'],
+    topologyNodeDescription: jest.fn()
+  },
+
 }
 
 
@@ -280,6 +290,7 @@ describe('TopologyViewer 3 components', () => {
         name={mockData.name}
         nodes={mockData.nodes}
         links={mockData.links}
+        staticResourceData={mockData.staticResourceData}
         activeFilters={mockData.activeFilters}
         onSelectedNodeChange={jest.fn()}
       />

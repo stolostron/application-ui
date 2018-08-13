@@ -30,6 +30,7 @@ class ClustersTopologyDetails extends React.Component {
     nodes: PropTypes.array,
     onSelectedNodeChange: PropTypes.func,
     selectedNodeId: PropTypes.string,
+    staticResourceData: PropTypes.object,
     status: PropTypes.string,
   }
 
@@ -69,6 +70,7 @@ class ClustersTopologyDetails extends React.Component {
           clusters={this.props.clusters}
           nodes={this.props.nodes}
           links={this.props.links}
+          staticResourceData = {this.props.staticResourceData}
           onSelectedNodeChange={this.props.onSelectedNodeChange}
           activeFilters={this.props.activeFilters}
           selectedNodeId={this.props.selectedNodeId}
@@ -89,6 +91,19 @@ class ClustersTopologyDetails extends React.Component {
 
 ClustersTopologyDetails.contextTypes = {
   locale: PropTypes.string
+}
+
+// how to display this topology
+const staticResourceData = {
+  topologyOrder:  ['host', 'service', 'controller', 'pod', 'container', 'unmanaged'],
+  topologyNodeDescription: ({layout}) => {
+    if (layout) {
+      const {type, pods} = layout
+      if (pods) {
+        layout.info = `${type} of ${layout.pods.length} pods`
+      }
+    }
+  }
 }
 
 const mapStateToProps = (state) =>{
@@ -126,6 +141,7 @@ const mapStateToProps = (state) =>{
     clusters,
     links: modifiedLinks,
     nodes: nodesWithoutClusters,
+    staticResourceData,
     activeFilters,
     selectedNodeId,
     status,

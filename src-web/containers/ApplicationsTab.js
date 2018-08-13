@@ -11,9 +11,16 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
-import { typedResourcePageWithList } from '../components/common/ResourcePage'
+import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import RegisterApplicationModal from '../components/modals/RegisterApplicationModal'
 
 const registerApplication = <RegisterApplicationModal key='registerApplicationModal' />
 
-export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_APPLICATIONS, null, [registerApplication]))
+
+export default withRouter(typedResourcePageWithListAndDetails(
+  RESOURCE_TYPES.HCM_APPLICATIONS,
+  ['overview', 'topology'],
+  [registerApplication],
+  ['/topology']
+))
+

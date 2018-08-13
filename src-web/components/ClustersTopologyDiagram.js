@@ -43,6 +43,7 @@ class ClustersTopologyDiagram extends React.Component {
         name: PropTypes.string,
       })),
       onSelectedNodeChange: PropTypes.func,
+      staticResourceData: PropTypes.object,
       status: PropTypes.string,
     }
 
@@ -80,7 +81,7 @@ class ClustersTopologyDiagram extends React.Component {
     }
 
     render() {
-      const { activeFilters, status, onSelectedNodeChange} = this.props
+      const { activeFilters, status, staticResourceData, onSelectedNodeChange} = this.props
       const { clusters } = this.state
       const { locale } = this.context
 
@@ -104,6 +105,7 @@ class ClustersTopologyDiagram extends React.Component {
               name={name}
               nodes={nodes}
               links={links}
+              staticResourceData={staticResourceData}
               activeFilters={activeFilters}
               onSelectedNodeChange={onSelectedNodeChange}
             />

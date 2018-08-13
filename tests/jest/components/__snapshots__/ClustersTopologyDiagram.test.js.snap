@@ -425,6 +425,7 @@ ShallowWrapper {
           name="crucial-owl"
           nodes={undefined}
           onSelectedNodeChange={[MockFunction]}
+          staticResourceData={undefined}
         />,
         <TopologyViewer
           activeFilters={
@@ -441,6 +442,7 @@ ShallowWrapper {
           name="myminikube"
           nodes={undefined}
           onSelectedNodeChange={[MockFunction]}
+          staticResourceData={undefined}
         />,
       ],
       "className": "topologyDiagramContainer",
@@ -464,6 +466,7 @@ ShallowWrapper {
           "name": "crucial-owl",
           "nodes": undefined,
           "onSelectedNodeChange": [MockFunction],
+          "staticResourceData": undefined,
         },
         "ref": null,
         "rendered": null,
@@ -486,6 +489,7 @@ ShallowWrapper {
           "name": "myminikube",
           "nodes": undefined,
           "onSelectedNodeChange": [MockFunction],
+          "staticResourceData": undefined,
         },
         "ref": null,
         "rendered": null,
@@ -516,6 +520,7 @@ ShallowWrapper {
             name="crucial-owl"
             nodes={undefined}
             onSelectedNodeChange={[MockFunction]}
+            staticResourceData={undefined}
           />,
           <TopologyViewer
             activeFilters={
@@ -532,6 +537,7 @@ ShallowWrapper {
             name="myminikube"
             nodes={undefined}
             onSelectedNodeChange={[MockFunction]}
+            staticResourceData={undefined}
           />,
         ],
         "className": "topologyDiagramContainer",
@@ -555,6 +561,7 @@ ShallowWrapper {
             "name": "crucial-owl",
             "nodes": undefined,
             "onSelectedNodeChange": [MockFunction],
+            "staticResourceData": undefined,
           },
           "ref": null,
           "rendered": null,
@@ -577,6 +584,7 @@ ShallowWrapper {
             "name": "myminikube",
             "nodes": undefined,
             "onSelectedNodeChange": [MockFunction],
+            "staticResourceData": undefined,
           },
           "ref": null,
           "rendered": null,

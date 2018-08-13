@@ -46,7 +46,8 @@ class TopologyViewer extends React.Component {
       type: PropTypes.string,
       name: PropTypes.string,
     })),
-    onSelectedNodeChange: PropTypes.func
+    onSelectedNodeChange: PropTypes.func,
+    staticResourceData: PropTypes.object,
   }
 
   constructor (props) {
@@ -59,11 +60,10 @@ class TopologyViewer extends React.Component {
       hiddenNodes: new Set(),
       hiddenLinks: new Set()
     }
-    this.layoutHelper = new LayoutHelper()
-
     this.setContainerRef = elem => {
       this.containerRef = elem
     }
+    this.layoutHelper = new LayoutHelper(this.props.staticResourceData)
   }
 
   componentDidMount() {
@@ -153,7 +153,7 @@ class TopologyViewer extends React.Component {
       this.svg.selectAll('*').remove()
       delete this.svg
     }
-    this.layoutHelper = new LayoutHelper()
+    this.layoutHelper = new LayoutHelper(this.props.staticResourceData)
     delete this.lastLayoutBBox
   }
 

@@ -13,7 +13,6 @@ import lodash from 'lodash'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 import hcmclusters from './hcm-clusters'
-import hcmapplication from './hcm-application'
 import hcmapplications from './hcm-applications'
 import hcmpods from './hcm-pods'
 import hcmpolicies from './hcm-policies'
@@ -24,7 +23,6 @@ import hcmreleases from './hcm-releases'
 import hcmrepositories from './hcm-repositories'
 
 const resourceData = {
-  [RESOURCE_TYPES.HCM_APPLICATION.name]: hcmapplication,
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
   [RESOURCE_TYPES.HCM_CLUSTERS.name]: hcmclusters,
   [RESOURCE_TYPES.HCM_PODS.name]: hcmpods,

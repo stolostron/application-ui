@@ -9,6 +9,7 @@
 'use strict'
 
 import React from 'react'
+import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
 import { Route, Switch } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
@@ -27,10 +28,29 @@ const WrappedResourceList = props =>
     </ResourceList>
   </div>
 
+const WrappedResourceDetails = props =>
+  <ResourceDetails
+    resourceType={props.resourceType}
+    staticResourceData={props.staticResourceData}
+    tabs={props.detailsTabs}
+    routes={props.routes}>
+    {props.modules}
+  </ResourceDetails>
+
 const ResourcePageWithList = props =>
   <Switch>
     <Route exact path={props.match.url} render={() => (
       <WrappedResourceList {...props} />
+    )} />
+  </Switch>
+
+const ResourcePageWithListAndDetails = props =>
+  <Switch>
+    <Route exact path={props.match.url} render={() => (
+      <WrappedResourceList {...props} />
+    )} />
+    <Route path={`${props.match.url}/:name`} render={() => (
+      <WrappedResourceDetails {...props} />
     )} />
   </Switch>
 
@@ -62,4 +82,35 @@ const typedResourcePageWithList = (resourceType, detailsTabs, buttons) => {
   }
 }
 
-export { typedResourcePageWithList }
+const typedResourcePageWithListAndDetails = (resourceType, detailsTabs, buttons, routes, modules) => {
+
+  const staticResourceData = getResourceDefinitions(resourceType)
+  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
+
+  // eslint-disable-next-line react/display-name
+  return class extends React.PureComponent {
+
+    constructor(props) {
+      super(props)
+    }
+
+    render() {
+      return (
+        <Page>
+          <ResourcePageWithListAndDetails
+            {...this.props}
+            detailsTabs={detailsTabs}
+            routes={routes}
+            resourceType={resourceType}
+            staticResourceData={staticResourceData}
+            getVisibleResources={getVisibleResources}
+            buttons={buttons}
+            modules={modules}>
+          </ResourcePageWithListAndDetails>
+        </Page>
+      )
+    }
+  }
+}
+
+export { typedResourcePageWithList, typedResourcePageWithListAndDetails }

@@ -17,8 +17,6 @@ cytoscape.use( dagre )
 
 import { NODE_SIZE } from './constants.js'
 
-const SECTION_ORDER = ['host', 'service', 'controller', 'pod', 'container', 'unmanaged']
-
 export default class LayoutHelper {
   /**
    * Helper class to be used by TopologyDiagram.
@@ -26,8 +24,10 @@ export default class LayoutHelper {
    * Contains functions to manage sections.
    */
 
-  constructor () {
+  constructor ({topologyOrder, topologyNodeDescription}) {
     this.internetClones = {}
+    this.topologyOrder = topologyOrder
+    this.topologyNodeDescription = topologyNodeDescription
   }
 
   layout = (nodes, links, hiddenNodes, hiddenLinks, cb) => {
@@ -51,6 +51,11 @@ export default class LayoutHelper {
 
     // need to clone internet, otherwise everything coalesce around two internet nodes (in & out)
     this.cloneInternetNodes(groups, internetNodes, nodes)
+
+    // assign info to each node
+    nodes.forEach(node=>{
+      this.topologyNodeDescription(node)
+    })
 
     // create sections
     const cy = cytoscape({ headless: true }) // start headless cytoscape
@@ -135,13 +140,6 @@ export default class LayoutHelper {
           }
         }
       }
-
-      groupMap['controller'].nodes.forEach(controller=>{
-        const {type, layout} = controller
-        if (layout.pods.length) {
-          layout.info = `${type} of ${layout.pods.length} pods`
-        }
-      })
     }
 
     // show controllers as services
@@ -192,7 +190,7 @@ export default class LayoutHelper {
     const directions = [
       {map:sourceMap, next:'source', other:'target'},
       {map:targetMap, next:'target', other:'source'}]
-    SECTION_ORDER.forEach(type=>{
+    this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const group = nodeGroups[type]
         // sort nodes/links into sections
@@ -266,7 +264,7 @@ export default class LayoutHelper {
     const {nodeGroups} = groups
     if (Object.keys(internetNodes).length) {
       const directions = ['source', 'target']
-      SECTION_ORDER.forEach(type=>{
+      this.topologyOrder.forEach(type=>{
         if (nodeGroups[type] && nodeGroups[type].connected) {
           nodeGroups[type].connected.forEach(({nodeMap, edges}, index)=>{
             edges.forEach(edge=>{
@@ -302,7 +300,7 @@ export default class LayoutHelper {
   createSections = (cy, groups) => {
     const {nodeGroups} = groups
     const sections = {connected:[], unconnected:[]}
-    SECTION_ORDER.forEach(type=>{
+    this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected, unconnected} = nodeGroups[type]
         connected.forEach(({nodeMap, edges})=>{
@@ -498,7 +496,7 @@ export default class LayoutHelper {
   getDagreLayoutOptions = (x, elements, numOfSections) => {
     // get rough idea how many to allocate for each section based on # of nodes
     const count = elements.nodes().length
-    const thresh = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
+    const thresh = count<=3 ? 1 : (count<=6 ? 1.5 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = ltr ?
       {w: thresh*NODE_SIZE*3, h: thresh*NODE_SIZE*2} :
       {h: thresh*NODE_SIZE*3, w: thresh*NODE_SIZE*2}

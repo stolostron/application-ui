@@ -21,6 +21,7 @@ import hcmnamespaces from './hcm-namespaces'
 import hcmpvs from './hcm-pvs'
 import hcmreleases from './hcm-releases'
 import hcmrepositories from './hcm-repositories'
+import hcmtopology from './hcm-topology'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
@@ -31,7 +32,8 @@ const resourceData = {
   [RESOURCE_TYPES.HCM_NAMESPACES.name]: hcmnamespaces,
   [RESOURCE_TYPES.HCM_PVS.name]: hcmpvs,
   [RESOURCE_TYPES.HCM_RELEASES.name]: hcmreleases,
-  [RESOURCE_TYPES.HCM_REPOSITORIES.name]: hcmrepositories
+  [RESOURCE_TYPES.HCM_REPOSITORIES.name]: hcmrepositories,
+  [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology
 }
 
 function getResourceData(resourceType) {

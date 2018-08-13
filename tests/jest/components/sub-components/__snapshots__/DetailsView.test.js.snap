@@ -2,7 +2,7 @@
 
 exports[`DetailsView component 1 renders as expected 1`] = `
 <section
-  className="topologyDetails test"
+  className="topologyDetails application"
 >
   <h3
     className="detailsHeader"
@@ -13,13 +13,13 @@ exports[`DetailsView component 1 renders as expected 1`] = `
       width="48px"
     >
       <circle
-        className="test detailsIcon"
+        className="application detailsIcon"
         cx="24"
         cy="24"
         r="20"
       />
       <circle
-        className="test"
+        className="application"
         cx="24"
         cy="24"
         r="4"
@@ -28,7 +28,7 @@ exports[`DetailsView component 1 renders as expected 1`] = `
     <span
       className="titleText"
     >
-      test
+      trader
     </span>
     <svg
       alt="Close topology details view"

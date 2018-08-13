@@ -50,7 +50,6 @@ class ResourceTopology extends React.Component {
         type: PropTypes.string,
         name: PropTypes.string,
       })),
-      onSelectedNodeChange: PropTypes.func,
       staticResourceData: PropTypes.object,
       status: PropTypes.string,
     }
@@ -88,7 +87,7 @@ class ResourceTopology extends React.Component {
     }
 
     render() {
-      const { status, staticResourceData, onSelectedNodeChange} = this.props
+      const { status, staticResourceData} = this.props
       const { links, nodes } = this.state
       const { locale } = this.context
       if (status === Actions.REQUEST_STATUS.ERROR) {
@@ -103,37 +102,18 @@ class ResourceTopology extends React.Component {
         return <Loading withOverlay={false} className='content-spinner' />
 
       return (
-        <div className="resourceTopologyWithDetails" >
+        <div className="resourceTopologyContainer" >
           <div className="topologyDiagramContainer" >
             <TopologyViewer
               id={'application'}
               nodes={nodes}
               links={links}
+              context={this.context}
               staticResourceData={staticResourceData}
-              onSelectedNodeChange={onSelectedNodeChange}
             />
           </div>
         </div>
       )
-
-      //      <div className='applicationTopologyWithDetails'>
-      //        <ApplicationTopologyDiagram
-      //          nodes={this.props.nodes}
-      //          links={this.props.links}
-      //          onSelectedNodeChange={this.props.onSelectedNodeChange}
-      //          selectedNodeId={this.props.selectedNodeId}
-      //          status={this.props.status}
-      //        />
-      //        { this.props.selectedNodeId &&
-      //          <DetailsView
-      //            context={this.context}
-      //            details={details}
-      //            onClose={this.handleDetailsClose}
-      //            resourceType={resourceType}
-      //            title={title}
-      //          /> }
-      //      </div>
-
     }
 
 
@@ -146,7 +126,6 @@ class ResourceTopology extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, staticResourceData, match } = ownProps
-  const { selectedNodeId } = state.topology
   const segments = match.path.split('/')
   const name = decodeURIComponent(segments[segments.length - 2])
   const namespace = null//TODO  segments[segments.length - 3]
@@ -158,15 +137,13 @@ const mapStateToProps = (state, ownProps) => {
     namespace,
     links,
     nodes,
-    selectedNodeId,
     status
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchTopology: (resourceType, name, namespace) => dispatch(fetchResource(resourceType, name, namespace)),
-    //onSelectedNodeChange: (nodeId) => dispatch(updateTopologySelection(nodeId))
+    fetchTopology: (resourceType, name, namespace) => dispatch(fetchResource(resourceType, name, namespace))
   }
 }
 

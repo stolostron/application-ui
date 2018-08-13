@@ -24,10 +24,11 @@ export default class LayoutHelper {
    * Contains functions to manage sections.
    */
 
-  constructor ({topologyOrder, topologyNodeDescription}) {
+  constructor ({topologyOrder, topologyNodeDescription}, locale) {
     this.internetClones = {}
     this.topologyOrder = topologyOrder
     this.topologyNodeDescription = topologyNodeDescription
+    this.locale = locale
   }
 
   layout = (nodes, links, hiddenNodes, hiddenLinks, cb) => {
@@ -54,7 +55,7 @@ export default class LayoutHelper {
 
     // assign info to each node
     nodes.forEach(node=>{
-      this.topologyNodeDescription(node)
+      this.topologyNodeDescription(node, this.locale)
     })
 
     // create sections

@@ -14,41 +14,50 @@ import { Icon } from 'carbon-components-react'
 import { DetailsViewDecorator } from './DetailsViewDecorator'
 import msgs from '../../../nls/platform.properties'
 
-const DetailsView = ({ context, details = [], title = '', onClose, resourceType = 'default' }) => (
-  <section className={`topologyDetails ${resourceType}`}>
-    <h3 className='detailsHeader'>
-      <DetailsViewDecorator resourceType={resourceType} />
+class DetailsView extends React.Component {
 
-      <span className='titleText'>
-        {title}
-      </span>
-      <Icon
-        className='closeIcon'
-        description={msgs.get('topology.details.close', context.locale)}
-        name="icon--close"
-        onClick={onClose}
-      />
-    </h3>
-    <hr />
-    {details.map((d) =>
-      <div className='sectionContent' key={d.labelKey}>
-        <span className='label'>{msgs.get(d.labelKey, context.locale)}: </span>
-        <span className='value'>{d.value}</span>
-      </div>
-    )}
-  </section>
-)
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const { context, onClose, nodes, staticResourceData, selectedNodeId} = this.props
+    const currentNode = nodes.find((n) => n.uid === selectedNodeId) || {}
+    const title = currentNode && currentNode.name
+    const resourceType = currentNode.type
+    const details = staticResourceData.topologyNodeDetails(currentNode)
+    return (
+      <section className={`topologyDetails ${resourceType}`}>
+        <h3 className='detailsHeader'>
+          <DetailsViewDecorator resourceType={resourceType} />
+          <span className='titleText'>
+            {title}
+          </span>
+          <Icon
+            className='closeIcon'
+            description={msgs.get('topology.details.close', context.locale)}
+            name="icon--close"
+            onClick={onClose}
+          />
+        </h3>
+        <hr />
+        {details.map((d) =>
+          <div className='sectionContent' key={d.labelKey}>
+            <span className='label'>{msgs.get(d.labelKey, context.locale)}: </span>
+            <span className='value'>{d.value}</span>
+          </div>
+        )}
+      </section>)
+  }
+}
 
 DetailsView.propTypes = {
   context: PropTypes.object,
-  details: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.oneOf(['label']).isRequired,
-    labelKey: PropTypes.string,
-    value: PropTypes.string,
-  })),
+  nodes: PropTypes.array,
   onClose: PropTypes.func,
-  resourceType: PropTypes.string,
-  title: PropTypes.string
+  selectedNodeId: PropTypes.string,
+  staticResourceData: PropTypes.object,
 }
 
-export { DetailsView }
+export default DetailsView
+

@@ -171,7 +171,8 @@ export default {
   },
   topologyOrder: ['application', 'appservice', 'dependency'],
   topologyNodeDescription: setNodeInfo,
-  topologyTransform: topologyTransform
+  topologyTransform: topologyTransform,
+  topologyNodeDetails: getNodeDetails
 }
 
 export function createApplicationLink(item = {}){
@@ -305,13 +306,35 @@ export function topologyTransform(resourceItem) {
   }
 }
 
-export function setNodeInfo({type, namespace, layout}) {
+export function setNodeInfo({type, namespace, layout}, locale) {
   switch (type) {
   case 'application':
   case 'appservice':
-    layout.info = namespace
+    layout.info = msgs.get('topology.namespace', [namespace], locale)
     break
   default:
     break
   }
+}
+
+export function getNodeDetails(currentNode) {
+  const details = []
+  if (currentNode){
+    currentNode.type && details.push({
+      type: 'label',
+      labelKey: 'resource.type',
+      value: currentNode.type,
+    })
+    currentNode.cluster && details.push({
+      type: 'label',
+      labelKey: 'resource.cluster',
+      value: currentNode.clusterName,
+    })
+    currentNode.namespace && details.push({
+      type: 'label',
+      labelKey: 'resource.namespace',
+      value: currentNode.namespace,
+    })
+  }
+  return details
 }

@@ -34,6 +34,11 @@ ShallowWrapper {
         },
       ]
     }
+    context={
+      Object {
+        "locale": "US-en",
+      }
+    }
     links={
       Array [
         Object {
@@ -420,12 +425,16 @@ ShallowWrapper {
               ],
             }
           }
+          context={
+            Object {
+              "locale": "US-en",
+            }
+          }
           id="5b57cb37d7f883001b15d7f9"
           links={undefined}
-          name="crucial-owl"
           nodes={undefined}
-          onSelectedNodeChange={[MockFunction]}
           staticResourceData={undefined}
+          title="crucial-owl"
         />,
         <TopologyViewer
           activeFilters={
@@ -437,12 +446,16 @@ ShallowWrapper {
               ],
             }
           }
+          context={
+            Object {
+              "locale": "US-en",
+            }
+          }
           id="5b57cbb101ce3f001b7018f0"
           links={undefined}
-          name="myminikube"
           nodes={undefined}
-          onSelectedNodeChange={[MockFunction]}
           staticResourceData={undefined}
+          title="myminikube"
         />,
       ],
       "className": "topologyDiagramContainer",
@@ -461,12 +474,14 @@ ShallowWrapper {
               },
             ],
           },
+          "context": Object {
+            "locale": "US-en",
+          },
           "id": "5b57cb37d7f883001b15d7f9",
           "links": undefined,
-          "name": "crucial-owl",
           "nodes": undefined,
-          "onSelectedNodeChange": [MockFunction],
           "staticResourceData": undefined,
+          "title": "crucial-owl",
         },
         "ref": null,
         "rendered": null,
@@ -484,12 +499,14 @@ ShallowWrapper {
               },
             ],
           },
+          "context": Object {
+            "locale": "US-en",
+          },
           "id": "5b57cbb101ce3f001b7018f0",
           "links": undefined,
-          "name": "myminikube",
           "nodes": undefined,
-          "onSelectedNodeChange": [MockFunction],
           "staticResourceData": undefined,
+          "title": "myminikube",
         },
         "ref": null,
         "rendered": null,
@@ -515,12 +532,16 @@ ShallowWrapper {
                 ],
               }
             }
+            context={
+              Object {
+                "locale": "US-en",
+              }
+            }
             id="5b57cb37d7f883001b15d7f9"
             links={undefined}
-            name="crucial-owl"
             nodes={undefined}
-            onSelectedNodeChange={[MockFunction]}
             staticResourceData={undefined}
+            title="crucial-owl"
           />,
           <TopologyViewer
             activeFilters={
@@ -532,12 +553,16 @@ ShallowWrapper {
                 ],
               }
             }
+            context={
+              Object {
+                "locale": "US-en",
+              }
+            }
             id="5b57cbb101ce3f001b7018f0"
             links={undefined}
-            name="myminikube"
             nodes={undefined}
-            onSelectedNodeChange={[MockFunction]}
             staticResourceData={undefined}
+            title="myminikube"
           />,
         ],
         "className": "topologyDiagramContainer",
@@ -556,12 +581,14 @@ ShallowWrapper {
                 },
               ],
             },
+            "context": Object {
+              "locale": "US-en",
+            },
             "id": "5b57cb37d7f883001b15d7f9",
             "links": undefined,
-            "name": "crucial-owl",
             "nodes": undefined,
-            "onSelectedNodeChange": [MockFunction],
             "staticResourceData": undefined,
+            "title": "crucial-owl",
           },
           "ref": null,
           "rendered": null,
@@ -579,12 +606,14 @@ ShallowWrapper {
                 },
               ],
             },
+            "context": Object {
+              "locale": "US-en",
+            },
             "id": "5b57cbb101ce3f001b7018f0",
             "links": undefined,
-            "name": "myminikube",
             "nodes": undefined,
-            "onSelectedNodeChange": [MockFunction],
             "staticResourceData": undefined,
+            "title": "myminikube",
           },
           "ref": null,
           "rendered": null,

@@ -30,6 +30,7 @@ class ClustersTopologyDiagram extends React.Component {
         id: PropTypes.string,
         name: PropTypes.string
       })),
+      context: PropTypes.object,
       links: PropTypes.arrayOf(PropTypes.shape({
         source: PropTypes.any,
         target: PropTypes.any,
@@ -42,7 +43,6 @@ class ClustersTopologyDiagram extends React.Component {
         type: PropTypes.string,
         name: PropTypes.string,
       })),
-      onSelectedNodeChange: PropTypes.func,
       staticResourceData: PropTypes.object,
       status: PropTypes.string,
     }
@@ -81,9 +81,9 @@ class ClustersTopologyDiagram extends React.Component {
     }
 
     render() {
-      const { activeFilters, status, staticResourceData, onSelectedNodeChange} = this.props
+      const { activeFilters, status, staticResourceData, context} = this.props
       const { clusters } = this.state
-      const { locale } = this.context
+      const { locale } = context
 
       if (status === Actions.REQUEST_STATUS.ERROR) {
         return <Notification
@@ -102,12 +102,12 @@ class ClustersTopologyDiagram extends React.Component {
             <TopologyViewer
               key={id}
               id={id}
-              name={name}
+              title={name}
               nodes={nodes}
               links={links}
+              context={context}
               staticResourceData={staticResourceData}
               activeFilters={activeFilters}
-              onSelectedNodeChange={onSelectedNodeChange}
             />
           )}
         </div>

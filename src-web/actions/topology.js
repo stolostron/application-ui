@@ -18,11 +18,6 @@ export const updateTopologyFilters = (filterType, filters) => ({
   filters,
 })
 
-export const updateTopologySelection = (nodeId) => ({
-  type: Actions.TOPOLOGY_SELECTION_UPDATE,
-  selectedNodeId: nodeId,
-})
-
 const  receiveFiltersError = (err) => ({
   type: Actions.TOPOLOGY_FILTERS_RECEIVE_ERROR,
   err

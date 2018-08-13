@@ -11,23 +11,51 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import { DetailsView } from '../../../../src-web/components/topology/DetailsView'
+import DetailsView from '../../../../src-web/components/topology/DetailsView'
+
+
+const myDetails = jest.fn()
+myDetails
+  .mockReturnValueOnce([{
+    type: 'label',
+    labelKey: 'label-key',
+    value: 'value',
+  }
+  ])
+
+const mockData = {
+  'id':'application',
+  'nodes':[
+    {
+      'name':'trader',
+      'namespace':'default',
+      'type':'application',
+      'uid':'applicationtrader'
+    }
+  ],
+  'context':{
+
+  },
+  'staticResourceData':{
+    'topologyOrder':[
+      'application',
+      'appservice',
+      'dependency'
+    ],
+    topologyNodeDetails: myDetails
+  }
+}
+
 
 describe('DetailsView component 1', () => {
   it('renders as expected', () => {
-    const details = [{
-      type: 'label',
-      labelKey: 'label-key',
-      value: 'value',
-    }
-    ]
     const component = renderer.create(
       <DetailsView
-        context={{test: 'US-en'}}
-        details={details}
+        context={mockData.context}
         onClose={jest.fn()}
-        resourceType={'test'}
-        title={'test'}
+        staticResourceData={mockData.staticResourceData}
+        nodes={mockData.nodes}
+        selectedNodeId={'applicationtrader'}
       />
     )
     expect(component.toJSON()).toMatchSnapshot()

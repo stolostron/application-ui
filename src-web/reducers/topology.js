@@ -23,7 +23,6 @@ const initialState = {
   },
   links: [],
   nodes: [],
-  selectedNodeId: '',
   status: Actions.REQUEST_STATUS.INCEPTION,
 }
 
@@ -101,9 +100,6 @@ export const topology = (state = initialState, action) => {
     const activeFilters = {...state.activeFilters} || {}
     activeFilters[action.filterType] = action.filters
     return {...state, activeFilters}
-  }
-  case Actions.TOPOLOGY_SELECTION_UPDATE: {
-    return { ...state, selectedNodeId: action.selectedNodeId }
   }
   default:
     return { ...state }

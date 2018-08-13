@@ -17,7 +17,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { updateSecondaryHeader, fetchResources } from '../actions/common'
 import msgs from '../../nls/platform.properties'
 import { updateTopologyFilters } from '../actions/topology'
-import ClustersTopologyDetails from './ClustersTopologyDetails'
+import ClustersTopologyContainer from './ClustersTopologyContainer'
 import ClustersTopologyFilters from './ClustersTopologyFilters'
 import config from '../../lib/shared/config'
 
@@ -33,8 +33,8 @@ class ClustersTopologyTab extends React.Component {
   componentWillMount() {
     this.props.updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
-      this.setState({ intervalId: intervalId })
+      //      var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
+      //      this.setState({ intervalId: intervalId })
     }
     this.reload()
   }
@@ -57,7 +57,7 @@ class ClustersTopologyTab extends React.Component {
     return (
       <div className='topologyTab'>
         <ClustersTopologyFilters />
-        <ClustersTopologyDetails />
+        <ClustersTopologyContainer />
       </div>
     )
   }

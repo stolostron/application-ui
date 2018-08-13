@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import * as d3 from 'd3'
 import resources from '../../../lib/shared/resources'
 import config from '../../../lib/shared/config'
+import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import LinkHelper from './linkHelper'
 import NodeHelper from './nodeHelper'
@@ -32,6 +33,7 @@ class TopologyViewer extends React.Component {
 
   static propTypes = {
     activeFilters: PropTypes.object,
+    context: PropTypes.object,
     id: PropTypes.string,
     links: PropTypes.arrayOf(PropTypes.shape({
       source: PropTypes.any,
@@ -39,15 +41,14 @@ class TopologyViewer extends React.Component {
       label: PropTypes.string,
       type: PropTypes.string,
     })),
-    name: PropTypes.string,
     nodes: PropTypes.arrayOf(PropTypes.shape({
       cluster: PropTypes.string,
       uid: PropTypes.string.isRequired,
       type: PropTypes.string,
       name: PropTypes.string,
     })),
-    onSelectedNodeChange: PropTypes.func,
     staticResourceData: PropTypes.object,
+    title: PropTypes.string,
   }
 
   constructor (props) {
@@ -58,12 +59,14 @@ class TopologyViewer extends React.Component {
       links: props.links,
       nodes: props.nodes,
       hiddenNodes: new Set(),
-      hiddenLinks: new Set()
+      hiddenLinks: new Set(),
+      selectedNodeId: ''
     }
     this.setContainerRef = elem => {
       this.containerRef = elem
     }
-    this.layoutHelper = new LayoutHelper(this.props.staticResourceData)
+    const { locale } = this.props.context
+    this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
   }
 
   componentDidMount() {
@@ -76,6 +79,7 @@ class TopologyViewer extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState){
     return this.state.activeFilters!== nextState.activeFilters
+    || this.state.selectedNodeId !== nextState.selectedNodeId
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenNodes, nextState.hiddenNodes)
@@ -122,15 +126,17 @@ class TopologyViewer extends React.Component {
   }
 
   render() {
-    const { id, name } = this.props
-    const { locale } = this.context
+    const { title, context, staticResourceData, nodes } = this.props
+    const { selectedNodeId } = this.state
+    const { locale } = context
+    const svgId = this.getSvgId()
     return (
       <div className="topologyViewerDiagram" ref={this.setContainerRef} >
-        {name && <div className='topologyViewerTitle'>
-          {msgs.get('cluster.name', [name], locale)}
+        {title && <div className='topologyViewerTitle'>
+          {msgs.get('cluster.name', [title], locale)}
         </div>}
         <div className='topologyViewerContainer'>
-          <svg id={(name||'')+id} className="topologyDiagram" />
+          <svg id={svgId} className="topologyDiagram" />
           <input type='image' alt='zoom-in' className='zoom-in'
             onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
           <input type='image' alt='zoom-out' className='zoom-out'
@@ -138,14 +144,31 @@ class TopologyViewer extends React.Component {
           <input type='image' alt='zoom-target' className='zoom-target'
             onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
         </div>
+        { this.state.selectedNodeId &&
+          <DetailsView
+            context={this.context}
+            onClose={this.handleDetailsClose}
+            staticResourceData={staticResourceData}
+            nodes={nodes}
+            selectedNodeId={selectedNodeId}
+          /> }
       </div>
     )
   }
 
   handleNodeClick = (node) => {
-    this.props.onSelectedNodeChange(node.uid)
+    this.setState({
+      selectedNodeId: node.uid
+    })
     d3.event.stopPropagation()
     this.highlightMode = true
+  }
+
+
+  handleDetailsClose = () => {
+    this.setState({
+      selectedNodeId: ''
+    })
   }
 
   resetDiagram = () => {
@@ -153,7 +176,8 @@ class TopologyViewer extends React.Component {
       this.svg.selectAll('*').remove()
       delete this.svg
     }
-    this.layoutHelper = new LayoutHelper(this.props.staticResourceData)
+    const { locale } = this.context
+    this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
     delete this.lastLayoutBBox
   }
 
@@ -163,12 +187,11 @@ class TopologyViewer extends React.Component {
     }
 
     if (!this.svg) {
-      const {id, name=''} = this.props
-      this.svg = d3.select('#'+name+id)
+      this.svg = d3.select('#'+this.getSvgId())
       this.svg.append('g').attr('class', 'clusters')
       this.svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
-      this.svg.on('click', this.props.onSelectedNodeChange)
+      this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.getSvgSpace())
     }
 
@@ -211,8 +234,7 @@ class TopologyViewer extends React.Component {
       .scaleExtent([ 0.25, 4 ])
       .on('zoom', () => {
         currentZoom = d3.event.transform
-        const {id, name} = this.props
-        const svg = d3.select('#'+(name||'')+id)
+        const svg = d3.select('#'+this.getSvgId())
         const transition = d3.transition()
           .duration(duration)
           .ease(d3.easeSinOut)
@@ -249,6 +271,11 @@ class TopologyViewer extends React.Component {
       this.getSvgSpace(200).translateTo(this.svg, width/2, height/2)
       this.getSvgSpace(200).scaleTo(this.svg, scale)
     }
+  }
+
+  getSvgId() {
+    const {id, title} = this.props
+    return (title||'id')+id+''
   }
 }
 

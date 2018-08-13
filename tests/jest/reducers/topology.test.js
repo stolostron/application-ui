@@ -200,18 +200,4 @@ describe('topology reducer', () => {
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })
-
-  it('should return a state without status', () => {
-    const state = {
-      test: 'test'
-    }
-    const action = {
-      resourceType: {
-        name: RESOURCE_TYPES.HCM_TOPOLOGY.name
-      },
-      type: Actions.TOPOLOGY_SELECTION_UPDATE
-    }
-    const expectedValue = { selectedNodeId: undefined, test: 'test' }
-    expect(topology(state, action)).toEqual(expectedValue)
-  })
 })

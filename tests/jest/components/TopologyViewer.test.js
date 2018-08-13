@@ -14,7 +14,7 @@ import renderer from 'react-test-renderer'
 
 import TopologyViewer from '../../../src-web/components/topology/TopologyViewer'
 
-describe('TopologyViewer no components', () => {
+describe('TopologyViewer noo components', () => {
   const mockData = {
     clusters: [],
     nodes:[],
@@ -23,16 +23,14 @@ describe('TopologyViewer no components', () => {
       topologyOrder: ['application', 'appservice', 'dependency'],
       topologyNodeDescription: jest.fn()
     },
-    onSelectedNodeChange: jest.fn()
   }
   it('renders as expected', () => {
     const component = renderer.create(
       <TopologyViewer
         nodes={mockData.nodes}
         links={mockData.links}
+        context={{locale: 'US-en'}}
         staticResourceData={mockData.staticResourceData}
-        onSelectedNodeChange={mockData.onSelectedNodeChange}
-        selectedNodeId={mockData.selectedNodeId}
       />
     )
     expect(component.toJSON()).toMatchSnapshot()
@@ -287,12 +285,11 @@ describe('TopologyViewer 3 components', () => {
     const component = mount(
       <TopologyViewer
         id={mockData.id}
-        name={mockData.name}
         nodes={mockData.nodes}
         links={mockData.links}
+        context={{locale: 'US-en'}}
         staticResourceData={mockData.staticResourceData}
         activeFilters={mockData.activeFilters}
-        onSelectedNodeChange={jest.fn()}
       />
     )
     expect(component).toMatchSnapshot()

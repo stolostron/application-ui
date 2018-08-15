@@ -35,16 +35,6 @@ export default {
       transformFunction: createComponentsAndDependenciesList('dependencies'),
     },
     {
-      msgKey: 'table.header.labels',
-      resourceKey: 'labels',
-      transformFunction: createLabelsList,
-    },
-    {
-      msgKey: 'table.header.annotations',
-      resourceKey: 'annotations',
-      transformFunction: createAnnotationsList,
-    },
-    {
       msgKey: 'table.header.status',
       resourceKey: 'status',
       transformFunction: getStatus,
@@ -56,9 +46,8 @@ export default {
     },
   ],
   tableActions: [
-    'table.actions.applications.deploy',
-    'table.actions.applications.dashboard',
-    'table.actions.applications.undeploy',
+    // 'table.actions.applications.deploy',
+    // 'table.actions.applications.undeploy',
     'table.actions.applications.remove',
   ],
   detailKeys: {
@@ -231,7 +220,7 @@ export function createAnnotationsList(item = {}) {
 
 export function createDashboardLink(item = {}, locale){
   if(item.dashboard && item.dashboard !== '')
-    return <a target="_blank" href={item.Dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
+    return <a target="_blank" href={item.dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
 }

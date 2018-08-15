@@ -18,8 +18,8 @@ resources(() => {
 })
 
 export default {
-  defaultSortField: 'ClusterName',
-  primaryKey: 'ClusterName',
+  defaultSortField: 'name',
+  primaryKey: 'name',
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -100,15 +100,15 @@ export function getStatusIcon(item) {
 }
 
 export function getTotalReadyNodes(item) {
-  return `${item.TotalReadyNodes}/${item.TotalNodes}`
+  return `${item.totalReadyNodes}/${item.TotalNodes}`
 }
 
 export function getStorage(item, locale) {
-  return formatFileSize(item.TotalStorage, locale)
+  return formatFileSize(item.totalStorage, locale)
 }
 
 export function getMemory(item, locale) {
-  return formatFileSize(item.TotalMemory, locale)
+  return formatFileSize(item.totalMemory, locale)
 }
 
 const formatFileSize = (size, locale, decimals, threshold, multiplier, units) => {

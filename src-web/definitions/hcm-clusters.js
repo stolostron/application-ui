@@ -32,7 +32,7 @@ export default {
     },
     {
       msgKey: 'table.header.endpoint',
-      resourceKey: 'labels.clusterip',
+      resourceKey: 'clusterip',
       transformFunction: getExternalLink
     },
     {
@@ -58,7 +58,7 @@ export default {
 }
 
 export function getExternalLink(item, locale) {
-  return (item.Labels && item.Labels.clusterip) ? <a href={`https://${item.Labels.clusterip}:8443/console`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
+  return item.clusterip ? <a href={`https://${item.clusterip}:8443/console`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
 }
 
 export function getLabels(item) {
@@ -88,6 +88,9 @@ export function getStatusIcon(item) {
     iconName = 'icon--error--glyph'
     className = 'critical'
     break
+  case 'unknown':
+    className = 'unknown'
+    break
   }
   return (
     <div className='table-status-row'>
@@ -99,51 +102,11 @@ export function getStatusIcon(item) {
   )
 }
 
-export function getTotalReadyNodes(item) {
-  return `${item.totalReadyNodes}/${item.TotalNodes}`
+// following functions return the percent of storage/memory used on each cluster
+export function getStorage(item) {
+  return `${item.totalStorage}%`
 }
 
-export function getStorage(item, locale) {
-  return formatFileSize(item.totalStorage, locale)
-}
-
-export function getMemory(item, locale) {
-  return formatFileSize(item.totalMemory, locale)
-}
-
-const formatFileSize = (size, locale, decimals, threshold, multiplier, units) => {
-  size = size || 0
-  if (decimals == null) {
-    decimals = 2
-  }
-  threshold = threshold || 800 // Steps to next unit if exceeded
-  multiplier = multiplier || 1024
-  units = units || locale === 'fr' ? ['o', 'Kio', 'Mio', 'Gio', 'Tio', 'Pio'] : ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB']
-
-  let factorize = 1, unitIndex
-
-  for (unitIndex = 0; unitIndex < units.length; unitIndex++) {
-    if (unitIndex > 0) {
-      factorize = Math.pow(multiplier, unitIndex)
-    }
-
-    if (size < multiplier * factorize && size < threshold * factorize) {
-      break
-    }
-  }
-
-  if (unitIndex >= units.length) {
-    unitIndex = units.length - 1
-  }
-
-  let fileSize = size / factorize
-
-  fileSize = new Intl.NumberFormat(locale).format(fileSize.toFixed(decimals))
-
-  // This removes unnecessary 0 or . chars at the end of the string/decimals
-  if (fileSize.indexOf('.') > -1) {
-    fileSize = fileSize.replace(/\.?0*$/, '')
-  }
-
-  return `${fileSize} ${units[unitIndex]}`
+export function getMemory(item) {
+  return `${item.totalMemory}%`
 }

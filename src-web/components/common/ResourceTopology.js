@@ -22,11 +22,6 @@ import TopologyViewer from '../topology/TopologyViewer'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
-
-//import { updateTopologySelection } from '../actions/topology'
-//import { DetailsView } from '../components/topology/DetailsView'
-
-
 resources(() => {
   require('../../../scss/resource-topology.scss')
   require('../../../scss/topology-details.scss')

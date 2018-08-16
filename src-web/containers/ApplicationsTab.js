@@ -9,6 +9,7 @@
 'use strict'
 
 import React from 'react'
+import PlacementPolicies from '../components/applications/PlacementPolicies'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
@@ -16,11 +17,15 @@ import RegisterApplicationModal from '../components/modals/RegisterApplicationMo
 
 const registerApplication = <RegisterApplicationModal key='registerApplicationModal' />
 
-
 export default withRouter(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_APPLICATIONS,
   ['overview', 'topology'],
   [registerApplication],
-  ['/topology']
+  ['/topology'],
+  [<PlacementPolicies key='PlacementPolicies' right />]
 ))
+
+
+//import Deployables from '../components/applications/Deployables'
+//  [<PlacementPolicies key='PlacementPolicies' right />, <Deployables key='Deployables' />]
 

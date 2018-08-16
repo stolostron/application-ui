@@ -15,23 +15,37 @@ import { getAge, getLabelsToString } from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 
 export default {
-  defaultSortField: 'name',
-  uriKey: 'name',
-  primaryKey: 'name',
+  defaultSortField: 'details.name',
+  uriKey: 'details.name',
+  primaryKey: 'details.name',
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name',
+      resourceKey: 'details.name',
       transformFunction: createApplicationLink,
     },
     {
-      msgKey: 'table.header.deployables',
-      resourceKey: 'deployables',
-      transformFunction: createComponentsAndDependenciesList('deployables'),
+      msgKey: 'table.header.namespace',
+      resourceKey: 'details.namespace'
+    },
+    {
+      msgKey: 'table.header.labels',
+      resourceKey: 'details.labels',
+      transformFunction: getLabelsToString
+    },
+    {
+      msgKey: 'table.header.created',
+      resourceKey: 'details.creationTimestamp',
+      transformFunction: getAge,
+    },
+    {
+      msgKey: 'table.header.status',
+      resourceKey: 'details.status',
+      transformFunction: getStatus,
     },
     {
       msgKey: 'table.header.dashboard',
-      resourceKey: 'dashboard',
+      resourceKey: 'details.dashboard',
       transformFunction: createDashboardLink,
     },
   ],
@@ -49,7 +63,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'name'
+            resourceKey: 'details.name'
           }
         ]
       },
@@ -61,6 +75,18 @@ export default {
           },
           {
             resourceKey: 'details.namespace'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.labels',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'details.labels',
+            transformFunction: getLabelsToString
           }
         ]
       },
@@ -83,19 +109,8 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'status'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.labels',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'details.labels',
-            transformFunction: getLabelsToString
+            resourceKey: 'details.status',
+            transformFunction: getStatus
           }
         ]
       },
@@ -146,6 +161,17 @@ export default {
       },
     ]
   },
+  placementPolicyKeys: {
+    title: 'application.placement.policies',
+    defaultSortField: 'name',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'name',
+        msgKey: 'table.header.name'
+      },
+    ],
+  },
   topologyOrder: ['application', 'appservice', 'dependency'],
   topologyShapes: {
     'application': {
@@ -167,25 +193,8 @@ export default {
 }
 
 export function createApplicationLink(item = {}){
-  return <Link to={`/hcmconsole/applications/${encodeURIComponent(item.name)}`}>{item.name}</Link>
-}
-
-/**
- * Create an HTML list from an array of AppNodes.
- * Used to display components and dependencies of an application.
- *
- */
-export function createComponentsAndDependenciesList(dataKey){
-  return function createList(item = {}) {
-
-    return <ul>
-      {lodash.map(item[dataKey], (value) => {
-        return <li key={value.name + value.cluster}>
-          {value.name}
-        </li>
-      })}
-    </ul>
-  }
+  const {details: {name}} = item
+  return <Link to={`/hcmconsole/applications/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
 /**
@@ -221,8 +230,8 @@ export function createAnnotationsList(item = {}) {
 }
 
 export function createDashboardLink(item = {}, locale){
-  if(item.dashboard && item.dashboard !== '')
-    return <a target="_blank" href={item.dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
+  if(item.details.dashboard && item.details.dashboard !== '')
+    return <a target="_blank" href={item.details.dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
 }

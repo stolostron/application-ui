@@ -194,6 +194,8 @@ export const resourceItemByName = (items, props) => {
   const key = ResourceDefinitions.getURIKey(props.resourceType)
   return lodash.find(items, item => {
     switch (props.resourceType.name) {
+    case RESOURCE_TYPES.HCM_POLICIES.name:
+      return lodash.get(item, 'name') === props.name
     default:
     case RESOURCE_TYPES.HCM_APPLICATIONS.name:
       return lodash.get(item, key) === props.name
@@ -309,7 +311,8 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.RESOURCE_MUTATE_FAILURE:
     return Object.assign({}, state, {
       mutateStatus: Actions.REQUEST_STATUS.ERROR,
-      mutateErrorMsg: action.err.message || action.err.error && action.err.error.data && action.err.error.data.Message,
+      mutateErrorMsg: action.err.message || action.err.error && (action.err.error.message ||
+        (action.err.error.data && action.err.error.data.Message)),
       pendingActions: state.pendingActions.filter(r => r && r.name !== action.resourceName),
     })
   case Actions.RESOURCE_MUTATE_SUCCESS:
@@ -331,8 +334,12 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     items = [...state.items]
     switch (action.resourceType) {
     case RESOURCE_TYPES.HCM_RELEASES:
-      const targetObject = lodash.get(action, 'resource')
-      index = lodash.findIndex(items, { 'name':targetObject.name, 'cluster':targetObject.cluster })
+      const release = lodash.get(action, 'resource')
+      index = lodash.findIndex(items, { 'name':release.name, 'cluster':release.cluster })
+      break
+    case RESOURCE_TYPES.HCM_POLICIES:
+      const policy = lodash.get(action, 'resource')
+      index = lodash.findIndex(items, { 'name':policy.name, 'namespace':policy.namespace })
       break
     default:
       index = lodash.findIndex(items, o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName'))

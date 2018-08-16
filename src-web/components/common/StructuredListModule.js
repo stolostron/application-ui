@@ -41,15 +41,24 @@ const StructuredListModule = ({
           </StructuredListRow>
         </StructuredListHead>
         <StructuredListBody>
-          {rows.map(({cells}) =>
-            <StructuredListRow key={cells[0].resourceKey+'Row'}>
-              {cells.map(cell =>
+          {Array.isArray(data) ? data.map((item, index) =>
+            <StructuredListRow key={rows[0].cells[0].resourceKey+`Row ${index}`}>
+              {rows[0].cells.map(cell =>
                 <StructuredListCell key={cell.resourceKey+'Cell'}>
-                  <p>{cell.link && url ? <Link to={url} className='bx--link'>{transform(data, cell, context.locale)}</Link> : transform(data, cell, context.locale)}</p>
+                  <p>{cell.link && url ? <Link to={url} className='bx--link'>{transform(item, cell, context.locale)}</Link> : transform(item, cell, context.locale)}</p>
                 </StructuredListCell>
               )}
             </StructuredListRow>
-          )}
+          ) :
+            rows.map(({cells}) =>
+              <StructuredListRow key={cells[0].resourceKey+'Row'}>
+                {cells.map(cell =>
+                  <StructuredListCell key={cell.resourceKey+'Cell'}>
+                    <p>{cell.link && url ? <Link to={url} className='bx--link'>{transform(data, cell, context.locale)}</Link> : transform(data, cell, context.locale)}</p>
+                  </StructuredListCell>
+                )}
+              </StructuredListRow>
+            )}
         </StructuredListBody>
       </StructuredListWrapper>
     </ModuleBody>
@@ -60,7 +69,7 @@ StructuredListModule.contextTypes = {
 }
 
 StructuredListModule.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   headerRows: PropTypes.array,
   rows: PropTypes.array,
   title: PropTypes.string,

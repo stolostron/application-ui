@@ -46,7 +46,7 @@ const withResource = (Component) => {
       statusCode: PropTypes.object,
     }
 
-    componentDidMount() {
+    componentWillMount() {
       this.props.fetchResource()
     }
 
@@ -68,6 +68,8 @@ const OverviewTab = withResource(ResourceOverview)
 
 const components = {
   '/topology': ResourceTopology,
+  // TODO: add rules
+  '/policies': ResourceOverview,
 }
 
 class ResourceDetails extends React.PureComponent {
@@ -107,10 +109,12 @@ class ResourceDetails extends React.PureComponent {
     const { match, resourceType, staticResourceData, children } = this.props
     return (
       <div>
-        <OverviewTab resourceType={resourceType}
+        <OverviewTab
+          resourceType={resourceType}
           params={match.params}
           staticResourceData={staticResourceData}
-          modules={children} />
+          modules={children}
+        />
       </div>
     )
   }
@@ -155,7 +159,7 @@ ResourceDetails.contextTypes = {
 }
 
 ResourceDetails.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,

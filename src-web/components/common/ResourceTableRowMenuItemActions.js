@@ -41,6 +41,7 @@ export const resourceActions = (action, dispatch, resourceType, data) => {
         data: { apiVersion: resourceType.api_version, kind: resourceType.name, ..._data }}))
   }
   case 'table.actions.applications.remove':
+  case 'table.actions.policy.remove':
   case 'table.actions.remove': {
     return dispatch(updateModal(
       { open: true, type: 'resource-remove', resourceType,

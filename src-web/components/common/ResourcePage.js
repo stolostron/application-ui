@@ -49,7 +49,7 @@ const ResourcePageWithListAndDetails = props =>
     <Route exact path={props.match.url} render={() => (
       <WrappedResourceList {...props} />
     )} />
-    <Route path={`${props.match.url}/:name`} render={() => (
+    <Route path={`${props.match.url}/:name/:namespace?`} render={() => (
       <WrappedResourceDetails {...props} />
     )} />
   </Switch>

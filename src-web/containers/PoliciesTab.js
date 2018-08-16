@@ -8,8 +8,28 @@
  *******************************************************************************/
 'use strict'
 
+import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
-import { typedResourcePageWithList } from '../components/common/ResourcePage'
+import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
+import CreateResourceModal from '../components/modals/CreateResourceModal'
+import { createPolicy } from '../actions/common'
+import PolicyTemplates from '../components/common/PolicyTemplates'
+import PolicyRules from '../components/common/PolicyRules'
 
-export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_POLICIES))
+const handleCreateResource = (dispatch, yaml) => dispatch(createPolicy(RESOURCE_TYPES.HCM_POLICIES, yaml))
+
+const createPolicyModal = <CreateResourceModal
+  key='createPolicy'
+  headingTextKey='actions.create.policy'
+  submitBtnTextKey='actions.create.policy'
+  onCreateResource={ handleCreateResource }
+/>
+
+export default withRouter(typedResourcePageWithListAndDetails(
+  RESOURCE_TYPES.HCM_POLICIES,
+  ['overview', 'compliance'],
+  [createPolicyModal],
+  ['/policies'],
+  [<PolicyTemplates key='Policy Templates' right />, <PolicyRules key='Rules' />]
+))

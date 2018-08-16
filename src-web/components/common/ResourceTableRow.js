@@ -23,6 +23,7 @@ const deleteActions = [
   'table.actions.applications.undeploy',
   'table.actions.applications.remove',
   'table.actions.remove',
+  'table.actions.policy.remove',
 ]
 class ResourceTableRow extends React.PureComponent {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */

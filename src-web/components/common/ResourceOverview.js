@@ -33,9 +33,9 @@ const ResourceOverview = ({
   const modulesBottom = []
   React.Children.map(modules, module => {
     if (module.props.right) {
-      modulesRight.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType }))
+      modulesRight.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: item }))
     } else {
-      modulesBottom.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType }))
+      modulesBottom.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: item }))
     }
   })
 
@@ -64,7 +64,10 @@ ResourceOverview.propTypes = {
     PropTypes.bool,
     PropTypes.object,
   ]),
-  modules: PropTypes.object,
+  modules: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+  ]),
   resourceType: PropTypes.object,
   staticResourceData: PropTypes.object,
 }

@@ -25,19 +25,9 @@ export default {
       transformFunction: createApplicationLink,
     },
     {
-      msgKey: 'table.header.components',
-      resourceKey: 'components',
-      transformFunction: createComponentsAndDependenciesList('components'),
-    },
-    {
-      msgKey: 'table.header.dependencies',
-      resourceKey: 'dependencies',
-      transformFunction: createComponentsAndDependenciesList('dependencies'),
-    },
-    {
-      msgKey: 'table.header.status',
-      resourceKey: 'status',
-      transformFunction: getStatus,
+      msgKey: 'table.header.deployables',
+      resourceKey: 'deployables',
+      transformFunction: createComponentsAndDependenciesList('deployables'),
     },
     {
       msgKey: 'table.header.dashboard',
@@ -46,8 +36,6 @@ export default {
     },
   ],
   tableActions: [
-    // 'table.actions.applications.deploy',
-    // 'table.actions.applications.undeploy',
     'table.actions.applications.remove',
   ],
   detailKeys: {
@@ -72,7 +60,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'namespace'
+            resourceKey: 'details.namespace'
           }
         ]
       },
@@ -83,7 +71,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'created',
+            resourceKey: 'details.creationTimestamp',
             transformFunction: getAge
           }
         ]
@@ -106,7 +94,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'labels',
+            resourceKey: 'details.labels',
             transformFunction: getLabelsToString
           }
         ]
@@ -118,7 +106,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'annotations',
+            resourceKey: 'details.annotations',
             transformFunction: getLabelsToString
           }
         ]
@@ -130,7 +118,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'resourceVersion'
+            resourceKey: 'details.resourceVersion'
           }
         ]
       },
@@ -141,7 +129,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'selfLink'
+            resourceKey: 'details.selfLink'
           }
         ]
       },
@@ -152,7 +140,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'uid'
+            resourceKey: 'details.uid'
           }
         ]
       },
@@ -179,7 +167,7 @@ export function createComponentsAndDependenciesList(dataKey){
     return <ul>
       {lodash.map(item[dataKey], (value) => {
         return <li key={value.name + value.cluster}>
-          {`${value.name}[${value.cluster}]`}
+          {value.name}
         </li>
       })}
     </ul>

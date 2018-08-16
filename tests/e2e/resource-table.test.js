@@ -17,7 +17,7 @@ const ROUTE = {
 }
 
 module.exports = {
-  //'@disabled': true,
+  '@disabled': true,
 
   before: function (browser) {
     const loginPage = browser.page.LoginPage()

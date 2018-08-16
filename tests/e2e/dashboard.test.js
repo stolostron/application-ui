@@ -11,6 +11,8 @@ const config = require('../../config')
 let page
 
 module.exports = {
+  '@disabled': true,
+
   before: function (browser) {
     const loginPage = browser.page.LoginPage()
     loginPage.navigate()

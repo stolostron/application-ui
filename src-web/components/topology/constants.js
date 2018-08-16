@@ -8,10 +8,5 @@
  *******************************************************************************/
 'use strict'
 
-export const CIRCLE_NODE_RADIUS = 20
-export const POLY_NODE_RADIUS = 26
-export const NODE_SIZE = 60
-
-export const POLY_TYPES = ['cluster', 'service']
-
-
+export const NODE_RADIUS = 26
+export const NODE_SIZE = 50

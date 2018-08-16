@@ -11,7 +11,7 @@
 import * as d3 from 'd3'
 import _ from 'lodash'
 
-import { CIRCLE_NODE_RADIUS, POLY_NODE_RADIUS, POLY_TYPES } from './constants.js'
+import { NODE_RADIUS } from './constants.js'
 
 
 export default class LinkHelper {
@@ -71,11 +71,7 @@ export default class LinkHelper {
     // arrow
     links.append('polygon')
       .attr('class', 'directionDecorator')
-      .attr('points', ({layout}) => {
-        const radius = POLY_TYPES.includes(layout.target.type) ?
-          POLY_NODE_RADIUS : CIRCLE_NODE_RADIUS
-        return `0,${radius}, -4,${radius + 7}, 4,${radius + 7}`
-      })
+      .attr('points', `0,${NODE_RADIUS}, -4,${NODE_RADIUS + 7}, 4,${NODE_RADIUS + 7}`)
       .attr('transform', ({layout}) => {
         const {x, y} = layout.center
         return `translate(${x}, ${y})`

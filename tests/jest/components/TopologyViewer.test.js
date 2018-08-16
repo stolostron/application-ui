@@ -14,7 +14,7 @@ import renderer from 'react-test-renderer'
 
 import TopologyViewer from '../../../src-web/components/topology/TopologyViewer'
 
-describe('TopologyViewer noo components', () => {
+describe('TopologyViewer no components', () => {
   const mockData = {
     clusters: [],
     nodes:[],

@@ -218,7 +218,8 @@ class TopologyViewer extends React.Component {
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transformation)
 
-      const nodeHelper = new NodeHelper(this.svg, layoutNodes, linkHelper, cyMap, ()=>{
+      const {topologyShapes} = this.props.staticResourceData
+      const nodeHelper = new NodeHelper(this.svg, layoutNodes, topologyShapes, linkHelper, cyMap, ()=>{
         this.highlightMode = false
       })
       nodeHelper.removeOldNodesFromDiagram()

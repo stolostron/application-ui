@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <symbol viewBox="0 0 41.8 40.8" id="heptagon">
+       <polygon points="20.9,1.8 5.5,9.2 1.7,25.9 12.4,39.3 29.5,39.3 40.2,25.9 36.4,9.2 "/>
+    </symbol>
+    <symbol viewBox="0 0 42.3 49" id="octogon">
+       <polygon points="1.5,13.2 21.1,1.8 40.8,13.2 40.8,35.8 21.1,47.2 1.5,35.8   "/>
+    </symbol>
+    <symbol viewBox="0 0 41.5 41.3" id="circle">
+       <circle cx="20.8" cy="20.7" r="19.1"/>
+    </symbol>
+</svg>

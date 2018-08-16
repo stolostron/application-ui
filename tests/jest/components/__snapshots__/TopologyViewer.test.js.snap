@@ -22447,7 +22447,7 @@ hcmm-{uid}",
       "highlightMode": false,
       "layoutBBox": Object {
         "height": 0,
-        "width": 120,
+        "width": 100,
         "x": 0,
         "y": 0,
       },
@@ -46909,7 +46909,7 @@ hcmm-{uid}",
         "highlightMode": false,
         "layoutBBox": Object {
           "height": 0,
-          "width": 120,
+          "width": 100,
           "x": 0,
           "y": 0,
         },
@@ -49836,7 +49836,7 @@ hcmm-{uid}",
 }
 `;
 
-exports[`TopologyViewer noo components renders as expected 1`] = `
+exports[`TopologyViewer no components renders as expected 1`] = `
 <div
   className="topologyViewerDiagram"
 >

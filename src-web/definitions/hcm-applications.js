@@ -147,6 +147,20 @@ export default {
     ]
   },
   topologyOrder: ['application', 'appservice', 'dependency'],
+  topologyShapes: {
+    'application': {
+      shape: 'circle',
+      className: 'container'
+    },
+    'appservice': {
+      shape: 'heptagon',
+      className: 'container'
+    },
+    'dependency': {
+      shape: 'octogon',
+      className: 'container'
+    }
+  },
   topologyNodeDescription: setNodeInfo,
   topologyTransform: topologyTransform,
   topologyNodeDetails: getNodeDetails

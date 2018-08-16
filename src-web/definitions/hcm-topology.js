@@ -12,6 +12,40 @@ import msgs from '../../nls/platform.properties'
 
 export default {
   topologyOrder: ['host', 'service', 'controller', 'pod', 'container', 'unmanaged'],
+  topologyShapes: {
+    'internet': {
+      shape: 'circle',
+      className: 'internet'
+    },
+    'host': {
+      shape: 'circle',
+      className: 'host'
+    },
+    'service': {
+      shape: 'heptagon',
+      className: 'service'
+    },
+    'deployment': {
+      shape: 'circle',
+      className: 'deployment'
+    },
+    'daemonset': {
+      shape: 'octogon',
+      className: 'daemonset'
+    },
+    'statefulset': {
+      shape: 'heptagon',
+      className: 'statefulset'
+    },
+    'pod': {
+      shape: 'circle',
+      className: 'pod'
+    },
+    'container': {
+      shape: 'octogon',
+      className: 'container'
+    },
+  },
   topologyNodeDescription: setNodeInfo,
   topologyTransform: topologyTransform,
   topologyNodeDetails: getNodeDetails,

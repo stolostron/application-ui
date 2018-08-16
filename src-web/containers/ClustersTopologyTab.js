@@ -33,8 +33,8 @@ class ClustersTopologyTab extends React.Component {
   componentWillMount() {
     this.props.updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      //      var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
-      //      this.setState({ intervalId: intervalId })
+      var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
+      this.setState({ intervalId: intervalId })
     }
     this.reload()
   }

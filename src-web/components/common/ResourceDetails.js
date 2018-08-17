@@ -140,9 +140,15 @@ class ResourceDetails extends React.PureComponent {
           currentTab = tabs.find(tab => tab === lastSegment)
 
     // The base path, calculated by the current location minus params
+    let paramsLength = 0
+    lodash.forOwn(match.params, (value) => {
+      if (value) {
+        paramsLength++
+      }
+    })
     breadcrumbItems.push({
       label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
-      url: urlSegments.slice(0, (urlSegments.length - (lodash.keys(match.params).length + (currentTab ? 1 : 0)))).join('/')
+      url: urlSegments.slice(0, (urlSegments.length - (paramsLength + (currentTab ? 1 : 0)))).join('/')
     })
     // The details path
     breadcrumbItems.push({

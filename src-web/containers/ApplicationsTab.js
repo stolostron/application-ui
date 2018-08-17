@@ -9,7 +9,7 @@
 'use strict'
 
 import React from 'react'
-import PlacementPolicies from '../components/applications/PlacementPolicies'
+import ResourceTableModule from '../components/common/ResourceTableModule'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
@@ -22,10 +22,5 @@ export default withRouter(typedResourcePageWithListAndDetails(
   ['overview', 'topology'],
   [registerApplication],
   ['/topology'],
-  [<PlacementPolicies key='PlacementPolicies' right />]
+  [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' right />]
 ))
-
-
-//import Deployables from '../components/applications/Deployables'
-//  [<PlacementPolicies key='PlacementPolicies' right />, <Deployables key='Deployables' />]
-

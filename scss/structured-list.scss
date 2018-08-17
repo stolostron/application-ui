@@ -15,13 +15,13 @@
   .bx--structured-list {
     margin-bottom: 1rem;
   }
-  .bx--structured-list-td:last-child p {
+  .bx--structured-list-td:last-child p, .bx--structured-list-td:last-child li {
     word-break: break-all;
   }
   .bx--structured-list-td:first-child p:first-child {
     font-weight: 700;
   }
-  .bx--structured-list-td p span {
+  .bx--structured-list-td p span, .bx--structured-list-td ul li {
     display: flex;
     flex-direction: column;
   }

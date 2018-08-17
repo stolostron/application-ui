@@ -8,10 +8,9 @@
  *******************************************************************************/
 'use strict'
 import React from 'react'
-import lodash from 'lodash'
 import { Link } from 'react-router-dom'
 import { Loading } from 'carbon-components-react'
-import { getAge, getLabelsToString } from '../../lib/client/resource-helper'
+import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 
 export default {
@@ -81,18 +80,6 @@ export default {
       {
         cells: [
           {
-            resourceKey: 'description.title.labels',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'details.labels',
-            transformFunction: getLabelsToString
-          }
-        ]
-      },
-      {
-        cells: [
-          {
             resourceKey: 'description.title.created',
             type: 'i18n'
           },
@@ -117,12 +104,25 @@ export default {
       {
         cells: [
           {
+            resourceKey: 'description.title.labels',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'details.labels',
+            transformFunction: getLabelsToList
+          }
+        ]
+      },
+      {
+        cells: [
+          {
             resourceKey: 'description.title.annotations',
             type: 'i18n'
           },
           {
             resourceKey: 'details.annotations',
-            transformFunction: getLabelsToString
+            transformFunction: getLabelsToList,
+            isList: true
           }
         ]
       },
@@ -164,6 +164,7 @@ export default {
   placementPolicyKeys: {
     title: 'application.placement.policies',
     defaultSortField: 'name',
+    resourceKey: 'placementPolicies',
     tableKeys: [
       {
         key: 'name',
@@ -197,41 +198,9 @@ export function createApplicationLink(item = {}){
   return <Link to={`/hcmconsole/applications/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
-/**
- * Create an HTML list <ul> containing the application labels.
- *
- */
-export function createLabelsList(item = {}) {
-  return <ul>
-    {lodash.map(item['labels'], (value, key) => {
-      return <li key={key+value}>
-        {`${key}=${value !== '' ? value : '""'}`}
-      </li>
-    })
-    }
-  </ul>
-}
-
-/**
- * Create an HTML list <ul> containing the application annotations.
- *
- */
-export function createAnnotationsList(item = {}) {
-  return <ul>
-    {lodash.map(item['annotations'], (value, key) => {
-      // Removing 'dashboard' and 'status' annotations to avoid duplication
-      // because these are shown in a separate column.
-      return key !== 'dashboard' && key !== 'status' && <li key={key + value}>
-        {`${key}=${value !== '' ? value : '""'}`}
-      </li>
-    })
-    }
-  </ul>
-}
-
-export function createDashboardLink(item = {}, locale){
-  if(item.details.dashboard && item.details.dashboard !== '')
-    return <a target="_blank" href={item.details.dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
+export function createDashboardLink({details: {dashboard=''}} = {}, locale){
+  if (dashboard !== '')
+    return <a target="_blank" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
 }

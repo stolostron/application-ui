@@ -54,7 +54,7 @@ const StructuredListModule = ({
               <StructuredListRow key={cells[0].resourceKey+'Row'}>
                 {cells.map(cell =>
                   <StructuredListCell key={cell.resourceKey+'Cell'}>
-                    <p>{cell.link && url ? <Link to={url} className='bx--link'>{transform(data, cell, context.locale)}</Link> : transform(data, cell, context.locale)}</p>
+                    <div>{cell.link && url ? <Link to={url} className='bx--link'>{transform(data, cell, context.locale)}</Link> : transform(data, cell, context.locale)}</div>
                   </StructuredListCell>
                 )}
               </StructuredListRow>

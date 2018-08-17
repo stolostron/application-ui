@@ -25,7 +25,7 @@ const DashboardSection = ({
   </div>
 
 DashboardSection.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.node,
   name: PropTypes.string
 }
 

@@ -86,7 +86,6 @@ class HealthOverview extends React.Component {
       <div id='health-overview'>
         <DashboardSection name={msgs.get('dashboard.section.health-overview', locale)}>
           <DashboardPieCharts {...this.props} locale={locale} />
-          <DashboardBarCharts {...this.props} locale={locale} />
         </DashboardSection>
       </div>
     )

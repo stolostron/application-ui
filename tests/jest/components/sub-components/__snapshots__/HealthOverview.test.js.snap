@@ -14,34 +14,7 @@ exports[`HealthOverview mock components renders as expected 1`] = `
     </div>
     <div
       className="dashboard-section-modules"
-    >
-      <div
-        className="dashboard-bar-chart"
-      >
-        <div
-          className="bx--graph-container"
-          id="bar-graph-container"
-          style={
-            Object {
-              "position": "relative",
-            }
-          }
-        >
-          <p
-            className="bx--bar-graph-empty-text"
-          />
-          <svg
-            id="bar-graph-1"
-          />
-          <div
-            id="tooltip-div"
-          />
-        </div>
-        <p>
-          Historic Cluster Health (Sample)
-        </p>
-      </div>
-    </div>
+    />
   </div>
 </div>
 `;
@@ -60,34 +33,7 @@ exports[`HealthOverview no components renders as expected 1`] = `
     </div>
     <div
       className="dashboard-section-modules"
-    >
-      <div
-        className="dashboard-bar-chart"
-      >
-        <div
-          className="bx--graph-container"
-          id="bar-graph-container"
-          style={
-            Object {
-              "position": "relative",
-            }
-          }
-        >
-          <p
-            className="bx--bar-graph-empty-text"
-          />
-          <svg
-            id="bar-graph-1"
-          />
-          <div
-            id="tooltip-div"
-          />
-        </div>
-        <p>
-          Historic Cluster Health (Sample)
-        </p>
-      </div>
-    </div>
+    />
   </div>
 </div>
 `;

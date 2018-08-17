@@ -128,7 +128,7 @@ class ResourceList extends React.Component {
             subtitle={mutateErrorMsg || msgs.get('error.default.description', locale)}
             kind='error' />
         }
-        { resourceType.filter &&
+        { (config['featureFlags:filters']) && resourceType.filter &&
           <div className='resource-list-filter'>
             <TagInput
               tags={selectedFilters}

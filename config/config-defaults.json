@@ -8,7 +8,8 @@
         "liveUpdatesPollInterval": 5000,
         "dashboardLiveUpdates": true,
         "fullDashboard": false,
-        "dashboardRefreshInterval" : 20000
+        "dashboardRefreshInterval" : 20000,
+        "filters": false
     },
     "PLATFORM_IDENTITY_PROVIDER_URL": "",
     "WLP_CLIENT_ID": "",

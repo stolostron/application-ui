@@ -38,7 +38,7 @@ export default {
     },
     {
       msgKey: 'table.header.updated',
-      resourceKey: 'HDetails.LastDeployed.seconds',
+      resourceKey: 'lastDeployed',
       type: 'timestamp'
     },
   ],

@@ -122,7 +122,6 @@ export default {
           {
             resourceKey: 'details.annotations',
             transformFunction: getLabelsToList,
-            isList: true
           }
         ]
       },
@@ -171,21 +170,79 @@ export default {
         resourceKey: 'name',
         msgKey: 'table.header.name'
       },
+      {
+        key: 'type',
+        resourceKey: 'type',
+        msgKey: 'table.header.type'
+      },
+      {
+        key: 'replicas',
+        resourceKey: 'replicas',
+        msgKey: 'table.header.replicas'
+      },
+      {
+        key: 'clusterSelector',
+        resourceKey: 'clusterSelector',
+        msgKey: 'table.header.cluster.selector'
+      },
+      {
+        key: 'resourceSelector',
+        resourceKey: 'resourceSelector',
+        msgKey: 'table.header.resource.selector'
+      },
+    ],
+  },
+  deployablesKeys: {
+    title: 'application.deployables',
+    defaultSortField: 'name',
+    resourceKey: 'deployables',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'deployer.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'chartName',
+        resourceKey: 'deployer.chartName',
+        msgKey: 'table.header.chartName'
+      },
+      {
+        key: 'repository',
+        resourceKey: 'deployer.repository',
+        msgKey: 'table.header.helm.repository'
+      },
+      {
+        key: 'version',
+        resourceKey: 'deployer.version',
+        msgKey: 'table.header.chartVersion'
+      },
+      {
+        key: 'dependencies',
+        resourceKey: 'dependencies',
+        msgKey: 'table.header.dependencies',
+        transformFunction: getDependencies
+      },
     ],
   },
   topologyOrder: ['application', 'appservice', 'dependency'],
   topologyShapes: {
     'application': {
-      shape: 'circle',
-      className: 'container'
-    },
-    'appservice': {
       shape: 'heptagon',
       className: 'container'
     },
+    'deployer': {
+      shape: 'circle',
+      className: 'service'
+    },
     'dependency': {
       shape: 'octogon',
-      className: 'container'
+      className: 'internet'
     }
   },
   topologyNodeDescription: setNodeInfo,
@@ -194,8 +251,8 @@ export default {
 }
 
 export function createApplicationLink(item = {}){
-  const {details: {name}} = item
-  return <Link to={`/hcmconsole/applications/${encodeURIComponent(name)}`}>{name}</Link>
+  const {details: {name, namespace = 'default'}} = item
+  return <Link to={`/hcmconsole/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
 export function createDashboardLink({details: {dashboard=''}} = {}, locale){
@@ -212,11 +269,22 @@ export function getStatus(item = {}){
     item.status
 }
 
-export function topologyTransform(resourceItem) {
+export function getDependencies(item = {}){
+  if (item.dependencies) {
+    let str = ''
+    item.dependencies.forEach(({name, kind}) => {
+      str += `${name} (${kind}), `
+    })
+    return str.substring(0, str.length - 2)
+  }
+  return '-'
+}
+
+export function topologyTransform(item) {
   const links=[]
   const nodes=[]
-  if (resourceItem) {
-    const {name, namespace, components, dependencies, relationships} = resourceItem
+  if (item) {
+    const {details: {name, namespace}, deployables=[], placementPolicies=[]} = item
 
     // create application node
     const appId = `application${name}`
@@ -227,47 +295,56 @@ export function topologyTransform(resourceItem) {
       uid: appId
     })
 
-    // create its component nodes
-    components.forEach(component=>{
-      const {name, namespace} = component
-      const cmpId = `component${name}`
+    // create its deployables nodes
+    deployables.forEach(({name, deployer: {chartName}, dependencies})=>{
+      const depId = `deployer${name}`
       nodes.push({
         name,
-        namespace,
-        type: 'appservice',
-        uid: cmpId
+        chartName,
+        type: 'deployer',
+        uid: depId
       })
       links.push({
         source: appId,
-        target: cmpId,
+        target: depId,
         label: 'uses',
-        uid: appId+cmpId
+        uid: appId+depId
+      })
+
+      // create deployable dependencies
+      dependencies = dependencies || []
+      dependencies.forEach(({name, kind})=>{
+        const dpId = `dependency${name}`
+        nodes.push({
+          name,
+          kind,
+          type: 'dependency',
+          uid: dpId
+        })
+        links.push({
+          source: depId,
+          target: dpId,
+          label: 'depends',
+          uid: depId+dpId
+        })
+
       })
     })
 
-    // create component dependencies
-    dependencies.forEach(dependency=>{
-      const {name} = dependency
-      const depId = `dependency${name}`
+    placementPolicies.forEach(({name})=>{
+      const polId = `policy${name}`
       nodes.push({
         name,
-        type: 'dependency',
-        uid: depId
+        type: 'policy',
+        uid: polId
       })
-    })
-
-    // create relationships between components and dependencies
-    relationships.forEach(({source, destination, type})=>{
-      const cmpId = `component${source}`
-      const depId = `dependency${destination}`
       links.push({
-        source: cmpId,
-        target: depId,
-        label: type,
-        uid: cmpId+depId
+        source: appId,
+        target: polId,
+        label: 'uses',
+        uid: appId+polId
       })
     })
-
   }
   return {
     links,
@@ -275,11 +352,19 @@ export function topologyTransform(resourceItem) {
   }
 }
 
-export function setNodeInfo({type, namespace, layout}, locale) {
+export function setNodeInfo({type, namespace, chartName, kind, layout}, locale) {
   switch (type) {
   case 'application':
-  case 'appservice':
-    layout.info = msgs.get('topology.namespace', [namespace], locale)
+    layout.info = namespace
+    break
+  case 'deployer':
+    layout.info = chartName
+    break
+  case 'dependency':
+    layout.info = kind
+    break
+  case 'policy':
+    layout.info = msgs.get('application.policy', locale)
     break
   default:
     break

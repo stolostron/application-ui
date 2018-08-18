@@ -8,13 +8,13 @@
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
-.resourceTopologyDiagramContainer {
+.resourceDesignDiagramContainer {
     display: flex;
     flex-wrap: nowrap;
     height: 100%;
 }
 
-.resourceTopologyContainer {
+.resourceDesignContainer {
     height: calc(100% - 24px);
     margin: -1.5rem .5rem;
 }

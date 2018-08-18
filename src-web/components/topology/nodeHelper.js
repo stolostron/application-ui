@@ -92,8 +92,10 @@ export default class NodeHelper {
         return `${type} ${className}`
       })
       .attr('transform', ({layout}) => {
-        const {x, y} = layout.center
-        return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
+        if (layout.center) {
+          const {x, y} = layout.center
+          return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
+        }
       })
       .call(d3.drag()
         .on('drag', this.dragNode))
@@ -106,8 +108,16 @@ export default class NodeHelper {
         return `${layout.type} ${className}`
       })
       .attr('tabindex', -1)
-      .attr('cx', ({layout}) => { return layout.center.x })
-      .attr('cy', ({layout}) => { return layout.center.y })
+      .attr('cx', ({layout}) => {
+        if (layout.center) {
+          return layout.center.x
+        }
+      })
+      .attr('cy', ({layout}) => {
+        if (layout.center) {
+          return layout.center.y
+        }
+      })
       .call(d3.drag()
         .on('drag', this.dragNode))
   }
@@ -118,7 +128,7 @@ export default class NodeHelper {
     node.append('g')
       .attr('class','nodeLabel')
       .html(({layout})=>{
-        const {center} = layout
+        const {center={x:0, y:0}} = layout
         var text = draw.text((add) => {
           layout.label.split('\n').forEach(line=>{
             if (line) {

@@ -77,7 +77,8 @@ ResourceOverview.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
   const name = decodeURIComponent(params.name)
-  const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName, namespace: params.namespace ? params.namespace : null })
+  const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
+    namespace: params.namespace ? decodeURIComponent(params.namespace) : null })
   return { item }
 }
 

@@ -133,7 +133,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { resourceType, params: {name, namespace} } = ownProps
   return {
-    fetchResources: () => dispatch(fetchResource(resourceType, name, namespace))
+    fetchResources: () => dispatch(fetchResource(resourceType, namespace, name ))
   }
 }
 

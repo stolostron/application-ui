@@ -19,7 +19,7 @@ import { connect } from 'react-redux'
 import lodash from 'lodash'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
-import ResourceTopology from './ResourceTopology'
+import ResourceDesign from './ResourceDesign'
 
 const withResource = (Component) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
@@ -67,7 +67,7 @@ const withResource = (Component) => {
 const OverviewTab = withResource(ResourceOverview)
 
 const components = {
-  '/topology': ResourceTopology,
+  '/design': ResourceDesign,
   // TODO: add rules
   '/policies': ResourceOverview,
 }

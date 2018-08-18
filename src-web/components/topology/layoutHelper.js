@@ -54,9 +54,11 @@ export default class LayoutHelper {
     this.cloneInternetNodes(groups, internetNodes, nodes)
 
     // assign info to each node
-    nodes.forEach(node=>{
-      this.topologyNodeDescription(node, this.locale)
-    })
+    if (this.topologyNodeDescription) {
+      nodes.forEach(node=>{
+        this.topologyNodeDescription(node, this.locale)
+      })
+    }
 
     // create sections
     const cy = cytoscape({ headless: true }) // start headless cytoscape
@@ -78,7 +80,13 @@ export default class LayoutHelper {
     const controllerSet = new Set(['deployment', 'daemonset', 'statefulset'])
     nodes.forEach(node=>{
       allNodeMap[node.uid] = node
-      const type = controllerSet.has(node.type) ? 'controller' : node.type
+      let type = controllerSet.has(node.type) ? 'controller' : node.type
+      if (this.topologyOrder.indexOf(type)===-1) {
+        if (this.topologyOrder.indexOf('unknown')===-1) {
+          this.topologyOrder.push('unknown')
+        }
+        type = 'unknown'
+      }
       let group = groupMap[type]
       if (!group) {
         group = groupMap[type] = {nodes:[]}
@@ -91,6 +99,7 @@ export default class LayoutHelper {
       )
       delete node.layout.source
       delete node.layout.target
+
       switch (type) {
       case 'controller':
         Object.assign(node.layout, {
@@ -345,7 +354,10 @@ export default class LayoutHelper {
 
   setSectionLayouts = (sections, hiddenNodes, hiddenLinks) => {
     const {connected, unconnected} = sections
-    const numOfSections = connected.length + unconnected.length
+    let numOfSections = 0
+    connected.concat(unconnected).forEach(({elements})=>{
+      numOfSections+=elements.nodes().length ? 1 : 0
+    })
     const connectedDim = this.setConnectedLayoutOptions(connected, numOfSections)
     const unconnectedDim = this.setUnconnectedLayoutOptions(unconnected)
 
@@ -432,7 +444,7 @@ export default class LayoutHelper {
     if ((leaves===1&&roots>1) || (leaves>1&&roots==1)) {
       dagre = nodes<10 && roots<3 && (leaves+roots) !== nodes
     }
-    if (dagre) {
+    if (dagre || (leaves<6 && numOfSections===1)) {
       return this.getDagreLayoutOptions(x, elements, numOfSections)
     } else if (nodes<16) {
       // cola gets out of hand above a certain amount
@@ -497,10 +509,10 @@ export default class LayoutHelper {
   getDagreLayoutOptions = (x, elements, numOfSections) => {
     // get rough idea how many to allocate for each section based on # of nodes
     const count = elements.nodes().length
-    const thresh = count<=3 ? 1 : (count<=6 ? 1.5 : (count<=12 ? 3 : (count<=24? 4:5)))
+    const thresh = count<=4 ? 1 : (count<=6 ? 1.5 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = ltr ?
       {w: thresh*NODE_SIZE*3, h: thresh*NODE_SIZE*2} :
-      {h: thresh*NODE_SIZE*3, w: thresh*NODE_SIZE*2}
+      {h: thresh*NODE_SIZE*3, w: thresh*NODE_SIZE*4}
 
     // do left to right if a small section in a small diagram
     const ltr = numOfSections<=6 && count<=3

@@ -19,8 +19,9 @@ const registerApplication = <RegisterApplicationModal key='registerApplicationMo
 
 export default withRouter(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_APPLICATIONS,
-  ['overview', 'topology'],
+  ['overview', 'design'],
   [registerApplication],
-  ['/topology'],
-  [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' right />]
+  ['/design'],
+  [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' right />,
+    <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />]
 ))

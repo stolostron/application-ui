@@ -273,8 +273,7 @@ const mockData = {
     ]
   },
   staticResourceData: {
-    topologyOrder: ['application', 'appservice', 'dependency'],
-    topologyNodeDescription: jest.fn()
+    topologyOrder: ['pod'],
   },
 
 }
@@ -285,13 +284,14 @@ describe('TopologyViewer 3 components', () => {
     const component = mount(
       <TopologyViewer
         id={mockData.id}
-        nodes={mockData.nodes}
+        nodes={[]}
         links={mockData.links}
         context={{locale: 'US-en'}}
         staticResourceData={mockData.staticResourceData}
-        activeFilters={mockData.activeFilters}
+        activeFilters={{}}
       />
     )
+
     expect(component).toMatchSnapshot()
   })
 })

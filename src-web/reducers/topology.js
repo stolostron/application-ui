@@ -101,6 +101,11 @@ export const topology = (state = initialState, action) => {
     activeFilters[action.filterType] = action.filters
     return {...state, activeFilters}
   }
+  case Actions.TOPOLOGY_ACTIVE_FILTERS_RECEIVE_SUCCESS: {
+    const {item, staticResourceData: {topologyActiveFilters}} = action
+    const activeFilters = topologyActiveFilters(item)
+    return {...state, activeFilters}
+  }
   default:
     return { ...state }
   }

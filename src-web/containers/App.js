@@ -18,7 +18,7 @@ import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 
-export const ClustersTopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './ClustersTopologyTab'))
+export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const ClustersDashboardTab = loadable(() => import(/* webpackChunkName: "dashboard" */ './ClustersDashboardTab'))
 export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
@@ -60,7 +60,7 @@ class App extends React.Component {
         <Switch>
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
           <Route path={`${match.url}/overview`} render={() => <ClustersDashboardTab serverProps={serverProps} />} />
-          <Route path={`${match.url}/topology`} render={() => <ClustersTopologyTab serverProps={serverProps} />} />
+          <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
           <Route path={`${match.url}/pods:filters?`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.pods'}} />} />
           <Route path={`${match.url}/charts`} render={() => <ChartsTab secondaryHeaderProps={{title: 'routes.charts'}} />} />

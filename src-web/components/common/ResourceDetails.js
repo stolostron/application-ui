@@ -20,6 +20,7 @@ import lodash from 'lodash'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
 import ResourceDesign from './ResourceDesign'
+import ResourceTopology from './ResourceTopology'
 
 const withResource = (Component) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
@@ -68,6 +69,7 @@ const OverviewTab = withResource(ResourceOverview)
 
 const components = {
   '/design': ResourceDesign,
+  '/topology': ResourceTopology,
   // TODO: add rules
   '/policies': ResourceOverview,
 }
@@ -120,12 +122,13 @@ class ResourceDetails extends React.PureComponent {
   }
 
   renderOther(route) {
-    const { match, resourceType, staticResourceData, children } = this.props
+    const { match, resourceType, staticResourceData, children, tabs } = this.props
     const Component = components[route]
     return (
       <Component
         resourceType={resourceType}
         params={match.params}
+        tabs={tabs}
         staticResourceData={staticResourceData}
         modules={children} />
     )

@@ -11,6 +11,7 @@
 import React from 'react'
 import ResourceDetails from './ResourceDetails'
 import ResourceList from './ResourceList'
+import ResourceTopology from './ResourceTopology'
 import { Route, Switch } from 'react-router-dom'
 import getResourceDefinitions from '../../definitions'
 import { makeGetVisibleTableItemsSelector } from '../../reducers/common'
@@ -37,6 +38,12 @@ const WrappedResourceDetails = props =>
     {props.modules}
   </ResourceDetails>
 
+const WrappedResourceTopology = props =>
+  <ResourceTopology
+    resourceType={props.resourceType}
+    staticResourceData={props.staticResourceData}>
+  </ResourceTopology>
+
 const ResourcePageWithList = props =>
   <Switch>
     <Route exact path={props.match.url} render={() => (
@@ -51,6 +58,13 @@ const ResourcePageWithListAndDetails = props =>
     )} />
     <Route path={`${props.match.url}/:namespace/:name?`} render={() => (
       <WrappedResourceDetails {...props} />
+    )} />
+  </Switch>
+
+const ResourcePageWithTopology = props =>
+  <Switch>
+    <Route exact path={props.match.url} render={() => (
+      <WrappedResourceTopology {...props} />
     )} />
   </Switch>
 
@@ -113,4 +127,28 @@ const typedResourcePageWithListAndDetails = (resourceType, detailsTabs, buttons,
   }
 }
 
-export { typedResourcePageWithList, typedResourcePageWithListAndDetails }
+const typedResourcePageWithTopology = (resourceType) => {
+
+  const staticResourceData = getResourceDefinitions(resourceType)
+
+  const TypedResourcePageWithTopology = class extends React.PureComponent {
+
+    constructor(props) {
+      super(props)
+    }
+
+    render() {
+      return (
+        <ResourcePageWithTopology
+          {...this.props}
+          resourceType={resourceType}
+          staticResourceData={staticResourceData}>
+        </ResourcePageWithTopology>
+      )
+    }
+  }
+  TypedResourcePageWithTopology.displayName = 'TypedResourcePageWithTopology'
+  return TypedResourcePageWithTopology
+}
+
+export { typedResourcePageWithList, typedResourcePageWithListAndDetails, typedResourcePageWithTopology }

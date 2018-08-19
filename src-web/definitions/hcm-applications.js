@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 import React from 'react'
+import lodash from 'lodash'
 import { Link } from 'react-router-dom'
 import { Loading } from 'carbon-components-react'
 import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
@@ -230,14 +231,18 @@ export default {
       },
     ],
   },
-  topologyOrder: ['application', 'appservice', 'dependency'],
+  topologyOrder: ['application', 'deployer', 'policy', 'dependency'],
   topologyShapes: {
     'application': {
-      shape: 'heptagon',
+      shape: 'roundedSq',
       className: 'container'
     },
     'deployer': {
       shape: 'circle',
+      className: 'service'
+    },
+    'policy': {
+      shape: 'roundedRect',
       className: 'service'
     },
     'dependency': {
@@ -247,7 +252,8 @@ export default {
   },
   topologyNodeDescription: setNodeInfo,
   topologyTransform: topologyTransform,
-  topologyNodeDetails: getNodeDetails
+  topologyNodeDetails: getNodeDetails,
+  topologyActiveFilters: getActiveFilters
 }
 
 export function createApplicationLink(item = {}){
@@ -278,6 +284,16 @@ export function getDependencies(item = {}){
     return str.substring(0, str.length - 2)
   }
   return '-'
+}
+
+export function getActiveFilters(item) {
+  const {details} = item
+  const label = lodash.map(details.labels, (value, key) => {
+    return { label: `${key}: ${value}`}
+  })
+  return {
+    label
+  }
 }
 
 export function topologyTransform(item) {

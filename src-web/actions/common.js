@@ -10,7 +10,6 @@
 import lodash from 'lodash'
 
 import * as Actions from './index'
-import {RESOURCE_TYPES} from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
 
 export const changeTablePage = ({page, pageSize}, resourceType) => ({
@@ -51,20 +50,6 @@ export const receiveResourceError = (err, resourceType) => ({
 export const requestResource = (resourceType) => ({
   type: Actions.RESOURCE_REQUEST,
   status: Actions.REQUEST_STATUS.IN_PROGRESS,
-  resourceType
-})
-
-export const receiveTopologySuccess = (response, resourceType) => ({
-  type: Actions.RESOURCE_RECEIVE_SUCCESS,
-  status: Actions.REQUEST_STATUS.DONE,
-  nodes: response.resources || [],
-  links: response.relationships || [],
-  filters: {
-    clusters: response.clusters,
-    labels: response.labels,
-    namespaces: response.namespaces,
-    types: response.resourceTypes,
-  },
   resourceType
 })
 
@@ -123,15 +108,6 @@ export const fetchResources = (resourceType, vars) => {
         if (response.errors) {
           return dispatch(receiveResourceError(response.errors[0], resourceType))
         }
-        if (resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name)
-          return dispatch(receiveTopologySuccess({
-            clusters: lodash.cloneDeep(response.data.clusters),
-            labels: lodash.cloneDeep(response.data.labels),
-            namespaces: lodash.cloneDeep(response.data.namespaces),
-            resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
-            resources: lodash.cloneDeep(response.data.topology.resources),
-            relationships: lodash.cloneDeep(response.data.topology.relationships),
-          }, resourceType))
         return dispatch(receiveResourceSuccess({items: lodash.cloneDeep(response.data.items)}, resourceType))
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))

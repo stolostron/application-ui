@@ -12,14 +12,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import FilterableMultiSelect from '../components/common/FilterableMultiSelect'
-import resources from '../../lib/shared/resources'
-import msgs from '../../nls/platform.properties'
-import { fetchTopologyFilters, updateTopologyFilters } from '../actions/topology'
-import * as Actions from '../actions'
+import FilterableMultiSelect from './FilterableMultiSelect'
+import resources from '../../../lib/shared/resources'
+import msgs from '../../../nls/platform.properties'
+import { fetchTopologyFilters, updateTopologyFilters } from '../../actions/topology'
+import * as Actions from '../../actions'
 
 resources(() => {
-  require('../../scss/topology-diagram.scss')
+  require('../../../scss/topology-diagram.scss')
 })
 
 
@@ -29,7 +29,7 @@ const filterItemShape = PropTypes.shape({
   value: PropTypes.string,
 })
 
-class ClustersTopologyFilters extends React.Component {
+class ResourceTopologyFilters extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.shape({
       clusters: PropTypes.arrayOf(filterItemShape),
@@ -101,14 +101,13 @@ class ClustersTopologyFilters extends React.Component {
   }
 }
 
-ClustersTopologyFilters.contextTypes = {
+ResourceTopologyFilters.contextTypes = {
   locale: PropTypes.string
 }
 
 
 const mapStateToProps = (state) =>{
   const { activeFilters = {}, availableFilters = {}, filtersStatus } = state.topology
-
   return {
     activeFilters,
     availableFilters,
@@ -126,4 +125,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClustersTopologyFilters))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResourceTopologyFilters))

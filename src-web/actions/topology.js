@@ -10,7 +10,76 @@
 import lodash from 'lodash'
 
 import * as Actions from './index'
+import {RESOURCE_TYPES} from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
+
+export const requestResource = (resourceType) => ({
+  type: Actions.RESOURCE_REQUEST,
+  status: Actions.REQUEST_STATUS.IN_PROGRESS,
+  resourceType
+})
+
+export const receiveResourceError = (err, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_FAILURE,
+  status: Actions.REQUEST_STATUS.ERROR,
+  err,
+  resourceType
+})
+
+
+export const receiveTopologySuccess = (response, resourceType) => ({
+  type: Actions.RESOURCE_RECEIVE_SUCCESS,
+  status: Actions.REQUEST_STATUS.DONE,
+  nodes: response.resources || [],
+  links: response.relationships || [],
+  filters: {
+    clusters: response.clusters,
+    labels: response.labels,
+    namespaces: response.namespaces,
+    types: response.resourceTypes,
+  },
+  resourceType
+})
+
+export const fetchActiveTopologyFilters = (resourceType, namespace, name, staticResourceData) => {
+  return (dispatch) => {
+    dispatch(requestResource(resourceType))
+    return apolloClient.getResource(resourceType, {namespace, name})
+      .then(response => {
+        if (response.errors) {
+          return dispatch(receiveResourceError(response.errors[0], resourceType))
+        }
+        dispatch({
+          type: Actions.TOPOLOGY_ACTIVE_FILTERS_RECEIVE_SUCCESS,
+          item: lodash.cloneDeep(response.data.items[0]),
+          staticResourceData
+        }, resourceType)
+      })
+      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+  }
+}
+
+export const fetchTopology = (vars) => {
+  const resourceType = RESOURCE_TYPES.HCM_TOPOLOGY
+  return (dispatch) => {
+    dispatch(requestResource(resourceType))
+    return apolloClient.get(resourceType, vars)
+      .then(response => {
+        if (response.errors) {
+          return dispatch(receiveResourceError(response.errors[0], resourceType))
+        }
+        return dispatch(receiveTopologySuccess({
+          clusters: lodash.cloneDeep(response.data.clusters),
+          labels: lodash.cloneDeep(response.data.labels),
+          namespaces: lodash.cloneDeep(response.data.namespaces),
+          resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
+          resources: lodash.cloneDeep(response.data.topology.resources),
+          relationships: lodash.cloneDeep(response.data.topology.relationships),
+        }, resourceType))
+      })
+      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+  }
+}
 
 export const updateTopologyFilters = (filterType, filters) => ({
   type: Actions.TOPOLOGY_FILTERS_UPDATE,

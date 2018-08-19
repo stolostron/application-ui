@@ -65,8 +65,6 @@ export default class NodeHelper {
     this.createNodeShape(nodeGroups, 'shadow')
     // node shape
     this.createNodeShape(nodeGroups, 'main', '1')
-    // central circle
-    this.createCircleShape(nodeGroups, 'centralCircle')
     // node label
     this.createLabel(draw, nodeGroups)
 
@@ -95,27 +93,6 @@ export default class NodeHelper {
         if (layout.center) {
           const {x, y} = layout.center
           return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
-        }
-      })
-      .call(d3.drag()
-        .on('drag', this.dragNode))
-  }
-
-  createCircleShape = (node, className) => {
-    node.append('circle')
-      .attr('r', 4)
-      .attr('class', ({layout}) => {
-        return `${layout.type} ${className}`
-      })
-      .attr('tabindex', -1)
-      .attr('cx', ({layout}) => {
-        if (layout.center) {
-          return layout.center.x
-        }
-      })
-      .attr('cy', ({layout}) => {
-        if (layout.center) {
-          return layout.center.y
         }
       })
       .call(d3.drag()
@@ -158,11 +135,6 @@ export default class NodeHelper {
         const {x, y} = layout
         return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
       })
-    nodes.selectAll('circle')
-      .interrupt()
-      .transition(transition)
-      .attr('cx', ({layout}) => { return layout.x })
-      .attr('cy', ({layout}) => { return layout.y })
 
     // move labels
     this.svg.select('g.nodes').selectAll('g.nodeLabel')
@@ -227,11 +199,6 @@ export default class NodeHelper {
         const y = layout.y
         return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
       })
-
-    // drag circle
-    node.selectAll('circle')
-      .attr('cx', layout.x)
-      .attr('cy', layout.y)
 
     // drag label
     const nodeLabels = node.selectAll('g.nodeLabel')

@@ -14,15 +14,15 @@ export default {
   topologyOrder: ['host', 'service', 'controller', 'pod', 'container', 'unmanaged'],
   topologyShapes: {
     'internet': {
-      shape: 'circle',
+      shape: 'cloud',
       className: 'internet'
     },
     'host': {
-      shape: 'circle',
+      shape: 'host',
       className: 'host'
     },
     'service': {
-      shape: 'heptagon',
+      shape: 'octogon',
       className: 'service'
     },
     'deployment': {
@@ -34,7 +34,7 @@ export default {
       className: 'daemonset'
     },
     'statefulset': {
-      shape: 'heptagon',
+      shape: 'cylinder',
       className: 'statefulset'
     },
     'pod': {
@@ -42,7 +42,7 @@ export default {
       className: 'pod'
     },
     'container': {
-      shape: 'octogon',
+      shape: 'roundedSq',
       className: 'container'
     },
   },

@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <symbol viewBox="0 0 41.8 40.8" id="heptagon">
-       <polygon points="20.9,1.8 5.5,9.2 1.7,25.9 12.4,39.3 29.5,39.3 40.2,25.9 36.4,9.2 "/>
-    </symbol>
-    <symbol viewBox="0 0 42.3 49" id="octogon">
-       <polygon points="1.5,13.2 21.1,1.8 40.8,13.2 40.8,35.8 21.1,47.2 1.5,35.8   "/>
+    <symbol viewBox="0 0 50 50" id="cloud">
+      <path d="M 13.5 13.5 C 1.5 13.5 1.5 25.5 5.5 27.5C 1.5 32.5 5.5 43.5 16.5 39.5C 20.5 48.5 34.5 48.5 39.5 39.5C 48.5 39.5 48.5 29.5 48.5 25.5C 48.5 15.5 39.5 6.5 30.5 10.5C 25.5 1.5 15.5 1.5 13.5 13.5Z" ></path>
     </symbol>
     <symbol viewBox="0 0 41.5 41.3" id="circle">
        <circle cx="20.8" cy="20.7" r="19.1"/>
+       <circle stroke-width="0" fill="black" cx="20.8" cy="20.7" r="3"/>
     </symbol>
+    <symbol viewBox="0 0 50 50" id="roundedSq">
+      <rect x="1.5" y="1.5" width="47" height="47" rx="15" ry="15" />
+      <circle stroke-width="0" fill="black" cx="25" cy="25" r="4"/>
+    </symbol>
+    <symbol viewBox="0 0 50 50" id="roundedRect">
+       <rect x="5.5" y="1.5" width="39" height="47" rx="5" ry="5" />
+       <circle stroke-width="0" fill="black" cx="25" cy="25" r="4"/>
+    </symbol>
+    <symbol viewBox="0 0 42.3 49" id="octogon">
+       <polygon points="1.5,13.2 21.1,1.8 40.8,13.2 40.8,35.8 21.1,47.2 1.5,35.8"/>
+       <circle stroke-width="0" fill="black" cx="22" cy="24.4" r="4"/>
+    </symbol>
+    <symbol viewBox="0 0 50 50" id="cylinder">
+      <path d="M 1.5 10 C 1.5 1.5 48 1.5 48 10 L 48 40 C 48 48 1.5 48 1.5 40 Z"></path>
+      <circle stroke-width="0" fill="black" cx="25" cy="25" r="4"/>
+    </symbol>
+    <symbol viewBox="0 0 24 24" id="host">
+      <path d="M12 1.2l10.5 5.7L12 12.8 1.5 7.1 12 1.2zM12 0c-.2 0-.4.1-.6.2L.4 6.3c-.6.4-.6 1.2 0 1.5l11 6c.2.1.4.1.5.1.2 0 .4-.1.6-.2l11-6.1c.6-.4.6-1.2 0-1.6l-11-6H12z Z"/>
+      <path d="M12.1 18.9c-.3 0-.5-.1-.8-.2L.7 12.8c-.5-.2-.7-.7-.7-1.1 0-.5.2-.9.7-1.2l.6-.4c.2-.2.5-.1.7.1.2.2.1.5-.1.7l-.6.4c-.3.1-.3.3-.3.4 0 .1 0 .2.2.3l10.6 5.9c.2.1.4.1.6 0l10.5-6c.2-.1.2-.3.2-.3 0-.1 0-.2-.2-.3l-.6-.3c-.2-.1-.4-.4-.2-.7.1-.2.4-.3.7-.2l.5.3c.5.3.7.7.7 1.2s-.2.9-.7 1.2l-10.5 6c-.2 0-.5.1-.7.1z Z"/>
+      <path d="M12.1 24c-.3 0-.5-.1-.8-.2L.7 17.9c-.5-.2-.7-.7-.7-1.2s.2-.9.7-1.2l.6-.4c.2-.2.5-.1.7.1.1.3 0 .6-.2.8l-.6.4c-.2.1-.2.3-.2.3 0 .1 0 .2.2.3l10.6 5.9c.2.1.4.1.6 0l10.5-6c.2-.1.2-.3.2-.3 0-.1 0-.2-.2-.3l-.6-.3c-.2-.1-.4-.4-.2-.7.1-.2.4-.3.7-.2l.5.3c.5.3.7.7.7 1.2s-.2.9-.7 1.2l-10.5 6c-.2.1-.5.2-.7.2z Z"/>
+   </symbol>
 </svg>

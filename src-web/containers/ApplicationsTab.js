@@ -22,6 +22,6 @@ export default withRouter(typedResourcePageWithListAndDetails(
   ['overview', 'design', 'topology'],
   [registerApplication],
   ['/design', '/topology'],
-  [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' right />,
+  [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' />,
     <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />]
 ))

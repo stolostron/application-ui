@@ -172,9 +172,9 @@ export default {
         msgKey: 'table.header.name'
       },
       {
-        key: 'type',
-        resourceKey: 'type',
-        msgKey: 'table.header.type'
+        key: 'namespace',
+        resourceKey: 'namespace',
+        msgKey: 'table.header.namespace'
       },
       {
         key: 'replicas',
@@ -184,12 +184,14 @@ export default {
       {
         key: 'clusterSelector',
         resourceKey: 'clusterSelector',
-        msgKey: 'table.header.cluster.selector'
+        msgKey: 'table.header.cluster.selector',
+        transformFunction: getLabelsToList,
       },
       {
         key: 'resourceSelector',
         resourceKey: 'resourceSelector',
-        msgKey: 'table.header.resource.selector'
+        msgKey: 'table.header.resource.selector',
+        transformFunction: getLabelsToList,
       },
     ],
   },

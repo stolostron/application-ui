@@ -11,6 +11,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MultiSelect } from 'carbon-components-react'
+import _ from 'lodash'
 import msgs from '../../../nls/platform.properties'
 
 class FilterableMultiSelect extends React.Component {
@@ -55,6 +56,14 @@ class FilterableMultiSelect extends React.Component {
       activeFilters=[],
       fetching,
       failure} = this.props
+
+    // if an active filter is not an available filter, add it so user can delete it
+    const availMap = _.keyBy(availableFilters, 'label')
+    activeFilters.forEach(acf=>{
+      if (!availMap[acf.label]) {
+        availableFilters.push(acf)
+      }
+    })
 
     this.tooltip = []
     if (failure) {

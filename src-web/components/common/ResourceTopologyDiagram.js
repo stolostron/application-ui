@@ -42,25 +42,34 @@ class ResourceTopologyDiagram extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
+    const { activeFilters, clusters, nodes, links} = nextProps
+
+    // if all clusters requested, put all nodes in that cluster
+    const ALL = 'all'
+    const allClusters = !activeFilters.clusters || activeFilters.clusters.length===0
+    const clstrs = !allClusters ? lodash.cloneDeep(clusters) :
+      nodes.length ? [
+        {id: ALL, name: msgs.get('resource.filterAll', this.context.locale)}
+      ] : []
+
     // sort nodes and links into each cluster
     // sort clusters alphabetically
-    const clusters = lodash.cloneDeep(nextProps.clusters)
-    clusters.forEach(cluster=>{
+    clstrs.forEach(cluster=>{
       const set = new Set()
-      cluster.nodes = nextProps.nodes.filter(node=>{
-        if (node.cluster===cluster.id) {
+      cluster.nodes = nodes.filter(node=>{
+        if (cluster.id===ALL || node.cluster===cluster.id) {
           set.add(node.uid)
           return true
         }
       })
-      cluster.links = nextProps.links.filter(link=>{
+      cluster.links = links.filter(link=>{
         return set.has(link.source) || set.has(link.target)
       })
     })
     clusters.sort((a,b) => {
       return a.name.localeCompare(b.name)
     })
-    this.setState({ clusters })
+    this.setState({ clusters: clstrs })
   }
 
   shouldComponentUpdate(nextProps){

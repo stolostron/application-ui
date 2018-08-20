@@ -99,9 +99,6 @@ export default class LinkHelper {
       .attr('y1', ({layout}) => { return layout.source.y })
       .attr('x2', ({layout}) => { return layout.target.x })
       .attr('y2', ({layout}) => { return layout.target.y })
-      .style('opacity', ({layout}) => {
-        return layout.hidden ? 0.2 : 1.0
-      })
 
     // set position of arrow
     links.selectAll('polygon')
@@ -113,9 +110,6 @@ export default class LinkHelper {
         const y = target.y
         const angle = Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI
         return `translate(${x}, ${y}) rotate(${angle + 90})`
-      })
-      .style('opacity', ({layout}) => {
-        return layout.hidden ? 0.2 : 1.0
       })
 
       // set position of label

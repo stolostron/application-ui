@@ -289,9 +289,10 @@ export function getDependencies(item = {}){
 export function getActiveFilters(item) {
   const {details} = item
   const label = lodash.map(details.labels, (value, key) => {
-    return { label: `${key}: ${value}`}
+    return { label: `${key}: ${value}`, name: key, value}
   })
   return {
+    namespace: [],
     label
   }
 }

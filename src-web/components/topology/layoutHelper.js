@@ -77,7 +77,7 @@ export default class LayoutHelper {
     const groupMap = {}
     const allNodeMap = {}
     const controllerMap = {}
-    const controllerSet = new Set(['deployment', 'daemonset', 'statefulset'])
+    const controllerSet = new Set(['deployment', 'daemonset', 'statefulset', 'cronjob'])
     nodes.forEach(node=>{
       allNodeMap[node.uid] = node
       let type = controllerSet.has(node.type) ? 'controller' : node.type

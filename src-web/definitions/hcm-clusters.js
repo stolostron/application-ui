@@ -26,6 +26,10 @@ export default {
       resourceKey: 'name',
     },
     {
+      msgKey: 'table.header.namespace',
+      resourceKey: 'namespace',
+    },
+    {
       msgKey: 'table.header.labels',
       resourceKey: 'labels',
       transformFunction: getLabels

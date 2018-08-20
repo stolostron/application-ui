@@ -236,15 +236,17 @@ class TopologyViewer extends React.Component {
       .on('zoom', () => {
         currentZoom = d3.event.transform
         const svg = d3.select('#'+this.getSvgId())
-        const transition = d3.transition()
-          .duration(duration)
-          .ease(d3.easeSinOut)
-        svg.select('g.nodes').selectAll('g.node')
-          .transition(transition)
-          .attr('transform', d3.event.transform)
-        svg.select('g.links').selectAll('g.link')
-          .transition(transition)
-          .attr('transform', d3.event.transform)
+        if (svg) {
+          const transition = d3.transition()
+            .duration(duration)
+            .ease(d3.easeSinOut)
+          svg.select('g.nodes').selectAll('g.node')
+            .transition(transition)
+            .attr('transform', d3.event.transform)
+          svg.select('g.links').selectAll('g.link')
+            .transition(transition)
+            .attr('transform', d3.event.transform)
+        }
       })
     return svgSpace
   }

@@ -263,7 +263,7 @@ export function createApplicationLink(item = {}){
 
 export function createDashboardLink({details: {dashboard=''}} = {}, locale){
   if (dashboard !== '')
-    return <a target="_blank" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
+    return <a target="_blank" rel="noopener noreferrer" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
 }

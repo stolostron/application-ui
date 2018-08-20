@@ -21,12 +21,11 @@ import Modal from '../components/common/Modal'
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const ClustersDashboardTab = loadable(() => import(/* webpackChunkName: "dashboard" */ './ClustersDashboardTab'))
 export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
+export const HelmRemoteInstallTab = loadable(() => import(/* webpackChunkName: "cataloginstall" */ './ClustersHelmRemoteInstallTab'))
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
 export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
 export const PoliciesTab = loadable(() => import(/* webpackChunkName: "policies" */ './PoliciesTab'))
-export const ChartsTab = loadable(() => import(/* webpackChunkName: "charts" */ './ClustersChartsTab'))
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
-export const RepositoriesTab = loadable(() => import(/* webpackChunkName: "repositories" */ './ClustersRepositoriesTab'))
 export const EmptyTab = loadable(() => import(/* webpackChunkName: "empty" */ './EmptyTab'))
 
 resources(() => {
@@ -63,9 +62,8 @@ class App extends React.Component {
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
           <Route path={`${match.url}/pods:filters?`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.pods'}} />} />
-          <Route path={`${match.url}/charts`} render={() => <ChartsTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
+          <Route path={`${match.url}/remoteinstall`} render={() => <HelmRemoteInstallTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />
-          <Route path={`${match.url}/repositories`} render={() => <RepositoriesTab secondaryHeaderProps={{title: 'routes.repositories'}} />} />
           <Route path={`${match.url}/admin`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.admin'}} />} />
           <Route path={`${match.url}/policies`} render={() => <PoliciesTab secondaryHeaderProps={{title: 'routes.policies'}} />} />
           <Route path={`${match.url}/event`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.event'}} />} />

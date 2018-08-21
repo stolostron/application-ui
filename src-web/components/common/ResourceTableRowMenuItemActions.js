@@ -9,23 +9,10 @@
 'use strict'
 
 import { updateModal } from '../../actions/common'
-import { createDashboard, deployApplication } from '../../actions/applications'
 import lodash from 'lodash'
 
 export const resourceActions = (action, dispatch, resourceType, data) => {
   switch (action) {
-  case 'table.actions.applications.dashboard': {
-    return dispatch(createDashboard(data.Name))
-  }
-  case 'table.actions.applications.deploy': {
-    return dispatch(deployApplication(data.Name))
-  }
-  case 'table.actions.applications.undeploy': {
-    return dispatch(updateModal(
-      { open: true, type: 'undeploy-application', resourceType,
-        label: { primaryBtn: `modal.undeploy-${resourceType.name.toLowerCase()}.heading`, label: `modal.undeploy-${resourceType.name.toLowerCase()}.label`, heading: `modal.undeploy-${resourceType.name.toLowerCase()}.heading` },
-        data: { apiVersion: resourceType.api_version, kind: resourceType.name, ...data }}))
-  }
   case 'table.actions.edit': {
     const _data = { ...data }
     delete _data.status

@@ -38,11 +38,11 @@ export default {
       resourceKey: 'details.creationTimestamp',
       transformFunction: getAge,
     },
-    {
-      msgKey: 'table.header.status',
-      resourceKey: 'details.status',
-      transformFunction: getStatus,
-    },
+    // {
+    //   msgKey: 'table.header.status',
+    //   resourceKey: 'details.status',
+    //   transformFunction: getStatus,
+    // },
     {
       msgKey: 'table.header.dashboard',
       resourceKey: 'details.dashboard',
@@ -264,7 +264,7 @@ export function createApplicationLink(item = {}){
 }
 
 export function createDashboardLink({details: {dashboard=''}} = {}, locale){
-  if (dashboard !== '')
+  if (dashboard !== null && dashboard !== '')
     return <a target="_blank" rel="noopener noreferrer" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'

@@ -13,14 +13,23 @@ import ResourceTableModule from '../components/common/ResourceTableModule'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
-import RegisterApplicationModal from '../components/modals/RegisterApplicationModal'
+import { createApplication } from '../actions/applications'
+import CreateResourceModal from '../components/modals/CreateResourceModal'
 
-const registerApplication = <RegisterApplicationModal key='registerApplicationModal' />
+const handleCreateResource = (dispatch, yaml) => dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
+
+const registerApplicationModal = <CreateResourceModal
+  key='registerApplication'
+  headingTextKey='actions.register.application'
+  submitBtnTextKey='actions.register.application'
+  onCreateResource={ handleCreateResource }
+/>
+
 
 export default withRouter(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_APPLICATIONS,
   ['overview', 'design', 'topology'],
-  [registerApplication],
+  [registerApplicationModal],
   ['/design', '/topology'],
   [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' />,
     <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />]

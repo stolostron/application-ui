@@ -248,7 +248,7 @@ export default {
       className: 'service'
     },
     'dependency': {
-      shape: 'octogon',
+      shape: 'hexagon',
       className: 'internet'
     }
   },

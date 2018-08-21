@@ -12,6 +12,13 @@
       text-anchor: middle;
       font-size: .75rem;
       fill: $color__navy-gray-4;
+      cursor: default;
+  }
+
+  rect {
+      fill: $color__white;
+      opacity: 0.85;
+      pointer-events: none;
   }
 
   &:hover {
@@ -39,6 +46,13 @@
     stroke-width: 3px;
     stroke-opacity: 1;
     fill: $color__gray-3;
+  }
+
+  .centralCircle {
+    stroke-width: 0px;
+    stroke-opacity: 0;
+    opacity: 1;
+    pointer-events: none;
   }
 }
 

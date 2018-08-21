@@ -137,13 +137,13 @@ export default class LinkHelper {
         return highlight && !edgeSet.has(uid) ? opacity : 1.0
       })
 
-    // set position of arrow
+    // set opacity of arrow
     links.selectAll('polygon')
       .style('opacity', ({uid}) => {
         return highlight && !edgeSet.has(uid) ? opacity : 1.0
       })
 
-      // set position of label
+      // set opacity of label
     links.selectAll('text')
       .style('opacity', ({uid}) => {
         return highlight && !edgeSet.has(uid) ? opacity : 1.0

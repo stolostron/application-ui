@@ -22,7 +22,7 @@ export default {
       className: 'host'
     },
     'service': {
-      shape: 'octogon',
+      shape: 'hexagon',
       className: 'service'
     },
     'deployment': {
@@ -102,11 +102,19 @@ export function topologyTransform(resourceItem) {
 export function setNodeInfo(node, locale) {
   const {layout} = node
   if (layout) {
-    const {pods, services} = layout
-    if (pods && pods.length) {
-      layout.info = msgs.get('topology.controller.pods', [node.type, layout.pods.length], locale)
-    } else if (services && services.length) {
-      layout.info = msgs.get('topology.service.controller', [node.type], locale)
+    const {pods, services, type} = layout
+    switch (type) {
+    case 'internet':
+      layout.info = node.namespace
+      break
+
+    default:
+      if (pods && pods.length) {
+        layout.info = msgs.get('topology.controller.pods', [node.type, layout.pods.length], locale)
+      } else if (services && services.length) {
+        layout.info = msgs.get('topology.service.controller', [node.type], locale)
+      }
+      break
     }
   }
 }

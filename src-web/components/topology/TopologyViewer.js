@@ -196,7 +196,7 @@ class TopologyViewer extends React.Component {
     }
 
     // consolidate nodes/filter links/add layout data to each element
-    const {nodes, links, hiddenNodes, hiddenLinks} = this.state
+    const {nodes=[], links=[], hiddenNodes= new Set(), hiddenLinks= new Set()} = this.state
     this.layoutBBox = this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutNodes, cyMap)=>{
 
       // resize diagram to fit all the nodes
@@ -266,13 +266,18 @@ class TopologyViewer extends React.Component {
   zoomFit = () => {
     const {width, height} = this.layoutBBox
     if (width && height) {
-      const root = this.svg.select('g.nodes')
-      const parent = root.node().parentElement
-      const fullWidth = parent.clientWidth
-      const fullHeight = parent.clientHeight
-      const scale = Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight))
-      this.getSvgSpace(200).translateTo(this.svg, width/2, height/2)
-      this.getSvgSpace(200).scaleTo(this.svg, scale)
+      const svg = d3.select('#'+this.getSvgId())
+      if (svg) {
+        const root = svg.select('g.nodes')
+        if (root) {
+          const parent = root.node().parentElement
+          const fullWidth = parent.clientWidth
+          const fullHeight = parent.clientHeight
+          const scale = Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight))
+          this.getSvgSpace(200).translateTo(svg, width/2, height/2)
+          this.getSvgSpace(200).scaleTo(svg, scale)
+        }
+      }
     }
   }
 

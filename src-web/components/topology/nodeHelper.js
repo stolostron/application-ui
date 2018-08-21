@@ -47,7 +47,7 @@ export default class NodeHelper {
     const filteredNodes = this.nodes.filter(node => !!node.layout)
 
     // Add node groups to diagram
-    const nodeGroups = this.svg.select('g.nodes')
+    const nodes = this.svg.select('g.nodes')
       .selectAll('g.node')
       .data(filteredNodes, n => {
         return n.layout.uid
@@ -62,11 +62,14 @@ export default class NodeHelper {
       })
 
     // node hover
-    this.createNodeShape(nodeGroups, 'shadow')
+    this.createNodeShapes(nodes, 'shadow')
     // node shape
-    this.createNodeShape(nodeGroups, 'main', '1')
-    // node label
-    this.createLabel(draw, nodeGroups)
+    this.createNodeShapes(nodes, 'main', '1')
+    // central circle
+    this.createCircle(nodes)
+
+    // Add node labels to diagram
+    this.createLabels(draw, nodes)
 
     // unhighlite shapes
     this.svg
@@ -75,9 +78,8 @@ export default class NodeHelper {
       })
   }
 
-
-  createNodeShape = (node, className, tabindex=-1) => {
-    node.append('use')
+  createNodeShapes = (nodes, className, tabindex=-1) => {
+    nodes.append('use')
       .attr('xlink:href', ({layout: {type}})=>{
         const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
         return `${config.contextPath}/graphics/topologySprite.svg#${shape}`
@@ -99,10 +101,30 @@ export default class NodeHelper {
         .on('drag', this.dragNode))
   }
 
-  createLabel = (draw, node) => {
-    node.append('title')
+  // add circles to nodes that represent mmore then one k8 object
+  createCircle = (nodes) => {
+    nodes
+      .filter(({layout: {pods, services}}) => {
+        return (pods && pods.length) || (services && services.length)
+      })
+      .append('circle')
+      .attr('r', 4)
+      .attr('class', ({layout}) => {
+        return `${layout.type} centralCircle`
+      })
+      .attr('tabindex', -1)
+      .attr('cx', ({layout}) => { return layout.center.x })
+      .attr('cy', ({layout}) => { return layout.center.y })
+      .call(d3.drag()
+        .on('drag', this.dragNode))
+  }
+
+  createLabels = (draw, nodes) => {
+    nodes.append('title')
       .text((d) => { return d.name })
-    node.append('g')
+
+    // create label
+    nodes.append('g')
       .attr('class','nodeLabel')
       .html(({layout})=>{
         const {center={x:0, y:0}} = layout
@@ -122,6 +144,16 @@ export default class NodeHelper {
           .y(center.y)
         return text.svg()
       })
+      .call(d3.drag()
+        .on('drag', this.dragNode))
+
+    // add white opaque background
+      .call(this.setTextBBox)
+      .insert('rect','text')
+      .attr('x', ({layout}) => layout.textBBox.x)
+      .attr('y', ({layout}) => layout.textBBox.y)
+      .attr('width', ({layout}) => layout.textBBox.width)
+      .attr('height', ({layout}) => layout.textBBox.height)
       .attr('tabindex', '-1')
   }
 
@@ -135,6 +167,11 @@ export default class NodeHelper {
         const {x, y} = layout
         return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
       })
+    nodes.selectAll('circle')
+      .interrupt()
+      .transition(transition)
+      .attr('cx', ({layout}) => { return layout.x })
+      .attr('cy', ({layout}) => { return layout.y })
 
     // move labels
     this.svg.select('g.nodes').selectAll('g.nodeLabel')
@@ -144,11 +181,22 @@ export default class NodeHelper {
           .transition(transition)
           .attr('x', () => {return layout.x})
           .attr('y', () => {return layout.y+NODE_RADIUS})
+        d3.select(ns[i]).selectAll('rect')
+          .interrupt()
+          .transition(transition)
+          .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
+          .attr('y', () => {return layout.y + NODE_RADIUS + 2})
         d3.select(ns[i]).selectAll('tspan')
           .interrupt()
           .transition(transition)
           .attr('x', () => {return layout.x})
       })
+  }
+
+  setTextBBox = (selection) => {
+    selection.each(({layout},i,ns) => {
+      layout.textBBox = ns[i].getBBox()
+    })
   }
 
   highlightNodes = (node) => {
@@ -192,7 +240,12 @@ export default class NodeHelper {
     layout.y += d3.event.dy
     layout.dragged = {x:layout.x, y:layout.y}
 
-    // drag node
+    // drag circle
+    node.selectAll('circle')
+      .attr('cx', layout.x)
+      .attr('cy', layout.y)
+
+    // drag polygons
     node.selectAll('use')
       .attr('transform', () => {
         const x = layout.x
@@ -206,6 +259,9 @@ export default class NodeHelper {
       d3.select(ns[i]).selectAll('text')
         .attr('x', () => {return layout.x})
         .attr('y', () => {return layout.y+NODE_RADIUS})
+      d3.select(ns[i]).selectAll('rect')
+        .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
+        .attr('y', () => {return layout.y + NODE_RADIUS + 2})
       d3.select(ns[i]).selectAll('tspan')
         .attr('x', () => {return layout.x})
     })

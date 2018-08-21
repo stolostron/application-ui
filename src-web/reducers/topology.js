@@ -9,7 +9,7 @@
 
 import lodash from 'lodash'
 import * as Actions from '../actions'
-import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import { RESOURCE_TYPES, HCM_TOPOLOGY_FILTER_COOKIE } from '../../lib/shared/constants'
 
 const initialState = {
   availableFilters: {
@@ -19,7 +19,8 @@ const initialState = {
     types: [],
   },
   activeFilters: {
-    namespace: [{ label: 'default'}], // Sets the default filters
+    namespace: [],
+    type: [{ label: 'deployment'}] // Sets the default filters
   },
   links: [],
   nodes: [],
@@ -61,6 +62,19 @@ export const topology = (state = initialState, action) => {
       err: action.err,
     }
   }
+  case Actions.TOPOLOGY_RESTORE_SAVED_FILTERS: {
+    const savingFilters = true
+    let activeFilters = {...state.activeFilters} || {}
+    const savedActiveFilters = localStorage.getItem(`${HCM_TOPOLOGY_FILTER_COOKIE}`)
+    if (savedActiveFilters) {
+      try {
+        activeFilters = JSON.parse(savedActiveFilters)
+      } catch (e) {
+        //
+      }
+    }
+    return {...state, activeFilters, savingFilters}
+  }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS: {
     // The 'clusters' filter is different from other filters.
     // Here we are building the filter options using the cluster labels. When a filter is
@@ -99,6 +113,9 @@ export const topology = (state = initialState, action) => {
   case Actions.TOPOLOGY_FILTERS_UPDATE: {
     const activeFilters = {...state.activeFilters} || {}
     activeFilters[action.filterType] = action.filters
+    if (state.savingFilters) {
+      localStorage.setItem(`${HCM_TOPOLOGY_FILTER_COOKIE}`, JSON.stringify(activeFilters))
+    }
     return {...state, activeFilters}
   }
   case Actions.TOPOLOGY_ACTIVE_FILTERS_RECEIVE_SUCCESS: {

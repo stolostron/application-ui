@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { updateSecondaryHeader } from '../../actions/common'
 import { withRouter } from 'react-router-dom'
+import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import { getTabs } from '../../../lib/client/resource-helper'
@@ -31,6 +32,8 @@ class ResourceTopology extends React.Component {
     location: PropTypes.object,
     params: PropTypes.object,
     resourceType: PropTypes.object,
+    restoreSavedTopologyFilters: PropTypes.func,
+    savingFilters: PropTypes.bool,
     tabs: PropTypes.array,
     updateSecondaryHeader: PropTypes.func,
   }
@@ -50,7 +53,8 @@ class ResourceTopology extends React.Component {
     } else {
     // full tab mode
       updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
-      this.reload()
+      // changing active filtes will then load the toplogy diagram
+      this.props.restoreSavedTopologyFilters()
     }
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
@@ -60,13 +64,16 @@ class ResourceTopology extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.activeFilters !== this.props.activeFilters) {
+    if (!lodash.isEqual(nextProps.activeFilters, this.props.activeFilters) ||
+        nextProps.savingFilters !== this.props.savingFilters) {
       this.props.fetchTopology(nextProps.activeFilters)
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.intervalId)
+    if (this.state) {
+      clearInterval(this.state.intervalId)
+    }
   }
 
   reload() {
@@ -118,12 +125,13 @@ ResourceTopology.contextTypes = {
 }
 
 const mapStateToProps = (state, ownProps) =>{
-  const { activeFilters = {} } = state.topology
+  const { activeFilters = {}, savingFilters } = state.topology
   const { match: {url}} = ownProps
   const urlSegments = url.split('/')
   urlSegments.pop()
   return {
     activeFilters,
+    savingFilters,
     baseUrl: urlSegments.join('/')
   }
 }
@@ -151,6 +159,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         f.label = f.label.map(l => ({ name: l.name, value: l.value }))
       }
       dispatch(fetchTopology({ filter: {...f}}))
+    },
+    restoreSavedTopologyFilters: () => {
+      dispatch({type: Actions.TOPOLOGY_RESTORE_SAVED_FILTERS})
     },
     fetchActiveTopologyFilters: () => {
       const { resourceType, params: {name, namespace}, staticResourceData} = ownProps

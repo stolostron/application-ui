@@ -17,7 +17,7 @@ import msgs from '../../../nls/platform.properties'
 
 const pieChartProps = {
   radius: 96,
-  color: ['#5aa700', '#efc100', '#e0182d'],
+  color: ['#5aa700', '#e0182d'], // Currently there's no warning level. Warning color is: '#efc100'.
 }
 
 // https://github.com/carbon-design-system/carbon-addons-data-viz-react/issues/111

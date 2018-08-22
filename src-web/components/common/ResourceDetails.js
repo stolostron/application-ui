@@ -21,6 +21,8 @@ import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
 import ResourceDesign from './ResourceDesign'
 import ResourceTopology from './ResourceTopology'
+import CompliancePolicyDetail from './CompliancePolicyDetail'
+import {RESOURCE_TYPES} from '../../../lib/shared/constants'
 
 const withResource = (Component) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
@@ -70,8 +72,8 @@ const OverviewTab = withResource(ResourceOverview)
 const components = {
   '/design': ResourceDesign,
   '/topology': ResourceTopology,
-  // TODO: add rules
   '/policies': ResourceOverview,
+  '/compliancePolicy/:policyName/:policyNamespace': CompliancePolicyDetail,
 }
 
 class ResourceDetails extends React.PureComponent {
@@ -149,16 +151,36 @@ class ResourceDetails extends React.PureComponent {
         paramsLength++
       }
     })
-    breadcrumbItems.push({
-      label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
-      url: urlSegments.slice(0, (urlSegments.length - (paramsLength + (currentTab ? 1 : 0)))).join('/')
-    })
-    // The details path
-    breadcrumbItems.push({
-      label: match.params.name,
-      url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
-    })
 
+    // The details path
+    if (resourceType.name === RESOURCE_TYPES.HCM_COMPLIANCES.name) {
+      breadcrumbItems.push({
+        label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
+        url: urlSegments.slice(0, 3).join('/')
+      })
+
+      breadcrumbItems.push({
+        label: match.params.name,
+        url: location.pathname.replace(/compliancePolicy\/[A-Za-z0-9-]+/, '')
+      })
+
+      if (location.pathname.includes('/compliancePolicy')) {
+        const label = location.pathname.match(/compliancePolicy\/[A-Za-z0-9-]+/)[0].replace('compliancePolicy/', '')
+        breadcrumbItems.push({
+          label,
+          url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
+        })
+      }
+    } else {
+      breadcrumbItems.push({
+        label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
+        url: urlSegments.slice(0, (urlSegments.length - (paramsLength + (currentTab ? 1 : 0)))).join('/')
+      })
+      breadcrumbItems.push({
+        label: match.params.name,
+        url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
+      })
+    }
     return breadcrumbItems
   }
 }

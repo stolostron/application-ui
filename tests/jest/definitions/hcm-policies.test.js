@@ -11,12 +11,6 @@ import {getStatus,getEnforcement} from '../../../src-web/definitions/hcm-policie
 
 describe('hcm-policies', () => {
   describe('#getStatus', () => {
-    it('should return the status of policy', () => {
-      const item = {
-        status:'compliant'
-      }
-      expect(getStatus(item)).toBe('compliant')
-    })
     it('should return "-"', () => {
       const item = {
       }

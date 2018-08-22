@@ -16,6 +16,7 @@ import CreateResourceModal from '../components/modals/CreateResourceModal'
 import { createPolicy } from '../actions/common'
 import PolicyTemplates from '../components/common/PolicyTemplates'
 import PolicyRules from '../components/common/PolicyRules'
+import PolicyViolations from '../components/common/PolicyViolations'
 
 const handleCreateResource = (dispatch, yaml) => dispatch(createPolicy(RESOURCE_TYPES.HCM_POLICIES, yaml))
 
@@ -28,8 +29,8 @@ const createPolicyModal = <CreateResourceModal
 
 export default withRouter(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_POLICIES,
-  ['overview', 'compliance'],
+  ['overview'],
   [createPolicyModal],
-  ['/policies'],
-  [<PolicyTemplates key='Policy Templates' right />, <PolicyRules key='Rules' />]
+  [''],
+  [<PolicyTemplates key='Policy Templates' right />, <PolicyRules key='Rules' />,  <PolicyViolations key='Violations' />]
 ))

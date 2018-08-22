@@ -16,6 +16,7 @@ import hcmclusters from './hcm-clusters'
 import hcmapplications from './hcm-applications'
 import hcmpods from './hcm-pods'
 import hcmpolicies from './hcm-policies'
+import hcmcompliances from './hcm-compliances'
 import hcmnodes from './hcm-nodes'
 import hcmnamespaces from './hcm-namespaces'
 import hcmpvs from './hcm-pvs'
@@ -28,6 +29,7 @@ const resourceData = {
   [RESOURCE_TYPES.HCM_CLUSTERS.name]: hcmclusters,
   [RESOURCE_TYPES.HCM_PODS.name]: hcmpods,
   [RESOURCE_TYPES.HCM_POLICIES.name]: hcmpolicies,
+  [RESOURCE_TYPES.HCM_COMPLIANCES.name]: hcmcompliances,
   [RESOURCE_TYPES.HCM_NODES.name]: hcmnodes,
   [RESOURCE_TYPES.HCM_NAMESPACES.name]: hcmnamespaces,
   [RESOURCE_TYPES.HCM_PVS.name]: hcmpvs,
@@ -54,6 +56,16 @@ export function getPrimaryKey(resourceType) {
     pk = 'metadata.uid'
 
   return pk
+}
+
+export function getSecondaryKey(resourceType) {
+  const def = getResourceData(resourceType)
+  let sk = def.secondaryKey
+
+  if (!sk)
+    sk = 'cluster'
+
+  return sk
 }
 
 export function getURIKey(resourceType) {

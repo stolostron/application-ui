@@ -24,6 +24,7 @@ const deleteActions = [
   'table.actions.applications.remove',
   'table.actions.remove',
   'table.actions.policy.remove',
+  'table.actions.compliance.remove',
 ]
 class ResourceTableRow extends React.PureComponent {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
@@ -44,8 +45,7 @@ class ResourceTableRow extends React.PureComponent {
         {staticResourceData.tableKeys.map((key) =>
           <TableData key={key.resourceKey}>
             {key.link ?
-              <a href={getLink(key.link, resource)}>{transform(resource, key, locale)}</a> :
-              transform(resource, key, locale)
+              getLink(key.link, resource) : transform(resource, key, locale)
             }
           </TableData>
         )}

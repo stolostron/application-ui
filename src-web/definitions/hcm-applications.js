@@ -8,11 +8,11 @@
  *******************************************************************************/
 'use strict'
 import React from 'react'
+import { Loading } from 'carbon-components-react'
+import {getAge, getLabelsToString, getLabelsToList} from '../../lib/client/resource-helper'
+import msgs from '../../nls/platform.properties'
 import lodash from 'lodash'
 import { Link } from 'react-router-dom'
-import { Loading } from 'carbon-components-react'
-import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
-import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'details.name',

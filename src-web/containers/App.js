@@ -24,7 +24,7 @@ export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters"
 export const HelmRemoteInstallTab = loadable(() => import(/* webpackChunkName: "cataloginstall" */ './ClustersHelmRemoteInstallTab'))
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
 export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
-export const PoliciesTab = loadable(() => import(/* webpackChunkName: "policies" */ './PoliciesTab'))
+export const Policies = loadable(() => import(/* webpackChunkName: "policies" */ './Policies'))
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
 export const EmptyTab = loadable(() => import(/* webpackChunkName: "empty" */ './EmptyTab'))
 
@@ -65,7 +65,7 @@ class App extends React.Component {
           <Route path={`${match.url}/remoteinstall`} render={() => <HelmRemoteInstallTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />
           <Route path={`${match.url}/admin`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.admin'}} />} />
-          <Route path={`${match.url}/policies`} render={() => <PoliciesTab secondaryHeaderProps={{title: 'routes.policies'}} />} />
+          <Route path={`${match.url}/policies`} component={Policies} />
           <Route path={`${match.url}/event`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.event'}} />} />
           <Redirect to={`${config.contextPath}/overview`} />
         </Switch>

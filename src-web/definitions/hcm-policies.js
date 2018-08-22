@@ -11,12 +11,14 @@
 import React from 'react'
 import lodash from 'lodash'
 import msgs from '../../nls/platform.properties'
+import {getAge, getLabelsToList} from '../../lib/client/resource-helper'
+import { Icon } from 'carbon-components-react'
 import { Link } from 'react-router-dom'
-import {getAge, getLabelsToString} from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'name',
   primaryKey: 'name',
+  secondaryKey: 'namespace',
   policyRules: {
     tableKeys: [
       {
@@ -44,6 +46,36 @@ export default {
       {
         msgKey: 'table.header.resources',
         resourceKey: 'resources',
+      },
+    ],
+  },
+  policyViolations: {
+    tableKeys: [
+      {
+        msgKey: 'table.header.status',
+        resourceKey: 'status',
+        transformFunction: getStatus,
+      },
+      {
+        msgKey: 'table.header.cluster',
+        resourceKey: 'cluster',
+      },
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+      },
+      {
+        msgKey: 'table.header.message',
+        resourceKey: 'message',
+      },
+      {
+        msgKey: 'table.header.reason',
+        resourceKey: 'reason',
+      },
+      {
+        msgKey: 'table.header.selector',
+        resourceKey: 'selector',
+        transformFunction: getSelector
       },
     ],
   },
@@ -163,7 +195,7 @@ export default {
           },
           {
             resourceKey: 'detail.annotations',
-            transformFunction: getLabelsToString
+            transformFunction: getLabelsToList
           }
         ]
       },
@@ -225,13 +257,26 @@ export default {
 }
 
 export function createPolicyLink(item = {}){
-  return <Link to={`/hcmconsole/policies/${encodeURIComponent(item.name)}/${encodeURIComponent(item.namespace)}`}>{item.name}</Link>
+  return  <Link to={`/hcmconsole/policies/local/${encodeURIComponent(item.namespace)}/${encodeURIComponent(item.name)}`}>{item.name}</Link>
 }
 
-export function getStatus(item, locale) {
+export function getStatus(item) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
-    return msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)
+    if (item.status === 'compliant') {
+      return (
+        <div className='compliance-table-status'>
+          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} />
+        </div>
+      )
+    } else {
+      return (
+        <div className='compliance-table-status'>
+          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} />
+        </div>
+      )
+    }
+    // return msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)
   }
   return '-'
 }
@@ -272,6 +317,18 @@ export function getRuleVerbs(item) {
   const verbs = lodash.get(item, 'verbs')
   if (verbs) {
     return verbs.join(', ')
+  }
+  return '-'
+}
+
+export function getSelector(item) {
+  const selectors = lodash.get(item, 'selector', [])
+  let result = ''
+  if (selectors) {
+    Object.entries(selectors).forEach(([key, value]) => {
+      result = `${result} \n ${key}: ${JSON.stringify(value)}`
+    })
+    return result
   }
   return '-'
 }

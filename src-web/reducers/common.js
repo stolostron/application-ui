@@ -157,13 +157,14 @@ const makeGetPagedItemsSelector = (resourceType) => {
 
 export const makeGetVisibleTableItemsSelector = (resourceType) => {
   const pk = ResourceDefinitions.getPrimaryKey(resourceType)
+  const sk = ResourceDefinitions.getSecondaryKey(resourceType)
   return createSelector(
     [makeGetPagedItemsSelector(resourceType)],
     result => {
-      const normalizedItems = normalize(result.items, [createResourcesSchema(pk)]).entities.items
+      const normalizedItems = normalize(result.items, [createResourcesSchema(pk, sk)]).entities.items
       return Object.assign(result, {
         normalizedItems: normalizedItems,
-        items: result.items.map(item => `${lodash.get(item, pk)}-${lodash.get(item, 'cluster')}`) // to support multi cluster, use ${name}-${cluster} as unique id
+        items: result.items.map(item => `${lodash.get(item, pk)}-${lodash.get(item, sk)}`) // to support multi cluster, use ${name}-${cluster} as unique id
       })
     }
   )
@@ -194,6 +195,7 @@ export const resourceItemByName = (items, props) => {
   const key = ResourceDefinitions.getURIKey(props.resourceType)
   return lodash.find(items, item => {
     switch (props.resourceType.name) {
+    case RESOURCE_TYPES.HCM_COMPLIANCES.name:
     case RESOURCE_TYPES.HCM_POLICIES.name:
       return lodash.get(item, 'name') === props.name
     default:
@@ -337,6 +339,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       const release = lodash.get(action, 'resource')
       index = lodash.findIndex(items, { 'name':release.name, 'cluster':release.cluster })
       break
+    case RESOURCE_TYPES.HCM_COMPLIANCES:
     case RESOURCE_TYPES.HCM_POLICIES:
       const policy = lodash.get(action, 'resource')
       index = lodash.findIndex(items, { 'name':policy.name, 'namespace':policy.namespace })

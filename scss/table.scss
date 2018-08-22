@@ -78,6 +78,20 @@
   font-weight: 200;
 }
 
+.compliance-table-status {
+  display: flex;
+  height: 1rem;
+  margin-left: 0.75rem;
+  .table-status {
+    &__compliant {
+      fill: $healthy
+    }
+    &__not_compliant {
+      fill: $critical
+    }
+  }
+}
+
 .table-status-row {
     display: flex;
     margin-left: -.5rem;
@@ -97,7 +111,6 @@
         fill: $critical
       }
     }
-
     p {
       text-transform: capitalize;
     }

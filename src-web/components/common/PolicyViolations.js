@@ -21,20 +21,20 @@ class PolicyRules extends React.Component {
   render() {
     const { locale } = this.context
     const { resourceData, staticResourceData, resourceType } = this.props
-    const rules = lodash.get(resourceData, 'rules', [])
-    return <Module id='policy-rules' >
-      <ModuleHeader>{msgs.get('description.title.rules', locale)}</ModuleHeader>
+    const violations = lodash.get(resourceData, 'violations', [])
+    return <Module id='policy-violations' >
+      <ModuleHeader>{msgs.get('description.title.violations', locale)}</ModuleHeader>
       <ModuleBody>
-        {rules ? <ResourceTable
-          staticResourceData={staticResourceData.policyRules}
+        {violations ? <ResourceTable
+          staticResourceData={staticResourceData.policyViolations}
           status={status}
-          items={rules}
-          itemIds={Object.keys(rules)}
+          items={violations}
+          itemIds={Object.keys(violations)}
           resourceType={resourceType}
           // TODO: add table action
           // handleSort={TableHelper.handleSort.bind(this, sortDirection, sortColumn, sortTable)}
           // handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
-          totalFilteredItems={Object.keys(rules).length}
+          totalFilteredItems={Object.keys(violations).length}
         /> : null}
       </ModuleBody>
     </Module>

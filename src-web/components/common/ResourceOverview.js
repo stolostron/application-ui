@@ -51,7 +51,9 @@ const ResourceOverview = ({
       <div className='overview-content-right'>
         {modulesRight}
       </div>}
-      {modulesBottom}
+      <div className='overview-content-bottom'>
+        {modulesBottom}
+      </div>
     </div>
   )
 }

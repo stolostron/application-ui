@@ -45,6 +45,10 @@
     }
   }
 
+  &-bottom {
+    width: 100%;
+    flex: 1 0 100%;
+  }
   b { font-weight: bold; }
   li { margin-bottom: .3rem; }
   code { font-size: .6rem; }

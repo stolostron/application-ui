@@ -20,61 +20,79 @@ export default {
   primaryKey: 'name',
   secondaryKey: 'namespace',
   policyRules: {
+    title: 'table.header.rules',
+    defaultSortField: 'name',
+    resourceKey: 'rules',
     tableKeys: [
       {
         msgKey: 'table.header.name',
         resourceKey: 'ruleUID',
+        key: 'ruleUID',
       },
       {
         msgKey: 'table.header.templateType',
         resourceKey: 'templateType',
+        key: 'templateType',
       },
       {
         msgKey: 'table.header.complianceType',
         resourceKey: 'complianceType',
+        key: 'complianceType',
       },
       {
         msgKey: 'table.header.apiGroups',
         resourceKey: 'apiGroups',
+        key: 'apiGroups',
         transformFunction: getAPIGroups
       },
       {
         msgKey: 'table.header.ruleVerbs',
         resourceKey: 'verbs',
+        key: 'verbs',
         transformFunction: getRuleVerbs
       },
       {
         msgKey: 'table.header.resources',
         resourceKey: 'resources',
+        key: 'resources',
       },
     ],
   },
   policyViolations: {
+    resourceKey: 'violations',
+    title: 'table.header.violation',
+    defaultSortField: 'name',
     tableKeys: [
       {
         msgKey: 'table.header.status',
         resourceKey: 'status',
+        key: 'status',
         transformFunction: getStatus,
       },
       {
         msgKey: 'table.header.cluster',
         resourceKey: 'cluster',
+        key: 'cluster',
       },
       {
         msgKey: 'table.header.name',
         resourceKey: 'name',
+        key: 'name',
       },
       {
         msgKey: 'table.header.message',
         resourceKey: 'message',
+        key: 'message',
       },
       {
         msgKey: 'table.header.reason',
         resourceKey: 'reason',
+        key: 'reason',
       },
       {
         msgKey: 'table.header.selector',
         resourceKey: 'selector',
+        key: 'selector',
         transformFunction: getSelector
       },
     ],
@@ -260,7 +278,7 @@ export function createPolicyLink(item = {}){
   return  <Link to={`/hcmconsole/policies/local/${encodeURIComponent(item.namespace)}/${encodeURIComponent(item.name)}`}>{item.name}</Link>
 }
 
-export function getStatus(item) {
+export function getStatus(item= {}) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
     if (item.status === 'compliant') {

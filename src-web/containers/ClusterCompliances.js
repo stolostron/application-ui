@@ -14,7 +14,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
 import { createCompliance } from '../actions/common'
-import ComplianceStatus from '../components/common/ComplianceStatus'
+import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
 
 // TODO: create new type call HCM_COMPLIANCE to hand create
 const handleCreateResource = (dispatch, yaml) => dispatch(createCompliance(RESOURCE_TYPES.HCM_COMPLIANCES, yaml))
@@ -31,5 +31,5 @@ export default withRouter(typedResourcePageWithListAndDetails(
   ['overview'],
   [createComplianceModal],
   ['/compliancePolicy/:policyName/:policyNamespace'],
-  [<ComplianceStatus key='Rules' />]
+  [<ResourceTableModule key='complianceStatus' definitionsKey='compliancePolicies' />,]
 ))

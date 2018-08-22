@@ -20,24 +20,31 @@ export default {
   primaryKey: 'name',
   secondaryKey: 'namespace',
   compliancePolicies: {
+    resourceKey: 'complianceStatus',
+    title: 'table.header.compliancePolicies',
+    defaultSortField: 'name',
     tableKeys: [
       {
         msgKey: 'table.header.compliant',
         resourceKey: 'compliant',
+        key: 'compliant',
         transformFunction: getStatusIcon,
       },
       {
         msgKey: 'table.header.name',
         resourceKey: 'name',
+        key: 'name',
         link: createCompliancePolicyLink,
       },
       {
         msgKey: 'table.header.cluster',
         resourceKey: 'cluster',
+        key: 'cluster',
       },
       {
         msgKey: 'table.header.valid',
         resourceKey: 'valid',
+        key: 'valid',
       },
     ],
   },

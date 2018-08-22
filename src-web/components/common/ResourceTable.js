@@ -77,7 +77,15 @@ class ResourceTable extends React.Component {
                   </TableHead>
                   <TableBody>
                     {/* eslint-disable-next-line react/no-array-index-key */}
-                    {itemIds.map((id, key) => <ResourceTableRow even={key % 2 === 0} resourceType={resourceType} key={key} resource={items[id]} staticResourceData={staticResourceData} tableActions={tableActions} />)}
+                    {itemIds.map((id, key) =>
+                      <ResourceTableRow
+                        even={key % 2 === 0}
+                        resourceType={resourceType}
+                        key={`${id}-object-row`}
+                        resource={items[id] || items[key]}
+                        staticResourceData={staticResourceData}
+                        tableActions={tableActions} />)
+                    }
                   </TableBody>
                 </Table>
               </div>

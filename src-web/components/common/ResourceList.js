@@ -15,7 +15,7 @@ import { REQUEST_STATUS } from '../../actions/index'
 import NoResource from './NoResource'
 import { connect } from 'react-redux'
 import { changeTablePage, searchTable, sortTable, fetchResources, updateSecondaryHeader } from '../../actions/common'
-import { fetchFilters, updateResourceFilters, combineFilters } from '../../actions/filters'
+import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import TableHelper from '../../util/table-helper'
 import { Loading, Notification } from 'carbon-components-react'
 import { withRouter } from 'react-router-dom'
@@ -41,8 +41,7 @@ class ResourceList extends React.Component {
       var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
       this.setState({ intervalId: intervalId })
     }
-    const { fetchResources, fetchFilters, selectedFilters=[] } = this.props
-    fetchFilters()
+    const { fetchResources, selectedFilters=[] } = this.props
     fetchResources(selectedFilters)
   }
 
@@ -56,8 +55,7 @@ class ResourceList extends React.Component {
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
-      const { fetchResources, fetchFilters, selectedFilters=[] } = this.props
-      fetchFilters()
+      const { fetchResources, selectedFilters=[] } = this.props
       fetchResources(selectedFilters)
     }
   }
@@ -224,7 +222,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     searchTable: search => dispatch(searchTable(search, resourceType)),
     sortTable: (sortDirection, sortColumn) => dispatch(sortTable(sortDirection, sortColumn, resourceType)),
     updateSecondaryHeader: (title, tabs) => dispatch(updateSecondaryHeader(title, tabs)),
-    fetchFilters: () => dispatch(fetchFilters(resourceType)),
     onSelectedFilterChange: (selectedFilters) => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))

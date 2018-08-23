@@ -67,6 +67,7 @@ class TopologyViewer extends React.Component {
     }
     const { locale } = this.props.context
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
+    this.getLayoutNodes = this.getLayoutNodes.bind(this)
   }
 
   componentDidMount() {
@@ -126,7 +127,7 @@ class TopologyViewer extends React.Component {
   }
 
   render() {
-    const { title, context, staticResourceData, nodes } = this.props
+    const { title, context, staticResourceData } = this.props
     const { selectedNodeId } = this.state
     const { locale } = context
     const svgId = this.getSvgId()
@@ -149,7 +150,7 @@ class TopologyViewer extends React.Component {
             context={this.context}
             onClose={this.handleDetailsClose}
             staticResourceData={staticResourceData}
-            nodes={nodes}
+            getLayoutNodes={this.getLayoutNodes}
             selectedNodeId={selectedNodeId}
           /> }
       </div>
@@ -162,6 +163,11 @@ class TopologyViewer extends React.Component {
     })
     d3.event.stopPropagation()
     this.highlightMode = true
+  }
+
+
+  getLayoutNodes = () => {
+    return this.layoutNodes
   }
 
 
@@ -197,7 +203,7 @@ class TopologyViewer extends React.Component {
 
     // consolidate nodes/filter links/add layout data to each element
     const {nodes=[], links=[], hiddenNodes= new Set(), hiddenLinks= new Set()} = this.state
-    this.layoutBBox = this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutNodes, cyMap)=>{
+    this.layoutBBox = this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutNodes, cyMap, hiliteSelectMap)=>{
 
       // resize diagram to fit all the nodes
       const firstLayout = !this.lastLayoutBBox
@@ -219,13 +225,14 @@ class TopologyViewer extends React.Component {
       linkHelper.moveLinks(transformation)
 
       const {topologyShapes} = this.props.staticResourceData
-      const nodeHelper = new NodeHelper(this.svg, layoutNodes, topologyShapes, linkHelper, cyMap, ()=>{
+      const nodeHelper = new NodeHelper(this.svg, layoutNodes, topologyShapes, linkHelper, cyMap, hiliteSelectMap, ()=>{
         this.highlightMode = false
       })
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
       nodeHelper.moveNodes(transformation)
 
+      this.layoutNodes = layoutNodes
       this.lastLayoutBBox = this.layoutBBox
     })
   }

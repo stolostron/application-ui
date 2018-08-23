@@ -21,17 +21,24 @@ class DetailsView extends React.Component {
   }
 
   render() {
-    const { context, onClose, nodes, staticResourceData, selectedNodeId} = this.props
-    const currentNode = nodes.find((n) => n.uid === selectedNodeId) || {}
-    const title = currentNode && currentNode.name
-    const resourceType = currentNode.type
-    const details = staticResourceData.topologyNodeDetails(currentNode)
+    const { context, onClose, getLayoutNodes, staticResourceData, selectedNodeId} = this.props
+    const {topologyShapes, topologyNodeDetails} = staticResourceData
+    const currentNode = getLayoutNodes().find((n) => n.uid === selectedNodeId) || {}
+    const { layout={} } = currentNode
+    const resourceType = layout.type || currentNode.type
+    const {shape='circle', className='container'} =  topologyShapes[resourceType]
+    const details = topologyNodeDetails(currentNode, context)
+    const name = layout.hasService ? layout.services[0].name : currentNode.name
     return (
-      <section className={`topologyDetails ${resourceType}`}>
+      <section className={`topologyDetails ${className}`}>
         <h3 className='detailsHeader'>
-          <DetailsViewDecorator resourceType={resourceType} />
+          <DetailsViewDecorator
+            hasContent={layout.hasContent}
+            shape={shape}
+            className={className}
+          />
           <span className='titleText'>
-            {title}
+            {name}
           </span>
           <Icon
             className='closeIcon'
@@ -41,11 +48,15 @@ class DetailsView extends React.Component {
           />
         </h3>
         <hr />
-        {details.map((d) =>
-          <div className='sectionContent' key={d.labelKey}>
-            <span className='label'>{msgs.get(d.labelKey, context.locale)}: </span>
-            <span className='value'>{d.value}</span>
-          </div>
+        {details.map(({type, labelKey, value, reactKey}) =>
+        {return (type==='spacer' ?
+          <div className='sectionContent' key={reactKey}>
+            <div className='spacer'></div>
+          </div> :
+          <div className='sectionContent' key={labelKey+value}>
+            <span className='label'>{msgs.get(labelKey, context.locale)}: </span>
+            <span className='value'>{value}</span>
+          </div>)}
         )}
       </section>)
   }
@@ -53,7 +64,7 @@ class DetailsView extends React.Component {
 
 DetailsView.propTypes = {
   context: PropTypes.object,
-  nodes: PropTypes.array,
+  getLayoutNodes: PropTypes.func,
   onClose: PropTypes.func,
   selectedNodeId: PropTypes.string,
   staticResourceData: PropTypes.object,

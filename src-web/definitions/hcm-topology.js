@@ -102,16 +102,16 @@ export function topologyTransform(resourceItem) {
 export function setNodeInfo(node, locale) {
   const {layout} = node
   if (layout) {
-    const {pods, services, type} = layout
+    const {hasPods, hasService, type} = layout
     switch (type) {
     case 'internet':
       layout.info = node.namespace
       break
 
     default:
-      if (pods && pods.length) {
+      if (hasPods) {
         layout.info = msgs.get('topology.controller.pods', [node.type, layout.pods.length], locale)
-      } else if (services && services.length) {
+      } else if (hasService) {
         layout.info = msgs.get('topology.service.controller', [node.type], locale)
       }
       break
@@ -122,26 +122,75 @@ export function setNodeInfo(node, locale) {
 export function getNodeDetails(currentNode) {
   const details = []
   if (currentNode){
-    currentNode.type && details.push({
-      type: 'label',
-      labelKey: 'resource.type',
-      value: currentNode.type,
-    })
-    currentNode.clusterName && details.push({
-      type: 'label',
-      labelKey: 'resource.cluster',
-      value: currentNode.clusterName,
-    })
-    currentNode.namespace && details.push({
-      type: 'label',
-      labelKey: 'resource.namespace',
-      value: currentNode.namespace,
-    })
-    currentNode.topology && details.push({
-      type: 'label',
-      labelKey: 'resource.topology',
-      value: currentNode.topology,
-    })
+    const { clusterName, name, namespace, topology, type, layout } = currentNode
+    const { hasPods, hasService, pods, type: ltype } = layout
+
+    const addDetails = (dets) => {
+      dets.forEach(({labelKey, value})=>{
+        if (value) {
+          details.push({
+            type: 'label',
+            labelKey,
+            value,
+          })
+        }
+      })
+    }
+
+    // the main stuff
+    const mainDetails = [
+      {labelKey: 'resource.type',
+        value: ltype||type},
+      {labelKey: 'resource.cluster',
+        value: clusterName},
+      {labelKey: 'resource.namespace',
+        value: namespace},
+      {labelKey: 'resource.topology',
+        value: topology},
+    ]
+    addDetails(mainDetails)
+
+    // controllers
+    if (hasService) {
+      details.push({
+        type: 'spacer',
+        reactKey: 'controllers'
+      })
+      details.push({
+        type: 'label',
+        labelKey: 'resource.controllers.used'
+      })
+      // the controller stuff
+      const ctrlDetails = [
+        {labelKey: 'resource.name',
+          value: name},
+        {labelKey: 'resource.type',
+          value: type},
+      ]
+      addDetails(ctrlDetails)
+    }
+
+    // pods
+    if (hasPods) {
+      details.push({
+        type: 'spacer',
+        reactKey: 'deployed'
+      })
+      details.push({
+        type: 'label',
+        labelKey: 'resource.pods.deployed'
+      })
+
+      // the pod stuff
+      pods.forEach(({name:pname})=>{
+        const podDetails = [
+          {labelKey: 'resource.name',
+            value: pname},
+        ]
+        addDetails(podDetails)
+
+      })
+    }
   }
   return details
 }

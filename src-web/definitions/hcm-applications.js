@@ -310,16 +310,17 @@ export function topologyTransform(item) {
     nodes.push({
       name,
       namespace,
+      application: item,
       type: 'application',
       uid: appId
     })
 
     // create its deployables nodes
-    deployables.forEach(({name, deployer: {chartName}, dependencies})=>{
+    deployables.forEach(({name, deployer, dependencies})=>{
       const depId = `deployer${name}`
       nodes.push({
         name,
-        chartName,
+        deployer,
         type: 'deployer',
         uid: depId
       })
@@ -332,11 +333,12 @@ export function topologyTransform(item) {
 
       // create deployable dependencies
       dependencies = dependencies || []
-      dependencies.forEach(({name, kind})=>{
+      dependencies.forEach(dependency=>{
+        const {name} = dependency
         const dpId = `dependency${name}`
         nodes.push({
           name,
-          kind,
+          dependency,
           type: 'dependency',
           uid: dpId
         })
@@ -350,11 +352,13 @@ export function topologyTransform(item) {
       })
     })
 
-    placementPolicies.forEach(({name})=>{
+    placementPolicies.forEach(policy=>{
+      const {name} = policy
       const polId = `policy${name}`
       nodes.push({
         name,
         type: 'policy',
+        policy,
         uid: polId
       })
       links.push({
@@ -371,16 +375,17 @@ export function topologyTransform(item) {
   }
 }
 
-export function setNodeInfo({type, namespace, chartName, kind, layout}, locale) {
+export function setNodeInfo(node, locale) {
+  const {type, layout} = node
   switch (type) {
   case 'application':
-    layout.info = namespace
+    layout.info = node.namespace
     break
   case 'deployer':
-    layout.info = chartName
+    layout.info = node.deployer.chartName
     break
   case 'dependency':
-    layout.info = kind
+    layout.info = node.dependency.kind
     break
   case 'policy':
     layout.info = msgs.get('application.policy', locale)
@@ -390,23 +395,72 @@ export function setNodeInfo({type, namespace, chartName, kind, layout}, locale) 
   }
 }
 
-export function getNodeDetails(currentNode) {
+export function getNodeDetails(currentNode, context) {
   const details = []
   if (currentNode){
-    currentNode.type && details.push({
-      type: 'label',
-      labelKey: 'resource.type',
-      value: currentNode.type,
-    })
-    currentNode.cluster && details.push({
-      type: 'label',
-      labelKey: 'resource.cluster',
-      value: currentNode.clusterName,
-    })
-    currentNode.namespace && details.push({
-      type: 'label',
-      labelKey: 'resource.namespace',
-      value: currentNode.namespace,
+    let dets = []
+    const {type, application={}, deployer={}, policy={}, dependency={}} = currentNode
+    const {details: appDetails} = application
+    const {chartName, namespace: dspace, repository, version} = deployer
+    const {namespace: pspace, replicas} = policy
+    const {kind} = dependency
+    switch (type) {
+    case 'application':
+      dets = [
+        {labelKey: 'resource.type',
+          value: type},
+        {labelKey: 'resource.namespace',
+          value: appDetails.namespace},
+        {labelKey: 'table.header.created',
+          value: getAge(appDetails, context, 'creationTimestamp')},
+        {labelKey: 'table.header.labels',
+          value: getLabelsToString(appDetails, context, 'labels')},
+      ]
+      break
+
+    case 'deployer':
+      dets = [
+        {labelKey: 'resource.type',
+          value: type},
+        {labelKey: 'resource.namespace',
+          value: dspace},
+        {labelKey: 'table.header.chartName',
+          value: chartName},
+        {labelKey: 'table.header.helm.repository',
+          value: repository},
+        {labelKey: 'table.header.resource.version',
+          value: version},
+      ]
+      break
+    case 'policy':
+      dets = [
+        {labelKey: 'resource.type',
+          value: type},
+        {labelKey: 'resource.namespace',
+          value: pspace},
+        {labelKey: 'table.header.replicas',
+          value: replicas},
+      ]
+      break
+    case 'dependency':
+      dets = [
+        {labelKey: 'resource.type',
+          value: type},
+        {labelKey: 'table.header.kind',
+          value: kind},
+      ]
+      break
+    }
+
+    // add to details
+    dets.forEach(({labelKey, value})=>{
+      if (value) {
+        details.push({
+          type: 'label',
+          labelKey,
+          value,
+        })
+      }
     })
   }
   return details

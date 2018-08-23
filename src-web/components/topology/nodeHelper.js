@@ -20,9 +20,10 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, topologyShapes, linkHelper, cyMap, resetHighlightMode) {
+  constructor(svg, nodes, topologyShapes, linkHelper, cyMap, hiliteSelectMap, resetHighlightMode) {
     this.svg = svg
     this.cyMap = cyMap
+    this.hiliteSelectMap = hiliteSelectMap
     this.nodes = nodes
     this.topologyShapes = topologyShapes
     this.linkHelper = linkHelper
@@ -104,8 +105,8 @@ export default class NodeHelper {
   // add circles to nodes that represent mmore then one k8 object
   createCircle = (nodes) => {
     nodes
-      .filter(({layout: {pods, services}}) => {
-        return (pods && pods.length) || (services && services.length)
+      .filter(({layout: {hasContent}}) => {
+        return hasContent
       })
       .append('circle')
       .attr('r', 4)
@@ -205,20 +206,23 @@ export default class NodeHelper {
     const edgeSet = new Set()
     let highlight = false
     if (node) {
-      const {elements, ele} = this.cyMap[node.layout.uid]
-      if (elements.nodes().length>3) {
-        nodeSet.add(node.layout.uid)
-        ele.successors()
-          .add(ele.predecessors())
-          .forEach(ele=>{
-            const data = ele.data()
-            if (ele.isNode()) {
-              nodeSet.add(data.node.layout.uid)
-            } else {
-              edgeSet.add(data.edge.uid)
-            }
-          })
-        highlight = edgeSet.size>0
+      highlight = this.hiliteSelectMap[node.layout.uid]
+      if (highlight) {
+        const {elements, ele} = this.cyMap[node.layout.uid]
+        if (elements.nodes().length>3) {
+          nodeSet.add(node.layout.uid)
+          ele.successors()
+            .add(ele.predecessors())
+            .forEach(ele=>{
+              const data = ele.data()
+              if (ele.isNode()) {
+                nodeSet.add(data.node.layout.uid)
+              } else {
+                edgeSet.add(data.edge.uid)
+              }
+            })
+          highlight = edgeSet.size>0
+        }
       }
     } else {
       this.resetHighlightMode()

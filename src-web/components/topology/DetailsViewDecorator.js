@@ -10,20 +10,21 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from '../../../lib/shared/config'
 
-const DetailsViewDecorator = ({ resourceType }) => (
-  <svg width="48px" height="48px" viewBox="0 0 48 48">
-    {resourceType === 'cluster' || resourceType === 'service' ?
-      <polygon className={`${resourceType} detailsIcon`} points="24 1.5 4 12 4 36 24 46.5 44 36 44 12"></polygon>
-      :
-      <circle className={`${resourceType} detailsIcon`} cx="24" cy="24" r="20" />
-    }
-    <circle className={resourceType} cx="24" cy="24" r="4"></circle>
-  </svg>
-)
+const DetailsViewDecorator = ({shape, className, hasContent}) => {
+  return (
+    <svg width="48px" height="48px" viewBox="0 0 48 48">
+      <use href={`${config.contextPath}/graphics/topologySprite.svg#${shape}`} className={`${className} detailsIcon`}></use>
+      {hasContent && <circle className={className} cx="24" cy="24" r="4"></circle>}
+    </svg>
+  )
+}
 
 DetailsViewDecorator.propTypes = {
-  resourceType: PropTypes.string,
+  className: PropTypes.string,
+  hasContent: PropTypes.bool,
+  shape: PropTypes.string,
 }
 
 export { DetailsViewDecorator }

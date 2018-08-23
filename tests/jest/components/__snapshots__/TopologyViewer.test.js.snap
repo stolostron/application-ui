@@ -4297,6 +4297,7 @@ ReactWrapper {
         
       </div>,
       "context": Object {},
+      "getLayoutNodes": [Function],
       "handleDetailsClose": [Function],
       "handleNodeClick": [Function],
       "handleTarget": [Function],
@@ -8932,6 +8933,7 @@ ReactWrapper {
           
         </div>,
         "context": Object {},
+        "getLayoutNodes": [Function],
         "handleDetailsClose": [Function],
         "handleNodeClick": [Function],
         "handleTarget": [Function],

@@ -104,6 +104,9 @@ export default class LayoutHelper {
       case 'controller':
         Object.assign(node.layout, {
           qname: node.namespace+'/'+node.name,
+          hasService: false,
+          hasPods: false,
+          hasContent: false,
           pods: [],
           services: []
         })
@@ -129,6 +132,7 @@ export default class LayoutHelper {
           const controller = controllerMap[node.layout.qname]
           if (controller) {
             controller.layout.pods.push(node)
+            controller.layout.hasPods = controller.layout.hasContent = true
             groupMap['pod'].nodes.splice(i,1)
             delete allNodeMap[node.uid]
             delete node.layout
@@ -160,6 +164,7 @@ export default class LayoutHelper {
       if (inx!==-1) {
         const controller = groupMap['controller'].nodes.splice(inx,1)[0]
         controller.layout.type = 'service'
+        controller.layout.hasService = controller.layout.hasContent = true
         groupMap['service'].nodes.push(controller)
       }
     })
@@ -229,6 +234,15 @@ export default class LayoutHelper {
         })
       }
     })
+
+    // remove any groups that are now empty
+    Object.keys(nodeGroups).forEach(key=>{
+      const {connected, unconnected} = nodeGroups[key]
+      if (connected.length===0 && unconnected.length===0) {
+        delete nodeGroups[key]
+      }
+    })
+
   }
 
   gatherNodesByConnections = (uid, grp, internetNodes, directions, connectedSet, allNodeMap) => {
@@ -346,7 +360,9 @@ export default class LayoutHelper {
             }
           })
         })
-        sections.unconnected.push({elements: cy.add(elements)})
+        if (elements.nodes.length>0) {
+          sections.unconnected.push({elements: cy.add(elements)})
+        }
       }
     })
     return sections
@@ -354,10 +370,7 @@ export default class LayoutHelper {
 
   setSectionLayouts = (sections, hiddenNodes, hiddenLinks) => {
     const {connected, unconnected} = sections
-    let numOfSections = 0
-    connected.concat(unconnected).forEach(({elements})=>{
-      numOfSections+=elements.nodes().length ? 1 : 0
-    })
+    const numOfSections = connected.length + unconnected.length
     const connectedDim = this.setConnectedLayoutOptions(connected, numOfSections)
     const unconnectedDim = this.setUnconnectedLayoutOptions(unconnected)
 
@@ -557,9 +570,14 @@ export default class LayoutHelper {
           h
         },
         sort: (a,b) => {
-          const {node: nodea} = a.data()
-          const {node: nodeb} = b.data()
-          return nodea.layout.type.localeCompare(nodeb.layout.type)
+          const {node: {layout: la}} = a.data()
+          const {node: {layout: lb}} = b.data()
+          if (la.hasContent && !lb.hasContent) {
+            return -1
+          } else if (!la.hasContent && lb.hasContent) {
+            return 1
+          }
+          return la.type.localeCompare(lb.type)
         },
         center: {
           x: x + w/2,
@@ -576,7 +594,9 @@ export default class LayoutHelper {
   runSectionLayouts = (sections, nodes, cb) => {
     // layout each sections
     const cyMap = {}
+    const hiliteSelectMap = {}
     const allSections = sections.connected.concat(sections.unconnected)
+    const hiliteSelections = allSections.length>3
     let totalLayouts = allSections.length
     allSections.forEach(({elements, options})=>{
       const layout = elements.layout(options)
@@ -587,6 +607,7 @@ export default class LayoutHelper {
           if (ele.isNode()) {
             Object.assign(data.node.layout, ele.position())
             cyMap[data.id] = {elements, ele}
+            hiliteSelectMap[data.id] = hiliteSelections && elements.length>10
           } else {
             data.edge.layout.isLoop = ele.isLoop()
           }
@@ -606,7 +627,7 @@ export default class LayoutHelper {
               layout.y = layout.dragged.y
             }
           })
-          cb(nodes, cyMap)
+          cb(nodes, cyMap, hiliteSelectMap)
         }
       })
       layout.run()

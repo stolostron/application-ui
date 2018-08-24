@@ -16,6 +16,7 @@ import {
   Button,
   Footer,
   FormLabel,
+  Loading,
   MultiSelect,
 } from 'carbon-components-react'
 
@@ -29,6 +30,7 @@ import '../../scss/remoteinstall.scss'
 import * as Actions from '../actions/catalog'
 
 const identity = elem => elem
+const removeQuotes = (str = '') => str ? str.slice(1, -1) : ''
 
 class ChartInstall extends React.Component {
   static propTypes = {
@@ -38,14 +40,16 @@ class ChartInstall extends React.Component {
       updateSecondaryHeader: PropTypes.func.isRequired,
     }),
     catalogInstallFailure: PropTypes.bool,
-    catalogInstallValidationFailure: PropTypes.bool,
+    catalogInstallLoading: PropTypes.bool,
     chartName: PropTypes.string,
+    chartURL: PropTypes.string,
     chartValues: PropTypes.string,
     chartVersion: PropTypes.string,
     clusters: PropTypes.arrayOf(PropTypes.string),
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
     }),
+    repoName: PropTypes.string,
   }
 
   constructor() {
@@ -57,13 +61,15 @@ class ChartInstall extends React.Component {
   state = { targetClusters: [] }
 
   componentWillMount() {
-    const { actions, chartName, chartVersion } = this.props
-    if (!chartName || !chartVersion) {
+    const { actions, chartName, chartURL, chartVersion, repoName } = this.props
+
+    // User came to the page directly
+    // Send them to the catalog to select a chart
+    if (!chartURL) {
       return window.location.replace(`${window.location.origin}/catalog/`)
     }
 
-    // FIXME: https://github.ibm.com/IBMPrivateCloud/roadmap/issues/13181
-    this.overviewUrl = `${window.location.origin}/catalog/catalogdetails/google/${chartName}/${chartVersion}`
+    this.overviewUrl = `${window.location.origin}/catalog/catalogdetails/${repoName}/${chartName}/${chartVersion}?redirecttoconfigure=true`
 
     const secondaryHeaderText = `${chartName} V ${chartVersion}`
     const secondaryHeaderBreadcrumbs = [{ label: msgs.get('breadcrumb.viewall', this.context.locale), url: '/catalog/' }]
@@ -78,26 +84,29 @@ class ChartInstall extends React.Component {
   }
 
   handleSubmit() {
-    const { chartName, chartVersion, chartValues, history } = this.props
+    const { chartURL, chartValues, history } = this.props
     const { targetClusters } = this.state
 
     this.props.actions.catalogReleaseInstall({
-      chartName,
-      chartVersion,
-      chartValues,
-      targetClusters
+      chartURL,
+      clusters: targetClusters,
+      namespace: chartValues.selectedNamespace,
+      releaseName: chartValues.selectedReleaseName,
+      values: sessionStorage.getItem('values'),
     }, history)
   }
 
   render() {
-    const { catalogInstallFailure, catalogInstallValidationFailure } = this.props
+    const { catalogInstallFailure, catalogInstallLoading } = this.props
 
     return (
       <Page>
-        {catalogInstallValidationFailure &&
-          <Notification allowClose type="error" description={msgs.get('catalog.installValidationError')} />}
         {catalogInstallFailure &&
           <Notification allowClose type="error" description={msgs.get('catalog.installError', this.context.locale)} />}
+
+        {catalogInstallLoading &&
+          <Loading withOverlay={false} className='content-spinner' />}
+
         <FormLabel>
           {msgs.get('catalog.installTargetClusters', this.context.locale)}
         </FormLabel>
@@ -122,7 +131,6 @@ const mapStateToProps = state => {
   const {
     catalogInstallFailure,
     catalogInstallLoading,
-    catalogInstallValidationFailure,
   } = state.catalog
 
   const namespaceList = get(state, `${RESOURCE_TYPES.HCM_NAMESPACES.list}.items`, [])
@@ -144,20 +152,25 @@ const mapStateToProps = state => {
 
 
   // Remove Surrounding Quotes
-  const chartName = sessionStorage.getItem('chartName') ? sessionStorage.getItem('chartName').slice(1, -1) : ''
-  const chartValues = JSON.parse(sessionStorage.getItem('values'))
-  const chartVersion = sessionStorage.getItem('version') ? sessionStorage.getItem('version').slice(1, -1) : ''
+  const chartName = removeQuotes(sessionStorage.getItem('chartName'))
+  const chartVersion = removeQuotes(sessionStorage.getItem('version'))
+  const repoName = removeQuotes(sessionStorage.getItem('repoName'))
+
+  // Parse JSON Strings
+  const chartURLs = JSON.parse(sessionStorage.getItem('tarFiles')) || []
+  const chartValues = JSON.parse(sessionStorage.getItem('values')) || ''
 
   return {
     catalogInstallFailure,
     catalogInstallLoading,
-    catalogInstallValidationFailure,
     chartName,
+    chartURL: chartURLs[0],
     chartValues,
     chartVersion,
     clusterToNamespaces,
     clusters: Object.keys(clusters),
     namespaces: Object.keys(namespaces),
+    repoName,
   }
 }
 

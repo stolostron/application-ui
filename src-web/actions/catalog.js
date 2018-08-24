@@ -36,21 +36,23 @@ export const catalogReleaseInstall = (input, history) => async (dispatch) => {
       throw result.errors
     }
 
+    if (result.code || result.message) {
+      throw new Error(result.message)
+    }
+
     dispatch(catalogInstallLoading(false))
     dispatch(catalogInstallSuccess())
-    sessionStorage.clear()
-    history.push('/releases')
+    sessionStorage.removeItem('chartName')
+    sessionStorage.removeItem('repoName')
+    sessionStorage.removeItem('tarFiles')
+    sessionStorage.removeItem('values')
+    sessionStorage.removeItem('version')
+    history.push('/hcmconsole/releases')
   } catch (err) {
     dispatch(catalogInstallFailure(true))
     throw err
   }
 }
-
-export const catalogResourceFilterSearch = searchText => ({
-  type: Actions.CATALOG_RESOURCE_FILTER_SEARCH,
-  payload: { searchText },
-})
-
 
 export const catalogInstallFailure = (status) => ({
   type: Actions.CATALOG_INSTALL_FAILURE,

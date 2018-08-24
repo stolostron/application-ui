@@ -26,7 +26,7 @@ export default {
       className: 'service'
     },
     'deployment': {
-      shape: 'circle',
+      shape: 'gear',
       className: 'deployment'
     },
     'daemonset': {
@@ -44,6 +44,10 @@ export default {
     'container': {
       shape: 'irregularHexagon',
       className: 'container'
+    },
+    'cronjob': {
+      shape: 'clock',
+      className: 'default'
     },
   },
   topologyNodeDescription: setNodeInfo,

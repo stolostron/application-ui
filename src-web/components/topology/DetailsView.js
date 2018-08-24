@@ -26,7 +26,7 @@ class DetailsView extends React.Component {
     const currentNode = getLayoutNodes().find((n) => n.uid === selectedNodeId) || {}
     const { layout={} } = currentNode
     const resourceType = layout.type || currentNode.type
-    const {shape='circle', className='container'} =  topologyShapes[resourceType]
+    const {shape='circle', className='default'} =  topologyShapes[resourceType]||{}
     const details = topologyNodeDetails(currentNode, context)
     const name = layout.hasService ? layout.services[0].name : currentNode.name
     return (

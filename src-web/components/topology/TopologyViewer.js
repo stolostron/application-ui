@@ -195,7 +195,7 @@ class TopologyViewer extends React.Component {
     if (!this.svg) {
       this.svg = d3.select('#'+this.getSvgId())
       this.svg.append('g').attr('class', 'clusters')
-      this.svg.append('g').attr('class', 'links') // Links must be added before nodes, so nodes are painted on top.
+      this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.getSvgSpace())
@@ -203,7 +203,10 @@ class TopologyViewer extends React.Component {
 
     // consolidate nodes/filter links/add layout data to each element
     const {nodes=[], links=[], hiddenNodes= new Set(), hiddenLinks= new Set()} = this.state
-    this.layoutBBox = this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutNodes, cyMap, hiliteSelectMap)=>{
+    this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutResults)=>{
+
+      const {layoutNodes, layoutMap, layoutBBox} = layoutResults
+      this.layoutBBox = layoutBBox
 
       // resize diagram to fit all the nodes
       const firstLayout = !this.lastLayoutBBox
@@ -225,7 +228,7 @@ class TopologyViewer extends React.Component {
       linkHelper.moveLinks(transformation)
 
       const {topologyShapes} = this.props.staticResourceData
-      const nodeHelper = new NodeHelper(this.svg, layoutNodes, topologyShapes, linkHelper, cyMap, hiliteSelectMap, ()=>{
+      const nodeHelper = new NodeHelper(this.svg, layoutNodes, topologyShapes, linkHelper, layoutMap, ()=>{
         this.highlightMode = false
       })
       nodeHelper.removeOldNodesFromDiagram()

@@ -20,10 +20,9 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, topologyShapes, linkHelper, cyMap, hiliteSelectMap, resetHighlightMode) {
+  constructor(svg, nodes, topologyShapes, linkHelper, layoutMap, resetHighlightMode) {
     this.svg = svg
-    this.cyMap = cyMap
-    this.hiliteSelectMap = hiliteSelectMap
+    this.layoutMap = layoutMap
     this.nodes = nodes
     this.topologyShapes = topologyShapes
     this.linkHelper = linkHelper
@@ -206,13 +205,13 @@ export default class NodeHelper {
     const edgeSet = new Set()
     let highlight = false
     if (node) {
-      highlight = this.hiliteSelectMap[node.layout.uid]
+      highlight = this.layoutMap[node.layout.uid].highlight
       if (highlight) {
-        const {elements, ele} = this.cyMap[node.layout.uid]
+        const {elements, element} = this.layoutMap[node.layout.uid]
         if (elements.nodes().length>3) {
           nodeSet.add(node.layout.uid)
-          ele.successors()
-            .add(ele.predecessors())
+          element.successors()
+            .add(element.predecessors())
             .forEach(ele=>{
               const data = ele.data()
               if (ele.isNode()) {

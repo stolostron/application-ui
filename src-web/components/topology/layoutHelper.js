@@ -20,8 +20,6 @@ import { NODE_SIZE } from './constants.js'
 export default class LayoutHelper {
   /**
    * Helper class to be used by TopologyDiagram.
-   *
-   * Contains functions to manage sections.
    */
 
   constructor ({topologyOrder, topologyNodeDescription}, locale) {
@@ -43,14 +41,14 @@ export default class LayoutHelper {
       return true
     })
 
-    // for each cluster, group into sections
-    // group by type
+    // for each cluster, group into collections by type
     const groups = this.getNodeGroups(nodes)
 
-    // group by connections
+    // group by connections which may pull nodes into other groups
     this.groupNodesByConnections(groups, internetNodes, links)
 
-    // need to clone internet, otherwise everything coalesce around two internet nodes (in & out)
+    // re-add internet nodes but as clones,
+    // otherwise everything will coalesce around two internet nodes (in & out)
     this.cloneInternetNodes(groups, internetNodes, nodes)
 
     // assign info to each node
@@ -60,16 +58,117 @@ export default class LayoutHelper {
       })
     }
 
-    // create sections
+    // create cytoscape element collections
     const cy = cytoscape({ headless: true }) // start headless cytoscape
-    var sections = this.createSections(cy, groups)
+    let collections = this.createCollections(cy, groups)
 
-    // layout sections
-    const layoutBBox = this.setSectionLayouts(sections, hiddenNodes, hiddenLinks)
+    // assign cytoscape layout options for each collection (ex: dagre, grid)
+    this.setLayoutOptions(collections)
 
-    // then layout all sections
-    this.runSectionLayouts(sections, nodes, cb)
-    return layoutBBox
+    // run the cytoscape layouts
+    collections = collections.connected.concat(collections.unconnected)
+    this.runCollectionLayouts(collections, () => {
+
+      // after all layouts run, use Masonry to fit the collections neatly in the diagram
+      const layoutInfo = this.layoutCollections(collections, hiddenNodes, hiddenLinks)
+
+
+      // return to TopologyView to create/position the d3 svg shapes
+      cb({layoutNodes: nodes, ...layoutInfo})
+    })
+  }
+
+  layoutCollections = (collections, hiddenNodes, hiddenLinks) => {
+    const hiliteSelections = collections.length>3
+
+    // get row dimensions
+    let bbox
+    let cells=0
+    let maxWidth = 0
+    let maxHeight = 0
+    let totalMaxWidth = 0
+    let totalHeight = 0
+    let xx = NODE_SIZE
+    let yy = NODE_SIZE
+    const rowDims = []
+    const bboxArr = []
+    collections.forEach(({elements}, idx, array)=>{
+      const {w, h} = bbox = elements.boundingBox()
+      bboxArr.push(bbox)
+      cells++
+
+      // keep track of the dimensions
+      maxWidth = Math.max(xx+w, maxWidth)
+      totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
+      xx += w + NODE_SIZE*2
+      maxHeight = Math.max(h, maxHeight)
+      if (xx>3000 || idx === array.length - 1) {
+        rowDims.push({rowWidth: maxWidth, rowHeight: maxHeight, cells})
+        totalHeight+=maxHeight
+        maxHeight=maxWidth=cells=0
+        xx=NODE_SIZE
+      }
+    })
+
+    // layout cells aka the collections
+    let row = 0
+    let cell = 1
+    xx = yy = NODE_SIZE
+    const layoutMap = {}
+    collections.forEach(({elements, options:{name}}, idx)=>{
+      const {x1, y1, w, h} = bboxArr[idx]
+      const {rowWidth, rowHeight, cells} = rowDims[row]
+
+      // center cells in their rows
+      const spacer = ((totalMaxWidth-rowWidth)/cells)
+      const dxCell = spacer*cell - (spacer/3)
+      const dyCell = name==='grid'?0:(rowHeight-h)/2
+
+      // set all node positions
+      const center = {x:xx+dxCell+(w/2), y:yy+dyCell+(h/2)}
+      elements.forEach(element=>{
+        const data = element.data()
+        if (element.isNode()) {
+          const {node: {layout}, id} = data
+          const {x, y} = element.position()
+          layout.x = x - x1 + xx + dxCell
+          layout.y = y - y1 + yy + dyCell
+
+          layout.center = center
+          layout.hidden = hiddenNodes.has(layout.uid)
+
+          // restore position of any node dragged by user
+          if (layout.dragged) {
+            layout.undragged = {
+              x: layout.x,
+              y: layout.y
+            }
+            layout.x = layout.dragged.x
+            layout.y = layout.dragged.y
+          }
+
+          // remember for nodehelper selections
+          layoutMap[id] = {elements, element, highlight:(hiliteSelections && elements.length>10)}
+        } else {
+          const {edge: {layout, uid}} = data
+          layout.isLoop = element.isLoop()
+          layout.center = center
+          layout.hidden = hiddenLinks.has(uid)
+        }
+      })
+
+      xx += w + NODE_SIZE*2
+      cell++
+      if (xx>3000) {
+        yy+=rowHeight + NODE_SIZE*2
+        xx=NODE_SIZE
+        cell = 1
+        row++
+      }
+    })
+    const width = totalMaxWidth + NODE_SIZE*2
+    const height = totalHeight + NODE_SIZE*6
+    return {layoutMap, layoutBBox: { x:0, y:0, width, height}}
   }
 
   getNodeGroups = (nodes) => {
@@ -208,7 +307,7 @@ export default class LayoutHelper {
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const group = nodeGroups[type]
-        // sort nodes/links into sections
+        // sort nodes/links into collections
         const connected = nodeGroups[type].connected = []
         const unconnected = nodeGroups[type].unconnected = []
 
@@ -321,9 +420,9 @@ export default class LayoutHelper {
     }
   }
 
-  createSections = (cy, groups) => {
+  createCollections = (cy, groups) => {
     const {nodeGroups} = groups
-    const sections = {connected:[], unconnected:[]}
+    const collections = {connected:[], unconnected:[]}
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected, unconnected} = nodeGroups[type]
@@ -348,7 +447,7 @@ export default class LayoutHelper {
               }
             })
           })
-          sections.connected.push({elements: cy.add(elements)})
+          collections.connected.push({elements: cy.add(elements)})
         })
 
         const elements = {nodes:[]}
@@ -361,114 +460,47 @@ export default class LayoutHelper {
           })
         })
         if (elements.nodes.length>0) {
-          sections.unconnected.push({elements: cy.add(elements)})
+          collections.unconnected.push({elements: cy.add(elements)})
         }
       }
     })
-    return sections
+    return collections
   }
 
-  setSectionLayouts = (sections, hiddenNodes, hiddenLinks) => {
-    const {connected, unconnected} = sections
+  setLayoutOptions = ({connected, unconnected}) => {
     const numOfSections = connected.length + unconnected.length
-    const connectedDim = this.setConnectedLayoutOptions(connected, numOfSections)
-    const unconnectedDim = this.setUnconnectedLayoutOptions(unconnected)
-
-    // TODO: use Masonry Layout
-    let width, height
-    if (numOfSections<=3) {
-      // move unconnected to right of connected
-      unconnected.forEach(({options})=>{
-        options.boundingBox.x1 += connectedDim.width
-        options.center.x += connectedDim.width
-      })
-      width = connectedDim.width + unconnectedDim.width + NODE_SIZE*2
-      height = Math.max(connectedDim.height, unconnectedDim.height)
-    } else {
-      // move unconnected below connected
-      unconnected.forEach(({options})=>{
-        options.boundingBox.y1 += connectedDim.height
-        options.center.y += connectedDim.height
-      })
-
-      // center top over bottom
-      if (connectedDim.width>unconnectedDim.width) {
-        const dx = (connectedDim.width-unconnectedDim.width)/2
-        unconnected.forEach(({options})=>{
-          options.boundingBox.x1 += dx
-          options.center.x += dx
-        })
-      } else {
-        const dx = (unconnectedDim.width-connectedDim.width)/2
-        connected.forEach(({options})=>{
-          options.boundingBox.x1 += dx
-          options.center.x += dx
-        })
-      }
-      width = Math.max(connectedDim.width, unconnectedDim.width)+NODE_SIZE*2
-      height = connectedDim.height+unconnectedDim.height
-    }
-
-    // center nodes and links in their bbox
-    const both = [connected, unconnected]
-    both.forEach(d=>{
-      d.forEach(({elements, options})=>{
-        const nodes = elements.nodes()
-        const edges = elements.edges()
-        const {center} = options
-        nodes.forEach(ele=>{
-          const {node: {layout}} = ele.data()
-          layout.center = center
-          layout.hidden = hiddenNodes.has(layout.uid)
-        })
-        if (edges) {
-          edges.forEach(ele=>{
-            const {edge} = ele.data()
-            const {layout} = edge
-            layout.center = center
-            layout.hidden = hiddenLinks.has(edge.uid)
-          })
-        }
-      })
-    })
-
-    return {x:0, y:0, width, height}
+    this.setConnectedLayoutOptions(connected, numOfSections)
+    this.setUnconnectedLayoutOptions(unconnected)
   }
 
   setConnectedLayoutOptions = (connected, numOfSections) => {
-    let x = 0
-    let height = 0
-    connected.forEach(section => {
-      section.options = this.getConnectedLayoutOptions(x, section.elements, numOfSections)
-      const {boundingBox: {w, h}} = section.options
-      height = Math.max(h, height)
-      x+=w+NODE_SIZE*2
+    connected.forEach(collection => {
+      collection.options = this.getConnectedLayoutOptions(collection.elements, numOfSections)
     })
-    return {width:x, height}
   }
 
-  getConnectedLayoutOptions = (x, elements, numOfSections) => {
+  getConnectedLayoutOptions = (elements, numOfSections) => {
     const nodes = elements.nodes().length
     const leaves = elements.leaves().length
     const roots = elements.roots().length
 
-    // use dagre if the # of roots or leaves is one and the section is small
+    // use dagre if the # of roots or leaves is one and the collection is small
     let dagre = nodes===2
     if ((leaves===1&&roots>1) || (leaves>1&&roots==1)) {
       dagre = nodes<10 && roots<3 && (leaves+roots) !== nodes
     }
     if (dagre || (leaves<6 && numOfSections===1)) {
-      return this.getDagreLayoutOptions(x, elements, numOfSections)
+      return this.getDagreLayoutOptions(elements, numOfSections)
     } else if (nodes<16) {
       // cola gets out of hand above a certain amount
-      return this.getColaLayoutOptions(x, elements)
+      return this.getColaLayoutOptions(elements)
     } else {
-      return this.getCoseLayoutOptions(x, elements)
+      return this.getCoseLayoutOptions(elements)
     }
   }
 
-  getCoseLayoutOptions = (x, elements) => {
-    // get rough idea how many to allocate for each section based on # of nodes
+  getCoseLayoutOptions = (elements) => {
+    // get rough idea how many to allocate for each collection based on # of nodes
     let count = elements.nodes().length
     count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
@@ -485,20 +517,16 @@ export default class LayoutHelper {
       padding: 10,
       nodeSpacing: 15,
       boundingBox: {
-        x1: x,
+        x1: 0,
         y1: 0,
         w,
         h
-      },
-      center: {
-        x: x + w/2,
-        y: h/2
       }
     }
   }
 
-  getColaLayoutOptions = (x, elements) => {
-    // get rough idea how many to allocate for each section based on # of nodes
+  getColaLayoutOptions = (elements) => {
+    // get rough idea how many to allocate for each collection based on # of nodes
     let count = elements.nodes().length
     count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
@@ -507,39 +535,31 @@ export default class LayoutHelper {
       animate: false,
       fit: true,
       boundingBox: {
-        x1: x,
+        x1: 0,
         y1: 0,
         w,
         h
-      },
-      center: {
-        x: x + w/2,
-        y: h/2
       }
     }
   }
 
-  getDagreLayoutOptions = (x, elements, numOfSections) => {
-    // get rough idea how many to allocate for each section based on # of nodes
+  getDagreLayoutOptions = (elements, numOfSections) => {
+    // get rough idea how many to allocate for each collection based on # of nodes
     const count = elements.nodes().length
     const thresh = count<=4 ? 1 : (count<=6 ? 1.5 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = ltr ?
       {w: thresh*NODE_SIZE*3, h: thresh*NODE_SIZE*2} :
       {h: thresh*NODE_SIZE*3, w: thresh*NODE_SIZE*4}
 
-    // do left to right if a small section in a small diagram
+    // do left to right if a small collection in a small diagram
     const ltr = numOfSections<=6 && count<=3
     return {
       name: 'dagre',
       boundingBox: {
-        x1: x,
+        x1: 0,
         y1: 0,
         w,
         h
-      },
-      center: {
-        x: x + w/2,
-        y: h/2
       },
       fit: true,
       padding: 30, // fit padding
@@ -548,23 +568,21 @@ export default class LayoutHelper {
   }
 
   setUnconnectedLayoutOptions = (unconnected) => {
-    let x = 0
-    let height = 0
-    // get rough idea how many to allocate for each section based on # of nodes
-    const columns = unconnected.map(section => {
-      const count = section.elements.nodes().length
+    // get rough idea how many to allocate for each collection based on # of nodes
+    const columns = unconnected.map(collection => {
+      const count = collection.elements.nodes().length
       return count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 5:(count<=24? 6:(count<=30? 7:8))))
     })
-    unconnected.forEach((section, index)=>{
-      const count = section.elements.length
+    unconnected.forEach((collection, index)=>{
+      const count = collection.elements.length
       const cols = Math.min(count, columns[index])
       const h = Math.ceil(count/columns[index])*NODE_SIZE*2
       const w = cols*NODE_SIZE*2
-      section.options = {
+      collection.options = {
         name: 'grid',
         avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space
         boundingBox: {
-          x1: x,
+          x1: 0,
           y1: 0,
           w,
           h
@@ -579,55 +597,20 @@ export default class LayoutHelper {
           }
           return la.type.localeCompare(lb.type)
         },
-        center: {
-          x: x + w/2,
-          y: h/2
-        },
         cols
       }
-      height = Math.max(h, height)
-      x+=w+NODE_SIZE
     })
-    return {width:x, height}
   }
 
-  runSectionLayouts = (sections, nodes, cb) => {
-    // layout each sections
-    const cyMap = {}
-    const hiliteSelectMap = {}
-    const allSections = sections.connected.concat(sections.unconnected)
-    const hiliteSelections = allSections.length>3
-    let totalLayouts = allSections.length
-    allSections.forEach(({elements, options})=>{
+  runCollectionLayouts = (collections, cb) => {
+    // layout each collections
+    let totalLayouts = collections.length
+    collections.forEach(({elements, options})=>{
       const layout = elements.layout(options)
-      layout.pon('layoutstop').then(({layout: {options: {eles}}})=>{
-        const elements = _.cloneDeep(eles)
-        eles.forEach(ele=>{
-          const data = ele.data()
-          if (ele.isNode()) {
-            Object.assign(data.node.layout, ele.position())
-            cyMap[data.id] = {elements, ele}
-            hiliteSelectMap[data.id] = hiliteSelections && elements.length>10
-          } else {
-            data.edge.layout.isLoop = ele.isLoop()
-          }
-        })
-
-        // after all sections laid out, move nodes/links
+      layout.pon('layoutstop').then(()=>{
         totalLayouts--
         if (totalLayouts<=0) {
-          nodes.forEach((n)=>{
-            if (n.layout && n.layout.dragged) {
-              const {layout} = n
-              layout.undragged = {
-                x: layout.x,
-                y: layout.y
-              }
-              layout.x = layout.dragged.x
-              layout.y = layout.dragged.y
-            }
-          })
-          cb(nodes, cyMap, hiliteSelectMap)
+          cb()
         }
       })
       layout.run()

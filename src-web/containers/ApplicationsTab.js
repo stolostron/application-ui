@@ -20,8 +20,8 @@ const handleCreateResource = (dispatch, yaml) => dispatch(createApplication(RESO
 
 const registerApplicationModal = <CreateResourceModal
   key='registerApplication'
-  headingTextKey='actions.register.application'
-  submitBtnTextKey='actions.register.application'
+  headingTextKey='actions.create.application'
+  submitBtnTextKey='actions.create.application'
   onCreateResource={ handleCreateResource }
 />
 

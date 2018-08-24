@@ -129,9 +129,9 @@ export default class NodeHelper {
       .html(({layout})=>{
         const {center={x:0, y:0}} = layout
         var text = draw.text((add) => {
-          layout.label.split('\n').forEach(line=>{
+          layout.label.split('\n').forEach((line, idx)=>{
             if (line) {
-              add.tspan(line).newLine()
+              add.tspan(line).addClass(idx===0?'first-line':'').newLine()
             }
           })
           if (layout.info) {

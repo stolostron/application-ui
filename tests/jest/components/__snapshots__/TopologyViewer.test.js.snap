@@ -4297,6 +4297,7 @@ ReactWrapper {
         
       </div>,
       "context": Object {},
+      "counterZoomLabels": [Function],
       "getLayoutNodes": [Function],
       "handleDetailsClose": [Function],
       "handleNodeClick": [Function],
@@ -8928,6 +8929,7 @@ ReactWrapper {
           
         </div>,
         "context": Object {},
+        "counterZoomLabels": [Function],
         "getLayoutNodes": [Function],
         "handleDetailsClose": [Function],
         "handleNodeClick": [Function],

@@ -166,7 +166,7 @@ export default class LayoutHelper {
         row++
       }
     })
-    const width = totalMaxWidth + NODE_SIZE*2
+    const width = totalMaxWidth + NODE_SIZE*4
     const height = totalHeight + NODE_SIZE*6
     return {layoutMap, layoutBBox: { x:0, y:0, width, height}}
   }
@@ -577,7 +577,7 @@ export default class LayoutHelper {
       const count = collection.elements.length
       const cols = Math.min(count, columns[index])
       const h = Math.ceil(count/columns[index])*NODE_SIZE*2
-      const w = cols*NODE_SIZE*2
+      const w = cols*NODE_SIZE*3
       collection.options = {
         name: 'grid',
         avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space

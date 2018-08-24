@@ -237,6 +237,7 @@ class TopologyViewer extends React.Component {
 
       this.layoutNodes = layoutNodes
       this.lastLayoutBBox = this.layoutBBox
+      this.counterZoomLabels()
     })
   }
 
@@ -247,6 +248,8 @@ class TopologyViewer extends React.Component {
         currentZoom = d3.event.transform
         const svg = d3.select('#'+this.getSvgId())
         if (svg) {
+
+          // zoom shapes and links
           const transition = d3.transition()
             .duration(duration)
             .ease(d3.easeSinOut)
@@ -256,6 +259,9 @@ class TopologyViewer extends React.Component {
           svg.select('g.links').selectAll('g.link')
             .transition(transition)
             .attr('transform', d3.event.transform)
+
+          // counter-zoom first line of labels
+          this.counterZoomLabels()
         }
       })
     return svgSpace
@@ -288,6 +294,18 @@ class TopologyViewer extends React.Component {
           this.getSvgSpace(200).scaleTo(svg, scale)
         }
       }
+    }
+    return 1
+  }
+
+  counterZoomLabels = () => {
+    const svg = d3.select('#'+this.getSvgId())
+    if (svg) {
+      const s = currentZoom.k
+      const fontSize = s<=0.35 ? 22 : (s<=0.45 ? 20 : (s<=0.65? 18:(s<=0.85? 14: 12)))
+      svg
+        .selectAll('tspan.first-line')
+        .style('font-size', fontSize+'px')
     }
   }
 

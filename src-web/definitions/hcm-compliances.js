@@ -10,9 +10,9 @@
 
 import React from 'react'
 import msgs from '../../nls/platform.properties'
-import { getAge } from '../../lib/client/resource-helper'
+import {getAge, getLabelsToList} from '../../lib/client/resource-helper'
 import { Icon } from 'carbon-components-react'
-import { getAPIGroups, getRuleVerbs, getSelector } from './hcm-policies'
+import { getAPIGroups, getRuleVerbs } from './hcm-policies'
 import { Link } from 'react-router-dom'
 
 export default {
@@ -20,7 +20,7 @@ export default {
   primaryKey: 'name',
   secondaryKey: 'namespace',
   compliancePolicies: {
-    resourceKey: 'complianceStatus',
+    resourceKey: 'compliancePolicies',
     title: 'table.header.compliancePolicies',
     defaultSortField: 'name',
     tableKeys: [
@@ -48,6 +48,28 @@ export default {
       },
     ],
   },
+  complianceStatus: {
+    resourceKey: 'complianceStatus',
+    title: 'table.header.compliance.compliant',
+    defaultSortField: 'clusterNamespace',
+    tableKeys: [
+      {
+        msgKey: 'table.header.cluster.namespace',
+        resourceKey: 'clusterNamespace',
+        key: 'clusterNamespace',
+      },
+      {
+        msgKey: 'table.header.compliance.policy.status',
+        resourceKey: 'localCompliantStatus',
+        key: 'localCompliantStatus',
+      },
+      {
+        msgKey: 'table.header.compliance.policy.valid',
+        resourceKey: 'localValidStatus',
+        key: 'localValidStatus',
+      },
+    ],
+  },
   tableKeys: [
     {
       msgKey: 'table.header.name',
@@ -71,7 +93,7 @@ export default {
     'table.actions.compliance.remove',
   ],
   detailKeys: {
-    title: 'policy.details',
+    title: 'compliance.details',
     headerRows: ['type', 'detail'],
     rows: [
       {
@@ -88,7 +110,7 @@ export default {
       {
         cells: [
           {
-            resourceKey: 'description.title.status',
+            resourceKey: 'description.title.cluster.compliant',
             type: 'i18n'
           },
           {
@@ -164,62 +186,80 @@ export default {
     ]
   },
   policyRules: {
+    title: 'table.header.rules',
+    defaultSortField: 'name',
+    resourceKey: 'rules',
     tableKeys: [
       {
         msgKey: 'table.header.name',
         resourceKey: 'ruleUID',
+        key: 'ruleUID',
       },
       {
         msgKey: 'table.header.templateType',
         resourceKey: 'templateType',
+        key: 'templateType',
       },
       {
         msgKey: 'table.header.complianceType',
         resourceKey: 'complianceType',
+        key: 'complianceType',
       },
       {
         msgKey: 'table.header.apiGroups',
         resourceKey: 'apiGroups',
+        key: 'apiGroups',
         transformFunction: getAPIGroups
       },
       {
         msgKey: 'table.header.ruleVerbs',
         resourceKey: 'verbs',
+        key: 'verbs',
         transformFunction: getRuleVerbs
       },
       {
         msgKey: 'table.header.resources',
         resourceKey: 'resources',
+        key: 'resources',
       },
     ],
   },
   policyViolations: {
+    resourceKey: 'violations',
+    title: 'table.header.violation',
+    defaultSortField: 'name',
     tableKeys: [
       {
         msgKey: 'table.header.status',
         resourceKey: 'status',
-        transformFunction: getStatusIconForPolicy,
+        key: 'status',
+        transformFunction: getStatus,
       },
       {
         msgKey: 'table.header.cluster',
         resourceKey: 'cluster',
+        key: 'cluster',
       },
       {
         msgKey: 'table.header.name',
         resourceKey: 'name',
+        key: 'name',
       },
       {
         msgKey: 'table.header.message',
         resourceKey: 'message',
+        key: 'message',
       },
       {
         msgKey: 'table.header.reason',
         resourceKey: 'reason',
+        key: 'reason',
       },
       {
         msgKey: 'table.header.selector',
         resourceKey: 'selector',
-        transformFunction: getSelector
+        key: 'selector',
+        transformFunction: getLabelsToList
       },
     ],
   },
@@ -387,6 +427,5 @@ export function getStatusIcon(item) {
 }
 
 export function createCompliancePolicyLink(item = {}){
-  return  <Link to={`/hcmconsole/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}
-  /compliancePolicy/${encodeURIComponent(item.name)}/${item.cluster}`}>{item.name}</Link>
+  return  <Link to={`/hcmconsole/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.name)}/${item.cluster}`}>{item.name}</Link>
 }

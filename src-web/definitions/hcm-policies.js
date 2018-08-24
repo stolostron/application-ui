@@ -93,7 +93,7 @@ export default {
         msgKey: 'table.header.selector',
         resourceKey: 'selector',
         key: 'selector',
-        transformFunction: getSelector
+        transformFunction: getLabelsToList
       },
     ],
   },
@@ -101,7 +101,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'name',
-      transformFunction: createPolicyLink,
+      link: createPolicyLink,
     },
     {
       msgKey: 'table.header.namespace',
@@ -335,18 +335,6 @@ export function getRuleVerbs(item) {
   const verbs = lodash.get(item, 'verbs')
   if (verbs) {
     return verbs.join(', ')
-  }
-  return '-'
-}
-
-export function getSelector(item) {
-  const selectors = lodash.get(item, 'selector', [])
-  let result = ''
-  if (selectors) {
-    Object.entries(selectors).forEach(([key, value]) => {
-      result = `${result} \n ${key}: ${JSON.stringify(value)}`
-    })
-    return result
   }
   return '-'
 }

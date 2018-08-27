@@ -29,7 +29,7 @@ export default class LayoutHelper {
     this.locale = locale
   }
 
-  layout = (nodes, links, hiddenNodes, hiddenLinks, cb) => {
+  layout = (nodes, links, hiddenLinks, cb) => {
 
     // sort out internet nodes--they can appear everywhere
     const internetNodes = {}
@@ -70,7 +70,7 @@ export default class LayoutHelper {
     this.runCollectionLayouts(collections, () => {
 
       // after all layouts run, use Masonry to fit the collections neatly in the diagram
-      const layoutInfo = this.layoutCollections(collections, hiddenNodes, hiddenLinks)
+      const layoutInfo = this.layoutCollections(collections, hiddenLinks)
 
 
       // return to TopologyView to create/position the d3 svg shapes
@@ -78,7 +78,7 @@ export default class LayoutHelper {
     })
   }
 
-  layoutCollections = (collections, hiddenNodes, hiddenLinks) => {
+  layoutCollections = (collections, hiddenLinks) => {
     const hiliteSelections = collections.length>3
 
     // get row dimensions
@@ -88,8 +88,13 @@ export default class LayoutHelper {
     let maxHeight = 0
     let totalMaxWidth = 0
     let totalHeight = 0
-    let currentX = NODE_SIZE
-    let currentY = NODE_SIZE
+    const xMargin = NODE_SIZE*3
+    const yMargin = NODE_SIZE
+    const xSpacer = NODE_SIZE*3
+    const ySpacer = NODE_SIZE*2
+    const breakWidth = 3000
+    let currentX = xMargin
+    let currentY = yMargin
     const rowDims = []
     const bboxArr = []
     collections.forEach(({elements}, idx, array)=>{
@@ -100,28 +105,47 @@ export default class LayoutHelper {
       // keep track of the dimensions
       maxWidth = Math.max(currentX+w, maxWidth)
       totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
-      currentX += w + NODE_SIZE*3
+      currentX += w + xMargin
       maxHeight = Math.max(h, maxHeight)
-      if (currentX>3000 || idx === array.length - 1) {
+      if (currentX>breakWidth || idx === array.length - 1) {
         rowDims.push({rowWidth: maxWidth, rowHeight: maxHeight, cells})
         totalHeight+=maxHeight
         maxHeight=maxWidth=cells=0
-        currentX=NODE_SIZE
+        currentX = xMargin
       }
     })
 
     // layout cells aka the collections
     let row = 0
     let cell = 1
-    currentX = currentY = NODE_SIZE
+    currentX = xMargin
+    currentY = yMargin
     const layoutMap = {}
+    let xSpcr = xSpacer
     collections.forEach(({elements, options:{name}}, idx)=>{
       const {x1, y1, w, h} = bboxArr[idx]
       const {rowWidth, rowHeight, cells} = rowDims[row]
 
-      // center cells in their rows
-      const spacer = ((totalMaxWidth-rowWidth)/cells)
-      const dxCell = spacer*cell - (spacer/3)
+      // center cells in their rows and evenly space
+      let dxCell = 0
+      let spacer = totalMaxWidth-rowWidth
+      if (spacer) {
+        switch (cells) {
+        case 1:
+          spacer/=2
+          dxCell = spacer
+          break
+        case 2:
+          xSpcr=xSpacer*3
+          spacer = (totalMaxWidth-rowWidth-xSpcr)/2
+          dxCell = spacer
+          break
+        default:
+          spacer/=cells
+          dxCell = spacer*cell - spacer
+          break
+        }
+      }
       const dyCell = name==='grid'?0:(rowHeight-h)/2
 
       // set all node positions
@@ -135,7 +159,6 @@ export default class LayoutHelper {
           layout.y = y - y1 + currentY + dyCell
 
           layout.center = center
-          layout.hidden = hiddenNodes.has(layout.uid)
 
           // restore position of any node dragged by user
           if (layout.dragged) {
@@ -157,17 +180,17 @@ export default class LayoutHelper {
         }
       })
 
-      currentX += w + NODE_SIZE*3
+      currentX += w + xSpcr
       cell++
-      if (currentX>3000) {
-        currentY+=rowHeight + NODE_SIZE*2
-        currentX=NODE_SIZE
+      if (currentX>breakWidth) {
+        currentY += rowHeight + ySpacer
+        currentX = xMargin
         cell = 1
         row++
       }
     })
-    const width = totalMaxWidth + NODE_SIZE*4
-    const height = totalHeight + NODE_SIZE*6
+    const width = totalMaxWidth + xMargin*2
+    const height = totalHeight + yMargin*4
     return {layoutMap, layoutBBox: { x:0, y:0, width, height}}
   }
 
@@ -455,6 +478,14 @@ export default class LayoutHelper {
   createCollections = (cy, groups) => {
     const {nodeGroups} = groups
     const collections = {connected:[], unconnected:[]}
+    const chunks = (arr, len) => {
+      let i = 0
+      const chunks = []
+      while (i < arr.length) {
+        chunks.push(arr.slice(i, i += len))
+      }
+      return chunks
+    }
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected, unconnected} = nodeGroups[type]
@@ -482,18 +513,28 @@ export default class LayoutHelper {
           collections.connected.push({elements: cy.add(elements)})
         })
 
-        const elements = {nodes:[]}
-        unconnected.forEach(node=>{
-          elements.nodes.push({
-            data: {
-              id: node.uid,
-              node
-            }
+        // break large unconnected groups into smaller groups
+        let unconnectArr = [unconnected]
+        if (unconnected.length>48) {
+          unconnected.sort(({layout: {label: a=''}}, {layout:{label:b=''}})=>{
+            return a.localeCompare(b)
           })
-        })
-        if (elements.nodes.length>0) {
-          collections.unconnected.push({elements: cy.add(elements)})
+          unconnectArr = chunks(unconnected, 32)
         }
+        unconnectArr.forEach(arr=>{
+          const elements = {nodes:[]}
+          arr.forEach(node=>{
+            elements.nodes.push({
+              data: {
+                id: node.uid,
+                node
+              }
+            })
+          })
+          if (elements.nodes.length>0) {
+            collections.unconnected.push({elements: cy.add(elements)})
+          }
+        })
       }
     })
     return collections
@@ -603,7 +644,7 @@ export default class LayoutHelper {
     // get rough idea how many to allocate for each collection based on # of nodes
     const columns = unconnected.map(collection => {
       const count = collection.elements.nodes().length
-      return count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 5:(count<=24? 6:(count<=30? 7:8))))
+      return count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8))
     })
     unconnected.forEach((collection, index)=>{
       const count = collection.elements.length

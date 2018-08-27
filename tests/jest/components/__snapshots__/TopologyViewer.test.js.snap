@@ -2776,7 +2776,6 @@ ReactWrapper {
         "memoizedState": Object {
           "activeFilters": Object {},
           "hiddenLinks": Set {},
-          "hiddenNodes": Set {},
           "links": Array [
             Object {
               "label": "calls",
@@ -4372,7 +4371,6 @@ ReactWrapper {
       "state": Object {
         "activeFilters": Object {},
         "hiddenLinks": Set {},
-        "hiddenNodes": Set {},
         "links": Array [
           Object {
             "label": "calls",
@@ -7408,7 +7406,6 @@ ReactWrapper {
           "memoizedState": Object {
             "activeFilters": Object {},
             "hiddenLinks": Set {},
-            "hiddenNodes": Set {},
             "links": Array [
               Object {
                 "label": "calls",
@@ -9004,7 +9001,6 @@ ReactWrapper {
         "state": Object {
           "activeFilters": Object {},
           "hiddenLinks": Set {},
-          "hiddenNodes": Set {},
           "links": Array [
             Object {
               "label": "calls",

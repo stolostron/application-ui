@@ -58,7 +58,6 @@ class TopologyViewer extends React.Component {
       activeFilters: props.activeFilters,
       links: props.links,
       nodes: props.nodes,
-      hiddenNodes: new Set(),
       hiddenLinks: new Set(),
       selectedNodeId: ''
     }
@@ -83,7 +82,6 @@ class TopologyViewer extends React.Component {
     || this.state.selectedNodeId !== nextState.selectedNodeId
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
-    || !_.isEqual(this.state.hiddenNodes, nextState.hiddenNodes)
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
   }
 
@@ -91,21 +89,14 @@ class TopologyViewer extends React.Component {
     this.setState((prevState, props) => {
       // cache live update links and nodes until filter is changed
       let nodes, links
-      const hiddenNodes = new Set()
+      nodes = _.cloneDeep(props.nodes)
       const hiddenLinks = new Set()
       if (props.activeFilters !== prevState.activeFilters) {
         this.resetDiagram()
-        nodes = _.cloneDeep(props.nodes)
         links = _.cloneDeep(props.links)
       } else {
-        // to stabilize layout, just hide objects in diagram that are gone
-        prevState.nodes.forEach(a=>{
-          if (props.nodes.findIndex(b=>{
-            return a.uid===b.uid
-          })==-1) {
-            hiddenNodes.add(a.uid)
-          }
-        })
+        nodes = nodes.map(node => prevState.nodes.find(n => n.uid === node.uid) || node)
+        // to stabilize layout, just hide links in diagram that are gone
         prevState.links.forEach(a=>{
           if (props.links.findIndex(b=>{
             return a.uid===b.uid
@@ -118,10 +109,9 @@ class TopologyViewer extends React.Component {
         const compare = (a,b) => {
           return a.uid===b.uid
         }
-        nodes = _.unionWith(prevState.nodes, props.nodes, compare)
         links = _.unionWith(prevState.links, props.links, compare)
       }
-      return {links, nodes, hiddenNodes, hiddenLinks, activeFilters: props.activeFilters}
+      return {links, nodes, hiddenLinks, activeFilters: props.activeFilters}
     })
 
   }
@@ -202,8 +192,8 @@ class TopologyViewer extends React.Component {
     }
 
     // consolidate nodes/filter links/add layout data to each element
-    const {nodes=[], links=[], hiddenNodes= new Set(), hiddenLinks= new Set()} = this.state
-    this.layoutHelper.layout(nodes, links, hiddenNodes, hiddenLinks, (layoutResults)=>{
+    const {nodes=[], links=[], hiddenLinks= new Set()} = this.state
+    this.layoutHelper.layout(nodes, links, hiddenLinks, (layoutResults)=>{
 
       const {layoutNodes, layoutMap, layoutBBox} = layoutResults
       this.layoutBBox = layoutBBox

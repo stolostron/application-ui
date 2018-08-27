@@ -88,8 +88,8 @@ export default class LayoutHelper {
     let maxHeight = 0
     let totalMaxWidth = 0
     let totalHeight = 0
-    let xx = NODE_SIZE
-    let yy = NODE_SIZE
+    let currentX = NODE_SIZE
+    let currentY = NODE_SIZE
     const rowDims = []
     const bboxArr = []
     collections.forEach(({elements}, idx, array)=>{
@@ -98,22 +98,22 @@ export default class LayoutHelper {
       cells++
 
       // keep track of the dimensions
-      maxWidth = Math.max(xx+w, maxWidth)
+      maxWidth = Math.max(currentX+w, maxWidth)
       totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
-      xx += w + NODE_SIZE*2
+      currentX += w + NODE_SIZE*3
       maxHeight = Math.max(h, maxHeight)
-      if (xx>3000 || idx === array.length - 1) {
+      if (currentX>3000 || idx === array.length - 1) {
         rowDims.push({rowWidth: maxWidth, rowHeight: maxHeight, cells})
         totalHeight+=maxHeight
         maxHeight=maxWidth=cells=0
-        xx=NODE_SIZE
+        currentX=NODE_SIZE
       }
     })
 
     // layout cells aka the collections
     let row = 0
     let cell = 1
-    xx = yy = NODE_SIZE
+    currentX = currentY = NODE_SIZE
     const layoutMap = {}
     collections.forEach(({elements, options:{name}}, idx)=>{
       const {x1, y1, w, h} = bboxArr[idx]
@@ -125,14 +125,14 @@ export default class LayoutHelper {
       const dyCell = name==='grid'?0:(rowHeight-h)/2
 
       // set all node positions
-      const center = {x:xx+dxCell+(w/2), y:yy+dyCell+(h/2)}
+      const center = {x:currentX+dxCell+(w/2), y:currentY+dyCell+(h/2)}
       elements.forEach(element=>{
         const data = element.data()
         if (element.isNode()) {
           const {node: {layout}, id} = data
           const {x, y} = element.position()
-          layout.x = x - x1 + xx + dxCell
-          layout.y = y - y1 + yy + dyCell
+          layout.x = x - x1 + currentX + dxCell
+          layout.y = y - y1 + currentY + dyCell
 
           layout.center = center
           layout.hidden = hiddenNodes.has(layout.uid)
@@ -157,11 +157,11 @@ export default class LayoutHelper {
         }
       })
 
-      xx += w + NODE_SIZE*2
+      currentX += w + NODE_SIZE*3
       cell++
-      if (xx>3000) {
-        yy+=rowHeight + NODE_SIZE*2
-        xx=NODE_SIZE
+      if (currentX>3000) {
+        currentY+=rowHeight + NODE_SIZE*2
+        currentX=NODE_SIZE
         cell = 1
         row++
       }
@@ -385,6 +385,38 @@ export default class LayoutHelper {
 
   cloneInternetNodes = (groups, internetNodes, nodes) => {
     const {nodeGroups} = groups
+
+    // consolidate single nodes that just connect to internet
+    this.topologyOrder.forEach(type=>{
+      if (nodeGroups[type] && nodeGroups[type].connected) {
+        const inConsolidatedConnected = {edges:[], nodeMap:{}}
+        const outConsolidatedConnected = {edges:[], nodeMap:{}}
+        nodeGroups[type].connected = nodeGroups[type].connected.filter(({edges, nodeMap})=>{
+          // if just one edge to internet
+          if (edges.length===1) {
+            if (internetNodes[edges[0].source]) {
+              inConsolidatedConnected.edges.push(edges[0])
+              inConsolidatedConnected.nodeMap = Object.assign(inConsolidatedConnected.nodeMap, nodeMap)
+              return false
+            }
+            if (internetNodes[edges[0].target]) {
+              outConsolidatedConnected.edges.push(edges[0])
+              outConsolidatedConnected.nodeMap = Object.assign(outConsolidatedConnected.nodeMap, nodeMap)
+              return false
+            }
+          }
+          return true
+        })
+        if (inConsolidatedConnected.edges.length) {
+          nodeGroups[type].connected.unshift(inConsolidatedConnected)
+        }
+        if (outConsolidatedConnected.edges.length) {
+          nodeGroups[type].connected.unshift(outConsolidatedConnected)
+        }
+      }
+    })
+
+    // clone the internet objects for each section that has a link to internet
     if (Object.keys(internetNodes).length) {
       const directions = ['source', 'target']
       this.topologyOrder.forEach(type=>{

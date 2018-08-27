@@ -82,6 +82,12 @@ class ResourceTopologyFilters extends React.Component {
         activeKey: 'label'
       },
     ]
+
+    // make sure it has internet type
+    if (availableFilters.types.findIndex(f=>f.label==='internet')===-1) {
+      availableFilters.types.push({label:'internet'})
+    }
+
     return (
       <div className='topologyFilters'>
         {filters.map((filter) =>

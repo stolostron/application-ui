@@ -99,7 +99,7 @@ export function getStatusIcon(item) {
   return (
     <div className='table-status-row'>
       <div className='table-status-icon'>
-        {iconName && <Icon className={`table-status-icon__${className}`} name={iconName} /> }
+        {iconName && <Icon className={`table-status-icon__${className}`} name={iconName} description='' /> }
       </div>
       <p>{className}</p>
     </div>

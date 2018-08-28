@@ -54,7 +54,7 @@ const DashboardTableRow = ({ link, percentage, resourceName, status, ...rest }) 
     <TableRow {...rest}>
       <TableData className='dashboard-status'>
         <div className='table-status-icon'>
-          {status && <Icon className={`table-status-icon__${status}`} name={iconName} />}
+          {status && <Icon className={`table-status-icon__${status}`} name={iconName} description='' />}
         </div>
         {link ? <a href={`https://${link}:8443`}>{truncate(resourceName, 34)}</a> : <p>{truncate(resourceName, 34)}</p> }
       </TableData>

@@ -390,13 +390,13 @@ export function getStatusIconForPolicy(item) {
     if (item.status === 'compliant') {
       return (
         <div className='compliance-table-status'>
-          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} />
+          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} description='' />
         </div>
       )
     } else {
       return (
         <div className='compliance-table-status'>
-          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} />
+          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} description='' />
         </div>
       )
     }
@@ -411,13 +411,13 @@ export function getStatusIcon(item) {
     if (item.compliant === 'compliant') {
       return (
         <div className='compliance-table-status'>
-          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} />
+          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} description='' />
         </div>
       )
     } else {
       return (
         <div className='compliance-table-status'>
-          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} />
+          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} description='' />
         </div>
       )
     }

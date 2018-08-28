@@ -290,7 +290,7 @@ export function getStatus(item= {},locale) {
       return (
         <div className='table-status-row'>
           <div className='compliance-table-status table-status-icon'>
-            <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} />
+            <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} description='' />
           </div>
           <p>{msgs.get('policy.status.compliant', locale)}</p>
         </div>
@@ -299,7 +299,7 @@ export function getStatus(item= {},locale) {
       return (
         <div className='table-status-row'>
           <div className='compliance-table-status  table-status-icon'>
-            <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} />
+            <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} description='' />
           </div>
           <p>
             {msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)}

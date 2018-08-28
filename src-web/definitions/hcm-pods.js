@@ -26,7 +26,7 @@ export default {
     },
     {
       msgKey: 'table.header.status',
-      resourceKey: 'State',
+      resourceKey: 'status',
       transformFunction: getStatus
     },
     {
@@ -47,6 +47,7 @@ export default {
     },
   ],
 }
+
 export function getLabels(item) {
   return <ul>
     {lodash.map(item.labels, (value, key) => {

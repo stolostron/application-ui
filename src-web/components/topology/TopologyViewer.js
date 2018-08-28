@@ -123,6 +123,10 @@ class TopologyViewer extends React.Component {
     const svgId = this.getSvgId()
     return (
       <div className="topologyViewerDiagram" ref={this.setContainerRef} >
+        {/* keep sprite loaded */}
+        <div className='topologyViewerLoadSprite'>
+          <img alt='' src={`${config.contextPath}/graphics/topologySprite.svg`} />
+        </div>
         {title && <div className='topologyViewerTitle'>
           {msgs.get('cluster.name', [title], locale)}
         </div>}

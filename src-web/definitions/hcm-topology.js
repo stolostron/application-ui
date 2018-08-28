@@ -188,8 +188,7 @@ export function getNodeDetails(currentNode) {
       // the pod stuff
       pods.forEach(({name:pname})=>{
         const podDetails = [
-          {labelKey: 'resource.name',
-            value: pname},
+          {value: pname},
         ]
         addDetails(podDetails)
 

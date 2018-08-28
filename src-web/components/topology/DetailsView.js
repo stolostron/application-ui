@@ -54,7 +54,7 @@ class DetailsView extends React.Component {
             <div className='spacer'></div>
           </div> :
           <div className='sectionContent' key={labelKey+value}>
-            <span className='label'>{msgs.get(labelKey, context.locale)}: </span>
+            {labelKey && <span className='label'>{msgs.get(labelKey, context.locale)}: </span>}
             <span className='value'>{value}</span>
           </div>)}
         )}

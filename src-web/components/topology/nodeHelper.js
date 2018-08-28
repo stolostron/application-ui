@@ -80,7 +80,7 @@ export default class NodeHelper {
 
   createNodeShapes = (nodes, className, tabindex=-1) => {
     nodes.append('use')
-      .attr('xlink:href', ({layout: {type}})=>{
+      .attr('href', ({layout: {type}})=>{
         const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
         return `${config.contextPath}/graphics/topologySprite.svg#${shape}`
       })
@@ -91,11 +91,21 @@ export default class NodeHelper {
         type = this.topologyShapes[type] ? this.topologyShapes[type].className : 'default'
         return `${type} ${className}`
       })
+      .style('opacity', ({layout: {newComer}}) => {
+        return newComer && newComer.grid ? 0:1
+      })
+      .style('fill-opacity', ({layout: {newComer}}) => {
+        return newComer && newComer.grid ? 0:1
+      })
       .attr('transform', ({layout}) => {
-        if (layout.center) {
-          const {x, y} = layout.center
-          return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
+        let {x, y} = layout.center
+        if (layout.newComer) {
+          if (layout.newComer.grid) {
+            ({x, y} = layout)
+          }
+          layout.newComer.displayed = true
         }
+        return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
       })
       .call(d3.drag()
         .on('drag', this.dragNode))
@@ -126,8 +136,14 @@ export default class NodeHelper {
     // create label
     nodes.append('g')
       .attr('class','nodeLabel')
+      .style('opacity', ({layout: {newComer}}) => (newComer && newComer.grid ? 0:1))
       .html(({layout})=>{
-        const {center={x:0, y:0}} = layout
+        const {center={x:0, y:0}, newComer} = layout
+        let {x, y} = center
+        if (newComer && newComer.grid) {
+          ({x, y} = layout)
+          y += NODE_RADIUS
+        }
         var text = draw.text((add) => {
           layout.label.split('\n').forEach((line, idx)=>{
             if (line) {
@@ -140,8 +156,8 @@ export default class NodeHelper {
         })
         text
           .leading(0.8)
-          .x(center.x)
-          .y(center.y)
+          .x(x)
+          .y(y)
         return text.svg()
       })
       .call(d3.drag()
@@ -163,6 +179,7 @@ export default class NodeHelper {
     nodes.selectAll('use')
       .interrupt()
       .transition(transition)
+      .style('opacity', 1)
       .attr('transform', ({layout}) => {
         const {x, y} = layout
         return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
@@ -176,18 +193,22 @@ export default class NodeHelper {
     // move labels
     this.svg.select('g.nodes').selectAll('g.nodeLabel')
       .each(({layout},i,ns)=>{
-        d3.select(ns[i]).selectAll('text')
+        const nodeLabel = d3.select(ns[i])
+        nodeLabel
           .interrupt()
           .transition(transition)
+          .style('opacity', 1)
+          .style('fill-opacity', 1)
+        nodeLabel.selectAll('text')
+          .transition(transition)
+          .style('opacity', 1)
           .attr('x', () => {return layout.x})
           .attr('y', () => {return layout.y+NODE_RADIUS})
-        d3.select(ns[i]).selectAll('rect')
-          .interrupt()
+        nodeLabel.selectAll('rect')
           .transition(transition)
           .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
           .attr('y', () => {return layout.y + NODE_RADIUS + 2})
-        d3.select(ns[i]).selectAll('tspan')
-          .interrupt()
+        nodeLabel.selectAll('tspan')
           .transition(transition)
           .attr('x', () => {return layout.x})
       })

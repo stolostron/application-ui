@@ -95,7 +95,8 @@ class TopologyViewer extends React.Component {
         this.resetDiagram()
         links = _.cloneDeep(props.links)
       } else {
-        nodes = nodes.map(node => prevState.nodes.find(n => n.uid === node.uid) || node)
+        nodes = nodes.map(node => prevState.nodes.find(n => n.uid === node.uid) ||
+            Object.assign(node, {layout: {newComer: {}}}))
         // to stabilize layout, just hide links in diagram that are gone
         prevState.links.forEach(a=>{
           if (props.links.findIndex(b=>{

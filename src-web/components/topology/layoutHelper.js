@@ -516,7 +516,12 @@ export default class LayoutHelper {
         // break large unconnected groups into smaller groups
         let unconnectArr = [unconnected]
         if (unconnected.length>48) {
-          unconnected.sort(({layout: {label: a=''}}, {layout:{label:b=''}})=>{
+          unconnected.sort(({layout: {label: a='', newComer: an}}, {layout:{label:b='', newComer: bn}})=>{
+            if (!an && bn) {
+              return -1
+            } else if (an && !bn) {
+              return 1
+            }
             return a.localeCompare(b)
           })
           unconnectArr = chunks(unconnected, 32)
@@ -524,6 +529,9 @@ export default class LayoutHelper {
         unconnectArr.forEach(arr=>{
           const elements = {nodes:[]}
           arr.forEach(node=>{
+            if (node.layout.newComer) {
+              node.layout.newComer.grid = true
+            }
             elements.nodes.push({
               data: {
                 id: node.uid,
@@ -663,12 +671,27 @@ export default class LayoutHelper {
         sort: (a,b) => {
           const {node: {layout: la}} = a.data()
           const {node: {layout: lb}} = b.data()
-          if (la.hasContent && !lb.hasContent) {
+          if (!la.newComer && lb.newComer) {
+            return -1
+          } else if (la.newComer && !lb.newComer) {
+            return 1
+          } else if (la.newComer && lb.newComer) {
+            if (la.newComer.displayed && !lb.newComer.displayed) {
+              return -1
+            } else if (!la.newComer.displayed && lb.newComer.displayed) {
+              return 1
+            }
+            return 0
+          } else if (la.hasContent && !lb.hasContent) {
             return -1
           } else if (!la.hasContent && lb.hasContent) {
             return 1
           }
-          return la.type.localeCompare(lb.type)
+          const r = la.type.localeCompare(lb.type)
+          if (r!==0) {
+            return r
+          }
+          return la.label.localeCompare(lb.label)
         },
         cols
       }

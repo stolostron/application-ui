@@ -92,14 +92,7 @@ endif
 	sudo curl -sSL -o /usr/local/bin/manifest-tool https://github.com/estesp/manifest-tool/releases/download/$(MANIFEST_VERSION)/$(MANIFEST_TOOL_NAME)
 	sudo chmod +x /usr/local/bin/manifest-tool
 
-.PHONY: s390x-fix
-s390x-fix::
-	docker pull $(IMAGE_NAME_S390X) \
-		|| (docker pull $(DEFAULT_S390X_IMAGE) \
-		&& docker tag $(DEFAULT_S390X_IMAGE) $(IMAGE_NAME_S390X) \
-		&& docker push $(IMAGE_NAME_S390X))
-
-multi-arch:: s390x-fix
+multi-arch::
 	cp manifest.yaml /tmp/manifest.yaml
 	sed -i -e "s|__RELEASE_TAG__|$(RELEASE_TAG)|g" -e "s|__IMAGE_NAME__|$(IMAGE_NAME)|g" -e "s|__IMAGE_REPO__|$(IMAGE_REPO)|g" /tmp/manifest.yaml
 	manifest-tool push from-spec /tmp/manifest.yaml

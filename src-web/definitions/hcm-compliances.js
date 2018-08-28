@@ -21,7 +21,7 @@ export default {
   secondaryKey: 'namespace',
   compliancePolicies: {
     resourceKey: 'compliancePolicies',
-    title: 'table.header.compliancePolicies',
+    title: 'table.header.compliance.policies',
     defaultSortField: 'name',
     tableKeys: [
       {

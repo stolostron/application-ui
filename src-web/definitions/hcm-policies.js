@@ -14,6 +14,11 @@ import msgs from '../../nls/platform.properties'
 import {getAge, getLabelsToList} from '../../lib/client/resource-helper'
 import { Icon } from 'carbon-components-react'
 import { Link } from 'react-router-dom'
+import resources from '../../lib/shared/resources'
+
+resources(() => {
+  require('../../scss/table.scss')
+})
 
 export default {
   defaultSortField: 'name',
@@ -278,19 +283,27 @@ export function createPolicyLink(item = {}){
   return  <Link to={`/hcmconsole/policies/local/${encodeURIComponent(item.namespace)}/${encodeURIComponent(item.name)}`}>{item.name}</Link>
 }
 
-export function getStatus(item= {}) {
+export function getStatus(item= {},locale) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
-    if (item.status === 'compliant') {
+    if (item.status.toLowerCase() === 'compliant') {
       return (
-        <div className='compliance-table-status'>
-          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} />
+        <div className='table-status-row'>
+          <div className='compliance-table-status table-status-icon'>
+            <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} />
+          </div>
+          <p>{msgs.get('policy.status.compliant', locale)}</p>
         </div>
       )
     } else {
       return (
-        <div className='compliance-table-status'>
-          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} />
+        <div className='table-status-row'>
+          <div className='compliance-table-status  table-status-icon'>
+            <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} />
+          </div>
+          <p>
+            {msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)}
+          </p>
         </div>
       )
     }

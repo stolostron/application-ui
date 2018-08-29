@@ -78,8 +78,8 @@ class TopologyViewer extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState){
-    return this.state.activeFilters!== nextState.activeFilters
-    || this.state.selectedNodeId !== nextState.selectedNodeId
+    return this.state.selectedNodeId !== nextState.selectedNodeId
+    || !_.isEqual(this.state.activeFilters, nextState.activeFilters)
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
@@ -280,7 +280,7 @@ class TopologyViewer extends React.Component {
       const svg = d3.select('#'+this.getSvgId())
       if (svg) {
         const root = svg.select('g.nodes')
-        if (root) {
+        if (root && root.node()) {
           const parent = root.node().parentElement
           const fullWidth = parent.clientWidth
           const fullHeight = parent.clientHeight

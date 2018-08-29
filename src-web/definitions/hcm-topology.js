@@ -76,7 +76,8 @@ export function topologyTransform(resourceItem) {
     if (curr.cluster !== null && !prev.find(c => c.id === curr.cluster)){
       const node = nodes.find(n => n.id === curr.cluster)
       if (node && node.name) {
-        clusterMap[curr.cluster] = node.name
+        // if weave can't find a cluster it creates an 'unmanaged' cluster
+        clusterMap[curr.cluster] =  node.type==='unmanaged' ? node.type : node.name
         prev.push({
           id: curr.cluster,
           index: prev.length,
@@ -89,7 +90,7 @@ export function topologyTransform(resourceItem) {
 
   // get just the nodes
   const nodesWithoutClusters = nodes.filter(n => {
-    if (n.type !== 'cluster' && n.uid) {
+    if (n.type !== 'cluster' && n.type !== 'unmanaged' && n.uid) {
       n.clusterName = clusterMap[n.cluster]
       return true
     }

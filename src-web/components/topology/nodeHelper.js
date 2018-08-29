@@ -98,7 +98,7 @@ export default class NodeHelper {
         return newComer && newComer.grid ? 0:1
       })
       .attr('transform', ({layout}) => {
-        let {x, y} = layout.center
+        let {x, y} = layout.center||{x:0, y:0}
         if (layout.newComer) {
           if (layout.newComer.grid) {
             ({x, y} = layout)

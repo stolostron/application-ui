@@ -38,15 +38,16 @@ class ResourceTopologyDiagram extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = { clusters: props.clusters }
+    this.state = { clusters: props.clusters, loaded:false }
   }
 
   componentWillReceiveProps(nextProps){
-    const { activeFilters, clusters, nodes, links} = nextProps
+    const { activeFilters, clusters, nodes, links, status} = nextProps
+    let { loaded } = this.state
 
     // if all clusters requested, put all nodes in that cluster
     const ALL = 'all'
-    const allClusters = !activeFilters.clusters || activeFilters.clusters.length===0
+    const allClusters = !activeFilters.cluster || activeFilters.cluster.length===0
     const clstrs = !allClusters ? lodash.cloneDeep(clusters) :
       nodes.length ? [
         {id: ALL, name: msgs.get('resource.filterAll', this.context.locale)}
@@ -66,22 +67,28 @@ class ResourceTopologyDiagram extends React.Component {
         return set.has(link.source) || set.has(link.target)
       })
     })
-    clusters.sort((a,b) => {
+    clstrs.sort((a,b) => {
       return a.name.localeCompare(b.name)
     })
-    this.setState({ clusters: clstrs })
+
+    // prevent loading... message when just doing a live update
+    loaded = (loaded || status === Actions.REQUEST_STATUS.DONE)
+      && status !== Actions.REQUEST_STATUS.ERROR
+      && lodash.isEqual(activeFilters, this.props.activeFilters)
+
+    this.setState({ clusters: clstrs, loaded })
   }
 
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps, nextState){
     return !lodash.isEqual(this.props.clusters.map(n => n.id), nextProps.clusters.map(n => n.id)) ||
        !lodash.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
-       this.props.status !== Actions.REQUEST_STATUS.DONE
+       this.state.loaded !== nextState.loaded
   }
 
   render() {
     const { activeFilters, status, staticResourceData} = this.props
-    const { clusters } = this.state
+    const { clusters, loaded } = this.state
     const {locale} = this.context
 
     if (status === Actions.REQUEST_STATUS.ERROR) {
@@ -92,7 +99,7 @@ class ResourceTopologyDiagram extends React.Component {
         kind='error' />
     }
 
-    if (status !== Actions.REQUEST_STATUS.DONE)
+    if (!loaded)
       return <Loading withOverlay={false} className='content-spinner' />
 
     if (clusters.length===0) {

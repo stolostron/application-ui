@@ -516,13 +516,18 @@ export default class LayoutHelper {
         // break large unconnected groups into smaller groups
         let unconnectArr = [unconnected]
         if (unconnected.length>48) {
-          unconnected.sort(({layout: {label: a='', newComer: an}}, {layout:{label:b='', newComer: bn}})=>{
+          unconnected.sort(({layout: {label: a='', uid:au, newComer: an}}, {layout:{label:b='', uid:bu, newComer: bn}})=>{
             if (!an && bn) {
               return -1
             } else if (an && !bn) {
               return 1
             }
-            return a.localeCompare(b)
+            const r = a.localeCompare(b)
+            if (r!==0) {
+              return r
+            } else {
+              return au.localeCompare(bu)
+            }
           })
           unconnectArr = chunks(unconnected, 32)
         }
@@ -652,7 +657,7 @@ export default class LayoutHelper {
     // get rough idea how many to allocate for each collection based on # of nodes
     const columns = unconnected.map(collection => {
       const count = collection.elements.nodes().length
-      return count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8))
+      return count<=3 ? 1 : (count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8)))
     })
     unconnected.forEach((collection, index)=>{
       const count = collection.elements.length

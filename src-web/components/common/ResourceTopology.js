@@ -27,6 +27,7 @@ import ResourceTopologyFilters from './ResourceTopologyFilters'
 class ResourceTopology extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
+    availableFilters: PropTypes.object,
     baseUrl: PropTypes.string,
     fetchActiveTopologyFilters: PropTypes.func,
     fetchTopology: PropTypes.func,
@@ -82,7 +83,8 @@ class ResourceTopology extends React.Component {
   }
 
   render() {
-    if (this.props.activeFilters.cluster && this.props.activeFilters.cluster.length === 0) {
+    const { availableFilters ={}} = this.props
+    if (availableFilters.cluster && availableFilters.cluster.length === 0) {
       return (
         <div className='topologyTab'>
           <div className='topologyNoCluster'>

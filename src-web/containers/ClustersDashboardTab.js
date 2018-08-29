@@ -9,7 +9,9 @@
 /* eslint-disable react/prop-types,react/no-unused-state */
 
 import React from 'react'
+import _ from 'lodash'
 import Page from '../components/common/Page'
+import NoResource from '../components/common/NoResource'
 import resources from '../../lib/shared/resources'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -71,6 +73,23 @@ export class ClustersDashboardTab extends React.Component {
 
     if ((status !== REQUEST_STATUS.DONE || !cardItems || !pieChartItems) && !this.state.xhrPoll)
       return <Loading withOverlay={false} className='content-spinner' />
+
+    const numClusters = _.reduce(pieChartItems[0].data, (total, n) => {
+      return total + parseInt(n[1])
+    }, 0)
+
+    if (numClusters === 0) {
+      return (
+        <div className='dashboard-main'>
+          <div className='dashboard-notification'>
+            <NoResource
+              title={msgs.get('no-cluster.title')}
+              detail={msgs.get('no-cluster.detail')}>
+            </NoResource>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div>

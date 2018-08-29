@@ -18,6 +18,7 @@ import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import { getTabs } from '../../../lib/client/resource-helper'
+import NoResource from '../common/NoResource'
 import lodash from 'lodash'
 import { fetchTopology, fetchActiveTopologyFilters, updateTopologyFilters } from '../../actions/topology'
 import ResourceTopologyDiagram from './ResourceTopologyDiagram'
@@ -81,6 +82,18 @@ class ResourceTopology extends React.Component {
   }
 
   render() {
+    if (this.props.activeFilters.cluster && this.props.activeFilters.cluster.length === 0) {
+      return (
+        <div className='topologyTab'>
+          <div className='topologyNoCluster'>
+            <NoResource
+              title={msgs.get('no-cluster.title')}
+              detail={msgs.get('no-cluster.detail')}>
+            </NoResource>
+          </div>
+        </div>
+      )
+    }
     return (
       <div className={this.props.params ? 'topologyPage': 'topologyTab'}>
         <ResourceTopologyFilters />

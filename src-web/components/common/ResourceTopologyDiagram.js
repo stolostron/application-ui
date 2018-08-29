@@ -72,8 +72,8 @@ class ResourceTopologyDiagram extends React.Component {
     })
 
     // prevent loading... message when just doing a live update
-    loaded = (loaded || status === Actions.REQUEST_STATUS.DONE)
-      && status !== Actions.REQUEST_STATUS.ERROR
+    loaded = (loaded || status === Actions.REQUEST_STATUS.DONE
+        || status === Actions.REQUEST_STATUS.ERROR)
       && lodash.isEqual(activeFilters, this.props.activeFilters)
 
     this.setState({ clusters: clstrs, loaded })

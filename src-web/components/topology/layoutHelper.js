@@ -340,6 +340,7 @@ export default class LayoutHelper {
           // if this node is connected to anything start a new group
           if (!connectedSet.has(uid) && anyConnectedSet.has(uid)) {
             const grp = {
+              uid,
               nodeMap: {},
               edges: []
             }
@@ -362,6 +363,20 @@ export default class LayoutHelper {
       const {connected, unconnected} = nodeGroups[key]
       if (connected.length===0 && unconnected.length===0) {
         delete nodeGroups[key]
+      }
+    })
+
+    // sort by size
+    this.topologyOrder.forEach(type=>{
+      if (nodeGroups[type]) {
+        const {connected} = nodeGroups[type]
+        connected.sort(({nodeMap:a, uid:au},{nodeMap:b, uid:bu})=>{
+          let r = Object.keys(a).length - Object.keys(b).length
+          if (r===0) {
+            r = au.localeCompare(bu)
+          }
+          return r
+        })
       }
     })
 
@@ -616,6 +631,16 @@ export default class LayoutHelper {
     let count = elements.nodes().length
     count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
     const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
+
+    // stabilize diagram
+    elements.nodes().forEach(ele=>{
+      const {node: {layout}} = ele.data()
+      if (layout) {
+        const {x=0, y=0} = layout
+        ele.position({x, y})
+      }
+    })
+
     return {
       name: 'cola',
       animate: false,

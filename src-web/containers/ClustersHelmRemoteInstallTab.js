@@ -45,6 +45,7 @@ class ChartInstall extends React.Component {
     chartURL: PropTypes.string,
     chartValues: PropTypes.string,
     chartVersion: PropTypes.string,
+    clusterToNamespace: PropTypes.obj,
     clusters: PropTypes.arrayOf(PropTypes.string),
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
@@ -75,7 +76,7 @@ class ChartInstall extends React.Component {
     const secondaryHeaderBreadcrumbs = [{ label: msgs.get('breadcrumb.viewall', this.context.locale), url: '/catalog/' }]
 
     actions.updateSecondaryHeader(secondaryHeaderText, null, secondaryHeaderBreadcrumbs)
-    actions.fetchResources(RESOURCE_TYPES.HCM_NAMESPACES)
+    actions.fetchResources(RESOURCE_TYPES.HCM_CLUSTERS)
   }
 
   handleClusterSelect(value) {
@@ -84,12 +85,15 @@ class ChartInstall extends React.Component {
   }
 
   handleSubmit() {
-    const { chartURL, chartValues, history } = this.props
+    const { chartURL, chartValues, clusterToNamespace, history } = this.props
     const { targetClusters } = this.state
 
     this.props.actions.catalogReleaseInstall({
       chartURL,
-      clusters: targetClusters,
+      destinationClusters: targetClusters.map(cluster => ({
+        name: cluster,
+        namespace: clusterToNamespace[cluster]
+      })),
       namespace: chartValues.selectedNamespace,
       releaseName: chartValues.selectedReleaseName,
       values: sessionStorage.getItem('values'),
@@ -124,31 +128,19 @@ class ChartInstall extends React.Component {
       </Page>
     )
   }
-
 }
 
 const mapStateToProps = state => {
-  const {
-    catalogInstallFailure,
-    catalogInstallLoading,
-  } = state.catalog
+  const { catalogInstallFailure, catalogInstallLoading } = state.catalog
+  const clusterList = get(state, `${RESOURCE_TYPES.HCM_CLUSTERS.list}.items`, [])
 
-  const namespaceList = get(state, `${RESOURCE_TYPES.HCM_NAMESPACES.list}.items`, [])
+  const { clusters, clusterToNamespace } = reduce(clusterList,
+    (accum, { name, namespace }) => {
+      accum.clusters[name] = { label: name }
+      accum.clusterToNamespace[name] = namespace
 
-  const { clusters, namespaces, clusterToNamespaces } = reduce(namespaceList,
-    (ret, { name: namespace, cluster }) => {
-      // Dedupe namespaces and clusters
-      ret.namespaces[namespace] = { label: namespace }
-      ret.clusters[cluster] = { label: cluster }
-
-      if (ret.clusterToNamespaces[cluster]) {
-        ret.clusterToNamespaces[cluster].push(namespace)
-      } else {
-        ret.clusterToNamespaces[cluster] = [namespace]
-      }
-
-      return ret
-    }, { clusters: {}, namespaces: {}, clusterToNamespaces: {} })
+      return accum
+    }, { clusters: {}, clusterToNamespace: {} })
 
 
   // Remove Surrounding Quotes
@@ -167,9 +159,8 @@ const mapStateToProps = state => {
     chartURL: chartURLs[0],
     chartValues,
     chartVersion,
-    clusterToNamespaces,
     clusters: Object.keys(clusters),
-    namespaces: Object.keys(namespaces),
+    clusterToNamespace,
     repoName,
   }
 }

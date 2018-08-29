@@ -21,6 +21,7 @@ import TableHelper from '../../util/table-helper'
 class ResourceTableModule extends React.Component {
   static propTypes = {
     definitionsKey: PropTypes.string,
+    normalizedKey: PropTypes.string,
     resourceType: PropTypes.object,
     staticResourceData: PropTypes.object,
     tableResources: PropTypes.array,
@@ -77,9 +78,10 @@ class ResourceTableModule extends React.Component {
 
   formatResourceData(inputData) {
     let { tableResources } = this.props
+    const { normalizedKey } = this.props
     if (inputData) tableResources = inputData
     const { searchValue } = this.state
-    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => repo.name)
+    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => normalizedKey? repo[normalizedKey]+repo.cluster : repo.name)
     let itemIds = normalizedItems && Object.keys(normalizedItems)
     if (searchValue) {
       itemIds = itemIds.filter(repo => repo.includes(searchValue))
@@ -122,8 +124,10 @@ ResourceTableModule.contextTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { staticResourceData, definitionsKey, resourceData } = ownProps
   const resourceKey = staticResourceData[definitionsKey].resourceKey
+  const normalizedKey = staticResourceData[definitionsKey].normalizedKey
   const tableResources = resourceData[resourceKey]
   return {
+    normalizedKey,
     tableResources
   }
 }

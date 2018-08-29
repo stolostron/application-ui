@@ -23,6 +23,7 @@ export default {
     resourceKey: 'compliancePolicies',
     title: 'table.header.compliance.policies',
     defaultSortField: 'name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         msgKey: 'table.header.compliant',
@@ -37,7 +38,7 @@ export default {
         link: createCompliancePolicyLink,
       },
       {
-        msgKey: 'table.header.cluster',
+        msgKey: 'table.header.cluster.namespace',
         resourceKey: 'cluster',
         key: 'cluster',
       },
@@ -52,6 +53,7 @@ export default {
     resourceKey: 'complianceStatus',
     title: 'table.header.compliance.compliant',
     defaultSortField: 'clusterNamespace',
+    normalizedKey: 'clusterNamespace',
     tableKeys: [
       {
         msgKey: 'table.header.cluster.namespace',
@@ -408,7 +410,7 @@ export function getStatusIconForPolicy(item) {
 export function getStatusIcon(item) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.compliant&&expectedStatuses.indexOf(item.compliant.toLowerCase()) > -1){
-    if (item.compliant === 'compliant') {
+    if (item.compliant.toLowerCase() === 'compliant') {
       return (
         <div className='compliance-table-status'>
           <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} description='' />

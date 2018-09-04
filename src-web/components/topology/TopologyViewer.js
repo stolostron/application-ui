@@ -282,8 +282,7 @@ class TopologyViewer extends React.Component {
         const root = svg.select('g.nodes')
         if (root && root.node()) {
           const parent = root.node().parentElement
-          const fullWidth = parent.clientWidth
-          const fullHeight = parent.clientHeight
+          const {width: fullWidth, height: fullHeight} = parent.getBoundingClientRect()
           const scale = Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight))
           this.getSvgSpace(200).translateTo(svg, width/2, height/2)
           this.getSvgSpace(200).scaleTo(svg, scale)

@@ -11,7 +11,6 @@ import React from 'react'
 import { Loading } from 'carbon-components-react'
 import {getAge, getLabelsToString, getLabelsToList} from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
-import lodash from 'lodash'
 import { Link } from 'react-router-dom'
 
 export default {
@@ -111,6 +110,18 @@ export default {
           {
             resourceKey: 'details.labels',
             transformFunction: getLabelsToList
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.selector',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'selector',
+            transformFunction: getLabelsToList,
           }
         ]
       },
@@ -289,10 +300,45 @@ export function getDependencies(item = {}){
 }
 
 export function getActiveFilters(item) {
-  const {details} = item
-  const label = lodash.map(details.labels, (value, key) => {
-    return { label: `${key}: ${value}`, name: key, value}
-  })
+  let label = []
+  const {selector={}} = item
+  for (var key in selector) {
+    if (selector.hasOwnProperty(key)) {
+      switch (key) {
+
+      case 'matchLabels':
+        for (var k in selector[key]) {
+          if (selector[key].hasOwnProperty(k)) {
+            const v = selector[key][k]
+            label.push({ label: `${k}: ${v}`, name: k, value: v})
+          }
+        }
+        break
+
+      case 'matchExpressions':
+        selector[key].forEach(({key:k='', operator='', values=[]})=>{
+          switch (operator.toLowerCase()) {
+          case 'in':
+            label = values.map(v => {
+              return { label: `${k}: ${v}`, name: k, value:v}
+            })
+            break
+
+          case 'notin':
+            //TODO
+            break
+
+          default:
+            break
+          }
+        })
+        break
+
+      default:
+        break
+      }
+    }
+  }
   return {
     namespace: [],
     label

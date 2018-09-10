@@ -47,7 +47,7 @@ script:
   - make copyright-check
   - make test
   - make cicd-log-test
-  - export PREV_COVERAGE_REPORT=$(curl -L https://raw.github.ibm.com/IBMPrivateCloud/hcm-ui/gh-pages/coverage/coverage-summary.json?token=AAAIcYdU9BA4KG4HKTNeLM4VpS4dxtgXks5bX0o9wA%3D%3D)
+  - export PREV_COVERAGE_REPORT=$(curl -L https://raw.github.ibm.com/IBMPrivateCloud/mcm-ui/gh-pages/coverage/coverage-summary.json?token=AAAIcYdU9BA4KG4HKTNeLM4VpS4dxtgXks5bX0o9wA%3D%3D)
   - node travis-scripts/enforce-coverage.js
 
 after_success:

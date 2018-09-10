@@ -127,7 +127,7 @@ export function setNodeInfo(node, locale) {
 export function getNodeDetails(currentNode) {
   const details = []
   if (currentNode){
-    const { clusterName, name, namespace, topology, type, layout } = currentNode
+    const { clusterName, name, namespace, topology, type, layout, labels=[] } = currentNode
     const { hasPods, hasService, pods, type: ltype } = layout
 
     const addDetails = (dets) => {
@@ -154,6 +154,24 @@ export function getNodeDetails(currentNode) {
         value: topology},
     ]
     addDetails(mainDetails)
+
+    // labels
+    if (labels.length) {
+      details.push({
+        type: 'spacer',
+        reactKey: 'labels'
+      })
+      details.push({
+        type: 'label',
+        labelKey: 'resource.labels'
+      })
+      labels.forEach(({name:lname, value:lvalue})=>{
+        const labelDetails = [
+          {value: `${lname} = ${lvalue}`},
+        ]
+        addDetails(labelDetails)
+      })
+    }
 
     // controllers
     if (hasService) {

@@ -48,7 +48,7 @@ const jestConfig = {
     '<rootDir>/tests/jest/config/setup.js'
   ],
   moduleNameMapper: {
-    '\\.(css|scss)$': '<rootDir>/tests/jest/config/styleMock.js'
+    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
   }
 }
 

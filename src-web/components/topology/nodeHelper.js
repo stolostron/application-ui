@@ -10,7 +10,7 @@
 
 import * as d3 from 'd3'
 import SVG from 'svg.js'
-import config from '../../../lib/shared/config'
+import '../../../graphics/topologySprite.svg'
 
 import { NODE_RADIUS, NODE_SIZE } from './constants.js'
 
@@ -76,7 +76,7 @@ export default class NodeHelper {
     nodes.append('use')
       .attr('href', ({layout: {type}})=>{
         const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
-        return `${config.contextPath}/graphics/topologySprite.svg#${shape}`
+        return `#topologySprite_${shape}`
       })
       .attr('width', NODE_SIZE)
       .attr('height', NODE_SIZE)

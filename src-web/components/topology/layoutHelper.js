@@ -564,7 +564,7 @@ export default class LayoutHelper {
         w: 1000,
         h: 1000
       },
-      flow: { axis: 'y', minSeparation: 50 },
+      flow: { axis: 'y', minSeparation: 30 },
       nodeSpacing: (node)=>{
         const {node:{layout:{scale=1}}} = node.data()
         return (NODE_SIZE*scale) + 10  // running in headless mode, we need to provide node size here

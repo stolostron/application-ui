@@ -96,9 +96,9 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-sprite-loader?' + JSON.stringify({
-          name: '[name]_[hash]',
-        })
+        use: [
+          'svg-sprite-loader'
+        ]
       }
     ],
     noParse: [

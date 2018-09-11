@@ -160,3 +160,13 @@ body {
     }
   }
 }
+
+.removeCopyButton{
+  padding-right: 1rem;
+  button.bx--snippet-button{
+      display: none;
+  }
+  div.bx--snippet-container{
+      margin-right: 0rem;
+  }
+}

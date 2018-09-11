@@ -236,6 +236,7 @@
   "description.title.api.version": "API version",
   "description.title.annotations": "Annotations",
   "description.title.self.link": "Self link",
+  "description.title.selector": "Selector",
   "description.title.uid": "UID",
   "description.title.status": "Status",
   "description.title.cluster.compliant": "Cluster Compliant",

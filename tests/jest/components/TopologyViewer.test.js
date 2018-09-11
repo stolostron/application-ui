@@ -21,7 +21,7 @@ describe('TopologyViewer no components', () => {
     links:[],
     staticResourceData: {
       topologyOrder: ['application', 'appservice', 'dependency'],
-      topologyNodeDescription: jest.fn()
+      topologyNodeLayout: jest.fn()
     },
   }
   it('renders as expected', () => {

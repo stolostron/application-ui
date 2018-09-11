@@ -263,7 +263,7 @@ export default {
       className: 'internet'
     }
   },
-  topologyNodeDescription: setNodeInfo,
+  topologyNodeLayout: setNodeInfo,
   topologyTransform: topologyTransform,
   topologyNodeDetails: getNodeDetails,
   topologyActiveFilters: getActiveFilters

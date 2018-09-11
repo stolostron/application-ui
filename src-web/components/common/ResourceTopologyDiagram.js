@@ -83,6 +83,7 @@ class ResourceTopologyDiagram extends React.Component {
     return !lodash.isEqual(this.props.clusters.map(n => n.id), nextProps.clusters.map(n => n.id)) ||
        !lodash.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
+       !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
        this.state.loaded !== nextState.loaded
   }
 

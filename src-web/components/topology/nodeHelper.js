@@ -20,13 +20,12 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, topologyShapes, linkHelper, layoutMap, resetHighlightMode) {
+  constructor(svg, nodes, topologyShapes, linkHelper, layoutMap) {
     this.svg = svg
     this.layoutMap = layoutMap
     this.nodes = nodes
     this.topologyShapes = topologyShapes
     this.linkHelper = linkHelper
-    this.resetHighlightMode = resetHighlightMode
   }
 
 
@@ -43,7 +42,7 @@ export default class NodeHelper {
   }
 
   addNodesToDiagram = (currentZoom, nodeClickHandler) => {
-    const draw = SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
+    const draw = typeof SVG === 'function' ? SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg')) : undefined
     const filteredNodes = this.nodes.filter(node => !!node.layout)
 
     // Add node groups to diagram
@@ -57,7 +56,6 @@ export default class NodeHelper {
       .attr('transform', currentZoom)
       .attr('type', (d) => { return d.name })
       .on('click', (d)=>{
-        this.highlightNodes(d)
         nodeClickHandler(d)
       })
 
@@ -69,13 +67,9 @@ export default class NodeHelper {
     this.createCircle(nodes)
 
     // Add node labels to diagram
-    this.createLabels(draw, nodes)
-
-    // unhighlite shapes
-    this.svg
-      .on('click', ()=>{
-        this.highlightNodes()
-      })
+    if (draw) {
+      this.createLabels(draw, nodes)
+    }
   }
 
   createNodeShapes = (nodes, className, tabindex=-1) => {
@@ -105,7 +99,8 @@ export default class NodeHelper {
           }
           layout.newComer.displayed = true
         }
-        return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
+        const sz = NODE_SIZE * (layout.scale||1)
+        return `translate(${x - sz/2}, ${y - sz/2})`
       })
       .call(d3.drag()
         .on('drag', this.dragNode))
@@ -139,19 +134,25 @@ export default class NodeHelper {
       .style('opacity', ({layout: {newComer}}) => (newComer && newComer.grid ? 0:1))
       .html(({layout})=>{
         const {center={x:0, y:0}, newComer} = layout
+        let scale = 1
         let {x, y} = center
         if (newComer && newComer.grid) {
-          ({x, y} = layout)
-          y += NODE_RADIUS
+          ({x, y, scale=1} = layout)
+          y += (NODE_RADIUS*scale)
         }
         var text = draw.text((add) => {
-          layout.label.split('\n').forEach((line, idx)=>{
+          layout.label.split('\n').forEach((line, idx, arr)=>{
             if (line) {
-              add.tspan(line).addClass(idx===0?'first-line':'').newLine()
+              const middleLine = idx!=0&&idx!==arr.length-1
+              add.tspan(line)
+                .addClass(idx===0?'first-line':'')
+                .addClass(!middleLine?'counter-zoom':'')
+                .addClass(middleLine?'opacity-zoom':'')
+                .newLine()
             }
           })
           if (layout.info) {
-            add.tspan(layout.info).fill('gray').font({size: 9}).newLine()
+            add.tspan(layout.info).fill('gray').font({size: 9}).addClass('opacity-zoom').newLine()
           }
         })
         text
@@ -177,15 +178,20 @@ export default class NodeHelper {
     // move nodes
     const nodes = this.svg.select('g.nodes').selectAll('g.node')
     nodes.selectAll('use')
-      .interrupt()
       .transition(transition)
       .style('opacity', 1)
+      .attr('width', ({layout:{scale=1}}) => {
+        return NODE_SIZE*scale
+      })
+      .attr('height', ({layout:{scale=1}}) => {
+        return NODE_SIZE*scale
+      })
       .attr('transform', ({layout}) => {
-        const {x, y} = layout
-        return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
+        const {x, y, scale=1} = layout
+        const sz = NODE_SIZE*scale
+        return `translate(${x - sz/2}, ${y - sz/2})`
       })
     nodes.selectAll('circle')
-      .interrupt()
       .transition(transition)
       .attr('cx', ({layout}) => { return layout.x })
       .attr('cy', ({layout}) => { return layout.y })
@@ -193,9 +199,13 @@ export default class NodeHelper {
     // move labels
     this.svg.select('g.nodes').selectAll('g.nodeLabel')
       .each(({layout},i,ns)=>{
+        const {scale=1} = layout
         const nodeLabel = d3.select(ns[i])
         nodeLabel
-          .interrupt()
+          .selectAll('tspan')
+          .classed('counter-bigger-zoom', scale>1)
+
+        nodeLabel
           .transition(transition)
           .style('opacity', 1)
           .style('fill-opacity', 1)
@@ -203,11 +213,11 @@ export default class NodeHelper {
           .transition(transition)
           .style('opacity', 1)
           .attr('x', () => {return layout.x})
-          .attr('y', () => {return layout.y+NODE_RADIUS})
+          .attr('y', () => {return layout.y + (NODE_RADIUS*scale)})
         nodeLabel.selectAll('rect')
           .transition(transition)
           .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
-          .attr('y', () => {return layout.y + NODE_RADIUS + 2})
+          .attr('y', () => {return layout.y + (NODE_RADIUS*scale) + 2})
         nodeLabel.selectAll('tspan')
           .transition(transition)
           .attr('x', () => {return layout.x})
@@ -220,44 +230,8 @@ export default class NodeHelper {
     })
   }
 
-  highlightNodes = (node) => {
-    const opacity = 0.15
-    const nodeSet = new Set()
-    const edgeSet = new Set()
-    let highlight = false
-    if (node) {
-      highlight = this.layoutMap[node.layout.uid].highlight
-      if (highlight) {
-        const {elements, element} = this.layoutMap[node.layout.uid]
-        if (elements.nodes().length>3) {
-          nodeSet.add(node.layout.uid)
-          element.successors()
-            .add(element.predecessors())
-            .forEach(ele=>{
-              const data = ele.data()
-              if (ele.isNode()) {
-                nodeSet.add(data.node.layout.uid)
-              } else {
-                edgeSet.add(data.edge.uid)
-              }
-            })
-          highlight = edgeSet.size>0
-        }
-      }
-    } else {
-      this.resetHighlightMode()
-    }
-    this.svg.select('g.nodes').selectAll('g.node')
-      .interrupt()
-      .style('opacity', ({layout}) => {
-        return highlight && !nodeSet.has(layout.uid) ? opacity : 1.0
-      })
-
-    // highlight links
-    this.linkHelper.highlightLinks(highlight, edgeSet, opacity)
-  }
-
   dragNode = (d, i, ns) => {
+    this.svg.interrupt().selectAll('*').interrupt()
     const {layout} = d
     const node = d3.select(ns[i].parentNode)
     layout.x += d3.event.dx
@@ -272,9 +246,9 @@ export default class NodeHelper {
     // drag polygons
     node.selectAll('use')
       .attr('transform', () => {
-        const x = layout.x
-        const y = layout.y
-        return `translate(${x - NODE_SIZE/2}, ${y - NODE_SIZE/2})`
+        const {x, y, scale=1} = layout
+        const sz = NODE_SIZE*scale
+        return `translate(${x - sz/2}, ${y - sz/2})`
       })
 
     // drag label
@@ -282,10 +256,10 @@ export default class NodeHelper {
     nodeLabels.each((d,i,ns)=>{
       d3.select(ns[i]).selectAll('text')
         .attr('x', () => {return layout.x})
-        .attr('y', () => {return layout.y+NODE_RADIUS})
+        .attr('y', () => {return layout.y+(NODE_RADIUS*(layout.scale||1))})
       d3.select(ns[i]).selectAll('rect')
         .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
-        .attr('y', () => {return layout.y + NODE_RADIUS + 2})
+        .attr('y', () => {return layout.y + (NODE_RADIUS*(layout.scale||1)) + 2})
       d3.select(ns[i]).selectAll('tspan')
         .attr('x', () => {return layout.x})
     })
@@ -295,3 +269,20 @@ export default class NodeHelper {
   }
 }
 
+export const counterZoomLabels = (svg, currentZoom) => {
+  if (svg) {
+    const s = currentZoom.k
+    const fontSize = s<=0.35 ? 22 : (s<=0.45 ? 20 : (s<=0.65? 18:(s<=0.85? 14: 12)))
+    svg
+      .selectAll('tspan.counter-zoom')
+      .style('font-size', fontSize+'px')
+    svg
+      .selectAll('tspan.first-line.counter-bigger-zoom')
+      .style('font-size', fontSize+4+'px')
+      .style('font-weight', 'bold')
+    const opacity = s<=0.7 ? 0 : 1
+    svg
+      .selectAll('tspan.opacity-zoom')
+      .style('opacity', opacity)
+  }
+}

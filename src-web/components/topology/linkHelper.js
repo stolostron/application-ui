@@ -20,10 +20,10 @@ export default class LinkHelper {
    *
    * Contains functions to draw and manage links between nodes in the diagram.
    */
-  constructor(svg, links, bounds) {
+  constructor(svg, links, nodes) {
     this.links = links
-    this.bounds = bounds
     this.svg = svg
+    this.nodeMap = _.keyBy(nodes, 'layout.uid')
   }
 
   /**
@@ -37,10 +37,17 @@ export default class LinkHelper {
   removeOldLinksFromDiagram = () => {
     // filtered list is of the links that still exist
     // if d3 finds a node that doesn't exist in this list, it removes it
-    const map = _.keyBy(this.links, 'uid')
     this.svg.select('g.links')
       .selectAll('g.link')
-      .data(this.links.filter(l=>{return !!map[l.uid]}), (l) => {
+      .data(this.links.filter((link)=>{
+        let {source, target} = link
+        const {layout} = link
+        if (layout) {
+          source = layout.source.uid
+          target = layout.target.uid
+        }
+        return this.nodeMap[source] && this.nodeMap[target]
+      }), (l) => {
         return l.uid
       }).exit().remove()
   }
@@ -91,62 +98,41 @@ export default class LinkHelper {
   moveLinks = (transition) => {
     const links = this.svg.select('g.links').selectAll('g.link')
 
+    const getPosition = (layout, key, pos) => {
+      const node = this.nodeMap[layout[key].uid]
+      return node ? (pos ? node.layout[pos] : node.layout) : 0
+    }
     // set position of line
     links.selectAll('line')
-      .interrupt()
       .transition(transition)
-      .attr('x1', ({layout}) => { return layout.source.x })
-      .attr('y1', ({layout}) => { return layout.source.y })
-      .attr('x2', ({layout}) => { return layout.target.x })
-      .attr('y2', ({layout}) => { return layout.target.y })
+      .attr('x1', ({layout}) => { return getPosition(layout, 'source', 'x')})
+      .attr('y1', ({layout}) => { return getPosition(layout, 'source', 'y') })
+      .attr('x2', ({layout}) => { return getPosition(layout, 'target', 'x') })
+      .attr('y2', ({layout}) => { return getPosition(layout, 'target', 'y') })
 
     // set position of arrow
     links.selectAll('polygon')
-      .interrupt()
       .transition(transition )
       .attr('transform', ({layout}) => {
-        const {source, target} = layout
-        const x = target.x
-        const y = target.y
-        const angle = Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI
-        return `translate(${x}, ${y}) rotate(${angle + 90})`
+        const {x: sx, y: sy} = getPosition(layout, 'source')
+        const {x: tx, y: ty} = getPosition(layout, 'target')
+        const angle = Math.atan2(ty - sy, tx - sx) * 180 / Math.PI
+        return `translate(${tx}, ${ty}) rotate(${angle + 90})`
       })
 
       // set position of label
     links.selectAll('text')
-      .interrupt()
-      .transition(transition)
+      .transition(transition )
       .attr('transform', ({layout}) => {
-        const {source, target} = layout
-        const x = (source.x + target.x)/2
-        const y = (source.y + target.y)/2
-        const angle = Math.atan2(target.y - source.y,target.x - source.x) * 180 / Math.PI
-        return `translate(${x}, ${y}) rotate(${x > target.x ? angle + 180 : angle})`
+        const {x: sx, y: sy} = getPosition(layout, 'source')
+        const {x: tx, y: ty} = getPosition(layout, 'target')
+        const x = (sx + tx)/2
+        const y = (sy + ty)/2
+        const angle = Math.atan2(ty - sy,tx - sx) * 180 / Math.PI
+        return `translate(${x}, ${y}) rotate(${x > tx ? angle + 180 : angle})`
       })
       .style('opacity', ({layout}) => {
         return layout.hidden ? 0.0 : 1.0
-      })
-  }
-
-  highlightLinks = (highlight, edgeSet, opacity) => {
-    const links = this.svg.select('g.links').selectAll('g.link')
-    links
-      .interrupt()
-    links.selectAll('line')
-      .style('opacity', ({uid}) => {
-        return highlight && !edgeSet.has(uid) ? opacity : 1.0
-      })
-
-    // set opacity of arrow
-    links.selectAll('polygon')
-      .style('opacity', ({uid}) => {
-        return highlight && !edgeSet.has(uid) ? opacity : 1.0
-      })
-
-      // set opacity of label
-    links.selectAll('text')
-      .style('opacity', ({uid}) => {
-        return highlight && !edgeSet.has(uid) ? opacity : 1.0
       })
   }
 

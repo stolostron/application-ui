@@ -10,8 +10,14 @@
 
 import msgs from '../../nls/platform.properties'
 
+// topologyCloneTypes: types that can appear through diagram, better to clone them for each group that wants it
+// topologyOrder: general order in which to organize diagram with 'internet' at upper left and container at lower right
+// topologyNodeLayout: what description to but under node in diagram
+// topologyTransform: how to convert a model into nodes and edges
+// topologyNodeDetails: what desciption to put in details view when node is clicked
 export default {
-  topologyOrder: ['host', 'service', 'controller', 'cronjob', 'pod', 'container', 'unmanaged'],
+  topologyCloneTypes: ['internet', 'host'],
+  topologyOrder: ['internet', 'host', 'service', 'controller', 'cronjob', 'pod', 'container'],
   topologyShapes: {
     'internet': {
       shape: 'cloud',
@@ -50,7 +56,7 @@ export default {
       className: 'default'
     },
   },
-  topologyNodeDescription: setNodeInfo,
+  topologyNodeLayout: setNodeInfo,
   topologyTransform: topologyTransform,
   topologyNodeDetails: getNodeDetails,
 }
@@ -120,6 +126,10 @@ export function setNodeInfo(node, locale) {
         layout.info = msgs.get('topology.service.controller', [node.type], locale)
       }
       break
+    }
+
+    if (layout.isHub) {
+      layout.scale = 1.4
     }
   }
 }

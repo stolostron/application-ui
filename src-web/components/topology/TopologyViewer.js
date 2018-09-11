@@ -17,6 +17,7 @@ import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import LinkHelper from './linkHelper'
 import NodeHelper from './nodeHelper'
+import {counterZoomLabels} from './nodeHelper'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -67,6 +68,7 @@ class TopologyViewer extends React.Component {
     const { locale } = this.props.context
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
+    this.lastLayoutBBox=undefined
   }
 
   componentDidMount() {
@@ -75,6 +77,10 @@ class TopologyViewer extends React.Component {
 
   componentDidUpdate(){
     this.generateDiagram()
+  }
+
+  componentWillUnmount() {
+    this.destroyDiagram()
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -88,30 +94,24 @@ class TopologyViewer extends React.Component {
   componentWillReceiveProps(){
     this.setState((prevState, props) => {
       // cache live update links and nodes until filter is changed
-      let nodes, links
-      nodes = _.cloneDeep(props.nodes)
+      let nodes = _.cloneDeep(props.nodes)
       const hiddenLinks = new Set()
-      if (props.activeFilters !== prevState.activeFilters) {
-        this.resetDiagram()
-        links = _.cloneDeep(props.links)
-      } else {
-        nodes = nodes.map(node => prevState.nodes.find(n => n.uid === node.uid) ||
-            Object.assign(node, {layout: {newComer: {}}}))
-        // to stabilize layout, just hide links in diagram that are gone
-        prevState.links.forEach(a=>{
-          if (props.links.findIndex(b=>{
-            return a.uid===b.uid
-          })==-1) {
-            hiddenLinks.add(a.uid)
-          }
-        })
-
-        // keep cache of everything
-        const compare = (a,b) => {
+      nodes = nodes.map(node => prevState.nodes.find(n => n.uid === node.uid) ||
+          Object.assign(node, {layout: {newComer: {}}}))
+      // to stabilize layout, just hide links in diagram that are gone
+      prevState.links.forEach(a=>{
+        if (props.links.findIndex(b=>{
           return a.uid===b.uid
+        })==-1) {
+          hiddenLinks.add(a.uid)
         }
-        links = _.unionWith(prevState.links, props.links, compare)
+      })
+
+      // keep cache of everything
+      const compare = (a,b) => {
+        return a.uid===b.uid
       }
+      const links = _.unionWith(prevState.links, props.links, compare)
       return {links, nodes, hiddenLinks, activeFilters: props.activeFilters}
     })
 
@@ -154,7 +154,7 @@ class TopologyViewer extends React.Component {
 
   handleNodeClick = (node) => {
     this.setState({
-      selectedNodeId: node.uid
+      selectedNodeId: node?node.uid:undefined
     })
     d3.event.stopPropagation()
     this.highlightMode = true
@@ -172,14 +172,13 @@ class TopologyViewer extends React.Component {
     })
   }
 
-  resetDiagram = () => {
-    if (this.svg) {
-      this.svg.selectAll('*').remove()
-      delete this.svg
+  destroyDiagram = () => {
+    this.layoutHelper.destroy()
+    const svg = d3.select('#'+this.getSvgId())
+    if (svg) {
+      svg.select('g.nodes').selectAll('*').remove()
+      svg.select('g.links').selectAll('*').remove()
     }
-    const { locale } = this.context
-    this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
-    delete this.lastLayoutBBox
   }
 
   generateDiagram() {
@@ -197,17 +196,15 @@ class TopologyViewer extends React.Component {
     }
 
     // consolidate nodes/filter links/add layout data to each element
+    const firstLayout = this.lastLayoutBBox===undefined
     const {nodes=[], links=[], hiddenLinks= new Set()} = this.state
-    this.layoutHelper.layout(nodes, links, hiddenLinks, (layoutResults)=>{
+    this.layoutHelper.layout(nodes, links, hiddenLinks, firstLayout, (layoutResults)=>{
 
       const {layoutNodes, layoutMap, layoutBBox} = layoutResults
       this.layoutBBox = layoutBBox
 
       // resize diagram to fit all the nodes
-      const firstLayout = !this.lastLayoutBBox
-      if (firstLayout ||
-          (Math.abs((this.layoutBBox.width - this.lastLayoutBBox.width)/this.layoutBBox.width) > .20)||
-          (Math.abs((this.layoutBBox.height - this.lastLayoutBBox.height)/this.layoutBBox.height) > .20)) {
+      if (firstLayout) {
         this.zoomFit()
       }
 
@@ -215,9 +212,10 @@ class TopologyViewer extends React.Component {
       const transformation = d3.transition()
         .duration(firstLayout?400:800)
         .ease(d3.easeSinOut)
+      this.svg.interrupt().selectAll('*').interrupt()
 
       // Create or refresh the links in the diagram.
-      const linkHelper = new LinkHelper(this.svg, links)
+      const linkHelper = new LinkHelper(this.svg, links, layoutNodes)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transformation)
@@ -231,8 +229,8 @@ class TopologyViewer extends React.Component {
       nodeHelper.moveNodes(transformation)
 
       this.layoutNodes = layoutNodes
-      this.lastLayoutBBox = this.layoutBBox
-      this.counterZoomLabels()
+      this.lastLayoutBBox = layoutNodes.length ? this.layoutBBox : undefined
+      counterZoomLabels(this.svg, currentZoom)
     })
   }
 
@@ -256,7 +254,7 @@ class TopologyViewer extends React.Component {
             .attr('transform', d3.event.transform)
 
           // counter-zoom first line of labels
-          this.counterZoomLabels()
+          counterZoomLabels(svg, currentZoom)
         }
       })
     return svgSpace
@@ -290,17 +288,6 @@ class TopologyViewer extends React.Component {
       }
     }
     return 1
-  }
-
-  counterZoomLabels = () => {
-    const svg = d3.select('#'+this.getSvgId())
-    if (svg) {
-      const s = currentZoom.k
-      const fontSize = s<=0.35 ? 22 : (s<=0.45 ? 20 : (s<=0.65? 18:(s<=0.85? 14: 12)))
-      svg
-        .selectAll('tspan.first-line')
-        .style('font-size', fontSize+'px')
-    }
   }
 
   getSvgId() {

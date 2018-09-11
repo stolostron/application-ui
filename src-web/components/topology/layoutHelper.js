@@ -22,45 +22,57 @@ export default class LayoutHelper {
    * Helper class to be used by TopologyDiagram.
    */
 
-  constructor ({topologyOrder, topologyNodeDescription}, locale) {
-    this.internetClones = {}
+  constructor ({topologyOrder, topologyCloneTypes=[], topologyNodeLayout}, locale) {
+    this.nodeClones = {}
     this.topologyOrder = topologyOrder
-    this.topologyNodeDescription = topologyNodeDescription
+    this.topologyCloneTypes = topologyCloneTypes
+    this.topologyNodeLayout = topologyNodeLayout
     this.locale = locale
+    this.destroyed = false
+    this.cachedLayouts = {}
   }
 
-  layout = (nodes, links, hiddenLinks, cb) => {
+  destroy = () => {
+    this.destroyed = true
+  }
 
-    // sort out internet nodes--they can appear everywhere
-    const internetNodes = {}
+  layout = (nodes, links, hiddenLinks, firstLayout, cb) => {
+    this.firstLayout = firstLayout
+
+    // sort out nodes that can appear everywhere
+    this.nodesToBeCloned = {}
+    this.clonedIdSet = new Set()
     nodes = nodes.filter(n=>{
-      if (n.type==='internet') {
-        internetNodes[n.uid] = n
+      if (this.topologyCloneTypes.indexOf(n.type) !== -1) {
+        this.nodesToBeCloned[n.uid] = n
+        this.clonedIdSet.add(n.uid)
         return false
       }
       return true
     })
 
+
     // for each cluster, group into collections by type
     const groups = this.getNodeGroups(nodes)
 
     // group by connections which may pull nodes into other groups
-    this.groupNodesByConnections(groups, internetNodes, links)
+    this.groupNodesByConnections(groups, links)
 
-    // re-add internet nodes but as clones,
-    // otherwise everything will coalesce around two internet nodes (in & out)
-    this.cloneInternetNodes(groups, internetNodes, nodes)
+    // re-add cloned nodes
+    this.cloneNodes(groups, nodes)
+
+    //identify hubs
+    this.markHubs(groups)
 
     // assign info to each node
-    if (this.topologyNodeDescription) {
+    if (this.topologyNodeLayout) {
       nodes.forEach(node=>{
-        this.topologyNodeDescription(node, this.locale)
+        this.topologyNodeLayout(node, this.locale)
       })
     }
 
     // create cytoscape element collections
-    const cy = cytoscape({ headless: true }) // start headless cytoscape
-    let collections = this.createCollections(cy, groups)
+    let collections = this.createCollections(groups)
 
     // assign cytoscape layout options for each collection (ex: dagre, grid)
     this.setLayoutOptions(collections)
@@ -74,124 +86,10 @@ export default class LayoutHelper {
 
 
       // return to TopologyView to create/position the d3 svg shapes
-      cb({layoutNodes: nodes, ...layoutInfo})
-    })
-  }
-
-  layoutCollections = (collections, hiddenLinks) => {
-    const hiliteSelections = collections.length>3
-
-    // get row dimensions
-    let bbox
-    let cells=0
-    let maxWidth = 0
-    let maxHeight = 0
-    let totalMaxWidth = 0
-    let totalHeight = 0
-    const xMargin = NODE_SIZE*3
-    const yMargin = NODE_SIZE
-    const xSpacer = NODE_SIZE*3
-    const ySpacer = NODE_SIZE*2
-    const breakWidth = 3000
-    let currentX = xMargin
-    let currentY = yMargin
-    const rowDims = []
-    const bboxArr = []
-    collections.forEach(({elements}, idx, array)=>{
-      const {w, h} = bbox = elements.boundingBox()
-      bboxArr.push(bbox)
-      cells++
-
-      // keep track of the dimensions
-      maxWidth = Math.max(currentX+w, maxWidth)
-      totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
-      currentX += w + xMargin
-      maxHeight = Math.max(h, maxHeight)
-      if (currentX>breakWidth || idx === array.length - 1) {
-        rowDims.push({rowWidth: maxWidth, rowHeight: maxHeight, cells})
-        totalHeight+=maxHeight
-        maxHeight=maxWidth=cells=0
-        currentX = xMargin
+      if (!this.destroyed) {
+        cb({layoutNodes: nodes, ...layoutInfo})
       }
     })
-
-    // layout cells aka the collections
-    let row = 0
-    let cell = 1
-    currentX = xMargin
-    currentY = yMargin
-    const layoutMap = {}
-    let xSpcr = xSpacer
-    collections.forEach(({elements, options:{name}}, idx)=>{
-      const {x1, y1, w, h} = bboxArr[idx]
-      const {rowWidth, rowHeight, cells} = rowDims[row]
-
-      // center cells in their rows and evenly space
-      let dxCell = 0
-      let spacer = totalMaxWidth-rowWidth
-      if (spacer) {
-        switch (cells) {
-        case 1:
-          spacer/=2
-          dxCell = spacer
-          break
-        case 2:
-          xSpcr=xSpacer*3
-          spacer = (totalMaxWidth-rowWidth-xSpcr)/2
-          dxCell = spacer
-          break
-        default:
-          spacer/=cells
-          dxCell = spacer*cell - spacer
-          break
-        }
-      }
-      const dyCell = name==='grid'?0:(rowHeight-h)/2
-
-      // set all node positions
-      const center = {x:currentX+dxCell+(w/2), y:currentY+dyCell+(h/2)}
-      elements.forEach(element=>{
-        const data = element.data()
-        if (element.isNode()) {
-          const {node: {layout}, id} = data
-          const {x, y} = element.position()
-          layout.x = x - x1 + currentX + dxCell
-          layout.y = y - y1 + currentY + dyCell
-
-          layout.center = center
-
-          // restore position of any node dragged by user
-          if (layout.dragged) {
-            layout.undragged = {
-              x: layout.x,
-              y: layout.y
-            }
-            layout.x = layout.dragged.x
-            layout.y = layout.dragged.y
-          }
-
-          // remember for nodehelper selections
-          layoutMap[id] = {elements, element, highlight:(hiliteSelections && elements.length>10)}
-        } else {
-          const {edge: {layout, uid}} = data
-          layout.isLoop = element.isLoop()
-          layout.center = center
-          layout.hidden = hiddenLinks.has(uid)
-        }
-      })
-
-      currentX += w + xSpcr
-      cell++
-      if (currentX>breakWidth) {
-        currentY += rowHeight + ySpacer
-        currentX = xMargin
-        cell = 1
-        row++
-      }
-    })
-    const width = totalMaxWidth + xMargin*2
-    const height = totalHeight + yMargin*4
-    return {layoutMap, layoutBBox: { x:0, y:0, width, height}}
   }
 
   getNodeGroups = (nodes) => {
@@ -251,13 +149,15 @@ export default class LayoutHelper {
         let i=groupMap['pod'].nodes.length
         while(--i>=0) {
           const node = groupMap['pod'].nodes[i]
-          const controller = controllerMap[node.layout.qname]
-          if (controller) {
-            controller.layout.pods.push(node)
-            controller.layout.hasPods = controller.layout.hasContent = true
-            groupMap['pod'].nodes.splice(i,1)
-            delete allNodeMap[node.uid]
-            delete node.layout
+          if (node.layout) {
+            const controller = controllerMap[node.layout.qname]
+            if (controller) {
+              controller.layout.pods.push(node)
+              controller.layout.hasPods = controller.layout.hasContent = true
+              groupMap['pod'].nodes.splice(i,1)
+              delete allNodeMap[node.uid]
+              delete node.layout
+            }
           }
         }
       }
@@ -266,13 +166,15 @@ export default class LayoutHelper {
         let i=groupMap['service'].nodes.length
         while(--i>=0) {
           const node = groupMap['service'].nodes[i]
-          const controller = controllerMap[node.layout.qname]
-          if (controller) {
-            controller.layout.services.push(node)
-            groupMap['service'].nodes.splice(i,1)
-            controllerAsService.push(node.layout.qname)
-            delete allNodeMap[node.uid]
-            delete node.layout
+          if (!node.layout) {
+            const controller = controllerMap[node.layout.qname]
+            if (controller) {
+              controller.layout.services.push(node)
+              groupMap['service'].nodes.splice(i,1)
+              controllerAsService.push(node.layout.qname)
+              delete allNodeMap[node.uid]
+              delete node.layout
+            }
           }
         }
       }
@@ -293,7 +195,7 @@ export default class LayoutHelper {
     return {nodeGroups: groupMap, allNodeMap}
   }
 
-  groupNodesByConnections = (groups, internetNodes, links) => {
+  groupNodesByConnections = (groups, links) => {
     const {nodeGroups, allNodeMap} = groups
     const sourceMap = {}
     const targetMap = {}
@@ -301,8 +203,8 @@ export default class LayoutHelper {
     links
       .filter(link=>{
         return (link.source && link.target &&
-            (allNodeMap[link.source] || internetNodes[link.source]) &&
-            (allNodeMap[link.target] || internetNodes[link.target] ))
+            (allNodeMap[link.source] || this.nodesToBeCloned[link.source]) &&
+            (allNodeMap[link.target] || this.nodesToBeCloned[link.target] ))
       })
       .forEach(link=>{
         // all sources of this target
@@ -340,14 +242,13 @@ export default class LayoutHelper {
           // if this node is connected to anything start a new group
           if (!connectedSet.has(uid) && anyConnectedSet.has(uid)) {
             const grp = {
-              uid,
               nodeMap: {},
               edges: []
             }
             connected.push(grp)
 
             // then add everything connected to this node to this group
-            this.gatherNodesByConnections(uid, grp, internetNodes, directions, connectedSet, allNodeMap)
+            this.gatherNodesByConnections(uid, grp, directions, connectedSet, allNodeMap)
 
           } else if (!anyConnectedSet.has(uid)) {
 
@@ -366,29 +267,15 @@ export default class LayoutHelper {
       }
     })
 
-    // sort by size
-    this.topologyOrder.forEach(type=>{
-      if (nodeGroups[type]) {
-        const {connected} = nodeGroups[type]
-        connected.sort(({nodeMap:a, uid:au},{nodeMap:b, uid:bu})=>{
-          let r = Object.keys(a).length - Object.keys(b).length
-          if (r===0) {
-            r = au.localeCompare(bu)
-          }
-          return r
-        })
-      }
-    })
-
   }
 
-  gatherNodesByConnections = (uid, grp, internetNodes, directions, connectedSet, allNodeMap) => {
+  gatherNodesByConnections = (uid, grp, directions, connectedSet, allNodeMap) => {
     // already connected to another group??
     if (!connectedSet.has(uid)) {
       connectedSet.add(uid)
 
       // add this node to this group
-      const node = grp.nodeMap[uid] = allNodeMap[uid]
+      grp.nodeMap[uid] = allNodeMap[uid]
 
       // recurse up and down to get everything
       directions.forEach(({map, next, other})=>{
@@ -399,20 +286,13 @@ export default class LayoutHelper {
             if (!connectedSet.has(end)) {
               // add link
               link.layout = {}
-              link.layout[next] = internetNodes[link[next]] || allNodeMap[link[next]].layout
-              link.layout[other] = internetNodes[link[other]] || allNodeMap[link[other]].layout
+              link.layout[next] = this.nodesToBeCloned[link[next]] || allNodeMap[link[next]].layout
+              link.layout[other] = this.nodesToBeCloned[link[other]] || allNodeMap[link[other]].layout
               grp.edges.push(link)
 
-              // add link to node as 'source' or 'target'
-              let nexts = node.layout[next]
-              if (!nexts) {
-                nexts = node.layout[next] = []
-              }
-              nexts.push(allNodeMap[link[next]])
-
               // reiterate until nothing else connected
-              if (!internetNodes[end]) {
-                this.gatherNodesByConnections(link[next], grp, internetNodes, directions, connectedSet, allNodeMap)
+              if (!this.nodesToBeCloned[end]) {
+                this.gatherNodesByConnections(link[next], grp, directions, connectedSet, allNodeMap)
               }
             }
           })
@@ -421,25 +301,90 @@ export default class LayoutHelper {
     }
   }
 
-  cloneInternetNodes = (groups, internetNodes, nodes) => {
+  markHubs = ({nodeGroups}) => {
+    this.topologyOrder.forEach(type=>{
+      if (nodeGroups[type]) {
+        const {connected} = nodeGroups[type]
+        connected.forEach(c=>{
+          c.hubs = this.markHubsHelper(c)
+        })
+      }
+    })
+  }
+
+  markHubsHelper = ({nodeMap, edges}) => {
+    // build list of all the next nodes
+    let hubs = 0
+    const targets = {}
+    const sources = {}
+    Object.keys(nodeMap).forEach(id => {
+      targets[id] = []
+      sources[id] = []
+    })
+    edges.forEach(({source, target}) =>{
+      if (targets[source]) targets[source].push(target)
+      if (sources[target]) sources[target].push(source)
+    })
+
+    // see if there are any cycles
+    let hasCycle = false
+    const visited = {}
+    const recursion = {}
+    const nodes = Object.keys(targets)
+    for (let i=0; i<nodes.length && !hasCycle; i++) {
+
+      const id = nodes[i]
+      if (sources[id].length+targets[id].length >= 4) {
+        nodeMap[id].layout.isHub = true
+        hubs++
+      }
+
+      hasCycle = this.hasCycle(id, targets, visited, recursion)
+    }
+    if (hasCycle) return hubs
+
+    // see if there are any leaves with more then 1 inbound connection
+    const leaves = []
+    nodes.forEach(id=>{
+      if (targets[id].length===0) {
+        leaves.push(id)
+      }
+    })
+    if (leaves.length<=1) return hubs
+
+
+    // if more then one, do any have more then one inbound??
+    leaves.forEach(id=>{
+      if (sources[id].length>1) {
+        nodeMap[id].layout.isHub = true
+        hubs++
+      }
+    })
+    return hubs
+  }
+
+
+  cloneNodes = (groups, nodes) => {
     const {nodeGroups} = groups
 
-    // consolidate single nodes that just connect to internet
+    // consolidate single nodes that just connect to a single clone
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type] && nodeGroups[type].connected) {
         const inConsolidatedConnected = {edges:[], nodeMap:{}}
         const outConsolidatedConnected = {edges:[], nodeMap:{}}
         nodeGroups[type].connected = nodeGroups[type].connected.filter(({edges, nodeMap})=>{
-          // if just one edge to internet
+          // if just one edge to clone
           if (edges.length===1) {
-            if (internetNodes[edges[0].source]) {
+            if (this.nodesToBeCloned[edges[0].source]) {
               inConsolidatedConnected.edges.push(edges[0])
               inConsolidatedConnected.nodeMap = Object.assign(inConsolidatedConnected.nodeMap, nodeMap)
+              inConsolidatedConnected.uid = inConsolidatedConnected.uid || edges[0].target
               return false
             }
-            if (internetNodes[edges[0].target]) {
+            if (this.nodesToBeCloned[edges[0].target]) {
               outConsolidatedConnected.edges.push(edges[0])
               outConsolidatedConnected.nodeMap = Object.assign(outConsolidatedConnected.nodeMap, nodeMap)
+              outConsolidatedConnected.uid = outConsolidatedConnected.uid || edges[0].source
               return false
             }
           }
@@ -454,32 +399,33 @@ export default class LayoutHelper {
       }
     })
 
-    // clone the internet objects for each section that has a link to internet
-    if (Object.keys(internetNodes).length) {
+    // clone objects for each section that has a link to that clone
+    if (Object.keys(this.nodesToBeCloned).length) {
       const directions = ['source', 'target']
       this.topologyOrder.forEach(type=>{
         if (nodeGroups[type] && nodeGroups[type].connected) {
-          nodeGroups[type].connected.forEach(({nodeMap, edges}, index)=>{
+          nodeGroups[type].connected.forEach(({nodeMap, edges})=>{
+            const hashCode = this.hashCode(Object.keys(nodeMap).sort().join())
             edges.forEach(edge=>{
               directions.forEach(direction=>{
                 const next = edge[direction]
-                if (internetNodes[next]) {
-                  const iuid = next+'_'+type+'_'+index
-                  if (!nodeMap[iuid]) {
-                    let clone = this.internetClones[iuid]
+                if (this.nodesToBeCloned[next]) {
+                  const cuid = next+'_'+type+'_'+hashCode
+                  if (!nodeMap[cuid]) {
+                    let clone = this.nodeClones[cuid]
                     if (!clone) {
-                      clone = this.internetClones[iuid] = _.cloneDeep(internetNodes[next])
+                      clone = this.nodeClones[cuid] = _.cloneDeep(this.nodesToBeCloned[next])
                       clone.layout = {
-                        uid: iuid,
+                        uid: cuid,
                         type: clone.type,
                         label: this.layoutLabel(clone.name),
                         cloned: true
                       }
                     }
-                    nodeMap[iuid] = clone
-                    nodes.push(nodeMap[iuid])
+                    nodeMap[cuid] = clone
+                    nodes.push(nodeMap[cuid])
                   }
-                  edge.layout[direction] = nodeMap[iuid].layout
+                  edge.layout[direction] = nodeMap[cuid].layout
                 }
               })
             })
@@ -490,21 +436,17 @@ export default class LayoutHelper {
     }
   }
 
-  createCollections = (cy, groups) => {
+  createCollections = (groups) => {
     const {nodeGroups} = groups
     const collections = {connected:[], unconnected:[]}
-    const chunks = (arr, len) => {
-      let i = 0
-      const chunks = []
-      while (i < arr.length) {
-        chunks.push(arr.slice(i, i += len))
-      }
-      return chunks
-    }
+    const cy = cytoscape({ headless: true }) // start headless cytoscape
+
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
-        const {connected, unconnected} = nodeGroups[type]
-        connected.forEach(({nodeMap, edges})=>{
+        const {connected} = nodeGroups[type]
+        let {unconnected} = nodeGroups[type]
+        connected.forEach(({nodeMap, edges, hubs})=>{
+          const uidArr = []
           const elements = {nodes:[], edges:[]}
           _.forOwn(nodeMap, (node) => {
             const n = {
@@ -514,6 +456,7 @@ export default class LayoutHelper {
               }
             }
             elements.nodes.push(n)
+            uidArr.push(node.layout.uid)
           })
           edges.forEach(edge=>{
             const {layout} = edge
@@ -525,10 +468,17 @@ export default class LayoutHelper {
               }
             })
           })
-          collections.connected.push({elements: cy.add(elements)})
+          collections.connected.push({
+            hubs,
+            type,
+            title: type,
+            elements: cy.add(elements),
+            hashCode: this.hashCode(uidArr.sort().join())
+          })
         })
 
         // break large unconnected groups into smaller groups
+        unconnected = unconnected.filter(u=>u.layout!==undefined)
         let unconnectArr = [unconnected]
         if (unconnected.length>48) {
           unconnected.sort(({layout: {label: a='', uid:au, newComer: an}}, {layout:{label:b='', uid:bu, newComer: bn}})=>{
@@ -544,9 +494,10 @@ export default class LayoutHelper {
               return au.localeCompare(bu)
             }
           })
-          unconnectArr = chunks(unconnected, 32)
+          unconnectArr = _.chunk(unconnected, 32)
         }
         unconnectArr.forEach(arr=>{
+          const uidArr = []
           const elements = {nodes:[]}
           arr.forEach(node=>{
             if (node.layout.newComer) {
@@ -558,9 +509,16 @@ export default class LayoutHelper {
                 node
               }
             })
+            uidArr.push(node.uid)
           })
           if (elements.nodes.length>0) {
-            collections.unconnected.push({elements: cy.add(elements)})
+            collections.unconnected.push({
+              hubs: 0,
+              type,
+              title: type,
+              elements: cy.add(elements),
+              hashCode: this.hashCode(uidArr.sort().join())
+            })
           }
         })
       }
@@ -576,105 +534,57 @@ export default class LayoutHelper {
 
   setConnectedLayoutOptions = (connected, numOfSections) => {
     connected.forEach(collection => {
-      collection.options = this.getConnectedLayoutOptions(collection.elements, numOfSections)
+      collection.options = this.getConnectedLayoutOptions(collection, numOfSections)
     })
   }
 
-  getConnectedLayoutOptions = (elements, numOfSections) => {
-    const nodes = elements.nodes().length
-    const leaves = elements.leaves().length
-    const roots = elements.roots().length
-
-    // use dagre if the # of roots or leaves is one and the collection is small
-    let dagre = nodes===2
-    if ((leaves===1&&roots>1) || (leaves>1&&roots==1)) {
-      dagre = nodes<10 && roots<3 && (leaves+roots) !== nodes
-    }
-    if (dagre || (leaves<6 && numOfSections===1)) {
+  getConnectedLayoutOptions = ({elements}, numOfSections) => {
+    const isDAG = elements.nodes().length===2
+    if (isDAG) {
       return this.getDagreLayoutOptions(elements, numOfSections)
-    } else if (nodes<16) {
-      // cola gets out of hand above a certain amount
-      return this.getColaLayoutOptions(elements)
     } else {
-      return this.getCoseLayoutOptions(elements)
-    }
-  }
-
-  getCoseLayoutOptions = (elements) => {
-    // get rough idea how many to allocate for each collection based on # of nodes
-    let count = elements.nodes().length
-    count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
-    const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
-
-    // to stabilize cose layout, need to set initial poisitons
-    let xx = 0
-    elements.nodes().forEach(ele=>{
-      ele.position('x', xx)
-      xx+=100
-    })
-    return {
-      name: 'cose',
-      animate: false,
-      padding: 10,
-      nodeSpacing: 15,
-      boundingBox: {
-        x1: 0,
-        y1: 0,
-        w,
-        h
-      }
+      return this.getColaLayoutOptions(elements)
     }
   }
 
   getColaLayoutOptions = (elements) => {
-    // get rough idea how many to allocate for each collection based on # of nodes
-    let count = elements.nodes().length
-    count = count<=3 ? 1 : (count<=6 ? 2 : (count<=12 ? 3 : (count<=24? 4:5)))
-    const {w, h} = {w: count*NODE_SIZE*5, h: count*NODE_SIZE*2}
-
     // stabilize diagram
     elements.nodes().forEach(ele=>{
       const {node: {layout}} = ele.data()
-      if (layout) {
-        const {x=0, y=0} = layout
-        ele.position({x, y})
-      }
+      const {x=0, y=0} = layout || {x:1000, y:1000}
+      ele.position({x, y})
     })
 
     return {
       name: 'cola',
       animate: false,
-      fit: true,
       boundingBox: {
         x1: 0,
         y1: 0,
-        w,
-        h
-      }
+        w: 1000,
+        h: 1000
+      },
+      flow: { axis: 'y', minSeparation: 50 },
+      nodeSpacing: (node)=>{
+        const {node:{layout:{scale=1}}} = node.data()
+        return (NODE_SIZE*scale) + 10  // running in headless mode, we need to provide node size here
+      },
+      unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
+      userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis)) 20
+      allConstIter: 20, //works overlap 20
     }
   }
 
-  getDagreLayoutOptions = (elements, numOfSections) => {
-    // get rough idea how many to allocate for each collection based on # of nodes
-    const count = elements.nodes().length
-    const thresh = count<=4 ? 1 : (count<=6 ? 1.5 : (count<=12 ? 3 : (count<=24? 4:5)))
-    const {w, h} = ltr ?
-      {w: thresh*NODE_SIZE*3, h: thresh*NODE_SIZE*2} :
-      {h: thresh*NODE_SIZE*3, w: thresh*NODE_SIZE*4}
-
-    // do left to right if a small collection in a small diagram
-    const ltr = numOfSections<=6 && count<=3
+  getDagreLayoutOptions = (elements) => {
+    const nodes = elements.nodes()
+    // max degree returns the maximum number of edges to any node in the collection
+    // if lots for one node, make the collecion wider (top to bottom)
+    const ttb = nodes.length < 9 || nodes.maxDegree() > 4
     return {
       name: 'dagre',
-      boundingBox: {
-        x1: 0,
-        y1: 0,
-        w,
-        h
-      },
-      fit: true,
-      padding: 30, // fit padding
-      rankDir: ltr ? 'LR' : 'TB', // 'TB' for top to bottom flow, 'LR' for left to right,
+      rankDir: ttb ? 'TB' : 'LR',
+      rankSep: NODE_SIZE*3, // running in headless mode, we need to provide node size here
+      nodeSep: NODE_SIZE*2, // running in headless mode, we need to provide node size here
     }
   }
 
@@ -730,17 +640,238 @@ export default class LayoutHelper {
 
   runCollectionLayouts = (collections, cb) => {
     // layout each collections
-    let totalLayouts = collections.length
-    collections.forEach(({elements, options})=>{
-      const layout = elements.layout(options)
-      layout.pon('layoutstop').then(()=>{
-        totalLayouts--
-        if (totalLayouts<=0) {
-          cb()
+    const set = {}
+    const newLayouts = collections.filter(({hashCode})=>{
+      set[hashCode] = true
+      return !this.cachedLayouts[hashCode]
+    })
+    for (const hashCode in this.cachedLayouts) {
+      if (!set[hashCode]) {
+        delete this.cachedLayouts[hashCode]
+      }
+    }
+
+    let totalLayouts = newLayouts.length
+    if (totalLayouts) {
+      collections.forEach((collection)=>{
+        const {elements, options} = collection
+        const layout = collection.layout = elements.layout(options)
+        layout.pon('layoutstop').then(()=>{
+          totalLayouts--
+          if (totalLayouts<=0) {
+            cb()
+          }
+        })
+        layout.run()
+      })
+    } else {
+      cb()
+    }
+  }
+
+  layoutCollections = (collections, hiddenLinks) => {
+    //const hiliteSelections = collections.length>3
+
+    // get row dimensions
+    let cells=0
+    let maxWidth = 0
+    let maxHeight = 0
+    let totalMaxWidth = 0
+    let totalHeight = 0
+    const xMargin = NODE_SIZE*3
+    const yMargin = NODE_SIZE
+    const xSpacer = NODE_SIZE*3
+    const ySpacer = NODE_SIZE*2
+    const breakWidth = 3000
+    let currentX = xMargin
+    let currentY = yMargin
+    const rowDims = []
+    const bboxArr = []
+
+    // cache layouts
+    const clayouts = []
+    collections.forEach(({elements, hashCode, type, hubs, options:{name} })=>{
+      let clayout = this.cachedLayouts[hashCode]
+      if (!clayout) {
+        this.cachedLayouts[hashCode] = clayout = {
+          bbox: elements.boundingBox(),
+          nodes: [],
+          hashCode,
+          type,
+          hubs,
+          name
+        }
+        elements.forEach(element=>{
+          const data = element.data()
+          if (element.isNode()) {
+            const {node: {layout}, id} = data
+            clayout.nodes.push({
+              layout,
+              id,
+              position: element.position()
+            })
+          }
+        })
+      }
+      clayout.edges = []
+      elements.forEach(element=>{
+        const data = element.data()
+        if (!element.isNode()) {
+          const {edge: {layout, uid}} = data
+          layout.isLoop = element.isLoop()
+          clayout.edges.push({
+            layout,
+            uid
+          })
         }
       })
-      layout.run()
+      clayouts.push(this.cachedLayouts[hashCode])
     })
+
+
+    // sort layouts so they appear at the same spots in diagram
+    clayouts.sort(({nodes:ae, hashCode:ac, type:at, name:an, hubs:ah},
+      {nodes:be, hashCode:bc, type:bt, name:bn, hubs:bh}) => {
+      // grids at end
+      if (an!=='grid' && bn==='grid') {
+        return -1
+      } else if (an==='grid' && bn!=='grid') {
+        return 1
+      } else {
+        // types together
+        const ax = this.topologyOrder.indexOf(at)
+        const bx = this.topologyOrder.indexOf(bt)
+        if (ax-bx !==0) {
+          return ax-bx
+        }
+
+        // hubs ascending
+        if (ah-bh!==0) {
+          return ah-bh
+        }
+
+        // size ascending
+        const az = ae.length
+        const bz = be.length
+        if (az-bz !==0 ) {
+          return az-bz
+        }
+      }
+      // all else fails use hash code
+      return ac-bc
+    })
+
+    // determine rows
+    clayouts.forEach(({bbox}, idx, array)=>{
+      const {w, h} = bbox
+      bboxArr.push(bbox)
+      cells++
+
+      // keep track of the dimensions
+      maxWidth = Math.max(currentX+w, maxWidth)
+      totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
+      currentX += w + xMargin
+      maxHeight = Math.max(h, maxHeight)
+      if (currentX>breakWidth || idx === array.length - 1) {
+        rowDims.push({rowWidth: maxWidth, rowHeight: maxHeight, cells})
+        totalHeight+=maxHeight
+        maxHeight=maxWidth=cells=0
+        currentX = xMargin
+      }
+    })
+
+    // layout cells aka the collections
+    let row = 0
+    let cell = 1
+    currentX = xMargin
+    currentY = yMargin
+    const layoutMap = {}
+    let xSpcr = xSpacer
+    clayouts.forEach(({nodes, edges, name}, idx)=>{
+      //const {elements, options:{name}, layout:{adaptor}} = collection
+      const {x1, y1, w, h} = bboxArr[idx]
+      const {rowWidth, rowHeight, cells} = rowDims[row]
+
+      // center cells in their rows and evenly space
+      let dxCell = 0
+      let spacer = totalMaxWidth-rowWidth
+      if (spacer) {
+        switch (cells) {
+        case 1:
+          spacer/=2
+          dxCell = spacer
+          break
+        case 2:
+          xSpcr=xSpacer*3
+          spacer = (totalMaxWidth-rowWidth-xSpcr)/2
+          dxCell = spacer
+          break
+        default:
+          spacer/=cells
+          dxCell = spacer*cell - spacer
+          break
+        }
+      }
+      const dyCell = name==='grid'?0:(rowHeight-h)/2
+
+      // set all node positions
+      const center = {x:currentX+dxCell+(w/2), y:currentY+dyCell+(h/2)}
+      nodes.forEach(node=>{
+        const {layout, position: {x,y}} = node
+        layout.x = x - x1 + currentX + dxCell
+        layout.y = y - y1 + currentY + dyCell
+
+        layout.center = center
+
+        // restore position of any node dragged by user
+        if (layout.dragged) {
+          layout.undragged = {
+            x: layout.x,
+            y: layout.y
+          }
+          layout.x = layout.dragged.x
+          layout.y = layout.dragged.y
+        }
+      })
+      edges.forEach(edge=>{
+        const {layout, uid} = edge
+        layout.center = center
+        layout.hidden = hiddenLinks.has(uid)
+      })
+
+      currentX += w + xSpcr
+      cell++
+      if (currentX>breakWidth) {
+        currentY += rowHeight + ySpacer
+        currentX = xMargin
+        cell = 1
+        row++
+      }
+    })
+    const width = totalMaxWidth + xMargin*2
+    const height = totalHeight + yMargin*4
+    return {layoutMap, layoutBBox: { x:0, y:0, width, height}}
+  }
+
+  hasCycle = (node, neighbors, visited, recursion) => {
+    // nodes that are cloned are never in a cycle because any group that wants one gets one
+    if (!this.clonedIdSet.has(node)) {
+      if (!visited[node]) {
+        visited[node] = true
+        recursion[node] = true
+        const related = neighbors[node]
+        for (let i=0; i<related.length; i++) {
+          const n = related[i]
+          if (!visited[n] && this.hasCycle(n, neighbors, visited, recursion)) {
+            return true
+          } else if (recursion[n]) {
+            return true
+          }
+        }
+      }
+      recursion[node] = false
+    }
+    return false
   }
 
   layoutLabel = (name) => {
@@ -769,6 +900,16 @@ export default class LayoutHelper {
       }
     }
     return label
+  }
+
+  hashCode = (str) => {
+    let hash = 0, i, chr
+    for (i = 0; i < str.length; i++) {
+      chr   = str.charCodeAt(i)
+      hash  = ((hash << 5) - hash) + chr
+      hash |= 0
+    }
+    return hash
   }
 
 }

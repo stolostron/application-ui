@@ -66,6 +66,12 @@ export function getStatus(item, locale) {
   case 'Succeeded':
     return msgs.get('table.cell.succeeded', locale)
 
+  case 'Pending':
+    return msgs.get('table.cell.pending', locale)
+
+  case 'Failed':
+    return msgs.get('table.cell.failed', locale)
+
   default:
     return msgs.get('table.cell.notrunning', locale)
   }

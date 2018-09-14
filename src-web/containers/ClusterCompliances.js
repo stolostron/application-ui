@@ -24,6 +24,7 @@ const createComplianceModal = <CreateResourceModal
   headingTextKey='actions.create.compliance'
   submitBtnTextKey='actions.create.compliance'
   onCreateResource={ handleCreateResource }
+  resourceDescriptionKey='modal.createresource.compliance'
 />
 
 export default withRouter(typedResourcePageWithListAndDetails(

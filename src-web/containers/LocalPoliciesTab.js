@@ -24,6 +24,7 @@ const createPolicyModal = <CreateResourceModal
   headingTextKey='actions.create.policy'
   submitBtnTextKey='actions.create.policy'
   onCreateResource={ handleCreateResource }
+  resourceDescriptionKey='modal.createresource.policy'
 />
 
 export default withRouter(typedResourcePageWithListAndDetails(

@@ -11,6 +11,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+// import { Link } from 'react-router-dom'
 import jsYaml from 'js-yaml'
 import { Button, InlineNotification, Loading, Modal } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
@@ -32,6 +33,7 @@ class CreateResourceModal extends React.PureComponent {
   static propTypes = {
     headingTextKey: PropTypes.string,
     onCreateResource: PropTypes.func,
+    resourceDescriptionKey: PropTypes.string,
     submitBtnTextKey: PropTypes.string,
   }
 
@@ -81,6 +83,14 @@ class CreateResourceModal extends React.PureComponent {
           onRequestSubmit={this.handleModalSubmit}
           onRequestClose={this.handleModalCancel}
         >
+          <div className='bx--modal-content-desc'>
+            { msgs.get(this.props.resourceDescriptionKey, this.context.locale) }
+            <br />
+            {/* TODO: Zack Layne - Awaiting actual documentation link
+            <Link to={''}>
+              {msgs.get('link.more.info', this.context.locale)}
+            </Link> */}
+          </div>
           {this.state.yamlParsingError &&
             <InlineNotification
               kind='error'

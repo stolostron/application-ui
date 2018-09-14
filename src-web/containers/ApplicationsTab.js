@@ -23,6 +23,7 @@ const registerApplicationModal = <CreateResourceModal
   headingTextKey='actions.create.application'
   submitBtnTextKey='actions.create.application'
   onCreateResource={ handleCreateResource }
+  resourceDescriptionKey='modal.createresource.application'
 />
 
 

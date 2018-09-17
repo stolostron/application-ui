@@ -90,14 +90,10 @@ class ResourceDetails extends React.PureComponent {
     })
   }
 
-  componentWillMount() {
-    const { updateSecondaryHeader, match, tabs, launch_links } = this.props,
+  render() {
+    const { updateSecondaryHeader, tabs, launch_links, match, routes } = this.props,
           params = match && match.params
     updateSecondaryHeader(params.name, getTabs(tabs, (tab, index) => index === 0 ? match.url : `${match.url}/${tab}`), this.getBreadcrumb(), launch_links)
-  }
-
-  render() {
-    const { match, routes } = this.props
     return (
       <Switch>
         <Route exact path={match.url} render={this.renderOverview} />

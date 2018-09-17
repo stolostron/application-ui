@@ -14,37 +14,37 @@ import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 
 export default {
-  defaultSortField: 'details.name',
-  uriKey: 'details.name',
-  primaryKey: 'details.name',
+  defaultSortField: 'metadata.name',
+  uriKey: 'metadata.name',
+  primaryKey: 'metadata.name',
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'details.name',
+      resourceKey: 'metadata.name',
       transformFunction: createApplicationLink,
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'details.namespace'
+      resourceKey: 'metadata.namespace'
     },
     {
       msgKey: 'table.header.labels',
-      resourceKey: 'details.labels',
+      resourceKey: 'metadata.labels',
       transformFunction: getLabelsToString
     },
     {
       msgKey: 'table.header.created',
-      resourceKey: 'details.creationTimestamp',
+      resourceKey: 'metadata.creationTimestamp',
       transformFunction: getAge,
     },
     // {
     //   msgKey: 'table.header.status',
-    //   resourceKey: 'details.status',
+    //   resourceKey: 'metadata.status',
     //   transformFunction: getStatus,
     // },
     {
       msgKey: 'table.header.dashboard',
-      resourceKey: 'details.dashboard',
+      resourceKey: 'dashboard',
       transformFunction: createDashboardLink,
     },
   ],
@@ -62,7 +62,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.name'
+            resourceKey: 'metadata.name'
           }
         ]
       },
@@ -73,7 +73,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.namespace'
+            resourceKey: 'metadata.namespace'
           }
         ]
       },
@@ -84,7 +84,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.creationTimestamp',
+            resourceKey: 'metadata.creationTimestamp',
             transformFunction: getAge
           }
         ]
@@ -96,7 +96,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.status',
+            resourceKey: 'metadata.status',
             transformFunction: getStatus
           }
         ]
@@ -108,7 +108,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.labels',
+            resourceKey: 'metadata.labels',
             transformFunction: getLabelsToList
           }
         ]
@@ -132,7 +132,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.annotations',
+            resourceKey: 'metadata.annotations',
             transformFunction: getLabelsToList,
           }
         ]
@@ -144,7 +144,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.resourceVersion'
+            resourceKey: 'metadata.resourceVersion'
           }
         ]
       },
@@ -155,7 +155,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.selfLink'
+            resourceKey: 'metadata.selfLink'
           }
         ]
       },
@@ -166,7 +166,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'details.uid'
+            resourceKey: 'metadata.uid'
           }
         ]
       },
@@ -179,12 +179,12 @@ export default {
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'name',
+        resourceKey: 'metadata.name',
         msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
-        resourceKey: 'namespace',
+        resourceKey: 'metadata.namespace',
         msgKey: 'table.header.namespace'
       },
       {
@@ -213,7 +213,7 @@ export default {
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'name',
+        resourceKey: 'metadata.name',
         msgKey: 'table.header.name'
       },
       {
@@ -270,11 +270,11 @@ export default {
 }
 
 export function createApplicationLink(item = {}){
-  const {details: {name, namespace = 'default'}} = item
+  const {metadata: {name, namespace = 'default'}} = item
   return <Link to={`/hcmconsole/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
-export function createDashboardLink({details: {dashboard=''}} = {}, locale){
+export function createDashboardLink({ dashboard = '' } , locale){
   if (dashboard !== null && dashboard !== '')
     return <a target="_blank" rel="noopener noreferrer" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
@@ -349,7 +349,7 @@ export function topologyTransform(item) {
   const links=[]
   const nodes=[]
   if (item) {
-    const {details: {name, namespace}, deployables=[], placementPolicies=[]} = item
+    const {metadata: {name, namespace}, deployables=[], placementPolicies=[]} = item
 
     // create application node
     const appId = `application${name}`
@@ -362,7 +362,7 @@ export function topologyTransform(item) {
     })
 
     // create its deployables nodes
-    deployables.forEach(({name, deployer, dependencies})=>{
+    deployables.forEach(({ metadata: {name} , deployer, dependencies})=>{
       const depId = `deployer${name}`
       nodes.push({
         name,
@@ -380,7 +380,7 @@ export function topologyTransform(item) {
       // create deployable dependencies
       dependencies = dependencies || []
       dependencies.forEach(dependency=>{
-        const {name} = dependency
+        const {metadata: { name }} = dependency
         const dpId = `dependency${name}`
         nodes.push({
           name,
@@ -399,7 +399,7 @@ export function topologyTransform(item) {
     })
 
     placementPolicies.forEach(policy=>{
-      const {name} = policy
+      const {metadata: { name }} = policy
       const polId = `policy${name}`
       nodes.push({
         name,
@@ -446,7 +446,7 @@ export function getNodeDetails(currentNode, context) {
   if (currentNode){
     let dets = []
     const {type, application={}, deployer={}, policy={}, dependency={}} = currentNode
-    const {details: appDetails} = application
+    const {metadata: appDetails} = application
     const {chartName, namespace: dspace, repository, version} = deployer
     const {namespace: pspace, replicas} = policy
     const {kind} = dependency

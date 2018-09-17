@@ -18,7 +18,7 @@ describe('definitions/index', () => {
         list: 'HCMPodList',
         name: 'HCMPod'
       }
-      expect(getDefaultSearchField(item)).toBe('name')
+      expect(getDefaultSearchField(item)).toBe('metadata.name')
     })
   })
 
@@ -28,7 +28,7 @@ describe('definitions/index', () => {
         list: 'HCMPodList',
         name: 'HCMPod'
       }
-      expect(getDefaultSortField(item)).toBe('name')
+      expect(getDefaultSortField(item)).toBe('metadata.name')
     })
   })
 
@@ -63,7 +63,7 @@ describe('definitions/index', () => {
         list: 'HCMPodList',
         name: 'HCMPod'
       }
-      expect(getPrimaryKey(item)).toBe('name')
+      expect(getPrimaryKey(item)).toBe('metadata.name')
     })
   })
 

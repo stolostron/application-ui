@@ -17,9 +17,6 @@ import hcmapplications from './hcm-applications'
 import hcmpods from './hcm-pods'
 import hcmpolicies from './hcm-policies'
 import hcmcompliances from './hcm-compliances'
-import hcmnodes from './hcm-nodes'
-import hcmnamespaces from './hcm-namespaces'
-import hcmpvs from './hcm-pvs'
 import hcmreleases from './hcm-releases'
 import hcmrepositories from './hcm-repositories'
 import hcmtopology from './hcm-topology'
@@ -30,9 +27,6 @@ const resourceData = {
   [RESOURCE_TYPES.HCM_PODS.name]: hcmpods,
   [RESOURCE_TYPES.HCM_POLICIES.name]: hcmpolicies,
   [RESOURCE_TYPES.HCM_COMPLIANCES.name]: hcmcompliances,
-  [RESOURCE_TYPES.HCM_NODES.name]: hcmnodes,
-  [RESOURCE_TYPES.HCM_NAMESPACES.name]: hcmnamespaces,
-  [RESOURCE_TYPES.HCM_PVS.name]: hcmpvs,
   [RESOURCE_TYPES.HCM_RELEASES.name]: hcmreleases,
   [RESOURCE_TYPES.HCM_REPOSITORIES.name]: hcmrepositories,
   [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology

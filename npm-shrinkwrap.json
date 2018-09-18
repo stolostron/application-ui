@@ -12139,6 +12139,24 @@
         "prepend-http": "1.0.4",
         "query-string": "4.3.4",
         "sort-keys": "1.1.2"
+      },
+      "dependencies": {
+        "query-string": {
+          "version": "4.3.4",
+          "resolved": "https://registry.npmjs.org/query-string/-/query-string-4.3.4.tgz",
+          "integrity": "sha1-u7aTucqRXCMlFbIosaArYJBD2+s=",
+          "dev": true,
+          "requires": {
+            "object-assign": "4.1.1",
+            "strict-uri-encode": "1.1.0"
+          }
+        },
+        "strict-uri-encode": {
+          "version": "1.1.0",
+          "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
+          "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=",
+          "dev": true
+        }
       }
     },
     "normalizr": {
@@ -13741,12 +13759,12 @@
       "integrity": "sha512-eRzhrN1WSINYCDCbrz796z37LOe3m5tmW7RQf6oBntukAG1nmovJvhnwHHRMAfeoItc1m2Hk02WER2aQ/iqs+A=="
     },
     "query-string": {
-      "version": "4.3.4",
-      "resolved": "https://registry.npmjs.org/query-string/-/query-string-4.3.4.tgz",
-      "integrity": "sha1-u7aTucqRXCMlFbIosaArYJBD2+s=",
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/query-string/-/query-string-6.1.0.tgz",
+      "integrity": "sha512-pNB/Gr8SA8ff8KpUFM36o/WFAlthgaThka5bV19AD9PNTH20Pwq5Zxodif2YyHwrctp6SkL4GqlOot0qR/wGaw==",
       "requires": {
-        "object-assign": "4.1.1",
-        "strict-uri-encode": "1.1.0"
+        "decode-uri-component": "0.2.0",
+        "strict-uri-encode": "2.0.0"
       }
     },
     "querystring": {
@@ -16729,9 +16747,9 @@
       }
     },
     "strict-uri-encode": {
-      "version": "1.1.0",
-      "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
-      "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM="
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz",
+      "integrity": "sha1-ucczDHBChi9rFC3CdLvMWGbONUY="
     },
     "string-length": {
       "version": "2.0.0",
@@ -17196,6 +17214,20 @@
             "snapdragon": "0.8.2",
             "to-regex": "3.0.2"
           }
+        },
+        "query-string": {
+          "version": "4.3.4",
+          "resolved": "https://registry.npmjs.org/query-string/-/query-string-4.3.4.tgz",
+          "integrity": "sha1-u7aTucqRXCMlFbIosaArYJBD2+s=",
+          "requires": {
+            "object-assign": "4.1.1",
+            "strict-uri-encode": "1.1.0"
+          }
+        },
+        "strict-uri-encode": {
+          "version": "1.1.0",
+          "resolved": "https://registry.npmjs.org/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz",
+          "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM="
         }
       }
     },

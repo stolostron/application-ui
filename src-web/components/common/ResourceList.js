@@ -89,6 +89,7 @@ class ResourceList extends React.Component {
       onSelectedFilterChange,
       selectedFilters,
       updateBrowserURL,
+      clientSideFilters,
     } = this.props
     const { locale } = this.context
 
@@ -119,7 +120,10 @@ class ResourceList extends React.Component {
         return null
       return React.cloneElement(action, { resourceType })
     })
-    if (items || searchValue) {
+    if (items || searchValue || clientSideFilters) {
+      if (!searchValue && clientSideFilters) {
+        searchTable(clientSideFilters)
+      }
       return <div>
         { mutateStatus === REQUEST_STATUS.ERROR &&
           <Notification

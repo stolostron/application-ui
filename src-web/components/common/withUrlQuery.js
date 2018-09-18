@@ -89,29 +89,51 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
       return tempArray
     }
 
+    convertClientSideFiltersToString(input) {
+      let result = ''
+      const filterJson = JSON.parse(input)
+      Object.entries(filterJson).forEach(([key,value]) => {
+        if (result !== '') result += ','
+        result += (key + '={')
+        value.forEach((item, index) => result += (item.replace(':', '=') + (index !== value.length-1 ? ',' : '')))
+        result += '}'
+      })
+      return result
+    }
+
     convertQueryParams() {
       const { location, putParamsFiltersIntoStore } = this.props
       const uri_dec = decodeURIComponent(location.search)
       const paramString = queryString.parse(uri_dec)
+      let filters = {}
       try {
-        const tags = paramString.tags
-        if (tags) {
-          const result = JSON.parse(tags)
-          if (result && this.state.firstTimeLoad) {
-            putParamsFiltersIntoStore(this.convertObjectToFilterArray(result))
+        if (paramString.tags) {
+          const tags = paramString.tags
+          const tagsJson = JSON.parse(tags)
+          if (tagsJson && this.state.firstTimeLoad) {
+            putParamsFiltersIntoStore(this.convertObjectToFilterArray(tagsJson))
+          }
+        }
+        // for client side filtering
+        if (paramString.filters) {
+          const clientSideFilters = this.convertClientSideFiltersToString(paramString.filters)
+          if (clientSideFilters) {
+            filters = {...filters, clientSideFilters}
           }
         }
       } catch(e) {
         // eslint-disable-next-line
       }
+      return filters
     }
 
     render() {
       // handle multi-purpose query parsing below
-      this.convertQueryParams()
+      const filters = this.convertQueryParams()
       return (
         <ChildComponent
           {...this.props}
+          clientSideFilters={filters.clientSideFilters}
           updateBrowserURL={this.updateBrowserURL}
         />
       )

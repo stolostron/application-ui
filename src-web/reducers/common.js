@@ -62,6 +62,7 @@ export const INITIAL_STATE = {
   postStatusCode: undefined,
   postErrorMsg: '',
   pendingActions: [],
+  clientSideFilters: undefined,
 }
 
 /**
@@ -76,6 +77,32 @@ function searchTableCell(item, tableKey, context, searchText){
   return ReactDOMServer.renderToString(transform(item, tableKey, context.locale)).toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1
 }
 
+function searchTableCellHelper(search, tableKeys, item, context) {
+  const searchKey = search.substring(0, search.indexOf('='))
+  const searchField = search.substring(search.indexOf('=')+1)
+  const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchKey.toLowerCase())
+  if (!lodash.isEmpty(searchField)) {
+    if (!searchField.includes('{')) {
+      if (tableKey) {
+        return searchTableCell(item, tableKey, context, searchField)
+      }
+    } else {
+      let found = true
+      const searchKeys = searchField.replace(/[{}]/g, '').split(',')
+      if (searchKeys) searchKeys.forEach(searchKey => {
+        if (!searchTableCell(item, tableKey, context, searchKey)) found = false
+      })
+      return found
+    }
+  }
+  // return all results when user types cluster=
+  if (searchField === '')
+    return true
+
+  // by default, search all fields
+  return tableKeys.find(tableKey => searchTableCell(item, tableKey, context, search))
+}
+
 const makeGetFilteredItemsSelector = (resourceType) => {
   return createSelector(
     [getItems, getSearch],
@@ -86,21 +113,19 @@ const makeGetFilteredItemsSelector = (resourceType) => {
       const tableKeys = ResourceDefinitions.getTableKeys(resourceType)
       const context = JSON.parse(document.getElementById('context').textContent)
 
-      // search when user specify the field e.g. cluster=myprod
-      const searchField = search.toLowerCase().split('=')
-      if (!lodash.isEmpty(searchField[1])) {
-        const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchField[0].toLowerCase())
-        if (tableKey) {
-          return searchTableCell(item, tableKey, context, searchField[1])
-        }
+      if (search.includes('},')) {
+        // special case like status={healthy}, labels={cloud=IBM}
+        let found = true
+        const searchFields = search.replace('},', '}},').toLowerCase().split('},')
+        searchFields.forEach(searchField => {
+          if (!searchTableCellHelper(searchField,tableKeys, item, context)) {
+            found = false
+          }
+        })
+        return found
+      } else {
+        return searchTableCellHelper(search, tableKeys, item, context)
       }
-
-      // return all results when user types cluster=
-      if (searchField[1] === '')
-        return true
-
-      // by default, search all fields
-      return tableKeys.find(tableKey => searchTableCell(item, tableKey, context, search))
     })
   )
 }
@@ -164,7 +189,7 @@ export const makeGetVisibleTableItemsSelector = (resourceType) => {
       const normalizedItems = normalize(result.items, [createResourcesSchema(pk, sk)]).entities.items
       return Object.assign(result, {
         normalizedItems: normalizedItems,
-        items: result.items.map(item => `${lodash.get(item, pk)}-${lodash.get(item, sk)}`) // to support multi cluster, use ${name}-${cluster} as unique id
+        items: result.items.map(item => sk ? `${lodash.get(item, pk)}-${lodash.get(item, sk)}`:`${lodash.get(item, pk)}`) // to support multi cluster, use ${name}-${cluster} as unique id
       })
     }
   )

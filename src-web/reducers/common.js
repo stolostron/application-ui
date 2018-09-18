@@ -218,16 +218,9 @@ export const getSingleResourceItem = createSelector(
 
 export const resourceItemByName = (items, props) => {
   const key = ResourceDefinitions.getURIKey(props.resourceType)
-  return lodash.find(items, item => {
-    switch (props.resourceType.name) {
-    case RESOURCE_TYPES.HCM_COMPLIANCES.name:
-    case RESOURCE_TYPES.HCM_POLICIES.name:
-      return lodash.get(item, 'name') === props.name
-    default:
-    case RESOURCE_TYPES.HCM_APPLICATIONS.name:
-      return lodash.get(item, key) === props.name
-    }
-  })
+  return lodash.find(items, item =>
+    lodash.get(item, key) === props.name
+  )
 }
 
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {

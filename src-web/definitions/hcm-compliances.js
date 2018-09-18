@@ -16,9 +16,9 @@ import { getAPIGroups, getRuleVerbs } from './hcm-policies'
 import { Link } from 'react-router-dom'
 
 export default {
-  defaultSortField: 'name',
-  primaryKey: 'name',
-  secondaryKey: 'namespace',
+  defaultSortField: 'metadata.name',
+  primaryKey: 'metadata.name',
+  secondaryKey: 'metadata.namespace',
   compliancePolicies: {
     resourceKey: 'compliancePolicies',
     title: 'table.header.compliance.policies',
@@ -75,12 +75,12 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name',
+      resourceKey: 'metadata.name',
       link: createPolicyLink,
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace',
+      resourceKey: 'metadata.namespace',
     },
     {
       msgKey: 'table.header.policy.compliant',
@@ -105,7 +105,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'name'
+            resourceKey: 'metadata.name'
           }
         ]
       },
@@ -127,7 +127,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.creationTime',
+            resourceKey: 'metadata.creationTimestamp',
             transformFunction: getAge
           }
         ]
@@ -139,7 +139,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.resourceVersion'
+            resourceKey: 'metadata.resourceVersion'
           }
         ]
       },
@@ -150,7 +150,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.selfLink'
+            resourceKey: 'metadata.selfLink'
           }
         ]
       },
@@ -161,7 +161,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.uid'
+            resourceKey: 'metadata.uid'
           }
         ]
       },
@@ -276,7 +276,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'name'
+            resourceKey: 'metadata.name'
           }
         ]
       },
@@ -287,7 +287,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'namespace'
+            resourceKey: 'metadata.namespace'
           }
         ]
       },
@@ -375,7 +375,7 @@ export default {
 }
 
 export function createPolicyLink(item = {}){
-  return <Link to={`/hcmconsole/policies/${encodeURIComponent(item.namespace)}/${encodeURIComponent(item.name)}`}>{item.name}</Link>
+  return <Link to={`/hcmconsole/policies/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
 export function getStatus(item, locale) {
@@ -429,5 +429,5 @@ export function getStatusIcon(item) {
 }
 
 export function createCompliancePolicyLink(item = {}){
-  return  <Link to={`/hcmconsole/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.name)}/${item.cluster}`}>{item.name}</Link>
+  return  <Link to={`/hcmconsole/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.metadata.name)}/${item.cluster}`}>{item.metadata.name}</Link>
 }

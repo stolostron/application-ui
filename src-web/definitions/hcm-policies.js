@@ -21,9 +21,9 @@ resources(() => {
 })
 
 export default {
-  defaultSortField: 'name',
-  primaryKey: 'name',
-  secondaryKey: 'namespace',
+  defaultSortField: 'metadata.name',
+  primaryKey: 'metadata.name',
+  secondaryKey: 'metadata.namespace',
   policyRules: {
     title: 'table.header.rules',
     defaultSortField: 'name',
@@ -105,12 +105,12 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name',
+      resourceKey: 'metadata.name',
       link: createPolicyLink,
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace',
+      resourceKey: 'metadata.namespace',
     },
     {
       msgKey: 'table.header.status',
@@ -137,7 +137,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'name'
+            resourceKey: 'metadata.name'
           }
         ]
       },
@@ -148,7 +148,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'namespace'
+            resourceKey: 'metadata.namespace'
           }
         ]
       },
@@ -170,7 +170,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'exclude_namespace',
+            resourceKey: 'detail.exclude_namespace',
             transformFunction: getExcludeNamespace
           }
         ]
@@ -182,7 +182,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'include_namespace',
+            resourceKey: 'detail.include_namespace',
             transformFunction: getIncludeNamespace
           }
         ]
@@ -205,7 +205,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.creationTime',
+            resourceKey: 'metadata.creationTimestamp',
             transformFunction: getAge
           }
         ]
@@ -217,7 +217,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.annotations',
+            resourceKey: 'metadata.annotations',
             transformFunction: getLabelsToList
           }
         ]
@@ -229,7 +229,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.resourceVersion'
+            resourceKey: 'metadata.resourceVersion'
           }
         ]
       },
@@ -240,7 +240,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.selfLink'
+            resourceKey: 'metadata.selfLink'
           }
         ]
       },
@@ -251,7 +251,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'detail.uid'
+            resourceKey: 'metadata.uid'
           }
         ]
       },
@@ -280,7 +280,7 @@ export default {
 }
 
 export function createPolicyLink(item = {}){
-  return  <Link to={`/hcmconsole/policies/local/${encodeURIComponent(item.namespace)}/${encodeURIComponent(item.name)}`}>{item.name}</Link>
+  return  <Link to={`/hcmconsole/policies/local/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
 export function getStatus(item= {},locale) {

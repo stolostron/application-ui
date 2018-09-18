@@ -10,14 +10,6 @@
 
 .topologyViewerDiagram {
     flex: 1;
-    height: calc(100% - 40px);
-}
-
-.topologyViewerLoadSprite {
-  visibility: hidden;
-  width: 0;
-  height: 0;
-  overflow: hidden;
 }
 
 .topologyViewerTitle {
@@ -27,7 +19,6 @@
 }
 
 .topologyViewerContainer {
-    height: 100%;
     background-color: #fff;
     display: -ms-flexbox;
     display: flex;

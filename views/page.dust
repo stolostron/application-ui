@@ -22,7 +22,7 @@
    <div id="header">
      {header|s}
     </div>
-    <div id="page" style="height:100%">
+    <div id="page">
         {content|s}
     </div>
     {+body/}
@@ -37,7 +37,7 @@
     <script id='props' type='application/json'>{propsH|js|s}</script>
     <script src="{filesH.nls.path}"></script>
     <script src="{filesH.dll.path}"></script>
-    <script src="{filesH.js.path}"></script>  
+    <script src="{filesH.js.path}"></script>
     {+script/}
 </body>
 

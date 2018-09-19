@@ -16,8 +16,7 @@ import config from '../../../lib/shared/config'
 import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import LinkHelper from './linkHelper'
-import NodeHelper from './nodeHelper'
-import {counterZoomLabels} from './nodeHelper'
+import NodeHelper, {counterZoomLabels} from './nodeHelper'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -35,6 +34,7 @@ class TopologyViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
+    getEditor: PropTypes.func,
     id: PropTypes.string,
     links: PropTypes.arrayOf(PropTypes.shape({
       source: PropTypes.any,
@@ -48,6 +48,7 @@ class TopologyViewer extends React.Component {
       type: PropTypes.string,
       name: PropTypes.string,
     })),
+    setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string,
   }
@@ -65,6 +66,12 @@ class TopologyViewer extends React.Component {
     this.setContainerRef = elem => {
       this.containerRef = elem
     }
+    if (props.setViewer) {
+      props.setViewer(this)
+    }
+    this.resize = _.debounce(()=>{
+      this.zoomFit()
+    }, 150)
     const { locale } = this.props.context
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
@@ -72,6 +79,7 @@ class TopologyViewer extends React.Component {
   }
 
   componentDidMount() {
+    window.addEventListener('resize', this.resize)
     this.generateDiagram()
   }
 
@@ -80,6 +88,7 @@ class TopologyViewer extends React.Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', this.resize)
     this.destroyDiagram()
   }
 
@@ -118,7 +127,7 @@ class TopologyViewer extends React.Component {
   }
 
   render() {
-    const { title, context, staticResourceData } = this.props
+    const { title, context, staticResourceData, getEditor } = this.props
     const { selectedNodeId } = this.state
     const { locale } = context
     const svgId = this.getSvgId()
@@ -136,7 +145,7 @@ class TopologyViewer extends React.Component {
           <input type='image' alt='zoom-target' className='zoom-target'
             onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
         </div>
-        { this.state.selectedNodeId &&
+        { this.state.selectedNodeId && !getEditor &&
           <DetailsView
             context={this.context}
             onClose={this.handleDetailsClose}
@@ -149,11 +158,22 @@ class TopologyViewer extends React.Component {
   }
 
   handleNodeClick = (node) => {
+    d3.event.stopPropagation()
+
+    // if there's a companion yaml editor, scroll to line
+    const { getEditor } = this.props
+    const editor = getEditor && getEditor()
+    if (editor && node) {
+      const line = node.$r||0
+      editor.renderer.STEPS = 25
+      editor.setAnimatedScroll(true)
+      editor.scrollToLine(line, true, true, ()=>{})
+      editor.selection.moveCursorToPosition({row: line, column: 0})
+      editor.selection.selectLine()
+    }
     this.setState({
       selectedNodeId: node?node.uid:undefined
     })
-    d3.event.stopPropagation()
-    this.highlightMode = true
   }
 
 

@@ -4384,6 +4384,7 @@ ReactWrapper {
         },
       },
       "refs": Object {},
+      "resize": [Function],
       "setContainerRef": [Function],
       "state": Object {
         "activeFilters": Object {},
@@ -9031,6 +9032,7 @@ ReactWrapper {
           },
         },
         "refs": Object {},
+        "resize": [Function],
         "setContainerRef": [Function],
         "state": Object {
           "activeFilters": Object {},

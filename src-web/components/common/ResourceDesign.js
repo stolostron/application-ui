@@ -9,6 +9,7 @@
 'use strict'
 
 import React from 'react'
+import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -17,6 +18,8 @@ import { getSingleResourceItem, resourceItemByName } from '../../reducers/common
 import { Loading } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import TopologyViewer from '../topology/TopologyViewer'
+import YamlEditor from '../common/YamlEditor'
+import {MCM_DESIGN_SPLITTER_COOKIE} from '../../../lib/shared/constants'
 import _ from 'lodash'
 
 resources(() => {
@@ -41,6 +44,7 @@ class ResourceDesign extends React.Component {
         name: PropTypes.string,
       })),
       staticResourceData: PropTypes.object,
+      yaml: PropTypes.string,
     }
 
     constructor (props) {
@@ -48,6 +52,16 @@ class ResourceDesign extends React.Component {
       this.state = {
         links: [],
         nodes: []
+      }
+      this.resizePanes = _.debounce((viewerSize)=>{
+        const editorSize = this.containerRef.getBoundingClientRect().width - viewerSize
+        const fontSize = editorSize<=200 ? 3 : (editorSize<=400 ? 6 : (editorSize<=500 ? 8 : (editorSize<=600? 9 : 12)))
+        this.viewer.resize()
+        this.editor.setFontSize(fontSize)
+        this.editor.resize()
+      }, 150)
+      this.setContainerRef = elem => {
+        this.containerRef = elem
       }
     }
 
@@ -58,30 +72,71 @@ class ResourceDesign extends React.Component {
     componentWillReceiveProps(nextProps) {
       const links = _.cloneDeep(nextProps.links||[])
       const nodes = _.cloneDeep(nextProps.nodes||[])
-      this.setState({ links, nodes })
+      const yaml = nextProps.yaml || ''
+      this.setState({ links, nodes, yaml })
     }
 
     shouldComponentUpdate(nextProps, nextState){
       return !_.isEqual(this.state.nodes.map(n => n.uid), nextState.nodes.map(n => n.uid)) ||
          !_.isEqual(this.state.links.map(n => n.uid), nextState.links.map(n => n.uid))    }
 
+    handleEditorChange = (yaml) => this.setState({ yaml })
+    handleSplitterDefault = () => {
+      const cookie = localStorage.getItem(`${MCM_DESIGN_SPLITTER_COOKIE}`)
+      let size = 1000
+      if (cookie) {
+        size = parseInt(cookie)
+      } else {
+        const page = document.getElementById('page')
+        if (page) {
+          size = page.getBoundingClientRect().width/2
+        }
+      }
+      this.resizePanes(size)
+      return size
+    }
+    handleSplitterChange = (size) => {
+      localStorage.setItem(`${MCM_DESIGN_SPLITTER_COOKIE}`, size)
+      this.resizePanes(size)
+    }
+    setEditor = (editor) => this.editor = editor
+    getEditor = () => this.editor
+    setViewer = (viewer) => this.viewer = viewer
+    getViewer = () => this.viewer
+
     render() {
       if (!this.props.nodes)
         return <Loading withOverlay={false} className='content-spinner' />
 
       const { staticResourceData} = this.props
-      const { links, nodes } = this.state
+      const { links, nodes, yaml } = this.state
       return (
-        <div className="resourceDesignContainer" >
-          <div className="topologyDiagramContainer" >
-            <TopologyViewer
-              id={'application'}
-              nodes={nodes}
-              links={links}
-              context={this.context}
-              staticResourceData={staticResourceData}
-            />
-          </div>
+        <div className="resourceDesignContainer"  ref={this.setContainerRef} >
+          <SplitPane
+            split='vertical'
+            minSize={50}
+            defaultSize={this.handleSplitterDefault()}
+            onChange={this.handleSplitterChange}>
+            <div className="topologyDiagramContainer">
+              <TopologyViewer
+                id={'application'}
+                nodes={nodes}
+                links={links}
+                context={this.context}
+                getEditor={this.getEditor}
+                setViewer={this.setViewer}
+                staticResourceData={staticResourceData}
+              />
+            </div>
+            <YamlEditor
+              width={'100%'}
+              height={'100%'}
+              readOnly={true}
+              getViewer={this.getViewer}
+              setEditor={this.setEditor}
+              onYamlChange={this.handleEditorChange}
+              yaml={yaml} />
+          </SplitPane>
         </div>
       )
     }
@@ -93,10 +148,11 @@ const mapStateToProps = (state, ownProps) => {
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null })
-  const {links, nodes} = staticResourceData.topologyTransform(item)
+  const {links, nodes, yaml} = staticResourceData.topologyTransform(item)
   return {
     links,
-    nodes
+    nodes,
+    yaml
   }
 }
 

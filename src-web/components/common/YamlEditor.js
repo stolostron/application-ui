@@ -16,24 +16,35 @@ import 'brace/mode/yaml'
 import 'brace/theme/monokai'
 
 class IsomorphicEditor extends React.Component {
+
+  static propTypes = {
+    setEditor: PropTypes.func,
+  }
+
   constructor(props) {
     super(props)
     this.mounted = false
+    this.setEditorRef = elem => {
+      if (elem && props.setEditor) {
+        props.setEditor(elem.editor)
+      }
+    }
   }
 
   componentDidMount() {
     this.mounted = true
   }
-  render = () => (this.mounted && <AceEditor {...this.props} />)
+
+  render = () => (this.mounted && <AceEditor {...this.props} ref={this.setEditorRef} />)
 }
 
-const YamlEditor = ({ onYamlChange, yaml }) =>
-  <div>
+const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40vh', readOnly=false }) =>
+  <div className="yamlEditorContainer">
     <IsomorphicEditor
       theme='monokai'
       mode={'yaml'}
-      width='49.5vw'
-      height='40vh'
+      width={width}
+      height={height}
       onChange={onYamlChange}
       fontSize={12}
       showPrintMargin={false}
@@ -41,17 +52,23 @@ const YamlEditor = ({ onYamlChange, yaml }) =>
       highlightActiveLine={true}
       value={yaml}
       setOptions={{
+        readOnly,
         showLineNumbers: true,
         tabSize: 2,
       }}
       editorProps={{
         $blockScrolling: Infinity
       }}
+      setEditor={setEditor}
     />
   </div>
 
 YamlEditor.propTypes = {
+  height: PropTypes.string,
   onYamlChange: PropTypes.func,
+  readOnly: PropTypes.bool,
+  setEditor: PropTypes.func,
+  width: PropTypes.string,
   yaml: PropTypes.string,
 }
 

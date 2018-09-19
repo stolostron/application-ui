@@ -9,9 +9,10 @@
 'use strict'
 import React from 'react'
 import { Loading } from 'carbon-components-react'
-import {getAge, getLabelsToString, getLabelsToList} from '../../lib/client/resource-helper'
+import {getAge, getLabelsToString, getLabelsToList, dumpAndSync} from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -348,27 +349,34 @@ export function getActiveFilters(item) {
 export function topologyTransform(item) {
   const links=[]
   const nodes=[]
+  let yaml = ''
+  let synced = {}
   if (item) {
-    const {metadata: {name, namespace}, deployables=[], placementPolicies=[]} = item
+    ({yaml, synced} = dumpAndSync(item, ['metadata', 'selector', 'deployables', 'placementPolicies']))
 
     // create application node
-    const appId = `application${name}`
+    const name = _.get(synced, 'metadata.$v.name.$v')
+    const appId = `application--${name}`
     nodes.push({
       name,
-      namespace,
+      namespace: _.get(synced, 'metadata.$v.namespace.$v'),
       application: item,
       type: 'application',
-      uid: appId
+      uid: appId,
+      $r: 0
     })
 
     // create its deployables nodes
-    deployables.forEach(({ metadata: {name} , deployer, dependencies})=>{
-      const depId = `deployer${name}`
+    const deployables = _.get(synced, 'deployables.$v') || []
+    deployables.forEach(deployable => {
+      const name = _.get(deployable, '$v.metadata.$v.name.$v')
+      const depId = `deployer--${name}`
       nodes.push({
         name,
-        deployer,
+        deployer: _.get(deployable, '$v.deployer.$v'),
         type: 'deployer',
-        uid: depId
+        uid: depId,
+        $r: deployable.$r
       })
       links.push({
         source: appId,
@@ -378,15 +386,16 @@ export function topologyTransform(item) {
       })
 
       // create deployable dependencies
-      dependencies = dependencies || []
+      const dependencies = _.get(deployable, '$v.dependencies.$v') || []
       dependencies.forEach(dependency=>{
-        const {metadata: { name }} = dependency
-        const dpId = `dependency${name}`
+        const name = _.get(dependency, '$v.metadata.$v.name.$v')
+        const dpId = `dependency--${name}`
         nodes.push({
           name,
-          dependency,
+          dependency: dependency.$v,
           type: 'dependency',
-          uid: dpId
+          uid: dpId,
+          $r: dependency.$r
         })
         links.push({
           source: depId,
@@ -398,14 +407,16 @@ export function topologyTransform(item) {
       })
     })
 
+    const placementPolicies = _.get(synced, 'placementPolicies.$v') || []
     placementPolicies.forEach(policy=>{
-      const {metadata: { name }} = policy
-      const polId = `policy${name}`
+      const name = _.get(policy, '$v.metadata.$v.name.$v')
+      const polId = `policy--${name}`
       nodes.push({
         name,
         type: 'policy',
-        policy,
-        uid: polId
+        policy: policy.$v,
+        uid: polId,
+        $r: policy.$r
       })
       links.push({
         source: appId,
@@ -415,9 +426,11 @@ export function topologyTransform(item) {
       })
     })
   }
+
   return {
     links,
-    nodes
+    nodes,
+    yaml
   }
 }
 
@@ -428,10 +441,10 @@ export function setNodeInfo(node, locale) {
     layout.info = node.namespace
     break
   case 'deployer':
-    layout.info = node.deployer.chartName
+    layout.info = _.get(node, 'deployer.chartName.$v')
     break
   case 'dependency':
-    layout.info = node.dependency.kind
+    layout.info =  _.get(node, 'dependency.kind.$v')
     break
   case 'policy':
     layout.info = msgs.get('application.policy', locale)

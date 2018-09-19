@@ -168,10 +168,6 @@ export function getNodeDetails(currentNode) {
     // labels
     if (labels.length) {
       details.push({
-        type: 'spacer',
-        reactKey: 'labels'
-      })
-      details.push({
         type: 'label',
         labelKey: 'resource.labels'
       })
@@ -185,10 +181,6 @@ export function getNodeDetails(currentNode) {
 
     // controllers
     if (hasService) {
-      details.push({
-        type: 'spacer',
-        reactKey: 'controllers'
-      })
       details.push({
         type: 'label',
         labelKey: 'resource.controllers.used'
@@ -205,10 +197,6 @@ export function getNodeDetails(currentNode) {
 
     // pods
     if (hasPods) {
-      details.push({
-        type: 'spacer',
-        reactKey: 'deployed'
-      })
       details.push({
         type: 'label',
         labelKey: 'resource.pods.deployed'

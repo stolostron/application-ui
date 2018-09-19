@@ -18,7 +18,7 @@ import { withRouter } from 'react-router-dom'
 import { updateSecondaryHeader } from '../actions/common'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { REQUEST_STATUS } from '../actions/index'
-import HealthOverview from '../components/dashboard/HealthOverview'
+// import HealthOverview from '../components/dashboard/HealthOverview'
 import ResourceOverview from '../components/dashboard/ResourceOverview'
 // import TagInput from '../../components/common/TagInput'
 // import FilterButton from '../../components/common/FilterButton'
@@ -69,7 +69,8 @@ export class ClustersDashboardTab extends React.Component {
   }
 
   render() {
-    const { serverProps, cardItems, pieChartItems, barChartItems, status } = this.props
+    // add barChartItems back once we have more data
+    const { serverProps, cardItems, pieChartItems, status } = this.props
 
     if ((status !== REQUEST_STATUS.DONE || !cardItems || !pieChartItems) && !this.state.xhrPoll)
       return <Loading withOverlay={false} className='content-spinner' />
@@ -110,7 +111,7 @@ export class ClustersDashboardTab extends React.Component {
           }
           <Page serverProps={serverProps}>
             <div className='dashboard'>
-              <HealthOverview pieChartItems={pieChartItems} barChartItems={barChartItems} />
+              {/*<HealthOverview pieChartItems={pieChartItems} barChartItems={barChartItems} />*/}
               <ResourceOverview cardItems={cardItems} />
             </div>
           </Page>

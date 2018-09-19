@@ -75,7 +75,7 @@ export function getLabels(item) {
   </ul>
 }
 
-export function getStatusIcon(item) {
+export function getStatusIcon(item, locale) {
   let iconName
   let className
   switch (item.status) {
@@ -101,7 +101,7 @@ export function getStatusIcon(item) {
       <div className='table-status-icon'>
         {iconName && <Icon className={`table-status-icon__${className}`} name={iconName} description='' /> }
       </div>
-      <p>{className}</p>
+      <p>{msgs.get(`table.cell.${className}`, locale)}</p>
     </div>
   )
 }

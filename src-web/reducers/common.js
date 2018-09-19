@@ -74,6 +74,7 @@ export const INITIAL_STATE = {
  * @param {*} searchText - String to match
  */
 function searchTableCell(item, tableKey, context, searchText){
+  //eslint-disable-next-line
   return ReactDOMServer.renderToString(transform(item, tableKey, context.locale)).toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1
 }
 
@@ -87,10 +88,10 @@ function searchTableCellHelper(search, tableKeys, item, context) {
         return searchTableCell(item, tableKey, context, searchField)
       }
     } else {
-      let found = true
+      let found = false
       const searchKeys = searchField.replace(/[{}]/g, '').split(',')
       if (searchKeys) searchKeys.forEach(searchKey => {
-        if (!searchTableCell(item, tableKey, context, searchKey)) found = false
+        if (searchTableCell(item, tableKey, context, searchKey)) found = true
       })
       return found
     }
@@ -115,11 +116,11 @@ const makeGetFilteredItemsSelector = (resourceType) => {
 
       if (search.includes('},')) {
         // special case like status={healthy}, labels={cloud=IBM}
-        let found = true
+        let found = false
         const searchFields = search.replace('},', '}},').toLowerCase().split('},')
         searchFields.forEach(searchField => {
-          if (!searchTableCellHelper(searchField,tableKeys, item, context)) {
-            found = false
+          if (searchTableCellHelper(searchField,tableKeys, item, context)) {
+            found = true
           }
         })
         return found

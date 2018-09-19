@@ -3,12 +3,38 @@
 exports[`DashboardCard component 1 renders as expected 1`] = `
 <div
   className="bx--module bx--module--single dashboard-card dashboard-card__critical"
+  critical={1}
+  healthy={1}
+  table={
+    Array [
+      Object {
+        "link": "1.1.1.1",
+        "percentage": 0,
+        "resourceName": "auth-idp-platform-auth-cert-gen-h2rt4",
+        "status": "critical",
+      },
+      Object {
+        "link": "",
+        "percentage": 0,
+        "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
+        "status": "warning",
+      },
+      Object {
+        "link": "",
+        "percentage": 0,
+        "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
+        "status": "healthy",
+      },
+    ]
+  }
+  title="unit test"
+  warning={1}
 >
   <div
     className="bx--module__inner"
   >
     <div
-      className="bx--module__header"
+      className="bx--module__header dashboard-card-header__critical"
     >
       <h1
         className="bx--module__title"
@@ -17,70 +43,86 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
       </h1>
     </div>
     <div
-      className="bx--module__content"
+      className="bx--module__content dashboard-card-orb"
     >
       <div
         className="dashboard-overview"
       >
-        <div
-          className="dashboard-count "
-        >
+        <div>
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+              className="dashboard-orb"
             >
-              1
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+              >
+                1
+              </div>
             </div>
+            <p
+              className="dashboard-card-text"
+            >
+              critical
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            critical
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+              className="dashboard-orb"
             >
-              1
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+              >
+                1
+              </div>
             </div>
+            <p
+              className="dashboard-card-text"
+            >
+              warning
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            warning
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+              className="dashboard-orb"
             >
-              1
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+              >
+                1
+              </div>
             </div>
+            <p
+              className="dashboard-card-text"
+            >
+              healthy
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            healthy
-          </p>
         </div>
       </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
       <div
         className="dashboard-card-separator-text dashboard-card-text"
       >
-        TOP 5
+        <div>
+          TOP 5
+        </div>
+        <div
+          className="dashboard-card-secondary-separator"
+        >
+          Least Compliant
+        </div>
+        <div
+          className="dashboard-card-separator-link"
+        />
       </div>
       <div
         className="bx--responsive-table-container"
@@ -98,8 +140,22 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
             className="bx--table-body"
           >
             <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
+              className="bx--table-row bx--parent-row"
             >
+              <td
+                className="dashboard-status-link"
+              >
+                <a
+                  href="https://1.1.1.1:8443/console/dashboard"
+                >
+                  auth-idp-platfor...-cert-gen-h2rt4
+                </a>
+              </td>
+              <td
+                className="dashboard-status-secondary"
+              >
+                0%
+              </td>
               <td
                 className="dashboard-status"
               >
@@ -126,22 +182,32 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
                       d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z"
                     />
                   </svg>
+                  <p
+                    className="dashboard-status-text"
+                  >
+                    critical
+                  </p>
                 </div>
-                <a
-                  href="https://1.1.1.1:8443"
-                >
-                  auth-idp-platfor...-cert-gen-h2rt4
-                </a>
-              </td>
-              <td
-                className=""
-              >
-                0%
               </td>
             </tr>
             <tr
               className="bx--table-row bx--parent-row"
             >
+              <td
+                className="dashboard-status-link"
+              >
+                <a
+                  href="undefined/?filters={\\"name\\":[\\"db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz\\"]}"
+                  onClick={[Function]}
+                >
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </a>
+              </td>
+              <td
+                className="dashboard-status-secondary"
+              >
+                0%
+              </td>
               <td
                 className="dashboard-status"
               >
@@ -168,20 +234,32 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
                       d="M8 1L0 15h16L8 1zm-.8 5h1.5v1.4L8.3 11h-.8l-.4-3.6V6h.1zm.8 8c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"
                     />
                   </svg>
+                  <p
+                    className="dashboard-status-text"
+                  >
+                    warning
+                  </p>
                 </div>
-                <p>
-                  db2-stock-trader...5b77c44d4-b7tbz
-                </p>
-              </td>
-              <td
-                className=""
-              >
-                0%
               </td>
             </tr>
             <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
+              className="bx--table-row bx--parent-row"
             >
+              <td
+                className="dashboard-status-link"
+              >
+                <a
+                  href="undefined/?filters={\\"name\\":[\\"db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz\\"]}"
+                  onClick={[Function]}
+                >
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </a>
+              </td>
+              <td
+                className="dashboard-status-secondary"
+              >
+                0%
+              </td>
               <td
                 className="dashboard-status"
               >
@@ -208,46 +286,13 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
                       d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM6.7 11.5L3.4 8.1l1.4-1.4 1.9 1.9 4.1-4.1 1.4 1.4-5.5 5.6z"
                     />
                   </svg>
+                  <p
+                    className="dashboard-status-text"
+                  >
+                    healthy
+                  </p>
                 </div>
-                <p>
-                  db2-stock-trader...5b77c44d4-b7tbz
-                </p>
               </td>
-              <td
-                className=""
-              >
-                0%
-              </td>
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
             </tr>
           </tbody>
         </table>
@@ -260,12 +305,26 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
 exports[`DashboardCard component 2 renders as expected 1`] = `
 <div
   className="bx--module bx--module--single dashboard-card dashboard-card__warning"
+  critical={0}
+  healthy={0}
+  table={
+    Array [
+      Object {
+        "link": "",
+        "percentage": 0,
+        "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
+        "status": "warning",
+      },
+    ]
+  }
+  title="unit test 2"
+  warning={1}
 >
   <div
     className="bx--module__inner"
   >
     <div
-      className="bx--module__header"
+      className="bx--module__header dashboard-card-header__warning"
     >
       <h1
         className="bx--module__title"
@@ -274,70 +333,86 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
       </h1>
     </div>
     <div
-      className="bx--module__content"
+      className="bx--module__content dashboard-card-orb"
     >
       <div
         className="dashboard-overview"
       >
-        <div
-          className="dashboard-count "
-        >
+        <div>
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              critical
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            critical
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+              className="dashboard-orb"
             >
-              1
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+              >
+                1
+              </div>
             </div>
+            <p
+              className="dashboard-card-text"
+            >
+              warning
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            warning
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              healthy
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            healthy
-          </p>
         </div>
       </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
       <div
         className="dashboard-card-separator-text dashboard-card-text"
       >
-        TOP 5
+        <div>
+          TOP 5
+        </div>
+        <div
+          className="dashboard-card-secondary-separator"
+        >
+          Least Compliant
+        </div>
+        <div
+          className="dashboard-card-separator-link"
+        />
       </div>
       <div
         className="bx--responsive-table-container"
@@ -355,8 +430,23 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
             className="bx--table-body"
           >
             <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
+              className="bx--table-row bx--parent-row"
             >
+              <td
+                className="dashboard-status-link"
+              >
+                <a
+                  href="undefined/?filters={\\"name\\":[\\"db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz\\"]}"
+                  onClick={[Function]}
+                >
+                  db2-stock-trader...5b77c44d4-b7tbz
+                </a>
+              </td>
+              <td
+                className="dashboard-status-secondary"
+              >
+                0%
+              </td>
               <td
                 className="dashboard-status"
               >
@@ -383,76 +473,13 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
                       d="M8 1L0 15h16L8 1zm-.8 5h1.5v1.4L8.3 11h-.8l-.4-3.6V6h.1zm.8 8c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"
                     />
                   </svg>
+                  <p
+                    className="dashboard-status-text"
+                  >
+                    warning
+                  </p>
                 </div>
-                <p>
-                  db2-stock-trader...5b77c44d4-b7tbz
-                </p>
               </td>
-              <td
-                className=""
-              >
-                0%
-              </td>
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
             </tr>
           </tbody>
         </table>
@@ -465,12 +492,25 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
 exports[`DashboardCard component 3 renders as expected 1`] = `
 <div
   className="bx--module bx--module--single dashboard-card dashboard-card__healthy"
+  critical={0}
+  healthy={1}
+  table={
+    Array [
+      Object {
+        "link": "",
+        "percentage": 0,
+        "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
+      },
+    ]
+  }
+  title="unit test 3"
+  warning={0}
 >
   <div
     className="bx--module__inner"
   >
     <div
-      className="bx--module__header"
+      className="bx--module__header dashboard-card-header__healthy"
     >
       <h1
         className="bx--module__title"
@@ -479,70 +519,86 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
       </h1>
     </div>
     <div
-      className="bx--module__content"
+      className="bx--module__content dashboard-card-orb"
     >
       <div
         className="dashboard-overview"
       >
-        <div
-          className="dashboard-count "
-        >
+        <div>
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              critical
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            critical
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              warning
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            warning
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+              className="dashboard-orb"
             >
-              1
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+              >
+                1
+              </div>
             </div>
+            <p
+              className="dashboard-card-text"
+            >
+              healthy
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            healthy
-          </p>
         </div>
       </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
       <div
         className="dashboard-card-separator-text dashboard-card-text"
       >
-        TOP 5
+        <div>
+          TOP 5
+        </div>
+        <div
+          className="dashboard-card-secondary-separator"
+        >
+          Least Compliant
+        </div>
+        <div
+          className="dashboard-card-separator-link"
+        />
       </div>
       <div
         className="bx--responsive-table-container"
@@ -560,79 +616,15 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
             className="bx--table-body"
           >
             <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
+              className="bx--table-row bx--parent-row"
             >
               <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p>
-                  db2-stock-trader...5b77c44d4-b7tbz
-                </p>
-              </td>
-              <td
                 className=""
+              />
+              <td
+                className="dashboard-status-secondary"
               >
                 0%
-              </td>
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
               </td>
               <td
                 className=""
@@ -649,12 +641,17 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
 exports[`DashboardCard component 4 renders as expected 1`] = `
 <div
   className="bx--module bx--module--single dashboard-card dashboard-card__healthy"
+  critical={0}
+  healthy={0}
+  table={Array []}
+  title="unit test 4"
+  warning={0}
 >
   <div
     className="bx--module__inner"
   >
     <div
-      className="bx--module__header"
+      className="bx--module__header dashboard-card-header__healthy"
     >
       <h1
         className="bx--module__title"
@@ -663,70 +660,86 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
       </h1>
     </div>
     <div
-      className="bx--module__content"
+      className="bx--module__content dashboard-card-orb"
     >
       <div
         className="dashboard-overview"
       >
-        <div
-          className="dashboard-count "
-        >
+        <div>
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__critical"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              critical
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            critical
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__warning"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              warning
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            warning
-          </p>
-        </div>
-        <div
-          className="dashboard-count "
-        >
           <div
-            className="dashboard-orb"
+            className="dashboard-count "
           >
             <div
-              className="dashboard-orb dashboard-orb__inner dashboard-orb__healthy"
+              className="dashboard-orb"
             >
-              0
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
             </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              healthy
+            </p>
           </div>
-          <p
-            className="dashboard-card-text"
-          >
-            healthy
-          </p>
         </div>
       </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
       <div
         className="dashboard-card-separator-text dashboard-card-text"
       >
-        TOP 5
+        <div>
+          TOP 5
+        </div>
+        <div
+          className="dashboard-card-secondary-separator"
+        >
+          Least Compliant
+        </div>
+        <div
+          className="dashboard-card-separator-link"
+        />
       </div>
       <div
         className="bx--responsive-table-container"
@@ -742,83 +755,7 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
         >
           <tbody
             className="bx--table-body"
-          >
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-            <tr
-              className="bx--table-row bx--parent-row bx--parent-row--even"
-            >
-              <td
-                className="dashboard-status"
-              >
-                <div
-                  className="table-status-icon"
-                />
-                <p />
-              </td>
-              <td
-                className=""
-              />
-            </tr>
-          </tbody>
+          />
         </table>
       </div>
     </div>

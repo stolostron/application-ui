@@ -10,13 +10,15 @@
 
 import React from 'react'
 import renderer from 'react-test-renderer'
-
+import { MemoryRouter } from 'react-router'
 import ResourceOverview from '../../../../src-web/components/dashboard/ResourceOverview'
 
 describe('ResourceOverview no components', () => {
   it('renders as expected', () => {
     const component = renderer.create(
-      <ResourceOverview />
+      <MemoryRouter initialEntries={[ '/random' ]}>
+        <ResourceOverview />
+      </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
   })
@@ -33,7 +35,9 @@ const mockItem = {
 describe('ResourceOverview no components', () => {
   it('renders as expected', () => {
     const component = renderer.create(
-      <ResourceOverview cardItem={mockItem} />
+      <MemoryRouter initialEntries={[ '/random' ]}>
+        <ResourceOverview cardItem={mockItem} />
+      </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

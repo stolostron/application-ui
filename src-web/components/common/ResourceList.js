@@ -121,7 +121,7 @@ class ResourceList extends React.Component {
       return React.cloneElement(action, { resourceType })
     })
     if (items || searchValue || clientSideFilters) {
-      if (!searchValue && clientSideFilters) {
+      if (!searchValue && clientSideFilters && !this.state.xhrPoll) {
         searchTable(clientSideFilters)
       }
       return <div>

@@ -10,6 +10,7 @@
 
 import React from 'react'
 import renderer from 'react-test-renderer'
+import { MemoryRouter } from 'react-router'
 
 import { DashboardCard } from '../../../src-web/components/DashboardCard'
 
@@ -36,7 +37,9 @@ describe('DashboardCard component 1', () => {
   ]
   it('renders as expected', () => {
     const component = renderer.create(
-      <DashboardCard critical={1} healthy={1} warning={1} title='unit test' table={table} />
+      <MemoryRouter initialEntries={[ '/random' ]}>
+        <DashboardCard critical={1} healthy={1} warning={1} title='unit test' table={table} />
+      </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
   })
@@ -54,7 +57,9 @@ describe('DashboardCard component 2', () => {
   ]
   it('renders as expected', () => {
     const component = renderer.create(
-      <DashboardCard critical={0} healthy={0} warning={1} title='unit test 2' table={table} />
+      <MemoryRouter initialEntries={[ '/random' ]}>
+        <DashboardCard critical={0} healthy={0} warning={1} title='unit test 2' table={table} />
+      </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
   })
@@ -71,7 +76,9 @@ describe('DashboardCard component 3', () => {
   ]
   it('renders as expected', () => {
     const component = renderer.create(
-      <DashboardCard critical={0} healthy={1} warning={0} title='unit test 3' table={table} />
+      <MemoryRouter initialEntries={[ '/random' ]}>
+        <DashboardCard critical={0} healthy={1} warning={0} title='unit test 3' table={table} />
+      </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
   })
@@ -81,7 +88,9 @@ describe('DashboardCard component 4', () => {
   const table = []
   it('renders as expected', () => {
     const component = renderer.create(
-      <DashboardCard critical={0} healthy={0} warning={0} title='unit test 4' table={table} />
+      <MemoryRouter initialEntries={[ '/random' ]}>
+        <DashboardCard critical={0} healthy={0} warning={0} title='unit test 4' table={table} />
+      </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

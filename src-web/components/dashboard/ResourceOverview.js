@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import DashboardSection from '../common/DashboardSection'
 import msgs from '../../../nls/platform.properties'
 import { DashboardCard, TableRowPropType } from '../DashboardCard'
+import {withRouter} from 'react-router-dom'
 
 class ResourceOverview extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class ResourceOverview extends React.Component {
               healthy={item.healthy}
               table={item.table}
               percentage={item.percentage}
+              redirecturl={item.redirectUrl}
               title={msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`, locale)}
               key={item.name}
               id={`card-${item.name.replace(' ', '-')}`}
@@ -54,4 +56,4 @@ ResourceOverview.propTypes = {
   }))
 }
 
-export default ResourceOverview
+export default withRouter(ResourceOverview)

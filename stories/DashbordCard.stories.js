@@ -20,7 +20,7 @@ const criticalCardProps = {
   title: 'My Card - Critical',
   critical: 2,
   healthy: 10,
-  warning: 3,
+  warning: 0,
   table: [
     {
       link: 'www.ibm.coim',

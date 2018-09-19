@@ -94,9 +94,14 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
       const filterJson = JSON.parse(input)
       Object.entries(filterJson).forEach(([key,value]) => {
         if (result !== '') result += ','
-        result += (key + '={')
-        value.forEach((item, index) => result += (item.replace(':', '=') + (index !== value.length-1 ? ',' : '')))
-        result += '}'
+        if (Array.isArray(value) && value.length === 1) {
+          // don't need {} if it only has one single search target
+          result += (key + '=' + value[0].replace(':', '='))
+        } else {
+          result += (key + '={')
+          value.forEach((item, index) => result += (item.replace(':', '=') + (index !== value.length-1 ? ',' : '')))
+          result += '}'
+        }
       })
       return result
     }

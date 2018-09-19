@@ -18,8 +18,6 @@ const Modal = ({ type, open, ...rest }) => {
   switch (type) {
   case 'resource-remove':
     return open && getRemoveResourceModal({ type, open, ...rest })
-  case 'undeploy-application':
-    return open && getUndeployApplicationModal({ type, open, ...rest })
   default:
     return null
   }
@@ -30,10 +28,6 @@ const getRemoveResourceModal = props => {
   return getModal(RemoveResourceModal, props)
 }
 
-const getUndeployApplicationModal = props => {
-  const UndeployApplicationModal = loadable(() => import(/* webpackChunkName: "undeploy-application-modal"" */ '../modals/UndeployApplicationModal'))
-  return getModal(UndeployApplicationModal, props)
-}
 
 const getModal = (Component, props) => <Component {...props} />
 

@@ -31,7 +31,7 @@ class ResourceOverview extends React.Component {
               healthy={item.healthy}
               table={item.table}
               percentage={item.percentage}
-              redirecturl={item.redirectUrl}
+              type={item.type}
               title={msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`, locale)}
               key={item.name}
               id={`card-${item.name.replace(' ', '-')}`}

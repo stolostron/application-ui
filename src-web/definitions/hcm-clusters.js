@@ -18,20 +18,20 @@ resources(() => {
 })
 
 export default {
-  defaultSortField: 'name',
-  primaryKey: 'name',
+  defaultSortField: 'metadata.name',
+  primaryKey: 'metadata.name',
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'name',
+      resourceKey: 'metadata.name',
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'namespace',
+      resourceKey: 'metadata.namespace',
     },
     {
       msgKey: 'table.header.labels',
-      resourceKey: 'labels',
+      resourceKey: 'metadata.labels',
       transformFunction: getLabels
     },
     {
@@ -67,7 +67,7 @@ export function getExternalLink(item, locale) {
 
 export function getLabels(item) {
   return <ul>
-    {lodash.map(item.labels, (value, key) => {
+    {lodash.map(item.metadata.labels, (value, key) => {
       if (key !== 'controller-revision-hash' && key != 'pod-template-generation' && key != 'pod-template-hash')
         return <li key={`${key}=${value}`}>{`${key}=${value}`}</li>
     })

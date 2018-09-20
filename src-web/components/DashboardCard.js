@@ -38,7 +38,7 @@ const OrbPropType = {
 
 DashboardOrb.propTypes = OrbPropType
 
-const DashboardTableRow = ({ link, percentage, resourceName, status, namespace, type, ...rest }) => {
+const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namespace, type, ...rest }) => {
   let iconName
   switch (status) {
   case 'healthy':
@@ -55,11 +55,9 @@ const DashboardTableRow = ({ link, percentage, resourceName, status, namespace, 
     <TableRow {...rest}>
       {status != null ?
         <TableData className='dashboard-status-link'>
-          {link ?
-            <a href={`https://${link}:8443/console/dashboard`}>{truncate(resourceName, 34)}</a> : (
-              namespace ? <a href={`/catalog/instancedetails/${namespace}/${resourceName}`}>{truncate(resourceName, 34)}</a>
-                :<Link to={`${config.contextPath}/${type}?filters={"name":["${resourceName}"]}`}>{truncate(resourceName, 34)}</Link>
-            )
+          {clusterIP ? (namespace ? <a href={`https://${clusterIP}:8443/catalog/instancedetails/${namespace}/${resourceName}`}>{truncate(resourceName, 34)}</a>
+            : <a href={`https://${clusterIP}:8443/console/dashboard`}>{truncate(resourceName, 34)}</a> )
+            : <Link to={`${config.contextPath}/${type}?filters={"name":["${resourceName}"]}`}>{truncate(resourceName, 34)}</Link>
           }
         </TableData> : <TableData />
       }
@@ -75,7 +73,7 @@ const DashboardTableRow = ({ link, percentage, resourceName, status, namespace, 
 }
 
 export const TableRowPropType = {
-  link: PropTypes.string,
+  clusterIP: PropTypes.string,
   namespace: PropTypes.string,
   percentage: PropTypes.number,
   resourceName: PropTypes.string,

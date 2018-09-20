@@ -18,19 +18,19 @@ describe('DashboardCard component 1', () => {
   const table = [
     {
       'status': 'critical',
-      'link': '1.1.1.1',
+      'clusterIP': '1.1.1.1',
       'resourceName': 'auth-idp-platform-auth-cert-gen-h2rt4',
       'percentage': 0
     },
     {
       'status': 'warning',
-      'link': '',
+      'clusterIP': '',
       'resourceName': 'db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz',
       'percentage': 0
     },
     {
       'status': 'healthy',
-      'link': '',
+      'clusterIP': '',
       'resourceName': 'db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz',
       'percentage': 0
     }
@@ -50,7 +50,7 @@ describe('DashboardCard component 2', () => {
   const table = [
     {
       'status': 'warning',
-      'link': '',
+      'clusterIP': '',
       'resourceName': 'db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz',
       'percentage': 0
     }
@@ -69,7 +69,7 @@ describe('DashboardCard component 2', () => {
 describe('DashboardCard component 3', () => {
   const table = [
     {
-      'link': '',
+      'clusterIP': '',
       'resourceName': 'db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz',
       'percentage': 0
     }

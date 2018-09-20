@@ -8,19 +8,19 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
   table={
     Array [
       Object {
-        "link": "1.1.1.1",
+        "clusterIP": "1.1.1.1",
         "percentage": 0,
         "resourceName": "auth-idp-platform-auth-cert-gen-h2rt4",
         "status": "critical",
       },
       Object {
-        "link": "",
+        "clusterIP": "",
         "percentage": 0,
         "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
         "status": "warning",
       },
       Object {
-        "link": "",
+        "clusterIP": "",
         "percentage": 0,
         "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
         "status": "healthy",
@@ -310,7 +310,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
   table={
     Array [
       Object {
-        "link": "",
+        "clusterIP": "",
         "percentage": 0,
         "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
         "status": "warning",
@@ -497,7 +497,7 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
   table={
     Array [
       Object {
-        "link": "",
+        "clusterIP": "",
         "percentage": 0,
         "resourceName": "db2-stock-trader-ibm-db2oltp-dev-5b77c44d4-b7tbz",
       },

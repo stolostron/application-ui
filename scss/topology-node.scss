@@ -7,6 +7,9 @@
  * Contract with IBM Corp.
  *******************************************************************************/
  @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+ $linkColor: rgb(140,155,165);
+
 .node {
   text {
       text-anchor: middle;
@@ -53,6 +56,19 @@
     stroke-opacity: 0;
     opacity: 1;
     pointer-events: none;
+  }
+
+  .loop {
+    stroke-width: 1px;
+    stroke: $linkColor;
+    opacity: 0.5;
+    fill: none;
+    pointer-events: none;
+  }
+
+  .directionDecorator {
+    stroke: $linkColor;
+    fill: $linkColor;
   }
 }
 

@@ -8,13 +8,14 @@
  *******************************************************************************/
  @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
-$linkColor: rgba(140,155,165,0.50);
+$linkColor: rgb(140,155,165);
 
 .link {
-  line {
+  path {
+      fill: none;
       stroke: $linkColor;
       stroke-width: 1px;
-      stroke-opacity: 1;
+      stroke-opacity: 0.5;
   }
 
   text {

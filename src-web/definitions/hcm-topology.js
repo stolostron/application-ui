@@ -9,6 +9,7 @@
 'use strict'
 
 import msgs from '../../nls/platform.properties'
+import _ from 'lodash'
 
 // topologyCloneTypes: types that can appear through diagram, better to clone them for each group that wants it
 // topologyOrder: general order in which to organize diagram with 'internet' at upper left and container at lower right
@@ -73,8 +74,15 @@ export function topologyTransform(resourceItem) {
     uid: l.from.uid + l.to.uid,
   }))
 
-  // FIXME: We don't have a way to show links to self, so removing those links until the diagram can paint those correctly.
-  modifiedLinks = modifiedLinks.filter(l => l.source !== l.target)
+  // filter out links to self, then add as a new svg circular arrow on node
+  const nodeMap = _.keyBy(nodes, 'uid')
+  modifiedLinks = modifiedLinks.filter(l => {
+    if (l.source !== l.target) {
+      return true
+    } else {
+      nodeMap[l.source].hasLinkToSelf = true
+    }
+  })
 
   // get just the clusters
   const clusterMap = {}

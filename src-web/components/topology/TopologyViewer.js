@@ -58,8 +58,8 @@ class TopologyViewer extends React.Component {
     this.highlightMode = false
     this.state = {
       activeFilters: props.activeFilters,
-      links: props.links,
-      nodes: props.nodes,
+      links: _.uniqBy(props.links, 'uid'),
+      nodes: _.uniqBy(props.nodes, 'uid'),
       hiddenLinks: new Set(),
       selectedNodeId: ''
     }
@@ -103,24 +103,28 @@ class TopologyViewer extends React.Component {
   componentWillReceiveProps(){
     this.setState((prevState, props) => {
       // cache live update links and nodes until filter is changed
-      let nodes = _.cloneDeep(props.nodes)
+      let nodes = _.uniqBy(props.nodes, 'uid')
       const hiddenLinks = new Set()
-      nodes = nodes.map(node => prevState.nodes.find(n => n.uid === node.uid) ||
-          Object.assign(node, {layout: {newComer: {}}}))
-      // to stabilize layout, just hide links in diagram that are gone
-      prevState.links.forEach(a=>{
-        if (props.links.findIndex(b=>{
-          return a.uid===b.uid
-        })==-1) {
-          hiddenLinks.add(a.uid)
-        }
+
+      // reuse existing states for the same node
+      const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')
+      nodes = nodes.map(node => {
+        return prevStateNodeMap[node.uid] || Object.assign(node, {layout: {newComer: {}}})
       })
 
-      // keep cache of everything
+      // to stabilize layout, just hide links in diagram that are gone
+      const currentLinks = _.uniqBy(props.links, 'uid')
+      const currentLinkMap = _.keyBy(currentLinks, 'uid')
+      prevState.links.forEach(link=>{
+        if (!currentLinkMap[link.uid]) {
+          hiddenLinks.add(link.uid)
+        }
+      })
+      // and cache all links
       const compare = (a,b) => {
         return a.uid===b.uid
       }
-      const links = _.unionWith(prevState.links, props.links, compare)
+      const links = _.unionWith(prevState.links, currentLinks, compare)
       return {links, nodes, hiddenLinks, activeFilters: props.activeFilters}
     })
 

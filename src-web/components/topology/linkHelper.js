@@ -24,6 +24,10 @@ export default class LinkHelper {
     this.links = links
     this.svg = svg
     this.nodeMap = _.keyBy(nodes, 'layout.uid')
+    this.lineFunction = d3.line()
+      .x(d=>d.x)
+      .y(d=>d.y)
+      .curve(d3.curveBundle)
   }
 
   /**
@@ -68,21 +72,25 @@ export default class LinkHelper {
       .attr('class', 'link')
       .attr('transform', currentZoom)
 
-    // line
-    links.append('line')
-      .attr('x1', ({layout}) => { return layout.center.x })
-      .attr('y1', ({layout}) => { return layout.center.y })
-      .attr('x2', ({layout}) => { return layout.center.x })
-      .attr('y2', ({layout}) => { return layout.center.y })
+    // add path
+    links.append('path')
+      .attr('d', ({layout}) => {
+        return this.lineFunction([layout.center,layout.center])
+      })
+      .style('opacity', 0.0)
 
     // arrow
     links.append('polygon')
       .attr('class', 'directionDecorator')
-      .attr('points', `0,${NODE_RADIUS}, -4,${NODE_RADIUS + 7}, 4,${NODE_RADIUS + 7}`)
+      .attr('points', ({layout}) => {
+        const radius = NODE_RADIUS + (layout.target && layout.target.isHub ? 10 : 0)
+        return `0,${radius}, -4,${radius + 7}, 4,${radius + 7}`
+      })
       .attr('transform', ({layout}) => {
         const {x, y} = layout.center
         return `translate(${x}, ${y})`
       })
+      .style('opacity', 0.0)
 
     // label
     links.append('text')
@@ -92,43 +100,60 @@ export default class LinkHelper {
         const {x, y} = layout.center
         return `translate(${x}, ${y})`
       })
-
+      .style('opacity', 0.0)
   }
 
   moveLinks = (transition) => {
     const links = this.svg.select('g.links').selectAll('g.link')
 
-    const getPosition = (layout, key, pos) => {
-      const node = this.nodeMap[layout[key].uid]
-      return node ? (pos ? node.layout[pos] : node.layout) : 0
-    }
-    // set position of line
-    links.selectAll('line')
+    // set link path
+    links.selectAll('path')
+      .attr('d', ({layout}) => {
+        return this.lineFunction(layout.lineData)
+      })
       .transition(transition)
-      .attr('x1', ({layout}) => { return getPosition(layout, 'source', 'x')})
-      .attr('y1', ({layout}) => { return getPosition(layout, 'source', 'y') })
-      .attr('x2', ({layout}) => { return getPosition(layout, 'target', 'x') })
-      .attr('y2', ({layout}) => { return getPosition(layout, 'target', 'y') })
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout.transform ? layout.transform : {x:0, y:0}
+        return `translate(${x}, ${y})`
+      })
+
+      .style('opacity', 1.0)
 
     // set position of arrow
     links.selectAll('polygon')
-      .transition(transition )
+      .transition(transition)
       .attr('transform', ({layout}) => {
-        const {x: sx, y: sy} = getPosition(layout, 'source')
-        const {x: tx, y: ty} = getPosition(layout, 'target')
+        const lastSeg = layout.lineData.slice(-2)
+        const {x: sx, y: sy} = lastSeg[0]
+        const {x: tx, y: ty} = lastSeg[1]
+        const {x: xx, y: yy} = layout.transform ? layout.transform : {x:0, y:0}
         const angle = Math.atan2(ty - sy, tx - sx) * 180 / Math.PI
-        return `translate(${tx}, ${ty}) rotate(${angle + 90})`
+        return `translate(${tx+xx}, ${ty+yy}) rotate(${angle + 90})`
       })
+      .style('opacity', 1.0)
 
       // set position of label
     links.selectAll('text')
-      .transition(transition )
+      .transition(transition)
+      .text((d) => {
+        return d.layout && d.layout.isParallel ? 'both' : d.label
+      })
       .attr('transform', ({layout}) => {
-        const {x: sx, y: sy} = getPosition(layout, 'source')
-        const {x: tx, y: ty} = getPosition(layout, 'target')
+        let midSeg = layout.lineData
+        if (layout.lineData.length>2) {
+          const idx = Math.floor(layout.lineData.length/2)
+          midSeg = layout.lineData.slice(idx)
+        }
+        let {x: sx, y: sy} = midSeg[0]
+        let {x: tx, y: ty} = midSeg[1]
+        const {x: xx, y: yy} = layout.transform ? layout.transform : {x:0, y:0}
+        sx+=xx
+        sy+=yy
+        tx+=xx
+        ty+=yy
         const x = (sx + tx)/2
         const y = (sy + ty)/2
-        const angle = Math.atan2(ty - sy,tx - sx) * 180 / Math.PI
+        const angle = Math.atan2(ty - sy, tx - sx) * 180 / Math.PI
         return `translate(${x}, ${y}) rotate(${x > tx ? angle + 180 : angle})`
       })
       .style('opacity', ({layout}) => {
@@ -141,16 +166,26 @@ export default class LinkHelper {
     this.svg.select('g.links').selectAll('g.link').each((l,i,ns)=>{
       if (l.layout.source.uid === d.layout.uid || l.layout.target.uid === d.layout.uid) {
         const link = d3.select(ns[i])
-        const line = link.selectAll('line')
-        if (l.layout.source.uid === d.layout.uid) {
-          line
-            .attr('x1', ({layout}) => {return layout.source.x = d.layout.x})
-            .attr('y1', ({layout}) => { return layout.source.y = d.layout.y })
+        const path = link.selectAll('path')
+        const layout = l.layout
+
+        // set node position
+        const {source, target} = layout
+        if (source.uid === d.layout.uid) {
+          source.x = d.layout.x
+          source.y = d.layout.y
         } else {
-          line
-            .attr('x2', ({layout}) => { return layout.target.x = d.layout.x })
-            .attr('y2', ({layout}) => { return layout.target.y = d.layout.y })
+          target.x = d.layout.x
+          target.y = d.layout.y
         }
+
+        // straighten line out
+        setDraggedLineData(layout)
+
+        path
+          .attr('d', ({layout}) => {
+            return this.lineFunction(layout.lineData)
+          })
 
         link.selectAll('text')
           .attr('transform', ({layout}) => {
@@ -172,5 +207,67 @@ export default class LinkHelper {
       }
     })
   }
-
 }
+
+export const setDraggedLineData = (layout) => {
+  // calculate new straight lineData
+  const {source, target} = layout
+  const {x: xx, y: yy} = layout.transform ? layout.transform : {x:0, y:0}
+  const {x: sx, y: sy} = source
+  const {x: tx, y: ty} = target
+  layout.lineData = [
+    {x: sx-xx, y: sy-yy},
+    {x: tx-xx, y: ty-yy}
+  ]
+}
+
+export const layoutEdges = (newLayout, nodes, edges, adapter) => {
+  const laidoutEdges = []
+  if (edges.length>0) {
+    let preparedColaRouting = false
+    const nodeMap = _.keyBy(nodes, 'layout.uid')
+    edges.forEach(edge=>{
+      const {edge: {layout, uid}} = edge.data()
+
+      // set path data on new edges
+      // loops-- curve back to itself -- we filter it out but draw a circular arrow line on the node
+      // parallel -- two line between same nodes--we just put "both" as the label on the line
+      // avoidance -- curve around nodes -- we use webcola's line router
+      // else just a straight line
+      if (!layout.lineData || newLayout) {
+        layout.lineData = []
+        const {source: {uid: sid}, target: {uid: tid}} = layout
+        var {position: {x:x1, y:y1}} = nodeMap[sid]
+        var {position: {x:x2, y:y2}} = nodeMap[tid]
+
+        // if cola layout and a line is long, route the line around the nodes
+        if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS*6) {
+
+          if (!preparedColaRouting) {
+            adapter.prepareEdgeRouting(20)
+            // nodes need inner bounds
+            adapter.nodes().forEach(node=>{
+              node.innerBounds = node.bounds.inflate(-20)
+            })
+            preparedColaRouting = true
+          }
+          layout.lineData = adapter.routeEdge(edge.scratch().cola, 0)
+
+        } else {
+          // else do nothing--just a straight line
+        }
+
+        // add endpoints
+        layout.lineData.unshift({x:x1, y:y1})
+        layout.lineData.push({x:x2, y:y2})
+      }
+
+      laidoutEdges.push({
+        layout,
+        uid
+      })
+    })
+  }
+  return laidoutEdges
+}
+

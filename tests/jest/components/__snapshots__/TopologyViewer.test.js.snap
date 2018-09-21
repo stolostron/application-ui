@@ -4406,6 +4406,7 @@ ReactWrapper {
         "y": 0,
       },
       "layoutHelper": LayoutHelper {
+        "cachedAdapters": Object {},
         "cachedLayouts": Object {},
         "cloneNodes": [Function],
         "clonedIdSet": Set {},
@@ -9156,6 +9157,7 @@ ReactWrapper {
           "y": 0,
         },
         "layoutHelper": LayoutHelper {
+          "cachedAdapters": Object {},
           "cachedLayouts": Object {},
           "cloneNodes": [Function],
           "clonedIdSet": Set {},

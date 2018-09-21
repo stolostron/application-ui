@@ -26,6 +26,13 @@ export default class NodeHelper {
     this.nodes = nodes
     this.topologyShapes = topologyShapes
     this.linkHelper = linkHelper
+
+    // create self link path
+    const lineFunction = d3.line()
+      .x(d=>d.x)
+      .y(d=>d.y)
+      .curve(d3.curveBundle)
+    this.selfLinkPath = lineFunction([{x:0, y:0},{x:-20, y:-70},{x:-70, y:15},{x:0, y:0}])
   }
 
 
@@ -61,6 +68,8 @@ export default class NodeHelper {
 
     // node hover
     this.createNodeShapes(nodes, 'shadow')
+    // link to self--create before shape so shape covers it
+    this.createLinkToSelf(nodes)
     // node shape
     this.createNodeShapes(nodes, 'main', '1')
     // central circle
@@ -120,8 +129,39 @@ export default class NodeHelper {
       .attr('tabindex', -1)
       .attr('cx', ({layout}) => { return layout.center.x })
       .attr('cy', ({layout}) => { return layout.center.y })
-      .call(d3.drag()
-        .on('drag', this.dragNode))
+  }
+
+  // add a circular link to self
+  createLinkToSelf = (nodes) => {
+    const selfLinkNodes =
+      nodes
+        .filter((node) => {
+          return node.hasLinkToSelf
+        })
+
+    // link
+    selfLinkNodes
+      .append('path')
+      .attr('d', this.selfLinkPath)
+      .attr('class', 'loop')
+      .attr('tabindex', -1)
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout.center||{x:0, y:0}
+        return `translate(${x}, ${y})`
+      })
+
+    // arrow
+    selfLinkNodes
+      .append('polygon')
+      .attr('class', 'directionDecorator')
+      .attr('points', ({layout}) => {
+        const radius = NODE_RADIUS + (layout.target && layout.target.isHub ? 10 : 0)
+        return `0,${radius}, -4,${radius + 7}, 4,${radius + 7}`
+      })
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout.center
+        return `translate(${x}, ${y})`
+      })
   }
 
   createLabels = (draw, nodes) => {
@@ -147,7 +187,7 @@ export default class NodeHelper {
               add.tspan(line)
                 .addClass(idx===0?'first-line':'')
                 .addClass(!middleLine?'counter-zoom':'')
-                .addClass(middleLine?'opacity-zoom':'')
+                .addClass(middleLine?'middle-line':'')
                 .newLine()
             }
           })
@@ -175,8 +215,9 @@ export default class NodeHelper {
   }
 
   moveNodes = (transition) => {
-    // move nodes
     const nodes = this.svg.select('g.nodes').selectAll('g.node')
+
+    // move node shapes
     nodes.selectAll('use')
       .transition(transition)
       .style('opacity', 1)
@@ -191,6 +232,24 @@ export default class NodeHelper {
         const sz = NODE_SIZE*scale
         return `translate(${x - sz/2}, ${y - sz/2})`
       })
+
+    // move node self link
+    nodes.selectAll('path')
+      .transition(transition)
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout
+        return `translate(${x}, ${y})`
+      })
+
+    // move self link arrow
+    nodes.selectAll('polygon')
+      .transition(transition)
+      .attr('transform', ({layout}) => {
+        const {x, y} = layout
+        return `translate(${x}, ${y+5}) rotate(${90})`
+      })
+
+    // move center circle
     nodes.selectAll('circle')
       .transition(transition)
       .attr('cx', ({layout}) => { return layout.x })
@@ -280,9 +339,11 @@ export const counterZoomLabels = (svg, currentZoom) => {
       .selectAll('tspan.first-line.counter-bigger-zoom')
       .style('font-size', fontSize+4+'px')
       .style('font-weight', 'bold')
-    const opacity = s<=0.7 ? 0 : 1
+    svg
+      .selectAll('tspan.middle-line')
+      .style('font-size', fontSize-(s<=0.7 ? 4 : 0)+'px')
     svg
       .selectAll('tspan.opacity-zoom')
-      .style('opacity', opacity)
+      .style('opacity', (s<=0.7 ? 0 : 1))
   }
 }

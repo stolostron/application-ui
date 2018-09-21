@@ -11,6 +11,7 @@
 import cytoscape from 'cytoscape'
 import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
+import {layoutEdges, setDraggedLineData} from './linkHelper'
 import _ from 'lodash'
 cytoscape.use( cycola )
 cytoscape.use( dagre )
@@ -29,6 +30,7 @@ export default class LayoutHelper {
     this.topologyNodeLayout = topologyNodeLayout
     this.locale = locale
     this.destroyed = false
+    this.cachedAdapters = {}
     this.cachedLayouts = {}
   }
 
@@ -267,6 +269,46 @@ export default class LayoutHelper {
       }
     })
 
+    // add all the edges that belong to connected nodes
+    this.topologyOrder.forEach(type=>{
+      if (nodeGroups[type]) {
+        const {connected} = nodeGroups[type]
+        connected.forEach(({edges, nodeMap})=>{
+
+          // fill edges
+          for (var uid in nodeMap) {
+            directions.forEach(({map, next, other})=>{
+              if (map[uid]) {
+                map[uid].forEach(entry => {
+                  const {link} = entry
+
+                  // add link-- use current layout if still relavent
+                  const theNext = this.nodesToBeCloned[link[next]] || allNodeMap[link[next]].layout
+                  const theOther = this.nodesToBeCloned[link[other]] || allNodeMap[link[other]].layout
+                  if (!link.layout || link[next]!==theNext.uid || link[other]!==theOther.uid) {
+                    link.layout = {}
+                    link.layout[next] = theNext
+                    link.layout[other] = theOther
+                  }
+                  edges.push(link)
+                })
+              }
+            })
+          }
+
+          // mark edges that are parellel so we offset them when drawing
+          edges.forEach(({source, target})=>{
+            edges.forEach(other=>{
+              const {source:tgt, target:src} = other
+              if (source===src && target===tgt) {
+                other.layout.isParallel = true
+              }
+            })
+          })
+        })
+      }
+    })
+
   }
 
   gatherNodesByConnections = (uid, grp, directions, connectedSet, allNodeMap) => {
@@ -278,18 +320,12 @@ export default class LayoutHelper {
       grp.nodeMap[uid] = allNodeMap[uid]
 
       // recurse up and down to get everything
-      directions.forEach(({map, next, other})=>{
+      directions.forEach(({map, next})=>{
         if (map[uid]) {
           map[uid].forEach(entry => {
             const {link} = entry
             const end = entry[next]
             if (!connectedSet.has(end)) {
-              // add link
-              link.layout = {}
-              link.layout[next] = this.nodesToBeCloned[link[next]] || allNodeMap[link[next]].layout
-              link.layout[other] = this.nodesToBeCloned[link[other]] || allNodeMap[link[other]].layout
-              grp.edges.push(link)
-
               // reiterate until nothing else connected
               if (!this.nodesToBeCloned[end]) {
                 this.gatherNodesByConnections(link[next], grp, directions, connectedSet, allNodeMap)
@@ -334,7 +370,7 @@ export default class LayoutHelper {
     for (let i=0; i<nodes.length && !hasCycle; i++) {
 
       const id = nodes[i]
-      if (sources[id].length+targets[id].length >= 4) {
+      if (sources[id].length > 4) {
         nodeMap[id].layout.isHub = true
         hubs++
       }
@@ -468,6 +504,17 @@ export default class LayoutHelper {
               }
             })
           })
+
+          elements.nodes.sort((a, b)=>{
+            const {node: {layout: la}} = a.data
+            const {node: {layout: lb}} = b.data
+            const r = la.type.localeCompare(lb.type)
+            if (r!==0) {
+              return r
+            }
+            return la.label.localeCompare(lb.label)
+          })
+
           collections.connected.push({
             hubs,
             type,
@@ -549,12 +596,17 @@ export default class LayoutHelper {
 
   getColaLayoutOptions = (elements) => {
     // stabilize diagram
-    elements.nodes().forEach(ele=>{
-      const {node: {layout}} = ele.data()
-      const {x=0, y=0} = layout || {x:1000, y:1000}
-      ele.position({x, y})
-    })
-
+    const nodes = elements.nodes()
+    if (!this.firstLayout) {
+      nodes.forEach(ele=>{
+        const {node: {layout}} = ele.data()
+        const {x=1000, y=1000} = layout
+        ele.position({x, y})
+      })
+    }
+    // if there are less nodes in this group we have room to stretch out the nodes
+    const len = nodes.length
+    const stretch = len<=5 ? 1.3 : (len<=7 ? 1.2 : (len<=10? 1.1: 1))
     return {
       name: 'cola',
       animate: false,
@@ -564,14 +616,13 @@ export default class LayoutHelper {
         w: 1000,
         h: 1000
       },
-      flow: { axis: 'y', minSeparation: 30 },
       nodeSpacing: (node)=>{
         const {node:{layout:{scale=1}}} = node.data()
-        return (NODE_SIZE*scale) + 10  // running in headless mode, we need to provide node size here
+        return (NODE_SIZE*stretch*scale)  // running in headless mode, we need to provide node size here
       },
       unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
-      userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis)) 20
-      allConstIter: 20, //works overlap 20
+      userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
+      allConstIter: 20, // works on overlap
     }
   }
 
@@ -609,8 +660,8 @@ export default class LayoutHelper {
           h
         },
         sort: (a,b) => {
-          const {node: {layout: la}} = a.data()
-          const {node: {layout: lb}} = b.data()
+          const {node: {layout: la, hasLinkToSelf:aself}} = a.data()
+          const {node: {layout: lb, hasLinkToSelf:bself}} = b.data()
           if (!la.newComer && lb.newComer) {
             return -1
           } else if (la.newComer && !lb.newComer) {
@@ -625,6 +676,10 @@ export default class LayoutHelper {
           } else if (la.hasContent && !lb.hasContent) {
             return -1
           } else if (!la.hasContent && lb.hasContent) {
+            return 1
+          } else if (aself && !bself) {
+            return -1
+          } else if (!aself && bself) {
             return 1
           }
           const r = la.type.localeCompare(lb.type)
@@ -654,9 +709,14 @@ export default class LayoutHelper {
     let totalLayouts = newLayouts.length
     if (totalLayouts) {
       collections.forEach((collection)=>{
-        const {elements, options} = collection
+        const {elements, options, hashCode} = collection
+        options.hashCode = hashCode
         const layout = collection.layout = elements.layout(options)
-        layout.pon('layoutstop').then(()=>{
+        layout.pon('layoutstop').then(({layout: {adaptor, options}})=>{
+          // save webcola adapter to layout edges later in linkHelper.layoutEdges
+          if (adaptor) {
+            this.cachedAdapters[options.hashCode] = adaptor
+          }
           totalLayouts--
           if (totalLayouts<=0) {
             cb()
@@ -691,8 +751,11 @@ export default class LayoutHelper {
     // cache layouts
     const clayouts = []
     collections.forEach(({elements, hashCode, type, hubs, options:{name} })=>{
+      // cache node positions
+      let newLayout = false
       let clayout = this.cachedLayouts[hashCode]
       if (!clayout) {
+        newLayout = true
         this.cachedLayouts[hashCode] = clayout = {
           bbox: elements.boundingBox(),
           nodes: [],
@@ -713,18 +776,11 @@ export default class LayoutHelper {
           }
         })
       }
-      clayout.edges = []
-      elements.forEach(element=>{
-        const data = element.data()
-        if (!element.isNode()) {
-          const {edge: {layout, uid}} = data
-          layout.isLoop = element.isLoop()
-          clayout.edges.push({
-            layout,
-            uid
-          })
-        }
-      })
+
+      // layout and cache edge paths
+      clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), this.cachedAdapters[hashCode])
+      delete this.cachedAdapters[hashCode] //can only use once after a cytoscape layout
+
       clayouts.push(this.cachedLayouts[hashCode])
     })
 
@@ -780,7 +836,7 @@ export default class LayoutHelper {
       }
     })
 
-    // layout cells aka the collections
+    // layout collection "cells"
     let row = 0
     let cell = 1
     currentX = xMargin
@@ -816,10 +872,11 @@ export default class LayoutHelper {
 
       // set all node positions
       const center = {x:currentX+dxCell+(w/2), y:currentY+dyCell+(h/2)}
+      const transform = {x: currentX + dxCell - x1, y: currentY + dyCell - y1}
       nodes.forEach(node=>{
         const {layout, position: {x,y}} = node
-        layout.x = x - x1 + currentX + dxCell
-        layout.y = y - y1 + currentY + dyCell
+        layout.x = x + transform.x
+        layout.y = y + transform.y
 
         layout.center = center
 
@@ -836,7 +893,14 @@ export default class LayoutHelper {
       edges.forEach(edge=>{
         const {layout, uid} = edge
         layout.center = center
+        layout.transform = transform
         layout.hidden = hiddenLinks.has(uid)
+
+        // if source or target was dragged, take all the kinks out of the line
+        const {source: {dragged:sdragged}, target: {dragged:tdragged}} = layout
+        if (sdragged || tdragged) {
+          setDraggedLineData(layout)
+        }
       })
 
       currentX += w + xSpcr
@@ -888,7 +952,7 @@ export default class LayoutHelper {
   }
 
   wrapLabel = (label, width=18) => {
-    if ((label.length - width) > 3) {
+    if ((label.length - width) > 2) {
       let i=width
       while (i>0 && /[a-zA-Z\d]/.test(label[i])) {
         i--

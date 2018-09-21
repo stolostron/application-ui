@@ -81,6 +81,10 @@ function searchTableCell(item, tableKey, context, searchText){
 function searchTableCellHelper(search, tableKeys, item, context) {
   const searchKey = search.substring(0, search.indexOf('='))
   const searchField = search.substring(search.indexOf('=')+1)
+
+  if (searchKey === 'textsearch') {
+    return tableKeys.find(tableKey => searchTableCell(item, tableKey, context, searchField.replace(/[{}]/g, '')))
+  }
   const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchKey.toLowerCase())
   if (!lodash.isEmpty(searchField)) {
     if (!searchField.includes('{')) {
@@ -90,7 +94,7 @@ function searchTableCellHelper(search, tableKeys, item, context) {
     } else {
       let found = false
       const searchKeys = searchField.replace(/[{}]/g, '').split(',')
-      if (searchKeys) searchKeys.forEach(searchKey => {
+      if (searchKeys && tableKey) searchKeys.forEach(searchKey => {
         if (searchTableCell(item, tableKey, context, searchKey)) found = true
       })
       return found
@@ -119,7 +123,7 @@ const makeGetFilteredItemsSelector = (resourceType) => {
         let found = false
         const searchFields = search.replace('},', '}},').toLowerCase().split('},')
         searchFields.forEach(searchField => {
-          if (searchTableCellHelper(searchField,tableKeys, item, context)) {
+          if (searchTableCellHelper(searchField, tableKeys, item, context)) {
             found = true
           }
         })

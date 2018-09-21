@@ -122,7 +122,7 @@ class ResourceList extends React.Component {
     })
     if (items || searchValue || clientSideFilters) {
       if (searchValue !== clientSideFilters && clientSideFilters && !this.state.xhrPoll) {
-        searchTable(clientSideFilters)
+        searchTable(clientSideFilters, false)
       }
       return <div>
         { mutateStatus === REQUEST_STATUS.ERROR &&
@@ -233,7 +233,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
     changeTablePage: page => dispatch(changeTablePage(page, resourceType)),
-    searchTable: search => dispatch(searchTable(search, resourceType)),
+    searchTable: (search, updateURL) => {
+      if (updateURL !== false) updateBrowserURL && updateBrowserURL(search)
+      dispatch(searchTable(search, resourceType))
+    },
     sortTable: (sortDirection, sortColumn) => dispatch(sortTable(sortDirection, sortColumn, resourceType)),
     updateSecondaryHeader: (title, tabs) => dispatch(updateSecondaryHeader(title, tabs)),
     onSelectedFilterChange: (selectedFilters) => {

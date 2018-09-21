@@ -45,14 +45,50 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
       }
     }
 
-    updateBrowserURL(tags) {
-      const { history, location } = this.props
-      const paramString = this.createLocationSearch(tags)
-      if (history && paramString) {
-        // update the URL with filter tags
-        history.push(`${location.pathname}?tags=${paramString}`)
-      } else if (history) {
-        history.push(`${location.pathname}`)
+    createURLFilters(inputs) {
+      let result = ''
+      if (inputs.includes('={') && inputs.includes('}')) {
+        const searchFields = inputs.replace('},', '}},').toLowerCase().split('},')
+        result += '{'
+        searchFields.forEach((search, i) => {
+          const searchKey = search.substring(0, search.indexOf('='))
+          const searchField = search.substring(search.indexOf('=')+1)
+          const searchKeys = searchField.replace(/[{}]/g, '').split(',')
+          result += `"${searchKey}":[`
+          searchKeys.forEach((searchKey, index) => {
+            result += `"${searchKey}"`
+            if (index !== searchKeys.length-1) result += ','
+          })
+          result += ']}'
+          if (i !== searchFields.length-1) result += ','
+        })
+      } else {
+        result += '{"textsearch":['
+        inputs.split(',').forEach(item => {
+          result += `"${item.replace('=',':')}"`
+        })
+        result += ']}'
+      }
+      return result
+    }
+
+    updateBrowserURL(inputs) {
+      const {history, location} = this.props
+      if (Array.isArray(inputs)) {
+        const paramString = this.createLocationSearch(inputs)
+        if (history && paramString) {
+          // update the URL with filter tags
+          history.push(`${location.pathname}?tags=${paramString}`)
+        } else if (history) {
+          history.push(`${location.pathname}`)
+        }
+      } else if (typeof inputs === 'string') {
+        if (inputs !== '') {
+          const filters = this.createURLFilters(inputs)
+          history.push(`${location.pathname}?filters=${filters}`)
+        } else {
+          history.push(`${location.pathname}`)
+        }
       }
     }
 
@@ -91,18 +127,23 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
 
     convertClientSideFiltersToString(input) {
       let result = ''
-      const filterJson = JSON.parse(input)
-      Object.entries(filterJson).forEach(([key,value]) => {
-        if (result !== '') result += ','
-        if (Array.isArray(value) && value.length === 1) {
-          // don't need {} if it only has one single search target
-          result += (key + '=' + value[0].replace(':', '='))
+      try {
+        const filterJson = JSON.parse(input)
+        if (!filterJson.textsearch) {
+          Object.entries(filterJson).forEach(([key,value]) => {
+            if (result !== '') result += ','
+            if (Array.isArray(value)) {
+              result += (key + '={')
+              value.forEach((item, index) => result += (item.replace(':', '=') + (index !== value.length-1 ? ',' : '')))
+              result += '}'
+            }
+          })
         } else {
-          result += (key + '={')
-          value.forEach((item, index) => result += (item.replace(':', '=') + (index !== value.length-1 ? ',' : '')))
-          result += '}'
+          result += filterJson.textsearch
         }
-      })
+      } catch(err) {
+        if (!input.includes('{') && !input.includes('}')) return input
+      }
       return result
     }
 

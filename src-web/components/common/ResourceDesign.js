@@ -78,7 +78,8 @@ class ResourceDesign extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState){
       return !_.isEqual(this.state.nodes.map(n => n.uid), nextState.nodes.map(n => n.uid)) ||
-         !_.isEqual(this.state.links.map(n => n.uid), nextState.links.map(n => n.uid))    }
+         !_.isEqual(this.state.links.map(n => n.uid), nextState.links.map(n => n.uid)) ||
+         this.props.yaml !== nextProps.yaml}
 
     handleEditorChange = (yaml) => this.setState({ yaml })
     handleSplitterDefault = () => {

@@ -350,80 +350,46 @@ export function topologyTransform(item) {
   const links=[]
   const nodes=[]
   let yaml = ''
-  let synced = {}
   if (item) {
-    ({yaml, synced} = dumpAndSync(item, ['metadata', 'selector', 'deployables', 'placementPolicies']))
+    const keys = ['deployables', 'placementPolicies']
+    yaml = dumpAndSync(item, keys)
 
     // create application node
-    const name = _.get(synced, 'metadata.$v.name.$v')
+    const name = _.get(item, 'synced.metadata.$v.name.$v')
     const appId = `application--${name}`
     nodes.push({
       name,
-      namespace: _.get(synced, 'metadata.$v.namespace.$v'),
+      namespace: _.get(item, 'synced.metadata.$v.namespace.$v'),
       application: item,
       type: 'application',
       uid: appId,
       $r: 0
     })
 
-    // create its deployables nodes
-    const deployables = _.get(synced, 'deployables.$v') || []
-    deployables.forEach(deployable => {
-      const name = _.get(deployable, '$v.metadata.$v.name.$v')
-      const depId = `deployer--${name}`
-      nodes.push({
-        name,
-        deployer: _.get(deployable, '$v.deployer.$v'),
-        type: 'deployer',
-        uid: depId,
-        $r: deployable.$r
-      })
-      links.push({
-        source: appId,
-        target: depId,
-        label: 'uses',
-        uid: appId+depId
-      })
-
-      // create deployable dependencies
-      const dependencies = _.get(deployable, '$v.dependencies.$v') || []
-      dependencies.forEach(dependency=>{
-        const name = _.get(dependency, '$v.metadata.$v.name.$v')
-        const dpId = `dependency--${name}`
-        nodes.push({
-          name,
-          dependency: dependency.$v,
-          type: 'dependency',
-          uid: dpId,
-          $r: dependency.$r
+    // create other nodes and their links to application
+    keys.forEach(key=>{
+      const arr = item[key]
+      if (Array.isArray(arr)) {
+        arr.forEach((member, idx)=>{
+          if (member.synced) {
+            const name = _.get(member, 'synced.metadata.$v.name', member)
+            const memberId = `member--${name.$v}--${idx}`
+            nodes.push({
+              name: name.$v,
+              member,
+              type: key === 'deployables' ? 'deployer' : 'policy',
+              uid: memberId,
+              $r: name.$r
+            })
+            links.push({
+              source: appId,
+              target: memberId,
+              label: 'uses',
+              uid: appId+memberId
+            })
+          }
         })
-        links.push({
-          source: depId,
-          target: dpId,
-          label: 'depends',
-          uid: depId+dpId
-        })
-
-      })
-    })
-
-    const placementPolicies = _.get(synced, 'placementPolicies.$v') || []
-    placementPolicies.forEach(policy=>{
-      const name = _.get(policy, '$v.metadata.$v.name.$v')
-      const polId = `policy--${name}`
-      nodes.push({
-        name,
-        type: 'policy',
-        policy: policy.$v,
-        uid: polId,
-        $r: policy.$r
-      })
-      links.push({
-        source: appId,
-        target: polId,
-        label: 'uses',
-        uid: appId+polId
-      })
+      }
     })
   }
 

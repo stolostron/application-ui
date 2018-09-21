@@ -106,7 +106,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
-      link: createPolicyLink,
+      transformFunction: createPolicyLink,
     },
     {
       msgKey: 'table.header.namespace',

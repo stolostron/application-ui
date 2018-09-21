@@ -12,6 +12,7 @@ import msgs from '../../nls/platform.properties'
 export default {
   defaultSortField: 'cluster',
   primaryKey: 'name',
+  secondaryKey:'cluster',
   tableKeys: [
     {
       msgKey: 'table.header.name',

@@ -35,7 +35,7 @@ export default {
         msgKey: 'table.header.name',
         resourceKey: 'name',
         key: 'name',
-        link: createCompliancePolicyLink,
+        transformFunction: createCompliancePolicyLink,
       },
       {
         msgKey: 'table.header.cluster.namespace',
@@ -76,7 +76,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
-      link: createPolicyLink,
+      transformFunction: createPolicyLink,
     },
     {
       msgKey: 'table.header.namespace',

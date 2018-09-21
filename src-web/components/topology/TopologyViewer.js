@@ -136,7 +136,7 @@ class TopologyViewer extends React.Component {
         {title && <div className='topologyViewerTitle'>
           {msgs.get('cluster.name', [title], locale)}
         </div>}
-        <div className='topologyViewerContainer'>
+        <div className='topologyViewerContainer' role='region' aria-label='zoom'>
           <svg id={svgId} className="topologyDiagram" />
           <input type='image' alt='zoom-in' className='zoom-in'
             onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />

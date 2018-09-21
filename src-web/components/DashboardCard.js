@@ -64,7 +64,7 @@ const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namesp
       {percentage != null ? <TableData className='dashboard-status-secondary'>{`${percentage}%`}</TableData> : null}
       {status !=null ?<TableData className='dashboard-status'>
         <div className='table-status-icon'>
-          {status && <Icon className={`table-status-icon__${status}`} name={iconName} description='' />}
+          {status && <Icon className={`table-status-icon__${status}`} name={iconName} description={`table-status-icon-${status}`} role='img' />}
           <p className='dashboard-status-text'>{status}</p>
         </div>
       </TableData>: <TableData />}
@@ -85,7 +85,7 @@ DashboardTableRow.propTypes = TableRowPropType
 
 const DashboardTable = ({ table, type, ...rest }) => {
   return (
-    <Table className='dashboard-table' {...rest}>
+    <Table className='dashboard-table' role='presentation' {...rest}>
       <TableBody>
         {table.map((row, ind) => {
           {/* only show top 5 items*/}

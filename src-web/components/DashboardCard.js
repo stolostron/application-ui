@@ -50,6 +50,8 @@ const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namesp
   case 'critical':
     iconName = 'icon--error--glyph'
     break
+  default:
+    break
   }
   return (
     <TableRow {...rest}>
@@ -64,7 +66,7 @@ const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namesp
       {percentage != null ? <TableData className='dashboard-status-secondary'>{`${percentage}%`}</TableData> : null}
       {status !=null ?<TableData className='dashboard-status'>
         <div className='table-status-icon'>
-          {status && <Icon className={`table-status-icon__${status}`} name={iconName} description={`table-status-icon-${status}`} role='img' />}
+          {status && iconName && <Icon className={`table-status-icon__${status}`} name={iconName} description={`table-status-icon-${status}`} role='img' />}
           <p className='dashboard-status-text'>{status}</p>
         </div>
       </TableData>: <TableData />}
@@ -77,7 +79,7 @@ export const TableRowPropType = {
   namespace: PropTypes.string,
   percentage: PropTypes.number,
   resourceName: PropTypes.string,
-  status: PropTypes.oneOf(['critical', 'warning', 'healthy']),
+  status: PropTypes.string,
   type: PropTypes.string,
 }
 
@@ -87,6 +89,13 @@ const DashboardTable = ({ table, type, ...rest }) => {
   return (
     <Table className='dashboard-table' role='presentation' {...rest}>
       <TableBody>
+        <TableRow even={false}>
+          <TableData className='dashboard-table-header'>5 LEAST COMPLIANT</TableData>
+          {
+            !type && <TableData className='dashboard-table-header__secondary'>Utilization</TableData>
+          }
+          <TableData className='dashboard-table-header__secondary'>Healthy Status</TableData>
+        </TableRow>
         {table.map((row, ind) => {
           {/* only show top 5 items*/}
           return (ind < 5) && <DashboardTableRow even={false} {...row} key={row.resourceName} type={type} />})
@@ -175,15 +184,14 @@ export class DashboardCard extends React.PureComponent {
           </div>
         </ModuleBody>
         <ModuleBody className={'dashboard-card-table-body'}>
-          <div className={'dashboard-card-separator-text dashboard-card-text'}>
-            <div>{msgs.get('dashboard.module.separator')}</div>
-            <div className={'dashboard-card-secondary-separator'}>{msgs.get('dashboard.module.separator.secondary')}</div>
-            <div className={'dashboard-card-separator-link'}>
-              {type ?
-                <Link to={`${config.contextPath}/${type}`}>{msgs.get('dashboard.module.separator.link')}</Link> : null }
-            </div>
-          </div>
+          {/*<div className={'dashboard-card-separator-text dashboard-card-text'}>*/}
+          {/*<div>{msgs.get('dashboard.module.separator')}</div>*/}
+          {/*</div>*/}
           <DashboardTable table={table} type={type} />
+          <div className={'dashboard-card-separator-link'}>
+            {type ?
+              <Link to={`${config.contextPath}/${type}`}>{msgs.get('dashboard.module.separator.link')}</Link> : null }
+          </div>
         </ModuleBody>
       </Module>
     )

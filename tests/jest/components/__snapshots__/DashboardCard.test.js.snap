@@ -110,21 +110,6 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
       className="bx--module__content dashboard-card-table-body"
     >
       <div
-        className="dashboard-card-separator-text dashboard-card-text"
-      >
-        <div>
-          TOP 5
-        </div>
-        <div
-          className="dashboard-card-secondary-separator"
-        >
-          Least Compliant
-        </div>
-        <div
-          className="dashboard-card-separator-link"
-        />
-      </div>
-      <div
         className="bx--responsive-table-container"
       >
         <table
@@ -140,6 +125,25 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
           <tbody
             className="bx--table-body"
           >
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-table-header"
+              >
+                5 LEAST COMPLIANT
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Utilization
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Healthy Status
+              </td>
+            </tr>
             <tr
               className="bx--table-row bx--parent-row"
             >
@@ -298,6 +302,9 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
           </tbody>
         </table>
       </div>
+      <div
+        className="dashboard-card-separator-link"
+      />
     </div>
   </div>
 </div>
@@ -401,21 +408,6 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
       className="bx--module__content dashboard-card-table-body"
     >
       <div
-        className="dashboard-card-separator-text dashboard-card-text"
-      >
-        <div>
-          TOP 5
-        </div>
-        <div
-          className="dashboard-card-secondary-separator"
-        >
-          Least Compliant
-        </div>
-        <div
-          className="dashboard-card-separator-link"
-        />
-      </div>
-      <div
         className="bx--responsive-table-container"
       >
         <table
@@ -431,6 +423,25 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           <tbody
             className="bx--table-body"
           >
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-table-header"
+              >
+                5 LEAST COMPLIANT
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Utilization
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Healthy Status
+              </td>
+            </tr>
             <tr
               className="bx--table-row bx--parent-row"
             >
@@ -486,6 +497,9 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           </tbody>
         </table>
       </div>
+      <div
+        className="dashboard-card-separator-link"
+      />
     </div>
   </div>
 </div>
@@ -588,21 +602,6 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
       className="bx--module__content dashboard-card-table-body"
     >
       <div
-        className="dashboard-card-separator-text dashboard-card-text"
-      >
-        <div>
-          TOP 5
-        </div>
-        <div
-          className="dashboard-card-secondary-separator"
-        >
-          Least Compliant
-        </div>
-        <div
-          className="dashboard-card-separator-link"
-        />
-      </div>
-      <div
         className="bx--responsive-table-container"
       >
         <table
@@ -622,6 +621,25 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
               className="bx--table-row bx--parent-row"
             >
               <td
+                className="dashboard-table-header"
+              >
+                5 LEAST COMPLIANT
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Utilization
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Healthy Status
+              </td>
+            </tr>
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
                 className=""
               />
               <td
@@ -636,6 +654,9 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
           </tbody>
         </table>
       </div>
+      <div
+        className="dashboard-card-separator-link"
+      />
     </div>
   </div>
 </div>
@@ -730,21 +751,6 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
       className="bx--module__content dashboard-card-table-body"
     >
       <div
-        className="dashboard-card-separator-text dashboard-card-text"
-      >
-        <div>
-          TOP 5
-        </div>
-        <div
-          className="dashboard-card-secondary-separator"
-        >
-          Least Compliant
-        </div>
-        <div
-          className="dashboard-card-separator-link"
-        />
-      </div>
-      <div
         className="bx--responsive-table-container"
       >
         <table
@@ -759,9 +765,32 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
         >
           <tbody
             className="bx--table-body"
-          />
+          >
+            <tr
+              className="bx--table-row bx--parent-row"
+            >
+              <td
+                className="dashboard-table-header"
+              >
+                5 LEAST COMPLIANT
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Utilization
+              </td>
+              <td
+                className="dashboard-table-header__secondary"
+              >
+                Healthy Status
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
+      <div
+        className="dashboard-card-separator-link"
+      />
     </div>
   </div>
 </div>

@@ -9,6 +9,7 @@ $gray: $color__gray-1;
 .bx--module.bx--module--single {
   max-width: 28rem;
   min-width: 24rem;
+  padding-bottom: 28rem;
 }
 
 .dashboard-card {
@@ -43,7 +44,7 @@ $gray: $color__gray-1;
     }
 
     .dashboard-card-table-body {
-      padding: 0;
+      padding: 0.5rem 0 0 0;
     }
 
     .bx--module__content p{
@@ -108,7 +109,7 @@ $gray: $color__gray-1;
   border-radius: 100%;
 }
 
-$orbSize: 4rem;
+$orbSize: 5rem;
 $innerOrbSize: $orbSize - 0.4rem;
 
 .dashboard-orb {
@@ -120,8 +121,12 @@ $innerOrbSize: $orbSize - 0.4rem;
   @include circle($orbSize);
   padding: 0;
 
+
   &__inner {
     @include circle($innerOrbSize);
+    &:hover {
+      box-shadow: 0 0 5px 4px $gray;
+    }
   }
 
   &__critical {
@@ -139,6 +144,9 @@ $innerOrbSize: $orbSize - 0.4rem;
   &__gray {
     border: 3px solid $gray;
     color: $gray;
+    &:hover {
+      box-shadow: none;
+    }
   }
 }
 
@@ -148,6 +156,16 @@ $innerOrbSize: $orbSize - 0.4rem;
   .bx--table-body {
     .bx--table-row:hover {
       border-left: 1px solid $color__blue-40;
+    }
+  }
+
+  .dashboard-table-header {
+    align-items: center;
+    height: 2rem;
+    border: none;
+    font-weight: bold;
+    &__secondary {
+      font-size: small;
     }
   }
 }
@@ -211,25 +229,23 @@ $innerOrbSize: $orbSize - 0.4rem;
 }
 
 .dashboard-card-separator-text {
-
   div {
-    font-weight: bold;
+    font-weight: 500;
     text-align: left;
     padding: 1.8rem 0 0 1.5rem;
     display: inline-block;
-  }
-
-  .dashboard-card-secondary-separator {
-    color: $gray;
-    font-weight: normal;
-    font-size: small;
-    font-style: oblique;
     text-transform: uppercase;
   }
+}
 
-  .dashboard-card-separator-link {
+.dashboard-card-separator-link {
+  position: relative;
+  bottom: 0;
+  a {
     float: right;
-    margin-right: 1rem;
+    padding: 1.2rem 2.25rem;
+    font-size: 0.75rem;
+    font-weight: bold;
   }
 }
 

@@ -1,0 +1,358 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardCard component 2 renders as expected 1`] = `
+<div
+  className="welcome"
+>
+  <div
+    aria-label="Welcome to IBM Multi-cloud Manager"
+    className="welcome--introduction"
+    role="region"
+  >
+    <div
+      className="welcome--introduction__description"
+    >
+      <div
+        className="welcome--text"
+      >
+        <h1>
+          Welcome to
+           
+          <span>
+            IBM Multi-cloud Manager
+          </span>
+        </h1>
+        <p>
+          <span
+            className="welcome--text-secondary"
+          >
+            Multicluster operations and visibility
+          </span>
+           
+          IBM Multi-cloud Manager provides a way to perform parallel queries against multiple clusters and aggregate that information by various criteria. This information is augmented by near real-time pod traffic views, leveraging WeaveScope, which enables an understanding of how pods inter-communicate. Using the IBM Multi-cloud Manager , the operator can have rich views of how clusters operate within the environment. You can see dashboards of aggregated information across multiple clusters, view the topology of resources within those clusters, or navigate into individual clusters consoles for more detailed views.
+        </p>
+        <p>
+          <span
+            className="welcome--text-secondary"
+          >
+            The following are examples of IBM Multi-cloud Manager usage
+          </span>
+           
+          View health of all the clusters in a given region. Know how many nodes are down in all the clusters. View the pods in the a given namespace in all development clusters. See all the failed pods in a specific data center
+        </p>
+      </div>
+      <div
+        className="welcome--image"
+      >
+        <img
+          alt={undefined}
+          src="undefined/graphics/ICP_GettingStarted-Header.png"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    aria-label={undefined}
+    className="welcome--summary"
+    role="region"
+  >
+    <div
+      className="welcome--summary__section welcome--summary__one"
+    >
+      <div
+        className="welcome--summary__inner"
+      >
+        <h2>
+          Start using IBM Multi-cloud Manager
+        </h2>
+        <p>
+          Ready to get started? Check out some reference links and look around IBM Multi-cloud Manager.
+        </p>
+        <ul
+          className="bx--list--unordered"
+        >
+          <li
+            className="bx--list__item"
+          >
+            New to Kubernetes? Learn the basics about the container system.
+            <div
+              className="content"
+            >
+               
+              <svg
+                alt="Provide a description that will be used as the title"
+                aria-label="Provide a description that will be used as the title"
+                className={undefined}
+                fill="#d1d7f4"
+                fillRule="evenodd"
+                height="16"
+                name="launch--glyph"
+                role="img"
+                style={undefined}
+                viewBox="-3 5 16 16"
+                width="16"
+              >
+                <title>
+                  Provide a description that will be used as the title
+                </title>
+                <path
+                  d="M11 19H-1V9h3V5h-5v16h16v-5h-2z"
+                />
+                <path
+                  d="M4.7 14.7L11 8.4V13h2V5H5v2h4.6l-6.3 6.3z"
+                />
+              </svg>
+              <a
+                aria-describedby="launchWindow"
+                className="bx--link"
+                href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/"
+                target="kubernetes"
+              >
+                Kubernetes
+              </a>
+            </div>
+          </li>
+          <li
+            className="bx--list__item"
+          >
+            Discover new software, tools, and infrastructure or check on individual application releases.
+            <div
+              className="content"
+            >
+              <a
+                className="bx--link"
+                href="/catalog"
+              >
+                Catalog
+              </a>
+              <span
+                className="divider"
+              >
+                |
+              </span>
+              <a
+                className="bx--link"
+                href="/catalog/instances"
+              >
+                Helm releases
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div
+      className="welcome--summary__section welcome--summary__two"
+    >
+      <div
+        className="welcome--summary__inner"
+      >
+        <h2>
+          Manage your platform
+        </h2>
+        <p>
+          Ready to manage multiple could? Start with these tasks.
+        </p>
+        <ul
+          className="bx--list--unordered"
+        >
+          <li
+            className="bx--list__item"
+          >
+            Adding or removing a cluster in IBM Multi-cloud Manager.
+            <div
+              className="content"
+            >
+              <svg
+                alt="Provide a description that will be used as the title"
+                aria-label="Provide a description that will be used as the title"
+                className={undefined}
+                fill="#3d70b2"
+                fillRule="evenodd"
+                height="16"
+                name="launch--glyph"
+                role="img"
+                style={undefined}
+                viewBox="-3 5 16 16"
+                width="16"
+              >
+                <title>
+                  Provide a description that will be used as the title
+                </title>
+                <path
+                  d="M11 19H-1V9h3V5h-5v16h16v-5h-2z"
+                />
+                <path
+                  d="M4.7 14.7L11 8.4V13h2V5H5v2h4.6l-6.3 6.3z"
+                />
+              </svg>
+              <a
+                className="bx--link"
+                href="https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_hcm_preview/getting_started/readme_techpreview.html"
+              >
+                Manage clusters
+              </a>
+            </div>
+          </li>
+          <li
+            className="bx--list__item"
+          >
+            Working with Helm repositories.
+            <div
+              className="content"
+            >
+              <a
+                className="bx--link"
+                href="/catalog"
+                onClick={[Function]}
+              >
+                Manage helm repositories
+              </a>
+            </div>
+          </li>
+          <li
+            className="bx--list__item"
+          >
+            Creating and registering an application.
+            <div
+              className="content"
+            >
+              <a
+                className="bx--link"
+                href="undefined/applications"
+                onClick={[Function]}
+              >
+                Manage applications
+              </a>
+            </div>
+          </li>
+          <li
+            className="bx--list__item"
+          >
+            Setting up role compliance.
+            <div
+              className="content"
+            >
+              <a
+                className="bx--link"
+                href="undefined/policies"
+                onClick={[Function]}
+              >
+                Manage role compliance
+              </a>
+            </div>
+          </li>
+          <li
+            className="bx--list__item"
+          >
+            Managing your users.
+            <div
+              className="content"
+            >
+              <a
+                className="bx--link"
+                href="undefined/manage/identity-access/teams"
+                onClick={[Function]}
+              >
+                Mange users
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div
+    aria-label="Information on how to connect with IBM Cloud Private"
+    className="welcome--connect"
+    role="region"
+  >
+    <div
+      className="welcome--connect__heading"
+    >
+      <h2>
+        Reach out and connect.
+      </h2>
+      <p>
+        Do you have questions or comments or need help?
+      </p>
+      <p>
+        Connect with us today!
+      </p>
+    </div>
+    <div
+      className="welcome--connect__details"
+    >
+      <div
+        className="welcome--connect__section"
+      >
+        <img
+          alt="Video blog icon"
+          className="welcome--img__blog"
+          src="undefined/graphics/ICP-Connect_Icons-VideoBlog.svg"
+        />
+        <p>
+          Want more information?
+        </p>
+        <p>
+          Check out the developer community.
+        </p>
+        <a
+          aria-describedby="launchWindow"
+          className="bx--link"
+          href="https://www.ibm.com/developerworks/community/wikis/home?lang=en#!/wiki/W1559b1be149d_43b0_881e_9783f38faaff"
+          target="dev-community"
+        >
+          IBM Cloud Private technical community
+        </a>
+      </div>
+      <div
+        className="welcome--connect__section has-divider"
+      >
+        <img
+          alt="Slack icon"
+          className="welcome--img__slack"
+          src="undefined/graphics/ICP-Connect_Icons-Slack.svg"
+        />
+        <p>
+          Want to chat with the team?
+        </p>
+        <p>
+          Join us on Slack.
+        </p>
+        <a
+          aria-describedby="launchWindow"
+          className="bx--link"
+          href="http://ibm.biz/BdsHmN"
+          target="slack"
+        >
+          Join our Slack team
+        </a>
+      </div>
+      <div
+        className="welcome--connect__section"
+      >
+        <img
+          alt="Question mark icon"
+          className="welcome--img__support"
+          src="undefined/graphics/ICP-Connect_Icons-Support.svg"
+        />
+        <p>
+          Need more help?
+        </p>
+        <p>
+          Contact support.
+        </p>
+        <a
+          aria-describedby="launchWindow"
+          className="bx--link"
+          href="https://ibm.biz/icpsupport"
+          target="support"
+        >
+          IBM Cloud Private support center
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

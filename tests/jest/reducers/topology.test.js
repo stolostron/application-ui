@@ -110,20 +110,24 @@ describe('topology reducer', () => {
       type: Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS,
       clusters: [
         {
-          name: 'myminikube',
-          labels: {
-            clusterip: '9.42.23.217',
-            location: 'toronto',
-            provider: 'IBM',
-            purpose: 'test',
-            runtime: 'kubernetes'
+          metadata: {
+            name: 'myminikube',
+            labels: {
+              clusterip: '9.42.23.217',
+              location: 'toronto',
+              provider: 'IBM',
+              purpose: 'test',
+              runtime: 'kubernetes'
+            },
           },
           __typename: 'Cluster'
         }
       ],
       namespaces: [
         {
-          name: 'default',
+          metadata: {
+            name: 'default',
+          },
           __typename: 'Namespace'
         }
       ],

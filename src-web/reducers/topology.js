@@ -80,7 +80,7 @@ export const topology = (state = initialState, action) => {
     // Here we are building the filter options using the cluster labels. When a filter is
     // is selected, we have to use the clusters associated with the label (filterValues).
     const clusterFilters = []
-    action.clusters.forEach(c => {
+    action.clusters.forEach(({metadata:c}) => {
       clusterFilters.push({
         label: `name: ${c.name}`, //FIXME: NLS. Labels received from the API aren't translated either.
         filterValues: [c.name],
@@ -102,7 +102,7 @@ export const topology = (state = initialState, action) => {
     const filters = {
       clusters: clusterFilters,
       labels: action.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
-      namespaces: lodash.uniqBy(action.namespaces, 'name').map(n => ({ label: n.name})),
+      namespaces: lodash.uniqBy(action.namespaces, 'metadata.name').map(n => ({ label: n.metadata.name})),
       types: action.types.map(i => ({label: i })),
     }
     return {...state,

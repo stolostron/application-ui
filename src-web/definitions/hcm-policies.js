@@ -26,7 +26,8 @@ export default {
   secondaryKey: 'metadata.namespace',
   policyRules: {
     title: 'table.header.rules',
-    defaultSortField: 'name',
+    defaultSortField: 'ruleUID',
+    normalizedKey: 'ruleUID',
     resourceKey: 'rules',
     tableKeys: [
       {

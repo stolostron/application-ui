@@ -18,6 +18,7 @@ export default {
   defaultSortField: 'metadata.name',
   uriKey: 'metadata.name',
   primaryKey: 'metadata.name',
+  secondaryKey: 'metadata.namespace',
   tableKeys: [
     {
       msgKey: 'table.header.name',

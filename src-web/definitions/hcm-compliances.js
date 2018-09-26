@@ -189,8 +189,9 @@ export default {
   },
   policyRules: {
     title: 'table.header.rules',
-    defaultSortField: 'name',
     resourceKey: 'rules',
+    defaultSortField: 'ruleUID',
+    normalizedKey: 'ruleUID',
     tableKeys: [
       {
         msgKey: 'table.header.name',

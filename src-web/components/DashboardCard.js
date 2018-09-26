@@ -135,6 +135,12 @@ const getStatusSearchArray = (resourceName, status, locale) => {
       'warning' : [msgs.get('table.cell.pending', locale)],
       'healthy' : [msgs.get('table.cell.running', locale), msgs.get('table.cell.succeeded', locale)],
     },
+    // TODO: Zack L. - Only aware of bound, available and unbound statues
+    'storage' : {
+      'critical' : [msgs.get('table.cell.unbound', locale), msgs.get('table.cell.unbound', locale)],
+      'warning' : [msgs.get('table.cell.pending', locale)],
+      'healthy' : [msgs.get('table.cell.bound', locale), msgs.get('table.cell.bound', locale)],
+    },
     'clusters' : {
       'critical' : [msgs.get('table.cell.critical', locale), msgs.get('table.cell.failed', locale),
         msgs.get('table.cell.unknown', locale)],

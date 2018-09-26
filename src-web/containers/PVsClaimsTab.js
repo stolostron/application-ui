@@ -12,4 +12,4 @@ import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithList } from '../components/common/ResourcePage'
 
-export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_PVS))
+export default withRouter(typedResourcePageWithList(RESOURCE_TYPES.HCM_PVS_CLAIM))

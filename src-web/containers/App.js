@@ -27,6 +27,7 @@ export const NodesTab = loadable(() => import(/* webpackChunkName: "nodes" */ '.
 export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
 export const Policies = loadable(() => import(/* webpackChunkName: "policies" */ './Policies'))
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
+export const Storage = loadable(() => import(/* webpackChunkName: "storage" */ './PersistentVolumes'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
 
@@ -69,6 +70,7 @@ class App extends React.Component {
           <Route path={`${match.url}/policies`} component={Policies} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />
           <Route path={`${match.url}/remoteinstall`} render={() => <HelmRemoteInstallTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
+          <Route path={`${match.url}/storage`} component={Storage} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/welcome`} render={() => <WelcomeTab secondaryHeaderProps={{title: 'routes.welcome'}} />} />
           <Redirect to={`${config.contextPath}/welcome`} />

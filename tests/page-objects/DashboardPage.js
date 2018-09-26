@@ -15,6 +15,7 @@ module.exports = {
     cardCpu: '#card-cpu',
     cardHelmReleases: '#card-helm-releases',
     cardPods: '#card-pods',
+    cardPvs: '#card-pvs',
     cardMemory: '#card-memory',
     cardStorage: '#card-storage',
     dashboardCard: '.bx--module.bx--module--single.dashboard-card',
@@ -52,6 +53,7 @@ function verifyResourceOverviewSection() {
   this.expect.element('@cardHelmReleases').to.be.present
   this.expect.element('@cardMemory').to.be.present
   this.expect.element('@cardPods').to.be.present
+  this.expect.element('@cardPvs').to.be.present
   this.expect.element('@cardStorage').to.be.present
   this.expect.element('@dashboardCard').to.be.present
 }

@@ -51,7 +51,7 @@ export default class LinkHelper {
           source = layout.source.uid
           target = layout.target.uid
         }
-        return this.nodeMap[source] && this.nodeMap[target]
+        return layout && this.nodeMap[source] && this.nodeMap[target]
       }), (l) => {
         return l.uid
       }).exit().remove()

@@ -718,7 +718,7 @@ export default class LayoutHelper {
 
     let totalLayouts = newLayouts.length
     if (totalLayouts) {
-      collections.forEach((collection)=>{
+      newLayouts.forEach((collection)=>{
         const {elements, options, hashCode} = collection
         options.hashCode = hashCode
         const layout = collection.layout = elements.layout(options)

@@ -100,31 +100,78 @@ class TopologyViewer extends React.Component {
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
   }
 
+  // weave scans can:
+  //  1) include multiple copies of the same node
+  //  2) can miss some nodes between scans
   componentWillReceiveProps(){
     this.setState((prevState, props) => {
-      // cache live update links and nodes until filter is changed
-      let nodes = _.uniqBy(props.nodes, 'uid')
-      const hiddenLinks = new Set()
+
+      // keyBy makes sure nodes are unique
+      // also -- if they disappear in one scan, see if they reappear in the next 2 scan
+      // until topology filter is changed
+      const propNodeMap = _.keyBy(props.nodes, 'uid')
+      const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')
+      for (var uid in prevStateNodeMap) {
+        const prevNode = prevStateNodeMap[uid]
+        if (!propNodeMap[uid]) {
+          // if node is missing in this scan, see if it reappears in the next 3 scans
+          if (prevNode.latency===undefined) {
+            prevNode.latency = 3
+          }
+          prevNode.latency -= 1
+          // give it 3 scans where an object is missing before we rewmove it
+          if (prevNode.latency>=0) {
+            propNodeMap[uid] = prevNode
+          }
+        } else {
+          // if it's back, forget it was ever gone
+          delete prevNode.latency
+        }
+      }
+      let nodes = Object.values(propNodeMap)
+
 
       // reuse existing states for the same node
-      const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')
       nodes = nodes.map(node => {
         return prevStateNodeMap[node.uid] || Object.assign(node, {layout: {newComer: {}}})
       })
+      // if lots of new nodes, don't bother with remembering them
+      const newComers = nodes.filter(({layout})=>{
+        return layout && layout.newComer
+      })
+      if (newComers.length>10) {
+        newComers.forEach(({layout})=>{
+          delete layout.newComer
+        })
+      }
 
-      // to stabilize layout, just hide links in diagram that are gone
-      const currentLinks = _.uniqBy(props.links, 'uid')
+      // if the source/target are still there but link is gone, remember it as a hidden link
+      // however if source or target are gone, don't remember it at all
+      const nodeMap = _.keyBy(nodes, 'uid')
+      const hiddenLinks = new Set()
+      const currentLinks = _.uniqBy(props.links, 'uid').filter((link)=>{
+        const {source, target} = link
+        if (!nodeMap[source] || !nodeMap[target]) {
+          return false
+        }
+        return true
+      })
       const currentLinkMap = _.keyBy(currentLinks, 'uid')
-      prevState.links.forEach(link=>{
-        if (!currentLinkMap[link.uid]) {
+      const previousLinks = prevState.links.filter((link)=>{
+        const {source, target} = link
+        if (!nodeMap[source] || !nodeMap[target]) {
+          return false
+        } else if (!currentLinkMap[link.uid]) {
           hiddenLinks.add(link.uid)
         }
+        return true
       })
-      // and cache all links
+
+      // combine current and remaining previous links
       const compare = (a,b) => {
         return a.uid===b.uid
       }
-      const links = _.unionWith(prevState.links, currentLinks, compare)
+      const links = _.unionWith(previousLinks, currentLinks, compare)
       return {links, nodes, hiddenLinks, activeFilters: props.activeFilters}
     })
 

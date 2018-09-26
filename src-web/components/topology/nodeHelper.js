@@ -9,7 +9,9 @@
 'use strict'
 
 import * as d3 from 'd3'
+import 'd3-selection-multi'
 import SVG from 'svg.js'
+import {dragLinks} from './linkHelper'
 import '../../../graphics/topologySprite.svg'
 
 import { NODE_RADIUS, NODE_SIZE } from './constants.js'
@@ -20,19 +22,11 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, topologyShapes, linkHelper, layoutMap) {
+  constructor(svg, nodes, topologyShapes, layoutMap) {
     this.svg = svg
     this.layoutMap = layoutMap
     this.nodes = nodes
     this.topologyShapes = topologyShapes
-    this.linkHelper = linkHelper
-
-    // create self link path
-    const lineFunction = d3.line()
-      .x(d=>d.x)
-      .y(d=>d.y)
-      .curve(d3.curveBundle)
-    this.selfLinkPath = lineFunction([{x:0, y:0},{x:-20, y:-70},{x:-70, y:15},{x:0, y:0}])
   }
 
 
@@ -68,8 +62,6 @@ export default class NodeHelper {
 
     // node hover
     this.createNodeShapes(nodes, 'shadow')
-    // link to self--create before shape so shape covers it
-    this.createLinkToSelf(nodes)
     // node shape
     this.createNodeShapes(nodes, 'main', '1')
     // central circle
@@ -83,24 +75,10 @@ export default class NodeHelper {
 
   createNodeShapes = (nodes, className, tabindex=-1) => {
     nodes.append('use')
-      .attr('href', ({layout: {type}})=>{
+      .attrs(({layout}) => {
+        const {type} = layout
         const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
-        return `#topologySprite_${shape}`
-      })
-      .attr('width', NODE_SIZE)
-      .attr('height', NODE_SIZE)
-      .attr('tabindex', tabindex)
-      .attr('class', ({layout: {type}}) => {
-        type = this.topologyShapes[type] ? this.topologyShapes[type].className : 'default'
-        return `${type} ${className}`
-      })
-      .style('opacity', ({layout: {newComer}}) => {
-        return newComer && newComer.grid ? 0:1
-      })
-      .style('fill-opacity', ({layout: {newComer}}) => {
-        return newComer && newComer.grid ? 0:1
-      })
-      .attr('transform', ({layout}) => {
+        const classType = this.topologyShapes[type] ? this.topologyShapes[type].className : 'default'
         let {x, y} = layout.center||{x:0, y:0}
         if (layout.newComer) {
           if (layout.newComer.grid) {
@@ -109,7 +87,21 @@ export default class NodeHelper {
           layout.newComer.displayed = true
         }
         const sz = NODE_SIZE * (layout.scale||1)
-        return `translate(${x - sz/2}, ${y - sz/2})`
+        return {
+          'xlink:href': `#topologySprite_${shape}`,
+          'width': NODE_SIZE,
+          'height': NODE_SIZE,
+          'tabindex': tabindex,
+          'class': `${classType} ${className}`,
+          'transform': `translate(${x - sz/2}, ${y - sz/2})`,
+        }
+      })
+      .styles(({layout: {newComer}}) => {
+        const opacity = newComer && newComer.grid ? 0:1
+        return {
+          'opacity': opacity,
+          'fill-opacity': opacity
+        }
       })
       .call(d3.drag()
         .on('drag', this.dragNode))
@@ -118,49 +110,19 @@ export default class NodeHelper {
   // add circles to nodes that represent mmore then one k8 object
   createCircle = (nodes) => {
     nodes
-      .filter(({layout: {hasContent}}) => {
-        return hasContent
+      .filter(({layout: {showDot}}) => {
+        return showDot
       })
       .append('circle')
-      .attr('r', 4)
-      .attr('class', ({layout}) => {
-        return `${layout.type} centralCircle`
-      })
-      .attr('tabindex', -1)
-      .attr('cx', ({layout}) => { return layout.center.x })
-      .attr('cy', ({layout}) => { return layout.center.y })
-  }
-
-  // add a circular link to self
-  createLinkToSelf = (nodes) => {
-    const selfLinkNodes =
-      nodes
-        .filter((node) => {
-          return node.hasLinkToSelf
-        })
-
-    // link
-    selfLinkNodes
-      .append('path')
-      .attr('d', this.selfLinkPath)
-      .attr('class', 'loop')
-      .attr('tabindex', -1)
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout.center||{x:0, y:0}
-        return `translate(${x}, ${y})`
-      })
-
-    // arrow
-    selfLinkNodes
-      .append('polygon')
-      .attr('class', 'directionDecorator')
-      .attr('points', ({layout}) => {
-        const radius = NODE_RADIUS + (layout.target && layout.target.isHub ? 10 : 0)
-        return `0,${radius}, -4,${radius + 7}, 4,${radius + 7}`
-      })
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout.center
-        return `translate(${x}, ${y})`
+      .attrs(({layout}) => {
+        const {type, center} = layout
+        return {
+          'r': 4,
+          'cx': center.x,
+          'cy': center.y,
+          'tabindex': -1,
+          'class': `${type} centralCircle`,
+        }
       })
   }
 
@@ -207,11 +169,15 @@ export default class NodeHelper {
     // add white opaque background
       .call(this.setTextBBox)
       .insert('rect','text')
-      .attr('x', ({layout}) => layout.textBBox.x)
-      .attr('y', ({layout}) => layout.textBBox.y)
-      .attr('width', ({layout}) => layout.textBBox.width)
-      .attr('height', ({layout}) => layout.textBBox.height)
-      .attr('tabindex', '-1')
+      .attrs(({layout: {textBBox}}) => {
+        return {
+          'x': textBBox.x,
+          'y': textBBox.y,
+          'width': textBBox.width,
+          'height': textBBox.height,
+          'tabindex': -1,
+        }
+      })
   }
 
   moveNodes = (transition) => {
@@ -221,16 +187,14 @@ export default class NodeHelper {
     nodes.selectAll('use')
       .transition(transition)
       .style('opacity', 1)
-      .attr('width', ({layout:{scale=1}}) => {
-        return NODE_SIZE*scale
-      })
-      .attr('height', ({layout:{scale=1}}) => {
-        return NODE_SIZE*scale
-      })
-      .attr('transform', ({layout}) => {
+      .attrs(({layout}) => {
         const {x, y, scale=1} = layout
         const sz = NODE_SIZE*scale
-        return `translate(${x - sz/2}, ${y - sz/2})`
+        return {
+          'width': sz,
+          'height': sz,
+          'transform': `translate(${x - sz/2}, ${y - sz/2})`,
+        }
       })
 
     // move node self link
@@ -324,7 +288,7 @@ export default class NodeHelper {
     })
 
     // drag any connecting link
-    this.linkHelper.dragLinks(d)
+    dragLinks(this.svg, d)
   }
 }
 

@@ -4398,6 +4398,7 @@ ReactWrapper {
       "handleZoomIn": [Function],
       "handleZoomOut": [Function],
       "highlightMode": false,
+      "laidoutNodes": Array [],
       "lastLayoutBBox": undefined,
       "layoutBBox": Object {
         "height": 200,
@@ -4431,6 +4432,7 @@ ReactWrapper {
         "nodeClones": Object {},
         "nodesToBeCloned": Object {},
         "runCollectionLayouts": [Function],
+        "selfLinks": Object {},
         "setConnectedLayoutOptions": [Function],
         "setLayoutOptions": [Function],
         "setUnconnectedLayoutOptions": [Function],
@@ -4441,7 +4443,6 @@ ReactWrapper {
         ],
         "wrapLabel": [Function],
       },
-      "layoutNodes": Array [],
       "props": Object {
         "activeFilters": Object {},
         "context": Object {
@@ -9149,6 +9150,7 @@ ReactWrapper {
         "handleZoomIn": [Function],
         "handleZoomOut": [Function],
         "highlightMode": false,
+        "laidoutNodes": Array [],
         "lastLayoutBBox": undefined,
         "layoutBBox": Object {
           "height": 200,
@@ -9182,6 +9184,7 @@ ReactWrapper {
           "nodeClones": Object {},
           "nodesToBeCloned": Object {},
           "runCollectionLayouts": [Function],
+          "selfLinks": Object {},
           "setConnectedLayoutOptions": [Function],
           "setLayoutOptions": [Function],
           "setUnconnectedLayoutOptions": [Function],
@@ -9192,7 +9195,6 @@ ReactWrapper {
           ],
           "wrapLabel": [Function],
         },
-        "layoutNodes": Array [],
         "props": Object {
           "activeFilters": Object {},
           "context": Object {

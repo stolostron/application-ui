@@ -33,7 +33,7 @@ class DetailsView extends React.Component {
       <section className={`topologyDetails ${className}`}>
         <h3 className='detailsHeader'>
           <DetailsViewDecorator
-            hasContent={layout.hasContent}
+            showDot={layout.showDot}
             shape={shape}
             className={className}
           />

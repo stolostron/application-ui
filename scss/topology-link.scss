@@ -18,14 +18,18 @@ $linkColor: rgb(140,155,165);
       stroke-opacity: 0.5;
   }
 
-  text {
-      text-anchor: middle;
-      font-size: .6rem;
-      fill: $color__navy-gray-4;
-  }
-
   .directionDecorator {
       stroke: $linkColor;
       fill: $linkColor;
   }
 }
+
+
+.label {
+  text {
+      text-anchor: middle;
+      font-size: .6rem;
+      fill: $color__navy-gray-4;
+  }
+}
+

@@ -32,6 +32,7 @@ export default class LayoutHelper {
     this.destroyed = false
     this.cachedAdapters = {}
     this.cachedLayouts = {}
+    this.selfLinks = {}
   }
 
   destroy = () => {
@@ -89,7 +90,7 @@ export default class LayoutHelper {
 
       // return to TopologyView to create/position the d3 svg shapes
       if (!this.destroyed) {
-        cb({layoutNodes: nodes, ...layoutInfo})
+        cb({laidoutNodes: nodes, ...layoutInfo})
       }
     })
   }
@@ -117,10 +118,16 @@ export default class LayoutHelper {
         uid: node.uid,
         type: node.type,
         label: this.layoutLabel(node.name)
-      }
-      )
+      })
       delete node.layout.source
       delete node.layout.target
+      delete node.layout.selfLink
+      if (node.selfLink) {
+        node.layout.selfLink = {
+          link: node.selfLink,
+          nodeLayout: node.layout
+        }
+      }
 
       switch (type) {
       case 'controller':
@@ -128,7 +135,7 @@ export default class LayoutHelper {
           qname: node.namespace+'/'+node.name,
           hasService: false,
           hasPods: false,
-          hasContent: false,
+          showDot: false,
           pods: [],
           services: []
         })
@@ -155,7 +162,7 @@ export default class LayoutHelper {
             const controller = controllerMap[node.layout.qname]
             if (controller) {
               controller.layout.pods.push(node)
-              controller.layout.hasPods = controller.layout.hasContent = true
+              controller.layout.hasPods = controller.layout.showDot = true
               groupMap['pod'].nodes.splice(i,1)
               delete allNodeMap[node.uid]
               delete node.layout
@@ -190,7 +197,7 @@ export default class LayoutHelper {
       if (inx!==-1) {
         const controller = groupMap['controller'].nodes.splice(inx,1)[0]
         controller.layout.type = 'service'
-        controller.layout.hasService = controller.layout.hasContent = true
+        controller.layout.hasService = controller.layout.showDot = true
         groupMap['service'].nodes.push(controller)
       }
     })
@@ -273,9 +280,11 @@ export default class LayoutHelper {
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected} = nodeGroups[type]
-        connected.forEach(({edges, nodeMap})=>{
+        connected.forEach(connect=>{
+          const {nodeMap} = connect
 
           // fill edges
+          var edgeMap = {}
           for (var uid in nodeMap) {
             directions.forEach(({map, next, other})=>{
               if (map[uid]) {
@@ -290,11 +299,12 @@ export default class LayoutHelper {
                     link.layout[next] = theNext
                     link.layout[other] = theOther
                   }
-                  edges.push(link)
+                  edgeMap[link.uid] = link
                 })
               }
             })
           }
+          const edges = connect.edges = Object.values(edgeMap)
 
           // mark edges that are parellel so we offset them when drawing
           edges.forEach(({source, target})=>{
@@ -606,7 +616,7 @@ export default class LayoutHelper {
     }
     // if there are less nodes in this group we have room to stretch out the nodes
     const len = nodes.length
-    const stretch = len<=5 ? 1.3 : (len<=7 ? 1.2 : (len<=10? 1.1: 1))
+    const stretch = len<=10 ? 1.3 : (len<=15 ? 1.2 : (len<=20? 1.1: 1))
     return {
       name: 'cola',
       animate: false,
@@ -660,8 +670,8 @@ export default class LayoutHelper {
           h
         },
         sort: (a,b) => {
-          const {node: {layout: la, hasLinkToSelf:aself}} = a.data()
-          const {node: {layout: lb, hasLinkToSelf:bself}} = b.data()
+          const {node: {layout: la, selfLink:aself}} = a.data()
+          const {node: {layout: lb, selfLink:bself}} = b.data()
           if (!la.newComer && lb.newComer) {
             return -1
           } else if (la.newComer && !lb.newComer) {
@@ -673,9 +683,9 @@ export default class LayoutHelper {
               return 1
             }
             return 0
-          } else if (la.hasContent && !lb.hasContent) {
+          } else if (la.showDot && !lb.showDot) {
             return -1
-          } else if (!la.hasContent && lb.hasContent) {
+          } else if (!la.showDot && lb.showDot) {
             return 1
           } else if (aself && !bself) {
             return -1
@@ -778,7 +788,7 @@ export default class LayoutHelper {
       }
 
       // layout and cache edge paths
-      clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), this.cachedAdapters[hashCode])
+      clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), this.selfLinks, this.cachedAdapters[hashCode])
       delete this.cachedAdapters[hashCode] //can only use once after a cytoscape layout
 
       clayouts.push(this.cachedLayouts[hashCode])
@@ -890,6 +900,7 @@ export default class LayoutHelper {
           layout.y = layout.dragged.y
         }
       })
+
       edges.forEach(edge=>{
         const {layout, uid} = edge
         layout.center = center
@@ -898,7 +909,7 @@ export default class LayoutHelper {
 
         // if source or target was dragged, take all the kinks out of the line
         const {source: {dragged:sdragged}, target: {dragged:tdragged}} = layout
-        if (sdragged || tdragged) {
+        if (!layout.isLoop && (sdragged || tdragged)) {
           setDraggedLineData(layout)
         }
       })
@@ -914,7 +925,7 @@ export default class LayoutHelper {
     })
     const width = totalMaxWidth + xMargin*2
     const height = totalHeight + yMargin*4
-    return {layoutMap, layoutBBox: { x:0, y:0, width, height}}
+    return {layoutMap, selfLinks: this.selfLinks, layoutBBox: { x:0, y:0, width, height}}
   }
 
   hasCycle = (node, neighbors, visited, recursion) => {

@@ -182,7 +182,7 @@ class TopologyViewer extends React.Component {
 
 
   getLayoutNodes = () => {
-    return this.layoutNodes
+    return this.laidoutNodes
   }
 
 
@@ -198,6 +198,8 @@ class TopologyViewer extends React.Component {
     if (svg) {
       svg.select('g.nodes').selectAll('*').remove()
       svg.select('g.links').selectAll('*').remove()
+      svg.select('g.labels').selectAll('*').remove()
+      svg.select('g.clusters').selectAll('*').remove()
     }
   }
 
@@ -210,6 +212,7 @@ class TopologyViewer extends React.Component {
       this.svg = d3.select('#'+this.getSvgId())
       this.svg.append('g').attr('class', 'clusters')
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
+      this.svg.append('g').attr('class', 'labels')  // same for link labels
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.getSvgSpace())
@@ -220,7 +223,7 @@ class TopologyViewer extends React.Component {
     const {nodes=[], links=[], hiddenLinks= new Set()} = this.state
     this.layoutHelper.layout(nodes, links, hiddenLinks, firstLayout, (layoutResults)=>{
 
-      const {layoutNodes, layoutMap, layoutBBox} = layoutResults
+      const {laidoutNodes, selfLinks, layoutMap, layoutBBox} = layoutResults
       this.layoutBBox = layoutBBox
 
       // resize diagram to fit all the nodes
@@ -235,21 +238,21 @@ class TopologyViewer extends React.Component {
       this.svg.interrupt().selectAll('*').interrupt()
 
       // Create or refresh the links in the diagram.
-      const linkHelper = new LinkHelper(this.svg, links, layoutNodes)
+      const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transformation)
 
       const {topologyShapes} = this.props.staticResourceData
-      const nodeHelper = new NodeHelper(this.svg, layoutNodes, topologyShapes, linkHelper, layoutMap, ()=>{
+      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap, ()=>{
         this.highlightMode = false
       })
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
       nodeHelper.moveNodes(transformation)
 
-      this.layoutNodes = layoutNodes
-      this.lastLayoutBBox = layoutNodes.length ? this.layoutBBox : undefined
+      this.laidoutNodes = laidoutNodes
+      this.lastLayoutBBox = laidoutNodes.length ? this.layoutBBox : undefined
       counterZoomLabels(this.svg, currentZoom)
     })
   }
@@ -270,6 +273,9 @@ class TopologyViewer extends React.Component {
             .transition(transition)
             .attr('transform', d3.event.transform)
           svg.select('g.links').selectAll('g.link')
+            .transition(transition)
+            .attr('transform', d3.event.transform)
+          svg.select('g.labels').selectAll('g.label')
             .transition(transition)
             .attr('transform', d3.event.transform)
 

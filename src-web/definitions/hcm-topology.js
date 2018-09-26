@@ -80,7 +80,7 @@ export function topologyTransform(resourceItem) {
     if (l.source !== l.target) {
       return true
     } else {
-      nodeMap[l.source].hasLinkToSelf = true
+      nodeMap[l.source].selfLink = l
     }
   })
 

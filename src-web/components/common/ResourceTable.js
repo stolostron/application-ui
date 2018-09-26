@@ -131,7 +131,7 @@ class ResourceTable extends React.Component {
                   return rows.map(row => {
                     if (expandableTable) {
                       return (
-                        <React.Fragment key={row.id+Math.random()*100}>
+                        <React.Fragment key={row.id}>
                           <TableExpandRow {...getRowProps({ row, 'data-row-name': lodash.get(items[row.id], lodash.get(staticResourceData, 'tableKeys[0].resourceKey')), 'aria-hidden': expandableTable && (items[row.id] && !items[row.id].subItems || items[row.id] && items[row.id].subItems.length === 0), className: expandableTable && (items[row.id] && !items[row.id].subItems || items[row.id] && items[row.id].subItems.length === 0) ? 'row-not-expanded' : '' })}>
                             {selectableTable &&
                               <TableCell key={`select-checkbox-${row.id}`}>
@@ -169,7 +169,7 @@ class ResourceTable extends React.Component {
                       )
                     } else {
                       return (
-                        <TableRow key={row.id+Math.random()*100} data-row-name={lodash.get(items[row.id], lodash.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
+                        <TableRow key={row.id} data-row-name={lodash.get(items[row.id], lodash.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
                           {row.cells.map(cell => <TableCell key={cell.id}>{cell.value}</TableCell>)}
                         </TableRow>
                       )

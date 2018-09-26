@@ -2,7 +2,7 @@
 
 exports[`DashboardCard component 1 renders as expected 1`] = `
 <div
-  className="bx--module bx--module--single dashboard-card dashboard-card__critical"
+  className="bx--module bx--module--single bx--tile dashboard-card dashboard-card__critical"
   critical={1}
   healthy={1}
   table={
@@ -131,17 +131,17 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
               <td
                 className="dashboard-table-header"
               >
-                5 LEAST COMPLIANT
+                5 Least Compliant
               </td>
               <td
-                className="dashboard-table-header__secondary"
+                className="dashboard-table-header dashboard-table-header__secondary"
               >
                 Utilization
               </td>
               <td
                 className="dashboard-table-header__secondary"
               >
-                Healthy Status
+                Heathy Status
               </td>
             </tr>
             <tr
@@ -312,7 +312,7 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
 
 exports[`DashboardCard component 2 renders as expected 1`] = `
 <div
-  className="bx--module bx--module--single dashboard-card dashboard-card__warning"
+  className="bx--module bx--module--single bx--tile dashboard-card dashboard-card__warning"
   critical={0}
   healthy={0}
   table={
@@ -429,17 +429,17 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
               <td
                 className="dashboard-table-header"
               >
-                5 LEAST COMPLIANT
+                5 Least Compliant
               </td>
               <td
-                className="dashboard-table-header__secondary"
+                className="dashboard-table-header dashboard-table-header__secondary"
               >
                 Utilization
               </td>
               <td
                 className="dashboard-table-header__secondary"
               >
-                Healthy Status
+                Heathy Status
               </td>
             </tr>
             <tr
@@ -507,7 +507,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
 
 exports[`DashboardCard component 3 renders as expected 1`] = `
 <div
-  className="bx--module bx--module--single dashboard-card dashboard-card__healthy"
+  className="bx--module bx--module--single bx--tile dashboard-card dashboard-card__healthy"
   critical={0}
   healthy={1}
   table={
@@ -623,17 +623,17 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
               <td
                 className="dashboard-table-header"
               >
-                5 LEAST COMPLIANT
+                5 Least Compliant
               </td>
               <td
-                className="dashboard-table-header__secondary"
+                className="dashboard-table-header dashboard-table-header__secondary"
               >
                 Utilization
               </td>
               <td
                 className="dashboard-table-header__secondary"
               >
-                Healthy Status
+                Heathy Status
               </td>
             </tr>
             <tr
@@ -664,7 +664,7 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
 
 exports[`DashboardCard component 4 renders as expected 1`] = `
 <div
-  className="bx--module bx--module--single dashboard-card dashboard-card__healthy"
+  className="bx--module bx--module--single bx--tile dashboard-card dashboard-card__healthy"
   critical={0}
   healthy={0}
   table={Array []}
@@ -772,17 +772,17 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
               <td
                 className="dashboard-table-header"
               >
-                5 LEAST COMPLIANT
+                5 Least Compliant
               </td>
               <td
-                className="dashboard-table-header__secondary"
+                className="dashboard-table-header dashboard-table-header__secondary"
               >
                 Utilization
               </td>
               <td
                 className="dashboard-table-header__secondary"
               >
-                Healthy Status
+                Heathy Status
               </td>
             </tr>
           </tbody>

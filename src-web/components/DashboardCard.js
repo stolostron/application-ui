@@ -85,16 +85,16 @@ export const TableRowPropType = {
 
 DashboardTableRow.propTypes = TableRowPropType
 
-const DashboardTable = ({ table, type, ...rest }) => {
+const DashboardTable = ({ table, type, locale, ...rest }) => {
   return (
     <Table className='dashboard-table' role='presentation' {...rest}>
       <TableBody>
         <TableRow even={false}>
-          <TableData className='dashboard-table-header'>5 LEAST COMPLIANT</TableData>
+          <TableData className='dashboard-table-header'>{msgs.get('dashboard.module.separator', locale)}</TableData>
           {
-            !type && <TableData className='dashboard-table-header__secondary'>Utilization</TableData>
+            !type && <TableData className='dashboard-table-header dashboard-table-header__secondary'>{msgs.get('dashboard.module.separator.utilization', locale)}</TableData>
           }
-          <TableData className='dashboard-table-header__secondary'>Healthy Status</TableData>
+          <TableData className='dashboard-table-header__secondary'>{msgs.get('dashboard.module.separator.status', locale)}</TableData>
         </TableRow>
         {table.map((row, ind) => {
           {/* only show top 5 items*/}
@@ -106,6 +106,7 @@ const DashboardTable = ({ table, type, ...rest }) => {
 }
 
 DashboardTable.propTypes = {
+  locale: PropTypes.string,
   table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType)),
   type: PropTypes.string,
 }
@@ -154,7 +155,7 @@ export class DashboardCard extends React.PureComponent {
     } = this.props
     const cardStatus = getTableStatus(critical, healthy, warning)
     return table && (
-      <Module className={`dashboard-card dashboard-card__${cardStatus}`} size="single" {...this.props}>
+      <Module className={`bx--tile dashboard-card dashboard-card__${cardStatus}`} size="single" {...this.props}>
         <ModuleHeader className={`dashboard-card-header__${cardStatus}`}>{title}</ModuleHeader>
         <ModuleBody className={'dashboard-card-orb'}>
           <div className="dashboard-overview">
@@ -187,7 +188,7 @@ export class DashboardCard extends React.PureComponent {
           {/*<div className={'dashboard-card-separator-text dashboard-card-text'}>*/}
           {/*<div>{msgs.get('dashboard.module.separator')}</div>*/}
           {/*</div>*/}
-          <DashboardTable table={table} type={type} />
+          <DashboardTable table={table} type={type} locale={locale} />
           <div className={'dashboard-card-separator-link'}>
             {type ?
               <Link to={`${config.contextPath}/${type}`}>{msgs.get('dashboard.module.separator.link')}</Link> : null }

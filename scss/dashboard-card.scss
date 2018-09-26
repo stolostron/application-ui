@@ -8,12 +8,14 @@
  *******************************************************************************/
 
 @import 'node_modules/carbon-components/scss/globals/scss/_vars';
-
+@import 'variables';
 
 $critical: $support-01;
 $healthy: $support-02;
 $warning: $support-03;
 $gray: $color__gray-1;
+$gray-for-text: $mcm__color__gray;
+
 
 .bx--module.bx--module--single {
   max-width: 28rem;
@@ -152,7 +154,7 @@ $innerOrbSize: $orbSize - 0.4rem;
 
   &__gray {
     border: 3px solid $gray;
-    color: $gray;
+    color: $gray-for-text;
     &:hover {
       box-shadow: none;
     }
@@ -173,8 +175,9 @@ $innerOrbSize: $orbSize - 0.4rem;
     height: 2rem;
     border: none;
     font-weight: bold;
+    font-size: 0.75rem;
     &__secondary {
-      font-size: small;
+      font-weight: 400;
     }
   }
 }
@@ -233,7 +236,7 @@ $innerOrbSize: $orbSize - 0.4rem;
   text-transform: capitalize;
 
   &__gray {
-    color: $gray;
+    color: $gray-for-text;
   }
 }
 
@@ -251,8 +254,8 @@ $innerOrbSize: $orbSize - 0.4rem;
   position: relative;
   bottom: 0;
   a {
-    float: right;
-    padding: 1.2rem 2.25rem;
+    float: left;
+    padding: 1.2rem 1.5rem;
     font-size: 0.75rem;
     font-weight: bold;
   }

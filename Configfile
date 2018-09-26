@@ -3,7 +3,6 @@ DOCKER_SERVER ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devo
 DOCKER_USERNAME ?= token
 IMAGE_DESCRIPTION =
 IMAGE_NAME = mcm-ui
-IMAGE_REPO ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devops.com/ibmcom
 RELEASE_TAG ?= latest
 HOST ?= 127.0.0.1
 APP_PORT ?= 3000
@@ -13,10 +12,11 @@ DOCKER_FLAG =
 MAX_IMAGE_SIZE=1000000000
 
 ifeq ($(ARCH), x86_64)
-	IMAGE_NAME_ARCH = $(IMAGE_NAME)-amd64
+        IMAGE_NAMESPACE = ibmcom-amd64
 else
-	IMAGE_NAME_ARCH = $(IMAGE_NAME)-$(ARCH)
+        IMAGE_NAMESPACE = ibmcom-$(ARCH)
 endif
+IMAGE_REPO ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devops.com/$(IMAGE_NAMESPACE)
 MANIFEST_VERSION ?= v0.7.0
 DEFAULT_S390X_IMAGE ?= ibmcom/pause-s390x:3.0
 IMAGE_NAME_S390X ?= ${IMAGE_REPO}/${IMAGE_NAME}-s390x:${RELEASE_TAG}

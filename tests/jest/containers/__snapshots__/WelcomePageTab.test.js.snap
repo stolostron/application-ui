@@ -187,6 +187,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
                 />
               </svg>
               <a
+                aria-describedby="launchWindow"
                 className="bx--link"
                 href="https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_hcm_preview/getting_started/readme_techpreview.html"
               >
@@ -204,7 +205,6 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
               <a
                 className="bx--link"
                 href="/catalog"
-                onClick={[Function]}
               >
                 Manage helm repositories
               </a>
@@ -251,8 +251,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
             >
               <a
                 className="bx--link"
-                href="undefined/manage/identity-access/teams"
-                onClick={[Function]}
+                href="/console/manage/identity-access"
               >
                 Mange users
               </a>

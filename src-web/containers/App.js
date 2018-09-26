@@ -54,11 +54,11 @@ class App extends React.Component {
 
   render() {
     const serverProps = this.getServerProps()
-    const { match } = this.props
+    const { match, location } = this.props
 
     return (
       <div className='expand-vertically'>
-        <SecondaryHeader />
+        {location.pathname && !location.pathname.includes('welcome') && <SecondaryHeader />}
         <Switch>
           <Route path={`${match.url}/admin`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.admin'}} />} />
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
@@ -72,7 +72,7 @@ class App extends React.Component {
           <Route path={`${match.url}/remoteinstall`} render={() => <HelmRemoteInstallTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
           <Route path={`${match.url}/storage`} component={Storage} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
-          <Route path={`${match.url}/welcome`} render={() => <WelcomeTab secondaryHeaderProps={{title: 'routes.welcome'}} />} />
+          <Route path={`${match.url}/welcome`} render={() => <WelcomeTab />} />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />

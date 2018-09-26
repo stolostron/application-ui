@@ -42,14 +42,14 @@ export const Clusters = ({ locale, hideVerticalRule }) =>
     {msgs.get('welcome.box.two.bullet.one', locale)}
     <div className='content'>
       <Icon name='launch--glyph' fill='#3d70b2' description={msgs.get('svg.description.launch', locale)} />
-      <a href={'https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_hcm_preview/getting_started/readme_techpreview.html'} className='bx--link'>{msgs.get('welcome.box.two.bullet.one.link', locale)}</a>
+      <a href={'https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_hcm_preview/getting_started/readme_techpreview.html'} className='bx--link' aria-describedby='launchWindow'>{msgs.get('welcome.box.two.bullet.one.link', locale)}</a>
     </div>
   </li>
 
 export const HelmRepo = ({ locale, hideVerticalRule }) =>
   <li className={`bx--list__item${hideVerticalRule ? ' no-vertical-rule' : ''}`}>
     {msgs.get('welcome.box.two.bullet.two', locale)}
-    <div className='content'><Link to={'/catalog'} className='bx--link'>{msgs.get('welcome.box.two.bullet.two.link', locale)}</Link></div>
+    <div className='content'><a href={'/catalog'} className='bx--link'>{msgs.get('welcome.box.two.bullet.two.link', locale)}</a></div>
   </li>
 
 export const Application = ({ locale, hideVerticalRule }) =>
@@ -67,5 +67,5 @@ export const Compliance = ({ locale, hideVerticalRule }) =>
 export const Users = ({ locale, hideVerticalRule }) =>
   <li className={`bx--list__item${hideVerticalRule ? ' no-vertical-rule' : ''}`}>
     {msgs.get('welcome.box.two.bullet.five', locale)}
-    <div className='content'><Link to={`${config.contextPath}/manage/identity-access/teams`} className='bx--link'>{msgs.get('welcome.box.two.bullet.five.link', locale)}</Link></div>
+    <div className='content'><a href={'/console/manage/identity-access'} className='bx--link'>{msgs.get('welcome.box.two.bullet.five.link', locale)}</a></div>
   </li>

@@ -59,6 +59,10 @@ export default {
       transformFunction: getMemory
     },
   ],
+  tableActions: [
+    'table.actions.cluster.view.nodes',
+    'table.actions.cluster.view.pods',
+  ],
 }
 
 export function getExternalLink(item, locale) {

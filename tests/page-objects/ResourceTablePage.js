@@ -36,7 +36,6 @@ module.exports = {
     verifyPageContent,
     createResource,
     deleteResource,
-    scaleResource,
     handleTableAction,
     editResource,
     verifyEvents,
@@ -81,18 +80,6 @@ function deleteResource(resourceName) {
   this.click('@removeModalBtn')
   this.waitForElementNotPresent('@removeModal')
   this.waitForElementNotPresent(`[data-row-name="${resourceName}"]`, 25000) // Wait for pod to terminate
-}
-
-function scaleResource(resourceName, instances, cb) {
-  this.handleTableAction(resourceName, 'table.actions.scale')
-  this.waitForElementVisible('@scaleModal')
-  this.clearValue('@scaleNumInput')
-  this.setValue('@scaleNumInput', instances)
-  this.click('@scaleModalBtn')
-  this.waitForElementNotPresent('@scaleModal')
-  this.click(`[data-row-name="${resourceName}"] a`)
-  this.waitForElementPresent('@podsTable')
-  this.api.elements('css selector', '#pods-module .resource-table-container__table .bx--table-body tr', res => cb(res))
 }
 
 // For now, only perfoming save action without any new changes since issues editing Ace editor with selenium

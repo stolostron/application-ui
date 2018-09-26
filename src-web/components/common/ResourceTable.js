@@ -210,7 +210,7 @@ class ResourceTable extends React.Component {
   }
 
   getRows() {
-    const { items, itemIds, tableActions, resourceType, staticResourceData, match, getResourceAction } = this.props
+    const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, getResourceAction } = this.props
     const { locale } = this.context
     const resources = itemIds && itemIds.map(id => items[id] || items.find(target => target.name === id))
     return resources && resources.map((item, index) => {
@@ -227,7 +227,7 @@ class ResourceTable extends React.Component {
               <OverflowMenuItem
                 data-table-action={action}
                 isDelete={action ==='table.actions.remove' || action ==='table.actions.delete'}
-                onClick={() => getResourceAction(action, item)}
+                onClick={() => getResourceAction(action, item, null, history, locale)}
                 key={action}
                 itemText={msgs.get(action, locale)}
               />)}

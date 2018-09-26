@@ -10,8 +10,9 @@
 
 import { updateModal } from '../../actions/common'
 import lodash from 'lodash'
+import config from '../../../lib/shared/config'
 
-export const resourceActions = (action, dispatch, resourceType, data) => {
+export const resourceActions = (action, dispatch, resourceType, data, hasService, history) => {
   switch (action) {
   case 'table.actions.edit': {
     const _data = { ...data }
@@ -36,20 +37,14 @@ export const resourceActions = (action, dispatch, resourceType, data) => {
         label: { primaryBtn: `modal.remove-${resourceType.name.toLowerCase()}.heading`, label: `modal.remove-${resourceType.name.toLowerCase()}.label`, heading: `modal.remove-${resourceType.name.toLowerCase()}.heading` },
         data: { apiVersion: resourceType.api_version, kind: resourceType.name, ...data }}))
   }
-  case 'table.actions.scale': {
-    return dispatch(updateModal(
-      { open: true, type: 'resource-scale', resourceType,
-        label: { primaryBtn: `modal.scale-${resourceType.name.toLowerCase()}.heading`, label: `modal.scale-${resourceType.name.toLowerCase()}.label`, heading: `modal.scale-${resourceType.name.toLowerCase()}.heading` },
-        data: { apiVersion: resourceType.api_version, kind: resourceType.name, ...data }}))
+  case 'table.actions.cluster.view.nodes':{
+    history.push(`${config.contextPath}/nodes?filters={"cluster": ["${data.metadata.name}"]}`)
+    return
   }
-  case 'table.actions.edit.scope': {
-    return dispatch(updateModal(
-      { open: true, type: 'image-scope', resourceType,
-        label: { primaryBtn: `modal.edit-${resourceType.name.toLowerCase()}.heading`, label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        data: { apiVersion: resourceType.api_version, kind: resourceType.name, ...data }}))
+  case 'table.actions.cluster.view.pods': {
+    history.push(`${config.contextPath}/pods?filters={"cluster": ["${data.metadata.name}"]}`)
+    return
   }
-  case 'table.actions.suspend':
-  case 'table.actions.rollback':
   default:
 
   }

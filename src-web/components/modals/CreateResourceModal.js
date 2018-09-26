@@ -70,7 +70,7 @@ class CreateResourceModal extends React.PureComponent {
   render(){
     return (
       <div>
-        <Button icon="add--glyph" small id='create-resource' key='create-resource' onClick={this.handleModalOpen}>
+        <Button icon="add--glyph" small id={msgs.get(this.props.submitBtnTextKey, this.context.locale)} key='create-resource' onClick={this.handleModalOpen}>
           { msgs.get(this.props.submitBtnTextKey, this.context.locale) }
         </Button>
         <Modal

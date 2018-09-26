@@ -30,7 +30,7 @@ const StructuredListModule = ({
   <Module className='structured-list-module'>
     <ModuleHeader>{msgs.get(title, context.locale)}</ModuleHeader>
     <ModuleBody>
-      <StructuredListWrapper className='bx--structured-list--condensed' aria-label={msgs.get(title, context.locale)}>
+      <StructuredListWrapper className='bx--structured-list--condensed' role='region' ariaLabel={msgs.get(title, context.locale)}>
         <StructuredListHead>
           <StructuredListRow head>
             {headerRows.map(row =>

@@ -52,7 +52,6 @@ class ResourceTable extends React.Component {
       staticResourceData,
       page,
       pageSize,
-      paginationId,
       sortColumn,
       sortDirection,
       handleSort,
@@ -65,7 +64,6 @@ class ResourceTable extends React.Component {
       itemIds,
       expandableTable,
       selectableTable,
-      resourceType,
       onSelect,
       onSelectAll,
       onSelectSubItem
@@ -77,9 +75,9 @@ class ResourceTable extends React.Component {
         headers={this.getHeaders()}
         translateWithId={translateWithId.bind(null, this.context.locale)}
         render={({ rows, headers, getRowProps }) => (
-          <TableContainer id={`${resourceType.name && resourceType.name.toLowerCase()}-table-container`}>
-            <TableToolbar aria-label={msgs.get('table.toolbar.description', this.context.locale)}>
-              <TableToolbarSearch onChange={handleSearch} value={searchValue} />
+          <TableContainer id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-table-container`}>
+            <TableToolbar aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} role='region'>
+              <TableToolbarSearch onChange={handleSearch} value={searchValue} aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} />
               <TableToolbarContent>
                 {actions}
               </TableToolbarContent>
@@ -183,7 +181,7 @@ class ResourceTable extends React.Component {
       />,
       <PaginationV2
         key='pagination'
-        id={paginationId || 'resource-table-pagination'}
+        id={staticResourceData.resourceKey ? `${staticResourceData.resourceKey}-resource-table-pagination` : 'resource-table-pagination'}
         onChange={changeTablePage}
         pageSize={pageSize || PAGE_SIZES.DEFAULT}
         pageSizes={PAGE_SIZES.VALUES}

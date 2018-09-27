@@ -38,11 +38,11 @@ export const resourceActions = (action, dispatch, resourceType, data, hasService
         data: { apiVersion: resourceType.api_version, kind: resourceType.name, ...data }}))
   }
   case 'table.actions.cluster.view.nodes':{
-    history.push(`${config.contextPath}/nodes?filters={"cluster": ["${data.metadata.name}"]}`)
+    history.push(`${config.contextPath}/nodes?filters={"cluster":["${data.metadata.name}"]}`)
     return
   }
   case 'table.actions.cluster.view.pods': {
-    history.push(`${config.contextPath}/pods?filters={"cluster": ["${data.metadata.name}"]}`)
+    history.push(`${config.contextPath}/pods?filters={"cluster":["${data.metadata.name}"]}`)
     return
   }
   default:

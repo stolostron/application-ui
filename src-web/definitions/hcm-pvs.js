@@ -7,7 +7,6 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import React from 'react'
 import { getAge, getClusterLink, getLabelsToString, transformPVStatus } from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 
@@ -18,7 +17,6 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
-      transformFunction: getNameLink
     },
     {
       msgKey: 'table.header.cluster',
@@ -69,14 +67,6 @@ export default {
   // tableActions: [
   //   'table.actions.edit',
   // ],
-}
-
-export function getNameLink(item) {
-  const { cluster: { clusterip = '' } } = item
-
-  return clusterip !== ''
-    ? <a target="_blank" href={`https://${clusterip}:8443/console/platform/storage/${item.metadata.name}`}>{item.metadata.name}</a>
-    : item.metadata.name
 }
 
 export function getClaim(item) {

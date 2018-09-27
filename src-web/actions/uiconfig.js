@@ -6,23 +6,7 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
 
-import http from './http-util'
+import * as Actions from './index'
 
-class LoginClient {
-
-  logout(success_cb, error_cb) {
-    const options = {
-      credentials: 'same-origin',
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    }
-    http.fetch('/multicloud/logout/', success_cb, error_cb, options)
-  }
-}
-
-export default new LoginClient()
+export const uiConfigReceiveSucess = uiConfig => ({ type: Actions.UICONFIG_RECEIVE_SUCCESS, data: uiConfig })

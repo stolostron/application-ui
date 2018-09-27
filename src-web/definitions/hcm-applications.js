@@ -13,6 +13,7 @@ import {getAge, getLabelsToString, getLabelsToList, dumpAndSync} from '../../lib
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
+import config from '../../lib/shared/config'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -273,7 +274,7 @@ export default {
 
 export function createApplicationLink(item = {}){
   const {metadata: {name, namespace = 'default'}} = item
-  return <Link to={`/hcmconsole/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
+  return <Link to={`${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
 export function createDashboardLink({ dashboard = '' } , locale){

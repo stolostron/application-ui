@@ -47,7 +47,7 @@ export const catalogReleaseInstall = (input, history) => async (dispatch) => {
     sessionStorage.removeItem('tarFiles')
     sessionStorage.removeItem('values')
     sessionStorage.removeItem('version')
-    history.push('/hcmconsole/releases')
+    history.push(`${contextPath}/releases`)
   } catch (err) {
     dispatch(catalogInstallFailure(true))
     throw err

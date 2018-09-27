@@ -10,10 +10,11 @@
 
 import React from 'react'
 import msgs from '../../nls/platform.properties'
-import {getAge, getLabelsToList} from '../../lib/client/resource-helper'
+import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import { Icon } from 'carbon-components-react'
 import { getAPIGroups, getRuleVerbs } from './hcm-policies'
 import { Link } from 'react-router-dom'
+import config from '../../lib/shared/config'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -376,7 +377,7 @@ export default {
 }
 
 export function createPolicyLink(item = {}){
-  return <Link to={`/hcmconsole/policies/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
+  return <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
 export function getStatus(item, locale) {
@@ -430,5 +431,5 @@ export function getStatusIcon(item) {
 }
 
 export function createCompliancePolicyLink(item = {}){
-  return  <Link to={`/hcmconsole/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.metadata.name)}/${item.cluster}`}>{item.metadata.name}</Link>
+  return  <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.metadata.name)}/${item.cluster}`}>{item.metadata.name}</Link>
 }

@@ -141,7 +141,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
               >
                 <a
                   className="bx--tabs__nav-link"
-                  href="/hcmconsole/dashboard"
+                  href="/multicloud/dashboard"
                   role="tab"
                   tabIndex={0}
                 >
@@ -288,7 +288,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
               >
                 <a
                   className="bx--tabs__nav-link"
-                  href="/hcmconsole/dashboard"
+                  href="/multicloud/dashboard"
                   role="tab"
                   tabIndex={0}
                 >

@@ -66,7 +66,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var proxy = require('http-proxy-middleware')
-app.use('/hcmconsole/graphql', cookieParser(), (req, res, next) => {
+app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), (req, res, next) => {
   const accessToken = req.cookies['cfc-access-token-cookie']
   req.headers.Authorization = `Bearer ${accessToken}`
   next()
@@ -74,28 +74,28 @@ app.use('/hcmconsole/graphql', cookieParser(), (req, res, next) => {
   target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
   changeOrigin: true,
   pathRewrite: {
-    '^/hcmconsole/graphql': '/graphql'
+    [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
   },
   secure: false
 }))
 
 if (process.env.NODE_ENV === 'development') {
-  app.use('/console', cookieParser(), proxy({
+  app.use(appConfig.get('platformHeaderContextPath'), cookieParser(), proxy({
     target: appConfig.get('cfcRouterUrl'),
     changeOrigin: true,
     secure: false,
     ws: true
   }))
-}
 
-app.use('/hcmconsole/api/proxy', cookieParser(), proxy({
-  target: appConfig.get('cfcRouterUrl'),
-  changeOrigin: true,
-  pathRewrite: {
-    '^/hcmconsole/api/proxy': ''
-  },
-  secure: false
-}))
+  app.use(`${appConfig.get('contextPath')}/api/proxy`, cookieParser(), proxy({
+    target: appConfig.get('cfcRouterUrl'),
+    changeOrigin: true,
+    pathRewrite: {
+      [`^${appConfig.get('contextPath')}/api/proxy`]: ''
+    },
+    secure: false
+  }))
+}
 
 app.engine('dust', consolidate.dust)
 app.set('env', 'production')

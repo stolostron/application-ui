@@ -59,7 +59,7 @@ npm run build:watch
 npm run start
 </pre>
 
-5.Open a browser to `https://localhost:{httpPort}/hcmconsole` and log in using your cluster admin credentials.
+5.Open a browser to `https://localhost:{httpPort}/multicloud` and log in using your cluster admin credentials.
 
 ## Storybook
 <pre>

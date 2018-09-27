@@ -63,7 +63,7 @@ class App extends React.Component {
           <Route path={`${match.url}/admin`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.admin'}} />} />
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
-          <Route path={`${match.url}/event`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.event'}} />} />
+          <Route path={`${match.url}/event`} render={() => <EmptyTab secondaryHeaderProps={{title: 'routes.events'}} />} />
           <Route path={`${match.url}/nodes`} render={() => <NodesTab secondaryHeaderProps={{title: 'routes.nodes'}} />} />
           <Route path={`${match.url}/overview`} render={() => <ClustersDashboardTab serverProps={serverProps} />} />
           <Route path={`${match.url}/pods:filters?`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.pods'}} />} />

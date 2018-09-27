@@ -26,7 +26,7 @@ describe('SecondaryHeader component 2', () => {
   const tabs = [{
     id: 'dashboard-application',
     label: 'tabs.dashboard.application',
-    url: '/hcmconsole/dashboard',
+    url: '/multicloud/dashboard',
   }]
   it('renders as expected', () => {
     const component = renderer.create(
@@ -41,7 +41,7 @@ describe('SecondaryHeader component 3', () => {
     {
       id: 'logs-tab',
       label: 'tabs.dashboard.application',
-      url: '/hcmconsole/dashboard',
+      url: '/multicloud/dashboard',
     },
     {
       id: 'logs-tab',

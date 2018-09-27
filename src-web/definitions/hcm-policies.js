@@ -15,6 +15,7 @@ import {getAge, getLabelsToList} from '../../lib/client/resource-helper'
 import { Icon } from 'carbon-components-react'
 import { Link } from 'react-router-dom'
 import resources from '../../lib/shared/resources'
+import config from '../../lib/shared/config'
 
 resources(() => {
   require('../../scss/table.scss')
@@ -281,7 +282,7 @@ export default {
 }
 
 export function createPolicyLink(item = {}){
-  return  <Link to={`/hcmconsole/policies/local/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
+  return  <Link to={`${config.contextPath}/policies/local/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
 export function getStatus(item= {},locale) {

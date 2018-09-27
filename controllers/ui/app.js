@@ -27,7 +27,7 @@ const ReactDOMServer = require('react-dom/server'),
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
 
-let App, Login, reducers  //laziy initialize to reduce startup time seen on k8s
+let App, Login, reducers, role, uiConfig  //laziy initialize to reduce startup time seen on k8s
 router.get('/logout', (req, res) => {
   var LOGOUT_API = '/v1/auth/logout'
   var callbackUrl = req.headers['host']
@@ -55,16 +55,87 @@ router.get('*', (req, res) => {
 
 function fetchHeader(req, res, store, context) {
   var options = {
-    method: 'GET',
-    url: `${config.get('cfcRouterUrl')}/console/api/v1/header`,
+    method: 'POST',
+    url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header`,
     json: true,
-    qs: {
-      serviceId: 'hcm-ui',
-      dev: process.env.NODE_ENV === 'development',
-      accessUrl: config.get('cfcRouterUrl')
-    },
     headers: {
       Cookie: createCookie(req)
+    },
+    body: {
+      logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
+      navItems: [
+        {
+          id: 'overview',
+          label: msgs.get('routes.overview', req),
+          url: `${config.get('contextPath')}/overview`,
+        },
+        {
+          id: 'clusters',
+          label: msgs.get('routes.clusters', req),
+          url: `${config.get('contextPath')}/clusters`,
+        },
+        {
+          id: 'policies',
+          label: msgs.get('routes.policies', req),
+          url: `${config.get('contextPath')}/policies`,
+        },
+        {
+          id: 'applications',
+          label: msgs.get('routes.applications', req),
+          url: `${config.get('contextPath')}/applications`,
+        },
+        {
+          id: 'releases',
+          label: msgs.get('routes.releases', req),
+          url: `${config.get('contextPath')}/releases`,
+        },
+        {
+          id: 'pods',
+          label: msgs.get('routes.pods', req),
+          url: `${config.get('contextPath')}/pods`,
+        },
+        {
+          id: 'nodes',
+          label: msgs.get('routes.nodes', req),
+          url: `${config.get('contextPath')}/nodes`,
+        },
+        {
+          id: 'storage',
+          label: msgs.get('routes.storage', req),
+          url: `${config.get('contextPath')}/storage`,
+        },
+        {
+          id: 'topology',
+          label: msgs.get('routes.topology', req),
+          url: `${config.get('contextPath')}/topology`,
+        },
+        {
+          id: 'events',
+          label: msgs.get('routes.events', req),
+          url: `${config.get('contextPath')}/events`,
+        },
+        {
+          id: 'manage',
+          label: msgs.get('routes.manage', req),
+          subItems: [
+            {
+              id: 'security',
+              label: msgs.get('routes.identity-access', req),
+              url: '/console/manage/identity-access',
+            },
+            {
+              id: 'icp',
+              label: msgs.get('routes.icp', req),
+              url: '/console/dashboard',
+            },
+          ]
+        },
+        {
+          id: 'welcome',
+          label: msgs.get('routes.getting-started', req),
+          url: `${config.get('contextPath')}/welcome`,
+        }
+      ]
     }
   }
   request(options, null, [200], (err, headerRes) => {
@@ -73,10 +144,15 @@ function fetchHeader(req, res, store, context) {
     }
 
     const { headerHtml: header, props: propsH, state: stateH, files: filesH } = headerRes.body
+    role = role === undefined ? require('../../src-web/actions/role') : role
+    store.dispatch(role.roleReceiveSuccess(stateH.role.role))
+
+    uiConfig = uiConfig === undefined ? require('../../src-web/actions/uiconfig') : uiConfig
+    store.dispatch(uiConfig.uiConfigReceiveSucess(stateH.uiconfig.uiConfiguration))
 
     if(process.env.NODE_ENV === 'development') {
       lodash.forOwn(filesH, value => {
-        value.path = `/hcmconsole/api/proxy${value.path}` //preprend with proxy route
+        value.path = `${config.get('contextPath')}/api/proxy${value.path}` //preprend with proxy route
       })
     }
     res.render('main', Object.assign({

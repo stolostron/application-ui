@@ -1,11 +1,12 @@
 {
-    "contextPath": "/hcmconsole",
+    "contextPath": "/multicloud",
     "httpPort": 3000,
     "hcmUiApiUrl": "",
     "cfcRouterUrl": "",
+    "platformHeaderContextPath": "/header",
     "featureFlags": {
         "liveUpdates": 2,
-        "liveUpdatesPollInterval": 5000,
+        "liveUpdatesPollInterval": 10000,
         "dashboardLiveUpdates": true,
         "fullDashboard": false,
         "dashboardRefreshInterval" : 20000,

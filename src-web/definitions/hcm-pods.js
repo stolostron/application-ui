@@ -9,6 +9,7 @@
 'use strict'
 import lodash from 'lodash'
 import React from 'react'
+import TruncateText from '../components/common/TruncateText'
 import msgs from '../../nls/platform.properties'
 
 export default {
@@ -18,6 +19,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
+      transformFunction: getTruncatedText,
     },
     {
       msgKey: 'table.header.labels',
@@ -46,6 +48,10 @@ export default {
       resourceKey: 'podIP',
     },
   ],
+}
+
+export function getTruncatedText(item){
+  return <TruncateText text={item.metadata.name} />
 }
 
 export function getLabels(item) {

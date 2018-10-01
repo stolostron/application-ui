@@ -14,6 +14,7 @@ import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import { Icon } from 'carbon-components-react'
 import { getAPIGroups, getRuleVerbs } from './hcm-policies'
 import { Link } from 'react-router-dom'
+import StatusField from '../components/common/StatusField'
 import config from '../../lib/shared/config'
 
 export default {
@@ -409,23 +410,14 @@ export function getStatusIconForPolicy(item) {
   return '-'
 }
 
-export function getStatusIcon(item) {
+export function getStatusIcon(item, locale) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.compliant&&expectedStatuses.indexOf(item.compliant.toLowerCase()) > -1){
     if (item.compliant.toLowerCase() === 'compliant') {
-      return (
-        <div className='compliance-table-status'>
-          <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} description='' />
-        </div>
-      )
+      return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
     } else {
-      return (
-        <div className='compliance-table-status'>
-          <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} description='' />
-        </div>
-      )
+      return <StatusField status='critical' text={msgs.get('policy.status.noncompliant', locale)} />
     }
-    // return msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)
   }
   return '-'
 }

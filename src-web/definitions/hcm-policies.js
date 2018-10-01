@@ -12,9 +12,9 @@ import React from 'react'
 import lodash from 'lodash'
 import msgs from '../../nls/platform.properties'
 import {getAge, getLabelsToList} from '../../lib/client/resource-helper'
-import { Icon } from 'carbon-components-react'
 import { Link } from 'react-router-dom'
 import resources from '../../lib/shared/resources'
+import StatusField from '../components/common/StatusField'
 import config from '../../lib/shared/config'
 
 resources(() => {
@@ -289,27 +289,10 @@ export function getStatus(item= {},locale) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
     if (item.status.toLowerCase() === 'compliant') {
-      return (
-        <div className='table-status-row'>
-          <div className='compliance-table-status table-status-icon'>
-            <Icon className={'table-status__compliant'} name={'icon--checkmark--glyph'} description='' />
-          </div>
-          <p>{msgs.get('policy.status.compliant', locale)}</p>
-        </div>
-      )
+      return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
     } else {
-      return (
-        <div className='table-status-row'>
-          <div className='compliance-table-status  table-status-icon'>
-            <Icon className={'table-status__not_compliant'} name={'icon--error--glyph'} description='' />
-          </div>
-          <p>
-            {msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)}
-          </p>
-        </div>
-      )
+      return <StatusField status='critical' text={msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)} />
     }
-    // return msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)
   }
   return '-'
 }

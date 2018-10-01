@@ -11,7 +11,7 @@ import React from 'react'
 import lodash from 'lodash'
 import msgs from '../../nls/platform.properties'
 import resources from '../../lib/shared/resources'
-import { Icon } from 'carbon-components-react'
+import StatusField from '../components/common/StatusField'
 
 resources(() => {
   require('../../scss/table.scss')
@@ -80,34 +80,24 @@ export function getLabels(item) {
 }
 
 export function getStatusIcon(item, locale) {
-  let iconName
-  let className
+  let text
   switch (item.status) {
   case 'ok':
-    iconName = 'icon--checkmark--glyph'
-    className = 'healthy'
+    text = 'healthy'
     break
   case 'warning':
-    iconName = 'icon--warning--glyph'
-    className = 'warning'
+    text = 'warning'
     break
   case 'failed':
   case 'critical':
-    iconName = 'icon--error--glyph'
-    className = 'critical'
+    text = 'critical'
     break
   case 'unknown':
-    className = 'unknown'
+  default :
+    text = 'unknown'
     break
   }
-  return (
-    <div className='table-status-row'>
-      <div className='table-status-icon'>
-        {iconName && <Icon className={`table-status-icon__${className}`} name={iconName} description='' /> }
-      </div>
-      <p>{msgs.get(`table.cell.${className}`, locale)}</p>
-    </div>
-  )
+  return <StatusField status={item.status} text={msgs.get(`table.cell.${text}`, locale)} />
 }
 
 // following functions return the percent of storage/memory used on each cluster

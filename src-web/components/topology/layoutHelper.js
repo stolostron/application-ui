@@ -304,17 +304,7 @@ export default class LayoutHelper {
               }
             })
           }
-          const edges = connect.edges = Object.values(edgeMap)
-
-          // mark edges that are parellel so we offset them when drawing
-          edges.forEach(({source, target})=>{
-            edges.forEach(other=>{
-              const {source:tgt, target:src} = other
-              if (source===src && target===tgt) {
-                other.layout.isParallel = true
-              }
-            })
-          })
+          connect.edges = Object.values(edgeMap)
         })
       }
     })
@@ -372,40 +362,15 @@ export default class LayoutHelper {
       if (sources[target]) sources[target].push(source)
     })
 
-    // see if there are any cycles
-    let hasCycle = false
-    const visited = {}
-    const recursion = {}
+    // a hub has 3 or more inputs and no outputs
     const nodes = Object.keys(targets)
-    for (let i=0; i<nodes.length && !hasCycle; i++) {
-
+    for (let i=0; i<nodes.length; i++) {
       const id = nodes[i]
-      if (sources[id].length > 4) {
-        nodeMap[id].layout.isHub = true
+      if (sources[id].length >= 3) {
+        nodeMap[id].layout.isHub = sources[id].length
         hubs++
       }
-
-      hasCycle = this.hasCycle(id, targets, visited, recursion)
     }
-    if (hasCycle) return hubs
-
-    // see if there are any leaves with more then 1 inbound connection
-    const leaves = []
-    nodes.forEach(id=>{
-      if (targets[id].length===0) {
-        leaves.push(id)
-      }
-    })
-    if (leaves.length<=1) return hubs
-
-
-    // if more then one, do any have more then one inbound??
-    leaves.forEach(id=>{
-      if (sources[id].length>1) {
-        nodeMap[id].layout.isHub = true
-        hubs++
-      }
-    })
     return hubs
   }
 
@@ -505,7 +470,7 @@ export default class LayoutHelper {
             uidArr.push(node.layout.uid)
           })
           edges.forEach(edge=>{
-            const {layout} = edge
+            const {layout, uid} = edge
             elements.edges.push({
               data: {
                 source: layout.source.uid,
@@ -513,6 +478,7 @@ export default class LayoutHelper {
                 edge
               }
             })
+            uidArr.push(uid)
           })
 
           elements.nodes.sort((a, b)=>{
@@ -530,7 +496,8 @@ export default class LayoutHelper {
             type,
             title: type,
             elements: cy.add(elements),
-            hashCode: this.hashCode(uidArr.sort().join())
+            hashCode: this.hashCode(uidArr.sort().join()),
+            edges
           })
         })
 
@@ -616,7 +583,10 @@ export default class LayoutHelper {
     }
     // if there are less nodes in this group we have room to stretch out the nodes
     const len = nodes.length
-    const stretch = len<=10 ? 1.3 : (len<=15 ? 1.2 : (len<=20? 1.1: 1))
+    const grpStretch = len<=10 ? 1.3 : (len<=15 ? 1.2 : (len<=20? 1.1: 1))
+    const hubStretch = (isHub) => {
+      return (isHub ? (len<=15 ? 1.1 : (len<=20? 1.4: 1.5)) : 1)
+    }
     return {
       name: 'cola',
       animate: false,
@@ -626,9 +596,16 @@ export default class LayoutHelper {
         w: 1000,
         h: 1000
       },
+      // running in headless mode, we need to provide node size here
+      // give hubs more space
       nodeSpacing: (node)=>{
-        const {node:{layout:{scale=1}}} = node.data()
-        return (NODE_SIZE*stretch*scale)  // running in headless mode, we need to provide node size here
+        const {node:{layout:{scale=1, isHub}}} = node.data()
+        return (NODE_SIZE*scale*grpStretch*hubStretch(isHub))
+      },
+      // align hubs along y axis
+      alignment: (node)=>{
+        const {node:{layout:{isHub}}} = node.data()
+        return isHub>=6 ? { y: 0 } : null
       },
       unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
       userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
@@ -760,7 +737,7 @@ export default class LayoutHelper {
 
     // cache layouts
     const clayouts = []
-    collections.forEach(({elements, hashCode, type, hubs, options:{name} })=>{
+    collections.forEach(({elements, edges, hashCode, type, hubs, options:{name} })=>{
       // cache node positions
       let newLayout = false
       let clayout = this.cachedLayouts[hashCode]
@@ -785,11 +762,11 @@ export default class LayoutHelper {
             })
           }
         })
-      }
 
-      // layout and cache edge paths
-      clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), this.selfLinks, this.cachedAdapters[hashCode])
-      delete this.cachedAdapters[hashCode] //can only use once after a cytoscape layout
+        // layout and cache edge paths
+        clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), edges, this.selfLinks, this.cachedAdapters[hashCode])
+        delete this.cachedAdapters[hashCode] //can only use once after a cytoscape layout
+      }
 
       clayouts.push(this.cachedLayouts[hashCode])
     })
@@ -926,27 +903,6 @@ export default class LayoutHelper {
     const width = totalMaxWidth + xMargin*2
     const height = totalHeight + yMargin*4
     return {layoutMap, selfLinks: this.selfLinks, layoutBBox: { x:0, y:0, width, height}}
-  }
-
-  hasCycle = (node, neighbors, visited, recursion) => {
-    // nodes that are cloned are never in a cycle because any group that wants one gets one
-    if (!this.clonedIdSet.has(node)) {
-      if (!visited[node]) {
-        visited[node] = true
-        recursion[node] = true
-        const related = neighbors[node]
-        for (let i=0; i<related.length; i++) {
-          const n = related[i]
-          if (!visited[n] && this.hasCycle(n, neighbors, visited, recursion)) {
-            return true
-          } else if (recursion[n]) {
-            return true
-          }
-        }
-      }
-      recursion[node] = false
-    }
-    return false
   }
 
   layoutLabel = (name) => {

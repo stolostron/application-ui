@@ -176,8 +176,8 @@ export default class LinkHelper {
           'startOffset': isParallel||isLoop ? '50%' : (isSwapped?'66%':'33%')
         }
       })
-      .style('opacity', ({layout}) => {
-        return layout.hidden ? 0.0 : 1.0
+      .style('opacity', () => {
+        return 1.0 //layout.hidden ? 0.0 : 1.0
       })
   }
 }
@@ -254,17 +254,17 @@ export const setDraggedLineData = (layout) => {
   })
 }
 
-export const layoutEdges = (newLayout, nodes, edges, selfLinks, adapter) => {
+// do parallel, avoidance, self link layouts
+export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter) => {
   const laidoutEdges = []
   let nodeMap = null
-  if (edges.length>0) {
+  if (cyEdges.length>0) {
     let preparedColaRouting = false
     nodeMap = _.keyBy(nodes, 'layout.uid')
-    edges.forEach(edge=>{
+    cyEdges.forEach(edge=>{
       const {edge: {layout, uid}} = edge.data()
 
       // set path data on new edges
-      // parallel -- two line between same nodes--we just put "both" as the label on the line
       // avoidance -- curve around nodes -- we use webcola's line router
       // else just a straight line
       if (!layout.lineData || newLayout) {
@@ -311,6 +311,18 @@ export const layoutEdges = (newLayout, nodes, edges, selfLinks, adapter) => {
       laidoutEdges.push({
         layout,
         uid
+      })
+    })
+
+    // parallel -- two line between same nodes--we just put "both" as the label on the line
+    // mark edges that are parellel so we offset them when drawing
+    edges.forEach(({source, target})=>{
+      edges.forEach(other=>{
+        const {source:tgt, target:src, layout} = other
+        if (source===src && target===tgt) {
+          layout.isParallel = true
+          layout.isSwapped = false
+        }
       })
     })
   }

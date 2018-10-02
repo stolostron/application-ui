@@ -22,7 +22,9 @@ const ReactDOMServer = require('react-dom/server'),
       Provider = require('react-redux').Provider,
       router = express.Router({ mergeParams: true }),
       lodash = require('lodash'),
-      request = require('../../lib/server/request')
+      request = require('../../lib/server/request'),
+      serviceDiscovery = require('../../lib/server/service-discovery'),
+      constants = require('../../lib/shared/constants')
 
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
@@ -55,125 +57,152 @@ router.get('*', (req, res) => {
 
 function fetchHeader(req, res, store, context) {
   var options = {
-    method: 'POST',
-    url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header`,
-    json: true,
+    url: `${config.get('cfcRouterUrl')}/idmgmt/identity/api/v1/users/${req.user}/getHighestRole`,
     headers: {
-      Cookie: createCookie(req)
-    },
-    body: {
-      logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
-      navItems: [
-        {
-          id: 'overview',
-          label: msgs.get('routes.overview', req),
-          url: `${config.get('contextPath')}/overview`,
-        },
-        {
-          id: 'clusters',
-          label: msgs.get('routes.clusters', req),
-          url: `${config.get('contextPath')}/clusters`,
-        },
-        {
-          id: 'policies',
-          label: msgs.get('routes.policies', req),
-          url: `${config.get('contextPath')}/policies`,
-        },
-        {
-          id: 'applications',
-          label: msgs.get('routes.applications', req),
-          url: `${config.get('contextPath')}/applications`,
-        },
-        {
-          id: 'releases',
-          label: msgs.get('routes.releases', req),
-          url: `${config.get('contextPath')}/releases`,
-        },
-        {
-          id: 'pods',
-          label: msgs.get('routes.pods', req),
-          url: `${config.get('contextPath')}/pods`,
-        },
-        {
-          id: 'nodes',
-          label: msgs.get('routes.nodes', req),
-          url: `${config.get('contextPath')}/nodes`,
-        },
-        {
-          id: 'storage',
-          label: msgs.get('routes.storage', req),
-          url: `${config.get('contextPath')}/storage`,
-        },
-        {
-          id: 'topology',
-          label: msgs.get('routes.topology', req),
-          url: `${config.get('contextPath')}/topology`,
-        },
-        {
-          id: 'events',
-          label: msgs.get('routes.events', req),
-          url: `${config.get('contextPath')}/events`,
-        },
-        {
-          id: 'manage',
-          label: msgs.get('routes.manage', req),
-          subItems: [
-            {
-              id: 'security',
-              label: msgs.get('routes.identity-access', req),
-              url: '/console/manage/identity-access',
-            },
-            {
-              id: 'icp',
-              label: msgs.get('routes.icp', req),
-              url: '/console/dashboard',
-            },
-          ]
-        },
-        {
-          id: 'welcome',
-          label: msgs.get('routes.getting-started', req),
-          url: `${config.get('contextPath')}/welcome`,
-        }
-      ]
+      Authorization: `bearer ${cookieUtil.getAccessToken(req)}`
     }
   }
-  request(options, null, [200], (err, headerRes) => {
+  request(options, null, [200], (err, roleRes) => {
     if (err) {
       return res.status(500).send(err)
     }
-
-    const { headerHtml: header, props: propsH, state: stateH, files: filesH } = headerRes.body
+    const userRole = roleRes.body && roleRes.body.replace(/['"]+/g, '')
     role = role === undefined ? require('../../src-web/actions/role') : role
-    store.dispatch(role.roleReceiveSuccess(stateH.role.role))
-
-    uiConfig = uiConfig === undefined ? require('../../src-web/actions/uiconfig') : uiConfig
-    store.dispatch(uiConfig.uiConfigReceiveSucess(stateH.uiconfig.uiConfiguration))
-
-    if(process.env.NODE_ENV === 'development') {
-      lodash.forOwn(filesH, value => {
-        value.path = `${config.get('contextPath')}/api/proxy${value.path}` //preprend with proxy route
-      })
+    store.dispatch(role.roleReceiveSuccess(userRole))
+    var options = {
+      method: 'POST',
+      url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header`,
+      json: true,
+      headers: {
+        Cookie: createCookie(req)
+      },
+      body: {
+        logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
+        navItems: [
+          {
+            id: 'overview',
+            label: msgs.get('routes.overview', req),
+            url: `${config.get('contextPath')}/overview`,
+            disabled: isLowerThanOperator(userRole)
+          },
+          {
+            id: 'clusters',
+            label: msgs.get('routes.clusters', req),
+            url: `${config.get('contextPath')}/clusters`,
+            disabled: isLowerThanOperator(userRole)
+          },
+          {
+            id: 'policies',
+            label: msgs.get('routes.policies', req),
+            url: `${config.get('contextPath')}/policies`,
+            disabled: isNotClusterAdmin(userRole)
+          },
+          {
+            id: 'applications',
+            label: msgs.get('routes.applications', req),
+            url: `${config.get('contextPath')}/applications`,
+            disabled: isLowerThanOperator(userRole)
+          },
+          {
+            id: 'releases',
+            label: msgs.get('routes.releases', req),
+            url: `${config.get('contextPath')}/releases`,
+            disabled: isLowerThanOperator(userRole)
+          },
+          {
+            id: 'pods',
+            label: msgs.get('routes.pods', req),
+            url: `${config.get('contextPath')}/pods`,
+            disabled: isLowerThanOperator(userRole)
+          },
+          {
+            id: 'nodes',
+            label: msgs.get('routes.nodes', req),
+            url: `${config.get('contextPath')}/nodes`,
+            disabled: isLowerThanAdmin(userRole)
+          },
+          {
+            id: 'storage',
+            label: msgs.get('routes.storage', req),
+            url: `${config.get('contextPath')}/storage`,
+            disabled: isLowerThanAdmin(userRole)
+          },
+          {
+            id: 'topology',
+            label: msgs.get('routes.topology', req),
+            url: `${config.get('contextPath')}/topology`,
+            disabled: isLowerThanOperator(userRole)
+          },
+          {
+            id: 'events',
+            label: msgs.get('routes.events', req),
+            url: `${config.get('contextPath')}/events`,
+            disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem')
+          },
+          {
+            id: 'manage',
+            label: msgs.get('routes.manage', req),
+            subItems: [
+              {
+                id: 'security',
+                label: msgs.get('routes.identity-access', req),
+                url: '/console/manage/identity-access',
+                disabled: isNotClusterAdmin(userRole)
+              },
+              {
+                id: 'icp',
+                label: msgs.get('routes.icp', req),
+                url: '/console/dashboard',
+                disabled: isNotClusterAdmin(userRole)
+              },
+            ]
+          },
+          {
+            id: 'welcome',
+            label: msgs.get('routes.getting-started', req),
+            url: `${config.get('contextPath')}/welcome`,
+            disabled: isLowerThanOperator(userRole)
+          }
+        ]
+      }
     }
-    res.render('main', Object.assign({
-      manifest: appUtil.app().locals.manifest,
-      content: ReactDOMServer.renderToString(
-        <Provider store={store}>
-          <StaticRouter
-            location={req.originalUrl}
-            context={context}>
-            <App />
-          </StaticRouter>
-        </Provider>
-      ),
-      contextPath: config.get('contextPath'),
-      state: store.getState(),
-      props: context,
-      header: header,
-      propsH: propsH,
-      stateH: stateH,
-      filesH: filesH
-    }, context))
+    request(options, null, [200], (err, headerRes) => {
+      if (err) {
+        return res.status(500).send(err)
+      }
+
+      const { headerHtml: header, props: propsH, state: stateH, files: filesH } = headerRes.body
+      // role = role === undefined ? require('../../src-web/actions/role') : role
+      // store.dispatch(role.roleReceiveSuccess(stateH.role.role))
+
+      uiConfig = uiConfig === undefined ? require('../../src-web/actions/uiconfig') : uiConfig
+      store.dispatch(uiConfig.uiConfigReceiveSucess(stateH.uiconfig.uiConfiguration))
+
+      if(process.env.NODE_ENV === 'development') {
+        lodash.forOwn(filesH, value => {
+          value.path = `${config.get('contextPath')}/api/proxy${value.path}` //preprend with proxy route
+        })
+      }
+      res.render('main', Object.assign({
+        manifest: appUtil.app().locals.manifest,
+        content: ReactDOMServer.renderToString(
+          <Provider store={store}>
+            <StaticRouter
+              location={req.originalUrl}
+              context={context}>
+              <App />
+            </StaticRouter>
+          </Provider>
+        ),
+        contextPath: config.get('contextPath'),
+        state: store.getState(),
+        props: context,
+        header: header,
+        propsH: propsH,
+        stateH: stateH,
+        filesH: filesH
+      }, context))
+    })
   })
 }
 
@@ -190,6 +219,18 @@ function getContext(req) {
     title: msgs.get('common.app.name', req_context.locale),
     context: req_context
   }
+}
+
+function isLowerThanOperator(role) {
+  return role === constants.ROLES.VIEWER || role === constants.ROLES.EDITOR
+}
+
+function isLowerThanAdmin(role) {
+  return role !== constants.ROLES.CLUSTER_ADMIN && role !== constants.ROLES.ADMIN
+}
+
+function isNotClusterAdmin(role) {
+  return role !== constants.ROLES.CLUSTER_ADMIN
 }
 
 module.exports = router

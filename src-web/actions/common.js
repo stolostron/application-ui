@@ -128,6 +128,22 @@ export const fetchResource = (resourceType, namespace, name) => {
   }
 }
 
+export const updateResourceLabels = (resourceType, namespace, name, labels) => {
+  return (dispatch) => {
+    dispatch(putResource(resourceType))
+    return apolloClient.updateResourceLabels(resourceType.name, namespace, name, labels)
+      .then(response => {
+        if (response.errors) {
+          return dispatch(receivePutError(response.errors[0], resourceType))
+        }
+        dispatch(fetchResources(resourceType))
+        dispatch(updateModal({open: false, type: 'label-editing'}))
+        return dispatch(receivePutResource(resourceType))
+      })
+      .catch(err => dispatch(receivePutError(err, resourceType)))
+  }
+}
+
 export const removeResource = (resourceType, vars) => async dispatch => {
   dispatch(delResource(resourceType))
   try {

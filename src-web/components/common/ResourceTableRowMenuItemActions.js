@@ -45,6 +45,13 @@ export const resourceActions = (action, dispatch, resourceType, data, hasService
     history.push(`${config.contextPath}/pods?filters={"cluster":["${data.metadata.name}"]}`)
     return
   }
+  case 'table.actions.cluster.edit.labels': {
+    const _data = { ...data }
+    return dispatch(updateModal(
+      { open: true, type: 'label-editing', action: 'put', resourceType,
+        label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
+        data: { apiVersion: resourceType.api_version, resourceType: resourceType.name, ..._data }}))
+  }
   default:
 
   }

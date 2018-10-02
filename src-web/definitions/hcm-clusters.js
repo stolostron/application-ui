@@ -58,10 +58,16 @@ export default {
       resourceKey: 'totalMemory',
       transformFunction: getMemory
     },
+    {
+      msgKey: 'table.header.cpu',
+      resourceKey: 'totalCPU',
+      transformFunction: getCPU
+    },
   ],
   tableActions: [
     'table.actions.cluster.view.nodes',
     'table.actions.cluster.view.pods',
+    'table.actions.cluster.edit.labels',
   ],
 }
 
@@ -107,4 +113,8 @@ export function getStorage(item) {
 
 export function getMemory(item) {
   return `${item.totalMemory}%`
+}
+
+export function getCPU(item) {
+  return `${item.totalCPU}%`
 }

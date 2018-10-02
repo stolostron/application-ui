@@ -11,11 +11,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import loadable from 'loadable-components'
+// import LabelEditingModal from '../modals/LabelEditingModal'
 
 let RemoveResourceModal
+let LabelEditingModal
 
 const Modal = ({ type, open, ...rest }) => {
   switch (type) {
+  case 'label-editing':
+    return open && getLabelEditingModal({ type, open, ...rest })
   case 'resource-remove':
     return open && getRemoveResourceModal({ type, open, ...rest })
   default:
@@ -28,6 +32,10 @@ const getRemoveResourceModal = props => {
   return getModal(RemoveResourceModal, props)
 }
 
+const getLabelEditingModal = props => {
+  LabelEditingModal = LabelEditingModal === undefined ? loadable(() => import(/* webpackChunkName: "label-editing-modal"" */ '../modals/LabelEditingModal')) : LabelEditingModal
+  return getModal(LabelEditingModal, props)
+}
 
 const getModal = (Component, props) => <Component {...props} />
 

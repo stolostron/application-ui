@@ -45,7 +45,7 @@ export const modal = (state = {}, action) => {
     if (action.err && action.err.error) {
       message = action.err.error.message
     } else {
-      message = action.err[0].message
+      message = action.err.message || action.err[0].message
     }
     return Object.assign({}, state, {
       reqCount: state.reqCount > 0 ? state.reqCount - 1 : 0,

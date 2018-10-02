@@ -39,6 +39,7 @@
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-link-http": "^1.5.4",
+    "async": "^2.1.5",
     "babel-jest": "^23.4.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-transform-class-properties": "^6.24.1",

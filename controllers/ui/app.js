@@ -78,6 +78,9 @@ function fetchHeader(req, res, store, context) {
       },
       body: {
         logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
+        about: {
+          logoUrl: `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
+        },
         navItems: [
           {
             id: 'overview',
@@ -136,7 +139,7 @@ function fetchHeader(req, res, store, context) {
           {
             id: 'events',
             label: msgs.get('routes.events', req),
-            url: `${config.get('contextPath')}/events`,
+            url: '/cemui',
             disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem')
           },
           {

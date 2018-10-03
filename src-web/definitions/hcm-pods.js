@@ -11,6 +11,7 @@ import lodash from 'lodash'
 import React from 'react'
 import TruncateText from '../components/common/TruncateText'
 import msgs from '../../nls/platform.properties'
+import { getClusterLink } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -22,22 +23,28 @@ export default {
       transformFunction: getTruncatedText,
     },
     {
-      msgKey: 'table.header.labels',
-      resourceKey: 'metadata.labels',
-      transformFunction: getLabels
-    },
-    {
-      msgKey: 'table.header.status',
-      resourceKey: 'status',
-      transformFunction: getStatus
-    },
-    {
       msgKey: 'table.header.namespace',
       resourceKey: 'metadata.namespace',
     },
     {
       msgKey: 'table.header.cluster',
-      resourceKey: 'cluster',
+      resourceKey: 'cluster.metadata.name',
+      transformFunction: getClusterLink,
+    },
+    {
+      msgKey: 'table.header.labels',
+      resourceKey: 'metadata.labels',
+      transformFunction: getLabels
+    },
+    {
+      msgKey: 'table.header.images',
+      resourceKey: 'images',
+      transformFunction: getListWithTruncatedValues,
+    },
+    {
+      msgKey: 'table.header.status',
+      resourceKey: 'status',
+      transformFunction: getStatus
     },
     {
       msgKey: 'table.header.hostIP',
@@ -52,6 +59,13 @@ export default {
 
 export function getTruncatedText(item){
   return <TruncateText text={item.metadata.name} />
+}
+
+export function getListWithTruncatedValues(item) {
+  return item.images ?
+    <ul>{item.images.map(image => (<li key={image}><TruncateText text={image} /></li>))}</ul>
+    :
+    '-'
 }
 
 export function getLabels(item) {

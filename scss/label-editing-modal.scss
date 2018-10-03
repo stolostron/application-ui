@@ -17,27 +17,32 @@
     padding-bottom: 1rem;
   }
 
-  .field-row {
-    margin: 0.4rem;
-    border-bottom: 1px solid $color__gray-1;
-    padding-bottom: 0.4rem;
-    p {
-      display: inline;
-    }
-    .secondary-text-field {
-      font-size: 0.75rem;
-      float: right;
-      margin-right: 2rem;
-      padding: 0.2rem;
-      font-weight: bold;
-    }
-    svg {
-      min-width: 4.25rem;
-      right: 2rem;
-      float: right;
-      position: absolute;
-      fill: $color__navy-gray-7;
-      margin-top: 0.2rem;
+  .modal-table-content {
+    max-height: 25rem;
+    overflow-y: auto;
+
+    .field-row {
+      margin: 0.4rem;
+      border-bottom: 1px solid $color__gray-1;
+      padding-bottom: 0.4rem;
+      p {
+        display: inline;
+      }
+      div {
+        float: right;
+        .secondary-text-field {
+          font-size: 0.75rem;
+          padding: 0.2rem;
+          font-weight: bold;
+          vertical-align: bottom;
+        }
+        svg {
+          min-width: 1.3rem;
+          right: 2rem;
+          fill: $color__navy-gray-7;
+          margin-top: 0.2rem;
+        }
+      }
     }
   }
 
@@ -48,14 +53,53 @@
       font-size: 0.75rem;
     }
 
-    div {
+    .text-input-container {
+
+      .text-input-box-container {
+        position: relative;
+      }
+
       div {
         display: inline-block;
-
         div {
-          display: inline-block;
-          input {
-            height: 2rem;
+          z-index: 100;
+          div {
+            input {
+              height: 2rem;
+              font-family: "ibm-plex-sans", Helvetica Neue, Arial, sans-serif;
+              font-size: 0.875rem;
+              display: block;
+              width: 100%;
+              min-width: 10rem;
+              padding: 0 1rem;
+              color: $color__blue-90;
+              background-color: rgba(61, 112, 178, 0.1);
+              border: 1px solid transparent;
+            }
+          }
+          .text-input-container-list-box__menu {
+            z-index: 200;
+            background: $color__white;
+            position: absolute;
+            width: 100%;
+            box-shadow: 0 3px 3px 0 $color__navy-gray-8;
+            display: block;
+            .text-input-container__menu-item {
+              display: flex;
+              align-items: center;
+              height: 2.5rem;
+              padding: 0 1rem;
+              cursor: pointer;
+              user-select: none;
+
+              &:hover,
+              &--highlighted {
+                outline: 1px solid transparent;
+                text-decoration: underline;
+                color: $color__blue-90;
+                background-color: rgba(61, 112, 178, 0.1);
+              }
+            }
           }
         }
 

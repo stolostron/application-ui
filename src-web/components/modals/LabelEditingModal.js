@@ -32,7 +32,9 @@ class LabelEditingModal extends React.Component {
     this.state = {
       labels: [],
       newLabel: {},
-      searchValue:''
+      searchValue:'',
+      onEditValue: {},
+      onEdit: false,
     }
   }
 
@@ -70,31 +72,57 @@ class LabelEditingModal extends React.Component {
     })
   }
 
-  onAdd = () => {
-    if (this.state.newLabel) {
-      this.setState(preState => {
-        const existingLabels = [...preState.labels]
-        if (preState.newLabel.key && preState.newLabel.value) {
-          // check if target already exists in the state
-          const labelIndex = existingLabels.findIndex(item => item.key === preState.newLabel.key)
-          // label exists then update existing one
-          if (labelIndex > -1) {
-            if (existingLabels[labelIndex].formServer) {
-              existingLabels[labelIndex] = {...existingLabels[labelIndex],
-                updated: true,
-                value: preState.newLabel.value
-              }
-            } else {
-              existingLabels[labelIndex] = {...existingLabels[labelIndex],
-                value: preState.newLabel.value
+  onAdd = update => () => {
+    if (update) {
+      if (this.state.onEditValue) {
+        this.setState(preState => {
+          const existingLabels = [...preState.labels]
+          if (preState.onEditValue.key && preState.onEditValue.value) {
+            const labelIndex = existingLabels.findIndex(item => item.key === preState.onEditValue.key)
+            if (labelIndex > -1) {
+              if (existingLabels[labelIndex].formServer) {
+                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                  updated: true,
+                  editable: false,
+                  value: preState.onEditValue.value
+                }
+              } else {
+                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                  value: preState.onEditValue.value,
+                  editable: false
+                }
               }
             }
-          } else {
-            existingLabels.push({key: preState.newLabel.key, value: preState.newLabel.value})
+            return { labels: existingLabels, onEdit: false, onEditValue: {}}
           }
-          return { labels: existingLabels, newLabel: {} }
-        }
-      })
+        })
+      }
+    } else {
+      if (this.state.newLabel) {
+        this.setState(preState => {
+          const existingLabels = [...preState.labels]
+          if (preState.newLabel.key && preState.newLabel.value) {
+            // check if target already exists in the state
+            const labelIndex = existingLabels.findIndex(item => item.key === preState.newLabel.key)
+            // label exists then update existing one
+            if (labelIndex > -1) {
+              if (existingLabels[labelIndex].formServer) {
+                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                  updated: true,
+                  value: preState.newLabel.value
+                }
+              } else {
+                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                  value: preState.newLabel.value,
+                }
+              }
+            } else {
+              existingLabels.push({key: preState.newLabel.key, value: preState.newLabel.value})
+            }
+            return { labels: existingLabels, newLabel: {}}
+          }
+        })
+      }
     }
   }
 
@@ -105,12 +133,44 @@ class LabelEditingModal extends React.Component {
     }
   }
 
-  onTextInputChange = type => e => {
+  onClickRow = key => {
+    if (key && this.state.onEdit === false) {
+      this.setState(preState => {
+        const existingLabels = [...preState.labels]
+        const labelIndex = existingLabels.findIndex(item => item.key === key)
+        // label exists then update existing one
+        if (labelIndex > -1) {
+          if (existingLabels[labelIndex]) {
+            existingLabels[labelIndex] = {...existingLabels[labelIndex],
+              editable: true,
+            }
+          }
+          return { labels: existingLabels, onEdit: true, onEditValue: existingLabels[labelIndex] }
+        }
+      })
+    }
+  }
+
+  onTextInputChange = (type, onEdit) => e => {
     if (e) {
       const nextValue = e.target.value
       this.setState(preState => {
         const newState= {...preState}
-        newState.newLabel[type] = nextValue
+        if (onEdit) {
+          newState.onEditValue[type] = nextValue
+        } else {
+          newState.newLabel[type] = nextValue
+        }
+        return newState
+      })
+    }
+  }
+
+  onTextInputSelect = (type) => value => {
+    if (value) {
+      this.setState(preState => {
+        const newState= {...preState}
+        newState.newLabel[type] = value
         return newState
       })
     }
@@ -154,6 +214,9 @@ class LabelEditingModal extends React.Component {
             onTextInputChange={this.onTextInputChange}
             handleSearch={this.handleSearch}
             searchValue={this.state.searchValue}
+            onEditValue={this.state.onEditValue}
+            onTextInputSelect={this.onTextInputSelect}
+            onClickRow={this.onClickRow}
           />
         </Modal>
       </div>

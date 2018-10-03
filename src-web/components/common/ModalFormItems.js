@@ -14,12 +14,18 @@ import { Icon } from 'carbon-components-react'
 import withMultiple from './ModalListItem'
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
-const Label = ({ id, item, onRemove }) =>
-  <div className='field-row'>
+const Label = ({ id, item, onRemove, onClickRow }) =>
+  <div tabIndex='0'
+    className='field-row'
+    onClick={onClickRow}
+    onKeyDown={e => e.persist && (e.which === 13) && onClickRow(item.key)}
+    role={'button'}>
     <p>{item.key}={item.value}</p>
-    {!item.formServer && <p className={'secondary-text-field'}>Added</p>}
-    {item.updated && <p className={'secondary-text-field'}>Updated</p>}
-    <RemoveIcon id={`labels-remove-${id}`} onRemove={onRemove} uniqueKey={item.key} />
+    <div>
+      {!item.formServer && <p className={'secondary-text-field'}>Added</p>}
+      {item.updated && <p className={'secondary-text-field'}>Updated</p>}
+      <RemoveIcon id={`labels-remove-${id}`} onRemove={onRemove} uniqueKey={item.key} />
+    </div>
   </div>
 
 const RemoveIcon = ({ id, onRemove, uniqueKey }, context) =>

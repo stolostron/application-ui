@@ -53,8 +53,8 @@ const withMultiple = (Component, newInstance) => {
                   getItemValue={(item) => item[instanceKey]}
                   items={items}
                   shouldItemRender={(item, value) => item[instanceKey].toLowerCase().indexOf(value.toLowerCase()) > -1}
-                  renderItem={(item) =>
-                    <div className={'text-input-container__menu-item'} key={`item-${instanceKey}-${item[instanceKey]}`}>
+                  renderItem={(item, isHighlighted) =>
+                    <div className={ isHighlighted ? 'text-input-container__menu-item text-input-container__menu-item--highlighted' : 'text-input-container__menu-item'} key={`item-${instanceKey}-${item[instanceKey]}`}>
                       {item[instanceKey]}
                     </div>
                   }

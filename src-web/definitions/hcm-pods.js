@@ -11,7 +11,7 @@ import lodash from 'lodash'
 import React from 'react'
 import TruncateText from '../components/common/TruncateText'
 import msgs from '../../nls/platform.properties'
-import { getClusterLink } from '../../lib/client/resource-helper'
+import { getAge, getClusterLink } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -53,6 +53,11 @@ export default {
     {
       msgKey: 'table.header.podIP',
       resourceKey: 'podIP',
+    },
+    {
+      msgKey: 'table.header.created',
+      resourceKey: 'metadata.creationTimestamp',
+      transformFunction: getAge,
     },
   ],
 }

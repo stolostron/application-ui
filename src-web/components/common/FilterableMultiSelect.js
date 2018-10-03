@@ -77,7 +77,7 @@ class FilterableMultiSelect extends React.Component {
     }
     // set id to title for testing
     return (
-      <div className='multi-select-filter' id={title}>
+      <div className='multi-select-filter' role='region' aria-label={title} id={title}>
         <div className='multi-select-filter-title'>
           {title}
         </div>

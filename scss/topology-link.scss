@@ -17,13 +17,17 @@ $linkColor: rgb(140,155,165);
       stroke-width: 1px;
       stroke-opacity: 0.5;
   }
-
-  .directionDecorator {
-      stroke: $linkColor;
-      fill: $linkColor;
-  }
 }
 
+.arrowDecorator {
+  stroke: none;
+  fill: $color__navy-gray-5;
+}
+
+.squareDecorator {
+  stroke: none;
+  fill: $linkColor;
+}
 
 .label {
   text {

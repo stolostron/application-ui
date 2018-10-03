@@ -59,6 +59,12 @@ export default class NodeHelper {
       .on('click', (d)=>{
         nodeClickHandler(d)
       })
+      // accessability--user presses enter key when node has focus
+      .on('keypress', (d) => {
+        if ( d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+          nodeClickHandler(d)
+        }
+      })
 
     // node hover
     this.createNodeShapes(nodes, 'shadow')
@@ -216,13 +222,19 @@ export default class NodeHelper {
     // move center circle
     nodes.selectAll('circle')
       .transition(transition)
-      .attr('cx', ({layout}) => { return layout.x })
-      .attr('cy', ({layout}) => { return layout.y })
+      .attrs(({layout}) => {
+        const {x, y} = layout
+        return {
+          'cx': x,
+          'cy': y
+        }
+      })
 
     // move labels
     this.svg.select('g.nodes').selectAll('g.nodeLabel')
       .each(({layout},i,ns)=>{
-        const {scale=1} = layout
+        const {x, y, textBBox, scale=1} = layout
+        const dy = (NODE_RADIUS*(scale===1?1:scale+.3))
         const nodeLabel = d3.select(ns[i])
         nodeLabel
           .selectAll('tspan')
@@ -235,15 +247,23 @@ export default class NodeHelper {
         nodeLabel.selectAll('text')
           .transition(transition)
           .style('opacity', 1)
-          .attr('x', () => {return layout.x})
-          .attr('y', () => {return layout.y + (NODE_RADIUS*scale)})
+          .attrs(() => {
+            return {
+              'x': x,
+              'y': y + dy
+            }
+          })
         nodeLabel.selectAll('rect')
           .transition(transition)
-          .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
-          .attr('y', () => {return layout.y + (NODE_RADIUS*scale) + 2})
+          .attrs(() => {
+            return {
+              'x': x - (textBBox.width/2),
+              'y': y + dy
+            }
+          })
         nodeLabel.selectAll('tspan')
           .transition(transition)
-          .attr('x', () => {return layout.x})
+          .attr('x', () => {return x})
       })
   }
 
@@ -308,6 +328,6 @@ export const counterZoomLabels = (svg, currentZoom) => {
       .style('font-size', fontSize-(s<=0.7 ? 4 : 0)+'px')
     svg
       .selectAll('tspan.opacity-zoom')
-      .style('opacity', (s<=0.7 ? 0 : 1))
+      .style('visibility', (s<=0.7 ? 'hidden' : 'visible'))
   }
 }

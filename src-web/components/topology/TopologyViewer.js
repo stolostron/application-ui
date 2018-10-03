@@ -15,7 +15,7 @@ import resources from '../../../lib/shared/resources'
 import config from '../../../lib/shared/config'
 import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
-import LinkHelper from './linkHelper'
+import LinkHelper, {appendLinkDefs} from './linkHelper'
 import NodeHelper, {counterZoomLabels} from './nodeHelper'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
@@ -245,7 +245,6 @@ class TopologyViewer extends React.Component {
     if (svg) {
       svg.select('g.nodes').selectAll('*').remove()
       svg.select('g.links').selectAll('*').remove()
-      svg.select('g.labels').selectAll('*').remove()
       svg.select('g.clusters').selectAll('*').remove()
     }
   }
@@ -259,16 +258,17 @@ class TopologyViewer extends React.Component {
       this.svg = d3.select('#'+this.getSvgId())
       this.svg.append('g').attr('class', 'clusters')
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
-      this.svg.append('g').attr('class', 'labels')  // same for link labels
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.getSvgSpace())
+      appendLinkDefs(this.svg)
     }
 
     // consolidate nodes/filter links/add layout data to each element
     const firstLayout = this.lastLayoutBBox===undefined
     const {nodes=[], links=[], hiddenLinks= new Set()} = this.state
-    this.layoutHelper.layout(nodes, links, hiddenLinks, firstLayout, (layoutResults)=>{
+    const breakWidth = 3000 //this.containerRef.getBoundingClientRect().width + 1000
+    this.layoutHelper.layout(nodes, links, hiddenLinks, firstLayout, breakWidth, (layoutResults)=>{
 
       const {laidoutNodes, selfLinks, layoutMap, layoutBBox} = layoutResults
       this.layoutBBox = layoutBBox
@@ -322,9 +322,6 @@ class TopologyViewer extends React.Component {
           svg.select('g.links').selectAll('g.link')
             .transition(transition)
             .attr('transform', d3.event.transform)
-          svg.select('g.labels').selectAll('g.label')
-            .transition(transition)
-            .attr('transform', d3.event.transform)
 
           // counter-zoom first line of labels
           counterZoomLabels(svg, currentZoom)
@@ -354,8 +351,9 @@ class TopologyViewer extends React.Component {
         if (root && root.node()) {
           const parent = root.node().parentElement
           const {width: fullWidth, height: fullHeight} = parent.getBoundingClientRect()
-          const scale = Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight))
-          this.getSvgSpace(200).translateTo(svg, width/2, height/2)
+          // don't allow scale to drop too far for accessability reasons
+          const scale = Math.max( 0.3, Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight)))
+          this.getSvgSpace(200).translateTo(svg, width/2, scale>0.3? height/2:fullHeight+300)
           this.getSvgSpace(200).scaleTo(svg, scale)
         }
       }

@@ -25,6 +25,7 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "host",
     "props": Object {
+      "aria-label": "test",
       "children": Array [
         <div
           className="multi-select-filter-title"
@@ -46,6 +47,7 @@ ShallowWrapper {
       ],
       "className": "multi-select-filter",
       "id": "test",
+      "role": "region",
     },
     "ref": null,
     "rendered": Array [
@@ -90,6 +92,7 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
+        "aria-label": "test",
         "children": Array [
           <div
             className="multi-select-filter-title"
@@ -111,6 +114,7 @@ ShallowWrapper {
         ],
         "className": "multi-select-filter",
         "id": "test",
+        "role": "region",
       },
       "ref": null,
       "rendered": Array [

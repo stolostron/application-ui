@@ -4407,6 +4407,7 @@ ReactWrapper {
         "y": 0,
       },
       "layoutHelper": LayoutHelper {
+        "breakWidth": 3000,
         "cachedAdapters": Object {},
         "cachedLayouts": Object {},
         "cloneNodes": [Function],
@@ -9158,6 +9159,7 @@ ReactWrapper {
           "y": 0,
         },
         "layoutHelper": LayoutHelper {
+          "breakWidth": 3000,
           "cachedAdapters": Object {},
           "cachedLayouts": Object {},
           "cloneNodes": [Function],

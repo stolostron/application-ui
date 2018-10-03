@@ -39,8 +39,9 @@ export default class LayoutHelper {
     this.destroyed = true
   }
 
-  layout = (nodes, links, hiddenLinks, firstLayout, cb) => {
+  layout = (nodes, links, hiddenLinks, firstLayout, breakWidth, cb) => {
     this.firstLayout = firstLayout
+    this.breakWidth = breakWidth
 
     // sort out nodes that can appear everywhere
     this.nodesToBeCloned = {}
@@ -563,7 +564,7 @@ export default class LayoutHelper {
   }
 
   getConnectedLayoutOptions = ({elements}, numOfSections) => {
-    const isDAG = elements.nodes().length===2
+    const isDAG = elements.nodes().length<=6
     if (isDAG) {
       return this.getDagreLayoutOptions(elements, numOfSections)
     } else {
@@ -613,14 +614,10 @@ export default class LayoutHelper {
     }
   }
 
-  getDagreLayoutOptions = (elements) => {
-    const nodes = elements.nodes()
-    // max degree returns the maximum number of edges to any node in the collection
-    // if lots for one node, make the collecion wider (top to bottom)
-    const ttb = nodes.length < 9 || nodes.maxDegree() > 4
+  getDagreLayoutOptions = () => {
     return {
       name: 'dagre',
-      rankDir: ttb ? 'TB' : 'LR',
+      rankDir: 'LR',
       rankSep: NODE_SIZE*3, // running in headless mode, we need to provide node size here
       nodeSep: NODE_SIZE*2, // running in headless mode, we need to provide node size here
     }
@@ -729,7 +726,6 @@ export default class LayoutHelper {
     const yMargin = NODE_SIZE
     const xSpacer = NODE_SIZE*3
     const ySpacer = NODE_SIZE*2
-    const breakWidth = 3000
     let currentX = xMargin
     let currentY = yMargin
     const rowDims = []
@@ -773,49 +769,62 @@ export default class LayoutHelper {
 
 
     // sort layouts so they appear at the same spots in diagram
-    clayouts.sort(({nodes:ae, hashCode:ac, type:at, name:an, hubs:ah},
-      {nodes:be, hashCode:bc, type:bt, name:bn, hubs:bh}) => {
+    clayouts.sort(({nodes:ae, hashCode:ac, type:at, name:an},
+      {nodes:be, hashCode:bc, type:bt, name:bn}) => {
       // grids at end
       if (an!=='grid' && bn==='grid') {
         return -1
       } else if (an==='grid' && bn!=='grid') {
         return 1
       } else {
-        // types together
+
         const ax = this.topologyOrder.indexOf(at)
         const bx = this.topologyOrder.indexOf(bt)
+        const az = ae.length
+        const bz = be.length
+        if (az>10 && bz>10) {
+          if (ax-bx !==0) {
+            return ax-bx
+          }
+          if (az-bz !==0 ) {
+            return az-bz
+          }
+        }
+        // size ascending
+        if (az-bz !==0 ) {
+          return bz-az
+        }
+
+        // types together
         if (ax-bx !==0) {
           return ax-bx
         }
 
-        // hubs ascending
-        if (ah-bh!==0) {
-          return ah-bh
-        }
-
-        // size ascending
-        const az = ae.length
-        const bz = be.length
-        if (az-bz !==0 ) {
-          return az-bz
-        }
       }
       // all else fails use hash code
       return ac-bc
     })
 
     // determine rows
-    clayouts.forEach(({bbox}, idx, array)=>{
+    const idxToRowMap = {}
+    clayouts.forEach(({bbox, name}, idx)=>{
       const {w, h} = bbox
       bboxArr.push(bbox)
+      idxToRowMap[idx] = rowDims.length
       cells++
+      const lastLayout = idx === clayouts.length - 1
 
       // keep track of the dimensions
       maxWidth = Math.max(currentX+w, maxWidth)
       totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
       currentX += w + xMargin
       maxHeight = Math.max(h, maxHeight)
-      if (currentX>breakWidth || idx === array.length - 1) {
+
+      const nextName = !lastLayout ? clayouts[idx+1].name : 'last'
+      if (currentX>this.breakWidth || // greater then screen width
+          (clayouts.length>5 && name!=='grid' && nextName==='grid') ||
+          lastLayout
+      ) {
         rowDims.push({rowWidth: maxWidth, rowHeight: maxHeight, cells})
         totalHeight+=maxHeight
         maxHeight=maxWidth=cells=0
@@ -831,8 +840,17 @@ export default class LayoutHelper {
     const layoutMap = {}
     let xSpcr = xSpacer
     clayouts.forEach(({nodes, edges, name}, idx)=>{
-      //const {elements, options:{name}, layout:{adaptor}} = collection
+      // this collection's bounding box
       const {x1, y1, w, h} = bboxArr[idx]
+
+      // figure out our row
+      if (idxToRowMap[idx]>row) {
+        const {rowHeight} = rowDims[row]
+        row = idxToRowMap[idx]
+        currentY += rowHeight + ySpacer
+        currentX = xMargin
+        cell = 1
+      }
       const {rowWidth, rowHeight, cells} = rowDims[row]
 
       // center cells in their rows and evenly space
@@ -851,11 +869,17 @@ export default class LayoutHelper {
           break
         default:
           spacer/=cells
-          dxCell = spacer*cell - spacer
+          if (spacer<xSpacer*2) {
+            dxCell = spacer*cell - spacer
+          } else {
+            xSpcr=xSpacer*2
+            spacer = (totalMaxWidth-rowWidth-xSpcr)/2
+            dxCell = spacer
+          }
           break
         }
       }
-      const dyCell = name==='grid'?0:(rowHeight-h)/2
+      const dyCell = name==='grid'?NODE_SIZE:(rowHeight-h)/2
 
       // set all node positions
       const center = {x:currentX+dxCell+(w/2), y:currentY+dyCell+(h/2)}
@@ -878,6 +902,7 @@ export default class LayoutHelper {
         }
       })
 
+      // set edge centers
       edges.forEach(edge=>{
         const {layout, uid} = edge
         layout.center = center
@@ -893,12 +918,6 @@ export default class LayoutHelper {
 
       currentX += w + xSpcr
       cell++
-      if (currentX>breakWidth) {
-        currentY += rowHeight + ySpacer
-        currentX = xMargin
-        cell = 1
-        row++
-      }
     })
     const width = totalMaxWidth + xMargin*2
     const height = totalHeight + yMargin*4

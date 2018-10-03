@@ -34,10 +34,6 @@ export default class LinkHelper {
   /**
    * Removes links from the diagram.
    *
-   * TODO: Currently it removes all the links, but we should only remove stale
-   * old links. We can do that adding a uid to every link. For a sample
-   * implementation see removeOldNodesFromDiagram().
-   *
    */
   removeOldLinksFromDiagram = () => {
     // filtered list is of the links that still exist
@@ -80,50 +76,12 @@ export default class LinkHelper {
       .attrs(({layout, uid}) => {
         return {
           d: lineFunction([layout.center,layout.center]),
-          id: `link-${uid}`
+          id: `link-${uid}`,
+          'marker-start': 'url(#squarehead)',
+          'marker-end': 'url(#arrowhead)'
         }
       })
       .style('opacity', 0.0)
-
-    // arrow
-    links.append('polygon')
-      .attr('class', 'directionDecorator')
-      .attr('points', ({layout}) => {
-        const radius = NODE_RADIUS + (layout.target && layout.target.isHub ? 10 : 0)
-        return `0,${radius}, -4,${radius + 7}, 4,${radius + 7}`
-      })
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout.center
-        return `translate(${x}, ${y})`
-      })
-      .style('opacity', 0.0)
-
-    // labels
-    const labels = this.svg.select('g.labels')
-      .selectAll('g.label')
-    // if nodes have been consolidated, a link might not be drawn
-      .data(this.links.filter(({layout})=>!!layout), l => {
-        return l.uid
-      })
-      .enter().append('g')
-      .attrs({
-        'class': 'label',
-        'transform': currentZoom
-      })
-
-    labels.append('text')
-      .attr('class', 'linkText')
-      .append('textPath')
-      .attrs(({uid}) => {
-        return {
-          'xlink:href': `#link-${uid}`
-        }
-      })
-      .styles({
-        'text-anchor': 'middle',
-        'opacity': 0.0
-      })
-      .text((d) => { return d.label })
   }
 
   moveLinks = (transition) => {
@@ -135,7 +93,17 @@ export default class LinkHelper {
     // set link path
     links.selectAll('path')
       .attr('d', ({layout}) => {
-        return lineFunction(layout.lineData)
+        let {linePath} = layout
+        if (!linePath) {
+          linePath = layout.linePath = lineFunction(layout.lineData)
+        }
+        return linePath
+      })
+
+    // back link away from node so that end markers just touch the shape
+    links.selectAll('path')
+      .attr('d', ({layout},i,ns) => {
+        return getBackedOffPath(ns[i], layout)
       })
       .transition(transition)
       .attr('transform', ({layout}) => {
@@ -143,42 +111,6 @@ export default class LinkHelper {
         return `translate(${x}, ${y})`
       })
       .style('opacity', 1.0)
-
-    // set position of arrow
-    links.selectAll('polygon')
-      .transition(transition)
-      .attr('transform', ({layout: {lineData, transform, isSwapped}}) => {
-        let idx2 = lineData.length - 1
-        let idx1 = idx2-1
-        if (isSwapped) {
-          idx1 = 1
-          idx2 = 0
-        }
-        const {x: sx, y: sy} = lineData[idx1]
-        const {x: tx, y: ty} = lineData[idx2]
-        const {x: xx, y: yy} = transform ? transform : {x:0, y:0}
-        const angle = Math.atan2(ty - sy, tx - sx) * 180 / Math.PI
-        return `translate(${tx+xx}, ${ty+yy}) rotate(${angle + 90})`
-      })
-      .style('opacity', 1.0)
-
-    const labels = this.svg.select('g.labels').selectAll('g.label')
-    labels.selectAll('text')
-      .selectAll('textPath')
-      .transition(transition)
-      .text(({layout={}, label}) => {
-        return layout.isParallel ? '< both >' :
-          (layout.isLoop ? label :
-            (layout.isSwapped ? `< ${label}` : `${label} >`))
-      })
-      .attrs(({layout: {isParallel, isLoop, isSwapped}}) => {
-        return {
-          'startOffset': isParallel||isLoop ? '50%' : (isSwapped?'66%':'33%')
-        }
-      })
-      .style('opacity', () => {
-        return 1.0 //layout.hidden ? 0.0 : 1.0
-      })
   }
 }
 
@@ -207,18 +139,49 @@ export const dragLinks = (svg, d) => {
       path.attr('d', () => {
         return lineFunction(layout.lineData)
       })
-
-      // move arrow
-      link.selectAll('polygon')
-        .attr('transform', () => {
-          const {source, target} = layout
-          const x = target.x
-          const y = target.y
-          const angle = Math.atan2(target.y - source.y, target.x - source.x) * 180 / Math.PI
-          return `translate(${x}, ${y}) rotate(${angle + 90})`
-        })
+      path.attr('d', ({layout},i,ns) => {
+        return getBackedOffPath(ns[i], layout)
+      })
     }
   })
+}
+
+export const appendLinkDefs = (svg) => {
+  const defs = svg.append('defs')
+  defs
+    .append('marker')
+    .attrs({
+      id: 'arrowhead',
+      refX: 2,
+      refY: 7,
+      orient: 'auto',
+      markerWidth: 16,
+      markerHeight: 16,
+      xoverflow: 'visible'
+    })
+    .append('svg:path')
+    .attr('d', 'M2,2 L2,14 L12,7 L2,2')
+    .attr('class', 'arrowDecorator')
+
+  defs
+    .append('marker')
+    .attrs({
+      id: 'squarehead',
+      refX: 4,
+      refY: 4,
+      orient: 'auto',
+      markerWidth: 7,
+      markerHeight: 7,
+      xoverflow: 'visible'
+    })
+    .append('svg:rect')
+    .attrs({
+      x: '1',
+      y: '1',
+      width: '5',
+      height: '5'
+    })
+    .attr('class', 'squareDecorator')
 }
 
 
@@ -229,12 +192,7 @@ export const setDraggedLineData = (layout) => {
   const {x: tx, y: ty} = target
   if (isLoop) {
     // path moved
-    layout.lineData = [
-      {x:sx+1, y:sy},
-      {x:sx-70, y:sy+15},
-      {x:sx-20, y:sy-70},
-      {x:sx-1, y:sy},
-    ]
+    layout.lineData = getLoopLineData(sx, sy)
   } else {
     // else straighten out line
     layout.lineData = [
@@ -252,6 +210,21 @@ export const setDraggedLineData = (layout) => {
     pt.x -= xx
     pt.y -= yy
   })
+  delete layout.linePath
+  delete layout.backedOff
+}
+
+export const getBackedOffPath = (svgPath, layout) => {
+  const {lineData, backedOff, source:{isHub:isSrcHub}, target:{isHub:isTgtHub}} = layout
+  let {linePath} = layout
+  if (!backedOff) {
+    lineData[0] = svgPath.getPointAtLength(NODE_RADIUS+(isSrcHub?15:0))
+    lineData[lineData.length-1] = svgPath.getPointAtLength(
+      svgPath.getTotalLength()-NODE_RADIUS-(isTgtHub?15:5))
+    linePath = layout.linePath = lineFunction(layout.lineData)
+    layout.backedOff = true
+  }
+  return linePath
 }
 
 // do parallel, avoidance, self link layouts
@@ -269,20 +242,10 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
       // else just a straight line
       if (!layout.lineData || newLayout) {
         layout.lineData = []
-        let {source: {uid: sid}, target: {uid: tid}} = layout
+        delete layout.linePath
+        delete layout.backedOff
+        const {source: {uid: sid}, target: {uid: tid}} = layout
         const colaEdge = edge.scratch().cola
-        // flip line so that line label isn't upside down :(
-        layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
-        if (layout.isSwapped) {
-          const id = sid
-          sid=tid
-          tid=id
-          if (colaEdge) {
-            const other = colaEdge.source
-            colaEdge.source = colaEdge.target
-            colaEdge.target = other
-          }
-        }
         const {position: {x:x1, y:y1}} = nodeMap[sid]
         const {position: {x:x2, y:y2}} = nodeMap[tid]
 
@@ -321,7 +284,6 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
         const {source:tgt, target:src, layout} = other
         if (source===src && target===tgt) {
           layout.isParallel = true
-          layout.isSwapped = false
         }
       })
     })
@@ -343,12 +305,7 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
           const node = nodeMap[nodeLayout.uid]
           const {position: {x, y}} = node
           // loops-- curve back to itself
-          const lineData = [
-            {x:x+1,y},
-            {x:x-70, y:y+15},
-            {x:x-20, y:y-70},
-            {x:x-1,y},
-          ]
+          const lineData = getLoopLineData(x,y)
           layout = link.layout = {
             source: nodeLayout,
             target: nodeLayout,
@@ -364,5 +321,15 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
     })
   }
   return laidoutEdges
+}
+
+
+export const getLoopLineData = (x,y) => {
+  return [
+    {x:x+1, y:y},
+    {x:x-90, y:y+20},
+    {x:x-20, y:y-90},
+    {x:x-1, y:y},
+  ]
 }
 

@@ -63,12 +63,6 @@ const withMultiple = (Component, newInstance) => {
                       {items}
                     </div>
                   }
-                  renderInput={(props) => {
-                    const { value } = props
-                    return <div {...props}>
-                      <input value={value} />
-                    </div>}
-                  }
                   value={newLabel[instanceKey] || ''}
                   onChange={onTextInputChange(instanceKey)}
                   onSelect={onTextInputSelect(instanceKey)}

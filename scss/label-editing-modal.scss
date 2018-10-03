@@ -63,19 +63,17 @@
         display: inline-block;
         div {
           z-index: 100;
-          div {
-            input {
-              height: 2rem;
-              font-family: "ibm-plex-sans", Helvetica Neue, Arial, sans-serif;
-              font-size: 0.875rem;
-              display: block;
-              width: 100%;
-              min-width: 10rem;
-              padding: 0 1rem;
-              color: $color__blue-90;
-              background-color: rgba(61, 112, 178, 0.1);
-              border: 1px solid transparent;
-            }
+          input {
+            height: 2rem;
+            font-family: "ibm-plex-sans", Helvetica Neue, Arial, sans-serif;
+            font-size: 0.875rem;
+            display: block;
+            width: 100%;
+            min-width: 10rem;
+            padding: 0 1rem;
+            color: $color__blue-90;
+            background-color: rgba(61, 112, 178, 0.1);
+            border: 1px solid transparent;
           }
           .text-input-container-list-box__menu {
             z-index: 200;
@@ -83,7 +81,6 @@
             position: absolute;
             width: 100%;
             box-shadow: 0 3px 3px 0 $color__navy-gray-8;
-            display: block;
             .text-input-container__menu-item {
               display: flex;
               align-items: center;

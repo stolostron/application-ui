@@ -80,6 +80,7 @@ function fetchHeader(req, res, store, context) {
         logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
         about: {
           logoUrl: `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
+          copyright: msgs.get('product.copyright', req)
         },
         navItems: [
           {
@@ -143,22 +144,16 @@ function fetchHeader(req, res, store, context) {
             disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem')
           },
           {
-            id: 'manage',
-            label: msgs.get('routes.manage', req),
-            subItems: [
-              {
-                id: 'security',
-                label: msgs.get('routes.identity-access', req),
-                url: '/console/manage/identity-access',
-                disabled: isNotClusterAdmin(userRole)
-              },
-              {
-                id: 'icp',
-                label: msgs.get('routes.icp', req),
-                url: '/console/dashboard',
-                disabled: isNotClusterAdmin(userRole)
-              },
-            ]
+            id: 'security',
+            label: msgs.get('routes.identity-access', req),
+            url: '/console/manage/identity-access',
+            disabled: isNotClusterAdmin(userRole)
+          },
+          {
+            id: 'icp',
+            label: msgs.get('routes.icp', req),
+            url: '/console/dashboard',
+            disabled: isNotClusterAdmin(userRole)
           },
           {
             id: 'welcome',

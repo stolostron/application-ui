@@ -13,7 +13,7 @@ import { Icon } from 'carbon-components-react'
 
 class StatusField extends React.PureComponent {
   static propTypes = {
-    status: PropTypes.oneOf(['ok', 'warning', 'failed', 'critical', 'unknown']),
+    status: PropTypes.oneOf(['ok', 'warning', 'failed', 'critical', 'offline', 'unknown']),
     text: PropTypes.string
   }
 
@@ -31,6 +31,7 @@ class StatusField extends React.PureComponent {
       break
     case 'failed':
     case 'critical':
+    case 'offline':
       iconName = 'icon--error--glyph'
       className = 'critical'
       break

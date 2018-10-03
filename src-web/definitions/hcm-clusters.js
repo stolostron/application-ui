@@ -89,14 +89,12 @@ export function getStatusIcon(item, locale) {
   let text
   switch (item.status) {
   case 'ok':
-    text = 'healthy'
-    break
-  case 'warning':
-    text = 'warning'
+    text = 'ready'
     break
   case 'failed':
   case 'critical':
-    text = 'critical'
+  case 'offline':
+    text = 'offline'
     break
   case 'unknown':
   default :

@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 import msgs from '../../nls/platform.properties'
+import { getClusterLink } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'cluster',
@@ -20,7 +21,8 @@ export default {
     },
     {
       msgKey: 'table.header.cluster',
-      resourceKey: 'cluster',
+      resourceKey: 'cluster.metadata.name',
+      transformFunction: getClusterLink
     },
     {
       msgKey: 'table.header.namespace',

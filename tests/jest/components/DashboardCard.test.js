@@ -12,7 +12,7 @@ import React from 'react'
 import renderer from 'react-test-renderer'
 import { MemoryRouter } from 'react-router'
 
-import { DashboardCard } from '../../../src-web/components/DashboardCard'
+import { DashboardCard } from '../../../src-web/components/ComponentCard'
 
 describe('DashboardCard component 1', () => {
   const table = [
@@ -38,7 +38,7 @@ describe('DashboardCard component 1', () => {
   it('renders as expected', () => {
     const component = renderer.create(
       <MemoryRouter initialEntries={[ '/random' ]}>
-        <DashboardCard critical={1} healthy={1} warning={1} title='unit test' table={table} />
+        <DashboardCard critical={1} healthy={1} warning={1} title='unit test' table={table} type='pods' />
       </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
@@ -58,7 +58,7 @@ describe('DashboardCard component 2', () => {
   it('renders as expected', () => {
     const component = renderer.create(
       <MemoryRouter initialEntries={[ '/random' ]}>
-        <DashboardCard critical={0} healthy={0} warning={1} title='unit test 2' table={table} />
+        <DashboardCard critical={0} healthy={0} warning={1} title='unit test 2' table={table} type='pods' />
       </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
@@ -77,7 +77,7 @@ describe('DashboardCard component 3', () => {
   it('renders as expected', () => {
     const component = renderer.create(
       <MemoryRouter initialEntries={[ '/random' ]}>
-        <DashboardCard critical={0} healthy={1} warning={0} title='unit test 3' table={table} />
+        <DashboardCard critical={0} healthy={1} warning={0} title='unit test 3' table={table} type='pods' />
       </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()
@@ -89,7 +89,7 @@ describe('DashboardCard component 4', () => {
   it('renders as expected', () => {
     const component = renderer.create(
       <MemoryRouter initialEntries={[ '/random' ]}>
-        <DashboardCard critical={0} healthy={0} warning={0} title='unit test 4' table={table} />
+        <DashboardCard critical={0} healthy={0} warning={0} title='unit test 4' table={table} type='pods' />
       </MemoryRouter>
     )
     expect(component.toJSON()).toMatchSnapshot()

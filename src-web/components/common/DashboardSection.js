@@ -12,14 +12,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const DashboardSection = ({
-  // add 'name' back once we need section title
-  // name,
+  name,
   children
 }) =>
   <div>
-    {/*<div className='dashboard-section-title'>*/}
-    {/*<h2>{name}</h2>*/}
-    {/*</div>*/}
+    <div className='dashboard-section-title'>
+      <h2>{name}</h2>
+    </div>
     <div className='dashboard-section-modules'>
       {children}
     </div>
@@ -27,7 +26,7 @@ const DashboardSection = ({
 
 DashboardSection.propTypes = {
   children: PropTypes.node,
-  // name: PropTypes.string
+  name: PropTypes.string
 }
 
 export default DashboardSection

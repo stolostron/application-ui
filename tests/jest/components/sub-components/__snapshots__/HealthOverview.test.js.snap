@@ -6,6 +6,11 @@ exports[`HealthOverview mock components renders as expected 1`] = `
 >
   <div>
     <div
+      className="dashboard-section-title"
+    >
+      <h2 />
+    </div>
+    <div
       className="dashboard-section-modules"
     />
   </div>
@@ -17,6 +22,11 @@ exports[`HealthOverview no components renders as expected 1`] = `
   id="health-overview"
 >
   <div>
+    <div
+      className="dashboard-section-title"
+    >
+      <h2 />
+    </div>
     <div
       className="dashboard-section-modules"
     />

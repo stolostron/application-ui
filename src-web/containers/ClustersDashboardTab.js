@@ -18,6 +18,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { REQUEST_STATUS } from '../actions/index'
 // import HealthOverview from '../components/dashboard/HealthOverview'
 import ResourceOverview from '../components/dashboard/ResourceOverview'
+import StatusOverview from '../components/dashboard/StatusOverview'
 // import TagInput from '../../components/common/TagInput'
 // import FilterButton from '../../components/common/FilterButton'
 // import SettingsButton from '../../components/common/SettingsButton'
@@ -73,6 +74,8 @@ export class ClustersDashboardTab extends React.Component {
     if ((status !== REQUEST_STATUS.DONE || !cardItems) && !this.state.xhrPoll)
       return <Loading withOverlay={false} className='content-spinner' />
 
+    const resourceCards = cardItems.filter(card => card.type)
+    const statusCards = cardItems.filter(card => !card.type)
     return (
       <div>
         {fullDashboard && (
@@ -92,8 +95,8 @@ export class ClustersDashboardTab extends React.Component {
           }
           <Page serverProps={serverProps}>
             <div className='dashboard'>
-              {/*<HealthOverview pieChartItems={pieChartItems} barChartItems={barChartItems} />*/}
-              <ResourceOverview cardItems={cardItems} />
+              <ResourceOverview cardItems={resourceCards} />
+              <StatusOverview cardItems={statusCards} />
             </div>
           </Page>
         </div>

@@ -2,9 +2,16 @@
 
 exports[`ResourceOverview no components renders as expected 1`] = `
 <div
-  id="resource-overview"
+  id="component-summary"
 >
   <div>
+    <div
+      className="dashboard-section-title"
+    >
+      <h2>
+        Component Summary
+      </h2>
+    </div>
     <div
       className="dashboard-section-modules"
     />
@@ -14,9 +21,16 @@ exports[`ResourceOverview no components renders as expected 1`] = `
 
 exports[`ResourceOverview no components renders as expected 2`] = `
 <div
-  id="resource-overview"
+  id="component-summary"
 >
   <div>
+    <div
+      className="dashboard-section-title"
+    >
+      <h2>
+        Component Summary
+      </h2>
+    </div>
     <div
       className="dashboard-section-modules"
     />

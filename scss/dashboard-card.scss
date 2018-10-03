@@ -13,6 +13,9 @@
 $critical: $support-01;
 $healthy: $support-02;
 $warning: $support-03;
+$util-critical: $brand-01;
+$util-warning: $brand-02;
+$util-healthy: $brand-03;
 $gray: $color__gray-1;
 $gray-for-text: $mcm__color__gray;
 
@@ -20,7 +23,6 @@ $gray-for-text: $mcm__color__gray;
 .bx--module.bx--module--single {
   max-width: 28rem;
   min-width: 24rem;
-  padding-bottom: 28rem;
 }
 
 .dashboard-card {
@@ -28,7 +30,6 @@ $gray-for-text: $mcm__color__gray;
   margin-bottom: 3rem;
   margin-right: 1rem;
   margin-left: 1rem;
-  height: 26rem;
 
   &.bx--module {
     td {
@@ -51,11 +52,16 @@ $gray-for-text: $mcm__color__gray;
     }
 
     .dashboard-card-orb {
-      padding: 1.5rem 1.5rem 0 1.5rem;
+      padding: 1.5rem;
+
+      &-summary {
+        padding: 1.5rem 1.5rem 0rem 1.5rem;
+        min-height: 12rem;
+      }
     }
 
     .dashboard-card-table-body {
-      padding: 0.5rem 0 0 0;
+      padding: 0;
     }
 
     .bx--module__content p{
@@ -92,7 +98,25 @@ $gray-for-text: $mcm__color__gray;
 
   &__healthy {
     border-left: 6px solid $healthy;
+  }
 
+  &__utilization {
+    border-left: 6px solid $util-critical;
+  }
+
+  &__icon {
+    display: flex;
+
+    &__critical {
+      fill: $critical;
+      display: inline;
+      margin-left: .5rem;
+    }
+    &__warning {
+      fill: $warning;
+      display: inline;
+      margin-left: .5rem;
+    }
   }
 }
 
@@ -150,6 +174,20 @@ $innerOrbSize: $orbSize - 0.4rem;
 
   &__healthy {
     border: 3px solid $healthy;
+  }
+
+  &__util {
+    &-critical {
+      border: 3px solid $util-critical;
+    }
+  
+    &-warning {
+      border: 3px solid $util-warning;
+    }
+  
+    &-healthy {
+      border: 3px solid $util-healthy;
+    }
   }
 
   &__gray {
@@ -238,6 +276,16 @@ $innerOrbSize: $orbSize - 0.4rem;
   &__gray {
     color: $gray-for-text;
   }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &-item {
+      padding-top: 0.25rem;
+    }
+  }
 }
 
 .dashboard-card-separator-text {
@@ -255,7 +303,7 @@ $innerOrbSize: $orbSize - 0.4rem;
   bottom: 0;
   a {
     float: left;
-    padding: 1.2rem 1.5rem;
+    padding: 0.8rem 1.5rem;
     font-size: 0.75rem;
     font-weight: bold;
   }

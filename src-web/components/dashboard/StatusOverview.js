@@ -13,19 +13,19 @@ import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import DashboardSection from '../common/DashboardSection'
 import msgs from '../../../nls/platform.properties'
-import { DashboardCard, TableRowPropType } from '../ComponentCard'
+import { UtilizationCard } from '../UtilizationCard'
 import {withRouter} from 'react-router-dom'
 
-class ResourceOverview extends React.Component {
+class StatusOverview extends React.Component {
   render() {
     const { locale } = this.context
     const { cardItems = [] } = this.props
     return (
-      <div id='component-summary'>
-        <DashboardSection name={msgs.get('dashboard.section.resource-overview', locale)}>
+      <div id='resource-utilization'>
+        <DashboardSection name={msgs.get('dashboard.section.status-overview', locale)}>
           {cardItems.map(item =>
             item.name &&
-            <DashboardCard
+            <UtilizationCard
               critical={item.critical}
               warning={item.warning}
               healthy={item.healthy}
@@ -46,14 +46,13 @@ DashboardSection.contextTypes = {
   locale: PropTypes.string
 }
 
-ResourceOverview.propTypes = {
+StatusOverview.propTypes = {
   cardItems: PropTypes.arrayOf(PropTypes.shape({
     critical: PropTypes.number,
     healthy: PropTypes.number,
     warning: PropTypes.number,
     name: PropTypes.string,
-    table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType))
   }))
 }
 
-export default withRouter(ResourceOverview)
+export default withRouter(StatusOverview)

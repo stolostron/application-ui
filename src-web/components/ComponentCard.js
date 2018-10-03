@@ -20,39 +20,50 @@ resources(() => {
   require('../../scss/dashboard-card.scss')
 })
 
-const DashboardOrb = ({ status = 'healthy', value, className = '' }) => (
+function formatStatus(statusArray) {
+  const statuses = JSON.parse(statusArray).map((status) => {
+    return <li className='dashboard-card-text-list-item' key={status}>{status}</li>
+  })
+  return <ul className='dashboard-card-text-list'>{statuses}</ul>
+}
+
+const DashboardOrb = ({ sev = 'healthy', status = ['healthy'], value, className = '' }) => (
   <div className={`dashboard-count ${className}`}>
     <div className="dashboard-orb">
-      {value === 0 ? <div className={'dashboard-orb dashboard-orb__inner dashboard-orb__gray'}>{value}</div>
-        : <div className={`dashboard-orb dashboard-orb__inner dashboard-orb__${status}`}>{value}</div>}
+      {value === 0
+        ? <div className={'dashboard-orb dashboard-orb__inner dashboard-orb__gray'}>{value}</div>
+        : <div className={`dashboard-orb dashboard-orb__inner dashboard-orb__${sev}`}>{value}</div>}
     </div>
-    {value === 0 ? <p className={'dashboard-card-text dashboard-card-text__gray'}>{status}</p> : <p className={'dashboard-card-text'}>{status}</p>}
+    {value === 0
+      ? <div className={'dashboard-card-text dashboard-card-text__gray'}>{formatStatus(status)}</div>
+      : <div className={'dashboard-card-text'}>{formatStatus(status)}</div>}
   </div>
 )
 
 const OrbPropType = {
   className: PropTypes.string,
-  status: PropTypes.oneOf(['critical', 'warning', 'healthy']),
+  sev: PropTypes.string,
+  status: PropTypes.string,
   value: PropTypes.number
 }
 
 DashboardOrb.propTypes = OrbPropType
 
-const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namespace, type, ...rest }) => {
-  let iconName
+const getIcon = (status) => {
   switch (status) {
   case 'healthy':
-    iconName = 'icon--checkmark--glyph'
-    break
+    return 'icon--checkmark--glyph'
   case 'warning':
-    iconName = 'icon--warning--glyph'
-    break
+    return 'icon--warning--glyph'
   case 'critical':
-    iconName = 'icon--error--glyph'
-    break
+    return 'icon--error--glyph'
   default:
     break
   }
+}
+
+const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namespace, type, ...rest }) => {
+  const iconName = getIcon(status)
   return (
     <TableRow {...rest}>
       {status != null ?
@@ -135,17 +146,14 @@ const getStatusSearchArray = (resourceName, status, locale) => {
       'warning' : [msgs.get('table.cell.pending', locale)],
       'healthy' : [msgs.get('table.cell.running', locale), msgs.get('table.cell.succeeded', locale)],
     },
-    // TODO: Zack L. - Only aware of bound, available and unbound statues
     'storage' : {
-      'critical' : [msgs.get('table.cell.unbound', locale), msgs.get('table.cell.unbound', locale)],
-      'warning' : [msgs.get('table.cell.pending', locale)],
-      'healthy' : [msgs.get('table.cell.bound', locale), msgs.get('table.cell.bound', locale)],
+      'critical' : [msgs.get('table.cell.unbound', locale)],
+      'warning' : [msgs.get('table.cell.available', locale)],
+      'healthy' : [msgs.get('table.cell.bound', locale)],
     },
     'clusters' : {
-      'critical' : [msgs.get('table.cell.critical', locale), msgs.get('table.cell.failed', locale),
-        msgs.get('table.cell.unknown', locale)],
-      'warning' : [msgs.get('table.cell.warning', locale)],
-      'healthy' : [msgs.get('table.cell.healthy', locale)],
+      'critical' : [msgs.get('table.cell.offline', locale)],
+      'healthy' : [msgs.get('table.cell.ready', locale)],
     }
   }
 
@@ -162,39 +170,44 @@ export class DashboardCard extends React.PureComponent {
     const cardStatus = getTableStatus(critical, healthy, warning)
     return table && (
       <Module className={`bx--tile dashboard-card dashboard-card__${cardStatus}`} size="single" {...this.props}>
-        <ModuleHeader className={`dashboard-card-header__${cardStatus}`}>{title}</ModuleHeader>
-        <ModuleBody className={'dashboard-card-orb'}>
+        <ModuleHeader className={`dashboard-card-header__${cardStatus}`}>
+          <div className='dashboard-card-header__icon'>
+            {title}
+            {cardStatus !== 'healthy'
+              ? <Icon className={`dashboard-card-header__icon__${cardStatus}`} name={getIcon(cardStatus)} description={`table-status-icon-${cardStatus}`} role='img' />
+              : null}
+          </div>
+        </ModuleHeader>
+        <ModuleBody className={'dashboard-card-orb-summary'}>
           <div className="dashboard-overview">
-            {type ?
-              (
-                <div>
-                  <Link to={`${config.contextPath}/${type}?filters={"status":${getStatusSearchArray(type, 'critical', locale)}}`}>
-                    <DashboardOrb key='critical-orb' status='critical' value={critical} />
-                  </Link>
-                  <Link to={`${config.contextPath}/${type}?filters={"status":${getStatusSearchArray(type, 'warning', locale)}}`}>
-                    <DashboardOrb key='warning-orb' status='warning' value={warning} />
-                  </Link>
-                  <Link to={`${config.contextPath}/${type}?filters={"status":${getStatusSearchArray(type, 'healthy', locale)}}`}>
-                    <DashboardOrb key='healthy-orb' status='healthy' value={healthy} />
-                  </Link>
-                </div>
-              )
-              :
-              (
-                <div>
-                  <DashboardOrb key='critical-orb' status='critical' value={critical} />
-                  <DashboardOrb key='warning-orb' status='warning' value={warning} />
-                  <DashboardOrb key='healthy-orb' status='healthy' value={healthy} />
-                </div>
-              )
-            }
+            <div>
+              <Link to={`${config.contextPath}/${type}?filters={"status":${getStatusSearchArray(type, 'critical', locale)}}`}>
+                <DashboardOrb
+                  key='critical-orb'
+                  sev='critical'
+                  status={getStatusSearchArray(type, 'critical', locale)}
+                  value={critical} />
+              </Link>
+              {type !== 'clusters'
+                ? <Link to={`${config.contextPath}/${type}?filters={"status":${getStatusSearchArray(type, 'warning', locale)}}`}>
+                  <DashboardOrb
+                    key='warning-orb'
+                    sev='warning'
+                    status={getStatusSearchArray(type, 'warning', locale)}
+                    value={warning} />
+                </Link>
+                : null }
+              <Link to={`${config.contextPath}/${type}?filters={"status":${getStatusSearchArray(type, 'healthy', locale)}}`}>
+                <DashboardOrb
+                  key='healthy-orb'
+                  sev='healthy'
+                  status={getStatusSearchArray(type, 'healthy', locale)}
+                  value={healthy} />
+              </Link>
+            </div>
           </div>
         </ModuleBody>
         <ModuleBody className={'dashboard-card-table-body'}>
-          {/*<div className={'dashboard-card-separator-text dashboard-card-text'}>*/}
-          {/*<div>{msgs.get('dashboard.module.separator')}</div>*/}
-          {/*</div>*/}
-          <DashboardTable table={table} type={type} locale={locale} />
           <div className={'dashboard-card-separator-link'}>
             {type ?
               <Link to={`${config.contextPath}/${type}`}>{msgs.get('dashboard.module.separator.link')}</Link> : null }

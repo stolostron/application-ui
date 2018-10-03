@@ -13,11 +13,12 @@ import { storiesOf } from '@storybook/react'
 import centered from '@storybook/addon-centered'
 import { withInfo } from '@storybook/addon-info'
 
-import { DashboardCard } from '../src-web/components/DashboardCard'
+import { DashboardCard } from '../src-web/components/ComponentCard'
 
 
 const criticalCardProps = {
   title: 'My Card - Critical',
+  type: 'clusters',
   critical: 2,
   healthy: 10,
   warning: 0,
@@ -46,6 +47,7 @@ const criticalCardProps = {
 
 const warningCardProps = {
   title: 'My Card - Warning',
+  type: 'clusters',
   critical: 0,
   healthy: 10,
   warning: 3,
@@ -74,6 +76,7 @@ const warningCardProps = {
 
 const healthyCardProps = {
   title: 'My Card - healthy',
+  type: 'clusters',
   critical: 0,
   healthy: 13,
   warning: 0,

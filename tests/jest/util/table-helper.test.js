@@ -26,7 +26,7 @@ describe('table-helper handleInputValue', () => {
 
 describe('table-helper handleSort newSortColumn==defaultSortColumn', () => {
   const item = {
-    target: {
+    currentTarget: {
       getAttribute() {
         return null
       }
@@ -51,7 +51,7 @@ describe('table-helper handleSort newSortColumn==defaultSortColumn', () => {
 
 describe('table-helper handleSort newSortColumn!=defaultSortColumn', () => {
   const item_asc = {
-    target: {
+    currentTarget: {
       getAttribute(input) {
         if (input === 'data-key') {
           return 'asc'

@@ -18,10 +18,13 @@ class TableHelper {
     cb(value)
   }
   handleSort(prevSortDirection, prevSortColumn, cb, e) {
-    const newSortColumn = e.target.getAttribute('data-key')
-    const defaultSortColumn = e.target.getAttribute('data-default-key')
-    const newSortDirection = !prevSortColumn ? defaultSortColumn === newSortColumn ? SORT_DIRECTION_DESCENDING : SORT_DIRECTION_ASCENDING : prevSortColumn !== newSortColumn ? SORT_DIRECTION_ASCENDING: prevSortDirection === SORT_DIRECTION_ASCENDING ? SORT_DIRECTION_DESCENDING : SORT_DIRECTION_ASCENDING
-    cb(newSortDirection, newSortColumn)
+    const target = e.currentTarget
+    if (target) {
+      const newSortColumn = target && target.getAttribute('data-key')
+      const defaultSortColumn = target && target.getAttribute('data-default-key')
+      const newSortDirection = !prevSortColumn ? defaultSortColumn === newSortColumn ? SORT_DIRECTION_DESCENDING : SORT_DIRECTION_ASCENDING : prevSortColumn !== newSortColumn ? SORT_DIRECTION_ASCENDING: prevSortDirection === SORT_DIRECTION_ASCENDING ? SORT_DIRECTION_DESCENDING : SORT_DIRECTION_ASCENDING
+      cb(newSortDirection, newSortColumn)
+    }
   }
 }
 

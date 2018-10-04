@@ -2,3 +2,6 @@
 .git*
 .travis.yml
 .npmrc
+
+# contains facebook copyright code. do not ship
+node_modules/svg-sprite-loader/examples

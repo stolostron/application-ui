@@ -14,18 +14,23 @@ import { Icon } from 'carbon-components-react'
 import withMultiple from './ModalListItem'
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
-const Label = ({ id, item, onRemove, onClickRow }) =>
+const Label = ({ id, item, onRemove, onClickRow, onUndo }) =>
   <div tabIndex='0'
     className='field-row'
     onClick={onClickRow}
     onKeyDown={e => e.persist && (e.which === 13) && onClickRow(item.key)}
     role={'button'}>
     <p>{item.key}={item.value}</p>
-    <div>
-      {!item.formServer && <p className={'secondary-text-field'}>Added</p>}
-      {item.updated && <p className={'secondary-text-field'}>Updated</p>}
-      <RemoveIcon id={`labels-remove-${id}`} onRemove={onRemove} uniqueKey={item.key} />
-    </div>
+    {item.deleted ?
+      <div>
+        {<p className={'secondary-text-field'}>Deleted</p>}
+        <UndoIcon id={`labels-undo-${id}`} onUndo={onUndo} uniqueKey={item.key} />
+      </div>:
+      <div>
+        {!item.formServer && <p className={'secondary-text-field'}>Added</p>}
+        {item.updated && <p className={'secondary-text-field'}>Updated</p>}
+        <RemoveIcon id={`labels-remove-${id}`} onRemove={onRemove} uniqueKey={item.key} />
+      </div>}
   </div>
 
 const RemoveIcon = ({ id, onRemove, uniqueKey }, context) =>
@@ -38,6 +43,15 @@ const RemoveIcon = ({ id, onRemove, uniqueKey }, context) =>
     description={msgs.get('svg.description.remove', context.locale)}
   />
 
+const UndoIcon = ({ id, onUndo, uniqueKey }, context) =>
+  <Icon
+    id={id}
+    tabIndex='0'
+    onClick={onUndo}
+    onKeyDown={e => e.persist && (e.which === 13 || e.which === 32) && onUndo(uniqueKey)}
+    name='icon--arrow--left'
+    description={msgs.get('svg.description.remove', context.locale)}
+  />
 
 const Labels = withMultiple(Label, { key: '', value: '' })
 

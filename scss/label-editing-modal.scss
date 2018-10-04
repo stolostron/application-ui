@@ -11,6 +11,9 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
 .modal-with-editor-and-list {
+  .bx--modal-container {
+    min-width: 35rem;
+  }
 
   .bx--modal-header {
     border-bottom: 1px solid $color__gray-1;

@@ -24,6 +24,7 @@ class ResourceTableModule extends React.Component {
   static propTypes = {
     definitionsKey: PropTypes.string,
     fetchResources: PropTypes.func,
+    normalizedKey: PropTypes.string,
     resourceType: PropTypes.object,
     staticResourceData: PropTypes.object,
     tableResources: PropTypes.array,
@@ -78,10 +79,12 @@ class ResourceTableModule extends React.Component {
     )
   }
 
-  formatResourceData() {
-    const { tableResources } = this.props
+  formatResourceData(inputData) {
+    let { tableResources } = this.props
+    const { normalizedKey } = this.props
+    if (inputData) tableResources = inputData
     const { searchValue } = this.state
-    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => repo.name)
+    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => normalizedKey? lodash.get(repo, normalizedKey) + (repo.cluster ? repo.cluster : '') : repo.name)
     let itemIds = normalizedItems && Object.keys(normalizedItems)
     if (searchValue) {
       itemIds = itemIds.filter(repo => repo.includes(searchValue))
@@ -123,9 +126,11 @@ ResourceTableModule.contextTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params: {name, namespace}, staticResourceData, definitionsKey } = ownProps
   const resourceItem = getSingleResourceItem(state, { storeRoot: resourceType.list, name, resourceType, predicate: resourceItemByName, namespace })
-  var resourceKey = staticResourceData[definitionsKey].resourceKey
+  const resourceKey = staticResourceData[definitionsKey].resourceKey
+  const normalizedKey = staticResourceData[definitionsKey].normalizedKey
   const tableResources = resourceItem[resourceKey]
   return {
+    normalizedKey,
     tableResources
   }
 }

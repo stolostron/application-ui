@@ -279,6 +279,47 @@ export default {
       }
     ]
   },
+  roleRef: {
+    title: 'policy.template.roleRef',
+    headerRows: ['table.header.name', 'table.header.kind', 'table.header.apiGroups'],
+    rows: [
+      {
+        cells: [
+          {
+            resourceKey: 'name',
+          },
+          {
+            resourceKey: 'kind',
+          },
+          {
+            resourceKey: 'apiGroup',
+          }
+        ]
+      }
+    ]
+  },
+  roleSubjects: {
+    resourceKey: 'roleSubjects',
+    title: 'policy.template.roleSubjects',
+    defaultSortField: 'name',
+    tableKeys: [
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+        key: 'name',
+      },
+      {
+        msgKey: 'table.header.apiGroups',
+        resourceKey: 'apiGroup',
+        key: 'apiGroup',
+      },
+      {
+        msgKey: 'table.header.kind',
+        resourceKey: 'kind',
+        key: 'kind',
+      },
+    ],
+  },
 }
 
 export function createPolicyLink(item = {}){

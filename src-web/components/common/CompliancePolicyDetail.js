@@ -17,6 +17,7 @@ import StructuredListModule from '../../components/common/StructuredListModule'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import resources from '../../../lib/shared/resources'
 import PolicyTemplates from '../../components/common/PolicyTemplates'
+import PolicyRef from '../../components/common/PolicyRef'
 import ResourceTableModule from '../../components/common/ResourceTableModuleFromProps'
 import {fetchResource} from '../../actions/common'
 import lodash from 'lodash'
@@ -60,7 +61,9 @@ class CompliancePolicyDetail extends React.Component {
     const modulesBottom = []
     const detail = lodash.get(item, 'compliancePolicies', [])
     const policy = detail.find(item => lodash.get(item, 'name', '') === policyName && lodash.get(item, 'cluster', '') === policyNamespace)
-    React.Children.map([<PolicyTemplates key='Policy Templates' right />, <ResourceTableModule key='rules' definitionsKey='policyRules' />,  <ResourceTableModule key='violations' definitionsKey='policyViolations' />], module => {
+    React.Children.map([<PolicyTemplates key='Policy Templates' right />, <PolicyRef key='Policy Role Ref' right />,
+      <ResourceTableModule key='rules' definitionsKey='policyRules' />,  <ResourceTableModule key='violations' definitionsKey='policyViolations' />
+      , <ResourceTableModule key='roleSubjects' definitionsKey='roleSubjects' />], module => {
       if (module.props.right) {
         modulesRight.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: policy, params }))
       } else {

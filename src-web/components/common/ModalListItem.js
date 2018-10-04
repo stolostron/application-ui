@@ -82,7 +82,7 @@ const withMultiple = (Component, newInstance) => {
     }
 
     getItems() {
-      const { items, type, error, onRemove, onClickRow, onEditValue } = this.props
+      const { items, type, error, onRemove, onClickRow, onEditValue, onUndo } = this.props
       if (Array.isArray(items)) {
         return items.map((item, i) => {
           if (item.editable && Object.keys(onEditValue).length !== 0) {
@@ -97,7 +97,9 @@ const withMultiple = (Component, newInstance) => {
               id={i}
               error={error}
               onClickRow={onClickRow.bind(null, item.key)}
-              onRemove={onRemove.bind(null, item.key)} />
+              onRemove={onRemove.bind(null, item.key)}
+              onUndo={onUndo.bind(null, item.key)}
+            />
           }
         })
       }

@@ -210,35 +210,43 @@ class ResourceTable extends React.Component {
   getRows() {
     const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, getResourceAction } = this.props
     const { locale } = this.context
-    const resources = itemIds && itemIds.map(id => items[id] || items.find(target => target.name === id))
-    return resources && resources.map((item, index) => {
-      const row = {}
+    const { normalizedKey } = staticResourceData
+    const resources = itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && lodash.get(target, normalizedKey) === id) || (target.name === id))))
+    if (resources && resources.length > 0) {
+      return resources.map((item, index) => {
+        const row = {}
 
-      const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
-      row.id = getSecondaryKey(resourceType) ? `${lodash.get(item, getPrimaryKey(resourceType))}-${lodash.get(item, getSecondaryKey(resourceType))}` : lodash.get(item, getPrimaryKey(resourceType)) || `table-row-${index}`
+        const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
+        if (normalizedKey) {
+          row.id = lodash.get(item, normalizedKey)
+        } else {
+          row.id = getSecondaryKey(resourceType) ? `${lodash.get(item, getPrimaryKey(resourceType))}-${lodash.get(item, getSecondaryKey(resourceType))}` : lodash.get(item, getPrimaryKey(resourceType)) || `table-row-${index}`
+        }
 
-      if (menuActions && menuActions.length > 0) {
-        row.action = (
-          <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
+        if (menuActions && menuActions.length > 0) {
+          row.action = (
+            <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
 
-            {menuActions.map((action) =>
-              <OverflowMenuItem
-                data-table-action={action}
-                isDelete={action ==='table.actions.remove' || action ==='table.actions.delete'}
-                onClick={() => getResourceAction(action, item, null, history, locale)}
-                key={action}
-                itemText={msgs.get(action, locale)}
-              />)}
-          </OverflowMenu>
-        )
-      }
-      staticResourceData.tableKeys.forEach(key => {
-        row[key.resourceKey] = key.link ?
-          <Link to={`${match.url}${getLink(key.link, item)}`}>{transform(item, key, locale)}</Link> :
-          transform(item, key, locale)
+              {menuActions.map((action) =>
+                <OverflowMenuItem
+                  data-table-action={action}
+                  isDelete={action ==='table.actions.remove' || action ==='table.actions.delete'}
+                  onClick={() => getResourceAction(action, item, null, history, locale)}
+                  key={action}
+                  itemText={msgs.get(action, locale)}
+                />)}
+            </OverflowMenu>
+          )
+        }
+        staticResourceData.tableKeys.forEach(key => {
+          row[key.resourceKey] = key.link ?
+            <Link to={`${match.url}${getLink(key.link, item)}`}>{transform(item, key, locale)}</Link> :
+            transform(item, key, locale)
+        })
+        return row
       })
-      return row
-    })
+    }
+    return []
   }
 
   getIndeterminateStatus() {

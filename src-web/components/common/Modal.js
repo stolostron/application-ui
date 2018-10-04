@@ -11,7 +11,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import loadable from 'loadable-components'
-// import LabelEditingModal from '../modals/LabelEditingModal'
 
 let RemoveResourceModal
 let LabelEditingModal

@@ -57,7 +57,7 @@ class ResourceTableModule extends React.Component {
     const keys = staticResourceData[definitionsKey]
     const { resourceItems, resourceIds, searchValue, sortDirection } = this.state
     return (
-      <Module id={`${definitionsKey}-module-id`}>
+      resourceItems && Object.keys(resourceItems).length > 0 ? <Module id={`${definitionsKey}-module-id`}>
         <ModuleHeader>{msgs.get(keys.title, this.context.locale)}</ModuleHeader>
         <ModuleBody>
           <ResourceTable
@@ -72,7 +72,7 @@ class ResourceTableModule extends React.Component {
             sortDirection={sortDirection}
           />
         </ModuleBody>
-      </Module>
+      </Module> : null
     )
   }
 
@@ -81,7 +81,7 @@ class ResourceTableModule extends React.Component {
     const { normalizedKey } = this.props
     if (inputData) tableResources = inputData
     const { searchValue } = this.state
-    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => normalizedKey? repo[normalizedKey]+repo.cluster : repo.name)
+    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => normalizedKey? `${lodash.get(repo, normalizedKey)}${lodash.get(repo, 'cluster', '')}`: lodash.get(repo, 'name', ''))
     let itemIds = normalizedItems && Object.keys(normalizedItems)
     if (searchValue) {
       itemIds = itemIds.filter(repo => repo.includes(searchValue))

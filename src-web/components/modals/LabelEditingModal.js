@@ -54,7 +54,11 @@ class LabelEditingModal extends React.Component {
 
   convertArrayToObject(input) {
     const resultObject = {}
-    input.forEach(item => resultObject[item.key] = item.value)
+    input.forEach(item => {
+      if (!item.deleted){
+        resultObject[item.key] = item.value
+      }
+    })
     return resultObject
   }
 
@@ -67,8 +71,26 @@ class LabelEditingModal extends React.Component {
   onRemove(key) {
     this.setState(preState => {
       const existingLabels = [...preState.labels]
-      const result = existingLabels.filter(label => label.key !== key)
-      return { labels: result }
+      const labelIndex = existingLabels.findIndex(item => item.key === key)
+      if (existingLabels[labelIndex].formServer) {
+        existingLabels[labelIndex] = {...existingLabels[labelIndex],
+          deleted: true
+        }
+      }
+      return { labels: existingLabels}
+    })
+  }
+
+  onUndo = key => {
+    this.setState(preState => {
+      const existingLabels = [...preState.labels]
+      const labelIndex = existingLabels.findIndex(item => item.key === key)
+      if (existingLabels[labelIndex].formServer) {
+        existingLabels[labelIndex] = {...existingLabels[labelIndex],
+          deleted: false
+        }
+      }
+      return { labels: existingLabels}
     })
   }
 
@@ -140,7 +162,7 @@ class LabelEditingModal extends React.Component {
         const labelIndex = existingLabels.findIndex(item => item.key === key)
         // label exists then update existing one
         if (labelIndex > -1) {
-          if (existingLabels[labelIndex]) {
+          if (existingLabels[labelIndex] && !existingLabels[labelIndex].deleted) {
             existingLabels[labelIndex] = {...existingLabels[labelIndex],
               editable: true,
             }
@@ -210,6 +232,7 @@ class LabelEditingModal extends React.Component {
             newLabel={this.state.newLabel}
             addLabel={msgs.get('modal.form.action.editLabel', this.context.locale)}
             onRemove={this.onRemove}
+            onUndo={this.onUndo}
             onAdd={this.onAdd}
             onTextInputChange={this.onTextInputChange}
             handleSearch={this.handleSearch}

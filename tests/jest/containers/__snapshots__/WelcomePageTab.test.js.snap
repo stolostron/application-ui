@@ -46,7 +46,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
       >
         <img
           alt={undefined}
-          src="undefined/graphics/ICP_GettingStarted-Header.png"
+          src="undefined/graphics/MCM-GettingStarted-Header.png"
         />
       </div>
     </div>

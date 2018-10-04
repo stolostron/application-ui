@@ -213,6 +213,7 @@ export default {
     title: 'application.deployables',
     defaultSortField: 'name',
     resourceKey: 'deployables',
+    normalizedKey: 'metadata.name',
     tableKeys: [
       {
         key: 'name',

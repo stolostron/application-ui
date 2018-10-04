@@ -40,7 +40,7 @@ class Welcome extends React.PureComponent {
               <p><span className='welcome--text-secondary'>{msgs.get('welcome.paragraph.example.title', locale)}</span> {msgs.get('welcome.paragraph.example.description', locale)}</p>
             </div>
             <div className='welcome--image'>
-              <img src={`${config.contextPath}/graphics/ICP_GettingStarted-Header.png`} alt={msgs.get('welcome.svg.description.welcome', locale)} />
+              <img src={`${config.contextPath}/graphics/MCM-GettingStarted-Header.png`} alt={msgs.get('welcome.svg.description.welcome', locale)} />
             </div>
           </div>
         </div>

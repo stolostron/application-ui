@@ -116,26 +116,25 @@ $ibm_color_ultramarine60: #3151b7;
       margin: 0 auto;
       .welcome--text {
         margin: 65px 15px 50px 0;
-        width: 60%;
+        width: 70%;
         //remove the following class to match ICP font style
         //need to verify this design with Lise
         .welcome--text-secondary {
           display: block;
-          color: black;
-          font-size: 1.5rem;
-          font-weight: 400;
+          color: $ibm_color_ultramarine50;
+          font-size: 1.25rem;
+          font-weight: 600;
+          padding-bottom: 0.5rem;
         }
       }
       .welcome--image {
-        position: relative;
-        width: 40%;
+        position: absolute;
+        max-width: 28rem;
+        right: 0;
         > img {
-          width: 601px;
-          height: 612px;
-          position: absolute;
-          left: 0;
           right: 0;
-          top: 5px;
+          padding: 0;
+          width: 100%;
         }
       }
       h1 {
@@ -146,7 +145,7 @@ $ibm_color_ultramarine60: #3151b7;
         > span { color: $ibm_color_ultramarine50; }
        }
        p {
-        margin-bottom: 15px;
+        margin-bottom: 3.75rem;
         font-size: 1.125rem;
         line-height: 1.8;
         &:last-child { margin-bottom: 0; }
@@ -378,7 +377,7 @@ $ibm_color_ultramarine60: #3151b7;
  @media (max-width: 1580px)  {
   .welcome {
     &--introduction__description {
-      .welcome--image { width: 45%; }
+      .welcome--image { width: 450px; }
       .welcome--text { width: 55%; }
     }
   }
@@ -388,10 +387,10 @@ $ibm_color_ultramarine60: #3151b7;
   .welcome {
     &--introduction__description {
       .welcome--image {
-        width: 601px;
+        width: 450px;
         overflow: hidden;
       }
-      .welcome--text { max-width: 550px; }
+      .welcome--text { max-width: 70% }
     }
     &--connect .welcome--connect__details .welcome--connect__section.has-divider {
       margin-left: 125px;
@@ -409,10 +408,9 @@ $ibm_color_ultramarine60: #3151b7;
   .welcome {
     &--introduction__description {
       .welcome--image {
-        width: 470px;
+        width: 450px;
         > img {
-          width: 470px;
-          height: 479px;
+          width: 100%;
           top: 75px;
         }
       }

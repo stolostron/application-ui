@@ -23,7 +23,6 @@ class IsomorphicEditor extends React.Component {
 
   constructor(props) {
     super(props)
-    this.mounted = false
     this.setEditorRef = elem => {
       if (elem && props.setEditor) {
         props.setEditor(elem.editor)
@@ -31,11 +30,7 @@ class IsomorphicEditor extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.mounted = true
-  }
-
-  render = () => (this.mounted && <AceEditor {...this.props} ref={this.setEditorRef} />)
+  render = () => <AceEditor {...this.props} ref={this.setEditorRef} />
 }
 
 const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40vh', readOnly=false }) =>

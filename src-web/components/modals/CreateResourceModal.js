@@ -73,7 +73,7 @@ class CreateResourceModal extends React.PureComponent {
         <Button icon="add--glyph" small id={msgs.get(this.props.submitBtnTextKey, this.context.locale)} key='create-resource' onClick={this.handleModalOpen}>
           { msgs.get(this.props.submitBtnTextKey, this.context.locale) }
         </Button>
-        <Modal
+        {this.state.modalOpen && <Modal
           className='modal-with-editor'
           open={this.state.modalOpen}
           modalHeading={ msgs.get(this.props.headingTextKey, this.context.locale) }
@@ -102,7 +102,7 @@ class CreateResourceModal extends React.PureComponent {
           }
           <YamlEditor onYamlChange={this.handleEditorChange} yaml={this.state.yaml} />
           {this.state.processing && <Loading />}
-        </Modal>
+        </Modal>}
       </div>
     )
   }

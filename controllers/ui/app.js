@@ -140,7 +140,7 @@ function fetchHeader(req, res, store, context) {
           {
             id: 'events',
             label: msgs.get('routes.events', req),
-            url: '/cemui',
+            url: '/cemui/launch',
             disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem')
           },
           {

@@ -12,6 +12,7 @@ import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { Icon } from 'carbon-components-react'
 import withMultiple from './ModalListItem'
+import config from '../../../lib/shared/config'
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
 const Label = ({ id, item, onRemove, onClickRow, onUndo }) =>
@@ -43,15 +44,16 @@ const RemoveIcon = ({ id, onRemove, uniqueKey }, context) =>
     description={msgs.get('svg.description.remove', context.locale)}
   />
 
-const UndoIcon = ({ id, onUndo, uniqueKey }, context) =>
-  <Icon
+const UndoIcon = ({ id, onUndo, uniqueKey }) =>
+  <input
     id={id}
     tabIndex='0'
     onClick={onUndo}
     onKeyDown={e => e.persist && (e.which === 13 || e.which === 32) && onUndo(uniqueKey)}
-    name='icon--arrow--left'
-    description={msgs.get('svg.description.remove', context.locale)}
-  />
+    type='image'
+    alt='undo-icon'
+    className='undo-button'
+    src={`${config.contextPath}/graphics/undo.svg`} />
 
 const Labels = withMultiple(Label, { key: '', value: '' })
 

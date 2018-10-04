@@ -35,7 +35,7 @@ app-version:
 	$(eval VCS_REF := $(if $(WORKING_CHANGES),$(GIT_COMMIT)-$(BUILD_DATE),$(GIT_COMMIT)))
 	$(eval APP_VERSION ?= $(if $(shell cat VERSION 2> /dev/null),$(shell cat VERSION 2> /dev/null),0.0.1))
 	$(eval IMAGE_VERSION ?= $(APP_VERSION)-$(GIT_COMMIT))
-	@echo "App: $(IMAGE_NAME) $(IMAGE_VERSION)"
+	@echo "App: $(IMAGE_NAME_ARCH) $(IMAGE_VERSION)"
 
 .PHONY: check-env
 check-env:
@@ -53,16 +53,16 @@ endif
 
 .PHONY: image
 image:: check-env app-version
-	docker build -t $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_VERSION) \
+	docker build -t $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION) \
            --build-arg "VCS_REF=$(VCS_REF)" \
            --build-arg "VCS_URL=$(GIT_REMOTE_URL)" \
-           --build-arg "IMAGE_NAME=$(IMAGE_NAME)" \
+           --build-arg "IMAGE_NAME=$(IMAGE_NAME_ARCH)" \
            --build-arg "IMAGE_DESCRIPTION=$(IMAGE_DESCRIPTION)" $(DOCKER_FLAG) .
 
 .PHONY: test-image-size
 test-image-size:: check-env app-version
-	@echo "Testing image size: $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_VERSION)"
-	$(eval IMAGE_SIZE= $(shell docker inspect --format='{{.Size}}' $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_VERSION) ) )
+	@echo "Testing image size: $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)"
+	$(eval IMAGE_SIZE= $(shell docker inspect --format='{{.Size}}' $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION) ) )
 	@echo "Image Size: $(IMAGE_SIZE)"
 	@if [ $(IMAGE_SIZE) -gt $(MAX_IMAGE_SIZE) ]; then \
 		echo ERROR: image size greater than $(MAX_IMAGE_SIZE); \
@@ -71,16 +71,16 @@ test-image-size:: check-env app-version
 
 .PHONY: push
 push: check-env app-version
-	docker push $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_VERSION)
+	docker push $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
 
 .PHONY: release
 release: push
-	docker tag $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_VERSION) $(IMAGE_REPO)/$(IMAGE_NAME):$(RELEASE_TAG)
-	docker push $(IMAGE_REPO)/$(IMAGE_NAME):$(RELEASE_TAG)
+	docker tag $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)
+	docker push $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)
 
 .PHONY: show-labels
 show-labels: app-version
-	@docker inspect $(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_VERSION) --format='{{json .Config.Labels}}' | tr , '\n' | tr -d '{' | tr -d '}'
+	@docker inspect $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION) --format='{{json .Config.Labels}}' | tr , '\n' | tr -d '{' | tr -d '}'
 
 .PHONY: manifest-tool
 manifest-tool::

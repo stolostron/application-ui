@@ -70,7 +70,7 @@ class ChartInstall extends React.Component {
       return window.location.replace(`${window.location.origin}/catalog/`)
     }
 
-    this.overviewUrl = `${window.location.origin}/catalog/catalogdetails/${repoName}/${chartName}/${chartVersion}?redirecttoconfigure=true`
+    this.overviewUrl = `${window.location.origin}/catalog/catalogdetails/${repoName}/${chartName}/${chartVersion}?referrer=mcm`
 
     const secondaryHeaderText = `${chartName} V ${chartVersion}`
     const secondaryHeaderBreadcrumbs = [{ label: msgs.get('breadcrumb.viewall', this.context.locale), url: '/catalog/' }]

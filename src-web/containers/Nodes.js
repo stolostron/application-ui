@@ -9,9 +9,10 @@
 'use strict'
 
 import { withRouter } from 'react-router-dom'
-import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
 import { typedResourcePageWithList } from '../components/common/ResourcePage'
 import pageWithUrlQuery from '../components/common/withUrlQuery'
+import withAccess from '../components/common/withAccess'
 
 const resourceType = RESOURCE_TYPES.HCM_NODES
-export default withRouter(pageWithUrlQuery(typedResourcePageWithList(resourceType), resourceType))
+export default withRouter(withAccess(pageWithUrlQuery(typedResourcePageWithList(resourceType), resourceType), ROLES.ADMIN))

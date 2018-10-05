@@ -9,9 +9,10 @@
 'use strict'
 
 import { withRouter } from 'react-router-dom'
-import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
 import { typedResourcePageWithTopology } from '../components/common/ResourcePage'
+import withAccess from '../components/common/withAccess'
 
-export default withRouter(typedResourcePageWithTopology(
+export default withRouter(withAccess(typedResourcePageWithTopology(
   RESOURCE_TYPES.HCM_TOPOLOGY
-))
+), ROLES.OPERATOR))

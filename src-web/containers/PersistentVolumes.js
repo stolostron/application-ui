@@ -12,9 +12,11 @@
 import React from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { ROLES } from '../../lib/shared/constants'
 import config from '../../lib/shared/config'
 import PVsTab from './PVsTab'
 import PVsClaimsTab from './PVsClaimsTab'
+import withAccess from '../components/common/withAccess'
 
 const BASE_PAGE_PATH = `${config.contextPath}/storage`
 const SECONDARY_HEADER_PROPS = {
@@ -44,4 +46,4 @@ pvs.propTypes = {
   match: PropTypes.object,
 }
 
-export default withRouter(pvs)
+export default withRouter(withAccess(pvs, ROLES.ADMIN))

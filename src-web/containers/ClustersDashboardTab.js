@@ -14,7 +14,7 @@ import resources from '../../lib/shared/resources'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateSecondaryHeader } from '../actions/common'
-import { RESOURCE_TYPES } from '../../lib/shared/constants'
+import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
 import { REQUEST_STATUS } from '../actions/index'
 // import HealthOverview from '../components/dashboard/HealthOverview'
 import ResourceOverview from '../components/dashboard/ResourceOverview'
@@ -24,6 +24,7 @@ import StatusOverview from '../components/dashboard/StatusOverview'
 // import SettingsButton from '../../components/common/SettingsButton'
 import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
+import withAccess from '../components/common/withAccess'
 import PropTypes from 'prop-types'
 import { fetchDashboardResources } from '../actions/dashboard'
 import { Loading, Notification } from 'carbon-components-react'
@@ -136,4 +137,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ClustersDashboardTab))
+export default withRouter(withAccess(connect(mapStateToProps, mapDispatchToProps)(ClustersDashboardTab), ROLES.OPERATOR))

@@ -13,9 +13,11 @@
 import React from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { ROLES } from '../../lib/shared/constants'
 import config from '../../lib/shared/config'
 import LocalPoliciesTab from './LocalPoliciesTab'
 import ClusterComplianceTab from './ClusterCompliances'
+import withAccess from '../components/common/withAccess'
 
 const BASE_PAGE_PATH = `${config.contextPath}/policies`
 const SECONDARY_HEADER_PROPS = {
@@ -45,4 +47,4 @@ Policies.propTypes = {
   match: PropTypes.object,
 }
 
-export default withRouter(Policies)
+export default withRouter(withAccess(Policies, ROLES.CLUSTER_ADMIN))

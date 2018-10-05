@@ -189,7 +189,8 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
               <a
                 aria-describedby="launchWindow"
                 className="bx--link"
-                href="https://www-03preprod.ibm.com/support/knowledgecenter/SSBS6K_hcm_preview/getting_started/readme_techpreview.html"
+                href="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/mcm/manage_cluster/add_remove_cluster.html"
+                target="_cluster"
               >
                 Manage clusters
               </a>

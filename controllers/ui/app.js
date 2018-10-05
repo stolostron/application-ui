@@ -78,6 +78,9 @@ function fetchHeader(req, res, store, context) {
       },
       body: {
         logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
+        docUrlMapping: {
+          [`${config.get('contextPath')}`]: 'mcm/getting_started/introduction.html'
+        },
         about: {
           logoUrl: `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
           copyright: msgs.get('product.copyright', req)
@@ -141,7 +144,8 @@ function fetchHeader(req, res, store, context) {
             id: 'events',
             label: msgs.get('routes.events', req),
             url: '/cemui/launch',
-            disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem')
+            disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
+            target: '_cem'
           },
           {
             id: 'security',

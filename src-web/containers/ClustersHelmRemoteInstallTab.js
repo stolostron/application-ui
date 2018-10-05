@@ -135,7 +135,7 @@ const mapStateToProps = state => {
   const clusterList = get(state, `${RESOURCE_TYPES.HCM_CLUSTERS.list}.items`, [])
 
   const { clusters, clusterToNamespace } = reduce(clusterList,
-    (accum, { name, namespace }) => {
+    (accum, { metadata: { name, namespace } }) => {
       accum.clusters[name] = { label: name }
       accum.clusterToNamespace[name] = namespace
 

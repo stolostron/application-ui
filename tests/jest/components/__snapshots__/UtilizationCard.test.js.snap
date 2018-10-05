@@ -1,0 +1,413 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UtilizationCard component 1 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single bx--tile dashboard-card"
+  critical={1}
+  healthy={1}
+  title="unit test"
+  type="pods"
+  warning={1}
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header dashboard-card-header__utilization"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test
+      </h1>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-orb"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__util-critical"
+              >
+                1
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text"
+            >
+              Above 90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__util-warning"
+              >
+                1
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text"
+            >
+              75-90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__util-healthy"
+              >
+                1
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text"
+            >
+              Below 75%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
+      <div
+        className="dashboard-card-separator-link"
+      >
+        <a
+          href="undefined/clusters"
+          onClick={[Function]}
+        >
+          View All
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UtilizationCard component 2 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single bx--tile dashboard-card"
+  critical={0}
+  healthy={0}
+  title="unit test 2"
+  type="pods"
+  warning={1}
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header dashboard-card-header__utilization"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test 2
+      </h1>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-orb"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              Above 90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__util-warning"
+              >
+                1
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text"
+            >
+              75-90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              Below 75%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
+      <div
+        className="dashboard-card-separator-link"
+      >
+        <a
+          href="undefined/clusters"
+          onClick={[Function]}
+        >
+          View All
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UtilizationCard component 3 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single bx--tile dashboard-card"
+  critical={0}
+  healthy={1}
+  title="unit test 3"
+  type="pods"
+  warning={0}
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header dashboard-card-header__utilization"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test 3
+      </h1>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-orb"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              Above 90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              75-90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__util-healthy"
+              >
+                1
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text"
+            >
+              Below 75%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
+      <div
+        className="dashboard-card-separator-link"
+      >
+        <a
+          href="undefined/clusters"
+          onClick={[Function]}
+        >
+          View All
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`UtilizationCard component 4 renders as expected 1`] = `
+<div
+  className="bx--module bx--module--single bx--tile dashboard-card"
+  critical={0}
+  healthy={0}
+  title="unit test 4"
+  type="pods"
+  warning={0}
+>
+  <div
+    className="bx--module__inner"
+  >
+    <div
+      className="bx--module__header dashboard-card-header__utilization"
+    >
+      <h1
+        className="bx--module__title"
+      >
+        unit test 4
+      </h1>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-orb"
+    >
+      <div
+        className="dashboard-overview"
+      >
+        <div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              Above 90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              75-90%
+            </p>
+          </div>
+          <div
+            className="dashboard-count "
+          >
+            <div
+              className="dashboard-orb"
+            >
+              <div
+                className="dashboard-orb dashboard-orb__inner dashboard-orb__gray"
+              >
+                0
+              </div>
+            </div>
+            <p
+              className="dashboard-card-text dashboard-card-text__gray"
+            >
+              Below 75%
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="bx--module__content dashboard-card-table-body"
+    >
+      <div
+        className="dashboard-card-separator-link"
+      >
+        <a
+          href="undefined/clusters"
+          onClick={[Function]}
+        >
+          View All
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

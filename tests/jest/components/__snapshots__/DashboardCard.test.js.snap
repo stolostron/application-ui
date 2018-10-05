@@ -43,7 +43,16 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
         <div
           className="dashboard-card-header__icon"
         >
-          unit test
+          <div
+            className="dashboard-card-header__icon-title"
+          >
+            unit test
+          </div>
+          <span
+            className="bx--tag bx--tag--beta"
+          >
+            3
+          </span>
           <svg
             alt="table-status-icon-critical"
             aria-label="table-status-icon-critical"
@@ -229,7 +238,16 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
         <div
           className="dashboard-card-header__icon"
         >
-          unit test 2
+          <div
+            className="dashboard-card-header__icon-title"
+          >
+            unit test 2
+          </div>
+          <span
+            className="bx--tag bx--tag--beta"
+          >
+            1
+          </span>
           <svg
             alt="table-status-icon-warning"
             aria-label="table-status-icon-warning"
@@ -283,12 +301,12 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Failed
                   </li>
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Not running
                   </li>
@@ -350,12 +368,12 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Running
                   </li>
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Succeeded
                   </li>
@@ -414,7 +432,16 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
         <div
           className="dashboard-card-header__icon"
         >
-          unit test 3
+          <div
+            className="dashboard-card-header__icon-title"
+          >
+            unit test 3
+          </div>
+          <span
+            className="bx--tag bx--tag--beta"
+          >
+            1
+          </span>
         </div>
       </h1>
     </div>
@@ -448,12 +475,12 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Failed
                   </li>
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Not running
                   </li>
@@ -484,7 +511,7 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Pending
                   </li>
@@ -571,7 +598,16 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
         <div
           className="dashboard-card-header__icon"
         >
-          unit test 4
+          <div
+            className="dashboard-card-header__icon-title"
+          >
+            unit test 4
+          </div>
+          <span
+            className="bx--tag bx--tag--beta"
+          >
+            Beta
+          </span>
         </div>
       </h1>
     </div>
@@ -605,12 +641,12 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Failed
                   </li>
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Not running
                   </li>
@@ -641,7 +677,7 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Pending
                   </li>
@@ -672,12 +708,12 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
                   className="dashboard-card-text-list"
                 >
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Running
                   </li>
                   <li
-                    className="dashboard-card-text-list-item"
+                    className="dashboard-card-text-list-item-alt"
                   >
                     Succeeded
                   </li>

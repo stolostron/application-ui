@@ -29,9 +29,6 @@ class StatusOverview extends React.Component {
               critical={item.critical}
               warning={item.warning}
               healthy={item.healthy}
-              table={item.table}
-              percentage={item.percentage}
-              type={item.type}
               title={msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`, locale)}
               key={item.name}
               id={`card-${item.name.replace(' ', '-')}`}

@@ -9,7 +9,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData, Icon } from 'carbon-components-react'
+import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData, Tag, Icon } from 'carbon-components-react'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
 import truncate from '../util/truncate-middle'
@@ -20,9 +20,9 @@ resources(() => {
   require('../../scss/dashboard-card.scss')
 })
 
-function formatStatus(statusArray) {
+function formatStatus(statusArray, value) {
   const statuses = JSON.parse(statusArray).map((status) => {
-    return <li className='dashboard-card-text-list-item' key={status}>{status}</li>
+    return <li className={`dashboard-card-text-list-item${value ? '' : '-alt'}`} key={status}>{status}</li>
   })
   return <ul className='dashboard-card-text-list'>{statuses}</ul>
 }
@@ -35,8 +35,8 @@ const DashboardOrb = ({ sev = 'healthy', status = ['healthy'], value, className 
         : <div className={`dashboard-orb dashboard-orb__inner dashboard-orb__${sev}`}>{value}</div>}
     </div>
     {value === 0
-      ? <div className={'dashboard-card-text dashboard-card-text__gray'}>{formatStatus(status)}</div>
-      : <div className={'dashboard-card-text'}>{formatStatus(status)}</div>}
+      ? <div className={'dashboard-card-text dashboard-card-text__gray'}>{formatStatus(status, false)}</div>
+      : <div className={'dashboard-card-text'}>{formatStatus(status, true)}</div>}
   </div>
 )
 
@@ -168,11 +168,13 @@ export class DashboardCard extends React.PureComponent {
       critical = 0, healthy = 0, title, table, warning = 0, type = ''
     } = this.props
     const cardStatus = getTableStatus(critical, healthy, warning)
+    const totalCount = critical + warning + healthy
     return table && (
       <Module className={`bx--tile dashboard-card dashboard-card__${cardStatus}`} size="single" {...this.props}>
         <ModuleHeader className={`dashboard-card-header__${cardStatus}`}>
           <div className='dashboard-card-header__icon'>
-            {title}
+            <div className='dashboard-card-header__icon-title'>{title}</div>
+            <Tag type='beta' >{totalCount}</Tag>
             {cardStatus !== 'healthy'
               ? <Icon className={`dashboard-card-header__icon__${cardStatus}`} name={getIcon(cardStatus)} description={`table-status-icon-${cardStatus}`} role='img' />
               : null}

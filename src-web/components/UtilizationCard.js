@@ -86,6 +86,5 @@ UtilizationCard.propTypes = {
   critical: PropTypes.number,
   healthy: PropTypes.number,
   title: PropTypes.string,
-  type: PropTypes.string,
   warning: PropTypes.number,
 }

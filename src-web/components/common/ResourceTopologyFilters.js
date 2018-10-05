@@ -121,12 +121,12 @@ const mapStateToProps = (state) =>{
     failure: filtersStatus === Actions.REQUEST_STATUS.ERROR
   }
 }
-
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchFilters: () => dispatch(fetchTopologyFilters()),
     onSelectedFilterChange: (filterType, filter) => {
-      dispatch(updateTopologyFilters(filterType, filter))
+      const { params: {name='', namespace=''}} = ownProps
+      dispatch(updateTopologyFilters(filterType, filter, namespace, name))
     },
   }
 }

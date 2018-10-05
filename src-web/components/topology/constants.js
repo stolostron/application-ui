@@ -8,5 +8,5 @@
  *******************************************************************************/
 'use strict'
 
-export const NODE_RADIUS = 26
+export const NODE_RADIUS = 28
 export const NODE_SIZE = 50

@@ -41,7 +41,7 @@ export const receiveTopologySuccess = (response, resourceType) => ({
   resourceType
 })
 
-export const fetchActiveTopologyFilters = (resourceType, namespace, name, staticResourceData) => {
+export const fetchRequiredTopologyFilters = (resourceType, namespace, name, staticResourceData) => {
   return (dispatch) => {
     dispatch(requestResource(resourceType))
     return apolloClient.getResource(resourceType, {namespace, name})
@@ -50,7 +50,7 @@ export const fetchActiveTopologyFilters = (resourceType, namespace, name, static
           return dispatch(receiveResourceError(response.errors[0], resourceType))
         }
         dispatch({
-          type: Actions.TOPOLOGY_ACTIVE_FILTERS_RECEIVE_SUCCESS,
+          type: Actions.TOPOLOGY_REQUIRED_FILTERS_RECEIVE_SUCCESS,
           item: lodash.cloneDeep(response.data.items[0]),
           staticResourceData
         }, resourceType)
@@ -81,10 +81,18 @@ export const fetchTopology = (vars) => {
   }
 }
 
-export const updateTopologyFilters = (filterType, filters) => ({
+export const restoreSavedTopologyFilters = (namespace, name) => ({
+  type: Actions.TOPOLOGY_RESTORE_SAVED_FILTERS,
+  namespace,
+  name,
+})
+
+export const updateTopologyFilters = (filterType, filters, namespace, name) => ({
   type: Actions.TOPOLOGY_FILTERS_UPDATE,
   filterType,
   filters,
+  namespace,
+  name
 })
 
 const  receiveFiltersError = (err) => ({

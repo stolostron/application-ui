@@ -32,13 +32,18 @@ class ResourceTopologyDiagram extends React.Component {
     clusters: PropTypes.array,
     links: PropTypes.array,
     nodes: PropTypes.array,
+    requiredFilters: PropTypes.object,
     staticResourceData: PropTypes.object,
     status: PropTypes.string,
   }
 
   constructor (props) {
     super(props)
-    this.state = { clusters: props.clusters, loaded:false }
+    this.state = {
+      clusters: props.clusters,
+      ignoreNotification: false,
+      loaded:false
+    }
   }
 
   componentWillReceiveProps(nextProps){
@@ -84,12 +89,15 @@ class ResourceTopologyDiagram extends React.Component {
        !lodash.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
        !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
+       !lodash.isEqual(this.props.requiredFilters, nextProps.requiredFilters) ||
        this.state.loaded !== nextState.loaded
   }
 
+  handleNotificationClosed = () => this.setState({ ignoreNotification: true })
+
   render() {
-    const { activeFilters, status, staticResourceData} = this.props
-    const { clusters, loaded } = this.state
+    const { activeFilters, requiredFilters={}, status, staticResourceData} = this.props
+    const { clusters, ignoreNotification, loaded } = this.state
     const {locale} = this.context
 
     if (status === Actions.REQUEST_STATUS.ERROR) {
@@ -100,15 +108,50 @@ class ResourceTopologyDiagram extends React.Component {
         kind='error' />
     }
 
+    // show spinner
     if (!loaded)
       return <Loading withOverlay={false} className='content-spinner' />
 
+    // if there are required filters make sure there's at least one k8 object with a match
+    let notification = undefined
+    if (Object.keys(requiredFilters).length>0 && !ignoreNotification) {
+      const reqMap = {}
+      requiredFilters.label.forEach(({label, name, value})=>{
+        reqMap[name+'='+value] = label
+      })
+      clusters.forEach(({nodes})=>{
+        nodes.forEach(({labels}) =>{
+          labels.forEach(({name, value})=>{
+            delete reqMap[name+'='+value]
+          })
+        })
+      })
+      if (Object.keys(reqMap).length>0) {
+        notification =
+        notification = {
+          title: msgs.get('topology.required.objects', this.context.locale),
+          subtitle: Object.values(reqMap).join('; ')
+        }
+      }
+    }
+
+    // if no objects show "No objects" notification
     if (clusters.length===0) {
-      return <Notification
-        title=''
-        className='persistent'
-        subtitle={msgs.get('topology.no.objects', locale)}
-        kind='info' />
+      if (notification) {
+        return <Notification
+          title={notification.title}
+          role="alert"
+          className='persistent'
+          subtitle={notification.subtitle}
+          kind='error' />
+      } else {
+        return <Notification
+          title=''
+          role="alert"
+          className='persistent'
+          subtitle={msgs.get('topology.no.objects', locale)}
+          kind='info' />
+      }
     }
 
     return (
@@ -122,6 +165,9 @@ class ResourceTopologyDiagram extends React.Component {
               nodes={nodes}
               links={links}
               context={this.context}
+              notification={notification}
+              ignoreNotification={ignoreNotification}
+              handleNotificationClosed={this.handleNotificationClosed}
               staticResourceData={staticResourceData}
               activeFilters={activeFilters}
             />
@@ -138,7 +184,7 @@ ResourceTopologyDiagram.contextTypes = {
 }
 
 const mapStateToProps = (state) =>{
-  const { activeFilters, status } = state.topology
+  const { activeFilters, requiredFilters, status } = state.topology
   const staticResourceData = getResourceDefinitions(RESOURCE_TYPES.HCM_TOPOLOGY)
   const {clusters, links, nodes} =  staticResourceData.topologyTransform(state.topology)
   return {
@@ -147,6 +193,7 @@ const mapStateToProps = (state) =>{
     nodes,
     staticResourceData,
     activeFilters,
+    requiredFilters,
     status,
   }
 }

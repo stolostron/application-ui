@@ -25,10 +25,12 @@ export default class LinkHelper {
    *
    * Contains functions to draw and manage links between nodes in the diagram.
    */
-  constructor(svg, links, selfLinks, nodes) {
+  constructor(svg, links, selfLinks, nodes, topologyShapes, topologyOptions) {
     this.links = links.concat(Object.values(selfLinks))
     this.svg = svg
     this.nodeMap = _.keyBy(nodes, 'layout.uid')
+    this.topologyShapes = topologyShapes
+    this.topologyOptions = topologyOptions
   }
 
   /**
@@ -82,6 +84,36 @@ export default class LinkHelper {
         }
       })
       .style('opacity', 0.0)
+
+
+    // labels
+    if (this.topologyOptions.showLineLabels) {
+      const labels = this.svg.select('g.labels')
+        .selectAll('g.label')
+      // if nodes have been consolidated, a link might not be drawn
+        .data(this.links.filter(({layout})=>!!layout), l => {
+          return l.uid
+        })
+        .enter().append('g')
+        .attrs({
+          'class': 'label',
+          'transform': currentZoom
+        })
+
+      labels.append('text')
+        .attr('class', 'linkText')
+        .append('textPath')
+        .attrs(({uid}) => {
+          return {
+            'xlink:href': `#link-${uid}`
+          }
+        })
+        .styles({
+          'text-anchor': 'middle',
+          'opacity': 0.0
+        })
+        .text((d) => { return d.label })
+    }
   }
 
   moveLinks = (transition) => {
@@ -103,7 +135,7 @@ export default class LinkHelper {
     // back link away from node so that end markers just touch the shape
     links.selectAll('path')
       .attr('d', ({layout},i,ns) => {
-        return getBackedOffPath(ns[i], layout)
+        return getBackedOffPath(ns[i], layout, this.topologyShapes)
       })
       .transition(transition)
       .attr('transform', ({layout}) => {
@@ -111,10 +143,32 @@ export default class LinkHelper {
         return `translate(${x}, ${y})`
       })
       .style('opacity', 1.0)
+
+
+    // move line labels
+    if (this.topologyOptions.showLineLabels) {
+      const labels = this.svg.select('g.labels').selectAll('g.label')
+      labels.selectAll('text')
+        .selectAll('textPath')
+        .transition(transition)
+        .text(({layout={}, label}) => {
+          return layout.isParallel ? '< both >' :
+            (layout.isLoop ? label :
+              (layout.isSwapped ? `< ${label}` : `${label} >`))
+        })
+        .attrs(() => {
+          return {
+            'startOffset': '50%'
+          }
+        })
+        .style('opacity', ({layout}) => {
+          return layout.hidden ? 0.0 : 1.0
+        })
+    }
   }
 }
 
-export const dragLinks = (svg, d) => {
+export const dragLinks = (svg, d, topologyShapes) => {
   svg.select('g.links').selectAll('g.link').each((l,i,ns)=>{
     if (l.layout.source.uid === d.layout.uid || l.layout.target.uid === d.layout.uid) {
       const link = d3.select(ns[i])
@@ -140,7 +194,7 @@ export const dragLinks = (svg, d) => {
         return lineFunction(layout.lineData)
       })
       path.attr('d', ({layout},i,ns) => {
-        return getBackedOffPath(ns[i], layout)
+        return getBackedOffPath(ns[i], layout, topologyShapes)
       })
     }
   })
@@ -214,13 +268,15 @@ export const setDraggedLineData = (layout) => {
   delete layout.backedOff
 }
 
-export const getBackedOffPath = (svgPath, layout) => {
-  const {lineData, backedOff, source:{isHub:isSrcHub}, target:{isHub:isTgtHub}} = layout
+export const getBackedOffPath = (svgPath, layout, topologyShapes) => {
+  const {lineData, backedOff, source:{isHub:isSrcHub, type:srcType}, target:{isHub:isTgtHub, type:tgtType}} = layout
   let {linePath} = layout
   if (!backedOff) {
-    lineData[0] = svgPath.getPointAtLength(NODE_RADIUS+(isSrcHub?15:0))
+    const srcRadius = topologyShapes[srcType].nodeRadius || NODE_RADIUS
+    const tgtRadius = topologyShapes[tgtType].nodeRadius || NODE_RADIUS
+    lineData[0] = svgPath.getPointAtLength(srcRadius+(isSrcHub?15:0))
     lineData[lineData.length-1] = svgPath.getPointAtLength(
-      svgPath.getTotalLength()-NODE_RADIUS-(isTgtHub?15:5))
+      svgPath.getTotalLength()-tgtRadius-(isTgtHub?15:5))
     linePath = layout.linePath = lineFunction(layout.lineData)
     layout.backedOff = true
   }

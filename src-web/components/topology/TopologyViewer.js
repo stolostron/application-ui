@@ -17,6 +17,7 @@ import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import LinkHelper, {appendLinkDefs} from './linkHelper'
 import NodeHelper, {counterZoomLabels} from './nodeHelper'
+import { InlineNotification } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -35,7 +36,9 @@ class TopologyViewer extends React.Component {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
     getEditor: PropTypes.func,
+    handleNotificationClosed: PropTypes.func,
     id: PropTypes.string,
+    ignoreNotification: PropTypes.bool,
     links: PropTypes.arrayOf(PropTypes.shape({
       source: PropTypes.any,
       target: PropTypes.any,
@@ -48,6 +51,7 @@ class TopologyViewer extends React.Component {
       type: PropTypes.string,
       name: PropTypes.string,
     })),
+    notification: PropTypes.object,
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string,
@@ -74,6 +78,7 @@ class TopologyViewer extends React.Component {
     }, 150)
     const { locale } = this.props.context
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
+    this.topologyOptions = this.props.staticResourceData.topologyOptions||{}
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.lastLayoutBBox=undefined
   }
@@ -95,9 +100,11 @@ class TopologyViewer extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     return this.state.selectedNodeId !== nextState.selectedNodeId
     || !_.isEqual(this.state.activeFilters, nextState.activeFilters)
+    || !_.isEqual(this.state.requiredFilters, nextState.requiredFilters)
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
+    || this.props.notification !== nextProps.notification
   }
 
   // weave scans can:
@@ -178,7 +185,7 @@ class TopologyViewer extends React.Component {
   }
 
   render() {
-    const { title, context, staticResourceData, getEditor } = this.props
+    const { title, context, notification, staticResourceData, getEditor, ignoreNotification, handleNotificationClosed } = this.props
     const { selectedNodeId } = this.state
     const { locale } = context
     const svgId = this.getSvgId()
@@ -188,6 +195,16 @@ class TopologyViewer extends React.Component {
           {msgs.get('cluster.name', [title], locale)}
         </div>}
         <div className='topologyViewerContainer' role='region' aria-label='zoom'>
+          {notification && !ignoreNotification &&
+            <div className='notificationContainer'>
+              <InlineNotification
+                title={notification.title}
+                iconDescription=''
+                subtitle={notification.subtitle}
+                onCloseButtonClick={handleNotificationClosed}
+                kind='warning' />
+            </div>
+          }
           <svg id={svgId} className="topologyDiagram" />
           <input type='image' alt='zoom-in' className='zoom-in'
             onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
@@ -245,6 +262,7 @@ class TopologyViewer extends React.Component {
     if (svg) {
       svg.select('g.nodes').selectAll('*').remove()
       svg.select('g.links').selectAll('*').remove()
+      svg.select('g.labels').selectAll('*').remove()
       svg.select('g.clusters').selectAll('*').remove()
     }
   }
@@ -258,6 +276,7 @@ class TopologyViewer extends React.Component {
       this.svg = d3.select('#'+this.getSvgId())
       this.svg.append('g').attr('class', 'clusters')
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
+      this.svg.append('g').attr('class', 'labels')  // same for link labels
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.getSvgSpace())
@@ -285,12 +304,12 @@ class TopologyViewer extends React.Component {
       this.svg.interrupt().selectAll('*').interrupt()
 
       // Create or refresh the links in the diagram.
-      const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes)
+      const {topologyShapes} = this.props.staticResourceData
+      const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes, topologyShapes, this.topologyOptions)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transformation)
 
-      const {topologyShapes} = this.props.staticResourceData
       const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap, ()=>{
         this.highlightMode = false
       })
@@ -320,6 +339,9 @@ class TopologyViewer extends React.Component {
             .transition(transition)
             .attr('transform', d3.event.transform)
           svg.select('g.links').selectAll('g.link')
+            .transition(transition)
+            .attr('transform', d3.event.transform)
+          svg.select('g.labels').selectAll('g.label')
             .transition(transition)
             .attr('transform', d3.event.transform)
 

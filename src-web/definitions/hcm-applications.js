@@ -248,11 +248,14 @@ export default {
       },
     ],
   },
+
+  /////////////////////// DESIGN TAB //////////////////////////////////
   topologyOrder: ['application', 'deployer', 'policy', 'dependency'],
   topologyShapes: {
     'application': {
       shape: 'roundedSq',
-      className: 'container'
+      className: 'container',
+      nodeRadius: 30
     },
     'deployer': {
       shape: 'circle',
@@ -270,7 +273,10 @@ export default {
   topologyNodeLayout: setNodeInfo,
   topologyTransform: topologyTransform,
   topologyNodeDetails: getNodeDetails,
-  topologyActiveFilters: getActiveFilters
+  topologyRequiredFilters: getRequiredFilters,
+  topologyOptions: {
+    showLineLabels: true, // show labels on lines
+  }
 }
 
 export function createApplicationLink(item = {}){
@@ -303,7 +309,7 @@ export function getDependencies(item = {}){
   return '-'
 }
 
-export function getActiveFilters(item) {
+export function getRequiredFilters(item) {
   let label = []
   const {selector={}} = item
   for (var key in selector) {

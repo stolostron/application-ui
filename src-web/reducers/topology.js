@@ -63,17 +63,9 @@ export const topology = (state = initialState, action) => {
     }
   }
   case Actions.TOPOLOGY_RESTORE_SAVED_FILTERS: {
-    const savingFilters = true
-    let activeFilters = {...state.activeFilters} || {}
-    const savedActiveFilters = localStorage.getItem(`${HCM_TOPOLOGY_FILTER_COOKIE}`)
-    if (savedActiveFilters) {
-      try {
-        activeFilters = JSON.parse(savedActiveFilters)
-      } catch (e) {
-        //
-      }
-    }
-    return {...state, activeFilters, savingFilters}
+    const activeFilters = getActiveFilters(state)
+    return {...state, activeFilters, savingFilters: true}
+
   }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS: {
     // The 'clusters' filter is different from other filters.
@@ -114,16 +106,37 @@ export const topology = (state = initialState, action) => {
     const activeFilters = {...state.activeFilters} || {}
     activeFilters[action.filterType] = action.filters
     if (state.savingFilters) {
-      localStorage.setItem(`${HCM_TOPOLOGY_FILTER_COOKIE}`, JSON.stringify(activeFilters))
+      const {namespace, name} = action
+      const cookieKey = namespace ? `${HCM_TOPOLOGY_FILTER_COOKIE}--${namespace}--${name}` : `${HCM_TOPOLOGY_FILTER_COOKIE}`
+      localStorage.setItem(cookieKey, JSON.stringify(activeFilters))
     }
     return {...state, activeFilters}
   }
-  case Actions.TOPOLOGY_ACTIVE_FILTERS_RECEIVE_SUCCESS: {
-    const {item, staticResourceData: {topologyActiveFilters}} = action
-    const activeFilters = topologyActiveFilters(item)
-    return {...state, activeFilters}
+  case Actions.TOPOLOGY_REQUIRED_FILTERS_RECEIVE_SUCCESS: {
+    const {item, staticResourceData: {topologyRequiredFilters}} = action
+    const {metadata: {namespace, name}} = item
+    const activeFilters = getActiveFilters(state, namespace, name)
+    const requiredFilters = topologyRequiredFilters(item)
+    activeFilters.label = requiredFilters.label
+    return {...state, activeFilters, requiredFilters, savingFilters: true}
   }
   default:
     return { ...state }
   }
 }
+
+const getActiveFilters = (state = initialState, namespace, name) => {
+  const cookieKey = namespace ? `${HCM_TOPOLOGY_FILTER_COOKIE}--${namespace}--${name}` : `${HCM_TOPOLOGY_FILTER_COOKIE}`
+  let activeFilters = {...state.activeFilters} || {}
+  const savedActiveFilters = localStorage.getItem(cookieKey)
+  if (savedActiveFilters) {
+    try {
+      activeFilters = JSON.parse(savedActiveFilters)
+    } catch (e) {
+      //
+    }
+  }
+  return activeFilters
+}
+
+

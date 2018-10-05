@@ -308,7 +308,7 @@ export default class NodeHelper {
     })
 
     // drag any connecting link
-    dragLinks(this.svg, d)
+    dragLinks(this.svg, d, this.topologyShapes)
   }
 }
 

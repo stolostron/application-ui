@@ -14,6 +14,13 @@
 
   .topologyViewerContainer {
       height: calc(100vh - 330px);
+
+      .notificationContainer {
+        position: absolute;
+        background-color: white;
+        right: 0;
+        top: 0;
+      }
   }
 }
 

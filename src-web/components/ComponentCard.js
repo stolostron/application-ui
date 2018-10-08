@@ -62,14 +62,14 @@ const getIcon = (status) => {
   }
 }
 
-const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namespace, type, ...rest }) => {
+const DashboardTableRow = ({ consoleURL, percentage, resourceName, status, namespace, type, ...rest }) => {
   const iconName = getIcon(status)
   return (
     <TableRow {...rest}>
       {status != null ?
         <TableData className='dashboard-status-link'>
-          {clusterIP ? (namespace ? <a href={`https://${clusterIP}:8443/catalog/instancedetails/${namespace}/${resourceName}`}>{truncate(resourceName, 34)}</a>
-            : <a href={`https://${clusterIP}:8443/console/dashboard`}>{truncate(resourceName, 34)}</a> )
+          {consoleURL ? (namespace ? <a href={`${consoleURL}/catalog/instancedetails/${namespace}/${resourceName}`}>{truncate(resourceName, 34)}</a>
+            : <a href={`${consoleURL}/console/dashboard`}>{truncate(resourceName, 34)}</a> )
             : <Link to={`${config.contextPath}/${type}?filters={"name":["${resourceName}"]}`}>{truncate(resourceName, 34)}</Link>
           }
         </TableData> : <TableData />
@@ -86,7 +86,7 @@ const DashboardTableRow = ({ clusterIP, percentage, resourceName, status, namesp
 }
 
 export const TableRowPropType = {
-  clusterIP: PropTypes.string,
+  consoleURL: PropTypes.string,
   namespace: PropTypes.string,
   percentage: PropTypes.number,
   resourceName: PropTypes.string,

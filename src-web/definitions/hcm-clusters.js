@@ -72,7 +72,7 @@ export default {
 }
 
 export function getExternalLink(item, locale) {
-  return item.clusterip ? <a target="_blank" href={`https://${item.clusterip}:8443/console`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
+  return item.consoleURL ? <a target="_blank" href={`${item.consoleURL}/console`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
 }
 
 export function getLabels(item) {

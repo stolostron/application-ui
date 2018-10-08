@@ -54,5 +54,5 @@ export function getRole(item) {
 }
 
 export function getNodeLink(item) {
-  return <a target='_blank' href={`https://${item.cluster.clusterip}:8443/console/platform/nodes/${item.metadata.name}`}>{item.metadata.name}</a>
+  return <a target='_blank' href={`${item.cluster.consoleURL}/console/platform/nodes/${item.metadata.name}`}>{item.metadata.name}</a>
 }

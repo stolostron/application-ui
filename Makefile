@@ -42,6 +42,8 @@ push: check-env app-version
 
 .PHONY: run
 run: check-env app-version
+	# Both containers mcm-ui and mcm-ui-api must be on the same network.
+	docker network create --subnet 10.10.0.0/16 mcm-network
 	docker run \
 	-e NODE_ENV=development \
 	-e cfcRouterUrl=$(cfcRouterUrl) \
@@ -49,7 +51,9 @@ run: check-env app-version
 	-e WLP_CLIENT_ID=$(WLP_CLIENT_ID) \
 	-e WLP_CLIENT_SECRET=$(WLP_CLIENT_SECRET) \
 	-e WLP_REDIRECT_URL=$(WLP_REDIRECT_URL) \
-	-e hcmUiApiUrl=$(hcmUiApiUrl) \
+	-e hcmUiApiUrl=https://10.10.0.5:4000/hcmuiapi \
+	--name mcm-ui \
+	--network mcm-network \
 	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
 
 push: check-env app-version
@@ -74,6 +78,14 @@ ifeq ($(UNIT_TESTS), TRUE)
 endif
 ifeq ($(SELENIUM_TESTS), TRUE)
 ifeq ($(ARCH), x86_64)
+	docker pull $(IMAGE_REPO)/mcm-ui-api-amd64
+	docker run \
+	-e NODE_ENV=test \
+	-e MOCK=true \
+	--name mcm-ui-api \
+	--network mcm-network \
+	--ip 10.10.0.5 \
+	-d -p 127.0.0.1:4000:4000 $(IMAGE_REPO)/mcm-ui-api-amd64
 	npm install selenium-standalone@6.12.0 xml2json@0.11.0 nightwatch@0.9.20
 	nightwatch
 endif

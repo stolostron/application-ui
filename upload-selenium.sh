@@ -4,7 +4,7 @@
 # Use, duplication or disclosure restricted by GSA ADP Schedule 
 # Contract with IBM Corp. 
 
-spawn scp -r selenium-test root@9.42.23.217:/root
+spawn scp -r selenium-test root@9.42.81.137:/root
 
 expect "Please type 'yes' or 'no':"
 

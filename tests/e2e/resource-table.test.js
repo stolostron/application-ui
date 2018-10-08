@@ -11,9 +11,10 @@ const config = require('../../config')
 const ROUTE = {
   'verify-clusters-list-content': '/clusters',
   'verify-clusters-pods-list-content': '/pods',
-  'verify-clusters-charts-list-content': '/charts',
+  'verify-clusters-applications-list-content': '/applications',
   'verify-clusters-releases-list-content': '/releases',
-  'verify-clusters-repositories-list-content': '/repositories'
+  'verify-clusters-compliances-list-content': '/policies',
+  'verify-clusters-local-policies-list-content': '/policies/local',
 }
 
 module.exports = {
@@ -33,15 +34,19 @@ module.exports = {
     verifyResourcePage(browser)
   },
 
-  // 'verify-clusters-charts-list-content': (browser) => {
-  //   verifyResourcePage(browser)
-  // },
+  'verify-clusters-applications-list-content': (browser) => {
+    verifyResourcePage(browser)
+  },
 
   'verify-clusters-releases-list-content': (browser) => {
     verifyResourcePage(browser)
   },
 
-  'verify-clusters-repositories-list-content': (browser) => {
+  'verify-clusters-compliances-list-content': (browser) => {
+    verifyResourcePage(browser)
+  },
+
+  'verify-clusters-local-policies-list-content': (browser) => {
     verifyResourcePage(browser)
   },
 

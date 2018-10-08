@@ -26,7 +26,7 @@ module.exports = {
     overflowMenuDeploy: '[data-table-action="table.actions.applications.deploy"]',
     overflowMenuRemove: '[data-table-action="table.actions.applications.remove"]',
     overflowMenuUndeploy: '[data-table-action="table.actions.applications.undeploy"]',
-    registerAppBtn: '#register-application',
+    registerAppBtn: '#mcm-create-resource',
     registerAppModal: '.bx--modal',
     resourceSearch: '#resource-search',
     spinner: '.content-spinner',

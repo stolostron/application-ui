@@ -46,7 +46,7 @@ before_script:
 script:
   - make copyright-check
   - make test
-  - make cicd-log-test
+#  - make cicd-log-test
   - export PREV_COVERAGE_REPORT=$(curl -L https://raw.github.ibm.com/IBMPrivateCloud/mcm-ui/gh-pages/coverage/coverage-summary.json?token=AAAIcYdU9BA4KG4HKTNeLM4VpS4dxtgXks5bX0o9wA%3D%3D)
   - node travis-scripts/enforce-coverage.js
 
@@ -74,9 +74,9 @@ after_failure:
   - |
       if [ -d "test-output" ]; then
         sudo apt-get install -y expect
-        mkdir selenium-test && mkdir selenium-test/$TRAVIS_JOB_NUMBER && cp -R test-output selenium-test/$TRAVIS_JOB_NUMBER
+        mkdir selenium-test && mkdir selenium-test/$TRAVIS_JOB_NUMBER && cp -R test-output/e2e selenium-test/$TRAVIS_JOB_NUMBER
         expect upload-selenium.sh
-        echo Selenium test failed! Result available at http://9.42.23.217:81/$TRAVIS_JOB_NUMBER/test-output/
+        echo Selenium test failed! Result available at http://9.42.81.137:81/$TRAVIS_JOB_NUMBER/test-output/
       fi
   - make cicd-log-fail
 

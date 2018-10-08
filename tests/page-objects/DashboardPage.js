@@ -24,7 +24,6 @@ module.exports = {
     spinner: '.content-spinner',
   },
   commands: [{
-    verifyHealthOverviewSection,
     verifyPageLoaded,
     verifyResourceOverviewSection,
   }]
@@ -40,11 +39,6 @@ function verifyPageLoaded() {
   this.expect.element('@headerTitle').to.be.present
   this.expect.element('@spinner').to.be.present
   this.waitForElementNotPresent('@spinner')
-}
-
-function verifyHealthOverviewSection() {
-  this.expect.element('@pieChart').to.be.present
-  this.expect.element('@barChart').to.be.present
 }
 
 function verifyResourceOverviewSection() {

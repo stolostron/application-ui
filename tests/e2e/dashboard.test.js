@@ -11,7 +11,7 @@ const config = require('../../config')
 let page
 
 module.exports = {
-  '@disabled': true,
+  '@disabled': false,
 
   before: function (browser) {
     const loginPage = browser.page.LoginPage()
@@ -25,10 +25,6 @@ module.exports = {
 
   'Dashboard: Load page': () => {
     page.verifyPageLoaded()
-  },
-
-  'Dashboard: Health Overview': () => {
-    page.verifyHealthOverviewSection()
   },
 
   'Dashboard: Resource Overview': () => {

@@ -157,6 +157,7 @@ class ResourceList extends React.Component {
           handleSort={TableHelper.handleSort.bind(this, sortDirection, sortColumn, sortTable)}
           handleSearch={TableHelper.handleInputValue.bind(this, searchTable)}
           searchValue={searchValue}
+          defaultSearchValue={clientSideFilters}
           tableActions={staticResourceData.tableActions}
         />
       </div>

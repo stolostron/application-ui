@@ -8,6 +8,7 @@
  *******************************************************************************/
 
 const config = require('../../config')
+const a11yScan = require('../utils/accessibilityScan')
 let page
 
 module.exports = {
@@ -25,6 +26,10 @@ module.exports = {
 
   'Dashboard: Load page': () => {
     page.verifyPageLoaded()
+  },
+
+  'Dashboard: Run Accessibility Scan': (browser) => {
+    a11yScan.runAccessibilityScan(browser, 'dashboard')
   },
 
   'Dashboard: Resource Overview': () => {

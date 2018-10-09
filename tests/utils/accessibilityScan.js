@@ -15,7 +15,7 @@ module.exports = {
       browser.perform((done) => {
 
         AAT.getCompliance(source.value, page, (report) => {
-          browser.assert.equal(report.summary.counts.violation, 0, `Accesibility violations found in page ${browser.launchUrl}/multicloud/${page}   See report at: ./tests-output/a11y/${page}.json`)
+          browser.assert.equal(report.summary.counts.violation, 0, `Check for accesibility violations in page ${browser.launchUrl}/multicloud/${page}   See report at: ./tests-output/a11y/${page}.json`)
           done()
         })
       })

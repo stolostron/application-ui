@@ -7,15 +7,15 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-@import 'node_modules/carbon-components/scss/globals/scss/_vars';
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-$critical: $support-01;
-$healthy: $support-02;
-$warning: $support-03;
-$util-critical: $brand-01;
-$util-warning: $brand-02;
-$util-healthy: $brand-03;
+$critical: $mcm__color__critical;
+$healthy: $color__green-40;
+$warning: $color__yellow-30;
+$util-critical: $color__blue-51;
+$util-warning: $color__blue-40;
+$util-healthy: $color__teal-20;
 $gray: $color__gray-1;
 $gray-for-text: $mcm__color__gray;
 

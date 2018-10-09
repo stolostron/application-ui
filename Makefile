@@ -62,10 +62,10 @@ push: check-env app-version
 test:
 	npm install \
 	del@3.0.0 \
-	enzyme@3.3.0 \
-	enzyme-adapter-react-16@1.1.1 \
+	enzyme@3.7.0 \
+	enzyme-adapter-react-16@1.6.0 \
 	jest@22.4.2 \
-	react-test-renderer@16.2.0 \
+	react-test-renderer@16.4.0 \
 	jsonfile@4.0.0 \
 	redux-mock-store@1.5.1 \
 	jest-tap-reporter@1.9.0 \

@@ -9,7 +9,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Module, ModuleHeader, ModuleBody, Table, TableBody, TableRow, TableData, Tag, Icon } from 'carbon-components-react'
+import { Table, TableBody, TableRow, TableData, Icon } from 'carbon-components-react'
+import { Module, ModuleHeader, ModuleBody, Tag } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
 import truncate from '../util/truncate-middle'

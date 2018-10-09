@@ -2,7 +2,6 @@
 
 exports[`NestedTable component 1 renders as expected 1`] = `
 ShallowWrapper {
-  "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <NestedTable
     availableItems={
@@ -46,6 +45,7 @@ ShallowWrapper {
     "batchedUpdates": [Function],
     "getNode": [Function],
     "render": [Function],
+    "simulateError": [Function],
     "simulateEvent": [Function],
     "unmount": [Function],
   },
@@ -60,9 +60,14 @@ ShallowWrapper {
             className="nested-table-header-row"
             header={true}
           >
-            <TableHeader />
+            <TableHeader
+              iconDescriptionAscending="ascending sort"
+              iconDescriptionDescending="descending sort"
+            />
             <TableHeader
               className="nested-table-header"
+              iconDescriptionAscending="ascending sort"
+              iconDescriptionDescending="descending sort"
             >
               <p>
                 header
@@ -89,10 +94,12 @@ ShallowWrapper {
             <TableData
               className="nest-table-expand-icon"
               expanded={false}
+              iconDescription="expand row"
               onClick={[Function]}
             />
             <TableData
               className="nest-table-expand-name"
+              iconDescription="expand row"
             />
           </TableRow>
           <TableRowExpanded
@@ -150,9 +157,14 @@ ShallowWrapper {
               className="nested-table-header-row"
               header={true}
             >
-              <TableHeader />
+              <TableHeader
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
+              />
               <TableHeader
                 className="nested-table-header"
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
               >
                 <p>
                   header
@@ -179,10 +191,12 @@ ShallowWrapper {
               <TableData
                 className="nest-table-expand-icon"
                 expanded={false}
+                iconDescription="expand row"
                 onClick={[Function]}
               />
               <TableData
                 className="nest-table-expand-name"
+                iconDescription="expand row"
               />
             </TableRow>
             <TableRowExpanded
@@ -238,9 +252,14 @@ ShallowWrapper {
               className="nested-table-header-row"
               header={true}
             >
-              <TableHeader />
+              <TableHeader
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
+              />
               <TableHeader
                 className="nested-table-header"
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
               >
                 <p>
                   header
@@ -263,9 +282,14 @@ ShallowWrapper {
             "nodeType": "function",
             "props": Object {
               "children": Array [
-                <TableHeader />,
+                <TableHeader
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
+                />,
                 <TableHeader
                   className="nested-table-header"
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
                 >
                   <p>
                     header
@@ -289,7 +313,10 @@ ShallowWrapper {
                 "instance": null,
                 "key": undefined,
                 "nodeType": "function",
-                "props": Object {},
+                "props": Object {
+                  "iconDescriptionAscending": "ascending sort",
+                  "iconDescriptionDescending": "descending sort",
+                },
                 "ref": null,
                 "rendered": null,
                 "type": [Function],
@@ -313,6 +340,8 @@ ShallowWrapper {
                     </p>,
                   ],
                   "className": "nested-table-header",
+                  "iconDescriptionAscending": "ascending sort",
+                  "iconDescriptionDescending": "descending sort",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -379,10 +408,12 @@ ShallowWrapper {
                   <TableData
                     className="nest-table-expand-icon"
                     expanded={false}
+                    iconDescription="expand row"
                     onClick={[Function]}
                   />
                   <TableData
                     className="nest-table-expand-name"
+                    iconDescription="expand row"
                   />
                 </TableRow>,
                 <TableRowExpanded
@@ -439,10 +470,12 @@ ShallowWrapper {
                   <TableData
                     className="nest-table-expand-icon"
                     expanded={false}
+                    iconDescription="expand row"
                     onClick={[Function]}
                   />,
                   <TableData
                     className="nest-table-expand-name"
+                    iconDescription="expand row"
                   />,
                 ],
                 "className": "nested-table-select-row",
@@ -458,6 +491,7 @@ ShallowWrapper {
                   "props": Object {
                     "className": "nest-table-expand-icon",
                     "expanded": false,
+                    "iconDescription": "expand row",
                     "onClick": [Function],
                   },
                   "ref": null,
@@ -471,6 +505,7 @@ ShallowWrapper {
                   "props": Object {
                     "children": undefined,
                     "className": "nest-table-expand-name",
+                    "iconDescription": "expand row",
                   },
                   "ref": null,
                   "rendered": null,
@@ -730,9 +765,14 @@ ShallowWrapper {
               className="nested-table-header-row"
               header={true}
             >
-              <TableHeader />
+              <TableHeader
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
+              />
               <TableHeader
                 className="nested-table-header"
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
               >
                 <p>
                   header
@@ -759,10 +799,12 @@ ShallowWrapper {
               <TableData
                 className="nest-table-expand-icon"
                 expanded={false}
+                iconDescription="expand row"
                 onClick={[Function]}
               />
               <TableData
                 className="nest-table-expand-name"
+                iconDescription="expand row"
               />
             </TableRow>
             <TableRowExpanded
@@ -820,9 +862,14 @@ ShallowWrapper {
                 className="nested-table-header-row"
                 header={true}
               >
-                <TableHeader />
+                <TableHeader
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
+                />
                 <TableHeader
                   className="nested-table-header"
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
                 >
                   <p>
                     header
@@ -849,10 +896,12 @@ ShallowWrapper {
                 <TableData
                   className="nest-table-expand-icon"
                   expanded={false}
+                  iconDescription="expand row"
                   onClick={[Function]}
                 />
                 <TableData
                   className="nest-table-expand-name"
+                  iconDescription="expand row"
                 />
               </TableRow>
               <TableRowExpanded
@@ -908,9 +957,14 @@ ShallowWrapper {
                 className="nested-table-header-row"
                 header={true}
               >
-                <TableHeader />
+                <TableHeader
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
+                />
                 <TableHeader
                   className="nested-table-header"
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
                 >
                   <p>
                     header
@@ -933,9 +987,14 @@ ShallowWrapper {
               "nodeType": "function",
               "props": Object {
                 "children": Array [
-                  <TableHeader />,
+                  <TableHeader
+                    iconDescriptionAscending="ascending sort"
+                    iconDescriptionDescending="descending sort"
+                  />,
                   <TableHeader
                     className="nested-table-header"
+                    iconDescriptionAscending="ascending sort"
+                    iconDescriptionDescending="descending sort"
                   >
                     <p>
                       header
@@ -959,7 +1018,10 @@ ShallowWrapper {
                   "instance": null,
                   "key": undefined,
                   "nodeType": "function",
-                  "props": Object {},
+                  "props": Object {
+                    "iconDescriptionAscending": "ascending sort",
+                    "iconDescriptionDescending": "descending sort",
+                  },
                   "ref": null,
                   "rendered": null,
                   "type": [Function],
@@ -983,6 +1045,8 @@ ShallowWrapper {
                       </p>,
                     ],
                     "className": "nested-table-header",
+                    "iconDescriptionAscending": "ascending sort",
+                    "iconDescriptionDescending": "descending sort",
                   },
                   "ref": null,
                   "rendered": Array [
@@ -1049,10 +1113,12 @@ ShallowWrapper {
                     <TableData
                       className="nest-table-expand-icon"
                       expanded={false}
+                      iconDescription="expand row"
                       onClick={[Function]}
                     />
                     <TableData
                       className="nest-table-expand-name"
+                      iconDescription="expand row"
                     />
                   </TableRow>,
                   <TableRowExpanded
@@ -1109,10 +1175,12 @@ ShallowWrapper {
                     <TableData
                       className="nest-table-expand-icon"
                       expanded={false}
+                      iconDescription="expand row"
                       onClick={[Function]}
                     />,
                     <TableData
                       className="nest-table-expand-name"
+                      iconDescription="expand row"
                     />,
                   ],
                   "className": "nested-table-select-row",
@@ -1128,6 +1196,7 @@ ShallowWrapper {
                     "props": Object {
                       "className": "nest-table-expand-icon",
                       "expanded": false,
+                      "iconDescription": "expand row",
                       "onClick": [Function],
                     },
                     "ref": null,
@@ -1141,6 +1210,7 @@ ShallowWrapper {
                     "props": Object {
                       "children": undefined,
                       "className": "nest-table-expand-name",
+                      "iconDescription": "expand row",
                     },
                     "ref": null,
                     "rendered": null,
@@ -1393,6 +1463,16 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
       },
     },
   },
@@ -1401,7 +1481,6 @@ ShallowWrapper {
 
 exports[`NestedTable component 1 renders as expected 2`] = `
 ShallowWrapper {
-  "length": 1,
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <NestedTable
     availableItems={
@@ -1445,6 +1524,7 @@ ShallowWrapper {
     "batchedUpdates": [Function],
     "getNode": [Function],
     "render": [Function],
+    "simulateError": [Function],
     "simulateEvent": [Function],
     "unmount": [Function],
   },
@@ -1459,9 +1539,14 @@ ShallowWrapper {
             className="nested-table-header-row"
             header={true}
           >
-            <TableHeader />
+            <TableHeader
+              iconDescriptionAscending="ascending sort"
+              iconDescriptionDescending="descending sort"
+            />
             <TableHeader
               className="nested-table-header"
+              iconDescriptionAscending="ascending sort"
+              iconDescriptionDescending="descending sort"
             >
               <p>
                 header
@@ -1488,10 +1573,12 @@ ShallowWrapper {
             <TableData
               className="nest-table-expand-icon"
               expanded={true}
+              iconDescription="expand row"
               onClick={[Function]}
             />
             <TableData
               className="nest-table-expand-name"
+              iconDescription="expand row"
             />
           </TableRow>
           <TableRowExpanded
@@ -1549,9 +1636,14 @@ ShallowWrapper {
               className="nested-table-header-row"
               header={true}
             >
-              <TableHeader />
+              <TableHeader
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
+              />
               <TableHeader
                 className="nested-table-header"
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
               >
                 <p>
                   header
@@ -1578,10 +1670,12 @@ ShallowWrapper {
               <TableData
                 className="nest-table-expand-icon"
                 expanded={true}
+                iconDescription="expand row"
                 onClick={[Function]}
               />
               <TableData
                 className="nest-table-expand-name"
+                iconDescription="expand row"
               />
             </TableRow>
             <TableRowExpanded
@@ -1637,9 +1731,14 @@ ShallowWrapper {
               className="nested-table-header-row"
               header={true}
             >
-              <TableHeader />
+              <TableHeader
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
+              />
               <TableHeader
                 className="nested-table-header"
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
               >
                 <p>
                   header
@@ -1662,9 +1761,14 @@ ShallowWrapper {
             "nodeType": "function",
             "props": Object {
               "children": Array [
-                <TableHeader />,
+                <TableHeader
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
+                />,
                 <TableHeader
                   className="nested-table-header"
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
                 >
                   <p>
                     header
@@ -1688,7 +1792,10 @@ ShallowWrapper {
                 "instance": null,
                 "key": undefined,
                 "nodeType": "function",
-                "props": Object {},
+                "props": Object {
+                  "iconDescriptionAscending": "ascending sort",
+                  "iconDescriptionDescending": "descending sort",
+                },
                 "ref": null,
                 "rendered": null,
                 "type": [Function],
@@ -1712,6 +1819,8 @@ ShallowWrapper {
                     </p>,
                   ],
                   "className": "nested-table-header",
+                  "iconDescriptionAscending": "ascending sort",
+                  "iconDescriptionDescending": "descending sort",
                 },
                 "ref": null,
                 "rendered": Array [
@@ -1778,10 +1887,12 @@ ShallowWrapper {
                   <TableData
                     className="nest-table-expand-icon"
                     expanded={true}
+                    iconDescription="expand row"
                     onClick={[Function]}
                   />
                   <TableData
                     className="nest-table-expand-name"
+                    iconDescription="expand row"
                   />
                 </TableRow>,
                 <TableRowExpanded
@@ -1838,10 +1949,12 @@ ShallowWrapper {
                   <TableData
                     className="nest-table-expand-icon"
                     expanded={true}
+                    iconDescription="expand row"
                     onClick={[Function]}
                   />,
                   <TableData
                     className="nest-table-expand-name"
+                    iconDescription="expand row"
                   />,
                 ],
                 "className": "nested-table-select-row",
@@ -1857,6 +1970,7 @@ ShallowWrapper {
                   "props": Object {
                     "className": "nest-table-expand-icon",
                     "expanded": true,
+                    "iconDescription": "expand row",
                     "onClick": [Function],
                   },
                   "ref": null,
@@ -1870,6 +1984,7 @@ ShallowWrapper {
                   "props": Object {
                     "children": undefined,
                     "className": "nest-table-expand-name",
+                    "iconDescription": "expand row",
                   },
                   "ref": null,
                   "rendered": null,
@@ -2129,9 +2244,14 @@ ShallowWrapper {
               className="nested-table-header-row"
               header={true}
             >
-              <TableHeader />
+              <TableHeader
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
+              />
               <TableHeader
                 className="nested-table-header"
+                iconDescriptionAscending="ascending sort"
+                iconDescriptionDescending="descending sort"
               >
                 <p>
                   header
@@ -2158,10 +2278,12 @@ ShallowWrapper {
               <TableData
                 className="nest-table-expand-icon"
                 expanded={true}
+                iconDescription="expand row"
                 onClick={[Function]}
               />
               <TableData
                 className="nest-table-expand-name"
+                iconDescription="expand row"
               />
             </TableRow>
             <TableRowExpanded
@@ -2219,9 +2341,14 @@ ShallowWrapper {
                 className="nested-table-header-row"
                 header={true}
               >
-                <TableHeader />
+                <TableHeader
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
+                />
                 <TableHeader
                   className="nested-table-header"
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
                 >
                   <p>
                     header
@@ -2248,10 +2375,12 @@ ShallowWrapper {
                 <TableData
                   className="nest-table-expand-icon"
                   expanded={true}
+                  iconDescription="expand row"
                   onClick={[Function]}
                 />
                 <TableData
                   className="nest-table-expand-name"
+                  iconDescription="expand row"
                 />
               </TableRow>
               <TableRowExpanded
@@ -2307,9 +2436,14 @@ ShallowWrapper {
                 className="nested-table-header-row"
                 header={true}
               >
-                <TableHeader />
+                <TableHeader
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
+                />
                 <TableHeader
                   className="nested-table-header"
+                  iconDescriptionAscending="ascending sort"
+                  iconDescriptionDescending="descending sort"
                 >
                   <p>
                     header
@@ -2332,9 +2466,14 @@ ShallowWrapper {
               "nodeType": "function",
               "props": Object {
                 "children": Array [
-                  <TableHeader />,
+                  <TableHeader
+                    iconDescriptionAscending="ascending sort"
+                    iconDescriptionDescending="descending sort"
+                  />,
                   <TableHeader
                     className="nested-table-header"
+                    iconDescriptionAscending="ascending sort"
+                    iconDescriptionDescending="descending sort"
                   >
                     <p>
                       header
@@ -2358,7 +2497,10 @@ ShallowWrapper {
                   "instance": null,
                   "key": undefined,
                   "nodeType": "function",
-                  "props": Object {},
+                  "props": Object {
+                    "iconDescriptionAscending": "ascending sort",
+                    "iconDescriptionDescending": "descending sort",
+                  },
                   "ref": null,
                   "rendered": null,
                   "type": [Function],
@@ -2382,6 +2524,8 @@ ShallowWrapper {
                       </p>,
                     ],
                     "className": "nested-table-header",
+                    "iconDescriptionAscending": "ascending sort",
+                    "iconDescriptionDescending": "descending sort",
                   },
                   "ref": null,
                   "rendered": Array [
@@ -2448,10 +2592,12 @@ ShallowWrapper {
                     <TableData
                       className="nest-table-expand-icon"
                       expanded={true}
+                      iconDescription="expand row"
                       onClick={[Function]}
                     />
                     <TableData
                       className="nest-table-expand-name"
+                      iconDescription="expand row"
                     />
                   </TableRow>,
                   <TableRowExpanded
@@ -2508,10 +2654,12 @@ ShallowWrapper {
                     <TableData
                       className="nest-table-expand-icon"
                       expanded={true}
+                      iconDescription="expand row"
                       onClick={[Function]}
                     />,
                     <TableData
                       className="nest-table-expand-name"
+                      iconDescription="expand row"
                     />,
                   ],
                   "className": "nested-table-select-row",
@@ -2527,6 +2675,7 @@ ShallowWrapper {
                     "props": Object {
                       "className": "nest-table-expand-icon",
                       "expanded": true,
+                      "iconDescription": "expand row",
                       "onClick": [Function],
                     },
                     "ref": null,
@@ -2540,6 +2689,7 @@ ShallowWrapper {
                     "props": Object {
                       "children": undefined,
                       "className": "nest-table-expand-name",
+                      "iconDescription": "expand row",
                     },
                     "ref": null,
                     "rendered": null,
@@ -2792,6 +2942,16 @@ ShallowWrapper {
     "adapter": ReactSixteenAdapter {
       "options": Object {
         "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
       },
     },
   },

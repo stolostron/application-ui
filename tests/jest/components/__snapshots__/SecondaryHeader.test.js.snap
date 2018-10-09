@@ -81,81 +81,80 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
             </span>
           </div>
         </div>
-        <div>
-          <nav
-            aria-label="hello world undefined"
-            className="bx--tabs"
-            href="#"
-            role="navigation"
-            selected={0}
+        <nav
+          aria-label="hello world undefined"
+          className="bx--tabs"
+          role="navigation"
+          selected={0}
+        >
+          <div
+            aria-label="listbox"
+            className="bx--tabs-trigger"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="listbox"
+            tabIndex={0}
           >
-            <div
-              aria-label="listbox"
-              className="bx--tabs-trigger"
+            <a
+              className="bx--tabs-trigger-text"
+              href="#"
               onClick={[Function]}
-              onKeyPress={[Function]}
-              role="listbox"
-              tabIndex={0}
+              tabIndex={-1}
+            >
+              Application
+            </a>
+            <svg
+              alt="show menu options"
+              aria-label="show menu options"
+              className={undefined}
+              fill={undefined}
+              fillRule="evenodd"
+              height="5"
+              name={undefined}
+              role="img"
+              style={undefined}
+              viewBox="0 0 10 5"
+              width="10"
+            >
+              <title>
+                show menu options
+              </title>
+              <path
+                d="M0 0l5 4.998L10 0z"
+              />
+            </svg>
+          </div>
+          <ul
+            className="bx--tabs__nav bx--tabs__nav--hidden"
+            role="tablist"
+          >
+            <li
+              className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+              id="dashboard-application"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+              selected={true}
+              tabIndex={-1}
             >
               <a
-                className="bx--tabs-trigger-text"
-                href="#"
-                onClick={[Function]}
-                tabIndex={-1}
+                aria-selected={true}
+                className="bx--tabs__nav-link"
+                href="/multicloud/dashboard"
+                role="tab"
+                tabIndex={0}
               >
                 Application
               </a>
-              <svg
-                alt="show menu options"
-                aria-label="show menu options"
-                className={undefined}
-                fill={undefined}
-                fillRule="evenodd"
-                height="5"
-                name="caret--down"
-                role="img"
-                style={undefined}
-                viewBox="0 0 10 5"
-                width="10"
-              >
-                <title>
-                  show menu options
-                </title>
-                <path
-                  d="M0 0l5 4.998L10 0z"
-                />
-              </svg>
-            </div>
-            <ul
-              className="bx--tabs__nav bx--tabs__nav--hidden"
-              role="tablist"
-            >
-              <li
-                className="bx--tabs__nav-item bx--tabs__nav-item--selected"
-                id="dashboard-application"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                role="presentation"
-                selected={true}
-                tabIndex={-1}
-              >
-                <a
-                  className="bx--tabs__nav-link"
-                  href="/multicloud/dashboard"
-                  role="tab"
-                  tabIndex={0}
-                >
-                  Application
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div
-            className="tab-content"
-            hidden={false}
-            selected={true}
-          />
-        </div>
+            </li>
+          </ul>
+        </nav>
+        <div
+          aria-hidden={false}
+          className="tab-content"
+          hidden={false}
+          selected={true}
+        />
       </div>
       <div
         className="bx--detail-page-header-menu"
@@ -228,104 +227,105 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
             </span>
           </div>
         </div>
-        <div>
-          <nav
-            aria-label="hello world undefined"
-            className="bx--tabs"
-            href="#"
-            role="navigation"
-            selected={1}
+        <nav
+          aria-label="hello world undefined"
+          className="bx--tabs"
+          role="navigation"
+          selected={1}
+        >
+          <div
+            aria-label="listbox"
+            className="bx--tabs-trigger"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="listbox"
+            tabIndex={0}
           >
-            <div
-              aria-label="listbox"
-              className="bx--tabs-trigger"
+            <a
+              className="bx--tabs-trigger-text"
+              href="#"
               onClick={[Function]}
-              onKeyPress={[Function]}
-              role="listbox"
-              tabIndex={0}
+              tabIndex={-1}
+            >
+              provide a label
+            </a>
+            <svg
+              alt="show menu options"
+              aria-label="show menu options"
+              className={undefined}
+              fill={undefined}
+              fillRule="evenodd"
+              height="5"
+              name={undefined}
+              role="img"
+              style={undefined}
+              viewBox="0 0 10 5"
+              width="10"
+            >
+              <title>
+                show menu options
+              </title>
+              <path
+                d="M0 0l5 4.998L10 0z"
+              />
+            </svg>
+          </div>
+          <ul
+            className="bx--tabs__nav bx--tabs__nav--hidden"
+            role="tablist"
+          >
+            <li
+              className="bx--tabs__nav-item"
+              id="logs-tab"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+              selected={false}
+              tabIndex={-1}
             >
               <a
-                className="bx--tabs-trigger-text"
-                href="#"
-                onClick={[Function]}
-                tabIndex={-1}
+                aria-selected={false}
+                className="bx--tabs__nav-link"
+                href="/multicloud/dashboard"
+                role="tab"
+                tabIndex={0}
+              >
+                Application
+              </a>
+            </li>
+            <li
+              className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+              id="logs-tab"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="presentation"
+              selected={true}
+              tabIndex={-1}
+            >
+              <a
+                aria-selected={true}
+                className="bx--tabs__nav-link"
+                href="/hello"
+                role="tab"
+                tabIndex={0}
               >
                 provide a label
               </a>
-              <svg
-                alt="show menu options"
-                aria-label="show menu options"
-                className={undefined}
-                fill={undefined}
-                fillRule="evenodd"
-                height="5"
-                name="caret--down"
-                role="img"
-                style={undefined}
-                viewBox="0 0 10 5"
-                width="10"
-              >
-                <title>
-                  show menu options
-                </title>
-                <path
-                  d="M0 0l5 4.998L10 0z"
-                />
-              </svg>
-            </div>
-            <ul
-              className="bx--tabs__nav bx--tabs__nav--hidden"
-              role="tablist"
-            >
-              <li
-                className="bx--tabs__nav-item"
-                id="logs-tab"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                role="presentation"
-                selected={false}
-                tabIndex={-1}
-              >
-                <a
-                  className="bx--tabs__nav-link"
-                  href="/multicloud/dashboard"
-                  role="tab"
-                  tabIndex={0}
-                >
-                  Application
-                </a>
-              </li>
-              <li
-                className="bx--tabs__nav-item bx--tabs__nav-item--selected"
-                id="logs-tab"
-                onClick={[Function]}
-                onKeyDown={[Function]}
-                role="presentation"
-                selected={true}
-                tabIndex={-1}
-              >
-                <a
-                  className="bx--tabs__nav-link"
-                  href="/hello"
-                  role="tab"
-                  tabIndex={0}
-                >
-                  provide a label
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div
-            className="tab-content"
-            hidden={true}
-            selected={false}
-          />
-          <div
-            className="tab-content"
-            hidden={false}
-            selected={true}
-          />
-        </div>
+            </li>
+          </ul>
+        </nav>
+        <div
+          aria-hidden={true}
+          className="tab-content"
+          hidden={true}
+          selected={false}
+        />
+        <div
+          aria-hidden={false}
+          className="tab-content"
+          hidden={false}
+          selected={true}
+        />
       </div>
       <div
         className="bx--detail-page-header-menu"

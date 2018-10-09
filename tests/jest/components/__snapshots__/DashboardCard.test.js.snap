@@ -605,9 +605,7 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
           </div>
           <span
             className="bx--tag bx--tag--beta"
-          >
-            Beta
-          </span>
+          />
         </div>
       </h1>
     </div>

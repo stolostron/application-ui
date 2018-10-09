@@ -9,7 +9,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Module, ModuleHeader, ModuleBody } from 'carbon-components-react'
+import { Module, ModuleHeader, ModuleBody } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'

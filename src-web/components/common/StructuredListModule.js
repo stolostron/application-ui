@@ -10,7 +10,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StructuredListWrapper, StructuredListHead, StructuredListRow, StructuredListCell, StructuredListBody, Module, ModuleHeader, ModuleBody } from 'carbon-components-react'
+import { StructuredListWrapper, StructuredListHead, StructuredListRow, StructuredListCell, StructuredListBody } from 'carbon-components-react'
+import { Module, ModuleHeader, ModuleBody } from 'carbon-addons-cloud-react'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { transform } from '../../../lib/client/resource-helper'

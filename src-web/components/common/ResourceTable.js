@@ -220,7 +220,7 @@ class ResourceTable extends React.Component {
 
         const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
         if (normalizedKey) {
-          row.id = lodash.get(item, normalizedKey)
+          row.id = `${lodash.get(item, normalizedKey)}${lodash.get(item, 'cluster', '')}`
         } else {
           row.id = getSecondaryKey(resourceType) ? `${lodash.get(item, getPrimaryKey(resourceType))}-${lodash.get(item, getSecondaryKey(resourceType))}` : lodash.get(item, getPrimaryKey(resourceType)) || `table-row-${index}`
         }

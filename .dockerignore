@@ -1,7 +1,13 @@
-*.log
-.git*
-.travis.yml
+# These files contain credential tokens. do not ship
+.aat.yaml
 .npmrc
+.travis.yml
 
 # contains facebook copyright code. do not ship
 node_modules/svg-sprite-loader/examples
+
+*.log
+.git*
+.storybook
+stories
+tests

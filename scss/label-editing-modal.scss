@@ -64,8 +64,18 @@
 
     .text-input-container {
 
+      p {
+        display: inline-block;
+        margin: 0 0.5rem;
+      }
+
       .text-input-box-container {
         position: relative;
+        display: inline-block;
+        width: 43%;
+        div {
+          width: 100%;
+        }
       }
 
       div {
@@ -119,7 +129,7 @@
         display: inline-block;
         margin: 0 0.4rem;
         fill: $color__navy-gray-7;
-        min-width: 1.4rem;
+        min-width: 1.6rem;
       }
     }
   }

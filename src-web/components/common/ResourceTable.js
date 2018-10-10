@@ -59,6 +59,7 @@ class ResourceTable extends React.Component {
       changeTablePage,
       handleSearch,
       searchValue,
+      darkSearchBox,
       defaultSearchValue,
       actions,
       items,
@@ -78,7 +79,7 @@ class ResourceTable extends React.Component {
         render={({ rows, headers, getRowProps }) => (
           <TableContainer id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-table-container`}>
             <TableToolbar aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} role='region'>
-              <TableToolbarSearch onChange={handleSearch} defaultValue={defaultSearchValue} value={searchValue} aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} />
+              <TableToolbarSearch onChange={handleSearch} defaultValue={defaultSearchValue} value={searchValue} aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} light={!darkSearchBox} />
               <TableToolbarContent>
                 {actions}
               </TableToolbarContent>

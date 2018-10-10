@@ -14,6 +14,29 @@ import msgs from '../../../nls/platform.properties'
 import Autocomplete from 'react-autocomplete'
 /* eslint-disable react/prop-types, react/jsx-no-bind, react/display-name, no-console, react/no-string-refs */
 
+const AutoCompleteBox = ({instanceKey, items, newLabel, onTextInputChange, onTextInputSelect}) => {
+  return <div className={'text-input-box-container'} key={`add-new-${instanceKey}`}>
+    <Autocomplete
+      getItemValue={(item) => item[instanceKey]}
+      items={items}
+      shouldItemRender={(item, value) => item[instanceKey].toLowerCase().indexOf(value.toLowerCase()) > -1}
+      renderItem={(item, isHighlighted) =>
+        <div className={ isHighlighted ? 'text-input-container__menu-item text-input-container__menu-item--highlighted' : 'text-input-container__menu-item'} key={`item-${instanceKey}-${item[instanceKey]}`}>
+          {item[instanceKey]}
+        </div>
+      }
+      renderMenu={(items) =>
+        <div className={'text-input-container-list-box__menu'}>
+          {items}
+        </div>
+      }
+      value={newLabel[instanceKey] || ''}
+      onChange={onTextInputChange(instanceKey)}
+      onSelect={onTextInputSelect(instanceKey)}
+    />
+  </div>
+}
+
 const withMultiple = (Component, newInstance) => {
 
   return class extends React.Component {
@@ -27,7 +50,7 @@ const withMultiple = (Component, newInstance) => {
       const { handleSearch, searchValue } = this.props
       return (
         <div>
-          {newInstance && this.createNewInstance(newInstance)}
+          {newInstance && this.createNewInstance()}
           <TableToolbarSearch
             onChange={handleSearch}
             value={searchValue}
@@ -40,35 +63,15 @@ const withMultiple = (Component, newInstance) => {
       )
     }
 
-    createNewInstance(newInstance) {
+    createNewInstance() {
       const { onTextInputChange, newLabel, onTextInputSelect, items, onAdd } = this.props
       return (
         <div className='text-input-field-row'>
           <p className='text-input-field-row-header'>{msgs.get('modal.formfield.addLable', this.context.locale)}</p>
           <div className={'text-input-container'}>
-            {Object.keys(newInstance).map((instanceKey, index) =>
-              <div className={'text-input-box-container'} key={`add-new-${instanceKey}`}>
-                {index !== 0 && <p>=</p>}
-                <Autocomplete
-                  getItemValue={(item) => item[instanceKey]}
-                  items={items}
-                  shouldItemRender={(item, value) => item[instanceKey].toLowerCase().indexOf(value.toLowerCase()) > -1}
-                  renderItem={(item, isHighlighted) =>
-                    <div className={ isHighlighted ? 'text-input-container__menu-item text-input-container__menu-item--highlighted' : 'text-input-container__menu-item'} key={`item-${instanceKey}-${item[instanceKey]}`}>
-                      {item[instanceKey]}
-                    </div>
-                  }
-                  renderMenu={(items) =>
-                    <div className={'text-input-container-list-box__menu'}>
-                      {items}
-                    </div>
-                  }
-                  value={newLabel[instanceKey] || ''}
-                  onChange={onTextInputChange(instanceKey)}
-                  onSelect={onTextInputSelect(instanceKey)}
-                />
-              </div>)
-            }
+            <AutoCompleteBox instanceKey={'key'} items={items} newLabel={newLabel} onTextInputChange={onTextInputChange} onTextInputSelect={onTextInputSelect} />
+            <p>=</p>
+            <AutoCompleteBox instanceKey={'value'} items={items} newLabel={newLabel} onTextInputChange={onTextInputChange} onTextInputSelect={onTextInputSelect} />
             <Icon
               id={'add-label-icon'}
               tabIndex='0'

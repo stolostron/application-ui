@@ -69,6 +69,7 @@ class ResourceTableModule extends React.Component {
             handleSort={this.handleSort}
             handleSearch={this.handleSearch}
             searchValue={searchValue}
+            darkSearchBox={true}
             sortDirection={sortDirection}
           />
         </ModuleBody>

@@ -1,9 +1,9 @@
 GIT_REMOTE_URL = $(shell git config --get remote.origin.url)
-DOCKER_SERVER ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devops.com
+DOCKER_SERVER ?=
 DOCKER_USERNAME ?= token
 IMAGE_DESCRIPTION =
 IMAGE_NAME = mcm-ui
-IMAGE_REPO ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devops.com/ibmcom
+IMAGE_REPO ?=
 RELEASE_TAG ?= latest
 HOST ?= 127.0.0.1
 APP_PORT ?= 3000

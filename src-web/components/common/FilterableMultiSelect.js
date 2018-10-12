@@ -35,17 +35,58 @@ class FilterableMultiSelect extends React.Component {
 
 
   handleFilter = selection => {
-    this.props.onChange(this.props.filterType, selection.selectedItems)
-    this.updateTooltip()
+    // if menu is still open don't update until its gone
+    // unfortunately MultiSelect.Filterable doesn't have an onClose
+    const menu = this.multiSelectDiv.getElementsByClassName('bx--list-box__menu')
+    if (menu && menu.length>0) {
+      this.selectedItems = selection.selectedItems
+      if (!this.observer) {
+        this.observer = new MutationObserver(() => {
+          this.props.onChange(this.props.filterType, this.selectedItems)
+          this.observer.disconnect()
+          delete this.observer
+        })
+        this.observer.observe(menu[0].parentNode, {
+          childList: true
+        })
+      }
+    } else {
+      this.props.onChange(this.props.filterType, selection.selectedItems)
+    }
+  }
+
+  sortItems = items => {
+    const activeMap = _.keyBy(this.props.activeFilters, 'label')
+    return items.sort(({label:al}, {label:bl})=>{
+      if (activeMap[al] && !activeMap[bl]) {
+        return -1
+      } else if (!activeMap[al] && activeMap[bl]) {
+        return 1
+      }
+      return al.localeCompare(bl)
+    })
   }
 
   componentDidMount () {
+    this.handleMouseFunc = this.handleMouse.bind(this)
+    window.addEventListener('mouseup', this.handleMouseFunc, true)
     this.updateTooltip()
   }
 
+  componentWillUnmount () {
+    window.removeEventListener('mouseup', this.handleMouseFunc, true)
+  }
+
+  handleMouse (event) {
+    // make sure dropdown is closed when clicking outside
+    if (this.multiSelectDiv && !this.multiSelectDiv.contains(event.target)) {
+      this.multiSelectCmp.handleOnOuterClick()
+    }
+  }
+
   updateTooltip () {
-    if (this.multiSelect) {
-      this.multiSelect.inputNode.title = this.tooltip.join('\n')
+    if (this.multiSelectCmp) {
+      this.multiSelectCmp.inputNode.title = this.tooltip.join('\n')
     }
   }
 
@@ -77,15 +118,21 @@ class FilterableMultiSelect extends React.Component {
     }
     // set id to title for testing
     return (
-      <div className='multi-select-filter' role='region' aria-label={title} id={title}>
+      <div
+        className='multi-select-filter'
+        ref={this.saveMultiSelectDiv}
+        role='region'
+        aria-label={title}
+        id={title}>
         <div className='multi-select-filter-title'>
           {title}
         </div>
         <MultiSelect.Filterable
-          ref={this.saveMultiSelectRef}
+          ref={this.saveMultiSelectCmp}
           placeholder={this.tooltip.join(', ')}
           items={availableFilters}
           initialSelectedItems={this.getSelectedFilters(availableFilters, activeFilters)}
+          sortItems={this.sortItems}
           onChange={this.handleFilter}
           disabled={fetching}
         />
@@ -93,8 +140,12 @@ class FilterableMultiSelect extends React.Component {
     )
   }
 
-  saveMultiSelectRef = ref => {
-    this.multiSelect = ref
+  saveMultiSelectDiv = ref => {
+    this.multiSelectDiv = ref
+  }
+
+  saveMultiSelectCmp = ref => {
+    this.multiSelectCmp = ref
   }
 }
 

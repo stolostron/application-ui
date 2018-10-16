@@ -72,11 +72,11 @@ export class ClustersDashboardTab extends React.Component {
     // add barChartItems back once we have more data
     const { serverProps, cardItems, status } = this.props
 
-    if ((status !== REQUEST_STATUS.DONE || !cardItems) && !this.state.xhrPoll)
+    if (status !== REQUEST_STATUS.DONE && status !== REQUEST_STATUS.ERROR && !this.state.xhrPoll)
       return <Loading withOverlay={false} className='content-spinner' />
 
-    const resourceCards = cardItems.filter(card => card.type)
-    const statusCards = cardItems.filter(card => !card.type)
+    const resourceCards = cardItems && cardItems.filter(card => card.type)
+    const statusCards = cardItems && cardItems.filter(card => !card.type)
     return (
       <div>
         {fullDashboard && (
@@ -106,9 +106,9 @@ export class ClustersDashboardTab extends React.Component {
   }
 
   reload(onMount) {
-    const { fetchDashboardResources } = this.props
-    this.setState({ xhrPoll: true })
-    if (onMount || this.props.status === REQUEST_STATUS.DONE || this.props.status === REQUEST_STATUS.ERROR) {
+    const { fetchDashboardResources, status } = this.props
+    if (onMount || status === REQUEST_STATUS.DONE) {
+      this.setState({ xhrPoll: true })
       fetchDashboardResources(TYPE)
     }
   }
@@ -122,8 +122,6 @@ const mapStateToProps = (state) => {
   return {
     error: state[TYPE.list].err,
     cardItems: state[TYPE.list].cardItems,
-    pieChartItems: state[TYPE.list].pieChartItems,
-    barChartItems: state[TYPE.list].barChartItems,
     status: state[TYPE.list].status,
   }
 }

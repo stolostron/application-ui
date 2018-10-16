@@ -13,7 +13,7 @@ import lodash from 'lodash'
 import PropTypes from 'prop-types'
 import DashboardSection from '../common/DashboardSection'
 import msgs from '../../../nls/platform.properties'
-import { DashboardCard, TableRowPropType } from '../ComponentCard'
+import { DashboardCard } from '../ComponentCard'
 import {withRouter} from 'react-router-dom'
 
 class ResourceOverview extends React.Component {
@@ -29,8 +29,6 @@ class ResourceOverview extends React.Component {
               critical={item.critical}
               warning={item.warning}
               healthy={item.healthy}
-              table={item.table}
-              percentage={item.percentage}
               type={item.type}
               title={msgs.get(`dashboard.card.${lodash.camelCase(item.name)}`, locale)}
               key={item.name}
@@ -52,7 +50,8 @@ ResourceOverview.propTypes = {
     healthy: PropTypes.number,
     warning: PropTypes.number,
     name: PropTypes.string,
-    table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType))
+    title: PropTypes.string,
+    type: PropTypes.string,
   }))
 }
 

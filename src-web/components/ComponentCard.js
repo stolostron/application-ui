@@ -9,11 +9,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, TableBody, TableRow, TableData, Icon } from 'carbon-components-react'
+import { Icon } from 'carbon-components-react'
 import { Module, ModuleHeader, ModuleBody, Tag } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
 import msgs from '../../nls/platform.properties'
-import truncate from '../util/truncate-middle'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 
@@ -63,66 +62,6 @@ const getIcon = (status) => {
   }
 }
 
-const DashboardTableRow = ({ consoleURL, percentage, resourceName, status, namespace, type, ...rest }) => {
-  const iconName = getIcon(status)
-  return (
-    <TableRow {...rest}>
-      {status != null ?
-        <TableData className='dashboard-status-link'>
-          {consoleURL ? (namespace ? <a href={`${consoleURL}/catalog/instancedetails/${namespace}/${resourceName}`}>{truncate(resourceName, 34)}</a>
-            : <a href={`${consoleURL}/console/dashboard`}>{truncate(resourceName, 34)}</a> )
-            : <Link to={`${config.contextPath}/${type}?filters={"name":["${resourceName}"]}`}>{truncate(resourceName, 34)}</Link>
-          }
-        </TableData> : <TableData />
-      }
-      {percentage != null ? <TableData className='dashboard-status-secondary'>{`${percentage}%`}</TableData> : null}
-      {status !=null ?<TableData className='dashboard-status'>
-        <div className='table-status-icon'>
-          {status && iconName && <Icon className={`table-status-icon__${status}`} name={iconName} description={`table-status-icon-${status}`} role='img' />}
-          <p className='dashboard-status-text'>{status}</p>
-        </div>
-      </TableData>: <TableData />}
-    </TableRow>
-  )
-}
-
-export const TableRowPropType = {
-  consoleURL: PropTypes.string,
-  namespace: PropTypes.string,
-  percentage: PropTypes.number,
-  resourceName: PropTypes.string,
-  status: PropTypes.string,
-  type: PropTypes.string,
-}
-
-DashboardTableRow.propTypes = TableRowPropType
-
-const DashboardTable = ({ table, type, locale, ...rest }) => {
-  return (
-    <Table className='dashboard-table' role='presentation' {...rest}>
-      <TableBody>
-        <TableRow even={false}>
-          <TableData className='dashboard-table-header'>{msgs.get('dashboard.module.separator', locale)}</TableData>
-          {
-            !type && <TableData className='dashboard-table-header dashboard-table-header__secondary'>{msgs.get('dashboard.module.separator.utilization', locale)}</TableData>
-          }
-          <TableData className='dashboard-table-header__secondary'>{msgs.get('dashboard.module.separator.status', locale)}</TableData>
-        </TableRow>
-        {table.map((row, ind) => {
-          {/* only show top 5 items*/}
-          return (ind < 5) && <DashboardTableRow even={false} {...row} key={row.resourceName} type={type} />})
-        }
-      </TableBody>
-    </Table>
-  )
-}
-
-DashboardTable.propTypes = {
-  locale: PropTypes.string,
-  table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType)),
-  type: PropTypes.string,
-}
-
 const getTableStatus = (critical, healthy, warning) => {
   switch(true){
   case critical > 0:
@@ -166,11 +105,11 @@ export class DashboardCard extends React.PureComponent {
   render() {
     const { locale } = this.context
     const {
-      critical = 0, healthy = 0, title, table, warning = 0, type = ''
+      critical = 0, healthy = 0, title, warning = 0, type = ''
     } = this.props
     const cardStatus = getTableStatus(critical, healthy, warning)
     const totalCount = critical + warning + healthy
-    return table && (
+    return (
       <Module className={`bx--tile dashboard-card dashboard-card__${cardStatus}`} size="single" {...this.props}>
         <ModuleHeader className={`dashboard-card-header__${cardStatus}`}>
           <div className='dashboard-card-header__icon'>
@@ -226,7 +165,6 @@ DashboardCard.propTypes = {
   critical: PropTypes.number,
   healthy: PropTypes.number,
   namespace: PropTypes.string,
-  table: PropTypes.arrayOf(PropTypes.shape(TableRowPropType)),
   title: PropTypes.string,
   type: PropTypes.string,
   warning: PropTypes.number,

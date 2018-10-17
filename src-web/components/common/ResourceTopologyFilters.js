@@ -92,7 +92,7 @@ class ResourceTopologyFilters extends React.Component {
       <div className='topologyFilters'>
         {filters.map((filter) =>
           <FilterableMultiSelect
-            key={filter.type}
+            key={Math.random()}
             filterType={filter.type}
             title={msgs.get(filter.titleKey, this.context.locale)}
             availableFilters={availableFilters[filter.availableKey]}

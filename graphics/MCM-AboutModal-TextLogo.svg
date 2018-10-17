@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="211px" height="18px" viewBox="0 0 211 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
-    <title>IBM Multi-Cloud Mana</title>
+<svg width="314px" height="27px" viewBox="0 0 314 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>IBM Multicloud Manag</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="HCM-" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="IBMPlexSans, IBM Plex Sans" font-size="18" font-weight="normal">
-        <text id="IBM-Multi-Cloud-Mana" fill="#000000">
-            <tspan x="-0.96484375" y="13.8554688">IBM </tspan>
-            <tspan x="36.8531562" y="13.8554688" font-family="IBMPlexSans-SemiBold, IBM Plex Sans" font-weight="500">Multi-Cloud Manager</tspan>
-        </text>
+    <g id="Platform-UI-Flow-Hi-Fi" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="IBMPlexSans, IBM Plex Sans" font-size="28" font-weight="normal">
+        <g id="About-Page/Modal-Copy-4" transform="translate(-541.000000, -340.000000)" fill="#152935">
+            <g id="Group-20" transform="translate(495.000000, 291.000000)">
+                <text id="IBM-Multicloud-Manag">
+                    <tspan x="45.1445312" y="69.2011719">IBM </tspan>
+                    <tspan x="103.972531" y="69.2011719" font-family="IBMPlexSans-SemiBold, IBM Plex Sans" font-weight="500">Multicloud Manager</tspan>
+                </text>
+            </g>
+        </g>
     </g>
 </svg>

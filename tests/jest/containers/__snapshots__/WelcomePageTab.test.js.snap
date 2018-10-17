@@ -5,7 +5,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
   className="welcome"
 >
   <div
-    aria-label="Welcome to IBM Multi-cloud Manager"
+    aria-label="Welcome to IBM Multicloud Manager"
     className="welcome--introduction"
     role="region"
   >
@@ -19,7 +19,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           Welcome to
            
           <span>
-            IBM Multi-cloud Manager
+            IBM Multicloud Manager
           </span>
         </h1>
         <p>
@@ -29,13 +29,13 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
             Multicluster operations and visibility
           </span>
            
-          IBM Multi-cloud Manager provides a way to perform parallel queries against multiple clusters and aggregate that information by various criteria. This information is augmented by near real-time pod traffic views, using WeaveScope, which enables an understanding of how pods inter-communicate. Using the IBM Multi-cloud Manager, you can have rich views of how clusters operate within the environment. You can see dashboards of aggregated information across multiple clusters, view the topology of resources within those clusters, or navigate into individual clusters consoles for more detailed views.
+          IBM Multicloud Manager provides a way to perform parallel queries against multiple clusters and aggregate that information by various criteria. This information is augmented by near real-time pod traffic views, using WeaveScope, which enables an understanding of how pods inter-communicate. Using the IBM Multicloud Manager, you can have rich views of how clusters operate within the environment. You can see dashboards of aggregated information across multiple clusters, view the topology of resources within those clusters, or navigate into individual clusters consoles for more detailed views.
         </p>
         <p>
           <span
             className="welcome--text-secondary"
           >
-            The following are examples of IBM Multi-cloud Manager usage
+            The following are examples of IBM Multicloud Manager usage
           </span>
            
           View the health of all the clusters in a given region. Know how many nodes are down in all the clusters. View the pods in a given namespace in all development clusters. See all the failed pods in a specific data center.
@@ -63,10 +63,10 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
         className="welcome--summary__inner"
       >
         <h2>
-          Start using IBM Multi-cloud Manager
+          Start using IBM Multicloud Manager
         </h2>
         <p>
-          Ready to get started? Check out some reference links and look around IBM Multi-cloud Manager.
+          Ready to get started? Check out some reference links and look around IBM Multicloud Manager.
         </p>
         <ul
           className="bx--list--unordered"
@@ -159,7 +159,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           <li
             className="bx--list__item"
           >
-            Adding or removing a cluster in IBM Multi-cloud Manager.
+            Adding or removing a cluster in IBM Multicloud Manager.
             <div
               className="content"
             >

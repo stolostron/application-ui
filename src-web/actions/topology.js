@@ -27,7 +27,7 @@ export const receiveResourceError = (err, resourceType) => ({
 })
 
 
-export const receiveTopologySuccess = (response, resourceType) => ({
+export const receiveTopologySuccess = (response, resourceType, fetchFilters) => ({
   type: Actions.RESOURCE_RECEIVE_SUCCESS,
   status: Actions.REQUEST_STATUS.DONE,
   nodes: response.resources || [],
@@ -38,7 +38,8 @@ export const receiveTopologySuccess = (response, resourceType) => ({
     namespaces: response.namespaces,
     types: response.resourceTypes,
   },
-  resourceType
+  resourceType,
+  fetchFilters
 })
 
 export const fetchRequiredTopologyFilters = (resourceType, namespace, name, staticResourceData) => {
@@ -59,7 +60,7 @@ export const fetchRequiredTopologyFilters = (resourceType, namespace, name, stat
   }
 }
 
-export const fetchTopology = (vars) => {
+export const fetchTopology = (vars, fetchFilters) => {
   const resourceType = RESOURCE_TYPES.HCM_TOPOLOGY
   return (dispatch) => {
     dispatch(requestResource(resourceType))
@@ -75,7 +76,7 @@ export const fetchTopology = (vars) => {
           resourceTypes: lodash.cloneDeep(response.data.resourceTypes),
           resources: lodash.cloneDeep(response.data.topology.resources),
           relationships: lodash.cloneDeep(response.data.topology.relationships),
-        }, resourceType))
+        }, resourceType, fetchFilters))
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }

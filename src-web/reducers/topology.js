@@ -35,10 +35,17 @@ export const topology = (state = initialState, action) => {
       return {...state, status: Actions.REQUEST_STATUS.IN_PROGRESS}
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
-      return { ...state,
-        status: Actions.REQUEST_STATUS.DONE,
-        nodes: action.nodes,
-        links: action.links,
+
+      // ignore topologies that were fetched with a different set of active filters
+      if (lodash.isEqual(action.fetchFilters, state.activeFilters)) {
+        return { ...state,
+          status: Actions.REQUEST_STATUS.DONE,
+          nodes: action.nodes,
+          links: action.links,
+          fetchFilters: action.fetchFilters
+        }
+      } else {
+        return { ...state }
       }
     }
     case Actions.RESOURCE_RECEIVE_FAILURE: {

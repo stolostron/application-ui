@@ -174,7 +174,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if (f.label){
         f.label = f.label.map(l => ({ name: l.name, value: l.value }))
       }
-      dispatch(fetchTopology({ filter: {...f}}))
+      dispatch(fetchTopology({ filter: {...f}}, filters))
     },
     restoreSavedTopologyFilters: () => {
       dispatch({type: Actions.TOPOLOGY_RESTORE_SAVED_FILTERS})

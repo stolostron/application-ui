@@ -13,7 +13,7 @@ import { getClusterLink } from '../../lib/client/resource-helper'
 export default {
   defaultSortField: 'cluster',
   primaryKey: 'name',
-  secondaryKey:'cluster',
+  secondaryKey:'cluster.metadata.name',
   tableKeys: [
     {
       msgKey: 'table.header.name',

@@ -12,6 +12,7 @@ import { getAge, getClusterLink, transformPVStatus } from '../../lib/client/reso
 export default {
   defaultSortField: 'metadata.name',
   primaryKey: 'metadata.name',
+  secondaryKey:'cluster.metadata.name',
   tableKeys: [
     {
       msgKey: 'table.header.name',

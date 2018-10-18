@@ -272,8 +272,8 @@ export const getBackedOffPath = (svgPath, layout, topologyShapes) => {
   const {lineData, backedOff, source:{isHub:isSrcHub, type:srcType}, target:{isHub:isTgtHub, type:tgtType}} = layout
   let {linePath} = layout
   if (!backedOff) {
-    const srcRadius = topologyShapes[srcType].nodeRadius || NODE_RADIUS
-    const tgtRadius = topologyShapes[tgtType].nodeRadius || NODE_RADIUS
+    const srcRadius = (topologyShapes[srcType]||{}).nodeRadius || NODE_RADIUS
+    const tgtRadius = (topologyShapes[tgtType]||{}).nodeRadius || NODE_RADIUS
     lineData[0] = svgPath.getPointAtLength(srcRadius+(isSrcHub?15:0))
     lineData[lineData.length-1] = svgPath.getPointAtLength(
       svgPath.getTotalLength()-tgtRadius-(isTgtHub?15:5))

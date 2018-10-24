@@ -44,6 +44,7 @@ require('babel-register')
 
 var bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
+    csurf = require('csurf'),
     requestLogger = require('./middleware/request-logger'),
     controllers = require('./controllers')
 
@@ -65,8 +66,16 @@ if (process.env.NODE_ENV === 'production') {
   app.use('*', morgan('dev'))
 }
 
+const csrfMiddleware = csurf({ cookie: true })
+const generateCsrfToken = (req, res, next) => {
+  if (!req.cookies['XSRF-TOKEN']){
+    res.cookie('XSRF-TOKEN', req.csrfToken())
+  }
+  next()
+}
+
 var proxy = require('http-proxy-middleware')
-app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), (req, res, next) => {
+app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
   const accessToken = req.cookies['cfc-access-token-cookie']
   req.headers.Authorization = `Bearer ${accessToken}`
   next()
@@ -108,7 +117,7 @@ appUtil.app(app)
 const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
-app.use((req, res, next) => {
+app.use(cookieParser(), csrfMiddleware, generateCsrfToken, (req, res, next) => {
   if(!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
     return
@@ -156,6 +165,7 @@ if (process.env.NODE_ENV === 'development') {
   var credentials = {key: privateKey, cert: certificate}
   server = https.createServer(credentials, app)
 } else {
+  // NOTE: In production, SSL is provided by the ICP ingress.
   var http = require('http')
   server = http.createServer(app)
 }

@@ -295,7 +295,7 @@ export default class NodeHelper {
         const nodeLabel = d3.select(ns[i])
         nodeLabel
           .selectAll('tspan')
-          .classed('counter-bigger-zoom', scale>1)
+          .classed('hub-label', scale>1)
 
         nodeLabel
           .transition(transition)
@@ -411,11 +411,6 @@ export const counterZoomLabels = (svg, currentZoom) => {
     showLabels
       .selectAll('tspan.counter-zoom')
       .style('font-size', fontSize+'px')
-    // if hub, make font even bigger
-    showLabels
-      .selectAll('tspan.first-line.counter-bigger-zoom')
-      .style('font-size', fontSize+4+'px')
-      .style('font-weight', 'bold')
     // if middle line, make even smaller
     showLabels
       .selectAll('tspan.middle-line')
@@ -424,8 +419,13 @@ export const counterZoomLabels = (svg, currentZoom) => {
     showLabels
       .selectAll('tspan.description')
       .style('visibility', (s<=0.7 ? 'hidden' : 'visible'))
+    // if hub, make font even bigger
+    showLabels
+      .selectAll('tspan.hub-label')
+      .style('font-size', fontSize+4+'px')
+      .style('font-weight', 'bold')
 
-    // hide the label
+    // hide compact label if regular should show and vice versa
     nodes
       .selectAll(`text.${hideClass}`)
       .style('visibility', 'hidden')

@@ -384,7 +384,7 @@ class TopologyViewer extends React.Component {
       if (svg) {
         if (this.viewerContainerContainerRef) {
           const {width: availableWidth, height: availableHeight} = this.viewerContainerContainerRef.getBoundingClientRect()
-          let scale = Math.min( 1, .92 / Math.max(width / availableWidth, height / availableHeight))
+          let scale = Math.min( .8, .92 / Math.max(width / availableWidth, height / availableHeight))
 
           // don't allow scale to drop too far for accessability reasons
           // below threshHold, show scrollbar instead

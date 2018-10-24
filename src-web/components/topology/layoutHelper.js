@@ -485,6 +485,7 @@ export default class LayoutHelper {
             }
             return false
           }
+          return true
         })
         if (consolidatedGroup) {
           nodeGroups[type].connected.unshift(consolidatedGroup)
@@ -853,19 +854,6 @@ export default class LayoutHelper {
   }
 
   layoutCollections = (collections, hiddenLinks) => {
-    //const hiliteSelections = collections.length>3
-
-    // get row dimensions
-    let cells=0
-    let maxWidth = 0
-    let maxHeight = 0
-    let totalMaxWidth = 0
-    const xSpacer = NODE_SIZE*3
-    const ySpacer = NODE_SIZE*2
-    let currentX = 0
-    let currentY = 0
-    const rowDims = []
-    const bboxArr = []
 
     // cache layouts
     const clayouts = []
@@ -924,167 +912,91 @@ export default class LayoutHelper {
     }
     titleMap = _.keyBy(this.titles, 'hashCode')
 
-    // keep types together in larger sections
-    const typeSizeMap = {}
-    clayouts.forEach(({type, nodes}) => {
-      if (!typeSizeMap[type]) {
-        typeSizeMap[type] = 0
-      }
-      typeSizeMap[type] = typeSizeMap[type] + nodes.length
-    })
-
-    // sort layouts so they appear at the same spots in diagram
-    clayouts.sort((a,b) => {
-      const {nodes:ae, hashCode:ac, type:at, name:an, details: ad} = a
-      const {nodes:be, hashCode:bc, type:bt, name:bn, details: bd} = b
-      const ax = this.topologyOrder.indexOf(at)
-      const bx = this.topologyOrder.indexOf(bt)
-      // grids at end
-      if (an!=='grid' && bn==='grid') {
-        return -1
-      } else if (an==='grid' && bn!=='grid') {
-        return 1
-      } else if (an==='grid' && bn==='grid') {
-        // sort clusters by name
-        if (ax-bx !==0) {
-          return ax-bx
-        }
-        return ad.clusters.localeCompare(bd.clusters)
-      } else {
-        const {clusters: al, isMultiCluster: am} = ad
-        const {clusters: bl, isMultiCluster: bm} = bd
-
-        // multicluster towards top
-        if (am && !bm) {
-          return -1
-        } else if (!am && bm) {
-          return 1
-        }
-
-        // sort larger sections by size
-        const az = ae.length
-        const bz = be.length
-        if (az>=5 && bz<5) {
-          return -1
-        } else if (az<5 && bz>=5) {
-          return 1
-        } else if (az>=5 && bz>=5) {
-          let r = typeSizeMap[bt] - typeSizeMap[at]
-          if (r!==0) {
-            return r
-          }
-          r = bz-az
-          if (r!==0) {
-            return r
-          }
-
-        }
-
-        // else then sort by cluster name
-        if (al && bl) {
-          const r = al.localeCompare(bl)
-          if (r!==0) {
-            return r
-          }
-        }
-
-        // sort smaller connected scetions
-        if (az-bz !==0 ) {
-          return bz-az
-        }
-
-        // else sort by type
-        if (ax-bx !==0) {
-          return ax-bx
-        }
-
-      }
-      // all else fails use hash code
-      return ac-bc
-    })
+    // for diagram stability when live:
+    //  on first layout--or if lots of new sections, find best order for collections
+    //  from then on try to remember a collection's order
+    let hashCodeToPositionMap=undefined
+    if (!this.lastNodeMapToPositionMap || clayouts.length > (this.lastCollectionSize||0)+6) {
+      this.initialCollectionSort(clayouts)
+    } else {
+      hashCodeToPositionMap = this.collectionSort(clayouts, this.lastNodeMapToPositionMap)
+    }
 
     // determine rows
-    const idxToRowMap = {}
-    clayouts.forEach(({bbox, name}, idx)=>{
+    let cols=0
+    let maxWidth = 0
+    let maxHeight = 0
+    let completeDiagramWidth = 0
+    const xSpaceBetweenCells = NODE_SIZE*3
+    const ySpaceBetweenRows = NODE_SIZE*2
+    let currentX = 0
+    const rowDimensions = []
+    const collectionDimensions = []
+    const collectionIndexToRowMap = {}
+    const nodeMapToPositionMap = {}
+    clayouts.forEach(({bbox, name, nodes}, idx)=>{
       const {w, h} = bbox
-      bboxArr.push(bbox)
-      idxToRowMap[idx] = rowDims.length
-      cells++
-      const lastLayout = idx === clayouts.length - 1
+      const row = rowDimensions.length
+      collectionDimensions.push(bbox)
+      collectionIndexToRowMap[idx] = row
+      cols++
 
       // keep track of the dimensions
       maxWidth = Math.max(currentX+w, maxWidth)
-      totalMaxWidth = Math.max(maxWidth, totalMaxWidth)
-      currentX += w + xSpacer
+      completeDiagramWidth = Math.max(maxWidth, completeDiagramWidth)
+      currentX += w + xSpaceBetweenCells
       maxHeight = Math.max(h, maxHeight)
 
-      const nextName = !lastLayout ? clayouts[idx+1].name : 'last'
-      if (currentX>this.breakWidth || // greater then screen width
-          (cells>5 && name!=='grid' && nextName==='grid') ||
-          lastLayout
-      ) {
-        rowDims.push({
+      // keep track of each node's collection's row/col
+      // for next layout--to try to keep collections from flying all over the place
+      Object.assign(nodeMapToPositionMap, _.keyBy(nodes.map(({layout:{uid}})=>{
+        return {uid, row, idx}
+      }), 'uid'))
+
+      // create new row?
+      if (this.shouldCreateNewRow(currentX, row, cols, name, clayouts, idx, hashCodeToPositionMap)) {
+        rowDimensions.push({
           rowWidth: maxWidth,
-          rowHeight: maxHeight+NODE_SIZE*2, // make room for title on tallest section
-          cells
+          rowHeight: maxHeight+NODE_SIZE*2, // make room for title on tallest collection
+          cols
         })
-        maxHeight=maxWidth=cells=0
+        maxHeight=maxWidth=cols=0
         currentX = 0
       }
     })
+    this.lastNodeMapToPositionMap = nodeMapToPositionMap
+    this.lastCollectionSize = clayouts.length
 
-    // layout collection "cells"
+    // layout collection columns
     let row = 0
-    let cell = 1
-    currentX = 0
-    currentY = 0
+    let currentY = 0
     const layoutMap = {}
-    let xSpcr = xSpacer*2
     const layoutBBox = {}
     clayouts.forEach(({nodes, edges, name, hashCode}, idx)=>{
       // this collection's bounding box
-      const {x1, y1, w, h} = bboxArr[idx]
+      const {x1, y1, w, h} = collectionDimensions[idx]
 
       // figure out our row
-      if (idxToRowMap[idx]>row) {
-        const {rowHeight} = rowDims[row]
-        row = idxToRowMap[idx]
-        currentY += rowHeight + ySpacer
+      if (collectionIndexToRowMap[idx]>row) {
+        const {rowHeight} = rowDimensions[row]
+        row = collectionIndexToRowMap[idx]
+        currentY += rowHeight + ySpaceBetweenRows
         currentX = 0
-        cell = 1
       }
-      const {rowWidth, rowHeight, cells} = rowDims[row]
+      const {rowWidth, rowHeight} = rowDimensions[row]
 
-      // center cells in their rows and evenly space
-      let dxCell = 0
-      let spacer = totalMaxWidth-rowWidth
-      if (spacer) {
-        switch (cells) {
-        case 1:
-          spacer/=2
-          dxCell = spacer
-          break
-        case 2:
-          xSpcr=xSpacer*3
-          spacer = (totalMaxWidth-rowWidth-xSpcr)/2
-          dxCell = spacer
-          break
-        default:
-          spacer/=cells
-          if (spacer<xSpacer*2) {
-            dxCell = spacer*cell - spacer
-          } else {
-            xSpcr=xSpacer*2
-            spacer = (totalMaxWidth-rowWidth-xSpcr)/2
-            dxCell = spacer
-          }
-          break
-        }
-      }
-      const dyCell = row===0 ? 0 : (name==='grid' ? NODE_SIZE*2:(rowHeight-h)/2)
+      // center cols in their rows and evenly space
+      // dxCell centers row horizontally
+      // dyCell centers row vertically
+      const dxCell = (completeDiagramWidth-rowWidth)/2
+      const dyCell = row===0 ? 0 : (name==='grid' ? ySpaceBetweenRows : (rowHeight-h)/2)
+
+      // needed to saved dragged position of node based relative to its cell
       const section = {name, hashCode, x: currentX + dxCell, y: currentY + dyCell}
-      const center = {x: section.x + (w/2), y: section.y + (h/2)}
       const transform = {x: section.x - x1, y: section.y - y1}
+
+      // center of section for node creation animation (new nodes appear in center then transition to real position)
+      const center = {x: section.x + (w/2), y: section.y + (h/2)}
 
       // set title position
       const title = titleMap[hashCode]
@@ -1137,12 +1049,146 @@ export default class LayoutHelper {
         }
       })
 
-      currentX += w + xSpcr
-      cell++
+      currentX += w + xSpaceBetweenCells
     })
-    layoutBBox.width = (layoutBBox.x2-layoutBBox.x1) * 1.1 // give diagram size to grow 10% in live mode
+    layoutBBox.width = (layoutBBox.x2-layoutBBox.x1)
     layoutBBox.height = (layoutBBox.y2-layoutBBox.y1) * 1.1
     return {layoutMap, titles: this.titles, selfLinks: this.selfLinks, layoutBBox }
+  }
+
+  shouldCreateNewRow = (currentX, row, cols, name, clayouts, idx, hashCodeToPositionMap) => {
+    // greater then screen width TODO--actually fixed to 3000
+    // or if last collection laid out--finish this row
+    if (currentX>this.breakWidth || idx === clayouts.length-1) {
+      return true
+    }
+
+    // if 5 connected on this row and next is a grid
+    if (cols>5 && name!=='grid' && clayouts[idx+1].name==='grid') {
+      return true
+    }
+
+    // if in a previous layout, the next section was in the next row
+    if (hashCodeToPositionMap) {
+      if (hashCodeToPositionMap[clayouts[idx+1].hashCode].row > row) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  initialCollectionSort = (clayouts) => {
+    // keep types together in larger collections
+    const typeSizeMap = {}
+    clayouts.forEach(({type, nodes}) => {
+      if (!typeSizeMap[type]) {
+        typeSizeMap[type] = 0
+      }
+      typeSizeMap[type] = typeSizeMap[type] + nodes.length
+    })
+
+    // sort layouts so they sort of appear at the same spots in diagram
+    clayouts.sort((a,b) => {
+      const {nodes:ae, hashCode:ac, type:at, name:an, details: ad} = a
+      const {nodes:be, hashCode:bc, type:bt, name:bn, details: bd} = b
+      const ax = this.topologyOrder.indexOf(at)
+      const bx = this.topologyOrder.indexOf(bt)
+      // grids at end
+      if (an!=='grid' && bn==='grid') {
+        return -1
+      } else if (an==='grid' && bn!=='grid') {
+        return 1
+      } else if (an==='grid' && bn==='grid') {
+        // sort clusters by name
+        if (ax-bx !==0) {
+          return ax-bx
+        }
+        return ad.clusters.localeCompare(bd.clusters)
+      } else {
+        const {clusters: al, isMultiCluster: am} = ad
+        const {clusters: bl, isMultiCluster: bm} = bd
+
+        // multicluster towards top
+        if (am && !bm) {
+          return -1
+        } else if (!am && bm) {
+          return 1
+        }
+
+        // consolidated smaller sections towards bottom
+        if (!ad.isConsolidation && bd.isConsolidation) {
+          return -1
+        } else if (ad.isConsolidation && !bd.isConsolidation) {
+          return 1
+        }
+
+        // sort larger collections by size
+        const az = ae.length
+        const bz = be.length
+        if (az>=5 && bz<5) {
+          return -1
+        } else if (az<5 && bz>=5) {
+          return 1
+        } else if (az>=5 && bz>=5) {
+          let r = typeSizeMap[bt] - typeSizeMap[at]
+          if (r!==0) {
+            return r
+          }
+          r = bz-az
+          if (r!==0) {
+            return r
+          }
+        }
+
+        // else then sort by cluster name
+        if (al && bl) {
+          const r = al.localeCompare(bl)
+          if (r!==0) {
+            return r
+          }
+        }
+
+        // sort smaller connected scetions
+        if (az-bz !==0 ) {
+          return bz-az
+        }
+
+        // else sort by type
+        if (ax-bx !==0) {
+          return ax-bx
+        }
+
+      }
+      // all else fails use hash code
+      return ac-bc
+    })
+  }
+
+  collectionSort = (clayouts, nodeMapToPositionMap) => {
+    // since nodes can move from collection to collection, find a common
+    // row/idx for all the nodes in this collection
+    const hashCodeToPositionMap = {}
+    clayouts.forEach(({hashCode, nodes})=>{
+      let row = Number.MAX_SAFE_INTEGER
+      let idx = Number.MAX_SAFE_INTEGER
+      nodes.forEach(({layout:{uid}})=>{
+        if (nodeMapToPositionMap[uid]) {
+          const {row:r, idx:i} = nodeMapToPositionMap[uid]
+          row = Math.min(row, r)
+          idx = Math.min(idx, i)
+        }
+      })
+      if (row!==Number.MAX_SAFE_INTEGER) {
+        hashCodeToPositionMap[hashCode] = {row, idx}
+      }
+    })
+
+    // sort collections based on common idx
+    clayouts.sort(({hashCode:ah}, {hashCode:bh})=>{
+      return hashCodeToPositionMap[ah].idx - hashCodeToPositionMap[bh].idx
+    })
+    return hashCodeToPositionMap
   }
 
   gatherSectionDetails = (allNodeMap, nodes, nodeInfo) => {

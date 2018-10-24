@@ -12,6 +12,7 @@ import * as d3 from 'd3'
 import 'd3-selection-multi'
 import SVG from 'svg.js'
 import {dragLinks} from './linkHelper'
+import counterZoom from './counterZoom'
 import '../../../graphics/topologySprite.svg'
 
 import { NODE_RADIUS, NODE_SIZE } from './constants.js'
@@ -148,7 +149,13 @@ export default class NodeHelper {
           ({x, y, scale=1} = layout)
           y += (NODE_RADIUS*scale)
         }
-        var text = draw.text((add) => {
+        const nodeLabelGroup = draw.group()
+
+        // white background
+        nodeLabelGroup.rect()
+
+        // normal label
+        nodeLabelGroup.text((add) => {
           layout.label.split('\n').forEach((line, idx, arr)=>{
             if (line) {
               const middleLine = idx!=0&&idx!==arr.length-1
@@ -160,30 +167,58 @@ export default class NodeHelper {
             }
           })
           if (layout.info) {
-            add.tspan(layout.info).fill('gray').font({size: 9}).addClass('opacity-zoom').newLine()
+            add.tspan(layout.info)
+              .fill('gray')
+              .font({size: 9})
+              .addClass('description')
+              .newLine()
           }
         })
-        text
+          .addClass('regularLabel')
           .leading(0.8)
           .x(x)
           .y(y)
-        return text.svg()
+
+        // compact label
+        nodeLabelGroup.text((add) => {
+          layout.compactLabel.split('\n').forEach((line, idx)=>{
+            if (line) {
+              add.tspan(line)
+                .addClass(idx===0?'first-line':'')
+                .addClass('counter-zoom')
+                .newLine()
+            }
+          })
+        })
+          .addClass('compactLabel')
+          .x(x)
+          .y(y)
+
+
+        return nodeLabelGroup.svg()
       })
       .call(d3.drag()
         .on('drag', this.dragNode))
 
-    // add white opaque background
-      .call(this.setTextBBox)
-      .insert('rect','text')
-      .attrs(({layout: {textBBox}}) => {
-        return {
-          'x': textBBox.x,
-          'y': textBBox.y,
-          'width': textBBox.width,
-          'height': textBBox.height,
-          'tabindex': -1,
-        }
-      })
+    // determine sizes of white opaque background
+      .call(this.layoutBackgroundRect)
+  }
+
+  layoutBackgroundRect = (selection) => {
+    selection.each(({layout},i,ns) => {
+      layout.textBBox = ns[i].getBBox()
+      d3.select(ns[i]).select('rect')
+        .attrs(({layout: {textBBox}}) => {
+          return {
+            'x': textBBox.x,
+            'y': textBBox.y,
+            'width': textBBox.width,
+            'height': textBBox.height,
+            'tabindex': -1,
+          }
+        })
+
+    })
   }
 
   moveNodes = (transition) => {
@@ -201,22 +236,6 @@ export default class NodeHelper {
           'height': sz,
           'transform': `translate(${x - sz/2}, ${y - sz/2})`,
         }
-      })
-
-    // move node self link
-    nodes.selectAll('path')
-      .transition(transition)
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout
-        return `translate(${x}, ${y})`
-      })
-
-    // move self link arrow
-    nodes.selectAll('polygon')
-      .transition(transition)
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout
-        return `translate(${x}, ${y+5}) rotate(${90})`
       })
 
     // move center circle
@@ -267,12 +286,6 @@ export default class NodeHelper {
       })
   }
 
-  setTextBBox = (selection) => {
-    selection.each(({layout},i,ns) => {
-      layout.textBBox = ns[i].getBBox()
-    })
-  }
-
   dragNode = (d, i, ns) => {
     this.svg.interrupt().selectAll('*').interrupt()
     const {layout} = d
@@ -315,19 +328,91 @@ export default class NodeHelper {
 export const counterZoomLabels = (svg, currentZoom) => {
   if (svg) {
     const s = currentZoom.k
-    const fontSize = s<=0.35 ? 22 : (s<=0.45 ? 20 : (s<=0.65? 18:(s<=0.85? 14: 12)))
-    svg
+    const fontSize = counterZoom(s, 0.35, 0.85, 12, 22)
+    const nodes = svg.select('g.nodes')
+
+    // show regular labels
+    let showClass, hideClass
+    if (s>0.6) {
+      showClass = 'regularLabel'
+      hideClass = 'compactLabel'
+    } else {
+      showClass = 'compactLabel'
+      hideClass = 'regularLabel'
+    }
+
+    // show the label
+    const showLabels = nodes
+      .selectAll(`text.${showClass}`)
+    showLabels
+      .style('visibility', 'visible')
+    // apply counter zoom font
+    showLabels
       .selectAll('tspan.counter-zoom')
       .style('font-size', fontSize+'px')
-    svg
+    // if hub, make font even bigger
+    showLabels
       .selectAll('tspan.first-line.counter-bigger-zoom')
       .style('font-size', fontSize+4+'px')
       .style('font-weight', 'bold')
-    svg
+    // if middle line, make even smaller
+    showLabels
       .selectAll('tspan.middle-line')
       .style('font-size', fontSize-(s<=0.7 ? 4 : 0)+'px')
-    svg
-      .selectAll('tspan.opacity-zoom')
+    // hide description at a certain point
+    showLabels
+      .selectAll('tspan.description')
       .style('visibility', (s<=0.7 ? 'hidden' : 'visible'))
+
+    // hide the label
+    nodes
+      .selectAll(`text.${hideClass}`)
+      .style('visibility', 'hidden')
+
+
   }
+}
+
+export const getWrappedNodeLabel = (label, width=18, rows=3) => {
+  // if too long, add elipse and split the rest
+  if (label.length-3>width*rows) {
+    if (rows===2) {
+      label = label.substr(0, width)+ '...\n' + label.substr(-width)
+    } else {
+      label = splitLabel(label.substr(0, width*2), width, rows-1)+ '...\n' + label.substr(-width)
+    }
+  } else {
+    label = splitLabel(label, width, rows)
+  }
+  return label
+}
+
+const splitLabel = (label, width, rows) => {
+  const lines = []
+  let remaining = label
+  const brkRange = width/3
+  while (remaining.length>width && rows>1) {
+    // if close enough, don't wrap
+    if (remaining.length<width+3) {
+      lines.push(remaining)
+      remaining = ''
+    } else {
+      let brk = remaining.substr(width-brkRange, brkRange*2).search(/[^A-Za-z0-9]/)
+      if (brk!==-1) {
+        brk = width+brk-(brkRange-1)
+        lines.push(remaining.substr(0, brk))
+        remaining = remaining.substr(brk)
+      } else {
+        // else force a wrap
+        lines.push(remaining.substr(0, width)+(remaining.length>width?'-':''))
+        remaining = remaining.substr(width)
+      }
+    }
+    rows-=1
+  }
+  if (remaining.length) {
+    lines.push(remaining)
+  }
+  return lines.join('\n')
+
 }

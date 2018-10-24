@@ -50,6 +50,7 @@ class ResourceDesign extends React.Component {
     constructor (props) {
       super(props)
       this.state = {
+        loaded:false,
         links: [],
         nodes: []
       }
@@ -73,7 +74,7 @@ class ResourceDesign extends React.Component {
       const links = _.cloneDeep(nextProps.links||[])
       const nodes = _.cloneDeep(nextProps.nodes||[])
       const yaml = nextProps.yaml || ''
-      this.setState({ links, nodes, yaml })
+      this.setState({ links, nodes, yaml, loaded:true })
     }
 
     shouldComponentUpdate(nextProps, nextState){
@@ -106,7 +107,7 @@ class ResourceDesign extends React.Component {
     getViewer = () => this.viewer
 
     render() {
-      if (!this.props.nodes)
+      if (!this.state.loaded)
         return <Loading withOverlay={false} className='content-spinner' />
 
       const { staticResourceData} = this.props

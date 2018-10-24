@@ -40,40 +40,18 @@ class ResourceTopologyDiagram extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      clusters: props.clusters,
-      ignoreNotification: false,
       loaded:false
     }
   }
 
   componentWillReceiveProps(nextProps){
-    const { activeFilters, clusters, nodes, links, status} = nextProps
+    const { activeFilters, nodes, status} = nextProps
     let { loaded } = this.state
 
-    // if all clusters requested, put all nodes in that cluster
-    const ALL = 'all'
-    const allClusters = !activeFilters.cluster || activeFilters.cluster.length===0
-    const clstrs = !allClusters ? lodash.cloneDeep(clusters) :
-      nodes.length ? [
-        {id: ALL, name: msgs.get('resource.filterAll', this.context.locale)}
-      ] : []
-
-    // sort nodes and links into each cluster
-    // sort clusters alphabetically
-    clstrs.forEach(cluster=>{
-      const set = new Set()
-      cluster.nodes = nodes.filter(node=>{
-        if (cluster.id===ALL || node.cluster===cluster.id) {
-          set.add(node.uid)
-          return true
-        }
-      })
-      cluster.links = links.filter(link=>{
-        return set.has(link.source) || set.has(link.target)
-      })
-    })
-    clstrs.sort((a,b) => {
-      return a.name.localeCompare(b.name)
+    // get all cluster names
+    const set = {}
+    nodes.forEach(({clusterName})=>{
+      set[clusterName] = true
     })
 
     // prevent loading... message when just doing a live update
@@ -81,10 +59,28 @@ class ResourceTopologyDiagram extends React.Component {
         || status === Actions.REQUEST_STATUS.ERROR)
       && lodash.isEqual(activeFilters, this.props.activeFilters)
 
-    this.setState({ clusters: clstrs, loaded })
+    if (!this.initialNodes && loaded) {
+      this.initialNodes = nodes.length
+    }
+    const keys = Object.keys(set)
+    this.setState({ loaded, clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1 })
   }
 
   shouldComponentUpdate(nextProps, nextState){
+    // weave scans can:
+    //  1) missing all nodes between scans
+    //  2) just barf
+    if (this.initialNodes && nextProps.nodes.length===0) {
+      if (this.latency===undefined) {
+        this.latency = 6
+      }
+      this.latency -= 1
+      // give it 3 scans where all objects are missing before we refresh topology with nothing
+      if (this.latency>0) {
+        return false
+      }
+    }
+    delete this.latency
     return !lodash.isEqual(this.props.clusters.map(n => n.id), nextProps.clusters.map(n => n.id)) ||
        !lodash.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
@@ -93,11 +89,9 @@ class ResourceTopologyDiagram extends React.Component {
        this.state.loaded !== nextState.loaded
   }
 
-  handleNotificationClosed = () => this.setState({ ignoreNotification: true })
-
   render() {
-    const { activeFilters, requiredFilters={}, status, staticResourceData} = this.props
-    const { clusters, ignoreNotification, loaded } = this.state
+    const { activeFilters, requiredFilters={}, nodes, links, status, staticResourceData} = this.props
+    const { loaded, clusterNames, isMulticluster } = this.state
     const {locale} = this.context
 
     if (status === Actions.REQUEST_STATUS.ERROR) {
@@ -114,20 +108,17 @@ class ResourceTopologyDiagram extends React.Component {
 
     // if there are required filters make sure there's at least one k8 object with a match
     let notification = undefined
-    if (Object.keys(requiredFilters).length>0 && !ignoreNotification) {
+    if (Object.keys(requiredFilters).length>0) {
       const reqMap = {}
       requiredFilters.label.forEach(({label, name, value})=>{
         reqMap[name+'='+value] = label
       })
-      clusters.forEach(({nodes})=>{
-        nodes.forEach(({labels}) =>{
-          labels.forEach(({name, value})=>{
-            delete reqMap[name+'='+value]
-          })
+      nodes.forEach(({labels}) =>{
+        labels.forEach(({name, value})=>{
+          delete reqMap[name+'='+value]
         })
       })
       if (Object.keys(reqMap).length>0) {
-        notification =
         notification = {
           title: msgs.get('topology.required.objects', this.context.locale),
           subtitle: Object.values(reqMap).join('; ')
@@ -136,42 +127,27 @@ class ResourceTopologyDiagram extends React.Component {
     }
 
     // if no objects show "No objects" notification
-    if (clusters.length===0) {
-      if (notification) {
-        return <Notification
-          title={notification.title}
-          role="alert"
-          className='persistent'
-          subtitle={notification.subtitle}
-          kind='error' />
-      } else {
-        return <Notification
-          title=''
-          role="alert"
-          className='persistent'
-          subtitle={msgs.get('topology.no.objects', locale)}
-          kind='info' />
-      }
+    if (nodes.length===0) {
+      return <Notification
+        role="alert"
+        className='persistent'
+        title={notification?notification.title:''}
+        subtitle={notification?notification.subtitle:msgs.get('topology.no.objects', locale)}
+        kind='info' />
     }
 
     return (
       <div className='topologyContainer'>
         <div className="topologyDiagramContainer" >
-          {clusters.map(({id, name, nodes, links}) =>
-            <TopologyViewer
-              key={id}
-              id={id}
-              title={name}
-              nodes={nodes}
-              links={links}
-              context={this.context}
-              notification={notification}
-              ignoreNotification={ignoreNotification}
-              handleNotificationClosed={this.handleNotificationClosed}
-              staticResourceData={staticResourceData}
-              activeFilters={activeFilters}
-            />
-          )}
+          <TopologyViewer
+            title={clusterNames}
+            nodes={nodes}
+            links={links}
+            isMulticluster={isMulticluster}
+            context={this.context}
+            staticResourceData={staticResourceData}
+            activeFilters={activeFilters}
+          />
         </div>
       </div>
     )

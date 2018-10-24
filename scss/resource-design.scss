@@ -9,37 +9,10 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
 
-.topologyPage {
-    margin: -54px -2rem;
-
-  .topologyViewerContainer {
-      height: calc(100vh - 330px);
-
-      .notificationContainer {
-        position: absolute;
-        background-color: white;
-        right: 0;
-        top: 0;
-      }
-  }
-}
-
 .resourceDesignContainer {
   margin: -40px -2rem -60px;
   height: calc(100vh - 195px);
   position: relative;
-
-  .topologyDiagramContainer {
-
-    .topologyViewerDiagram {
-
-      .topologyViewerContainer {
-        height: calc(100% - 10px);
-        margin-right: 0;
-      }
-
-    }
-  }
 
   .yamlEditorContainer {
     height: calc(100% - 10px);

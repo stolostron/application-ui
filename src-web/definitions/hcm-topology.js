@@ -60,6 +60,10 @@ export default {
   topologyNodeLayout: setNodeInfo,
   topologyTransform: topologyTransform,
   topologyNodeDetails: getNodeDetails,
+  topologyOptions: {
+    showHubs: true,
+    showSectionTitles: showSectionTitles, // show section titles
+  }
 }
 
 export function topologyTransform(resourceItem) {
@@ -118,6 +122,39 @@ export function topologyTransform(resourceItem) {
   }
 }
 
+export function showSectionTitles(types, locale) {
+  const set = new Set()
+  types.forEach(type=>{
+    switch (type) {
+    case 'pod':
+      set.add(msgs.get('topology.title.pods', locale))
+      break
+
+    case 'service':
+      set.add(msgs.get('topology.title.services', locale))
+      break
+
+    case 'container':
+      set.add(msgs.get('topology.title.containers', locale))
+      break
+
+    case 'host':
+      set.add(msgs.get('topology.title.hosts', locale))
+      break
+
+    case 'internet':
+      set.add(msgs.get('topology.title.internet', locale))
+      break
+
+    default:
+      set.add(msgs.get('topology.title.controllers', locale))
+      break
+    }
+  })
+  return Array.from(set).sort().join(', ')
+
+}
+
 export function setNodeInfo(node, locale) {
   const {layout} = node
   if (layout) {
@@ -136,7 +173,10 @@ export function setNodeInfo(node, locale) {
       break
     }
 
-    if (layout.isHub) {
+    // hubs are drawn bigger
+    if (layout.isMajorHub) {
+      layout.scale = 1.6
+    } else if (layout.isMinorHub) {
       layout.scale = 1.4
     }
   }

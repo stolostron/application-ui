@@ -15,15 +15,14 @@ import resources from '../../../lib/shared/resources'
 import config from '../../../lib/shared/config'
 import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
-import LinkHelper, {appendLinkDefs} from './linkHelper'
+import TitleHelper, {counterZoomTitles} from './titleHelper'
+import LinkHelper, {appendLinkDefs, counterZoomLinks} from './linkHelper'
 import NodeHelper, {counterZoomLabels} from './nodeHelper'
-import { InlineNotification } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 
 resources(() => {
-  require('../../../scss/topology-viewer.scss')
   require('../../../scss/topology-link.scss')
   require('../../../scss/topology-node.scss')
 })
@@ -36,22 +35,9 @@ class TopologyViewer extends React.Component {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
     getEditor: PropTypes.func,
-    handleNotificationClosed: PropTypes.func,
-    id: PropTypes.string,
-    ignoreNotification: PropTypes.bool,
-    links: PropTypes.arrayOf(PropTypes.shape({
-      source: PropTypes.any,
-      target: PropTypes.any,
-      label: PropTypes.string,
-      type: PropTypes.string,
-    })),
-    nodes: PropTypes.arrayOf(PropTypes.shape({
-      cluster: PropTypes.string,
-      uid: PropTypes.string.isRequired,
-      type: PropTypes.string,
-      name: PropTypes.string,
-    })),
-    notification: PropTypes.object,
+    isMulticluster: PropTypes.bool,
+    links: PropTypes.array,
+    nodes: PropTypes.array,
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string,
@@ -67,9 +53,6 @@ class TopologyViewer extends React.Component {
       hiddenLinks: new Set(),
       selectedNodeId: ''
     }
-    this.setContainerRef = elem => {
-      this.containerRef = elem
-    }
     if (props.setViewer) {
       props.setViewer(this)
     }
@@ -77,7 +60,8 @@ class TopologyViewer extends React.Component {
       this.zoomFit()
     }, 150)
     const { locale } = this.props.context
-    this.layoutHelper = new LayoutHelper(this.props.staticResourceData, locale)
+    this.titles=[]
+    this.layoutHelper = new LayoutHelper(this.props.staticResourceData, this.titles, locale)
     this.topologyOptions = this.props.staticResourceData.topologyOptions||{}
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.lastLayoutBBox=undefined
@@ -104,7 +88,6 @@ class TopologyViewer extends React.Component {
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
-    || this.props.notification !== nextProps.notification
   }
 
   // weave scans can:
@@ -184,35 +167,31 @@ class TopologyViewer extends React.Component {
 
   }
 
+  setViewerContainerContainerRef = ref => {this.viewerContainerContainerRef = ref}
+  setViewerContainerRef = ref => {this.viewerContainerRef = ref}
+  setZoomInRef = ref => {this.zoomInRef = ref}
+
   render() {
-    const { title, context, notification, staticResourceData, getEditor, ignoreNotification, handleNotificationClosed } = this.props
+    const { title, context, staticResourceData, getEditor } = this.props
     const { selectedNodeId } = this.state
     const { locale } = context
     const svgId = this.getSvgId()
     return (
       <div className="topologyViewerDiagram" ref={this.setContainerRef} >
         {title && <div className='topologyViewerTitle'>
-          {msgs.get('cluster.name', [title], locale)}
+          {msgs.get('cluster.names', [title], locale)}
         </div>}
-        <div className='topologyViewerContainer' role='region' aria-label='zoom'>
-          {notification && !ignoreNotification &&
-            <div className='notificationContainer'>
-              <InlineNotification
-                title={notification.title}
-                iconDescription=''
-                subtitle={notification.subtitle}
-                onCloseButtonClick={handleNotificationClosed}
-                kind='warning' />
-            </div>
-          }
-          <svg id={svgId} className="topologyDiagram" />
-          <input type='image' alt='zoom-in' className='zoom-in'
-            onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
-          <input type='image' alt='zoom-out' className='zoom-out'
-            onClick={this.handleZoomOut} src={`${config.contextPath}/graphics/zoom-out.svg`} />
-          <input type='image' alt='zoom-target' className='zoom-target'
-            onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
+        <div className='topologyViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
+          <div className='topologyViewerContainer'  ref={this.setViewerContainerRef} role='region' aria-label='zoom'>
+            <svg id={svgId} className="topologyDiagram" />
+          </div>
         </div>
+        <input type='image' alt='zoom-in' className='zoom-in' ref={this.setZoomInRef}
+          onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
+        <input type='image' alt='zoom-out' className='zoom-out'
+          onClick={this.handleZoomOut} src={`${config.contextPath}/graphics/zoom-out.svg`} />
+        <input type='image' alt='zoom-target' className='zoom-target'
+          onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
         { this.state.selectedNodeId && !getEditor &&
           <DetailsView
             context={this.context}
@@ -257,26 +236,25 @@ class TopologyViewer extends React.Component {
   }
 
   destroyDiagram = () => {
+    this.titles=[]
     this.layoutHelper.destroy()
     const svg = d3.select('#'+this.getSvgId())
     if (svg) {
       svg.select('g.nodes').selectAll('*').remove()
       svg.select('g.links').selectAll('*').remove()
-      svg.select('g.labels').selectAll('*').remove()
-      svg.select('g.clusters').selectAll('*').remove()
+      svg.select('g.titles').selectAll('*').remove()
     }
   }
 
   generateDiagram() {
-    if (!this.containerRef || this.highlightMode) {
+    if (!this.viewerContainerContainerRef || this.highlightMode) {
       return
     }
 
     if (!this.svg) {
       this.svg = d3.select('#'+this.getSvgId())
-      this.svg.append('g').attr('class', 'clusters')
+      this.svg.append('g').attr('class', 'titles')
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
-      this.svg.append('g').attr('class', 'labels')  // same for link labels
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.getSvgSpace())
@@ -284,13 +262,19 @@ class TopologyViewer extends React.Component {
     }
 
     // consolidate nodes/filter links/add layout data to each element
-    const firstLayout = this.lastLayoutBBox===undefined
     const {nodes=[], links=[], hiddenLinks= new Set()} = this.state
-    const breakWidth = 3000 //this.containerRef.getBoundingClientRect().width + 1000
-    this.layoutHelper.layout(nodes, links, hiddenLinks, firstLayout, breakWidth, (layoutResults)=>{
+    const {isMulticluster} = this.props
+    const options = {
+      firstLayout: this.lastLayoutBBox===undefined,
+      breakWidth: 3000, //this.viewerContainerContainerRef.getBoundingClientRect().width + 1000
+      isMulticluster
+    }
+    this.layoutHelper.layout(nodes, links, hiddenLinks, options, (layoutResults)=>{
 
-      const {laidoutNodes, selfLinks, layoutMap, layoutBBox} = layoutResults
+      const {laidoutNodes, titles, selfLinks, layoutMap, layoutBBox} = layoutResults
       this.layoutBBox = layoutBBox
+      this.titles = titles
+      const {firstLayout} = options
 
       // resize diagram to fit all the nodes
       if (firstLayout) {
@@ -310,6 +294,7 @@ class TopologyViewer extends React.Component {
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transformation)
 
+      // Create or refresh the nodes in the diagram.
       const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap, ()=>{
         this.highlightMode = false
       })
@@ -317,15 +302,25 @@ class TopologyViewer extends React.Component {
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
       nodeHelper.moveNodes(transformation)
 
+      // Create or refresh the titles in the diagram.
+      if (this.topologyOptions.showSectionTitles) {
+        const titleHelper = new TitleHelper(this.svg, titles)
+        titleHelper.removeOldTitlesFromDiagram()
+        titleHelper.addTitlesToDiagram(currentZoom)
+        titleHelper.moveTitles(transformation)
+      }
+
       this.laidoutNodes = laidoutNodes
       this.lastLayoutBBox = laidoutNodes.length ? this.layoutBBox : undefined
       counterZoomLabels(this.svg, currentZoom)
+      counterZoomTitles(this.svg, currentZoom)
+      counterZoomLinks(this.svg, currentZoom)
     })
   }
 
   getSvgSpace(duration=0){
     const svgSpace = d3.zoom()
-      .scaleExtent([ 0.25, 4 ])
+      .scaleExtent([ 0.1, 1 ]) // scale from 0.1 up to 1
       .on('zoom', () => {
         currentZoom = d3.event.transform
         const svg = d3.select('#'+this.getSvgId())
@@ -341,13 +336,20 @@ class TopologyViewer extends React.Component {
           svg.select('g.links').selectAll('g.link')
             .transition(transition)
             .attr('transform', d3.event.transform)
-          svg.select('g.labels').selectAll('g.label')
+          svg.select('g.links').selectAll('g.label')
+            .transition(transition)
+            .attr('transform', d3.event.transform)
+          svg.select('g.titles').selectAll('g.title')
             .transition(transition)
             .attr('transform', d3.event.transform)
 
-          // counter-zoom first line of labels
+          // counter-zoom text
           counterZoomLabels(svg, currentZoom)
+          counterZoomTitles(svg, currentZoom)
+          counterZoomLinks(svg, currentZoom)
         }
+        // disable zoom in at 1
+        this.zoomInRef.disabled = currentZoom.k===1
       })
     return svgSpace
   }
@@ -365,17 +367,32 @@ class TopologyViewer extends React.Component {
   }
 
   zoomFit = () => {
-    const {width, height} = this.layoutBBox
+    const {y1, width, height} = this.layoutBBox
     if (width && height) {
       const svg = d3.select('#'+this.getSvgId())
       if (svg) {
-        const root = svg.select('g.nodes')
-        if (root && root.node()) {
-          const parent = root.node().parentElement
-          const {width: fullWidth, height: fullHeight} = parent.getBoundingClientRect()
+        if (this.viewerContainerContainerRef) {
+          const {width: availableWidth, height: availableHeight} = this.viewerContainerContainerRef.getBoundingClientRect()
+          let scale = Math.min( 1, .92 / Math.max(width / availableWidth, height / availableHeight))
+
           // don't allow scale to drop too far for accessability reasons
-          const scale = Math.max( 0.3, Math.min( 1, .99 / Math.max(width / fullWidth, height / fullHeight)))
-          this.getSvgSpace(200).translateTo(svg, width/2, scale>0.3? height/2:fullHeight+300)
+          // below threshHold, show scrollbar instead
+          let dy
+          const topMargin = 30
+          const threshHold = 0.3
+          if (scale<threshHold) {
+            scale = threshHold
+            this.viewerContainerContainerRef.classList.add('scrolled')
+            this.viewerContainerRef.setAttribute('style', `height: ${height*scale+topMargin}px;`)
+            const viewerHeight = this.viewerContainerRef.getBoundingClientRect().height
+            dy = (viewerHeight/2 - topMargin) * 1/scale
+          } else {
+            this.viewerContainerContainerRef.classList.remove('scrolled')
+            this.viewerContainerRef.setAttribute('style', 'height: 100%;')
+            dy = height/2
+          }
+          this.viewerContainerContainerRef.scrollTo(0, 0)
+          this.getSvgSpace(200).translateTo(svg, width/2, y1 + dy)
           this.getSvgSpace(200).scaleTo(svg, scale)
         }
       }
@@ -384,8 +401,7 @@ class TopologyViewer extends React.Component {
   }
 
   getSvgId() {
-    const {id, title} = this.props
-    return (title||'id')+id+''
+    return 'svgId'
   }
 }
 

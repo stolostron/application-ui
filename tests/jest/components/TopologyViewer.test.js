@@ -21,7 +21,10 @@ describe('TopologyViewer no components', () => {
     links:[],
     staticResourceData: {
       topologyOrder: ['application', 'appservice', 'dependency'],
-      topologyNodeLayout: jest.fn()
+      topologyNodeLayout: jest.fn(),
+      topologyOptions: {
+        showHubs: false,
+      }
     },
   }
   it('renders as expected', () => {
@@ -274,6 +277,9 @@ const mockData = {
   },
   staticResourceData: {
     topologyOrder: ['pod'],
+    topologyOptions: {
+      showHubs: false,
+    }
   },
 
 }

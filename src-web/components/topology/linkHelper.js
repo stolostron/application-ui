@@ -11,6 +11,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import _ from 'lodash'
+import counterZoom from './counterZoom'
 
 import { NODE_RADIUS } from './constants.js'
 
@@ -75,9 +76,8 @@ export default class LinkHelper {
 
     // add path
     links.append('path')
-      .attrs(({layout, uid}) => {
+      .attrs(({uid}) => {
         return {
-          d: lineFunction([layout.center,layout.center]),
           id: `link-${uid}`,
           'marker-start': 'url(#squarehead)',
           'marker-end': 'url(#arrowhead)'
@@ -88,7 +88,7 @@ export default class LinkHelper {
 
     // labels
     if (this.topologyOptions.showLineLabels) {
-      const labels = this.svg.select('g.labels')
+      const labels = this.svg.select('g.links')
         .selectAll('g.label')
       // if nodes have been consolidated, a link might not be drawn
         .data(this.links.filter(({layout})=>!!layout), l => {
@@ -128,26 +128,32 @@ export default class LinkHelper {
         let {linePath} = layout
         if (!linePath) {
           linePath = layout.linePath = lineFunction(layout.lineData)
+          layout.newPath = true
         }
         return linePath
+      })
+      .style('opacity', ({layout})=>{
+        const opacity = (layout.newPath) ? 0.0 : 1.0
+        delete layout.newPath
+        return opacity
       })
 
     // back link away from node so that end markers just touch the shape
     links.selectAll('path')
-      .attr('d', ({layout},i,ns) => {
-        return getBackedOffPath(ns[i], layout, this.topologyShapes)
+      .attrs(({layout},i,ns) => {
+        const {x, y} = layout.transform ? layout.transform : {x:0, y:0}
+        return {
+          'd': getBackedOffPath(ns[i], layout, this.topologyShapes),
+          'transform': `translate(${x}, ${y})`
+        }
       })
       .transition(transition)
-      .attr('transform', ({layout}) => {
-        const {x, y} = layout.transform ? layout.transform : {x:0, y:0}
-        return `translate(${x}, ${y})`
-      })
       .style('opacity', 1.0)
 
 
     // move line labels
     if (this.topologyOptions.showLineLabels) {
-      const labels = this.svg.select('g.labels').selectAll('g.label')
+      const labels = this.svg.select('g.links').selectAll('g.label')
       labels.selectAll('text')
         .selectAll('textPath')
         .transition(transition)
@@ -211,6 +217,7 @@ export const appendLinkDefs = (svg) => {
       orient: 'auto',
       markerWidth: 16,
       markerHeight: 16,
+      markerUnits: 'userSpaceOnUse',
       xoverflow: 'visible'
     })
     .append('svg:path')
@@ -226,6 +233,7 @@ export const appendLinkDefs = (svg) => {
       orient: 'auto',
       markerWidth: 7,
       markerHeight: 7,
+      markerUnits: 'userSpaceOnUse',
       xoverflow: 'visible'
     })
     .append('svg:rect')
@@ -269,14 +277,18 @@ export const setDraggedLineData = (layout) => {
 }
 
 export const getBackedOffPath = (svgPath, layout, topologyShapes) => {
-  const {lineData, backedOff, source:{isHub:isSrcHub, type:srcType}, target:{isHub:isTgtHub, type:tgtType}} = layout
+  const {lineData, backedOff, source, target} = layout
   let {linePath} = layout
   if (!backedOff) {
+    const {isMajorHub:isMajorSrcHub, isMinorHub:isMinorSrcHub, type:srcType} = source
+    const {isMajorHub:isMajorTgtHub, isMinorHub:isMinorTgtHub, type:tgtType} = target
     const srcRadius = (topologyShapes[srcType]||{}).nodeRadius || NODE_RADIUS
     const tgtRadius = (topologyShapes[tgtType]||{}).nodeRadius || NODE_RADIUS
-    lineData[0] = svgPath.getPointAtLength(srcRadius+(isSrcHub?15:0))
-    lineData[lineData.length-1] = svgPath.getPointAtLength(
-      svgPath.getTotalLength()-tgtRadius-(isTgtHub?15:5))
+    const srcBackoff = isMajorSrcHub ? 18 : (isMinorSrcHub ? 15 : 0)
+    const tgtBackoff = isMajorTgtHub ? 18 : (isMinorTgtHub ? 15 : 5)
+    lineData[0] = svgPath.getPointAtLength(srcRadius+srcBackoff)
+    lineData[lineData.length-1] =
+       svgPath.getPointAtLength(svgPath.getTotalLength()-tgtRadius-tgtBackoff)
     linePath = layout.linePath = lineFunction(layout.lineData)
     layout.backedOff = true
   }
@@ -302,29 +314,31 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
         delete layout.backedOff
         const {source: {uid: sid}, target: {uid: tid}} = layout
         const colaEdge = edge.scratch().cola
-        const {position: {x:x1, y:y1}} = nodeMap[sid]
-        const {position: {x:x2, y:y2}} = nodeMap[tid]
+        if (nodeMap[sid] && nodeMap[tid]) {
+          const {position: {x:x1, y:y1}} = nodeMap[sid]
+          const {position: {x:x2, y:y2}} = nodeMap[tid]
 
-        // if cola layout and a line is long, route the line around the nodes
-        if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS*6) {
+          // if cola layout and a line is long, route the line around the nodes
+          if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS*6) {
 
-          if (!preparedColaRouting) {
-            adapter.prepareEdgeRouting(20)
-            // nodes need inner bounds
-            adapter.nodes().forEach(node=>{
-              node.innerBounds = node.bounds.inflate(-20)
-            })
-            preparedColaRouting = true
+            if (!preparedColaRouting) {
+              adapter.prepareEdgeRouting(20)
+              // nodes need inner bounds
+              adapter.nodes().forEach(node=>{
+                node.innerBounds = node.bounds.inflate(-20)
+              })
+              preparedColaRouting = true
+            }
+            layout.lineData = adapter.routeEdge(colaEdge, 0)
+
+          } else {
+            // else do nothing--just a straight line
           }
-          layout.lineData = adapter.routeEdge(colaEdge, 0)
 
-        } else {
-          // else do nothing--just a straight line
+          // add endpoints
+          layout.lineData.unshift({x:x1, y:y1})
+          layout.lineData.push({x:x2, y:y2})
         }
-
-        // add endpoints
-        layout.lineData.unshift({x:x1, y:y1})
-        layout.lineData.push({x:x2, y:y2})
       }
 
       laidoutEdges.push({
@@ -389,3 +403,15 @@ export const getLoopLineData = (x,y) => {
   ]
 }
 
+
+export const counterZoomLinks = (svg, currentZoom) => {
+  if (svg) {
+    const opacity = counterZoom(currentZoom.k, 0.35, 0.85, 0.5, 0.85)
+    const links = svg.select('g.links').selectAll('g.link')
+    links
+      .selectAll('path')
+      .styles({
+        'stroke-opacity': opacity
+      })
+  }
+}

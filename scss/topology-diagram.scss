@@ -7,18 +7,101 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+
+/********************************************
+ ****   TOPOLOGY PAGE: TOPOLOGY DIAGRAM ********
+ ********************************************/
+
 .topologyDiagramContainer {
-    display: flex;
-    flex-wrap: nowrap;
-    height: 100%;
+  height: 100%;
+
+  .topologyViewerDiagram {
+      margin: 0 1rem 1rem 1rem;
+      position: relative;
+
+    .topologyViewerTitle {
+        color: $color__blue-90;
+        line-height: 25px;
+        margin: 1rem 1rem 0 1rem;
+    }
+
+    .topologyViewerContainerContainer {
+        width: 100%;
+        height: calc(100vh - 280px);
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+        overflow: hidden;
+        position: relative;
+        background-color: #fff;
+
+        &.scrolled {
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+       .topologyViewerContainer {
+          width: 100%;
+       }
+    }
+  }
+}
+
+/********************************************
+ ***   RESOURCE PAGE: DESIGN DIAGRAM  ******
+ ********************************************/
+
+.resourceDesignContainer {
+  .topologyDiagramContainer {
+    .topologyViewerDiagram {
+       height: calc(100vh - 205px);
+      .topologyViewerContainerContainer {
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        .topologyViewerContainer {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+/********************************************
+ *****  RESOURCE PAGE: TOPOLOGY DIAGRAM  *****
+ ********************************************/
+.topologyPage {
+  margin: -54px -2rem;
+  .topologyContainer {
+    .topologyDiagramContainer {
+      .topologyViewerDiagram {
+       .topologyViewerContainerContainer {
+        width: 100%;
+        height: calc(100vh - 330px);
+        background-color: #fff;
+        .topologyViewerContainer {
+           .notificationContainer {
+             position: absolute;
+             background-color: white;
+             right: 0;
+             top: 0;
+           }
+        }
+      }
+    }
+  }
+ }
+}
+
+
+.title {
+  text {
+    fill: $color__navy-gray-4;
+    cursor: default;
+  }
 }
 
 .topologyTab {
     margin: 0 .5rem 0 .5rem;
-
-  .topologyViewerContainer {
-      height: calc(100vh - 280px);
-  }
 }
 
 .topologyNoCluster {
@@ -38,4 +121,27 @@
         flex-direction: column;
         flex-grow: 0;
     }
+}
+
+svg.topologyDiagram {
+    height: 100%;
+    width: 100%;
+}
+
+.zoom-in {
+  position: absolute;
+  bottom: 72px;
+  right: 40px;
+}
+
+.zoom-out {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+}
+
+.zoom-target {
+  position: absolute;
+  bottom: 115px;
+  right: 40px;
 }

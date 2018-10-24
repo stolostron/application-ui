@@ -42,7 +42,7 @@ export default class LayoutHelper {
   layout = (nodes, links, hiddenLinks, options, cb) => {
     Object.assign(this, options)
 
-    // sort out nodes that can appear everywhere
+    // filter out nodes that can appear everywhere
     this.nodesToBeCloned = {}
     this.clonedIdSet = new Set()
     if (this.topologyCloneTypes) {
@@ -67,6 +67,9 @@ export default class LayoutHelper {
 
     // re-add cloned nodes
     this.cloneNodes(groups, nodes)
+
+    // consolidate smaller groups into one bigger group
+    this.consolidateGroups(groups)
 
     //identify hubs
     this.markHubs(groups)
@@ -423,7 +426,7 @@ export default class LayoutHelper {
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type] && nodeGroups[type].connected) {
         // possibly create new consolidated connected groups
-        const newConsolidatedGroups={}
+        const consolidatedGroups={}
 
         nodeGroups[type].connected = nodeGroups[type].connected.filter(({nodeMap, details: {edges}})=>{
           // if single node cannot be in connected group unless it ONLY connects to clones
@@ -431,7 +434,7 @@ export default class LayoutHelper {
             for (var i = 0; i < edges.length; i++) {
               const edge = edges[i]
               directions.forEach(({next, other})=>{
-                this.consolidateNodesHelper(newConsolidatedGroups, allNodeMap, nodeMap, edge, next, other)
+                this.consolidateNodesHelper(consolidatedGroups, allNodeMap, nodeMap, edge, next, other)
               })
             }
             return false
@@ -440,7 +443,7 @@ export default class LayoutHelper {
           }
         })
         // if not empty, add the new consolidated groups to this nodeGroup
-        this.readdConsolidateNodes(nodeGroups[type].connected, newConsolidatedGroups)
+        this.readdConsolidatedGroups(nodeGroups[type].connected, consolidatedGroups)
       }
     })
   }
@@ -457,14 +460,40 @@ export default class LayoutHelper {
         group = newGroups[key] = {nodeMap:{}, edges:[], clusterName, typeMap:{}}
       }
       group.edges.push(edge)
-      group.typeMap[cloneNode.type] = true
       group.typeMap[type] = true
       group.nodeMap = Object.assign(group.nodeMap, nodeMap)
       group.uid = group.uid || nodeId
     }
   }
 
-  readdConsolidateNodes = (connected, newGroups) => {
+  consolidateGroups = (groups) => {
+    const {nodeGroups} = groups
+
+    // consolidate small connected groups
+    this.topologyOrder.forEach(type=>{
+      if (nodeGroups[type] && nodeGroups[type].connected) {
+        let consolidatedGroup=undefined
+        nodeGroups[type].connected = nodeGroups[type].connected.filter(connected=>{
+          const {nodeMap, details:{isMultiCluster, edges}} = connected
+          if (!isMultiCluster && Object.keys(nodeMap).length <=4 ) {
+            if (!consolidatedGroup) {
+              consolidatedGroup = connected
+            } else {
+              consolidatedGroup.nodeMap = Object.assign(consolidatedGroup.nodeMap, nodeMap)
+              consolidatedGroup.details.edges = consolidatedGroup.details.edges.concat(edges)
+              consolidatedGroup.details.isConsolidation = true
+            }
+            return false
+          }
+        })
+        if (consolidatedGroup) {
+          nodeGroups[type].connected.unshift(consolidatedGroup)
+        }
+      }
+    })
+  }
+
+  readdConsolidatedGroups = (connected, newGroups) => {
     for (const key in newGroups) {
       const {nodeMap, edges, clusterName, typeMap} = newGroups[key]
       const clusters = [clusterName]
@@ -661,9 +690,9 @@ export default class LayoutHelper {
     })
   }
 
-  getConnectedLayoutOptions = ({elements}, numOfSections) => {
-    const isDAG = elements.nodes().length<=6
-    if (isDAG) {
+  getConnectedLayoutOptions = ({elements, details: {isConsolidation}}, numOfSections) => {
+    const useDAG = elements.nodes().length<=6 || isConsolidation
+    if (useDAG) {
       return this.getDagreLayoutOptions(elements, numOfSections)
     } else {
       return this.getColaLayoutOptions(elements)
@@ -1053,8 +1082,9 @@ export default class LayoutHelper {
         }
       }
       const dyCell = row===0 ? 0 : (name==='grid' ? NODE_SIZE*2:(rowHeight-h)/2)
-      const center = {x:currentX+dxCell+(w/2), y:currentY+dyCell+(h/2)}
-      const transform = {x: currentX + dxCell - x1, y: currentY + dyCell - y1}
+      const section = {name, hashCode, x: currentX + dxCell, y: currentY + dyCell}
+      const center = {x: section.x + (w/2), y: section.y + (h/2)}
+      const transform = {x: section.x - x1, y: section.y - y1}
 
       // set title position
       const title = titleMap[hashCode]
@@ -1075,17 +1105,22 @@ export default class LayoutHelper {
         layoutBBox.x2 = Math.max(layoutBBox.x2||layout.x, layout.x)
         layoutBBox.y2 = Math.max(layoutBBox.y2||layout.y, layout.y)
 
-        layout.center = center
-
         // restore position of any node dragged by user
         if (layout.dragged) {
-          layout.undragged = {
-            x: layout.x,
-            y: layout.y
+          // if node is a member of a new section cancel the drag
+          if (layout.section.hashCode === hashCode) {
+            // else reconstitute drag using the current section x/y
+            layout.x = section.x + layout.dragged.x
+            layout.y = section.y + layout.dragged.y
+          } else {
+            delete layout.undragged
+            delete layout.dragged
           }
-          layout.x = layout.dragged.x
-          layout.y = layout.dragged.y
+        } else {
+          delete layout.undragged
         }
+        layout.section = section
+        layout.center = center
       })
 
       // set edge centers

@@ -45,7 +45,6 @@ class TopologyViewer extends React.Component {
 
   constructor (props) {
     super(props)
-    this.highlightMode = false
     this.state = {
       activeFilters: props.activeFilters,
       links: _.uniqBy(props.links, 'uid'),
@@ -65,6 +64,7 @@ class TopologyViewer extends React.Component {
     this.topologyOptions = this.props.staticResourceData.topologyOptions||{}
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.lastLayoutBBox=undefined
+    this.isDragging = false
   }
 
   componentDidMount() {
@@ -204,8 +204,18 @@ class TopologyViewer extends React.Component {
     )
   }
 
-  handleNodeClick = (node) => {
+  handleNodeClick = (node, selected) => {
     d3.event.stopPropagation()
+
+    // mark as selected
+    if (this.lastSelected) {
+      this.lastSelected.classed('selected', false)
+      delete this.lastSelected
+    }
+    if (selected) {
+      selected.classed('selected', true)
+      this.lastSelected = selected
+    }
 
     // if there's a companion yaml editor, scroll to line
     const { getEditor } = this.props
@@ -223,11 +233,13 @@ class TopologyViewer extends React.Component {
     })
   }
 
+  handleNodeDrag = (isDragging) => {
+    this.isDragging = isDragging
+  }
 
   getLayoutNodes = () => {
     return this.laidoutNodes
   }
-
 
   handleDetailsClose = () => {
     this.setState({
@@ -247,7 +259,8 @@ class TopologyViewer extends React.Component {
   }
 
   generateDiagram() {
-    if (!this.viewerContainerContainerRef || this.highlightMode) {
+    // if dragging or searching don't refresh diagram
+    if (this.isDragging) {
       return
     }
 
@@ -295,11 +308,9 @@ class TopologyViewer extends React.Component {
       linkHelper.moveLinks(transformation)
 
       // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap, ()=>{
-        this.highlightMode = false
-      })
+      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap)
       nodeHelper.removeOldNodesFromDiagram()
-      nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick)
+      nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick, this.handleNodeDrag)
       nodeHelper.moveNodes(transformation)
 
       // Create or refresh the titles in the diagram.

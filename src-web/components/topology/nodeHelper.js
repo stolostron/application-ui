@@ -43,7 +43,7 @@ export default class NodeHelper {
       .exit().remove()
   }
 
-  addNodesToDiagram = (currentZoom, nodeClickHandler) => {
+  addNodesToDiagram = (currentZoom, nodeClickHandler, nodeDragHandler) => {
     const draw = typeof SVG === 'function' ? SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg')) : undefined
     const filteredNodes = this.nodes.filter(node => !!node.layout)
 
@@ -57,30 +57,47 @@ export default class NodeHelper {
       .attr('class','node')
       .attr('transform', currentZoom)
       .attr('type', (d) => { return d.name })
-      .on('click', (d)=>{
-        nodeClickHandler(d)
+      .on('click', (d, i, ns)=>{
+        nodeClickHandler(d, d3.select(ns[i]))
       })
       // accessability--user presses enter key when node has focus
-      .on('keypress', (d) => {
+      .on('keypress', (d, i, ns) => {
         if ( d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-          nodeClickHandler(d)
+          nodeClickHandler(d, d3.select(ns[i]))
         }
       })
 
-    // node hover
-    this.createNodeShapes(nodes, 'shadow')
     // node shape
-    this.createNodeShapes(nodes, 'main', '1')
-    // central circle
-    this.createCircle(nodes)
+    this.createNodeShapes(nodes, nodeDragHandler)
+
+    // node icons--if any
+    this.createNodeIcons(nodes)
 
     // Add node labels to diagram
     if (draw) {
       this.createLabels(draw, nodes)
     }
+
+    // node hover
+    this.createNodeHilites(nodes)
   }
 
-  createNodeShapes = (nodes, className, tabindex=-1) => {
+  createNodeHilites = (nodes) => {
+    nodes.append('use')
+      .attrs(({layout}) => {
+        const {type} = layout
+        const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
+        return {
+          'xlink:href': `#topologySprite_${shape}`,
+          'width': NODE_SIZE,
+          'height': NODE_SIZE,
+          'tabindex': -1,
+          'class': 'shadow'
+        }
+      })
+  }
+
+  createNodeShapes = (nodes, nodeDragHandler) => {
     nodes.append('use')
       .attrs(({layout}) => {
         const {type} = layout
@@ -98,8 +115,8 @@ export default class NodeHelper {
           'xlink:href': `#topologySprite_${shape}`,
           'width': NODE_SIZE,
           'height': NODE_SIZE,
-          'tabindex': tabindex,
-          'class': `${classType} ${className}`,
+          'tabindex': 1,
+          'class': `shape ${classType}`,
           'transform': `translate(${x - sz/2}, ${y - sz/2})`,
         }
       })
@@ -111,11 +128,19 @@ export default class NodeHelper {
         }
       })
       .call(d3.drag()
-        .on('drag', this.dragNode))
+        .on('drag', this.dragNode)
+        .on('start', ()=>{
+          if (nodeDragHandler)
+            nodeDragHandler(true)
+        })
+        .on('end', ()=>{
+          if (nodeDragHandler)
+            nodeDragHandler(false)
+        }))
   }
 
   // add circles to nodes that represent mmore then one k8 object
-  createCircle = (nodes) => {
+  createNodeIcons = (nodes) => {
     nodes
       .filter(({layout: {showDot}}) => {
         return showDot
@@ -225,12 +250,25 @@ export default class NodeHelper {
     const nodes = this.svg.select('g.nodes').selectAll('g.node')
 
     // move node shapes
-    nodes.selectAll('use')
+    nodes.selectAll('use.shape')
       .transition(transition)
       .style('opacity', 1)
       .attrs(({layout}) => {
         const {x, y, scale=1} = layout
         const sz = NODE_SIZE*scale
+        return {
+          'width': sz,
+          'height': sz,
+          'transform': `translate(${x - sz/2}, ${y - sz/2})`,
+        }
+      })
+
+    // move shape hilights
+    nodes.selectAll('use.shadow')
+      .transition(transition)
+      .attrs(({layout}) => {
+        const {x, y, scale=1} = layout
+        const sz = NODE_SIZE*scale + 20
         return {
           'width': sz,
           'height': sz,
@@ -287,41 +325,64 @@ export default class NodeHelper {
   }
 
   dragNode = (d, i, ns) => {
-    this.svg.interrupt().selectAll('*').interrupt()
     const {layout} = d
     const node = d3.select(ns[i].parentNode)
+
+    // don't consider it dragged until more then 5 pixels away from original
+    if (!layout.undragged) {
+      layout.undragged = {
+        x: layout.x,
+        y: layout.y
+      }
+    }
     layout.x += d3.event.dx
     layout.y += d3.event.dy
-    layout.dragged = {x:layout.x, y:layout.y}
+    if (Math.hypot(layout.x - layout.undragged.x, layout.y - layout.undragged.y) > 5) {
+      // keep dragged distance relative to it section in case the whole section moves
+      layout.dragged = {
+        x:layout.x-layout.section.x,
+        y:layout.y-layout.section.y
+      }
 
-    // drag circle
-    node.selectAll('circle')
-      .attr('cx', layout.x)
-      .attr('cy', layout.y)
+      // drag shape
+      node.selectAll('use.shape')
+        .attr('transform', () => {
+          const {x, y, scale=1} = layout
+          const sz = NODE_SIZE*scale
+          return `translate(${x - sz/2}, ${y - sz/2})`
+        })
 
-    // drag polygons
-    node.selectAll('use')
-      .attr('transform', () => {
-        const {x, y, scale=1} = layout
-        const sz = NODE_SIZE*scale
-        return `translate(${x - sz/2}, ${y - sz/2})`
+
+      // drag hilights
+      node.selectAll('use.shadow')
+        .attr('transform', () => {
+          const {x, y, scale=1} = layout
+          const sz = NODE_SIZE*scale + 20
+          return `translate(${x - sz/2}, ${y - sz/2})`
+        })
+
+
+      // drag icons
+      node.selectAll('circle')
+        .attr('cx', layout.x)
+        .attr('cy', layout.y)
+
+      // drag node label
+      const nodeLabels = node.selectAll('g.nodeLabel')
+      nodeLabels.each((d,i,ns)=>{
+        d3.select(ns[i]).selectAll('text')
+          .attr('x', () => {return layout.x})
+          .attr('y', () => {return layout.y+(NODE_RADIUS*(layout.scale||1))})
+        d3.select(ns[i]).selectAll('rect')
+          .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
+          .attr('y', () => {return layout.y + (NODE_RADIUS*(layout.scale||1)) + 2})
+        d3.select(ns[i]).selectAll('tspan')
+          .attr('x', () => {return layout.x})
       })
 
-    // drag label
-    const nodeLabels = node.selectAll('g.nodeLabel')
-    nodeLabels.each((d,i,ns)=>{
-      d3.select(ns[i]).selectAll('text')
-        .attr('x', () => {return layout.x})
-        .attr('y', () => {return layout.y+(NODE_RADIUS*(layout.scale||1))})
-      d3.select(ns[i]).selectAll('rect')
-        .attr('x', () => {return layout.x - (layout.textBBox.width/2)})
-        .attr('y', () => {return layout.y + (NODE_RADIUS*(layout.scale||1)) + 2})
-      d3.select(ns[i]).selectAll('tspan')
-        .attr('x', () => {return layout.x})
-    })
-
-    // drag any connecting link
-    dragLinks(this.svg, d, this.topologyShapes)
+      // drag any connecting links
+      dragLinks(this.svg, d, this.topologyShapes)
+    }
   }
 }
 

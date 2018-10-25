@@ -73,12 +73,12 @@ export default class NodeHelper {
     // node icons--if any
     this.createNodeIcons(nodes)
 
-    // Add node labels to diagram
+    // node labels
     if (draw) {
       this.createLabels(draw, nodes)
     }
 
-    // node hover
+    // node hover/select shape
     this.createNodeHilites(nodes)
   }
 
@@ -139,26 +139,38 @@ export default class NodeHelper {
         }))
   }
 
-  // add circles to nodes that represent mmore then one k8 object
+  // add node icons
   createNodeIcons = (nodes) => {
     nodes
-      .filter(({layout: {showDot}}) => {
-        return showDot
+      .filter(({layout: {shapeIcons}}) => {
+        return !!shapeIcons
       })
-      .append('circle')
-      .attrs(({layout}) => {
-        const {type, center} = layout
-        return {
-          'r': 4,
-          'cx': center.x,
-          'cy': center.y,
-          'tabindex': -1,
-          'class': `${type} centralCircle`,
-        }
+      .append('g')
+      .attr('class','nodeIcons')
+      .style('opacity', 0)
+      .each(({layout},i,ns) => {
+        const {shapeIcons} = layout
+        d3.select(ns[i])
+          .selectAll('use.icon')
+          .data(shapeIcons, ({icon}) => {
+            return icon
+          })
+          .enter().append('use')
+          .attrs(({icon, classType, width, height}) => {
+            return {
+              'xlink:href': `#topologySprite_${icon}`,
+              'width': width+'px',
+              'height': height+'px',
+              'pointer-events': 'none', //TODO -- at some point icons may be clickable
+              'tabindex': -1,           //TODO --  and if clickable this has to be a 1 for accesibility
+              'class': `icon ${classType}`,
+            }
+          })
       })
   }
 
   createLabels = (draw, nodes) => {
+    // tooltip
     nodes.append('title')
       .text((d) => { return d.name })
 
@@ -247,9 +259,10 @@ export default class NodeHelper {
   }
 
   moveNodes = (transition) => {
-    const nodes = this.svg.select('g.nodes').selectAll('g.node')
+    const nodeLayer = this.svg.select('g.nodes')
 
     // move node shapes
+    const nodes = nodeLayer.selectAll('g.node')
     nodes.selectAll('use.shape')
       .transition(transition)
       .style('opacity', 1)
@@ -263,7 +276,7 @@ export default class NodeHelper {
         }
       })
 
-    // move shape hilights
+    // move highlight/select shape
     nodes.selectAll('use.shadow')
       .transition(transition)
       .attrs(({layout}) => {
@@ -276,19 +289,26 @@ export default class NodeHelper {
         }
       })
 
-    // move center circle
-    nodes.selectAll('circle')
-      .transition(transition)
-      .attrs(({layout}) => {
-        const {x, y} = layout
-        return {
-          'cx': x,
-          'cy': y
-        }
+    // move icons
+    nodeLayer.selectAll('g.nodeIcons')
+      .each(({layout},i,ns)=>{
+        const nodeIcons = d3.select(ns[i])
+        nodeIcons
+          .transition(transition)
+          .style('opacity', 1)
+
+        nodeIcons.selectAll('use.icon')
+          .transition(transition)
+          .attrs(({width, height}) => {   //TODO -- just one centered icon now
+            const {x, y} = layout
+            return {
+              'transform': `translate(${x - width/2}, ${y - height/2})`,
+            }
+          })
       })
 
     // move labels
-    this.svg.select('g.nodes').selectAll('g.nodeLabel')
+    nodeLayer.selectAll('g.nodeLabel')
       .each(({layout},i,ns)=>{
         const {x, y, textBBox, scale=1} = layout
         const dy = (NODE_RADIUS*(scale===1?1:scale+.3))
@@ -361,11 +381,14 @@ export default class NodeHelper {
           return `translate(${x - sz/2}, ${y - sz/2})`
         })
 
-
       // drag icons
-      node.selectAll('circle')
-        .attr('cx', layout.x)
-        .attr('cy', layout.y)
+      node.selectAll('use.icon')
+        .attrs(({width, height}) => {
+          const {x, y} = layout
+          return {
+            'transform': `translate(${x - width/2}, ${y - height/2})`,
+          }
+        })
 
       // drag node label
       const nodeLabels = node.selectAll('g.nodeLabel')

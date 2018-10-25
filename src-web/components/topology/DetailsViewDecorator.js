@@ -12,11 +12,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import '../../../graphics/topologySprite.svg'
 
-const DetailsViewDecorator = ({shape, className, showDot}) => {
+const DetailsViewDecorator = ({shape, className}) => {
   return (
     <svg width="48px" height="48px" viewBox="0 0 48 48">
       <use href={`#topologySprite_${shape}`} className={`${className} detailsIcon`}></use>
-      {showDot && <circle className={className} cx="24" cy="24" r="4"></circle>}
     </svg>
   )
 }
@@ -24,7 +23,6 @@ const DetailsViewDecorator = ({shape, className, showDot}) => {
 DetailsViewDecorator.propTypes = {
   className: PropTypes.string,
   shape: PropTypes.string,
-  showDot: PropTypes.bool,
 }
 
 export { DetailsViewDecorator }

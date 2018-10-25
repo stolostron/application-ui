@@ -25,6 +25,7 @@ import _ from 'lodash'
 resources(() => {
   require('../../../scss/topology-link.scss')
   require('../../../scss/topology-node.scss')
+  require('../../../scss/topology-icons.scss')
 })
 
 var currentZoom = {x:0, y:0, k:1}

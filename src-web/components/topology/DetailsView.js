@@ -28,12 +28,11 @@ class DetailsView extends React.Component {
     const resourceType = layout.type || currentNode.type
     const {shape='circle', className='default'} =  topologyShapes[resourceType]||{}
     const details = topologyNodeDetails(currentNode, context)
-    const name = layout.hasService ? layout.services[0].name : currentNode.name
+    const name = currentNode.name
     return (
       <section className={`topologyDetails ${className}`}>
         <h3 className='detailsHeader'>
           <DetailsViewDecorator
-            showDot={layout.showDot}
             shape={shape}
             className={className}
           />

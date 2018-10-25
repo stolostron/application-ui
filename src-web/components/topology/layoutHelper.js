@@ -19,6 +19,9 @@ cytoscape.use( dagre )
 
 import { NODE_SIZE } from './constants.js'
 
+// if controller contains a pod
+const podIcon = {icon:'circle', classType:'pod', width: 24, height: 24}
+
 export default class LayoutHelper {
   /**
    * Helper class to be used by TopologyDiagram.
@@ -142,9 +145,7 @@ export default class LayoutHelper {
       case 'controller':
         Object.assign(node.layout, {
           qname: node.namespace+'/'+node.name,
-          hasService: false,
           hasPods: false,
-          showDot: false,
           pods: [],
           services: []
         })
@@ -160,8 +161,7 @@ export default class LayoutHelper {
       group.nodes.push(node)
     })
 
-    // combine pods into their controllers
-    const controllerAsService = []
+    // show pods in the controller that created it
     if (groupMap['controller']) {
       if (groupMap['pod']) {
         let i=groupMap['pod'].nodes.length
@@ -171,7 +171,8 @@ export default class LayoutHelper {
             const controller = controllerMap[node.layout.qname]
             if (controller) {
               controller.layout.pods.push(node)
-              controller.layout.hasPods = controller.layout.showDot = true
+              controller.layout.hasPods = true
+              controller.layout.shapeIcons = [podIcon]
               groupMap['pod'].nodes.splice(i,1)
               delete allNodeMap[node.uid]
               delete node.layout
@@ -179,37 +180,7 @@ export default class LayoutHelper {
           }
         }
       }
-
-      if (groupMap['service']) {
-        let i=groupMap['service'].nodes.length
-        while(--i>=0) {
-          const node = groupMap['service'].nodes[i]
-          if (!node.layout) {
-            const controller = controllerMap[node.layout.qname]
-            if (controller) {
-              controller.layout.services.push(node)
-              groupMap['service'].nodes.splice(i,1)
-              controllerAsService.push(node.layout.qname)
-              delete allNodeMap[node.uid]
-              delete node.layout
-            }
-          }
-        }
-      }
     }
-
-    // show controllers as services
-    controllerAsService.forEach(qname=>{
-      var inx = groupMap['controller'].nodes.findIndex(({layout})=>{
-        return layout.qname === qname
-      })
-      if (inx!==-1) {
-        const controller = groupMap['controller'].nodes.splice(inx,1)[0]
-        controller.layout.type = 'service'
-        controller.layout.hasService = controller.layout.showDot = true
-        groupMap['service'].nodes.push(controller)
-      }
-    })
     return {nodeGroups: groupMap, allNodeMap}
   }
 
@@ -790,9 +761,9 @@ export default class LayoutHelper {
               return 1
             }
             return 0
-          } else if (la.showDot && !lb.showDot) {
+          } else if (la.shapeIcons && !lb.shapeIcons) {
             return -1
-          } else if (!la.showDot && lb.showDot) {
+          } else if (!la.shapeIcons && lb.shapeIcons) {
             return 1
           } else if (aself && !bself) {
             return -1
@@ -927,7 +898,7 @@ export default class LayoutHelper {
     let maxWidth = 0
     let maxHeight = 0
     let completeDiagramWidth = 0
-    const xSpaceBetweenCells = NODE_SIZE*3
+    const xSpaceBetweenCells = NODE_SIZE*4
     const ySpaceBetweenRows = NODE_SIZE*2
     let currentX = 0
     const rowDimensions = []

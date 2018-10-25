@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, Loading } from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../actions/index'
 import { getTabs } from '../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../actions/common'
@@ -61,11 +61,8 @@ const withResource = (Component) => {
           className='persistent'
           subtitle={msgs.get(`error.${(statusCode === 401 || statusCode === 403) ? 'unauthorized' : 'default'}.description`, this.context.locale)}
           kind='error' />
-      } else if (status === REQUEST_STATUS.DONE) {
-        return <Component {...this.props} />
-      } else {
-        return <Loading id={'loading-resource-details'} />
       }
+      return <Component  {...this.props} />
     }
   })
 }

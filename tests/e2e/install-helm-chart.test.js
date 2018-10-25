@@ -9,48 +9,33 @@
 
 const config = require('../../config')
 const ROUTE = {
-  'add-helm-repo': '/repositories',
-  'install-helm-release': '/charts',
-  'delete-helm-release': '/releases'
+  'install-helm-release': '/remoteinstall',
 }
 
-const getReleaseName = chartName => `selenium-${chartName}-${Date.now()}`
-let releaseName
-
 module.exports = {
-  '@disabled': true,
-  before: function (browser) {
+  '@disabled': false,
+  before: (browser) => {
     const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
-    releaseName = getReleaseName('acs')
   },
 
-  'add-helm-repo': (browser) => {
-    const url = `${browser.launch_url}${config.get('contextPath')}${ROUTE[browser.currentTest.name]}`
-    const repoPage = browser.page.HelmRepoPage()
-    repoPage.navigate(url)
-    repoPage.verifyPageContent()
-    repoPage.addHelmRepository('test', 'https://kubernetes-charts.storage.googleapis.com/')
-    repoPage.verifyRepoAdd('test')
-  },
-
+  // TODO: Zack L - Need to use dynamic mock data
+  // Test uses the mocked response from API repo - we can't actually install a release to a mocked cluster
   'install-helm-release': (browser) => {
     const url = `${browser.launch_url}${config.get('contextPath')}${ROUTE[browser.currentTest.name]}`
+    browser.execute(`
+      sessionStorage.setItem('chartName', 'acs-engine-autoscaler');
+      sessionStorage.setItem('repoName', 'google-charts');
+      sessionStorage.setItem('tarFiles', '["https://kubernetes-charts.storage.googleapis.com/acs-engine-autoscaler-2.2.0.tgz"]');
+      sessionStorage.setItem('values', '{"replicaCount":1,"resources":{},"nodeSelector":{},"podAnnotations":{},"deploymentAnnotations":{},"tolerations":[],"affinity":{},"image.repository":"wbuchwalter/kubernetes-acs-engine-autoscaler","image.tag":"2.1.1","image.pullPolicy":"IfNotPresent","acsenginecluster.resourcegroup":"","acsenginecluster.azurespappid":"","acsenginecluster.azurespsecret":"","acsenginecluster.azuresptenantid":"","acsenginecluster.kubeconfigprivatekey":"","acsenginecluster.clientprivatekey":"","acsenginecluster.caprivatekey":"","selectedReleaseName":"test-acs-engine","selectedNamespace":"kube-system"}');
+      sessionStorage.setItem('version', '2.2.0');
+    `)
     const chartPage = browser.page.HelmChartsPage()
     chartPage.navigate(url)
     chartPage.verifyPageContent()
-    chartPage.installHelmRelease(browser, 'acs', releaseName, 'default')
-    chartPage.verifyHelmReleaseInstall(browser, releaseName)
-  },
-
-  'delete-helm-release': (browser) => {
-    const url = `${browser.launch_url}${config.get('contextPath')}${ROUTE[browser.currentTest.name]}`
-    const chartPage = browser.page.HelmChartsPage()
-    chartPage.navigate(url)
-    chartPage.verifyPageContent()
-    chartPage.deleteHelmRelease(browser, releaseName)
-    chartPage.verifyHelmReleaseDelete(releaseName)
+    chartPage.installHelmRelease(browser)
+    chartPage.verifyHelmReleaseInstall(browser)
   },
 
   after: function (browser, done) {

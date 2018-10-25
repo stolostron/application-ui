@@ -45,7 +45,7 @@ class ChartInstall extends React.Component {
     chartURL: PropTypes.string,
     chartValues: PropTypes.string,
     chartVersion: PropTypes.string,
-    clusterToNamespace: PropTypes.obj,
+    clusterToNamespace: PropTypes.object,
     clusters: PropTypes.arrayOf(PropTypes.string),
     history: PropTypes.shape({
       push: PropTypes.func.isRequired

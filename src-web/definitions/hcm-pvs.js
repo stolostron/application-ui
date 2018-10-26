@@ -8,7 +8,6 @@
  *******************************************************************************/
 'use strict'
 import { getAge, getClusterLink, getLabelsToString, transformPVStatus } from '../../lib/client/resource-helper'
-import msgs from '../../nls/platform.properties'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -65,19 +64,10 @@ export default {
       transformFunction: getAge
     },
   ],
-  // tableActions: [
-  //   'table.actions.edit',
-  // ],
 }
 
 export function getClaim(item) {
   return item.claimRef.namespace && item.claimRef.name
     ? item.claimRef.namespace + '/' + item.claimRef.name
     : '-'
-}
-
-export function getType(item, locale) {
-  return item.spec.local
-    ? msgs.get('table.cell.localVolume', locale)
-    : msgs.get('table.cell.hostPath', locale)
 }

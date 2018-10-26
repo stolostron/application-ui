@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hcm-clusters - getExternalLink should return vaild link 1`] = `
+<a
+  href="https://9.10.11.12:8443/console"
+  target="_blank"
+>
+  launch
+</a>
+`;
+
+exports[`hcm-clusters - getLabels should return vaild link 1`] = `
+<ul>
+  <li>
+    cloud=IBM
+  </li>
+  <li>
+    datacenter=toronto
+  </li>
+  <li>
+    environment=Dev
+  </li>
+  <li>
+    name=liked-parrot
+  </li>
+  <li>
+    owner=marketing
+  </li>
+  <li>
+    region=US
+  </li>
+  <li>
+    vendor=ICP
+  </li>
+</ul>
+`;
+
+exports[`hcm-clusters - getStatusIcon should return offline status 1`] = `
+<StatusField
+  status="offline"
+  text="Offline"
+/>
+`;
+
+exports[`hcm-clusters - getStatusIcon should return ready status 1`] = `
+<StatusField
+  status="ok"
+  text="Ready"
+/>
+`;
+
+exports[`hcm-clusters - getStatusIcon should return unknown status 1`] = `
+<StatusField
+  status="unknown"
+  text="Unknown"
+/>
+`;

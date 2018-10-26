@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hcm-pods #getLabels should return list of labels 1`] = `
+<ul>
+  <li>
+    chart=ibm-mcm-klusterlet-3.1.0
+  </li>
+  <li>
+    controller-uid=d1e17240-c589-11e8-9d53-fa163e704fa7
+  </li>
+  <li>
+    heritage=Tiller
+  </li>
+  <li>
+    job-name=aaa
+  </li>
+  <li>
+    release=aaa
+  </li>
+</ul>
+`;
+
+exports[`hcm-pods #getListWithTruncatedValues should return list of images 1`] = `
+<ul>
+  <li>
+    <TruncateText
+      maxCharacters={35}
+      text="mycluster.icp:8500/kube-system/hcmv2:3.1.0"
+    />
+  </li>
+</ul>
+`;
+
+exports[`hcm-pods #getTruncatedText should return a truncated version of the pod name 1`] = `
+<TruncateText
+  maxCharacters={35}
+  text="custom-pod-name-too-long-67fd8c7f5b-96jqf-lakjh34ljh"
+/>
+`;

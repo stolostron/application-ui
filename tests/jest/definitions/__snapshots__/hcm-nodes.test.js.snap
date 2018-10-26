@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`hcm-nodes - getNodeLink should return vaild link 1`] = `
+<a
+  href="https://9.10.11.12:8443/console/platform/nodes/TestLink"
+  target="_blank"
+>
+  TestLink
+</a>
+`;
+
+exports[`hcm-nodes - getRole should return vaild link 1`] = `"proxy, management, master, va"`;

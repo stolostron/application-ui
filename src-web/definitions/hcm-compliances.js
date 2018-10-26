@@ -418,7 +418,8 @@ export default {
   },
 }
 
-export function createPolicyLink(item = {}){
+export function createPolicyLink(item = {}, ...param){
+  if (param[2]) return item.metadata.name
   return <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
@@ -463,6 +464,7 @@ export function getStatusIcon(item, locale) {
   return '-'
 }
 
-export function createCompliancePolicyLink(item = {}){
-  return  <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.metadata.name)}/${item.cluster}`}>{item.metadata.name}</Link>
+export function createCompliancePolicyLink(item = {}, ...param){
+  if (param[2]) return item.metadata.name
+  return <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.metadata.name)}/${item.cluster}`}>{item.metadata.name}</Link>
 }

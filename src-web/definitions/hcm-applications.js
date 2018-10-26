@@ -279,8 +279,9 @@ export default {
   }
 }
 
-export function createApplicationLink(item = {}){
+export function createApplicationLink(item = {}, ...param){
   const {metadata: {name, namespace = 'default'}} = item
+  if (param[2]) return item.metadata.name
   return <Link to={`${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 

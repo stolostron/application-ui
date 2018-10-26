@@ -74,8 +74,12 @@ export const INITIAL_STATE = {
  * @param {*} searchText - String to match
  */
 function searchTableCell(item, tableKey, context, searchText){
-  //eslint-disable-next-line
-  return ReactDOMServer.renderToString(transform(item, tableKey, context.locale)).toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+  const renderedElement = transform(item, tableKey, context.locale, true)
+  if (typeof renderedElement === String) {
+    return renderedElement.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+  } else {
+    return ReactDOMServer.renderToString(transform(item, tableKey, context.locale, true)).toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+  }
 }
 
 function searchTableCellHelper(search, tableKeys, item, context) {

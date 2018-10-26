@@ -322,8 +322,9 @@ export default {
   },
 }
 
-export function createPolicyLink(item = {}){
-  return  <Link to={`${config.contextPath}/policies/local/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
+export function createPolicyLink(item = {}, ...param){
+  if (param[2]) return item.metadata.name
+  return <Link to={`${config.contextPath}/policies/local/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
 export function getStatus(item= {},locale) {

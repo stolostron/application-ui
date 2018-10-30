@@ -48,6 +48,11 @@ export default {
       transformFunction: getStatus
     },
     {
+      msgKey: 'table.header.restarts',
+      resourceKey: 'restarts',
+      transformFunction: 'status.containerStatuses[0].restartCount'
+    },
+    {
       msgKey: 'table.header.hostIP',
       resourceKey: 'hostIP',
     },

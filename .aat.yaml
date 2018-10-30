@@ -11,7 +11,7 @@ rulePack: https://cc-rules.w3ibm.mybluemix.net/js/latest/
 # i.e. For May rule archive use ruleArchive: 2017MayDeploy
 # Default: latest
 # Refer to README.md FAQ section below to get the rule archive ID.
-ruleArchive : latest
+ruleArchive : 2018AugustDeploy
 
 
 # optional - Specify one or many policies to scan.

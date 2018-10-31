@@ -9,7 +9,7 @@
 'use strict'
 
 import React from 'react'
-import ResourceTableModule from '../components/common/ResourceTableModule'
+import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'

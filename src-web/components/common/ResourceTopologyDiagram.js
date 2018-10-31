@@ -33,6 +33,7 @@ class ResourceTopologyDiagram extends React.Component {
     links: PropTypes.array,
     nodes: PropTypes.array,
     requiredFilters: PropTypes.object,
+    searchName: PropTypes.string,
     staticResourceData: PropTypes.object,
     status: PropTypes.string,
   }
@@ -86,11 +87,12 @@ class ResourceTopologyDiagram extends React.Component {
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
        !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
        !lodash.isEqual(this.props.requiredFilters, nextProps.requiredFilters) ||
+       this.props.searchName !== nextProps.searchName ||
        this.state.loaded !== nextState.loaded
   }
 
   render() {
-    const { activeFilters, requiredFilters={}, nodes, links, status, staticResourceData} = this.props
+    const { activeFilters, requiredFilters={}, nodes, links, searchName, status, staticResourceData} = this.props
     const { loaded, clusterNames, isMulticluster } = this.state
     const {locale} = this.context
 
@@ -147,6 +149,7 @@ class ResourceTopologyDiagram extends React.Component {
             context={this.context}
             staticResourceData={staticResourceData}
             activeFilters={activeFilters}
+            searchName={searchName}
           />
         </div>
       </div>
@@ -160,7 +163,7 @@ ResourceTopologyDiagram.contextTypes = {
 }
 
 const mapStateToProps = (state) =>{
-  const { activeFilters, requiredFilters, status } = state.topology
+  const { activeFilters, requiredFilters, searchName, status } = state.topology
   const staticResourceData = getResourceDefinitions(RESOURCE_TYPES.HCM_TOPOLOGY)
   const {clusters, links, nodes} =  staticResourceData.topologyTransform(state.topology)
   return {
@@ -170,6 +173,7 @@ const mapStateToProps = (state) =>{
     staticResourceData,
     activeFilters,
     requiredFilters,
+    searchName,
     status,
   }
 }

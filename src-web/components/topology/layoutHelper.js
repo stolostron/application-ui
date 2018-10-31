@@ -13,11 +13,12 @@ import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
 import {getWrappedNodeLabel} from './nodeHelper'
 import {layoutEdges, setDraggedLineData} from './linkHelper'
+import SearchHelper from './searchHelper'
 import _ from 'lodash'
 cytoscape.use( cycola )
 cytoscape.use( dagre )
 
-import { NODE_SIZE } from './constants.js'
+import { SearchResult, NODE_SIZE } from './constants.js'
 
 // if controller contains a pod
 const podIcon = {icon:'circle', classType:'pod', width: 24, height: 24}
@@ -29,6 +30,7 @@ export default class LayoutHelper {
 
   constructor (staticResourceData, titles, locale) {
     Object.assign(this, staticResourceData)
+    this.searchHelper = new SearchHelper()
     this.titles = titles
     this.locale = locale
     this.nodeClones = {}
@@ -85,7 +87,10 @@ export default class LayoutHelper {
     }
 
     // create cytoscape element collections
-    let collections = this.createCollections(groups)
+    const cy = cytoscape({ headless: true }) // start headless cytoscape
+    let collections = this.createCollections(cy, groups)
+
+    this.searchHelper.filterCollections(cy, collections, this.searchName, this.resetLayoutCaches)
 
     // assign cytoscape layout options for each collection (ex: dagre, grid)
     this.setLayoutOptions(collections)
@@ -103,6 +108,12 @@ export default class LayoutHelper {
         cb({laidoutNodes: nodes, ...layoutInfo})
       }
     })
+  }
+
+  resetLayoutCaches = () => {
+    this.cachedLayouts={}
+    this.cachedAdapters={}
+    this.rowPositionCache=undefined
   }
 
   getNodeGroups = (nodes) => {
@@ -124,11 +135,11 @@ export default class LayoutHelper {
       if (!group) {
         group = groupMap[type] = {nodes:[]}
       }
-      const label = (node.name||'').replace(/[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '{uid}')
+      const label = (node.name||'')//.replace(/[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '(uid)')
       node.layout = Object.assign(node.layout || {}, {
         uid: node.uid,
         type: node.type,
-        label: getWrappedNodeLabel(label,18,3),
+        label: getWrappedNodeLabel(label,14,3),
         compactLabel: getWrappedNodeLabel(label,12,2)
       })
       delete node.layout.source
@@ -522,10 +533,9 @@ export default class LayoutHelper {
     }
   }
 
-  createCollections = (groups) => {
+  createCollections = (cy, groups) => {
     const {nodeGroups} = groups
     const collections = {connected:[], unconnected:[]}
-    const cy = cytoscape({ headless: true }) // start headless cytoscape
 
     this.topologyOrder.forEach(type=>{
       if (nodeGroups[type]) {
@@ -663,7 +673,8 @@ export default class LayoutHelper {
   }
 
   getConnectedLayoutOptions = ({elements, details: {isConsolidation}}, numOfSections) => {
-    const useDAG = elements.nodes().length<=6 || isConsolidation
+    const numNodes = elements.nodes().length
+    const useDAG = (numNodes<=6 || isConsolidation) && !this.searchName
     if (useDAG) {
       return this.getDagreLayoutOptions(elements, numOfSections)
     } else {
@@ -684,8 +695,8 @@ export default class LayoutHelper {
     // if there are less nodes in this group we have room to stretch out the nodes
     const len = nodes.length
     const grpStretch = len<=10 ? 1.3 : (len<=15 ? 1.2 : (len<=20? 1.1: 1))
-    const hubStretch = (isMajorHub, isMinorHub) => {
-      if (isMajorHub) {
+    const otrStretch = ({isMajorHub, isMinorHub, search=SearchResult.nosearch}) => {
+      if (isMajorHub || search===SearchResult.match) {
         return (len<=15 ? 1.2 : (len<=20? 1.5: 1.6))
       } else if (isMinorHub) {
         return (len<=15 ? 1.1 : (len<=20? 1.4: 1.5))
@@ -704,8 +715,9 @@ export default class LayoutHelper {
       // running in headless mode, we need to provide node size here
       // give hubs more space
       nodeSpacing: (node)=>{
-        const {node:{layout:{scale=1, isMajorHub, isMinorHub}}} = node.data()
-        return (NODE_SIZE*scale*grpStretch*hubStretch(isMajorHub, isMinorHub))
+        const {node:{layout}} = node.data()
+        const {scale=1} = layout
+        return (NODE_SIZE*scale*grpStretch*otrStretch(layout))
       },
       // align major hubs along y axis
       alignment: (node)=>{
@@ -731,12 +743,12 @@ export default class LayoutHelper {
     // get rough idea how many to allocate for each collection based on # of nodes
     const columns = unconnected.map(collection => {
       const count = collection.elements.nodes().length
-      return count<=3 ? 1 : (count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8)))
+      return count<=3 ? count : (count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8)))
     })
     unconnected.forEach((collection, index)=>{
       const count = collection.elements.length
       const cols = Math.min(count, columns[index])
-      const h = Math.ceil(count/columns[index])*NODE_SIZE*2
+      const h = Math.ceil(count/columns[index])*NODE_SIZE*2.7
       const w = cols*NODE_SIZE*3
       collection.options = {
         name: 'grid',
@@ -887,10 +899,10 @@ export default class LayoutHelper {
     //  on first layout--or if lots of new sections, find best order for collections
     //  from then on try to remember a collection's order
     let hashCodeToPositionMap=undefined
-    if (!this.lastNodeMapToPositionMap || clayouts.length > (this.lastCollectionSize||0)+6) {
-      this.initialCollectionSort(clayouts)
+    if (!this.rowPositionCache || clayouts.length > (this.lastCollectionSize||0)+6) {
+      this.initialSortCollection(clayouts)
     } else {
-      hashCodeToPositionMap = this.collectionSort(clayouts, this.lastNodeMapToPositionMap)
+      hashCodeToPositionMap = this.sortCollection(clayouts, this.rowPositionCache)
     }
 
     // determine rows
@@ -935,14 +947,14 @@ export default class LayoutHelper {
         currentX = 0
       }
     })
-    this.lastNodeMapToPositionMap = nodeMapToPositionMap
+    this.rowPositionCache = nodeMapToPositionMap
     this.lastCollectionSize = clayouts.length
 
     // layout collection columns
     let row = 0
     let currentY = 0
     const layoutMap = {}
-    const layoutBBox = {}
+    const layoutBBox = {x1:0}
     clayouts.forEach(({nodes, edges, name, hashCode}, idx)=>{
       // this collection's bounding box
       const {x1, y1, w, h} = collectionDimensions[idx]
@@ -954,28 +966,21 @@ export default class LayoutHelper {
         currentY += rowHeight + ySpaceBetweenRows
         currentX = 0
       }
-      const {rowWidth, rowHeight} = rowDimensions[row]
+      const {rowHeight} = rowDimensions[row]
 
-      // center cols in their rows and evenly space
-      // dxCell centers row horizontally
       // dyCell centers row vertically
-      const dxCell = (completeDiagramWidth-rowWidth)/2
       const dyCell = row===0 ? 0 : (name==='grid' ? ySpaceBetweenRows : (rowHeight-h)/2)
 
       // needed to saved dragged position of node based relative to its cell
-      const section = {name, hashCode, x: currentX + dxCell, y: currentY + dyCell}
+      const section = {name, hashCode, x: currentX, y: currentY + dyCell}
       const transform = {x: section.x - x1, y: section.y - y1}
-
-      // center of section for node creation animation (new nodes appear in center then transition to real position)
-      const center = {x: section.x + (w/2), y: section.y + (h/2)}
 
       // set title position
       const title = titleMap[hashCode]
-      title.x = currentX + dxCell - NODE_SIZE/2
+      title.x = section.x + (w/2)
       title.y = currentY + dyCell - NODE_SIZE*2
 
       // keep track of bounding box
-      layoutBBox.x1 = Math.min(layoutBBox.x1||title.x, title.x)
       layoutBBox.y1 = Math.min(layoutBBox.y1||title.y, title.y)
 
       // set all node positions
@@ -1003,13 +1008,11 @@ export default class LayoutHelper {
           delete layout.undragged
         }
         layout.section = section
-        layout.center = center
       })
 
-      // set edge centers
+      // set edge info
       edges.forEach(edge=>{
         const {layout, uid} = edge
-        layout.center = center
         layout.transform = transform
         layout.hidden = hiddenLinks.has(uid)
 
@@ -1022,12 +1025,24 @@ export default class LayoutHelper {
 
       currentX += w + xSpaceBetweenCells
     })
-    layoutBBox.width = (layoutBBox.x2-layoutBBox.x1)
+    layoutBBox.width = (layoutBBox.x2-layoutBBox.x1) + NODE_SIZE
     layoutBBox.height = (layoutBBox.y2-layoutBBox.y1) * 1.1
     return {layoutMap, titles: this.titles, selfLinks: this.selfLinks, layoutBBox }
   }
 
   shouldCreateNewRow = (currentX, row, cols, name, clayouts, idx, hashCodeToPositionMap) => {
+
+    if (hashCodeToPositionMap && idx !== clayouts.length-1) {
+      // if in a previous layout, the next section was in the next row
+      if (hashCodeToPositionMap[clayouts[idx+1].hashCode].row > row) {
+        return true
+      }
+      // if in a previous layout, this section was in this row
+      if (hashCodeToPositionMap[clayouts[idx].hashCode].row === row) {
+        return false
+      }
+    }
+
     // greater then screen width TODO--actually fixed to 3000
     // or if last collection laid out--finish this row
     if (currentX>this.breakWidth || idx === clayouts.length-1) {
@@ -1039,17 +1054,10 @@ export default class LayoutHelper {
       return true
     }
 
-    // if in a previous layout, the next section was in the next row
-    if (hashCodeToPositionMap) {
-      if (hashCodeToPositionMap[clayouts[idx+1].hashCode].row > row) {
-        return true
-      }
-    }
-
     return false
   }
 
-  initialCollectionSort = (clayouts) => {
+  initialSortCollection = (clayouts) => {
     // keep types together in larger collections
     const typeSizeMap = {}
     clayouts.forEach(({type, nodes}) => {
@@ -1136,7 +1144,7 @@ export default class LayoutHelper {
     })
   }
 
-  collectionSort = (clayouts, nodeMapToPositionMap) => {
+  sortCollection = (clayouts, nodeMapToPositionMap) => {
     // since nodes can move from collection to collection, find a common
     // row/idx for all the nodes in this collection
     const hashCodeToPositionMap = {}

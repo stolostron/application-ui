@@ -13,7 +13,7 @@ import 'd3-selection-multi'
 import _ from 'lodash'
 import counterZoom from './counterZoom'
 
-import { NODE_RADIUS } from './constants.js'
+import { SearchResult, NODE_RADIUS } from './constants.js'
 
 const lineFunction = d3.line()
   .x(d=>d.x)
@@ -83,7 +83,6 @@ export default class LinkHelper {
           'marker-end': 'url(#arrowhead)'
         }
       })
-      .style('opacity', 0.0)
 
 
     // labels
@@ -110,19 +109,31 @@ export default class LinkHelper {
         })
         .styles({
           'text-anchor': 'middle',
-          'opacity': 0.0
         })
         .text((d) => { return d.label })
     }
   }
 
-  moveLinks = (transition) => {
+  moveLinks = (transition, currentZoom) => {
     // don't move looped dragged links
-    const links = this.svg.select('g.links').selectAll('g.link').filter(({layout})=>{
-      return !layout.isLoop || !layout.source.dragged
+    let links = this.svg.select('g.links').selectAll('g.link').filter(({layout:{source:{dragged}}})=>{
+      return !dragged
+    })
+      .attr('transform', currentZoom)
+
+    // if name search only show related links
+    links
+      .style('visibility', ({layout: {search=SearchResult.nosearch}})=>{
+        return (search===SearchResult.nosearch||search!==SearchResult.nomatch) ? 'visible' : 'hidden'
+      })
+
+    // if name search only set paths of related links
+    links = links.filter(({layout: {isLoop, search=SearchResult.nosearch}})=>{
+      return (!isLoop && (search===SearchResult.nosearch||search!==SearchResult.nomatch))
     })
 
-    // set link path
+    // set link path then back it away from node
+    // so that end markers just touch the shape
     links.selectAll('path')
       .attr('d', ({layout}) => {
         let {linePath} = layout
@@ -132,13 +143,6 @@ export default class LinkHelper {
         }
         return linePath
       })
-      .style('opacity', ({layout})=>{
-        const opacity = (layout.newPath) ? 0.0 : 1.0
-        delete layout.newPath
-        return opacity
-      })
-
-    // back link away from node so that end markers just touch the shape
     links.selectAll('path')
       .attrs(({layout},i,ns) => {
         const {x, y} = layout.transform ? layout.transform : {x:0, y:0}
@@ -147,16 +151,14 @@ export default class LinkHelper {
           'transform': `translate(${x}, ${y})`
         }
       })
-      .transition(transition)
-      .style('opacity', 1.0)
-
 
     // move line labels
     if (this.topologyOptions.showLineLabels) {
       const labels = this.svg.select('g.links').selectAll('g.label')
+        .attr('transform', currentZoom)
+
       labels.selectAll('text')
         .selectAll('textPath')
-        .transition(transition)
         .text(({layout={}, label}) => {
           return layout.isParallel ? '< both >' :
             (layout.isLoop ? label :
@@ -207,22 +209,27 @@ export const dragLinks = (svg, d, topologyShapes) => {
 }
 
 export const appendLinkDefs = (svg) => {
+  const addArrowhead = (defs, id, className) =>{
+    defs
+      .append('marker')
+      .attrs({
+        id,
+        refX: 2,
+        refY: 7,
+        orient: 'auto',
+        markerWidth: 16,
+        markerHeight: 16,
+        markerUnits: 'userSpaceOnUse',
+        xoverflow: 'visible'
+      })
+      .append('svg:path')
+      .attr('d', 'M2,2 L2,14 L12,7 L2,2')
+      .attr('class', className)
+  }
+
   const defs = svg.append('defs')
-  defs
-    .append('marker')
-    .attrs({
-      id: 'arrowhead',
-      refX: 2,
-      refY: 7,
-      orient: 'auto',
-      markerWidth: 16,
-      markerHeight: 16,
-      markerUnits: 'userSpaceOnUse',
-      xoverflow: 'visible'
-    })
-    .append('svg:path')
-    .attr('d', 'M2,2 L2,14 L12,7 L2,2')
-    .attr('class', 'arrowDecorator')
+  addArrowhead(defs, 'arrowhead', 'arrowDecorator')
+  addArrowhead(defs, 'arrowheadfaded', 'arrowDecorator faded')
 
   defs
     .append('marker')
@@ -379,6 +386,7 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
           layout = link.layout = {
             source: nodeLayout,
             target: nodeLayout,
+            search: nodeLayout.search,
             isLoop: true,
             lineData
           }
@@ -407,11 +415,20 @@ export const getLoopLineData = (x,y) => {
 export const counterZoomLinks = (svg, currentZoom) => {
   if (svg) {
     const opacity = counterZoom(currentZoom.k, 0.35, 0.85, 0.5, 0.85)
-    const links = svg.select('g.links').selectAll('g.link')
-    links
-      .selectAll('path')
-      .styles({
-        'stroke-opacity': opacity
+    svg.select('g.links').selectAll('g.link')
+      .each(({layout:{target}}, i, ns)=>{
+        const {search=SearchResult.nosearch} = target
+        const link = d3.select(ns[i])
+        link.selectAll('path')
+          .attrs(() => {
+            return {
+              'marker-end': (search===SearchResult.nosearch || search===SearchResult.match)
+                ? 'url(#arrowhead)' : 'url(#arrowheadfaded)'
+            }
+          })
+          .styles({
+            'stroke-opacity': opacity
+          })
       })
   }
 }

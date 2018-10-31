@@ -21,6 +21,10 @@ $linkColor: rgb(140,155,165);
 .arrowDecorator {
   stroke: none;
   fill: $color__navy-gray-5;
+
+  &.faded {
+    opacity: 0.3;
+  }
 }
 
 .squareDecorator {

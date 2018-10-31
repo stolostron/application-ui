@@ -74,6 +74,10 @@ export const topology = (state = initialState, action) => {
     return {...state, activeFilters, savingFilters: true}
 
   }
+  case Actions.TOPOLOGY_NAME_SEARCH: {
+    const { searchName } = action
+    return {...state, searchName }
+  }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS: {
     // The 'clusters' filter is different from other filters.
     // Here we are building the filter options using the cluster labels. When a filter is

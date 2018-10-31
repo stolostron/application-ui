@@ -10,3 +10,12 @@
 
 export const NODE_RADIUS = 28
 export const NODE_SIZE = 50
+
+export const SearchResult = Object.freeze({
+  nosearch: '',     // no search in progress
+  match: 'match',   // match
+  nomatch: 'nomatch', // doesn't match
+  related: 'related', //related to match
+  matched: 'matched', // a previous match--used when out of search mode
+})
+export const RELATED_OPACITY=0.3 // opacity of elements related to matched elements

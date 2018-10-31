@@ -12,6 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { Search } from 'carbon-components-react'
 import FilterableMultiSelect from './FilterableMultiSelect'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
@@ -46,11 +47,25 @@ class ResourceTopologyFilters extends React.Component {
     failure: PropTypes.bool,
     fetchFilters: PropTypes.func,
     fetching: PropTypes.bool,
+    onNameSearch: PropTypes.func,
     onSelectedFilterChange: PropTypes.func,
   }
 
   componentWillMount() {
     this.props.fetchFilters()
+  }
+
+  handleSearch = ({target}) => {
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout)
+    }
+    if ((target.value||'').length===0) {
+      this.props.onNameSearch(target.value)
+    } else {
+      this.typingTimeout = setTimeout(() => {
+        this.props.onNameSearch(target.value)
+      }, 500)
+    }
   }
 
   render() {
@@ -88,8 +103,10 @@ class ResourceTopologyFilters extends React.Component {
       availableFilters.types.push({label:'internet'})
     }
 
+    const searchTitle = msgs.get('name.label', this.context.locale)
     return (
       <div className='topologyFilters'>
+        {/*dropdown filters*/}
         {filters.map((filter) =>
           <FilterableMultiSelect
             key={Math.random()}
@@ -102,6 +119,16 @@ class ResourceTopologyFilters extends React.Component {
             failure={failure}
           />
         )}
+
+        {/*name search*/}
+        <div className='multi-select-filter' role='region' aria-label={searchTitle} id={searchTitle}>
+          <div className='multi-select-filter-title'>
+            {searchTitle}
+          </div>
+          <Search id='search-name' labelText='' placeHolderText={msgs.get('search.label', this.context.locale)}
+            onChange={this.handleSearch}
+          />
+        </div>
       </div>
     )
   }
@@ -124,6 +151,9 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchFilters: () => dispatch(fetchTopologyFilters()),
+    onNameSearch: (searchName) => {
+      dispatch({type: Actions.TOPOLOGY_NAME_SEARCH, searchName})
+    },
     onSelectedFilterChange: (filterType, filter) => {
       const { params: {name='', namespace=''}} = ownProps
       dispatch(updateTopologyFilters(filterType, filter, namespace, name))

@@ -47,6 +47,7 @@ export default class TitleHelper {
         return t.hashCode
       })
       .enter().append('g')
+      .style('opacity', 0.0)
       .attr('class','title')
       .attr('transform', currentZoom)
 
@@ -57,7 +58,7 @@ export default class TitleHelper {
     titles.append('g')
       .attr('class','titleLabel')
       .html((d)=>{
-        const {x, y, title} = d
+        const {title} = d
         var text = draw.text((add) => {
           title.split('\n').forEach((line, idx)=>{
             if (line) {
@@ -68,20 +69,32 @@ export default class TitleHelper {
             }
           })
         })
-        text
-          .x(x)
-          .y(y)
         return text.svg()
       })
   }
 
-  moveTitles = (transition) => {
-    this.svg.select('g.titles').selectAll('g.titleLabel')
+  moveTitles = (transition, currentZoom, searchChanged) => {
+    const titles = this.svg.select('g.titles').selectAll('g.title')
+      .attr('transform', currentZoom)
+      .styles(() => {
+        return {
+          'opacity': searchChanged ? 0.0 : 1.0
+        }
+      })
+
+    titles
+      .transition(transition)
+      .styles(() => {
+        return {
+          'opacity': 1.0
+        }
+      })
+
+    titles.selectAll('g.titleLabel')
       .each((d,i,ns)=>{
         const {x, y} = d
         const titleLabel = d3.select(ns[i])
         titleLabel.selectAll('text')
-          .transition(transition)
           .attrs(() => {
             return {
               'x': x,
@@ -89,7 +102,6 @@ export default class TitleHelper {
             }
           })
         titleLabel.selectAll('tspan')
-          .transition(transition)
           .attr('x', () => {return x})
       })
   }

@@ -15,7 +15,7 @@ import {dragLinks} from './linkHelper'
 import counterZoom from './counterZoom'
 import '../../../graphics/topologySprite.svg'
 
-import { NODE_RADIUS, NODE_SIZE } from './constants.js'
+import { SearchResult, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
 
 export default class NodeHelper {
   /**
@@ -57,13 +57,14 @@ export default class NodeHelper {
       .attr('class','node')
       .attr('transform', currentZoom)
       .attr('type', (d) => { return d.name })
-      .on('click', (d, i, ns)=>{
-        nodeClickHandler(d, d3.select(ns[i]))
+      .style('opacity', 0.0)
+      .on('click', (d)=>{
+        nodeClickHandler(d)
       })
       // accessability--user presses enter key when node has focus
-      .on('keypress', (d, i, ns) => {
+      .on('keypress', (d) => {
         if ( d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-          nodeClickHandler(d, d3.select(ns[i]))
+          nodeClickHandler(d)
         }
       })
 
@@ -103,28 +104,13 @@ export default class NodeHelper {
         const {type} = layout
         const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
         const classType = this.topologyShapes[type] ? this.topologyShapes[type].className : 'default'
-        let {x, y} = layout.center||{x:0, y:0}
-        if (layout.newComer) {
-          if (layout.newComer.grid) {
-            ({x, y} = layout)
-          }
-          layout.newComer.displayed = true
-        }
-        const sz = NODE_SIZE * (layout.scale||1)
+        //layout.newComer) {
         return {
           'xlink:href': `#topologySprite_${shape}`,
           'width': NODE_SIZE,
           'height': NODE_SIZE,
           'tabindex': 1,
           'class': `shape ${classType}`,
-          'transform': `translate(${x - sz/2}, ${y - sz/2})`,
-        }
-      })
-      .styles(({layout: {newComer}}) => {
-        const opacity = newComer && newComer.grid ? 0:1
-        return {
-          'opacity': opacity,
-          'fill-opacity': opacity
         }
       })
       .call(d3.drag()
@@ -147,7 +133,6 @@ export default class NodeHelper {
       })
       .append('g')
       .attr('class','nodeIcons')
-      .style('opacity', 0)
       .each(({layout},i,ns) => {
         const {shapeIcons} = layout
         d3.select(ns[i])
@@ -177,15 +162,7 @@ export default class NodeHelper {
     // create label
     nodes.append('g')
       .attr('class','nodeLabel')
-      .style('opacity', ({layout: {newComer}}) => (newComer && newComer.grid ? 0:1))
       .html(({layout})=>{
-        const {center={x:0, y:0}, newComer} = layout
-        let scale = 1
-        let {x, y} = center
-        if (newComer && newComer.grid) {
-          ({x, y, scale=1} = layout)
-          y += (NODE_RADIUS*scale)
-        }
         const nodeLabelGroup = draw.group()
 
         // white background
@@ -193,13 +170,11 @@ export default class NodeHelper {
 
         // normal label
         nodeLabelGroup.text((add) => {
-          layout.label.split('\n').forEach((line, idx, arr)=>{
+          layout.label.split('\n').forEach((line, idx)=>{
             if (line) {
-              const middleLine = idx!=0&&idx!==arr.length-1
               add.tspan(line)
                 .addClass(idx===0?'first-line':'')
-                .addClass(!middleLine?'counter-zoom':'')
-                .addClass(middleLine?'middle-line':'')
+                .addClass('counter-zoom')
                 .newLine()
             }
           })
@@ -212,9 +187,7 @@ export default class NodeHelper {
           }
         })
           .addClass('regularLabel')
-          .leading(0.8)
-          .x(x)
-          .y(y)
+          .leading(1)
 
         // compact label
         nodeLabelGroup.text((add) => {
@@ -228,8 +201,6 @@ export default class NodeHelper {
           })
         })
           .addClass('compactLabel')
-          .x(x)
-          .y(y)
 
 
         return nodeLabelGroup.svg()
@@ -258,27 +229,73 @@ export default class NodeHelper {
     })
   }
 
-  moveNodes = (transition) => {
+  moveNodes = (transition, currentZoom, searchChanged) => {
     const nodeLayer = this.svg.select('g.nodes')
 
     // move node shapes
     const nodes = nodeLayer.selectAll('g.node')
-    nodes.selectAll('use.shape')
+      .styles(({layout}) => {
+
+        // set opacity to 0 if search changed or node moved
+        // we will transition it back when in new position
+        let opacity = 1.0
+        const {x, y, lastPosition, search=SearchResult.nosearch} = layout
+        if (lastPosition &&
+            (Math.abs(lastPosition.x-x)>10 ||
+                Math.abs(lastPosition.y!==y)>10)) {
+          opacity = 0.1
+        }
+        layout.lastPosition = {x, y}
+
+        return {
+          'visibility': (search!==SearchResult.nomatch)?'visible':'hidden',
+          'opacity': searchChanged ? 0.0 : (search===SearchResult.related ? RELATED_OPACITY : opacity)
+        }
+      })
+      .attr('transform', currentZoom)
+
+    nodes
       .transition(transition)
-      .style('opacity', 1)
+      .styles(({layout:{search=SearchResult.nosearch}}) => {
+        return {
+          'opacity': search===SearchResult.related ? RELATED_OPACITY : 1.0
+        }
+      })
+
+    // clean up any selections if search changed
+    if (searchChanged) {
+      nodes
+        .classed('selected', ({layout})=>{
+          layout.selected = false
+          return false
+        })
+    }
+
+    // if name search only position visible nodes
+    const visible = nodes.filter(({layout: {search=SearchResult.nosearch}})=>{
+      return (search===SearchResult.nosearch||search!==SearchResult.nomatch)
+    })
+      .classed('selected', ({layout})=>{
+        const {search=SearchResult.nosearch, selected} = layout
+        if (search===SearchResult.matched || selected) {
+          return true
+        }
+        return false
+      })
+
+    visible.selectAll('use.shape')
       .attrs(({layout}) => {
         const {x, y, scale=1} = layout
         const sz = NODE_SIZE*scale
         return {
           'width': sz,
           'height': sz,
-          'transform': `translate(${x - sz/2}, ${y - sz/2})`,
+          'transform': `translate(${x- sz/2}, ${y - sz/2})`,
         }
       })
 
     // move highlight/select shape
-    nodes.selectAll('use.shadow')
-      .transition(transition)
+    visible.selectAll('use.shadow')
       .attrs(({layout}) => {
         const {x, y, scale=1} = layout
         const sz = NODE_SIZE*scale + 20
@@ -293,12 +310,8 @@ export default class NodeHelper {
     nodeLayer.selectAll('g.nodeIcons')
       .each(({layout},i,ns)=>{
         const nodeIcons = d3.select(ns[i])
-        nodeIcons
-          .transition(transition)
-          .style('opacity', 1)
 
         nodeIcons.selectAll('use.icon')
-          .transition(transition)
           .attrs(({width, height}) => {   //TODO -- just one centered icon now
             const {x, y} = layout
             return {
@@ -317,13 +330,7 @@ export default class NodeHelper {
           .selectAll('tspan')
           .classed('hub-label', scale>1)
 
-        nodeLabel
-          .transition(transition)
-          .style('opacity', 1)
-          .style('fill-opacity', 1)
         nodeLabel.selectAll('text')
-          .transition(transition)
-          .style('opacity', 1)
           .attrs(() => {
             return {
               'x': x,
@@ -331,7 +338,6 @@ export default class NodeHelper {
             }
           })
         nodeLabel.selectAll('rect')
-          .transition(transition)
           .attrs(() => {
             return {
               'x': x - (textBBox.width/2),
@@ -339,7 +345,6 @@ export default class NodeHelper {
             }
           })
         nodeLabel.selectAll('tspan')
-          .transition(transition)
           .attr('x', () => {return x})
       })
   }
@@ -409,11 +414,19 @@ export default class NodeHelper {
   }
 }
 
+export const setSelections = (svg, selected) => {
+  svg.select('g.nodes').selectAll('g.node')
+    .classed('selected', ({layout})=>{
+      layout.search = SearchResult.nosearch
+      layout.selected = selected && selected.uid===layout.uid
+      return layout.selected
+    })
+}
+
 export const counterZoomLabels = (svg, currentZoom) => {
   if (svg) {
     const s = currentZoom.k
     const fontSize = counterZoom(s, 0.35, 0.85, 12, 22)
-    const nodes = svg.select('g.nodes')
 
     // show regular labels
     let showClass, hideClass
@@ -425,45 +438,73 @@ export const counterZoomLabels = (svg, currentZoom) => {
       hideClass = 'regularLabel'
     }
 
-    // show the label
-    const showLabels = nodes
-      .selectAll(`text.${showClass}`)
-    showLabels
-      .style('visibility', 'visible')
-    // apply counter zoom font
-    showLabels
-      .selectAll('tspan.counter-zoom')
-      .style('font-size', fontSize+'px')
-    // if middle line, make even smaller
-    showLabels
-      .selectAll('tspan.middle-line')
-      .style('font-size', fontSize-(s<=0.7 ? 4 : 0)+'px')
-    // hide description at a certain point
-    showLabels
-      .selectAll('tspan.description')
-      .style('visibility', (s<=0.7 ? 'hidden' : 'visible'))
-    // if hub, make font even bigger
-    showLabels
-      .selectAll('tspan.hub-label')
-      .style('font-size', fontSize+4+'px')
-      .style('font-weight', 'bold')
+    // set label visibility based on search or zoom
+    svg.select('g.nodes').selectAll('g.nodeLabel')
+      .each(({layout: {search=SearchResult.nosearch}},i,ns)=>{
+        const nodeLabel = d3.select(ns[i])
 
-    // hide compact label if regular should show and vice versa
-    nodes
-      .selectAll(`text.${hideClass}`)
-      .style('visibility', 'hidden')
+        // not in search mode, selectively show labels based on zoom
+        let shownLabel
+        if (search===SearchResult.nosearch) {
+          shownLabel = nodeLabel
+            .selectAll(`text.${showClass}`)
+          shownLabel
+            .style('visibility',  'visible')
+          // hide description at a certain point
+          shownLabel
+            .selectAll('tspan.description')
+            .style('visibility', (s<=0.7 ? 'hidden' : 'visible'))
 
+          // hide compact label if regular should show and vice versa
+          nodeLabel
+            .selectAll(`text.${hideClass}`)
+            .style('visibility', 'hidden')
 
+        } else {
+        // show labels only if matched or related
+        // if match, always show regular label and hide compact
+          shownLabel = nodeLabel
+            .selectAll('text.regularLabel')
+            .style('visibility',  ()=>{
+              return search!==SearchResult.nomatch?'visible':'hidden'
+            })
+          // always show description if a match
+          nodeLabel
+            .selectAll('tspan.description')
+            .style('visibility',  ()=>{
+              return search!==SearchResult.nomatch?'visible':'hidden'
+            })
+
+          nodeLabel
+            .selectAll('text.compactLabel')
+            .style('visibility',  'hidden')
+        }
+
+        // counter zoom whatever is still visible
+        // apply counter zoom font
+        shownLabel
+          .selectAll('tspan.counter-zoom')
+          .style('font-size', fontSize+'px')
+        // if hub, make font even bigger
+        shownLabel
+          .selectAll('tspan.hub-label')
+          .style('font-size', fontSize+4+'px')
+          .style('font-weight', 'bold')
+        // if description make smaller
+        shownLabel
+          .selectAll('tspan.description')
+          .style('font-size', fontSize-2+'px')
+      })
   }
 }
 
-export const getWrappedNodeLabel = (label, width=18, rows=3) => {
+export const getWrappedNodeLabel = (label, width, rows=3) => {
   // if too long, add elipse and split the rest
-  if (label.length-3>width*rows) {
+  if (label.length>width*rows) {
     if (rows===2) {
-      label = label.substr(0, width)+ '...\n' + label.substr(-width)
+      label = label.substr(0, width)+ '..\n' + label.substr(-width)
     } else {
-      label = splitLabel(label.substr(0, width*2), width, rows-1)+ '...\n' + label.substr(-width)
+      label = splitLabel(label.substr(0, width*2), width, rows-1, true) +  label.substr(-width)
     }
   } else {
     label = splitLabel(label, width, rows)
@@ -471,10 +512,10 @@ export const getWrappedNodeLabel = (label, width=18, rows=3) => {
   return label
 }
 
-const splitLabel = (label, width, rows) => {
+const splitLabel = (label, width, rows, ellipse) => {
   const lines = []
   let remaining = label
-  const brkRange = width/3
+  const brkRange = Math.round(width/3)
   while (remaining.length>width && rows>1) {
     // if close enough, don't wrap
     if (remaining.length<width+3) {
@@ -488,13 +529,18 @@ const splitLabel = (label, width, rows) => {
         remaining = remaining.substr(brk)
       } else {
         // else force a wrap
-        lines.push(remaining.substr(0, width)+(remaining.length>width?'-':''))
+        lines.push(remaining.substr(0, width))
         remaining = remaining.substr(width)
       }
     }
     rows-=1
   }
   if (remaining.length) {
+    if (ellipse) {
+      remaining +='..\n'
+    } else if (remaining.length>width) {
+      remaining = remaining.substr(0, width-2)+'..'
+    }
     lines.push(remaining)
   }
   return lines.join('\n')

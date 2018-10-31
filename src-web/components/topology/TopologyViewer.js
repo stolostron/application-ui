@@ -17,7 +17,7 @@ import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import TitleHelper, {counterZoomTitles} from './titleHelper'
 import LinkHelper, {appendLinkDefs, counterZoomLinks} from './linkHelper'
-import NodeHelper, {counterZoomLabels} from './nodeHelper'
+import NodeHelper, {counterZoomLabels, setSelections} from './nodeHelper'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -39,6 +39,7 @@ class TopologyViewer extends React.Component {
     isMulticluster: PropTypes.bool,
     links: PropTypes.array,
     nodes: PropTypes.array,
+    searchName: PropTypes.string,
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string,
@@ -47,7 +48,6 @@ class TopologyViewer extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeFilters: props.activeFilters,
       links: _.uniqBy(props.links, 'uid'),
       nodes: _.uniqBy(props.nodes, 'uid'),
       hiddenLinks: new Set(),
@@ -57,7 +57,9 @@ class TopologyViewer extends React.Component {
       props.setViewer(this)
     }
     this.resize = _.debounce(()=>{
-      this.zoomFit()
+      if (this.isAutoZoomToFit) {
+        this.zoomFit(true)
+      }
     }, 150)
     const { locale } = this.props.context
     this.titles=[]
@@ -66,6 +68,7 @@ class TopologyViewer extends React.Component {
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.lastLayoutBBox=undefined
     this.isDragging = false
+    this.isAutoZoomToFit = true
   }
 
   componentDidMount() {
@@ -84,11 +87,12 @@ class TopologyViewer extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState){
     return this.state.selectedNodeId !== nextState.selectedNodeId
-    || !_.isEqual(this.state.activeFilters, nextState.activeFilters)
     || !_.isEqual(this.state.requiredFilters, nextState.requiredFilters)
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
+    || this.props.activeFilters !== nextProps.activeFilters
+    || this.props.searchName !== nextProps.searchName
   }
 
   // weave scans can:
@@ -163,7 +167,11 @@ class TopologyViewer extends React.Component {
         return a.uid===b.uid
       }
       const links = _.unionWith(previousLinks, currentLinks, compare)
-      return {links, nodes, hiddenLinks, activeFilters: props.activeFilters}
+
+      // switching between search and not
+      const {searchName=''} = props
+      const searchChanged = searchName.localeCompare((prevState.searchName||''))!==0
+      return {links, nodes, hiddenLinks, searchName, searchChanged}
     })
 
   }
@@ -183,7 +191,8 @@ class TopologyViewer extends React.Component {
           {msgs.get('cluster.names', [title], locale)}
         </div>}
         <div className='topologyViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
-          <div className='topologyViewerContainer'  ref={this.setViewerContainerRef} role='region' aria-label='zoom'>
+          <div className='topologyViewerContainer' ref={this.setViewerContainerRef}
+            style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
             <svg id={svgId} className="topologyDiagram" />
           </div>
         </div>
@@ -205,17 +214,13 @@ class TopologyViewer extends React.Component {
     )
   }
 
-  handleNodeClick = (node, selected) => {
+  handleNodeClick = (node) => {
     d3.event.stopPropagation()
 
-    // mark as selected
-    if (this.lastSelected) {
-      this.lastSelected.classed('selected', false)
-      delete this.lastSelected
-    }
-    if (selected) {
-      selected.classed('selected', true)
-      this.lastSelected = selected
+    // clear any currently selected nodes
+    const svg = d3.select('#'+this.getSvgId())
+    if (svg) {
+      setSelections(svg, node)
     }
 
     // if there's a companion yaml editor, scroll to line
@@ -271,17 +276,18 @@ class TopologyViewer extends React.Component {
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
-      this.svg.call(this.getSvgSpace())
+      this.svg.call(this.canvasZoom())
       appendLinkDefs(this.svg)
     }
 
     // consolidate nodes/filter links/add layout data to each element
-    const {nodes=[], links=[], hiddenLinks= new Set()} = this.state
-    const {isMulticluster} = this.props
+    const {nodes=[], links=[], hiddenLinks= new Set(), searchChanged} = this.state
+    const {isMulticluster, searchName} = this.props
     const options = {
       firstLayout: this.lastLayoutBBox===undefined,
       breakWidth: 3000, //this.viewerContainerContainerRef.getBoundingClientRect().width + 1000
-      isMulticluster
+      isMulticluster,
+      searchName
     }
     this.layoutHelper.layout(nodes, links, hiddenLinks, options, (layoutResults)=>{
 
@@ -290,110 +296,73 @@ class TopologyViewer extends React.Component {
       this.titles = titles
       const {firstLayout} = options
 
-      // resize diagram to fit all the nodes
-      if (firstLayout) {
-        this.zoomFit()
-      }
-
-      // Create or refresh the nodes in the diagram.
-      const transformation = d3.transition()
-        .duration(firstLayout?400:800)
-        .ease(d3.easeSinOut)
+      // stop any current transitions
       this.svg.interrupt().selectAll('*').interrupt()
 
+      // zoom to fit all nodes
+      if (this.isAutoZoomToFit || firstLayout || searchChanged) {
+        this.zoomFit(false, searchChanged, true)
+      }
+
       // Create or refresh the links in the diagram.
+      const transition = d3.transition()
+        .duration(firstLayout?400:800)
+        .ease(d3.easeSinOut)
       const {topologyShapes} = this.props.staticResourceData
       const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes, topologyShapes, this.topologyOptions)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
-      linkHelper.moveLinks(transformation)
+      linkHelper.moveLinks(transition, currentZoom, searchChanged)
 
       // Create or refresh the nodes in the diagram.
       const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap)
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick, this.handleNodeDrag)
-      nodeHelper.moveNodes(transformation)
+      nodeHelper.moveNodes(transition, currentZoom, searchChanged)
 
       // Create or refresh the titles in the diagram.
       if (this.topologyOptions.showSectionTitles) {
         const titleHelper = new TitleHelper(this.svg, titles)
         titleHelper.removeOldTitlesFromDiagram()
         titleHelper.addTitlesToDiagram(currentZoom)
-        titleHelper.moveTitles(transformation)
+        titleHelper.moveTitles(transition, currentZoom, searchChanged)
       }
 
       this.laidoutNodes = laidoutNodes
       this.lastLayoutBBox = laidoutNodes.length ? this.layoutBBox : undefined
-      counterZoomLabels(this.svg, currentZoom)
-      counterZoomTitles(this.svg, currentZoom)
-      counterZoomLinks(this.svg, currentZoom)
+      this.counterZoomElements(this.svg, currentZoom)
     })
   }
 
-  getSvgSpace(duration=0){
-    const svgSpace = d3.zoom()
-      .scaleExtent([ 0.1, 1 ]) // scale from 0.1 up to 1
-      .on('zoom', () => {
-        currentZoom = d3.event.transform
-        const svg = d3.select('#'+this.getSvgId())
-        if (svg) {
-
-          // zoom shapes and links
-          const transition = d3.transition()
-            .duration(duration)
-            .ease(d3.easeSinOut)
-          svg.select('g.nodes').selectAll('g.node')
-            .transition(transition)
-            .attr('transform', d3.event.transform)
-          svg.select('g.links').selectAll('g.link')
-            .transition(transition)
-            .attr('transform', d3.event.transform)
-          svg.select('g.links').selectAll('g.label')
-            .transition(transition)
-            .attr('transform', d3.event.transform)
-          svg.select('g.titles').selectAll('g.title')
-            .transition(transition)
-            .attr('transform', d3.event.transform)
-
-          // counter-zoom text
-          counterZoomLabels(svg, currentZoom)
-          counterZoomTitles(svg, currentZoom)
-          counterZoomLinks(svg, currentZoom)
-        }
-        // disable zoom in at 1
-        this.zoomInRef.disabled = currentZoom.k===1
-      })
-    return svgSpace
-  }
-
   handleZoomIn = () => {
-    this.getSvgSpace(200).scaleBy(this.svg, 1.3)
+    this.buttonZoom().scaleBy(this.svg, 1.3)
   }
 
   handleZoomOut = () => {
-    this.getSvgSpace(200).scaleBy(this.svg, 1 / 1.3)
+    this.buttonZoom().scaleBy(this.svg, 1 / 1.3)
   }
 
   handleTarget = () => {
-    this.zoomFit()
+    this.viewerContainerContainerRef.scrollTo(0, 0)
+    this.zoomFit(true)
   }
 
-  zoomFit = () => {
+  zoomFit = (zoomElements, resetScrollbar) => {
     const {y1, width, height} = this.layoutBBox
     if (width && height) {
       const svg = d3.select('#'+this.getSvgId())
       if (svg) {
         if (this.viewerContainerContainerRef) {
           const {width: availableWidth, height: availableHeight} = this.viewerContainerContainerRef.getBoundingClientRect()
-          let scale = Math.min( .8, .92 / Math.max(width / availableWidth, height / availableHeight))
+          let scale = Math.min( 1, .95 / Math.max(width / availableWidth, height / availableHeight))
 
           // don't allow scale to drop too far for accessability reasons
           // below threshHold, show scrollbar instead
           let dy
           const topMargin = 30
-          const threshHold = 0.3
+          const threshHold = 0.4
           if (scale<threshHold) {
-            scale = threshHold
+            scale = Math.min(threshHold, .8/(width / availableWidth)) // even below threshhold keep entire row visible
             this.viewerContainerContainerRef.classList.add('scrolled')
             this.viewerContainerRef.setAttribute('style', `height: ${height*scale+topMargin}px;`)
             const viewerHeight = this.viewerContainerRef.getBoundingClientRect().height
@@ -403,13 +372,69 @@ class TopologyViewer extends React.Component {
             this.viewerContainerRef.setAttribute('style', 'height: 100%;')
             dy = height/2
           }
-          this.viewerContainerContainerRef.scrollTo(0, 0)
-          this.getSvgSpace(200).translateTo(svg, width/2, y1 + dy)
-          this.getSvgSpace(200).scaleTo(svg, scale)
+          if (resetScrollbar) {
+            this.viewerContainerContainerRef.scrollTo(0, 0)
+          }
+          this.isAutoZoomToFit = true
+          d3.zoom().translateTo(svg, width/2, y1 + dy)
+          d3.zoom().on('zoom', () => {
+            currentZoom = d3.event.transform
+            if (zoomElements) {
+              this.zoomElements(200)
+            }
+          }).scaleTo(svg, scale)
         }
       }
     }
-    return 1
+  }
+
+  canvasZoom(){
+    return this.manualZoom(0)
+  }
+
+  buttonZoom(){
+    return this.manualZoom(200)
+  }
+
+  manualZoom(duration){
+    return d3.zoom()
+      .scaleExtent([ 0.1, 1 ]) // can manually scale from 0.1 up to 1
+      .on('zoom', () => {
+        currentZoom = d3.event.transform
+        this.isAutoZoomToFit = false
+        this.zoomElements(duration)
+
+        // disable zoom-in button at 1
+        this.zoomInRef.disabled = currentZoom.k>=1
+      })
+  }
+
+  zoomElements(duration) {
+    const svg = d3.select('#'+this.getSvgId())
+    if (svg) {
+      const transition = d3.transition()
+        .duration(duration)
+        .ease(d3.easeSinOut)
+      svg.select('g.nodes').selectAll('g.node')
+        .transition(transition)
+        .attr('transform', currentZoom)
+      svg.select('g.links').selectAll('g.link')
+        .transition(transition)
+        .attr('transform', currentZoom)
+      svg.select('g.links').selectAll('g.label')
+        .transition(transition)
+        .attr('transform', currentZoom)
+      svg.select('g.titles').selectAll('g.title')
+        .transition(transition)
+        .attr('transform', currentZoom)
+      this.counterZoomElements(svg, currentZoom)
+    }
+  }
+
+  counterZoomElements(svg, currentZoom) {
+    counterZoomLabels(svg, currentZoom)
+    counterZoomTitles(svg, currentZoom)
+    counterZoomLinks(svg, currentZoom)
   }
 
   getSvgId() {

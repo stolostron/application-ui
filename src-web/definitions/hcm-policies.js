@@ -65,10 +65,128 @@ export default {
       },
     ],
   },
+  policyRoleTemplates: {
+    title: 'table.header.roleTemplates',
+    defaultSortField: 'name',
+    normalizedKey: 'name',
+    resourceKey: 'roleTemplates',
+    tableKeys: [
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+        key: 'name',
+      },
+      {
+        msgKey: 'table.header.complianceType',
+        resourceKey: 'complianceType',
+        key: 'complianceType',
+      },
+      {
+        msgKey: 'description.title.api.version',
+        resourceKey: 'apiVersion',
+        key: 'apiVersion',
+      },
+      {
+        msgKey: 'description.title.last.transition',
+        resourceKey: 'lastTransition',
+        key: 'lastTransition',
+      },
+      {
+        msgKey: 'table.header.compliant',
+        resourceKey: 'compliant',
+        key: 'compliant',
+        transformFunction: getStatus
+      },
+      {
+        msgKey: 'table.header.resources',
+        resourceKey: 'resources',
+        key: 'resources',
+      },
+    ],
+  },
+  policyRoleBindingTemplates: {
+    title: 'table.header.roleBindingTemplates',
+    defaultSortField: 'name',
+    normalizedKey: 'name',
+    resourceKey: 'roleBindingTemplates',
+    tableKeys: [
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+        key: 'name',
+      },
+      {
+        msgKey: 'table.header.complianceType',
+        resourceKey: 'complianceType',
+        key: 'complianceType',
+      },
+      {
+        msgKey: 'description.title.api.version',
+        resourceKey: 'apiVersion',
+        key: 'apiVersion',
+      },
+      {
+        msgKey: 'description.title.last.transition',
+        resourceKey: 'lastTransition',
+        key: 'lastTransition',
+      },
+      {
+        msgKey: 'table.header.compliant',
+        resourceKey: 'compliant',
+        key: 'compliant',
+        transformFunction: getStatus
+      },
+      {
+        msgKey: 'table.header.resources',
+        resourceKey: 'resources',
+        key: 'resources',
+      },
+    ],
+  },
+  policyObjectTemplates: {
+    title: 'table.header.objectTemplates',
+    defaultSortField: 'name',
+    normalizedKey: 'name',
+    resourceKey: 'objectTemplates',
+    tableKeys: [
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+        key: 'name',
+      },
+      {
+        msgKey: 'table.header.complianceType',
+        resourceKey: 'complianceType',
+        key: 'complianceType',
+      },
+      {
+        msgKey: 'description.title.api.version',
+        resourceKey: 'apiVersion',
+        key: 'apiVersion',
+      },
+      {
+        msgKey: 'description.title.last.transition',
+        resourceKey: 'lastTransition',
+        key: 'lastTransition',
+      },
+      {
+        msgKey: 'table.header.compliant',
+        resourceKey: 'compliant',
+        key: 'compliant',
+        transformFunction: getStatus
+      },
+      {
+        msgKey: 'table.header.resources',
+        resourceKey: 'resources',
+        key: 'resources',
+      },
+    ],
+  },
   policyViolations: {
     resourceKey: 'violations',
     title: 'table.header.violation',
     defaultSortField: 'name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         msgKey: 'table.header.status',
@@ -259,67 +377,6 @@ export default {
       },
     ]
   },
-  policyTemplatesKeys: {
-    title: 'policy.template.details',
-    headerRows: ['description.title.name', 'description.title.last.transition', 'description.title.templateType'],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: 'name',
-          },
-          {
-            resourceKey: 'lastTransition',
-            transformFunction: getAge
-          },
-          {
-            resourceKey: 'templateType',
-          }
-        ]
-      }
-    ]
-  },
-  roleRef: {
-    title: 'policy.template.roleRef',
-    headerRows: ['table.header.name', 'table.header.kind', 'table.header.apiGroups'],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: 'name',
-          },
-          {
-            resourceKey: 'kind',
-          },
-          {
-            resourceKey: 'apiGroup',
-          }
-        ]
-      }
-    ]
-  },
-  roleSubjects: {
-    resourceKey: 'roleSubjects',
-    title: 'policy.template.roleSubjects',
-    defaultSortField: 'name',
-    tableKeys: [
-      {
-        msgKey: 'table.header.name',
-        resourceKey: 'name',
-        key: 'name',
-      },
-      {
-        msgKey: 'table.header.apiGroups',
-        resourceKey: 'apiGroup',
-        key: 'apiGroup',
-      },
-      {
-        msgKey: 'table.header.kind',
-        resourceKey: 'kind',
-        key: 'kind',
-      },
-    ],
-  },
 }
 
 export function createPolicyLink(item = {}, ...param){
@@ -327,10 +384,17 @@ export function createPolicyLink(item = {}, ...param){
   return <Link to={`${config.contextPath}/policies/local/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
 
-export function getStatus(item= {},locale) {
+export function getStatus(item= {}, locale) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
-  if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
+  if (item.status && expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
     if (item.status.toLowerCase() === 'compliant') {
+      return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
+    } else {
+      return <StatusField status='critical' text={msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)} />
+    }
+  }
+  if (item.compliant && expectedStatuses.indexOf(item.compliant.toLowerCase()) > -1){
+    if (item.compliant.toLowerCase() === 'compliant') {
       return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
     } else {
       return <StatusField status='critical' text={msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)} />

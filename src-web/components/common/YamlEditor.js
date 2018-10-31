@@ -33,7 +33,7 @@ class IsomorphicEditor extends React.Component {
   render = () => <AceEditor {...this.props} ref={this.setEditorRef} />
 }
 
-const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40vh', readOnly=false }) =>
+const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40vh', readOnly=false }) => (
   <div className="yamlEditorContainer">
     <IsomorphicEditor
       theme='monokai'
@@ -56,7 +56,7 @@ const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40v
       }}
       setEditor={setEditor}
     />
-  </div>
+  </div>)
 
 YamlEditor.propTypes = {
   height: PropTypes.string,

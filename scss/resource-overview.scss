@@ -43,6 +43,11 @@
     .bx--module {
       flex-basis: auto;
     }
+
+    .yamlEditorContainer {
+      height: calc(100% - 20px);
+      margin: 0.6rem 0.6rem 0 0;
+    }
   }
 
   &-bottom {
@@ -54,6 +59,5 @@
   code { font-size: .6rem; }
 
   .bx--snippet.bx--snippet--code { margin-bottom: .3rem; }
-
 
 }

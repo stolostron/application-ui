@@ -233,6 +233,7 @@ export default {
     resourceKey: 'violations',
     title: 'table.header.violation',
     defaultSortField: 'name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         msgKey: 'table.header.status',
@@ -375,29 +376,11 @@ export default {
       // },
     ]
   },
-  roleRef: {
-    title: 'policy.template.roleRef',
-    headerRows: ['table.header.name', 'table.header.kind', 'table.header.apiGroups'],
-    rows: [
-      {
-        cells: [
-          {
-            resourceKey: 'name',
-          },
-          {
-            resourceKey: 'kind',
-          },
-          {
-            resourceKey: 'apiGroup',
-          }
-        ]
-      }
-    ]
-  },
-  roleSubjects: {
-    resourceKey: 'roleSubjects',
-    title: 'policy.template.roleSubjects',
+  policyRoleTemplates: {
+    title: 'table.header.roleTemplates',
     defaultSortField: 'name',
+    normalizedKey: 'name',
+    resourceKey: 'roleTemplates',
     tableKeys: [
       {
         msgKey: 'table.header.name',
@@ -405,14 +388,108 @@ export default {
         key: 'name',
       },
       {
-        msgKey: 'table.header.apiGroups',
-        resourceKey: 'apiGroup',
-        key: 'apiGroup',
+        msgKey: 'table.header.complianceType',
+        resourceKey: 'complianceType',
+        key: 'complianceType',
       },
       {
-        msgKey: 'table.header.kind',
-        resourceKey: 'kind',
-        key: 'kind',
+        msgKey: 'description.title.api.version',
+        resourceKey: 'apiVersion',
+        key: 'apiVersion',
+      },
+      {
+        msgKey: 'description.title.last.transition',
+        resourceKey: 'lastTransition',
+        key: 'lastTransition',
+      },
+      {
+        msgKey: 'table.header.compliant',
+        resourceKey: 'compliant',
+        key: 'compliant',
+        transformFunction: getStatus
+      },
+      {
+        msgKey: 'table.header.resources',
+        resourceKey: 'resources',
+        key: 'resources',
+      },
+    ],
+  },
+  policyRoleBindingTemplates: {
+    title: 'table.header.roleBindingTemplates',
+    defaultSortField: 'name',
+    normalizedKey: 'name',
+    resourceKey: 'roleBindingTemplates',
+    tableKeys: [
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+        key: 'name',
+      },
+      {
+        msgKey: 'table.header.complianceType',
+        resourceKey: 'complianceType',
+        key: 'complianceType',
+      },
+      {
+        msgKey: 'description.title.api.version',
+        resourceKey: 'apiVersion',
+        key: 'apiVersion',
+      },
+      {
+        msgKey: 'description.title.last.transition',
+        resourceKey: 'lastTransition',
+        key: 'lastTransition',
+      },
+      {
+        msgKey: 'table.header.compliant',
+        resourceKey: 'compliant',
+        key: 'compliant',
+        transformFunction: getStatus
+      },
+      {
+        msgKey: 'table.header.resources',
+        resourceKey: 'resources',
+        key: 'resources',
+      },
+    ],
+  },
+  policyObjectTemplates: {
+    title: 'table.header.objectTemplates',
+    defaultSortField: 'name',
+    normalizedKey: 'name',
+    resourceKey: 'objectTemplates',
+    tableKeys: [
+      {
+        msgKey: 'table.header.name',
+        resourceKey: 'name',
+        key: 'name',
+      },
+      {
+        msgKey: 'table.header.complianceType',
+        resourceKey: 'complianceType',
+        key: 'complianceType',
+      },
+      {
+        msgKey: 'description.title.api.version',
+        resourceKey: 'apiVersion',
+        key: 'apiVersion',
+      },
+      {
+        msgKey: 'description.title.last.transition',
+        resourceKey: 'lastTransition',
+        key: 'lastTransition',
+      },
+      {
+        msgKey: 'table.header.compliant',
+        resourceKey: 'compliant',
+        key: 'compliant',
+        transformFunction: getStatus
+      },
+      {
+        msgKey: 'table.header.resources',
+        resourceKey: 'resources',
+        key: 'resources',
       },
     ],
   },

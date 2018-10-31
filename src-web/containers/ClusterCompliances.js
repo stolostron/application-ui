@@ -14,6 +14,7 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
 import { createCompliance } from '../actions/common'
+import PolicyTemplates from '../components/common/PolicyTemplates'
 import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
 
 // TODO: create new type call HCM_COMPLIANCE to hand create
@@ -32,6 +33,7 @@ export default withRouter(typedResourcePageWithListAndDetails(
   ['overview'],
   [createComplianceModal],
   ['/compliancePolicy/:policyName/:policyNamespace'],
-  [<ResourceTableModule key='complianceStatus' definitionsKey='complianceStatus' />,
+  [<PolicyTemplates key='Compliance Templates' right />,
+    <ResourceTableModule key='complianceStatus' definitionsKey='complianceStatus' />,
     <ResourceTableModule key='compliancePolicies' definitionsKey='compliancePolicies' />,]
 ))

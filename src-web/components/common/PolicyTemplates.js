@@ -12,12 +12,12 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import YamlEditor from '../common/YamlEditor'
-import {dumpAndSync} from '../../../lib/client/resource-helper'
+import {dumpAndParse} from '../../../lib/client/resource-helper'
 class PolicyTemplates extends React.Component {
 
   render() {
     const { resourceData } = this.props
-    const yaml = dumpAndSync(resourceData, []) || ''
+    const {yaml} = dumpAndParse(resourceData)
     return (
       <YamlEditor
         width={'100%'}

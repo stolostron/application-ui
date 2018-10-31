@@ -9,7 +9,7 @@
 'use strict'
 import React from 'react'
 import { Loading } from 'carbon-components-react'
-import {getAge, getLabelsToString, getLabelsToList, dumpAndSync} from '../../lib/client/resource-helper'
+import {getAge, getLabelsToString, getLabelsToList, dumpAndParse} from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
@@ -362,14 +362,16 @@ export function topologyTransform(item) {
   let yaml = ''
   if (item) {
     const keys = ['deployables', 'placementPolicies']
-    yaml = dumpAndSync(item, keys)
+    const dnp = dumpAndParse(item, keys)
+    const {parsed} = dnp
+    yaml = dnp.yaml
 
     // create application node
-    const name = _.get(item, 'synced.metadata.$v.name.$v')
+    const name = _.get(parsed, 'metadata.$v.name.$v')
     const appId = `application--${name}`
     nodes.push({
       name,
-      namespace: _.get(item, 'synced.metadata.$v.namespace.$v'),
+      namespace: _.get(parsed, 'metadata.$v.namespace.$v'),
       application: item,
       type: 'application',
       uid: appId,
@@ -378,26 +380,24 @@ export function topologyTransform(item) {
 
     // create other nodes and their links to application
     keys.forEach(key=>{
-      const arr = item[key]
+      const arr = parsed[key]
       if (Array.isArray(arr)) {
         arr.forEach((member, idx)=>{
-          if (member.synced) {
-            const name = _.get(member, 'synced.metadata.$v.name', member)
-            const memberId = `member--${name.$v}--${idx}`
-            nodes.push({
-              name: name.$v,
-              member,
-              type: key === 'deployables' ? 'deployer' : 'policy',
-              uid: memberId,
-              $r: name.$r
-            })
-            links.push({
-              source: appId,
-              target: memberId,
-              label: 'uses',
-              uid: appId+memberId
-            })
-          }
+          const name = _.get(member, 'metadata.$v.name', member)
+          const memberId = `member--${name.$v}--${idx}`
+          nodes.push({
+            name: name.$v,
+            member,
+            type: key === 'deployables' ? 'deployer' : 'policy',
+            uid: memberId,
+            $r: name.$r
+          })
+          links.push({
+            source: appId,
+            target: memberId,
+            label: 'uses',
+            uid: appId+memberId
+          })
         })
       }
     })

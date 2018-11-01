@@ -63,9 +63,9 @@ class LabelEditingModal extends React.Component {
   }
 
   handleSubmitClick() {
-    const { handleSubmit, data: {metadata: { name = '', namespace = ''}} } = this.props
+    const { handleSubmit, data: {metadata: { name = '', namespace = '', selfLink = ''}} } = this.props
     const labelObject = this.convertArrayToObject(this.state.labels)
-    handleSubmit(labelObject, name, namespace)
+    handleSubmit(labelObject, name, namespace, selfLink)
   }
 
   onRemove(key) {
@@ -264,8 +264,8 @@ const mapStateToProps = state =>  {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { resourceType } = ownProps
   return {
-    handleSubmit: (labels, name, namespace) => {
-      dispatch(updateResourceLabels(resourceType, name, namespace, labels))
+    handleSubmit: (labels, name, namespace, selfLink) => {
+      dispatch(updateResourceLabels(resourceType, namespace, name, labels, selfLink))
     },
     handleClose: () => {
       dispatch(clearRequestStatus())

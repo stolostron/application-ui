@@ -9,24 +9,15 @@
 'use strict'
 
 import { updateModal } from '../../actions/common'
-import lodash from 'lodash'
 import config from '../../../lib/shared/config'
 
 export const resourceActions = (action, dispatch, resourceType, data, hasService, history) => {
   switch (action) {
   case 'table.actions.edit': {
-    const _data = { ...data }
-    delete _data.status
-    delete _data.metadata.selfLink
-    delete _data.metadata.uid
-    delete _data.metadata.generation
-    delete _data.metadata.creationTimestamp
-    delete _data.custom
-    lodash.has(_data, 'spec.template.metadata.creationTimestamp') && delete _data.spec.template.metadata.creationTimestamp
     return dispatch(updateModal(
-      { open: true, type: 'resource', action: 'put', resourceType, editorMode: 'json',
+      { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'json',
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        data: { apiVersion: resourceType.api_version, kind: resourceType.name, ..._data }}))
+        data: { kind: resourceType.name, ...data }}))
   }
   case 'table.actions.applications.remove':
   case 'table.actions.compliance.remove':

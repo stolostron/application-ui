@@ -94,7 +94,8 @@ export default {
     },
   ],
   tableActions: [
-    'table.actions.compliance.remove',
+    'table.actions.edit',
+    'table.actions.remove',
   ],
   detailKeys: {
     title: 'compliance.details',
@@ -298,6 +299,17 @@ export default {
       {
         cells: [
           {
+            resourceKey: 'table.header.message',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'message'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
             resourceKey: 'description.title.status',
             type: 'i18n'
           },
@@ -408,11 +420,6 @@ export default {
         key: 'compliant',
         transformFunction: getStatus
       },
-      {
-        msgKey: 'table.header.resources',
-        resourceKey: 'resources',
-        key: 'resources',
-      },
     ],
   },
   policyRoleBindingTemplates: {
@@ -446,11 +453,6 @@ export default {
         resourceKey: 'compliant',
         key: 'compliant',
         transformFunction: getStatus
-      },
-      {
-        msgKey: 'table.header.resources',
-        resourceKey: 'resources',
-        key: 'resources',
       },
     ],
   },
@@ -486,11 +488,6 @@ export default {
         key: 'compliant',
         transformFunction: getStatus
       },
-      {
-        msgKey: 'table.header.resources',
-        resourceKey: 'resources',
-        key: 'resources',
-      },
     ],
   },
 }
@@ -503,7 +500,11 @@ export function createPolicyLink(item = {}, ...param){
 export function getStatus(item, locale) {
   const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
   if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
-    return msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)
+    if (item.status.toLowerCase() === 'compliant') {
+      return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
+    } else {
+      return <StatusField status='critical' text={msgs.get(`policy.status.${item.status.toLowerCase()}`, locale)} />
+    }
   }
   return '-'
 }

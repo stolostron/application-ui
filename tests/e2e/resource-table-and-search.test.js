@@ -11,7 +11,7 @@ const config = require('../../config')
 const ROUTE = {
   'cluster': ['/clusters','hub-cluster'],
   'compliance': ['/policies','compliance-xz'],
-  'local_policies': ['/policies/local','policy-xz-1'],
+  'local_policies': ['/policies/local','policy-xz-2'],
   'applications': ['/applications','app01'],
   'helm_releases': ['/releases','audit-logging'],
   'pods': ['/pods','audit-logging-fluentd-ds-lgjpj'],

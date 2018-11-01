@@ -97,11 +97,6 @@ export default {
         key: 'compliant',
         transformFunction: getStatus
       },
-      {
-        msgKey: 'table.header.resources',
-        resourceKey: 'resources',
-        key: 'resources',
-      },
     ],
   },
   policyRoleBindingTemplates: {
@@ -136,11 +131,6 @@ export default {
         key: 'compliant',
         transformFunction: getStatus
       },
-      {
-        msgKey: 'table.header.resources',
-        resourceKey: 'resources',
-        key: 'resources',
-      },
     ],
   },
   policyObjectTemplates: {
@@ -174,11 +164,6 @@ export default {
         resourceKey: 'compliant',
         key: 'compliant',
         transformFunction: getStatus
-      },
-      {
-        msgKey: 'table.header.resources',
-        resourceKey: 'resources',
-        key: 'resources',
       },
     ],
   },
@@ -244,7 +229,7 @@ export default {
     },
   ],
   tableActions: [
-    'table.actions.policy.remove',
+    'table.actions.remove',
   ],
   detailKeys: {
     title: 'policy.details',
@@ -280,6 +265,17 @@ export default {
           },
           {
             resourceKey: 'status'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'table.header.message',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'message'
           }
         ]
       },

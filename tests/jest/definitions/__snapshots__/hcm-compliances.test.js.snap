@@ -18,7 +18,12 @@ exports[`hcm-compliances - createPolicyLink should return valid policy link 1`] 
 </Link>
 `;
 
-exports[`hcm-compliances - getStatus should return compliant status 1`] = `"compliant"`;
+exports[`hcm-compliances - getStatus should return compliant status 1`] = `
+<StatusField
+  status="ok"
+  text="compliant"
+/>
+`;
 
 exports[`hcm-compliances - getStatusIcon should return compliant status 1`] = `
 <StatusField

@@ -128,10 +128,10 @@ export const fetchResource = (resourceType, namespace, name) => {
   }
 }
 
-export const updateResourceLabels = (resourceType, namespace, name, labels) => {
+export const updateResourceLabels = (resourceType, namespace, name, labels, selfLink) => {
   return (dispatch) => {
     dispatch(putResource(resourceType))
-    return apolloClient.updateResourceLabels(resourceType.name, namespace, name, labels)
+    return apolloClient.updateResourceLabels(resourceType.name, namespace, name, labels, selfLink, '/metadata/labels')
       .then(response => {
         if (response.errors) {
           return dispatch(receivePutError(response.errors[0], resourceType))
@@ -143,6 +143,21 @@ export const updateResourceLabels = (resourceType, namespace, name, labels) => {
       .catch(err => dispatch(receivePutError(err, resourceType)))
   }
 }
+
+export const editResource = (resourceType, namespace, name, body, selfLink) => (dispatch => {
+  dispatch(putResource(resourceType))
+  return apolloClient.updateResource(resourceType.name, namespace, name, body, selfLink)
+    .then(response => {
+      if (response.errors) {
+        return dispatch(receivePutError(response.errors[0], resourceType))
+      } else {
+        dispatch(updateModal({open: false, type: 'resource-edit'}))
+        dispatch(fetchResources(resourceType))
+      }
+      return dispatch(receivePutResource(resourceType))
+    })
+    .catch(err => dispatch(receivePutError(err, resourceType)))
+})
 
 export const removeResource = (resourceType, vars) => async dispatch => {
   dispatch(delResource(resourceType))

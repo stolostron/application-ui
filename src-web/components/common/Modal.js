@@ -14,6 +14,7 @@ import loadable from 'loadable-components'
 
 let RemoveResourceModal
 let LabelEditingModal
+let ResourceModal
 
 const Modal = ({ type, open, ...rest }) => {
   switch (type) {
@@ -21,9 +22,16 @@ const Modal = ({ type, open, ...rest }) => {
     return open && getLabelEditingModal({ type, open, ...rest })
   case 'resource-remove':
     return open && getRemoveResourceModal({ type, open, ...rest })
+  case 'resource-edit':
+    return open && getResourceModal({ type, open, ...rest })
   default:
     return null
   }
+}
+
+const getResourceModal = props => {
+  ResourceModal = ResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "edit-resource-modal"" */ '../modals/ResourceModal')) : ResourceModal
+  return getModal(ResourceModal, props)
 }
 
 const getRemoveResourceModal = props => {

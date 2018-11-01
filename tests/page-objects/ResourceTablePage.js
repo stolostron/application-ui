@@ -12,7 +12,7 @@ module.exports = {
     spinner: '.content-spinner',
     secondaryHeader: '.secondary-header',
     tabs: '.bx--tabs',
-    table: '.resource-table-container__table',
+    table: '.bx--data-table-v2--zebra',
     noResource: '.no-resource',
     pageContainer: '.page-content-container',
     createResource: '.resource-table-container__actions button',
@@ -54,8 +54,7 @@ function verifyPageContent() {
   const self = this
   self.waitForElementPresent('@pageContainer')
   self.waitForElementNotPresent('@spinner')
-  self.api.pause(10000)
-  self.client.api.element('css selector', '.resource-table-container__table', res => {
+  self.client.api.element('css selector', '.bx--data-table-v2', res => {
     res.status === 0 ? self.waitForElementVisible('@table') : self.waitForElementVisible('@notification')
   })
 }

@@ -17,7 +17,7 @@ import { fetchResource } from '../../actions/common'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { Loading } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
-import TopologyViewer from '../topology/TopologyViewer'
+import DiagramViewer from '../diagrams/DiagramViewer'
 import YamlEditor from '../common/YamlEditor'
 import {MCM_DESIGN_SPLITTER_COOKIE} from '../../../lib/shared/constants'
 import _ from 'lodash'
@@ -120,7 +120,7 @@ class ResourceDesign extends React.Component {
             defaultSize={this.handleSplitterDefault()}
             onChange={this.handleSplitterChange}>
             <div className="topologyDiagramContainer">
-              <TopologyViewer
+              <DiagramViewer
                 id={'application'}
                 nodes={nodes}
                 links={links}
@@ -150,7 +150,7 @@ const mapStateToProps = (state, ownProps) => {
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null })
-  const {links, nodes, yaml} = staticResourceData.topologyTransform(item)
+  const {links, nodes, yaml} = staticResourceData.getDesignElements(item)
   return {
     links,
     nodes,

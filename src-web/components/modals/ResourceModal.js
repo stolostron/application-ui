@@ -18,7 +18,7 @@ import { clearRequestStatus, editResource, updateModal } from '../../actions/com
 import { connect } from 'react-redux'
 import { REQUEST_STATUS } from '../../actions/index'
 import msgs from '../../../nls/platform.properties'
-import { dumpAndParse, saveLoad } from '../../../lib/client/resource-helper'
+import { dumpAndParse, saveLoad } from '../../../lib/client/design-helper'
 import YamlEditor from '../common/YamlEditor'
 
 

@@ -13,7 +13,7 @@ import 'd3-selection-multi'
 import SVG from 'svg.js'
 import {dragLinks} from './linkHelper'
 import {counterZoom} from './otherHelpers'
-import '../../../graphics/topologySprite.svg'
+import '../../../graphics/diagramShapes.svg'
 
 import { SearchResult, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
 
@@ -23,11 +23,11 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, topologyShapes, layoutMap) {
+  constructor(svg, nodes, typeToShapeMap, layoutMap) {
     this.svg = svg
     this.layoutMap = layoutMap
     this.nodes = nodes
-    this.topologyShapes = topologyShapes
+    this.typeToShapeMap = typeToShapeMap
   }
 
 
@@ -87,9 +87,9 @@ export default class NodeHelper {
     nodes.append('use')
       .attrs(({layout}) => {
         const {type} = layout
-        const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
+        const shape = this.typeToShapeMap[type] ? this.typeToShapeMap[type].shape : 'circle'
         return {
-          'xlink:href': `#topologySprite_${shape}`,
+          'xlink:href': `#diagramShapes_${shape}`,
           'width': NODE_SIZE,
           'height': NODE_SIZE,
           'tabindex': -1,
@@ -102,11 +102,11 @@ export default class NodeHelper {
     nodes.append('use')
       .attrs(({layout}) => {
         const {type} = layout
-        const shape = this.topologyShapes[type] ? this.topologyShapes[type].shape : 'circle'
-        const classType = this.topologyShapes[type] ? this.topologyShapes[type].className : 'default'
+        const shape = this.typeToShapeMap[type] ? this.typeToShapeMap[type].shape : 'circle'
+        const classType = this.typeToShapeMap[type] ? this.typeToShapeMap[type].className : 'default'
         //layout.newComer) {
         return {
-          'xlink:href': `#topologySprite_${shape}`,
+          'xlink:href': `#diagramShapes_${shape}`,
           'width': NODE_SIZE,
           'height': NODE_SIZE,
           'tabindex': 1,
@@ -143,7 +143,7 @@ export default class NodeHelper {
           .enter().append('use')
           .attrs(({icon, classType, width, height}) => {
             return {
-              'xlink:href': `#topologySprite_${icon}`,
+              'xlink:href': `#diagramShapes_${icon}`,
               'width': width+'px',
               'height': height+'px',
               'pointer-events': 'none', //TODO -- at some point icons may be clickable
@@ -178,8 +178,8 @@ export default class NodeHelper {
                 .newLine()
             }
           })
-          if (layout.info) {
-            add.tspan(layout.info)
+          if (layout.description) {
+            add.tspan(layout.description)
               .fill('gray')
               .font({size: 9})
               .addClass('description')
@@ -239,10 +239,10 @@ export default class NodeHelper {
         // set opacity to 0 if search changed or node moved
         // we will transition it back when in new position
         let opacity = 1.0
-        const {x, y, lastPosition, dragged, search=SearchResult.nosearch} = layout
-        if (lastPosition && !dragged &&
+        const {x, y, lastPosition, search=SearchResult.nosearch} = layout
+        if (!lastPosition || (lastPosition &&
             (Math.abs(lastPosition.x-x)>10 ||
-                Math.abs(lastPosition.y-y)>10)) {
+                Math.abs(lastPosition.y-y)>10))) {
           opacity = 0.1
         }
         layout.lastPosition = {x, y}
@@ -409,7 +409,7 @@ export default class NodeHelper {
       })
 
       // drag any connecting links
-      dragLinks(this.svg, d, this.topologyShapes)
+      dragLinks(this.svg, d, this.typeToShapeMap)
     }
   }
 }
@@ -505,53 +505,4 @@ export const counterZoomLabels = (svg, currentZoom) => {
           .style('font-size', fontSize-2+'px')
       })
   }
-}
-
-export const getWrappedNodeLabel = (label, width, rows=3) => {
-  // if too long, add elipse and split the rest
-  if (label.length>width*rows) {
-    if (rows===2) {
-      label = label.substr(0, width)+ '..\n' + label.substr(-width)
-    } else {
-      label = splitLabel(label.substr(0, width*2), width, rows-1, true) +  label.substr(-width)
-    }
-  } else {
-    label = splitLabel(label, width, rows)
-  }
-  return label
-}
-
-const splitLabel = (label, width, rows, ellipse) => {
-  const lines = []
-  let remaining = label
-  const brkRange = Math.round(width/3)
-  while (remaining.length>width && rows>1) {
-    // if close enough, don't wrap
-    if (remaining.length<width+3) {
-      lines.push(remaining)
-      remaining = ''
-    } else {
-      let brk = remaining.substr(width-brkRange, brkRange*2).search(/[^A-Za-z0-9]/)
-      if (brk!==-1) {
-        brk = width+brk-(brkRange-1)
-        lines.push(remaining.substr(0, brk))
-        remaining = remaining.substr(brk)
-      } else {
-        // else force a wrap
-        lines.push(remaining.substr(0, width))
-        remaining = remaining.substr(width)
-      }
-    }
-    rows-=1
-  }
-  if (remaining.length) {
-    if (ellipse) {
-      remaining +='..\n'
-    } else if (remaining.length>width) {
-      remaining = remaining.substr(0, width-2)+'..'
-    }
-    lines.push(remaining)
-  }
-  return lines.join('\n')
-
 }

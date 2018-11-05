@@ -31,7 +31,7 @@ resources(() => {
 
 var currentZoom = {x:0, y:0, k:1}
 
-class TopologyViewer extends React.Component {
+class DiagramViewer extends React.Component {
 
   static propTypes = {
     activeFilters: PropTypes.object,
@@ -65,7 +65,7 @@ class TopologyViewer extends React.Component {
     const { locale } = this.props.context
     this.titles=[]
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, this.titles, locale)
-    this.topologyOptions = this.props.staticResourceData.topologyOptions||{}
+    this.diagramOptions = this.props.staticResourceData.diagramOptions||{}
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.lastLayoutBBox=undefined
     this.isDragging = false
@@ -187,12 +187,12 @@ class TopologyViewer extends React.Component {
     const { locale } = context
     const svgId = this.getSvgId()
     return (
-      <div className="topologyViewerDiagram" ref={this.setContainerRef} >
-        {title && <div className='topologyViewerTitle'>
+      <div className="diagramViewerDiagram" ref={this.setContainerRef} >
+        {title && <div className='diagramViewerTitle'>
           {msgs.get('cluster.names', [title], locale)}
         </div>}
-        <div className='topologyViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
-          <div className='topologyViewerContainer' ref={this.setViewerContainerRef}
+        <div className='diagramViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
+          <div className='diagramViewerContainer' ref={this.setViewerContainerRef}
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
             <svg id={svgId} className="topologyDiagram" />
           </div>
@@ -311,20 +311,20 @@ class TopologyViewer extends React.Component {
       const transition = d3.transition()
         .duration(firstLayout?400:800)
         .ease(d3.easeCircleOut)
-      const {topologyShapes} = this.props.staticResourceData
-      const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes, topologyShapes, this.topologyOptions)
+      const {typeToShapeMap} = this.props.staticResourceData
+      const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes, typeToShapeMap, this.diagramOptions)
       linkHelper.removeOldLinksFromDiagram()
       linkHelper.addLinksToDiagram(currentZoom)
       linkHelper.moveLinks(transition, currentZoom, searchChanged)
 
       // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, topologyShapes, layoutMap)
+      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, typeToShapeMap, layoutMap)
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick, this.handleNodeDrag)
       nodeHelper.moveNodes(transition, currentZoom, searchChanged)
 
       // Create or refresh the titles in the diagram.
-      if (this.topologyOptions.showSectionTitles) {
+      if (titles.length) {
         const titleHelper = new TitleHelper(this.svg, titles)
         titleHelper.removeOldTitlesFromDiagram()
         titleHelper.addTitlesToDiagram(currentZoom)
@@ -377,14 +377,9 @@ class TopologyViewer extends React.Component {
 
           // center diagram horizontally
           const cx = width/2
-          // center diagram vertically such that:
-          //  if small diagram, put 1/3 from top, else position it vertically in viewerContainer
+          // put c.TOPOLOGY_PADDING from top
           const viewerHeight = this.viewerContainerRef.getBoundingClientRect().height
-          let dy = Math.min((viewerHeight-height)/2, viewerHeight/3)
-          if (dy<c.TOPOLOGY_PADDING) {
-            // don't let top of diagram get less then TOPOLOGY_PADDING
-            dy = (viewerHeight/2 - c.TOPOLOGY_PADDING) * 1/scale
-          }
+          const dy = (viewerHeight/2 - c.TOPOLOGY_PADDING) * 1/scale
           const cy =  y1 + dy
           d3.zoom().on('zoom', () => {
             currentZoom = d3.event.transform
@@ -460,4 +455,4 @@ class TopologyViewer extends React.Component {
   }
 }
 
-export default TopologyViewer
+export default DiagramViewer

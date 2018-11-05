@@ -12,7 +12,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import YamlEditor from '../common/YamlEditor'
-import {dumpAndParse} from '../../../lib/client/resource-helper'
+import {dumpAndParse} from '../../../lib/client/design-helper'
 class PolicyTemplates extends React.Component {
 
   render() {

@@ -18,7 +18,7 @@ import getResourceDefinitions from '../../definitions'
 import * as Actions from '../../actions'
 import lodash from 'lodash'
 import { Loading, Notification } from 'carbon-components-react'
-import TopologyViewer from '../topology/TopologyViewer'
+import DiagramViewer from '../diagrams/DiagramViewer'
 import msgs from '../../../nls/platform.properties'
 
 resources(() => {
@@ -141,7 +141,7 @@ class ResourceTopologyDiagram extends React.Component {
     return (
       <div className='topologyContainer'>
         <div className="topologyDiagramContainer" >
-          <TopologyViewer
+          <DiagramViewer
             title={clusterNames}
             nodes={nodes}
             links={links}
@@ -165,7 +165,7 @@ ResourceTopologyDiagram.contextTypes = {
 const mapStateToProps = (state) =>{
   const { activeFilters, requiredFilters, searchName, status } = state.topology
   const staticResourceData = getResourceDefinitions(RESOURCE_TYPES.HCM_TOPOLOGY)
-  const {clusters, links, nodes} =  staticResourceData.topologyTransform(state.topology)
+  const {clusters, links, nodes} =  staticResourceData.getTopologyElements(state.topology)
   return {
     clusters,
     links,

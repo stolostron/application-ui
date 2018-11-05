@@ -11,17 +11,14 @@
 import cytoscape from 'cytoscape'
 import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
-import {getWrappedNodeLabel} from './nodeHelper'
+import {getWrappedNodeLabel} from '../../../lib/client/diagram-helper'
 import {layoutEdges, setDraggedLineData} from './linkHelper'
 import SearchHelper from './searchHelper'
 import _ from 'lodash'
 cytoscape.use( cycola )
 cytoscape.use( dagre )
 
-import { SearchResult, NODE_SIZE } from './constants.js'
-
-// if controller contains a pod
-const podIcon = {icon:'circle', classType:'pod', width: 24, height: 24}
+import { NODE_SIZE } from './constants.js'
 
 export default class LayoutHelper {
   /**
@@ -50,9 +47,9 @@ export default class LayoutHelper {
     // filter out nodes that can appear everywhere
     this.nodesToBeCloned = {}
     this.clonedIdSet = new Set()
-    if (this.topologyCloneTypes) {
+    if (this.diagramCloneTypes) {
       nodes = nodes.filter(n=>{
-        if (this.topologyCloneTypes.indexOf(n.type) !== -1) {
+        if (this.diagramCloneTypes.indexOf(n.type) !== -1) {
           this.nodesToBeCloned[n.uid] = n
           this.clonedIdSet.add(n.uid)
           return false
@@ -62,7 +59,8 @@ export default class LayoutHelper {
     }
 
     // for each cluster, group into collections by type
-    const groups = this.getNodeGroups(nodes)
+    // definitions/diagram/hcm-xxx.js can provide this
+    const groups = this.getNodeGroups ? this.getNodeGroups(nodes) : this.getNodeGroupsDefault(nodes)
 
     // group by connections which may pull nodes into other groups
     this.groupNodesByConnections(groups, links)
@@ -80,9 +78,11 @@ export default class LayoutHelper {
     this.markHubs(groups)
 
     // assign info to each node
-    if (this.topologyNodeLayout) {
+    if (this.getNodeDescription) {
       nodes.forEach(node=>{
-        this.topologyNodeLayout(node, this.locale)
+        if (node.layout) {
+          node.layout.description = this.getNodeDescription(node, this.locale)
+        }
       })
     }
 
@@ -116,18 +116,16 @@ export default class LayoutHelper {
     this.rowPositionCache=undefined
   }
 
-  getNodeGroups = (nodes) => {
+  getNodeGroupsDefault = (nodes) => {
     // separate into types
     const groupMap = {}
     const allNodeMap = {}
-    const controllerMap = {}
-    const controllerSet = new Set(['deployment', 'daemonset', 'statefulset', 'cronjob'])
     nodes.forEach(node=>{
       allNodeMap[node.uid] = node
-      let type = controllerSet.has(node.type) ? 'controller' : node.type
-      if (this.topologyOrder.indexOf(type)===-1) {
-        if (this.topologyOrder.indexOf('unknown')===-1) {
-          this.topologyOrder.push('unknown')
+      let type = node.type
+      if (this.shapeTypeOrder.indexOf(type)===-1) {
+        if (this.shapeTypeOrder.indexOf('unknown')===-1) {
+          this.shapeTypeOrder.push('unknown')
         }
         type = 'unknown'
       }
@@ -140,7 +138,7 @@ export default class LayoutHelper {
         uid: node.uid,
         type: node.type,
         label: getWrappedNodeLabel(label,14,3),
-        compactLabel: getWrappedNodeLabel(label.replace(/[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '..'),12,2)
+        compactLabel: getWrappedNodeLabel(label,12,2)
       })
       delete node.layout.source
       delete node.layout.target
@@ -151,47 +149,8 @@ export default class LayoutHelper {
           nodeLayout: node.layout
         }
       }
-
-      switch (type) {
-      case 'controller':
-        Object.assign(node.layout, {
-          qname: node.namespace+'/'+node.name,
-          hasPods: false,
-          pods: [],
-          services: []
-        })
-        controllerMap[node.layout.qname] = node
-        break
-      case 'pod':
-        node.layout.qname = node.namespace+'/'+node.name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-        break
-      case 'service':
-        node.layout.qname = node.namespace+'/'+node.name.replace(/-service$/, '')
-        break
-      }
       group.nodes.push(node)
     })
-
-    // show pods in the controller that created it
-    if (groupMap['controller']) {
-      if (groupMap['pod']) {
-        let i=groupMap['pod'].nodes.length
-        while(--i>=0) {
-          const node = groupMap['pod'].nodes[i]
-          if (node.layout) {
-            const controller = controllerMap[node.layout.qname]
-            if (controller) {
-              controller.layout.pods.push(node)
-              controller.layout.hasPods = true
-              controller.layout.shapeIcons = [podIcon]
-              groupMap['pod'].nodes.splice(i,1)
-              delete allNodeMap[node.uid]
-              delete node.layout
-            }
-          }
-        }
-      }
-    }
     return {nodeGroups: groupMap, allNodeMap}
   }
 
@@ -229,7 +188,7 @@ export default class LayoutHelper {
     const directions = [
       {map:sourceMap, next:'source', other:'target'},
       {map:targetMap, next:'target', other:'source'}]
-    this.topologyOrder.forEach(type=>{
+    this.shapeTypeOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const group = nodeGroups[type]
         // sort nodes/links into collections
@@ -268,7 +227,7 @@ export default class LayoutHelper {
     })
 
     // add all the edges that belong to connected nodes
-    this.topologyOrder.forEach(type=>{
+    this.shapeTypeOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected} = nodeGroups[type]
         connected.forEach(connect=>{
@@ -333,8 +292,8 @@ export default class LayoutHelper {
   }
 
   markHubs = ({nodeGroups}) => {
-    if (this.topologyOptions.showHubs) {
-      this.topologyOrder.forEach(type=>{
+    if (this.diagramOptions.showHubs) {
+      this.shapeTypeOrder.forEach(type=>{
         if (nodeGroups[type]) {
           const {connected} = nodeGroups[type]
           connected.forEach(c=>{
@@ -405,7 +364,7 @@ export default class LayoutHelper {
     const directions = [
       {next:'source', other:'target'},
       {next:'target', other:'source'}]
-    this.topologyOrder.forEach(type=>{
+    this.shapeTypeOrder.forEach(type=>{
       if (nodeGroups[type] && nodeGroups[type].connected) {
         // possibly create new consolidated connected groups
         const consolidatedGroups={}
@@ -452,7 +411,7 @@ export default class LayoutHelper {
     const {nodeGroups} = groups
 
     // consolidate small connected groups
-    this.topologyOrder.forEach(type=>{
+    this.shapeTypeOrder.forEach(type=>{
       if (nodeGroups[type] && nodeGroups[type].connected) {
         let consolidatedGroup=undefined
         nodeGroups[type].connected = nodeGroups[type].connected.filter(connected=>{
@@ -498,7 +457,7 @@ export default class LayoutHelper {
     // clone objects for each section that has a link to that clone
     if (Object.keys(this.nodesToBeCloned).length) {
       const directions = ['source', 'target']
-      this.topologyOrder.forEach(type=>{
+      this.shapeTypeOrder.forEach(type=>{
         if (nodeGroups[type] && nodeGroups[type].connected) {
           nodeGroups[type].connected.forEach(({nodeMap, details: {edges}})=>{
             const hashCode = this.hashCode(Object.keys(nodeMap).sort().join())
@@ -537,7 +496,7 @@ export default class LayoutHelper {
     const {nodeGroups} = groups
     const collections = {connected:[], unconnected:[]}
 
-    this.topologyOrder.forEach(type=>{
+    this.shapeTypeOrder.forEach(type=>{
       if (nodeGroups[type]) {
         const {connected} = nodeGroups[type]
         let {unconnected} = nodeGroups[type]
@@ -668,75 +627,8 @@ export default class LayoutHelper {
 
   setConnectedLayoutOptions = (connected, numOfSections) => {
     connected.forEach(collection => {
-      collection.options = this.getConnectedLayoutOptions(collection, numOfSections)
+      collection.options = this.getConnectedLayoutOptions(collection, numOfSections, this.firstLayout)
     })
-  }
-
-  getConnectedLayoutOptions = ({elements, details: {isConsolidation}}, numOfSections) => {
-    const numNodes = elements.nodes().length
-    const useDAG = (numNodes<=6 || isConsolidation) && !this.searchName
-    if (useDAG) {
-      return this.getDagreLayoutOptions(elements, numOfSections)
-    } else {
-      return this.getColaLayoutOptions(elements)
-    }
-  }
-
-  getColaLayoutOptions = (elements) => {
-    // stabilize diagram
-    const nodes = elements.nodes()
-    if (!this.firstLayout) {
-      nodes.forEach(ele=>{
-        const {node: {layout}} = ele.data()
-        const {x=1000, y=1000} = layout
-        ele.position({x, y})
-      })
-    }
-    // if there are less nodes in this group we have room to stretch out the nodes
-    const len = nodes.length
-    const grpStretch = len<=10 ? 1.3 : (len<=15 ? 1.2 : (len<=20? 1.1: 1))
-    const otrStretch = ({isMajorHub, isMinorHub, search=SearchResult.nosearch}) => {
-      if (isMajorHub || search===SearchResult.match) {
-        return (len<=15 ? 1.2 : (len<=20? 1.5: 1.6))
-      } else if (isMinorHub) {
-        return (len<=15 ? 1.1 : (len<=20? 1.4: 1.5))
-      }
-      return 1
-    }
-    return {
-      name: 'cola',
-      animate: false,
-      boundingBox: {
-        x1: 0,
-        y1: 0,
-        w: 1000,
-        h: 1000
-      },
-      // running in headless mode, we need to provide node size here
-      // give hubs more space
-      nodeSpacing: (node)=>{
-        const {node:{layout}} = node.data()
-        const {scale=1} = layout
-        return (NODE_SIZE*scale*grpStretch*otrStretch(layout))
-      },
-      // align major hubs along y axis
-      alignment: (node)=>{
-        const {node:{layout:{isMajorHub}}} = node.data()
-        return isMajorHub ? { y: 0 } : null
-      },
-      unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
-      userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
-      allConstIter: 20, // works on overlap
-    }
-  }
-
-  getDagreLayoutOptions = () => {
-    return {
-      name: 'dagre',
-      rankDir: 'LR',
-      rankSep: NODE_SIZE*3, // running in headless mode, we need to provide node size here
-      nodeSep: NODE_SIZE*2, // running in headless mode, we need to provide node size here
-    }
   }
 
   setUnconnectedLayoutOptions = (unconnected) => {
@@ -746,50 +638,7 @@ export default class LayoutHelper {
       return count<=3 ? count : (count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8)))
     })
     unconnected.forEach((collection, index)=>{
-      const count = collection.elements.length
-      const cols = Math.min(count, columns[index])
-      const h = Math.ceil(count/columns[index])*NODE_SIZE*2.7
-      const w = cols*NODE_SIZE*3
-      collection.options = {
-        name: 'grid',
-        avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space
-        boundingBox: {
-          x1: 0,
-          y1: 0,
-          w,
-          h
-        },
-        sort: (a,b) => {
-          const {node: {layout: la, selfLink:aself}} = a.data()
-          const {node: {layout: lb, selfLink:bself}} = b.data()
-          if (!la.newComer && lb.newComer) {
-            return -1
-          } else if (la.newComer && !lb.newComer) {
-            return 1
-          } else if (la.newComer && lb.newComer) {
-            if (la.newComer.displayed && !lb.newComer.displayed) {
-              return -1
-            } else if (!la.newComer.displayed && lb.newComer.displayed) {
-              return 1
-            }
-            return 0
-          } else if (la.shapeIcons && !lb.shapeIcons) {
-            return -1
-          } else if (!la.shapeIcons && lb.shapeIcons) {
-            return 1
-          } else if (aself && !bself) {
-            return -1
-          } else if (!aself && bself) {
-            return 1
-          }
-          const r = la.type.localeCompare(lb.type)
-          if (r!==0) {
-            return r
-          }
-          return la.label.localeCompare(lb.label)
-        },
-        cols
-      }
+      collection.options = this.getUnconnectedLayoutOptions(collection, columns, index)
     })
   }
 
@@ -886,11 +735,13 @@ export default class LayoutHelper {
     for (var hashCode in collectionMap) {
       if (!titleMap[hashCode]) {
         const {details: {title}}= collectionMap[hashCode]
-        this.titles.push({
-          title,
-          hashCode,
-          position: {}
-        })
+        if (title) {
+          this.titles.push({
+            title,
+            hashCode,
+            position: {}
+          })
+        }
       }
     }
     titleMap = _.keyBy(this.titles, 'hashCode')
@@ -977,7 +828,7 @@ export default class LayoutHelper {
       const transform = {x: section.x - x1, y: section.y - y1}
 
       // set title position
-      const title = titleMap[hashCode]
+      const title = titleMap[hashCode]||{x:0, y:0}
       title.x = section.x + (w/2)
       title.y = currentY + dyCell - NODE_SIZE*2
 
@@ -1079,8 +930,8 @@ export default class LayoutHelper {
     clayouts.sort((a,b) => {
       const {nodes:ae, hashCode:ac, type:at, name:an, details: ad} = a
       const {nodes:be, hashCode:bc, type:bt, name:bn, details: bd} = b
-      const ax = this.topologyOrder.indexOf(at)
-      const bx = this.topologyOrder.indexOf(bt)
+      const ax = this.shapeTypeOrder.indexOf(at)
+      const bx = this.shapeTypeOrder.indexOf(bt)
       // grids at end
       if (an!=='grid' && bn==='grid') {
         return -1
@@ -1179,7 +1030,7 @@ export default class LayoutHelper {
   }
 
   gatherSectionDetails = (allNodeMap, nodes, nodeInfo) => {
-    if (this.topologyOptions.showSectionTitles) {
+    if (this.getSectionTitles) {
       nodes.forEach(({uid})=>{
         if (allNodeMap[uid]) {
           const {clusterName, type} = allNodeMap[uid]
@@ -1191,7 +1042,7 @@ export default class LayoutHelper {
   }
 
   setSectionDetails = (section, details, edgeMap) => {
-    if (this.topologyOptions.showSectionTitles) {
+    if (this.getSectionTitles) {
       const {clusterMap, typeMap} = details
       const clusters = Object.keys(clusterMap).sort()
       const types = Object.keys(typeMap).sort()
@@ -1212,9 +1063,9 @@ export default class LayoutHelper {
   // if showing multiple clusters in view, add cluster name to title
   // else just section types
   getSectionTitle = (clusters, types) => {
-    if (this.topologyOptions.showSectionTitles) {
+    if (this.getSectionTitles) {
       return (this.isMulticluster ? (clusters.join(', ') +'\n') : '') +
-         this.topologyOptions.showSectionTitles(types, this.locale)
+         this.getSectionTitles(types, this.locale)
     }
     return ''
   }

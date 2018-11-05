@@ -10,12 +10,12 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../../../graphics/topologySprite.svg'
+import '../../../graphics/diagramShapes.svg'
 
 const DetailsViewDecorator = ({shape, className}) => {
   return (
     <svg width="48px" height="48px" viewBox="0 0 48 48">
-      <use href={`#topologySprite_${shape}`} className={`${className} detailsIcon`}></use>
+      <use href={`#diagramShapes_${shape}`} className={`${className} detailsIcon`}></use>
     </svg>
   )
 }

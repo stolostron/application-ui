@@ -124,10 +124,10 @@ export const topology = (state = initialState, action) => {
     return {...state, activeFilters}
   }
   case Actions.TOPOLOGY_REQUIRED_FILTERS_RECEIVE_SUCCESS: {
-    const {item, staticResourceData: {topologyRequiredFilters}} = action
+    const {item, staticResourceData: {getRequiredTopologyFilters}} = action
     const {metadata: {namespace, name}} = item
     const activeFilters = getActiveFilters(state, namespace, name)
-    const requiredFilters = topologyRequiredFilters(item)
+    const requiredFilters = getRequiredTopologyFilters(item)
     activeFilters.label = requiredFilters.label
     return {...state, activeFilters, requiredFilters, savingFilters: true}
   }

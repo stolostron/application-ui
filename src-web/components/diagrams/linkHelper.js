@@ -26,12 +26,12 @@ export default class LinkHelper {
    *
    * Contains functions to draw and manage links between nodes in the diagram.
    */
-  constructor(svg, links, selfLinks, nodes, topologyShapes, topologyOptions) {
+  constructor(svg, links, selfLinks, nodes, typeToShapeMap, diagramOptions) {
     this.links = links.concat(Object.values(selfLinks))
     this.svg = svg
     this.nodeMap = _.keyBy(nodes, 'layout.uid')
-    this.topologyShapes = topologyShapes
-    this.topologyOptions = topologyOptions
+    this.typeToShapeMap = typeToShapeMap
+    this.diagramOptions = diagramOptions
   }
 
   /**
@@ -86,7 +86,7 @@ export default class LinkHelper {
 
 
     // labels
-    if (this.topologyOptions.showLineLabels) {
+    if (this.diagramOptions.showLineLabels) {
       const labels = this.svg.select('g.links')
         .selectAll('g.label')
       // if nodes have been consolidated, a link might not be drawn
@@ -147,7 +147,7 @@ export default class LinkHelper {
       .attrs(({layout},i,ns) => {
         const {x, y} = layout.transform ? layout.transform : {x:0, y:0}
         return {
-          'd': getBackedOffPath(ns[i], layout, this.topologyShapes),
+          'd': getBackedOffPath(ns[i], layout, this.typeToShapeMap),
           'transform': `translate(${x}, ${y})`
         }
       })
@@ -169,7 +169,7 @@ export default class LinkHelper {
       .style('opacity': 1.0)
 
     // move line labels
-    if (this.topologyOptions.showLineLabels) {
+    if (this.diagramOptions.showLineLabels) {
       const labels = this.svg.select('g.links').selectAll('g.label')
         .attr('transform', currentZoom)
 
@@ -192,7 +192,7 @@ export default class LinkHelper {
   }
 }
 
-export const dragLinks = (svg, d, topologyShapes) => {
+export const dragLinks = (svg, d, typeToShapeMap) => {
   svg.select('g.links').selectAll('g.link').each((l,i,ns)=>{
     if (l.layout.source.uid === d.layout.uid || l.layout.target.uid === d.layout.uid) {
       const link = d3.select(ns[i])
@@ -218,7 +218,7 @@ export const dragLinks = (svg, d, topologyShapes) => {
         return lineFunction(layout.lineData)
       })
       path.attr('d', ({layout},i,ns) => {
-        return getBackedOffPath(ns[i], layout, topologyShapes)
+        return getBackedOffPath(ns[i], layout, typeToShapeMap)
       })
     }
   })
@@ -299,14 +299,14 @@ export const setDraggedLineData = (layout) => {
   delete layout.backedOff
 }
 
-export const getBackedOffPath = (svgPath, layout, topologyShapes) => {
+export const getBackedOffPath = (svgPath, layout, typeToShapeMap) => {
   const {lineData, backedOff, source, target} = layout
   let {linePath} = layout
   if (!backedOff) {
     const {isMajorHub:isMajorSrcHub, isMinorHub:isMinorSrcHub, type:srcType} = source
     const {isMajorHub:isMajorTgtHub, isMinorHub:isMinorTgtHub, type:tgtType} = target
-    const srcRadius = (topologyShapes[srcType]||{}).nodeRadius || NODE_RADIUS
-    const tgtRadius = (topologyShapes[tgtType]||{}).nodeRadius || NODE_RADIUS
+    const srcRadius = (typeToShapeMap[srcType]||{}).nodeRadius || NODE_RADIUS
+    const tgtRadius = (typeToShapeMap[tgtType]||{}).nodeRadius || NODE_RADIUS
     const srcBackoff = isMajorSrcHub ? 18 : (isMinorSrcHub ? 15 : 0)
     const tgtBackoff = isMajorTgtHub ? 18 : (isMinorTgtHub ? 15 : 5)
     lineData[0] = svgPath.getPointAtLength(srcRadius+srcBackoff)

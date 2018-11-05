@@ -22,12 +22,12 @@ class DetailsView extends React.Component {
 
   render() {
     const { context, onClose, getLayoutNodes, staticResourceData, selectedNodeId} = this.props
-    const {topologyShapes, topologyNodeDetails} = staticResourceData
+    const {typeToShapeMap, getNodeDetails} = staticResourceData
     const currentNode = getLayoutNodes().find((n) => n.uid === selectedNodeId) || {}
     const { layout={} } = currentNode
     const resourceType = layout.type || currentNode.type
-    const {shape='circle', className='default'} =  topologyShapes[resourceType]||{}
-    const details = topologyNodeDetails(currentNode, context)
+    const {shape='circle', className='default'} =  typeToShapeMap[resourceType]||{}
+    const details = getNodeDetails(currentNode, context)
     const name = currentNode.name
     return (
       <section className={`topologyDetails ${className}`}>

@@ -22,7 +22,10 @@ import hcmpvs from './hcm-pvs'
 import hcmpvsClaim from './hcm-pvs-claim'
 import hcmreleases from './hcm-releases'
 import hcmrepositories from './hcm-repositories'
-import hcmtopology from './hcm-topology'
+
+import hcmappdesign from './diagrams/hcm-application-design'
+import hcmapptopology from './diagrams/hcm-application-topology'
+import hcmtopology from './diagrams/hcm-topology'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
@@ -38,12 +41,36 @@ const resourceData = {
   [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology
 }
 
+// design tabs
+const designData = {
+  [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmappdesign,
+}
+
+// secondary topology tabs (ex: Topology tab under Application)
+const topologyData = {
+  [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapptopology,
+}
+
 function getResourceData(resourceType) {
-  var def = resourceData[resourceType.name]
-  if (!def)
-    //eslint-disable-next-line no-console
-    console.error(`No resource data found for '${resourceType}'`)
-  return def
+  // main Topology tab
+  if (resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name) {
+    return hcmtopology
+  } else {
+    let def = resourceData[resourceType.name]
+    if (!def) {
+      //eslint-disable-next-line no-console
+      console.error(`No resource data found for '${resourceType}'`)
+    }
+    // add design diagram definitions
+    if (designData[resourceType.name]) {
+      def = Object.assign(def, designData[resourceType.name])
+    }
+    // add topology diagram definitions
+    if (topologyData[resourceType.name]) {
+      def = Object.assign(def, topologyData[resourceType.name])
+    }
+    return def
+  }
 }
 
 export default getResourceData

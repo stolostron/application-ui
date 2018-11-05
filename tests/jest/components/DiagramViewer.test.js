@@ -12,24 +12,24 @@ import React from 'react'
 import { mount } from 'enzyme'
 import renderer from 'react-test-renderer'
 
-import TopologyViewer from '../../../src-web/components/topology/TopologyViewer'
+import DiagramViewer from '../../../src-web/components/diagrams/DiagramViewer'
 
-describe('TopologyViewer no components', () => {
+describe('DiagramViewer no components', () => {
   const mockData = {
     clusters: [],
     nodes:[],
     links:[],
     staticResourceData: {
-      topologyOrder: ['application', 'appservice', 'dependency'],
-      topologyNodeLayout: jest.fn(),
-      topologyOptions: {
+      shapeTypeOrder: ['application', 'appservice', 'dependency'],
+      getNodeDescription: jest.fn(),
+      diagramOptions: {
         showHubs: false,
       }
     },
   }
   it('renders as expected', () => {
     const component = renderer.create(
-      <TopologyViewer
+      <DiagramViewer
         nodes={mockData.nodes}
         links={mockData.links}
         context={{locale: 'US-en'}}
@@ -276,8 +276,8 @@ const mockData = {
     ]
   },
   staticResourceData: {
-    topologyOrder: ['pod'],
-    topologyOptions: {
+    shapeTypeOrder: ['pod'],
+    diagramOptions: {
       showHubs: false,
     }
   },
@@ -285,10 +285,10 @@ const mockData = {
 }
 
 
-describe('TopologyViewer 3 components', () => {
+describe('DiagramViewer 3 components', () => {
   it('renders as expected', () => {
     const component = mount(
-      <TopologyViewer
+      <DiagramViewer
         id={mockData.id}
         nodes={[]}
         links={mockData.links}

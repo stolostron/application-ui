@@ -45,7 +45,7 @@ function filterTopology(filter, checkBox, cb) {
     this.api.useCss()
     this.waitForElementNotPresent('.bx--list-box__menu', 3000, ()=>{
       this.waitForElementNotPresent('@spinner', ()=>{
-        this.api.elements('css selector', '.topologyDiagramContainer > .topologyViewerDiagram', res => cb(res))
+        this.api.elements('css selector', '.topologyDiagramContainer > .diagramViewerDiagram', res => cb(res))
       })
     })
   })
@@ -53,7 +53,7 @@ function filterTopology(filter, checkBox, cb) {
 
 function openDetailsView(cb) {
   // for now just click on the first node in the diagram
-  this.click('.topologyDiagramContainer> .topologyViewerDiagram > .topologyViewerContainer > svg > g.nodes > g.node')
+  this.click('.topologyDiagramContainer> .diagramViewerDiagram > .diagramViewerContainer > svg > g.nodes > g.node')
   this.waitForElementPresent('.topologyDetails', 3000, ()=>{
     this.api.elements('css selector', 'section.topologyDetails', res => cb(res))
   })

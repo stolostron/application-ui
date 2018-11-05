@@ -15,9 +15,10 @@ import resources from '../../../lib/shared/resources'
 import config from '../../../lib/shared/config'
 import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
-import TitleHelper, {counterZoomTitles} from './titleHelper'
-import LinkHelper, {appendLinkDefs, counterZoomLinks} from './linkHelper'
-import NodeHelper, {counterZoomLabels, setSelections} from './nodeHelper'
+import TitleHelper, {interruptTitles, counterZoomTitles} from './titleHelper'
+import LinkHelper, {appendLinkDefs, interruptLinks, counterZoomLinks} from './linkHelper'
+import NodeHelper, {interruptNodes, counterZoomLabels, setSelections} from './nodeHelper'
+import * as c from './constants.js'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -283,9 +284,11 @@ class TopologyViewer extends React.Component {
     // consolidate nodes/filter links/add layout data to each element
     const {nodes=[], links=[], hiddenLinks= new Set(), searchChanged} = this.state
     const {isMulticluster, searchName} = this.props
+    const clientWidth = this.viewerContainerContainerRef ?
+      this.viewerContainerContainerRef.getBoundingClientRect().width : 2200
     const options = {
       firstLayout: this.lastLayoutBBox===undefined,
-      breakWidth: 3000, //this.viewerContainerContainerRef.getBoundingClientRect().width + 1000
+      clientWidth,
       isMulticluster,
       searchName
     }
@@ -297,7 +300,7 @@ class TopologyViewer extends React.Component {
       const {firstLayout} = options
 
       // stop any current transitions
-      this.svg.interrupt().selectAll('*').interrupt()
+      this.interruptElements(this.svg)
 
       // zoom to fit all nodes
       if (this.isAutoZoomToFit || firstLayout || searchChanged) {
@@ -307,7 +310,7 @@ class TopologyViewer extends React.Component {
       // Create or refresh the links in the diagram.
       const transition = d3.transition()
         .duration(firstLayout?400:800)
-        .ease(d3.easeSinOut)
+        .ease(d3.easeCircleOut)
       const {topologyShapes} = this.props.staticResourceData
       const linkHelper = new LinkHelper(this.svg, links, selfLinks, laidoutNodes, topologyShapes, this.topologyOptions)
       linkHelper.removeOldLinksFromDiagram()
@@ -358,31 +361,37 @@ class TopologyViewer extends React.Component {
 
           // don't allow scale to drop too far for accessability reasons
           // below threshHold, show scrollbar instead
-          let dy
-          const topMargin = 30
-          const threshHold = 0.4
-          if (scale<threshHold) {
-            scale = Math.min(threshHold, .8/(width / availableWidth)) // even below threshhold keep entire row visible
+          if (scale<c.MINIMUM_ZOOM_FIT) {
+            scale = c.MINIMUM_ZOOM_FIT//Math.min(c.MINIMUM_ZOOM_FIT, .8/(width / availableWidth)) // even below threshhold keep entire row visible
             this.viewerContainerContainerRef.classList.add('scrolled')
-            this.viewerContainerRef.setAttribute('style', `height: ${height*scale+topMargin}px;`)
-            const viewerHeight = this.viewerContainerRef.getBoundingClientRect().height
-            dy = (viewerHeight/2 - topMargin) * 1/scale
+            this.viewerContainerRef.setAttribute('style', `height: ${height*scale+c.TOPOLOGY_PADDING}px;`)
           } else {
             this.viewerContainerContainerRef.classList.remove('scrolled')
             this.viewerContainerRef.setAttribute('style', 'height: 100%;')
-            dy = height/2
           }
+          d3.zoom().scaleTo(svg, scale)
           if (resetScrollbar) {
             this.viewerContainerContainerRef.scrollTo(0, 0)
           }
           this.isAutoZoomToFit = true
-          d3.zoom().translateTo(svg, width/2, y1 + dy)
+
+          // center diagram horizontally
+          const cx = width/2
+          // center diagram vertically such that:
+          //  if small diagram, put 1/3 from top, else position it vertically in viewerContainer
+          const viewerHeight = this.viewerContainerRef.getBoundingClientRect().height
+          let dy = Math.min((viewerHeight-height)/2, viewerHeight/3)
+          if (dy<c.TOPOLOGY_PADDING) {
+            // don't let top of diagram get less then TOPOLOGY_PADDING
+            dy = (viewerHeight/2 - c.TOPOLOGY_PADDING) * 1/scale
+          }
+          const cy =  y1 + dy
           d3.zoom().on('zoom', () => {
             currentZoom = d3.event.transform
             if (zoomElements) {
               this.zoomElements(200)
             }
-          }).scaleTo(svg, scale)
+          }).translateTo(svg, cx, cy)
         }
       }
     }
@@ -412,6 +421,7 @@ class TopologyViewer extends React.Component {
   zoomElements(duration) {
     const svg = d3.select('#'+this.getSvgId())
     if (svg) {
+      this.interruptElements(svg)
       const transition = d3.transition()
         .duration(duration)
         .ease(d3.easeSinOut)
@@ -435,6 +445,14 @@ class TopologyViewer extends React.Component {
     counterZoomLabels(svg, currentZoom)
     counterZoomTitles(svg, currentZoom)
     counterZoomLinks(svg, currentZoom)
+  }
+
+  interruptElements(svg) {
+    // stop any transitions and make sure
+    // elements have their final value
+    interruptNodes(svg)
+    interruptLinks(svg)
+    interruptTitles(svg)
   }
 
   getSvgId() {

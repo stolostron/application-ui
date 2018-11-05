@@ -12,7 +12,7 @@ import * as d3 from 'd3'
 import 'd3-selection-multi'
 import SVG from 'svg.js'
 import {dragLinks} from './linkHelper'
-import counterZoom from './counterZoom'
+import {counterZoom} from './otherHelpers'
 import '../../../graphics/topologySprite.svg'
 
 import { SearchResult, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
@@ -240,9 +240,9 @@ export default class NodeHelper {
         // we will transition it back when in new position
         let opacity = 1.0
         const {x, y, lastPosition, search=SearchResult.nosearch} = layout
-        if (lastPosition &&
+        if (!lastPosition || (lastPosition &&
             (Math.abs(lastPosition.x-x)>10 ||
-                Math.abs(lastPosition.y!==y)>10)) {
+                Math.abs(lastPosition.y-y)>10))) {
           opacity = 0.1
         }
         layout.lastPosition = {x, y}
@@ -421,6 +421,15 @@ export const setSelections = (svg, selected) => {
       layout.selected = selected && selected.uid===layout.uid
       return layout.selected
     })
+}
+
+// interrupt any transition and make sure it has its final value
+export const interruptNodes = (svg) => {
+  svg.select('g.nodes').selectAll('g.node').interrupt().call((selection)=>{
+    selection.each(({layout:{search=SearchResult.nosearch}},i,ns) => {
+      d3.select(ns[i]).style('opacity', (search===SearchResult.related ? RELATED_OPACITY : 1.0))
+    })
+  })
 }
 
 export const counterZoomLabels = (svg, currentZoom) => {

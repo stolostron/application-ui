@@ -10,6 +10,8 @@
 
 export const NODE_RADIUS = 28
 export const NODE_SIZE = 50
+export const TOPOLOGY_PADDING = 30
+export const MINIMUM_ZOOM_FIT = 0.4 // auto zoom to fit won't drop below this scale
 
 export const SearchResult = Object.freeze({
   nosearch: '',     // no search in progress

@@ -11,7 +11,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import _ from 'lodash'
-import counterZoom from './counterZoom'
+import {counterZoom} from './otherHelpers'
 
 import { SearchResult, NODE_RADIUS } from './constants.js'
 
@@ -151,6 +151,22 @@ export default class LinkHelper {
           'transform': `translate(${x}, ${y})`
         }
       })
+
+    links
+      .styles(({layout}) => {
+        // set opacity to 0 if new path
+        // we will transition it back when in new position
+        const {linePath, lastPath} = layout
+        const opacity = (!lastPath || linePath!==lastPath) ? 0.1 : 1.0
+        layout.lastPath = linePath
+        return {
+          'opacity': opacity
+        }
+      })
+
+    links
+      .transition(transition)
+      .style('opacity': 1.0)
 
     // move line labels
     if (this.topologyOptions.showLineLabels) {
@@ -411,6 +427,15 @@ export const getLoopLineData = (x,y) => {
   ]
 }
 
+
+//interrupt any transition and make sure it has its final value
+export const interruptLinks = (svg) => {
+  svg.select('g.links').selectAll('g.link').interrupt().call((selection)=>{
+    selection.each((d,i,ns) => {
+      d3.select(ns[i]).style('opacity', 1.0)
+    })
+  })
+}
 
 export const counterZoomLinks = (svg, currentZoom) => {
   if (svg) {

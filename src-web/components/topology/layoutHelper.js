@@ -135,12 +135,12 @@ export default class LayoutHelper {
       if (!group) {
         group = groupMap[type] = {nodes:[]}
       }
-      const label = (node.name||'')//.replace(/[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '(uid)')
+      const label = (node.name||'')
       node.layout = Object.assign(node.layout || {}, {
         uid: node.uid,
         type: node.type,
         label: getWrappedNodeLabel(label,14,3),
-        compactLabel: getWrappedNodeLabel(label,12,2)
+        compactLabel: getWrappedNodeLabel(label.replace(/[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '..'),12,2)
       })
       delete node.layout.source
       delete node.layout.target
@@ -917,6 +917,7 @@ export default class LayoutHelper {
     const collectionDimensions = []
     const collectionIndexToRowMap = {}
     const nodeMapToPositionMap = {}
+    const breakWidth = this.getBreakWidth(clayouts)
     clayouts.forEach(({bbox, name, nodes}, idx)=>{
       const {w, h} = bbox
       const row = rowDimensions.length
@@ -937,7 +938,7 @@ export default class LayoutHelper {
       }), 'uid'))
 
       // create new row?
-      if (this.shouldCreateNewRow(currentX, row, cols, name, clayouts, idx, hashCodeToPositionMap)) {
+      if (this.shouldCreateNewRow(currentX, breakWidth, row, cols, name, clayouts, idx, hashCodeToPositionMap)) {
         rowDimensions.push({
           rowWidth: maxWidth,
           rowHeight: maxHeight+NODE_SIZE*2, // make room for title on tallest collection
@@ -990,8 +991,10 @@ export default class LayoutHelper {
         layout.y = y + transform.y
 
         // keep track of bounding box
-        layoutBBox.x2 = Math.max(layoutBBox.x2||layout.x, layout.x)
-        layoutBBox.y2 = Math.max(layoutBBox.y2||layout.y, layout.y)
+        const nx = layout.x + (name==='grid'?NODE_SIZE:NODE_SIZE/2)
+        const ny = layout.y + (name==='grid'?NODE_SIZE*2:NODE_SIZE)
+        layoutBBox.x2 = Math.max(layoutBBox.x2||nx, nx)
+        layoutBBox.y2 = Math.max(layoutBBox.y2||ny, ny)
 
         // restore position of any node dragged by user
         if (layout.dragged) {
@@ -1025,27 +1028,26 @@ export default class LayoutHelper {
 
       currentX += w + xSpaceBetweenCells
     })
-    layoutBBox.width = (layoutBBox.x2-layoutBBox.x1) + NODE_SIZE
+    layoutBBox.width = (layoutBBox.x2-layoutBBox.x1)
     layoutBBox.height = (layoutBBox.y2-layoutBBox.y1) * 1.1
     return {layoutMap, titles: this.titles, selfLinks: this.selfLinks, layoutBBox }
   }
 
-  shouldCreateNewRow = (currentX, row, cols, name, clayouts, idx, hashCodeToPositionMap) => {
-
+  shouldCreateNewRow = (currentX, breakWidth, row, cols, name, clayouts, idx, hashCodeToPositionMap) => {
+    // if in a previous layout, the next section was in the next row
     if (hashCodeToPositionMap && idx !== clayouts.length-1) {
-      // if in a previous layout, the next section was in the next row
       if (hashCodeToPositionMap[clayouts[idx+1].hashCode].row > row) {
         return true
       }
-      // if in a previous layout, this section was in this row
-      if (hashCodeToPositionMap[clayouts[idx].hashCode].row === row) {
-        return false
-      }
     }
 
-    // greater then screen width TODO--actually fixed to 3000
-    // or if last collection laid out--finish this row
-    if (currentX>this.breakWidth || idx === clayouts.length-1) {
+    // if last collection laid out--finish this row
+    if (idx === clayouts.length-1) {
+      return true
+    }
+
+    // greater then the width we should break at
+    if (currentX>breakWidth) {
       return true
     }
 
@@ -1053,8 +1055,14 @@ export default class LayoutHelper {
     if (cols>5 && name!=='grid' && clayouts[idx+1].name==='grid') {
       return true
     }
-
     return false
+  }
+
+  getBreakWidth = () => {
+    const breakWidth = 3000
+    // TODO -- find a width at which the resulting height
+    //         will maximize the scale at which we can draw diagram
+    return breakWidth
   }
 
   initialSortCollection = (clayouts) => {

@@ -8,8 +8,8 @@
  *******************************************************************************/
 'use strict'
 
-// as scale decreases from max to min, return a counter zoomed value from min to max
-const counterZoom = (scale, scaleMin, scaleMax, valueMin, valueMax) => {
+//as scale decreases from max to min, return a counter zoomed value from min to max
+export const counterZoom = (scale, scaleMin, scaleMax, valueMin, valueMax) => {
   if (scale>=scaleMax) {
     return valueMin
   } else if (scale<=scaleMin) {
@@ -17,5 +17,3 @@ const counterZoom = (scale, scaleMin, scaleMax, valueMin, valueMax) => {
   }
   return valueMin + (1-((scale-scaleMin)/(scaleMax-scaleMin))) * (valueMax-valueMin)
 }
-
-export default counterZoom

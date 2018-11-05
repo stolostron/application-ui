@@ -11,7 +11,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import SVG from 'svg.js'
-import counterZoom from './counterZoom'
+import {counterZoom} from './otherHelpers'
 
 export default class TitleHelper {
   /**
@@ -105,6 +105,15 @@ export default class TitleHelper {
           .attr('x', () => {return x})
       })
   }
+}
+
+// interrupt any transition and make sure it has its final value
+export const interruptTitles = (svg) => {
+  svg.select('g.titles').selectAll('g.title').interrupt().call((selection)=>{
+    selection.each((d,i,ns) => {
+      d3.select(ns[i]).style('opacity', 1.0)
+    })
+  })
 }
 
 export const counterZoomTitles = (svg, currentZoom) => {

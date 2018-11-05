@@ -12,7 +12,7 @@ import React from 'react'
 import msgs from '../../nls/platform.properties'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import { Icon } from 'carbon-components-react'
-import { getAPIGroups, getRuleVerbs } from './hcm-policies'
+import {getAPIGroups, getExcludeNamespace, getIncludeNamespace, getRuleVerbs} from './hcm-policies'
 import { Link } from 'react-router-dom'
 import StatusField from '../components/common/StatusField'
 import config from '../../lib/shared/config'
@@ -288,11 +288,11 @@ export default {
       {
         cells: [
           {
-            resourceKey: 'description.title.namespace',
+            resourceKey: 'table.header.cluster',
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.namespace'
+            resourceKey: 'cluster'
           }
         ]
       },
@@ -326,6 +326,30 @@ export default {
           },
           {
             resourceKey: 'enforcement'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.exclude_namespace',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'detail.exclude_namespace',
+            transformFunction: getExcludeNamespace
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.include_namespace',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'detail.include_namespace',
+            transformFunction: getIncludeNamespace
           }
         ]
       },
@@ -498,7 +522,7 @@ export function createPolicyLink(item = {}, ...param){
 }
 
 export function getStatus(item, locale) {
-  const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
+  const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid', 'unknown']
   if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
     if (item.status.toLowerCase() === 'compliant') {
       return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />

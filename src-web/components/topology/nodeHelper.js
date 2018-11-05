@@ -239,10 +239,10 @@ export default class NodeHelper {
         // set opacity to 0 if search changed or node moved
         // we will transition it back when in new position
         let opacity = 1.0
-        const {x, y, lastPosition, search=SearchResult.nosearch} = layout
-        if (!lastPosition || (lastPosition &&
+        const {x, y, lastPosition, dragged, search=SearchResult.nosearch} = layout
+        if (lastPosition && !dragged &&
             (Math.abs(lastPosition.x-x)>10 ||
-                Math.abs(lastPosition.y-y)>10))) {
+                Math.abs(lastPosition.y-y)>10)) {
           opacity = 0.1
         }
         layout.lastPosition = {x, y}

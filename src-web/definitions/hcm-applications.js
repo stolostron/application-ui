@@ -361,8 +361,7 @@ export function topologyTransform(item) {
   const nodes=[]
   let yaml = ''
   if (item) {
-    const keys = ['deployables', 'placementPolicies']
-    const dnp = dumpAndParse(item, keys)
+    const dnp = dumpAndParse(item, ['applicationRelationships', 'deployables', 'placementPolicies'])
     const {parsed} = dnp
     yaml = dnp.yaml
 
@@ -378,13 +377,15 @@ export function topologyTransform(item) {
       $r: 0
     })
 
-    // create other nodes and their links to application
+    // create deployment and policy nodes and links back to application
+    const deployablesMap = {}
+    const keys = ['deployables', 'placementPolicies']
     keys.forEach(key=>{
       const arr = parsed[key]
       if (Array.isArray(arr)) {
         arr.forEach((member, idx)=>{
           const name = _.get(member, 'metadata.$v.name', member)
-          const memberId = `member--${name.$v}--${idx}`
+          const memberId = `member--${key}--${name.$v}--${idx}`
           nodes.push({
             name: name.$v,
             member,
@@ -398,9 +399,29 @@ export function topologyTransform(item) {
             label: 'uses',
             uid: appId+memberId
           })
+          if (key==='deployables') {
+            deployablesMap[name.$v] = memberId
+          }
         })
       }
     })
+
+    // create application relationship links between deployments
+    const arr = parsed['applicationRelationships']
+    if (Array.isArray(arr)) {
+      arr.forEach((member)=>{
+        var srcId = deployablesMap[_.get(member, 'spec.$v.source.$v.name.$v')]
+        var tgtId = deployablesMap[_.get(member, 'spec.$v.destination.$v.name.$v')]
+        if (srcId && tgtId) {
+          links.push({
+            source: srcId,
+            target: tgtId,
+            label: _.get(member, 'spec.$v.type.$v') || 'usesCreated',
+            uid: srcId+tgtId
+          })
+        }
+      })
+    }
   }
 
   return {

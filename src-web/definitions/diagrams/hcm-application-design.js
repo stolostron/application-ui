@@ -48,6 +48,7 @@ export default {
 
   // cytoscape layout options
   getConnectedLayoutOptions,
+  getUnconnectedLayoutOptions,
 }
 
 export function getDesignElements(item) {
@@ -150,5 +151,28 @@ export function getConnectedLayoutOptions() {
     rankDir: 'LR',
     rankSep: NODE_SIZE*3, // running in headless mode, we need to provide node size here
     nodeSep: NODE_SIZE*2, // running in headless mode, we need to provide node size here
+  }
+}
+
+export function getUnconnectedLayoutOptions(collection, columns, index) {
+  const count = collection.elements.length
+  const cols = Math.min(count, columns[index])
+  const h = Math.ceil(count/columns[index])*NODE_SIZE*2.7
+  const w = cols*NODE_SIZE*3
+  return {
+    name: 'grid',
+    avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space
+    boundingBox: {
+      x1: 0,
+      y1: 0,
+      w,
+      h
+    },
+    sort: (a,b) => {
+      const {node: {layout: la}} = a.data()
+      const {node: {layout: lb}} = b.data()
+      return la.label.localeCompare(lb.label)
+    },
+    cols
   }
 }

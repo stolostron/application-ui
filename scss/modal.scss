@@ -33,3 +33,21 @@
     margin: 0;
   }
 }
+
+.remove-app-modal {
+  &-content {
+    height: auto;
+    max-height: 25rem;
+    overflow-y: auto;
+
+    &-text {
+      margin-bottom: 1rem;
+    }
+
+    &-data {
+      width: 100%;
+      border-bottom: 1px solid #dfe3e6;
+      padding-bottom: 0.4rem;
+    }
+  }
+}

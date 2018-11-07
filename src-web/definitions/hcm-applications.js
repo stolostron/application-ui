@@ -91,18 +91,18 @@ export default {
           }
         ]
       },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.status',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'metadata.status',
-            transformFunction: getStatus
-          }
-        ]
-      },
+      // {
+      //   cells: [
+      //     {
+      //       resourceKey: 'description.title.status',
+      //       type: 'i18n'
+      //     },
+      //     {
+      //       resourceKey: 'status',
+      //       transformFunction: getStatus
+      //     }
+      //   ]
+      // },
       {
         cells: [
           {
@@ -206,6 +206,12 @@ export default {
         msgKey: 'table.header.resource.selector',
         transformFunction: getLabelsToList,
       },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
     ],
   },
   deployablesKeys: {
@@ -221,29 +227,26 @@ export default {
       },
       {
         key: 'namespace',
-        resourceKey: 'deployer.namespace',
+        resourceKey: 'metadata.namespace',
         msgKey: 'table.header.namespace'
       },
       {
-        key: 'chartName',
-        resourceKey: 'deployer.chartName',
-        msgKey: 'table.header.chartName'
-      },
-      {
-        key: 'repository',
-        resourceKey: 'deployer.repository',
-        msgKey: 'table.header.helm.repository'
-      },
-      {
-        key: 'version',
-        resourceKey: 'deployer.version',
-        msgKey: 'table.header.chartVersion'
+        key: 'chart',
+        resourceKey: 'deployer',
+        msgKey: 'table.header.chartDetails',
+        transformFunction: getChart
       },
       {
         key: 'dependencies',
         resourceKey: 'dependencies',
         msgKey: 'table.header.dependencies',
         transformFunction: getDependencies
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
       },
     ],
   },
@@ -267,6 +270,40 @@ export function getStatus(item = {}){
     <Loading id={`loading-${item.name}`} small withOverlay={false} />
     :
     item.status
+}
+
+export function getChart(item = {}, locale){
+  if (item.deployer){
+    if (item.deployer.chartURL) {
+      return (
+        <ul>
+          <li key='name' style={{display:'block'}}>
+            <b>{msgs.get('table.header.chartUrl', locale)}</b>{` = ${item.deployer.chartURL ? item.deployer.chartURL : '-'}`}
+          </li>
+          <li key='namespace' style={{display:'block'}}>
+            <b>{msgs.get('table.header.chartNamespace', locale)}</b>{` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
+          </li>
+        </ul>
+      )
+    } else {
+      return (
+        <ul>
+          <li key='name' style={{display:'block'}}>
+            <b>{msgs.get('table.header.chartName', locale)}</b>{` = ${item.deployer.chartName ? item.deployer.chartName : '-'}`}
+          </li>
+          <li key='repo' style={{display:'block'}}>
+            <b>{msgs.get('table.header.chartRepo', locale)}</b>{` = ${item.deployer.repository ? item.deployer.repository : '-'}`}
+          </li>
+          <li key='version' style={{display:'block'}}>
+            <b>{msgs.get('table.header.chartVersion', locale)}</b>{` = ${item.deployer.version ? item.deployer.version : '-'}`}
+          </li>
+          <li key='namespace' style={{display:'block'}}>
+            <b>{msgs.get('table.header.chartNamespace', locale)}</b>{` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
+          </li>
+        </ul>
+      )
+    }
+  }
 }
 
 export function getDependencies(item = {}){

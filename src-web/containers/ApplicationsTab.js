@@ -33,6 +33,9 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   ['overview', 'design', 'topology'],
   [registerApplicationModal],
   ['/design', '/topology'],
-  [<ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' />,
-    <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />]
+  [
+    <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' />,
+    <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />,
+    <ResourceTableModule key='applicationRelationships' definitionsKey='applicationRelationshipKeys' />
+  ]
 ), ROLES.OPERATOR))

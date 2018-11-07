@@ -250,6 +250,47 @@ export default {
       },
     ],
   },
+  applicationRelationshipKeys: {
+    title: 'application.relationships',
+    defaultSortField: 'name',
+    resourceKey: 'applicationRelationships',
+    normalizedKey: 'metadata.name',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'metadata.name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'metadata.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'source',
+        resourceKey: 'source',
+        msgKey: 'table.header.source',
+        transformFunction: getRelationshipSourceDest
+      },
+      {
+        key: 'destination',
+        resourceKey: 'destination',
+        msgKey: 'table.header.destination',
+        transformFunction: getRelationshipSourceDest
+      },
+      {
+        key: 'type',
+        resourceKey: 'type',
+        msgKey: 'table.header.type'
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
+    ],
+  },
 }
 
 export function createApplicationLink(item = {}, ...param){
@@ -315,4 +356,16 @@ export function getDependencies(item = {}){
     return str.substring(0, str.length - 2)
   }
   return '-'
+}
+
+export function getRelationshipSourceDest(item, locale, arg) {
+  return arg === 'source'
+    ? <ul>
+      <li style={{display:'block'}}><b>{'name'}</b>{` = ${item.source ? item.source.name : '-'}`}</li>
+      <li style={{display:'block'}}><b>{'kind'}</b>{` = ${item.source ? item.source.name : '-'}`}</li>
+    </ul>
+    : <ul>
+      <li style={{display:'block'}}><b>{'name'}</b>{` = ${item.destination ? item.destination.name : '-'}`}</li>
+      <li style={{display:'block'}}><b>{'kind'}</b>{` = ${item.destination ? item.destination.name : '-'}`}</li>
+    </ul>
 }

@@ -207,6 +207,12 @@ export default {
         transformFunction: getLabelsToList,
       },
       {
+        key: 'decisions',
+        resourceKey: 'status',
+        msgKey: 'table.header.decisions',
+        transformFunction: getDecisions,
+      },
+      {
         key: 'timestamp',
         resourceKey: 'metadata.creationTimestamp',
         msgKey: 'table.header.created',
@@ -311,6 +317,13 @@ export function getStatus(item = {}){
     <Loading id={`loading-${item.name}`} small withOverlay={false} />
     :
     item.status
+}
+
+export function getDecisions(item = {}){
+  if (item.status && item.status.decisions) {
+    return item.status.decisions.map(decision => decision.clusterName).join(', ')
+  }
+  return '-'
 }
 
 export function getChart(item = {}, locale){

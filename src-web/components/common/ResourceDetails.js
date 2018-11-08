@@ -22,7 +22,6 @@ import ResourceOverview from './ResourceOverview'
 import ResourceDesign from './ResourceDesign'
 import ResourceTopology from './ResourceTopology'
 import CompliancePolicyDetail from './CompliancePolicyDetail'
-import {RESOURCE_TYPES} from '../../../lib/shared/constants'
 
 const withResource = (Component) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
@@ -92,10 +91,13 @@ class ResourceDetails extends React.PureComponent {
     })
   }
 
-  render() {
-    const { updateSecondaryHeader, tabs, launch_links, match, routes } = this.props,
-          params = match && match.params
+  componentWillMount() {
+    const { updateSecondaryHeader, tabs, launch_links, match } = this.props, params = match && match.params
     updateSecondaryHeader(params.name, getTabs(tabs, (tab, index) => index === 0 ? match.url : `${match.url}/${tab}`), this.getBreadcrumb(), launch_links)
+  }
+
+  render() {
+    const { match, routes } = this.props
     return (
       <Switch>
         <Route exact path={match.url} render={this.renderOverview} />
@@ -150,35 +152,14 @@ class ResourceDetails extends React.PureComponent {
       }
     })
 
-    // The details path
-    if (resourceType.name === RESOURCE_TYPES.HCM_COMPLIANCES.name) {
-      breadcrumbItems.push({
-        label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
-        url: urlSegments.slice(0, 3).join('/')
-      })
-
-      breadcrumbItems.push({
-        label: match.params.name,
-        url: location.pathname.replace(/compliancePolicy\/[A-Za-z0-9-]+/, '')
-      })
-
-      if (location.pathname.includes('/compliancePolicy')) {
-        const label = location.pathname.match(/compliancePolicy\/[A-Za-z0-9-]+/)[0].replace('compliancePolicy/', '')
-        breadcrumbItems.push({
-          label,
-          url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
-        })
-      }
-    } else {
-      breadcrumbItems.push({
-        label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
-        url: urlSegments.slice(0, (urlSegments.length - (paramsLength + (currentTab ? 1 : 0)))).join('/')
-      })
-      breadcrumbItems.push({
-        label: match.params.name,
-        url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
-      })
-    }
+    breadcrumbItems.push({
+      label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
+      url: urlSegments.slice(0, (urlSegments.length - (paramsLength + (currentTab ? 1 : 0)))).join('/')
+    })
+    breadcrumbItems.push({
+      label: match.params.name,
+      url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
+    })
     return breadcrumbItems
   }
 }

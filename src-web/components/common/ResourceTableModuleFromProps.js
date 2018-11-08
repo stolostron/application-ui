@@ -77,13 +77,20 @@ class ResourceTableModule extends React.Component {
     )
   }
 
+  createNormalizedItems(input, normalizedKey) {
+    if (input) {
+      return lodash.keyBy(input, repo => normalizedKey? `${lodash.get(repo, normalizedKey)}${lodash.get(repo, 'cluster', '')}`: lodash.get(repo, 'name', ''))
+    }
+    return []
+  }
+
   formatResourceData(inputData) {
     let { tableResources } = this.props
     const { normalizedKey } = this.props
     if (inputData) tableResources = inputData
     const { searchValue } = this.state
-    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => normalizedKey? `${lodash.get(repo, normalizedKey)}${lodash.get(repo, 'cluster', '')}`: lodash.get(repo, 'name', ''))
-    let itemIds = normalizedItems && Object.keys(normalizedItems)
+    let normalizedItems = this.createNormalizedItems(tableResources,normalizedKey)
+    let itemIds = Object.keys(normalizedItems)
     if (searchValue) {
       itemIds = itemIds.filter(repo => repo.includes(searchValue))
       normalizedItems = lodash.pick(normalizedItems, itemIds)
@@ -112,8 +119,11 @@ class ResourceTableModule extends React.Component {
       const selectedKey = lodash.get(key, 'target.dataset.key')
       const sortKey = resourceKeys.tableKeys.find(tableKey => tableKey.resourceKey === selectedKey).resourceKey
       const sortedRes = lodash.orderBy(resourceItems, [sortKey], [sortDirection])
-      const sortedIds = sortedRes.map(resourceObject => resourceObject.name)
-      this.setState({ resourceIds: sortedIds, resourceItems: sortedRes, sortDirection: sortDirection === 'asc' ? 'desc' : 'asc' })
+
+      const { normalizedKey } = resourceKeys
+      const normalizedItems = this.createNormalizedItems(sortedRes, normalizedKey)
+      const itemIds = Object.keys(normalizedItems)
+      this.setState({ resourceIds: itemIds, resourceItems: normalizedItems, sortDirection: sortDirection === 'asc' ? 'desc' : 'asc' })
     }
   }
 }

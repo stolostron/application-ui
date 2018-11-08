@@ -18,8 +18,11 @@ import { getSingleResourceItem, resourceItemByName } from '../../reducers/common
 import resources from '../../../lib/shared/resources'
 import PolicyTemplates from '../../components/common/PolicyTemplates'
 import ResourceTableModule from '../../components/common/ResourceTableModuleFromProps'
-import {fetchResource} from '../../actions/common'
+import {fetchResource, updateSecondaryHeader} from '../../actions/common'
 import lodash from 'lodash'
+import {getTabs} from '../../../lib/client/resource-helper'
+import {RESOURCE_TYPES} from '../../../lib/shared/constants'
+import msgs from '../../../nls/platform.properties'
 
 resources(() => {
   require('../../../scss/resource-overview.scss')
@@ -28,14 +31,18 @@ resources(() => {
 
 class CompliancePolicyDetail extends React.Component {
   static propTypes = {
+    baseUrl: PropTypes.string,
     fetchResource: PropTypes.func,
     item: PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.object,
     ]),
+    location: PropTypes.object,
     params: PropTypes.object,
     resourceType: PropTypes.object,
     staticResourceData: PropTypes.object,
+    tabs: PropTypes.array,
+    updateSecondaryHeader: PropTypes.func,
   }
 
   static contextTypes = {
@@ -48,6 +55,47 @@ class CompliancePolicyDetail extends React.Component {
 
   componentWillMount() {
     this.props.fetchResource()
+    const { updateSecondaryHeader, baseUrl, params, tabs } = this.props
+    // details page mode
+    if (params) {
+      const {name} = params
+      updateSecondaryHeader(name, getTabs(tabs, (tab, index) => {
+        return index === 0 ? baseUrl : `${baseUrl}/${tab}`
+      }), this.getBreadcrumb())
+    }
+  }
+
+
+  getBreadcrumb() {
+    const breadcrumbItems = []
+    const { tabs, location, resourceType } = this.props,
+          { locale } = this.context,
+          urlSegments = location.pathname.split('/'),
+          lastSegment = urlSegments[urlSegments.length - 1],
+          currentTab = tabs.find(tab => tab === lastSegment)
+
+    // The details path
+    if (resourceType.name === RESOURCE_TYPES.HCM_COMPLIANCES.name) {
+      breadcrumbItems.push({
+        label: msgs.get(`tabs.${resourceType.name.toLowerCase()}`, locale),
+        url: urlSegments.slice(0, 3).join('/')
+      })
+
+      breadcrumbItems.push({
+        label: urlSegments[4],
+        url: location.pathname.replace(/compliancePolicy\/[A-Za-z0-9-]+\/[A-Za-z0-9-]+/, '')
+      })
+
+      if (location.pathname.includes('/compliancePolicy')) {
+        const label = location.pathname.match(/compliancePolicy\/[A-Za-z0-9-]+/)[0].replace('compliancePolicy/', '')
+        breadcrumbItems.push({
+          label,
+          url: currentTab ? location.pathname.replace(`/${currentTab}`, '') : location.pathname
+        })
+      }
+    }
+
+    return breadcrumbItems
   }
 
   render() {
@@ -103,7 +151,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { resourceType, params: {name, namespace} } = ownProps
   return {
-    fetchResource: () => dispatch(fetchResource(resourceType, namespace, name))
+    fetchResource: () => dispatch(fetchResource(resourceType, namespace, name)),
+    updateSecondaryHeader: (title, tabs, breadcrumbItems, links) => dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }
 

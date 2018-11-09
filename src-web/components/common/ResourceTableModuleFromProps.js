@@ -24,6 +24,7 @@ class ResourceTableModule extends React.Component {
     normalizedKey: PropTypes.string,
     resourceType: PropTypes.object,
     staticResourceData: PropTypes.object,
+    subResourceType: PropTypes.object,
     tableResources: PropTypes.array,
   }
 
@@ -53,7 +54,7 @@ class ResourceTableModule extends React.Component {
   }
 
   render() {
-    const { staticResourceData, definitionsKey, resourceType } = this.props
+    const { staticResourceData, definitionsKey, resourceType, subResourceType } = this.props
     const keys = staticResourceData[definitionsKey]
     const { resourceItems, resourceIds, searchValue, sortDirection } = this.state
     return (
@@ -65,12 +66,14 @@ class ResourceTableModule extends React.Component {
             itemIds={resourceIds || []}
             staticResourceData={keys}
             resourceType={resourceType}
+            subResourceType={subResourceType}
             totalFilteredItems={resourceIds && resourceIds.length}
             handleSort={this.handleSort}
             handleSearch={this.handleSearch}
             searchValue={searchValue}
             darkSearchBox={true}
             sortDirection={sortDirection}
+            tableActions={keys.tableActions}
           />
         </ModuleBody>
       </Module> : null

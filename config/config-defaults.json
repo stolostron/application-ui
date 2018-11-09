@@ -6,7 +6,7 @@
     "platformHeaderContextPath": "/header",
     "featureFlags": {
         "liveUpdates": 2,
-        "liveUpdatesPollInterval": 10000,
+        "liveUpdatesPollInterval": 5000,
         "dashboardLiveUpdates": true,
         "fullDashboard": false,
         "dashboardRefreshInterval" : 20000,

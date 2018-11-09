@@ -34,7 +34,7 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   [registerApplicationModal],
   ['/design', '/topology'],
   [
-    <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' />,
+    <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES} />,
     <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />,
     <ResourceTableModule key='applicationRelationships' definitionsKey='applicationRelationshipKeys' />
   ]

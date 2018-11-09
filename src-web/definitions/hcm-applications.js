@@ -219,6 +219,9 @@ export default {
         transformFunction: getAge
       },
     ],
+    tableActions: [
+      'table.actions.edit',
+    ],
   },
   deployablesKeys: {
     title: 'application.deployables',
@@ -364,7 +367,7 @@ export function getDependencies(item = {}){
   if (item.dependencies) {
     let str = ''
     item.dependencies.forEach(({name, kind}) => {
-      str += `${name} (${kind}), `
+      str += `${name} [${kind}], `
     })
     return str.substring(0, str.length - 2)
   }

@@ -35,7 +35,7 @@ class RemoveResourceModal extends React.Component {
       children.push({
         id: idx + '-deployable-' + curr.metadata.name,
         selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + '[Deployable]',
+        label: curr.metadata.name + ' [Deployable]',
         selected: true
       })
     })
@@ -43,7 +43,7 @@ class RemoveResourceModal extends React.Component {
       children.push({
         id: idx + '-placementPolicy-' + curr.metadata.name,
         selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + '[PlacementPolicy]',
+        label: curr.metadata.name + ' [PlacementPolicy]',
         selected: true
       })
     })
@@ -51,7 +51,7 @@ class RemoveResourceModal extends React.Component {
       children.push({
         id: idx + '-appRelationship-' + curr.metadata.name,
         selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + '[ApplicationRelationship]',
+        label: curr.metadata.name + ' [ApplicationRelationship]',
         selected: true
       })
     })

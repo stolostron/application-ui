@@ -279,7 +279,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const resourceType = ownProps.resourceType
+  const resourceType = ownProps.subResourceType || ownProps.resourceType
   return {
     getResourceAction: (action, resource, hasService, history, locale) => resourceActions(action, dispatch, resourceType, resource, hasService, history, locale)
   }

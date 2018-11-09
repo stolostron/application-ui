@@ -22,6 +22,7 @@ import ResourceOverview from './ResourceOverview'
 import ResourceDesign from './ResourceDesign'
 import ResourceTopology from './ResourceTopology'
 import CompliancePolicyDetail from './CompliancePolicyDetail'
+import config from '../../../lib/shared/config'
 
 const withResource = (Component) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
@@ -48,8 +49,30 @@ const withResource = (Component) => {
       statusCode: PropTypes.object,
     }
 
+    constructor(props) {
+      super(props)
+      this.state = {
+        xhrPoll: false,
+      }
+    }
+
     componentWillMount() {
+      if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+        var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
+        this.setState({ intervalId: intervalId })
+      }
       this.props.fetchResource()
+    }
+
+    componentWillUnmount() {
+      clearInterval(this.state.intervalId)
+    }
+
+    reload() {
+      if (this.props.status === REQUEST_STATUS.DONE) {
+        this.setState({ xhrPoll: true })
+        this.props.fetchResource()
+      }
     }
 
     render() {
@@ -60,7 +83,7 @@ const withResource = (Component) => {
           className='persistent'
           subtitle={msgs.get(`error.${(statusCode === 401 || statusCode === 403) ? 'unauthorized' : 'default'}.description`, this.context.locale)}
           kind='error' />
-      } else if (status !== REQUEST_STATUS.DONE) {
+      } else if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
         return <Loading className='resource-detail-content-spinner' />
       }
       return <Component  {...this.props} />

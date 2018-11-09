@@ -152,7 +152,6 @@ export const editResource = (resourceType, namespace, name, body, selfLink) => (
         return dispatch(receivePutError(response.errors[0], resourceType))
       } else {
         dispatch(updateModal({open: false, type: 'resource-edit'}))
-        dispatch(fetchResources(resourceType))
       }
       return dispatch(receivePutResource(resourceType))
     })

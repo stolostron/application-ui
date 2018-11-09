@@ -9,7 +9,8 @@
 'use strict'
 import React from 'react'
 import { Loading } from 'carbon-components-react'
-import {getAge, getLabelsToString, getLabelsToList} from '../../lib/client/resource-helper'
+import lodash from 'lodash'
+import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -33,6 +34,11 @@ export default {
       msgKey: 'table.header.labels',
       resourceKey: 'metadata.labels',
       transformFunction: getLabelsToString
+    },
+    {
+      msgKey: 'table.header.decisions',
+      resourceKey: 'status',
+      transformFunction: getDecisions,
     },
     {
       msgKey: 'table.header.created',
@@ -308,8 +314,8 @@ export function createApplicationLink(item = {}, ...param){
   return <Link to={`${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
-export function createDashboardLink({ dashboard = '' } , locale){
-  if (dashboard !== null && dashboard !== '')
+export function createDashboardLink({ dashboard = '', placementPolicies } , locale){
+  if (dashboard !== null && dashboard !== '' && lodash.get(placementPolicies[0], 'status.decisions'))
     return <a target="_blank" rel="noopener noreferrer" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
@@ -323,8 +329,9 @@ export function getStatus(item = {}){
 }
 
 export function getDecisions(item = {}){
-  if (item.status && item.status.decisions) {
-    return item.status.decisions.map(decision => decision.clusterName).join(', ')
+  const decisions = lodash.get(item, 'placementPolicies[0].status.decisions') || lodash.get(item, 'status.decisions')
+  if (decisions) {
+    return decisions.map(decision => decision.clusterName).join(', ')
   }
   return '-'
 }

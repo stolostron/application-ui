@@ -58,7 +58,7 @@ class ResourceTableModule extends React.Component {
     const keys = staticResourceData[definitionsKey]
     const { resourceItems, resourceIds, searchValue, sortDirection } = this.state
     return (
-      resourceItems && Object.keys(resourceItems).length > 0 ? <Module id={`${definitionsKey}-module-id`}>
+      (resourceItems && Object.keys(resourceItems).length > 0 || searchValue)? <Module id={`${definitionsKey}-module-id`}>
         <ModuleHeader>{msgs.get(keys.title, this.context.locale)}</ModuleHeader>
         <ModuleBody>
           <ResourceTable
@@ -101,6 +101,7 @@ class ResourceTableModule extends React.Component {
     this.setState({ resourceItems: normalizedItems, resourceIds: itemIds })
   }
 
+  // handleSearch will only search for a specific id column
   handleSearch(searchValue) {
     if (!searchValue) {
       return this.setState({ searchValue: '' }, this.formatResourceData)
@@ -113,13 +114,13 @@ class ResourceTableModule extends React.Component {
       return { resourceItems: resItems, resourceIds: resIds, searchValue }
     })
   }
-
   handleSort(key) {
-    if (key.target && key.target.dataset && key.target.dataset.key) {
+    const target = key.currentTarget
+    const selectedKey = target && target.getAttribute('data-key')
+    if (selectedKey) {
       const { staticResourceData, definitionsKey } = this.props
       const resourceKeys = staticResourceData[definitionsKey]
       const { resourceItems, sortDirection } = this.state
-      const selectedKey = lodash.get(key, 'target.dataset.key')
       const sortKey = resourceKeys.tableKeys.find(tableKey => tableKey.resourceKey === selectedKey).resourceKey
       const sortedRes = lodash.orderBy(resourceItems, [sortKey], [sortDirection])
 

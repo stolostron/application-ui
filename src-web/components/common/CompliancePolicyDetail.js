@@ -109,7 +109,7 @@ class CompliancePolicyDetail extends React.Component {
     const detail = lodash.get(item, 'compliancePolicies', [])
     const policy = detail.find(item => lodash.get(item, 'name', '') === policyName && lodash.get(item, 'cluster', '') === policyNamespace)
     React.Children.map([
-      <PolicyTemplates key='Policy Templates' right />,
+      <PolicyTemplates key='Policy Templates' headerKey='table.header.policyTemplate' right />,
       <ResourceTableModule key='roleTemplates' definitionsKey='policyRoleTemplates' />,
       <ResourceTableModule key='roleBindingTemplates' definitionsKey='policyRoleBindingTemplates' />,
       <ResourceTableModule key='objectTemplates' definitionsKey='policyObjectTemplates' />,

@@ -13,17 +13,23 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import YamlEditor from '../common/YamlEditor'
 import {dumpAndParse} from '../../../lib/client/design-helper'
+import msgs from '../../../nls/platform.properties'
+import { Module, ModuleHeader } from 'carbon-addons-cloud-react'
+
 class PolicyTemplates extends React.Component {
 
   render() {
-    const { resourceData } = this.props
+    const { resourceData, headerKey } = this.props
     const {yaml} = dumpAndParse(resourceData)
     return (
-      <YamlEditor
-        width={'100%'}
-        height={'100%'}
-        readOnly={true}
-        yaml={yaml} />
+      <Module className='structured-list-module'>
+        <ModuleHeader>{msgs.get(headerKey, this.context.locale)}</ModuleHeader>
+        <YamlEditor
+          width={'100%'}
+          height={'100%'}
+          readOnly={true}
+          yaml={yaml} />
+      </Module>
     )
   }
 }
@@ -33,6 +39,7 @@ PolicyTemplates.contextTypes = {
 }
 
 PolicyTemplates.propTypes = {
+  headerKey: PropTypes.string,
   resourceData: PropTypes.object,
 }
 

@@ -32,7 +32,7 @@ export default withRouter(typedResourcePageWithListAndDetails(
   ['overview'],
   [createPolicyModal],
   [''],
-  [<PolicyTemplates key='Policy Templates' right />,
+  [<PolicyTemplates key='Policy Templates' headerKey='table.header.policyTemplate' right />,
     <ResourceTableModule key='roleTemplates' definitionsKey='policyRoleTemplates' />,
     <ResourceTableModule key='roleBindingTemplates' definitionsKey='policyRoleBindingTemplates' />,
     <ResourceTableModule key='objectTemplates' definitionsKey='policyObjectTemplates' />,

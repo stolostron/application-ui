@@ -11,7 +11,8 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import SVG from 'svg.js'
-import {counterZoom} from './otherHelpers'
+import {counterZoom} from '../../../lib/client/diagram-helper'
+
 
 export default class TitleHelper {
   /**

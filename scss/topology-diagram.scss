@@ -92,6 +92,21 @@
  }
 }
 
+.diagramViewerContainer {
+  .hub-label {
+    font-weight: bold;
+  }
+
+  &.search-mode {
+    .matched {
+      stroke: #000000;
+      stroke-width: 1;
+    }
+    .hub-label {
+      font-weight: normal;
+    }
+  }
+}
 
 .title {
   text {

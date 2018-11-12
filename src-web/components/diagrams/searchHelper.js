@@ -16,8 +16,10 @@ export default class SearchHelper {
     this.lastSearch = ''
   }
 
-  filterCollections = (cy, collections, searchName='', resetLayoutCaches) => {
+  filterCollections = (cy, collections, searchName='', cbs) => {
     // reset previous search
+    let searchNames = []
+    const isSearching = searchName.length>0
     const isNewSearch = searchName.localeCompare(this.lastSearch)!==0
     if (this.lastSearch && isNewSearch) {
       ['connected', 'unconnected'].forEach(key=>{
@@ -42,38 +44,43 @@ export default class SearchHelper {
       })
     }
 
-    // undo caching of positions
+    // if start of search, save layout
+    // if new search, reset layout caches
+    // if end of seach, restore original layout
     if (isNewSearch) {
-      resetLayoutCaches()
+      if (!isSearching) {
+        cbs.restoreLayout()
+      } else {
+        if (!this.lastSearch) {
+          cbs.saveLayout()
+        }
+        cbs.resetLayout()
+      }
     }
 
     // new search
-    if (searchName.length>1) {
+    let directedPath=false
+    if (isSearching) {
       this.cy = cy
       this.caseSensitive = searchName.localeCompare(searchName.toLowerCase()) !== 0
       if (!this.caseSensitive) {
         searchName = searchName.toLowerCase()
       }
-      let findPath = false
-      let searchArr = searchName.split(/(\+|>)+/)
-      if (searchArr.length>1) {
-        findPath = searchArr[1]==='>'
-        searchArr = searchArr.filter(item=>{
-          return item!=='+' && item!=='>'
-        })
-      }
-      if (findPath) {
-        collections['connected'] = this.findConnectedPath(collections['connected'], searchArr)
+      ({searchNames, directedPath} = getSearchNames(searchName))
+      if (directedPath) {
+        collections['connected'] = this.findConnectedPath(collections['connected'], searchNames)
         collections['unconnected'] = this.hideUnconnected(collections['unconnected'])
       } else {
-        collections['connected'] = this.filterConnected(collections['connected'], searchArr)
-        collections['unconnected'] = this.filterUnconnected(collections['unconnected'], searchArr)
+        searchNames = searchNames.filter(s=>!!s)
+        collections['connected'] = this.filterConnected(collections['connected'], searchNames)
+        collections['unconnected'] = this.filterUnconnected(collections['unconnected'], searchNames)
       }
     }
     this.lastSearch = searchName
+    return {searchNames, directedPath}
   }
 
-  findConnectedPath = (connected, searchArr) => {
+  findConnectedPath = (connected, searchNames) => {
     return connected.filter(collection => {
       const {elements} = collection
       const elementMap = {}
@@ -83,17 +90,14 @@ export default class SearchHelper {
       })
 
       // find matching sources and targets
-      const srcs = []
-      const tgts = []
+      let srcs = []
+      let tgts = []
       Object.values(elementMap).forEach(element=>{
         if (element.isNode()) {
-          const data = element.data()
-          let {node:{name}} = data
-          if (!this.caseSensitive) {
-            name = name.toLowerCase()
-          }
-          [0,1].forEach(idx=>{
-            if (name.indexOf(searchArr[idx]) !==-1) {
+          const name = this.getName(element)
+          const arr = [0,1]
+          arr.forEach(idx=>{
+            if (searchNames[idx] && name.indexOf(searchNames[idx]) !==-1) {
               if (idx===0) {
                 srcs.push(element)
               } else {
@@ -104,48 +108,62 @@ export default class SearchHelper {
         }
       })
 
-      // if this collection has both a matching source and target, see if there's a path between them
       const relatedMap = {}
       const matchingMap = {}
-      if (srcs.length>0 && tgts.length>0) {
-        // use floydWarshall algo from cytoscape to find paths between two nodes
-        const floydWarshall = elements.floydWarshall()
-        srcs.forEach(src=>{
-          tgts.forEach(tgt=>{
-            const path = floydWarshall.path(src, tgt)||[]
-            path.forEach((element, idx, arr)=>{
-              const {id} = element.data()
-              if (idx===0 || idx===arr.length-1) {
-                matchingMap[id] = element
-              } else {
-                relatedMap[id] = element
+      if (srcs.length>0 || tgts.length>0) {
+        // if 1st search name is blank, add roots to source
+        if (!searchNames[0]) {
+          srcs = elements.roots()
+        }
+        // if 2nd search name is blank, add leaves to target
+        if (!searchNames[1]) {
+          tgts = elements.leaves()
+        }
+
+        // if this collection has both a matching source and target, see if there's a path between them
+        if (srcs.length>0 && tgts.length>0) {
+
+          // use floydWarshall algo from cytoscape to find paths between two nodes
+          const floydWarshall = elements.floydWarshall({directed:true})
+          srcs.forEach(src=>{
+            tgts.forEach(tgt=>{
+              if (src.data().id!==tgt.data().id) {
+                const path = floydWarshall.path(src, tgt)||[]
+                path.forEach((element, idx, arr)=>{
+                  const {id} = element.data()
+                  if (idx===0 || idx===arr.length-1) {
+                    matchingMap[id] = element
+                  } else {
+                    relatedMap[id] = element
+                  }
+                })
               }
             })
           })
-        })
 
-        // are there any paths between?
-        if (Object.keys(matchingMap).length>0) {
-          // mark srcs and tgts that have a path between them as matches
-          for (const id in matchingMap) {
-            const {node: {layout}} = matchingMap[id].data()
-            layout.search = SearchResult.match
-            delete relatedMap[id]
-            delete elementMap[id]
-          }
-
-          // mark elements between matched srcs and tgts as related
-          for (const id in relatedMap) {
-            const element = relatedMap[id]
-            const data = element.data()
-            let layout
-            if (element.isNode()) {
-              ({layout} = data.node)
-            } else {
-              ({layout} = data.edge)
+          // are there any paths between?
+          if (Object.keys(matchingMap).length>0) {
+            // mark srcs and tgts that have a path between them as matches
+            for (const id in matchingMap) {
+              const {node: {layout}} = matchingMap[id].data()
+              layout.search = SearchResult.match
+              delete relatedMap[id]
+              delete elementMap[id]
             }
-            layout.search = SearchResult.related
-            delete elementMap[id]
+
+            // mark elements between matched srcs and tgts as related
+            for (const id in relatedMap) {
+              const element = relatedMap[id]
+              const data = element.data()
+              let layout
+              if (element.isNode()) {
+                ({layout} = data.node)
+              } else {
+                ({layout} = data.edge)
+              }
+              layout.search = SearchResult.match// SearchResult.related
+              delete elementMap[id]
+            }
           }
         }
       }
@@ -178,7 +196,7 @@ export default class SearchHelper {
     return []
   }
 
-  filterConnected = (connected, searchArr) => {
+  filterConnected = (connected, searchNames) => {
     return connected.filter(collection => {
       const {elements} = collection
       const elementMap = {}
@@ -193,12 +211,9 @@ export default class SearchHelper {
         if (element.isNode()) {
           const data = element.data()
           const {id, node:{layout}} = data
-          let {node:{name}} = data
-          if (!this.caseSensitive) {
-            name = name.toLowerCase()
-          }
-          for (let i = 0; i < searchArr.length; i++) {
-            if (name.indexOf(searchArr[i]) !==-1) {
+          const name = this.getName(element)
+          for (let i = 0; i < searchNames.length; i++) {
+            if (name.indexOf(searchNames[i]) !==-1) {
               layout.search = SearchResult.match
               processed.add(id)
               delete elementMap[id]
@@ -250,7 +265,7 @@ export default class SearchHelper {
     })
   }
 
-  filterUnconnected = (unconnected, searchArr) => {
+  filterUnconnected = (unconnected, searchNames) => {
     return unconnected.filter(collection => {
       const {elements} = collection
 
@@ -258,12 +273,9 @@ export default class SearchHelper {
       const matching = elements.nodes().filter(element=>{
         const data = element.data()
         const {node:{layout}} = data
-        let {node:{name}} = data
-        if (!this.caseSensitive) {
-          name = name.toLowerCase()
-        }
-        for (let i = 0; i < searchArr.length; i++) {
-          if (name.indexOf(searchArr[i]) !==-1) {
+        const name = this.getName(element)
+        for (let i = 0; i < searchNames.length; i++) {
+          if (name.indexOf(searchNames[i]) !==-1) {
             layout.search = SearchResult.match
             return true
           }
@@ -276,4 +288,32 @@ export default class SearchHelper {
       return collection.elements.length>0
     })
   }
+
+  getName = (element) => {
+    const {node} = element.data()
+    let name = node.name
+    // if not case sensative, make all lower case
+    if (!this.caseSensitive) {
+      name = name.toLowerCase()
+    }
+    // if this is a pod, don't match it uid at the end
+    if (node.type==='pod') {
+      name = name.split('-')
+      name.pop()
+      name = name.join('-')
+    }
+    return name
+  }
+}
+
+export const getSearchNames = (searchName) => {
+  let directedPath = false
+  let searchNames = searchName.split(/(\+|>)+/)
+  if (searchNames.length>1) {
+    directedPath = searchNames[1]==='>'
+    searchNames = searchNames.filter(item=>{
+      return item!=='+' && item!=='>'
+    })
+  }
+  return {searchNames:searchNames.map(s=>s.trim()), directedPath}
 }

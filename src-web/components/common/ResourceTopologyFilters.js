@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Search } from 'carbon-components-react'
+import { getSearchNames } from '../diagrams/searchHelper'
 import FilterableMultiSelect from './FilterableMultiSelect'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
@@ -51,22 +52,49 @@ class ResourceTopologyFilters extends React.Component {
     onSelectedFilterChange: PropTypes.func,
   }
 
+  constructor (props) {
+    super(props)
+    this.nameSearchMode = false
+  }
+
   componentWillMount() {
     this.props.fetchFilters()
+  }
+
+  componentDidMount () {
+    this.closeBtn = this.nameSearchRef.getElementsByClassName('bx--search-close')[0]
+    this.closeBtn.addEventListener('click', ()=>{
+      this.closeBtnClicked = true
+    })
   }
 
   handleSearch = ({target}) => {
     if (this.typingTimeout) {
       clearTimeout(this.typingTimeout)
     }
-    if ((target.value||'').length===0) {
+
+    // if user clicks close button, stop search immediately
+    if (this.closeBtnClicked) {
       this.props.onNameSearch(target.value)
+      delete this.closeBtnClicked
     } else {
-      this.typingTimeout = setTimeout(() => {
-        this.props.onNameSearch(target.value)
-      }, 500)
+      const searchName = (target.value||'')
+      if (searchName.length>0 || this.nameSearchMode) {
+        // if not in search mode yet, wait for an input > 2 chars
+        // if in search mode, keep in mode until no chars left
+        const {searchNames} = getSearchNames(searchName)
+        const refreshSearch = searchNames.filter(s=>s.length>1).length>0
+        if (refreshSearch || searchName.length===0) {
+          this.typingTimeout = setTimeout(() => {
+            this.props.onNameSearch(searchName)
+          }, searchName.length>0 ? 500 : 1500)
+          this.nameSearchMode = searchName.length>0
+        }
+      }
     }
   }
+
+  setNameSearchRef = ref => {this.nameSearchRef = ref}
 
   render() {
     const { activeFilters, availableFilters, fetching, failure, onSelectedFilterChange } = this.props
@@ -121,11 +149,13 @@ class ResourceTopologyFilters extends React.Component {
         )}
 
         {/*name search*/}
-        <div className='multi-select-filter' role='region' aria-label={searchTitle} id={searchTitle}>
+        <div className='multi-select-filter' role='region' ref={this.setNameSearchRef}
+          aria-label={searchTitle} id={searchTitle}>
           <div className='multi-select-filter-title'>
             {searchTitle}
           </div>
-          <Search id='search-name' labelText='' placeHolderText={msgs.get('search.label', this.context.locale)}
+          <Search id='search-name' labelText=''
+            placeHolderText={msgs.get('search.label.links', this.context.locale)}
             onChange={this.handleSearch}
           />
         </div>

@@ -16,8 +16,8 @@ import config from '../../../lib/shared/config'
 import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import TitleHelper, {interruptTitles, counterZoomTitles} from './titleHelper'
-import LinkHelper, {appendLinkDefs, interruptLinks, counterZoomLinks} from './linkHelper'
-import NodeHelper, {interruptNodes, counterZoomLabels, setSelections} from './nodeHelper'
+import LinkHelper, {interruptLinks, counterZoomLinks, appendLinkDefs } from './linkHelper'
+import NodeHelper, {interruptNodes, counterZoomLabels, showMatches, setSelections} from './nodeHelper'
 import * as c from './constants.js'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
@@ -292,9 +292,11 @@ class DiagramViewer extends React.Component {
       isMulticluster,
       searchName
     }
+    if (this.viewerContainerRef)
+      this.viewerContainerRef.classList.toggle('search-mode', !!searchName)
     this.layoutHelper.layout(nodes, links, hiddenLinks, options, (layoutResults)=>{
 
-      const {laidoutNodes, titles, selfLinks, layoutMap, layoutBBox} = layoutResults
+      const {laidoutNodes, titles, searchNames, selfLinks, layoutBBox} = layoutResults
       this.layoutBBox = layoutBBox
       this.titles = titles
       const {firstLayout} = options
@@ -318,22 +320,28 @@ class DiagramViewer extends React.Component {
       linkHelper.moveLinks(transition, currentZoom, searchChanged)
 
       // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, typeToShapeMap, layoutMap)
+      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, typeToShapeMap)
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick, this.handleNodeDrag)
       nodeHelper.moveNodes(transition, currentZoom, searchChanged)
 
       // Create or refresh the titles in the diagram.
-      if (titles.length) {
+      if (titles.length || searchChanged) {
         const titleHelper = new TitleHelper(this.svg, titles)
         titleHelper.removeOldTitlesFromDiagram()
         titleHelper.addTitlesToDiagram(currentZoom)
         titleHelper.moveTitles(transition, currentZoom, searchChanged)
       }
 
+      // show label matches in boldface
+      if (searchChanged || (firstLayout && searchNames.length>0)) {
+        showMatches(this.svg, searchNames)
+      }
+      // counter zoom labels
+      this.counterZoomElements(this.svg)
+
       this.laidoutNodes = laidoutNodes
       this.lastLayoutBBox = laidoutNodes.length ? this.layoutBBox : undefined
-      this.counterZoomElements(this.svg, currentZoom)
     })
   }
 
@@ -432,11 +440,11 @@ class DiagramViewer extends React.Component {
       svg.select('g.titles').selectAll('g.title')
         .transition(transition)
         .attr('transform', currentZoom)
-      this.counterZoomElements(svg, currentZoom)
+      this.counterZoomElements(svg)
     }
   }
 
-  counterZoomElements(svg, currentZoom) {
+  counterZoomElements(svg) {
     counterZoomLabels(svg, currentZoom)
     counterZoomTitles(svg, currentZoom)
     counterZoomLinks(svg, currentZoom)

@@ -12,7 +12,7 @@ import * as d3 from 'd3'
 import 'd3-selection-multi'
 import SVG from 'svg.js'
 import {dragLinks} from './linkHelper'
-import {counterZoom} from './otherHelpers'
+import {counterZoom} from '../../../lib/client/diagram-helper'
 import '../../../graphics/diagramShapes.svg'
 
 import { SearchResult, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
@@ -23,9 +23,8 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, typeToShapeMap, layoutMap) {
+  constructor(svg, nodes, typeToShapeMap) {
     this.svg = svg
-    this.layoutMap = layoutMap
     this.nodes = nodes
     this.typeToShapeMap = typeToShapeMap
   }
@@ -170,11 +169,10 @@ export default class NodeHelper {
 
         // normal label
         nodeLabelGroup.text((add) => {
-          layout.label.split('\n').forEach((line, idx)=>{
+          layout.label.split('\n').forEach((line)=>{
             if (line) {
               add.tspan(line)
-                .addClass(idx===0?'first-line':'')
-                .addClass('counter-zoom')
+                .addClass('counter-zoom beg')
                 .newLine()
             }
           })
@@ -191,11 +189,10 @@ export default class NodeHelper {
 
         // compact label
         nodeLabelGroup.text((add) => {
-          layout.compactLabel.split('\n').forEach((line, idx)=>{
+          layout.compactLabel.split('\n').forEach((line)=>{
             if (line) {
               add.tspan(line)
-                .addClass(idx===0?'first-line':'')
-                .addClass('counter-zoom')
+                .addClass('counter-zoom beg')
                 .newLine()
             }
           })
@@ -321,32 +318,7 @@ export default class NodeHelper {
       })
 
     // move labels
-    nodeLayer.selectAll('g.nodeLabel')
-      .each(({layout},i,ns)=>{
-        const {x, y, textBBox, scale=1} = layout
-        const dy = (NODE_RADIUS*(scale===1?1:scale+.3))
-        const nodeLabel = d3.select(ns[i])
-        nodeLabel
-          .selectAll('tspan')
-          .classed('hub-label', scale>1)
-
-        nodeLabel.selectAll('text')
-          .attrs(() => {
-            return {
-              'x': x,
-              'y': y + dy
-            }
-          })
-        nodeLabel.selectAll('rect')
-          .attrs(() => {
-            return {
-              'x': x - (textBBox.width/2),
-              'y': y + dy
-            }
-          })
-        nodeLabel.selectAll('tspan')
-          .attr('x', () => {return x})
-      })
+    moveLabels(this.svg)
   }
 
   dragNode = (d, i, ns) => {
@@ -432,6 +404,7 @@ export const interruptNodes = (svg) => {
   })
 }
 
+// counter zoom labels-- if smaller, show an abreviated smaller label
 export const counterZoomLabels = (svg, currentZoom) => {
   if (svg) {
     const s = currentZoom.k
@@ -498,11 +471,103 @@ export const counterZoomLabels = (svg, currentZoom) => {
         shownLabel
           .selectAll('tspan.hub-label')
           .style('font-size', fontSize+4+'px')
-          .style('font-weight', 'bold')
         // if description make smaller
         shownLabel
           .selectAll('tspan.description')
           .style('font-size', fontSize-2+'px')
       })
   }
+}
+
+// during search mode, show match in label in boldface
+export const showMatches = (svg, searchNames) => {
+  if (svg) {
+    searchNames = searchNames.filter(s=>!!s)
+    const draw = typeof SVG === 'function' ? SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg')) : undefined
+    svg.select('g.nodes').selectAll('g.nodeLabel')
+      .each((d,i,ns)=>{
+        const {name, layout} = d
+        const {x, y, scale=1, label, search=SearchResult.nosearch} = layout
+        if (search!==SearchResult.nomatch && x && y) {
+          const regex = new RegExp(`(${searchNames.join('|')})`, 'g')
+          const acrossLines = search===SearchResult.match && label.split(regex).length<=1
+          d3.select(ns[i])
+            .selectAll('text.regularLabel')
+            .each((d,j,ln)=>{
+              ln[j].outerHTML = draw.text((add) => {
+                const lines = label.split('\n').map((line,idx)=>{
+                  if (search===SearchResult.match) {
+                    // if match falls across label lines, put result in middle line
+                    if (acrossLines) {
+                      if (idx===1) {
+                        return name.split(regex)
+                          .filter(str=>searchNames.indexOf(str)!==-1)
+                          .concat(line.substr(searchNames[0].length))
+                      } else {
+                        return [line]
+                      }
+                    } else {
+                      return line.split(regex).filter(s=>!!s)
+                    }
+                  } else {
+                    return [line]
+                  }
+                })
+                lines.forEach((strs)=>{
+                  strs.forEach((str, idx)=>{
+                    const tspan = add.tspan(str)
+                    if (searchNames.indexOf(str)!==-1) {
+                      tspan
+                        .addClass('matched')
+                    }
+                    tspan
+                      .addClass('counter-zoom')
+                    if (scale>1) {
+                      tspan
+                        .addClass('hub-label')
+                    }
+                    if (idx===0) {
+                      tspan
+                        .addClass('beg')
+                        .newLine()
+                    }
+                  })
+                })
+              })
+                .addClass('regularLabel')
+                .svg()
+            })
+        }
+      })
+    moveLabels(svg)
+  }
+}
+
+export const moveLabels = (svg) => {
+  svg.select('g.nodes').selectAll('g.nodeLabel')
+    .each(({layout},i,ns)=>{
+      const {x, y, textBBox, scale=1} = layout
+      const dy = (NODE_RADIUS*(scale===1?1:scale+.3))
+      const nodeLabel = d3.select(ns[i])
+      nodeLabel
+        .selectAll('tspan')
+        .classed('hub-label', scale>1)
+
+      nodeLabel.selectAll('text')
+        .attrs(() => {
+          return {
+            'x': x,
+            'y': y + dy
+          }
+        })
+      nodeLabel.selectAll('rect')
+        .attrs(() => {
+          return {
+            'x': x - (textBBox.width/2),
+            'y': y + dy
+          }
+        })
+      nodeLabel.selectAll('tspan.beg')
+        .attr('x', () => {return x})
+    })
 }

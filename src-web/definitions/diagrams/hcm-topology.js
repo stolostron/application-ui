@@ -9,7 +9,7 @@
 'use strict'
 
 import {getWrappedNodeLabel} from '../../../lib/client/diagram-helper'
-import { SearchResult, NODE_SIZE } from '../../components/diagrams/constants.js'
+import { NODE_SIZE } from '../../components/diagrams/constants.js'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -368,9 +368,11 @@ export function getNodeDetails(currentNode) {
   return details
 }
 
-export function getConnectedLayoutOptions({elements, details: {isConsolidation}}, numOfSections, firstLayout) {
+export function getConnectedLayoutOptions({elements, details: {isConsolidation}}, options) {
+  const {numOfSections, firstLayout, searchName, directedSearchPath} = options
   const numNodes = elements.nodes().length
-  const useDAG = (numNodes<=6 || isConsolidation) && !this.searchName
+  const useDAG = (directedSearchPath && numNodes<8) || // using search with >
+                 ((numNodes<=6 || isConsolidation) && !searchName)
   if (useDAG) {
     return getDagreLayoutOptions(elements, numOfSections)
   } else {
@@ -391,8 +393,8 @@ export function getColaLayoutOptions(elements, firstLayout) {
   // if there are less nodes in this group we have room to stretch out the nodes
   const len = nodes.length
   const grpStretch = len<=10 ? 1.3 : (len<=15 ? 1.2 : (len<=20? 1.1: 1))
-  const otrStretch = ({isMajorHub, isMinorHub, search=SearchResult.nosearch}) => {
-    if (isMajorHub || search===SearchResult.match) {
+  const otrStretch = ({isMajorHub, isMinorHub}) => {
+    if (isMajorHub) {
       return (len<=15 ? 1.2 : (len<=20? 1.5: 1.6))
     } else if (isMinorHub) {
       return (len<=15 ? 1.1 : (len<=20? 1.4: 1.5))

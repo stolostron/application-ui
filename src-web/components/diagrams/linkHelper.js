@@ -11,7 +11,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import _ from 'lodash'
-import {counterZoom} from './otherHelpers'
+import {counterZoom} from '../../../lib/client/diagram-helper'
 
 import { SearchResult, NODE_RADIUS } from './constants.js'
 
@@ -135,13 +135,12 @@ export default class LinkHelper {
     // set link path then back it away from node
     // so that end markers just touch the shape
     links.selectAll('path')
+      .filter(({layout: {linePath}})=>{
+        return !linePath
+      })
       .attr('d', ({layout}) => {
-        let {linePath} = layout
-        if (!linePath) {
-          linePath = layout.linePath = lineFunction(layout.lineData)
-          layout.newPath = true
-        }
-        return linePath
+        layout.linePath = lineFunction(layout.lineData)
+        return layout.linePath
       })
     links.selectAll('path')
       .attrs(({layout},i,ns) => {

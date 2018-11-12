@@ -77,7 +77,7 @@ export default class LayoutHelper {
     //identify hubs
     this.markHubs(groups)
 
-    // assign info to each node
+    // set the node's description
     if (this.getNodeDescription) {
       nodes.forEach(node=>{
         if (node.layout) {
@@ -90,30 +90,24 @@ export default class LayoutHelper {
     const cy = cytoscape({ headless: true }) // start headless cytoscape
     let collections = this.createCollections(cy, groups)
 
-    this.searchHelper.filterCollections(cy, collections, this.searchName, this.resetLayoutCaches)
+    // filter collections when searching
+    const {searchNames, directedPath } = this.filterCollections(cy, collections)
 
     // assign cytoscape layout options for each collection (ex: dagre, grid)
-    this.setLayoutOptions(collections)
+    this.setLayoutOptions(collections, directedPath)
 
     // run the cytoscape layouts
     collections = collections.connected.concat(collections.unconnected)
     this.runCollectionLayouts(collections, () => {
 
-      // after all layouts run, use Masonry to fit the collections neatly in the diagram
+      // after all layouts run, fit the collections neatly in the diagram
       const layoutInfo = this.layoutCollections(collections, hiddenLinks)
-
 
       // return to TopologyView to create/position the d3 svg shapes
       if (!this.destroyed) {
-        cb({laidoutNodes: nodes, ...layoutInfo})
+        cb({laidoutNodes: nodes, searchNames, ...layoutInfo})
       }
     })
-  }
-
-  resetLayoutCaches = () => {
-    this.cachedLayouts={}
-    this.cachedAdapters={}
-    this.rowPositionCache=undefined
   }
 
   getNodeGroupsDefault = (nodes) => {
@@ -619,15 +613,19 @@ export default class LayoutHelper {
     return collections
   }
 
-  setLayoutOptions = ({connected, unconnected}) => {
-    const numOfSections = connected.length + unconnected.length
-    this.setConnectedLayoutOptions(connected, numOfSections)
+  setLayoutOptions = ({connected, unconnected}, directedSearchPath) => {
+    this.setConnectedLayoutOptions(connected, {
+      numOfSections: connected.length + unconnected.length,
+      firstLayout: this.firstLayout,
+      searchName: this.searchName,
+      directedSearchPath,
+    })
     this.setUnconnectedLayoutOptions(unconnected)
   }
 
-  setConnectedLayoutOptions = (connected, numOfSections) => {
+  setConnectedLayoutOptions = (connected, options) => {
     connected.forEach(collection => {
-      collection.options = this.getConnectedLayoutOptions(collection, numOfSections, this.firstLayout)
+      collection.options = this.getConnectedLayoutOptions(collection, options)
     })
   }
 
@@ -683,6 +681,59 @@ export default class LayoutHelper {
     } else {
       cb()
     }
+  }
+
+  // filter collections based on name
+  filterCollections = (cy, collections) => {
+    const {searchNames, directedPath } =
+     this.searchHelper.filterCollections(cy, collections, this.searchName, {
+       // search is starting, save positions and paths
+       saveLayout: ()=>{
+         this.saveRestoreElementStates(collections, true)
+         this.saveCachedLayouts = this.cachedLayouts
+         this.saveRowPositionCache = this.rowPositionCache
+       },
+       // between searches, keep resetting cache
+       resetLayout: ()=>{
+         this.cachedLayouts={}
+         this.rowPositionCache=undefined
+       },
+       // when search is done, restore originals
+       restoreLayout: ()=>{
+         this.cachedLayouts = this.saveCachedLayouts
+         this.rowPositionCache = this.saveRowPositionCache
+         this.saveRestoreElementStates(collections, false)
+       }
+     })
+    return {searchNames, directedPath }
+  }
+
+  saveRestoreElementStates = ({connected, unconnected}, isSave) => {
+    connected.concat(unconnected).forEach(({elements})=>{
+      elements.forEach(element=>{
+        const data = element.data()
+        if (element.isNode()) {
+          const {node: {layout}} = data
+          if (isSave) {
+            const {x, y} = layout
+            layout.savePosition = {x, y}
+          } else {
+            const {savePosition: {x, y}} = layout
+            layout.x = x
+            layout.y = y
+            delete layout.savePosition
+          }
+        } else {
+          const {edge: {layout}} = data
+          if (isSave) {
+            layout.savePath = layout.linePath
+          } else {
+            layout.linePath = layout.savePath
+            delete layout.savePath
+          }
+        }
+      })
+    })
   }
 
   layoutCollections = (collections, hiddenLinks) => {
@@ -1024,7 +1075,9 @@ export default class LayoutHelper {
 
     // sort collections based on common idx
     clayouts.sort(({hashCode:ah}, {hashCode:bh})=>{
-      return hashCodeToPositionMap[ah].idx - hashCodeToPositionMap[bh].idx
+      const adx = (hashCodeToPositionMap[ah]||{}).idx
+      const bdx = (hashCodeToPositionMap[bh]||{}).idx
+      return adx-bdx
     })
     return hashCodeToPositionMap
   }

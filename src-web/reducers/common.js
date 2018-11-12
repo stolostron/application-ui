@@ -371,6 +371,10 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       const policy = lodash.get(action, 'resource')
       index = lodash.findIndex(items, { 'name':policy.name, 'namespace':policy.namespace })
       break
+    case RESOURCE_TYPES.HCM_APPLICATIONS:
+      const app = lodash.get(action, 'resource')
+      index = lodash.findIndex(items, { metadata: { 'name':app.metadata.name, 'namespace':app.metadata.namespace }})
+      break
     default:
       index = lodash.findIndex(items, o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName'))
       break

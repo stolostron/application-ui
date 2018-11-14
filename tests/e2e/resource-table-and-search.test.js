@@ -12,7 +12,7 @@ const ROUTE = {
   'cluster': ['/clusters','hub-cluster'],
   'compliance': ['/policies','compliance-xz'],
   'local_policies': ['/policies/local','policy-xz-2'],
-  'applications': ['/applications','app01'],
+  'applications': ['/applications','gbapp-gbapp'],
   'helm_releases': ['/releases','audit-logging'],
   'pods': ['/pods','audit-logging-fluentd-ds-lgjpj'],
   'nodes': ['/nodes','9.37.137.174'],

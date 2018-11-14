@@ -1,7 +1,7 @@
 # required - Provide the authentication token available at http://ibm.biz/A11yToolsLandingPage
 # i.e: authToken: 00000000-0000-0000-0000-000000000000/00000000-0000-0000-0000-000000000000
 # Note: authToken for user mcmdev@us.ibm.com
-authToken: 0a16013f-59b9-474a-b4af-035a7974f35f/9c53ac83-786c-454d-a9a9-bd6e91aefe45
+authToken: 1364f334-0b01-44fc-ba77-b48558be6cce/e9764f3a-6efb-42b7-b8dc-e20ac4bde181
 
 # optional - Specify the rule pack server to use. (Where to pull the rules and engine from)
 # Default: https://cc-rules.w3ibm.mybluemix.net/js/latest/

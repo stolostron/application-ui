@@ -180,6 +180,50 @@ export default {
       },
     ]
   },
+  applicationWorkKeys: {
+    title: 'application.works',
+    defaultSortField: 'name',
+    resourceKey: 'applicationWorks',
+    normalizedKey: 'metadata.name',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'metadata.name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'metadata.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'cluster',
+        resourceKey: 'cluster',
+        msgKey: 'table.header.cluster'
+      },
+      {
+        key: 'release',
+        resourceKey: 'release',
+        msgKey: 'table.header.helm.release'
+      },
+      {
+        key: 'status',
+        resourceKey: 'status',
+        msgKey: 'table.header.status'
+      },
+      {
+        key: 'reason',
+        resourceKey: 'reason',
+        msgKey: 'table.header.reason'
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
+    ],
+  },
   placementPolicyKeys: {
     title: 'application.placement.policies',
     defaultSortField: 'name',

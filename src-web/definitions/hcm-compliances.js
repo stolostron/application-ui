@@ -29,25 +29,26 @@ export default {
     tableKeys: [
       {
         msgKey: 'table.header.compliant',
-        resourceKey: 'compliant',
-        key: 'compliant',
-        transformFunction: getStatusIcon,
+        resourceKey: 'policyCompliantStatus',
+        key: 'policyCompliantStatus',
+        transformFunction: getCompliancePolicyStatus,
       },
       {
         msgKey: 'table.header.name',
         resourceKey: 'name',
         key: 'name',
+      },
+      {
+        msgKey: 'table.header.cluster.compliant',
+        resourceKey: 'clusterCompliant',
+        key: 'clusterCompliant',
         transformFunction: createCompliancePolicyLink,
       },
       {
-        msgKey: 'table.header.cluster.namespace',
-        resourceKey: 'cluster',
-        key: 'cluster',
-      },
-      {
-        msgKey: 'table.header.valid',
-        resourceKey: 'valid',
-        key: 'valid',
+        msgKey: 'table.header.cluster.not.compliant',
+        resourceKey: 'clusterNotCompliant',
+        key: 'clusterNotCompliant',
+        transformFunction: createCompliancePolicyLink,
       },
     ],
   },
@@ -502,6 +503,11 @@ export default {
         key: 'apiVersion',
       },
       {
+        msgKey: 'table.header.kind',
+        resourceKey: 'kind',
+        key: 'kind',
+      },
+      {
         msgKey: 'description.title.last.transition',
         resourceKey: 'lastTransition',
         key: 'lastTransition',
@@ -566,7 +572,25 @@ export function getStatusIcon(item, locale) {
   return '-'
 }
 
+export function getCompliancePolicyStatus(item, locale) {
+  if (item.clusterNotCompliant && item.clusterNotCompliant.length > 0){
+    return <StatusField status='critical' text={msgs.get('policy.status.noncompliant', locale)} />
+  }
+  return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
+}
+
 export function createCompliancePolicyLink(item = {}, ...param){
-  if (param[2]) return item.metadata.name
-  return <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.metadata.name)}/${item.cluster}`}>{item.metadata.name}</Link>
+  const policyKeys = item[param[1]]
+  const policyArray = []
+  policyKeys && policyKeys.forEach(policyKey => {
+    const targetPolicy = item.policies.find(policy => item.name === policy.name && policyKey === policy.cluster)
+    policyArray.push(targetPolicy)
+  })
+
+  return policyArray ?
+    <ul>{policyArray.map(policy => (<li key={`${policy.cluster}-${policy.name}`}>
+      <Link to={`${config.contextPath}/policies/${encodeURIComponent(policy.complianceNamespace)}/${encodeURIComponent(policy.complianceName)}/compliancePolicy/${encodeURIComponent(policy.name)}/${policy.cluster}`}>{policy.cluster}</Link>
+    </li>))}</ul>
+    :
+    '-'
 }

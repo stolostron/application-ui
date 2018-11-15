@@ -58,13 +58,17 @@ class CompliancePolicyDetail extends React.Component {
     const { updateSecondaryHeader, baseUrl, params, tabs } = this.props
     // details page mode
     if (params) {
-      const {name} = params
-      updateSecondaryHeader(name, getTabs(tabs, (tab, index) => {
+      updateSecondaryHeader(this.getPolicyName(), getTabs(tabs, (tab, index) => {
         return index === 0 ? baseUrl : `${baseUrl}/${tab}`
       }), this.getBreadcrumb())
     }
   }
 
+  getPolicyName() {
+    const { location } = this.props,
+          urlSegments = location.pathname.split('/')
+    return urlSegments[urlSegments.length - 2]
+  }
 
   getBreadcrumb() {
     const breadcrumbItems = []
@@ -107,7 +111,8 @@ class CompliancePolicyDetail extends React.Component {
     const modulesRight = []
     const modulesBottom = []
     const detail = lodash.get(item, 'compliancePolicies', [])
-    const policy = detail.find(item => lodash.get(item, 'name', '') === policyName && lodash.get(item, 'cluster', '') === policyNamespace)
+    const compliancePolicies = detail.find(item => lodash.get(item, 'name', '') === policyName)
+    const policy = compliancePolicies && compliancePolicies.policies.find(item => lodash.get(item, 'cluster', '') === policyNamespace)
     React.Children.map([
       <PolicyTemplates key='Policy Templates' headerKey='table.header.policyTemplate' right />,
       <ResourceTableModule key='roleTemplates' definitionsKey='policyRoleTemplates' />,

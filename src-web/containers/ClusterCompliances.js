@@ -33,7 +33,7 @@ export default withRouter(typedResourcePageWithListAndDetails(
   ['overview'],
   [createComplianceModal],
   ['/compliancePolicy/:policyName/:policyNamespace'],
-  [<PolicyTemplates key='Compliance Templates'headerKey={'table.header.complianceTemplate'} right />,
+  [<PolicyTemplates key='Compliance Templates' headerKey={'table.header.complianceTemplate'} right />,
     <ResourceTableModule key='complianceStatus' definitionsKey='complianceStatus' />,
     <ResourceTableModule key='compliancePolicies' definitionsKey='compliancePolicies' />,]
 ))

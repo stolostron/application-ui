@@ -15,30 +15,31 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { ROLES } from '../../lib/shared/constants'
 import config from '../../lib/shared/config'
-import LocalPoliciesTab from './LocalPoliciesTab'
+// disable local policies
+// import LocalPoliciesTab from './LocalPoliciesTab'
 import ClusterComplianceTab from './ClusterCompliances'
 import withAccess from '../components/common/withAccess'
 
 const BASE_PAGE_PATH = `${config.contextPath}/policies`
 const SECONDARY_HEADER_PROPS = {
-  title: 'routes.policies',
+  title: 'routes.compliances',
   tabs: [
     {
       id: 'cluster-compliance',
       label: 'tabs.policy.cluster',
       url: BASE_PAGE_PATH
     },
-    {
-      id: 'local-policy',
-      label: 'tabs.policy.policy',
-      url: `${BASE_PAGE_PATH}/local`
-    }
+    // {
+    //   id: 'local-policy',
+    //   label: 'tabs.policy.policy',
+    //   url: `${BASE_PAGE_PATH}/local`
+    // }
   ]
 }
 
 const Policies = ({ match }) =>
   <Switch>
-    <Route path={`${match.url}/local`} render={() => <LocalPoliciesTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
+    {/*<Route path={`${match.url}/local`} render={() => <LocalPoliciesTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />*/}
     <Route path={match.url} render={() => <ClusterComplianceTab secondaryHeaderProps={SECONDARY_HEADER_PROPS} />} />
   </Switch>
 

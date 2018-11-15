@@ -100,7 +100,7 @@ const components = {
   '/compliancePolicy/:policyName/:policyNamespace': CompliancePolicyDetail,
 }
 
-class ResourceDetails extends React.PureComponent {
+class ResourceDetails extends React.Component {
 
   constructor(props) {
     super(props)
@@ -117,6 +117,13 @@ class ResourceDetails extends React.PureComponent {
   componentWillMount() {
     const { updateSecondaryHeader, tabs, launch_links, match } = this.props, params = match && match.params
     updateSecondaryHeader(params.name, getTabs(tabs, (tab, index) => index === 0 ? match.url : `${match.url}/${tab}`), this.getBreadcrumb(), launch_links)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location !== this.props.location) {
+      const { updateSecondaryHeader, tabs, launch_links, match } = this.props, params = match && match.params
+      updateSecondaryHeader(params.name, getTabs(tabs, (tab, index) => index === 0 ? match.url : `${match.url}/${tab}`), this.getBreadcrumb(nextProps.location), launch_links)
+    }
   }
 
   render() {
@@ -159,11 +166,12 @@ class ResourceDetails extends React.PureComponent {
     )
   }
 
-  getBreadcrumb() {
+  getBreadcrumb(location) {
     const breadcrumbItems = []
-    const { tabs, match, location, resourceType } = this.props,
+    location = location || this.props.location
+    const { tabs, match, resourceType } = this.props,
           { locale } = this.context,
-          urlSegments = location.pathname.split('/'),
+          urlSegments = location.pathname.replace(/\/$/, '').split('/'),
           lastSegment = urlSegments[urlSegments.length - 1],
           currentTab = tabs.find(tab => tab === lastSegment)
 

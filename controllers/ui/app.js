@@ -69,104 +69,109 @@ function fetchHeader(req, res, store, context) {
     const userRole = roleRes.body && roleRes.body.replace(/['"]+/g, '')
     role = role === undefined ? require('../../src-web/actions/role') : role
     store.dispatch(role.roleReceiveSuccess(userRole))
-    var options = {
-      method: 'POST',
-      url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header`,
-      json: true,
-      headers: {
-        Cookie: createCookie(req)
-      },
-      body: {
-        logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
-        docUrlMapping: {
-          [`${config.get('contextPath')}`]: 'mcm/getting_started/introduction.html'
+    try {
+      options = {
+        method: 'POST',
+        url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header`,
+        json: true,
+        headers: {
+          Cookie: createCookie(req)
         },
-        about: {
-          logoUrl: `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
-          copyright: msgs.get('product.copyright', req)
-        },
-        navItems: [
-          {
-            id: 'overview',
-            label: msgs.get('routes.overview', req),
-            url: `${config.get('contextPath')}/overview`,
-            disabled: isLowerThanOperator(userRole)
+        body: {
+          logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
+          docUrlMapping: {
+            [`${config.get('contextPath')}`]: 'mcm/getting_started/introduction.html'
           },
-          {
-            id: 'clusters',
-            label: msgs.get('routes.clusters', req),
-            url: `${config.get('contextPath')}/clusters`,
-            disabled: isLowerThanOperator(userRole)
+          about: {
+            logoUrl: `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
+            copyright: msgs.get('product.copyright', req)
           },
-          {
-            id: 'policies',
-            label: msgs.get('routes.policies', req),
-            url: `${config.get('contextPath')}/policies`,
-            disabled: isNotClusterAdmin(userRole)
-          },
-          {
-            id: 'applications',
-            label: msgs.get('routes.applications', req),
-            url: `${config.get('contextPath')}/applications`,
-            disabled: isLowerThanOperator(userRole)
-          },
-          {
-            id: 'releases',
-            label: msgs.get('routes.releases', req),
-            url: `${config.get('contextPath')}/releases`,
-            disabled: isLowerThanOperator(userRole)
-          },
-          {
-            id: 'pods',
-            label: msgs.get('routes.pods', req),
-            url: `${config.get('contextPath')}/pods`,
-            disabled: isLowerThanOperator(userRole)
-          },
-          {
-            id: 'nodes',
-            label: msgs.get('routes.nodes', req),
-            url: `${config.get('contextPath')}/nodes`,
-            disabled: isLowerThanAdmin(userRole)
-          },
-          {
-            id: 'storage',
-            label: msgs.get('routes.storage', req),
-            url: `${config.get('contextPath')}/storage`,
-            disabled: isLowerThanAdmin(userRole)
-          },
-          {
-            id: 'topology',
-            label: msgs.get('routes.topology', req),
-            url: `${config.get('contextPath')}/topology`,
-            disabled: isLowerThanOperator(userRole)
-          },
-          {
-            id: 'events',
-            label: msgs.get('routes.events', req),
-            url: '/cemui/launch',
-            disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
-            target: '_cem'
-          },
-          {
-            id: 'security',
-            label: msgs.get('routes.identity-access', req),
-            url: '/console/manage/identity-access',
-            disabled: isNotClusterAdmin(userRole)
-          },
-          {
-            id: 'icp',
-            label: msgs.get('routes.icp', req),
-            url: '/console/dashboard',
-            disabled: isNotClusterAdmin(userRole)
-          },
-          {
-            id: 'welcome',
-            label: msgs.get('routes.getting-started', req),
-            url: `${config.get('contextPath')}/welcome`,
-            disabled: isLowerThanOperator(userRole)
-          }
-        ]
+          navItems: [
+            {
+              id: 'overview',
+              label: msgs.get('routes.overview', req),
+              url: `${config.get('contextPath')}/overview`,
+              disabled: isLowerThanOperator(userRole)
+            },
+            {
+              id: 'clusters',
+              label: msgs.get('routes.clusters', req),
+              url: `${config.get('contextPath')}/clusters`,
+              disabled: isLowerThanOperator(userRole)
+            },
+            {
+              id: 'policies',
+              label: msgs.get('routes.policies', req),
+              url: `${config.get('contextPath')}/policies`,
+              disabled: isNotClusterAdmin(userRole)
+            },
+            {
+              id: 'applications',
+              label: msgs.get('routes.applications', req),
+              url: `${config.get('contextPath')}/applications`,
+              disabled: isLowerThanOperator(userRole)
+            },
+            {
+              id: 'releases',
+              label: msgs.get('routes.releases', req),
+              url: `${config.get('contextPath')}/releases`,
+              disabled: isLowerThanOperator(userRole)
+            },
+            {
+              id: 'pods',
+              label: msgs.get('routes.pods', req),
+              url: `${config.get('contextPath')}/pods`,
+              disabled: isLowerThanOperator(userRole)
+            },
+            {
+              id: 'nodes',
+              label: msgs.get('routes.nodes', req),
+              url: `${config.get('contextPath')}/nodes`,
+              disabled: isLowerThanAdmin(userRole)
+            },
+            {
+              id: 'storage',
+              label: msgs.get('routes.storage', req),
+              url: `${config.get('contextPath')}/storage`,
+              disabled: isLowerThanAdmin(userRole)
+            },
+            {
+              id: 'topology',
+              label: msgs.get('routes.topology', req),
+              url: `${config.get('contextPath')}/topology`,
+              disabled: isLowerThanOperator(userRole)
+            },
+            {
+              id: 'events',
+              label: msgs.get('routes.events', req),
+              url: '/cemui/launch',
+              disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
+              target: '_cem'
+            },
+            {
+              id: 'security',
+              label: msgs.get('routes.identity-access', req),
+              url: '/console/manage/identity-access',
+              disabled: isNotClusterAdmin(userRole)
+            },
+            {
+              id: 'icp',
+              label: msgs.get('routes.icp', req),
+              url: '/console/dashboard',
+              disabled: isNotClusterAdmin(userRole)
+            },
+            {
+              id: 'welcome',
+              label: msgs.get('routes.getting-started', req),
+              url: `${config.get('contextPath')}/welcome`,
+              disabled: isLowerThanOperator(userRole)
+            }
+          ]
+        }
       }
+    } catch(err) {
+      logger.error(err)
+      return res.status(500).send(err.toString())
     }
     request(options, null, [200], (err, headerRes) => {
       if (err) {

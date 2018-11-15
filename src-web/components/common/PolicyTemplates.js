@@ -18,17 +18,41 @@ import { Module, ModuleHeader } from 'carbon-addons-cloud-react'
 
 class PolicyTemplates extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.handleBtnClick = this.handleBtnClick.bind(this)
+    this.state = {
+      readOnly: true
+    }
+  }
+
+  componentWillMount() {
+    const { resourceData } = this.props
+    const { yaml } = dumpAndParse(resourceData)
+    if (yaml && !this.state.yaml) {
+      this.setState({ yaml })
+    }
+  }
+
+  handleBtnClick(){
+    this.setState(preState => {
+      return {readOnly: !preState.readOnly}
+    })
+  }
+
+  handleEditorChange = (yaml) => this.setState({ yaml })
+
   render() {
-    const { resourceData, headerKey } = this.props
-    const {yaml} = dumpAndParse(resourceData)
+    const { headerKey } = this.props
     return (
       <Module className='structured-list-module'>
         <ModuleHeader>{msgs.get(headerKey, this.context.locale)}</ModuleHeader>
         <YamlEditor
           width={'100%'}
           height={'100%'}
-          readOnly={true}
-          yaml={yaml} />
+          readOnly={this.state.readOnly}
+          onYamlChange={this.handleEditorChange}
+          yaml={this.state.yaml} />
       </Module>
     )
   }

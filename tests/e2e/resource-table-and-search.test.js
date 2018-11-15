@@ -39,11 +39,6 @@ module.exports = {
     verifyTableSearch(browser, ROUTE['compliance'][0], ROUTE['compliance'][1])
   },
 
-  'Local Policy Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['local_policies'][0],true)
-    verifyTableSearch(browser, ROUTE['local_policies'][0], ROUTE['local_policies'][1])
-  },
-
   'Application Page: table and search': (browser) => {
     verifyResourcePage(browser, ROUTE['applications'][0],false)
     verifyTableSearch(browser, ROUTE['applications'][0], ROUTE['applications'][1])

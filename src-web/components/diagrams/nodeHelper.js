@@ -15,7 +15,7 @@ import {dragLinks} from './linkHelper'
 import {counterZoom} from '../../../lib/client/diagram-helper'
 import '../../../graphics/diagramShapes.svg'
 
-import { SearchResult, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
+import { FilterResults, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
 
 export default class NodeHelper {
   /**
@@ -236,7 +236,7 @@ export default class NodeHelper {
         // set opacity to 0 if search changed or node moved
         // we will transition it back when in new position
         let opacity = 1.0
-        const {x, y, lastPosition, search=SearchResult.nosearch} = layout
+        const {x, y, lastPosition, search=FilterResults.nosearch} = layout
         if (!lastPosition || (lastPosition &&
             (Math.abs(lastPosition.x-x)>10 ||
                 Math.abs(lastPosition.y-y)>10))) {
@@ -245,17 +245,17 @@ export default class NodeHelper {
         layout.lastPosition = {x, y}
 
         return {
-          'visibility': (search!==SearchResult.nomatch)?'visible':'hidden',
-          'opacity': searchChanged ? 0.0 : (search===SearchResult.related ? RELATED_OPACITY : opacity)
+          'visibility': (search===FilterResults.hidden) ? 'hidden' : 'visible',
+          'opacity': searchChanged ? 0.0 : (search===FilterResults.related ? RELATED_OPACITY : opacity)
         }
       })
       .attr('transform', currentZoom)
 
     nodes
       .transition(transition)
-      .styles(({layout:{search=SearchResult.nosearch}}) => {
+      .styles(({layout:{search=FilterResults.nosearch}}) => {
         return {
-          'opacity': search===SearchResult.related ? RELATED_OPACITY : 1.0
+          'opacity': search===FilterResults.related ? RELATED_OPACITY : 1.0
         }
       })
 
@@ -269,12 +269,12 @@ export default class NodeHelper {
     }
 
     // if name search only position visible nodes
-    const visible = nodes.filter(({layout: {search=SearchResult.nosearch}})=>{
-      return (search===SearchResult.nosearch||search!==SearchResult.nomatch)
+    const visible = nodes.filter(({layout: {search=FilterResults.nosearch}})=>{
+      return (search!==FilterResults.hidden)
     })
       .classed('selected', ({layout})=>{
-        const {search=SearchResult.nosearch, selected} = layout
-        if (search===SearchResult.matched || selected) {
+        const {search=FilterResults.nosearch, selected} = layout
+        if (search===FilterResults.matched || selected) {
           return true
         }
         return false
@@ -389,7 +389,7 @@ export default class NodeHelper {
 export const setSelections = (svg, selected) => {
   svg.select('g.nodes').selectAll('g.node')
     .classed('selected', ({layout})=>{
-      layout.search = SearchResult.nosearch
+      layout.search = FilterResults.nosearch
       layout.selected = selected && selected.uid===layout.uid
       return layout.selected
     })
@@ -398,8 +398,8 @@ export const setSelections = (svg, selected) => {
 // interrupt any transition and make sure it has its final value
 export const interruptNodes = (svg) => {
   svg.select('g.nodes').selectAll('g.node').interrupt().call((selection)=>{
-    selection.each(({layout:{search=SearchResult.nosearch}},i,ns) => {
-      d3.select(ns[i]).style('opacity', (search===SearchResult.related ? RELATED_OPACITY : 1.0))
+    selection.each(({layout:{search=FilterResults.nosearch}},i,ns) => {
+      d3.select(ns[i]).style('opacity', (search===FilterResults.related ? RELATED_OPACITY : 1.0))
     })
   })
 }
@@ -422,12 +422,12 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     // set label visibility based on search or zoom
     svg.select('g.nodes').selectAll('g.nodeLabel')
-      .each(({layout: {search=SearchResult.nosearch}},i,ns)=>{
+      .each(({layout: {search=FilterResults.nosearch}},i,ns)=>{
         const nodeLabel = d3.select(ns[i])
 
         // not in search mode, selectively show labels based on zoom
         let shownLabel
-        if (search===SearchResult.nosearch) {
+        if (search===FilterResults.nosearch) {
           shownLabel = nodeLabel
             .selectAll(`text.${showClass}`)
           shownLabel
@@ -448,13 +448,13 @@ export const counterZoomLabels = (svg, currentZoom) => {
           shownLabel = nodeLabel
             .selectAll('text.regularLabel')
             .style('visibility',  ()=>{
-              return search!==SearchResult.nomatch?'visible':'hidden'
+              return search===FilterResults.hidden?'hidden':'visible'
             })
           // always show description if a match
           nodeLabel
             .selectAll('tspan.description')
             .style('visibility',  ()=>{
-              return search!==SearchResult.nomatch?'visible':'hidden'
+              return search===FilterResults.hidden?'hidden':'visible'
             })
 
           nodeLabel
@@ -487,16 +487,16 @@ export const showMatches = (svg, searchNames) => {
     svg.select('g.nodes').selectAll('g.nodeLabel')
       .each((d,i,ns)=>{
         const {name, layout} = d
-        const {x, y, scale=1, label, search=SearchResult.nosearch} = layout
-        if (search!==SearchResult.nomatch && x && y) {
+        const {x, y, scale=1, label, search=FilterResults.nosearch} = layout
+        if (search!==FilterResults.hidden && x && y) {
           const regex = new RegExp(`(${searchNames.join('|')})`, 'g')
-          const acrossLines = search===SearchResult.match && label.split(regex).length<=1
+          const acrossLines = search===FilterResults.match && label.split(regex).length<=1
           d3.select(ns[i])
             .selectAll('text.regularLabel')
             .each((d,j,ln)=>{
               ln[j].outerHTML = draw.text((add) => {
                 const lines = label.split('\n').map((line,idx)=>{
-                  if (search===SearchResult.match) {
+                  if (search===FilterResults.match) {
                     // if match falls across label lines, put result in middle line
                     if (acrossLines) {
                       if (idx===1) {

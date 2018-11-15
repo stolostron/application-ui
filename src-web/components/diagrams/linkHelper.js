@@ -13,7 +13,7 @@ import 'd3-selection-multi'
 import _ from 'lodash'
 import {counterZoom} from '../../../lib/client/diagram-helper'
 
-import { SearchResult, NODE_RADIUS } from './constants.js'
+import { FilterResults, NODE_RADIUS } from './constants.js'
 
 const lineFunction = d3.line()
   .x(d=>d.x)
@@ -123,13 +123,13 @@ export default class LinkHelper {
 
     // if name search only show related links
     links
-      .style('visibility', ({layout: {search=SearchResult.nosearch}})=>{
-        return (search===SearchResult.nosearch||search!==SearchResult.nomatch) ? 'visible' : 'hidden'
+      .style('visibility', ({layout: {search=FilterResults.nosearch}})=>{
+        return (search===FilterResults.hidden) ? 'hidden' : 'visible'
       })
 
     // if name search only set paths of related links
-    links = links.filter(({layout: {isLoop, search=SearchResult.nosearch}})=>{
-      return (!isLoop && (search===SearchResult.nosearch||search!==SearchResult.nomatch))
+    links = links.filter(({layout: {isLoop, search=FilterResults.nosearch}})=>{
+      return (!isLoop && search!==FilterResults.hidden)
     })
 
     // set link path then back it away from node
@@ -441,12 +441,12 @@ export const counterZoomLinks = (svg, currentZoom) => {
     const opacity = counterZoom(currentZoom.k, 0.35, 0.85, 0.5, 0.85)
     svg.select('g.links').selectAll('g.link')
       .each(({layout:{target}}, i, ns)=>{
-        const {search=SearchResult.nosearch} = target
+        const {search=FilterResults.nosearch} = target
         const link = d3.select(ns[i])
         link.selectAll('path')
           .attrs(() => {
             return {
-              'marker-end': (search===SearchResult.nosearch || search===SearchResult.match)
+              'marker-end': (search===FilterResults.nosearch || search===FilterResults.match)
                 ? 'url(#arrowhead)' : 'url(#arrowheadfaded)'
             }
           })

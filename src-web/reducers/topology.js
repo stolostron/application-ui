@@ -22,10 +22,15 @@ const initialState = {
     namespace: [],
     type: [{ label: 'deployment'}] // Sets the default filters
   },
+  otherTypeFilters: [],
   links: [],
   nodes: [],
   status: Actions.REQUEST_STATUS.INCEPTION,
 }
+
+//default k8 type filters
+export const defaultTypeFilters = new Set(['internet', 'host', 'service', 'deployment',
+  'daemonset', 'statefulset', 'pod', 'container'])
 
 
 export const topology = (state = initialState, action) => {
@@ -70,8 +75,8 @@ export const topology = (state = initialState, action) => {
     }
   }
   case Actions.TOPOLOGY_RESTORE_SAVED_FILTERS: {
-    const activeFilters = getActiveFilters(state)
-    return {...state, activeFilters, savingFilters: true}
+    const {activeFilters, otherTypeFilters} = getFilterState(state)
+    return {...state, activeFilters, otherTypeFilters, savingFilters: true}
 
   }
   case Actions.TOPOLOGY_NAME_SEARCH: {
@@ -102,14 +107,30 @@ export const topology = (state = initialState, action) => {
       })
     })
 
+    // consolidate misc types into "other" type
+    const otherTypeFilters = []
+    let types =  action.types.map(i => ({label: i }))
+    if (types.length>0) {
+      types = types.filter(({label})=>{
+        if (defaultTypeFilters.has(label)) {
+          return true
+        } else {
+          otherTypeFilters.push(label)
+          return false
+        }
+      })
+      types.push({label:'other'})
+    }
+
     const filters = {
       clusters: clusterFilters,
       labels: action.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
       namespaces: lodash.uniqBy(action.namespaces, 'metadata.name').map(n => ({ label: n.metadata.name})),
-      types: action.types.map(i => ({label: i })),
+      types,
     }
     return {...state,
       availableFilters: filters,
+      otherTypeFilters,
       filtersStatus: Actions.REQUEST_STATUS.DONE,
     }
   }
@@ -119,35 +140,42 @@ export const topology = (state = initialState, action) => {
     if (state.savingFilters) {
       const {namespace, name} = action
       const cookieKey = namespace ? `${HCM_TOPOLOGY_FILTER_COOKIE}--${namespace}--${name}` : `${HCM_TOPOLOGY_FILTER_COOKIE}`
-      localStorage.setItem(cookieKey, JSON.stringify(activeFilters))
+      localStorage.setItem(cookieKey, JSON.stringify({filterState: {activeFilters, otherTypeFilters: state.otherTypeFilters}}))
     }
     return {...state, activeFilters}
   }
   case Actions.TOPOLOGY_REQUIRED_FILTERS_RECEIVE_SUCCESS: {
     const {item, staticResourceData: {getRequiredTopologyFilters}} = action
     const {metadata: {namespace, name}} = item
-    const activeFilters = getActiveFilters(state, namespace, name)
+    const {activeFilters, otherTypeFilters} = getFilterState(state, namespace, name)
     const requiredFilters = getRequiredTopologyFilters(item)
     activeFilters.label = requiredFilters.label
-    return {...state, activeFilters, requiredFilters, savingFilters: true}
+    return {...state, activeFilters, otherTypeFilters, requiredFilters, savingFilters: true}
   }
   default:
     return { ...state }
   }
 }
 
-const getActiveFilters = (state = initialState, namespace, name) => {
+const getFilterState = (state = initialState, namespace, name) => {
   const cookieKey = namespace ? `${HCM_TOPOLOGY_FILTER_COOKIE}--${namespace}--${name}` : `${HCM_TOPOLOGY_FILTER_COOKIE}`
+  let otherTypeFilters = []
   let activeFilters = {...state.activeFilters} || {}
   const savedActiveFilters = localStorage.getItem(cookieKey)
   if (savedActiveFilters) {
     try {
-      activeFilters = JSON.parse(savedActiveFilters)
+      const savedState = JSON.parse(savedActiveFilters)
+      if (savedState.filterState) {
+        ({activeFilters, otherTypeFilters} = savedState.filterState)
+      } else {
+        // legacy
+        activeFilters = savedState
+      }
     } catch (e) {
       //
     }
   }
-  return activeFilters
+  return {activeFilters, otherTypeFilters}
 }
 
 

@@ -13,10 +13,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { Search } from 'carbon-components-react'
-import { getSearchNames } from '../diagrams/searchHelper'
+import FilterBar from './FilterBar'
+import { getSearchNames } from '../diagrams/filterHelper'
 import FilterableMultiSelect from './FilterableMultiSelect'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
+import { defaultTypeFilters } from '../../reducers/topology'
 import { fetchTopologyFilters, updateTopologyFilters } from '../../actions/topology'
 import * as Actions from '../../actions'
 
@@ -50,6 +52,8 @@ class ResourceTopologyFilters extends React.Component {
     fetching: PropTypes.bool,
     onNameSearch: PropTypes.func,
     onSelectedFilterChange: PropTypes.func,
+    otherTypeFilters: PropTypes.array,
+    staticResourceData:  PropTypes.object,
   }
 
   constructor (props) {
@@ -97,8 +101,10 @@ class ResourceTopologyFilters extends React.Component {
   setNameSearchRef = ref => {this.nameSearchRef = ref}
 
   render() {
-    const { activeFilters, availableFilters, fetching, failure, onSelectedFilterChange } = this.props
+    const { activeFilters, availableFilters, fetching, failure,
+      otherTypeFilters, staticResourceData, onSelectedFilterChange } = this.props
 
+    // cluster, namespace, label filters
     const filters = [
       {
         type: 'cluster',
@@ -113,12 +119,6 @@ class ResourceTopologyFilters extends React.Component {
         activeKey: 'namespace'
       },
       {
-        type: 'type',
-        titleKey: 'resource.types',
-        availableKey: 'types',
-        activeKey: 'type'
-      },
-      {
         type: 'label',
         titleKey: 'resource.labels',
         availableKey: 'labels',
@@ -126,12 +126,26 @@ class ResourceTopologyFilters extends React.Component {
       },
     ]
 
-    // make sure it has internet type
-    if (availableFilters.types.findIndex(f=>f.label==='internet')===-1) {
-      availableFilters.types.push({label:'internet'})
+    // set up type filter
+    const availableTypeFilters = [...defaultTypeFilters].map(label=>{
+      return {label}
+    })
+    availableTypeFilters.push({label:'other'})
+    // put container at end
+    availableTypeFilters.sort(({label:a}, {label:b})=>{
+      if (a!=='container' && b==='container') {
+        return -1
+      } else if (a==='container' && b!=='container') {
+        return 1
+      }
+      return 0
+    })
+    const filterBarTooltipMap = {
+      other: otherTypeFilters.join('\n')
     }
 
     const searchTitle = msgs.get('name.label', this.context.locale)
+    const typeFilterTitle = msgs.get('type', this.context.locale)
     return (
       <div className='topologyFilters'>
         {/*dropdown filters*/}
@@ -147,6 +161,19 @@ class ResourceTopologyFilters extends React.Component {
             failure={failure}
           />
         )}
+
+        {/*type filter bar*/}
+        <div className='topology-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
+          <FilterBar
+            availableFilters={availableTypeFilters}
+            activeFilters={activeFilters['type']}
+            typeToShapeMap={staticResourceData.typeToShapeMap}
+            tooltipMap={filterBarTooltipMap}
+            onChange={onSelectedFilterChange}
+            fetching={fetching}
+            failure={failure}
+          />
+        </div>
 
         {/*name search*/}
         <div className='multi-select-filter' role='region' ref={this.setNameSearchRef}

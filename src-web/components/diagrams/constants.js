@@ -13,10 +13,10 @@ export const NODE_SIZE = 50
 export const TOPOLOGY_PADDING = 30
 export const MINIMUM_ZOOM_FIT = 0.4 // auto zoom to fit won't drop below this scale
 
-export const SearchResult = Object.freeze({
+export const FilterResults = Object.freeze({
   nosearch: '',     // no search in progress
   match: 'match',   // match
-  nomatch: 'nomatch', // doesn't match
+  hidden: 'hidden', // doesn't match
   related: 'related', //related to match
   matched: 'matched', // a previous match--used when out of search mode
 })

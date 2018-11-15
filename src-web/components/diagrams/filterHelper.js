@@ -8,9 +8,10 @@
  *******************************************************************************/
 'use strict'
 
-import { SearchResult } from './constants.js'
+import { FilterResults } from './constants.js'
 
-export default class SearchHelper {
+
+export default class FilterHelper {
 
   constructor() {
     this.lastSearch = ''
@@ -32,10 +33,10 @@ export default class SearchHelper {
             } else {
               ({layout} = data.edge)
             }
-            if (!searchName && layout.search===SearchResult.match) {
-              layout.search = SearchResult.matched // past tense
+            if (!searchName && layout.search===FilterResults.match) {
+              layout.search = FilterResults.matched // past tense
             } else {
-              layout.search = SearchResult.nosearch
+              layout.search = FilterResults.nosearch
             }
             delete layout.undragged
             delete layout.dragged
@@ -146,7 +147,7 @@ export default class SearchHelper {
             // mark srcs and tgts that have a path between them as matches
             for (const id in matchingMap) {
               const {node: {layout}} = matchingMap[id].data()
-              layout.search = SearchResult.match
+              layout.search = FilterResults.match
               delete relatedMap[id]
               delete elementMap[id]
             }
@@ -161,7 +162,7 @@ export default class SearchHelper {
               } else {
                 ({layout} = data.edge)
               }
-              layout.search = SearchResult.match// SearchResult.related
+              layout.search = FilterResults.match// FilterResults.related
               delete elementMap[id]
             }
           }
@@ -177,7 +178,7 @@ export default class SearchHelper {
         } else {
           ({layout} = data.edge)
         }
-        layout.search = SearchResult.nomatch
+        layout.search = FilterResults.hidden
       })
 
       collection.elements = this.cy.add(Object.values(matchingMap).concat(Object.values(relatedMap)))
@@ -190,7 +191,7 @@ export default class SearchHelper {
       const {elements} = collection
       elements.nodes().forEach(element=>{
         const {node:{layout}} = element.data()
-        layout.search = SearchResult.nomatch
+        layout.search = FilterResults.hidden
       })
     })
     return []
@@ -214,7 +215,7 @@ export default class SearchHelper {
           const name = this.getName(element)
           for (let i = 0; i < searchNames.length; i++) {
             if (name.indexOf(searchNames[i]) !==-1) {
-              layout.search = SearchResult.match
+              layout.search = FilterResults.match
               processed.add(id)
               delete elementMap[id]
               return true
@@ -239,7 +240,7 @@ export default class SearchHelper {
               } else {
                 ({layout} = data.edge)
               }
-              layout.search = SearchResult.related
+              layout.search = FilterResults.related
               related.push(element)
               processed.add(id)
               delete elementMap[id]
@@ -257,7 +258,7 @@ export default class SearchHelper {
         } else {
           ({layout} = data.edge)
         }
-        layout.search = SearchResult.nomatch
+        layout.search = FilterResults.hidden
       })
 
       collection.elements = this.cy.add(matching.concat(related))
@@ -276,11 +277,11 @@ export default class SearchHelper {
         const name = this.getName(element)
         for (let i = 0; i < searchNames.length; i++) {
           if (name.indexOf(searchNames[i]) !==-1) {
-            layout.search = SearchResult.match
+            layout.search = FilterResults.match
             return true
           }
         }
-        layout.search = SearchResult.nomatch
+        layout.search = FilterResults.hidden
         return false
       })
 

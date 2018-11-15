@@ -13,7 +13,7 @@ import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
 import {getWrappedNodeLabel} from '../../../lib/client/diagram-helper'
 import {layoutEdges, setDraggedLineData} from './linkHelper'
-import SearchHelper from './searchHelper'
+import FilterHelper from './filterHelper'
 import _ from 'lodash'
 cytoscape.use( cycola )
 cytoscape.use( dagre )
@@ -27,7 +27,7 @@ export default class LayoutHelper {
 
   constructor (staticResourceData, titles, locale) {
     Object.assign(this, staticResourceData)
-    this.searchHelper = new SearchHelper()
+    this.filterHelper = new FilterHelper()
     this.titles = titles
     this.locale = locale
     this.nodeClones = {}
@@ -686,7 +686,7 @@ export default class LayoutHelper {
   // filter collections based on name
   filterCollections = (cy, collections) => {
     const {searchNames, directedPath } =
-     this.searchHelper.filterCollections(cy, collections, this.searchName, {
+     this.filterHelper.filterCollections(cy, collections, this.searchName, {
        // search is starting, save positions and paths
        saveLayout: ()=>{
          this.saveRestoreElementStates(collections, true)
@@ -937,7 +937,8 @@ export default class LayoutHelper {
 
   shouldCreateNewRow = (currentX, breakWidth, row, cols, name, clayouts, idx, hashCodeToPositionMap) => {
     // if in a previous layout, the next section was in the next row
-    if (hashCodeToPositionMap && idx !== clayouts.length-1) {
+    if (hashCodeToPositionMap && idx !== clayouts.length-1 &&
+        hashCodeToPositionMap[clayouts[idx+1].hashCode]) {
       if (hashCodeToPositionMap[clayouts[idx+1].hashCode].row > row) {
         return true
       }

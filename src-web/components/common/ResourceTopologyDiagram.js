@@ -31,6 +31,7 @@ class ResourceTopologyDiagram extends React.Component {
     activeFilters: PropTypes.object,
     clusters: PropTypes.array,
     links: PropTypes.array,
+    loaded: PropTypes.bool,
     nodes: PropTypes.array,
     requiredFilters: PropTypes.object,
     searchName: PropTypes.string,
@@ -40,14 +41,11 @@ class ResourceTopologyDiagram extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = {
-      loaded:false
-    }
+    this.state = {}
   }
 
   componentWillReceiveProps(nextProps){
-    const { activeFilters, nodes, status} = nextProps
-    let { loaded } = this.state
+    const { nodes, loaded } = nextProps
 
     // get all cluster names
     const set = {}
@@ -55,16 +53,11 @@ class ResourceTopologyDiagram extends React.Component {
       set[clusterName] = true
     })
 
-    // prevent loading... message when just doing a live update
-    loaded = (loaded || status === Actions.REQUEST_STATUS.DONE
-        || status === Actions.REQUEST_STATUS.ERROR)
-      && lodash.isEqual(activeFilters, this.props.activeFilters)
-
     if (!this.initialNodes && loaded) {
       this.initialNodes = nodes.length
     }
     const keys = Object.keys(set)
-    this.setState({ loaded, clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1 })
+    this.setState({ clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1 })
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -92,8 +85,9 @@ class ResourceTopologyDiagram extends React.Component {
   }
 
   render() {
-    const { activeFilters, requiredFilters={}, nodes, links, searchName, status, staticResourceData} = this.props
-    const { loaded, clusterNames, isMulticluster } = this.state
+    const { activeFilters, requiredFilters={}, nodes, links,
+      searchName, loaded, status, staticResourceData} = this.props
+    const { clusterNames, isMulticluster } = this.state
     const {locale} = this.context
 
     if (status === Actions.REQUEST_STATUS.ERROR) {

@@ -141,14 +141,10 @@ body {
       background-color: #ffffff;
       cursor: text;
     }
-
-    &:focus::placeholder {
-      color: lightGray;
-      text-overflow: ellipsis;
-    }
   }
 
-  .bx--multi-select.bx--combo-box input[placeholder] {
+  .bx--multi-select.bx--combo-box input::placeholder {
+    color: $ibm-colors__gray--70;
     text-overflow:ellipsis;
   }
 

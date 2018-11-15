@@ -179,9 +179,11 @@ describe('topology reducer', () => {
           { label: 'pod' },
           { label: 'container' },
           { label: 'daemonset' },
-          { label: 'statefulset' }
+          { label: 'statefulset' },
+          { label: 'other' },
         ]
       },
+      otherTypeFilters: [],
       filtersStatus: 'DONE',
       test: 'test'
     }

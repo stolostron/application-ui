@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { updateSecondaryHeader } from '../../actions/common'
 import { withRouter } from 'react-router-dom'
+import classNames from 'classnames'
 import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
@@ -32,14 +33,25 @@ class ResourceTopology extends React.Component {
     fetchRequiredTopologyFilters: PropTypes.func,
     fetchTopology: PropTypes.func,
     location: PropTypes.object,
+    otherTypeFilters: PropTypes.array,
     params: PropTypes.object,
     resourceType: PropTypes.object,
     restoreSavedTopologyFilters: PropTypes.func,
     savingFilters: PropTypes.bool,
+    staticResourceData: PropTypes.object,
+    status: PropTypes.string,
     tabs: PropTypes.array,
     updateSecondaryHeader: PropTypes.func,
   }
 
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      loaded:false,
+      firstLoad:false
+    }
+  }
 
   componentWillMount() {
     const { updateSecondaryHeader, baseUrl, params, tabs } = this.props
@@ -67,10 +79,25 @@ class ResourceTopology extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!lodash.isEqual(nextProps.activeFilters, this.props.activeFilters) ||
-        nextProps.savingFilters !== this.props.savingFilters) {
-      this.props.fetchTopology(nextProps.activeFilters)
+    let { loaded, firstLoad } = this.state
+    const { activeFilters, otherTypeFilters, savingFilters, status } = nextProps
+    if (!lodash.isEqual(activeFilters, this.props.activeFilters) ||
+        savingFilters !== this.props.savingFilters) {
+      loaded = false
+      this.props.fetchTopology(activeFilters, otherTypeFilters)
+    } else {
+      // prevent loading... message when just doing a live update
+      loaded = (loaded || status === Actions.REQUEST_STATUS.DONE
+          || status === Actions.REQUEST_STATUS.ERROR)
+        && lodash.isEqual(activeFilters, this.props.activeFilters)
     }
+    firstLoad = firstLoad || loaded
+    this.setState({ loaded, firstLoad })
+  }
+
+  shouldComponentUpdate(nextProps){
+    return !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
+      nextProps.status !== this.props.status
   }
 
   componentWillUnmount() {
@@ -80,11 +107,13 @@ class ResourceTopology extends React.Component {
   }
 
   reload() {
-    this.props.fetchTopology(this.props.activeFilters)
+    const { activeFilters, otherTypeFilters } = this.props
+    this.props.fetchTopology(activeFilters, otherTypeFilters)
   }
 
   render() {
-    const { availableFilters ={}, params} = this.props
+    const { loaded, firstLoad } = this.state
+    const { availableFilters ={}, params, otherTypeFilters, staticResourceData} = this.props
     if (availableFilters.cluster && availableFilters.cluster.length === 0) {
       return (
         <div className='topologyTab'>
@@ -97,10 +126,14 @@ class ResourceTopology extends React.Component {
         </div>
       )
     }
+    const topologyClass = this.props.params ? 'topologyPage': 'topologyTab'
+    const classnames = classNames(topologyClass, {'first-load': firstLoad})
     return (
-      <div className={this.props.params ? 'topologyPage': 'topologyTab'}>
-        <ResourceTopologyFilters params={params||{}} />
-        <ResourceTopologyDiagram />
+      <div className={classnames} >
+        <ResourceTopologyFilters params={params||{}}
+          staticResourceData={staticResourceData}
+          otherTypeFilters={otherTypeFilters} />
+        <ResourceTopologyDiagram loaded={loaded} />
       </div>
     )
   }
@@ -141,20 +174,22 @@ ResourceTopology.contextTypes = {
 }
 
 const mapStateToProps = (state, ownProps) =>{
-  const { activeFilters = {}, savingFilters } = state.topology
+  const { activeFilters = {}, otherTypeFilters, savingFilters, status } = state.topology
   const { match: {url}} = ownProps
   const urlSegments = url.split('/')
   urlSegments.pop()
   return {
     activeFilters,
+    otherTypeFilters,
     savingFilters,
-    baseUrl: urlSegments.join('/')
+    baseUrl: urlSegments.join('/'),
+    status
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchTopology: (filters) => {
+    fetchTopology: (filters, otherTypeFilters) => {
       const f = lodash.cloneDeep(filters)
       if (f.cluster){
         // Each cluster label can be associated with multiple filterValues
@@ -170,6 +205,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
       if (f.type){
         f.type = f.type.map(n => n.label)
+        // if user selected 'other' type use these instead
+        const idx = f.type.indexOf('other')
+        if (idx!==-1) {
+          f.type.splice(idx, 1, ...otherTypeFilters)
+        }
       }
       if (f.label){
         f.label = f.label.map(l => ({ name: l.name, value: l.value }))

@@ -315,6 +315,8 @@
   "table.header.roleTemplates": "Role Templates",
   "table.header.roleBindingTemplates": "Role-binding Templates",
   "table.header.objectTemplates": "Object Templates",
+  "table.header.complianceTemplate": "Compliance YAML Template",
+  "table.header.policyTemplate": "Policy YAML Template",
   "topology.details.close": "Close topology details view",
   "topology.no.objects": "There are no objects to display using the current filters.",
   "topology.required.objects": "Missing:",

@@ -21,32 +21,17 @@ import msgs from '../../../nls/platform.properties'
 import { defaultTypeFilters } from '../../reducers/topology'
 import { fetchTopologyFilters, updateTopologyFilters } from '../../actions/topology'
 import * as Actions from '../../actions'
+import _ from 'lodash'
 
 resources(() => {
   require('../../../scss/topology-diagram.scss')
 })
 
 
-const filterItemShape = PropTypes.shape({
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  value: PropTypes.string,
-})
-
 class ResourceTopologyFilters extends React.Component {
   static propTypes = {
-    activeFilters: PropTypes.shape({
-      clusters: PropTypes.arrayOf(filterItemShape),
-      labels: PropTypes.arrayOf(filterItemShape),
-      namespaces: PropTypes.arrayOf(filterItemShape),
-      types: PropTypes.arrayOf(filterItemShape),
-    }),
-    availableFilters: PropTypes.shape({
-      clusters: PropTypes.arrayOf(filterItemShape),
-      labels: PropTypes.arrayOf(filterItemShape),
-      namespaces: PropTypes.arrayOf(filterItemShape),
-      types: PropTypes.arrayOf(filterItemShape),
-    }),
+    activeFilters: PropTypes.object,
+    availableFilters: PropTypes.object,
     failure: PropTypes.bool,
     fetchFilters: PropTypes.func,
     fetching: PropTypes.bool,
@@ -99,6 +84,12 @@ class ResourceTopologyFilters extends React.Component {
   }
 
   setNameSearchRef = ref => {this.nameSearchRef = ref}
+
+  shouldComponentUpdate(nextProps){
+    return !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
+    !_.isEqual(this.props.availableFilters, nextProps.availableFilters) ||
+    !_.isEqual(this.props.otherTypeFilters, nextProps.otherTypeFilters)
+  }
 
   render() {
     const { activeFilters, availableFilters, fetching, failure,

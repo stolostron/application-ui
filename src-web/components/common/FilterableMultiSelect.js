@@ -90,6 +90,11 @@ class FilterableMultiSelect extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps){
+    return !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
+    !_.isEqual(this.props.availableFilters, nextProps.availableFilters)
+  }
+
   render() {
     const {
       title,

@@ -94,7 +94,7 @@ class FilterBar extends React.Component {
   }
 }
 
-class FilterButton extends React.PureComponent {
+class FilterButton extends React.Component {
   static propTypes = {
     handleClick: PropTypes.func,
     label: PropTypes.string,

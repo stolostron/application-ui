@@ -57,7 +57,7 @@ class ResourceTopologyDiagram extends React.Component {
       this.initialNodes = nodes.length
     }
     const keys = Object.keys(set)
-    this.setState({ clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1 })
+    this.setState({ clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1, loaded })
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -80,6 +80,7 @@ class ResourceTopologyDiagram extends React.Component {
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
        !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
        !lodash.isEqual(this.props.requiredFilters, nextProps.requiredFilters) ||
+       this.props.status !== nextProps.status ||
        this.props.searchName !== nextProps.searchName ||
        this.state.loaded !== nextState.loaded
   }

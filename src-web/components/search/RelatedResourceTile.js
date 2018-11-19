@@ -1,0 +1,81 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+
+import React from 'react'
+import PropTypes from 'prop-types'
+import { SelectableTile, SkeletonText } from 'carbon-components-react'
+import msgs from '../../../nls/platform.properties'
+import '../../../graphics/diagramShapes.svg'
+import '../../../scss/related-resources-tile.scss'
+
+class RelatedResourceTile extends React.PureComponent {
+  static propTypes = {
+    count: PropTypes.number,
+    handleClick: PropTypes.func,
+    kind: PropTypes.string,
+    loading: PropTypes.bool,
+    selected: PropTypes.bool,
+  }
+
+  static contextTypes = {
+    locale: PropTypes.string
+  }
+
+  formatNumber(count) {
+    if (count > 999) {
+      // show one decimal place
+      const num = (count - (count % 100)) / 1000
+      return num + 'k'
+    }
+    return count
+  }
+
+  iconType(kind) {
+    switch (kind) {
+    case 'applications':
+      return 'roundedSq'
+    case 'pods':
+      return 'circle'
+    case 'services':
+      return 'hexagon'
+    case 'deployments':
+      return 'gear'
+    }
+  }
+
+  render() {
+    const { count, handleClick, kind, loading, selected } = this.props
+    const { locale } = this.context
+    return loading
+      ? <SelectableTile >
+        <div className='related-resource-tile-loading'>
+          <SkeletonText />
+          <SkeletonText />
+        </div>
+      </SelectableTile>
+      : <SelectableTile
+        id={`related-resource-${kind}`}
+        selected={selected}
+        handleClick={handleClick}
+        defaultChecked={false}
+        tabIndex={0} >
+        <div className='related-resource-tile'>
+          <svg className='related-resource-tile icon' width="48px" height="48px" viewBox="0 0 48 48">
+            <use href={`#diagramShapes_${this.iconType(kind)}`} className={`tile-icon ${kind}`}></use>
+          </svg>
+          <div className='related-resource-tile content'>
+            <div className='related-resource-tile count'>{this.formatNumber(count)}</div>
+            <div className='related-resource-tile text'>{msgs.get('related.tile.text', [kind], locale)}</div>
+          </div>
+        </div>
+      </SelectableTile>
+  }
+}
+
+export default RelatedResourceTile

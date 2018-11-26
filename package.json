@@ -36,9 +36,8 @@
   },
   "dependencies": {
     "@icp/security-middleware": "^2.0.19",
-    "apollo-cache-inmemory": "^1.1.12",
+    "apollo-boost": "^0.1.20",
     "apollo-client": "^2.2.8",
-    "apollo-link-http": "^1.5.4",
     "async": "^2.1.5",
     "babel-jest": "^23.4.0",
     "babel-plugin-dynamic-import-node": "^1.2.0",
@@ -87,6 +86,7 @@
     "query-string": "^6.1.0",
     "react": "^16.4.0",
     "react-ace": "^6.1.1",
+    "react-apollo": "^2.3.1",
     "react-autocomplete": "^1.8.1",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.0",

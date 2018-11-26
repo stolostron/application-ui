@@ -53,7 +53,7 @@
         "react/no-find-dom-node": "error",
         "react/jsx-indent": ["error", 2],
         "react/jsx-indent-props": ["error", 2],
-        "react/jsx-no-bind": "error",
+        "react/jsx-no-bind": "off",
         "react/jsx-no-duplicate-props": "error",
         "react/sort-prop-types": "error",
         "import/no-unresolved": ["error",

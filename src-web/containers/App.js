@@ -21,13 +21,13 @@ import Modal from '../components/common/Modal'
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
 export const ClustersDashboardTab = loadable(() => import(/* webpackChunkName: "dashboard" */ './ClustersDashboardTab'))
 export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
-// export const EmptyTab = loadable(() => import(/* webpackChunkName: "empty" */ './EmptyTab'))
 export const HelmRemoteInstallTab = loadable(() => import(/* webpackChunkName: "cataloginstall" */ './ClustersHelmRemoteInstallTab'))
 export const NodesTab = loadable(() => import(/* webpackChunkName: "nodes" */ './Nodes'))
 export const PodsTab = loadable(() => import(/* webpackChunkName: "pods" */ './ClustersPodsTab'))
 export const Policies = loadable(() => import(/* webpackChunkName: "policies" */ './Policies'))
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
 export const Storage = loadable(() => import(/* webpackChunkName: "storage" */ './PersistentVolumes'))
+export const SearchPage = loadable(() => import(/* webpackChunkName: "search" */ './SearchPage'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
 
@@ -68,6 +68,10 @@ class App extends React.Component {
           <Route path={`${match.url}/policies`} component={Policies} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />
           <Route path={`${match.url}/remoteinstall`} render={() => <HelmRemoteInstallTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
+          { /* TODO: searchFeature remove feature flag */
+            config['featureFlags:search'] === true &&
+            <Route path={`${match.url}/search`} render={() => <SearchPage secondaryHeaderProps={{title: 'routes.search'}} />} />
+          }
           <Route path={`${match.url}/storage`} component={Storage} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/welcome`} render={() => <WelcomeTab />} />

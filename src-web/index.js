@@ -13,10 +13,12 @@ import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import { BrowserRouter } from 'react-router-dom'
+import { ApolloProvider } from 'react-apollo'
 import App from './containers/App'
 import ScrollToTop from './components/common/ScrollToTop'
 import * as reducers from './reducers'
 import config from '../lib/shared/config'
+import apolloClient from '../lib/client/apollo-client'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -38,11 +40,14 @@ const store = createStore(combineReducers(reducers), preloadedState, composeEnha
 ))
 
 hydrate(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ScrollToTop>
-        <App />
-      </ScrollToTop>
-    </BrowserRouter>
-  </Provider>, document.getElementById('page')
+  <ApolloProvider client={apolloClient.getClient()}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ScrollToTop>
+          <App />
+        </ScrollToTop>
+      </BrowserRouter>
+    </Provider>
+  </ApolloProvider>
+  , document.getElementById('page')
 )

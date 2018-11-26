@@ -94,6 +94,12 @@ function fetchHeader(req, res, store, context) {
               disabled: isLowerThanOperator(userRole)
             },
             {
+              id: 'search',
+              label: msgs.get('routes.search', req),
+              url: `${config.get('contextPath')}/search`,
+              disabled: config.get('featureFlags').search !== true
+            },
+            {
               id: 'clusters',
               label: msgs.get('routes.clusters', req),
               url: `${config.get('contextPath')}/clusters`,

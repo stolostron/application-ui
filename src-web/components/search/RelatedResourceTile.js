@@ -10,6 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { SelectableTile, SkeletonText } from 'carbon-components-react'
+import { formatNumber } from '../../../lib/client/search-helper'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramShapes.svg'
 import '../../../scss/related-resources-tile.scss'
@@ -25,15 +26,6 @@ class RelatedResourceTile extends React.PureComponent {
 
   static contextTypes = {
     locale: PropTypes.string
-  }
-
-  formatNumber(count) {
-    if (count > 999) {
-      // show one decimal place
-      const num = (count - (count % 100)) / 1000
-      return num + 'k'
-    }
-    return count
   }
 
   iconType(kind) {
@@ -70,7 +62,7 @@ class RelatedResourceTile extends React.PureComponent {
             <use href={`#diagramShapes_${this.iconType(kind)}`} className={`tile-icon ${kind}`}></use>
           </svg>
           <div className='related-resource-tile content'>
-            <div className='related-resource-tile count'>{this.formatNumber(count)}</div>
+            <div className='related-resource-tile count'>{formatNumber(count)}</div>
             <div className='related-resource-tile text'>{msgs.get('related.tile.text', [kind], locale)}</div>
           </div>
         </div>

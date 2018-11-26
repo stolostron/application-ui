@@ -151,7 +151,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           Manage your platform
         </h2>
         <p>
-          Ready to manage multiple could? Start with these tasks.
+          Ready to manage multiple clouds? Start with these tasks.
         </p>
         <ul
           className="bx--list--unordered"

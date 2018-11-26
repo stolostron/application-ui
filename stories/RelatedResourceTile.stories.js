@@ -21,5 +21,5 @@ storiesOf('RelatedResourceTile', module)
   .add('related tile', withInfo(`
     Show # of resources related to the search results
   `)(() =>
-    <RelatedResourceTile count={4000} kind={'services'} loading={false} />
+    <RelatedResourceTile count={1234} kind={'deployments'} loading={false} />
   ))

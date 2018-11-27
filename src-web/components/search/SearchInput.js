@@ -13,24 +13,23 @@ import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 
 
-const GET_SEARCH_AUTOCOMPLETE = gql`
-  query searchAutocomplete {
-    searchAutocomplete
+const GET_SEARCH_SCHEMA = gql`
+  query searchSchema {
+    searchSchema
   }
 `
 class SearchInput extends React.PureComponent {
 
   render() {
     return (
-      <Query query={GET_SEARCH_AUTOCOMPLETE}>
+      <Query query={GET_SEARCH_SCHEMA}>
         {( { data, client } ) => {
-          console.log('autocomplete data:', data) // eslint-disable-line no-console
+          console.log('Search schema data:', data) // eslint-disable-line no-console
           return (<div className='search--input-area'>
             <Search
               className='bx--search--light'
               labelText='Search resources'  // TODO searchFeature: NLS
               placeHolderText='Search resources' // TODO searchFeature: NLS
-              defaultValue='MATCH (a) RETURN a LIMIT 100' // FIXME searchFeature: This is just for dev debug
               onChange={(evt) => {
                 // TODO searchFeature: use a mutation with a schema.
                 // TODO searchFeature: Need to debunce to limit the backend request.

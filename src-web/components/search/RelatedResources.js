@@ -20,30 +20,35 @@ resources(() => {
 class RelatedResources extends React.PureComponent {
   static propTypes = {
     loading: PropTypes.bool,
+    relatedResources: PropTypes.arrayOf(PropTypes.shape({
+      kind: PropTypes.string,
+      count: PropTypes.number,
+    })),
   }
 
   render() {
-    const { loading } = this.props
-    return (
+    const { loading, relatedResources } = this.props
+
+    if (relatedResources){
+      return (
+        <div className='search--related-results'>
+          {relatedResources && relatedResources.map(r =>
+            (<RelatedResourceTile
+              key={r.kind}
+              kind={r.kind}
+              count={r.count}
+              loading={loading}
+            />)
+          )}
+        </div>
+      )
+    }
+    return(
       <div className='search--related-results'>
         <RelatedResourceTile
-          kind='applications'
-          count={3}
           loading={loading}
         />
         <RelatedResourceTile
-          kind='pods'
-          count={1583}
-          loading={loading}
-        />
-        <RelatedResourceTile
-          kind='deployments'
-          count={13}
-          loading={loading}
-        />
-        <RelatedResourceTile
-          kind='services'
-          count={5}
           loading={loading}
         />
       </div>

@@ -29,8 +29,14 @@ const GET_SEARCH_INPUT_TEXT = gql`
   }
 `
 const SEARCH_QUERY = gql`
-  query searchResult($query: String) {
-    searchResult: search(query: $query)
+  query searchResult($keywords: [String], $filters: [SearchFilter]) {
+    searchResult: search(keywords: $keywords, filters: $filters){
+      items
+      relatedResources {
+        kind
+        count
+      }
+    }
   }
 `
 
@@ -53,9 +59,14 @@ class SearchPage extends React.Component {
         <Query query={GET_SEARCH_INPUT_TEXT}>
           {( { data } ) => {
             if(data && data.searchInput && data.searchInput.text !== '') {
-              const searchInput = data.searchInput.text
+              const searchText = data.searchInput.text
+              const searchTokens = searchText.split(' ')
+              const keywords = searchTokens.filter(token => token !== '' && token.indexOf(':') < 0)
+              const filters = searchTokens.filter(token => token.indexOf(':') >= 0)
+                .map(f => ({filter: f.split(':')[0], value: f.split(':')[1]}) )
+                .filter(f => f.filter !== '' && f.value !== '')
               return (
-                <Query query={SEARCH_QUERY} variables={{ query: searchInput }}>
+                <Query query={SEARCH_QUERY} variables={{ keywords, filters}}>
                   {({ data, loading }) => {
                     if (data.searchResult || loading) {
                       return (<SearchResult searchResult={data.searchResult} loading={loading} />)

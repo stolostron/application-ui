@@ -29,15 +29,21 @@ class RelatedResourceTile extends React.PureComponent {
   }
 
   iconType(kind) {
-    switch (kind) {
+    switch (kind.toLowerCase()) {
+    case 'application':
     case 'applications':
       return 'roundedSq'
+    case 'pod':
     case 'pods':
       return 'circle'
+    case 'service':
     case 'services':
       return 'hexagon'
+    case 'deployment':
     case 'deployments':
       return 'gear'
+    default:
+      return 'circle'
     }
   }
 

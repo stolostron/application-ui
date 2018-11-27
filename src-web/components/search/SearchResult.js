@@ -26,6 +26,7 @@ class SearchResult extends React.PureComponent {
   render() {
     const { loading, searchResult } = this.props
     const items = (searchResult && searchResult.items) || []
+    const relatedResources = (searchResult && searchResult.relatedResources) || []
     const uniqueKinds = [...new Set(items.map(item => item.kind))]
     // TODO searchFeature: Order results so Apps and Clusters are first
 
@@ -44,9 +45,8 @@ class SearchResult extends React.PureComponent {
 
     return (
       <div>
-        {/* TODO: searchFeature: add related results
-        <RelatedResources />
-        */}
+        <RelatedResources relatedResources={relatedResources} />
+
         { uniqueKinds.map((kind) => (
           <div className={'search--resource-table'} key={kind}>
             <SearchResourceTable

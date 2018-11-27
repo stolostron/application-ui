@@ -58,10 +58,10 @@ class SearchResourceTable extends React.PureComponent {
 
   getHeaders(){
     if (tableDefinitions[this.props.kind]) {
-      return tableDefinitions[this.props.kind].columns.map(col => ({ key: col.key, header: col.msgKey || col.key })) // TODO: translate
+      return tableDefinitions[this.props.kind].columns.map(col => ({ key: col.key, header: msgs.get(`table.header.${col.msgKey || col.key}`, this.context.locale) }))
     }
 
-    return Object.keys(this.props.items[0]).map(col => ({ key: col, header: col }))
+    return Object.keys(this.props.items[0]).map(col => ({ key: col, header: msgs.get(`table.header.${col}`, this.context.locale) }))
   }
 
   getRows(){

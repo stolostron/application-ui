@@ -66,6 +66,9 @@ export default {
       transformFunction: getAge,
     },
   ],
+  tableActions: [
+    'table.actions.remove',
+  ],
 }
 
 export function getTruncatedText(item){

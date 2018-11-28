@@ -241,12 +241,12 @@ export default {
       },
       {
         key: 'replicas',
-        resourceKey: 'replicas',
+        resourceKey: 'clusterReplicas',
         msgKey: 'table.header.replicas'
       },
       {
         key: 'clusterSelector',
-        resourceKey: 'clusterSelector',
+        resourceKey: 'clusterLabels',
         msgKey: 'table.header.cluster.selector',
         transformFunction: getLabelsToList,
       },

@@ -18,10 +18,9 @@ import classNames from 'classnames'
 import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
-import { getTabs } from '../../../lib/client/resource-helper'
 import NoResource from '../common/NoResource'
 import lodash from 'lodash'
-import { fetchTopology, fetchRequiredTopologyFilters, updateTopologyFilters } from '../../actions/topology'
+import { fetchTopology,  updateTopologyFilters } from '../../actions/topology'
 import ResourceTopologyDiagram from './ResourceTopologyDiagram'
 import ResourceTopologyFilters from './ResourceTopologyFilters'
 
@@ -29,8 +28,6 @@ class ResourceTopology extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     availableFilters: PropTypes.object,
-    baseUrl: PropTypes.string,
-    fetchRequiredTopologyFilters: PropTypes.func,
     fetchTopology: PropTypes.func,
     location: PropTypes.object,
     otherTypeFilters: PropTypes.array,
@@ -54,23 +51,10 @@ class ResourceTopology extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, baseUrl, params, tabs } = this.props
-    // details page mode
-    if (params) {
-      const {name} = params
-      updateSecondaryHeader(name, getTabs(tabs, (tab, index) => {
-        return index === 0 ? baseUrl : `${baseUrl}/${tab}`
-      }), this.getBreadcrumb())
-
-      // fetch the required filters for this resource
-      // changing active filters will then load the toplogy diagram
-      this.props.fetchRequiredTopologyFilters()
-    } else {
-    // full tab mode
-      updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
-      // changing active filters will then load the toplogy diagram
-      this.props.restoreSavedTopologyFilters()
-    }
+    const { updateSecondaryHeader } = this.props
+    updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
+    // changing active filters will then load the toplogy diagram
+    this.props.restoreSavedTopologyFilters()
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
@@ -126,8 +110,7 @@ class ResourceTopology extends React.Component {
         </div>
       )
     }
-    const topologyClass = this.props.params ? 'topologyPage': 'topologyTab'
-    const classnames = classNames(topologyClass, {'first-load': firstLoad})
+    const classnames = classNames('topologyTab', {'first-load': firstLoad})
     return (
       <div className={classnames} >
         <ResourceTopologyFilters params={params||{}}
@@ -218,10 +201,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     restoreSavedTopologyFilters: () => {
       dispatch({type: Actions.TOPOLOGY_RESTORE_SAVED_FILTERS})
-    },
-    fetchRequiredTopologyFilters: () => {
-      const { resourceType, params: {name, namespace}, staticResourceData} = ownProps
-      dispatch(fetchRequiredTopologyFilters(resourceType, namespace, name, staticResourceData))
     },
     onSelectedFilterChange: (filterType, filter) => {
       const { params: {name, namespace}} = ownProps

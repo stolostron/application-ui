@@ -12,10 +12,20 @@ import * as d3 from 'd3'
 import 'd3-selection-multi'
 import SVG from 'svg.js'
 import {dragLinks} from './linkHelper'
-import {counterZoom} from '../../../lib/client/diagram-helper'
+import {counterZoom, getTooltip} from '../../../lib/client/diagram-helper'
 import '../../../graphics/diagramShapes.svg'
+import '../../../graphics/diagramIcons.svg'
 
 import { FilterResults, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
+
+export const tooltip = d3.select('body').append('div')
+  .attr('class', 'tooltip')
+  .styles(()=>{
+    return {
+      'display': 'none',
+      'opacity': 0
+    }
+  })
 
 export default class NodeHelper {
   /**
@@ -23,10 +33,11 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, typeToShapeMap) {
+  constructor(svg, nodes, typeToShapeMap, getClientRect) {
     this.svg = svg
     this.nodes = nodes
     this.typeToShapeMap = typeToShapeMap
+    this.getClientRect = getClientRect
   }
 
 
@@ -58,14 +69,47 @@ export default class NodeHelper {
       .attr('type', (d) => { return d.name })
       .style('opacity', 0.0)
       .on('click', (d)=>{
+        tooltip.style('display', 'none')
         nodeClickHandler(d)
       })
       // accessability--user presses enter key when node has focus
       .on('keypress', (d) => {
         if ( d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+          tooltip.style('display', 'none')
           nodeClickHandler(d)
         }
       })
+      // tooltip
+      .on('mouseover', ({layout}, i, ns) => {
+        const bb = ns[i].getBoundingClientRect()
+        tooltip.style('display', undefined)
+        tooltip.transition()
+          .duration(200)
+          .style('opacity', 1)
+        tooltip.html(()=>{
+          return getTooltip(layout.tooltips)
+        })
+          .styles((d, j, ts)=>{
+            const {width, height} = ts[j].getBoundingClientRect()
+            let top = bb.top+32
+            if (top+height > this.getClientRect().bottom) {
+              top = bb.top - height
+            }
+            return {
+              'top': top + 'px',
+              'left': (bb.left-width/2+30) + 'px',
+            }
+          })
+      })
+      .on('mouseout', () => {
+        tooltip.transition()
+          .duration(1000)
+          .style('opacity', 0)
+          .on('end', ()=>{
+            tooltip.style('display', 'none')
+          })
+      })
+
 
     // node shape
     this.createNodeShapes(nodes, nodeDragHandler)
@@ -99,7 +143,8 @@ export default class NodeHelper {
 
   createNodeShapes = (nodes, nodeDragHandler) => {
     nodes.append('use')
-      .attrs(({layout}) => {
+      .attrs((d) => {
+        const {layout} = d
         const {type} = layout
         const shape = this.typeToShapeMap[type] ? this.typeToShapeMap[type].shape : 'circle'
         const classType = this.typeToShapeMap[type] ? this.typeToShapeMap[type].className : 'default'
@@ -127,26 +172,26 @@ export default class NodeHelper {
   // add node icons
   createNodeIcons = (nodes) => {
     nodes
-      .filter(({layout: {shapeIcons}}) => {
-        return !!shapeIcons
+      .filter(({layout: {nodeIcons}}) => {
+        return !!nodeIcons
       })
       .append('g')
       .attr('class','nodeIcons')
       .each(({layout},i,ns) => {
-        const {shapeIcons} = layout
+        const {nodeIcons} = layout
         d3.select(ns[i])
           .selectAll('use.icon')
-          .data(shapeIcons, ({icon}) => {
+          .data(nodeIcons, ({icon}) => {
             return icon
           })
           .enter().append('use')
           .attrs(({icon, classType, width, height}) => {
             return {
-              'xlink:href': `#diagramShapes_${icon}`,
+              'xlink:href': `#diagramIcons_${icon}`,
               'width': width+'px',
               'height': height+'px',
-              'pointer-events': 'none', //TODO -- at some point icons may be clickable
-              'tabindex': -1,           //TODO --  and if clickable this has to be a 1 for accesibility
+              'pointer-events': 'none',
+              'tabindex': -1,
               'class': `icon ${classType}`,
             }
           })
@@ -154,10 +199,6 @@ export default class NodeHelper {
   }
 
   createLabels = (draw, nodes) => {
-    // tooltip
-    nodes.append('title')
-      .text((d) => { return d.name })
-
     // create label
     nodes.append('g')
       .attr('class','nodeLabel')
@@ -180,7 +221,7 @@ export default class NodeHelper {
             add.tspan(layout.description)
               .fill('gray')
               .font({size: 9})
-              .addClass('description')
+              .addClass('description beg')
               .newLine()
           }
         })
@@ -309,10 +350,17 @@ export default class NodeHelper {
         const nodeIcons = d3.select(ns[i])
 
         nodeIcons.selectAll('use.icon')
-          .attrs(({width, height}) => {   //TODO -- just one centered icon now
-            const {x, y} = layout
-            return {
-              'transform': `translate(${x - width/2}, ${y - height/2})`,
+          .attrs(({width, height}) => {
+            if (!layout.nodeIcons) {
+              return {
+                'visibility': 'hidden',
+              }
+            } else {
+              const {x, y} = layout
+              return {
+                'visibility': 'visible',
+                'transform': `translate(${x - width/2}, ${y - height/2})`,
+              }
             }
           })
       })
@@ -324,6 +372,7 @@ export default class NodeHelper {
   dragNode = (d, i, ns) => {
     const {layout} = d
     const node = d3.select(ns[i].parentNode)
+    tooltip.style('display', 'none')
 
     // don't consider it dragged until more then 5 pixels away from original
     if (!layout.undragged) {
@@ -398,8 +447,11 @@ export const setSelections = (svg, selected) => {
 // interrupt any transition and make sure it has its final value
 export const interruptNodes = (svg) => {
   svg.select('g.nodes').selectAll('g.node').interrupt().call((selection)=>{
-    selection.each(({layout:{search=FilterResults.nosearch}},i,ns) => {
-      d3.select(ns[i]).style('opacity', (search===FilterResults.related ? RELATED_OPACITY : 1.0))
+    selection.each(({layout},i,ns) => {
+      if (layout) {
+        const {search=FilterResults.nosearch} = layout
+        d3.select(ns[i]).style('opacity', (search===FilterResults.related ? RELATED_OPACITY : 1.0))
+      }
     })
   })
 }
@@ -475,6 +527,12 @@ export const counterZoomLabels = (svg, currentZoom) => {
         shownLabel
           .selectAll('tspan.description')
           .style('font-size', fontSize-2+'px')
+
+        // fix leading between lines
+        shownLabel.selectAll('tspan.beg')
+          .each((d,j,ts)=>{
+            ts[j].setAttribute('dy', fontSize)
+          })
       })
   }
 }
@@ -545,6 +603,9 @@ export const showMatches = (svg, searchNames) => {
 
 export const moveLabels = (svg) => {
   svg.select('g.nodes').selectAll('g.nodeLabel')
+    .filter(({layout: {x, y}}) => {
+      return x!==undefined && y!==undefined
+    })
     .each(({layout},i,ns)=>{
       const {x, y, textBBox, scale=1} = layout
       const dy = (NODE_RADIUS*(scale===1?1:scale+.3))

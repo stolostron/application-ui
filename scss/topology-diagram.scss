@@ -10,7 +10,7 @@
 
 
 /********************************************
- ****   TOPOLOGY PAGE: TOPOLOGY DIAGRAM ********
+ ****   PURE TOPOLOGY PAGE ********
  ********************************************/
 
 .topologyDiagramContainer {
@@ -47,49 +47,50 @@
 }
 
 /********************************************
- ***   RESOURCE PAGE: DESIGN DIAGRAM  ******
+ ***   HYBRID RESOURCE/TOPOLOGY PAGE ******
  ********************************************/
 
-.resourceDesignContainer {
-  .topologyDiagramContainer {
-    .diagramViewerDiagram {
-       height: calc(100vh - 205px);
-      .diagramViewerContainerContainer {
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        .diagramViewerContainer {
-          margin-right: 0;
-        }
+.resourceDiagramContainer {
+   position: relative;
+
+   .diagramViewerDiagram {
+
+    .diagramViewerTitle {
+      color: $color__blue-90;
+      line-height: 1.2rem;
+    }
+
+   .diagramViewerContainerContainer {
+      width: 100%;
+      height: calc(100vh - 220px);
+      background-color: #fff;
+      position: relative;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+      overflow: hidden;
+
+      .secondaryLoad {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.scrolled {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .diagramViewerContainer {
+        margin-right: 0;
       }
     }
   }
-}
 
-/********************************************
- *****  RESOURCE PAGE: TOPOLOGY DIAGRAM  *****
- ********************************************/
-.topologyPage {
-  margin: -54px -2rem;
-  .topologyContainer {
-    .topologyDiagramContainer {
-      .diagramViewerDiagram {
-       .diagramViewerContainerContainer {
-        width: 100%;
-        height: calc(100vh - 330px);
-        background-color: #fff;
-        .diagramViewerContainer {
-           .notificationContainer {
-             position: absolute;
-             background-color: white;
-             right: 0;
-             top: 0;
-           }
-        }
-      }
-    }
+  .diagram-type-filter-bar {
+    position: absolute;
+    top: -2px;
+    right: 0;
   }
- }
 }
 
 .diagramViewerContainer {

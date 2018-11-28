@@ -24,7 +24,7 @@ export default {
   diagramCloneTypes: ['internet', 'host'],
 
   // general order in which to organize diagram with 'internet' at upper left and container at lower right
-  shapeTypeOrder: ['internet', 'host', 'service', 'controller', 'cronjob', 'pod', 'container'],
+  shapeTypeOrder: ['internet', 'host', 'service', 'deployment', 'daemonset', 'statefulset', 'cronjob', 'pod', 'container'],
 
   typeToShapeMap: {
     'internet': {
@@ -67,6 +67,7 @@ export default {
 
   diagramOptions: {
     showHubs: true,
+    consolidateSmallGroups: true,
   },
 
   // nodes, links, clusters
@@ -81,6 +82,9 @@ export default {
 
   //getNodeDetails: what desciption to put in details view when node is clicked
   getNodeDetails,
+
+  // tooltip on hover
+  getNodeTooltips,
 
   // get section titles
   getSectionTitles,
@@ -150,11 +154,10 @@ export function getNodeGroups(nodes) {
   // separate into types
   const groupMap = {}
   const allNodeMap = {}
-  const controllerMap = {}
-  const controllerSet = new Set(['deployment', 'daemonset', 'statefulset', 'cronjob'])
+  const deploymentMap = {}
   nodes.forEach(node=>{
     allNodeMap[node.uid] = node
-    let type = controllerSet.has(node.type) ? 'controller' : node.type
+    let type = node.type
     if (this.shapeTypeOrder.indexOf(type)===-1) {
       if (this.shapeTypeOrder.indexOf('unknown')===-1) {
         this.shapeTypeOrder.push('unknown')
@@ -182,38 +185,38 @@ export function getNodeGroups(nodes) {
       }
     }
 
-    switch (type) {
-    case 'controller':
-      Object.assign(node.layout, {
-        qname: node.namespace+'/'+node.name,
-        hasPods: false,
-        pods: [],
-        services: []
-      })
-      controllerMap[node.layout.qname] = node
-      break
-    case 'pod':
-      node.layout.qname = node.namespace+'/'+node.name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-      break
-    case 'service':
-      node.layout.qname = node.namespace+'/'+node.name.replace(/-service$/, '')
-      break
+    if (node.namespace && node.name) {
+      switch (type) {
+      case 'deployment':
+        Object.assign(node.layout, {
+          qname: node.namespace+'/'+node.name,
+          hasPods: false,
+          pods: [],
+        })
+        deploymentMap[node.layout.qname] = node
+        break
+      case 'pod':
+        node.layout.qname = node.namespace+'/'+node.name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+        break
+      }
     }
+
     group.nodes.push(node)
   })
 
-  // show pods in the controller that created it
-  if (groupMap['controller']) {
+  // show pods in the deployment that created it
+  const addPodIcon = []
+  if (groupMap['deployment']) {
     if (groupMap['pod']) {
       let i=groupMap['pod'].nodes.length
       while(--i>=0) {
         const node = groupMap['pod'].nodes[i]
         if (node.layout) {
-          const controller = controllerMap[node.layout.qname]
+          const controller = deploymentMap[node.layout.qname]
           if (controller) {
             controller.layout.pods.push(node)
             controller.layout.hasPods = true
-            controller.layout.shapeIcons = [podIcon]
+            addPodIcon.push(controller.layout)
             groupMap['pod'].nodes.splice(i,1)
             delete allNodeMap[node.uid]
             delete node.layout
@@ -222,10 +225,16 @@ export function getNodeGroups(nodes) {
       }
     }
   }
+  addPodIcon.forEach(layout=>{
+    const tooltips = Object.keys(_.keyBy(layout.pods, 'name')).map(key=>{
+      return {name:'Pod', value:key}
+    })
+    layout.nodeIcons = [Object.assign(podIcon, {tooltips})]
+  })
   return {nodeGroups: groupMap, allNodeMap}
 }
 
-export function getSectionTitles(types, locale) {
+export function getSectionTitles(isMulticluster, clusters, types, locale) {
   const set = new Set()
   types.forEach(type=>{
     switch (type) {
@@ -254,8 +263,8 @@ export function getSectionTitles(types, locale) {
       break
     }
   })
-  return Array.from(set).sort().join(', ')
-
+  return (isMulticluster ? (clusters.join(', ') +'\n') : '') +
+      Array.from(set).sort().join(', ')
 }
 
 export function getNodeDescription(node, locale) {
@@ -285,6 +294,21 @@ export function getNodeDescription(node, locale) {
     }
   }
   return description
+}
+
+export function getNodeTooltips(node, locale) {
+  let tooltips = []
+  const {name, clusterName, namespace, layout:{type, nodeIcons}} = node
+  tooltips.push({name:msgs.get('resource.name', locale), value:name})
+  tooltips.push({name:msgs.get('resource.type', locale), value:type})
+  tooltips.push({name:msgs.get('resource.cluster', locale), value:clusterName})
+  tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace})
+  if (nodeIcons) {
+    nodeIcons.forEach(({tooltips:ntps})=>{
+      tooltips = tooltips.concat(ntps)
+    })
+  }
+  return tooltips
 }
 
 export function getNodeDetails(currentNode) {
@@ -465,9 +489,9 @@ export function getUnconnectedLayoutOptions(collection, columns, index) {
           return 1
         }
         return 0
-      } else if (la.shapeIcons && !lb.shapeIcons) {
+      } else if (la.nodeIcons && !lb.nodeIcons) {
         return -1
-      } else if (!la.shapeIcons && lb.shapeIcons) {
+      } else if (!la.nodeIcons && lb.nodeIcons) {
         return 1
       } else if (aself && !bself) {
         return -1

@@ -9,7 +9,6 @@
 'use strict'
 
 import React from 'react'
-import { mount } from 'enzyme'
 import renderer from 'react-test-renderer'
 
 import DiagramViewer from '../../../src-web/components/diagrams/DiagramViewer'
@@ -287,17 +286,19 @@ const mockData = {
 
 describe('DiagramViewer 3 components', () => {
   it('renders as expected', () => {
-    const component = mount(
+    const component = renderer.create(
       <DiagramViewer
-        id={mockData.id}
-        nodes={[]}
+        title={''}
+        id={'test'}
+        nodes={mockData.nodes}
         links={mockData.links}
+        isMulticluster={false}
         context={{locale: 'US-en'}}
+        secondaryLoad={false}
         staticResourceData={mockData.staticResourceData}
         activeFilters={{}}
       />
     )
-
-    expect(component).toMatchSnapshot()
+    expect(component.toJSON()).toMatchSnapshot()
   })
 })

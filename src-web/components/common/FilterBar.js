@@ -55,13 +55,12 @@ class FilterBar extends React.Component {
       }
       this.changeTimeout = setTimeout(() => {
         this.props.onChange('type', activeFilters)
-      }, 500)
+      }, 100)
 
       return { activeFilters }
     })
 
   }
-
 
   componentWillReceiveProps(nextProps){
     this.setState({ activeFilters: _.cloneDeep(nextProps.activeFilters||[]) })
@@ -75,7 +74,7 @@ class FilterBar extends React.Component {
 
   render() {
     const {activeFilters} = this.state
-    const {availableFilters, typeToShapeMap, tooltipMap } = this.props
+    const {availableFilters, typeToShapeMap, tooltipMap={} } = this.props
     return (
       <div className='filter-bar'>
         {availableFilters.map(({label}) => {
@@ -136,7 +135,7 @@ class FilterButton extends React.Component {
           </div>
         </div>
         {selected && <div className='filter-bar-button-checkmark'>
-          <svg width="10px" height="10px">
+          <svg width="8px" height="8px">
             <use href={'#diagramIcons_checkmark'}></use>
           </svg>
         </div>}

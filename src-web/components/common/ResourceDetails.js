@@ -19,8 +19,7 @@ import { connect } from 'react-redux'
 import lodash from 'lodash'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
-import ResourceDesign from './ResourceDesign'
-import ResourceTopology from './ResourceTopology'
+import ResourceDiagram from './ResourceDiagram'
 import CompliancePolicyDetail from './CompliancePolicyDetail'
 import config from '../../../lib/shared/config'
 
@@ -94,8 +93,7 @@ const withResource = (Component) => {
 const OverviewTab = withResource(ResourceOverview)
 
 const components = {
-  '/design': ResourceDesign,
-  '/topology': ResourceTopology,
+  '/diagram': ResourceDiagram,
   '/policies': ResourceOverview,
   '/compliancePolicy/:policyName/:policyNamespace': CompliancePolicyDetail,
 }

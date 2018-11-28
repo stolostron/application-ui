@@ -23,8 +23,7 @@ import hcmpvsClaim from './hcm-pvs-claim'
 import hcmreleases from './hcm-releases'
 import hcmrepositories from './hcm-repositories'
 
-import hcmappdesign from './diagrams/hcm-application-design'
-import hcmapptopology from './diagrams/hcm-application-topology'
+import hcmappdiagram from './diagrams/hcm-application-diagram'
 import hcmtopology from './diagrams/hcm-topology'
 
 const resourceData = {
@@ -41,14 +40,9 @@ const resourceData = {
   [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology
 }
 
-// design tabs
-const designData = {
-  [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmappdesign,
-}
-
-// secondary topology tabs (ex: Topology tab under Application)
-const topologyData = {
-  [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapptopology,
+// diagram tabs
+const diagramData = {
+  [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmappdiagram,
 }
 
 function getResourceData(resourceType) {
@@ -61,13 +55,9 @@ function getResourceData(resourceType) {
       //eslint-disable-next-line no-console
       console.error(`No resource data found for '${resourceType}'`)
     }
-    // add design diagram definitions
-    if (designData[resourceType.name]) {
-      def = Object.assign(def, designData[resourceType.name])
-    }
-    // add topology diagram definitions
-    if (topologyData[resourceType.name]) {
-      def = Object.assign(def, topologyData[resourceType.name])
+    // merge table/diagram/topology definitions
+    if (diagramData[resourceType.name]) {
+      def = diagramData[resourceType.name].mergeDefinitions(def, hcmtopology)
     }
     return def
   }

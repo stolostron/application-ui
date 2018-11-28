@@ -76,11 +76,11 @@ export default class LinkHelper {
 
     // add path
     links.append('path')
-      .attrs(({uid}) => {
+      .attrs((d) => {
+        const {uid, layout} = d
         return {
           id: `link-${uid}`,
-          'marker-start': 'url(#squarehead)',
-          'marker-end': 'url(#arrowhead)'
+          ...getLinkMarkers(layout)
         }
       })
 
@@ -121,15 +121,23 @@ export default class LinkHelper {
     })
       .attr('transform', currentZoom)
 
+    const isHidden = (layout) =>{
+      let {search=FilterResults.nosearch} = layout
+      const {isLoop, source} = layout
+      if (isLoop) {
+        ({search=FilterResults.nosearch} = source)
+      }
+      return (search===FilterResults.hidden)
+    }
     // if name search only show related links
     links
-      .style('visibility', ({layout: {search=FilterResults.nosearch}})=>{
-        return (search===FilterResults.hidden) ? 'hidden' : 'visible'
+      .style('visibility', ({layout})=>{
+        return isHidden(layout) ? 'hidden' : 'visible'
       })
 
     // if name search only set paths of related links
-    links = links.filter(({layout: {isLoop, search=FilterResults.nosearch}})=>{
-      return (!isLoop && search!==FilterResults.hidden)
+    links = links.filter(({layout})=>{
+      return !isHidden(layout)
     })
 
     // set link path then back it away from node
@@ -169,15 +177,24 @@ export default class LinkHelper {
 
     // move line labels
     if (this.diagramOptions.showLineLabels) {
-      const labels = this.svg.select('g.links').selectAll('g.label')
+      let labels = this.svg.select('g.links').selectAll('g.label')
         .attr('transform', currentZoom)
+
+      labels
+        .style('visibility', ({layout: {search=FilterResults.nosearch}})=>{
+          return (search===FilterResults.hidden) ? 'hidden' : 'visible'
+        })
+
+      labels = labels.filter(({layout: {search=FilterResults.nosearch}})=>{
+        return (search!==FilterResults.hidden)
+      })
 
       labels.selectAll('text')
         .selectAll('textPath')
         .text(({layout={}, label}) => {
-          return layout.isParallel ? '< both >' :
+          return !label ? '' : (layout.isParallel ? '< both >' :
             (layout.isLoop ? label :
-              (layout.isSwapped ? `< ${label}` : `${label} >`))
+              (layout.isSwapped ? `< ${label}` : `${label} >`)))
         })
         .attrs(() => {
           return {
@@ -223,52 +240,6 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
   })
 }
 
-export const appendLinkDefs = (svg) => {
-  const addArrowhead = (defs, id, className) =>{
-    defs
-      .append('marker')
-      .attrs({
-        id,
-        refX: 2,
-        refY: 7,
-        orient: 'auto',
-        markerWidth: 16,
-        markerHeight: 16,
-        markerUnits: 'userSpaceOnUse',
-        xoverflow: 'visible'
-      })
-      .append('svg:path')
-      .attr('d', 'M2,2 L2,14 L12,7 L2,2')
-      .attr('class', className)
-  }
-
-  const defs = svg.append('defs')
-  addArrowhead(defs, 'arrowhead', 'arrowDecorator')
-  addArrowhead(defs, 'arrowheadfaded', 'arrowDecorator faded')
-
-  defs
-    .append('marker')
-    .attrs({
-      id: 'squarehead',
-      refX: 4,
-      refY: 4,
-      orient: 'auto',
-      markerWidth: 7,
-      markerHeight: 7,
-      markerUnits: 'userSpaceOnUse',
-      xoverflow: 'visible'
-    })
-    .append('svg:rect')
-    .attrs({
-      x: '1',
-      y: '1',
-      width: '5',
-      height: '5'
-    })
-    .attr('class', 'squareDecorator')
-}
-
-
 export const setDraggedLineData = (layout) => {
   // calculate new lineData
   const {isLoop, source, target} = layout
@@ -285,7 +256,7 @@ export const setDraggedLineData = (layout) => {
     ]
   }
 
-  // path was originally created form the node position without transform applied
+  // path was originally created from the node position without transform applied
   // transform was then applied to the path after it was created
   // therefore to counteract that original transform we need to subtract it now
   // because we're now using the actual mouse position of the node
@@ -334,9 +305,19 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
         layout.lineData = []
         delete layout.linePath
         delete layout.backedOff
-        const {source: {uid: sid}, target: {uid: tid}} = layout
+        let {source: {uid: sid}, target: {uid: tid}} = layout
         const colaEdge = edge.scratch().cola
         if (nodeMap[sid] && nodeMap[tid]) {
+
+          // flip line so that line label isn't upside down :(
+          layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
+          if (layout.isSwapped) {
+            [tid, sid] = [sid, tid]
+            if (colaEdge) {
+              [colaEdge.target, colaEdge.source] = [colaEdge.source, colaEdge.target]
+            }
+          }
+
           const {position: {x:x1, y:y1}} = nodeMap[sid]
           const {position: {x:x2, y:y2}} = nodeMap[tid]
 
@@ -386,8 +367,7 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
     nodeMap = nodeMap || _.keyBy(nodes, 'layout.uid')
     nodes.forEach(({layout: {selfLink}})=>{
       if (selfLink) {
-        const {nodeLayout} = selfLink
-        const {link: {uid}} = selfLink
+        const {nodeLayout, link: {uid}} = selfLink
         let link = selfLinks[uid]
         if (!link) {
           link = selfLinks[uid] = selfLink.link
@@ -397,14 +377,16 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
           const node = nodeMap[nodeLayout.uid]
           const {position: {x, y}} = node
           // loops-- curve back to itself
+          delete layout.linePath
+          delete layout.backedOff
           const lineData = getLoopLineData(x,y)
-          layout = link.layout = {
+          layout = link.layout = Object.assign(layout, {
             source: nodeLayout,
             target: nodeLayout,
             search: nodeLayout.search,
             isLoop: true,
             lineData
-          }
+          })
         }
         laidoutEdges.push({
           layout,
@@ -436,23 +418,97 @@ export const interruptLinks = (svg) => {
   })
 }
 
-export const counterZoomLinks = (svg, currentZoom) => {
+export const counterZoomLinks = (svg, currentZoom, showLineLabels) => {
   if (svg) {
     const opacity = counterZoom(currentZoom.k, 0.35, 0.85, 0.5, 0.85)
     svg.select('g.links').selectAll('g.link')
-      .each(({layout:{target}}, i, ns)=>{
-        const {search=FilterResults.nosearch} = target
+      .each(({layout}, i, ns)=>{
+        const {target:{search}} = layout
         const link = d3.select(ns[i])
         link.selectAll('path')
           .attrs(() => {
-            return {
-              'marker-end': (search===FilterResults.nosearch || search===FilterResults.match)
-                ? 'url(#arrowhead)' : 'url(#arrowheadfaded)'
-            }
+            return getLinkMarkers(layout, search)
           })
           .styles({
             'stroke-opacity': opacity
           })
       })
+
+      // move line labels
+    if (showLineLabels) {
+      const fontSize = counterZoom(currentZoom.k, 0.2, 0.85, 10, 20)
+      const labels = svg.select('g.links').selectAll('g.label')
+      labels
+        .selectAll('text.linkText')
+        .style('font-size', fontSize+'px')
+    }
   }
 }
+
+export const getLinkMarkers = ({isSwapped}, search=FilterResults.nosearch) => {
+  let beg = 'url(#squarehead)'
+
+  // if in search mode, use a faded arrow when pointing to a faded related shape
+  // if path was reversed (to keep the textpath on top of the line) swap markers
+  const isFaded = !(search===FilterResults.nosearch || search===FilterResults.match)
+  let end = `url(#${isSwapped?'reversed':''}arrowhead${isFaded?'faded':''})`
+  if (isSwapped) {
+    [beg, end] = [end, beg]
+  }
+  return {
+    'marker-start': beg,
+    'marker-end': end
+  }
+}
+
+export const defineLinkMarkers = (svg) => {
+
+  const defineArrowheadMarker = (defs, id, className, reversed) =>{
+    defs
+      .append('marker')
+      .attrs({
+        id,
+        refX: 2,
+        refY: 7,
+        orient: 'auto',
+        markerWidth: 16,
+        markerHeight: 16,
+        markerUnits: 'userSpaceOnUse',
+        xoverflow: 'visible'
+      })
+      .append('svg:path')
+      .attr('d', reversed ? 'M2,7 L12,2 L12,14, L2,7' : 'M2,2 L2,14 L12,7 L2,2')
+      .attr('class', className)
+  }
+
+  const defineSquareheadMarker = (defs, id, className) =>{
+    defs
+      .append('marker')
+      .attrs({
+        id: 'squarehead',
+        refX: 4,
+        refY: 4,
+        orient: 'auto',
+        markerWidth: 7,
+        markerHeight: 7,
+        markerUnits: 'userSpaceOnUse',
+        xoverflow: 'visible'
+      })
+      .append('svg:rect')
+      .attrs({
+        x: '1',
+        y: '1',
+        width: '5',
+        height: '5'
+      })
+      .attr('class', className)
+  }
+
+  const defs = svg.append('defs')
+  defineArrowheadMarker(defs, 'arrowhead', 'arrowDecorator')
+  defineArrowheadMarker(defs, 'arrowheadfaded', 'arrowDecorator faded')
+  defineArrowheadMarker(defs, 'reversedarrowhead', 'arrowDecorator', true)
+  defineArrowheadMarker(defs, 'reversedarrowheadfaded', 'arrowDecorator faded', true)
+  defineSquareheadMarker(defs, 'squarehead', 'squareDecorator')
+}
+

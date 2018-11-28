@@ -42,24 +42,6 @@ export const receiveTopologySuccess = (response, resourceType, fetchFilters) => 
   fetchFilters
 })
 
-export const fetchRequiredTopologyFilters = (resourceType, namespace, name, staticResourceData) => {
-  return (dispatch) => {
-    dispatch(requestResource(resourceType))
-    return apolloClient.getResource(resourceType, {namespace, name})
-      .then(response => {
-        if (response.errors) {
-          return dispatch(receiveResourceError(response.errors[0], resourceType))
-        }
-        dispatch({
-          type: Actions.TOPOLOGY_REQUIRED_FILTERS_RECEIVE_SUCCESS,
-          item: lodash.cloneDeep(response.data.items[0]),
-          staticResourceData
-        }, resourceType)
-      })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
 export const fetchTopology = (vars, fetchFilters) => {
   const resourceType = RESOURCE_TYPES.HCM_TOPOLOGY
   return (dispatch) => {

@@ -39,4 +39,38 @@
        <path d="m34 13-14 11" stroke-width="2px"/>
      </g>
    </symbol>
+   <symbol viewBox="0 0 50 50" id="placement">
+     <g>
+      <rect x="1.7" y=".72" width="31" height="40" rx="3" ry="3" />
+      <g stroke-width="1px">
+        <path d="m7 6 h20"/>
+        <path d="m7 11.2 h20"/>
+        <path d="m7 16.4 h20"/>
+        <path d="m7 21.6 h20"/>
+        <path d="m7 26.8 h20"/>
+        <path d="m7 32 h20"/>
+      </g>
+      <path d="m31 19 11 0.13 0.21 17 6.6 0.2-12 11-12-11 6 0.066z"/>
+     </g>
+   </symbol>
+   <symbol viewBox="0 0 50 50" id="chart">
+     <g>
+       <circle cx="25" cy="25" r="18"/>
+       <circle cx="25" cy="25" r="7"/>
+       <path d="m8.2 7.4 14 13"/>
+       <path d="m25 0.5 0.061 19"/>
+       <path d="m43 7.3-14 13"/>
+       <path d="m49 24-19-0.12"/>
+       <path d="m43 42-13-14"/>
+       <path d="m25 48-1.2e-5 -19"/>
+       <path d="m8.2 42 13-13"/>
+       <path d="m1.5 24 19 0.18"/>
+     </g>
+   </symbol>
+   <symbol viewBox="0 0 50 50" id="deployable">
+     <g>
+      <path d="m22 1.6q2.8-1.5 5.7 0l17 9.2q2.8 1.5 2.8 4.6l-2.2e-4 18q0 3.1-2.8 4.6l-17 9.2q-2.8 1.5-5.7 0l-17-9.2q-2.8-1.5-2.8-4.6v-18q0-3.1 2.8-4.6z"/>
+      <path d="m22 19 8.4 5.9-8.4 6.8"/>
+     </g>
+   </symbol>
 </svg>

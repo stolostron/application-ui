@@ -132,12 +132,12 @@ class ResourceTopologyDiagram extends React.Component {
         subtitle={notification?notification.subtitle:msgs.get('topology.no.objects', locale)}
         kind='info' />
     }
-
+    const title = msgs.get('cluster.names', [clusterNames], locale)
     return (
       <div className='topologyContainer'>
         <div className="topologyDiagramContainer" >
           <DiagramViewer
-            title={clusterNames}
+            title={title}
             nodes={nodes}
             links={links}
             isMulticluster={isMulticluster}

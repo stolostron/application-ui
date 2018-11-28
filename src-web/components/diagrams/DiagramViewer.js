@@ -11,15 +11,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
+import { Loading  } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import config from '../../../lib/shared/config'
+import DesignView from './DesignView'
 import DetailsView from './DetailsView'
 import LayoutHelper from './layoutHelper'
 import TitleHelper, {interruptTitles, counterZoomTitles} from './titleHelper'
-import LinkHelper, {interruptLinks, counterZoomLinks, appendLinkDefs } from './linkHelper'
-import NodeHelper, {interruptNodes, counterZoomLabels, showMatches, setSelections} from './nodeHelper'
+import LinkHelper, {interruptLinks, counterZoomLinks, defineLinkMarkers } from './linkHelper'
+import NodeHelper, {interruptNodes, counterZoomLabels, showMatches, setSelections, tooltip} from './nodeHelper'
 import * as c from './constants.js'
-import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 
@@ -36,14 +37,15 @@ class DiagramViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
-    getEditor: PropTypes.func,
     isMulticluster: PropTypes.bool,
     links: PropTypes.array,
     nodes: PropTypes.array,
     searchName: PropTypes.string,
+    secondaryLoad: PropTypes.bool,
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string,
+    yaml: PropTypes.string,
   }
 
   constructor (props) {
@@ -52,7 +54,8 @@ class DiagramViewer extends React.Component {
       links: _.uniqBy(props.links, 'uid'),
       nodes: _.uniqBy(props.nodes, 'uid'),
       hiddenLinks: new Set(),
-      selectedNodeId: ''
+      selectedNodeId: '',
+      selectedDesignNode: null,
     }
     if (props.setViewer) {
       props.setViewer(this)
@@ -109,7 +112,7 @@ class DiagramViewer extends React.Component {
       const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')
       for (var uid in prevStateNodeMap) {
         const prevNode = prevStateNodeMap[uid]
-        if (!propNodeMap[uid]) {
+        if (!propNodeMap[uid] && !prevNode.loading) {
           // if node is missing in this scan, see if it reappears in the next 3 scans
           if (prevNode.latency===undefined) {
             prevNode.latency = 3
@@ -131,7 +134,7 @@ class DiagramViewer extends React.Component {
       nodes = nodes.map(node => {
         return prevStateNodeMap[node.uid] || Object.assign(node, {layout: {newComer: {}}})
       })
-      // if lots of new nodes, don't bother with remembering them
+      // remember new nodes---unless there's more then 10
       const newComers = nodes.filter(({layout})=>{
         return layout && layout.newComer
       })
@@ -182,20 +185,22 @@ class DiagramViewer extends React.Component {
   setZoomInRef = ref => {this.zoomInRef = ref}
 
   render() {
-    const { title, context, staticResourceData, getEditor } = this.props
-    const { selectedNodeId } = this.state
-    const { locale } = context
+    const { title, yaml, staticResourceData, secondaryLoad } = this.props
+    const { selectedNodeId, selectedDesignNode } = this.state
     const svgId = this.getSvgId()
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef} >
         {title && <div className='diagramViewerTitle'>
-          {msgs.get('cluster.names', [title], locale)}
+          {title}
         </div>}
         <div className='diagramViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
           <div className='diagramViewerContainer' ref={this.setViewerContainerRef}
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
             <svg id={svgId} className="topologyDiagram" />
           </div>
+          {secondaryLoad && <div className='secondaryLoad' >
+            <Loading withOverlay={false} />
+          </div>}
         </div>
         <input type='image' alt='zoom-in' className='zoom-in' ref={this.setZoomInRef}
           onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />
@@ -203,7 +208,15 @@ class DiagramViewer extends React.Component {
           onClick={this.handleZoomOut} src={`${config.contextPath}/graphics/zoom-out.svg`} />
         <input type='image' alt='zoom-target' className='zoom-target'
           onClick={this.handleTarget} src={`${config.contextPath}/graphics/zoom-center.svg`} />
-        { this.state.selectedNodeId && !getEditor &&
+        <DesignView
+          context={this.context}
+          open={!!(selectedNodeId && selectedDesignNode)}
+          yaml={yaml}
+          getLayoutNodes={this.getLayoutNodes}
+          selectedDesignNode={selectedDesignNode}
+          onClose={this.handleDesignClose}
+        />
+        { selectedNodeId && !selectedDesignNode &&
           <DetailsView
             context={this.context}
             onClose={this.handleDetailsClose}
@@ -223,20 +236,9 @@ class DiagramViewer extends React.Component {
     if (svg) {
       setSelections(svg, node)
     }
-
-    // if there's a companion yaml editor, scroll to line
-    const { getEditor } = this.props
-    const editor = getEditor && getEditor()
-    if (editor && node) {
-      const line = node.$r||0
-      editor.renderer.STEPS = 25
-      editor.setAnimatedScroll(true)
-      editor.scrollToLine(line, true, true, ()=>{})
-      editor.selection.moveCursorToPosition({row: line, column: 0})
-      editor.selection.selectLine()
-    }
     this.setState({
-      selectedNodeId: node?node.uid:undefined
+      selectedNodeId: node ? node.uid : '',
+      selectedDesignNode: node && node.isDesign ? node: null,
     })
   }
 
@@ -250,7 +252,14 @@ class DiagramViewer extends React.Component {
 
   handleDetailsClose = () => {
     this.setState({
-      selectedNodeId: ''
+      selectedNodeId: '',
+    })
+  }
+
+  handleDesignClose = () => {
+    this.setState({
+      selectedNodeId: '',
+      selectedDesignNode: null,
     })
   }
 
@@ -278,19 +287,18 @@ class DiagramViewer extends React.Component {
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
       this.svg.call(this.canvasZoom())
-      appendLinkDefs(this.svg)
+      defineLinkMarkers(this.svg)
     }
 
     // consolidate nodes/filter links/add layout data to each element
     const {nodes=[], links=[], hiddenLinks= new Set(), searchChanged} = this.state
-    const {isMulticluster, searchName} = this.props
-    const clientWidth = this.viewerContainerContainerRef ?
-      this.viewerContainerContainerRef.getBoundingClientRect().width : 2200
+    const {activeFilters, isMulticluster, searchName} = this.props
     const options = {
       firstLayout: this.lastLayoutBBox===undefined,
-      clientWidth,
+      clientRect: this.clientRect,
       isMulticluster,
-      searchName
+      searchName,
+      activeFilters
     }
     if (this.viewerContainerRef)
       this.viewerContainerRef.classList.toggle('search-mode', !!searchName)
@@ -320,17 +328,19 @@ class DiagramViewer extends React.Component {
       linkHelper.moveLinks(transition, currentZoom, searchChanged)
 
       // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, typeToShapeMap)
+      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, typeToShapeMap, ()=>{return this.clientRect})
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick, this.handleNodeDrag)
       nodeHelper.moveNodes(transition, currentZoom, searchChanged)
 
       // Create or refresh the titles in the diagram.
-      if (titles.length || searchChanged) {
+      if (titles.length || searchChanged ||
+          (this.lastTitlesLength && titles.length!=this.lastTitlesLength)) {
         const titleHelper = new TitleHelper(this.svg, titles)
         titleHelper.removeOldTitlesFromDiagram()
         titleHelper.addTitlesToDiagram(currentZoom)
         titleHelper.moveTitles(transition, currentZoom, searchChanged)
+        this.lastTitlesLength = titles.length
       }
 
       // show label matches in boldface
@@ -373,9 +383,11 @@ class DiagramViewer extends React.Component {
             scale = c.MINIMUM_ZOOM_FIT//Math.min(c.MINIMUM_ZOOM_FIT, .8/(width / availableWidth)) // even below threshhold keep entire row visible
             this.viewerContainerContainerRef.classList.add('scrolled')
             this.viewerContainerRef.setAttribute('style', `height: ${height*scale+c.TOPOLOGY_PADDING}px;`)
+            this.clientRect = this.viewerContainerRef.getBoundingClientRect()
           } else {
             this.viewerContainerContainerRef.classList.remove('scrolled')
             this.viewerContainerRef.setAttribute('style', 'height: 100%;')
+            this.clientRect = this.viewerContainerContainerRef.getBoundingClientRect()
           }
           d3.zoom().scaleTo(svg, scale)
           if (resetScrollbar) {
@@ -410,7 +422,7 @@ class DiagramViewer extends React.Component {
 
   manualZoom(duration){
     return d3.zoom()
-      .scaleExtent([ 0.1, 1 ]) // can manually scale from 0.1 up to 1
+      .scaleExtent([ 0.1, 2 ]) // can manually scale from 0.1 up to 2
       .on('zoom', () => {
         currentZoom = d3.event.transform
         this.isAutoZoomToFit = false
@@ -422,6 +434,7 @@ class DiagramViewer extends React.Component {
   }
 
   zoomElements(duration) {
+    tooltip.style('display', 'none')
     const svg = d3.select('#'+this.getSvgId())
     if (svg) {
       this.interruptElements(svg)
@@ -447,7 +460,7 @@ class DiagramViewer extends React.Component {
   counterZoomElements(svg) {
     counterZoomLabels(svg, currentZoom)
     counterZoomTitles(svg, currentZoom)
-    counterZoomLinks(svg, currentZoom)
+    counterZoomLinks(svg, currentZoom, this.diagramOptions.showLineLabels)
   }
 
   interruptElements(svg) {

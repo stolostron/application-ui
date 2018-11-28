@@ -33,6 +33,7 @@
     stroke-opacity: 0;
     stroke: blue;
     fill: none;
+    pointer-events: none;
   }
 
   &:hover .shadow {
@@ -56,6 +57,34 @@
     }
   }
 
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: left;
+  width: auto;
+  height: auto;
+  padding: 4px;
+  background: white;
+  font-size: 11px;
+  border: 1px solid $color__navy-gray-7;
+  border-radius: 3px;
+  pointer-events: none;
+
+  div {
+    height: 12px;
+    padding:0;
+    margin:0;
+
+    .label {
+      font-weight: bold;
+      color: $color__blue-90;
+    }
+
+    .value {
+      color: $color__navy-gray-6;
+     }
+  }
 }
 
 .container {
@@ -89,8 +118,8 @@
   border-top: 6px solid $color__purple-30;
 }
 .service {
-  stroke: $color__blue-60;
-  fill: $color__blue-60;
+  stroke: $color__blue-50;
+  fill: $color__blue-50;
   border-top: 6px solid $color__blue-60;
 }
 .statefulset {
@@ -98,6 +127,12 @@
   fill: $color__green-40;
   border-top: 6px solid $color__green-40;
 }
+
+.design {
+  stroke: $color__navy-gray-5;
+  fill: $color__navy-gray-5;
+}
+
 .default {
   stroke: $color__blue-40;
   fill: $color__blue-40;

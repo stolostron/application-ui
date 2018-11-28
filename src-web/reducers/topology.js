@@ -9,7 +9,8 @@
 
 import lodash from 'lodash'
 import * as Actions from '../actions'
-import { RESOURCE_TYPES, HCM_TOPOLOGY_FILTER_COOKIE } from '../../lib/shared/constants'
+import { getFilterState, saveFilterState } from '../../lib/client/filter-helper'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 const initialState = {
   availableFilters: {
@@ -75,8 +76,21 @@ export const topology = (state = initialState, action) => {
     }
   }
   case Actions.TOPOLOGY_RESTORE_SAVED_FILTERS: {
-    const {activeFilters, otherTypeFilters} = getFilterState(state)
+    const {filters: activeFilters, otherTypeFilters} = getFilterState(initialState.activeFilters)
     return {...state, activeFilters, otherTypeFilters, savingFilters: true}
+  }
+  case Actions.TOPOLOGY_FILTERS_UPDATE: {
+    const activeFilters = {...state.activeFilters} || {}
+    activeFilters[action.filterType] = action.filters
+    if (state.savingFilters) {
+      const {namespace, name} = action
+      saveFilterState(namespace, name, {filters:activeFilters, otherTypeFilters: state.otherTypeFilters})
+    }
+    return {...state, activeFilters}
+  }
+  case Actions.TOPOLOGY_SET_ACTIVE_FILTERS: {
+    const { activeFilters } = action
+    return {...state, activeFilters}
 
   }
   case Actions.TOPOLOGY_NAME_SEARCH: {
@@ -134,48 +148,7 @@ export const topology = (state = initialState, action) => {
       filtersStatus: Actions.REQUEST_STATUS.DONE,
     }
   }
-  case Actions.TOPOLOGY_FILTERS_UPDATE: {
-    const activeFilters = {...state.activeFilters} || {}
-    activeFilters[action.filterType] = action.filters
-    if (state.savingFilters) {
-      const {namespace, name} = action
-      const cookieKey = namespace ? `${HCM_TOPOLOGY_FILTER_COOKIE}--${namespace}--${name}` : `${HCM_TOPOLOGY_FILTER_COOKIE}`
-      localStorage.setItem(cookieKey, JSON.stringify({filterState: {activeFilters, otherTypeFilters: state.otherTypeFilters}}))
-    }
-    return {...state, activeFilters}
-  }
-  case Actions.TOPOLOGY_REQUIRED_FILTERS_RECEIVE_SUCCESS: {
-    const {item, staticResourceData: {getRequiredTopologyFilters}} = action
-    const {metadata: {namespace, name}} = item
-    const {activeFilters, otherTypeFilters} = getFilterState(state, namespace, name)
-    const requiredFilters = getRequiredTopologyFilters(item)
-    activeFilters.label = requiredFilters.label
-    return {...state, activeFilters, otherTypeFilters, requiredFilters, savingFilters: true}
-  }
   default:
     return { ...state }
   }
 }
-
-const getFilterState = (state = initialState, namespace, name) => {
-  const cookieKey = namespace ? `${HCM_TOPOLOGY_FILTER_COOKIE}--${namespace}--${name}` : `${HCM_TOPOLOGY_FILTER_COOKIE}`
-  let otherTypeFilters = []
-  let activeFilters = {...state.activeFilters} || {}
-  const savedActiveFilters = localStorage.getItem(cookieKey)
-  if (savedActiveFilters) {
-    try {
-      const savedState = JSON.parse(savedActiveFilters)
-      if (savedState.filterState) {
-        ({activeFilters, otherTypeFilters} = savedState.filterState)
-      } else {
-        // legacy
-        activeFilters = savedState
-      }
-    } catch (e) {
-      //
-    }
-  }
-  return {activeFilters, otherTypeFilters}
-}
-
-

@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import _ from 'lodash'
 import { FilterResults } from './constants.js'
 
 
@@ -15,10 +16,12 @@ export default class FilterHelper {
 
   constructor() {
     this.lastSearch = ''
+    this.lastActiveFilters = null
   }
 
-  filterCollections = (cy, collections, searchName='', cbs) => {
+  filterByName = (cy, collections, searchName='', cbs) => {
     // reset previous search
+    this.cy = cy
     let searchNames = []
     const isSearching = searchName.length>0
     const isNewSearch = searchName.localeCompare(this.lastSearch)!==0
@@ -59,10 +62,9 @@ export default class FilterHelper {
       }
     }
 
-    // new search
+    // filter by name
     let directedPath=false
     if (isSearching) {
-      this.cy = cy
       this.caseSensitive = searchName.localeCompare(searchName.toLowerCase()) !== 0
       if (!this.caseSensitive) {
         searchName = searchName.toLowerCase()
@@ -78,6 +80,7 @@ export default class FilterHelper {
       }
     }
     this.lastSearch = searchName
+
     return {searchNames, directedPath}
   }
 
@@ -289,6 +292,48 @@ export default class FilterHelper {
       return collection.elements.length>0
     })
   }
+
+  filterByType = (nodes, links, activeTypes, cbs) => {
+    if (nodes.length>0) {
+      if (this.lastActiveFilters && !_.isEqual(this.lastActiveFilters, activeTypes)) {
+        cbs.resetLayout()
+      }
+      this.lastActiveFilters=activeTypes
+
+      // hide and remove any nodes without the right filter
+      const typeFilterMap = _.keyBy(activeTypes, 'label')
+      const nodeMap = _.keyBy(nodes, 'uid')
+      nodes = nodes.filter(node=>{
+        const {type, layout} = node
+        if (!typeFilterMap[type]) {
+          if (layout) {
+            layout.search = FilterResults.hidden
+          }
+          return false
+        } else {
+          if (layout && layout.search!==FilterResults.matched) {
+            layout.search = FilterResults.nosearch
+          }
+          return true
+        }
+      })
+
+      // hide any links that now connect to a node that is hidden
+      // d3 hides the shape--easier to do then constantly creating an destroying svg elements
+      links.forEach(({source, target, layout})=>{
+        if (layout) {
+          if ((nodeMap[source].layout||{}).search === FilterResults.hidden ||
+              (nodeMap[target].layout||{}).search === FilterResults.hidden) {
+            layout.search = FilterResults.hidden
+          } else if (layout.search === FilterResults.hidden) {
+            layout.search = FilterResults.nosearch
+          }
+        }
+      })
+    }
+    return nodes
+  }
+
 
   getName = (element) => {
     const {node} = element.data()

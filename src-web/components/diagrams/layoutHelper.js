@@ -11,7 +11,7 @@
 import cytoscape from 'cytoscape'
 import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
-import {getWrappedNodeLabel} from '../../../lib/client/diagram-helper'
+import {getWrappedNodeLabel, getHashCode} from '../../../lib/client/diagram-helper'
 import {layoutEdges, setDraggedLineData} from './linkHelper'
 import FilterHelper from './filterHelper'
 import _ from 'lodash'
@@ -58,6 +58,11 @@ export default class LayoutHelper {
       })
     }
 
+    // filter by type
+    if (this.diagramOptions.filterByType) {
+      nodes = this.filterByType(nodes, links)
+    }
+
     // for each cluster, group into collections by type
     // definitions/diagram/hcm-xxx.js can provide this
     const groups = this.getNodeGroups ? this.getNodeGroups(nodes) : this.getNodeGroupsDefault(nodes)
@@ -72,26 +77,31 @@ export default class LayoutHelper {
     this.cloneNodes(groups, nodes)
 
     // consolidate smaller groups into one bigger group
-    this.consolidateGroups(groups)
+    if (this.diagramOptions.consolidateSmallGroups) {
+      this.consolidateGroups(groups)
+    }
 
     //identify hubs
     this.markHubs(groups)
 
     // set the node's description
-    if (this.getNodeDescription) {
-      nodes.forEach(node=>{
-        if (node.layout) {
+    nodes.forEach(node=>{
+      if (node.layout) {
+        if (this.getNodeDescription) {
           node.layout.description = this.getNodeDescription(node, this.locale)
         }
-      })
-    }
+        if (this.getNodeTooltips) {
+          node.layout.tooltips = this.getNodeTooltips(node, this.locale)
+        }
+      }
+    })
 
     // create cytoscape element collections
     const cy = cytoscape({ headless: true }) // start headless cytoscape
     let collections = this.createCollections(cy, groups)
 
     // filter collections when searching
-    const {searchNames, directedPath } = this.filterCollections(cy, collections)
+    const {searchNames, directedPath } = this.filterByName(cy, collections)
 
     // assign cytoscape layout options for each collection (ex: dagre, grid)
     this.setLayoutOptions(collections, directedPath)
@@ -454,7 +464,7 @@ export default class LayoutHelper {
       this.shapeTypeOrder.forEach(type=>{
         if (nodeGroups[type] && nodeGroups[type].connected) {
           nodeGroups[type].connected.forEach(({nodeMap, details: {edges}})=>{
-            const hashCode = this.hashCode(Object.keys(nodeMap).sort().join())
+            const hashCode = getHashCode(Object.keys(nodeMap).sort().join())
             edges.forEach(edge=>{
               directions.forEach(direction=>{
                 const next = edge[direction]
@@ -534,7 +544,7 @@ export default class LayoutHelper {
             type,
             title,
             elements: cy.add(elements),
-            hashCode: this.hashCode(uidArr.sort().join()),
+            hashCode: getHashCode(uidArr.sort().join()),
             details
           })
         })
@@ -600,7 +610,7 @@ export default class LayoutHelper {
                 type,
                 title: type,
                 elements: cy.add(elements),
-                hashCode: this.hashCode(uidArr.sort().join()),
+                hashCode: getHashCode(uidArr.sort().join()),
                 details
               })
             }
@@ -625,7 +635,8 @@ export default class LayoutHelper {
 
   setConnectedLayoutOptions = (connected, options) => {
     connected.forEach(collection => {
-      collection.options = this.getConnectedLayoutOptions(collection, options)
+      collection.options = typeof this.getConnectedLayoutOptions==='function' ?
+        this.getConnectedLayoutOptions(collection, options) : {}
     })
   }
 
@@ -636,7 +647,8 @@ export default class LayoutHelper {
       return count<=3 ? count : (count<=9 ? 3 : (count<=12 ? 4 : (count<=18? 6:8)))
     })
     unconnected.forEach((collection, index)=>{
-      collection.options = this.getUnconnectedLayoutOptions(collection, columns, index)
+      collection.options = typeof this.getUnconnectedLayoutOptions==='function' ?
+        this.getUnconnectedLayoutOptions(collection, columns, index) : {}
     })
   }
 
@@ -659,16 +671,18 @@ export default class LayoutHelper {
         const {elements, options, hashCode} = collection
         options.hashCode = hashCode
         const layout = collection.layout = elements.layout(options)
-        layout.pon('layoutstop').then(({layout: {adaptor, options}})=>{
-          // save webcola adapter to layout edges later in linkHelper.layoutEdges
-          if (adaptor) {
-            this.cachedAdapters[options.hashCode] = adaptor
-          }
-          totalLayouts--
-          if (totalLayouts<=0) {
-            cb()
-          }
-        })
+        if (layout) {
+          layout.pon('layoutstop').then(({layout: {adaptor, options}})=>{
+            // save webcola adapter to layout edges later in linkHelper.layoutEdges
+            if (adaptor) {
+              this.cachedAdapters[options.hashCode] = adaptor
+            }
+            totalLayouts--
+            if (totalLayouts<=0) {
+              cb()
+            }
+          })
+        }
         try {
           layout.run()
         } catch (e) {
@@ -684,9 +698,19 @@ export default class LayoutHelper {
   }
 
   // filter collections based on name
-  filterCollections = (cy, collections) => {
+  filterByType = (nodes, links) => {
+    return this.filterHelper.filterByType(nodes, links, this.activeFilters.type, {
+      resetLayout: ()=>{
+        this.cachedLayouts={}
+        this.rowPositionCache=undefined
+      },
+    })
+  }
+
+  // filter collections based on name
+  filterByName = (cy, collections) => {
     const {searchNames, directedPath } =
-     this.filterHelper.filterCollections(cy, collections, this.searchName, {
+     this.filterHelper.filterByName(cy, collections, this.searchName, {
        // search is starting, save positions and paths
        saveLayout: ()=>{
          this.saveRestoreElementStates(collections, true)
@@ -717,7 +741,7 @@ export default class LayoutHelper {
           if (isSave) {
             const {x, y} = layout
             layout.savePosition = {x, y}
-          } else {
+          } else if (layout.savePosition) {
             const {savePosition: {x, y}} = layout
             layout.x = x
             layout.y = y
@@ -733,6 +757,17 @@ export default class LayoutHelper {
           }
         }
       })
+    })
+    Object.values(this.selfLinks).forEach(({layout})=>{
+      if (isSave) {
+        layout.savePath = layout.linePath
+        layout.saveTransform = layout.transform
+      } else {
+        layout.linePath = layout.savePath
+        layout.transform = layout.saveTransform
+        delete layout.savePath
+        delete layout.saveTransform
+      }
     })
   }
 
@@ -1083,13 +1118,15 @@ export default class LayoutHelper {
     return hashCodeToPositionMap
   }
 
-  gatherSectionDetails = (allNodeMap, nodes, nodeInfo) => {
+  gatherSectionDetails = (allNodeMap, nodes, details) => {
     if (this.getSectionTitles) {
       nodes.forEach(({uid})=>{
         if (allNodeMap[uid]) {
           const {clusterName, type} = allNodeMap[uid]
-          nodeInfo.clusterMap[clusterName] = true
-          nodeInfo.typeMap[type] = true
+          if (clusterName) {
+            details.clusterMap[clusterName] = true
+          }
+          details.typeMap[type] = true
         }
       })
     }
@@ -1118,20 +1155,8 @@ export default class LayoutHelper {
   // else just section types
   getSectionTitle = (clusters, types) => {
     if (this.getSectionTitles) {
-      return (this.isMulticluster ? (clusters.join(', ') +'\n') : '') +
-         this.getSectionTitles(types, this.locale)
+      return this.getSectionTitles(this.isMulticluster, clusters, types, this.locale)
     }
     return ''
   }
-
-  hashCode = (str) => {
-    let hash = 0, i, chr
-    for (i = 0; i < str.length; i++) {
-      chr   = str.charCodeAt(i)
-      hash  = ((hash << 5) - hash) + chr
-      hash |= 0
-    }
-    return hash
-  }
-
 }

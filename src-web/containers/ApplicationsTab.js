@@ -30,9 +30,9 @@ const registerApplicationModal = <CreateResourceModal
 
 export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_APPLICATIONS,
-  ['overview', 'design', 'topology'],
+  ['overview', 'diagram'],
   [registerApplicationModal],
-  ['/design', '/topology'],
+  ['/diagram'],
   [
     <ResourceTableModule key='applicationWorks' definitionsKey='applicationWorkKeys' />,
     <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES} />,

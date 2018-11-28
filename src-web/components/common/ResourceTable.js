@@ -24,6 +24,9 @@ import { getLink, getPrimaryKey, getSecondaryKey } from '../../definitions'
 import { Link, withRouter } from 'react-router-dom'
 import lodash from 'lodash'
 import ResourceTableRowExpandableContent from './ResourceTableRowExpandableContent'
+import constants from '../../../lib/shared/constants'
+import { fliterTableAction } from '../../../lib/client/access-helper'
+
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -209,8 +212,13 @@ class ResourceTable extends React.Component {
     return headers
   }
 
+  showTableToobar() {
+    const { userRole } = this.props
+    return userRole !== constants.ROLES.VIEWER
+  }
+
   getRows() {
-    const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, getResourceAction } = this.props
+    const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, getResourceAction, userRole } = this.props
     const { locale } = this.context
     const { normalizedKey } = staticResourceData
     const resources = itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && lodash.get(target, normalizedKey) === id) || (target.name === id))))
@@ -218,25 +226,28 @@ class ResourceTable extends React.Component {
       return resources.map((item, index) => {
         const row = {}
 
-        const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
         if (normalizedKey) {
           row.id = `${lodash.get(item, normalizedKey)}${lodash.get(item, 'cluster', '')}`
         } else {
           row.id = getSecondaryKey(resourceType) ? `${lodash.get(item, getPrimaryKey(resourceType))}-${lodash.get(item, getSecondaryKey(resourceType))}` : lodash.get(item, getPrimaryKey(resourceType)) || `table-row-${index}`
         }
 
-        if (menuActions && menuActions.length > 0) {
+        const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
+
+        const fliteredActions = menuActions ? fliterTableAction(menuActions,userRole) : null
+
+        if (fliteredActions && fliteredActions.length > 0 && this.showTableToobar()) {
           row.action = (
             <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
-
-              {menuActions.map((action) =>
+              {fliteredActions.map((action) =>
                 <OverflowMenuItem
                   data-table-action={action}
-                  isDelete={action ==='table.actions.remove' || action ==='table.actions.delete'}
+                  isDelete={action ==='table.actions.remove' || action ==='table.actions.policy.remove'|| action ==='table.actions.applications.remove'|| action ==='table.actions.compliance.remove'}
                   onClick={() => getResourceAction(action, item, null, history, locale)}
                   key={action}
                   itemText={msgs.get(action, locale)}
-                />)}
+                />
+              )}
             </OverflowMenu>
           )
         }
@@ -266,6 +277,7 @@ class ResourceTable extends React.Component {
     })
     return indeterminateStatus
   }
+
 }
 
 ResourceTable.contextTypes = {
@@ -274,8 +286,9 @@ ResourceTable.contextTypes = {
 
 const mapStateToProps = (state) => {
   const navRoutes = state.nav && state.nav.navItems
+  const userRole = state.role.role
 
-  return { navRoutes }
+  return { navRoutes, userRole }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

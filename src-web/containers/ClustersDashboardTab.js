@@ -135,4 +135,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(withAccess(connect(mapStateToProps, mapDispatchToProps)(ClustersDashboardTab), ROLES.OPERATOR))
+export default withRouter(withAccess(connect(mapStateToProps, mapDispatchToProps)(ClustersDashboardTab), ROLES.VIEWER))

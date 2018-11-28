@@ -23,6 +23,7 @@ import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import TagInput from './TagInput'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { showCreate } from '../../../lib/client/access-helper'
 
 class ResourceList extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
@@ -67,6 +68,7 @@ class ResourceList extends React.Component {
 
   render() {
     const {
+      role,
       items,
       itemIds,
       mutateStatus,
@@ -116,7 +118,7 @@ class ResourceList extends React.Component {
       return <Loading withOverlay={false} className='content-spinner' />
 
     const actions = React.Children.map(children, action => {
-      if (action.props.disabled)
+      if (action.props.disabled || !showCreate(role))
         return null
       return React.cloneElement(action, { resourceType })
     })

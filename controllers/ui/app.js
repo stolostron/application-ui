@@ -90,8 +90,7 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'overview',
               label: msgs.get('routes.overview', req),
-              url: `${config.get('contextPath')}/overview`,
-              disabled: isLowerThanOperator(userRole)
+              url: `${config.get('contextPath')}/overview`
             },
             {
               id: 'search',
@@ -102,8 +101,7 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'clusters',
               label: msgs.get('routes.clusters', req),
-              url: `${config.get('contextPath')}/clusters`,
-              disabled: isLowerThanOperator(userRole)
+              url: `${config.get('contextPath')}/clusters`
             },
             {
               id: 'policies',
@@ -114,20 +112,18 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'applications',
               label: msgs.get('routes.applications', req),
-              url: `${config.get('contextPath')}/applications`,
-              disabled: isLowerThanOperator(userRole)
+              url: `${config.get('contextPath')}/applications`
             },
             {
               id: 'releases',
               label: msgs.get('routes.releases', req),
-              url: `${config.get('contextPath')}/releases`,
-              disabled: isLowerThanOperator(userRole)
+              url: `${config.get('contextPath')}/releases`
             },
             {
               id: 'pods',
               label: msgs.get('routes.pods', req),
               url: `${config.get('contextPath')}/pods`,
-              disabled: isLowerThanOperator(userRole)
+              disabled: isLowerThanEditor(userRole)
             },
             {
               id: 'nodes',
@@ -145,7 +141,7 @@ function fetchHeader(req, res, store, context) {
               id: 'topology',
               label: msgs.get('routes.topology', req),
               url: `${config.get('contextPath')}/topology`,
-              disabled: isLowerThanOperator(userRole)
+              disabled: isLowerThanEditor(userRole)
             },
             {
               id: 'events',
@@ -169,8 +165,7 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'welcome',
               label: msgs.get('routes.getting-started', req),
-              url: `${config.get('contextPath')}/welcome`,
-              disabled: isLowerThanOperator(userRole)
+              url: `${config.get('contextPath')}/welcome`
             }
           ]
         }
@@ -232,6 +227,10 @@ function getContext(req) {
     title: msgs.get('common.app.name', req_context.locale),
     context: req_context
   }
+}
+
+function isLowerThanEditor(role) {
+  return role === constants.ROLES.VIEWER
 }
 
 function isLowerThanOperator(role) {

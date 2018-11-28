@@ -15,4 +15,4 @@ import withAccess from '../components/common/withAccess'
 
 export default withRouter(withAccess(typedResourcePageWithTopology(
   RESOURCE_TYPES.HCM_TOPOLOGY
-), ROLES.OPERATOR))
+), ROLES.EDITOR))

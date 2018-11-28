@@ -39,4 +39,4 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
     <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />,
     <ResourceTableModule key='applicationRelationships' definitionsKey='applicationRelationshipKeys' />
   ]
-), ROLES.OPERATOR))
+), ROLES.VIEWER))

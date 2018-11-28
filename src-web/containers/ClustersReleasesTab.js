@@ -15,4 +15,4 @@ import pageWithUrlQuery from '../components/common/withUrlQuery'
 import withAccess from '../components/common/withAccess'
 
 const resourceType = RESOURCE_TYPES.HCM_RELEASES
-export default withRouter(withAccess(pageWithUrlQuery(typedResourcePageWithList(resourceType), resourceType),ROLES.OPERATOR))
+export default withRouter(withAccess(pageWithUrlQuery(typedResourcePageWithList(resourceType), resourceType),ROLES.VIEWER))

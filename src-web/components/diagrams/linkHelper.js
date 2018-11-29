@@ -227,6 +227,7 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
         target.x = d.layout.x
         target.y = d.layout.y
       }
+      delete layout.isSwapped
 
       // update path
       setDraggedLineData(layout)
@@ -289,7 +290,7 @@ export const getBackedOffPath = (svgPath, layout, typeToShapeMap) => {
 }
 
 // do parallel, avoidance, self link layouts
-export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter) => {
+export const layoutEdges = (newLayout, nodes, cyEdges, edges, showLineLabels, selfLinks, adapter) => {
   const laidoutEdges = []
   let nodeMap = null
   if (cyEdges.length>0) {
@@ -310,11 +311,13 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, selfLinks, adapter
         if (nodeMap[sid] && nodeMap[tid]) {
 
           // flip line so that line label isn't upside down :(
-          layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
-          if (layout.isSwapped) {
-            [tid, sid] = [sid, tid]
-            if (colaEdge) {
-              [colaEdge.target, colaEdge.source] = [colaEdge.source, colaEdge.target]
+          if (showLineLabels) {
+            layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
+            if (layout.isSwapped) {
+              [tid, sid] = [sid, tid]
+              if (colaEdge) {
+                [colaEdge.target, colaEdge.source] = [colaEdge.source, colaEdge.target]
+              }
             }
           }
 

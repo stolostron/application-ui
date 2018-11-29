@@ -55,7 +55,7 @@ class FilterBar extends React.Component {
       }
       this.changeTimeout = setTimeout(() => {
         this.props.onChange('type', activeFilters)
-      }, 100)
+      }, 200)
 
       return { activeFilters }
     })

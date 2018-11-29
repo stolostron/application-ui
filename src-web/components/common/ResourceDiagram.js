@@ -50,7 +50,6 @@ class ResourceDiagram extends React.Component {
     constructor (props) {
       super(props)
       this.state = {
-        clusters: [],
         links: [],
         nodes: [],
         designLoaded:false,
@@ -114,17 +113,8 @@ class ResourceDiagram extends React.Component {
 
       const { staticResourceData, onDiagramFilterChange } = this.props
       const {designTypes, topologyTypes, typeToShapeMap} = staticResourceData
-      const { links,  clusters, yaml, diagramFilters, topologyLoaded, isMulticluster } = this.state
+      const { links,  yaml, diagramFilters, topologyLoaded, isMulticluster } = this.state
       const { nodes } = this.state
-      const {locale} = this.context
-      let title
-      if (!topologyLoaded) {
-        title = msgs.get('clusters.loading', locale)
-      } else if (clusters.length===0) {
-        title = msgs.get('clusters.none', locale)
-      } else {
-        title = msgs.get('cluster.names', [clusters.map(c=>c.name).sort().join(', ')], locale)
-      }
 
       // set up type filter bar
       const availableFilters = [...designTypes, ...topologyTypes].map(label=>{
@@ -135,7 +125,6 @@ class ResourceDiagram extends React.Component {
       return (
         <div className="resourceDiagramContainer"  ref={this.setContainerRef} >
           <DiagramViewer
-            title={title}
             id={'application'}
             nodes={nodes}
             links={links}

@@ -23,6 +23,7 @@
     .diagramViewerTitle {
         color: $color__blue-90;
         line-height: 25px;
+        min-height: 25px;
         margin: 1rem 1rem 0 1rem;
     }
 
@@ -58,6 +59,7 @@
     .diagramViewerTitle {
       color: $color__blue-90;
       line-height: 1.2rem;
+      min-height: 1.2rem;
     }
 
    .diagramViewerContainerContainer {
@@ -130,7 +132,7 @@
   }
 }
 
-.topologyTab.first-load {
+.topologyTab.first-load.diagram-shown {
   .filter-bar {
     visibility: visible;
   }

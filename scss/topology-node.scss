@@ -22,6 +22,10 @@
       cursor: default;
   }
 
+  .title {
+     font-weight: bold;
+  }
+
   rect {
       fill: $color__white;
       opacity: 0.85;

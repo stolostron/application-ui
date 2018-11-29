@@ -18,6 +18,8 @@ import '../../../graphics/diagramIcons.svg'
 
 import { FilterResults, RELATED_OPACITY, NODE_RADIUS, NODE_SIZE } from './constants.js'
 
+const TITLE_RADIUS = NODE_RADIUS + 28
+
 export const tooltip = d3.select('body').append('div')
   .attr('class', 'tooltip')
   .styles(()=>{
@@ -33,11 +35,12 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, typeToShapeMap, getClientRect) {
+  constructor(svg, nodes, typeToShapeMap, showsShapeTitles, getClientRect) {
     this.svg = svg
     this.nodes = nodes
     this.typeToShapeMap = typeToShapeMap
     this.getClientRect = getClientRect
+    this.showsShapeTitles = showsShapeTitles
   }
 
 
@@ -84,7 +87,8 @@ export default class NodeHelper {
         const bb = ns[i].getBoundingClientRect()
         tooltip.style('display', undefined)
         tooltip.transition()
-          .duration(200)
+          .delay(200)
+          .duration(100)
           .style('opacity', 1)
         tooltip.html(()=>{
           return getTooltip(layout.tooltips)
@@ -103,7 +107,7 @@ export default class NodeHelper {
       })
       .on('mouseout', () => {
         tooltip.transition()
-          .duration(1000)
+          .duration(100)
           .style('opacity', 0)
           .on('end', ()=>{
             tooltip.style('display', 'none')
@@ -119,6 +123,9 @@ export default class NodeHelper {
 
     // node labels
     if (draw) {
+      if (this.showsShapeTitles) {
+        this.createTitles(draw, nodes)
+      }
       this.createLabels(draw, nodes)
     }
 
@@ -196,6 +203,30 @@ export default class NodeHelper {
             }
           })
       })
+  }
+
+  createTitles = (draw, nodes) => {
+    // create label
+    nodes
+      .filter(({layout:{title}}) => {
+        return !!title
+      })
+      .append('g')
+      .attr('class','nodeTitle')
+      .html(({layout})=>{
+        const nodeTitleGroup = draw.group()
+
+        // title
+        nodeTitleGroup.text((add) => {
+          add.tspan(layout.title)
+            .addClass('counter-zoom title beg')
+            .newLine()
+        })
+
+        return nodeTitleGroup.svg()
+      })
+      .call(d3.drag()
+        .on('drag', this.dragNode))
   }
 
   createLabels = (draw, nodes) => {
@@ -365,6 +396,9 @@ export default class NodeHelper {
           })
       })
 
+    if (this.showsShapeTitles) {
+      moveTitles(this.svg)
+    }
     // move labels
     moveLabels(this.svg)
   }
@@ -416,6 +450,18 @@ export default class NodeHelper {
           }
         })
 
+      if (this.showsShapeTitles) {
+        // drag node title if any
+        const nodeLabels = node.selectAll('g.nodeTitle')
+        nodeLabels.each((d,i,ns)=>{
+          d3.select(ns[i]).selectAll('text')
+            .attr('x', () => {return layout.x})
+            .attr('y', () => {return layout.y - TITLE_RADIUS})
+          d3.select(ns[i]).selectAll('tspan')
+            .attr('x', () => {return layout.x})
+        })
+      }
+
       // drag node label
       const nodeLabels = node.selectAll('g.nodeLabel')
       nodeLabels.each((d,i,ns)=>{
@@ -461,6 +507,22 @@ export const counterZoomLabels = (svg, currentZoom) => {
   if (svg) {
     const s = currentZoom.k
     const fontSize = counterZoom(s, 0.35, 0.85, 12, 22)
+
+    // set title visibility based on search or zoom
+    svg.select('g.nodes').selectAll('g.nodeTitle')
+      .each(({layout: {search=FilterResults.nosearch}},i,ns)=>{
+        const nodeTitle = d3.select(ns[i])
+        nodeTitle
+          .style('visibility',  ()=>{
+            return search===FilterResults.hidden?'hidden':'visible'
+          })
+
+        // apply counter zoom font
+        nodeTitle
+          .selectAll('tspan.counter-zoom')
+          .style('font-size', fontSize+4+'px')
+      })
+
 
     // show regular labels
     let showClass, hideClass
@@ -519,10 +581,12 @@ export const counterZoomLabels = (svg, currentZoom) => {
         shownLabel
           .selectAll('tspan.counter-zoom')
           .style('font-size', fontSize+'px')
+
         // if hub, make font even bigger
         shownLabel
           .selectAll('tspan.hub-label')
           .style('font-size', fontSize+4+'px')
+
         // if description make smaller
         shownLabel
           .selectAll('tspan.description')
@@ -597,6 +661,7 @@ export const showMatches = (svg, searchNames) => {
             })
         }
       })
+    moveTitles(svg)
     moveLabels(svg)
   }
 }
@@ -629,6 +694,30 @@ export const moveLabels = (svg) => {
           }
         })
       nodeLabel.selectAll('tspan.beg')
+        .attr('x', () => {return x})
+    })
+}
+
+// shape titles are over the shape
+// diagram titles are supported by titleHelper
+export const moveTitles = (svg) => {
+  svg.select('g.nodes').selectAll('g.nodeTitle')
+    .filter(({layout: {x, y}}) => {
+      return x!==undefined && y!==undefined
+    })
+    .each(({layout},i,ns)=>{
+
+      const {x, y} = layout
+      const nodeTitle = d3.select(ns[i])
+
+      nodeTitle.selectAll('text')
+        .attrs(() => {
+          return {
+            'x': x,
+            'y': y - TITLE_RADIUS
+          }
+        })
+      nodeTitle.selectAll('tspan.beg')
         .attr('x', () => {return x})
     })
 }

@@ -51,6 +51,7 @@ export default {
   getDiagramElements,
 
   // get description for under node
+  getNodeTitle,
   getNodeDescription: getDesignNodeDescription,
   getNodeTooltips: getDesignNodeTooltips,
   getNodeDetails: getWorkNodeDetails,
@@ -361,6 +362,18 @@ export function getDesignNodeDescription(node, locale) {
     break
   }
   return description
+}
+
+export function getNodeTitle(node, locale) {
+  switch (node.type) {
+  case 'application':
+    return msgs.get('topology.title.application', locale)
+
+  case 'chart':
+    return _.get(node, 'work.cluster', '')
+  }
+
+  return ''
 }
 
 export function getWorkNodeDescription(node) {

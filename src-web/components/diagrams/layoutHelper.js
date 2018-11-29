@@ -87,6 +87,9 @@ export default class LayoutHelper {
     // set the node's description
     nodes.forEach(node=>{
       if (node.layout) {
+        if (this.getNodeTitle) {
+          node.layout.title = this.getNodeTitle(node, this.locale)
+        }
         if (this.getNodeDescription) {
           node.layout.description = this.getNodeDescription(node, this.locale)
         }
@@ -803,7 +806,8 @@ export default class LayoutHelper {
         })
 
         // layout and cache edge paths
-        clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), edges, this.selfLinks, this.cachedAdapters[hashCode])
+        clayout.edges = layoutEdges(newLayout, clayout.nodes, elements.edges(), edges,
+          this.diagramOptions.showLineLabels, this.selfLinks, this.cachedAdapters[hashCode])
         delete this.cachedAdapters[hashCode] //can only use once after a cytoscape layout
       }
 

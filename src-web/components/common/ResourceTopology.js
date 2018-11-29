@@ -95,6 +95,13 @@ class ResourceTopology extends React.Component {
     this.props.fetchTopology(activeFilters, otherTypeFilters)
   }
 
+  setTopologyContainerRef = ref => {this.topologyContainerRef = ref}
+  setDiagramShown = shown => {
+    if (this.topologyContainerRef) {
+      this.topologyContainerRef.classList.toggle('diagram-shown', shown)
+    }
+  }
+
   render() {
     const { loaded, firstLoad } = this.state
     const { availableFilters ={}, params, otherTypeFilters, staticResourceData} = this.props
@@ -110,13 +117,13 @@ class ResourceTopology extends React.Component {
         </div>
       )
     }
-    const classnames = classNames('topologyTab', {'first-load': firstLoad})
+    const classnames = classNames('topologyTab', {'first-load diagram-shown': firstLoad})
     return (
-      <div className={classnames} >
+      <div className={classnames} ref={this.setTopologyContainerRef} >
         <ResourceTopologyFilters params={params||{}}
           staticResourceData={staticResourceData}
           otherTypeFilters={otherTypeFilters} />
-        <ResourceTopologyDiagram loaded={loaded} />
+        <ResourceTopologyDiagram loaded={loaded} setDiagramShown={this.setDiagramShown} />
       </div>
     )
   }

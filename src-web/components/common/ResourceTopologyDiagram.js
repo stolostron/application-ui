@@ -35,6 +35,7 @@ class ResourceTopologyDiagram extends React.Component {
     nodes: PropTypes.array,
     requiredFilters: PropTypes.object,
     searchName: PropTypes.string,
+    setDiagramShown: PropTypes.func,
     staticResourceData: PropTypes.object,
     status: PropTypes.string,
   }
@@ -87,11 +88,12 @@ class ResourceTopologyDiagram extends React.Component {
 
   render() {
     const { activeFilters, requiredFilters={}, nodes, links,
-      searchName, loaded, status, staticResourceData} = this.props
+      searchName, loaded, status, staticResourceData, setDiagramShown} = this.props
     const { clusterNames, isMulticluster } = this.state
     const {locale} = this.context
 
     if (status === Actions.REQUEST_STATUS.ERROR) {
+      setDiagramShown(false)
       return <Notification
         title=''
         className='persistent'
@@ -100,8 +102,10 @@ class ResourceTopologyDiagram extends React.Component {
     }
 
     // show spinner
-    if (!loaded)
+    if (!loaded) {
+      setDiagramShown(false)
       return <Loading withOverlay={false} className='content-spinner' />
+    }
 
     // if there are required filters make sure there's at least one k8 object with a match
     let notification = undefined
@@ -125,6 +129,7 @@ class ResourceTopologyDiagram extends React.Component {
 
     // if no objects show "No objects" notification
     if (nodes.length===0) {
+      setDiagramShown(false)
       return <Notification
         role="alert"
         className='persistent'
@@ -132,6 +137,7 @@ class ResourceTopologyDiagram extends React.Component {
         subtitle={notification?notification.subtitle:msgs.get('topology.no.objects', locale)}
         kind='info' />
     }
+    setDiagramShown(true)
     const title = msgs.get('cluster.names', [clusterNames], locale)
     return (
       <div className='topologyContainer'>

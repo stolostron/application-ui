@@ -70,6 +70,7 @@ class DiagramViewer extends React.Component {
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, this.titles, locale)
     this.diagramOptions = this.props.staticResourceData.diagramOptions||{}
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
+    this.showsShapeTitles = typeof this.props.staticResourceData.getNodeTitle === 'function'
     this.lastLayoutBBox=undefined
     this.isDragging = false
     this.isAutoZoomToFit = true
@@ -190,9 +191,9 @@ class DiagramViewer extends React.Component {
     const svgId = this.getSvgId()
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef} >
-        {title && <div className='diagramViewerTitle'>
+        <div className='diagramViewerTitle'>
           {title}
-        </div>}
+        </div>
         <div className='diagramViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
           <div className='diagramViewerContainer' ref={this.setViewerContainerRef}
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
@@ -328,7 +329,8 @@ class DiagramViewer extends React.Component {
       linkHelper.moveLinks(transition, currentZoom, searchChanged)
 
       // Create or refresh the nodes in the diagram.
-      const nodeHelper = new NodeHelper(this.svg, laidoutNodes, typeToShapeMap, ()=>{return this.clientRect})
+      const nodeHelper = new NodeHelper(this.svg, laidoutNodes,
+        typeToShapeMap, this.showsShapeTitles, ()=>{return this.clientRect})
       nodeHelper.removeOldNodesFromDiagram()
       nodeHelper.addNodesToDiagram(currentZoom, this.handleNodeClick, this.handleNodeDrag)
       nodeHelper.moveNodes(transition, currentZoom, searchChanged)

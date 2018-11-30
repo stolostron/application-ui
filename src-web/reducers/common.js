@@ -235,7 +235,6 @@ export const resourceItemByName = (items, props) => {
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
 
   var items,index
-
   switch (action.type) {
   case Actions.RESOURCE_REQUEST:
     return Object.assign({}, state, {
@@ -294,7 +293,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.PUT_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       putStatus: Actions.REQUEST_STATUS.ERROR,
-      putErrorMsg: action.err.error && action.err.error.message
+      putErrorMsg: action.err.error ? action.err.error.message : action.err.message
     })
   case Actions.CLEAR_REQUEST_STATUS:
     return Object.assign({}, state, {

@@ -144,18 +144,18 @@ export const updateResourceLabels = (resourceType, namespace, name, labels, self
   }
 }
 
-export const editResource = (resourceType, namespace, name, body, selfLink) => (dispatch => {
+export const editResource = (resourceType, namespace, name, body, selfLink, resourcePath) => (dispatch => {
   dispatch(putResource(resourceType))
-  return apolloClient.updateResource(resourceType.name, namespace, name, body, selfLink)
+  return apolloClient.updateResource(resourceType.name, namespace, name, body, selfLink, resourcePath)
     .then(response => {
       if (response.errors) {
         return dispatch(receivePutError(response.errors[0], resourceType))
       } else {
         dispatch(updateModal({open: false, type: 'resource-edit'}))
       }
-      return dispatch(receivePutResource(resourceType))
+      dispatch(fetchResources(resourceType))
+      return dispatch(receivePutResource(response, resourceType))
     })
-    .catch(err => dispatch(receivePutError(err, resourceType)))
 })
 
 export const removeResource = (resourceType, vars) => async dispatch => {
@@ -210,12 +210,14 @@ export const putResource = (resourceType) => ({ // TODO: Consider renaming
   resourceType
 })
 
-export const receivePutResource = (item, resourceType) => ({
-  type: Actions.PUT_RECEIVE_SUCCESS,
-  putStatus: Actions.REQUEST_STATUS.DONE,
-  resourceType: item.kind || resourceType,
-  item
-})
+export const receivePutResource = (item, resourceType) => {
+  return ({
+    type: Actions.PUT_RECEIVE_SUCCESS,
+    putStatus: Actions.REQUEST_STATUS.DONE,
+    resourceType: item.kind || resourceType,
+    item
+  })
+}
 
 export const receivePutError = (err, resourceType) => ({
   type: Actions.PUT_RECEIVE_FAILURE,
@@ -255,10 +257,24 @@ export const resetResource = (resourceType) => ({
   resourceType: resourceType
 })
 
+export const createResources = (resourceType, resourceJson) => {
+  return (dispatch) => {
+    dispatch(mutateResource(resourceType))
+    return apolloClient.createResources(resourceJson)
+      .then(result => {
+        if (result.data.createResources.errors && result.data.createResources.errors.length > 0){
+          dispatch(mutateResourceFailure(resourceType, result.data.createResources.errors[0]))
+        } else {
+          dispatch(mutateResourceSuccess(resourceType))
+        }
+        return result
+      })
+  }
+}
+
 export const createResource = (resourceType, variables) => {
   return (dispatch) => {
     dispatch(postResource(resourceType))
-
     return apolloClient.createResource(resourceType, variables)
       .then(response => {
         if (response.errors) {

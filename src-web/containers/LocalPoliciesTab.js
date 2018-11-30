@@ -13,11 +13,11 @@ import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
-import { createPolicy } from '../actions/common'
+import { createResources } from '../actions/common'
 import PolicyTemplates from '../components/common/PolicyTemplates'
 import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
 
-const handleCreateResource = (dispatch, yaml) => dispatch(createPolicy(RESOURCE_TYPES.HCM_POLICIES, yaml))
+const handleCreateResource = (dispatch, yaml) => dispatch(createResources(RESOURCE_TYPES.HCM_POLICIES, yaml))
 
 const createPolicyModal = <CreateResourceModal
   key='createPolicy'

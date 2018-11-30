@@ -21,6 +21,7 @@ import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
 import ResourceDiagram from './ResourceDiagram'
 import CompliancePolicyDetail from './CompliancePolicyDetail'
+import CompliancePolicy from './CompliancePolicy'
 import config from '../../../lib/shared/config'
 
 const withResource = (Component) => {
@@ -95,6 +96,7 @@ const OverviewTab = withResource(ResourceOverview)
 const components = {
   '/diagram': ResourceDiagram,
   '/policies': ResourceOverview,
+  '/compliancePolicy/:policyName': CompliancePolicy,
   '/compliancePolicy/:policyName/:policyNamespace': CompliancePolicyDetail,
 }
 

@@ -37,6 +37,7 @@ export default {
         msgKey: 'table.header.name',
         resourceKey: 'name',
         key: 'name',
+        transformFunction: createPolicyLink,
       },
       {
         msgKey: 'table.header.cluster.compliant',
@@ -79,7 +80,7 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
-      transformFunction: createPolicyLink,
+      transformFunction: createComplianceLink,
     },
     {
       msgKey: 'table.header.namespace',
@@ -270,6 +271,80 @@ export default {
         transformFunction: getLabelsToList
       },
     ],
+  },
+  policyInfoKeys: {
+    title: 'policy.details',
+    headerRows: ['type', 'detail'],
+    rows: [
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.name',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'name'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'table.header.message',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'message'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.status',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'status'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.enforcement',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'enforcement'
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.exclude_namespace',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'detail.exclude_namespace',
+            transformFunction: getExcludeNamespace
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: 'description.title.include_namespace',
+            type: 'i18n'
+          },
+          {
+            resourceKey: 'detail.include_namespace',
+            transformFunction: getIncludeNamespace
+          }
+        ]
+      },
+    ]
   },
   policyDetailKeys: {
     title: 'policy.details',
@@ -522,7 +597,7 @@ export default {
   },
 }
 
-export function createPolicyLink(item = {}, ...param){
+export function createComplianceLink(item = {}, ...param){
   if (param[2]) return item.metadata.name
   return <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
 }
@@ -587,10 +662,14 @@ export function createCompliancePolicyLink(item = {}, ...param){
     policyArray.push(targetPolicy)
   })
 
-  return policyArray ?
+  return policyArray.length > 0 ?
     <ul>{policyArray.map(policy => (<li key={`${policy.cluster}-${policy.name}`}>
       <Link to={`${config.contextPath}/policies/${encodeURIComponent(policy.complianceNamespace)}/${encodeURIComponent(policy.complianceName)}/compliancePolicy/${encodeURIComponent(policy.name)}/${policy.cluster}`}>{policy.cluster}</Link>
     </li>))}</ul>
     :
     '-'
+}
+
+export function createPolicyLink(item = {}){
+  return  <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.name)}`}>{item.name}</Link>
 }

@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`hcm-compliances - createCompliancePolicyLink should return valid compliance policy link 1`] = `<ul />`;
+exports[`hcm-compliances - createCompliancePolicyLink should return valid compliance policy link 1`] = `"-"`;
 
 exports[`hcm-compliances - createPolicyLink should return valid policy link 1`] = `
 <Link
   replace={false}
-  to="undefined/policies/testNamespace/testName"
->
-  testName
-</Link>
+  to="undefined/policies/undefined/undefined/compliancePolicy/undefined"
+/>
 `;
 
 exports[`hcm-compliances - getStatus should return compliant status 1`] = `

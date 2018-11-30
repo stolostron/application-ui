@@ -16,6 +16,7 @@ import { fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { Loading  } from 'carbon-components-react'
+import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
@@ -31,7 +32,6 @@ resources(() => {
 
 class ResourceDiagram extends React.Component {
     static propTypes = {
-      activeFilters: PropTypes.object,
       clusters: PropTypes.array,
       designLoaded: PropTypes.bool,
       diagramFilters: PropTypes.array,
@@ -54,6 +54,7 @@ class ResourceDiagram extends React.Component {
         nodes: [],
         designLoaded:false,
         topologyLoaded:false,
+        firstLoad:false
       }
       this.setContainerRef = elem => {
         this.containerRef = elem
@@ -67,11 +68,17 @@ class ResourceDiagram extends React.Component {
       this.props.restoreSavedDiagramFilters()
       this.props.fetchDesign()
 
-      //      if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      //        var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
-      //        this.setState({ intervalId: intervalId })
-      //      }
+      if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+        var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
+        this.setState({ intervalId: intervalId })
+      }
 
+    }
+
+    componentWillUnmount() {
+      if (this.state) {
+        clearInterval(this.state.intervalId)
+      }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -87,7 +94,16 @@ class ResourceDiagram extends React.Component {
           this.props.fetchTopology(nextProps.requiredFilters)
         }
 
+        // update loading spinner
+        const firstLoad = prevState.firstLoad || nextProps.topologyLoaded
+        const refreshing = prevState.firstLoad && !nextProps.topologyLoaded
+        if (this.updateDiagramRefreshTime) {
+          this.updateDiagramRefreshTime(refreshing)
+        }
+
         return { clusters, links, nodes, yaml, diagramFilters,
+          firstLoad,
+          refreshing,
           isMulticluster: clusters.length>1,
           designLoaded: nextProps.designLoaded,
           topologyLoaded: nextProps.topologyLoaded }
@@ -95,17 +111,20 @@ class ResourceDiagram extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      return !_.isEqual(this.state.nodes.map(n => n.uid), nextState.nodes.map(n => n.uid)) ||
+      return !nextState.refreshing &&
+        (!_.isEqual(this.state.nodes.map(n => n.uid), nextState.nodes.map(n => n.uid)) ||
         !_.isEqual(this.state.links.map(n => n.uid), nextState.links.map(n => n.uid)) ||
         !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
         this.props.topologyLoaded !== nextProps.topologyLoaded ||
-        this.props.yaml !== nextProps.yaml
+        this.props.yaml !== nextProps.yaml)
     }
 
 
     reload() {
-      this.props.fetchTopology(this.props.activeFilters)
+      this.props.fetchTopology(this.props.requiredFilters)
     }
+
+    setUpdateDiagramRefreshTimeFunc = func => {this.updateDiagramRefreshTime = func}
 
     render() {
       if (!this.state.designLoaded)
@@ -113,7 +132,7 @@ class ResourceDiagram extends React.Component {
 
       const { staticResourceData, onDiagramFilterChange } = this.props
       const {designTypes, topologyTypes, typeToShapeMap} = staticResourceData
-      const { links,  yaml, diagramFilters, topologyLoaded, isMulticluster } = this.state
+      const { links,  yaml, diagramFilters, firstLoad, topologyLoaded, isMulticluster } = this.state
       const { nodes } = this.state
 
       // set up type filter bar
@@ -131,8 +150,9 @@ class ResourceDiagram extends React.Component {
             isMulticluster={isMulticluster}
             yaml={yaml}
             context={this.context}
-            secondaryLoad={!topologyLoaded}
+            secondaryLoad={!topologyLoaded && !firstLoad}
             staticResourceData={staticResourceData}
+            setUpdateDiagramRefreshTimeFunc={this.setUpdateDiagramRefreshTimeFunc}
             activeFilters={{type:diagramFilters}}
           />
 

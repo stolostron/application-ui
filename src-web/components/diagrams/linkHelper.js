@@ -216,7 +216,7 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
       const layout = l.layout
 
       // set node position
-      const {isLoop, source, target} = layout
+      const {isLoop, source, target, isSwapped} = layout
       if (isLoop) {
         source.x = target.x = d.layout.x
         source.y = target.y = d.layout.y
@@ -227,7 +227,14 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
         target.x = d.layout.x
         target.y = d.layout.y
       }
-      delete layout.isSwapped
+      if (isSwapped) {
+        delete layout.isSwapped
+        path.attrs(() => {
+          return {
+            ...getLinkMarkers(layout)
+          }
+        })
+      }
 
       // update path
       setDraggedLineData(layout)

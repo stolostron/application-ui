@@ -46,7 +46,7 @@ class ResourceTopologyDiagram extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    const { nodes, loaded } = nextProps
+    const { nodes, loaded, status } = nextProps
 
     // get all cluster names
     const set = {}
@@ -59,6 +59,11 @@ class ResourceTopologyDiagram extends React.Component {
     }
     const keys = Object.keys(set)
     this.setState({ clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1, loaded })
+
+    // update loading spinner
+    if (this.updateDiagramRefreshTime) {
+      this.updateDiagramRefreshTime(status===Actions.REQUEST_STATUS.IN_PROGRESS)
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState){
@@ -85,6 +90,8 @@ class ResourceTopologyDiagram extends React.Component {
        this.props.searchName !== nextProps.searchName ||
        this.state.loaded !== nextState.loaded
   }
+
+  setUpdateDiagramRefreshTimeFunc = func => {this.updateDiagramRefreshTime = func}
 
   render() {
     const { activeFilters, requiredFilters={}, nodes, links,
@@ -149,6 +156,7 @@ class ResourceTopologyDiagram extends React.Component {
             isMulticluster={isMulticluster}
             context={this.context}
             staticResourceData={staticResourceData}
+            setUpdateDiagramRefreshTimeFunc={this.setUpdateDiagramRefreshTimeFunc}
             activeFilters={activeFilters}
             searchName={searchName}
           />

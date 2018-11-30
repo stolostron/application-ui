@@ -21,6 +21,7 @@ import TitleHelper, {interruptTitles, counterZoomTitles} from './titleHelper'
 import LinkHelper, {interruptLinks, counterZoomLinks, defineLinkMarkers } from './linkHelper'
 import NodeHelper, {interruptNodes, counterZoomLabels, showMatches, setSelections, tooltip} from './nodeHelper'
 import * as c from './constants.js'
+import moment from 'moment'
 import _ from 'lodash'
 
 
@@ -42,6 +43,7 @@ class DiagramViewer extends React.Component {
     nodes: PropTypes.array,
     searchName: PropTypes.string,
     secondaryLoad: PropTypes.bool,
+    setUpdateDiagramRefreshTimeFunc: PropTypes.func,
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string,
@@ -65,6 +67,9 @@ class DiagramViewer extends React.Component {
         this.zoomFit(true)
       }
     }, 150)
+    if (this.props.setUpdateDiagramRefreshTimeFunc) {
+      this.props.setUpdateDiagramRefreshTimeFunc(this.updateDiagramRefreshTime)
+    }
     const { locale } = this.props.context
     this.titles=[]
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, this.titles, locale)
@@ -74,6 +79,7 @@ class DiagramViewer extends React.Component {
     this.lastLayoutBBox=undefined
     this.isDragging = false
     this.isAutoZoomToFit = true
+    this.lastRefreshing = true
   }
 
   componentDidMount() {
@@ -93,10 +99,10 @@ class DiagramViewer extends React.Component {
   shouldComponentUpdate(nextProps, nextState){
     return this.state.selectedNodeId !== nextState.selectedNodeId
     || !_.isEqual(this.state.requiredFilters, nextState.requiredFilters)
+    || !_.isEqual(this.state.activeFilters, nextState.activeFilters)
     || !_.isEqual(this.state.nodes.map(n => n.id), nextState.nodes.map(n => n.id))
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
-    || this.props.activeFilters !== nextProps.activeFilters
     || this.props.searchName !== nextProps.searchName
   }
 
@@ -184,11 +190,25 @@ class DiagramViewer extends React.Component {
   setViewerContainerContainerRef = ref => {this.viewerContainerContainerRef = ref}
   setViewerContainerRef = ref => {this.viewerContainerRef = ref}
   setZoomInRef = ref => {this.zoomInRef = ref}
+  setDiagramRefreshContainerRef = ref => {this.diagramRefreshContainerRef = ref}
+  setDiagramRefreshTimeRef = ref => {this.diagramRefreshTimeRef = ref}
+
+  updateDiagramRefreshTime = (refreshing) => {
+    if (this.diagramRefreshContainerRef) {
+      this.diagramRefreshContainerRef.classList.toggle('refreshing', refreshing)
+    }
+    if (this.diagramRefreshTimeRef && this.lastRefreshing && !refreshing) {
+      this.diagramRefreshTimeRef.textContent = moment().format('HH:mm:ss')
+    }
+    this.lastRefreshing = refreshing
+  }
 
   render() {
     const { title, yaml, staticResourceData, secondaryLoad } = this.props
     const { selectedNodeId, selectedDesignNode } = this.state
     const svgId = this.getSvgId()
+    // don't screw up the jest test by having the current time in the snapshot
+    const time = this.props.setUpdateDiagramRefreshTimeFunc ? moment().format('HH:mm:ss') : ''
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef} >
         <div className='diagramViewerTitle'>
@@ -202,6 +222,10 @@ class DiagramViewer extends React.Component {
           {secondaryLoad && <div className='secondaryLoad' >
             <Loading withOverlay={false} />
           </div>}
+        </div>
+        <div className='diagramRefreshContainer' ref={this.setDiagramRefreshContainerRef}>
+          <Loading withOverlay={false} small />
+          <div ref={this.setDiagramRefreshTimeRef}>{time}</div>
         </div>
         <input type='image' alt='zoom-in' className='zoom-in' ref={this.setZoomInRef}
           onClick={this.handleZoomIn} src={`${config.contextPath}/graphics/zoom-in.svg`} />

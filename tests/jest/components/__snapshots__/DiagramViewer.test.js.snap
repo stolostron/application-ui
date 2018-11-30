@@ -29,6 +29,28 @@ exports[`DiagramViewer 3 components renders as expected 1`] = `
       />
     </div>
   </div>
+  <div
+    className="diagramRefreshContainer"
+  >
+    <div
+      aria-live="assertive"
+      className="bx--loading bx--loading--small"
+    >
+      <svg
+        className="bx--loading__svg"
+        viewBox="-75 -75 150 150"
+      >
+        <circle
+          cx="0"
+          cy="0"
+          r="37.5"
+        />
+      </svg>
+    </div>
+    <div>
+      
+    </div>
+  </div>
   <input
     alt="zoom-in"
     className="zoom-in"
@@ -184,6 +206,28 @@ exports[`DiagramViewer no components renders as expected 1`] = `
         className="topologyDiagram"
         id="svgId"
       />
+    </div>
+  </div>
+  <div
+    className="diagramRefreshContainer"
+  >
+    <div
+      aria-live="assertive"
+      className="bx--loading bx--loading--small"
+    >
+      <svg
+        className="bx--loading__svg"
+        viewBox="-75 -75 150 150"
+      >
+        <circle
+          cx="0"
+          cy="0"
+          r="37.5"
+        />
+      </svg>
+    </div>
+    <div>
+      
     </div>
   </div>
   <input

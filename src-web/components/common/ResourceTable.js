@@ -234,7 +234,7 @@ class ResourceTable extends React.Component {
 
         const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
 
-        const fliteredActions = menuActions ? fliterTableAction(menuActions,userRole) : null
+        const fliteredActions = menuActions ? fliterTableAction(menuActions,userRole,resourceType) : null
 
         if (fliteredActions && fliteredActions.length > 0 && this.showTableToobar()) {
           row.action = (

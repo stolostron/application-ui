@@ -48,4 +48,4 @@ Policies.propTypes = {
   match: PropTypes.object,
 }
 
-export default withRouter(withAccess(Policies, ROLES.CLUSTER_ADMIN))
+export default withRouter(withAccess(Policies, ROLES.OPERATOR))

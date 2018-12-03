@@ -68,7 +68,7 @@ class ResourceList extends React.Component {
 
   render() {
     const {
-      role,
+      userRole,
       items,
       itemIds,
       mutateStatus,
@@ -118,7 +118,7 @@ class ResourceList extends React.Component {
       return <Loading withOverlay={false} className='content-spinner' />
 
     const actions = React.Children.map(children, action => {
-      if (action.props.disabled || !showCreate(role))
+      if (action.props.disabled || !showCreate(userRole, resourceType))
         return null
       return React.cloneElement(action, { resourceType })
     })
@@ -208,8 +208,10 @@ const mapStateToProps = (state, ownProps) => {
         items[key].hasPendingActions = true
     })
   }
+  const userRole = state.role.role
 
   return {
+    userRole,
     items,
     itemIds: visibleResources.items,
     totalFilteredItems: visibleResources.totalResults,

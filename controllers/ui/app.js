@@ -107,7 +107,7 @@ function fetchHeader(req, res, store, context) {
               id: 'policies',
               label: msgs.get('routes.policies', req),
               url: `${config.get('contextPath')}/policies`,
-              disabled: isNotClusterAdmin(userRole)
+              disabled: isLowerThanOperator(userRole)
             },
             {
               id: 'applications',
@@ -122,8 +122,7 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'pods',
               label: msgs.get('routes.pods', req),
-              url: `${config.get('contextPath')}/pods`,
-              disabled: isLowerThanEditor(userRole)
+              url: `${config.get('contextPath')}/pods`
             },
             {
               id: 'nodes',

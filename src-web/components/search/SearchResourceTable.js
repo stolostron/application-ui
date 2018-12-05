@@ -74,7 +74,7 @@ class SearchResourceTable extends React.PureComponent {
 
       if (tableDefinitions[this.props.kind]) {
         tableDefinitions[this.props.kind].columns.forEach(column => {
-          row[column.key] = column.transform ? column.transform(item) : (item[column.key] || '-')
+          row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
         })
         return row
       }

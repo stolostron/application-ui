@@ -10,18 +10,20 @@
 /**
   NOTE: See documentation in SearchResourceTable.js
  */
+import { getAge } from '../../lib/client/resource-helper'
+import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
 
 export default {
   cluster: {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
-      { key: 'status'},
+      { key: 'status', transform: getClusterStatusIcon },
       { key: 'nodes'},
       { key: 'cpu'},
       { key: 'storage'},
       { key: 'memory'},
-      { key: 'endpoint'},
+      { key: 'consoleURL', msgKey: 'endpoint', transform: getExternalLink },
     ],
     actions: [
       'table.actions.cluster.view.nodes',
@@ -32,6 +34,28 @@ export default {
   daemonset: {
     columns: [
       { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster' },
+      { key: 'desired' },
+      { key: 'current',  },
+      { key: 'ready' },
+      { key: 'updated' },
+      { key: 'available' },
+      // { key: 'nodeSelector' },
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
+  deployment: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster' },
+      { key: 'desired' },
+      { key: 'current' },
+      { key: 'ready' },
+      { key: 'available' },
+      { key: 'created', transform: getAge }
     ],
     actions: [],
   },
@@ -44,7 +68,12 @@ export default {
   node: {
     columns: [
       { key: 'name' },
+      { key: 'cluster' },
+      { key: 'role' },
+      { key: 'architecture' },
+      { key: 'osImage' },
       { key: 'cpu' },
+      { key: 'created', transform: getAge }
     ],
     actions: [],
   },
@@ -71,8 +100,28 @@ export default {
       { key: 'restarts'},
       { key: 'hostIP'},
       { key: 'podIP'},
-      { key: 'created'},
-      { key: 'nodes'},
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
+  replicaset: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+    ],
+    actions: [],
+  },
+  service: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+    ],
+    actions: [],
+  },
+  statefulset: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
     ],
     actions: [],
   }

@@ -74,7 +74,7 @@ class SearchPage extends React.Component {
                     return (
                       <div>
                         <br></br>
-                        <p>TODO: Search returned an error.</p>
+                        <p>{msgs.get('search.noresults', this.context.locale)}</p>
                       </div>
                     )
                   }}

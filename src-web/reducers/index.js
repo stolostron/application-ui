@@ -32,6 +32,8 @@ export { role } from './role'
 
 export { modal } from './modal'
 
+export { logs } from './logs'
+
 //the exported function name must match the resourceType value
 export const HCMApplicationList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_APPLICATIONS))
 export const HCMClusterList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_CLUSTERS))

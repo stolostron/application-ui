@@ -43,6 +43,9 @@ export const resourceActions = (action, dispatch, resourceType, data, hasService
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
         data: { apiVersion: resourceType.api_version, resourceType: resourceType.name, ..._data }}))
   }
+  case 'table.actions.pod.logs': {
+    return dispatch(updateModal({ open: true, type: 'view-logs', resourceType, data }))
+  }
   default:
 
   }

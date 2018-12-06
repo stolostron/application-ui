@@ -67,6 +67,7 @@ export default {
     },
   ],
   tableActions: [
+    'table.actions.pod.logs',
     'table.actions.remove',
   ],
 }
@@ -76,8 +77,10 @@ export function getTruncatedText(item){
 }
 
 export function getListWithTruncatedValues(item) {
+  // TODO: remove index
+  /* eslint-disable react/no-array-index-key */
   return item.images ?
-    <ul>{item.images.map(image => (<li key={image}><TruncateText text={image} /></li>))}</ul>
+    <ul>{item.images.map((image, index) => (<li key={`${image}-${index}`}><TruncateText text={image} /></li>))}</ul>
     :
     '-'
 }

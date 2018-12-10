@@ -78,12 +78,12 @@ function fetchHeader(req, res, store, context) {
           Cookie: createCookie(req)
         },
         body: {
-          logoUrl: `${config.get('contextPath')}/graphics/mcm-logo.svg`,
+          logoUrl: config.get('logoUrl') || `${config.get('contextPath')}/graphics/mcm-logo.svg`,
           docUrlMapping: {
             [`${config.get('contextPath')}`]: 'mcm/getting_started/introduction.html'
           },
           about: {
-            logoUrl: `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
+            logoUrl: config.get('logoUrlAbout') || `${config.get('contextPath')}/graphics/MCM-AboutModal-TextLogo.svg`,
             copyright: msgs.get('product.copyright', req)
           },
           navItems: [

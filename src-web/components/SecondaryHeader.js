@@ -84,7 +84,7 @@ export class SecondaryHeader extends React.Component {
     const { tabs } = this.props,
           { locale } = this.context
     return tabs.map(tab => {
-      return <Tab label={msgs.get(tab.label, locale)} key={tab.id} id={tab.id} href={tab.url} onClick={this.clickTab.bind(this, tab.url)} />
+      return <Tab label={msgs.get(tab.label, locale)} key={tab.id} id={tab.id} href={tab.url} onClick={tab.handleClick ? tab.handleClick : this.clickTab.bind(this, tab.url)} />
     })
   }
 

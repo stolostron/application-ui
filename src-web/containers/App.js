@@ -30,6 +30,7 @@ export const Storage = loadable(() => import(/* webpackChunkName: "storage" */ '
 export const SearchPage = loadable(() => import(/* webpackChunkName: "search" */ './SearchPage'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
+export const ModalApollo = loadable(() => import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
 
 resources(() => {
   require('../../scss/common.scss')
@@ -58,7 +59,7 @@ class App extends React.Component {
 
     return (
       <div className='expand-vertically'>
-        {location.pathname && !location.pathname.includes('welcome') && <SecondaryHeader />}
+        {location.pathname && !location.pathname.includes('welcome') && !location.pathname.includes('search') && <SecondaryHeader />}
         <Switch>
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
@@ -78,6 +79,7 @@ class App extends React.Component {
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
+        <ModalApollo locale={serverProps.context.locale} />
       </div>
     )
   }

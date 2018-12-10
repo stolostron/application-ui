@@ -38,17 +38,17 @@ const getLogsModal = props => {
 }
 
 const getResourceModal = props => {
-  ResourceModal = ResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "edit-resource-modal"" */ '../modals/ResourceModal')) : ResourceModal
+  ResourceModal = ResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "edit-resource-modal" */ '../modals/ResourceModal')) : ResourceModal
   return getModal(ResourceModal, props)
 }
 
 const getRemoveResourceModal = props => {
-  RemoveResourceModal = RemoveResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "remove-resource-modal"" */ '../modals/RemoveResourceModal')) : RemoveResourceModal
+  RemoveResourceModal = RemoveResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "remove-resource-modal" */ '../modals/RemoveResourceModal')) : RemoveResourceModal
   return getModal(RemoveResourceModal, props)
 }
 
 const getLabelEditingModal = props => {
-  LabelEditingModal = LabelEditingModal === undefined ? loadable(() => import(/* webpackChunkName: "label-editing-modal"" */ '../modals/LabelEditingModal')) : LabelEditingModal
+  LabelEditingModal = LabelEditingModal === undefined ? loadable(() => import(/* webpackChunkName: "label-editing-modal" */ '../modals/LabelEditingModal')) : LabelEditingModal
   return getModal(LabelEditingModal, props)
 }
 

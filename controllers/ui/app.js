@@ -190,25 +190,30 @@ function fetchHeader(req, res, store, context) {
           value.path = `${config.get('contextPath')}/api/proxy${value.path}` //preprend with proxy route
         })
       }
-      res.render('main', Object.assign({
-        manifest: appUtil.app().locals.manifest,
-        content: ReactDOMServer.renderToString(
-          <Provider store={store}>
-            <StaticRouter
-              location={req.originalUrl}
-              context={context}>
-              <App />
-            </StaticRouter>
-          </Provider>
-        ),
-        contextPath: config.get('contextPath'),
-        state: store.getState(),
-        props: context,
-        header: header,
-        propsH: propsH,
-        stateH: stateH,
-        filesH: filesH
-      }, context))
+      try {
+        res.render('main', Object.assign({
+          manifest: appUtil.app().locals.manifest,
+          content: ReactDOMServer.renderToString(
+            <Provider store={store}>
+              <StaticRouter
+                location={req.originalUrl}
+                context={context}>
+                <App />
+              </StaticRouter>
+            </Provider>
+          ),
+          contextPath: config.get('contextPath'),
+          state: store.getState(),
+          props: context,
+          header: header,
+          propsH: propsH,
+          stateH: stateH,
+          filesH: filesH
+        }, context))
+      } catch(e) {
+        //eslint-disable-next-line
+        console.error(e)
+      }
     })
   })
 }

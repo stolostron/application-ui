@@ -8,10 +8,19 @@
  *******************************************************************************/
 
 import React from 'react'
-import { Search } from 'carbon-components-react'
+import PropTypes from 'prop-types'
+import msgs from '../../../nls/platform.properties'
+import resources from '../../../lib/shared/resources'
+import { Search, Icon } from 'carbon-components-react'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
+import { GET_SEARCH_INPUT_TEXT } from '../../apollo-client/queries/SearchQueries'
+import _ from 'lodash'
+import { UPDATE_SINGLE_QUERY_TAB } from '../../apollo-client/queries/StateQueries'
 
+resources(() => {
+  require('../../../scss/search-input.scss')
+})
 
 const GET_SEARCH_SCHEMA = gql`
   query searchSchema {
@@ -19,34 +28,59 @@ const GET_SEARCH_SCHEMA = gql`
   }
 `
 class SearchInput extends React.PureComponent {
-
   render() {
+    const { tabName } = this.props
     return (
       <Query query={GET_SEARCH_SCHEMA}>
-        {( { data, client } ) => {
-          console.log('Search schema data:', data) // eslint-disable-line no-console
-          return (<div className='search--input-area'>
-            <Search
-              className='bx--search--light'
-              labelText='Search resources'  // TODO searchFeature: NLS
-              placeHolderText='Search resources' // TODO searchFeature: NLS
-              onChange={(evt) => {
-                // TODO searchFeature: use a mutation with a schema.
-                // TODO searchFeature: Need to debunce to limit the backend request.
-                client.writeData({ data: {
-                  searchInput: {
-                    __typename: 'SearchInput', // TODO searchFeature: define schema
-                    text: evt.target.value
-                  }
-                }} )
-              }}
-            />
-          </div>
+        {( { client } ) => {
+          return (
+            <div className='search--input-area'>
+              <Query query={GET_SEARCH_INPUT_TEXT}>
+                {( { data } ) => {
+                  return (<Search
+                    className='bx--search--light'
+                    labelText='Search resources'  // TODO searchFeature: NLS
+                    placeHolderText='Search resources' // TODO searchFeature: NLS
+                    value={_.get(data, 'searchInput.text', '')}
+                    onChange={(evt) => {
+                      // TODO searchFeature: use a mutation with a schema.
+                      // TODO searchFeature: Need to debunce to limit the backend request.
+                      client.writeData({ data: {
+                        searchInput: {
+                          __typename: 'SearchInput', // TODO searchFeature: define schema
+                          text: evt.target.value
+                        }
+                      }} )
+                      const newData =  {
+                        openedTabName: tabName,
+                        searchText: evt.target.value
+                      }
+                      client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
+                    }}
+                  />)
+                }}
+              </Query>
+              {/*for saving query*/}
+              <div className='search-input-save-button'>
+                <button type="button" className="query-save-button"
+                  onClick={this.props.handleSaveButtonClick}>
+                  <Icon
+                    className='icon--save'
+                    name='icon--save'
+                    description={msgs.get('button.save.query', this.context.locale)} />
+                </button>
+              </div>
+            </div>
           )}
         }
       </Query>
     )
   }
+}
+
+SearchInput.propTypes = {
+  handleSaveButtonClick: PropTypes.func,
+  tabName: PropTypes.string,
 }
 
 export default SearchInput

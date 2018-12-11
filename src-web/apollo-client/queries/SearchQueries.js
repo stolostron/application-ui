@@ -35,10 +35,10 @@ export const GET_SEARCH_TABS = gql`
 `
 
 export const SEARCH_QUERY = gql`
-  query searchResult($keywords: [String], $filters: [SearchFilter]) {
-    searchResult: search(keywords: $keywords, filters: $filters){
+  query searchResult($input: [SearchInput]) {
+    searchResult: search(input: $input){
       items
-      relatedResources {
+      related {
         kind
         count
       }

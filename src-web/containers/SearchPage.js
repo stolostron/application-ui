@@ -75,10 +75,13 @@ class SearchPage extends React.Component {
                 const searchTokens = searchText.split(' ')
                 const keywords = searchTokens.filter(token => token !== '' && token.indexOf(':') < 0)
                 const filters = searchTokens.filter(token => token.indexOf(':') >= 0)
-                  .map(f => ({filter: f.split(':')[0], value: f.split(':')[1]}) )
-                  .filter(f => f.filter !== '' && f.value !== '')
+                  .map(f => {
+                    const [ filter, values ] = f.split(':')
+                    return { filter, values: values.split(',') }
+                  })
+                  .filter(f => f.filter !== '' && f.values !== '')
                 return (
-                  <Query query={SEARCH_QUERY} variables={{keywords, filters}}>
+                  <Query query={SEARCH_QUERY} variables={{input: [{keywords, filters}]}}>
                     {({ data, loading }) => {
                       if (data.searchResult || loading) {
                         return (<SearchResult searchResult={data.searchResult} loading={loading} />)

@@ -12,7 +12,7 @@ const a11yScan = require('../utils/accessibilityScan')
 let page
 
 module.exports = {
-  '@disabled': false,
+  '@disabled': true,
 
   before: function (browser) {
     const loginPage = browser.page.LoginPage()
@@ -20,22 +20,17 @@ module.exports = {
     loginPage.authenticate()
 
     const url = `${browser.launch_url}${config.get('contextPath')}/overview`
-    page = browser.page.DashboardPage()
+    page = browser.page.OverviewPage()
     page.navigate(url)
   },
 
-  'Dashboard: Load page': () => {
+  'Overview: Load page': () => {
     page.verifyPageLoaded()
   },
 
-  'Dashboard: Run Accessibility Scan': (browser) => {
-    a11yScan.runAccessibilityScan(browser, 'dashboard')
+  'Overview: Run Accessibility Scan': (browser) => {
+    a11yScan.runAccessibilityScan(browser, 'overview')
   },
-
-  'Dashboard: Resource Overview': () => {
-    page.verifyResourceOverviewSection()
-  },
-
 
   after: function (browser, done) {
     setTimeout(() => {

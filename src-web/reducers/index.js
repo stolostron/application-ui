@@ -38,7 +38,6 @@ export { logs } from './logs'
 export const HCMApplicationList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_APPLICATIONS))
 export const HCMClusterList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_CLUSTERS))
 export const HCMComplianceList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_COMPLIANCES))
-export const HCMDashboardList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_DASHBOARD))
 export const HCMNodeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_NODES))
 export const HCMPersistentVolumeList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PVS))
 export const HCMPersistentVolumeClaimList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_PVS_CLAIM))

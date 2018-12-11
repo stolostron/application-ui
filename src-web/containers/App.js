@@ -8,6 +8,9 @@
  *******************************************************************************/
 'use strict'
 
+// seems to be an issue with this rule and redux
+/* eslint-disable import/no-named-as-default */
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import SecondaryHeader from '../components/SecondaryHeader'
@@ -19,7 +22,7 @@ import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
-export const ClustersDashboardTab = loadable(() => import(/* webpackChunkName: "dashboard" */ './ClustersDashboardTab'))
+export const OverviewPage = loadable(() => import(/* webpackChunkName: "dashboard" */ './OverviewPage'))
 export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
 export const HelmRemoteInstallTab = loadable(() => import(/* webpackChunkName: "cataloginstall" */ './ClustersHelmRemoteInstallTab'))
 export const NodesTab = loadable(() => import(/* webpackChunkName: "nodes" */ './Nodes'))
@@ -64,7 +67,7 @@ class App extends React.Component {
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
           <Route path={`${match.url}/nodes`} render={() => <NodesTab secondaryHeaderProps={{title: 'routes.nodes'}} />} />
-          <Route path={`${match.url}/overview`} render={() => <ClustersDashboardTab serverProps={serverProps} />} />
+          <Route path={`${match.url}/overview`} render={() => <OverviewPage secondaryHeaderProps={{title: 'routes.overview'}} />} />
           <Route path={`${match.url}/pods:filters?`} render={() => <PodsTab secondaryHeaderProps={{title: 'routes.pods'}} />} />
           <Route path={`${match.url}/policies`} component={Policies} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />

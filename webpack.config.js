@@ -99,7 +99,14 @@ module.exports = {
         use: [
           'svg-sprite-loader'
         ]
-      }
+      },
+      {
+        test: /\.(png|jpg)$/,
+        use: [
+          'svg-sprite-loader?symbolId=icon-[name]',
+          'image2svg-loader',
+        ],
+      },
     ],
     noParse: [
       // don't parse minified bundles (vendor libs) for faster builds

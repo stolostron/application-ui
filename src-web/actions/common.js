@@ -53,15 +53,6 @@ export const requestResource = (resourceType) => ({
   resourceType
 })
 
-export const receiveDashboardSuccess = (response, resourceType) => ({
-  type: Actions.DASHBOARD_RECEIVE_SUCCESS,
-  status: Actions.REQUEST_STATUS.DONE,
-  pieChartItems: response.pieChartItems,
-  barChartItems: response.barChartItems,
-  cardItems: response.cardItems,
-  resourceType
-})
-
 export const addResource = (item, resourceType) => ({
   type: Actions.RESOURCE_ADD,
   resourceType: item.kind || resourceType,

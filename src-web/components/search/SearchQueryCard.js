@@ -10,7 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Module, ModuleBody } from 'carbon-addons-cloud-react'
-import { OverflowMenu, OverflowMenuItem } from 'carbon-components-react'
+import { OverflowMenu, OverflowMenuItem, SkeletonText } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { ApolloConsumer } from 'react-apollo'
@@ -88,9 +88,22 @@ class SearchQueryCard extends React.Component {
     return null
   }
 
+  loadingComponent = () => {
+    return (
+      <Module className={'bx--tile search-query-card'} size="single">
+        <div className='search-query-card-loading'>
+          <SkeletonText />
+          <SkeletonText />
+        </div>
+      </Module>
+    )
+  }
+
   render() {
     const { locale } = this.context
-    const { searchText, description, name, results = [], timeCreated = new Date().toLocaleString(), resultHeader } = this.props
+    const { loading, searchText, description, name, results = [], timeCreated = new Date().toLocaleString(), resultHeader } = this.props
+    if (loading)
+      return this.loadingComponent()
     return (<ApolloConsumer>
       {client => (
         <Module className={'bx--tile search-query-card'} size="single">
@@ -120,6 +133,7 @@ class SearchQueryCard extends React.Component {
 
 SearchQueryCard.propTypes = {
   description: PropTypes.string,
+  loading: PropTypes.bool,
   name: PropTypes.string,
   resultHeader: PropTypes.string,
   results: PropTypes.array,

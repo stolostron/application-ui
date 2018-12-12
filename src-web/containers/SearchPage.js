@@ -84,7 +84,7 @@ class SearchPage extends React.Component {
                   <Query query={SEARCH_QUERY} variables={{input: [{keywords, filters}]}}>
                     {({ data, loading }) => {
                       if (data.searchResult || loading) {
-                        return (<SearchResult searchResult={data.searchResult} loading={loading} />)
+                        return (<SearchResult searchResult={data.searchResult && data.searchResult[0]} loading={loading} />)
                       }
                       return (
                         <div>

@@ -47,10 +47,9 @@ class SaveAndEditQueryModal extends React.PureComponent {
       {client => (
         <div className={'save-and-edit-query-modal'}>
           <Modal
+            passiveModal
             open={this.props.open}
             modalHeading={ msgs.get('modal.query.Share.heading', this.context.locale) }
-            primaryButtonText={ msgs.get('modal.button.copy', this.context.locale) }
-            secondaryButtonText={ msgs.get('actions.cancel', this.context.locale) }
             onRequestSubmit={this.handleModalSubmit.bind(this, client)}
             onRequestClose={this.handleModalClose.bind(this, client)}
           >

@@ -47,6 +47,18 @@ class SearchPage extends React.Component {
     updateSecondaryHeader(msgs.get(secondaryHeaderProps.title, this.context.locale))
   }
 
+  convertStringToQuery(searchText) {
+    const searchTokens = searchText.split(' ')
+    const keywords = searchTokens.filter(token => token !== '' && token.indexOf(':') < 0)
+    const filters = searchTokens.filter(token => token.indexOf(':') >= 0)
+      .map(f => {
+        const [ filter, values ] = f.split(':')
+        return { filter, values: values.split(',') }
+      })
+      .filter(f => f.filter !== '' && f.values !== '')
+    return {keywords, filters}
+  }
+
   render() {
     return (
       <div>
@@ -71,17 +83,9 @@ class SearchPage extends React.Component {
           <Query query={GET_SEARCH_INPUT_TEXT}>
             {( { data } ) => {
               if(data && data.searchInput && data.searchInput.text !== '') {
-                const searchText = data.searchInput.text
-                const searchTokens = searchText.split(' ')
-                const keywords = searchTokens.filter(token => token !== '' && token.indexOf(':') < 0)
-                const filters = searchTokens.filter(token => token.indexOf(':') >= 0)
-                  .map(f => {
-                    const [ filter, values ] = f.split(':')
-                    return { filter, values: values.split(',') }
-                  })
-                  .filter(f => f.filter !== '' && f.values !== '')
+                const input = this.convertStringToQuery(data.searchInput.text)
                 return (
-                  <Query query={SEARCH_QUERY} variables={{input: [{keywords, filters}]}}>
+                  <Query query={SEARCH_QUERY} variables={{input: [input]}}>
                     {({ data, loading }) => {
                       if (data.searchResult || loading) {
                         return (<SearchResult searchResult={data.searchResult && data.searchResult[0]} loading={loading} />)
@@ -102,11 +106,25 @@ class SearchPage extends React.Component {
                     const queries = _.get(data, 'items', [])
                     // each query should contain ---- description, name, results = [], resultHeader
                     const suggestedQueryTemplates = _.get(SuggestQueryTemplates, 'templates', [])
-                    return (
-                      <div>
-                        {queries.length > 0 && <SavedSearchQueries queries={queries} header={'table.header.search.saved.query'} />}
-                        {suggestedQueryTemplates.length > 0 && <SavedSearchQueries queries={suggestedQueryTemplates} header={'table.header.search.suggested.query'} />}
-                      </div>
+                    //combine the suggested queries and saved queries
+                    const input = [...queries.map(query => this.convertStringToQuery(query.searchText)),
+                      ...suggestedQueryTemplates.map(query => this.convertStringToQuery(query.searchText))]
+                    return(
+                      <Query query={SEARCH_QUERY} variables={{input: input}}>
+                        {({ data, loading }) => {
+                          if (data.searchResult) {
+                            const queriesResult = data.searchResult.slice(0, queries.length).map((query, index) => {return {...query, ...queries[index]}})
+                            const suggestedQueriesResult = data.searchResult.slice(queries.length).map((query, index) => {return {...query, ...suggestedQueryTemplates[index]}})
+                            return (
+                              <div>
+                                {queriesResult.length > 0 && <SavedSearchQueries queries={queriesResult} header={'table.header.search.saved.query'} showTotal={true} />}
+                                {suggestedQueriesResult.length > 0 && <SavedSearchQueries queries={suggestedQueriesResult} header={'table.header.search.suggested.query'} />}
+                              </div>)
+                          } else if (loading) {
+                            return <Loading withOverlay={false} className='content-spinner' />
+                          }
+                        }}
+                      </Query>
                     )
                   }}
                 </Query>)

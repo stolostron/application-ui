@@ -30,7 +30,7 @@
     background: $color__blue-51;
   }
   button svg {
-    fill: $color__navy-gray-7;
+    fill: $color__blue-51;
   }
   .query-save-button {
     position: relative;
@@ -38,6 +38,9 @@
     width: 3rem;
     border: none;
     background-color: transparent;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 
@@ -45,6 +48,9 @@
   .bx--form-item {
     display: inline-block;
     width: 100%;
+  }
+  .bx--modal-content{
+    overflow-x: hidden;
   }
 }
 
@@ -71,14 +77,19 @@
     }
   }
   .saved-search-query-header {
-    margin: 3rem 0 0 1rem;
+    margin: 3rem 1rem 0 1rem;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    display: inline-block;
+    &-count {
+      font-size: 0.85rem;
+      color: $color__navy-gray-6;
+      display: inline-block;
+    }
   }
   .query-cards-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
   }
   .bx--module__inner {
     box-shadow: none;
@@ -101,6 +112,10 @@
       flex: 1 0 30%;
       padding: 0.8rem;
       border-right: 1px $color__navy-gray-8 solid;
+      margin-left: -1rem;
+      &:hover {
+        cursor: pointer;
+      }
       .search-query-result-number {
         color: $color__blue-40;
         font-size: 2rem;
@@ -132,6 +147,12 @@
         color: $color__navy-gray-6;
         margin-top: 0.5rem;
         font-style: italic;
+
+        &__orb {
+          border-top: 1px solid $color__navy-gray-8;
+          margin-top: 1rem;
+          padding-top: 0.5rem;
+        }
       }
     }
   }
@@ -158,6 +179,9 @@
 }
 
 .save-query-box {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
   .bx--form-item .bx--text-input {
     &:hover {
       border: 1px solid $color__navy-gray-7;
@@ -169,7 +193,43 @@
     margin-top: 1rem;
   }
   button {
-    top: 43%;
-    right: 12%;
+    position: relative;
+    margin: 2.2rem -0.5rem 0 1rem;
+    overflow: hidden;
+  }
+}
+
+.secondary-header-tabs {
+  li {
+    margin-top: 1rem;
+    a {
+      font-size: 0.9rem;
+    }
+  }
+  .header-icon--close{
+    margin: 0.2rem 0 0 0.5rem;
+    color: $color__navy-gray-6;
+    transform: scale(0.9);;
+  }
+}
+
+.search-query-card-inner-container {
+  .search-query-header{
+    &__orb {
+      margin: -2rem 0 0 3rem;
+    }
+  }
+  .search-query-orb {
+    width: 2rem;
+    height: 2rem;
+    -webkit-border-radius: 1rem;
+    -moz-border-radius: 1rem;
+    border-radius: 1rem;
+    background: $color__teal-40;
+
+    svg {
+      margin: 0.5rem 0.65rem;
+      fill: $color__white;
+    }
   }
 }

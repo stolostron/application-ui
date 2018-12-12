@@ -28,7 +28,16 @@ export class SecondaryHeaderSearchPage extends React.Component {
   constructor(props) {
     super(props)
     this.renderTabs = this.renderTabs.bind(this)
+    this.state = {
+      //eslint-disable-next-line
+      isHovering: false,
+    }
   }
+
+  handleMouseHover = () => {
+    this.setState((preState) => {return { isHovering: !preState.isHovering }})
+  }
+
 
   render() {
     const { title } = this.props
@@ -44,7 +53,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
               <div className='secondary-header'>
                 {tabs && tabs.length > 0 ? (
                   <DetailPageHeader hasTabs={true} title={decodeURIComponent(title)} aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}>
-                    <Tabs selected={this.getSelectedTab(tabs, openedTabName) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
+                    <Tabs className='secondary-header-tabs' selected={this.getSelectedTab(tabs, openedTabName) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
                       {this.renderTabs(client, tabs, unsavedCount)}
                       {this.renderAddNewTab(client, unsavedCount, tabs, locale)}
                     </Tabs>
@@ -71,14 +80,19 @@ export class SecondaryHeaderSearchPage extends React.Component {
   renderTabs(client, tabs, unsavedCount) {
     return tabs.map((tab) => {
       return (
-        <Tab label={`${tab.queryName} ${tab.updated ? '*': ''}`} key={tab.queryName}
-          id={tab.queryName} onClick={this.handleClickTab(client, tabs, tab, unsavedCount)}
-          subComponent = {
+        <Tab label={`${tab.queryName} ${tab.updated ? '*': ''}`}
+          key={tab.queryName}
+          id={tab.queryName}
+          onClick={this.handleClickTab(client, tabs, tab, unsavedCount)}
+          onMouseEnter={this.handleMouseHover}
+          onMouseLeave={this.handleMouseHover}
+          subComponent = { tabs.length > 1 ?
             <Icon
-              className='icon--close'
+              className='header-icon--close'
               name='icon--close'
+              fill={'#5a6872'}
               description={msgs.get('tabs.close.icon', this.context.locale)}
-              onClick={this.handleRemoveClick(client, tab)} />
+              onClick={this.handleRemoveClick(client, tab)} /> : null
           }
         />
       )

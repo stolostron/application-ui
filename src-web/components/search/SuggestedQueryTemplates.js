@@ -14,19 +14,19 @@ export default {
       name: 'Failed Storage (template)',
       description: 'A pre-defined query to help you review ...',
       resultHeader: 'table.cell.failed',
-      searchText: 'failed storage'
+      searchText: 'kind:storage status:Failed'
     },
     {
       name: 'Unhealthy Pods (template)',
       description: 'A pre-defined query to help you review ...',
       resultHeader: 'table.header.status.unhealthy',
-      searchText: 'unhealthy pod'
+      searchText: 'kind:pod status:Pending,Failed,Unknown'
     },
     {
-      name: 'Inactive Services (template)',
+      name: 'Services (template)',
       description: 'A pre-defined query to help you review ...',
-      resultHeader: 'table.header.status.unhealthy',
-      searchText: 'inactive services'
+      resultHeader: 'table.header.status.healthy',
+      searchText: 'kind:services'
     }
   ]
 }

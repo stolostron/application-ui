@@ -10,7 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Module, ModuleBody } from 'carbon-addons-cloud-react'
-import { OverflowMenu, OverflowMenuItem, SkeletonText } from 'carbon-components-react'
+import { OverflowMenu, OverflowMenuItem, SkeletonText, Icon } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { ApolloConsumer } from 'react-apollo'
@@ -101,7 +101,7 @@ class SearchQueryCard extends React.Component {
 
   render() {
     const { locale } = this.context
-    const { loading, searchText, description, name, results = [], timeCreated = new Date().toLocaleString(), resultHeader } = this.props
+    const { loading, searchText, description, name, count, results = [], timeCreated = new Date().toLocaleString(), resultHeader } = this.props
     if (loading)
       return this.loadingComponent()
     return (<ApolloConsumer>
@@ -114,14 +114,27 @@ class SearchQueryCard extends React.Component {
               onKeyPress={this.handleKeyPress.bind(null, client, searchText)}
               onClick={() => { this.handleCardClick(client, searchText, { searchText, description, name })
               }} >
-              <p className={`search-query-result-number${resultHeader ? '__suggested' : ''}`}>{results.length}</p>
+              <p className={`search-query-result-number${resultHeader ? '__suggested' : ''}`}>{count || results.length}</p>
               <p className={'search-query-result-string'}>{msgs.get(resultHeader || 'search.tile.results', locale)}</p>
             </div>
-            <div className="search-query-content">
-              <p className="search-query-name">{name}</p>
-              <p className="search-query-time">{`${msgs.get('table.header.updated', locale)} ${timeCreated}`}</p>
-              <p className="search-query-description">{description}</p>
-            </div>
+            {
+              <div className="search-query-content">
+                <div className={'search-query-card-inner-container'}>
+                  { resultHeader ?
+                    <div className={'search-query-orb'}>
+                      <Icon
+                        className='icon--document'
+                        name='icon--document'
+                        description={msgs.get('table.show.all.button', this.context.locale)} />
+                    </div> : null }
+                  <div className={`${resultHeader ? 'search-query-header__orb' : 'search-query-header'}`}>
+                    <p className="search-query-name">{name}</p>
+                    <p className="search-query-time">{`${msgs.get('table.header.updated', locale)} ${timeCreated}`}</p>
+                  </div>
+                </div>
+                <p className={`search-query-description ${resultHeader && 'search-query-description__orb'}`}>{description}</p>
+              </div>
+            }
             {this.getCardActions(client, { __typename: 'ModalData', searchText, description, name }, resultHeader)}
           </ModuleBody>
         </Module>
@@ -132,6 +145,7 @@ class SearchQueryCard extends React.Component {
 
 
 SearchQueryCard.propTypes = {
+  count: PropTypes.number,
   description: PropTypes.string,
   loading: PropTypes.bool,
   name: PropTypes.string,

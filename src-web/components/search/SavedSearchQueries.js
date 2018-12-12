@@ -38,8 +38,8 @@ class SavedSearchQueries extends React.Component {
     const { queries = [] } = this.props
     return (
       <div className={'saved-search-queries'}>
-        <p className={'saved-search-query-header'}>{`${msgs.get(this.props.header, this.context.locale)}
-        (${queries.length} ${msgs.get('table.header.total', this.context.locale)})`}</p>
+        <p className={'saved-search-query-header'}>{`${msgs.get(this.props.header, this.context.locale)}`}</p>
+        { this.props.showTotal && <p className={'saved-search-query-header-count'}>{`(${queries.length} ${msgs.get('table.header.total', this.context.locale)})`}</p> }
         <div className={'query-cards-container'}>
           {this.state.showAll ? queries.map(query => {
             return (<SearchQueryCard  key={query.name} {...query} />)
@@ -76,6 +76,7 @@ class SavedSearchQueries extends React.Component {
 SavedSearchQueries.propTypes = {
   header: PropTypes.string,
   queries: PropTypes.array,
+  showTotal: PropTypes.bool,
 }
 
 

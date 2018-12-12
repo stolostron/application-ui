@@ -42,9 +42,11 @@ export const SEARCH_QUERY = gql`
         kind
         count
       }
+      count
     }
   }
 `
+
 export const GET_SAVED_USER_QUERY = gql`
   query userQueries {
     items: userQueries {

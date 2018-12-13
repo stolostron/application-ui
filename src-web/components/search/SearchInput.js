@@ -8,14 +8,15 @@
  *******************************************************************************/
 
 import React from 'react'
+import _ from 'lodash'
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
-import { Search, Icon } from 'carbon-components-react'
+import SearchBar from '../search/SearchBar'
+import { Icon } from 'carbon-components-react'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { GET_SEARCH_INPUT_TEXT } from '../../apollo-client/queries/SearchQueries'
-import _ from 'lodash'
 import { UPDATE_SINGLE_QUERY_TAB } from '../../apollo-client/queries/StateQueries'
 
 resources(() => {
@@ -32,32 +33,33 @@ class SearchInput extends React.PureComponent {
     const { tabName } = this.props
     return (
       <Query query={GET_SEARCH_SCHEMA}>
-        {( { client } ) => {
+        {( { data, client } ) => {
+          const searchSchema = data.searchSchema
           return (
             <div className='search--input-area'>
               <Query query={GET_SEARCH_INPUT_TEXT}>
                 {( { data } ) => {
-                  return (<Search
-                    className='bx--search--light'
-                    labelText='Search resources'  // TODO searchFeature: NLS
-                    placeHolderText='Search resources' // TODO searchFeature: NLS
-                    value={_.get(data, 'searchInput.text', '')}
-                    onChange={(evt) => {
-                      // TODO searchFeature: use a mutation with a schema.
-                      // TODO searchFeature: Need to debunce to limit the backend request.
-                      client.writeData({ data: {
-                        searchInput: {
-                          __typename: 'SearchInput', // TODO searchFeature: define schema
-                          text: evt.target.value
+                  return (
+                    <SearchBar
+                      value={_.get(data, 'searchInput.text', '')}
+                      availableFilters={searchSchema || []}
+                      onChange={(input) => {
+                        // TODO searchFeature: use a mutation with a schema.
+                        // TODO searchFeature: Need to debunce to limit the backend request.
+                        client.writeData({ data: {
+                          searchInput: {
+                            __typename: 'SearchInput', // TODO searchFeature: define schema
+                            text: input
+                          }
+                        }} )
+                        const newData =  {
+                          openedTabName: tabName,
+                          searchText: input
                         }
-                      }} )
-                      const newData =  {
-                        openedTabName: tabName,
-                        searchText: evt.target.value
-                      }
-                      client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
-                    }}
-                  />)
+                        client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
+                      }}
+                    />
+                  )
                 }}
               </Query>
               {/*for saving query*/}

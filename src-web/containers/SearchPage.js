@@ -52,8 +52,8 @@ class SearchPage extends React.Component {
     const keywords = searchTokens.filter(token => token !== '' && token.indexOf(':') < 0)
     const filters = searchTokens.filter(token => token.indexOf(':') >= 0)
       .map(f => {
-        const [ filter, values ] = f.split(':')
-        return { filter, values: values.split(',') }
+        const [ property, values ] = f.split(':')
+        return { property, values: values.split(',') }
       })
       .filter(f => f.filter !== '' && f.values !== '')
     return {keywords, filters}

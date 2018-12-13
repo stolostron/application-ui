@@ -155,7 +155,7 @@
   box-sizing: border-box;
   background: $color__blue-50 no-repeat right 8px center;
   color: $color__white;
-  padding: 0.1rem 1rem;
+  padding: 0.1rem .5rem;
   border-radius: 1.5rem;
   border-color: transparent;
   transition: all .6s ease-out;
@@ -177,6 +177,22 @@
   }
 }
 
+.react-tags__keyword-tag {
+  display: inline-block;
+  box-sizing: border-box;
+  background: $color__white;
+  // color: $color__white;
+  padding: 0.1rem .5rem;
+  border-radius: 1.5rem;
+  border-color: transparent;
+  transition: all .6s ease-out;
+  margin: 0.5rem -2rem 0.5rem 2.5rem;
+  height: 1.25rem;
+
+  /* match the font styles */
+  font-size: 12px;
+  line-height: inherit;
+}
 
 .react-tags__search {
   // display: inline;
@@ -184,7 +200,7 @@
   display: inline-block;
   z-index: 200;
   max-width: 100%;
-  margin: 0.75rem 0.5rem 0.75rem 3rem;
+  margin: 0.75rem 0.5rem 0.75rem 2.5rem;
   padding-right: 2rem;
 }
 
@@ -239,7 +255,7 @@
 
 .react-tags__suggestions li:hover {
   cursor: pointer;
-  background: #eee;
+  background: rgba(85,150,230,.1);
 }
 
 .react-tags__suggestions li.is-active {

@@ -10,6 +10,12 @@
 
 import gql from 'graphql-tag'
 
+export const GET_SEARCH_COMPLETE = gql`
+  query searchComplete($property: String!) {
+    searchComplete(property: $property)
+  }
+`
+
 export const GET_SEARCH_INPUT_TEXT = gql`
   {
     searchInput @client {

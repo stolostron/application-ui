@@ -70,7 +70,7 @@ class SearchResourceTable extends React.PureComponent {
     const startItem = (page - 1) * pageSize
     const visibleItems = this.props.items.slice(startItem, startItem + pageSize)
     return visibleItems.map(item => {
-      const row = { id: item.name} // TODO searchFeature: key should be UID or cluster:selfLink
+      const row = { id: item.uid}
 
       if (tableDefinitions[this.props.kind]) {
         tableDefinitions[this.props.kind].columns.forEach(column => {
@@ -79,7 +79,7 @@ class SearchResourceTable extends React.PureComponent {
         return row
       }
 
-      return { id: item.name, ...item } // TODO searchFeature: key should be UID or cluster:selfLink
+      return { id: item.uid, ...item }
     })
   }
 

@@ -232,9 +232,8 @@ class SearchBar extends React.Component {
     } = this.state
 
     return (
-      <Query query={GET_SEARCH_COMPLETE} variables={{ property: '' }}>
+      <Query query={GET_SEARCH_COMPLETE} variables={{ property: searchComplete }}>
         {( { data } ) => {
-          console.log('Search complete data:', data) // eslint-disable-line
           if (data.searchComplete) this.formatSuggestionOptions(data.searchComplete)
           return (
             <div className='tagInput-filter'>

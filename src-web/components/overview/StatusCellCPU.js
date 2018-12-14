@@ -48,7 +48,7 @@ class StatusCellCPU extends React.Component {
     const {available, used} = values
 
 
-    const newDataSet = {
+    const chartData = this.createFixedArray({
       name: moment().format('LT'),
       available,
       used,
@@ -56,19 +56,19 @@ class StatusCellCPU extends React.Component {
         available: new Intl.NumberFormat(this.context.locale).format(available),
         used: new Intl.NumberFormat(this.context.locale).format(used),
       }
-    }
-    const top = available*1.2
+    })
+    const max = Math.max(...chartData.map(({available}) => available)) * 1.2
     const domainData = {
       tickFormatter: value => `${value}`,
-      domain: [0, top],
-      ticks: Array.from({length: 4}, (v, i) => Math.round(i*top/3)),
+      domain: [0, max],
+      ticks: Array.from({length: 4}, (v, i) => Math.round(i*max/3)),
       available: 'available',
       used: 'used',
     }
 
     this.setState({
       domainData,
-      chartData: this.createFixedArray(newDataSet),
+      chartData,
     })
   }
 

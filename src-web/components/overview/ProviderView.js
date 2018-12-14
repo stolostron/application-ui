@@ -44,7 +44,7 @@ class ProviderView extends React.Component {
   }
 
   render() {
-    const { overview: {applications=[], clusters = [], services=[]} } = this.props
+    const { overview: {applications=[], clusters = []} } = this.props
 
     // gather data
     const providers = {
@@ -56,7 +56,6 @@ class ProviderView extends React.Component {
     }
 
     const napps=applications.length
-    const nservices=services.length
     const nclusters=clusters.length
     const regions=new Set()
     let npods=0
@@ -86,7 +85,6 @@ class ProviderView extends React.Component {
     const statuses = [
       {group:'1', stats: [
         {title: msgs.get('overview.status.apps', this.context.locale), value: napps},
-        {title: msgs.get('overview.status.services', this.context.locale), value: nservices},
         {title: msgs.get('overview.status.pods', this.context.locale), value: npods},
       ]},
       {group:'2', stats: [

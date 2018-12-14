@@ -17,9 +17,10 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateSecondaryHeader } from '../actions/common'
 import Page from '../components/common/Page'
-//import config from '../../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
+import { OVERVIEW_REFRESH_INTERVAL_COOKIE  } from '../../lib/shared/constants'
 
+import {getPollInterval} from '../components/common/RefreshSelect'
 import OverviewView from '../components/overview/OverviewView'
 
 const OVERVIEW_QUERY = gql`
@@ -46,17 +47,6 @@ const OVERVIEW_QUERY = gql`
         }
         status
       }
-      services {
-        cluster
-        name
-        namespace
-        labels {
-          name
-          value
-        }
-        type
-        uid
-      }
       applications {
         metadata {
           name
@@ -77,6 +67,7 @@ const OVERVIEW_QUERY = gql`
         }
         status
       }
+      timestamp
     }
   }
 `
@@ -95,13 +86,21 @@ class OverviewPage extends React.Component {
   }
 
   render () {
+    const pollInterval = getPollInterval(OVERVIEW_REFRESH_INTERVAL_COOKIE)
     return (
       <Page>
-        <Query query={OVERVIEW_QUERY}>
-          {( {loading, error, data} ) => {
+        <Query query={OVERVIEW_QUERY} pollInterval={pollInterval}>
+          {( {loading, error, data, refetch, startPolling, stopPolling} ) => {
             const { overview } = data
             return (
-              <OverviewView loading={loading} error={error} overview={overview} />
+              <OverviewView
+                loading={loading}
+                error={error}
+                refetch={refetch}
+                startPolling={startPolling}
+                stopPolling={stopPolling}
+                pollInterval={pollInterval}
+                overview={overview} />
             )
           }
           }

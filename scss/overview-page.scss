@@ -12,6 +12,14 @@
 /* counter act default padding of page */
 .overview-view {
   margin: -54px -5% 0;
+  position: relative;
+
+  .refresh-select {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
 }
 
 .provider-container {
@@ -243,18 +251,40 @@ $orbSize: 9rem;
 }
 
 .recharts-layer.available {
-  circle, path {
+  circle {
     stroke: $mcm__available_color;
     stroke-width: 2;
+    fill: $mcm__used_color;
+    fill-opacity: .3;
+  }
+
+  path.recharts-area-curve {
+    stroke: $mcm__available_color;
+    stroke-width: 2;
+  }
+
+  path.recharts-area-area {
+    stroke: none;
     fill: $mcm__used_color;
     fill-opacity: .3;
   }
 }
 
 .recharts-layer.used {
-  circle, path {
+  circle {
     stroke: $mcm__used_color;
     stroke-width: 2;
+    fill: $mcm__used_color;
+    fill-opacity: .3;
+  }
+
+  path.recharts-area-curve {
+    stroke: $mcm__used_color;
+    stroke-width: 2;
+  }
+
+  path.recharts-area-area {
+    stroke: none;
     fill: $mcm__used_color;
     fill-opacity: .3;
   }

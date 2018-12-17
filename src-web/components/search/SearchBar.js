@@ -52,6 +52,26 @@ class SearchBar extends React.Component {
         fieldOptions: this.convertObjectToArray(fields)
       })
     }
+    if (nextProps.value !== '' && !_.isEqual(nextProps.value, this.state.currentQuery)) {
+      const tagText = nextProps.value.split(' ')
+      const tags = tagText.map((tag) => {
+        const semicolonIdx = tag.indexOf(':')
+        const field = tag.substring(0, semicolonIdx)
+        const matchText = tag.substring(semicolonIdx + 1)
+        return {
+          id: `id-${field}-tag`,
+          key:`key-${field}-tag`,
+          name: tag,
+          value: tag,
+          field: field,
+          matchText: matchText
+        }
+      })
+      this.setState({
+        currentQuery: nextProps.value,
+        tags: tags
+      })
+    }
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -120,7 +140,7 @@ class SearchBar extends React.Component {
 
   handleClearAllClick() {
     if (this.state.tags.length > 0) {
-      this.updateSelectedTags([], true)
+      this.updateSelectedTags([])
       this.setState({
         currentTag: {
           field: '',
@@ -129,17 +149,13 @@ class SearchBar extends React.Component {
         searchComplete: ''
       })
     }
-    this.props.onChange('')
   }
 
   // TODO: TODO this should edit the tag text NOT delete the entire tag...
   handleDelete(i) {
     const { tags } = this.state
-    if (tags.length === 1) {
-      this.props.onChange('')
-    }
     if (tags.length > 0) {
-      this.updateSelectedTags(tags.filter((tag, index) => index !== i), true)
+      this.updateSelectedTags(tags.filter((tag, index) => index !== i))
       this.setState({
         currentTag: {
           field: '',
@@ -279,7 +295,7 @@ SearchBar.propTypes = {
   onChange: PropTypes.func,
   onSelectedFilterChange: PropTypes.func, // TODO - used to update the url..
   tags: PropTypes.array,
-  // value: PropTypes.string,
+  value: PropTypes.string,
 }
 
 export default SearchBar

@@ -54,7 +54,7 @@ class LogsModal extends React.Component {
   }
 
   render() {
-    const { logs, status, containers, podName } = this.props,
+    const { logs, status, containers, podName, open } = this.props,
           { xhrPoll } = this.state,
           { locale } = this.context
 
@@ -126,6 +126,7 @@ LogsModal.propTypes = {
   fetchLogs: PropTypes.func,
   handleClose: PropTypes.func,
   logs: PropTypes.string,
+  open: PropTypes.bool,
   podName: PropTypes.string,
   podNamespace: PropTypes.string,
   resetLogs: PropTypes.func,

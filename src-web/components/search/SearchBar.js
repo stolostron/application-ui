@@ -56,11 +56,12 @@ class SearchBar extends React.Component {
       const tagText = nextProps.value.split(' ')
       const tags = tagText.map((tag) => {
         const semicolonIdx = tag.indexOf(':')
-        const field = tag.substring(0, semicolonIdx)
-        const matchText = tag.substring(semicolonIdx + 1)
+        const field = semicolonIdx > 0 ? tag.substring(0, semicolonIdx) : tag
+        const matchText = semicolonIdx > 0 ? tag.substring(semicolonIdx + 1).split(',') : ''
         return {
           id: `id-${field}-tag`,
           key:`key-${field}-tag`,
+          classType: semicolonIdx < 1 ? 'keyword' : '',
           name: tag,
           value: tag,
           field: field,
@@ -90,7 +91,7 @@ class SearchBar extends React.Component {
         name: tagText,
         value: tagText,
         field: field,
-        matchText: value
+        matchText: matchText
       }
       // need to replace the tag with new one
       const tagArray = matchText !== undefined ? tags.slice(0, tags.length - 1) : tags
@@ -151,18 +152,35 @@ class SearchBar extends React.Component {
     }
   }
 
-  // TODO: TODO this should edit the tag text NOT delete the entire tag...
   handleDelete(i) {
     const { tags } = this.state
     if (tags.length > 0) {
-      this.updateSelectedTags(tags.filter((tag, index) => index !== i))
-      this.setState({
-        currentTag: {
-          field: '',
-          matchText: []
-        },
-        searchComplete: ''
-      })
+      if (tags[i].matchText === undefined || tags[i].matchText.length === 0 || tags[i].classType === 'keyword') {
+        this.updateSelectedTags(tags.filter((tag, index) => index !== i))
+        this.setState({
+          currentTag: {
+            field: '',
+            matchText: []
+          },
+          searchComplete: ''
+        })
+      }
+      if (tags[i].matchText && tags[i].matchText.length > 0) {
+        tags[i].matchText.pop()
+        const tagText = tags[i].field + ':' + tags[i].matchText.join(',')
+        tags[i].name = tagText
+        tags[i].value = tagText
+        this.updateSelectedTags(tags)
+        if (tags[i].matchText.length === 0) {
+          this.setState({
+            currentTag: {
+              field: tags[i].field,
+              matchText: []
+            },
+            searchComplete: tags[i].field,
+          })
+        }
+      }
     }
   }
 
@@ -178,9 +196,10 @@ class SearchBar extends React.Component {
       tags = _.map(tags.slice(0, tags.length - 1), (tag) => {
         if (tag.field === lastTag.field) {
           match = true
-          tag.name = tag.name + ', ' + lastTag.matchText
-          tag.value = tag.value + ',' + lastTag.matchText
-          tag.matchText = tag.matchText + ',' + lastTag.matchText
+          tag.matchText = _.concat(tag.matchText, lastTag.matchText)
+          const tagText = tag.field + ':' + tag.matchText.join(',')
+          tag.name = tagText
+          tag.value = tagText
         }
         return tag
       })
@@ -222,7 +241,7 @@ class SearchBar extends React.Component {
         this.setState({
           currentTag: {
             field: searchComplete,
-            matchText: input.name
+            matchText: _.concat(input.name)
           }
         })
       } else {
@@ -268,7 +287,7 @@ class SearchBar extends React.Component {
                   handleDelete={this.handleDelete}
                   handleAddition={this.handleAddition}
                   autoresize={true}
-                  minQueryLength={1}
+                  minQueryLength={0}
                   allowNew={true}
                   tagComponent={FilterTag}
                   delimiterChars={[' ', ':', ',']}

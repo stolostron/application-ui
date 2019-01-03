@@ -64,7 +64,7 @@ class SearchInput extends React.PureComponent {
               </Query>
               {/*for saving query*/}
               <div className='search-input-save-button'>
-                <button type="button" className="query-save-button"
+                <button type="button" aria-label="save-query" className="query-save-button"
                   onClick={this.props.handleSaveButtonClick}>
                   <Icon
                     className='icon--save'

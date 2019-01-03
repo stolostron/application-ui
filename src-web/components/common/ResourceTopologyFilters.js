@@ -172,7 +172,7 @@ class ResourceTopologyFilters extends React.Component {
           <div className='multi-select-filter-title'>
             {searchTitle}
           </div>
-          <Search id='search-name' labelText=''
+          <Search id='search-name' labelText='' aria-label='Seach-input'
             placeHolderText={msgs.get('search.label.links', this.context.locale)}
             onChange={this.handleSearch}
           />

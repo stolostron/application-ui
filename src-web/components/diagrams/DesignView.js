@@ -61,7 +61,8 @@ class DesignView extends React.PureComponent {
           modalHeading={heading}
           onRequestClose={this.handleClose}
           role='region'
-          aria-label={heading}>
+          aria-label={heading}
+          modalAriaLabel={`${heading}-modal`}>
           <div className='yamlEditorContainerContainer'>
             <YamlEditor
               width={'100%'}

@@ -2,6 +2,7 @@
 
 exports[`NoResource component renders as expected 1`] = `
 <div
+  aria-labelledby="resource-search-label"
   className="bx--search bx--search--sm resource-search"
   role="search"
 >
@@ -28,6 +29,7 @@ exports[`NoResource component renders as expected 1`] = `
   <label
     className="bx--label"
     htmlFor="resource-search"
+    id="resource-search-label"
   >
     true
   </label>

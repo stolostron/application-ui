@@ -238,7 +238,7 @@ class ResourceTable extends React.Component {
 
         if (fliteredActions && fliteredActions.length > 0 && this.showTableToobar()) {
           row.action = (
-            <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
+            <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
               {fliteredActions.map((action) =>
                 <OverflowMenuItem
                   data-table-action={action}

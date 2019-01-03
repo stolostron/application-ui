@@ -16,6 +16,7 @@ import {getAPIGroups, getExcludeNamespace, getIncludeNamespace, getRuleVerbs} fr
 import { Link } from 'react-router-dom'
 import StatusField from '../components/common/StatusField'
 import config from '../../lib/shared/config'
+import {getDecisions} from './hcm-applications'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -51,6 +52,55 @@ export default {
         key: 'clusterNotCompliant',
         transformFunction: createCompliancePolicyLink,
       },
+    ],
+  },
+  placementPolicyKeys: {
+    title: 'application.placement.policies',
+    defaultSortField: 'name',
+    resourceKey: 'placementPolicies',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'metadata.name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'metadata.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'replicas',
+        resourceKey: 'clusterReplicas',
+        msgKey: 'table.header.replicas'
+      },
+      {
+        key: 'clusterSelector',
+        resourceKey: 'clusterLabels',
+        msgKey: 'table.header.cluster.selector',
+        transformFunction: getLabelsToList,
+      },
+      {
+        key: 'resourceSelector',
+        resourceKey: 'resourceSelector',
+        msgKey: 'table.header.resource.selector',
+        transformFunction: getLabelsToList,
+      },
+      {
+        key: 'decisions',
+        resourceKey: 'status',
+        msgKey: 'table.header.decisions',
+        transformFunction: getDecisions,
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
+    ],
+    tableActions: [
+      'table.actions.edit',
     ],
   },
   complianceStatus: {

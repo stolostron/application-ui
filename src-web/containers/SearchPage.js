@@ -55,7 +55,7 @@ class SearchPage extends React.Component {
         const [ property, values ] = f.split(':')
         return { property, values: values.split(',') }
       })
-      .filter(f => f.filter !== '' && f.values !== '')
+      .filter(f => f.property !== '' && f.values !== '')
     return {keywords, filters}
   }
 

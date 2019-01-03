@@ -14,15 +14,17 @@ import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import StructuredListModule from '../../components/common/StructuredListModule'
-import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import resources from '../../../lib/shared/resources'
 import PolicyTemplates from '../../components/common/PolicyTemplates'
 import ResourceTableModule from '../../components/common/ResourceTableModuleFromProps'
-import {fetchResource, updateSecondaryHeader} from '../../actions/common'
+import { updateSecondaryHeader} from '../../actions/common'
 import lodash from 'lodash'
 import {getTabs} from '../../../lib/client/resource-helper'
-import {RESOURCE_TYPES} from '../../../lib/shared/constants'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import msgs from '../../../nls/platform.properties'
+import { Query } from 'react-apollo'
+import { HCMPolicy } from '../../../lib/client/queries'
+import NoResource from '../../../src-web/components/common/NoResource'
 
 resources(() => {
   require('../../../scss/resource-overview.scss')
@@ -32,11 +34,6 @@ resources(() => {
 class CompliancePolicyDetail extends React.Component {
   static propTypes = {
     baseUrl: PropTypes.string,
-    fetchResource: PropTypes.func,
-    item: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object,
-    ]),
     location: PropTypes.object,
     params: PropTypes.object,
     resourceType: PropTypes.object,
@@ -54,7 +51,6 @@ class CompliancePolicyDetail extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchResource()
     const { updateSecondaryHeader, baseUrl, params, tabs } = this.props
     // details page mode
     if (params) {
@@ -103,60 +99,69 @@ class CompliancePolicyDetail extends React.Component {
   }
 
   render() {
+    const { locale } = this.context
     const policyName = lodash.get(this.props, 'match.params.policyName')
     const policyNamespace = lodash.get(this.props, 'match.params.policyNamespace')
-    const {staticResourceData,params, item, resourceType} = this.props
-    if (!item)
-      return <Loading withOverlay={false} className='content-spinner' />
-    const modulesRight = []
-    const modulesBottom = []
-    const detail = lodash.get(item, 'compliancePolicies', [])
-    const compliancePolicies = detail.find(item => lodash.get(item, 'name', '') === policyName)
-    const policy = compliancePolicies && compliancePolicies.policies.find(item => lodash.get(item, 'cluster', '') === policyNamespace)
-    React.Children.map([
-      <PolicyTemplates key='Policy Templates' headerKey='table.header.policyTemplate' right />,
-      <ResourceTableModule key='roleTemplates' definitionsKey='policyRoleTemplates' />,
-      <ResourceTableModule key='roleBindingTemplates' definitionsKey='policyRoleBindingTemplates' />,
-      <ResourceTableModule key='objectTemplates' definitionsKey='policyObjectTemplates' />,
-      <ResourceTableModule key='rules' definitionsKey='policyRules' />,
-      <ResourceTableModule key='violations' definitionsKey='policyViolations' />], module => {
-      if (module.props.right) {
-        modulesRight.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: policy, params }))
-      } else {
-        modulesBottom.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: policy, params }))
-      }
-    })
+    const {staticResourceData, params, resourceType} = this.props
     return (
-      <div className='overview-content'>
-        <StructuredListModule
-          title={staticResourceData.policyDetailKeys.title}
-          headerRows={staticResourceData.policyDetailKeys.headerRows}
-          rows={staticResourceData.policyDetailKeys.rows}
-          data={policy} />
-        {modulesRight.length > 0 &&
-        <div className='overview-content-right'>
-          {modulesRight}
-        </div>}
-        <div className='overview-content-bottom'>
-          {modulesBottom}
-        </div>
-      </div>
+      <Query query={HCMPolicy} variables={{name: policyName, clusterName: policyNamespace}}>
+        {({ data, loading }) => {
+          if (loading) {
+            return (<Loading withOverlay={false} className='content-spinner' />)
+          }
+          const policy = data.policies[0], modulesRight = [], modulesBottom = []
+          React.Children.map([
+            <PolicyTemplates key='Policy Templates' headerKey='table.header.policyTemplate' right />,
+            <ResourceTableModule key='roleTemplates' definitionsKey='policyRoleTemplates' />,
+            <ResourceTableModule key='roleBindingTemplates' definitionsKey='policyRoleBindingTemplates' />,
+            <ResourceTableModule key='objectTemplates' definitionsKey='policyObjectTemplates' />,
+            <ResourceTableModule key='rules' definitionsKey='policyRules' />,
+            <ResourceTableModule key='violations' definitionsKey='policyViolations' />], module => {
+            if (module.props.right) {
+              modulesRight.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: policy, params }))
+            } else {
+              modulesBottom.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: policy, params }))
+            }
+          })
+          return (
+            <div className='overview-content'>
+              {policy ?
+                <div>
+                  <StructuredListModule
+                    title={staticResourceData.policyDetailKeys.title}
+                    headerRows={staticResourceData.policyDetailKeys.headerRows}
+                    rows={staticResourceData.policyDetailKeys.rows}
+                    data={policy} />
+                  {modulesRight.length > 0 &&
+                  <div className='overview-content-right'>
+                    {modulesRight}
+                  </div>}
+                  <div className='overview-content-bottom'>
+                    {modulesBottom}
+                  </div>
+                </div>
+                :
+                <NoResource
+                  title={msgs.get('no-policy.title', locale)}
+                  detail={msgs.get('no-policy.detail', locale)}>
+                </NoResource>
+              }
+            </div>
+          )
+        }}
+      </Query>
+
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const { resourceType, params } = ownProps
-  const name = decodeURIComponent(params.name)
-  const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
-    namespace: params.namespace ? decodeURIComponent(params.namespace) : null })
-  return { item }
+const mapStateToProps = () => {
+  return {}
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { resourceType, params: {name, namespace} } = ownProps
+
+const mapDispatchToProps = (dispatch) => {
   return {
-    fetchResource: () => dispatch(fetchResource(resourceType, namespace, name)),
     updateSecondaryHeader: (title, tabs, breadcrumbItems, links) => dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }

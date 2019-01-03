@@ -295,11 +295,6 @@ export default {
         transformFunction: getStatus,
       },
       {
-        msgKey: 'table.header.cluster',
-        resourceKey: 'cluster',
-        key: 'cluster',
-      },
-      {
         msgKey: 'table.header.name',
         resourceKey: 'name',
         key: 'name',

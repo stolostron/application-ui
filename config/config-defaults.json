@@ -17,6 +17,12 @@
     "WLP_CLIENT_ID": "",
     "WLP_CLIENT_SECRET": "",
     "WLP_REDIRECT_URL": "https://localhost:3000/auth/liberty/callback",
+    "overview": [
+        {"title": "AWS", "include":["aws"]},
+        {"title": "Azure", "include":["azure"]},
+        {"title": "IBM", "include":["ibm"]},
+        {"title": "Data Center", "exclude":["aws","azure","ibm"]}
+     ],
     "tests": {
         "user": "admin",
         "password": "admin"

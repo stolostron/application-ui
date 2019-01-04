@@ -12,6 +12,10 @@ $animation__ease-in: cubic-bezier(0.25, 0, 1, 1) !default;
 $animation__ease-out: cubic-bezier(0, 0, 0.25, 1) !default;
 $animation__standard: cubic-bezier(0.5, 0, 0.1, 1) !default;
 
+// secondary header
+$secondary-header-top: 3.082rem !default;
+$secondary-header-min-height: 4.125rem !default;
+$secondary-header-max-height: 7.75rem !default;
 
 // mcm Color Scheme
 $mcm__color__gray: #6f7878 !default;
@@ -21,9 +25,11 @@ $mcm__available_color: #047cc0 !default;
 $mcm__used_color: #40d5bb !default;
 
 $mcm_color_green: #8cd211 !default;
-$mcm_color_grey: #8c9ba5 !default;
+$mcm_color_gray: #8c9ba5 !default;
 $mcm_color_yellow: #EFC199 !default;
 $mcm_color_red: #E71D32 !default;
 
-$mcm_background_color: #f4f7fb !default;
+$mcm_view_filter: #DFEBF1 !default;
 
+$mcm_background_color: #f4f7fb !default;
+$mcm_provider_card_background_color: #fafafa !default

@@ -10,28 +10,28 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Tag } from 'carbon-components-react'
+import GridCard from '../GridCard'
 
-const StatusCell = ({
-  header,
-  children,
-  tagValue
-}) =>
-  <div className='status-cell'>
-    <div className='title'>
-      {header}
-      {tagValue && <Tag type='beta'>{tagValue}</Tag>}
-    </div>
-    <div className='body'>
-      {children}
-    </div>
-  </div>
+class HeatCard extends React.Component {
 
-StatusCell.propTypes = {
-  children: PropTypes.node,
-  header: PropTypes.string,
-  tagValue: PropTypes.string,
+  static propTypes = {
+    item: PropTypes.object,
+  }
+
+  render() {
+    const { item } = this.props
+    //const { overview: {applications=[], clusters = []} } = item
+
+    // gather data
+
+    return (
+      <GridCard item={item}>
+        <div className='heat-card'>
+          HEATMAP
+        </div>
+      </GridCard>
+    )
+  }
 }
 
-export default StatusCell
-
+export default HeatCard

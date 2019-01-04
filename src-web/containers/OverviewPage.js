@@ -11,6 +11,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { DragDropContextProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import { connect } from 'react-redux'
@@ -20,7 +22,7 @@ import Page from '../components/common/Page'
 import msgs from '../../nls/platform.properties'
 import { OVERVIEW_REFRESH_INTERVAL_COOKIE  } from '../../lib/shared/constants'
 
-import {getPollInterval} from '../components/common/RefreshSelect'
+import {getPollInterval} from '../components/common/AutoRefreshMenu'
 import OverviewView from '../components/overview/OverviewView'
 
 const OVERVIEW_QUERY = gql`
@@ -89,22 +91,24 @@ class OverviewPage extends React.Component {
     const pollInterval = getPollInterval(OVERVIEW_REFRESH_INTERVAL_COOKIE)
     return (
       <Page>
-        <Query query={OVERVIEW_QUERY} pollInterval={pollInterval}>
-          {( {loading, error, data, refetch, startPolling, stopPolling} ) => {
-            const { overview } = data
-            return (
-              <OverviewView
-                loading={loading}
-                error={error}
-                refetch={refetch}
-                startPolling={startPolling}
-                stopPolling={stopPolling}
-                pollInterval={pollInterval}
-                overview={overview} />
-            )
-          }
-          }
-        </Query>
+        <DragDropContextProvider backend={HTML5Backend}>
+          <Query query={OVERVIEW_QUERY} pollInterval={pollInterval} notifyOnNetworkStatusChange>
+            {( {loading, error, data, refetch, startPolling, stopPolling} ) => {
+              const { overview } = data
+              return (
+                <OverviewView
+                  loading={loading}
+                  error={error}
+                  refetch={refetch}
+                  startPolling={startPolling}
+                  stopPolling={stopPolling}
+                  pollInterval={pollInterval}
+                  overview={overview} />
+              )
+            }
+            }
+          </Query>
+        </DragDropContextProvider>
       </Page>
     )
   }

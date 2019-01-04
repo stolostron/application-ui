@@ -7,9 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
-
-$secondary-header-min-height: 4.125rem;
-$secondary-header-max-height: 7.75rem;
+@import 'variables';
 
 .secondary-header {
 
@@ -39,7 +37,7 @@ $secondary-header-max-height: 7.75rem;
   &.simple-header {
     position: fixed;
     width: 100%;
-    top: 3.082rem;
+    top: $secondary-header-top;
     background-color: #fff;
     height: $secondary-header-min-height;
     padding: 0.75rem 5% 0

@@ -10,43 +10,51 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import resources from '../../../lib/shared/resources'
-import { Select, SelectItem } from 'carbon-components-react'
+import { OverflowMenu, OverflowMenuItem } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
 
-resources(() => {
-  require('../../../scss/refresh-select.scss')
-})
-
 // choices in seconds
-const refreshValues = [0, 5, 10, 15, 30, 60, 2*60, 15*60, 30*60]
+const refreshValues = [5, 15, 30, 60, 30*60, 0]
 
-export default class RefreshSelect extends React.Component {
+export default class AutoRefreshMenu extends React.Component {
 
   static propTypes = {
+    otherOptions: PropTypes.array,
     pollInterval: PropTypes.number,
-    refetch: PropTypes.func,
     refreshCookie: PropTypes.string,
     startPolling: PropTypes.func,
     stopPolling: PropTypes.func,
-    timestamp: PropTypes.string,
   }
 
   constructor (props) {
     super(props)
     this.state = {
       pollInterval: props.pollInterval,
-      timestamp: props.timestamp,
-      currentTime: new Date().toString(),
     }
   }
 
-  handleChange = ({target}) => {
+  componentWillMount() {
+    const { locale } = this.context
+    this.autoRefreshChoices = refreshValues.map(pollInterval=>{
+      let text
+      if (pollInterval>=60) {
+        text = msgs.get('refresh.interval.minutes', [pollInterval/60], locale)
+      } else if (pollInterval!==0) {
+        text = msgs.get('refresh.interval.seconds', [pollInterval], locale)
+      } else {
+        text = msgs.get('refresh.interval.never', locale)
+      }
+      pollInterval*=1000
+      const action = this.handleChange.bind(this, pollInterval)
+      return {text, pollInterval, action}
+    })
+  }
+
+  handleChange = (pollInterval) => {
     const {refreshCookie, startPolling, stopPolling} = this.props
-    const pollInterval = refreshValues[target.selectedIndex]*1000
     if (pollInterval===0) {
       stopPolling()
     } else {
@@ -56,73 +64,42 @@ export default class RefreshSelect extends React.Component {
     this.setState({ pollInterval })
   }
 
-  handleClick = () => {
-    this.props.refetch()
-  }
-
-  componentWillMount() {
-    const { locale } = this.context
-    this.refreshChoices = refreshValues.map(value=>{
-      let text
-      if (value>=60) {
-        text = msgs.get('refresh.interval.minutes', [value/60], locale)
-      } else if (value!==0) {
-        text = msgs.get('refresh.interval.seconds', [value], locale)
-      } else {
-        text = msgs.get('refresh.interval.never', locale)
-      }
-      value*=1000
-      return {text, value}
-    })
-
-    this.interval = setInterval(() => {
-      this.setState({
-        currentTime: new Date().toString(),
-      })
-    }, 1000)
-
-  }
-
-  componentWillUnmount () {
-    clearInterval(this.interval)
-  }
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       pollInterval: nextProps.pollInterval,
-      timestamp: nextProps.timestamp,
     })
   }
 
   shouldComponentUpdate(nextProps, nextState){
-    return this.state.pollInterval !== nextState.pollInterval ||
-      this.state.timestamp !== nextState.timestamp ||
-      this.state.currentTime !== nextState.currentTime
+    return this.state.pollInterval !== nextState.pollInterval
   }
 
   render() {
-    const {pollInterval, timestamp, currentTime} = this.state
-    const refresh = msgs.get('refresh', this.context.locale)
-    const tooltip = getTimeAgoMsg('refresh.interval.refreshed', timestamp, currentTime, this.context.locale)
+    const { locale } = this.context
+    const { pollInterval } = this.state
+    const { otherOptions=[] } = this.props
+    const menuItems = otherOptions.concat(this.autoRefreshChoices)
     return (
-      <div className='refresh-select'>
-        <Select
-          hideLabel
-          title={tooltip}
-          onChange={this.handleChange}
-          value={pollInterval}>
-          {this.refreshChoices.map(({text, value}) => {
+      <div className='auto-refresh-menu'>
+        <OverflowMenu floatingMenu flipped
+          iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
+          {menuItems.map(({text, pollInterval: pi, action, isDelete}, idx) => {
             return (
-              <SelectItem key={text} text={text} value={value} />
-            )})}
-        </Select>
-        <div className='refresh-button' tabIndex='0' role={'button'}
-          title={tooltip} aria-label={refresh}
-          onClick={this.handleClick} onKeyPress={this.handleKeyPress} >
-          <svg width="16px" height="16px">
-            <use href={'#diagramIcons_refresh'} className={'refresh-button-icon'}></use>
-          </svg>
-        </div>
+              <OverflowMenuItem
+                key={text}
+                isDelete={isDelete}
+                hasDivider={otherOptions.length!==0 && idx===otherOptions.length}
+                itemText={
+                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    {text}
+                    {pollInterval===pi && <svg width="12px" height="12px">
+                      <use href={'#diagramIcons_checkmark'} ></use>
+                    </svg>}
+                  </div>}
+                onClick={action}
+              />)
+          })}
+        </OverflowMenu>
       </div>
     )
   }
@@ -135,7 +112,7 @@ export const getPollInterval = (cookieKey) => {
   if (savedInterval) {
     try {
       const saved = JSON.parse(savedInterval)
-      if (saved.pollInterval) {
+      if (saved.pollInterval !== undefined) {
         pollInterval = saved.pollInterval
       }
     } catch (e) {
@@ -151,7 +128,7 @@ export const savePollInterval = (cookieKey, pollInterval) => {
 
 export const getTimeAgoMsg = (msgKey, startTime, endTime, locale) => {
   let ago = ''
-  const seconds = Math.abs(moment(startTime).diff(endTime)) / 1000
+  const seconds = Math.abs(moment(new Date(startTime)).diff(new Date(endTime))) / 1000
   let interval = Math.floor(seconds / 86400)
   if (interval >= 1) {
     ago = msgs.get('time.days.ago', [interval], locale)

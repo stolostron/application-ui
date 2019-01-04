@@ -52,6 +52,17 @@ class SearchBar extends React.Component {
         fieldOptions: this.convertObjectToArray(fields)
       })
     }
+    if (nextProps.value === '') {
+      this.setState({
+        currentQuery: '',
+        tags: [],
+        currentTag: {
+          field: '',
+          matchText: []
+        },
+        searchComplete: ''
+      })
+    }
     if (nextProps.value !== '' && !_.isEqual(nextProps.value, this.state.currentQuery)) {
       const tagText = nextProps.value.split(' ')
       const tags = tagText.map((tag) => {
@@ -68,8 +79,12 @@ class SearchBar extends React.Component {
           matchText: matchText
         }
       })
+      const field = (tags[tags.length - 1].classType === 'keyword' || _.get(tags[tags.length - 1], 'matchText[0]', '') !== '')
+        ? ''
+        : tags[tags.length - 1].field
       this.setState({
         currentQuery: nextProps.value,
+        searchComplete: field,
         tags: tags
       })
     }
@@ -95,7 +110,7 @@ class SearchBar extends React.Component {
       }
       // need to replace the tag with new one
       const tagArray = matchText !== undefined ? tags.slice(0, tags.length - 1) : tags
-      this.updateSelectedTags([...tagArray, tag], tag)
+      this.updateSelectedTags([...tagArray, tag], nextState.currentTag)
     }
   }
 
@@ -141,7 +156,7 @@ class SearchBar extends React.Component {
 
   handleClearAllClick() {
     if (this.state.tags.length > 0) {
-      this.updateSelectedTags([])
+      this.updateSelectedTags([], {})
       this.setState({
         currentTag: {
           field: '',
@@ -156,7 +171,7 @@ class SearchBar extends React.Component {
     const { tags } = this.state
     if (tags.length > 0) {
       if (tags[i].matchText === undefined || tags[i].matchText.length === 0 || tags[i].classType === 'keyword') {
-        this.updateSelectedTags(tags.filter((tag, index) => index !== i))
+        this.updateSelectedTags(tags.filter((tag, index) => index !== i), {})
         this.setState({
           currentTag: {
             field: '',
@@ -170,7 +185,7 @@ class SearchBar extends React.Component {
         const tagText = tags[i].field + ':' + tags[i].matchText.join(',')
         tags[i].name = tagText
         tags[i].value = tagText
-        this.updateSelectedTags(tags)
+        this.updateSelectedTags(tags, {})
         if (tags[i].matchText.length === 0) {
           this.setState({
             currentTag: {
@@ -184,9 +199,9 @@ class SearchBar extends React.Component {
     }
   }
 
-  updateSelectedTags(tags) {
+  updateSelectedTags(tags, currentTag) {
     const { onSelectedFilterChange } = this.props
-    const { currentTag: { field } } = this.state
+    const { field, matchText } = currentTag
 
     // This block handles combining two tags with the same filter field
     const lastTag = tags[tags.length - 1]
@@ -209,7 +224,7 @@ class SearchBar extends React.Component {
     }
 
     onSelectedFilterChange && onSelectedFilterChange(tags)
-    if (field !== '') {
+    if (field !== '' && matchText !== undefined) {
       this.setState({
         currentTag: {
           field: '',
@@ -220,7 +235,7 @@ class SearchBar extends React.Component {
     }
     this.setState({
       currentQuery: tags.map(tag => {return tag.value}).join(' '),
-      tags: tags,
+      tags: tags
     })
   }
 
@@ -234,7 +249,7 @@ class SearchBar extends React.Component {
     if (!searchComplete && !input.id) { // Adds keyword tag
       input.classType = 'keyword'
       input.value = input.name
-      this.updateSelectedTags([...tags, input], input)
+      this.updateSelectedTags([...tags, input], {})
     } else {
       // Adds matchText string
       if (searchComplete) {

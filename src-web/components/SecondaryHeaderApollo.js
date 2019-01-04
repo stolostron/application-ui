@@ -83,10 +83,12 @@ export class SecondaryHeaderSearchPage extends React.Component {
         <Tab label={`${tab.queryName} ${tab.updated ? '*': ''}`}
           key={tab.queryName}
           id={tab.queryName}
-          onClick={this.handleClickTab(client, tabs, tab, unsavedCount)}
+          onClick={(evt) => {
+            if (evt.target.nodeName === 'A' || evt.target.nodeName === 'LI') this.handleClickTab(client, tabs, tab, unsavedCount)}
+          }
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
-          subComponent = { tabs.length > 1 ?
+          subcomponent = { tabs.length > 1 ?
             <Icon
               className='header-icon--close'
               name='icon--close'
@@ -99,15 +101,15 @@ export class SecondaryHeaderSearchPage extends React.Component {
     })
   }
 
-  handleRemoveClick = (client, tab) => () => {
+  handleRemoveClick = (client, tab) => async () => {
     const { queryName } = tab
     const newData =  {
       queryName
     }
-    client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
+    await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
   }
 
-  handleClickNewTab = (client, unsavedCount, tabs) => () => {
+  handleClickNewTab = (client, unsavedCount, tabs) => async () => {
     const newData =  {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount + 1,
@@ -122,7 +124,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
       },
       tabs
     }
-    client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
+    await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
 
     client.writeData({ data: {
       searchInput: {
@@ -132,15 +134,15 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }} )
   }
 
-
-  handleClickTab = (client, tabs, tab, unsavedCount) => () => {
+  async handleClickTab(client, tabs, tab, unsavedCount) {
     const { queryName, searchText } = tab
     const newData =  {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount,
       openedTabName: queryName,
+      tabs
     }
-    client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
+    await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
 
     client.writeData({ data: {
       searchInput: {

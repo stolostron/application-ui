@@ -83,7 +83,7 @@ export default class Tab extends React.Component {
      */
     selected: PropTypes.bool.isRequired,
 
-    subComponent: PropTypes.object,
+    subcomponent: PropTypes.object,
     /**
      * Specify the tab index of the <a> node
      */
@@ -168,7 +168,7 @@ export default class Tab extends React.Component {
         ) : (
           <a {...anchorProps}>{label}</a>
         )}
-        {this.props.subComponent}
+        {this.props.subcomponent}
       </li>
     )
   }

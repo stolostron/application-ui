@@ -35,6 +35,7 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   ['/diagram'],
   [
     <ResourceTableModule key='applicationWorks' definitionsKey='applicationWorkKeys' />,
+    <ResourceTableModule key='placementBindings' definitionsKey='placementBindingKeys' />,
     <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES} />,
     <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />,
     <ResourceTableModule key='applicationRelationships' definitionsKey='applicationRelationshipKeys' />

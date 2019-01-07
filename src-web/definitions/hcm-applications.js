@@ -36,11 +36,6 @@ export default {
       transformFunction: getLabelsToString
     },
     {
-      msgKey: 'table.header.decisions',
-      resourceKey: 'status',
-      transformFunction: getDecisions,
-    },
-    {
       msgKey: 'table.header.created',
       resourceKey: 'metadata.creationTimestamp',
       transformFunction: getAge,
@@ -224,6 +219,40 @@ export default {
       },
     ],
   },
+  placementBindingKeys: {
+    title: 'application.placement.bindings',
+    defaultSortField: 'name',
+    resourceKey: 'placementBindings',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'metadata.name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'metadata.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'placementpolicy',
+        resourceKey: 'placementRef.name',
+        msgKey: 'table.header.placementpolicy'
+      },
+      {
+        key: 'subjects',
+        resourceKey: 'subjects',
+        msgKey: 'table.header.subjects',
+        transformFunction: getSubjects
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
+    ]
+  },
   placementPolicyKeys: {
     title: 'application.placement.policies',
     defaultSortField: 'name',
@@ -358,8 +387,8 @@ export function createApplicationLink(item = {}, ...param){
   return <Link to={`${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
-export function createDashboardLink({ dashboard = '', placementPolicies } , locale){
-  if (dashboard !== null && dashboard !== '' && lodash.get(placementPolicies[0], 'status.decisions'))
+export function createDashboardLink({ dashboard = '' } , locale){
+  if (dashboard !== null && dashboard !== '' )
     return <a target="_blank" rel="noopener noreferrer" href={dashboard}>{msgs.get('table.actions.launch.grafana', locale)}</a>
 
   return '-'
@@ -435,4 +464,8 @@ export function getRelationshipSourceDest(item, locale, arg) {
       <li style={{display:'block'}}><b>{'name'}</b>{` = ${item.destination ? item.destination.name : '-'}`}</li>
       <li style={{display:'block'}}><b>{'kind'}</b>{` = ${item.destination ? item.destination.name : '-'}`}</li>
     </ul>
+}
+
+export function getSubjects(item) {
+  return item.subjects && item.subjects.map(subject => `${subject.name}(${subject.kind})`).join(', ')
 }

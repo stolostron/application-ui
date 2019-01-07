@@ -35,7 +35,7 @@
     "npm": "6.4.1"
   },
   "dependencies": {
-    "@icp/security-middleware": "^2.0.19",
+    "@icp/security-middleware": "^2.0.90",
     "apollo-boost": "^0.1.20",
     "apollo-client": "^2.2.8",
     "async": "^2.1.5",

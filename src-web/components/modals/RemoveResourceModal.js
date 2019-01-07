@@ -39,6 +39,14 @@ class RemoveResourceModal extends React.Component {
         selected: true
       })
     })
+    _.map(data.placementBindings, (curr, idx) => {
+      children.push({
+        id: idx + '-placementBinding-' + curr.metadata.name,
+        selfLink: curr.metadata.selfLink,
+        label: curr.metadata.name + ' [PlacementBinding]',
+        selected: true
+      })
+    })
     _.map(data.placementPolicies, (curr, idx) => {
       children.push({
         id: idx + '-placementPolicy-' + curr.metadata.name,
@@ -55,7 +63,7 @@ class RemoveResourceModal extends React.Component {
         selected: true
       })
     })
-    if (children.length > 1 && this.state.selected.length < 1) {
+    if (children.length > 0 && this.state.selected.length < 1) {
       this.setState({selected: children})
     }
   }
@@ -78,6 +86,7 @@ class RemoveResourceModal extends React.Component {
   modalBody = (data, label, locale) => {
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
+    case 'modal.remove-hcmcompliance.label':
       return this.state.selected.length > 0
         ? <div className='remove-app-modal-content' >
           <div className='remove-app-modal-content-text' >

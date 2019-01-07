@@ -36,5 +36,6 @@ export default withRouter(typedResourcePageWithListAndDetails(
   [<PolicyTemplates key='Compliance Templates' headerKey={'table.header.complianceTemplate'} editable={true} right />,
     <ResourceTableModule key='complianceStatus' definitionsKey='complianceStatus' />,
     <ResourceTableModule key='compliancePolicies' definitionsKey='compliancePolicies' />,
-    <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES} />,]
+    <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES} />,
+    <ResourceTableModule key='placementBindings' definitionsKey='placementBindingKeys' />,]
 ))

@@ -54,6 +54,40 @@ export default {
       },
     ],
   },
+  placementBindingKeys: {
+    title: 'application.placement.bindings',
+    defaultSortField: 'name',
+    resourceKey: 'placementBindings',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'metadata.name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'metadata.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'placementpolicy',
+        resourceKey: 'placementRef.name',
+        msgKey: 'table.header.placementpolicy'
+      },
+      {
+        key: 'subjects',
+        resourceKey: 'subjects',
+        msgKey: 'table.header.subjects',
+        transformFunction: getSubjects
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
+    ]
+  },
   placementPolicyKeys: {
     title: 'application.placement.policies',
     defaultSortField: 'name',
@@ -717,4 +751,8 @@ export function createCompliancePolicyLink(item = {}, ...param){
 
 export function createPolicyLink(item = {}){
   return  <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.name)}`}>{item.name}</Link>
+}
+
+export function getSubjects(item) {
+  return item.subjects && item.subjects.map(subject => `${subject.name}(${subject.kind})`).join(', ')
 }

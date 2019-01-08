@@ -47,7 +47,7 @@ class SearchBar extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.availableFilters, this.state.fieldOptions)) {
-      const fields = this.formatFields(nextProps.availableFilters.allFields)
+      const fields = this.formatFields(nextProps.availableFilters.allProperties)
       this.setState({
         fieldOptions: this.convertObjectToArray(fields)
       })

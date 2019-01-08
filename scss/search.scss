@@ -19,4 +19,8 @@
 
 .search--resource-table {
   margin-top: 3rem;
+
+  .bx--data-table-v2-header {
+    text-transform: capitalize;
+  }
 }

@@ -72,7 +72,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
 
   renderAddNewTab = (client, unsavedCount, tabs, locale) => {
     return (
-      <Tab label={'+' + msgs.get('tabs.add.new', locale)}
+      <Tab label={'+ ' + msgs.get('tabs.add.new', locale)}
         id={'add-new-query'} onClick={this.handleClickNewTab(client, unsavedCount, tabs)} />
     )
   }

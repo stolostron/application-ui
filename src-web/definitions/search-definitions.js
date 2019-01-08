@@ -14,6 +14,12 @@ import { getAge } from '../../lib/client/resource-helper'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
 
 export default {
+  // application: {           // TODO: Data not available in the gremlin database yet.
+  //   columns: [
+  //     { key: 'name' },
+  //   ],
+  //   actions: [],
+  // },
   cluster: {
     columns: [
       { key: 'name' },
@@ -26,8 +32,6 @@ export default {
       { key: 'consoleURL', msgKey: 'endpoint', transform: getExternalLink },
     ],
     actions: [
-      'table.actions.cluster.view.nodes',
-      'table.actions.cluster.view.pods',
       'table.actions.cluster.edit.labels',
     ],
   },
@@ -59,12 +63,12 @@ export default {
     ],
     actions: [],
   },
-  namespace: {
-    columns: [
-      { key: 'name' },
-    ],
-    actions: [],
-  },
+  // namespace: {           // TODO: Data not available in the gremlin database yet.
+  //   columns: [
+  //     { key: 'name' },
+  //   ],
+  //   actions: [],
+  // },
   node: {
     columns: [
       { key: 'name' },
@@ -77,25 +81,41 @@ export default {
     ],
     actions: [],
   },
-  persistentVolume: {
-    columns: [
-      { key: 'name' },
-    ],
-    actions: [],
-  },
-  persistentVolumeClaim: {
-    columns: [
-      { key: 'name' },
-    ],
-    actions: [],
-  },
+  // persistentVolume: {          // TODO: Data not available in the gremlin database yet.
+  //   columns: [
+  //     { key: 'name' },
+  //     { key: 'namespace' },
+  //     { key: 'cluster'},
+  //     { key: 'type'},
+  //     { key: 'capacity'},
+  //     { key: 'accessMode'},
+  //     { key: 'reclaimPolicy'},
+  //     { key: 'status'},
+  //     { key: 'claim'},
+  //     { key: 'created', transform: getAge }
+  //   ],
+  //   actions: [],
+  // },
+  // persistentVolumeClaim: {     // TODO: Data not available in the gremlin database yet.
+  //   columns: [
+  //     { key: 'name' },
+  //     { key: 'namespace' },
+  //     { key: 'cluster'},
+  //     { key: 'status'},
+  //     { key: 'persistentVolume'},
+  //     { key: 'requests'},
+  //     { key: 'accessMode'},
+  //     { key: 'created', transform: getAge }
+  //   ],
+  //   actions: [],
+  // },
   pod: {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
       { key: 'cluster'},
-      { key: 'labels'},
-      { key: 'images'},
+      // { key: 'labels'},  // TODO: Data not available in the gremlin database yet.
+      // { key: 'images'},  // TODO: Data not available in the gremlin database yet.
       { key: 'status'},
       { key: 'restarts'},
       { key: 'hostIP'},
@@ -108,6 +128,10 @@ export default {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
+      { key: 'cluster'},
+      { key: 'desired'},
+      { key: 'current'},
+      { key: 'created', transform: getAge }
     ],
     actions: [],
   },
@@ -115,6 +139,8 @@ export default {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
+      { key: 'cluster'},
+      { key: 'created', transform: getAge }
     ],
     actions: [],
   },
@@ -122,6 +148,10 @@ export default {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
+      { key: 'cluster'},
+      { key: 'desired'},
+      { key: 'current'},
+      { key: 'created', transform: getAge }
     ],
     actions: [],
   }

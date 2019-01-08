@@ -223,6 +223,7 @@ export default {
     title: 'application.placement.bindings',
     defaultSortField: 'name',
     resourceKey: 'placementBindings',
+    normalizedKey: 'metadata.name',
     tableKeys: [
       {
         key: 'name',
@@ -257,6 +258,7 @@ export default {
     title: 'application.placement.policies',
     defaultSortField: 'name',
     resourceKey: 'placementPolicies',
+    normalizedKey: 'metadata.name',
     tableKeys: [
       {
         key: 'name',

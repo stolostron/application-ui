@@ -92,7 +92,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
             >
               <div>
                 { this.state.loading && <Loading className='content-spinner' />}
-                <p>{ msgs.get('modal.query.add.description', this.context.locale) }</p>
+                <p className={'save-modal-description'}>{ msgs.get('modal.query.add.description', this.context.locale) }</p>
                 { this.state.errorMessage &&
                 <InlineNotification
                   kind='error'

@@ -101,7 +101,8 @@ class SearchQueryCard extends React.Component {
 
   render() {
     const { locale } = this.context
-    const { loading, searchText, description, name, count, results = [], timeCreated = new Date().toLocaleString(), resultHeader } = this.props
+    // const { timeCreated = new Date().toLocaleString() } = this.props
+    const { loading, searchText, description, name, count, results = [], resultHeader } = this.props
     if (loading)
       return this.loadingComponent()
     return (<ApolloConsumer>
@@ -129,7 +130,7 @@ class SearchQueryCard extends React.Component {
                     </div> : null }
                   <div className={`${resultHeader ? 'search-query-header__orb' : 'search-query-header'}`}>
                     <p className="search-query-name">{name}</p>
-                    <p className="search-query-time">{`${msgs.get('table.header.updated', locale)} ${timeCreated}`}</p>
+                    {/*<p className="search-query-time">{`${msgs.get('table.header.updated', locale)} ${timeCreated}`}</p>*/}
                   </div>
                 </div>
                 <p className={`search-query-description ${resultHeader && 'search-query-description__orb'}`}>{description}</p>
@@ -152,7 +153,7 @@ SearchQueryCard.propTypes = {
   resultHeader: PropTypes.string,
   results: PropTypes.array,
   searchText: PropTypes.string,
-  timeCreated: PropTypes.string,
+  // timeCreated: PropTypes.string,
 }
 
 export default SearchQueryCard

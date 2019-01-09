@@ -24,7 +24,6 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import msgs from '../../../nls/platform.properties'
 import { Query } from 'react-apollo'
 import { HCMPolicy } from '../../../lib/client/queries'
-import NoResource from '../../../src-web/components/common/NoResource'
 
 resources(() => {
   require('../../../scss/resource-overview.scss')
@@ -99,7 +98,6 @@ class CompliancePolicyDetail extends React.Component {
   }
 
   render() {
-    const { locale } = this.context
     const policyName = lodash.get(this.props, 'match.params.policyName')
     const policyNamespace = lodash.get(this.props, 'match.params.policyNamespace')
     const {staticResourceData, params, resourceType} = this.props
@@ -125,27 +123,18 @@ class CompliancePolicyDetail extends React.Component {
           })
           return (
             <div className='overview-content'>
-              {policy ?
-                <div>
-                  <StructuredListModule
-                    title={staticResourceData.policyDetailKeys.title}
-                    headerRows={staticResourceData.policyDetailKeys.headerRows}
-                    rows={staticResourceData.policyDetailKeys.rows}
-                    data={policy} />
-                  {modulesRight.length > 0 &&
-                  <div className='overview-content-right'>
-                    {modulesRight}
-                  </div>}
-                  <div className='overview-content-bottom'>
-                    {modulesBottom}
-                  </div>
-                </div>
-                :
-                <NoResource
-                  title={msgs.get('no-policy.title', locale)}
-                  detail={msgs.get('no-policy.detail', locale)}>
-                </NoResource>
-              }
+              <StructuredListModule
+                title={staticResourceData.policyDetailKeys.title}
+                headerRows={staticResourceData.policyDetailKeys.headerRows}
+                rows={staticResourceData.policyDetailKeys.rows}
+                data={policy} />
+              {modulesRight.length > 0 &&
+                <div className='overview-content-right'>
+                  {modulesRight}
+                </div>}
+              <div className='overview-content-bottom'>
+                {modulesBottom}
+              </div>
             </div>
           )
         }}

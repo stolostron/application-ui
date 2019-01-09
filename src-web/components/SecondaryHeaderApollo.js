@@ -72,17 +72,40 @@ export class SecondaryHeaderSearchPage extends React.Component {
 
   renderAddNewTab = (client, unsavedCount, tabs, locale) => {
     return (
-      <Tab label={'+ ' + msgs.get('tabs.add.new', locale)}
-        id={'add-new-query'} onClick={this.handleClickNewTab(client, unsavedCount, tabs)} />
+      <Tab label={msgs.get('tabs.add.new', locale)}
+        className={'header-tab-add-new'}
+        id={'add-new-query'} onClick={this.handleClickNewTab(client, unsavedCount, tabs, locale)}
+        subcomponent = {
+          <Icon
+            className='header-icon--add__tab'
+            name='icon--add'
+            description={msgs.get('tabs.add.icon', this.context.locale)}
+          />}
+      />
     )
   }
 
   renderTabs(client, tabs, unsavedCount) {
-    return tabs.map((tab) => {
+    let index = 0
+    const result = tabs.reduce((r, a) => r.concat(a, 0), [])
+    return result.map((tab) => {
+      if (!tab) {
+        index++
+        return (
+          <Tab label={''}
+            className={'header-tab-separator-container'}
+            id={`separator-${index}`} onClick={()=>{}}
+            subcomponent = {
+              <div className={'header-tab-separator'}></div>
+            }
+          />
+        )
+      }
       return (
         <Tab label={`${tab.queryName} ${tab.updated ? '*': ''}`}
           key={tab.queryName}
           id={tab.queryName}
+          className={'header-tab-container'}
           onClick={(evt) => {
             if (evt.target.nodeName === 'A' || evt.target.nodeName === 'LI') this.handleClickTab(client, tabs, tab, unsavedCount)}
           }
@@ -92,7 +115,6 @@ export class SecondaryHeaderSearchPage extends React.Component {
             <Icon
               className='header-icon--close'
               name='icon--close'
-              fill={'#5a6872'}
               description={msgs.get('tabs.close.icon', this.context.locale)}
               onClick={this.handleRemoveClick(client, tab)} /> : null
           }
@@ -109,16 +131,18 @@ export class SecondaryHeaderSearchPage extends React.Component {
     await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
   }
 
-  handleClickNewTab = (client, unsavedCount, tabs) => async () => {
+  handleClickNewTab = (client, unsavedCount, tabs, locale) => async () => {
+    const newSearch = msgs.get('tabs.add.new', locale)
+    const unsaved = msgs.get('tabs.unsaved', locale)
     const newData =  {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount + 1,
-      openedTabName: `Unsaved-${unsavedCount}`,
+      openedTabName: `${newSearch} (${unsaved} - ${unsavedCount})`,
       data:{
-        queryName: `Unsaved-${unsavedCount}`,
+        queryName: `${newSearch} (${unsaved} - ${unsavedCount})`,
         searchText:'',
         description:'',
-        id: `Unsaved-${unsavedCount}`,
+        id: `${newSearch} (${unsaved} - ${unsavedCount})`,
         updated: false,
         __typename: 'QueryTab'
       },
@@ -153,7 +177,8 @@ export class SecondaryHeaderSearchPage extends React.Component {
   }
 
   getSelectedTab(tabs, openedTabName) {
-    const index = tabs.findIndex((tab) =>
+    const result = tabs.reduce((r, a) => r.concat(a, 0), [])
+    const index = result.findIndex((tab) =>
       tab.queryName === openedTabName
     )
     return index === -1 ? 0 : index

@@ -36,10 +36,13 @@ class SavedSearchQueries extends React.Component {
 
   render() {
     const { queries = [] } = this.props
+    const { locale } = this.context
+    const timeUpdated = new Date().toLocaleTimeString(locale)
     return (
       <div className={'saved-search-queries'}>
         <p className={'saved-search-query-header'}>{`${msgs.get(this.props.header, this.context.locale)}`}</p>
         { this.props.showTotal && <p className={'saved-search-query-header-count'}>{`(${queries.length} ${msgs.get('table.header.total', this.context.locale)})`}</p> }
+        <p className="search-query-updated-time">{`${msgs.get('table.header.updated', locale)}  ${timeUpdated}`}</p>
         <div className={'query-cards-container'}>
           {this.state.showAll ? queries.map(query => {
             return (<SearchQueryCard  key={query.name} {...query} />)

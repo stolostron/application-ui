@@ -9,6 +9,12 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
+$overview-view-width: 1200px !default;
+$overview-column-width: 10px !default; /* card width must be multiple of this */
+$overview-card-margin: 7px !default; /* margin around cards */
+
+$overview-heat-collapsed: 90px !default;
+
 /* counter act default padding of page */
 .overview-view {
   margin: -54px -5% 0;
@@ -99,7 +105,7 @@
 }
 
 .masonry-container {
-  width: 1200px;
+  width: $overview-view-width;
   margin: 10px auto 0;
 }
 
@@ -108,9 +114,18 @@
 
 /* *********************  base card ************************ */
 
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .grid-item {
   cursor: move;
-  margin-bottom: 7px;
+  margin-bottom: $overview-card-margin;
   background-color: $color__white;
   box-shadow: 0px 1px 8px 0px #c3c7ca;
   position: relative;
@@ -120,7 +135,7 @@
     top: -6px;
     right: 6px;
     visibility: hidden;
-
+    z-index: 1002;
     .bx--overflow-menu__icon {
       transform: rotate(90deg);
     }
@@ -133,6 +148,10 @@
 
   &:hover .grid-menu {
     visibility: visible;
+  }
+
+  &.replaced {
+    animation: appear 400ms  ease-in-out;
   }
 
   .masonry-class.dragging &:hover .grid-menu {
@@ -196,6 +215,10 @@
     font-size: 32px;
   }
 
+  .provider-banner-close {
+    cursor: pointer;
+  }
+
   .provider-cluster {
     color: $color__navy-gray-5;
     padding-right: 25px;
@@ -240,7 +263,7 @@
   cursor: pointer;
   padding: 0;
   margin: 0;
-  width: 240px;
+  width: calc(#{$overview-column-width} * 27 - #{$overview-card-margin});
   min-height: 125px;
   color: $color__navy-gray-3;
   background-color: $mcm_provider_card_background_color;
@@ -263,7 +286,7 @@
     display: flex;
     justify-content: center;
     border-top: 1px solid $color__gray-1;
-    min-height: 52px;
+    min-height: 64px;
 
    .provider-count-cell {
       display: flex;
@@ -287,7 +310,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1044px;
+  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin});
 
   .provider-group {
     padding: 10px 0;
@@ -340,8 +363,203 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1044px;
-  height: 60px;
+  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin});
+
+  .heatMapSelections {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+
+    .heatMapSelectionContainer {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      padding: 5px 15px;
+
+      .heatMapSelectionLabel {
+        font-size: 12px;
+      }
+
+      .heatMapSelection {
+        .bx--select-input {
+          color: $color__blue-50;
+          background-color: $color__white;
+        }
+      }
+    }
+
+    .heatMapSelectionContainer:not(:last-child) {
+      border-right: 1px solid $color__gray-1;
+    }
+
+  }
+
+  .heat-card-toggle {
+    color: $color__blue-51;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .heat-card-container {
+    height: 100%;
+    width: 100%;
+    padding: 3px;
+
+    .heat-card-map {
+      border: 1px solid $color__gray-1;
+      width: 100%;
+      position: relative;
+    }
+  }
+
+  .heat-card-toggle {
+    position: absolute;
+    right: 10px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 3px 3px 0 3px;
+    outline: none;
+  }
+
+  &.collapsed {
+    .heat-card-container {
+      position: relative;
+    }
+
+    .heat-card-map {
+      height: $overview-heat-collapsed;
+    }
+
+    .heat-card-toggle {
+      bottom: 5px;
+    }
+  }
+
+  &.expanded {
+    .heat-card-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .heat-card-map {
+    }
+
+    .heat-card-toggle {
+      top: 5px;
+    }
+ }
+}
+
+svg.heatMap {
+  height: 100%;
+  width: 100%;
+
+  .grid {
+    stroke: $color__gray-1;
+    fill: none;
+    stroke-width: 1;
+  }
+
+  .square-red {
+    stroke: none;
+    fill: $mcm_heat_red;
+  }
+
+  .square-yellow {
+    stroke: none;
+    fill: $mcm_heat_yellow;
+  }
+
+  .square-blue {
+    stroke: none;
+    fill: $mcm_heat_blue;
+  }
+
+  .square-white {
+    stroke: none;
+    fill: $color__white;
+  }
+
+}
+
+div.heatMap {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+
+  .heatMapSection {
+    width: 33%;
+
+    .heatMapLabel {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .heatMapContent {
+       width: 100%;
+       height: 100%;
+
+      .masonry-class {
+         width: 100%;
+         height: 100%;
+
+         .grid-sizer {
+           width: 11%;
+         }
+
+         .grid-item {
+            cursor: default;
+            box-shadow: none;
+            margin-bottom: 5px;
+
+            &.square-red {
+              background-color: $mcm_heat_red;
+            }
+            &.square-yellow {
+              background-color: $mcm_heat_yellow;
+            }
+            &.square-blue {
+              background-color: $mcm_heat_blue;
+            }
+
+            .tooltip {
+              visibility: hidden;
+              background-color: $color__white;
+              text-align: center;
+              padding: 5px;
+              position: absolute;
+              top: 3px;
+              left: 3px;
+              z-index: 1;
+
+              .tooltip-line {
+                height: 10px;
+                padding:0;
+                margin:0;
+                font-size: 10px;
+                display: flex;
+
+                .label {
+                  font-weight: bold;
+                  color: $color__blue-90;
+                  padding-right: 5px;
+                }
+
+                .value {
+                  color: $color__navy-gray-6;
+                 }
+              }
+
+            }
+
+            &:hover .tooltip {
+              visibility: visible;
+            }
+         }
+      }
+    }
+  }
+
 }
 
 
@@ -350,7 +568,7 @@
 .pie-graph {
   display: flex;
   align-items: center;
-  width: 340px;
+  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin});
   height: 145px;
   position: relative;
   padding: 10px;
@@ -468,7 +686,7 @@
 /* *********************  chart card ************************ */
 
 .line-chart {
-  width: 340px;
+  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin});
   height: 145px;
   padding: 10px;
 }

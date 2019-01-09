@@ -8,7 +8,7 @@
  *******************************************************************************/
 'use strict'
 
-import { CardTypes, CardActions, TagTypes } from './constants.js'
+import { CardTypes, CardActions, TagTypes, GroupByChoices, SizeChoices, ShadeChoices } from './constants.js'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import _ from 'lodash'
@@ -47,8 +47,13 @@ export const getDefaultViewState = (locale) => {
       region: [],
       vendor: [],
     },
+    heatMapChoices: {
+      groupBy: GroupByChoices.provider,
+      size: SizeChoices.workers,
+      shade: ShadeChoices.vcpu,
+    },
     bannerCards: [],
-    filteredCards: [],
+    providerCards: [],
     cardOrder: [
       {
         type: CardTypes.counts,

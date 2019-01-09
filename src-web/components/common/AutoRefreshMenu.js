@@ -16,15 +16,13 @@ import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
 
-// choices in seconds
-const refreshValues = [5, 15, 30, 60, 30*60, 0]
-
 export default class AutoRefreshMenu extends React.Component {
 
   static propTypes = {
     otherOptions: PropTypes.array,
     pollInterval: PropTypes.number,
     refreshCookie: PropTypes.string,
+    refreshValues: PropTypes.array,
     startPolling: PropTypes.func,
     stopPolling: PropTypes.func,
   }
@@ -38,6 +36,7 @@ export default class AutoRefreshMenu extends React.Component {
 
   componentWillMount() {
     const { locale } = this.context
+    const { refreshValues=[] } = this.props
     this.autoRefreshChoices = refreshValues.map(pollInterval=>{
       let text
       if (pollInterval>=60) {

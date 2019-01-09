@@ -45,8 +45,6 @@ export default class OverviewMenu extends React.Component {
     this.viewMenuChoices = [
       {text: msgs.get('overview.menu.filter', locale),
         action: this.openFilterModel.bind(this)},
-      //      {text: msgs.get('overview.menu.new', locale),
-      //        action: this.newCard.bind(this)},
       {text: msgs.get('overview.menu.save', locale),
         action: this.saveView.bind(this)},
       {text: msgs.get('overview.menu.restore', locale),
@@ -76,6 +74,7 @@ export default class OverviewMenu extends React.Component {
           startPolling={startPolling}
           stopPolling={stopPolling}
           pollInterval={pollInterval}
+          refreshValues = {[20, 40, 60, 5*60, 30*60, 0]}
           refreshCookie={OVERVIEW_REFRESH_INTERVAL_COOKIE}
           otherOptions={this.viewMenuChoices}
         />
@@ -101,9 +100,6 @@ export default class OverviewMenu extends React.Component {
   updateActiveFilters = (activeFilters) => {
     const { view: {updateActiveFilters} } = this.props
     updateActiveFilters(activeFilters)
-  }
-
-  newCard() {
   }
 
   saveView() {

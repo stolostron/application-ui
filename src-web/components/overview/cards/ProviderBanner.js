@@ -17,7 +17,7 @@ export default class ProviderBanner extends React.PureComponent {
 
   render() {
     const { locale } = this.context
-    const { bannerCards, view, overview: {clusters=[]} } = this.props
+    const { bannerCards=[], view, overview: {clusters=[]} } = this.props
 
     // gather data
     const typeMap = {}
@@ -75,7 +75,7 @@ export default class ProviderBanner extends React.PureComponent {
             )
           })
         }</div>
-        <Tag type='custom'>
+        <Tag type='custom' className='provider-banner-close' onClick={onClose}>
           <Icon
             className='closeIcon'
             description={msgs.get('filter.remove.tag', locale)}

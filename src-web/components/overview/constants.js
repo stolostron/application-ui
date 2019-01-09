@@ -28,4 +28,27 @@ export const TagTypes = Object.freeze({
   nopercent: 'nopercent',
 })
 
+export const HeatSelections = Object.freeze({
+  groupBy: 'groupBy',
+  size: 'size',
+  shade: 'shade',
+})
 
+export const GroupByChoices = Object.freeze({
+  provider: 'provider',
+  region: 'region',
+  purpose: 'purpose',
+  service: 'service',
+})
+
+export const SizeChoices = Object.freeze({
+  workers: 'workers',
+  pods: 'pods',
+  nonCompliant: 'nonCompliant',
+})
+
+export const ShadeChoices = Object.freeze({
+  vcpu: 'vcpu',
+  memory: 'memory',
+  storage: 'storage',
+})

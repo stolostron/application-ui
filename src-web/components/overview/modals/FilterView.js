@@ -46,6 +46,10 @@ export const filterViewState = (activeFilters, viewState) => {
     const clouds = activeFilters.cloud.map(cloud=>{return cloud.toLowerCase()})
     viewState.cardOrder = viewState.cardOrder.filter(card=>{
       if (card.type===CardTypes.provider) {
+        if (!viewState.providerCards) {
+          viewState.providerCards = []
+        }
+        viewState.providerCards.push(card)
         const {include, exclude} = card
         const cloudMatch = clouds.some((cloud)=>{
           return (include.length!==0 && include.indexOf(cloud)!==-1) ||
@@ -53,21 +57,21 @@ export const filterViewState = (activeFilters, viewState) => {
         })
         if (cloudMatch) {
           // goes in banner
+          if (!viewState.bannerCards) {
+            viewState.bannerCards = []
+          }
           viewState.bannerCards.push(card)
-        } else {
-          // removed from view
-          viewState.filteredCards.push(card)
         }
         return false
       } else {
         return true
       }
     })
-  } else {
-    // restore all cards
-    viewState.cardOrder = [...viewState.bannerCards, ...viewState.filteredCards, ...viewState.cardOrder]
+  } else if (viewState.providerCards.length!==0) {
+    // restore all cards in original order
+    viewState.cardOrder = [...viewState.providerCards, ...viewState.cardOrder]
     viewState.bannerCards = []
-    viewState.filteredCards = []
+    viewState.providerCards = []
   }
 
   return viewState

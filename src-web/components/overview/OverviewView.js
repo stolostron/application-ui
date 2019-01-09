@@ -36,9 +36,10 @@ const masonryOptions = {
   horizontalOrder: true,
   fitWidth: true,
   resizeContainer: false,
-  columnWidth: 16,
-  gutter: 16,
+  columnWidth: 10,
+  gutter: 0,
 }
+
 export default class OverviewView extends React.Component {
 
   static propTypes = {
@@ -60,6 +61,7 @@ export default class OverviewView extends React.Component {
     })
     this.updateCardOrder = this.updateCardOrder.bind(this)
     this.handleLayoutComplete = this.handleLayoutComplete.bind(this)
+    this.updateHeatMapChoices = this.updateHeatMapChoices.bind(this)
   }
 
   setViewRef = ref => {this.viewRef = ref}
@@ -104,7 +106,7 @@ export default class OverviewView extends React.Component {
     const { refetch, startPolling, stopPolling, pollInterval, overview } = this.props
     const {timestamp} = overview
     const {viewState, reloading} = this.state
-    const {cardOrder, bannerCards=[], activeFilters} = viewState
+    const {cardOrder, bannerCards=[], activeFilters, heatMapChoices={}} = viewState
     const view = this.getViewData(overview, activeFilters)
     const boundActiveFilters = this.getBoundActiveFilters()
     const filteredOverview = filterOverview(activeFilters, overview)
@@ -135,25 +137,29 @@ export default class OverviewView extends React.Component {
         {/* cards */}
         <div className='masonry-container'>
           <Masonry
+            enableResizableChildren
+            disableImagesLoaded
             className={'masonry-class'}
             options={masonryOptions}
             ref={this.setMasonryRef}
             onLayoutComplete={() => this.handleLayoutComplete()}>
-            {cardOrder.map((cardData, idx)=>{
-              const {title='', type} = cardData
-              const key = title+type
-              const item = this.getItemData(cardData, filteredOverview, idx)
+            {cardOrder.map((cardData)=>{
+              const item = this.getItemData(cardData, filteredOverview)
+              const {key, type} = cardData
               switch(type) {
               case CardTypes.provider:
-                return <ProviderCard key={key} item={item} view={view}></ProviderCard>
+                return <ProviderCard key={key} item={item} view={view} />
               case CardTypes.counts:
-                return <CountsCard key={key} item={item}></CountsCard>
+                return <CountsCard key={key} item={item} />
               case CardTypes.heatmap:
-                return <HeatCard key={key} item={item}></HeatCard>
+                return <HeatCard key={key} item={item}
+                  heatMapChoices={heatMapChoices}
+                  updateHeatMapChoices={this.updateHeatMapChoices}
+                />
               case CardTypes.piechart:
-                return <PieCard key={key} item={item}></PieCard>
+                return <PieCard key={key} item={item} />
               case CardTypes.linegraph:
-                return <LineCard key={key} item={item}></LineCard>
+                return <LineCard key={key} item={item} />
               }
             })
             }
@@ -217,11 +223,21 @@ export default class OverviewView extends React.Component {
     })
   }
 
+  updateHeatMapChoices(heatMapChoices) {
+    this.setState(preState => {
+      const viewState = _.cloneDeep(preState.viewState)
+      viewState.heatMapChoices = heatMapChoices
+      return { viewState }
+    })
+  }
+
   //////////////////////////////////////////////////////////////////////
   //////////////// CARD FUNCTIONS ///////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
-  getItemData(cardData, overview, idx) {
-    cardData.idx = idx
+  getItemData(cardData, overview) {
+    const {title='', type} = cardData
+    const key = title + type
+    cardData.key = key
     return {
       cardData,
       overview,
@@ -242,15 +258,43 @@ export default class OverviewView extends React.Component {
       const viewState = _.cloneDeep(preState.viewState)
       const {cardOrder} = viewState
       const idx = cardOrder.findIndex(card=>{
-        return card.idx === cardData.idx
+        return card.key === cardData.key
       })
-      if (replace) {
-        cardOrder.splice(idx,1,replace)
-      } else {
-        cardOrder.splice(idx,1)
+      if (idx!==-1) {
+        if (replace) {
+          this.replaceWithoutLayout(idx)
+          cardOrder.splice(idx,1,replace)
+        } else {
+          cardOrder.splice(idx,1)
+        }
+      } else if (replace) {
+        cardOrder.push(replace)
       }
       return { viewState }
     })
+  }
+
+  // react-masonary and react will add the replaced card at end of list
+  // then lay it out into position--instead we just want it to appear
+  // where the old one was--so we save the old one's position and apply
+  // it to the new one
+  replaceWithoutLayout(idx) {
+    const replaced = this.masonry.masonryContainer.childNodes[idx]
+    this.saveMasonryLayout = this.masonry.performLayout
+    this.masonry.performLayout = () => {
+      var diff = this.masonry.diffDomChildren()
+      const replacement = diff.appended[0]
+      replacement.style.position = 'absolute'
+      replacement.style.left = replaced.style.left
+      replacement.style.top = replaced.style.top
+      replacement.classList.add('replaced') // dissolve into place
+      replacement.addEventListener('animationend', ()=>{
+        replacement.classList.remove('replaced') // remove after done
+      })
+      diff.appended.forEach(this.masonry.listenToElementResize, this.masonry)
+      this.masonry.masonry.reloadItems()
+      this.masonry.performLayout = this.saveMasonryLayout
+    }
   }
 
   // dragging
@@ -283,7 +327,7 @@ export default class OverviewView extends React.Component {
   getCurrentCardOrder() {
     const cardOrder = Array.from(this.masonry.masonryContainer.childNodes).map((child)=>{
       const {item: {cardData}} = child
-      delete cardData.idx
+      delete cardData.key
       return cardData
     })
     return cardOrder
@@ -297,8 +341,8 @@ export default class OverviewView extends React.Component {
   }
 
   getCurrentViewState() {
-    const {viewState: {activeFilters, bannerCards=[], filteredCards=[]}} = this.state
-    return {activeFilters, bannerCards, filteredCards, cardOrder: this.getCurrentCardOrder()}
+    const {viewState: {activeFilters, heatMapChoices={}, bannerCards=[], providerCards=[]}} = this.state
+    return {activeFilters, heatMapChoices, bannerCards, providerCards, cardOrder: this.getCurrentCardOrder()}
   }
 
 }

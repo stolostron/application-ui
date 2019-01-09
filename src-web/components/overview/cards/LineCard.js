@@ -115,6 +115,7 @@ class LineCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      popTheTop: false,
       chartData: []
     }
   }
@@ -127,9 +128,17 @@ class LineCard extends React.Component {
     this.updateChartData(nextProps)
   }
 
+  shouldComponentUpdate (nextProps) {
+    // don't update if same timestamp
+    const { item: {overview: {timestamp:oldTime}} } = this.props
+    const { item: {overview: {timestamp:newTime}} } = nextProps
+    return oldTime!==newTime
+  }
+
   updateChartData(props) {
     const { item } = props
     const { cardData: {overviewKey, valueKey, deflateValues, pieData}, overview } = item
+    let { popTheTop } = this.state
 
     // line chart as line chart
     let chartPoint, dataKeys, units=''
@@ -202,7 +211,16 @@ class LineCard extends React.Component {
       dataKeys = Object.keys(pieData)
     }
 
+    const initialize = this.state.chartData.length ===0
     const chartData = this.createFixedArray(chartPoint)
+    // a one point line graph doesn't look like a line graph
+    if (initialize) {
+      chartData.push(chartPoint)
+      popTheTop = true
+    } else if (popTheTop) {
+      chartData.pop()
+      popTheTop = false
+    }
     const max = Math.max(...chartData.map(({total}) => total)) * 1.2
     const domainData = {
       tickFormatter: value => `${value}`,
@@ -214,6 +232,7 @@ class LineCard extends React.Component {
     }
 
     this.setState({
+      popTheTop,
       domainData,
       chartData,
     })

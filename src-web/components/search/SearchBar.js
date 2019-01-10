@@ -52,7 +52,10 @@ class SearchBar extends React.Component {
         fieldOptions: this.convertObjectToArray(fields)
       })
     }
-    if (nextProps.value === '') {
+    if ((nextProps.value === '' && nextProps.clientSideFilters !== undefined)
+    || (nextProps.value !== '' && !_.isEqual(nextProps.clientSideFilters, this.props.clientSideFilters))) {
+      nextProps.onChange(nextProps.clientSideFilters || '')
+    } else if (nextProps.value === '') {
       this.setState({
         currentQuery: '',
         tags: [],
@@ -62,8 +65,7 @@ class SearchBar extends React.Component {
         },
         searchComplete: ''
       })
-    }
-    if (nextProps.value !== '' && !_.isEqual(nextProps.value, this.state.currentQuery)) {
+    } else if (nextProps.value !== '' && !_.isEqual(nextProps.value, this.state.currentQuery)) {
       const tagText = nextProps.value.split(' ')
       const tags = tagText.map((tag) => {
         const semicolonIdx = tag.indexOf(':')
@@ -91,8 +93,10 @@ class SearchBar extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
+    const { onChange, updateBrowserURL } = this.props
     if (!_.isEqual(nextState.currentQuery, this.state.currentQuery)) {
-      this.props.onChange(nextState.currentQuery)
+      onChange(nextState.currentQuery)
+      updateBrowserURL({query: nextState.currentQuery})
     }
     if (!_.isEqual(nextState.currentTag, this.state.currentTag)
       && nextState.currentTag.field !== '') {
@@ -165,13 +169,16 @@ class SearchBar extends React.Component {
         searchComplete: ''
       })
     }
+    this.props.updateBrowserURL('')
   }
 
   handleDelete(i) {
     const { tags } = this.state
     if (tags.length > 0) {
-      if (tags[i].matchText === undefined || tags[i].matchText.length === 0 || tags[i].classType === 'keyword') {
-        this.updateSelectedTags(tags.filter((tag, index) => index !== i), {})
+      if (tags[i].matchText === undefined || tags[i].matchText.length <= 1 || tags[i].classType === 'keyword') {
+        const newTags = tags.filter((tag, index) => index !== i)
+        this.updateSelectedTags(newTags, {})
+        this.props.updateBrowserURL(newTags)
         this.setState({
           currentTag: {
             field: '',
@@ -180,27 +187,17 @@ class SearchBar extends React.Component {
           searchComplete: ''
         })
       }
-      if (tags[i].matchText && tags[i].matchText.length > 0) {
+      if (tags[i].matchText && tags[i].matchText.length > 1) {
         tags[i].matchText.pop()
         const tagText = tags[i].field + ':' + tags[i].matchText.join(',')
         tags[i].name = tagText
         tags[i].value = tagText
         this.updateSelectedTags(tags, {})
-        if (tags[i].matchText.length === 0) {
-          this.setState({
-            currentTag: {
-              field: tags[i].field,
-              matchText: []
-            },
-            searchComplete: tags[i].field,
-          })
-        }
       }
     }
   }
 
   updateSelectedTags(tags, currentTag) {
-    const { onSelectedFilterChange } = this.props
     const { field, matchText } = currentTag
 
     // This block handles combining two tags with the same filter field
@@ -223,7 +220,6 @@ class SearchBar extends React.Component {
       }
     }
 
-    onSelectedFilterChange && onSelectedFilterChange(tags)
     if (field !== '' && matchText !== undefined) {
       this.setState({
         currentTag: {
@@ -276,6 +272,7 @@ class SearchBar extends React.Component {
 
   render() {
     const {
+      currentQuery,
       searchComplete = '',
       tags,
       fieldOptions
@@ -296,7 +293,7 @@ class SearchBar extends React.Component {
               </div>
               <div className={'tagInput-comboBox'}>
                 <ReactTags
-                  placeholder={msgs.get('searchbar.searchofferings', this.context.locale)}
+                  placeholder={currentQuery ? '' : msgs.get('searchbar.searchofferings', this.context.locale)}
                   tags={tags}
                   suggestions={searchComplete !== '' ? this.matchTextOptions : fieldOptions}
                   handleDelete={this.handleDelete}
@@ -326,9 +323,10 @@ class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
   availableFilters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  clientSideFilters: PropTypes.string,
   onChange: PropTypes.func,
-  onSelectedFilterChange: PropTypes.func, // TODO - used to update the url..
   tags: PropTypes.array,
+  updateBrowserURL: PropTypes.func,
   value: PropTypes.string,
 }
 

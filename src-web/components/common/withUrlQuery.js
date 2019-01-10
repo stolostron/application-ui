@@ -74,7 +74,9 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
 
     updateBrowserURL(inputs) {
       const {history, location} = this.props
-      if (Array.isArray(inputs)) {
+      if (inputs.query) {
+        history.push(`${location.pathname}?filters={"textsearch":${JSON.stringify(inputs.query)}}`)
+      } else if (Array.isArray(inputs)) {
         const paramString = this.createLocationSearch(inputs)
         if (history && paramString) {
           // update the URL with filter tags

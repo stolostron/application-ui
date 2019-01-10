@@ -14,6 +14,7 @@ import { OverflowMenu, OverflowMenuItem, SkeletonText, Icon } from 'carbon-compo
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { ApolloConsumer } from 'react-apollo'
+import { GET_SEARCH_TABS } from '../../apollo-client/queries/SearchQueries'
 import {UPDATE_MODAL, UPDATE_QUERY_TABS} from '../../apollo-client/queries/StateQueries'
 
 resources(() => {
@@ -32,31 +33,35 @@ class SearchQueryCard extends React.Component {
     client.mutate({ mutation: UPDATE_MODAL, variables: { __typename: 'modal', open: true, type: action, data } })
   }
 
-  handleKeyPress = (e, client, searchText) => {
-    if ( e.key === 'Enter') {
-      this.handleCardClick(client, searchText)
+  handleKeyPress = (client, searchText, cardData, evt) => {
+    if ( evt.key === 'Enter') {
+      this.handleCardClick(client, searchText, cardData)
     }
   }
 
   handleCardClick = (client, searchText, cardData) => {
     const { name, description } = cardData
+    const {searchQueryTabs: { tabs }} = client.readQuery({query: GET_SEARCH_TABS})
+
     client.writeData({ data: {
       searchInput: {
         __typename: 'SearchInput',
         text: searchText
       }
     }} )
+
+    tabs[tabs.length - 1] = {
+      description: description,
+      id: name,
+      queryName: name,
+      searchText: searchText,
+      updated: false,
+      __typename: 'QueryTab'
+    }
     const newData =  {
       __typename: 'SearchQueryTabs',
       openedTabName: name,
-      data:{
-        queryName: name,
-        searchText:searchText,
-        description:description,
-        id: name,
-        updated: false,
-        __typename: 'QueryTab'
-      },
+      tabs: tabs,
     }
     client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
   }
@@ -112,7 +117,7 @@ class SearchQueryCard extends React.Component {
             <div className="search-query-result"
               tabIndex={0}
               role={'button'}
-              onKeyPress={this.handleKeyPress.bind(null, client, searchText)}
+              onKeyPress={this.handleKeyPress.bind(null, client, searchText, { searchText, description, name })}
               onClick={() => { this.handleCardClick(client, searchText, { searchText, description, name })
               }} >
               <p className={`search-query-result-number${resultHeader ? '__suggested' : ''}`}>{count || results.length}</p>

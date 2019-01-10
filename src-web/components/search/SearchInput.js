@@ -30,7 +30,7 @@ const GET_SEARCH_SCHEMA = gql`
 `
 class SearchInput extends React.PureComponent {
   render() {
-    const { tabName } = this.props
+    const { clientSideFilters, tabName, updateBrowserURL } = this.props
     return (
       <Query query={GET_SEARCH_SCHEMA}>
         {( { data, client } ) => {
@@ -58,6 +58,8 @@ class SearchInput extends React.PureComponent {
                         }
                         client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
                       }}
+                      clientSideFilters={clientSideFilters}
+                      updateBrowserURL={updateBrowserURL}
                     />
                   )
                 }}
@@ -81,8 +83,10 @@ class SearchInput extends React.PureComponent {
 }
 
 SearchInput.propTypes = {
+  clientSideFilters: PropTypes.string,
   handleSaveButtonClick: PropTypes.func,
   tabName: PropTypes.string,
+  updateBrowserURL: PropTypes.func
 }
 
 export default SearchInput

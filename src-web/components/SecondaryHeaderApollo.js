@@ -93,6 +93,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
         index++
         return (
           <Tab label={''}
+            key={`tab-spacer-${index}`}
             className={'header-tab-separator-container'}
             id={`separator-${index}`} onClick={()=>{}}
             subcomponent = {
@@ -116,19 +117,28 @@ export class SecondaryHeaderSearchPage extends React.Component {
               className='header-icon--close'
               name='icon--close'
               description={msgs.get('tabs.close.icon', this.context.locale)}
-              onClick={this.handleRemoveClick(client, tab)} /> : null
+              onClick={this.handleRemoveClick(client, tabs, tab)} /> : null
           }
         />
       )
     })
   }
 
-  handleRemoveClick = (client, tab) => async () => {
+  handleRemoveClick = (client, tabs, tab) => async () => {
     const { queryName } = tab
     const newData =  {
       queryName
     }
     await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
+
+    this.props.updateBrowserURL(tabs[tabs.length - 1].searchText)
+
+    client.writeData({ data: {
+      searchInput: {
+        __typename: 'SearchInput',
+        text: tabs[tabs.length - 1].searchText
+      }
+    }} )
   }
 
   handleClickNewTab = (client, unsavedCount, tabs, locale) => async () => {
@@ -150,6 +160,8 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }
     await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
 
+    this.props.updateBrowserURL('')
+
     client.writeData({ data: {
       searchInput: {
         __typename: 'SearchInput',
@@ -167,6 +179,8 @@ export class SecondaryHeaderSearchPage extends React.Component {
       tabs
     }
     await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
+
+    this.props.updateBrowserURL(searchText)
 
     client.writeData({ data: {
       searchInput: {
@@ -191,7 +205,8 @@ SecondaryHeaderSearchPage.contextTypes = {
 }
 
 SecondaryHeaderSearchPage.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  updateBrowserURL: PropTypes.func
 }
 
 export default SecondaryHeaderSearchPage

@@ -26,7 +26,7 @@ export default {
       name: 'Services (template)',
       description: 'A pre-defined query to help you review ...',
       resultHeader: 'table.header.status.healthy',
-      searchText: 'kind:services'
+      searchText: 'kind:service'
     }
   ]
 }

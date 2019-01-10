@@ -11,7 +11,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateSecondaryHeader } from '../actions/common'
 import { Loading } from 'carbon-components-react'
@@ -30,6 +29,7 @@ import SavedSearchQueries from '../components/search/SavedSearchQueries'
 import SuggestQueryTemplates from '../components/search/SuggestedQueryTemplates'
 import resources from '../../lib/shared/resources'
 import SecondaryHeaderApollo from '../components/SecondaryHeaderApollo'
+import pageWithUrlQuery from '../components/common/withUrlQuery'
 
 
 resources(() => {
@@ -38,13 +38,18 @@ resources(() => {
 
 class SearchPage extends React.Component {
   static propTypes = {
+    clientSideFilters: PropTypes.string,
     secondaryHeaderProps: PropTypes.object,
-    updateSecondaryHeader: PropTypes.func,
+    updateBrowserURL: PropTypes.func,
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, secondaryHeaderProps } = this.props
+    const { secondaryHeaderProps } = this.props
     updateSecondaryHeader(msgs.get(secondaryHeaderProps.title, this.context.locale))
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return !_.isEqual(nextProps.clientSideFilters, this.props.clientSideFilters)
   }
 
   convertStringToQuery(searchText) {
@@ -62,33 +67,49 @@ class SearchPage extends React.Component {
   render() {
     return (
       <div>
-        <SecondaryHeaderApollo title={msgs.get('search.label', this.context.locale)} />
+        <SecondaryHeaderApollo
+          title={msgs.get('search.label', this.context.locale)}
+          updateBrowserURL={this.props.updateBrowserURL} />
         <Page>
           <Query query={GET_SEARCH_TABS}>
             {( { data, client } ) => {
-              const tabName = _.get(data, 'searchQueryTabs.openedTabName', '')
-              return (
-                <SearchInput tabName={tabName} handleSaveButtonClick={() => {
-                  return client.writeData({ data: {
-                    modal: {
-                      __typename: 'modal',
-                      type: 'modal.actions.save',
-                      open: true
-                    }
-                  }} )
-                }
-                } />
-              )} }
+              if(data && data.searchQueryTabs && data.searchQueryTabs.openedTabName !== '') {
+                const tabName = _.get(data, 'searchQueryTabs.openedTabName', '')
+                return (
+                  <SearchInput
+                    tabName={tabName}
+                    clientSideFilters={this.props.clientSideFilters}
+                    updateBrowserURL={this.props.updateBrowserURL}
+                    handleSaveButtonClick={() => {
+                      return client.writeData({ data: {
+                        modal: {
+                          __typename: 'modal',
+                          type: 'modal.actions.save',
+                          open: true
+                        }
+                      }} )
+                    }}
+                  />
+                )} else {
+                return null
+              }
+            }}
           </Query>
           <Query query={GET_SEARCH_INPUT_TEXT}>
             {( { data } ) => {
-              if(data && data.searchInput && data.searchInput.text !== '') {
+              if (this.props.clientSideFilters !== undefined && (data && data.searchInput && data.searchInput.text === '')) {
+                return (
+                  <SearchResult loading={true} />
+                )
+              } else if(data && data.searchInput && data.searchInput.text !== '') {
                 const input = this.convertStringToQuery(data.searchInput.text)
                 return (
                   <Query query={SEARCH_QUERY} variables={{input: [input]}}>
                     {({ data, loading }) => {
                       if (data.searchResult || loading) {
-                        return (<SearchResult searchResult={data.searchResult && data.searchResult[0]} loading={loading} />)
+                        return (
+                          <SearchResult searchResult={data.searchResult && data.searchResult[0]} loading={loading} />
+                        )
                       }
                       return (
                         <div>
@@ -141,11 +162,4 @@ SearchPage.contextTypes = {
   locale: PropTypes.string
 }
 
-
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSecondaryHeader: title => dispatch(updateSecondaryHeader(title))
-  }
-}
-
-export default withRouter(connect(null, mapDispatchToProps)(SearchPage))
+export default withRouter(pageWithUrlQuery(SearchPage))

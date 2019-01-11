@@ -46,10 +46,6 @@ export const SEARCH_QUERY = gql`
       count
       items
       updatedTimestamp
-      related {
-        kind
-        count
-      }
     }
   }
 `

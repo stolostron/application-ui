@@ -303,6 +303,7 @@ class SearchBar extends React.Component {
                   allowNew={true}
                   tagComponent={FilterTag}
                   delimiterChars={[' ', ':', ',']}
+                  autofocus={false}
                   // maxSuggestionsLength={} defaulted to 6
                 />
               </div>

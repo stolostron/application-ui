@@ -43,12 +43,13 @@ export const GET_SEARCH_TABS = gql`
 export const SEARCH_QUERY = gql`
   query searchResult($input: [SearchInput]) {
     searchResult: search(input: $input){
+      count
       items
+      updatedTimestamp
       related {
         kind
         count
       }
-      count
     }
   }
 `

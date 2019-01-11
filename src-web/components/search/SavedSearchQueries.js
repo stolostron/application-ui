@@ -37,7 +37,8 @@ class SavedSearchQueries extends React.Component {
   render() {
     const { queries = [] } = this.props
     const { locale } = this.context
-    const timeUpdated = new Date().toLocaleTimeString(locale)
+
+    const timeUpdated = (new Date(queries[0].updatedTimestamp)).toLocaleTimeString(locale)
     return (
       <div className={'saved-search-queries'}>
         <p className={'saved-search-query-header'}>{`${msgs.get(this.props.header, this.context.locale)}`}</p>

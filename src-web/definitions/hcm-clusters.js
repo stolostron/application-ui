@@ -106,16 +106,16 @@ export function getStatusIcon(item, locale) {
 
 // following functions return the percent of storage/memory used on each cluster
 export function getStorage(item) {
-  if (lodash.isEmpty(item)) return '-'
+  if (!item || !item.totalStorage) return '-'
   return `${item.totalStorage}%`
 }
 
 export function getMemory(item) {
-  if (lodash.isEmpty(item)) return '-'
+  if (!item || !item.totalMemory) return '-'
   return `${item.totalMemory}%`
 }
 
 export function getCPU(item) {
-  if (lodash.isEmpty(item)) return '-'
+  if (!item || !item.totalCPU) return '-'
   return `${item.totalCPU}%`
 }

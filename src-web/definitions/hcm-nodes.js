@@ -8,7 +8,7 @@
  *******************************************************************************/
 'use strict'
 import React from 'react'
-import { getAge, getClusterLink } from '../../lib/client/resource-helper'
+import { getAge } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'cluster',
@@ -22,7 +22,6 @@ export default {
     {
       msgKey: 'table.header.cluster',
       resourceKey: 'cluster.metadata.name',
-      transformFunction: getClusterLink,
     },
     {
       msgKey: 'table.header.role',

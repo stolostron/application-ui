@@ -10,6 +10,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import resources from '../../../../lib/shared/resources'
 import Masonry from 'react-masonry-component'
 import { Select, SelectItem } from 'carbon-components-react'
 import { HeatSelections, GroupByChoices, SizeChoices, ShadeChoices } from '../constants.js'
@@ -18,6 +19,11 @@ import GridCard from '../GridCard'
 import classNames from 'classnames'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
+
+
+resources(() => {
+  require('../../../../scss/overview-heatmap.scss')
+})
 
 const COLLAPSED_COLUMNS = 80
 const COLLAPSED_ROWS = 7
@@ -68,9 +74,11 @@ class HeatCard extends React.Component {
 
   setHeatMapRef = ref => {
     this.heatMapRef = ref
-    this.setState({
-      mapRect: this.heatMapRef.getBoundingClientRect()
-    })
+    if (this.heatMapRef) {
+      this.setState({
+        mapRect: this.heatMapRef.getBoundingClientRect()
+      })
+    }
   }
 
   render() {
@@ -345,7 +353,7 @@ class HeatCard extends React.Component {
                   {heatMap[key].map(({color, name, size, dshade})=>{
                     const dim = Math.round(size/biggestMap[key]*100) - 9
                     return (
-                      <div key={key} className={'grid-item ' + color} style={{width: dim+'%', height: dim+'%'}}>
+                      <div key={key} className={'heat-item ' + color} style={{width: dim+'%', height: dim+'%'}}>
                         <div className='tooltip'>
                           <div className='tooltip-line'>
                             <div className='label'>cluster</div>

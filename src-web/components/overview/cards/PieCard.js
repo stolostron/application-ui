@@ -10,11 +10,16 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import resources from '../../../../lib/shared/resources'
 import { PieChart, Pie, Cell, Label } from 'recharts'
 import { inflateKubeValue, deflateKubeValue, getPercentage, getTotal } from '../../../../lib/client/charts-helper'
 import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
+
+resources(() => {
+  require('../../../../scss/overview-charts.scss')
+})
 
 const PieLabel = ({ value, label, viewBox }) => {
   return (
@@ -92,6 +97,7 @@ class PieCard extends React.Component {
     let label, chartData, percentage, total
     // pie chart as pie chart
     if (pieData) {
+
       // count up statuses
       const valueMap = {}
       _.get(overview, overviewKey, []).forEach(res=>{
@@ -136,10 +142,16 @@ class PieCard extends React.Component {
 
       let {available, used, units=''} = values
       if (deflateValues) {
-        const deflated = deflateKubeValue(values.available)
+        let deflated = deflateKubeValue(values.available)
         available = deflated.size
         units = deflated.units
-        used = deflateKubeValue(values.used).size
+        deflated = deflateKubeValue(values.used)
+        used = deflated.size
+        // in case avaialble is in tetra and used is in giga
+        if (used>available) {
+          available *= 1024
+          units = deflated.units
+        }
       }
 
       chartData=[]

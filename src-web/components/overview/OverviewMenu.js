@@ -20,6 +20,7 @@ import _ from 'lodash'
 export default class OverviewMenu extends React.Component {
 
   static propTypes = {
+    allProviders: PropTypes.array,
     pollInterval: PropTypes.number,
     startPolling: PropTypes.func,
     stopPolling: PropTypes.func,
@@ -66,7 +67,7 @@ export default class OverviewMenu extends React.Component {
   }
 
   render() {
-    const { view, startPolling, stopPolling, pollInterval } = this.props
+    const { allProviders, view, startPolling, stopPolling, pollInterval } = this.props
     const { filterViewOpen } = this.state
     return (
       <div>
@@ -83,6 +84,7 @@ export default class OverviewMenu extends React.Component {
             context={this.context}
             updateActiveFilters={this.updateActiveFilters}
             onClose={this.handleFilterClose}
+            allProviders={allProviders}
             view={view}
           /> }
       </div>

@@ -1,0 +1,67 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
+
+$overview-column-width: 10px !default; /* card width must be multiple of this */
+$overview-card-margin: 7px !default; /* margin around cards */
+
+
+/* *********************  counts card ************************ */
+
+.counts-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin});
+
+  .provider-group {
+    padding: 10px 0;
+    margin: 0 50px;
+    display: flex;
+
+    .provider-cell {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 28px;
+      border-top: 1px solid $color__gray-1;
+      min-width: 5rem;
+      > div {
+        padding-top: 10px;
+      }
+
+      .counts-value {
+        font-size: 24px;
+      }
+
+      .counts-title {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .count-divider {
+    border:none;
+    width:88px;
+    height:80px;
+    position:relative;
+
+     &:after{
+        content: '';
+        position: absolute;
+        border-top: 1px solid $color__gray-1;
+        width: 100px;
+        transform: rotate(-45deg);
+        transform-origin: 100% 0;
+        left: -40px;
+        top: 5px;
+     }
+  }
+
+}

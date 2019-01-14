@@ -28,11 +28,12 @@ class GridCard extends React.Component {
 
   render() {
     const {header, tagValue, children, item} = this.props
+    const {cardData: {actions}} = item
     return (
       <div className='grid-item' ref={this.setCardRef}>
         <DragCard item={item} getCardRef={this.getCardRef}>
           <div className='grid-view'>
-            <GridMenu item={item} />
+            {actions.length!==0 && <GridMenu item={item} />}
             {header && <div className='title'>
               {header}
               {tagValue && <Tag type='beta'>{tagValue}</Tag>}

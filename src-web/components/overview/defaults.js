@@ -9,44 +9,19 @@
 'use strict'
 
 import { CardTypes, CardActions, TagTypes, GroupByChoices, SizeChoices, ShadeChoices } from './constants.js'
+import {PROVIDER_FILTER} from './filterHelper'
 import msgs from '../../../nls/platform.properties'
-import config from '../../../lib/shared/config'
-import _ from 'lodash'
 
-export const addDefaultProviders = (cardOrder, locale) => {
-
-  // first try config file
-  let defaultProviders = config['overview']
-  if (!defaultProviders) {
-    // else default to these
-    defaultProviders = [
-      {'title':  msgs.get('provider.aws', locale), 'include':['aws']},
-      {'title':  msgs.get('provider.azure', locale), 'include':['azure']},
-      {'title':  msgs.get('provider.ibm', locale), 'include':['ibm']},
-      {'title':  msgs.get('provider.datacenter', locale), 'exclude':['aws','azure','ibm']}
-    ]
-  }
-
-  // add defaults to cardOrder
-  _.cloneDeep(defaultProviders).reverse().forEach(({title, include=[], exclude=[]})=>{
-    cardOrder.unshift({
-      title,
-      type: CardTypes.provider,
-      include,
-      exclude,
-      actions: [ CardActions.remove],
-    })
-  })
-}
 
 export const getDefaultViewState = (locale) => {
+  const activeFilters={}
+  activeFilters[PROVIDER_FILTER] = []
+  activeFilters['environment'] = []
+  activeFilters['region'] = []
+  activeFilters['vendor'] = []
+
   const state =  {
-    activeFilters: {
-      cloud: [],
-      environment: [],
-      region: [],
-      vendor: [],
-    },
+    activeFilters,
     heatMapChoices: {
       groupBy: GroupByChoices.provider,
       size: SizeChoices.workers,
@@ -57,11 +32,11 @@ export const getDefaultViewState = (locale) => {
     cardOrder: [
       {
         type: CardTypes.counts,
-        actions: [ CardActions.remove],
+        actions: [],
       },
       {
         type: CardTypes.heatmap,
-        actions: [ CardActions.remove],
+        actions: [],
       },
       {
         type: CardTypes.piechart,
@@ -73,7 +48,7 @@ export const getDefaultViewState = (locale) => {
           'compliant':{name: msgs.get('overview.status.compliant', locale), values: ['compliant'], className:'compliant'},
           'default': {name: msgs.get('overview.status.noncompliant', locale), className:'noncompliant'},
         },
-        actions: [  CardActions.line, CardActions.remove],
+        actions: [CardActions.line],
       },
       {
         type: CardTypes.piechart,
@@ -86,7 +61,7 @@ export const getDefaultViewState = (locale) => {
           'pending':{name: msgs.get('overview.status.pending', locale), values: ['pending'], className:'pending'},
           'default': {name: msgs.get('overview.status.failed', locale), className:'failed'},
         },
-        actions: [  CardActions.line, CardActions.remove],
+        actions: [CardActions.line],
       },
       {
         type: CardTypes.piechart,
@@ -98,7 +73,7 @@ export const getDefaultViewState = (locale) => {
           'ready':{name: msgs.get('overview.status.ready', locale), values: ['ok'], className:'ready'},
           'default': {name: msgs.get('overview.status.offline', locale), className:'offline'},
         },
-        actions: [ CardActions.line, CardActions.remove],
+        actions: [CardActions.line],
       },
       {
         type: CardTypes.linegraph,
@@ -106,7 +81,7 @@ export const getDefaultViewState = (locale) => {
         overviewKey: 'clusters',
         valueKey: 'cpu',
         tagType: TagTypes.nounits,
-        actions: [  CardActions.pie, CardActions.remove],
+        actions: [CardActions.pie],
       },
       {
         type: CardTypes.linegraph,
@@ -115,7 +90,7 @@ export const getDefaultViewState = (locale) => {
         valueKey: 'memory',
         deflateValues: true,
         tagType: TagTypes.units,
-        actions: [CardActions.pie, CardActions.remove],
+        actions: [CardActions.pie],
       },
       {
         type: CardTypes.linegraph,
@@ -124,12 +99,11 @@ export const getDefaultViewState = (locale) => {
         valueKey: 'storage',
         deflateValues: true,
         tagType: TagTypes.units,
-        actions: [CardActions.pie, CardActions.remove],
+        actions: [CardActions.pie],
       },
 
     ]
   }
-  addDefaultProviders(state.cardOrder, locale)
   return state
 }
 

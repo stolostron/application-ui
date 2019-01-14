@@ -9,7 +9,10 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-.overview-filter {
+
+/* *********************  popup filter checkboxes modal ************************ */
+
+.overview-filterview {
   position: fixed;
   top: calc(#{$secondary-header-top} + #{$secondary-header-min-height});
   right: 5px;
@@ -20,6 +23,7 @@
   padding: 30px;
   min-height: 75%;
   border-top: 5px solid $color__blue-50;
+  font-size: 14px;
 
   .filterHeader {
     display: flex;
@@ -38,16 +42,18 @@
     }
   }
 
-  .filter-section {
-    margin-top: 1.75rem;
+  .filter-sections-container {
+    .filter-section {
+      margin-top: 1.5rem;
 
-    .filter-section-title {
-      margin-bottom: .5rem;
+      .filter-section-title {
+        margin-bottom: .5rem;
+      }
+
+      .filter-section-checkbox {
+      }
+
     }
-
-    .filter-section-checkbox {
-    }
-
   }
 
 }

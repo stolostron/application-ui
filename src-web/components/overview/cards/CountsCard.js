@@ -10,9 +10,14 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import resources from '../../../../lib/shared/resources'
 import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
+
+resources(() => {
+  require('../../../../scss/overview-counts.scss')
+})
 
 const CountsCell = ({ status: {value, title} }) => (
   <div className='provider-cell'>

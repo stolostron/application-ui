@@ -21,13 +21,14 @@ import { updateSecondaryHeader } from '../actions/common'
 import Page from '../components/common/Page'
 import msgs from '../../nls/platform.properties'
 import { OVERVIEW_REFRESH_INTERVAL_COOKIE  } from '../../lib/shared/constants'
+import config from '../../lib/shared/config'
 
 import {getPollInterval} from '../components/common/AutoRefreshMenu'
 import OverviewView from '../components/overview/OverviewView'
 
 const OVERVIEW_QUERY = gql`
-  query getOverview {
-    overview {
+  query getOverview($demoMode: Boolean) {
+    overview(demoMode: $demoMode) {
       clusters {
         metadata {
           name
@@ -88,11 +89,14 @@ class OverviewPage extends React.Component {
   }
 
   render () {
+    const overview = config['overview']
+    const demoMode = overview && overview.demoMode
     const pollInterval = getPollInterval(OVERVIEW_REFRESH_INTERVAL_COOKIE)
     return (
       <Page>
         <DragDropContextProvider backend={HTML5Backend}>
-          <Query query={OVERVIEW_QUERY} pollInterval={pollInterval} notifyOnNetworkStatusChange>
+          <Query query={OVERVIEW_QUERY} variables={{ demoMode }}
+            pollInterval={pollInterval} notifyOnNetworkStatusChange >
             {( {loading, error, data, refetch, startPolling, stopPolling} ) => {
               const { overview } = data
               return (

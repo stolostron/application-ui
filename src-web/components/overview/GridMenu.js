@@ -68,14 +68,16 @@ class GridMenu extends React.Component {
   pieChart() {
     const {item: {spliceCards, cardData }} = this.props
     cardData.type = CardTypes.piechart
-    cardData.actions =[ CardActions.line, CardActions.remove]
+    const idx = cardData.actions.indexOf(CardActions.pie)
+    cardData.actions.splice(idx,1,CardActions.line)
     spliceCards(cardData)
   }
 
   lineChart() {
     const {item: {spliceCards, cardData }} = this.props
     cardData.type = CardTypes.linegraph
-    cardData.actions =[ CardActions.pie, CardActions.remove]
+    const idx = cardData.actions.indexOf(CardActions.line)
+    cardData.actions.splice(idx,1,CardActions.pie)
     spliceCards(cardData)
   }
 

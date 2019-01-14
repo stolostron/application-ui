@@ -15,7 +15,8 @@ import { Loading, Notification } from 'carbon-components-react'
 import Masonry from 'react-masonry-component'
 import RefreshTime from '../common/RefreshTime'
 import OverviewMenu, {getSavedViewState} from './OverviewMenu'
-import {FilterBar, filterOverview, filterViewState} from './modals/FilterView'
+import {updateProviderCards, filterOverview, filterViewState, PROVIDER_FILTER} from './filterHelper'
+import {FilterBar} from './modals/FilterView'
 import ProviderBanner from './cards/ProviderBanner'
 import ProviderCard from './cards/ProviderCard'
 import CountsCard from './cards/CountsCard'
@@ -28,7 +29,6 @@ import _ from 'lodash'
 
 resources(() => {
   require('../../../scss/overview-page.scss')
-  require('../../../scss/overview-filter.scss')
 })
 
 const masonryOptions = {
@@ -70,8 +70,9 @@ export default class OverviewView extends React.Component {
   handleLayoutComplete = () => {
     // after first layout, do transition timeouts
     this.masonry.masonry.options.layoutInstant = false
-    if (this.viewRef)
+    if (this.viewRef) {
       this.viewRef.classList.toggle('laidout', true)
+    }
   }
 
   shouldComponentUpdate () {
@@ -110,6 +111,7 @@ export default class OverviewView extends React.Component {
     const view = this.getViewData(overview, activeFilters)
     const boundActiveFilters = this.getBoundActiveFilters()
     const filteredOverview = filterOverview(activeFilters, overview)
+    const {allProviders, providerWidth} = updateProviderCards(overview, cardOrder, activeFilters, locale)
     return (
       <div className='overview-view' ref={this.setViewRef}>
 
@@ -128,6 +130,7 @@ export default class OverviewView extends React.Component {
           startPolling={startPolling}
           stopPolling={stopPolling}
           pollInterval={pollInterval}
+          allProviders={allProviders}
           view={view}
         />
 
@@ -148,7 +151,7 @@ export default class OverviewView extends React.Component {
               const {key, type} = cardData
               switch(type) {
               case CardTypes.provider:
-                return <ProviderCard key={key} item={item} view={view} />
+                return <ProviderCard key={key} item={item} view={view} width={providerWidth} />
               case CardTypes.counts:
                 return <CountsCard key={key} item={item} />
               case CardTypes.heatmap:
@@ -190,7 +193,7 @@ export default class OverviewView extends React.Component {
     const filters=[]
     const {viewState: {activeFilters}} = this.state
     Object.keys(activeFilters).forEach(key=>{
-      if (key!=='cloud') {
+      if (key!==PROVIDER_FILTER) {
         activeFilters[key].forEach(value=>{
           filters.push({
             name: value,

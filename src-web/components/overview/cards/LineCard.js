@@ -10,6 +10,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import resources from '../../../../lib/shared/resources'
 import { TagTypes } from '../constants.js'
 import moment from 'moment'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
@@ -17,6 +18,10 @@ import GridCard from '../GridCard'
 import { MAX_CHART_DATA_SIZE } from '../../../../lib/shared/constants'
 import { inflateKubeValue, deflateKubeValue, getPercentage } from '../../../../lib/client/charts-helper'
 import _ from 'lodash'
+
+resources(() => {
+  require('../../../../scss/overview-charts.scss')
+})
 
 const LineCardTooltip = ({ active, payload, label, domainData: {areaData, units=''} }) => {
   if (!active)
@@ -160,10 +165,16 @@ class LineCard extends React.Component {
       available = values.available
       units = values.units
       if (deflateValues) {
-        const deflated = deflateKubeValue(values.available)
+        let deflated = deflateKubeValue(values.available)
         available = deflated.size
         units = deflated.units
-        used = deflateKubeValue(values.used).size
+        deflated = deflateKubeValue(values.used)
+        used = deflated.size
+        // in case avaialble is in tetra and used is in giga
+        if (used>available) {
+          available *= 1024
+          units = deflated.units
+        }
       }
       chartPoint = {
         name: moment().format('LT'),

@@ -281,7 +281,7 @@ class SearchBar extends React.Component {
     return (
       <Query query={GET_SEARCH_COMPLETE} variables={{ property: searchComplete }}>
         {( { data } ) => {
-          if (data.searchComplete) this.formatSuggestionOptions(data.searchComplete)
+          if (data && data.searchComplete) this.formatSuggestionOptions(data.searchComplete)
           return (
             <div className='tagInput-filter'>
               <div className='tagInput-searchIcon'>

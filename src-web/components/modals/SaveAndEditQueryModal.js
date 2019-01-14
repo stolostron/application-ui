@@ -17,6 +17,7 @@ import { Modal, TextInput, TextArea, InlineNotification, Loading } from 'carbon-
 import { GET_SEARCH_INPUT_TEXT, GET_SAVED_USER_QUERY } from '../../apollo-client/queries/SearchQueries'
 import { Query } from 'react-apollo'
 import _ from 'lodash'
+import {UPDATE_SINGLE_QUERY_TAB} from '../../apollo-client/queries/StateQueries'
 
 
 resources(() => {
@@ -70,6 +71,12 @@ class SaveAndEditQueryModal extends React.PureComponent {
           client.query({ query: GET_SAVED_USER_QUERY })
         }
       })
+    const newData =  {
+      openedTabName: name,
+      updateUnsavedOrExisting: true,
+      searchText
+    }
+    client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
   }
 
   isSubmitDisabled = () => this.state.nameInput === '' || this.state.descriptionInput === ''

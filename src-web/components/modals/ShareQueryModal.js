@@ -12,9 +12,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
-import { Modal, CopyButton, TextInput } from 'carbon-components-react'
+import { Modal, CodeSnippet } from 'carbon-components-react'
 import { ApolloConsumer } from 'react-apollo'
-import CopyToClipboard from 'react-copy-to-clipboard'
+import copy from 'copy-to-clipboard'
 
 resources(() => {
   require('../../../scss/search-input.scss')
@@ -42,8 +42,12 @@ class SaveAndEditQueryModal extends React.PureComponent {
     this.handleModalClose(client)
   }
 
+  handleCopy = (text) => () => {
+    copy(text)
+  }
+
   render(){
-    let url = window.location.origin + window.location.pathname
+    let url = decodeURIComponent(window.location.origin + window.location.pathname)
     if (this.state.searchText !== '') {
       url += `?filters={"textsearch":"${encodeURIComponent(this.state.searchText)}"}`
     }
@@ -58,15 +62,15 @@ class SaveAndEditQueryModal extends React.PureComponent {
             onRequestClose={this.handleModalClose.bind(this, client)}
           >
             <div className={'save-query-box'}>
-              <TextInput
-                id='add-query-name'
-                labelText={ msgs.get('modal.query.share.name.label', this.context.locale) }
-                value={url}
-                disabled={true}
-              />
-              <CopyToClipboard text={url}>
-                <CopyButton />
-              </CopyToClipboard>
+              <p>{ msgs.get('modal.query.share.name.label', this.context.locale) }</p>
+              <CodeSnippet
+                feedback={ msgs.get('modal.button.copied', this.context.locale) }
+                copyButtonDescription="copy button"
+                ariaLabel=""
+                onClick={this.handleCopy(url)}
+              >
+                {url}
+              </CodeSnippet>
             </div>
           </Modal>
         </div>

@@ -130,7 +130,7 @@ class SearchPage extends React.Component {
                             const suggestedQueriesResult = data.searchResult.slice(queries.length).map((query, index) => {return {...query, ...suggestedQueryTemplates[index]}})
                             return (
                               <div>
-                                {queriesResult.length > 0 && <SavedSearchQueries queries={queriesResult} header={'table.header.search.saved.query'} showTotal={true} />}
+                                {queriesResult.length > 0 && <SavedSearchQueries queries={queriesResult.reverse()} header={'table.header.search.saved.query'} showTotal={true} />}
                                 {suggestedQueriesResult.length > 0 && <SavedSearchQueries queries={suggestedQueriesResult} header={'table.header.search.suggested.query'} />}
                               </div>)
                           } else if (loading) {

@@ -43,6 +43,10 @@ class SaveAndEditQueryModal extends React.PureComponent {
   }
 
   render(){
+    let url = window.location.origin + window.location.pathname
+    if (this.state.searchText !== '') {
+      url += `?filters={"textsearch":"${encodeURIComponent(this.state.searchText)}"}`
+    }
     return (<ApolloConsumer>
       {client => (
         <div className={'save-and-edit-query-modal'}>
@@ -57,10 +61,10 @@ class SaveAndEditQueryModal extends React.PureComponent {
               <TextInput
                 id='add-query-name'
                 labelText={ msgs.get('modal.query.share.name.label', this.context.locale) }
-                value={this.state.searchText}
+                value={url}
                 disabled={true}
               />
-              <CopyToClipboard text={this.state.searchText}>
+              <CopyToClipboard text={url}>
                 <CopyButton />
               </CopyToClipboard>
             </div>

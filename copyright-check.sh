@@ -15,6 +15,7 @@ CHECK2=" Copyright IBM Corporation 2018. All Rights Reserved."
 CHECK2a=" Copyright IBM Corporation 2017. All Rights Reserved."
 CHECK2b=" Copyright IBM Corporation 2016, 2018. All Rights Reserved."
 CHECK2c=" Copyright IBM Corporation 2017, 2018. All Rights Reserved."
+CHECK2d=" Copyright IBM Corporation 2019. All Rights Reserved."
 #LINE3="${COMMENT_PREFIX}Note to U.S. Government Users Restricted Rights:"
 CHECK3=" Note to U.S. Government Users Restricted Rights:"
 #LINE4="${COMMENT_PREFIX}Use, duplication or disclosure restricted by GSA ADP Schedule"
@@ -61,7 +62,8 @@ for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./pu
         && "$HEADER" != *"${CHECK2}"*
         && "$HEADER" != *"${CHECK2a}"*
         && "$HEADER" != *"${CHECK2b}"*
-        && "$HEADER" != *"${CHECK2c}"* ]]; then
+        && "$HEADER" != *"${CHECK2c}"*
+        && "$HEADER" != *"${CHECK2d}"* ]]; then
         printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break

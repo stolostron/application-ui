@@ -50,7 +50,7 @@
   fill: $color__navy-gray-7;
   display: inline-block;
   float: left;
-  margin: 0.6rem 0 0 -2rem; // TODO: Zack L increase margin when adding the info button
+  margin: 0.6rem 0 0 -3.5rem;
   position: relative;
   z-index: 11;
   cursor: pointer;
@@ -136,7 +136,7 @@
   /* shared font styles */
   font-size: 0.75em;
   line-height: 1.2;
-  padding-right: 2rem;
+  padding-right: 4rem;
   /* clicking anywhere will focus the input */
   cursor: text;
   max-height: 2.25rem;

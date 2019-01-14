@@ -307,12 +307,22 @@ class SearchBar extends React.Component {
                   // maxSuggestionsLength={} defaulted to 6
                 />
               </div>
-              <div className='tagInput-cleanButton'>
+              {currentQuery === ''
+                ? null
+                : <div className='tagInput-cleanButton'>
+                  <Icon
+                    className='icon--close--outline'
+                    name='icon--close--outline'
+                    description={msgs.get('taginput.icon.clear', this.context.locale)}
+                    onClick={this.handleClearAllClick} />
+                </div>
+              }
+              <div className='tagInput-infoButton'>
                 <Icon
-                  className='icon--close--outline'
-                  name='icon--close--outline'
-                  description={msgs.get('taginput.icon.clean', this.context.locale)}
-                  onClick={this.handleClearAllClick} />
+                  className='icon--info--outline'
+                  name='icon--info--outline'
+                  description={msgs.get('taginput.icon.info', this.context.locale)}
+                  onClick={this.props.handleInfoButtonClick} />
               </div>
             </div>
           )
@@ -325,6 +335,7 @@ class SearchBar extends React.Component {
 SearchBar.propTypes = {
   availableFilters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   clientSideFilters: PropTypes.string,
+  handleInfoButtonClick: PropTypes.func,
   onChange: PropTypes.func,
   tags: PropTypes.array,
   updateBrowserURL: PropTypes.func,

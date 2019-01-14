@@ -17,6 +17,7 @@ import _ from 'lodash'
 let SaveAndEditQueryModal
 let DeleteQueryModal
 let ShareQueryModal
+let SearchGuideModal
 
 class ModalApollo extends React.PureComponent {
 
@@ -30,6 +31,8 @@ class ModalApollo extends React.PureComponent {
       return open && this.getSaveAndEditQueryModal({ type, open, ...rest })
     case 'modal.actions.save':
       return open && this.getSaveAndEditQueryModal({ type, open, ...rest })
+    case 'modal.actions.info':
+      return open && this.getSearchGuideModal({ type, open, ...rest })
     default:
       return null
     }
@@ -48,6 +51,11 @@ class ModalApollo extends React.PureComponent {
   getShareQueryModal = props => {
     ShareQueryModal = ShareQueryModal === undefined ? loadable(() => import(/* webpackChunkName: "share-resource-modal-apollo" */ '../modals/ShareQueryModal')) : ShareQueryModal
     return this.getModal(ShareQueryModal, props)
+  }
+
+  getSearchGuideModal = props => {
+    SearchGuideModal = SearchGuideModal === undefined ? loadable(() => import(/* webpackChunkName: "info-resource-modal-apollo" */ '../modals/SearchGuideModal')) : SearchGuideModal
+    return this.getModal(SearchGuideModal, props)
   }
 
   getModal = (Component, props) => <Component {...props} />

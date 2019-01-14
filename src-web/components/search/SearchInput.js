@@ -58,6 +58,15 @@ class SearchInput extends React.PureComponent {
                         }
                         client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
                       }}
+                      handleInfoButtonClick={() => {
+                        return client.writeData({ data: {
+                          modal: {
+                            __typename: 'modal',
+                            type: 'modal.actions.info',
+                            open: true
+                          }
+                        }} )
+                      }}
                       clientSideFilters={clientSideFilters}
                       updateBrowserURL={updateBrowserURL}
                     />

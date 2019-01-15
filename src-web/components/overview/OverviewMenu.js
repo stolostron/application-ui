@@ -12,6 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AutoRefreshMenu from '../common/AutoRefreshMenu'
 import FilterView from './modals/FilterView'
+import { CardTypes } from './constants.js'
 import { getDefaultViewState } from './defaults.js'
 import { OVERVIEW_REFRESH_INTERVAL_COOKIE, OVERVIEW_COOKIE  } from '../../../lib/shared/constants'
 import msgs from '../../../nls/platform.properties'
@@ -61,7 +62,17 @@ export default class OverviewMenu extends React.Component {
   onUnload(event) {
     const { locale } = this.context
     const { view: {getCurrentViewState} } = this.props
-    if (!_.isEqual(getCurrentViewState(), getSavedViewState(locale))) {
+
+    // these things can be saved, but overview won't require that they be saved
+    const important = (state) => {
+      state = _.cloneDeep(state)
+      state.cardOrder = state.cardOrder.filter(card=> {
+        return card.type!==CardTypes.provider
+      })
+      return state
+    }
+
+    if (!_.isEqual(important(getCurrentViewState()), important(getSavedViewState(locale)))) {
       event.returnValue = msgs.get('overview.unsaved.changes', locale)
     }
   }

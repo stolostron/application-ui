@@ -16,6 +16,7 @@ import Masonry from 'react-masonry-component'
 import RefreshTime from '../common/RefreshTime'
 import OverviewMenu, {getSavedViewState} from './OverviewMenu'
 import {updateProviderCards, filterOverview, filterViewState, PROVIDER_FILTER} from './filterHelper'
+import { getNoncompliantClusterSet } from './dataHelper'
 import {FilterBar} from './modals/FilterView'
 import ProviderBanner from './cards/ProviderBanner'
 import ProviderCard from './cards/ProviderCard'
@@ -111,6 +112,7 @@ export default class OverviewView extends React.Component {
     const view = this.getViewData(overview, activeFilters)
     const boundActiveFilters = this.getBoundActiveFilters()
     const filteredOverview = filterOverview(activeFilters, overview)
+    const noncompliantClusterSet = getNoncompliantClusterSet(filteredOverview)
     const {allProviders, providerWidth} = updateProviderCards(overview, cardOrder, activeFilters, locale)
     return (
       <div className='overview-view' ref={this.setViewRef}>
@@ -120,7 +122,9 @@ export default class OverviewView extends React.Component {
           <ProviderBanner
             bannerCards={bannerCards}
             view={view}
-            overview={overview} />
+            overview={overview}
+            noncompliantClusterSet={noncompliantClusterSet}
+          />
         }
         {/* filter bar at top right */}
         <FilterBar boundActiveFilters={boundActiveFilters} locale={locale} />
@@ -151,7 +155,8 @@ export default class OverviewView extends React.Component {
               const {key, type} = cardData
               switch(type) {
               case CardTypes.provider:
-                return <ProviderCard key={key} item={item} view={view} width={providerWidth} />
+                return <ProviderCard key={key} item={item} view={view}
+                  width={providerWidth} noncompliantClusterSet={noncompliantClusterSet} />
               case CardTypes.counts:
                 return <CountsCard key={key} item={item} />
               case CardTypes.heatmap:

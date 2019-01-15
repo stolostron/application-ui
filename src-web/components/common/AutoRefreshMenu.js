@@ -92,7 +92,7 @@ export default class AutoRefreshMenu extends React.Component {
                   <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     {text}
                     {pollInterval===pi && <svg width="12px" height="12px">
-                      <use href={'#diagramIcons_checkmark'} ></use>
+                      <use href={'#diagramIcons_selection'} ></use>
                     </svg>}
                   </div>}
                 onClick={action}

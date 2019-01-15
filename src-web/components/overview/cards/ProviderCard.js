@@ -9,7 +9,9 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import resources from '../../../../lib/shared/resources'
+import '../../../../graphics/diagramIcons.svg'
 import {getMatchingClusters, PROVIDER_FILTER} from '../filterHelper'
 import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
@@ -23,7 +25,7 @@ export default class ProviderCard extends React.PureComponent {
 
   render() {
     const { locale } = this.context
-    const { view, item, width } = this.props
+    const { view, item, width, noncompliantClusterSet } = this.props
     const {cardData: {title, includes=[]}, overview: {clusters=[]} } = item
 
     // add this provider's cloud label to active filters
@@ -43,13 +45,40 @@ export default class ProviderCard extends React.PureComponent {
     // gather data
     const {matchingClusters, kubeMap, kubeTypes} = getMatchingClusters(clusters, includes)
 
+    // anything not compliant?
+    let nonComplaintCnt = 0
+    matchingClusters.forEach(({metadata: {name}})=>{
+      if (noncompliantClusterSet.has(name)) {
+        nonComplaintCnt++
+      }
+    })
+    const providerClasses = classNames({
+      'provider-card': true,
+      'non-compliant': nonComplaintCnt>0,
+    })
+
+    const visibility = {
+      visibility: nonComplaintCnt>0 ? 'visible': 'hidden'
+    }
     return (
       <GridCard item={item} >
-        <div className='provider-card' style={{width}}
+        <div className={providerClasses} style={{width}}
           tabIndex='0' role={'button'} onClick={updateFilters} onKeyPress={handleKeyPress}>
           <div className='provider-title'>
             <div className='provider-name'>{title}</div>
-            <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
+            <div className='provider-cluster-container'>
+              <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
+              <div className='provider-cluster-noncompliant' style={visibility}>
+                <div>
+                  <svg className='provider-noncompilant-icon'>
+                    <use href={'#diagramIcons_error'} ></use>
+                  </svg>
+                </div>
+                <div>
+                  {nonComplaintCnt}
+                </div>
+              </div>
+            </div>
           </div>
           <div className='provider-counts'>{
             kubeTypes.map(kubeType=>{
@@ -70,6 +99,7 @@ export default class ProviderCard extends React.PureComponent {
 
 ProviderCard.propTypes = {
   item: PropTypes.object,
+  noncompliantClusterSet: PropTypes.object,
   view: PropTypes.object,
   width: PropTypes.number,
 }

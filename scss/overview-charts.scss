@@ -81,7 +81,7 @@ $overview-card-margin: 7px !default; /* margin around cards */
     fill: $mcm_color_green;
   }
   &.noncompliant {
-    fill: $mcm_color_gray;
+    fill: $mcm_color_red;
   }
   &.running {
     fill: $mcm_color_green;
@@ -109,11 +109,11 @@ $overview-card-margin: 7px !default; /* margin around cards */
   &.offline {
     border-bottom-color: $mcm_color_gray;
   }
-  &.assigned {
+  &.compliant {
     border-bottom-color: $mcm_color_green;
   }
-  &.unassigned {
-    border-bottom-color: $mcm_color_gray;
+  &.noncompliant {
+    border-bottom-color: $mcm_color_red;
   }
   &.running {
     border-bottom-color: $mcm_color_green;
@@ -186,7 +186,7 @@ $overview-card-margin: 7px !default; /* margin around cards */
   }
 }
 
-.recharts-layer.running, .recharts-layer.ready {
+.recharts-layer.running, .recharts-layer.ready, .recharts-layer.compliant {
   circle {
     stroke: $mcm_color_green;
   }
@@ -206,7 +206,7 @@ $overview-card-margin: 7px !default; /* margin around cards */
   }
 }
 
-.recharts-layer.failed {
+.recharts-layer.failed, .recharts-layer.noncompliant {
   circle {
     stroke: $mcm_color_red;
   }
@@ -251,6 +251,7 @@ $overview-card-margin: 7px !default; /* margin around cards */
       &.pending { background: $mcm_color_yellow; }
       &.failed { background: $mcm_color_red; }
       &.ready { background: $mcm_color_green; }
+      &.compliant { background: $mcm_color_green; }
       &.offline { background: $mcm_color_gray; }
     }
   }

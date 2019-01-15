@@ -58,6 +58,13 @@ const OVERVIEW_QUERY = gql`
         raw
         selector
       }
+      compliances {
+        metadata {
+          name
+          namespace
+        }
+        raw
+      }
       pods {
         metadata {
           name

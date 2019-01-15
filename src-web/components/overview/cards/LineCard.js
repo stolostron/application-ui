@@ -12,12 +12,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
 import { TagTypes } from '../constants.js'
+import { getDataValues } from '../dataHelper'
 import moment from 'moment'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import GridCard from '../GridCard'
 import { MAX_CHART_DATA_SIZE } from '../../../../lib/shared/constants'
-import { inflateKubeValue, deflateKubeValue, getPercentage } from '../../../../lib/client/charts-helper'
-import _ from 'lodash'
+import { getPercentage } from '../../../../lib/client/charts-helper'
 
 resources(() => {
   require('../../../../scss/overview-charts.scss')
@@ -142,40 +142,16 @@ class LineCard extends React.Component {
 
   updateChartData(props) {
     const { item } = props
-    const { cardData: {overviewKey, valueKey, deflateValues, pieData}, overview } = item
+    const { cardData: {dataType, pieData}, overview } = item
     let { popTheTop } = this.state
 
     // line chart as line chart
     let chartPoint, dataKeys, units=''
     const areaData = {}
     if (!pieData) {
-      let available
-      // get available/used
-      const data = {
-        'available': 0,
-        'used': 0,
-      }
-      const values = _.get(overview, overviewKey, []).reduce((acc, {capacity, usage}) => {
-        data['available'] += inflateKubeValue(capacity[valueKey])
-        data['used'] += inflateKubeValue(usage[valueKey])
-        return acc
-      }, data)
-
-      let {used} = values
-      available = values.available
-      units = values.units
-      if (deflateValues) {
-        let deflated = deflateKubeValue(values.available)
-        available = deflated.size
-        units = deflated.units
-        deflated = deflateKubeValue(values.used)
-        used = deflated.size
-        // in case avaialble is in tetra and used is in giga
-        if (used>available) {
-          available *= 1024
-          units = deflated.units
-        }
-      }
+      dataKeys = ['available', 'used']
+      const {available, used, units:unitz} = getDataValues(overview, dataType)
+      units = unitz
       chartPoint = {
         name: moment().format('LT'),
         available,
@@ -186,27 +162,10 @@ class LineCard extends React.Component {
         },
         total: available,
       }
-      dataKeys = ['available', 'used']
     } else {
     // pie chart as line chart
-
-      // count up statuses
-      const valueMap = {}
-      _.get(overview, overviewKey, []).forEach(res=>{
-        const value = _.get(res, valueKey, '').toLowerCase()
-        let key  = 'default'
-        for (var pieKey in pieData) {
-          if (pieData[pieKey].values && pieData[pieKey].values.indexOf(value)!==-1) {
-            key = pieKey
-            break
-          }
-        }
-        let arr = valueMap[key]
-        if (!arr) {
-          arr = valueMap[key] = []
-        }
-        arr.push(res)
-      })
+      dataKeys = Object.keys(pieData)
+      const {valueMap} = getDataValues(overview, dataType, pieData)
       chartPoint = {
         name: moment().format('LT'),
         display: {},
@@ -219,7 +178,6 @@ class LineCard extends React.Component {
         chartPoint.total+=value
         areaData[pieKey] = pieData[pieKey]
       }
-      dataKeys = Object.keys(pieData)
     }
 
     const initialize = this.state.chartData.length ===0

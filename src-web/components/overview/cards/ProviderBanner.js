@@ -10,6 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
+import '../../../../graphics/diagramIcons.svg'
 import {getMatchingClusters, PROVIDER_FILTER} from '../filterHelper'
 import { Icon, Tag } from 'carbon-components-react'
 import msgs from '../../../../nls/platform.properties'
@@ -23,7 +24,7 @@ export default class ProviderBanner extends React.PureComponent {
 
   render() {
     const { locale } = this.context
-    const { bannerCards=[], view, overview: {clusters=[]} } = this.props
+    const { bannerCards=[], view, noncompliantClusterSet, overview: {clusters=[]} } = this.props
 
     // gather data
     const allKubeMap = {}
@@ -52,10 +53,28 @@ export default class ProviderBanner extends React.PureComponent {
       updateActiveFilters(activeFilters)
     }
 
+    // anything not compliant?
+    let nonComplaintCnt = 0
+    allClusters.forEach(({metadata: {name}})=>{
+      if (noncompliantClusterSet.has(name)) {
+        nonComplaintCnt++
+      }
+    })
+
     return (
       <div className='provider-banner'>
         <div className='provider-title'>{allTitles.join(', ')}</div>
         <div className='provider-cluster'>{msgs.get('overview.cluster.count', [allClusters.length], locale)}</div>
+        {nonComplaintCnt>0 && <div className='provider-cluster-noncompliant'>
+          <div>
+            <svg className='provider-noncompilant-icon'>
+              <use href={'#diagramIcons_error'} ></use>
+            </svg>
+          </div>
+          <div>
+            {nonComplaintCnt}
+          </div>
+        </div>}
         <div className='provider-counts'>{
           allKubeTypes.map(kubeType=>{
             const kubeCnt = allKubeMap[kubeType].length
@@ -82,6 +101,7 @@ export default class ProviderBanner extends React.PureComponent {
 
 ProviderBanner.propTypes = {
   bannerCards: PropTypes.array,
+  noncompliantClusterSet: PropTypes.object,
   overview: PropTypes.object,
   view: PropTypes.object,
 }

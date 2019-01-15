@@ -12,10 +12,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
 import { PieChart, Pie, Cell, Label } from 'recharts'
-import { inflateKubeValue, deflateKubeValue, getPercentage, getTotal } from '../../../../lib/client/charts-helper'
+import { getDataValues } from '../dataHelper'
+import { getPercentage, getTotal } from '../../../../lib/client/charts-helper'
 import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
-import _ from 'lodash'
 
 resources(() => {
   require('../../../../scss/overview-charts.scss')
@@ -92,29 +92,14 @@ PieGraph.propTypes = {
 class PieCard extends React.Component {
   render() {
     const { item } = this.props
-    const { cardData: {title, overviewKey, valueKey, deflateValues, labelKey, pieData}, overview } = item
+    const { cardData: {title, dataType, labelKey, pieData}, overview } = item
 
     let label, chartData, percentage, total
     // pie chart as pie chart
     if (pieData) {
 
       // count up statuses
-      const valueMap = {}
-      _.get(overview, overviewKey, []).forEach(res=>{
-        const value = _.get(res, valueKey, '').toLowerCase()
-        let key  = 'default'
-        for (var pieKey in pieData) {
-          if (pieData[pieKey].values && pieData[pieKey].values.indexOf(value)!==-1) {
-            key = pieKey
-            break
-          }
-        }
-        let arr = valueMap[key]
-        if (!arr) {
-          arr = valueMap[key] = []
-        }
-        arr.push(res)
-      })
+      const {valueMap} = getDataValues(overview, dataType, pieData)
 
       // create pie chart data
       label = pieData[labelKey].name
@@ -130,29 +115,7 @@ class PieCard extends React.Component {
 
     } else {
     // line chart as pie chart
-      const data = {
-        'available': 0,
-        'used': 0,
-      }
-      const values = _.get(overview, overviewKey, []).reduce((acc, {capacity, usage}) => {
-        data['available'] += inflateKubeValue(capacity[valueKey])
-        data['used'] += inflateKubeValue(usage[valueKey])
-        return acc
-      }, data)
-
-      let {available, used, units=''} = values
-      if (deflateValues) {
-        let deflated = deflateKubeValue(values.available)
-        available = deflated.size
-        units = deflated.units
-        deflated = deflateKubeValue(values.used)
-        used = deflated.size
-        // in case avaialble is in tetra and used is in giga
-        if (used>available) {
-          available *= 1024
-          units = deflated.units
-        }
-      }
+      const {available, used, units} = getDataValues(overview, dataType)
 
       chartData=[]
       label = msgs.get('overview.status.used', this.context.locale)

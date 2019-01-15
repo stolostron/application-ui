@@ -72,25 +72,17 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
   }
 
   // calculate provider width so that it can fit in as little rows as possible
-  let width
+  let width=270
   const nProviders = existingProviders.length
-  if (nProviders<=4) {
-    width = 270
-  } else {
+  if (nProviders>4) {
     switch ((nProviders+6) % 6) {
     case 0:
-    case 5:
       width = 180
       break
 
-    case 1:
-    case 2:
-      width = 210
-      break
-
-    case 3:
     case 4:
-      width = 270
+    case 5:
+      width = 210
       break
     }
   }

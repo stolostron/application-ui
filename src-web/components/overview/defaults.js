@@ -8,7 +8,7 @@
  *******************************************************************************/
 'use strict'
 
-import { CardTypes, CardActions, TagTypes, GroupByChoices, SizeChoices, ShadeChoices } from './constants.js'
+import { CardTypes, CardActions, DataType, TagTypes, GroupByChoices, SizeChoices, ShadeChoices } from './constants.js'
 import {PROVIDER_FILTER} from './filterHelper'
 import msgs from '../../../nls/platform.properties'
 
@@ -41,8 +41,7 @@ export const getDefaultViewState = (locale) => {
       {
         type: CardTypes.piechart,
         title: msgs.get('overview.status.policies', locale),
-        overviewKey: 'policies', //TODO
-        valueKey: 'status',      //TODO
+        dataType: DataType.compliance,
         labelKey: 'compliant',
         pieData: {
           'compliant':{name: msgs.get('overview.status.compliant', locale), values: ['compliant'], className:'compliant'},
@@ -53,8 +52,7 @@ export const getDefaultViewState = (locale) => {
       {
         type: CardTypes.piechart,
         title: msgs.get('overview.status.pods', locale),
-        overviewKey: 'pods',
-        valueKey: 'status',
+        dataType: DataType.pods,
         labelKey: 'running',
         pieData: {
           'running':{name: msgs.get('overview.status.running', locale), values: ['running', 'succeeded'], className:'running'},
@@ -66,8 +64,7 @@ export const getDefaultViewState = (locale) => {
       {
         type: CardTypes.piechart,
         title: msgs.get('overview.status.clusters', locale),
-        overviewKey: 'clusters',
-        valueKey: 'status',
+        dataType: DataType.cluster,
         labelKey: 'ready',
         pieData: {
           'ready':{name: msgs.get('overview.status.ready', locale), values: ['ok'], className:'ready'},
@@ -78,26 +75,21 @@ export const getDefaultViewState = (locale) => {
       {
         type: CardTypes.linegraph,
         title: msgs.get('overview.status.vcpu', locale),
-        overviewKey: 'clusters',
-        valueKey: 'cpu',
+        dataType: DataType.cpu,
         tagType: TagTypes.nounits,
         actions: [CardActions.pie],
       },
       {
         type: CardTypes.linegraph,
         title: msgs.get('overview.status.memory', locale),
-        overviewKey: 'clusters',
-        valueKey: 'memory',
-        deflateValues: true,
+        dataType: DataType.memory,
         tagType: TagTypes.units,
         actions: [CardActions.pie],
       },
       {
         type: CardTypes.linegraph,
         title: msgs.get('overview.status.storage', locale),
-        overviewKey: 'clusters',
-        valueKey: 'storage',
-        deflateValues: true,
+        dataType: DataType.storage,
         tagType: TagTypes.units,
         actions: [CardActions.pie],
       },

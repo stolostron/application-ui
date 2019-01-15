@@ -22,6 +22,15 @@ export const CardActions = Object.freeze({
   remove: 'remove',
 })
 
+export const DataType = Object.freeze({
+  pods: 'pods',
+  cluster: 'cluster',
+  compliance: 'compliance',
+  cpu: 'cpu',
+  memory: 'memory',
+  storage: 'storage',
+})
+
 export const TagTypes = Object.freeze({
   nounits: 'nounits',
   units: 'units',

@@ -49,6 +49,14 @@ export default {
       resourceKey: 'nodes',
     },
     {
+      msgKey: 'table.header.klusterletVersion',
+      resourceKey: 'klusterletVersion',
+    },
+    {
+      msgKey: 'table.header.k8sVersion',
+      resourceKey: 'k8sVersion',
+    },
+    {
       msgKey: 'table.header.storage',
       resourceKey: 'totalStorage',
       transformFunction: getStorage

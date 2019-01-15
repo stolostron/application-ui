@@ -239,7 +239,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
+  width: 12rem;
   z-index: 500;
   overflow: visible;
 }
@@ -255,8 +255,7 @@
 }
 
 .react-tags__suggestions li {
-  border-bottom: 1px solid #ddd;
-  padding: 6px 8px;
+  padding: .5rem;
 }
 
 .react-tags__suggestions li mark {
@@ -275,6 +274,16 @@
 }
 
 .react-tags__suggestions li.is-disabled {
-  opacity: 0.5;
   cursor: auto;
+  padding: .75rem .75rem .25rem .5rem;
+  font-weight: 700;
+  letter-spacing: .05rem;
+  color: $color__blue-51;
+  border-bottom: 1px solid #ddd;
+  font-size: .6rem;
+  text-transform: uppercase;
+
+  &:hover {
+    background: white;
+  }
 }

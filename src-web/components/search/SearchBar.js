@@ -48,8 +48,15 @@ class SearchBar extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.availableFilters, this.state.fieldOptions)) {
       const fields = this.formatFields(nextProps.availableFilters.allProperties)
+      const labelTag = {
+        id: 'id-filter-label',
+        key:'key-filter-label',
+        name: msgs.get('searchbar.filters.label', this.context.locale),
+        value: msgs.get('searchbar.filters.label', this.context.locale),
+        disabled: true
+      }
       this.setState({
-        fieldOptions: this.convertObjectToArray(fields)
+        fieldOptions: this.convertObjectToArray(fields, labelTag)
       })
     }
     if ((nextProps.value === '' && nextProps.clientSideFilters !== undefined)
@@ -118,11 +125,12 @@ class SearchBar extends React.Component {
     }
   }
 
-  convertObjectToArray(input) {
+  convertObjectToArray(input, label) {
     if (Array.isArray(input)) {
+      input.unshift(label)
       return input
     } else {
-      let result = []
+      let result = [label]
       Object.values(input).forEach(value => {
         if (Array.isArray(value)) {
           Object.values(value).forEach(element => {
@@ -146,6 +154,21 @@ class SearchBar extends React.Component {
   }
 
   formatSuggestionOptions(data) {
+    const { searchComplete, tags } = this.state
+    const labelTag = {
+      id: 'id-filter-label',
+      key:'key-filter-label',
+      name: msgs.get('searchbar.values.label', [searchComplete], this.context.locale),
+      value: msgs.get('searchbar.values.label', [searchComplete], this.context.locale),
+      disabled: true
+    }
+    // Filter out previously used labels
+    if (tags.length > 1) {
+      const kindTag = tags.slice(0, tags.length - 1).filter(tag => tag.field === searchComplete)
+      if (kindTag.length > 0) {
+        data = data.filter(value => kindTag[0].matchText.findIndex(item => item === value) === -1)
+      }
+    }
     this.matchTextOptions = this.convertObjectToArray(
       data.map(item => {
         return {
@@ -154,7 +177,9 @@ class SearchBar extends React.Component {
           name: item,
           value: item
         }
-      }))
+      }),
+      labelTag
+    )
   }
 
 
@@ -304,7 +329,7 @@ class SearchBar extends React.Component {
                   tagComponent={FilterTag}
                   delimiterChars={[' ', ':', ',']}
                   autofocus={false}
-                  // maxSuggestionsLength={} defaulted to 6
+                  maxSuggestionsLength={7}
                 />
               </div>
               {currentQuery === ''

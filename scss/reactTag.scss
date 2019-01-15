@@ -144,13 +144,11 @@
   z-index: 10;
   &.is-focused {
     box-shadow: 0px 0px 0 1px $color__blue-51;
-    max-height: 10rem;
     transition: max-height .6s ease-out;
     height: auto;
     overflow: visible;
   }
   &:hover {
-    max-height: 10rem;
     transition: max-height .6s ease-out;
     height: auto;
     overflow: visible;
@@ -167,7 +165,7 @@
   box-sizing: border-box;
   background: rgba(85,150,230,.2) no-repeat right 8px center;
   color: $color__blue-90;
-  padding: 0.1rem .5rem;
+  padding: 0 .5rem;
   border-radius: 1.5rem;
   border-color: transparent;
   transition: all .6s ease-out;

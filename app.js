@@ -68,9 +68,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const csrfMiddleware = csurf({ cookie: true })
 const generateCsrfToken = (req, res, next) => {
-  if (!req.cookies['XSRF-TOKEN']){
-    res.cookie('XSRF-TOKEN', req.csrfToken())
-  }
+  res.cookie('XSRF-TOKEN', req.csrfToken())
   next()
 }
 

@@ -43,11 +43,16 @@ $overview-card-margin: 7px !default; /* margin around cards */
     .legend-item {
       margin-bottom: 1.3125rem;
       padding-bottom: .3125rem;
-      display: flex;
-      justify-content: space-between;
       color: $color__blue-90;
       font-size: .875rem;
 
+      > a {
+        color: black;
+        text-decoration: none;
+        justify-content: space-between;
+        width: 100%;
+        display: flex;
+      }
       &:last-child {
         margin-bottom: 0;
       }

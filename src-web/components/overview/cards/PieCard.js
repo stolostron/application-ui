@@ -16,6 +16,8 @@ import { getDataValues } from '../dataHelper'
 import { getPercentage, getTotal } from '../../../../lib/client/charts-helper'
 import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
+import { Link } from 'react-router-dom'
+import config from '../../../../lib/shared/config'
 
 resources(() => {
   require('../../../../scss/overview-charts.scss')
@@ -46,9 +48,15 @@ const PieGraph = ({
   percentage,
   chartData,
   item,
+  dataType,
 }) =>
   <GridCard header={header} tagValue={tagValue} item={item}>
     {(() => {
+      const searchText = {
+        'compliance' : ['"kind:compliance status:compliant"', '"kind:compliance status:noncompliant"'],
+        'pods': ['"kind:pod status:running,succeeded"', '"kind:pod status:pending"', '"kind:pod status:failed,notrunning"'],
+        'cluster': ['"kind:cluster status:ok"', '"kind:cluster status:failed,critical,offline"']
+      }
       return (
         <div className='pie-graph'>
           <div className='pie-graph__container'>
@@ -64,11 +72,13 @@ const PieGraph = ({
             </PieChart>
           </div>
           <div className='pie-graph__legend'>
-            {chartData.map((entry) => {
+            {chartData.map((entry, index) => {
               return (
                 <div className={`legend-item bottom_border ${entry.className}`} key={entry.name} >
-                  <span className='value'>{entry.value} {entry.units?entry.units:''}</span>
-                  <span className='label' title={entry.name}>{entry.name}</span>
+                  <Link to={`${config.contextPath}/search?filters={"textsearch":${searchText[dataType][index]}}`}>
+                    <span className='value'>{entry.value} {entry.units?entry.units:''}</span>
+                    <span className='label' title={entry.name}>{entry.name}</span>
+                  </Link>
                 </div>
               )
             })}
@@ -81,6 +91,7 @@ const PieGraph = ({
 
 PieGraph.propTypes = {
   chartData: PropTypes.array,
+  dataType: PropTypes.string,
   header: PropTypes.string,
   item: PropTypes.object,
   label: PropTypes.string,
@@ -108,6 +119,7 @@ class PieCard extends React.Component {
           name: pieData[key].name,
           className: pieData[key].className,
           value: valueMap[key] ? valueMap[key].length : 0,
+          overviewKey: valueMap.overviewKey
         }
       })
       total=getTotal(chartData)
@@ -144,6 +156,7 @@ class PieCard extends React.Component {
         total={total}
         percentage={percentage}
         item={item}
+        dataType={dataType}
       />
     )
   }

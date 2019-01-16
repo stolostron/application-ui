@@ -9,7 +9,6 @@
 'use strict'
 import {
   getRole,
-  getNodeLink,
 } from '../../../src-web/definitions/hcm-nodes'
 
 describe('hcm-nodes - getRole', () => {
@@ -26,19 +25,5 @@ describe('hcm-nodes - getRole', () => {
       roles: null
     }
     expect(getRole(item)).toBe('worker')
-  })
-})
-
-describe('hcm-nodes - getNodeLink', () => {
-  it('should return vaild link', () => {
-    const item = {
-      cluster: {
-        consoleURL: 'https://9.10.11.12:8443'
-      },
-      metadata: {
-        name: 'TestLink'
-      }
-    }
-    expect(getNodeLink(item)).toMatchSnapshot()
   })
 })

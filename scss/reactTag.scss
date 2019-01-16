@@ -61,7 +61,10 @@
 
 .tagInput-infoButton {
   transform: scale(0.9);
-  fill: $color__blue-51;
+  fill: $color__navy-gray-7;
+  &:hover {
+    fill: $color__blue-51;
+  }
   display: inline-block;
   float: left;
   margin: 0.6rem 0 0 -2rem;
@@ -125,7 +128,7 @@
 .tagInput-comboBox {
   float: left;
   padding-bottom: 0.5rem;
-  width: calc(100% - 5.4rem);
+  width: calc(100% - 2.5rem);
   height: 4rem;
 }
 
@@ -143,7 +146,7 @@
   overflow: hidden;
   z-index: 10;
   &.is-focused {
-    box-shadow: 0px 0px 0 1px $color__blue-51;
+    box-shadow: 0 0 0 1px $color__blue-51;
     transition: max-height .6s ease-out;
     height: auto;
     overflow: visible;

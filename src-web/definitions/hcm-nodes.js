@@ -7,17 +7,16 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import React from 'react'
 import { getAge } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'cluster',
   primaryKey: 'metadata.name',
+  secondaryKey: 'cluster.metadata.name',
   tableKeys: [
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
-      transformFunction: getNodeLink,
     },
     {
       msgKey: 'table.header.cluster',
@@ -50,8 +49,4 @@ export default {
 
 export function getRole(item) {
   return (item.roles && item.roles.length > 0) ? item.roles.join(', ') : 'worker'
-}
-
-export function getNodeLink(item) {
-  return <a target='_blank' href={`${item.cluster.consoleURL}/console/platform/nodes/${item.metadata.name}`}>{item.metadata.name}</a>
 }

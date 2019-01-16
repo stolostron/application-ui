@@ -21,7 +21,6 @@
   background-color: $color__blue-90;
   width: 300px;
   padding: 30px;
-  min-height: 75%;
   border-top: 5px solid $color__blue-50;
   font-size: 14px;
 
@@ -43,8 +42,14 @@
   }
 
   .filter-sections-container {
+
+    .filter-sections-scrollbar {
+      width: 10px;
+      visibility: hidden;
+    }
+
     .filter-section {
-      margin-top: 1.5rem;
+      margin: 1.5rem 0 5px 5px;
 
       .filter-section-title {
         margin-bottom: .5rem;
@@ -53,7 +58,20 @@
       .filter-section-checkbox {
       }
 
+      .filter-section-expand {
+        font-size: 12px;
+        color: $color__blue-30;
+        cursor: pointer;
+        outline: none;
+      }
     }
   }
+
+  &:hover {
+    .filter-sections-scrollbar {
+      visibility: visible;
+    }
+  }
+
 
 }

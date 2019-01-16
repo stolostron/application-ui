@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
 import {PROVIDER_FILTER} from '../filterHelper'
 import { Checkbox, Icon, Tag } from 'carbon-components-react'
+import { Scrollbars } from 'react-custom-scrollbars'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -20,8 +21,40 @@ resources(() => {
   require('../../../../scss/overview-filterview.scss')
 })
 
-const FilterSection = ({ section: {name, filters} }) => {
+// if section has more then this number of filters, add "show more"
+const SHOW_MORE = 10
+
+const ShowOrMoreItem = ({ count, isExpanded, onExpand, locale }) => {
+  return (
+    <div className='filter-section-expand' tabIndex='0' role={'button'}
+      onClick={onExpand} onKeyPress={onExpand}>
+      {isExpanded ?
+        msgs.get('filter.view.collapse', locale) :
+        msgs.get('filter.view.expand', [count], locale)}
+    </div>
+  )
+}
+
+ShowOrMoreItem.propTypes = {
+  count: PropTypes.number,
+  isExpanded: PropTypes.bool,
+  locale: PropTypes.string,
+  onExpand: PropTypes.func,
+}
+
+
+const FilterSection = ({ section: {name, filters, isExpanded, onExpand}, locale }) => {
   filters.sort(({label:a}, {label:b})=>{return a.localeCompare(b)})
+
+  // show more/or less
+  const count = filters.length-SHOW_MORE
+  const showMoreOrLess = count>0
+  if (showMoreOrLess) {
+    if (!isExpanded) {
+      filters = filters.slice(0, SHOW_MORE)
+    }
+  }
+
   return (
     <div className='filter-section'>
       <div className='filter-section-title'>
@@ -37,13 +70,20 @@ const FilterSection = ({ section: {name, filters} }) => {
           onChange={onChange}
         />
       })}
-
+      {showMoreOrLess &&
+        <ShowOrMoreItem
+          count={count}
+          isExpanded={isExpanded}
+          onExpand={onExpand}
+          locale={locale}
+        />}
     </div>
   )
 }
 
 
 FilterSection.propTypes = {
+  locale: PropTypes.string,
   section: PropTypes.object,
 }
 
@@ -52,6 +92,9 @@ export default class FilterView extends React.Component {
 
   constructor (props) {
     super(props)
+    this.state = {
+      expanded: {},
+    }
     this.handleFilterClose = this.handleFilterClose.bind(this)
   }
 
@@ -94,12 +137,24 @@ export default class FilterView extends React.Component {
             onClick={this.handleFilterClose}
           />
         </h3>
-        <div className='filter-sections-container'>
+        <Scrollbars style={{ width: 230, height: 600 }}
+          renderThumbVertical = {this.renderThumbVertical}
+          className='filter-sections-container'>
           {sections.map(section => {
-            return <FilterSection key={section.key} section={section} />
+            return <FilterSection key={section.key} section={section} locale={locale} />
           })}
-        </div>
+        </Scrollbars>
       </div>)
+  }
+
+  renderThumbVertical({ style, ...props }) {
+    const finalStyle = {
+      ...style,
+      cursor: 'pointer',
+      borderRadius: 'inherit',
+      backgroundColor: 'rgba(255,255,255,.2)'
+    }
+    return <div className={'filter-sections-scrollbar'} style={finalStyle} {...props} />
   }
 
   getSectionData(label, set, locale) {
@@ -139,6 +194,8 @@ export default class FilterView extends React.Component {
       key: label,
       name: msgs.get(msgKey, locale),
       filters,
+      isExpanded: this.state.expanded[label],
+      onExpand: this.onExpand.bind(this, label),
     }
   }
 
@@ -171,6 +228,14 @@ export default class FilterView extends React.Component {
       activeFilters[label]=[]
     }
     updateActiveFilters(activeFilters)
+  }
+
+  onExpand = (label) => {
+    this.setState(prevState=>{
+      const expanded = _.cloneDeep(prevState.expanded)
+      expanded[label] = !expanded[label]
+      return {expanded}
+    })
   }
 
   handleFilterClose = () => {

@@ -31,6 +31,9 @@ module.exports = {
       'moment',
       'normalizr',
       'prop-types',
+      'react-custom-scrollbars',
+      'react-dnd',
+      'react-dnd-html5-backend',
       'react-dom',
       'react-dom/server',
       'react-redux',
@@ -41,7 +44,8 @@ module.exports = {
       'redux-thunk',
       'redux',
       'reselect',
-      'svg.js'
+      'svg.js',
+      'svg-loader'
     ]
   },
   output: {

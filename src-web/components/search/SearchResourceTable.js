@@ -61,7 +61,10 @@ class SearchResourceTable extends React.PureComponent {
       return tableDefinitions[this.props.kind].columns.map(col => ({ key: col.key, header: msgs.get(`table.header.${col.msgKey || col.key}`, this.context.locale) }))
     }
 
-    return Object.keys(this.props.items[0]).map(col => ({ key: col, header: msgs.get(`table.header.${col}`, this.context.locale) }))
+    console.log(`Using default resource table for resource kind: ${this.props.kind}`) // eslint-disable-line no-console
+    // Remove internal properties
+    const columns = Object.keys(this.props.items[0]).filter(prop => prop.charAt(0) !== '_' && ['kind', 'uid', 'selfLink'].indexOf(prop) === -1)
+    return columns.map(col => ({ key: col, header: msgs.get(`table.header.${col}`, this.context.locale) }))
   }
 
   getRows(){

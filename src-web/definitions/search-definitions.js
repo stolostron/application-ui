@@ -11,15 +11,30 @@
   NOTE: See documentation in SearchResourceTable.js
  */
 import { getAge } from '../../lib/client/resource-helper'
+import { createDashboardLink } from './hcm-applications'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
 
 export default {
-  // application: {           // TODO: Data not available in the gremlin database yet.
-  //   columns: [
-  //     { key: 'name' },
-  //   ],
-  //   actions: [],
-  // },
+  application: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'created', transform: getAge },
+      { key: 'dashboard', transform: createDashboardLink },
+    ],
+    actions: [],
+  },
+  applicationrelationship: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'source' },
+      { key: 'destination' },
+      { key: 'type' },
+      { key: 'created', transform: getAge },
+    ],
+    actions: [],
+  },
   cluster: {
     columns: [
       { key: 'name' },
@@ -50,6 +65,16 @@ export default {
     ],
     actions: [],
   },
+  deployable: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'chartUrl' },
+      { key: 'dependencies' },
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
   deployment: {
     columns: [
       { key: 'name' },
@@ -63,12 +88,6 @@ export default {
     ],
     actions: [],
   },
-  // namespace: {           // TODO: Data not available in the gremlin database yet.
-  //   columns: [
-  //     { key: 'name' },
-  //   ],
-  //   actions: [],
-  // },
   node: {
     columns: [
       { key: 'name' },
@@ -109,6 +128,26 @@ export default {
   //   ],
   //   actions: [],
   // },
+  placementbinding: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'subjects' },
+      { key: 'placementpolicy' },
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
+  placementpolicy: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'replicas' },
+      { key: 'decisions' },
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
   pod: {
     columns: [
       { key: 'name' },

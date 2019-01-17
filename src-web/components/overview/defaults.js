@@ -22,10 +22,13 @@ export const getDefaultViewState = (locale) => {
 
   const state =  {
     activeFilters,
-    heatMapChoices: {
-      groupBy: GroupByChoices.provider,
-      size: SizeChoices.workers,
-      shade: ShadeChoices.vcpu,
+    heatMapState: {
+      expanded: false,
+      heatMapChoices: {
+        groupBy: GroupByChoices.provider,
+        size: SizeChoices.workers,
+        shade: ShadeChoices.vcpu,
+      }
     },
     bannerCards: [],
     providerCards: [],

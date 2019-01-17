@@ -8,10 +8,109 @@
  *******************************************************************************/
 'use strict'
 
-import { DataType } from './constants.js'
+import { DataType, HeatSelections, GroupByChoices, SizeChoices, ShadeChoices } from './constants.js'
 import { inflateKubeValue, deflateKubeValue } from '../../../lib/client/charts-helper'
 import _ from 'lodash'
 
+
+// get data based on choices and nodes
+export const getHeatMapData = (item, heatMapChoices={}) => {
+
+  const { overview: {clusters = []} } = item
+
+  // how are we grouping data
+  let groupKey
+  switch (heatMapChoices[HeatSelections.groupBy]) {
+  default:
+  case GroupByChoices.provider:
+    groupKey = 'cloud'
+    break
+  case GroupByChoices.region:
+    groupKey = 'region'
+    break
+  case GroupByChoices.purpose:
+    groupKey = 'environment'
+    break
+  case GroupByChoices.service:
+    groupKey = 'vendor'
+    break
+  }
+
+  // collect data
+  let sizeTotal = 0
+  const shadeArray = []
+  const heatMapData = {}
+  clusters.forEach((cluster, idx)=>{
+    const {metadata={}} = cluster
+    const {name=`unknown${idx}`, labels={}} = metadata
+    const key = labels[groupKey]
+    let heatData = heatMapData[key]
+    if (!heatData) {
+      heatData = heatMapData[key] = []
+    }
+
+    let size=0
+    switch (heatMapChoices[HeatSelections.size]) {
+    default:
+    case SizeChoices.workers:
+      size = _.get(cluster, 'capacity.nodes', 0)
+      break
+    case SizeChoices.pods:
+      size = _.get(cluster, 'usage.pods', 0)
+      break
+    case SizeChoices.nonCompliant:
+      size = 2
+      break
+    }
+    sizeTotal+=size
+
+    let shadeForTooltip
+    switch (heatMapChoices[HeatSelections.shade]) {
+    default:
+    case ShadeChoices.vcpu:
+      shadeForTooltip = _.get(cluster, 'usage.cpu', 0)
+      break
+    case ShadeChoices.memory:
+      shadeForTooltip = _.get(cluster, 'usage.memory', 0)
+      break
+    case ShadeChoices.storage:
+      shadeForTooltip = _.get(cluster, 'usage.storage', 0)
+      break
+    }
+    const shade = inflateKubeValue(shadeForTooltip)
+    shadeArray.push(shade)
+
+    heatData.push({
+      name,
+      size,
+      shade,
+      shadeForTooltip, // shade value displayed in tooltip
+    })
+  })
+
+  // assign color classname based on where it falls in spectrum
+  if (shadeArray.length>4) {
+    shadeArray.sort((a,b)=>{return a-b})
+    shadeArray.shift()
+    shadeArray.pop()
+  }
+  const avg = _.sum(shadeArray) / shadeArray.length
+  const std = Math.sqrt(_.sum(_.map(shadeArray, (i) => Math.pow((i - avg), 2))) / shadeArray.length)
+  Object.keys(heatMapData).forEach(key=>{
+    heatMapData[key].forEach(cluster=>{
+      const {shade} = cluster
+      if (shade < avg) {
+        cluster.color='square-blue'
+      } else if (shade < avg+std/2) {
+        cluster.color='square-yellow'
+      } else {
+        cluster.color='square-red'
+      }
+    })
+  })
+
+  return {sizeTotal, heatMapData}
+}
 
 export const getDataValues = (overview, dataType, pieData) => {
   switch (dataType) {

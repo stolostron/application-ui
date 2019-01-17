@@ -10,6 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
+import classNames from 'classnames'
 import '../../../../graphics/diagramIcons.svg'
 import {getMatchingClusters, PROVIDER_FILTER} from '../filterHelper'
 import { Icon, Tag } from 'carbon-components-react'
@@ -61,11 +62,16 @@ export default class ProviderBanner extends React.PureComponent {
       }
     })
 
+    const compliantClasses = classNames({
+      'provider-cluster-noncompliant': true,
+      'non-compliant': nonComplaintCnt>0,
+    })
+
     return (
       <div className='provider-banner'>
         <div className='provider-title'>{allTitles.join(', ')}</div>
         <div className='provider-cluster'>{msgs.get('overview.cluster.count', [allClusters.length], locale)}</div>
-        {nonComplaintCnt>0 && <div className='provider-cluster-noncompliant'>
+        <div className={compliantClasses}>
           <div>
             <svg className='provider-noncompilant-icon'>
               <use href={'#diagramIcons_error'} ></use>
@@ -74,7 +80,7 @@ export default class ProviderBanner extends React.PureComponent {
           <div>
             {nonComplaintCnt}
           </div>
-        </div>}
+        </div>
         <div className='provider-counts'>{
           allKubeTypes.map(kubeType=>{
             const kubeCnt = allKubeMap[kubeType].length

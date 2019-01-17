@@ -44,7 +44,14 @@ ShowOrMoreItem.propTypes = {
 
 
 const FilterSection = ({ section: {name, filters, isExpanded, onExpand}, locale }) => {
-  filters.sort(({label:a}, {label:b})=>{return a.localeCompare(b)})
+  filters.sort(({label:a, isAll:ia}, {label:b, isAll:ib})=>{
+    if (ia && !ib) {
+      return -1
+    } else if (!ia && ib) {
+      return 1
+    }
+    return a.localeCompare(b)
+  })
 
   // show more/or less
   const count = filters.length-SHOW_MORE
@@ -187,6 +194,7 @@ export default class FilterView extends React.Component {
     filters.unshift({
       key: label+'all',
       label: msgs.get('filter.view.all', locale),
+      isAll: true,
       checked: active.length===0,
       onChange: this.onChange.bind(this, label, 'all'),
     })

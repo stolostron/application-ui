@@ -62,7 +62,7 @@ export default class OverviewView extends React.Component {
     })
     this.updateCardOrder = this.updateCardOrder.bind(this)
     this.handleLayoutComplete = this.handleLayoutComplete.bind(this)
-    this.updateHeatMapChoices = this.updateHeatMapChoices.bind(this)
+    this.updateHeatMapState = this.updateHeatMapState.bind(this)
   }
 
   setViewRef = ref => {this.viewRef = ref}
@@ -108,7 +108,7 @@ export default class OverviewView extends React.Component {
     const { refetch, startPolling, stopPolling, pollInterval, overview } = this.props
     const {timestamp} = overview
     const {viewState, reloading} = this.state
-    const {cardOrder, bannerCards=[], activeFilters, heatMapChoices={}} = viewState
+    const {cardOrder, bannerCards=[], activeFilters, heatMapState={}} = viewState
     const view = this.getViewData(overview, activeFilters)
     const boundActiveFilters = this.getBoundActiveFilters()
     const filteredOverview = filterOverview(activeFilters, overview)
@@ -161,8 +161,8 @@ export default class OverviewView extends React.Component {
                 return <CountsCard key={key} item={item} />
               case CardTypes.heatmap:
                 return <HeatCard key={key} item={item}
-                  heatMapChoices={heatMapChoices}
-                  updateHeatMapChoices={this.updateHeatMapChoices}
+                  heatMapState={heatMapState}
+                  updateHeatMapState={this.updateHeatMapState}
                 />
               case CardTypes.piechart:
                 return <PieCard key={key} item={item} />
@@ -231,10 +231,10 @@ export default class OverviewView extends React.Component {
     })
   }
 
-  updateHeatMapChoices(heatMapChoices) {
+  updateHeatMapState(heatMapState) {
     this.setState(preState => {
       const viewState = _.cloneDeep(preState.viewState)
-      viewState.heatMapChoices = heatMapChoices
+      viewState.heatMapState = heatMapState
       return { viewState }
     })
   }
@@ -349,8 +349,8 @@ export default class OverviewView extends React.Component {
   }
 
   getCurrentViewState() {
-    const {viewState: {activeFilters, heatMapChoices={}, bannerCards=[], providerCards=[]}} = this.state
-    return {activeFilters, heatMapChoices, bannerCards, providerCards, cardOrder: this.getCurrentCardOrder()}
+    const {viewState: {activeFilters, heatMapState={}, bannerCards=[], providerCards=[]}} = this.state
+    return {activeFilters, heatMapState, bannerCards, providerCards, cardOrder: this.getCurrentCardOrder()}
   }
 
 }

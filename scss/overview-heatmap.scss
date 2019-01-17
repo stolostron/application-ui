@@ -145,11 +145,13 @@ svg.heatMap {
 
 div.heatMap {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 20px;
 
   .heatMapSection {
-    width: 33%;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
 
     .heatMapLabel {
       font-size: 16px;
@@ -165,57 +167,59 @@ div.heatMap {
          height: 100%;
 
          .grid-sizer {
-           width: 11%;
+           width: 2%;
          }
 
-         .heat-item {
-            cursor: default;
-            box-shadow: none;
-            margin-bottom: 5px;
+         .heat-item-container {
 
-            &.square-red {
-              background-color: $mcm_heat_red;
-            }
-            &.square-yellow {
-              background-color: $mcm_heat_yellow;
-            }
-            &.square-blue {
-              background-color: $mcm_heat_blue;
-            }
+           .heat-item {
+             width: 94%;
+             height: 94%;
 
-            .tooltip {
-              visibility: hidden;
-              background-color: $color__white;
-              text-align: center;
-              padding: 5px;
-              position: absolute;
-              top: 3px;
-              left: 3px;
-              z-index: 1;
-
-              .tooltip-line {
-                height: 10px;
-                padding:0;
-                margin:0;
-                font-size: 10px;
-                display: flex;
-
-                .label {
-                  font-weight: bold;
-                  color: $color__blue-90;
-                  padding-right: 5px;
-                }
-
-                .value {
-                  color: $color__navy-gray-6;
-                 }
+              &.square-red {
+                background-color: $mcm_heat_red;
+              }
+              &.square-yellow {
+                background-color: $mcm_heat_yellow;
+              }
+              &.square-blue {
+                background-color: $mcm_heat_blue;
               }
 
-            }
+              .tooltip {
+                visibility: hidden;
+                background-color: $color__white;
+                text-align: center;
+                padding: 5px;
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                z-index: 1;
 
-            &:hover .tooltip {
-              visibility: visible;
-            }
+                .tooltip-line {
+                  height: 10px;
+                  padding:0;
+                  margin:0;
+                  font-size: 12px;
+                  display: flex;
+
+                  .label {
+                    font-weight: bold;
+                    color: $color__blue-90;
+                    padding-right: 5px;
+                  }
+
+                  .value {
+                    color: $color__navy-gray-6;
+                   }
+                }
+
+              }
+
+              &:hover .tooltip {
+                visibility: visible;
+              }
+           }
          }
       }
     }

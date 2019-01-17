@@ -56,10 +56,10 @@ export default class ProviderCard extends React.PureComponent {
       'provider-card': true,
       'non-compliant': nonComplaintCnt>0,
     })
-
-    const visibility = {
-      visibility: nonComplaintCnt>0 ? 'visible': 'hidden'
-    }
+    const compliantClasses = classNames({
+      'provider-cluster-noncompliant': true,
+      'non-compliant': nonComplaintCnt>0,
+    })
     return (
       <GridCard item={item} >
         <div className={providerClasses} style={{width}}
@@ -68,7 +68,7 @@ export default class ProviderCard extends React.PureComponent {
             <div className='provider-name'>{title}</div>
             <div className='provider-cluster-container'>
               <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
-              <div className='provider-cluster-noncompliant' style={visibility}>
+              <div className={compliantClasses}>
                 <div>
                   <svg className='provider-noncompilant-icon'>
                     <use href={'#diagramIcons_error'} ></use>

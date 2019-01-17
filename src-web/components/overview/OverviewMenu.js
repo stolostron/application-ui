@@ -40,9 +40,6 @@ export default class OverviewMenu extends React.Component {
   componentWillMount() {
     const { locale } = this.context
 
-    this.onUnload = this.onUnload.bind(this)
-    window.addEventListener('beforeunload', this.onUnload)
-
     // menu options
     this.viewMenuChoices = [
       {text: msgs.get('overview.menu.filter', locale),
@@ -53,10 +50,6 @@ export default class OverviewMenu extends React.Component {
         action: this.restoreView.bind(this),
         isDelete: true},
     ]
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('beforeunload', this.onUnload)
   }
 
   onUnload(event) {

@@ -13,30 +13,38 @@ $overview-view-width: 1200px !default;
 $overview-column-width: 10px !default; /* card width must be multiple of this */
 $overview-card-margin: 7px !default; /* margin around cards */
 
-
-
-.provider-cluster-noncompliant {
-  color: $color__white;
-  background-color: $mcm_color_red;
-  margin: 0 7px;
-  padding: 2px 5px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-
-  > div {
-    height: 10px;
-    padding: 0 2px;
+.overview-view {
+  &.laidout {
+    .provider-cluster-noncompliant.non-compliant {
+      visibility: visible;
+    }
   }
+}
 
-  .provider-noncompilant-icon {
-    width: 10px;
-    height: 10px;
-    fill: $color__white;
-    stroke: none;
+.provider-banner, .provider-card {
+  .provider-cluster-noncompliant {
+    color: $color__white;
+    background-color: $mcm_color_red;
+    margin: 0 7px;
+    padding: 2px 5px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    visibility: hidden;
+
+    > div {
+      height: 10px;
+      padding: 0 2px;
+    }
+
+    .provider-noncompilant-icon {
+      width: 10px;
+      height: 10px;
+      fill: $color__white;
+      stroke: none;
+    }
   }
-
 }
 
 

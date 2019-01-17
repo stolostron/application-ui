@@ -219,41 +219,6 @@ export default {
       },
     ],
   },
-  placementBindingKeys: {
-    title: 'application.placement.bindings',
-    defaultSortField: 'name',
-    resourceKey: 'placementBindings',
-    normalizedKey: 'metadata.name',
-    tableKeys: [
-      {
-        key: 'name',
-        resourceKey: 'metadata.name',
-        msgKey: 'table.header.name'
-      },
-      {
-        key: 'namespace',
-        resourceKey: 'metadata.namespace',
-        msgKey: 'table.header.namespace'
-      },
-      {
-        key: 'placementpolicy',
-        resourceKey: 'placementRef.name',
-        msgKey: 'table.header.placementpolicy'
-      },
-      {
-        key: 'subjects',
-        resourceKey: 'subjects',
-        msgKey: 'table.header.subjects',
-        transformFunction: getSubjects
-      },
-      {
-        key: 'timestamp',
-        resourceKey: 'metadata.creationTimestamp',
-        msgKey: 'table.header.created',
-        transformFunction: getAge
-      },
-    ]
-  },
   placementPolicyKeys: {
     title: 'application.placement.policies',
     defaultSortField: 'name',
@@ -303,6 +268,41 @@ export default {
     tableActions: [
       'table.actions.edit',
     ],
+  },
+  placementBindingKeys: {
+    title: 'application.placement.bindings',
+    defaultSortField: 'name',
+    resourceKey: 'placementBindings',
+    normalizedKey: 'metadata.name',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'metadata.name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'metadata.namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'placementpolicy',
+        resourceKey: 'placementRef.name',
+        msgKey: 'table.header.placementpolicy'
+      },
+      {
+        key: 'subjects',
+        resourceKey: 'subjects',
+        msgKey: 'table.header.subjects',
+        transformFunction: getSubjects
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'metadata.creationTimestamp',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      },
+    ]
   },
   deployablesKeys: {
     title: 'application.deployables',

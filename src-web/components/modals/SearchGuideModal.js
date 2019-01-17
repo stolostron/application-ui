@@ -69,7 +69,7 @@ class SearchGuideModal extends React.PureComponent {
                 )}
                 {this.renderModalBodySection(
                   msgs.get('modal.query.info.filter.desc', this.context.locale),
-                  'Status: Healthy',
+                  'status: failed,pending',
                   msgs.get('modal.query.info.filter.example', this.context.locale)
                 )}
                 <div className={'bx--modal-content-body'}>

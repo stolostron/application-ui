@@ -11,22 +11,22 @@
 export default {
   templates: [
     {
-      name: 'Failed Storage (template)',
-      description: 'A pre-defined query to help you review ...',
-      resultHeader: 'table.cell.failed',
-      searchText: 'kind:storage status:Failed'
+      name: 'Clusters',
+      description: 'A pre-defined search to help you review your clusters.',
+      resultHeader: 'search.tile.results',
+      searchText: 'kind:cluster'
     },
     {
-      name: 'Unhealthy Pods (template)',
-      description: 'A pre-defined query to help you review ...',
+      name: 'Applications',
+      description: 'A pre-defined search to help you review your applications.',
+      resultHeader: 'search.tile.results',
+      searchText: 'kind:application'
+    },
+    {
+      name: 'Unhealthy Pods',
+      description: 'Show pods with status failed, pending, or unknown.',
       resultHeader: 'table.header.status.unhealthy',
-      searchText: 'kind:pod status:Pending,Failed,Unknown'
-    },
-    {
-      name: 'Services (template)',
-      description: 'A pre-defined query to help you review ...',
-      resultHeader: 'table.header.status.healthy',
-      searchText: 'kind:service'
+      searchText: 'kind:pod status:pending,failed,unknown'
     }
   ]
 }

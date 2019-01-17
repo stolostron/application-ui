@@ -100,34 +100,34 @@ export default {
     ],
     actions: [],
   },
-  // persistentVolume: {          // TODO: Data not available in the gremlin database yet.
-  //   columns: [
-  //     { key: 'name' },
-  //     { key: 'namespace' },
-  //     { key: 'cluster'},
-  //     { key: 'type'},
-  //     { key: 'capacity'},
-  //     { key: 'accessMode'},
-  //     { key: 'reclaimPolicy'},
-  //     { key: 'status'},
-  //     { key: 'claim'},
-  //     { key: 'created', transform: getAge }
-  //   ],
-  //   actions: [],
-  // },
-  // persistentVolumeClaim: {     // TODO: Data not available in the gremlin database yet.
-  //   columns: [
-  //     { key: 'name' },
-  //     { key: 'namespace' },
-  //     { key: 'cluster'},
-  //     { key: 'status'},
-  //     { key: 'persistentVolume'},
-  //     { key: 'requests'},
-  //     { key: 'accessMode'},
-  //     { key: 'created', transform: getAge }
-  //   ],
-  //   actions: [],
-  // },
+  persistentvolume: {
+    columns: [
+      { key: 'name' },
+      { key: 'cluster'},
+      { key: 'type'},
+      { key: 'status'},
+      { key: 'capacity'},
+      { key: 'accessModes', msgKey: 'accessMode' },
+      { key: 'claimRef', msgKey: 'claim' },
+      { key: 'reclaimPolicy'},
+      { key: 'path'},
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
+  persistentvolumeclaim: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster'},
+      { key: 'status'},
+      { key: 'persistentVolume', msgKey: 'persistent.volume'},
+      { key: 'requests'},
+      { key: 'accessModes', msgKey: 'accessMode'},
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
   placementbinding: {
     columns: [
       { key: 'name' },
@@ -160,6 +160,18 @@ export default {
       { key: 'hostIP'},
       { key: 'podIP'},
       { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
+  releases: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster'},
+      { key: 'status'},
+      { key: 'chartName'},
+      { key: 'chartVersion'},
+      { key: 'lastDeployed', transform: (item) => getAge({ created: item.lastDeployed }) }
     ],
     actions: [],
   },

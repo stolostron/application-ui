@@ -17,6 +17,7 @@ import { Icon } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import FilterTag from '../common/FilterTag'
 import { GET_SEARCH_COMPLETE } from '../../apollo-client/queries/SearchQueries'
+import { convertStringToQuery } from '../../../lib/client/search-helper'
 
 // https://github.com/i-like-robots/react-tags
 // third part library for tag input
@@ -182,7 +183,6 @@ class SearchBar extends React.Component {
     )
   }
 
-
   handleClearAllClick() {
     if (this.state.tags.length > 0) {
       this.updateSelectedTags([], {})
@@ -303,8 +303,13 @@ class SearchBar extends React.Component {
       fieldOptions
     } = this.state
 
+    let query = {keywords: [], filters: []}
+    if (searchComplete !== '') {
+      query = convertStringToQuery(currentQuery)
+    }
+
     return (
-      <Query query={GET_SEARCH_COMPLETE} variables={{ property: searchComplete }}>
+      <Query query={GET_SEARCH_COMPLETE} variables={{ property: searchComplete, query }}>
         {( { data } ) => {
           if (data && data.searchComplete) this.formatSuggestionOptions(data.searchComplete)
           return (

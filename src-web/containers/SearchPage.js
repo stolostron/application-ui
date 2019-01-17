@@ -30,6 +30,7 @@ import SuggestQueryTemplates from '../components/search/SuggestedQueryTemplates'
 import resources from '../../lib/shared/resources'
 import SecondaryHeaderApollo from '../components/SecondaryHeaderApollo'
 import pageWithUrlQuery from '../components/common/withUrlQuery'
+import { convertStringToQuery } from '../../lib/client/search-helper'
 
 
 resources(() => {
@@ -50,18 +51,6 @@ class SearchPage extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     return !_.isEqual(nextProps.clientSideFilters, this.props.clientSideFilters)
-  }
-
-  convertStringToQuery(searchText) {
-    const searchTokens = searchText.split(' ')
-    const keywords = searchTokens.filter(token => token !== '' && token.indexOf(':') < 0)
-    const filters = searchTokens.filter(token => token.indexOf(':') >= 0)
-      .map(f => {
-        const [ property, values ] = f.split(':')
-        return { property, values: values.split(',') }
-      })
-      .filter(f => f.property !== '' && f.values !== '')
-    return {keywords, filters}
   }
 
   render() {
@@ -97,14 +86,17 @@ class SearchPage extends React.Component {
           </Query>
           <Query query={GET_SEARCH_INPUT_TEXT}>
             {( { data } ) => {
+              let query = {keywords: [], filters: []}
+              if (data && data.searchInput && data.searchInput.text !== '') {
+                query = convertStringToQuery(data.searchInput.text)
+              }
               if (this.props.clientSideFilters !== undefined && (data && data.searchInput && data.searchInput.text === '')) {
                 return (
                   <SearchResult loading={true} />
                 )
-              } else if(data && data.searchInput && data.searchInput.text !== '') {
-                const input = this.convertStringToQuery(data.searchInput.text)
+              } else if(data && data.searchInput && data.searchInput.text !== '' && (query.keywords.length > 0 || query.filters.length > 0)) {
                 return (
-                  <Query query={SEARCH_QUERY} variables={{input: [input]}}>
+                  <Query query={SEARCH_QUERY} variables={{input: [query]}}>
                     {({ data, loading }) => {
                       return (
                         <SearchResult searchResult={data.searchResult && data.searchResult[0]} loading={loading} />
@@ -120,8 +112,8 @@ class SearchPage extends React.Component {
                     // each query should contain ---- description, name, results = [], resultHeader
                     const suggestedQueryTemplates = _.get(SuggestQueryTemplates, 'templates', [])
                     //combine the suggested queries and saved queries
-                    const input = [...queries.map(query => this.convertStringToQuery(query.searchText)),
-                      ...suggestedQueryTemplates.map(query => this.convertStringToQuery(query.searchText))]
+                    const input = [...queries.map(query => convertStringToQuery(query.searchText)),
+                      ...suggestedQueryTemplates.map(query => convertStringToQuery(query.searchText))]
                     return(
                       <Query query={SEARCH_QUERY} variables={{input: input}}>
                         {({ data, loading }) => {

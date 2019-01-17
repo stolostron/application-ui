@@ -11,8 +11,8 @@
 import gql from 'graphql-tag'
 
 export const GET_SEARCH_COMPLETE = gql`
-  query searchComplete($property: String!) {
-    searchComplete(property: $property)
+  query searchComplete($property: String!, $query: SearchInput) {
+    searchComplete(property: $property, query: $query)
   }
 `
 

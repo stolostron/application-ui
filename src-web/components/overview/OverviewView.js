@@ -167,7 +167,7 @@ export default class OverviewView extends React.Component {
               case CardTypes.piechart:
                 return <PieCard key={key} item={item} />
               case CardTypes.linegraph:
-                return <LineCard key={key} item={item} />
+                return <LineCard key={key} item={item} activeFilters={activeFilters} />
               }
             })
             }

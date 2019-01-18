@@ -148,29 +148,25 @@ export const getNoncompliantClusterSet = (overview) => {
   return noncompliantClusterSet
 }
 
-const getComplianceValues = (overview, pieData) => {
-  const valueMap = {}
+const getComplianceValues = (overview) => {
+  const valueMap = {compliant:[], default:[]}
   const clusterSet = _.keyBy(overview.clusters, 'metadata.name')
+  const map = new Map([...Object.keys(clusterSet).map(item => [item, true])])
   _.get(overview, 'compliances', []).forEach(res=>{
     const policyClusters = _.get(res, 'raw.status.status', '')
     Object.keys(policyClusters).forEach(name=>{
       if (clusterSet[name]) {
         const value = (policyClusters[name].compliant||'').toLowerCase()
-        let key  = 'default'
-        for (var pieKey in pieData) {
-          if (pieData[pieKey].values && pieData[pieKey].values.indexOf(value)!==-1) {
-            key = pieKey
-            break
-          }
-        }
-        let arr = valueMap[key]
-        if (!arr) {
-          arr = valueMap[key] = []
-        }
-        arr.push(res)
+        if (value !== 'compliant') map.set(name, false)
       }
-
     })
+  })
+  map.forEach((status, cluster) => {
+    if (status) {
+      valueMap.compliant.push(cluster)
+    } else {
+      valueMap.default.push(cluster)
+    }
   })
   return {valueMap}
 }

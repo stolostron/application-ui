@@ -18,6 +18,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import GridCard from '../GridCard'
 import { MAX_CHART_DATA_SIZE } from '../../../../lib/shared/constants'
 import { getPercentage } from '../../../../lib/client/charts-helper'
+import _ from 'lodash'
 
 resources(() => {
   require('../../../../scss/overview-charts.scss')
@@ -121,7 +122,7 @@ class LineCard extends React.Component {
     super(props)
     this.state = {
       popTheTop: false,
-      chartData: []
+      chartData: [],
     }
   }
 
@@ -137,11 +138,11 @@ class LineCard extends React.Component {
     // don't update if same timestamp
     const { item: {overview: {timestamp:oldTime}} } = this.props
     const { item: {overview: {timestamp:newTime}} } = nextProps
-    return oldTime!==newTime
+    return ( oldTime!==newTime || !_.isEqual(this.props.activeFilters, nextProps.activeFilters))
   }
 
   updateChartData(props) {
-    const { item } = props
+    const { item, activeFilters } = props
     const { cardData: {dataType, pieData}, overview } = item
     let { popTheTop } = this.state
 
@@ -179,14 +180,9 @@ class LineCard extends React.Component {
         areaData[pieKey] = pieData[pieKey]
       }
     }
-
-    const initialize = this.state.chartData.length ===0
-    const chartData = this.createFixedArray(chartPoint)
+    const chartData = this.createFixedArray(chartPoint, activeFilters)
     // a one point line graph doesn't look like a line graph
-    if (initialize) {
-      chartData.push(chartPoint)
-      popTheTop = true
-    } else if (popTheTop) {
+    if (popTheTop) {
       chartData.pop()
       popTheTop = false
     }
@@ -199,19 +195,23 @@ class LineCard extends React.Component {
       areaData,
       units
     }
-
     this.setState({
       popTheTop,
       domainData,
       chartData,
+      activeFilters,
     })
   }
 
-  createFixedArray(obj) {
-    const { chartData } = this.state
-    const newItems = [ ...chartData, obj ]
-    if (newItems.length > MAX_CHART_DATA_SIZE)
-      newItems.shift()
+  createFixedArray(obj, newFilters) {
+    const { chartData, activeFilters } = this.state
+    let newItems
+    if (_.isEqual(newFilters, activeFilters)) {
+      newItems = [ ...chartData, obj ]
+    } else {
+      newItems = [ obj ]
+    }
+    if (newItems.length > MAX_CHART_DATA_SIZE) newItems.shift()
     return newItems
   }
 
@@ -247,6 +247,7 @@ class LineCard extends React.Component {
 }
 
 LineCard.propTypes = {
+  activeFilters: PropTypes.object,
   item: PropTypes.object,
 }
 

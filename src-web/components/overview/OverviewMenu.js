@@ -84,13 +84,13 @@ export default class OverviewMenu extends React.Component {
           otherOptions={this.viewMenuChoices}
         />
         { filterViewOpen &&
-          <FilterView
-            context={this.context}
-            updateActiveFilters={this.updateActiveFilters}
-            onClose={this.handleFilterClose}
-            allProviders={allProviders}
-            view={view}
-          /> }
+        <FilterView
+          context={this.context}
+          updateActiveFilters={this.updateActiveFilters}
+          onClose={this.handleFilterClose}
+          allProviders={allProviders}
+          view={view}
+        /> }
       </div>
     )
   }
@@ -145,4 +145,3 @@ export const saveViewState = (state) => {
 export const resetViewState = () => {
   localStorage.removeItem(OVERVIEW_COOKIE)
 }
-

@@ -111,7 +111,6 @@ class PieCard extends React.Component {
 
       // count up statuses
       const {valueMap} = getDataValues(overview, dataType, pieData)
-
       // create pie chart data
       label = pieData[labelKey].name
       chartData = Object.keys(pieData).map(key=>{

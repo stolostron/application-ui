@@ -166,7 +166,7 @@
 .react-tags__selected-tag {
   display: inline-block;
   box-sizing: border-box;
-  background: rgba(85,150,230,.2) no-repeat right 8px center;
+  background: rgba(61,112,178,0.15) no-repeat right 8px center;
   color: $color__blue-90;
   padding: 0 .5rem;
   border-radius: 1.5rem;
@@ -278,7 +278,7 @@
 
 .react-tags__suggestions li.is-disabled {
   cursor: auto;
-  padding: .75rem .75rem .25rem .5rem;
+  padding: .5rem .75rem .5rem .5rem;
   font-weight: 700;
   letter-spacing: .05rem;
   color: $color__blue-51;

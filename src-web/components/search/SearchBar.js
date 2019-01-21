@@ -155,7 +155,7 @@ class SearchBar extends React.Component {
   }
 
   formatSuggestionOptions(data) {
-    const { searchComplete, tags } = this.state
+    const { fieldOptions, searchComplete, tags } = this.state
     const labelTag = {
       id: 'id-filter-label',
       key:'key-filter-label',
@@ -163,24 +163,36 @@ class SearchBar extends React.Component {
       value: msgs.get('searchbar.values.label', [searchComplete], this.context.locale),
       disabled: true
     }
-    // Filter out previously used labels
-    if (tags.length > 1) {
-      const kindTag = tags.slice(0, tags.length - 1).filter(tag => tag.field === searchComplete)
-      if (kindTag.length > 0) {
-        data = data.filter(value => kindTag[0].matchText.findIndex(item => item === value) === -1)
-      }
-    }
-    this.matchTextOptions = this.convertObjectToArray(
-      data.map(item => {
-        return {
-          id: `id-${item}`,
-          key:`key-${item}`,
-          name: item,
-          value: item
+    if (searchComplete !== '' && data && data.searchComplete) {
+      // Filter out previously used labels
+      if (tags.length > 1) {
+        const kindTag = tags.slice(0, tags.length - 1).filter(tag => tag.field === searchComplete)
+        if (kindTag.length > 0) {
+          data.searchComplete = data.searchComplete.filter(value => kindTag[0].matchText.findIndex(item => item === value) === -1)
         }
-      }),
-      labelTag
-    )
+      }
+      if (data.searchComplete.length === 0) {
+        return [{
+          id: 'id-no-results',
+          name: msgs.get('searchbar.no.suggestions', this.context.locale),
+          disabled: true
+        }]
+      } else {
+        return this.convertObjectToArray(
+          data.searchComplete.map(item => {
+            return {
+              id: `id-${item}`,
+              key:`key-${item}`,
+              name: item,
+              value: item
+            }
+          }),
+          labelTag
+        )
+      }
+    } else {
+      return fieldOptions
+    }
   }
 
   handleClearAllClick() {
@@ -200,7 +212,11 @@ class SearchBar extends React.Component {
   handleDelete(i) {
     const { tags } = this.state
     if (tags.length > 0) {
-      if (tags[i].matchText === undefined || tags[i].matchText.length <= 1 || tags[i].classType === 'keyword') {
+      if (tags[i].matchText && tags[i].matchText.length <= 1 || tags[i].classType === 'keyword') {
+        const newTags = tags.filter((tag, index) => index !== i)
+        this.updateSelectedTags(newTags, {})
+        this.props.updateBrowserURL(newTags)
+      } else if (tags[i].matchText === undefined) {
         const newTags = tags.filter((tag, index) => index !== i)
         this.updateSelectedTags(newTags, {})
         this.props.updateBrowserURL(newTags)
@@ -211,8 +227,7 @@ class SearchBar extends React.Component {
           },
           searchComplete: ''
         })
-      }
-      if (tags[i].matchText && tags[i].matchText.length > 1) {
+      } else if (tags[i].matchText && tags[i].matchText.length > 1) {
         tags[i].matchText.pop()
         const tagText = tags[i].field + ':' + tags[i].matchText.join(',')
         tags[i].name = tagText
@@ -299,19 +314,20 @@ class SearchBar extends React.Component {
     const {
       currentQuery,
       searchComplete = '',
-      tags,
-      fieldOptions
+      tags
     } = this.state
 
     let query = {keywords: [], filters: []}
     if (searchComplete !== '') {
       query = convertStringToQuery(currentQuery)
+      query.filters = query.filters.filter((filter) => {
+        return filter.property !== searchComplete
+      })
     }
 
     return (
       <Query query={GET_SEARCH_COMPLETE} variables={{ property: searchComplete, query }}>
-        {( { data } ) => {
-          if (data && data.searchComplete) this.formatSuggestionOptions(data.searchComplete)
+        {( { data, loading } ) => {
           return (
             <div className='tagInput-filter'>
               <div className='tagInput-searchIcon'>
@@ -325,7 +341,9 @@ class SearchBar extends React.Component {
                 <ReactTags
                   placeholder={currentQuery ? '' : msgs.get('searchbar.searchofferings', this.context.locale)}
                   tags={tags}
-                  suggestions={searchComplete !== '' ? this.matchTextOptions : fieldOptions}
+                  suggestions={loading !== true
+                    ? this.formatSuggestionOptions(data)
+                    : [{id: 'loading', name: msgs.get('resource.loading', this.context.locale), disabled: true}]}
                   handleDelete={this.handleDelete}
                   handleAddition={this.handleAddition}
                   autoresize={true}

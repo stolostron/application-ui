@@ -10,6 +10,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { Button, ListItem, Modal, UnorderedList } from 'carbon-components-react'
@@ -59,8 +60,13 @@ class SearchGuideModal extends React.PureComponent {
             >
               <div>
                 <div className={'bx--modal-content-header'}>
-                  <div className={'bx--modal-content-header-main'}>{msgs.get('modal.query.info.heading', this.context.locale)}</div>
-                  <div className={'bx--modal-content-header-subtext'}>{msgs.get('modal.query.info.heading.subtext', this.context.locale)}</div>
+                  <div className={'bx--modal-content-header-content'}>
+                    <div className={'bx--modal-content-header-main'}>{msgs.get('modal.query.info.heading', this.context.locale)}</div>
+                    <div className={'bx--modal-content-header-subtext'}>{msgs.get('modal.query.info.heading.subtext', this.context.locale)}</div>
+                  </div>
+                  <div className='related-resource-tile'>
+                    <img className='no-resource-icon' src={`${config.contextPath}/graphics/SearchGuideIcon.svg`} alt={''} />
+                  </div>
                 </div>
                 {this.renderModalBodySection(
                   msgs.get('modal.query.info.keyword.desc', this.context.locale),

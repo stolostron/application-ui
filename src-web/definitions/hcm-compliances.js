@@ -715,8 +715,7 @@ export function getStatusIconForPolicy(item) {
 }
 
 export function getStatusIcon(item, locale) {
-  const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
-  if (item.compliant&&expectedStatuses.indexOf(item.compliant.toLowerCase()) > -1){
+  if (item.compliant){
     if (item.compliant.toLowerCase() === 'compliant') {
       return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
     } else {
@@ -727,8 +726,7 @@ export function getStatusIcon(item, locale) {
 }
 
 export function getComplianceStatusIcon(item, locale) {
-  const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
-  if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
+  if (item.status){
     if (item.status.toLowerCase() === 'compliant') {
       return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
     } else {

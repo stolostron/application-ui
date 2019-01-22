@@ -57,6 +57,7 @@ class SearchResult extends React.PureComponent {
           <div className={'search--resource-table'} key={kind}>
             <SearchResourceTable
               items={items.filter(item => item.kind === kind || item.__type === kind )}
+              expandFullPage={uniqueKinds.length === 1}
               key={kind}
               kind={kind}
             />

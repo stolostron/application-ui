@@ -48,14 +48,18 @@ const {
   * *************************************************************************** */
 class SearchResourceTable extends React.PureComponent {
   static propTypes = {
+    expandFullPage: PropTypes.bool,
     items: PropTypes.array,
     kind: PropTypes.string,
   }
 
-  state = {
-    page: 1,
-    pageSize: PAGE_SIZES.VALUES[0],
-    sortDirection: 'asc'
+  constructor(props){
+    super(props)
+    this.state = {
+      page: 1,
+      pageSize: props.expandFullPage ? PAGE_SIZES.DEFAULT : PAGE_SIZES.VALUES[0],
+      sortDirection: 'asc'
+    }
   }
 
   getHeaders(){
@@ -65,7 +69,7 @@ class SearchResourceTable extends React.PureComponent {
 
     console.log(`Using default resource table for resource kind: ${this.props.kind}`) // eslint-disable-line no-console
     // Remove internal properties
-    const columns = Object.keys(this.props.items[0]).filter(prop => prop.charAt(0) !== '_' && ['kind', 'uid', 'selfLink'].indexOf(prop) === -1)
+    const columns = Object.keys(this.props.items[0]).filter(prop => prop.charAt(0) !== '_' && ['kind', 'selfLink'].indexOf(prop) === -1)
     return columns.map(col => {
       const headerMsg = msgs.get(`table.header.${col}`, this.context.locale)
       // When there isn't a translation for the header, use the property key
@@ -83,7 +87,7 @@ class SearchResourceTable extends React.PureComponent {
     const startItem = (page - 1) * pageSize
     const visibleItems = items.slice(startItem, startItem + pageSize)
     return visibleItems.map(item => {
-      const row = { id: item.uid}
+      const row = { id: item._uid}
 
       if (tableDefinitions[this.props.kind]) {
         tableDefinitions[this.props.kind].columns.forEach(column => {
@@ -92,7 +96,7 @@ class SearchResourceTable extends React.PureComponent {
         return row
       }
 
-      return { id: item.uid, ...item }
+      return { id: item._uid, ...item }
     })
   }
 

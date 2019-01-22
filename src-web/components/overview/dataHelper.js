@@ -99,9 +99,9 @@ export const getHeatMapData = (item, heatMapChoices={}) => {
   Object.keys(heatMapData).forEach(key=>{
     heatMapData[key].forEach(cluster=>{
       const {shade} = cluster
-      if (shade < avg) {
+      if (shade < avg-std) {
         cluster.color='square-blue'
-      } else if (shade < avg+std/2) {
+      } else if (shade <= avg+std) {
         cluster.color='square-yellow'
       } else {
         cluster.color='square-red'

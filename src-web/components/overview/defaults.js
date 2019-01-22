@@ -9,19 +9,12 @@
 'use strict'
 
 import { CardTypes, CardActions, DataType, TagTypes, GroupByChoices, SizeChoices, ShadeChoices } from './constants.js'
-import {PROVIDER_FILTER} from './filterHelper'
 import msgs from '../../../nls/platform.properties'
 
 
 export const getDefaultViewState = (locale) => {
-  const activeFilters={}
-  activeFilters[PROVIDER_FILTER] = []
-  activeFilters['environment'] = []
-  activeFilters['region'] = []
-  activeFilters['vendor'] = []
 
   const state =  {
-    activeFilters,
     heatMapState: {
       expanded: false,
       heatMapChoices: {
@@ -30,8 +23,6 @@ export const getDefaultViewState = (locale) => {
         shade: ShadeChoices.vcpu,
       }
     },
-    bannerCards: [],
-    providerCards: [],
     cardOrder: [
       {
         type: CardTypes.counts,

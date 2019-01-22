@@ -14,10 +14,9 @@ import DragCardLayer from './DragCardLayer'
 import { Loading, Notification } from 'carbon-components-react'
 import Masonry from 'react-masonry-component'
 import RefreshTime from '../common/RefreshTime'
-import OverviewMenu, {getSavedViewState} from './OverviewMenu'
-import {updateProviderCards, filterOverview, filterViewState, PROVIDER_FILTER} from './filterHelper'
+import {updateProviderCards, filterOverview, filterViewState, getSavedViewState, saveViewState, PROVIDER_FILTER, BANNER_FILTER} from './filterHelper'
 import { getNoncompliantClusterSet } from './dataHelper'
-import {FilterBar} from './modals/FilterView'
+import OverviewToolbar from './OverviewToolbar'
 import ProviderBanner from './cards/ProviderBanner'
 import ProviderCard from './cards/ProviderCard'
 import CountsCard from './cards/CountsCard'
@@ -56,15 +55,28 @@ export default class OverviewView extends React.Component {
   componentWillMount() {
     const { locale } = this.context
     const { loading } = this.props
+    const activeFilters={}
+    activeFilters[BANNER_FILTER] = []
+    activeFilters[PROVIDER_FILTER] = []
+    activeFilters['environment'] = []
+    activeFilters['region'] = []
+    activeFilters['vendor'] = []
     this.setState({
       loading,
       viewState: getSavedViewState(locale),
+      activeFilters,
+      bannerCards: [],
     })
+    this.onUnload = this.onUnload.bind(this)
+    window.addEventListener('beforeunload', this.onUnload)
     this.updateCardOrder = this.updateCardOrder.bind(this)
     this.handleLayoutComplete = this.handleLayoutComplete.bind(this)
     this.updateHeatMapState = this.updateHeatMapState.bind(this)
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload)
+  }
   setViewRef = ref => {this.viewRef = ref}
   setMasonryRef = ref => {this.masonry = ref}
   getMasonry = () => {return this.masonry}
@@ -107,10 +119,11 @@ export default class OverviewView extends React.Component {
 
     const { refetch, startPolling, stopPolling, pollInterval, overview } = this.props
     const {timestamp} = overview
-    const {viewState, reloading} = this.state
-    const {cardOrder, bannerCards=[], activeFilters, heatMapState={}} = viewState
+    const {viewState, reloading, bannerCards=[], activeFilters} = this.state
+    const bannerOpen = bannerCards.length>0
+    const {cardOrder, heatMapState={}} = viewState
     const view = this.getViewData(overview, activeFilters)
-    const boundActiveFilters = this.getBoundActiveFilters()
+    const boundActiveFilters = this.getBoundActiveFilters(bannerOpen)
     const filteredOverview = filterOverview(activeFilters, overview)
     const noncompliantClusterSet = getNoncompliantClusterSet(filteredOverview)
     const {allProviders, providerWidth} = updateProviderCards(overview, cardOrder, activeFilters, locale)
@@ -126,15 +139,15 @@ export default class OverviewView extends React.Component {
             noncompliantClusterSet={noncompliantClusterSet}
           />
         }
-        {/* filter bar at top right */}
-        <FilterBar boundActiveFilters={boundActiveFilters} locale={locale} />
-
-        {/* overflow menu at top right */}
-        <OverviewMenu
+        {/* toolbar at top right */}
+        <OverviewToolbar
           startPolling={startPolling}
           stopPolling={stopPolling}
           pollInterval={pollInterval}
           allProviders={allProviders}
+          refetch={refetch}
+          boundActiveFilters={boundActiveFilters}
+          locale={locale}
           view={view}
         />
 
@@ -158,7 +171,8 @@ export default class OverviewView extends React.Component {
                 return <ProviderCard key={key} item={item} view={view}
                   width={providerWidth} noncompliantClusterSet={noncompliantClusterSet} />
               case CardTypes.counts:
-                return <CountsCard key={key} item={item} />
+                return <CountsCard key={key} item={item}
+                  allProviders={allProviders} bannerOpen={bannerOpen} />
               case CardTypes.heatmap:
                 return <HeatCard key={key} item={item}
                   heatMapState={heatMapState}
@@ -194,12 +208,13 @@ export default class OverviewView extends React.Component {
     }
   }
 
-  getBoundActiveFilters() {
+  getBoundActiveFilters(bannerOpen) {
     const filters=[]
-    const {viewState: {activeFilters}} = this.state
+    const {activeFilters} = this.state
     Object.keys(activeFilters).forEach(key=>{
-      if (key!==PROVIDER_FILTER) {
+      if (key!==BANNER_FILTER && (!bannerOpen || key!==PROVIDER_FILTER)) {
         activeFilters[key].forEach(value=>{
+          value = value.title||value
           filters.push({
             name: value,
             onClick: this.removeActiveFilter.bind(this, key, value)
@@ -211,23 +226,26 @@ export default class OverviewView extends React.Component {
   }
 
   removeActiveFilter(key, value) {
-    this.setState(preState => {
-      let viewState = _.cloneDeep(preState.viewState)
-      const {activeFilters} = viewState
+    this.setState(prevState => {
+      const activeFilters = _.cloneDeep(prevState.activeFilters)
       const filters = activeFilters[key]
-      const idx = filters.indexOf(value)
+      const idx = key===PROVIDER_FILTER ? filters.findIndex(({title})=>{
+        return title === value
+      }) : filters.indexOf(value)
       if (idx!==-1) {
         filters.splice(idx,1)
       }
-      viewState = filterViewState(activeFilters, viewState)
-      return { viewState }
+      const { viewState, bannerCards, providerCards } =
+        filterViewState(activeFilters, prevState)
+      return { activeFilters, viewState, bannerCards, providerCards }
     })
   }
 
   updateActiveFilters(activeFilters) {
-    this.setState(preState => {
-      const viewState = filterViewState(activeFilters, _.cloneDeep(preState.viewState))
-      return { viewState }
+    this.setState(prevState => {
+      const { viewState, bannerCards, providerCards } =
+        filterViewState(activeFilters, prevState)
+      return { activeFilters, viewState, bannerCards, providerCards }
     })
   }
 
@@ -349,8 +367,13 @@ export default class OverviewView extends React.Component {
   }
 
   getCurrentViewState() {
-    const {viewState: {activeFilters, heatMapState={}, bannerCards=[], providerCards=[]}} = this.state
-    return {activeFilters, heatMapState, bannerCards, providerCards, cardOrder: this.getCurrentCardOrder()}
+    const {viewState: {heatMapState={}}} = this.state
+    return {heatMapState, cardOrder: this.getCurrentCardOrder()}
+  }
+
+  onUnload() {
+    const state = this.getCurrentViewState()
+    saveViewState(state)
   }
 
 }

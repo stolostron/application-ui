@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import resources from '../../../../lib/shared/resources'
 import '../../../../graphics/diagramIcons.svg'
-import {getMatchingClusters, PROVIDER_FILTER} from '../filterHelper'
+import {getMatchingClusters, BANNER_FILTER} from '../filterHelper'
 import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -32,7 +32,7 @@ export default class ProviderCard extends React.PureComponent {
     const updateFilters = () => {
       const {updateActiveFilters} = view
       const activeFilters = _.cloneDeep(view.activeFilters)
-      activeFilters[PROVIDER_FILTER] = [{title, includes: includes.slice()}]
+      activeFilters[BANNER_FILTER] = [{title, includes: includes.slice()}]
       updateActiveFilters(activeFilters)
     }
 

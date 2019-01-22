@@ -10,17 +10,17 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { OverflowMenu, OverflowMenuItem } from 'carbon-components-react'
+import { Select, SelectItem } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
 
-export default class AutoRefreshMenu extends React.Component {
+export default class AutoRefreshSelect extends React.Component {
 
   static propTypes = {
-    otherOptions: PropTypes.array,
     pollInterval: PropTypes.number,
+    refetch: PropTypes.func.isRequired,
     refreshCookie: PropTypes.string,
     refreshValues: PropTypes.array,
     startPolling: PropTypes.func,
@@ -32,6 +32,7 @@ export default class AutoRefreshMenu extends React.Component {
     this.state = {
       pollInterval: props.pollInterval,
     }
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentWillMount() {
@@ -47,12 +48,23 @@ export default class AutoRefreshMenu extends React.Component {
         text = msgs.get('refresh.interval.never', locale)
       }
       pollInterval*=1000
-      const action = this.handleChange.bind(this, pollInterval)
-      return {text, pollInterval, action}
+      return {text, pollInterval}
     })
   }
 
-  handleChange = (pollInterval) => {
+  handleClick = () => {
+    this.props.refetch()
+  }
+
+  handleKeyPress(e) {
+    if ( e.key === 'Enter') {
+      this.props.refetch()
+    }
+  }
+
+
+  handleChange = (e) => {
+    const {pollInterval} = this.autoRefreshChoices[e.currentTarget.selectedIndex]
     const {refreshCookie, startPolling, stopPolling} = this.props
     if (pollInterval===0) {
       stopPolling()
@@ -63,42 +75,28 @@ export default class AutoRefreshMenu extends React.Component {
     this.setState({ pollInterval })
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      pollInterval: nextProps.pollInterval,
-    })
-  }
-
-  shouldComponentUpdate(nextProps, nextState){
-    return this.state.pollInterval !== nextState.pollInterval
-  }
-
   render() {
-    const { locale } = this.context
     const { pollInterval } = this.state
-    const { otherOptions=[] } = this.props
-    const menuItems = otherOptions.concat(this.autoRefreshChoices)
+    const refresh = msgs.get('refresh', this.context.locale)
     return (
-      <div className='auto-refresh-menu'>
-        <OverflowMenu floatingMenu flipped
-          iconDescription={msgs.get('svg.description.overflowMenu', locale)}>
-          {menuItems.map(({text, pollInterval: pi, action, isDelete}, idx) => {
+      <div className='auto-refresh-selection'>
+        <div className='button' tabIndex='0' role={'button'}
+          title={refresh} aria-label={refresh}
+          onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
+          <svg className='button-icon'>
+            <use href={'#diagramIcons_autoRefresh'} ></use>
+          </svg>
+        </div>
+        <Select id='refresh-select' className='selection'
+          value={pollInterval}
+          hideLabel={true}
+          onChange={this.handleChange}>
+          {this.autoRefreshChoices.map(({text, pollInterval:value})=> {
             return (
-              <OverflowMenuItem
-                key={text}
-                isDelete={isDelete}
-                hasDivider={otherOptions.length!==0 && idx===otherOptions.length}
-                itemText={
-                  <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    {text}
-                    {pollInterval===pi && <svg width="12px" height="12px">
-                      <use href={'#diagramIcons_selection'} ></use>
-                    </svg>}
-                  </div>}
-                onClick={action}
-              />)
+              <SelectItem key={value} text={text} value={value} />
+            )
           })}
-        </OverflowMenu>
+        </Select>
       </div>
     )
   }

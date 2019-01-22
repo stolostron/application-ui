@@ -75,10 +75,10 @@ const PieGraph = ({
             {chartData.map((entry, index) => {
               return (
                 <div className={`legend-item bottom_border ${entry.className}`} key={entry.name} >
-                  <Link to={`${config.contextPath}/search?filters={"textsearch":${searchText[dataType][index]}}`}>
+                  {searchText[dataType]&&<Link to={`${config.contextPath}/search?filters={"textsearch":${searchText[dataType][index]}}`}>
                     <span className='value'>{entry.value} {entry.units?entry.units:''}</span>
                     <span className='label' title={entry.name}>{entry.name}</span>
-                  </Link>
+                  </Link>}
                 </div>
               )
             })}

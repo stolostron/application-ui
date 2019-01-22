@@ -41,6 +41,7 @@ $overview-heat-collapsed: 90px !default;
         .bx--select-input {
           color: $color__blue-50;
           background-color: $color__white;
+          box-shadow: none;
         }
       }
     }
@@ -51,31 +52,59 @@ $overview-heat-collapsed: 90px !default;
 
   }
 
-  .heat-card-toggle {
-    color: $color__blue-51;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
   .heat-card-container {
     height: 100%;
     width: 100%;
     padding: 3px;
+
+    .heat-card-header {
+      position: relative;
+      height: 22px;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+
+      > div:not(.legend-container) {
+        padding-left: 20px;
+      }
+
+      .legend-container {
+       display: flex;
+       margin-left: 8px;
+
+       .legend {
+          width: 10px;
+          height: 10px;
+          margin-right: 4px;
+          &.above {
+            background-color: $mcm_heat_red;
+          }
+          &.average {
+            background-color: $mcm_heat_yellow;
+          }
+          &.below {
+            background-color: $mcm_heat_blue;
+          }
+        }
+      }
+
+      .heat-card-toggle {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        color: $color__blue-51;
+        cursor: pointer;
+        padding: 3px 3px 0 3px;
+        outline: none;
+      }
+    }
 
     .heat-card-map {
       border: 1px solid $color__gray-1;
       width: 100%;
       position: relative;
     }
-  }
-
-  .heat-card-toggle {
-    position: absolute;
-    right: 10px;
-    background-color: rgba(255,255,255,0.8);
-    padding: 3px 3px 0 3px;
-    outline: none;
   }
 
   &.collapsed {
@@ -86,10 +115,6 @@ $overview-heat-collapsed: 90px !default;
     .heat-card-map {
       height: $overview-heat-collapsed;
     }
-
-    .heat-card-toggle {
-      bottom: 5px;
-    }
   }
 
   &.expanded {
@@ -99,10 +124,6 @@ $overview-heat-collapsed: 90px !default;
     }
 
     .heat-card-map {
-    }
-
-    .heat-card-toggle {
-      top: 5px;
     }
  }
 }

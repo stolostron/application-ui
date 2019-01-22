@@ -26,16 +26,16 @@ const masonryOptions = {
 
 export default class HeatExpanded extends React.PureComponent {
 
-  componentWillMount() {
+  constructor (props) {
+    super(props)
     this.masonryArray = []
+    this.layoutMap = this.layoutMap.bind(this)
   }
 
-  setMapRef = ref => {this.mapRef = ref}
-  setMasonryRef = ref => {
+  setMapRef = ref => {
+    this.mapRef = ref
     if (ref) {
-      this.masonryArray.push(ref)
-    } else {
-      this.masonryArray = []
+      this.layoutMap()
     }
   }
 
@@ -50,13 +50,13 @@ export default class HeatExpanded extends React.PureComponent {
   layoutMap() {
     if (this.mapRef) {
       let maxHeight = 0
-      this.masonryArray.forEach(({masonryContainer})=>{
+      const sections = Array.from(this.mapRef.childNodes)
+      sections.forEach(section=>{
         // masonry was given a rough size to fit a group into
         // now we shrinkwrap the container around how masonry positioned the boxes
-        const {width, height} = masonryContainer.getBoundingClientRect()
-        const sectionContainer = masonryContainer.parentNode.parentNode
-        sectionContainer.style.width = width+'px'
-        sectionContainer.style.height = height+40+'px'
+        const {width, height} = section.getElementsByClassName('masonry-class')[0].getBoundingClientRect()
+        section.style.width = width+'px'
+        section.style.height = height+40+'px'
         maxHeight = Math.max(maxHeight, height)
       })
       this.mapRef.style.height = maxHeight+50+'px'
@@ -123,8 +123,7 @@ export default class HeatExpanded extends React.PureComponent {
                 <Masonry
                   disableImagesLoaded
                   className={'masonry-class'}
-                  options={masonryOptions}
-                  ref={this.setMasonryRef} >
+                  options={masonryOptions} >
                   <div className='grid-sizer' />
                   {heatMapData[key].map(({color, name, size, shadeForTooltip})=>{
                     const w = size/allBiggest*width//Math.min(size/allBiggest*width, sectionWidth-20)

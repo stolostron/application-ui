@@ -12,8 +12,7 @@ import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
 import classNames from 'classnames'
 import '../../../../graphics/diagramIcons.svg'
-import {getMatchingClusters, PROVIDER_FILTER} from '../filterHelper'
-import { Icon, Tag } from 'carbon-components-react'
+import {getMatchingClusters, BANNER_FILTER} from '../filterHelper'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -50,8 +49,14 @@ export default class ProviderBanner extends React.PureComponent {
     const onClose = () =>{
       const {updateActiveFilters} = view
       const activeFilters = _.cloneDeep(view.activeFilters)
-      activeFilters[PROVIDER_FILTER] = []
+      activeFilters[BANNER_FILTER] = []
       updateActiveFilters(activeFilters)
+    }
+
+    const handleKeyPress = (e) => {
+      if ( e.key === 'Enter') {
+        onClose()
+      }
     }
 
     // anything not compliant?
@@ -69,37 +74,35 @@ export default class ProviderBanner extends React.PureComponent {
 
     return (
       <div className='provider-banner'>
-        <div className='provider-title'>{allTitles.join(', ')}</div>
-        <div className='provider-cluster'>{msgs.get('overview.cluster.count', [allClusters.length], locale)}</div>
-        <div className={compliantClasses}>
-          <div>
-            <svg className='provider-noncompilant-icon'>
-              <use href={'#diagramIcons_error'} ></use>
-            </svg>
-          </div>
-          <div>
-            {nonComplaintCnt}
-          </div>
+        <div className='provider-banner-backlink' tabIndex='0' role={'button'}
+          onClick={onClose} onKeyPress={handleKeyPress}>
+          {msgs.get('overview.all.providers') + ' /'}
         </div>
-        <div className='provider-counts'>{
-          allKubeTypes.map(kubeType=>{
-            const kubeCnt = allKubeMap[kubeType].length
-            return (
-              <div key={kubeType} className='provider-count-cell'>
-                <div className='provider-count'>{kubeCnt}</div>
-                <div className='provider-type'>{kubeType}</div>
-              </div>
-            )
-          })
-        }</div>
-        <Tag type='custom' className='provider-banner-close' onClick={onClose}>
-          <Icon
-            className='closeIcon'
-            description={msgs.get('filter.remove.tag', locale)}
-            name="icon--close"
-            onClick={onClose}
-          />
-        </Tag>
+        <div className='provider-banner-content'>
+          <div className='provider-title'>{allTitles.join(', ')}</div>
+          <div className='provider-cluster'>{msgs.get('overview.cluster.count', [allClusters.length], locale)}</div>
+          <div className={compliantClasses}>
+            <div>
+              <svg className='provider-noncompilant-icon'>
+                <use href={'#diagramIcons_error'} ></use>
+              </svg>
+            </div>
+            <div>
+              {nonComplaintCnt}
+            </div>
+          </div>
+          <div className='provider-counts'>{
+            allKubeTypes.map(kubeType=>{
+              const kubeCnt = allKubeMap[kubeType].length
+              return (
+                <div key={kubeType} className='provider-count-cell'>
+                  <div className='provider-count'>{kubeCnt}</div>
+                  <div className='provider-type'>{kubeType}</div>
+                </div>
+              )
+            })
+          }</div>
+        </div>
       </div>
     )
   }

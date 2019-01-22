@@ -23,7 +23,7 @@ import msgs from '../../nls/platform.properties'
 import { OVERVIEW_REFRESH_INTERVAL_COOKIE  } from '../../lib/shared/constants'
 import config from '../../lib/shared/config'
 
-import {getPollInterval} from '../components/common/AutoRefreshMenu'
+import {getPollInterval} from '../components/common/AutoRefreshSelect'
 import OverviewView from '../components/overview/OverviewView'
 
 const OVERVIEW_QUERY = gql`

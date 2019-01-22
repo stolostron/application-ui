@@ -10,9 +10,12 @@
 
 import { CardTypes } from './constants.js'
 import msgs from '../../../nls/platform.properties'
+import { getDefaultViewState } from './defaults.js'
+import { OVERVIEW_COOKIE  } from '../../../lib/shared/constants'
 import config from '../../../lib/shared/config'
 import _ from 'lodash'
 
+export const BANNER_FILTER = '_banner_'
 export const PROVIDER_FILTER = '_provider_'
 
 // make sure all the providers that exist have a card
@@ -53,9 +56,28 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
     })
   }
 
-  // make sure cardOrder has existing providers
-  // don't chage provider cards if filtering providers
-  if (activeFilters[PROVIDER_FILTER].length===0) {
+  const bannerFiltered = activeFilters[BANNER_FILTER].length>0
+  const providerFiltered = activeFilters[PROVIDER_FILTER].length>0
+  if (!bannerFiltered && !providerFiltered) {
+
+    // remove redundant provider cards
+    let idx = 0
+    const providerSet = new Set()
+    while(idx < cardOrder.length) {
+      const {type, title} = cardOrder[idx]
+      if (type === CardTypes.provider) {
+        if (!providerSet.has(title)) {
+          providerSet.add(title)
+        } else {
+          cardOrder.splice(idx,1)
+          idx--
+        }
+      }
+      idx++
+    }
+
+    // make sure cardOrder has existing providers
+    // don't chage provider cards if filtering providers
     existingProviders.reverse().forEach(({title, includes})=>{
       const idx = cardOrder.findIndex(card=>{
         return card.type === CardTypes.provider && card.title===title
@@ -90,41 +112,59 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
   return {allProviders: existingProviders, providerWidth: width-7}
 }
 
-export const filterViewState = (activeFilters, viewState) => {
-  viewState.activeFilters = activeFilters
+export const filterViewState = (activeFilters, prevState) => {
+  const { viewState } = prevState
+  let { bannerCards, providerCards=[] } = prevState
 
   // filter cards based on cloud filter
-  if (activeFilters[PROVIDER_FILTER].length>0) {
-    // filter out all providers
-    if (!viewState.providerCards || viewState.providerCards.length===0) {
-      viewState.providerCards = []
-      viewState.cardOrder = viewState.cardOrder.filter(card=>{
+  const bannerFiltered = activeFilters[BANNER_FILTER].length>0
+  const providerFiltered = activeFilters[PROVIDER_FILTER].length>0
+  if (bannerFiltered || providerFiltered) {
+
+    // remember all provider cards
+    if (providerCards.length===0) {
+      providerCards = []
+      viewState.cardOrder.forEach(card=>{
         if (card.type===CardTypes.provider) {
-          viewState.providerCards.push(card)
-          return false
+          providerCards.push(card)
         }
-        return true
       })
     }
-
-    // put selected providers in banner
-    viewState.bannerCards = []
-    const map = _.keyBy(activeFilters[PROVIDER_FILTER], 'title')
-    viewState.providerCards.forEach(card=>{
-      const { title } = card
-      if (map[title]) {
-        // goes in banner
-        viewState.bannerCards.push(card)
-      }
+    // then filter them out
+    viewState.cardOrder = viewState.cardOrder.filter(card=>{
+      return (card.type!==CardTypes.provider)
     })
-  } else if (viewState.providerCards.length!==0) {
+
+    // if banner mode put selected provider in banner
+    bannerCards = []
+    if (bannerFiltered) {
+      const map = _.keyBy(activeFilters[BANNER_FILTER], 'title')
+      providerCards.forEach(card=>{
+        const { title } = card
+        if (map[title]) {
+          // goes in banner
+          bannerCards.push(card)
+        }
+      })
+    } else {
+      const map = _.keyBy(activeFilters[PROVIDER_FILTER], 'title')
+      const filteredProviders = providerCards.filter(({title})=>{
+        return map[title]
+      })
+      viewState.cardOrder = [...filteredProviders, ...viewState.cardOrder]
+    }
+
+  } else if (providerCards.length>0) {
     // restore all cards in original order
-    viewState.cardOrder = [...viewState.providerCards, ...viewState.cardOrder]
-    viewState.bannerCards = []
-    viewState.providerCards = []
+    viewState.cardOrder = viewState.cardOrder.filter(card=>{
+      return (card.type!==CardTypes.provider)
+    })
+    viewState.cardOrder = [...providerCards, ...viewState.cardOrder]
+    bannerCards = []
+    providerCards = []
   }
 
-  return viewState
+  return { viewState, bannerCards, providerCards }
 }
 
 export const filterOverview = (activeFilters, overview) => {
@@ -132,9 +172,7 @@ export const filterOverview = (activeFilters, overview) => {
   const filteredOverview = _.cloneDeep(overview)
 
   // provider filter
-  if (activeFilters[PROVIDER_FILTER].length>0) {
-    filteredOverview.clusters = getFilteredClusters(filteredOverview.clusters, activeFilters[PROVIDER_FILTER])
-  }
+  filteredOverview.clusters = getFilteredClusters(filteredOverview.clusters, activeFilters)
 
   // other cluster filters
   const clusterSet = new Set()
@@ -164,16 +202,22 @@ export const filterOverview = (activeFilters, overview) => {
 
 
 export const getFilteredClusters = (clusters, activeFilters) => {
-  return clusters.filter((cluster)=>{
-    const labels = _.get(cluster, 'metadata.labels', {})
-    return -1!==activeFilters.findIndex(({includes})=>{
-      // filter match
-      return includes.every(include=>{
-        const keys = Object.keys(include)
-        return keys.length===1 && labels[keys[0]].toLowerCase() === Object.values(include)[0].toLowerCase()
+  const bannerFiltered = activeFilters[BANNER_FILTER].length>0
+  const providerFiltered = activeFilters[PROVIDER_FILTER].length>0
+  if (bannerFiltered || providerFiltered) {
+    activeFilters = bannerFiltered ? activeFilters[BANNER_FILTER] : activeFilters[PROVIDER_FILTER] // banner filter takes presidence
+    return clusters.filter((cluster)=>{
+      const labels = _.get(cluster, 'metadata.labels', {})
+      return -1!==activeFilters.findIndex(({includes})=>{
+        // filter match
+        return includes.every(include=>{
+          const keys = Object.keys(include)
+          return keys.length===1 && labels[keys[0]].toLowerCase() === Object.values(include)[0].toLowerCase()
+        })
       })
     })
-  })
+  }
+  return clusters
 }
 
 export const getMatchingClusters = (clusters, includes=[]) => {
@@ -213,4 +257,29 @@ export const getUnknownClusters = (clusters, configuredProviders) => {
     return !cloudMatch
   })
 }
+
+export const getSavedViewState = (locale) => {
+  let state = null
+  const savedState = localStorage.getItem(OVERVIEW_COOKIE)
+  if (savedState) {
+    try {
+      state = JSON.parse(savedState)
+    } catch (e) {
+      //
+    }
+  }
+  if (!state) {
+    state = getDefaultViewState(locale)
+  }
+  return state
+}
+
+export const saveViewState = (state) => {
+  localStorage.setItem(OVERVIEW_COOKIE, JSON.stringify(state))
+}
+
+export const resetViewState = () => {
+  localStorage.removeItem(OVERVIEW_COOKIE)
+}
+
 

@@ -70,24 +70,61 @@ class HeatCard extends React.Component {
       'expanded': expanded,
       'collapsed': !expanded
     })
-    const toggleMsg = msgs.get(expanded?'overview.heatmap.collapse':'overview.heatmap.expand', this.context.locale)
     return (
       <GridCard item={item}>
         <div className={mapClasses}>
           <div className='heat-card-container'>
+            {this.renderHeader(expanded, heatMapChoices)}
             {expanded && this.renderHeatMapSelections(item) }
-            <div className='heat-card-map'  ref={this.setHeatMapRef}>
+            <div className='heat-card-map' ref={this.setHeatMapRef}>
               {mapRect && (!expanded ?
                 <HeatCollapsed item={item} heatMapChoices={heatMapChoices} mapRect={mapRect} /> :
                 <HeatExpanded item={item} heatMapChoices={heatMapChoices}  mapRect={mapRect} />) }
-              <div className='heat-card-toggle' tabIndex='0' role={'button'}
-                onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
-                {toggleMsg}
-              </div>
             </div>
           </div>
         </div>
       </GridCard>
+    )
+  }
+
+  renderHeader = (expanded, {shade, size}) => {
+    const {locale} = this.context
+    const toggleMsg = msgs.get(expanded?'overview.collapse':'overview.expand', locale)
+    const legend = [
+      {title: msgs.get('overview.legend.above', locale), className:'legend above'},
+      {title: msgs.get('overview.legend.average', locale), className:'legend average'},
+      {title: msgs.get('overview.legend.below', locale), className:'legend below'},
+    ]
+    let usageMsg
+    switch (shade) {
+    case ShadeChoices.vcpu:
+      usageMsg = msgs.get('overview.usage.vcpu', locale)
+      break
+    case ShadeChoices.memory:
+      usageMsg = msgs.get('overview.usage.memory', locale)
+      break
+    case ShadeChoices.storage:
+      usageMsg = msgs.get('overview.usage.storage', locale)
+      break
+    }
+    const dispersement = msgs.get('overview.dispersed.over', [size], locale)
+    return (
+      <div className='heat-card-header'>
+        <div>{usageMsg}</div>
+        {legend.map(({title, className})=>{
+          return (
+            <div key={title} className='legend-container' >
+              <div className={className} />
+              <div>{title}</div>
+            </div>
+          )
+        })}
+        <div>{dispersement}</div>
+        <div className='heat-card-toggle' tabIndex='0' role={'button'}
+          onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
+          {toggleMsg}
+        </div>
+      </div>
     )
   }
 

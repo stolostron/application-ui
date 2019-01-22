@@ -11,8 +11,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
-import {PROVIDER_FILTER} from '../filterHelper'
-import { Checkbox, Icon, Tag } from 'carbon-components-react'
+import {getFilteredClusters, BANNER_FILTER, PROVIDER_FILTER} from '../filterHelper'
+import { Checkbox, Icon } from 'carbon-components-react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -54,7 +54,7 @@ const FilterSection = ({ section: {name, filters, isExpanded, onExpand}, locale 
   })
 
   // show more/or less
-  const count = filters.length-SHOW_MORE
+  const count = filters.length-SHOW_MORE-2
   const showMoreOrLess = count>0
   if (showMoreOrLess) {
     if (!isExpanded) {
@@ -102,24 +102,49 @@ export default class FilterView extends React.Component {
     this.state = {
       expanded: {},
     }
+    this.resize = _.debounce(()=>{
+      this.layoutView()
+    }, 150)
     this.handleFilterClose = this.handleFilterClose.bind(this)
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.resize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize)
+  }
+
+  layoutView() {
+    this.forceUpdate()
+  }
+
+  setContainerRef = ref => {this.containerRef = ref}
+
   render() {
     const { allProviders, context: {locale}, view} = this.props
-    const {overview: {clusters=[]}} = view
+    const {overview, activeFilters} = view
+    const bannerFiltered = activeFilters[BANNER_FILTER].length>0
+    let {clusters=[]} = overview
 
     // add filter sections
     const sections=[]
 
     // provider filters
-    const providerSet = new Set(allProviders.map(provider=>{return provider.title}))
-    sections.push(this.getSectionData(PROVIDER_FILTER, providerSet, locale))
+    if (!bannerFiltered) {
+      const providerSet = new Set(allProviders.map(provider=>{return provider.title}))
+      sections.push(this.getSectionData(PROVIDER_FILTER, providerSet, locale))
+    }
 
     // other filters
     const purposeSet = new Set()
     const regionSet = new Set()
     const kubetypeSet = new Set()
+    // if banner is open
+    if (bannerFiltered) {
+      clusters = getFilteredClusters(clusters, activeFilters)
+    }
     clusters.forEach((cluster)=>{
       const labels = _.get(cluster, 'metadata.labels', {})
       const { vendor='Other', environment='Other', region='Other'} = labels
@@ -131,8 +156,13 @@ export default class FilterView extends React.Component {
     sections.push(this.getSectionData('region', regionSet, locale))
     sections.push(this.getSectionData('vendor', kubetypeSet, locale))
 
+    // calc height of scrollbar container
+    const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+    const rect = document.getElementsByClassName('secondary-header')[0].getBoundingClientRect()
+    const scrollHeight = height-rect.bottom
+
     return (
-      <div className='overview-filterview'>
+      <div className='overview-filterview' style={{height:scrollHeight+3}} >
         <h3 className='filterHeader'>
           <span className='titleText'>
             {msgs.get('filter.view.title', locale)}
@@ -144,14 +174,23 @@ export default class FilterView extends React.Component {
             onClick={this.handleFilterClose}
           />
         </h3>
-        <Scrollbars style={{ width: 230, height: 600 }}
+        <Scrollbars style={{ width: 230, height: scrollHeight-80 }}
+          renderView = {this.renderView}
           renderThumbVertical = {this.renderThumbVertical}
+          ref={this.setContainerRef}
           className='filter-sections-container'>
           {sections.map(section => {
             return <FilterSection key={section.key} section={section} locale={locale} />
           })}
         </Scrollbars>
       </div>)
+  }
+
+  renderView({ style, ...props }) {
+    style.marginBottom = -17
+    return (
+      <div {...props} style={{ ...style }} />
+    )
   }
 
   renderThumbVertical({ style, ...props }) {
@@ -252,35 +291,10 @@ export default class FilterView extends React.Component {
 }
 
 FilterView.propTypes = {
+  activeFilters: PropTypes.object,
   allProviders: PropTypes.array,
   context: PropTypes.object,
   onClose: PropTypes.func,
   updateActiveFilters: PropTypes.func,
   view: PropTypes.object,
-}
-
-
-/////////////////////////// FILTER BAR ////////////////////////////////////
-//  (FILTER TAGS DISPLAYED AT TOP)
-
-export const FilterBar = ({ boundActiveFilters, locale }) => {
-  return (
-    <div className='filter-bar'>
-      {boundActiveFilters.map(({name, onClick}) => {
-        return <Tag key={name} type='custom'>
-          {name}
-          <Icon
-            className='closeIcon'
-            description={msgs.get('filter.remove.tag', locale)}
-            name="icon--close"
-            onClick={onClick}
-          />
-        </Tag>
-      })}
-    </div>
-  )
-}
-FilterBar.propTypes = {
-  boundActiveFilters: PropTypes.array,
-  locale: PropTypes.string,
 }

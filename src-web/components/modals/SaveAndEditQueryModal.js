@@ -32,6 +32,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
       nameInput: name || '',
       descriptionInput: description || '',
       errorMessage: '',
+      editExisting: !!name,
     }
   }
   handleNameInputChange = (evt) => {
@@ -53,7 +54,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
 
   handleModalSubmit = (client) => {
     // this.props.addQueryIntoUserProfile(name, description)
-    const { nameInput, descriptionInput, searchText = '' } = this.state
+    const { nameInput, descriptionInput = '', searchText = '' } = this.state
     this.setState({ loading: true })
     this.makeApolloQuery(nameInput, descriptionInput, searchText, client)
   }
@@ -79,7 +80,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
     client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
   }
 
-  isSubmitDisabled = () => this.state.nameInput === '' || this.state.descriptionInput === ''
+  isSubmitDisabled = () => _.isEmpty(this.state.nameInput) || (_.isEmpty(this.state.searchText) && !this.state.editExisting)
 
   render(){
     return (<Query query={GET_SEARCH_INPUT_TEXT}>
@@ -106,6 +107,15 @@ class SaveAndEditQueryModal extends React.PureComponent {
                   title={msgs.get('error', this.context.locale)}
                   iconDescription=''
                   subtitle={this.state.errorMessage}
+                  onCloseButtonClick={this.handleNotificationClosed}
+                />
+                }
+                { searchText === '' && !this.state.editExisting &&
+                <InlineNotification
+                  kind='error'
+                  title={msgs.get('error', this.context.locale)}
+                  iconDescription=''
+                  subtitle={msgs.get('error.no.searchtext', this.context.locale)}
                   onCloseButtonClick={this.handleNotificationClosed}
                 />
                 }

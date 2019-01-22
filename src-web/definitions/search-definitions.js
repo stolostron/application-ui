@@ -13,7 +13,7 @@
 import { getAge } from '../../lib/client/resource-helper'
 import { createDashboardLink } from './hcm-applications'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
-import { getComplianceStatusIcon, getStatusCount, getClusterCount } from './hcm-compliances'
+import { getComplianceStatusIcon, getStatusCount, getClusterCount, getStatusIcon as getPolocyStatusIcon } from './hcm-compliances'
 
 export default {
   application: {
@@ -58,6 +58,19 @@ export default {
       { key: 'status', transform: getComplianceStatusIcon },
       { key: 'clusterCompliant', transform: getClusterCount},
       { key: 'policyCompliant', transform: getStatusCount},
+      { key: 'created', transform: getAge},
+    ],
+    actions: [
+      'table.actions.cluster.edit.labels',
+    ],
+  },
+  policy: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'compliant', transform: getPolocyStatusIcon },
+      { key: 'cluster'},
+      { key: 'remediationAction'},
       { key: 'created', transform: getAge},
     ],
     actions: [

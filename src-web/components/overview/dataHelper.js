@@ -178,8 +178,8 @@ const getAvailableUsedValues = (overview, overviewKey, valueKey, deflateValues) 
     'used': 0,
   }
   const values = _.get(overview, overviewKey, []).reduce((acc, {capacity, usage}) => {
-    data['available'] += inflateKubeValue(capacity[valueKey])
-    data['used'] += inflateKubeValue(usage[valueKey])
+    data['available'] += capacity ? inflateKubeValue(capacity[valueKey]) : 0
+    data['used'] += usage ? inflateKubeValue(usage[valueKey]) : 0
     return acc
   }, data)
 

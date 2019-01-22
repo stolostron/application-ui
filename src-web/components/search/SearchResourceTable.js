@@ -9,16 +9,17 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DataTable, PaginationV2 } from 'carbon-components-react'
+import { DataTable, PaginationV2, Icon } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import tableDefinitions from '../../definitions/search-definitions'
 import { PAGE_SIZES } from '../../actions/index'
+import lodash from 'lodash'
 
 const {
   TableContainer,
   Table,
   TableHead,
-  TableHeader,
+  // TableHeader,
   TableRow,
   TableBody,
   TableCell,
@@ -54,6 +55,7 @@ class SearchResourceTable extends React.PureComponent {
   state = {
     page: 1,
     pageSize: PAGE_SIZES.VALUES[0],
+    sortDirection: 'asc'
   }
 
   getHeaders(){
@@ -72,10 +74,14 @@ class SearchResourceTable extends React.PureComponent {
   }
 
   getRows(){
-    const { page, pageSize } = this.state
+    const { page, pageSize, selectedKey, sortDirection } = this.state
+    let { items } = this.props
     // TODO searchFeature: need to sort columns before pagination
+    if (selectedKey) {
+      items = lodash.orderBy(items, [selectedKey], [sortDirection])
+    }
     const startItem = (page - 1) * pageSize
-    const visibleItems = this.props.items.slice(startItem, startItem + pageSize)
+    const visibleItems = items.slice(startItem, startItem + pageSize)
     return visibleItems.map(item => {
       const row = { id: item.uid}
 
@@ -90,23 +96,45 @@ class SearchResourceTable extends React.PureComponent {
     })
   }
 
+  handleSort = (selectedKey) => () => {
+    if (selectedKey) {
+      this.setState(preState => {
+        return {selectedKey: selectedKey, sortDirection: preState.sortDirection === 'asc' ? 'desc' : 'asc' }
+      })
+    }
+  }
+  // need more research on carbon data table
+  //<TableHeader key={header.key} onClick={this.handleSort(header.key)} > {header.header} </TableHeader>
   render() {
-    const { page, pageSize } = this.state
+    const { page, pageSize, sortDirection, selectedKey } = this.state
     const totalItems = this.props.items.length
+    const sortColumn = selectedKey
 
     return [
       <DataTable
         key={`${this.props.kind}-resource-table`}
         rows={this.getRows()}
         headers={this.getHeaders()}
-        render={({ rows, headers }) => {
+        render={({ rows, headers}) => {
           return (
             <TableContainer title={`${this.props.kind} (${this.props.items.length})`}>
               <Table>
                 <TableHead>
                   <TableRow>
                     {headers.map(header => (
-                      <TableHeader key={header.key}> {header.header} </TableHeader>
+                      <th scope={'col'} key={header.key}>
+                        <button
+                          title={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, this.context.locale)}
+                          onClick={this.handleSort(header.key)}
+                          className={`bx--table-sort-v2${sortDirection === 'asc' ? ' bx--table-sort-v2--ascending' : ''}${sortColumn === header.key ? ' bx--table-sort-v2--active' : ''}`}
+                          data-key={header.key} >
+                          <span className='bx--table-header-label'>{header.header}</span>
+                          <Icon
+                            className='bx--table-sort-v2__icon'
+                            name='caret--down'
+                            description={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, this.context.locale)} />
+                        </button>
+                      </th>
                     )) }
                   </TableRow>
                 </TableHead>

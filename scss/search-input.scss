@@ -50,8 +50,8 @@
     width: 100%;
   }
   .bx--modal-content{
-    overflow-x: hidden;
     min-height: 7.5rem;
+    overflow: visible;
   }
 }
 

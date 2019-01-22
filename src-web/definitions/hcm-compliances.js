@@ -726,6 +726,18 @@ export function getStatusIcon(item, locale) {
   return '-'
 }
 
+export function getComplianceStatusIcon(item, locale) {
+  const expectedStatuses = [ 'compliant', 'notcompliant', 'noncompliant', 'invalid']
+  if (item.status&&expectedStatuses.indexOf(item.status.toLowerCase()) > -1){
+    if (item.status.toLowerCase() === 'compliant') {
+      return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
+    } else {
+      return <StatusField status='critical' text={msgs.get('policy.status.noncompliant', locale)} />
+    }
+  }
+  return '-'
+}
+
 export function getCompliancePolicyStatus(item, locale) {
   if (item.clusterNotCompliant && item.clusterNotCompliant.length > 0){
     return <StatusField status='critical' text={msgs.get('policy.status.noncompliant', locale)} />
@@ -751,6 +763,14 @@ export function createCompliancePolicyLink(item = {}, ...param){
 
 export function createPolicyLink(item = {}){
   return  <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.complianceNamespace)}/${encodeURIComponent(item.complianceName)}/compliancePolicy/${encodeURIComponent(item.name)}`}>{item.name}</Link>
+}
+
+export function getStatusCount(item) {
+  return `${item.policyCompliant}/${item.policyTotal}`
+}
+
+export function getClusterCount(item) {
+  return `${item.clusterCompliant}/${item.clusterTotal}`
 }
 
 export function getSubjects(item) {

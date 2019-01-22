@@ -13,6 +13,7 @@
 import { getAge } from '../../lib/client/resource-helper'
 import { createDashboardLink } from './hcm-applications'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
+import { getComplianceStatusIcon, getStatusCount, getClusterCount } from './hcm-compliances'
 
 export default {
   application: {
@@ -45,6 +46,19 @@ export default {
       { key: 'storage'},
       { key: 'memory'},
       { key: 'consoleURL', msgKey: 'endpoint', transform: getExternalLink },
+    ],
+    actions: [
+      'table.actions.cluster.edit.labels',
+    ],
+  },
+  compliance: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'status', transform: getComplianceStatusIcon },
+      { key: 'clusterCompliant', transform: getClusterCount},
+      { key: 'policyCompliant', transform: getStatusCount},
+      { key: 'created', transform: getAge},
     ],
     actions: [
       'table.actions.cluster.edit.labels',

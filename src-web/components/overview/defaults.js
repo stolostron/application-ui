@@ -48,7 +48,7 @@ export const getDefaultViewState = (locale) => {
         labelKey: 'compliant',
         pieData: {
           'compliant':{name: msgs.get('overview.status.compliant', locale), values: ['compliant'], className:'compliant'},
-          'default': {name: msgs.get('overview.status.noncompliant', locale), className:'noncompliant'},
+          'default': {name: msgs.get('overview.status.noncompliant', locale), className:'non-compliant'},
         },
         actions: [CardActions.line],
       },

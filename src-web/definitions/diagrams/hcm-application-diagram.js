@@ -378,7 +378,7 @@ export function getNodeTitle(node, locale) {
 
 export function getWorkNodeDescription(node) {
   let description = _.get(node, 'work.result.description')
-  if (description.length>16) {
+  if (description && description.length>16) {
     description = `${description.slice(0,8)}...${description.slice(-8)}`
   }
   return description

@@ -73,7 +73,7 @@
       &-header {
         display: flex;
         justify-content: space-between;
-        padding: 1rem 2rem;
+        padding: .5rem 2rem;
         background-color: $color__gray-3;
 
         &-content {
@@ -94,14 +94,20 @@
       }
 
       &-body {
-        padding: 2rem;
+        padding: 1.5rem 2rem 1.5rem 2rem;
         border-top: 1px solid $color__gray-1;
 
         &-row {
           display: flex;
           flex-direction: row;
           align-items: center;
-          padding: 1rem 1rem 0rem 1rem;
+          padding: 1rem 1rem 0rem 0rem;
+        }
+        .bx--list--unordered {
+          margin-left: 0;
+          .bx--list__item {
+            font-weight: normal;
+          }
         }
       }
 

@@ -122,6 +122,9 @@
   &.noncompliant {
     border-bottom-color: $mcm_color_red;
   }
+  &.non-compliant {
+    border-bottom-color: $mcm_color_red;
+  }
   &.running {
     border-bottom-color: $mcm_color_green;
   }

@@ -185,6 +185,15 @@ $overview-view-width: 1200px !default;
       > div {
         padding: 3px;
       }
+
+      .provider-type {
+        &.large {
+          font-size: 10px;
+          padding: 0;
+          text-align: center;
+        }
+      }
+
     }
   }
 

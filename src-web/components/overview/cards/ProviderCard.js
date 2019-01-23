@@ -83,10 +83,19 @@ export default class ProviderCard extends React.PureComponent {
           <div className='provider-counts'>{
             kubeTypes.map(kubeType=>{
               const kubeCnt = _.padStart(kubeMap[kubeType].length+'', 2, 0)
+              const providerTypeClasses = classNames({
+                'provider-type': true,
+                'large': kubeType.length>5,
+              })
+              let title = ''
+              if (kubeType.length>16) {
+                title = kubeType
+                kubeType = kubeType.substr(0, 5) + '..' + kubeType.substr(kubeType.length - 5)
+              }
               return (
                 <div key={kubeType} className='provider-count-cell'>
                   <div className='provider-count'>{kubeCnt}</div>
-                  <div className='provider-type'>{kubeType}</div>
+                  <div className={providerTypeClasses} title={title}>{kubeType}</div>
                 </div>
               )
             })

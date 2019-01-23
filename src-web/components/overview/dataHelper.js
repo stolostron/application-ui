@@ -54,7 +54,7 @@ export const getHeatMapData = (item, heatMapChoices={}, collapsed) => {
     let size=0
     switch (heatMapChoices[HeatSelections.size]) {
     default:
-    case SizeChoices.workers:
+    case SizeChoices.nodes:
       size = _.get(cluster, 'capacity.nodes', 0)
       break
     case SizeChoices.pods:

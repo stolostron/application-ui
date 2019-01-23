@@ -19,7 +19,7 @@ export const getDefaultViewState = (locale) => {
       expanded: false,
       heatMapChoices: {
         groupBy: GroupByChoices.provider,
-        size: SizeChoices.workers,
+        size: SizeChoices.nodes,
         shade: ShadeChoices.vcpu,
       }
     },

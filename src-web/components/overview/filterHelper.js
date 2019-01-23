@@ -42,8 +42,21 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
     const {matchingClusters} = getMatchingClusters(clusters, includes)
     return (matchingClusters.length!==0)
   })
+  // remove non existant provider cards
+  let idx = 0
+  const existingMap = _.keyBy(existingProviders, 'title')
+  while(idx < cardOrder.length) {
+    const {type, title} = cardOrder[idx]
+    if (type === CardTypes.provider) {
+      if (!existingMap[title]) {
+        cardOrder.splice(idx,1)
+        idx--
+      }
+    }
+    idx++
+  }
 
-  // if any unknown clusters out there, add a Data Center provider
+  // if any unknown clusters out there, add a custom provider card for it
   const unknownClusters = getUnknownClusters(clusters, configuredProviders)
   if (unknownClusters.length>0) {
     const cloudSet = new Set()
@@ -52,7 +65,7 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
       cloudSet.add(labels['cloud'])
     })
     cloudSet.forEach(cloud=>{
-      existingProviders.push({'title':  _.capitalize(cloud), includes: [{'cloud': cloud}]})
+      existingProviders.push({'title':  cloud, includes: [{'cloud': cloud}]})
     })
   }
 

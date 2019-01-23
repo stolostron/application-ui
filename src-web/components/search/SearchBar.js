@@ -104,7 +104,9 @@ class SearchBar extends React.Component {
     const { onChange, updateBrowserURL } = this.props
     if (!_.isEqual(nextState.currentQuery, this.state.currentQuery)) {
       onChange(nextState.currentQuery)
-      updateBrowserURL({query: nextState.currentQuery})
+      if (nextState.currentQuery.length > this.state.currentQuery.length) {
+        updateBrowserURL({query: nextState.currentQuery})
+      }
     }
     if (!_.isEqual(nextState.currentTag, this.state.currentTag)
       && nextState.currentTag.field !== '') {
@@ -212,14 +214,10 @@ class SearchBar extends React.Component {
   handleDelete(i) {
     const { tags } = this.state
     if (tags.length > 0) {
-      if (tags[i].matchText && tags[i].matchText.length <= 1 || tags[i].classType === 'keyword') {
+      if (tags[i].matchText === undefined || (tags[i].matchText && tags[i].matchText.length <= 1) || tags[i].classType === 'keyword') {
         const newTags = tags.filter((tag, index) => index !== i)
         this.updateSelectedTags(newTags, {})
-        this.props.updateBrowserURL(newTags)
-      } else if (tags[i].matchText === undefined) {
-        const newTags = tags.filter((tag, index) => index !== i)
-        this.updateSelectedTags(newTags, {})
-        this.props.updateBrowserURL(newTags)
+        this.props.updateBrowserURL({query: newTags.map(tag => {return tag.value}).join(' ')})
         this.setState({
           currentTag: {
             field: '',
@@ -233,6 +231,7 @@ class SearchBar extends React.Component {
         tags[i].name = tagText
         tags[i].value = tagText
         this.updateSelectedTags(tags, {})
+        this.props.updateBrowserURL({query: tags.map(tag => {return tag.value}).join(' ')})
       }
     }
   }

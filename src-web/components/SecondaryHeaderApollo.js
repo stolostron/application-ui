@@ -108,8 +108,10 @@ export class SecondaryHeaderSearchPage extends React.Component {
           id={tab.queryName}
           className={'header-tab-container'}
           onClick={(evt) => {
-            if (evt.target.nodeName === 'A' || evt.target.nodeName === 'LI') this.handleClickTab(client, tabs, tab, unsavedCount)}
-          }
+            if (evt.target.nodeName === 'A' || evt.target.nodeName === 'LI') {
+              this.handleClickTab(client, tabs, tab, unsavedCount)
+            }
+          }}
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
           subcomponent = { tabs.length > 1 ?
@@ -131,7 +133,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }
     await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
 
-    this.props.updateBrowserURL(tabs[tabs.length - 1].searchText)
+    this.props.updateBrowserURL({ query: tabs[tabs.length - 1].searchText })
 
     client.writeData({ data: {
       searchInput: {
@@ -160,7 +162,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }
     await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
 
-    this.props.updateBrowserURL('')
+    this.props.updateBrowserURL({ query: '' })
 
     client.writeData({ data: {
       searchInput: {
@@ -180,7 +182,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }
     await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
 
-    this.props.updateBrowserURL(searchText)
+    this.props.updateBrowserURL({ query: searchText })
 
     client.writeData({ data: {
       searchInput: {

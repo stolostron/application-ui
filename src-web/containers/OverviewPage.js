@@ -20,7 +20,8 @@ import { withRouter } from 'react-router-dom'
 import { updateSecondaryHeader } from '../actions/common'
 import Page from '../components/common/Page'
 import msgs from '../../nls/platform.properties'
-import { OVERVIEW_REFRESH_INTERVAL_COOKIE  } from '../../lib/shared/constants'
+import { OVERVIEW_REFRESH_INTERVAL_COOKIE, OVERVIEW_QUERY_COOKIE } from '../../lib/shared/constants'
+import {getFreshOrStoredObject} from '../../lib/client/resource-helper'
 import config from '../../lib/shared/config'
 
 import {getPollInterval} from '../components/common/AutoRefreshSelect'
@@ -105,7 +106,11 @@ class OverviewPage extends React.Component {
           <Query query={OVERVIEW_QUERY} variables={{ demoMode }}
             pollInterval={pollInterval} notifyOnNetworkStatusChange >
             {( {loading, error, data, refetch, startPolling, stopPolling} ) => {
-              const { overview } = data
+              let { overview } = data
+              overview = getFreshOrStoredObject(OVERVIEW_QUERY_COOKIE, overview)
+              if (overview) {
+                error = null
+              }
               return (
                 <OverviewView
                   loading={loading}

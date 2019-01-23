@@ -54,7 +54,7 @@ export default class OverviewView extends React.Component {
 
   componentWillMount() {
     const { locale } = this.context
-    const { loading } = this.props
+    const { loading, overview } = this.props
     const activeFilters={}
     activeFilters[BANNER_FILTER] = []
     activeFilters[PROVIDER_FILTER] = []
@@ -62,7 +62,8 @@ export default class OverviewView extends React.Component {
     activeFilters['region'] = []
     activeFilters['vendor'] = []
     this.setState({
-      loading,
+      loading: (loading && !overview),
+      reloading: (loading && !!overview),
       viewState: getSavedViewState(locale),
       activeFilters,
       bannerCards: [],

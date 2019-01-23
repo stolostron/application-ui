@@ -11,7 +11,7 @@
 import { CardTypes } from './constants.js'
 import msgs from '../../../nls/platform.properties'
 import { getDefaultViewState } from './defaults.js'
-import { OVERVIEW_COOKIE  } from '../../../lib/shared/constants'
+import { OVERVIEW_STATE_COOKIE  } from '../../../lib/shared/constants'
 import config from '../../../lib/shared/config'
 import _ from 'lodash'
 
@@ -273,7 +273,7 @@ export const getUnknownClusters = (clusters, configuredProviders) => {
 
 export const getSavedViewState = (locale) => {
   let state = null
-  const savedState = localStorage.getItem(OVERVIEW_COOKIE)
+  const savedState = localStorage.getItem(OVERVIEW_STATE_COOKIE)
   if (savedState) {
     try {
       state = JSON.parse(savedState)
@@ -288,11 +288,11 @@ export const getSavedViewState = (locale) => {
 }
 
 export const saveViewState = (state) => {
-  localStorage.setItem(OVERVIEW_COOKIE, JSON.stringify(state))
+  localStorage.setItem(OVERVIEW_STATE_COOKIE, JSON.stringify(state))
 }
 
 export const resetViewState = () => {
-  localStorage.removeItem(OVERVIEW_COOKIE)
+  localStorage.removeItem(OVERVIEW_STATE_COOKIE)
 }
 
 

@@ -107,7 +107,16 @@ class HeatCard extends React.Component {
       usageMsg = msgs.get('overview.usage.storage', locale)
       break
     }
-    const dispersement = msgs.get('overview.dispersed.over', [size], locale)
+    let usedByMsg
+    switch (size) {
+    case SizeChoices.pods:
+      usedByMsg = msgs.get('overview.used.pods', locale)
+      break
+
+    case SizeChoices.nodes:
+      usedByMsg = msgs.get('overview.used.nodes', locale)
+      break
+    }
     return (
       <div className='heat-card-header'>
         <div>{usageMsg}</div>
@@ -119,7 +128,7 @@ class HeatCard extends React.Component {
             </div>
           )
         })}
-        <div>{dispersement}</div>
+        <div>{usedByMsg}</div>
         <div className='heat-card-toggle' tabIndex='0' role={'button'}
           onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
           {toggleMsg}
@@ -186,12 +195,12 @@ class HeatCard extends React.Component {
         {
           key: HeatSelections.size,
           label:  msgs.get('overview.heatmap.size', locale),
-          choice: heatMapChoices[HeatSelections.size] || SizeChoices.workers,
+          choice: heatMapChoices[HeatSelections.size] || SizeChoices.nodes,
           onChange: this.onChange.bind(this, HeatSelections.size),
           choices: Object.keys(SizeChoices).map(value=>{
             let text
             switch (value) {
-            case SizeChoices.workers:
+            case SizeChoices.nodes:
               text = msgs.get('overview.heatmap.workers', locale)
               break
             case SizeChoices.pods:

@@ -71,8 +71,9 @@ export default class HeatExpanded extends React.PureComponent {
     const {heatMapData} = getHeatMapData(item, heatMapChoices)
     const keys = Object.keys(heatMapData).sort()
 
-    // determine height of all cells
-    const mapHeight = 400//Math.min(400, Math.max(200, nkeys*90))
+    // set rough estimate of map height
+    // we'll shrink wrap it once masonry has laid out the clusters
+    const mapHeight = 400
 
     // find the biggest size
     // sort sizes for each key biggest first

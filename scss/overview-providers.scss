@@ -10,8 +10,6 @@
 @import 'variables';
 
 $overview-view-width: 1200px !default;
-$overview-column-width: 10px !default; /* card width must be multiple of this */
-$overview-card-margin: 7px !default; /* margin around cards */
 
 .provider-banner, .provider-card {
   .provider-cluster-noncompliant {
@@ -142,7 +140,7 @@ $overview-card-margin: 7px !default; /* margin around cards */
   cursor: pointer;
   padding: 0;
   margin: 0;
-  width: calc(#{$overview-column-width} * 21 - #{$overview-card-margin});
+  width: calc(#{$overview-column-width} * 21 - #{$overview-card-margin-right});
   min-height: 125px;
   color: $color__navy-gray-3;
   background-color: $mcm_provider_card_background_color;

@@ -25,7 +25,7 @@ export default class HeatCollapsed extends React.PureComponent {
     const { width } = mapRect
 
     // get map data
-    const {sizeTotal, heatMapData} = getHeatMapData(item, heatMapChoices)
+    const {sizeTotal, heatMapData} = getHeatMapData(item, heatMapChoices, true)
 
     // determine a scaling factor based on # of squares we have data for
     let scaling = 1

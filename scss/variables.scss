@@ -17,7 +17,11 @@ $secondary-header-top: 3.082rem !default;
 $secondary-header-min-height: 4.125rem !default;
 $secondary-header-max-height: 7.75rem !default;
 
-// mcm Color Scheme
+// mcm overview cards
+$overview-column-width: 10px !default; /* card width must be multiple of this */
+$overview-card-margin-right: 7px !default; /* margin around cards */
+$overview-card-margin-bottom: 25px !default; /* margin around cards */
+
 $mcm__color__gray: #6f7878 !default;
 $mcm__color__critical: #e0182d !default;
 
@@ -31,7 +35,7 @@ $mcm_color_red: #E71D32 !default;
 
 $mcm_heat_red: #FF4253 !default;
 $mcm_heat_yellow: #FFCB00 !default;
-$mcm_heat_blue: #00BCB5 !default;
+$mcm_heat_blue: #92eeee !default;
 
 $mcm_view_filter: #DFEBF1 !default;
 

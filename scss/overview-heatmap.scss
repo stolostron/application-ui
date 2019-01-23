@@ -9,9 +9,6 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-$overview-column-width: 10px !default; /* card width must be multiple of this */
-$overview-card-margin: 7px !default; /* margin around cards */
-
 $overview-heat-collapsed: 90px !default;
 
 /* *********************  heat map card ************************ */
@@ -20,7 +17,7 @@ $overview-heat-collapsed: 90px !default;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin});
+  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin-right});
 
   .heatMapSelections {
     display: flex;
@@ -135,9 +132,8 @@ svg.heatMap {
   width: 100%;
 
   .grid {
-    stroke: $color__gray-1;
+    stroke: none;
     fill: none;
-    stroke-width: 1;
   }
 
   .square-red {
@@ -223,6 +219,8 @@ div.heatMap {
                   margin:0;
                   font-size: 12px;
                   display: flex;
+                  white-space: nowrap;
+
 
                   .label {
                     font-weight: bold;

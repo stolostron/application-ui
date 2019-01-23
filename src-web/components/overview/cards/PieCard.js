@@ -60,8 +60,8 @@ const PieGraph = ({
       return (
         <div className='pie-graph'>
           <div className='pie-graph__container'>
-            <PieChart width={100} height={100}>
-              <Pie data={chartData} dataKey='value' cx='50%' cy='50%' innerRadius={40} outerRadius={50} fill="#82ca9d">
+            <PieChart width={120} height={120}>
+              <Pie data={chartData} dataKey='value' cx='50%' cy='50%' innerRadius={53.5} outerRadius={61} fill="#82ca9d">
                 <Label value={percentage} content={<PieLabel label={label} />} />
                 {
                   chartData.map((entry) => (
@@ -75,10 +75,15 @@ const PieGraph = ({
             {chartData.map((entry, index) => {
               return (
                 <div className={`legend-item bottom_border ${entry.className}`} key={entry.name} >
-                  {searchText[dataType]&&<Link to={`${config.contextPath}/search?filters={"textsearch":${searchText[dataType][index]}}`}>
-                    <span className='value'>{entry.value} {entry.units?entry.units:''}</span>
-                    <span className='label' title={entry.name}>{entry.name}</span>
-                  </Link>}
+                  {searchText[dataType] ?
+                    (<Link to={`${config.contextPath}/search?filters={"textsearch":${searchText[dataType][index]}}`}>
+                      <span className='value'>{entry.value} {entry.units?entry.units:''}</span>
+                      <span className='label' title={entry.name}>{entry.name}</span>
+                    </Link>) :
+                    (<div>
+                      <span className='value'>{entry.value} {entry.units?entry.units:''}</span>
+                      <span className='label' title={entry.name}>{entry.name}</span>
+                    </div>)}
                 </div>
               )
             })}

@@ -14,13 +14,15 @@ import _ from 'lodash'
 
 
 // get data based on choices and nodes
-export const getHeatMapData = (item, heatMapChoices={}) => {
+export const getHeatMapData = (item, heatMapChoices={}, collapsed) => {
 
   const { overview: {clusters = []} } = item
 
   // how are we grouping data
+  // if collapsed, always group by provider since that's what user is seeing
   let groupKey
-  switch (heatMapChoices[HeatSelections.groupBy]) {
+  const grouping = collapsed ? GroupByChoices.provider : heatMapChoices[HeatSelections.groupBy]
+  switch (grouping) {
   default:
   case GroupByChoices.provider:
     groupKey = 'cloud'

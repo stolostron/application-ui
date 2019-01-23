@@ -10,8 +10,6 @@
 @import 'variables';
 
 $overview-view-width: 1200px !default;
-$overview-column-width: 10px !default; /* card width must be multiple of this */
-$overview-card-margin: 7px !default; /* margin around cards */
 
 $overview-heat-collapsed: 90px !default;
 
@@ -95,7 +93,7 @@ $overview-heat-collapsed: 90px !default;
 
 .grid-item {
   cursor: move;
-  margin-bottom: $overview-card-margin;
+  margin-bottom: $overview-card-margin-bottom;
   background-color: $color__white;
   box-shadow: 0px 1px 8px 0px #c3c7ca;
   position: relative;

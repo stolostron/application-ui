@@ -9,15 +9,12 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-$overview-column-width: 10px !default; /* card width must be multiple of this */
-$overview-card-margin: 7px !default; /* margin around cards */
-
 /* *********************  pie card ************************ */
 
 .pie-graph {
   display: flex;
   align-items: center;
-  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin});
+  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin-right});
   height: 145px;
   position: relative;
   padding: 10px;
@@ -46,16 +43,21 @@ $overview-card-margin: 7px !default; /* margin around cards */
       color: $color__blue-90;
       font-size: .875rem;
 
-      > a {
-        color: black;
-        text-decoration: none;
+      > a, div {
         justify-content: space-between;
         width: 100%;
         display: flex;
       }
+
+      > a {
+        color: black;
+        text-decoration: none;
+      }
+
       &:last-child {
         margin-bottom: 0;
       }
+
       .value {
         font-weight: 300;
       }
@@ -140,7 +142,7 @@ $overview-card-margin: 7px !default; /* margin around cards */
 /* *********************  line chart ************************ */
 
 .line-chart {
-  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin});
+  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin-right});
   height: 145px;
   padding: 10px;
 }

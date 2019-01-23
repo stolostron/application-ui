@@ -9,16 +9,13 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-$overview-column-width: 10px !default; /* card width must be multiple of this */
-$overview-card-margin: 7px !default; /* margin around cards */
-
 
 /* *********************  counts card ************************ */
 
 .counts-card {
   display: flex;
   flex-direction: column;
-  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin});
+  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin-right});
   position: relative;
 
   .card-toggle {

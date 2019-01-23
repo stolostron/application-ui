@@ -51,9 +51,8 @@ export const GroupByChoices = Object.freeze({
 })
 
 export const SizeChoices = Object.freeze({
-  workers: 'workers',
+  nodes: 'nodes',
   pods: 'pods',
-  nonCompliant: 'nonCompliant',
 })
 
 export const ShadeChoices = Object.freeze({

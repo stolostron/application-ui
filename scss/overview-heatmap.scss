@@ -61,6 +61,7 @@ $overview-heat-collapsed: 90px !default;
       font-weight: bold;
       display: flex;
       align-items: center;
+      cursor: move;
 
       > div:not(.legend-container) {
         padding-left: 20px;
@@ -192,6 +193,13 @@ div.heatMap {
            .heat-item {
              width: 94%;
              height: 94%;
+             cursor: default;
+
+             .cluster-name {
+               font-size: 12px;
+               padding: 5px;
+               color: $color__navy-gray-3;
+             }
 
               &.square-red {
                 background-color: $mcm_heat_red;
@@ -221,7 +229,6 @@ div.heatMap {
                   display: flex;
                   white-space: nowrap;
 
-
                   .label {
                     font-weight: bold;
                     color: $color__blue-90;
@@ -232,7 +239,6 @@ div.heatMap {
                     color: $color__navy-gray-6;
                    }
                 }
-
               }
 
               &:hover .tooltip {

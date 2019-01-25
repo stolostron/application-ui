@@ -99,7 +99,7 @@ class OverviewPage extends React.Component {
   render () {
     const overview = config['overview']
     const demoMode = overview && overview.demoMode
-    const pollInterval = getPollInterval(OVERVIEW_REFRESH_INTERVAL_COOKIE)
+    const pollInterval = Math.max(getPollInterval(OVERVIEW_REFRESH_INTERVAL_COOKIE), 20*1000)
     return (
       <Page>
         <DragDropContextProvider backend={HTML5Backend}>

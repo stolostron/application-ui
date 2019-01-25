@@ -8,6 +8,8 @@
  *******************************************************************************/
 'use strict'
 
+export const CARD_SPACING = 7
+
 export const CardTypes = Object.freeze({
   provider: 'provider',
   counts: 'counts',

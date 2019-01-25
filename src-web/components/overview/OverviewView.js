@@ -23,7 +23,7 @@ import CountsCard from './cards/CountsCard'
 import HeatCard from './cards/HeatCard'
 import PieCard from './cards/PieCard'
 import LineCard from './cards/LineCard'
-import { CardTypes } from './constants.js'
+import { CardTypes, CARD_SPACING } from './constants.js'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -35,6 +35,7 @@ const masonryOptions = {
   layoutInstant: true,
   horizontalOrder: true,
   fitWidth: true,
+  initLayout: false,
   resizeContainer: false,
   columnWidth: 10,
   gutter: 0,
@@ -86,6 +87,28 @@ export default class OverviewView extends React.Component {
     this.masonry.masonry.options.layoutInstant = false
     if (this.viewRef) {
       this.viewRef.classList.toggle('laidout', true)
+    }
+  }
+
+  setMasonryRef = ref => {
+    this.masonry = ref
+    if (ref) {
+      // we use masonry to layout the cards
+      // however sometimes masonry doesn't respect the spacing we want between cards
+      // so here we make sure it's CARD_SPACING
+      let lastItemLeft=0
+      let lastItemWidth=0
+      const masonry = this.masonry.masonry
+      const getItemLayoutPosition = masonry._getItemLayoutPosition.bind(masonry)
+      masonry._getItemLayoutPosition = (item) =>{
+        const position = getItemLayoutPosition(item)
+        if (position.x !==0 && (position.x - (lastItemLeft+lastItemWidth)) < CARD_SPACING) {
+          position.x = lastItemLeft = lastItemLeft+lastItemWidth+CARD_SPACING
+        }
+        lastItemLeft = position.x
+        lastItemWidth = item.size.width
+        return position
+      }
     }
   }
 

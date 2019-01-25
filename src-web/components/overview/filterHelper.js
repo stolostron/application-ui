@@ -8,7 +8,7 @@
  *******************************************************************************/
 'use strict'
 
-import { CardTypes } from './constants.js'
+import { CardTypes, CARD_SPACING } from './constants.js'
 import msgs from '../../../nls/platform.properties'
 import { getDefaultViewState } from './defaults.js'
 import { OVERVIEW_STATE_COOKIE  } from '../../../lib/shared/constants'
@@ -42,19 +42,6 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
     const {matchingClusters} = getMatchingClusters(clusters, includes)
     return (matchingClusters.length!==0)
   })
-  // remove non existant provider cards
-  let idx = 0
-  const existingMap = _.keyBy(existingProviders, 'title')
-  while(idx < cardOrder.length) {
-    const {type, title} = cardOrder[idx]
-    if (type === CardTypes.provider) {
-      if (!existingMap[title]) {
-        cardOrder.splice(idx,1)
-        idx--
-      }
-    }
-    idx++
-  }
 
   // if any unknown clusters out there, add a custom provider card for it
   const unknownClusters = getUnknownClusters(clusters, configuredProviders)
@@ -67,6 +54,20 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
     cloudSet.forEach(cloud=>{
       existingProviders.push({'title':  cloud, includes: [{'cloud': cloud}]})
     })
+  }
+
+  // remove non existant provider cards
+  let idx = 0
+  const existingMap = _.keyBy(existingProviders, 'title')
+  while(idx < cardOrder.length) {
+    const {type, title} = cardOrder[idx]
+    if (type === CardTypes.provider) {
+      if (!existingMap[title]) {
+        cardOrder.splice(idx,1)
+        idx--
+      }
+    }
+    idx++
   }
 
   const bannerFiltered = activeFilters[BANNER_FILTER].length>0
@@ -117,12 +118,12 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
 
     case 4:
     case 5:
-      width = 210
+      width = 216
       break
     }
   }
 
-  return {allProviders: existingProviders, providerWidth: width-7}
+  return {allProviders: existingProviders, providerWidth: width-CARD_SPACING}
 }
 
 export const filterViewState = (activeFilters, prevState) => {

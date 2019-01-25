@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
 import { Select, SelectItem } from 'carbon-components-react'
 import { HeatSelections, GroupByChoices, SizeChoices, ShadeChoices } from '../constants.js'
+import { getHeatMapData } from '../dataHelper'
 import GridCard from '../GridCard'
 import HeatCollapsed from './HeatCollapsed'
 import HeatExpanded from './HeatExpanded'
@@ -65,6 +66,7 @@ class HeatCard extends React.Component {
     const { item } = this.props
     const { mapRect, heatMapState } = this.state
     const { expanded, heatMapChoices } = heatMapState
+    const heatMapData = getHeatMapData(item, heatMapChoices, !expanded)
     const mapClasses = classNames({
       'heat-card': true,
       'expanded': expanded,
@@ -74,12 +76,13 @@ class HeatCard extends React.Component {
       <GridCard item={item}>
         <div className={mapClasses}>
           <div className='heat-card-container'>
-            {this.renderHeader(expanded, heatMapChoices)}
+            {this.renderHeader(expanded, heatMapChoices, heatMapData)}
             {expanded && this.renderHeatMapSelections(item) }
             <div className='heat-card-map' ref={this.setHeatMapRef}>
               {mapRect && (!expanded ?
-                <HeatCollapsed item={item} heatMapChoices={heatMapChoices} mapRect={mapRect} /> :
-                <HeatExpanded item={item} heatMapChoices={heatMapChoices}  mapRect={mapRect} />) }
+                <HeatCollapsed heatMapData={heatMapData} mapRect={mapRect} /> :
+                <HeatExpanded item={item} heatMapData={heatMapData}
+                  heatMapChoices={heatMapChoices} mapRect={mapRect} />) }
             </div>
           </div>
         </div>
@@ -87,13 +90,13 @@ class HeatCard extends React.Component {
     )
   }
 
-  renderHeader = (expanded, {shade, size}) => {
+  renderHeader = (expanded, {shade, size}, {average}) => {
     const {locale} = this.context
     const toggleMsg = msgs.get(expanded?'overview.collapse':'overview.expand', locale)
     const legend = [
-      {title: msgs.get('overview.legend.above', locale), className:'legend above'},
-      {title: msgs.get('overview.legend.average', locale), className:'legend average'},
       {title: msgs.get('overview.legend.below', locale), className:'legend below'},
+      {title: msgs.get('overview.legend.average', [average], locale), className:'legend average'},
+      {title: msgs.get('overview.legend.above', locale), className:'legend above'},
     ]
     let usageMsg
     switch (shade) {

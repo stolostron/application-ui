@@ -10,7 +10,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getHeatMapData } from '../dataHelper'
 
 const COLLAPSED_COLUMNS = 80
 const COLLAPSED_ROWS = 7
@@ -21,18 +20,16 @@ const COLLAPSED_PADDING = 4
 export default class HeatCollapsed extends React.PureComponent {
 
   render() {
-    const { item, mapRect, heatMapChoices } = this.props
+    const { mapRect, heatMapData } = this.props
     const { width } = mapRect
-
-    // get map data
-    const {sizeTotal, heatMapData} = getHeatMapData(item, heatMapChoices, true)
+    const {sizeTotal, mapData} = heatMapData
 
     // determine a scaling factor based on # of squares we have data for
     let scaling = 1
     if (sizeTotal>COLLAPSED_SQUARES) {
       scaling = COLLAPSED_SQUARES/sizeTotal
     } else {
-      switch (Object.keys(heatMapData).length) {
+      switch (Object.keys(mapData).length) {
       case 1:
       case 2:
         scaling = (COLLAPSED_SQUARES/2)/sizeTotal
@@ -46,8 +43,8 @@ export default class HeatCollapsed extends React.PureComponent {
 
     // create an array
     const heatArray=[]
-    Object.keys(heatMapData).forEach(key=>{
-      heatMapData[key].forEach(cluster=>{
+    Object.keys(mapData).forEach(key=>{
+      mapData[key].forEach(cluster=>{
         const {size, color} = cluster
         const multiplier = Math.round(scaling*size)
         for (var i = 0; i < multiplier; i++) {
@@ -100,7 +97,6 @@ export default class HeatCollapsed extends React.PureComponent {
 }
 
 HeatCollapsed.propTypes = {
-  heatMapChoices: PropTypes.object,
-  item: PropTypes.object,
+  heatMapData: PropTypes.object,
   mapRect: PropTypes.object,
 }

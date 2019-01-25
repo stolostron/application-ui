@@ -44,6 +44,22 @@ export default class ProviderCard extends React.PureComponent {
 
     // gather data
     const {matchingClusters, kubeMap, kubeTypes} = getMatchingClusters(clusters, includes)
+    const otherTypes = []
+    const otherMsg = msgs.get('overview.other.type', locale)
+    kubeMap[otherMsg] = []
+    const filteredKubeTypes = kubeTypes.filter(kubeType=>{
+      if (kubeType.length>5) {
+        kubeMap[otherMsg] = [...kubeMap[otherMsg], kubeMap[kubeType]]
+        otherTypes.push(kubeType)
+        return false
+      }
+      return true
+    })
+    let otherIdx=-1
+    if (otherTypes.length>0) {
+      filteredKubeTypes.push(otherMsg)
+      otherIdx = filteredKubeTypes.length-1
+    }
 
     // anything not compliant?
     let nonComplaintCnt = 0
@@ -64,38 +80,35 @@ export default class ProviderCard extends React.PureComponent {
       <GridCard item={item} >
         <div className={providerClasses} style={{width}}
           tabIndex='0' role={'button'} onClick={updateFilters} onKeyPress={handleKeyPress}>
-          <div className='provider-title'>
-            <div className='provider-name'>{title}</div>
-            <div className='provider-cluster-container'>
-              <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
-              <div className={compliantClasses}>
-                <div>
-                  <svg className='provider-noncompilant-icon'>
-                    <use href={'#diagramIcons_error'} ></use>
-                  </svg>
-                </div>
-                <div>
-                  {nonComplaintCnt}
+          <div className='provider-title-container'>
+            <div className='provider-title'>
+              <div className='provider-name'>{title}</div>
+              <div className='provider-cluster-container'>
+                <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
+                <div className={compliantClasses}>
+                  <div>
+                    <svg className='provider-noncompilant-icon'>
+                      <use href={'#diagramIcons_error'} ></use>
+                    </svg>
+                  </div>
+                  <div>
+                    {nonComplaintCnt}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className='provider-counts'>{
-            kubeTypes.map(kubeType=>{
+            filteredKubeTypes.map((kubeType,idx)=>{
               const kubeCnt = _.padStart(kubeMap[kubeType].length+'', 2, 0)
-              const providerTypeClasses = classNames({
-                'provider-type': true,
-                'large': kubeType.length>5,
-              })
-              let title = ''
-              if (kubeType.length>16) {
-                title = kubeType
-                kubeType = kubeType.substr(0, 5) + '..' + kubeType.substr(kubeType.length - 5)
-              }
+              const title = (idx===otherIdx) ?
+                otherTypes.map(type=>{
+                  return `${_.padStart(kubeMap[type].length+'', 2, 0)} ${type}`
+                }).join('\n') : ''
               return (
                 <div key={kubeType} className='provider-count-cell'>
-                  <div className='provider-count'>{kubeCnt}</div>
-                  <div className={providerTypeClasses} title={title}>{kubeType}</div>
+                  <div className='provider-count' title={title}>{kubeCnt}</div>
+                  <div className='provider-type' title={title}>{kubeType}</div>
                 </div>
               )
             })

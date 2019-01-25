@@ -107,8 +107,17 @@ export function mergeDefinitions(tableDefs, topologyDefs) {
 
 export function getDiagramElements(item, topology) {
 
+  const { placementPolicies = [] } = item
   // get design elements like application
   let elements = getDesignElements(item)
+  let targetClusters = []
+  placementPolicies.forEach(item => {
+    const clusters = _.get(item, 'status.decisions', [])
+    if (clusters.length > 0) {
+      for (const cluster of clusters) targetClusters.push(cluster.clusterName)
+    }
+  })
+  targetClusters = new Set(targetClusters)
   let {nodes, links} = elements
   const {yaml, designLoaded} = elements
   const {releaseMap} = elements
@@ -153,6 +162,13 @@ export function getDiagramElements(item, topology) {
     links=[]
   }
 
+  // create a set based on link's target and source
+  const linksSet = new Set(links.reduce((acc, cur) => [...acc, cur.source, cur.target], []))
+  nodes = nodes.filter(node => {
+    const clusterName = node.clusterName
+    // filter out the node doesn't have any link to others or not in the placementpolicy selector
+    return linksSet.has(node.uid) && (clusterName === undefined || targetClusters.has(clusterName))
+  })
   return {
     clusters,
     links,

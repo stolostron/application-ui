@@ -255,8 +255,10 @@ export function getDesignElements(item) {
     })
     const deployerMap = {}
     item.deployables.forEach(deployable=>{
-      const {deployer: {namespace, chartURL}} = deployable
-      deployerMap[ `${namespace}///${chartURL}`] = deployable
+      if(deployable.deployer){
+        const {deployer: {namespace, chartURL}} = deployable
+        deployerMap[ `${namespace}///${chartURL}`] = deployable
+      }
     })
     Object.keys(applicationWorksMap).forEach((key,idx)=>{
 
@@ -264,20 +266,22 @@ export function getDesignElements(item) {
       applicationWorksMap[key].forEach(work=>{
         const {release, result: {chartName, chartVersion}} = work
         const memberId = `member--${release}--${idx}`
-        nodes.push({
-          name: `${chartName} ${chartVersion}`,
-          work,
-          type: 'chart',
-          isWork: true,
-          uid: memberId,
-        })
+        if(chartName || chartVersion){
+          nodes.push({
+            name: `${chartName} ${chartVersion}`,
+            work,
+            type: 'chart',
+            isWork: true,
+            uid: memberId,
+          })
+        }
 
         // allow weave nodes to connect to its heml chart release
         releaseMap[release] = memberId
 
         // create link back to deployable that asked chart to be deployed
         const deployer = deployerMap[key]
-        const deployableId = deployablesIdMap[deployer.metadata.name]
+        const deployableId = deployer ? deployablesIdMap[deployer.metadata.name] : {}
         links.push({
           source: deployableId,
           target: memberId,

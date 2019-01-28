@@ -42,6 +42,8 @@ export default {
       { key: 'namespace' },
       { key: 'status', transform: getClusterStatusIcon },
       { key: 'nodes'},
+      { key: 'klusterletVersion'},
+      { key: 'kubernetesVersion', msgKey: 'k8sVersion' },
       { key: 'cpu'},
       { key: 'storage'},
       { key: 'memory'},
@@ -111,6 +113,15 @@ export default {
       { key: 'current' },
       { key: 'ready' },
       { key: 'available' },
+      { key: 'created', transform: getAge }
+    ],
+    actions: [],
+  },
+  namespace: {
+    columns: [
+      { key: 'name' },
+      { key: 'cluster' },
+      { key: 'status' },
       { key: 'created', transform: getAge }
     ],
     actions: [],

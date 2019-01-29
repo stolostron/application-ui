@@ -90,6 +90,9 @@
   &.noncompliant {
     fill: $mcm_color_red;
   }
+  &.non-compliant {
+    fill: $mcm_color_red;
+  }
   &.running {
     fill: $mcm_color_green;
   }
@@ -216,7 +219,7 @@
   }
 }
 
-.recharts-layer.failed, .recharts-layer.noncompliant {
+.recharts-layer.failed, .recharts-layer.noncompliant, .recharts-layer.non-compliant {
   circle {
     stroke: $mcm_color_red;
   }
@@ -262,6 +265,8 @@
       &.failed { background: $mcm_color_red; }
       &.ready { background: $mcm_color_green; }
       &.compliant { background: $mcm_color_green; }
+      &.noncompliant { background: $mcm_color_red; }
+      &.non-compliant { background: $mcm_color_red; }
       &.offline { background: $mcm_color_gray; }
     }
   }

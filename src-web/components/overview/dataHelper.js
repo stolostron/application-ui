@@ -89,6 +89,14 @@ export const getHeatMapData = (item, heatMapChoices={}, collapsed) => {
       shadeForTooltip, // shade value displayed in tooltip
     })
   })
+  // sort by name so that _.isEqual works
+  Object.keys(mapData).forEach(key=>{
+    mapData[key].sort((a,b) => {
+      return a.name.localeCompare(b.name)
+    })
+  })
+
+
 
   // assign color classname based on where it falls in spectrum
   if (shadeArray.length>4) {

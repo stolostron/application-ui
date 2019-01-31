@@ -323,8 +323,8 @@ export default {
       {
         key: 'chart',
         resourceKey: 'deployer',
-        msgKey: 'table.header.chartDetails',
-        transformFunction: getChart
+        msgKey: 'table.header.deployerDetails',
+        transformFunction: getDeployerDetails
       },
       {
         key: 'dependencies',
@@ -411,8 +411,9 @@ export function getDecisions(item = {}){
   return '-'
 }
 
-export function getChart(item = {}, locale){
+export function getDeployerDetails(item = {}, locale){
   if (item.deployer){
+    // deployer was a chart
     if (item.deployer.chartURL) {
       return (
         <ul>
@@ -424,7 +425,8 @@ export function getChart(item = {}, locale){
           </li>
         </ul>
       )
-    } else {
+      // deployer was a chart
+    } else if (item.deployer.chartName) {
       return (
         <ul>
           <li key='name' style={{display:'block'}}>
@@ -438,6 +440,18 @@ export function getChart(item = {}, locale){
           </li>
           <li key='namespace' style={{display:'block'}}>
             <b>{msgs.get('table.header.chartNamespace', locale)}</b>{` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
+          </li>
+        </ul>
+      )
+    } else if (item.deployer.kubeKind) {
+      // deployer was a k8 object
+      return (
+        <ul>
+          <li key='name' style={{display:'block'}}>
+            <b>{msgs.get('table.header.kind', locale)}</b>{` = ${item.deployer.kubeKind ? item.deployer.kubeKind : '-'}`}
+          </li>
+          <li key='namespace' style={{display:'block'}}>
+            <b>{msgs.get('table.header.name', locale)}</b>{` = ${item.deployer.kubeName ? item.deployer.kubeName : '-'}`}
           </li>
         </ul>
       )

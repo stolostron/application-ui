@@ -120,10 +120,12 @@ export function getDiagramElements(item, topology) {
   targetClusters = new Set(targetClusters)
   let {nodes, links} = elements
   const {yaml, designLoaded} = elements
-  const {releaseMap} = elements
+  const {chartMap, kubeSelectors} = elements
+  const hasKubeDeploments = kubeSelectors.length>0
+  const hasChartDeploments = Object.keys(chartMap).length>0
 
   // get filters we should use to query topology
-  const requiredFilters = getTopologyFilters(item, this.topologyTypes)
+  const requiredFilters = getTopologyFilters(item, this.topologyTypes, kubeSelectors)
 
   // changing the active filter will cause the topology to load
   // which won't happen in this first pass
@@ -139,22 +141,56 @@ export function getDiagramElements(item, topology) {
     links = [...links, ...tlinks]
 
     // add links between design nodes and topology nodes
-    nodes.forEach(({uid, labels})=>{
+    // don't add k8 node if it has no connection to design
+    nodes = nodes.filter(({uid, labels, clusterName, name, type})=>{
       if (uid && labels) {
-        const label = labels.find(({name})=>{
-          return name==='release'
-        })
-        if (label) {
-          const chartId = releaseMap[label.value]
-          if (chartId) {
-            links.push({
-              source: chartId,
-              target: uid,
-              label: '',
-              uid: chartId+uid
-            })
+        let shapeId=null
+
+        // if deployable connected directly to k8, use selector to match the k8 object
+        if (hasKubeDeploments) {
+          const selector = kubeSelectors.find(({kubeCluster, kubeKind, kubeName})=>{
+            // must be in same cluster
+            if (clusterName!==kubeCluster) {
+              return false
+            }
+            // must be service if kind is Service
+            // pod and deployment if kind is Deployment
+            if (kubeKind === 'Service' && type!=='service') {
+              return false
+            }
+            // must be same name
+            const k8Name = type==='pod' ? name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '') : name
+            if (k8Name!==kubeName) {
+              return false
+            }
+            return true
+          })
+          if (selector) {
+            shapeId = selector.deployableId
           }
         }
+
+        // else if deployable used a chart, connect the chart to the k8 object
+        if (!shapeId && hasChartDeploments) {
+          const label = labels.find(({name})=>{
+            return name==='release'
+          })
+          if (label) {
+            shapeId = chartMap[label.value] //chart id through "release" label
+          }
+        }
+        if (shapeId) {
+          links.push({
+            source: shapeId,
+            target: uid,
+            label: '',
+            uid: shapeId+uid
+          })
+          return true
+        }
+        return false
+      } else {
+        return true
       }
     })
   } else {
@@ -162,13 +198,6 @@ export function getDiagramElements(item, topology) {
     links=[]
   }
 
-  // create a set based on link's target and source
-  const linksSet = new Set(links.reduce((acc, cur) => [...acc, cur.source, cur.target], []))
-  nodes = nodes.filter(node => {
-    const clusterName = node.clusterName
-    // filter out the node doesn't have any link to others or not in the placementpolicy selector
-    return linksSet.has(node.uid) && (clusterName === undefined || targetClusters.has(clusterName))
-  })
   return {
     clusters,
     links,
@@ -178,13 +207,13 @@ export function getDiagramElements(item, topology) {
     requiredFilters,
     topologyLoaded
   }
-
 }
 
 export function getDesignElements(item) {
   const links=[]
   const nodes=[]
-  const releaseMap={}
+  const chartMap={}
+  const kubeSelectors=[]
   let yaml = ''
   let designLoaded = false
   if (item) {
@@ -205,7 +234,8 @@ export function getDesignElements(item) {
       $r: 0
     })
 
-    // create deployment and policy nodes and links back to application
+    // create deployables and policy nodes and links back to application
+    const deployablesMap = {}
     const deployablesIdMap = {}
     const keys = ['deployables', 'placementPolicies']
     keys.forEach(key=>{
@@ -217,7 +247,7 @@ export function getDesignElements(item) {
           const name = _.get(member, 'metadata.$v.name', member)
           const namespace = _.get(member, 'metadata.$v.namespace.$v')
           const memberId = `member--${key}--${name.$v}--${idx}`
-          nodes.push({
+          const deployable = {
             name: name.$v,
             namespace,
             member,
@@ -225,7 +255,9 @@ export function getDesignElements(item) {
             uid: memberId,
             isDesign: true,
             $r: name.$r
-          })
+          }
+          deployablesMap[name.$v] = deployable
+          nodes.push(deployable)
           links.push({
             source: appId,
             target: memberId,
@@ -258,55 +290,80 @@ export function getDesignElements(item) {
       })
     }
 
-    // create relationship between deployable and its chart
+    // create a relationship between deployable and works
+    const deployerMap = {}
+    item.deployables.forEach(deployable=>{
+      if(deployable.deployer){
+        const {deployer: {namespace, chartURL, kubeKind, kubeName}} = deployable
+        // when a chart was used or when a k8 object was selected
+        const key = chartURL ? `${namespace}///${chartURL}` : `${kubeKind}///${kubeName}`
+        deployerMap[key] = deployable
+      }
+    })
     const applicationWorksMap = {}
     item.applicationWorks.forEach(work=>{
-      const {result: {namespace, chartURL}} = work
-      const key = `${namespace}///${chartURL}`
+      const {result: {namespace, chartURL, kubeKind, kubeName}} = work
+      // when a chart was used or when a k8 object was selected
+      const key = chartURL ? `${namespace}///${chartURL}` : `${kubeKind}///${kubeName}`
       let arr = applicationWorksMap[key]
       if (!arr) {
         arr = applicationWorksMap[key] = []
       }
       arr.push(work)
     })
-    const deployerMap = {}
-    item.deployables.forEach(deployable=>{
-      if(deployable.deployer){
-        const {deployer: {namespace, chartURL}} = deployable
-        deployerMap[ `${namespace}///${chartURL}`] = deployable
-      }
-    })
+
+    // connect each works between deployable and k8 object
+    // insert a chart shape in between if that was used
     Object.keys(applicationWorksMap).forEach((key,idx)=>{
 
-      // create helm chart that was deployed
       applicationWorksMap[key].forEach(work=>{
-        const {release, result: {chartName, chartVersion}} = work
-        const memberId = `member--${release}--${idx}`
-        if(chartName || chartVersion){
+        const {release, result: {chartName, chartVersion, kubeKind, kubeName, kubeCluster}} = work
+
+        // if a chart was used:
+        //  create its shape, connect it to deployable
+        //  and add a relationship to be used to connect chart to k8 objects (in chartMap)
+        if(chartName || chartVersion) {
+
+          // create chart shape
+          const chartId = `member--${release}--${idx}`
           nodes.push({
             name: `${chartName} ${chartVersion}`,
             work,
             type: 'chart',
             isWork: true,
-            uid: memberId,
+            isDivider: true, // organize diagram so that charts form barrier between design and k8
+            uid: chartId,
           })
+
+          // create link between deployable to chart
+          const deployer = deployerMap[key]
+          const deployableId = deployer ? deployablesIdMap[deployer.metadata.name] : {}
+          links.push({
+            source: deployableId,
+            target: chartId,
+            label: 'deploys',
+            isWork: true,
+            uid: deployableId+chartId
+          })
+
+          // tell how to connect chart to k8 object (thru release label on k8 object)
+          chartMap[release] = chartId
+
+        } else {
+          // if no chart, use work to directly connect deployable to k8 object thru kind/name/cluster
+          const deployer = deployerMap[key]
+          if (deployer) {
+            const name = deployer.metadata.name
+            const deployableId = deployablesIdMap[name]
+            deployablesMap[name].isDivider = true // organize diagram so that deployables form barrier between design and k8
+            kubeSelectors.push({
+              deployableId, kubeKind, kubeName, kubeCluster
+            })
+          }
         }
-
-        // allow weave nodes to connect to its heml chart release
-        releaseMap[release] = memberId
-
-        // create link back to deployable that asked chart to be deployed
-        const deployer = deployerMap[key]
-        const deployableId = deployer ? deployablesIdMap[deployer.metadata.name] : {}
-        links.push({
-          source: deployableId,
-          target: memberId,
-          label: 'deploys',
-          isWork: true,
-          uid: deployableId+memberId
-        })
       })
     })
+
     designLoaded = true
   }
 
@@ -314,53 +371,63 @@ export function getDesignElements(item) {
     links,
     nodes,
     yaml,
-    releaseMap,
+    chartMap,
+    kubeSelectors,
     designLoaded
   }
 }
 
-export function getTopologyFilters(item, topologyTypes) {
+export function getTopologyFilters(item, topologyTypes, kubeSelectors) {
   if (item) {
     let labels = []
-    const {selector={}} = item
-    for (var key in selector) {
-      if (selector.hasOwnProperty(key)) {
-        switch (key) {
+    const filters = {type: topologyTypes}
+    // if any k8 objects are used, we need to pull in everything from weave from selecter clusters
+    // and then match up the types and names
+    if (kubeSelectors.length>0) {
+      filters.cluster = Object.keys(_.keyBy(kubeSelectors, 'kubeCluster'))//.map(key=>{
+    } else {
+      // else we can use the labels on the application to find k8 objects
+      const {selector={}} = item
+      for (var key in selector) {
+        if (selector.hasOwnProperty(key)) {
+          switch (key) {
 
-        case 'matchLabels':
-          for (var k in selector[key]) {
-            if (selector[key].hasOwnProperty(k)) {
-              const v = selector[key][k]
-              labels.push({ label: `${k}: ${v}`, name: k, value: v})
+          case 'matchLabels':
+            for (var k in selector[key]) {
+              if (selector[key].hasOwnProperty(k)) {
+                const v = selector[key][k]
+                labels.push({ label: `${k}: ${v}`, name: k, value: v})
+              }
             }
+            break
+
+          case 'matchExpressions':
+            selector[key].forEach(({key:k='', operator='', values=[]})=>{
+              switch (operator.toLowerCase()) {
+              case 'in':
+                labels = values.map(v => {
+                  return { label: `${k}: ${v}`, name: k, value:v}
+                })
+                break
+
+              case 'notin':
+                //TODO
+                break
+
+              default:
+                break
+              }
+            })
+            break
+
+          default:
+            break
           }
-          break
-
-        case 'matchExpressions':
-          selector[key].forEach(({key:k='', operator='', values=[]})=>{
-            switch (operator.toLowerCase()) {
-            case 'in':
-              labels = values.map(v => {
-                return { label: `${k}: ${v}`, name: k, value:v}
-              })
-              break
-
-            case 'notin':
-              //TODO
-              break
-
-            default:
-              break
-            }
-          })
-          break
-
-        default:
-          break
         }
       }
+      filters.label = labels
     }
-    return {label: labels, type: topologyTypes}
+    return filters
   }
   return {}
 }
@@ -530,8 +597,8 @@ export function getConnectedLayoutOptions({elements}) {
 
     // put charts along y to separate design from k8 objects
     alignment: (node)=>{
-      const {node:{isWork, type}} = node.data()
-      if (isWork && type==='chart') {
+      const {node:{isDivider}} = node.data()
+      if (isDivider) {
         return { y: 0 }
       }
       return null

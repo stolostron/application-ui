@@ -204,7 +204,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchTopology: (requiredFilters) => {
       const f = _.cloneDeep(requiredFilters)
-      f.label = f.label.map(l => ({ name: l.name, value: l.value }))
+      f.label = f.label ? f.label.map(l => ({ name: l.name, value: l.value })) : []
 
       // in topology page, the filter dropdowns would be setting the active topology filters
       // but here we need to set the activeFilters based on the design

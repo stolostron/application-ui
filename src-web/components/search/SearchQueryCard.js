@@ -41,16 +41,9 @@ class SearchQueryCard extends React.Component {
 
   handleCardClick = (client, searchText, cardData) => {
     const { name, description } = cardData
-    const {searchQueryTabs: { tabs }} = client.readQuery({query: GET_SEARCH_TABS})
+    const {searchQueryTabs: { tabs, openedTabName }} = client.readQuery({query: GET_SEARCH_TABS})
 
-    client.writeData({ data: {
-      searchInput: {
-        __typename: 'SearchInput',
-        text: searchText
-      }
-    }} )
-
-    tabs[tabs.length - 1] = {
+    const newTab = {
       description: description,
       id: name,
       queryName: name,
@@ -58,12 +51,20 @@ class SearchQueryCard extends React.Component {
       updated: false,
       __typename: 'QueryTab'
     }
+    tabs[tabs.findIndex(tab => tab.queryName === openedTabName)] = newTab
     const newData =  {
       __typename: 'SearchQueryTabs',
       openedTabName: name,
       tabs: tabs,
     }
     client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
+
+    client.writeData({ data: {
+      searchInput: {
+        __typename: 'SearchInput',
+        text: searchText
+      }
+    }} )
   }
 
   getCardActions = (client, data, resultHeader) => {

@@ -15,19 +15,13 @@ import resources from '../../../lib/shared/resources'
 import SearchBar from '../search/SearchBar'
 import { Icon } from 'carbon-components-react'
 import { Query } from 'react-apollo'
-import { gql } from 'apollo-boost'
-import { GET_SEARCH_INPUT_TEXT } from '../../apollo-client/queries/SearchQueries'
+import { GET_SEARCH_SCHEMA, GET_SEARCH_INPUT_TEXT } from '../../apollo-client/queries/SearchQueries'
 import { UPDATE_SINGLE_QUERY_TAB } from '../../apollo-client/queries/StateQueries'
 
 resources(() => {
   require('../../../scss/search-input.scss')
 })
 
-const GET_SEARCH_SCHEMA = gql`
-  query searchSchema {
-    searchSchema
-  }
-`
 class SearchInput extends React.PureComponent {
   render() {
     const { clientSideFilters, tabName, updateBrowserURL } = this.props

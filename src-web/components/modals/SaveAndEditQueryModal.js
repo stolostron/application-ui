@@ -27,10 +27,11 @@ resources(() => {
 class SaveAndEditQueryModal extends React.PureComponent {
   constructor(props) {
     super(props)
-    const { data: { name, description} = {}} = props
+    const { data: { name, description, searchText } = {}} = props
     this.state = {
       nameInput: name || '',
       descriptionInput: description || '',
+      searchText,
       errorMessage: '',
       editExisting: !!name,
     }
@@ -74,6 +75,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
       })
     const newData =  {
       openedTabName: name,
+      description,
       updateUnsavedOrExisting: true,
       searchText
     }

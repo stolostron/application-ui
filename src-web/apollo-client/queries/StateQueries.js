@@ -37,8 +37,8 @@ export const UPDATE_QUERY_TABS = gql`
 `
 
 export const UPDATE_SINGLE_QUERY_TAB = gql`
-  mutation UpdateSingleQueryTab($openedTabName: String, $searchText: String, $updateUnsavedOrExisting: Boolean) {
-    updateSingleQueryTab(openedTabName: $openedTabName, searchText:$searchText, updateUnsavedOrExisting:$updateUnsavedOrExisting) @client
+  mutation UpdateSingleQueryTab($openedTabName: String, $description: String, $searchText: String, $updateUnsavedOrExisting: Boolean) {
+    updateSingleQueryTab(openedTabName: $openedTabName, description: $description, searchText:$searchText, updateUnsavedOrExisting:$updateUnsavedOrExisting) @client
   }
 `
 

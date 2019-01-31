@@ -53,7 +53,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
               <div className='secondary-header'>
                 {tabs && tabs.length > 0 ? (
                   <DetailPageHeader hasTabs={true} title={decodeURIComponent(title)} aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}>
-                    <Tabs className='secondary-header-tabs' selected={this.getSelectedTab(tabs, openedTabName) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
+                    <Tabs className='secondary-header-tabs' selected={this.getSelectedTab(tabs, openedTabName, client) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
                       {this.renderTabs(client, tabs, unsavedCount)}
                       {this.renderAddNewTab(client, unsavedCount, tabs, locale)}
                     </Tabs>
@@ -192,11 +192,25 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }} )
   }
 
-  getSelectedTab(tabs, openedTabName) {
+  getSelectedTab(tabs, openedTabName, client) {
+    const currentTab = tabs.filter(tab => tab.queryName === openedTabName && !tab.queryName.toLowerCase().includes('unsaved'))
     const result = tabs.reduce((r, a) => r.concat(a, 0), [])
     const index = result.findIndex((tab) =>
       tab.queryName === openedTabName
     )
+
+    client.writeData({ data: {
+      modal: {
+        __typename: 'modal',
+        data: {
+          __typename: 'ModalData',
+          name: _.get(currentTab, '[0].queryName', ''),
+          searchText:  _.get(currentTab, '[0].searchText', ''),
+          description: _.get(currentTab, '[0].description', ''),
+        }
+      }
+    }} )
+
     return index === -1 ? 0 : index
   }
 

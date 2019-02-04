@@ -139,6 +139,10 @@ export class SecondaryHeaderSearchPage extends React.Component {
       searchInput: {
         __typename: 'SearchInput',
         text: tabs[tabs.length - 1].searchText
+      },
+      relatedResources: {
+        __typename: 'RelatedResources',
+        visibleKinds: []
       }
     }} )
   }
@@ -168,6 +172,10 @@ export class SecondaryHeaderSearchPage extends React.Component {
       searchInput: {
         __typename: 'SearchInput',
         text: ''
+      },
+      relatedResources: {
+        __typename: 'RelatedResources',
+        visibleKinds: []
       }
     }} )
   }
@@ -188,6 +196,10 @@ export class SecondaryHeaderSearchPage extends React.Component {
       searchInput: {
         __typename: 'SearchInput',
         text: searchText
+      },
+      relatedResources: {
+        __typename: 'RelatedResources',
+        visibleKinds: []
       }
     }} )
   }

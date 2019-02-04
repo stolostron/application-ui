@@ -9,7 +9,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { SelectableTile, SkeletonText } from 'carbon-components-react'
+import { Icon, SelectableTile, SkeletonText } from 'carbon-components-react'
 import { formatNumber } from '../../../lib/client/search-helper'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramShapes.svg'
@@ -32,18 +32,21 @@ class RelatedResourceTile extends React.PureComponent {
     switch (kind.toLowerCase()) {
     case 'application':
     case 'applications':
-      return 'roundedSq'
-    case 'pod':
-    case 'pods':
-      return 'circle'
-    case 'service':
-    case 'services':
-      return 'hexagon'
+      return 'app-services'
+    case 'cluster':
+    case 'clusters':
+      return 'app-services'
     case 'deployment':
     case 'deployments':
-      return 'gear'
+      return 'launch'
+    case 'pod':
+    case 'pods':
+      return 'network'
+    case 'service':
+    case 'services':
+      return 'services'
     default:
-      return 'circle'
+      return 'app-services'
     }
   }
 
@@ -60,13 +63,13 @@ class RelatedResourceTile extends React.PureComponent {
       : <SelectableTile
         id={`related-resource-${kind}`}
         selected={selected}
-        handleClick={handleClick}
+        handleClick={count > 0 ? () => handleClick(kind) : () => {}}
         defaultChecked={false}
         tabIndex={0} >
         <div className='related-resource-tile'>
-          <svg className='related-resource-tile icon' width="48px" height="48px" viewBox="0 0 48 48">
-            <use href={`#diagramShapes_${this.iconType(kind)}`} className={`tile-icon ${kind}`}></use>
-          </svg>
+          <Icon
+            id={`${kind}-icon`}
+            name={`icon--${this.iconType(kind)}`} />
           <div className='related-resource-tile content'>
             <div className='related-resource-tile count'>{formatNumber(count)}</div>
             <div className='related-resource-tile text'>{msgs.get('related.tile.text', [kind], locale)}</div>

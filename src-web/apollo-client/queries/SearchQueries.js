@@ -46,12 +46,35 @@ export const GET_SEARCH_TABS = gql`
   }
 `
 
+export const GET_RELATED_RESOURCES = gql`
+  {
+    relatedResources @client {
+      visibleKinds
+    }
+  }
+`
+
 export const SEARCH_QUERY = gql`
   query searchResult($input: [SearchInput]) {
     searchResult: search(input: $input){
       count
       items
       updatedTimestamp
+    }
+  }
+`
+
+export const SEARCH_QUERY_RELATED = gql`
+  query searchResult($input: [SearchInput]) {
+    searchResult: search(input: $input){
+      count
+      items
+      updatedTimestamp
+      related {
+        kind
+        count
+        items
+      }
     }
   }
 `

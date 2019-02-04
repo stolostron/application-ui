@@ -17,10 +17,12 @@ import { Loading } from 'carbon-components-react'
 import {
   GET_SAVED_USER_QUERY,
   SEARCH_QUERY,
+  SEARCH_QUERY_RELATED,
   GET_SEARCH_INPUT_TEXT,
   GET_SEARCH_TABS
 } from '../apollo-client/queries/SearchQueries'
 import _ from 'lodash'
+import config from '../../lib/shared/config'
 import msgs from '../../nls/platform.properties'
 import Page from '../components/common/Page'
 import SearchInput from '../components/search/SearchInput'
@@ -96,10 +98,10 @@ class SearchPage extends React.Component {
                 )
               } else if(data && data.searchInput && data.searchInput.text !== '' && (query.keywords.length > 0 || query.filters.length > 0)) {
                 return (
-                  <Query query={SEARCH_QUERY} variables={{input: [query]}}>
+                  <Query query={config['featureFlags:searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: [query]}}>
                     {({ data, loading }) => {
                       return (
-                        <SearchResult searchResult={data.searchResult && data.searchResult[0]} loading={loading} />
+                        <SearchResult searchResult={data.searchResult && data.searchResult[0]} keywordPresent={query.keywords.length > 0} loading={loading} />
                       )
                     }}
                   </Query>
@@ -115,7 +117,7 @@ class SearchPage extends React.Component {
                     const input = [...queries.map(query => convertStringToQuery(query.searchText)),
                       ...suggestedQueryTemplates.map(query => convertStringToQuery(query.searchText))]
                     return(
-                      <Query query={SEARCH_QUERY} variables={{input: input}}>
+                      <Query query={config['featureFlags:searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: input}}>
                         {({ data, loading }) => {
                           if (data.searchResult) {
                             const queriesResult = data.searchResult.slice(0, queries.length).map((query, index) => {return {...query, ...queries[index]}})

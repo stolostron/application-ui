@@ -23,6 +23,8 @@ body {
 }
 
 .page-content-container {
+  display: flex;
+  flex-direction: column;
   padding: 54px 5% 54px;
 }
 

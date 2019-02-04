@@ -11,7 +11,8 @@
         "fullDashboard": false,
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 5000,
-        "search": true
+        "search": true,
+        "searchRelated": false
     },
     "PLATFORM_IDENTITY_PROVIDER_URL": "",
     "WLP_CLIENT_ID": "",

@@ -8,7 +8,7 @@
  *******************************************************************************/
 'use strict'
 import msgs from '../../nls/platform.properties'
-import { getClusterLink } from '../../lib/client/resource-helper'
+import { getClusterLink, getAge } from '../../lib/client/resource-helper'
 
 export default {
   defaultSortField: 'cluster',
@@ -44,7 +44,7 @@ export default {
     {
       msgKey: 'table.header.updated',
       resourceKey: 'lastDeployed',
-      type: 'timestamp'
+      transformFunction: (item) => getAge({ created: item.lastDeployed }),
     },
   ],
   tableActions: [

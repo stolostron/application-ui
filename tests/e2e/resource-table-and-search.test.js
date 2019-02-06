@@ -13,7 +13,7 @@ const ROUTE = {
   'compliance': ['/policies','compliance-xz'],
   'local_policies': ['/policies/local','policy-xz-2'],
   'applications': ['/applications','gbapp-gbapp'],
-  'helm_releases': ['/releases','audit-logging'],
+  // 'helm_releases': ['/releases','audit-logging'],
   'pods': ['/pods','audit-logging-fluentd-ds-lgjpj'],
   'nodes': ['/nodes','9.37.137.174'],
   'persistent_volume': ['/storage','helm-repo-pv'],
@@ -44,10 +44,10 @@ module.exports = {
     verifyTableSearch(browser, ROUTE['applications'][0], ROUTE['applications'][1])
   },
 
-  'Helm Release Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['helm_releases'][0],false)
-    verifyTableSearch(browser, ROUTE['helm_releases'][0], ROUTE['helm_releases'][1])
-  },
+  // 'Helm Release Page: table and search': (browser) => {
+  //   verifyResourcePage(browser, ROUTE['helm_releases'][0],false)
+  //   verifyTableSearch(browser, ROUTE['helm_releases'][0], ROUTE['helm_releases'][1])
+  // },
 
   'Pod Page: table and search': (browser) => {
     verifyResourcePage(browser, ROUTE['pods'][0],false)

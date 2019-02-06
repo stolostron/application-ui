@@ -4,6 +4,7 @@
     "hcmUiApiUrl": "",
     "cfcRouterUrl": "",
     "platformHeaderContextPath": "/header",
+    "feature_searchRelated": false,
     "featureFlags": {
         "dashboardLiveUpdates": true,
         "dashboardRefreshInterval" : 20000,
@@ -11,8 +12,7 @@
         "fullDashboard": false,
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 5000,
-        "search": true,
-        "searchRelated": false
+        "search": true
     },
     "PLATFORM_IDENTITY_PROVIDER_URL": "",
     "WLP_CLIENT_ID": "",

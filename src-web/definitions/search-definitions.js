@@ -66,17 +66,12 @@ export default {
       'table.actions.cluster.edit.labels',
     ],
   },
-  policy: {
+  configmap: {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
-      { key: 'compliant', transform: getPolocyStatusIcon },
-      { key: 'cluster'},
-      { key: 'remediationAction'},
+      { key: 'cluster' },
       { key: 'created', transform: getAge},
-    ],
-    actions: [
-      'table.actions.cluster.edit.labels',
     ],
   },
   daemonset: {
@@ -201,6 +196,19 @@ export default {
     ],
     actions: [],
   },
+  policy: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'compliant', transform: getPolocyStatusIcon },
+      { key: 'cluster'},
+      { key: 'remediationAction'},
+      { key: 'created', transform: getAge},
+    ],
+    actions: [
+      'table.actions.cluster.edit.labels',
+    ],
+  },
   releases: {
     columns: [
       { key: 'name' },
@@ -223,6 +231,15 @@ export default {
       { key: 'created', transform: getAge }
     ],
     actions: [],
+  },
+  secret: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster' },
+      { key: 'type' },
+      { key: 'created', transform: getAge},
+    ],
   },
   service: {
     columns: [

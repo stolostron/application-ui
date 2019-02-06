@@ -41,7 +41,7 @@ class SearchResult extends React.PureComponent {
     if(loading){
       return (
         <div>
-          { (config['featureFlags:searchRelated'] && !keywordPresent) ? <RelatedResources loading={true} /> : null }
+          { (config['feature_searchRelated'] && !keywordPresent) ? <RelatedResources loading={true} /> : null }
           <div className={'search--results-view'} >
             <h4>{msgs.get('search.loading', this.context.locale)}</h4>
             <DataTableSkeleton zebra />
@@ -62,7 +62,7 @@ class SearchResult extends React.PureComponent {
         {( { data } ) => {
           return (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              { config['featureFlags:searchRelated'] && !keywordPresent && relatedResources.length > 0 && <RelatedResources relatedResources={relatedResources} selectedKinds={data} />}
+              { config['feature_searchRelated'] && !keywordPresent && relatedResources.length > 0 && <RelatedResources relatedResources={relatedResources} selectedKinds={data} />}
 
               { uniqueKinds.map((kind) => (
                 <div className={'search--resource-table'} key={kind}>
@@ -76,7 +76,7 @@ class SearchResult extends React.PureComponent {
               ))}
 
               {/* TODO: Zack L - need to eventually remove the feature flags */}
-              { config['featureFlags:searchRelated'] && !keywordPresent && data && data.relatedResources && data.relatedResources.visibleKinds.map((kind) => (
+              { config['feature_searchRelated'] && !keywordPresent && data && data.relatedResources && data.relatedResources.visibleKinds.map((kind) => (
                 <div className={'search--resource-table'} key={`related-resource-${kind}`}>
                   <SearchResourceTable
                     items={_.flatten(relatedResources.filter(resource => {

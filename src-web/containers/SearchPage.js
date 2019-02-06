@@ -98,7 +98,7 @@ class SearchPage extends React.Component {
                 )
               } else if(data && data.searchInput && data.searchInput.text !== '' && (query.keywords.length > 0 || query.filters.length > 0)) {
                 return (
-                  <Query query={config['featureFlags:searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: [query]}}>
+                  <Query query={config['feature_searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: [query]}}>
                     {({ data, loading }) => {
                       return (
                         <SearchResult searchResult={data.searchResult && data.searchResult[0]} keywordPresent={query.keywords.length > 0} loading={loading} />
@@ -117,7 +117,7 @@ class SearchPage extends React.Component {
                     const input = [...queries.map(query => convertStringToQuery(query.searchText)),
                       ...suggestedQueryTemplates.map(query => convertStringToQuery(query.searchText))]
                     return(
-                      <Query query={config['featureFlags:searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: input}}>
+                      <Query query={config['feature_searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: input}}>
                         {({ data, loading }) => {
                           if (data.searchResult) {
                             const queriesResult = data.searchResult.slice(0, queries.length).map((query, index) => {return {...query, ...queries[index]}})

@@ -36,14 +36,24 @@
       text-transform: capitalize;
 
       &-button {
+        display: flex;
+        align-items: center;
         border: none;
         background-color: transparent;
-        color: $color__blue-40;
-        font-weight: bold;
-        font-size: 0.8rem;
+        color: $color__blue-90;
+        font-weight: 600;
+        font-size: 1.125rem;
+        padding: 0rem;
+        margin-bottom: 0.5rem;
+        text-transform: capitalize;
         &:hover {
           cursor: pointer;
           text-decoration: underline;
+        }
+
+        &-icon {
+          fill: $color__blue-90;
+          width: 20px;
         }
       }
     }
@@ -56,4 +66,8 @@
 
 .search--results-view {
   margin-top: 2rem;
+}
+
+.spacer {
+  width: 1rem;
 }

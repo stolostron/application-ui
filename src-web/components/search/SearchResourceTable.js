@@ -131,14 +131,19 @@ class SearchResourceTable extends React.PureComponent {
     return (
       <div >
         <div className={'search--resource-table-header'}>
-          {`${this.props.related ? msgs.get('table.header.search.related', [this.props.kind]) : this.props.kind} (${this.props.items.length})`}
-          {!this.props.related && this.props.collapseTable
-            ? <button
-              onClick={this.toggleCollapseTable}
-              className={'search--resource-table-header-button'} >
-              {collapse ? msgs.get('table.header.search.expand') : msgs.get('table.header.search.collapse')}
-            </button>
-            : null
+          {!this.props.related
+            ? <div>
+              <button
+                onClick={this.toggleCollapseTable}
+                className={'search--resource-table-header-button'} >
+                {`${this.props.kind} (${this.props.items.length})`}
+                <Icon
+                  className='search--resource-table-header-button-icon'
+                  name={collapse ? 'caret--down' : 'caret--up'}
+                  description={msgs.get(collapse ? 'table.header.search.expand' : 'table.header.search.collapse', this.context.locale)} />
+              </button>
+            </div>
+            : `${msgs.get('table.header.search.related', [this.props.kind])} (${this.props.items.length})`
           }
         </div>
         {!collapse

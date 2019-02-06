@@ -60,8 +60,9 @@ class SearchResult extends React.PureComponent {
     return (
       <Query query={GET_RELATED_RESOURCES}>
         {( { data } ) => {
+          const visibleKinds = data && data.relatedResources && data.relatedResources.visibleKinds
           return (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div  className={'search--resource'} >
               { config['feature_searchRelated'] && !keywordPresent && relatedResources.length > 0 && <RelatedResources relatedResources={relatedResources} selectedKinds={data} />}
 
               { uniqueKinds.map((kind) => (
@@ -71,12 +72,13 @@ class SearchResult extends React.PureComponent {
                     expandFullPage={uniqueKinds.length === 1}
                     key={kind}
                     kind={kind}
+                    collapseTable={visibleKinds && visibleKinds.length > 0}
                   />
                 </div>
               ))}
 
               {/* TODO: Zack L - need to eventually remove the feature flags */}
-              { config['feature_searchRelated'] && !keywordPresent && data && data.relatedResources && data.relatedResources.visibleKinds.map((kind) => (
+              { config['feature_searchRelated'] && !keywordPresent && visibleKinds && visibleKinds.map((kind) => (
                 <div className={'search--resource-table'} key={`related-resource-${kind}`}>
                   <SearchResourceTable
                     items={_.flatten(relatedResources.filter(resource => {
@@ -84,6 +86,7 @@ class SearchResult extends React.PureComponent {
                     }).map(resource => resource.items))}
                     key={kind}
                     kind={kind}
+                    related={true}
                   />
                 </div>
               ))}

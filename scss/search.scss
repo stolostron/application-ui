@@ -8,27 +8,52 @@
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
-.search--related-results {
+.search--resource {
   display: flex;
-  margin: 1rem 0 1rem 0;
+  flex-direction: column;
 
-  .bx--tile {
+  .search--related-results {
     display: flex;
-    margin-right: 1rem;
-  }
-  .bx--tile:last-child {
-    margin-right: 0rem;
-  }
-}
+    margin: 1rem 0 1rem 0;
 
-.search--resource-table {
-  margin-top: 1rem;
+    .bx--tile {
+      display: flex;
+      margin-right: 1rem;
+    }
+    .bx--tile:last-child {
+      margin-right: 0rem;
+    }
+  }
 
-  .bx--data-table-v2-header {
-    text-transform: capitalize;
+  .search--resource-table {
+    margin-top: 2rem;
+
+    .search--resource-table-header {
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+      color: $color__blue-90;
+      text-transform: capitalize;
+
+      &-button {
+        border: none;
+        background-color: transparent;
+        color: $color__blue-40;
+        font-weight: bold;
+        font-size: 0.8rem;
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .bx--data-table-v2-header {
+      text-transform: capitalize;
+    }
   }
 }
 
 .search--results-view {
-  // margin-top: 5rem;
+  margin-top: 2rem;
 }

@@ -9,7 +9,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon, SelectableTile, SkeletonText } from 'carbon-components-react'
+import { /*Icon, */ SelectableTile, SkeletonText } from 'carbon-components-react'
 import { formatNumber } from '../../../lib/client/search-helper'
 import msgs from '../../../nls/platform.properties'
 import '../../../graphics/diagramShapes.svg'
@@ -28,27 +28,27 @@ class RelatedResourceTile extends React.PureComponent {
     locale: PropTypes.string
   }
 
-  iconType(kind) {
-    switch (kind.toLowerCase()) {
-    case 'application':
-    case 'applications':
-      return 'app-services'
-    case 'cluster':
-    case 'clusters':
-      return 'app-services'
-    case 'deployment':
-    case 'deployments':
-      return 'launch'
-    case 'pod':
-    case 'pods':
-      return 'network'
-    case 'service':
-    case 'services':
-      return 'services'
-    default:
-      return 'app-services'
-    }
-  }
+  // iconType(kind) {
+  //   switch (kind.toLowerCase()) {
+  //   case 'application':
+  //   case 'applications':
+  //     return 'app-services'
+  //   case 'cluster':
+  //   case 'clusters':
+  //     return 'app-services'
+  //   case 'deployment':
+  //   case 'deployments':
+  //     return 'launch'
+  //   case 'pod':
+  //   case 'pods':
+  //     return 'network'
+  //   case 'service':
+  //   case 'services':
+  //     return 'services'
+  //   default:
+  //     return 'app-services'
+  //   }
+  // }
 
   render() {
     const { count, handleClick, kind, loading, selected } = this.props
@@ -67,9 +67,9 @@ class RelatedResourceTile extends React.PureComponent {
         defaultChecked={false}
         tabIndex={0} >
         <div className='related-resource-tile'>
-          <Icon
+          {/* <Icon
             id={`${kind}-icon`}
-            name={`icon--${this.iconType(kind)}`} />
+            name={`icon--${this.iconType(kind)}`} /> */}
           <div className='related-resource-tile content'>
             <div className='related-resource-tile count'>{formatNumber(count)}</div>
             <div className='related-resource-tile text'>{msgs.get('related.tile.text', [kind], locale)}</div>

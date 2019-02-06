@@ -68,10 +68,15 @@ class RelatedResources extends React.PureComponent {
       )
     }
     return(
-      <div className='search--related-results'>
+      <div style={{display: 'flex'}}>
         <RelatedResourceTile
           loading={loading}
         />
+        <div className={'spacer'} />
+        <RelatedResourceTile
+          loading={loading}
+        />
+        <div className={'spacer'} />
         <RelatedResourceTile
           loading={loading}
         />

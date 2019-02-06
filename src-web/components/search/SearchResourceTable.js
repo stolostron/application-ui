@@ -16,7 +16,6 @@ import { PAGE_SIZES } from '../../actions/index'
 import lodash from 'lodash'
 
 const {
-  TableContainer,
   Table,
   TableHead,
   // TableHeader,
@@ -48,9 +47,11 @@ const {
   * *************************************************************************** */
 class SearchResourceTable extends React.PureComponent {
   static propTypes = {
+    collapseTable: PropTypes.bool,
     expandFullPage: PropTypes.bool,
     items: PropTypes.array,
     kind: PropTypes.string,
+    related: PropTypes.bool
   }
 
   constructor(props){
@@ -58,8 +59,21 @@ class SearchResourceTable extends React.PureComponent {
     this.state = {
       page: 1,
       pageSize: props.expandFullPage ? PAGE_SIZES.DEFAULT : PAGE_SIZES.VALUES[0],
-      sortDirection: 'asc'
+      sortDirection: 'asc',
+      collapse: false
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      collapse: nextProps.collapseTable
+    })
+  }
+
+  toggleCollapseTable = () => {
+    this.setState(({collapse}) => {
+      return { collapse: !collapse }
+    })
   }
 
   getHeaders(){
@@ -110,69 +124,83 @@ class SearchResourceTable extends React.PureComponent {
   // need more research on carbon data table
   //<TableHeader key={header.key} onClick={this.handleSort(header.key)} > {header.header} </TableHeader>
   render() {
-    const { page, pageSize, sortDirection, selectedKey } = this.state
+    const { page, pageSize, sortDirection, selectedKey, collapse } = this.state
     const totalItems = this.props.items.length
     const sortColumn = selectedKey
 
-    return [
-      <DataTable
-        key={`${this.props.kind}-resource-table`}
-        rows={this.getRows()}
-        headers={this.getHeaders()}
-        render={({ rows, headers}) => {
-          return (
-            <TableContainer title={`${this.props.kind} (${this.props.items.length})`}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {headers.map(header => (
-                      <th scope={'col'} key={header.key}>
-                        <button
-                          title={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, this.context.locale)}
-                          onClick={this.handleSort(header.key)}
-                          className={`bx--table-sort-v2${sortDirection === 'asc' ? ' bx--table-sort-v2--ascending' : ''}${sortColumn === header.key ? ' bx--table-sort-v2--active' : ''}`}
-                          data-key={header.key} >
-                          <span className='bx--table-header-label'>{header.header}</span>
-                          <Icon
-                            className='bx--table-sort-v2__icon'
-                            name='caret--down'
-                            description={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, this.context.locale)} />
-                        </button>
-                      </th>
-                    )) }
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow key={row.id} >
-                      {row.cells.map(cell => (
-                        <TableCell key={cell.id}> {cell.value} </TableCell>
+    return (
+      <div >
+        <div className={'search--resource-table-header'}>
+          {`${this.props.related ? msgs.get('table.header.search.related', [this.props.kind]) : this.props.kind} (${this.props.items.length})`}
+          {!this.props.related && this.props.collapseTable
+            ? <button
+              onClick={this.toggleCollapseTable}
+              className={'search--resource-table-header-button'} >
+              {collapse ? msgs.get('table.header.search.expand') : msgs.get('table.header.search.collapse')}
+            </button>
+            : null
+          }
+        </div>
+        {!collapse
+          ? <div>
+            <DataTable
+              key={`${this.props.kind}-resource-table`}
+              rows={this.getRows()}
+              headers={this.getHeaders()}
+              render={({ rows, headers}) => {
+                return (
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        {headers.map(header => (
+                          <th scope={'col'} key={header.key}>
+                            <button
+                              title={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, this.context.locale)}
+                              onClick={this.handleSort(header.key)}
+                              className={`bx--table-sort-v2${sortDirection === 'asc' ? ' bx--table-sort-v2--ascending' : ''}${sortColumn === header.key ? ' bx--table-sort-v2--active' : ''}`}
+                              data-key={header.key} >
+                              <span className='bx--table-header-label'>{header.header}</span>
+                              <Icon
+                                className='bx--table-sort-v2__icon'
+                                name='caret--down'
+                                description={msgs.get(`svg.description.${!sortColumn || sortDirection === 'desc' ? 'asc' : 'desc'}`, this.context.locale)} />
+                            </button>
+                          </th>
+                        )) }
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {rows.map(row => (
+                        <TableRow key={row.id} >
+                          {row.cells.map(cell => (
+                            <TableCell key={cell.id}> {cell.value} </TableCell>
+                          ))}
+                        </TableRow>
                       ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-          )}
-        }
-      />,
-      <PaginationV2
-        key={`${this.props.kind}-resource-table-pagination`}
-        id={`${this.props.kind}-resource-table-pagination`}
-        onChange={(pagination) => this.setState(pagination)}
-        pageSize={pageSize}
-        pageSizes={PAGE_SIZES.VALUES}
-        totalItems={totalItems}
-        page={page}
-        disabled={pageSize >= totalItems}
-        isLastPage={pageSize >= totalItems}
-        itemsPerPageText={msgs.get('pagination.itemsPerPage', this.context.locale)}
-        pageRangeText={(current, total) => msgs.get('pagination.pageRange', [current, total], this.context.locale)}
-        itemRangeText={(min, max, total) => `${msgs.get('pagination.itemRange', [min, max], this.context.locale)} ${msgs.get('pagination.itemRangeDescription', [total], this.context.locale)}`}
-        pageInputDisabled={pageSize >= totalItems}
-      />
-    ]
+                    </TableBody>
+                  </Table>
+                )}
+              }
+            />
+            <PaginationV2
+              key={`${this.props.kind}-resource-table-pagination`}
+              id={`${this.props.kind}-resource-table-pagination`}
+              onChange={(pagination) => this.setState(pagination)}
+              pageSize={pageSize}
+              pageSizes={PAGE_SIZES.VALUES}
+              totalItems={totalItems}
+              page={page}
+              disabled={pageSize >= totalItems}
+              isLastPage={pageSize >= totalItems}
+              itemsPerPageText={msgs.get('pagination.itemsPerPage', this.context.locale)}
+              pageRangeText={(current, total) => msgs.get('pagination.pageRange', [current, total], this.context.locale)}
+              itemRangeText={(min, max, total) => `${msgs.get('pagination.itemRange', [min, max], this.context.locale)} ${msgs.get('pagination.itemRangeDescription', [total], this.context.locale)}`}
+              pageInputDisabled={pageSize >= totalItems}
+            />
+          </div>
+          : null}
+      </div>
+    )
   }
 }
 

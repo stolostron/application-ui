@@ -14,9 +14,10 @@ import _ from 'lodash'
 
 
 // get data based on choices and nodes
-export const getHeatMapData = (item, heatMapChoices={}, collapsed) => {
+export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoices={}, collapsed) => {
 
-  const { overview: {clusters = []} } = item
+  const { clusters = [] } = unfilteredOverview
+  const { clusters:filteredClusters = [] } = filteredOverview
 
   // how are we grouping data
   // if collapsed, always group by provider since that's what user is seeing
@@ -38,17 +39,30 @@ export const getHeatMapData = (item, heatMapChoices={}, collapsed) => {
     break
   }
 
+  // get set of the filtered clusters
+  // we only return mapData for those clusters but we calc totals based on ALL clusters
+  const filteredSet = new Set()
+  filteredClusters.forEach(({metadata: {namespace, name}})=>{
+    filteredSet.add(`${namespace}//${name}`)
+  })
+
+
   // collect data
   let sizeTotal = 0
   const shadeArray = []
   const mapData = {}
-  clusters.forEach((cluster, idx)=>{
+  clusters.forEach((cluster)=>{
     const {metadata={}} = cluster
-    const {name=`unknown${idx}`, labels={}} = metadata
+    const {namespace, name, labels={}} = metadata
     const key = labels[groupKey]
     let heatData = mapData[key]
     if (!heatData) {
-      heatData = mapData[key] = []
+      heatData = []
+      // if not a filtered cluster, don't add to heatmap
+      // but include it in shade calculations
+      if (filteredSet.has(`${namespace}//${name}`)) {
+        mapData[key] = heatData
+      }
     }
 
     let size=0

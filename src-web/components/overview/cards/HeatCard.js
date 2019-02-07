@@ -31,6 +31,7 @@ class HeatCard extends React.Component {
   static propTypes = {
     heatMapState: PropTypes.object,
     item: PropTypes.object,
+    unfilteredOverview: PropTypes.object,
     updateHeatMapState: PropTypes.func,
   }
 
@@ -63,10 +64,11 @@ class HeatCard extends React.Component {
   }
 
   render() {
-    const { item } = this.props
+    const { item, unfilteredOverview } = this.props
     const { mapRect, heatMapState } = this.state
     const { expanded, heatMapChoices } = heatMapState
-    const heatMapData = getHeatMapData(item, heatMapChoices, !expanded)
+    const { overview:filteredOverview} = item
+    const heatMapData = getHeatMapData(filteredOverview, unfilteredOverview, heatMapChoices, !expanded)
     const mapClasses = classNames({
       'heat-card': true,
       'expanded': expanded,

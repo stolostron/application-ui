@@ -200,6 +200,7 @@ export default class OverviewView extends React.Component {
               case CardTypes.heatmap:
                 return <HeatCard key={key} item={item}
                   heatMapState={heatMapState}
+                  unfilteredOverview={overview}
                   updateHeatMapState={this.updateHeatMapState}
                 />
               case CardTypes.piechart:

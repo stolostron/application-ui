@@ -49,13 +49,13 @@ export default class OverviewView extends React.Component {
     overview: PropTypes.object,
     pollInterval: PropTypes.number,
     refetch: PropTypes.func,
+    reloading: PropTypes.bool,
     startPolling: PropTypes.func,
     stopPolling: PropTypes.func,
   }
 
   componentWillMount() {
     const { locale } = this.context
-    const { loading, overview } = this.props
     const activeFilters={}
     activeFilters[BANNER_FILTER] = []
     activeFilters[PROVIDER_FILTER] = []
@@ -63,8 +63,6 @@ export default class OverviewView extends React.Component {
     activeFilters['region'] = []
     activeFilters['vendor'] = []
     this.setState({
-      loading: (loading && !overview),
-      reloading: (loading && !!overview),
       viewState: getSavedViewState(locale),
       activeFilters,
       bannerCards: [],
@@ -116,22 +114,8 @@ export default class OverviewView extends React.Component {
     return !this.isDragging
   }
 
-  componentWillReceiveProps(){
-    this.setState((prevState, props) => {
-      let {loading} = props
-      let reloading = false
-      if (loading && prevState.loaded) {
-        reloading = true
-        loading = false
-      }
-      const loaded = !loading || prevState.loaded
-      return {loading, loaded, reloading}
-    })
-  }
-
   render() {
-    const { error } = this.props
-    const { loading } = this.state
+    const { loading, reloading, error } = this.props
     const { locale } = this.context
 
     if (loading)
@@ -143,7 +127,7 @@ export default class OverviewView extends React.Component {
 
     const { refetch, startPolling, stopPolling, pollInterval, overview } = this.props
     const {timestamp} = overview
-    const {viewState, reloading, bannerCards=[], activeFilters} = this.state
+    const {viewState, bannerCards=[], activeFilters} = this.state
     const bannerOpen = bannerCards.length>0
     const {cardOrder, heatMapState={}} = viewState
     const view = this.getViewData(overview, activeFilters)

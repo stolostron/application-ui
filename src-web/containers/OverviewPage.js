@@ -86,6 +86,11 @@ const OVERVIEW_QUERY = gql`
 
 class OverviewPage extends React.Component {
 
+  constructor (props) {
+    super(props)
+    this.firstLoad = true
+  }
+
   static propTypes = {
     secondaryHeaderProps: PropTypes.object,
     updateSecondaryHeader: PropTypes.func,
@@ -111,9 +116,12 @@ class OverviewPage extends React.Component {
               if (overview) {
                 error = null
               }
+              const firstLoad = this.firstLoad
+              this.firstLoad = false
               return (
                 <OverviewView
-                  loading={loading}
+                  loading={!overview && loading}
+                  reloading={!firstLoad && loading}
                   error={error}
                   refetch={refetch}
                   startPolling={startPolling}

@@ -65,7 +65,7 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
       } else {
         result += '{"textsearch":['
         inputs.split(',').forEach(item => {
-          result += `"${item.replace('=',':')}"`
+          result += encodeURIComponent(`"${item.replace('=',':')}"`)
         })
         result += ']}'
       }
@@ -78,7 +78,7 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
         if (inputs.query === '') {
           history.push(location.pathname)
         } else {
-          history.push(`${location.pathname}?filters={"textsearch":${JSON.stringify(inputs.query)}}`)
+          history.push(`${location.pathname}?filters={"textsearch":${encodeURIComponent(JSON.stringify(inputs.query))}}`)
         }
       } else if (Array.isArray(inputs)) {
         const paramString = this.createLocationSearch(inputs)
@@ -155,8 +155,7 @@ const pageWithUrlQuery = (ChildComponent, resourceType) => {
 
     convertQueryParams() {
       const { location, putParamsFiltersIntoStore } = this.props
-      const uri_dec = decodeURIComponent(location.search)
-      const paramString = queryString.parse(uri_dec)
+      const paramString = queryString.parse(location.search)
       let filters = {}
       try {
         if (paramString.tags) {

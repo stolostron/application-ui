@@ -74,6 +74,18 @@ export default {
       { key: 'created', transform: getAge},
     ],
   },
+  cronjob: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster' },
+      { key: 'schedule' },
+      { key: 'suspend' },
+      { key: 'active' },
+      { key: 'lastSchedule', transform: (item) => getAge({ created: item.lastSchedule }) },
+      { key: 'created', transform: getAge},
+    ],
+  },
   daemonset: {
     columns: [
       { key: 'name' },
@@ -111,6 +123,17 @@ export default {
       { key: 'created', transform: getAge }
     ],
     actions: [],
+  },
+  job: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster' },
+      { key: 'completions' },
+      { key: 'parallelism' },
+      { key: 'successful' },
+      { key: 'created', transform: getAge},
+    ],
   },
   namespace: {
     columns: [

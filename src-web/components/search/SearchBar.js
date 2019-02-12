@@ -268,6 +268,12 @@ class SearchBar extends React.Component {
         searchComplete: ''
       })
     }
+
+    // Checks if the user has entered a space and deletes the newly created tag
+    if (tags.length > 0 && (tags[tags.length - 1].name === '' || tags[tags.length - 1].name.charAt(0) === ' ')) {
+      tags = tags.slice(0, tags.length - 1)
+    }
+
     this.setState({
       currentQuery: tags.map(tag => {return tag.value}).join(' '),
       tags: tags

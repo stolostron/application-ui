@@ -7,11 +7,23 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
 
 .resourceDiagramContainer {
   margin: -40px -2rem -60px;
   height: calc(100vh - 195px);
   position: relative;
+
+  .resource-diagram-toolbar {
+    position: fixed;
+    top: calc(#{$secondary-header-top} + 14px);
+    right: 30px;
+    z-index: 1001;
+    background-color: $color__white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
 }

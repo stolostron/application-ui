@@ -14,7 +14,7 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 //if controller contains a pod
-const podIcon = {icon:'circle', classType:'pod', width: 24, height: 24}
+const podIcon = {icon:'circle', classType:'pod', width: 24, height: 24, dx:0, dy:0}
 
 export default {
 
@@ -223,6 +223,11 @@ export function getNodeGroups(nodes) {
           }
         }
       }
+    } else {
+      // unset any pods
+      groupMap['deployment'].nodes.forEach(({layout})=>{
+        delete layout.nodeIcons
+      })
     }
   }
   addPodIcon.forEach(layout=>{
@@ -258,8 +263,15 @@ export function getSectionTitles(isMulticluster, clusters, types, locale) {
       set.add(msgs.get('topology.title.internet', locale))
       break
 
-    default:
+    case 'deployment':
+    case 'daemonset':
+    case 'statefulset':
+    case 'cronjob':
       set.add(msgs.get('topology.title.controllers', locale))
+      break
+
+    default:
+      set.add(msgs.get('topology.title.other', locale))
       break
     }
   })

@@ -10,6 +10,7 @@
 import moment from 'moment'
 import {dumpAndParse} from '../../../lib/client/design-helper'
 import { NODE_SIZE } from '../../components/diagrams/constants.js'
+import { getStoredObject, saveStoredObject } from '../../../lib/client/resource-helper'
 import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
@@ -42,6 +43,7 @@ export default {
   diagramOptions: {
     showLineLabels: true, // show labels on lines
     filterByType: true, //dynamic type filtering
+    showSectionTitles: false // show titles over sections
   },
 
   // merge table/diagram/topology definitions
@@ -105,7 +107,7 @@ export function mergeDefinitions(tableDefs, topologyDefs) {
   return defs
 }
 
-export function getDiagramElements(item, topology) {
+export function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
 
   const { placementPolicies = [] } = item
   // get design elements like application
@@ -118,8 +120,8 @@ export function getDiagramElements(item, topology) {
     }
   })
   targetClusters = new Set(targetClusters)
-  let {nodes, links} = elements
-  const {yaml, designLoaded} = elements
+  let {nodes=[], links=[]} = elements
+  let {yaml, designLoaded} = elements
   const {chartMap, kubeSelectors} = elements
   const hasKubeDeploments = kubeSelectors.length>0
   const hasChartDeploments = Object.keys(chartMap).length>0
@@ -132,6 +134,8 @@ export function getDiagramElements(item, topology) {
   // so we don't add its nodes and links until it's loaded
   let clusters = []
   let topologyLoaded = false
+  let topologyError = false
+  const {reloading:topologyReloading} = topology
   if (designLoaded && _.isEqual(requiredFilters, topology.activeFilters) && topology.status===Actions.REQUEST_STATUS.DONE) {
     topologyLoaded = true
     elements = this.getTopologyElements(topology)
@@ -193,10 +197,35 @@ export function getDiagramElements(item, topology) {
         return true
       }
     })
-  } else {
-    nodes=[]
-    links=[]
+    // save in storage
+    if (topologyLoaded && !topologyReloading) {
+      saveStoredObject(localStoreKey, {
+        clusters,
+        links,
+        nodes,
+        yaml,
+      })
+    }
+  } else if (!topologyReloading) {
+    // if not loaded yet, see if there's a stored version
+    // with the same diagram filters
+    const storedElements = getStoredObject(localStoreKey)
+    if (storedElements) {
+      clusters = storedElements.clusters || clusters
+      nodes = storedElements.nodes || nodes
+      links = storedElements.links || links
+      yaml = storedElements.yaml || yaml
+      designLoaded = topologyLoaded = true
+    }
+  } else if (topology.status===Actions.REQUEST_STATUS.ERROR) {
+    topologyError=true
   }
+
+  // filter nodes based on current diagram filters
+  const typeMap = _.keyBy(diagramFilters, 'label')
+  nodes = nodes.filter(({type})=>{
+    return !!typeMap[type]
+  })
 
   return {
     clusters,
@@ -205,7 +234,9 @@ export function getDiagramElements(item, topology) {
     yaml,
     designLoaded,
     requiredFilters,
-    topologyLoaded
+    topologyLoaded,
+    topologyReloading,
+    topologyError
   }
 }
 

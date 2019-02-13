@@ -14,13 +14,14 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
+import { DIAGRAM_REFRESH_INTERVAL_COOKIE, DIAGRAM_QUERY_COOKIE, REFRESH_TIMES } from '../../../lib/shared/constants'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { Loading  } from 'carbon-components-react'
-import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
 import DiagramViewer from '../diagrams/DiagramViewer'
+import AutoRefreshSelect, {getPollInterval} from './AutoRefreshSelect'
 import FilterBar from './FilterBar'
 import _ from 'lodash'
 
@@ -43,7 +44,9 @@ class ResourceDiagram extends React.Component {
       requiredFilters: PropTypes.object,
       restoreSavedDiagramFilters: PropTypes.func,
       staticResourceData: PropTypes.object,
+      topologyError: PropTypes.bool,
       topologyLoaded: PropTypes.bool,
+      topologyReloading: PropTypes.bool,
       yaml: PropTypes.string,
     }
 
@@ -59,6 +62,9 @@ class ResourceDiagram extends React.Component {
       this.setContainerRef = elem => {
         this.containerRef = elem
       }
+      this.startPolling = this.startPolling.bind(this)
+      this.stopPolling = this.stopPolling.bind(this)
+      this.refetch = this.refetch.bind(this)
     }
 
     componentWillMount() {
@@ -67,18 +73,34 @@ class ResourceDiagram extends React.Component {
       // when topologyLabels changes we fetch the topology
       this.props.restoreSavedDiagramFilters()
       this.props.fetchDesign()
-
-      if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-        var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
-        this.setState({ intervalId: intervalId })
-      }
-
+      this.startPolling()
     }
 
     componentWillUnmount() {
       if (this.state) {
-        clearInterval(this.state.intervalId)
+        this.stopPolling()
       }
+    }
+
+    startPolling(newInterval) {
+      this.stopPolling()
+      let intervalId = undefined
+      const interval = newInterval || getPollInterval(DIAGRAM_REFRESH_INTERVAL_COOKIE)
+      if (interval) {
+        intervalId = setInterval(this.refetch, Math.max(interval, 20*1000))
+      }
+      this.setState({ intervalId: intervalId })
+    }
+
+    stopPolling() {
+      const {intervalId} = this.state
+      if (intervalId)
+        clearInterval(intervalId)
+      this.setState({ intervalId: undefined })
+    }
+
+    refetch() {
+      this.props.fetchTopology(this.props.requiredFilters, true)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -95,15 +117,15 @@ class ResourceDiagram extends React.Component {
         }
 
         // update loading spinner
-        const firstLoad = prevState.firstLoad || nextProps.topologyLoaded
-        const refreshing = prevState.firstLoad && !nextProps.topologyLoaded
+        const firstLoad = prevState.firstLoad || nextProps.topologyLoaded || nextProps.topologyError
+        const {topologyReloading} = nextProps
         if (this.updateDiagramRefreshTime) {
-          this.updateDiagramRefreshTime(refreshing)
+          this.updateDiagramRefreshTime(topologyReloading)
         }
 
         return { clusters, links, nodes, yaml, diagramFilters,
           firstLoad,
-          refreshing,
+          topologyReloading,
           isMulticluster: clusters.length>1,
           designLoaded: nextProps.designLoaded,
           topologyLoaded: nextProps.topologyLoaded }
@@ -111,17 +133,12 @@ class ResourceDiagram extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      return !nextState.refreshing &&
-        (!_.isEqual(this.state.nodes.map(n => n.uid), nextState.nodes.map(n => n.uid)) ||
+      return (!_.isEqual(this.state.nodes.map(n => n.uid), nextState.nodes.map(n => n.uid)) ||
         !_.isEqual(this.state.links.map(n => n.uid), nextState.links.map(n => n.uid)) ||
         !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
+        this.props.topologyError !== nextProps.topologyError ||
         this.props.topologyLoaded !== nextProps.topologyLoaded ||
         this.props.yaml !== nextProps.yaml)
-    }
-
-
-    reload() {
-      this.props.fetchTopology(this.props.requiredFilters)
     }
 
     setUpdateDiagramRefreshTimeFunc = func => {this.updateDiagramRefreshTime = func}
@@ -130,7 +147,7 @@ class ResourceDiagram extends React.Component {
       if (!this.state.designLoaded)
         return <Loading withOverlay={false} className='content-spinner' />
 
-      const { staticResourceData, onDiagramFilterChange } = this.props
+      const { staticResourceData, onDiagramFilterChange, topologyError } = this.props
       const {designTypes, topologyTypes, typeToShapeMap} = staticResourceData
       const { links,  yaml, diagramFilters, firstLoad, topologyLoaded, isMulticluster } = this.state
       const { nodes } = this.state
@@ -150,13 +167,22 @@ class ResourceDiagram extends React.Component {
             isMulticluster={isMulticluster}
             yaml={yaml}
             context={this.context}
+            secondaryError={topologyError}
             secondaryLoad={!topologyLoaded && !firstLoad}
             staticResourceData={staticResourceData}
             setUpdateDiagramRefreshTimeFunc={this.setUpdateDiagramRefreshTimeFunc}
             activeFilters={{type:diagramFilters}}
           />
-
-          {/*type filter bar*/}
+          <div className='resource-diagram-toolbar' >
+            <AutoRefreshSelect
+              startPolling={this.startPolling}
+              stopPolling={this.stopPolling}
+              pollInterval={getPollInterval(DIAGRAM_REFRESH_INTERVAL_COOKIE)}
+              refetch={this.refetch}
+              refreshValues = {REFRESH_TIMES}
+              refreshCookie={DIAGRAM_REFRESH_INTERVAL_COOKIE}
+            />
+          </div>
           <div className='diagram-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
             <FilterBar
               availableFilters={availableFilters}
@@ -176,17 +202,12 @@ const mapStateToProps = (state, ownProps) => {
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null })
-  const {clusters, links, nodes, requiredFilters, yaml, designLoaded, topologyLoaded} = staticResourceData.getDiagramElements(item, state.topology)
-  const {diagram: {diagramFilters}} = state
+  const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${resourceType.name}\\${params.namespace}\\${name}`
+  const {topology: {diagramFilters=[]}} = state
+  const diagramElements = staticResourceData.getDiagramElements(item, state.topology, diagramFilters, localStoreKey)
   return {
-    clusters,
-    links,
-    nodes,
-    yaml,
+    ...diagramElements,
     diagramFilters,
-    requiredFilters,
-    designLoaded,
-    topologyLoaded
   }
 }
 
@@ -202,13 +223,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
       dispatch(fetchResource(resourceType, namespace, name))
     },
-    fetchTopology: (requiredFilters) => {
+    fetchTopology: (requiredFilters, reloading) => {
       const f = _.cloneDeep(requiredFilters)
       f.label = f.label ? f.label.map(l => ({ name: l.name, value: l.value })) : []
 
       // in topology page, the filter dropdowns would be setting the active topology filters
       // but here we need to set the activeFilters based on the design
-      dispatch({type: Actions.TOPOLOGY_SET_ACTIVE_FILTERS, activeFilters: requiredFilters})
+      dispatch({type: Actions.TOPOLOGY_SET_ACTIVE_FILTERS, activeFilters: requiredFilters, reloading})
 
       // fetch topology with these types and labels
       dispatch(fetchTopology({ filter: {...f}}, requiredFilters))

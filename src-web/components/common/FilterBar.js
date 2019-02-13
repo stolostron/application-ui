@@ -33,7 +33,7 @@ class FilterBar extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      activeFilters:[]
+      activeFilters: _.cloneDeep(props.activeFilters||[])
     }
   }
 

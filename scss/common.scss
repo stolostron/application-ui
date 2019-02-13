@@ -9,6 +9,7 @@
 @import 'node_modules/carbon-components/scss/globals/scss/styles';
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'node_modules/carbon-components/scss/globals/scss/_helper-mixins';
+@import 'variables';
 
 html {
   height: 100%;
@@ -167,3 +168,38 @@ body {
       margin-right: 0;
   }
 }
+
+.auto-refresh-selection {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+
+  > div {
+    outline: none;
+  }
+
+  .button-icon {
+    width: 12px;
+    height: 12px;
+    fill: $color__blue-51;
+    stroke: none;
+    cursor: pointer;
+  }
+
+  .bx--select-input {
+    color: $color__blue-51;
+    font-size: 14px;
+    height: 16px;
+    width: 150px;
+    font-weight: bold;
+    padding: 0 4px;
+    background-color: $color__white;
+    box-shadow: none;
+  }
+
+  .bx--select__arrow {
+    right: 0;
+    top: 4px;
+  }
+}
+

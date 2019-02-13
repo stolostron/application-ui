@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import resources from '../../../lib/shared/resources'
 import '../../../graphics/diagramIcons.svg'
 import AutoRefreshSelect from '../common/AutoRefreshSelect'
-import { OVERVIEW_REFRESH_INTERVAL_COOKIE } from '../../../lib/shared/constants'
+import { OVERVIEW_REFRESH_INTERVAL_COOKIE, REFRESH_TIMES } from '../../../lib/shared/constants'
 import FilterView from './modals/FilterView'
 import { Icon, Tag } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
@@ -21,8 +21,6 @@ import msgs from '../../../nls/platform.properties'
 resources(() => {
   require('../../../scss/overview-toolbar.scss')
 })
-
-const REFRESH_TIMES = [20, 40, 60, 5*60, 30*60, 0]
 
 export const FilterBar = ({ boundActiveFilters, locale }) => {
   return (

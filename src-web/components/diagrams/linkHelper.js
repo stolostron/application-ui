@@ -35,47 +35,43 @@ export default class LinkHelper {
   }
 
   /**
-   * Removes links from the diagram.
-   *
+   * Adds/removes links from diagram.
    */
-  removeOldLinksFromDiagram = () => {
-    // filtered list is of the links that still exist
-    // if d3 finds a node that doesn't exist in this list, it removes it
-    this.svg.select('g.links')
-      .selectAll('g.link')
-      .data(this.links.filter((link)=>{
-        let {source, target} = link
-        const {layout} = link
-        if (layout) {
-          source = layout.source.uid
-          target = layout.target.uid
-        }
-        return layout && this.nodeMap[source] && this.nodeMap[target]
-      }), (l) => {
-        return l.uid
-      }).exit().remove()
-  }
+  updateDiagramLinks = (currentZoom) => {
 
-  /**
-   * Adds new links to the SVG diagram.
-   *
-   * @param {*} currentZoom
-   */
-  addLinksToDiagram = (currentZoom) => {
+    // show only links between two nodes
+    // if nodes have been consolidated, a link might not be drawn
+    const filteredLinks = this.links.filter((link)=>{
+      let {source, target} = link
+      const {layout} = link
+      if (layout) {
+        source = layout.source.uid
+        target = layout.target.uid
+      }
+      return layout && this.nodeMap[source] && this.nodeMap[target]
+    })
+
+    // join data to svg groups
+    // creates enter and exit arrays
+    // if already exists, updates its __data__ with data
+    // based on creating a map '$l.uid'
     const links = this.svg.select('g.links')
       .selectAll('g.link')
-    // if nodes have been consolidated, a link might not be drawn
-      .data(this.links.filter(({layout})=>!!layout), l => {
+      .data(filteredLinks, l => {
         return l.uid
       })
-      .enter().append('g')
+
+    // remove links that no longer have data (in exit array)
+    // or any links with a duplicate key ($l.uid)
+    links.exit().remove()
+
+    // add link for any new data (in enter array)
+    links.enter().append('g')
       .attrs({
         'class': 'link',
         'transform': currentZoom
       })
-
-    // add path
-    links.append('path')
+      .append('path')
       .attrs((d) => {
         const {uid, layout} = d
         return {
@@ -85,12 +81,11 @@ export default class LinkHelper {
       })
 
 
-    // labels
+    // update labels
     if (this.diagramOptions.showLineLabels) {
       const labels = this.svg.select('g.links')
         .selectAll('g.label')
-      // if nodes have been consolidated, a link might not be drawn
-        .data(this.links.filter(({layout})=>!!layout), l => {
+        .data(filteredLinks, l => {
           return l.uid
         })
         .enter().append('g')

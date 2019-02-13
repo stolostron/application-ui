@@ -26,19 +26,7 @@ export default class TitleHelper {
   }
 
 
-  /**
-   * Remove nodes that aren't in the current nodeData array.
-   */
-  removeOldTitlesFromDiagram = () => {
-    this.svg.select('g.titles')
-      .selectAll('g.title')
-      .data(this.titles, t => {
-        return t.hashCode
-      })
-      .exit().remove()
-  }
-
-  addTitlesToDiagram = (currentZoom) => {
+  updateDiagramTitles = (currentZoom) => {
     const draw = typeof SVG === 'function' ? SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg')) : undefined
 
     // Add title groups to diagram
@@ -47,16 +35,22 @@ export default class TitleHelper {
       .data(this.titles, t => {
         return t.hashCode
       })
+
+    // remove titles that no longer have data (in exit array)
+    titles.exit().remove()
+
+    // add new titles
+    const newTitles = titles
       .enter().append('g')
       .style('opacity', 0.0)
       .attr('class','title')
       .attr('transform', currentZoom)
 
-    titles.append('title')
+    newTitles.append('title')
       .text((t) => { return t.title })
 
     // create label
-    titles.append('g')
+    newTitles.append('g')
       .attr('class','titleLabel')
       .html((d)=>{
         const {title} = d

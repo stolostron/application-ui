@@ -418,12 +418,19 @@ export default class LayoutHelper {
     const {nodeGroups} = groups
 
     // consolidate small connected groups
+    const canBeConsolidated = (nodeMap) =>{
+      if (Object.keys(nodeMap).length <=4) {
+        const map = _.keyBy(nodeMap, 'type')
+        return !map['internet'] && !map['host']
+      }
+      return false
+    }
     this.shapeTypeOrder.forEach(type=>{
       if (nodeGroups[type] && nodeGroups[type].connected) {
         let consolidatedGroup=undefined
         nodeGroups[type].connected = nodeGroups[type].connected.filter(connected=>{
           const {nodeMap, details:{isMultiCluster, edges}} = connected
-          if (!isMultiCluster && Object.keys(nodeMap).length <=4 ) {
+          if (!isMultiCluster && canBeConsolidated(nodeMap) ) {
             if (!consolidatedGroup) {
               consolidatedGroup = connected
             } else {

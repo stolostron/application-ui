@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+export const DIAGRAM_SVG_ID = 'topologySvgId'
 export const NODE_RADIUS = 28
 export const NODE_SIZE = 50
 export const TOPOLOGY_PADDING = 30

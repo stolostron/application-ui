@@ -43,30 +43,27 @@ export default class NodeHelper {
     this.showsShapeTitles = showsShapeTitles
   }
 
-
-  /**
-   * Remove nodes that aren't in the current nodeData array.
-   */
-  removeOldNodesFromDiagram = () => {
-    this.svg.select('g.nodes')
-      .selectAll('g.node')
-      .data(this.nodes.filter(d=>{return !!d.layout}), n => {
-        return n.layout ? n.layout.uid : ''
-      })
-      .exit().remove()
-  }
-
-  addNodesToDiagram = (currentZoom, nodeClickHandler, nodeDragHandler) => {
+  // add or remove nodes based on data in this.nodes
+  updateDiagramNodes = (currentZoom, nodeClickHandler, nodeDragHandler) => {
     const draw = typeof SVG === 'function' ? SVG(document.createElementNS('http://www.w3.org/2000/svg', 'svg')) : undefined
     const filteredNodes = this.nodes.filter(node => !!node.layout)
 
-    // Add node groups to diagram
+    // join data to svg groups
+    // creates enter and exit arrays
+    // if already exists, updates its __data__ with data
+    // based on creating a map '$n.layout.uid'
     const nodes = this.svg.select('g.nodes')
       .selectAll('g.node')
       .data(filteredNodes, n => {
-        return n.layout.uid
+        return n.layout ? n.layout.uid : ''
       })
-      .enter().append('g')
+
+    // remove node groups that no longer have data (in exit array)
+    // or any nodes with a duplicate key ($n.layout.uid)
+    nodes.exit().remove()
+
+    // add node groups for new data (in enter array)
+    const newNodes = nodes.enter().append('g')
       .attr('class','node')
       .attr('transform', currentZoom)
       .attr('type', (d) => { return d.name })
@@ -116,21 +113,21 @@ export default class NodeHelper {
 
 
     // node shape
-    this.createNodeShapes(nodes, nodeDragHandler)
-
-    // node icons--if any
-    this.createNodeIcons(nodes)
+    this.createNodeShapes(newNodes, nodeDragHandler)
 
     // node labels
     if (draw) {
       if (this.showsShapeTitles) {
-        this.createTitles(draw, nodes)
+        this.createTitles(draw, newNodes)
       }
-      this.createLabels(draw, nodes)
+      this.createLabels(draw, newNodes)
     }
 
     // node hover/select shape
-    this.createNodeHilites(nodes)
+    this.createNodeHilites(newNodes)
+
+    // update node icons
+    this.updateNodeIcons()
   }
 
   createNodeHilites = (nodes) => {
@@ -174,35 +171,6 @@ export default class NodeHelper {
           if (nodeDragHandler)
             nodeDragHandler(false)
         }))
-  }
-
-  // add node icons
-  createNodeIcons = (nodes) => {
-    nodes
-      .filter(({layout: {nodeIcons}}) => {
-        return !!nodeIcons
-      })
-      .append('g')
-      .attr('class','nodeIcons')
-      .each(({layout},i,ns) => {
-        const {nodeIcons} = layout
-        d3.select(ns[i])
-          .selectAll('use.icon')
-          .data(nodeIcons, ({icon}) => {
-            return icon
-          })
-          .enter().append('use')
-          .attrs(({icon, classType, width, height}) => {
-            return {
-              'xlink:href': `#diagramIcons_${icon}`,
-              'width': width+'px',
-              'height': height+'px',
-              'pointer-events': 'none',
-              'tabindex': -1,
-              'class': `icon ${classType}`,
-            }
-          })
-      })
   }
 
   createTitles = (draw, nodes) => {
@@ -298,6 +266,35 @@ export default class NodeHelper {
     })
   }
 
+  // update node icons
+  updateNodeIcons = () => {
+    const icons = this.svg.select('g.nodes')
+      .selectAll('g.node')
+      .selectAll('use.nodeIcon')
+      .data(({layout: {nodeIcons=[]}}) => {
+        return nodeIcons
+      })
+
+      // remove icons if nodeIcons is gone
+    icons.exit().remove()
+
+    // add icons
+    icons.enter()
+      .append('use')
+      .attrs(({icon, classType, width, height}) => {
+        return {
+          'xlink:href': `#diagramIcons_${icon}`,
+          'width': width+'px',
+          'height': height+'px',
+          'pointer-events': 'none',
+          'tabindex': -1,
+          'class': `nodeIcon ${classType}`,
+        }
+      })
+
+  }
+
+
   moveNodes = (transition, currentZoom, searchChanged) => {
     const nodeLayer = this.svg.select('g.nodes')
 
@@ -376,24 +373,13 @@ export default class NodeHelper {
       })
 
     // move icons
-    nodeLayer.selectAll('g.nodeIcons')
-      .each(({layout},i,ns)=>{
-        const nodeIcons = d3.select(ns[i])
-
-        nodeIcons.selectAll('use.icon')
-          .attrs(({width, height}) => {
-            if (!layout.nodeIcons) {
-              return {
-                'visibility': 'hidden',
-              }
-            } else {
-              const {x, y} = layout
-              return {
-                'visibility': 'visible',
-                'transform': `translate(${x - width/2}, ${y - height/2})`,
-              }
-            }
-          })
+    nodeLayer
+      .selectAll('use.nodeIcon')
+      .attrs(({dx, dy, width, height}, i, ns) => {
+        const {layout: {x, y}} = d3.select(ns[i].parentNode).datum()
+        return {
+          'transform': `translate(${x + dx - width/2}, ${y + dy - height/2})`,
+        }
       })
 
     if (this.showsShapeTitles) {
@@ -536,20 +522,23 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
     // set label visibility based on search or zoom
     svg.select('g.nodes').selectAll('g.nodeLabel')
-      .each(({layout: {search=FilterResults.nosearch}},i,ns)=>{
+      .each(({layout},i,ns)=>{
+        const {search=FilterResults.nosearch} = layout
         const nodeLabel = d3.select(ns[i])
 
         // not in search mode, selectively show labels based on zoom
         let shownLabel
+        let hideDescription = false
         if (search===FilterResults.nosearch) {
           shownLabel = nodeLabel
             .selectAll(`text.${showClass}`)
           shownLabel
             .style('visibility',  'visible')
           // hide description at a certain point
+          hideDescription = s<=0.7
           shownLabel
             .selectAll('tspan.description')
-            .style('visibility', (s<=0.7 ? 'hidden' : 'visible'))
+            .style('visibility', (hideDescription ? 'hidden' : 'visible'))
 
           // hide compact label if regular should show and vice versa
           nodeLabel
@@ -565,10 +554,11 @@ export const counterZoomLabels = (svg, currentZoom) => {
               return search===FilterResults.hidden?'hidden':'visible'
             })
           // always show description if a match
+          hideDescription = search===FilterResults.hidden
           nodeLabel
             .selectAll('tspan.description')
             .style('visibility',  ()=>{
-              return search===FilterResults.hidden?'hidden':'visible'
+              return hideDescription?'hidden':'visible'
             })
 
           nodeLabel
@@ -590,13 +580,35 @@ export const counterZoomLabels = (svg, currentZoom) => {
         // if description make smaller
         shownLabel
           .selectAll('tspan.description')
-          .style('font-size', fontSize-2+'px')
+          .style('font-size', hideDescription ? 0 : fontSize-2+'px')
 
         // fix leading between lines
+        let textBBox
         shownLabel.selectAll('tspan.beg')
           .each((d,j,ts)=>{
             ts[j].setAttribute('dy', fontSize)
+            textBBox = ts[j].getBBox()
           })
+        layout.textBBox.height = textBBox.height
+
+        // fix opaque background behind label
+        nodeLabel
+          .selectAll('rect')
+          .each((d,k,rc)=>{
+            d3.select(rc[k])
+              .attrs(() => {
+                const {height} = textBBox
+                return {height}
+              })
+          })
+      })
+
+    // set shape icon visibility based on search
+    svg.select('g.nodes')
+      .selectAll('use.nodeIcon')
+      .style('visibility', (d, i, ns) => {
+        const {layout: {search=FilterResults.nosearch}} = d3.select(ns[i].parentNode).datum()
+        return search===FilterResults.hidden?'hidden':'visible'
       })
   }
 }

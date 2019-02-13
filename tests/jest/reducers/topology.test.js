@@ -45,6 +45,7 @@ describe('topology reducer with topology name', () => {
       links: undefined,
       nodes: undefined,
       status: 'DONE',
+      reloading: false,
       test: 'test'
     }
     expect(topology(state, action)).toEqual(expectedValue)

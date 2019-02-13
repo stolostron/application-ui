@@ -17,12 +17,13 @@ import { withRouter } from 'react-router-dom'
 import classNames from 'classnames'
 import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
-import config from '../../../lib/shared/config'
 import NoResource from '../common/NoResource'
-import lodash from 'lodash'
+import AutoRefreshSelect, {getPollInterval} from './AutoRefreshSelect'
+import { TOPOLOGY_REFRESH_INTERVAL_COOKIE, REFRESH_TIMES } from '../../../lib/shared/constants'
 import { fetchTopology,  updateTopologyFilters } from '../../actions/topology'
 import ResourceTopologyDiagram from './ResourceTopologyDiagram'
 import ResourceTopologyFilters from './ResourceTopologyFilters'
+import lodash from 'lodash'
 
 class ResourceTopology extends React.Component {
   static propTypes = {
@@ -48,6 +49,9 @@ class ResourceTopology extends React.Component {
       loaded:false,
       firstLoad:false
     }
+    this.startPolling = this.startPolling.bind(this)
+    this.stopPolling = this.stopPolling.bind(this)
+    this.refetch = this.refetch.bind(this)
   }
 
   componentWillMount() {
@@ -55,11 +59,35 @@ class ResourceTopology extends React.Component {
     updateSecondaryHeader(msgs.get('routes.topology', this.context.locale))
     // changing active filters will then load the toplogy diagram
     this.props.restoreSavedTopologyFilters()
+    this.startPolling()
+  }
 
-    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      var intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
-      this.setState({ intervalId: intervalId })
+  componentWillUnmount() {
+    if (this.state) {
+      this.stopPolling()
     }
+  }
+
+  startPolling(newInterval) {
+    this.stopPolling()
+    let intervalId = undefined
+    const interval = newInterval || getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
+    if (interval) {
+      intervalId = setInterval(this.refetch, Math.max(interval, 20*1000))
+    }
+    this.setState({ intervalId: intervalId })
+  }
+
+  stopPolling() {
+    const {intervalId} = this.state
+    if (intervalId)
+      clearInterval(intervalId)
+    this.setState({ intervalId: undefined })
+  }
+
+  refetch() {
+    const { activeFilters, otherTypeFilters } = this.props
+    this.props.fetchTopology(activeFilters, otherTypeFilters)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,17 +110,6 @@ class ResourceTopology extends React.Component {
   shouldComponentUpdate(nextProps){
     return !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
       nextProps.status !== this.props.status
-  }
-
-  componentWillUnmount() {
-    if (this.state) {
-      clearInterval(this.state.intervalId)
-    }
-  }
-
-  reload() {
-    const { activeFilters, otherTypeFilters } = this.props
-    this.props.fetchTopology(activeFilters, otherTypeFilters)
   }
 
   setTopologyContainerRef = ref => {this.topologyContainerRef = ref}
@@ -123,6 +140,16 @@ class ResourceTopology extends React.Component {
         <ResourceTopologyFilters params={params||{}}
           staticResourceData={staticResourceData}
           otherTypeFilters={otherTypeFilters} />
+        <div className='topology-diagram-toolbar' >
+          <AutoRefreshSelect
+            startPolling={this.startPolling}
+            stopPolling={this.stopPolling}
+            pollInterval={getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)}
+            refetch={this.refetch}
+            refreshValues = {REFRESH_TIMES}
+            refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
+          />
+        </div>
         <ResourceTopologyDiagram loaded={loaded} setDiagramShown={this.setDiagramShown} />
       </div>
     )

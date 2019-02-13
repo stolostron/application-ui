@@ -23,6 +23,7 @@ const initialState = {
     namespace: [],
     type: [{ label: 'deployment'}] // Sets the default filters
   },
+  diagramFilters: [],
   otherTypeFilters: [],
   links: [],
   nodes: [],
@@ -48,7 +49,8 @@ export const topology = (state = initialState, action) => {
           status: Actions.REQUEST_STATUS.DONE,
           nodes: action.nodes,
           links: action.links,
-          fetchFilters: action.fetchFilters
+          fetchFilters: action.fetchFilters,
+          reloading: false
         }
       } else {
         return { ...state }
@@ -89,8 +91,8 @@ export const topology = (state = initialState, action) => {
     return {...state, activeFilters}
   }
   case Actions.TOPOLOGY_SET_ACTIVE_FILTERS: {
-    const { activeFilters } = action
-    return {...state, activeFilters}
+    const { activeFilters, reloading } = action
+    return {...state, activeFilters, reloading}
 
   }
   case Actions.TOPOLOGY_NAME_SEARCH: {
@@ -147,6 +149,18 @@ export const topology = (state = initialState, action) => {
       otherTypeFilters,
       filtersStatus: Actions.REQUEST_STATUS.DONE,
     }
+  }
+  case Actions.DIAGRAM_RESTORE_FILTERS: {
+    const { namespace, name, initialDiagramFilters } = action
+    const {filters: diagramFilters} = getFilterState(initialDiagramFilters, namespace, name)
+    state.diagramFilters = diagramFilters
+    return {...state}
+  }
+  case Actions.DIAGRAM_SAVE_FILTERS: {
+    const { namespace, name, diagramFilters } = action
+    saveFilterState(namespace, name, {filters:diagramFilters})
+    state.diagramFilters = diagramFilters
+    return {...state}
   }
   default:
     return { ...state }

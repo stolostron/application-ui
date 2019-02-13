@@ -61,33 +61,6 @@
         }
       }
 
-      .auto-refresh-selection {
-        display: flex;
-        align-items: center;
-        border-right: 1px solid gray;
-        padding-right: 10px;
-
-        > div {
-          outline: none;
-        }
-
-        .bx--select-input {
-          color: $color__blue-51;
-          font-size: 14px;
-          height: 16px;
-          width: 150px;
-          font-weight: bold;
-          padding: 0 4px;
-          background-color: $color__white;
-          box-shadow: none;
-        }
-
-        .bx--select__arrow {
-          right: 0;
-          top: 4px;
-        }
-      }
-
       > div:not(:last-child) {
         padding-right: 20px;
         border-right: 2px solid $color__gray-1;

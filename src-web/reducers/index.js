@@ -47,7 +47,6 @@ export const HCMReleaseList = createResourceReducer(resourceReducerFunction, pre
 export const HCMRepositoryList = createResourceReducer(resourceReducerFunction, predicate.bind(null, RESOURCE_TYPES.HCM_REPOSITORIES))
 
 export { default as catalog } from './catalog'
-export { diagram } from './diagram'
 export { topology } from './topology'
 export { resourceFilters } from './filter'
 

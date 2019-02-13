@@ -100,6 +100,11 @@ class SearchBar extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps.clientSideFilters, nextState.currentQuery) ||
+      !_.isEqual(nextProps.availableFilters, nextState.fieldOptions)
+  }
+
   componentWillUpdate(nextProps, nextState) {
     const { onChange, updateBrowserURL } = this.props
     if (!_.isEqual(nextState.currentQuery, this.state.currentQuery)) {

@@ -45,7 +45,7 @@ class SearchQueryCard extends React.Component {
 
     const newTab = {
       description: description,
-      id: name,
+      id: name + '-' + Date.now(),
       queryName: name,
       searchText: searchText,
       updated: false,
@@ -55,6 +55,7 @@ class SearchQueryCard extends React.Component {
     const newData =  {
       __typename: 'SearchQueryTabs',
       openedTabName: name,
+      openedTabId: newTab.id,
       tabs: tabs,
     }
     client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })

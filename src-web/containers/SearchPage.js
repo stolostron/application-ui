@@ -66,9 +66,11 @@ class SearchPage extends React.Component {
             {( { data, client } ) => {
               if(data && data.searchQueryTabs && data.searchQueryTabs.openedTabName !== '') {
                 const tabName = _.get(data, 'searchQueryTabs.openedTabName', '')
+                const tabId = _.get(data, 'searchQueryTabs.openedTabId', '')
                 return (
                   <SearchInput
                     tabName={tabName}
+                    tabId={tabId}
                     clientSideFilters={this.props.clientSideFilters}
                     updateBrowserURL={this.props.updateBrowserURL}
                     handleSaveButtonClick={() => {

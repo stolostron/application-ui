@@ -31,19 +31,19 @@ export const UPDATE_MODAL = gql`
 `
 
 export const UPDATE_QUERY_TABS = gql`
-  mutation UpdateQueryTabs($__typename: String, $unsavedCount: Int, $openedTabName: String, $data: JSON, $tabs: [JSON]) {
-    updateQueryTabs(__typename: $__typename, unsavedCount:$unsavedCount, openedTabName:$openedTabName, data:$data, tabs: $tabs) @client
+  mutation UpdateQueryTabs($__typename: String, $unsavedCount: Int, $openedTabName: String, $openedTabId: String, $data: JSON, $tabs: [JSON]) {
+    updateQueryTabs(__typename: $__typename, unsavedCount:$unsavedCount, openedTabName:$openedTabName, openedTabId:$openedTabId, data:$data, tabs: $tabs) @client
   }
 `
 
 export const UPDATE_SINGLE_QUERY_TAB = gql`
-  mutation UpdateSingleQueryTab($openedTabName: String, $description: String, $searchText: String, $updateUnsavedOrExisting: Boolean) {
-    updateSingleQueryTab(openedTabName: $openedTabName, description: $description, searchText:$searchText, updateUnsavedOrExisting:$updateUnsavedOrExisting) @client
+  mutation UpdateSingleQueryTab($openedTabName: String, $openedTabId: String, $description: String, $searchText: String, $updateUnsavedOrExisting: Boolean) {
+    updateSingleQueryTab(openedTabName: $openedTabName, openedTabId: $openedTabId, description: $description, searchText:$searchText, updateUnsavedOrExisting:$updateUnsavedOrExisting) @client
   }
 `
 
 export const REMOVE_SINGLE_QUERY_TAB = gql`
-  mutation RemoveSingleQueryTab($queryName: String) {
-    removeSingleQueryTab(queryName: $queryName) @client
+  mutation RemoveSingleQueryTab($id: String) {
+    removeSingleQueryTab(id: $id) @client
   }
 `

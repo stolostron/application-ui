@@ -35,6 +35,7 @@ export const GET_SEARCH_TABS = gql`
     searchQueryTabs @client {
       unsavedCount
       openedTabName
+      openedTabId
       tabs {
         queryName
         searchText

@@ -47,13 +47,13 @@ export class SecondaryHeaderSearchPage extends React.Component {
         {( { data, client } ) => {
           const tabs = _.get(data, 'searchQueryTabs.tabs')
           const unsavedCount = _.get(data, 'searchQueryTabs.unsavedCount')
-          const openedTabName = _.get(data, 'searchQueryTabs.openedTabName')
+          const openedTabId = _.get(data, 'searchQueryTabs.openedTabId')
           return (
             <div className='secondary-header-wrapper' role='region' aria-label={title}>
               <div className='secondary-header'>
                 {tabs && tabs.length > 0 ? (
                   <DetailPageHeader hasTabs={true} title={decodeURIComponent(title)} aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}>
-                    <Tabs className='secondary-header-tabs' selected={this.getSelectedTab(tabs, openedTabName, client) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
+                    <Tabs className='secondary-header-tabs' selected={this.getSelectedTab(tabs, openedTabId, client) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>
                       {this.renderTabs(client, tabs, unsavedCount)}
                       {this.renderAddNewTab(client, unsavedCount, tabs, locale)}
                     </Tabs>
@@ -104,8 +104,8 @@ export class SecondaryHeaderSearchPage extends React.Component {
       }
       return (
         <Tab label={`${tab.queryName} ${tab.updated ? '*': ''}`}
-          key={tab.queryName}
-          id={tab.queryName}
+          key={tab.id}
+          id={tab.id}
           className={'header-tab-container'}
           onClick={(evt) => {
             if (evt.target.nodeName === 'A' || evt.target.nodeName === 'LI') {
@@ -127,18 +127,26 @@ export class SecondaryHeaderSearchPage extends React.Component {
   }
 
   handleRemoveClick = (client, tabs, tab) => async () => {
-    const { queryName } = tab
+    const { id } = tab
     const newData =  {
-      queryName
+      id
     }
+    let deleteIndex = 0
+    tabs.forEach((t, idx) => {
+      if (t.id === tab.id && idx === tabs.length - 1) {
+        deleteIndex = idx - 1
+      } else if (t.id === tab.id) {
+        deleteIndex = idx
+      }
+    })
     await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
 
-    this.props.updateBrowserURL({ query: tabs[tabs.length - 1].searchText })
+    this.props.updateBrowserURL({ query: tabs[deleteIndex].searchText })
 
     client.writeData({ data: {
       searchInput: {
         __typename: 'SearchInput',
-        text: tabs[tabs.length - 1].searchText
+        text: tabs[deleteIndex].searchText
       },
       relatedResources: {
         __typename: 'RelatedResources',
@@ -154,6 +162,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount + 1,
       openedTabName: `${newSearch} (${unsaved} - ${unsavedCount})`,
+      openedTabId: `${newSearch} (${unsaved} - ${unsavedCount})`,
       data:{
         queryName: `${newSearch} (${unsaved} - ${unsavedCount})`,
         searchText:'',
@@ -181,11 +190,12 @@ export class SecondaryHeaderSearchPage extends React.Component {
   }
 
   async handleClickTab(client, tabs, tab, unsavedCount) {
-    const { queryName, searchText } = tab
+    const { queryName, id, searchText } = tab
     const newData =  {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount,
       openedTabName: queryName,
+      openedTabId: id,
       tabs
     }
     await client.mutate({ mutation: UPDATE_QUERY_TABS, variables: { ...newData } })
@@ -204,11 +214,11 @@ export class SecondaryHeaderSearchPage extends React.Component {
     }} )
   }
 
-  getSelectedTab(tabs, openedTabName, client) {
-    const currentTab = tabs.filter(tab => tab.queryName === openedTabName && !tab.queryName.toLowerCase().includes('unsaved'))
+  getSelectedTab(tabs, openedTabId, client) {
+    const currentTab = tabs.filter(tab => tab.id === openedTabId && !tab.queryName.toLowerCase().includes('unsaved'))
     const result = tabs.reduce((r, a) => r.concat(a, 0), [])
     const index = result.findIndex((tab) =>
-      tab.queryName === openedTabName
+      tab.id === openedTabId
     )
 
     client.writeData({ data: {

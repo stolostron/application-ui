@@ -24,7 +24,7 @@ resources(() => {
 
 class SearchInput extends React.PureComponent {
   render() {
-    const { clientSideFilters, tabName, updateBrowserURL } = this.props
+    const { clientSideFilters, tabName, tabId, updateBrowserURL } = this.props
     return (
       <Query query={GET_SEARCH_SCHEMA}>
         {( { data, client } ) => {
@@ -48,6 +48,7 @@ class SearchInput extends React.PureComponent {
                         }} )
                         const newData =  {
                           openedTabName: tabName,
+                          openedTabId: tabId,
                           searchText: input
                         }
                         client.mutate({ mutation: UPDATE_SINGLE_QUERY_TAB, variables: { ...newData } })
@@ -88,6 +89,7 @@ class SearchInput extends React.PureComponent {
 SearchInput.propTypes = {
   clientSideFilters: PropTypes.string,
   handleSaveButtonClick: PropTypes.func,
+  tabId: PropTypes.string,
   tabName: PropTypes.string,
   updateBrowserURL: PropTypes.func
 }

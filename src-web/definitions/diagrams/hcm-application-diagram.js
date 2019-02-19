@@ -122,7 +122,7 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
   targetClusters = new Set(targetClusters)
   let {nodes=[], links=[]} = elements
   let {yaml, designLoaded} = elements
-  const {chartMap, kubeSelectors} = elements
+  const {chartMap, kubeSelectors, deployablesMap} = elements
   const hasKubeDeploments = kubeSelectors.length>0
   const hasChartDeploments = Object.keys(chartMap).length>0
 
@@ -135,8 +135,10 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
   let clusters = []
   let topologyLoaded = false
   let topologyError = false
-  const {reloading:topologyReloading} = topology
-  if (designLoaded && _.isEqual(requiredFilters, topology.activeFilters) && topology.status===Actions.REQUEST_STATUS.DONE) {
+  const {activeFilters, status, reloading} = topology
+  let topologyReloading = reloading
+  const requiredTopologyLoaded = _.isEqual(requiredFilters, activeFilters) && status===Actions.REQUEST_STATUS.DONE
+  if (designLoaded && requiredTopologyLoaded) {
     topologyLoaded = true
     elements = this.getTopologyElements(topology)
     clusters = elements.clusters
@@ -146,7 +148,8 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
 
     // add links between design nodes and topology nodes
     // don't add k8 node if it has no connection to design
-    nodes = nodes.filter(({uid, labels, clusterName, name, type})=>{
+    nodes = nodes.filter((node)=>{
+      const {uid, labels, clusterName, name, type} = node
       if (uid && labels) {
         let shapeId=null
 
@@ -171,6 +174,9 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
           })
           if (selector) {
             shapeId = selector.deployableId
+            // organize diagram so that deployables form barrier between design and k8
+            deployablesMap[shapeId].isDivider = true
+            node.isCRDDeployment = true
           }
         }
 
@@ -198,7 +204,7 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
       }
     })
     // save in storage
-    if (topologyLoaded && !topologyReloading) {
+    if (requiredTopologyLoaded && !topologyReloading) {
       saveStoredObject(localStoreKey, {
         clusters,
         links,
@@ -215,10 +221,16 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
       nodes = storedElements.nodes || nodes
       links = storedElements.links || links
       yaml = storedElements.yaml || yaml
-      designLoaded = topologyLoaded = true
+      designLoaded = topologyLoaded = topologyReloading = true
+    } else {
+      // if topology not loaded yet and no stored version,
+      // don't even show design, it looks messy w/o topology
+      nodes = []
+      links = []
     }
-  } else if (topology.status===Actions.REQUEST_STATUS.ERROR) {
-    topologyError=true
+    if (topology.status===Actions.REQUEST_STATUS.ERROR) {
+      topologyError=true
+    }
   }
 
   // filter nodes based on current diagram filters
@@ -245,10 +257,12 @@ export function getDesignElements(item) {
   const nodes=[]
   const chartMap={}
   const kubeSelectors=[]
+  const deployablesMap = {}
   let yaml = ''
-  let designLoaded = false
-  if (item) {
-    const dnp = dumpAndParse(item, ['applicationRelationships', 'deployables', 'placementPolicies'])
+  // wait for full application to load
+  const designLoaded = item && item.raw
+  if (designLoaded) {
+    const dnp = dumpAndParse(item, ['applicationRelationships', 'deployables', 'placementPolicies', 'placementBindings'])
     const {parsed} = dnp
     yaml = dnp.yaml
 
@@ -265,8 +279,18 @@ export function getDesignElements(item) {
       $r: 0
     })
 
+    // to simiplify diagram remove links between app and deployable if there's another link
+    const removeAppLink = (deployableId) => {
+      const idx = links.findIndex(({uid})=>{
+        return uid === appId+deployableId
+      })
+      if (idx!==-1) {
+        links.splice(idx,1)
+      }
+    }
+
     // create deployables and policy nodes and links back to application
-    const deployablesMap = {}
+    const policiesIdMap = {}
     const deployablesIdMap = {}
     const keys = ['deployables', 'placementPolicies']
     keys.forEach(key=>{
@@ -287,29 +311,34 @@ export function getDesignElements(item) {
             isDesign: true,
             $r: name.$r
           }
-          deployablesMap[name.$v] = deployable
+          if (key === 'deployables') {
+            deployablesMap[memberId] = deployable
+          }
           nodes.push(deployable)
           links.push({
             source: appId,
             target: memberId,
-            label: 'uses',
+            label: '',
             isDesign: true,
             uid: appId+memberId
           })
           if (key==='deployables') {
             deployablesIdMap[name.$v] = memberId
+          } else {
+            policiesIdMap[name.$v] = memberId
           }
         })
       }
     })
 
-    // create application relationship links between deployments
-    const arr = parsed['applicationRelationships']
+    // create application relationship links between deployables
+    let arr = parsed['applicationRelationships']
     if (Array.isArray(arr)) {
       arr.forEach((member)=>{
         var srcId = deployablesIdMap[_.get(member, 'spec.$v.source.$v.name.$v')]
         var tgtId = deployablesIdMap[_.get(member, 'spec.$v.destination.$v.name.$v')]
         if (srcId && tgtId) {
+          // add link between deployables
           links.push({
             source: srcId,
             target: tgtId,
@@ -317,6 +346,36 @@ export function getDesignElements(item) {
             isDesign: true,
             uid: srcId+tgtId
           })
+          // remove link between app and deployable
+          removeAppLink(tgtId)
+        }
+      })
+    }
+
+    // create placement binding links between policies and deployables
+    arr = parsed['placementBindings']
+    if (Array.isArray(arr)) {
+      arr.forEach((member)=>{
+        var srcId = policiesIdMap[_.get(member, 'placementRef.$v.name.$v')]
+        if (srcId) {
+          var subjects = _.get(member, 'subjects.$v')
+          if (Array.isArray(subjects)) {
+            subjects.forEach((subject)=>{
+              var tgtId = deployablesIdMap[_.get(subject, '$v.name.$v')]
+              if (tgtId) {
+                // add link between policy and deployable
+                links.push({
+                  source: srcId,
+                  target: tgtId,
+                  label: 'binds',
+                  isDesign: true,
+                  uid: srcId+tgtId
+                })
+                // remove link between app and deployable
+                removeAppLink(tgtId)
+              }
+            })
+          }
         }
       })
     }
@@ -386,7 +445,6 @@ export function getDesignElements(item) {
           if (deployer) {
             const name = deployer.metadata.name
             const deployableId = deployablesIdMap[name]
-            deployablesMap[name].isDivider = true // organize diagram so that deployables form barrier between design and k8
             kubeSelectors.push({
               deployableId, kubeKind, kubeName, kubeCluster
             })
@@ -394,8 +452,6 @@ export function getDesignElements(item) {
         }
       })
     })
-
-    designLoaded = true
   }
 
   return {
@@ -404,6 +460,7 @@ export function getDesignElements(item) {
     yaml,
     chartMap,
     kubeSelectors,
+    deployablesMap,
     designLoaded
   }
 }
@@ -489,6 +546,15 @@ export function getNodeTitle(node, locale) {
 
   case 'chart':
     return _.get(node, 'work.cluster', '')
+
+  case 'service':
+  case 'deployment':
+  case 'pod':
+    // if we skip the chart for a custom resource def
+    // add cluster name as node title
+    if (node.isCRDDeployment) {
+      return _.get(node, 'clusterName', '')
+    }
   }
 
   return ''
@@ -576,36 +642,9 @@ export function getSectionTitles(isMulticluster, clusters, types) {
 
 export function getConnectedLayoutOptions({elements}) {
 
-  const elementArr = []
-  elements.nodes().toArray().forEach(element=>{
-    elementArr.push({element, node:element.data().node})
-  })
+  // pre position elements to try to keep webcola from random layouts
+  positionRow(0, elements.nodes().roots().toArray(), new Set())
 
-  // pre position design, work and k8
-  const workNodes = elementArr
-    .filter(({node:{isWork, isDesign}, element})=>{
-      if (!isWork) {
-        element.position({x, y:(isDesign?-50:100)})
-        return false
-      }
-      return true
-    })
-  let x = 0
-  workNodes.sort(({node:an},{node:bn})=>{
-    const r = an.work.cluster.localeCompare(bn.work.cluster)
-    return (r===0) ? an.name.localeCompare(bn.name) : r
-  })
-    .forEach(({element})=>{
-      element.position({x, y:0})
-      let y=100
-      element.outgoers().forEach(successor=>{
-        if (successor.isNode()) {
-          successor.position({x, y})
-          y = y+NODE_SIZE*10
-        }
-      })
-      x = x+NODE_SIZE*40
-    })
 
   // let cola position them, nicely
   return {
@@ -638,6 +677,33 @@ export function getConnectedLayoutOptions({elements}) {
     unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
     userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
     allConstIter: 20, // works on overlap
+  }
+}
+
+const positionRow = (y, row, placedSet) => {
+  const width = row.length * NODE_SIZE * 2
+  if (width) {
+    // place each node in this row
+    let x = -(width/2)
+    row.forEach(n=>{
+      placedSet.add(n.id())
+      n.position({x, y})
+      x+=NODE_SIZE*2
+    })
+
+    // find and sort next row down
+    let nextRow = []
+    row.forEach(n=>{
+      const outgoers = n.outgoers().nodes().filter(n=>{
+        return !placedSet.has(n.id())
+      }).sort((a,b)=>{
+        return a.data().node.name.localeCompare(b.data().node.name)
+      }).toArray()
+      nextRow = [...nextRow, ...outgoers]
+    })
+
+    // place next row down
+    positionRow(y+NODE_SIZE*1.1, nextRow, placedSet)
   }
 }
 

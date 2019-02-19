@@ -98,7 +98,6 @@ export default class HeatExpanded extends React.Component {
     let biggestBrick = 1
     let smallestBrick = Number.MAX_SAFE_INTEGER
     keys.map((key)=> {
-
       // what's the max size (pods/nodes) of any grouping
       mapData[key].forEach(({size})=>{
         biggestBrick = Math.max(biggestBrick, size)
@@ -110,10 +109,29 @@ export default class HeatExpanded extends React.Component {
         return acc+size
       }, 0)
       allBiggest += sizeMap[key]
+    })
 
-      // sort biggest bricks to the top
-      mapData[key].sort(({size:a}, {size:b})=>{
-        return b-a
+    // determine brick widths
+    keys.map((key)=> {
+      mapData[key].forEach(data=>{
+        // bricks must be from SMALLEST_BRICK_SIZE to BIGGEST_BRICK_SIZE
+        // so that masonry will maintain spacing
+        data.boxWidth = (Math.round((data.size * ((BIGGEST_BRICK_SIZE-SMALLEST_BRICK_SIZE) /
+            biggestBrick))/MIN_BRICK_SIZE) * MIN_BRICK_SIZE) + SMALLEST_BRICK_SIZE
+      })
+    })
+
+
+    // sort, first by size, then by color, then by name
+    keys.map((key)=> {
+      mapData[key].sort(({boxWidth:az, shade:as, name:an}, {boxWidth:bz, shade:bs, name:bn})=>{
+        let r = bz-az
+        if (r!==0)
+          return r
+        r = bs-as
+        if (r!==0)
+          return r
+        return an.localeCompare(bn)
       })
     })
 
@@ -168,12 +186,7 @@ export default class HeatExpanded extends React.Component {
                   className={'masonry-class'}
                   ref={this.setMasonryRef}
                   options={masonryOptions} >
-                  {mapData[key].map(({color, name, size, shadeForTooltip})=>{
-                    //determine width of this brick
-                    // bricks must be from SMALLEST_BRICK_SIZE to BIGGEST_BRICK_SIZE
-                    // so that masonry will maintain spacing
-                    let boxWidth = (Math.round((size * ((BIGGEST_BRICK_SIZE-SMALLEST_BRICK_SIZE) /
-                        biggestBrick))/MIN_BRICK_SIZE) * MIN_BRICK_SIZE) + SMALLEST_BRICK_SIZE
+                  {mapData[key].map(({color, name, size, boxWidth, shadeForTooltip})=>{
                     // not to exceed the width of the grouping
                     // not to go below SMALLEST_BRICK_SIZE
                     boxWidth = Math.max(SMALLEST_BRICK_SIZE, Math.min(groupingWidth, boxWidth))

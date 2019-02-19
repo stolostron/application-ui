@@ -11,6 +11,7 @@ import React from 'react'
 import { Loading } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
+import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -386,7 +387,12 @@ export default {
 export function createApplicationLink(item = {}, ...param){
   const {metadata: {name, namespace = 'default'}} = item
   if (param[2]) return item.metadata.name
-  return <Link to={`${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
+  let link = `${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`
+  // if user at any point opens the diagram tab, they will continue to open application diagrams isntead of overview
+  if (localStorage.getItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)) {
+    link = link+'/diagram'
+  }
+  return <Link to={link}>{name}</Link>
 }
 
 export function createDashboardLink({ dashboard = '' } , locale){

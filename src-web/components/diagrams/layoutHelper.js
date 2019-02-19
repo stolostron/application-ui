@@ -749,7 +749,12 @@ export default class LayoutHelper {
         if (element.isNode()) {
           const {node: {layout}} = data
           if (isSave) {
-            const {x, y} = layout
+            let {x, y} = layout
+            if (layout.undragged) {
+              ({x, y} = layout.undragged)
+              delete layout.dragged
+              delete layout.undragged
+            }
             layout.savePosition = {x, y}
           } else if (layout.savePosition) {
             const {savePosition: {x, y}} = layout
@@ -760,7 +765,12 @@ export default class LayoutHelper {
         } else {
           const {edge: {layout}} = data
           if (isSave) {
-            layout.savePath = layout.linePath
+            if (layout.undragged) {
+              layout.savePath = layout.undragged.linePath
+              delete layout.undragged
+            } else {
+              layout.savePath = layout.linePath
+            }
           } else {
             layout.linePath = layout.savePath
             delete layout.savePath

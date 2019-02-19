@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
-import { DIAGRAM_REFRESH_INTERVAL_COOKIE, DIAGRAM_QUERY_COOKIE, REFRESH_TIMES } from '../../../lib/shared/constants'
+import { MCM_OPEN_DIAGRAM_TAB_COOKIE, DIAGRAM_REFRESH_INTERVAL_COOKIE, DIAGRAM_QUERY_COOKIE, REFRESH_TIMES } from '../../../lib/shared/constants'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { Loading  } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
@@ -65,6 +65,7 @@ class ResourceDiagram extends React.Component {
       this.startPolling = this.startPolling.bind(this)
       this.stopPolling = this.stopPolling.bind(this)
       this.refetch = this.refetch.bind(this)
+      localStorage.setItem(MCM_OPEN_DIAGRAM_TAB_COOKIE, 'true')
     }
 
     componentWillMount() {
@@ -112,7 +113,8 @@ class ResourceDiagram extends React.Component {
         const yaml = nextProps.yaml || ''
 
         // when the labels required by the design have been loaded, load the topology
-        if (!prevState.designLoaded && nextProps.designLoaded) {
+        if (!prevState.designLoaded && nextProps.designLoaded ||
+        !_.isEqual(this.props.requiredFilters, nextProps.requiredFilters)) {
           this.props.fetchTopology(nextProps.requiredFilters)
         }
 
@@ -149,7 +151,7 @@ class ResourceDiagram extends React.Component {
 
       const { staticResourceData, onDiagramFilterChange, topologyError } = this.props
       const {designTypes, topologyTypes, typeToShapeMap} = staticResourceData
-      const { links,  yaml, diagramFilters, firstLoad, topologyLoaded, isMulticluster } = this.state
+      const { links,  yaml, diagramFilters, firstLoad, topologyLoaded, topologyReloading, isMulticluster } = this.state
       const { nodes } = this.state
 
       // set up type filter bar
@@ -169,6 +171,7 @@ class ResourceDiagram extends React.Component {
             context={this.context}
             secondaryError={topologyError}
             secondaryLoad={!topologyLoaded && !firstLoad}
+            reloading={topologyReloading}
             staticResourceData={staticResourceData}
             setUpdateDiagramRefreshTimeFunc={this.setUpdateDiagramRefreshTimeFunc}
             activeFilters={{type:diagramFilters}}

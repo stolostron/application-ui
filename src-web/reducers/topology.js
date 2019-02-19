@@ -91,8 +91,8 @@ export const topology = (state = initialState, action) => {
     return {...state, activeFilters}
   }
   case Actions.TOPOLOGY_SET_ACTIVE_FILTERS: {
-    const { activeFilters, reloading } = action
-    return {...state, activeFilters, reloading}
+    const { activeFilters, reloading=false } = action
+    return {...state, status: Actions.REQUEST_STATUS.INCEPTION, activeFilters, reloading}
 
   }
   case Actions.TOPOLOGY_NAME_SEARCH: {

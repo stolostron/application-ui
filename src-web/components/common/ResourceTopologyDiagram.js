@@ -25,6 +25,7 @@ resources(() => {
   require('../../../scss/topology-diagram.scss')
 })
 
+const MAX_CLUSTERNAMES_TITLE = 6
 
 class ResourceTopologyDiagram extends React.Component {
   static propTypes = {
@@ -57,8 +58,12 @@ class ResourceTopologyDiagram extends React.Component {
     if (!this.initialNodes && loaded) {
       this.initialNodes = nodes.length
     }
-    const keys = Object.keys(set)
-    this.setState({ clusterNames: keys.sort().join(', '), isMulticluster:keys.length>1, loaded })
+    const keys = Object.keys(set).sort()
+    const length = keys.length
+    const clusterNames = length<=MAX_CLUSTERNAMES_TITLE+1 ? keys.join(', ') :
+      msgs.get('topology.more.cluster.names',
+        [keys.slice(0, MAX_CLUSTERNAMES_TITLE).join(', '), length-MAX_CLUSTERNAMES_TITLE ], this.context.locale)
+    this.setState({ clusterNames, isMulticluster:length>1, loaded })
 
     // update loading spinner
     if (this.updateDiagramRefreshTime) {

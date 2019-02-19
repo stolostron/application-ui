@@ -42,6 +42,7 @@ class DiagramViewer extends React.Component {
     isMulticluster: PropTypes.bool,
     links: PropTypes.array,
     nodes: PropTypes.array,
+    reloading: PropTypes.bool,
     searchName: PropTypes.string,
     secondaryError: PropTypes.bool,
     secondaryLoad: PropTypes.bool,
@@ -172,7 +173,12 @@ class DiagramViewer extends React.Component {
         if (!nodeMap[source] || !nodeMap[target]) {
           return false
         } else if (!currentLinkMap[link.uid]) {
-          hiddenLinks.add(link.uid)
+          // only links between kube objects can be hidden
+          if (props.reloading || (!nodeMap[source].isDesign && !nodeMap[source].isDesign)) {
+            hiddenLinks.add(link.uid)
+          } else {
+            return false
+          }
         }
         return true
       })
@@ -200,7 +206,7 @@ class DiagramViewer extends React.Component {
 
   updateDiagramRefreshTime = (refreshing) => {
     if (this.diagramRefreshContainerRef) {
-      this.diagramRefreshContainerRef.classList.toggle('refreshing', refreshing)
+      this.diagramRefreshContainerRef.classList.toggle('refreshing', !!refreshing)
     }
     if (this.diagramRefreshTimeRef && this.lastRefreshing && !refreshing) {
       this.diagramRefreshTimeRef.textContent = moment().format('h:mm:ss A')

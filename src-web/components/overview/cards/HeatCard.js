@@ -92,13 +92,13 @@ class HeatCard extends React.Component {
     )
   }
 
-  renderHeader = (expanded, {shade, size}, {average}) => {
+  renderHeader = (expanded, {shade, size}, {below, average, above}) => {
     const {locale} = this.context
     const toggleMsg = msgs.get(expanded?'overview.collapse':'overview.expand', locale)
     const legend = [
-      {title: msgs.get('overview.legend.below', locale), className:'legend below'},
+      {title: msgs.get('overview.legend.above', [above], locale), className:'legend above'},
       {title: msgs.get('overview.legend.average', [average], locale), className:'legend average'},
-      {title: msgs.get('overview.legend.above', locale), className:'legend above'},
+      {title: msgs.get('overview.legend.below', [below] , locale), className:'legend below'},
     ]
     let usageMsg
     switch (shade) {
@@ -124,6 +124,7 @@ class HeatCard extends React.Component {
     }
     return (
       <div className='heat-card-header'>
+        <div>{usedByMsg}</div>
         <div>{usageMsg}</div>
         {legend.map(({title, className})=>{
           return (
@@ -133,7 +134,6 @@ class HeatCard extends React.Component {
             </div>
           )
         })}
-        <div>{usedByMsg}</div>
         <div className='heat-card-toggle' tabIndex='0' role={'button'}
           onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
           {toggleMsg}

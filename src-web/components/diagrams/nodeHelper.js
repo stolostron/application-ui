@@ -428,11 +428,11 @@ export default class NodeHelper {
         })
 
       // drag icons
-      node.selectAll('use.icon')
-        .attrs(({width, height}) => {
-          const {x, y} = layout
+      node.selectAll('use.nodeIcon')
+        .attrs(({dx, dy, width, height}, i, ns) => {
+          const {layout: {x, y}} = d3.select(ns[i].parentNode).datum()
           return {
-            'transform': `translate(${x - width/2}, ${y - height/2})`,
+            'transform': `translate(${x + dx - width/2}, ${y + dy - height/2})`,
           }
         })
 
@@ -621,8 +621,9 @@ export const showMatches = (svg, searchNames) => {
     svg.select('g.nodes').selectAll('g.nodeLabel')
       .each((d,i,ns)=>{
         const {name, layout} = d
-        const {x, y, scale=1, label, search=FilterResults.nosearch} = layout
+        const {x, y, scale=1, search=FilterResults.nosearch} = layout
         if (search!==FilterResults.hidden && x && y) {
+          const label = layout.label.toLowerCase()
           const regex = new RegExp(`(${searchNames.join('|')})`, 'g')
           const acrossLines = search===FilterResults.match && label.split(regex).length<=1
           d3.select(ns[i])

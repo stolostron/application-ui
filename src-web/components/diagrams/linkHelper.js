@@ -210,8 +210,15 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
       const path = link.selectAll('path')
       const layout = l.layout
 
+      if (!layout.undragged) {
+        layout.undragged = {
+          linePath: layout.linePath,
+        }
+      }
+
       // set node position
-      const {isLoop, source, target, isSwapped} = layout
+      const {isLoop} = layout
+      const {source, target} = layout
       if (isLoop) {
         source.x = target.x = d.layout.x
         source.y = target.y = d.layout.y
@@ -222,14 +229,15 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
         target.x = d.layout.x
         target.y = d.layout.y
       }
-      if (isSwapped) {
-        delete layout.isSwapped
-        path.attrs(() => {
-          return {
-            ...getLinkMarkers(layout)
-          }
-        })
-      }
+
+      // flip line so that line label isn't upside down :(
+      // which way does the arrow/label go
+      layout.isSwapped = !isLoop && source.x > target.x
+      path.attrs(() => {
+        return {
+          ...getLinkMarkers(layout)
+        }
+      })
 
       // update path
       setDraggedLineData(layout)
@@ -245,7 +253,11 @@ export const dragLinks = (svg, d, typeToShapeMap) => {
 
 export const setDraggedLineData = (layout) => {
   // calculate new lineData
-  const {isLoop, source, target} = layout
+  const {isLoop, isSwapped} = layout
+  let {source, target} = layout
+  if (isSwapped) {
+    [target, source] = [source, target]
+  }
   const {x: sx, y: sy} = source
   const {x: tx, y: ty} = target
   if (isLoop) {

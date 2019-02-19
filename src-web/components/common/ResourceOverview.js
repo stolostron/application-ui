@@ -15,6 +15,7 @@ import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import StructuredListModule from '../../components/common/StructuredListModule'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
+import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants'
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -28,6 +29,7 @@ const ResourceOverview = ({
   modules,
   resourceType
 }) => {
+  localStorage.removeItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)
   if (!item)
     return <Loading withOverlay={false} className='content-spinner' />
   const modulesRight = []

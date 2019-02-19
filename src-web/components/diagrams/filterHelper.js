@@ -41,8 +41,6 @@ export default class FilterHelper {
             } else {
               layout.search = FilterResults.nosearch
             }
-            delete layout.undragged
-            delete layout.dragged
           })
         })
       })

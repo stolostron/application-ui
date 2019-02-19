@@ -119,7 +119,7 @@ export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoi
     shadeArray.pop()
   }
   const avg = _.sum(shadeArray) / shadeArray.length
-  const std = Math.sqrt(_.sum(_.map(shadeArray, (i) => Math.pow((i - avg), 2))) / shadeArray.length)
+  const std = Math.max(avg*.05, Math.sqrt(_.sum(_.map(shadeArray, (i) => Math.pow((i - avg), 2))) / shadeArray.length))
   Object.keys(mapData).forEach(key=>{
     mapData[key].forEach(cluster=>{
       const {shade} = cluster
@@ -133,16 +133,12 @@ export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoi
     })
   })
 
-  let average
-  if (std!==0) {
-    const top = deflateKubeValue(avg+std)
-    const bottom = deflateKubeValue(avg-std)
-    average = `${bottom.size} - ${top.size}${top.units}`
-  } else {
-    const aver = deflateKubeValue(avg)
-    average = `${aver.size}${aver.units}`
-  }
-  return {sizeTotal, mapData, average}
+  const top = deflateKubeValue(avg+std)
+  const bottom = deflateKubeValue(avg-std)
+  const below = `${bottom.size}${top.units}`
+  const average = `${bottom.size} - ${top.size}${top.units}`
+  const above = `${top.size}${top.units}`
+  return {sizeTotal, mapData, below, average, above}
 }
 
 export const getDataValues = (overview, dataType, pieData) => {

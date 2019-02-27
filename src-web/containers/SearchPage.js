@@ -19,7 +19,8 @@ import {
   SEARCH_QUERY,
   SEARCH_QUERY_RELATED,
   GET_SEARCH_INPUT_TEXT,
-  GET_SEARCH_TABS
+  GET_SEARCH_TABS,
+  SEARCH_QUERY_COUNT_ONLY
 } from '../apollo-client/queries/SearchQueries'
 import _ from 'lodash'
 import config from '../../lib/shared/config'
@@ -119,7 +120,7 @@ class SearchPage extends React.Component {
                     const input = [...queries.map(query => convertStringToQuery(query.searchText)),
                       ...suggestedQueryTemplates.map(query => convertStringToQuery(query.searchText))]
                     return(
-                      <Query query={config['feature_searchRelated'] ? SEARCH_QUERY_RELATED : SEARCH_QUERY} variables={{input: input}}>
+                      <Query query={SEARCH_QUERY_COUNT_ONLY} variables={{input: input}}>
                         {({ data, loading }) => {
                           if (data.searchResult) {
                             const queriesResult = data.searchResult.slice(0, queries.length).map((query, index) => {return {...query, ...queries[index]}})

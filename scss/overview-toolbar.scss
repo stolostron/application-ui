@@ -22,7 +22,7 @@
 
   .overview-toolbar-container {
     position: absolute;
-    bottom: 0;
+    top: 5px;
     right: 0;
     display: flex;
     min-height: $secondary-header-min-height;
@@ -80,6 +80,7 @@
         font-size: .9rem;
         padding: .8rem;
         line-height: 20px;
+        white-space: nowrap;
 
         .closeIcon {
           fill: $color__blue-90;
@@ -87,6 +88,20 @@
           margin-left: 5px;
         }
      }
+    }
+
+    .refresh-time-container {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      height: 20px;
+      margin-right: 10px;
+
+      .bx--loading--small {
+        width: 1rem;
+        height: 1rem;
+        margin: -2px 0;
+      }
     }
 
   }

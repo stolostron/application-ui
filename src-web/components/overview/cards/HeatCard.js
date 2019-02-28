@@ -11,8 +11,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
+import { ConditionTypes } from '../filterHelper'
 import { Select, SelectItem } from 'carbon-components-react'
 import { HeatSelections, GroupByChoices, SizeChoices, ShadeChoices } from '../constants.js'
+import { deflateKubeValue } from '../../../../lib/client/charts-helper'
 import { getHeatMapData } from '../dataHelper'
 import GridCard from '../GridCard'
 import HeatCollapsed from './HeatCollapsed'
@@ -29,6 +31,8 @@ resources(() => {
 class HeatCard extends React.Component {
 
   static propTypes = {
+    conditionFilterSets: PropTypes.object,
+    conditionFilters: PropTypes.object,
     heatMapState: PropTypes.object,
     item: PropTypes.object,
     unfilteredOverview: PropTypes.object,
@@ -64,11 +68,15 @@ class HeatCard extends React.Component {
   }
 
   render() {
-    const { item, unfilteredOverview } = this.props
+    const { item, unfilteredOverview, conditionFilters, conditionFilterSets } = this.props
     const { mapRect, heatMapState } = this.state
-    const { expanded, heatMapChoices } = heatMapState
+    const { heatMapChoices } = heatMapState
     const { overview:filteredOverview} = item
-    const heatMapData = getHeatMapData(filteredOverview, unfilteredOverview, heatMapChoices, !expanded)
+    const complianceFiltering = conditionFilters.has('noncompliant')
+    const highFiltering = conditionFilters.size>(complianceFiltering?1:0)
+    const expanded = heatMapState.expanded
+    const heatMapData = getHeatMapData(filteredOverview, unfilteredOverview, heatMapChoices,
+      highFiltering, conditionFilters, conditionFilterSets, !expanded)
     const mapClasses = classNames({
       'heat-card': true,
       'expanded': expanded,
@@ -78,8 +86,8 @@ class HeatCard extends React.Component {
       <GridCard item={item}>
         <div className={mapClasses}>
           <div className='heat-card-container'>
-            {this.renderHeader(expanded, heatMapChoices, heatMapData)}
-            {expanded && this.renderHeatMapSelections(item) }
+            {this.renderHeader(expanded, heatMapChoices, heatMapData, highFiltering, conditionFilters, conditionFilterSets)}
+            {expanded && this.renderHeatMapSelections(highFiltering) }
             <div className='heat-card-map' ref={this.setHeatMapRef}>
               {mapRect && (!expanded ?
                 <HeatCollapsed heatMapData={heatMapData} mapRect={mapRect} /> :
@@ -92,26 +100,13 @@ class HeatCard extends React.Component {
     )
   }
 
-  renderHeader = (expanded, {shade, size}, {below, average, above}) => {
+  renderHeader = (expanded, {shade, size}, heatMapData, highFiltering, conditionFilters, conditionFilterSets) => {
     const {locale} = this.context
     const toggleMsg = msgs.get(expanded?'overview.collapse':'overview.expand', locale)
-    const legend = [
-      {title: msgs.get('overview.legend.above', [above], locale), className:'legend above'},
-      {title: msgs.get('overview.legend.average', [average], locale), className:'legend average'},
-      {title: msgs.get('overview.legend.below', [below] , locale), className:'legend below'},
-    ]
-    let usageMsg
-    switch (shade) {
-    case ShadeChoices.vcpu:
-      usageMsg = msgs.get('overview.usage.vcpu', locale)
-      break
-    case ShadeChoices.memory:
-      usageMsg = msgs.get('overview.usage.memory', locale)
-      break
-    case ShadeChoices.storage:
-      usageMsg = msgs.get('overview.usage.storage', locale)
-      break
-    }
+
+    const {usageMsg, legend} = !highFiltering ? this.getRegularLegend(shade, heatMapData) :
+      this.getConditionLegend(heatMapData, conditionFilters, conditionFilterSets)
+
     let usedByMsg
     switch (size) {
     case SizeChoices.pods:
@@ -142,11 +137,87 @@ class HeatCard extends React.Component {
     )
   }
 
-  renderHeatMapSelections = () => {
+  getRegularLegend = (shade, {below, average, above}) => {
+    const {locale} = this.context
+    const legend = [
+      {title: msgs.get('overview.legend.above', [this.getShadeRangeMsg(above)], locale), className:'legend above'},
+      {title: msgs.get('overview.legend.average', [this.getShadeRangeMsg(average)], locale), className:'legend average'},
+      {title: msgs.get('overview.legend.below', [this.getShadeRangeMsg(below)] , locale), className:'legend below'},
+    ]
+    let usageMsg
+    let units=deflateKubeValue(above.max).units
+    if (!units) units=deflateKubeValue(average.max).units
+    if (!units) units=deflateKubeValue(below.max).units
+    switch (shade) {
+    case ShadeChoices.vcpu:
+      usageMsg = msgs.get('overview.usage.vcpu', locale)
+      break
+    case ShadeChoices.memory:
+      usageMsg = msgs.get('overview.usage.memory', [units], locale)
+      break
+    case ShadeChoices.storage:
+      usageMsg = msgs.get('overview.usage.storage', [units], locale)
+      break
+    }
+    return {usageMsg, legend}
+  }
+
+  getConditionLegend = ({filteredMapData, cpu, memory, storage}, conditionFilters) => {
+    const {locale} = this.context
+    const legend = []
+    let usageMsg
+    if (Object.keys(filteredMapData).length>0) {
+      usageMsg = msgs.get('overview.usage.high', locale)
+      conditionFilters.forEach(condition=>{
+        switch (condition) {
+        case ConditionTypes.noncompliant:
+          break
+
+        case ConditionTypes.highVcpu:
+          legend.push({title: msgs.get('overview.legend.cpu', [this.getShadeRangeMsg(cpu, true)], locale), className:'legend above'})
+          break
+
+        case ConditionTypes.highStorage:
+          legend.push({title: msgs.get('overview.legend.storage', [this.getShadeRangeMsg(storage, true)], locale), className:'legend above'})
+          break
+
+        case ConditionTypes.highMemory:
+          legend.push({title: msgs.get('overview.legend.memory', [this.getShadeRangeMsg(memory, true)], locale), className:'legend above'})
+          break
+        }
+      })
+    } else {
+      usageMsg = msgs.get('overview.usage.no.match', locale)
+    }
+    return {usageMsg, legend}
+  }
+
+  getShadeRangeMsg = (shades, withUnits) => {
+    const {locale} = this.context
+    // convert shade ranges into messages
+    if (shades!==-1) {
+      const {min, max} = shades
+      const top = deflateKubeValue(max)
+      const bot = deflateKubeValue(min)
+      const units = withUnits && top.units ? ` ${top.units}` : ''
+      if (min!==max) {
+        return `${top.size} - ${bot.size}${units}`
+      }
+      return `${top.size}${units}`
+    }
+    return msgs.get('overview.legend.none', locale)
+  }
+
+  renderHeatMapSelections = (highFiltering) => {
     const { heatMapState: {heatMapChoices} } = this.state
     return (
       <div className='heatMapSelections'>
         {this.getHeatMapSelections().map(({key, label, choice, choices=[], onChange})=> {
+          // if filtering by condition, no need for shade control
+          if (highFiltering && key==='shade') {
+            return null
+          }
+
           return (
             <div key={key} className='heatMapSelectionContainer'>
               <div className='heatMapSelectionLabel'>

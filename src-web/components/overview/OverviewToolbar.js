@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import resources from '../../../lib/shared/resources'
 import '../../../graphics/diagramIcons.svg'
 import AutoRefreshSelect from '../common/AutoRefreshSelect'
+import RefreshTime from '../common/RefreshTime'
 import { OVERVIEW_REFRESH_INTERVAL_COOKIE, REFRESH_TIMES } from '../../../lib/shared/constants'
 import FilterView from './modals/FilterView'
 import { Icon, Tag } from 'carbon-components-react'
@@ -22,10 +23,10 @@ resources(() => {
   require('../../../scss/overview-toolbar.scss')
 })
 
-export const FilterBar = ({ boundActiveFilters, locale }) => {
+export const FilterBar = ({ boundFilters, locale }) => {
   return (
     <div className='overview-filter-bar'>
-      {boundActiveFilters.map(({name, onClick}) => {
+      {boundFilters.map(({name, onClick}) => {
         return <Tag key={name} type='custom'>
           {name}
           <Icon
@@ -40,7 +41,7 @@ export const FilterBar = ({ boundActiveFilters, locale }) => {
   )
 }
 FilterBar.propTypes = {
-  boundActiveFilters: PropTypes.array,
+  boundFilters: PropTypes.array,
   locale: PropTypes.string,
 }
 
@@ -52,14 +53,14 @@ export default class OverviewToolbar extends React.Component {
       filterViewOpen: false,
     }
     this.handleFilterClose = this.handleFilterClose.bind(this)
-    this.updateActiveFilters = this.updateActiveFilters.bind(this)
+    this.updateFilters = this.updateFilters.bind(this)
     this.toggleFilterModel = this.toggleFilterModel.bind(this)
     this.toggleFilterModelPress = this.toggleFilterModelPress.bind(this)
   }
 
   render() {
-    const { boundActiveFilters, locale} = this.props
-    const { allProviders, view, startPolling, stopPolling, pollInterval, refetch } = this.props
+    const { boundFilters, locale} = this.props
+    const { allProviders, view, startPolling, stopPolling, pollInterval, refetch, timestamp, reloading} = this.props
     const { filterViewOpen } = this.state
 
     return (
@@ -88,12 +89,13 @@ export default class OverviewToolbar extends React.Component {
               </div>
             </div>
           </div>
-          <FilterBar boundActiveFilters={boundActiveFilters} locale={locale} />
+          <FilterBar boundFilters={boundFilters} locale={locale} />
+          <RefreshTime refetch={refetch} timestamp={timestamp} reloading={reloading} />
         </div>
         { filterViewOpen &&
           <FilterView
             context={this.context}
-            updateActiveFilters={this.updateActiveFilters}
+            updateFilters={this.updateFilters}
             onClose={this.handleFilterClose}
             allProviders={allProviders}
             view={view}
@@ -117,19 +119,21 @@ export default class OverviewToolbar extends React.Component {
     this.setState({ filterViewOpen: false })
   }
 
-  updateActiveFilters = (activeFilters) => {
-    const { view: {updateActiveFilters} } = this.props
-    updateActiveFilters(activeFilters)
+  updateFilters = (activeFilters, conditionFilters) => {
+    const { view: {updateFilters} } = this.props
+    updateFilters(activeFilters, conditionFilters)
   }
 }
 
 OverviewToolbar.propTypes = {
   allProviders: PropTypes.array,
-  boundActiveFilters: PropTypes.array,
+  boundFilters: PropTypes.array,
   locale: PropTypes.string,
   pollInterval: PropTypes.number,
   refetch: PropTypes.func,
+  reloading: PropTypes.bool,
   startPolling: PropTypes.func,
   stopPolling: PropTypes.func,
+  timestamp: PropTypes.string.isRequired,
   view: PropTypes.object,
 }

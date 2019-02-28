@@ -10,12 +10,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../lib/shared/resources'
+import classNames from 'classnames'
 import DragCardLayer from './DragCardLayer'
 import { Loading, Notification } from 'carbon-components-react'
 import Masonry from 'react-masonry-component'
-import RefreshTime from '../common/RefreshTime'
-import {updateProviderCards, filterOverview, filterViewState, getSavedViewState, saveViewState, PROVIDER_FILTER, BANNER_FILTER} from './filterHelper'
-import { getNoncompliantClusterSet } from './dataHelper'
+import {getProviderCards, filterOverview, getSavedViewState, saveViewState, PROVIDER_FILTER, BANNER_FILTER} from './filterHelper'
+import { getConditionFilterSets } from './dataHelper'
 import OverviewToolbar from './OverviewToolbar'
 import ProviderBanner from './cards/ProviderBanner'
 import ProviderCard from './cards/ProviderCard'
@@ -36,7 +36,7 @@ const masonryOptions = {
   horizontalOrder: true,
   fitWidth: true,
   initLayout: false,
-  resizeContainer: false,
+  resizeContainer: true,
   columnWidth: 10,
   gutter: 0,
 }
@@ -54,6 +54,13 @@ export default class OverviewView extends React.Component {
     stopPolling: PropTypes.func,
   }
 
+  constructor(props) {
+    super(props)
+    this.scroll = _.debounce(()=>{
+      this.scrollView()
+    }, 50)
+  }
+
   componentWillMount() {
     const { locale } = this.context
     const activeFilters={}
@@ -62,10 +69,11 @@ export default class OverviewView extends React.Component {
     activeFilters['environment'] = []
     activeFilters['region'] = []
     activeFilters['vendor'] = []
+    const conditionFilters=new Set()
     this.setState({
       viewState: getSavedViewState(locale),
+      conditionFilters,
       activeFilters,
-      bannerCards: [],
     })
     this.onUnload = this.onUnload.bind(this)
     window.addEventListener('beforeunload', this.onUnload)
@@ -74,15 +82,66 @@ export default class OverviewView extends React.Component {
     this.updateHeatMapState = this.updateHeatMapState.bind(this)
   }
 
+  componentDidMount(){
+    this.layoutOverview()
+    window.addEventListener('scroll', this.scroll)
+  }
+
+  componentDidUpdate(){
+    this.layoutOverview()
+  }
+
+  setPageRef = ref => {
+    this.pageRef = ref
+    this.layoutOverview()
+  }
+
+  setHeaderRef = ref => {
+    this.headerRef = ref
+    this.layoutOverview()
+  }
+
+  setProviderRef = ref => {
+    this.providerRef = ref
+    this.layoutOverview()
+  }
+
+  setViewRef = ref => {
+    this.viewRef = ref
+    this.layoutOverview()
+  }
+
+  // make sure masonry starts below overview header
+  layoutOverview() {
+    if (this.headerRef && this.providerRef) {
+      const headerRect = this.headerRef.getBoundingClientRect()
+      this.providerRef.style.marginTop = headerRect.height+'px'
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.onUnload)
+    window.removeEventListener('scroll', this.scroll)
   }
-  setViewRef = ref => {this.viewRef = ref}
+
+  scrollView () {
+    if (this.headerRef && this.providerRef) {
+      const providerRect = this.providerRef.getBoundingClientRect()
+      this.headerRef.classList.toggle('bottom-border', providerRect.top<-1)
+    }
+  }
+
   setMasonryRef = ref => {this.masonry = ref}
   getMasonry = () => {return this.masonry}
   handleLayoutComplete = () => {
     // after first layout, do transition timeouts
     this.masonry.masonry.options.layoutInstant = false
+    if (this.headerRef) {
+      this.headerRef.classList.toggle('laidout', true)
+    }
+    if (this.providerRef) {
+      this.providerRef.classList.toggle('laidout', true)
+    }
     if (this.viewRef) {
       this.viewRef.classList.toggle('laidout', true)
     }
@@ -115,8 +174,8 @@ export default class OverviewView extends React.Component {
   }
 
   render() {
-    const { loading, reloading, error } = this.props
     const { locale } = this.context
+    const { loading, error } = this.props
 
     if (loading)
       return <Loading withOverlay={false} className='content-spinner' />
@@ -125,28 +184,50 @@ export default class OverviewView extends React.Component {
       return <Notification title='' className='overview-notification' kind='error'
         subtitle={msgs.get('overview.error.default', locale)} />
 
-    const { refetch, startPolling, stopPolling, pollInterval, overview } = this.props
-    const {timestamp} = overview
-    const {viewState, bannerCards=[], activeFilters} = this.state
+    const { overview } = this.props
+    const {viewState, activeFilters, conditionFilters} = this.state
+    const {cardOrder} = viewState
+    const conditionFilterSets = getConditionFilterSets(overview, conditionFilters.size>0)
+    const view = this.getViewData(overview, activeFilters, conditionFilters, conditionFilterSets)
+    const filteredOverview = filterOverview(activeFilters, conditionFilters, conditionFilterSets, overview)
+    const filteredProviders = getProviderCards(overview, filteredOverview, activeFilters, conditionFilters, locale)
+    const {providerCards, bannerCards} = filteredProviders
     const bannerOpen = bannerCards.length>0
-    const {cardOrder, heatMapState={}} = viewState
-    const view = this.getViewData(overview, activeFilters)
-    const boundActiveFilters = this.getBoundActiveFilters(bannerOpen)
-    const filteredOverview = filterOverview(activeFilters, overview)
-    const noncompliantClusterSet = getNoncompliantClusterSet(filteredOverview)
-    const {allProviders, providerWidth} = updateProviderCards(overview, cardOrder, activeFilters, locale)
+    const boundFilters = this.getBoundFilters(bannerOpen, locale)
     return (
-      <div className='overview-view' ref={this.setViewRef}>
+      <div className='overview-page' ref={this.setPageRef}>
+        {this.renderHeader(providerCards, view, filteredOverview, filteredProviders, conditionFilterSets, boundFilters)}
+        {this.renderProviders(providerCards, view, filteredOverview, filteredProviders, conditionFilterSets)}
+        {this.renderView(cardOrder, view, overview, filteredOverview, filteredProviders, conditionFilters, conditionFilterSets, bannerOpen)}
+      </div>
+    )
+  }
 
-        {/* provider banner at top */}
-        {bannerCards.length>0 &&
-          <ProviderBanner
-            bannerCards={bannerCards}
-            view={view}
-            overview={overview}
-            noncompliantClusterSet={noncompliantClusterSet}
-          />
-        }
+  renderHeader(providerCards, view, filteredOverview, filteredProviders, conditionFilterSets, boundFilters) {
+    const { locale } = this.context
+    const { allProviders, bannerCards } = filteredProviders
+    const { refetch, startPolling, stopPolling, pollInterval, reloading, overview } = this.props
+    const { timestamp } = overview
+    const bannerOpen = bannerCards.length>0
+    const title = bannerOpen ? '' : msgs.get('routes.dashboard', locale)
+    const headerClasses = classNames({
+      'overview-header': true,
+      'bottom-border': bannerOpen,
+    })
+    return (
+      <div className={headerClasses} role='region' aria-label={title} ref={this.setHeaderRef}>
+        <div className='overview-header-title'>{title}</div>
+
+        {/* provider banner */}
+        {bannerOpen &&
+        <ProviderBanner
+          bannerCards={bannerCards}
+          conditionFilterSets={conditionFilterSets}
+          overview={overview}
+          view={view}
+        />}
+
+
         {/* toolbar at top right */}
         <OverviewToolbar
           startPolling={startPolling}
@@ -154,15 +235,45 @@ export default class OverviewView extends React.Component {
           pollInterval={pollInterval}
           allProviders={allProviders}
           refetch={refetch}
-          boundActiveFilters={boundActiveFilters}
+          boundFilters={boundFilters}
+          timestamp={timestamp}
+          reloading={reloading}
           locale={locale}
-          view={view}
-        />
+          view={view} />
+      </div>
+    )
+  }
 
-        {/* last time refreshed */}
-        <RefreshTime refetch={refetch} timestamp={timestamp} reloading={reloading} />
+  renderProviders(providerCards, view, filteredOverview, filteredProviders, conditionFilterSets) {
+    const { providerWidth, bannerCards } = filteredProviders
+    const bannerOpen = bannerCards.length>0
+    const providerClasses = classNames({
+      'provider-view': true,
+      'banner-open': bannerOpen,
+    })
+    return (
+      <div className='overview-providers'  ref={this.setProviderRef}>
+        {/* provider cards */}
+        <div className={providerClasses}>
+          {!bannerOpen &&
+            providerCards.map((cardData)=>{
+              const item = this.getItemData(cardData, filteredOverview)
+              const {key} = cardData
+              return <ProviderCard key={key} item={item} view={view}
+                width={providerWidth} conditionFilterSets={conditionFilterSets} />
+            })}
+        </div>
+      </div>
+    )
+  }
 
-        {/* cards */}
+
+  renderView(cardOrder, view, overview, filteredOverview, filteredProviders, conditionFilters, conditionFilterSets, bannerOpen ) {
+    const { allProviders } = filteredProviders
+    const {viewState, activeFilters} = this.state
+    const {heatMapState={}} = viewState
+    return (
+      <div className='overview-view' ref={this.setViewRef}>
         <div className='masonry-container'>
           <Masonry
             enableResizableChildren
@@ -175,9 +286,6 @@ export default class OverviewView extends React.Component {
               const item = this.getItemData(cardData, filteredOverview)
               const {key, type} = cardData
               switch(type) {
-              case CardTypes.provider:
-                return <ProviderCard key={key} item={item} view={view}
-                  width={providerWidth} noncompliantClusterSet={noncompliantClusterSet} />
               case CardTypes.counts:
                 return <CountsCard key={key} item={item}
                   allProviders={allProviders} bannerOpen={bannerOpen} />
@@ -185,12 +293,14 @@ export default class OverviewView extends React.Component {
                 return <HeatCard key={key} item={item}
                   heatMapState={heatMapState}
                   unfilteredOverview={overview}
+                  conditionFilters={conditionFilters}
+                  conditionFilterSets={conditionFilterSets}
                   updateHeatMapState={this.updateHeatMapState}
                 />
               case CardTypes.piechart:
                 return <PieCard key={key} item={item} />
               case CardTypes.linegraph:
-                return <LineCard key={key} item={item} activeFilters={activeFilters} />
+                return <LineCard key={key} item={item} activeFilters={activeFilters} conditionFilters={conditionFilters} />
               }
             })
             }
@@ -204,22 +314,32 @@ export default class OverviewView extends React.Component {
   //////////////////////////////////////////////////////////////////////
   //////////////// VIEW FUNCTIONS ///////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
-  getViewData(overview, activeFilters) {
+  getViewData(overview, activeFilters, conditionFilters, conditionFilterSets) {
     return {
       overview,
       activeFilters,
+      conditionFilters,
+      conditionFilterSets,
 
       // editing
       addCard: this.spliceCards.bind(this),
-      updateActiveFilters: this.updateActiveFilters.bind(this),
+      updateFilters: this.updateFilters.bind(this),
       refreshCardOrder: this.refreshCardOrder.bind(this),
       getCurrentViewState: this.getCurrentViewState.bind(this),
     }
   }
 
-  getBoundActiveFilters(bannerOpen) {
+  getBoundFilters(bannerOpen, locale) {
     const filters=[]
-    const {activeFilters} = this.state
+    const {activeFilters, conditionFilters} = this.state
+    // remove condition filter
+    conditionFilters.forEach(key=>{
+      filters.push({
+        name: msgs.get(`filter.view.condition.${key}`, locale),
+        onClick: this.removeConditionFilter.bind(this, key)
+      })
+    })
+    // remove active filter
     Object.keys(activeFilters).forEach(key=>{
       if (key!==BANNER_FILTER && (!bannerOpen || key!==PROVIDER_FILTER)) {
         activeFilters[key].forEach(value=>{
@@ -244,17 +364,29 @@ export default class OverviewView extends React.Component {
       if (idx!==-1) {
         filters.splice(idx,1)
       }
-      const { viewState, bannerCards, providerCards } =
-        filterViewState(activeFilters, prevState)
-      return { activeFilters, viewState, bannerCards, providerCards }
+      return { activeFilters }
     })
   }
 
-  updateActiveFilters(activeFilters) {
+  removeConditionFilter(key) {
     this.setState(prevState => {
-      const { viewState, bannerCards, providerCards } =
-        filterViewState(activeFilters, prevState)
-      return { activeFilters, viewState, bannerCards, providerCards }
+      const conditionFilters = _.cloneDeep(prevState.conditionFilters)
+      conditionFilters.delete(key)
+      return { conditionFilters }
+    })
+  }
+
+  updateFilters(activeFilters, conditionFilters) {
+    this.setState(prevState => {
+      // if user changes condition, reset active flags
+      if (!activeFilters) {
+        activeFilters = {}
+        Object.keys(prevState.activeFilters).forEach(key=>{
+          activeFilters[key]=[]
+        })
+      }
+      conditionFilters = conditionFilters || prevState.conditionFilters
+      return { activeFilters, conditionFilters }
     })
   }
 

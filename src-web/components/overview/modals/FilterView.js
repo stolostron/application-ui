@@ -11,7 +11,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
-import {getFilteredClusters, BANNER_FILTER, PROVIDER_FILTER} from '../filterHelper'
+import {filterByProvider, filterByCondition, getMatchingClusters, BANNER_FILTER, PROVIDER_FILTER, CONDITION_FILTER, ConditionTypes} from '../filterHelper'
 import { Checkbox, Icon } from 'carbon-components-react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import msgs from '../../../../nls/platform.properties'
@@ -43,15 +43,17 @@ ShowOrMoreItem.propTypes = {
 }
 
 
-const FilterSection = ({ section: {name, filters, isExpanded, onExpand}, locale }) => {
-  filters.sort(({label:a, isAll:ia}, {label:b, isAll:ib})=>{
-    if (ia && !ib) {
-      return -1
-    } else if (!ia && ib) {
-      return 1
-    }
-    return a.localeCompare(b)
-  })
+const FilterSection = ({ section: {key, name, filters, isExpanded, onExpand}, locale }) => {
+  if (key !== CONDITION_FILTER) {
+    filters.sort(({label:a, isAll:ia}, {label:b, isAll:ib})=>{
+      if (ia && !ib) {
+        return -1
+      } else if (!ia && ib) {
+        return 1
+      }
+      return a.localeCompare(b)
+    })
+  }
 
   // show more/or less
   const count = filters.length-SHOW_MORE-2
@@ -123,13 +125,24 @@ export default class FilterView extends React.Component {
   setContainerRef = ref => {this.containerRef = ref}
 
   render() {
-    const { allProviders, context: {locale}, view} = this.props
-    const {overview, activeFilters} = view
+    const { context: {locale}, view} = this.props
+    const {overview, activeFilters, conditionFilters, conditionFilterSets} = view
     const bannerFiltered = activeFilters[BANNER_FILTER].length>0
+    let {allProviders} = this.props
     let {clusters=[]} = overview
 
     // add filter sections
     const sections=[]
+
+    // condition filters
+    sections.push(this.getConditionSectionData(locale))
+    if (conditionFilters.size>0) {
+      clusters = filterByCondition(clusters, conditionFilters, conditionFilterSets)
+      allProviders = allProviders.filter(({includes})=>{
+        const {matchingClusters} = getMatchingClusters(clusters, includes)
+        return (matchingClusters.length!==0)
+      })
+    }
 
     // provider filters
     if (!bannerFiltered) {
@@ -143,7 +156,7 @@ export default class FilterView extends React.Component {
     const kubetypeSet = new Set()
     // if banner is open
     if (bannerFiltered) {
-      clusters = getFilteredClusters(clusters, activeFilters)
+      clusters = filterByProvider(clusters, activeFilters)
     }
     clusters.forEach((cluster)=>{
       const labels = _.get(cluster, 'metadata.labels', {})
@@ -158,9 +171,9 @@ export default class FilterView extends React.Component {
 
     // calc height of scrollbar container
     const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-    const rect = document.getElementsByClassName('secondary-header')[0].getBoundingClientRect()
-    const scrollHeight = height-rect.bottom
-
+    const rect = document.getElementsByClassName('overview-header')[0].getBoundingClientRect()
+    const scrollHeight = height-rect.top
+    const containerWidth = 260 // based on overview-filterview width of 300px
     return (
       <div className='overview-filterview' style={{height:scrollHeight+3}} >
         <h3 className='filterHeader'>
@@ -174,7 +187,7 @@ export default class FilterView extends React.Component {
             onClick={this.handleFilterClose}
           />
         </h3>
-        <Scrollbars style={{ width: 230, height: scrollHeight-80 }}
+        <Scrollbars style={{ width: containerWidth, height: scrollHeight-80 }}
           renderView = {this.renderView}
           renderThumbVertical = {this.renderThumbVertical}
           ref={this.setContainerRef}
@@ -203,6 +216,30 @@ export default class FilterView extends React.Component {
     return <div className={'filter-sections-scrollbar'} style={finalStyle} {...props} />
   }
 
+  getConditionSectionData(locale) {
+    const {view: {conditionFilters=new Set()}} = this.props
+    const filters = Object.keys(ConditionTypes).map(value=>{
+      return {
+        key: CONDITION_FILTER+value,
+        label: msgs.get(`filter.view.condition.${value}`, locale),
+        checked: conditionFilters.has(value),
+        onChange: this.onChange.bind(this, CONDITION_FILTER, value),
+      }
+    })
+    filters.unshift({
+      key: CONDITION_FILTER+'none',
+      label: msgs.get('filter.view.none', locale),
+      isAll: true,
+      checked: conditionFilters.size===0,
+      onChange: this.onChange.bind(this, CONDITION_FILTER, 'none'),
+    })
+    return {
+      key: CONDITION_FILTER,
+      name: msgs.get('filter.view.conditions', locale),
+      filters,
+    }
+  }
+
   getSectionData(label, set, locale) {
     let msgKey
     switch (label) {
@@ -222,21 +259,24 @@ export default class FilterView extends React.Component {
     const {view: {activeFilters}} = this.props
     const active = activeFilters[label]
     const activeMap = _.keyBy(active, 'title')
+    const multipleChoices = set.size>1
     const filters = [...set].map(value=>{
       return {
         key: label+value,
         label: value,
-        checked: label===PROVIDER_FILTER ? !!activeMap[value] : active.indexOf(value)!==-1,
-        onChange: this.onChange.bind(this, label, value),
+        checked: !multipleChoices || (label===PROVIDER_FILTER ? !!activeMap[value] : active.indexOf(value)!==-1),
+        onChange: !multipleChoices ? ()=>{} : this.onChange.bind(this, label, value),
       }
     })
-    filters.unshift({
-      key: label+'all',
-      label: msgs.get('filter.view.all', locale),
-      isAll: true,
-      checked: active.length===0,
-      onChange: this.onChange.bind(this, label, 'all'),
-    })
+    if (multipleChoices) {
+      filters.unshift({
+        key: label+'all',
+        label: msgs.get('filter.view.all', locale),
+        isAll: true,
+        checked: active.length===0,
+        onChange: this.onChange.bind(this, label, 'all'),
+      })
+    }
     return {
       key: label,
       name: msgs.get(msgKey, locale),
@@ -247,34 +287,48 @@ export default class FilterView extends React.Component {
   }
 
   onChange = (label, value, checked) => {
-    const {allProviders, view, updateActiveFilters} = this.props
-    const activeFilters = _.cloneDeep(view.activeFilters)
-    if (value!=='all') {
-      const filters=activeFilters[label]
+    const {allProviders, view, updateFilters} = this.props
+    if (label!==CONDITION_FILTER) {
+      const activeFilters = _.cloneDeep(view.activeFilters)
+      if (value!=='all') {
+        const filters=activeFilters[label]
 
-      // for provider filter, add includes
-      if (label===PROVIDER_FILTER) {
-        const idx = filters.findIndex(({title})=>{
-          return title === value
-        })
-        if (checked && idx==-1) {
-          const allMap = _.keyBy(allProviders, 'title')
-          filters.push(allMap[value])
-        } else if (idx!==-1) {
-          filters.splice(idx, 1)
+        // for provider filter, add includes
+        if (label===PROVIDER_FILTER) {
+          const idx = filters.findIndex(({title})=>{
+            return title === value
+          })
+          if (checked && idx==-1) {
+            const allMap = _.keyBy(allProviders, 'title')
+            filters.push(allMap[value])
+          } else if (idx!==-1) {
+            filters.splice(idx, 1)
+          }
+        } else {
+          const idx = filters.indexOf(value)
+          if (checked && idx===-1) {
+            filters.push(value)
+          } else if (idx!==-1) {
+            filters.splice(idx, 1)
+          }
         }
       } else {
-        const idx = filters.indexOf(value)
-        if (checked && idx===-1) {
-          filters.push(value)
-        } else if (idx!==-1) {
-          filters.splice(idx, 1)
-        }
+        activeFilters[label]=[]
       }
+      updateFilters(activeFilters)
     } else {
-      activeFilters[label]=[]
+      const conditionFilters = _.cloneDeep(view.conditionFilters)
+      if (value!=='none') {
+        if (conditionFilters.has(value)) {
+          conditionFilters.delete(value)
+        } else {
+          conditionFilters.add(value)
+        }
+      } else {
+        conditionFilters.clear()
+      }
+      updateFilters(null, conditionFilters)
     }
-    updateActiveFilters(activeFilters)
   }
 
   onExpand = (label) => {
@@ -293,8 +347,9 @@ export default class FilterView extends React.Component {
 FilterView.propTypes = {
   activeFilters: PropTypes.object,
   allProviders: PropTypes.array,
+  conditionFilters: PropTypes.object,
   context: PropTypes.object,
   onClose: PropTypes.func,
-  updateActiveFilters: PropTypes.func,
+  updateFilters: PropTypes.func,
   view: PropTypes.object,
 }

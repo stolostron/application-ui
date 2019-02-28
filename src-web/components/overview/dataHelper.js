@@ -14,10 +14,12 @@ import _ from 'lodash'
 
 
 // get data based on choices and nodes
-export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoices={}, collapsed) => {
+export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoices={},
+  highFiltering, conditionFilters, conditionFilterSets, collapsed) => {
 
   const { clusters = [] } = unfilteredOverview
   const { clusters:filteredClusters = [] } = filteredOverview
+  const { usageSets } = conditionFilterSets
 
   // how are we grouping data
   // if collapsed, always group by provider since that's what user is seeing
@@ -41,29 +43,23 @@ export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoi
 
   // get set of the filtered clusters
   // we only return mapData for those clusters but we calc totals based on ALL clusters
+  // active/condition filters
   const filteredSet = new Set()
   filteredClusters.forEach(({metadata: {namespace, name}})=>{
     filteredSet.add(`${namespace}//${name}`)
   })
 
-
   // collect data
   let sizeTotal = 0
   const shadeArray = []
+  const shadeMap = {cpu:[], memory:[], storage:[]}
   const mapData = {}
+  const filteredMapData = {}
   clusters.forEach((cluster)=>{
-    const {metadata={}} = cluster
+    const {metadata={}, consoleURL} = cluster
     const {namespace, name, labels={}} = metadata
+    const clusterPath = `${namespace}//${name}`
     const key = labels[groupKey]
-    let heatData = mapData[key]
-    if (!heatData) {
-      heatData = []
-      // if not a filtered cluster, don't add to heatmap
-      // but include it in shade calculations
-      if (filteredSet.has(`${namespace}//${name}`)) {
-        mapData[key] = heatData
-      }
-    }
 
     let size=0
     switch (heatMapChoices[HeatSelections.size]) {
@@ -74,71 +70,183 @@ export const getHeatMapData = (filteredOverview, unfilteredOverview, heatMapChoi
     case SizeChoices.pods:
       size = _.get(cluster, 'usage.pods', 0)
       break
-    case SizeChoices.nonCompliant:
-      size = 2
-      break
     }
     sizeTotal+=size
 
-    let shadeForTooltip
+    const clusterTooltips = {
+      cpu: _.get(cluster, 'usage.cpu', 0),
+      memory: _.get(cluster, 'usage.memory', 0),
+      storage: _.get(cluster, 'usage.storage', 0),
+    }
+    let shade
     switch (heatMapChoices[HeatSelections.shade]) {
     default:
     case ShadeChoices.vcpu:
-      shadeForTooltip = _.get(cluster, 'usage.cpu', 0)
+      shade = clusterTooltips.cpu
       break
     case ShadeChoices.memory:
-      shadeForTooltip = _.get(cluster, 'usage.memory', 0)
+      shade = clusterTooltips.memory
       break
     case ShadeChoices.storage:
-      shadeForTooltip = _.get(cluster, 'usage.storage', 0)
+      shade = clusterTooltips.storage
       break
     }
-    const shade = inflateKubeValue(shadeForTooltip)
+    shade = inflateKubeValue(shade)
     shadeArray.push(shade)
 
-    heatData.push({
+    // add to unfilter data
+    const datum = {
       name,
       size,
       shade,
-      shadeForTooltip, // shade value displayed in tooltip
-    })
+      consoleURL,
+      clusterTooltips, // shade value displayed in tooltip
+    }
+    let heatData = mapData[key]
+    if (!heatData) {
+      heatData = mapData[key] = []
+    }
+    heatData.push(datum)
+
+    // add to filtered data
+    if (filteredSet.has(clusterPath)) {
+      let heatData = filteredMapData[key]
+      if (!heatData) {
+        heatData = filteredMapData[key] = []
+      }
+      heatData.push(datum)
+
+      // capture high range
+      if (highFiltering) {
+        Object.keys(clusterTooltips).forEach(key=>{
+          if (usageSets[key].has(clusterPath)) {
+            shadeMap[key].push(inflateKubeValue(clusterTooltips[key]))
+          }
+        })
+      }
+    }
   })
   // sort by name so that _.isEqual works
-  Object.keys(mapData).forEach(key=>{
-    mapData[key].sort((a,b) => {
+  Object.keys(filteredMapData).forEach(key=>{
+    filteredMapData[key].sort((a,b) => {
       return a.name.localeCompare(b.name)
     })
   })
 
-
-
-  // assign color classname based on where it falls in spectrum
-  if (shadeArray.length>4) {
-    shadeArray.sort((a,b)=>{return a-b})
-    shadeArray.shift()
-    shadeArray.pop()
-  }
-  const avg = _.sum(shadeArray) / shadeArray.length
-  const std = Math.max(avg*.05, Math.sqrt(_.sum(_.map(shadeArray, (i) => Math.pow((i - avg), 2))) / shadeArray.length))
-  Object.keys(mapData).forEach(key=>{
-    mapData[key].forEach(cluster=>{
-      const {shade} = cluster
-      if (shade < avg-std) {
-        cluster.color='square-blue'
-      } else if (shade <= avg+std) {
-        cluster.color='square-yellow'
-      } else {
+  const aboveShades=[]
+  const averageShades=[]
+  const belowShades=[]
+  // if filtering by condition, all shades are red
+  if (highFiltering) {
+    Object.keys(filteredMapData).forEach(key=>{
+      filteredMapData[key].forEach(cluster=>{
         cluster.color='square-red'
+      })
+    })
+
+  } else {
+    // assign color classname based on where it falls in spectrum
+    if (shadeArray.length>4) {
+      shadeArray.sort((a,b)=>{return a-b})
+      shadeArray.shift()
+      shadeArray.pop()
+    }
+    const avg = _.sum(shadeArray) / shadeArray.length
+    const std = Math.max(avg*.05, Math.sqrt(_.sum(_.map(shadeArray, (i) => Math.pow((i - avg), 2))) / shadeArray.length))
+    Object.keys(filteredMapData).forEach(key=>{
+      filteredMapData[key].forEach(cluster=>{
+        const {shade} = cluster
+        if (shade < avg-std) {
+          cluster.color='square-blue'
+          belowShades.push(shade)
+        } else if (shade <= avg+std) {
+          cluster.color='square-yellow'
+          averageShades.push(shade)
+        } else {
+          cluster.color='square-red'
+          aboveShades.push(shade)
+        }
+      })
+    })
+  }
+
+  return {sizeTotal, mapData, filteredMapData,
+    below: getShadeRange(belowShades),
+    average: getShadeRange(averageShades),
+    above: getShadeRange(aboveShades),
+    cpu: getShadeRange(shadeMap.cpu),
+    memory: getShadeRange(shadeMap.memory),
+    storage: getShadeRange(shadeMap.storage),
+  }
+}
+
+const getShadeRange = (shades) => {
+  if (shades.length) {
+    return {min: Math.min(...shades), max:Math.max(...shades)}
+  }
+  return -1
+}
+
+export const getConditionFilterSets = (overview, collectUsage) => {
+  const noncompliantClusterSet = new Set()
+  _.get(overview, 'compliances', []).forEach(res=>{
+    const policyClusters = _.get(res, 'raw.status.status', '')
+    Object.keys(policyClusters).forEach(name=>{
+      if ((policyClusters[name].compliant||'').toLowerCase()!=='compliant') {
+        noncompliantClusterSet.add(name)
       }
     })
   })
 
-  const top = deflateKubeValue(avg+std)
-  const bottom = deflateKubeValue(avg-std)
-  const below = `${bottom.size}${top.units}`
-  const average = `${bottom.size} - ${top.size}${top.units}`
-  const above = `${top.size}${top.units}`
-  return {sizeTotal, mapData, below, average, above}
+  // if user is filtering by usage
+  if (collectUsage) {
+    const { clusters = [] } = overview
+
+    // collect data
+    const clusterMap = {}
+    const usageSets = {}
+    const arrays = {cpu:[], memory:[], storage:[]}
+    clusters.forEach((cluster)=>{
+      const {metadata={}} = cluster
+      const {namespace, name} = metadata
+      const values = {}
+      Object.keys(arrays).forEach(key=>{
+        const val = inflateKubeValue(_.get(cluster, `usage.${key}`, 0))
+        values[key] = val
+        arrays[key].push(val)
+        usageSets[key] = new Set()
+      })
+      clusterMap[`${namespace}//${name}`] = values
+    })
+
+    const fillUsageSet = (key, array) => {
+      // toss top and bottom values
+      if (array.length>4) {
+        array.sort((a,b)=>{return a-b})
+        array.shift()
+        array.pop()
+      }
+
+      // get standard deviation
+      const avg = _.sum(array) / array.length
+      const std = Math.max(avg*.05, Math.sqrt(_.sum(_.map(array, (i) => Math.pow((i - avg), 2))) / array.length))
+      const threshhold = avg+std
+
+      // determine what clusters are above it
+      const usageSet = usageSets[key]
+      Object.keys(clusterMap).forEach(cluster=>{
+        if (clusterMap[cluster][key] > threshhold) {
+          usageSet.add(cluster)
+        }
+      })
+    }
+    Object.keys(arrays).forEach(key=>{
+      fillUsageSet(key, arrays[key])
+    })
+    return {noncompliantClusterSet, usageSets}
+  }
+
+  return {noncompliantClusterSet}
 }
 
 export const getDataValues = (overview, dataType, pieData) => {
@@ -162,19 +270,6 @@ export const getDataValues = (overview, dataType, pieData) => {
     return getAvailableUsedValues(overview, 'clusters', 'storage', true)
   }
   return {valueMap:{}, available:0, used:0, units:''}
-}
-
-export const getNoncompliantClusterSet = (overview) => {
-  const noncompliantClusterSet = new Set()
-  _.get(overview, 'compliances', []).forEach(res=>{
-    const policyClusters = _.get(res, 'raw.status.status', '')
-    Object.keys(policyClusters).forEach(name=>{
-      if ((policyClusters[name].compliant||'').toLowerCase()!=='compliant') {
-        noncompliantClusterSet.add(name)
-      }
-    })
-  })
-  return noncompliantClusterSet
 }
 
 const getComplianceValues = (overview) => {
@@ -227,7 +322,7 @@ const getAvailableUsedValues = (overview, overviewKey, valueKey, deflateValues) 
       units = deflated.units
     }
   }
-  return {available, used, units}
+  return {available: roundDecimal(available), used: roundDecimal(used), units}
 }
 
 const getPieValues = (overview, overviewKey, valueKey, pieData) => {
@@ -249,4 +344,8 @@ const getPieValues = (overview, overviewKey, valueKey, pieData) => {
     arr.push(res)
   })
   return {valueMap}
+}
+
+const roundDecimal = (num, places=2) =>{
+  return Number(Math.round(`${num}e${places}`)+`e-${places}`)
 }

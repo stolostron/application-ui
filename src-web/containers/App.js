@@ -59,10 +59,13 @@ class App extends React.Component {
   render() {
     const serverProps = this.getServerProps()
     const { match, location } = this.props
-
+    const showSecondaryHeader = location.pathname &&
+      !location.pathname.includes('welcome') &&
+      !location.pathname.includes('overview') &&
+      !location.pathname.includes('search')
     return (
       <div className='expand-vertically'>
-        {location.pathname && !location.pathname.includes('welcome') && !location.pathname.includes('search') && <SecondaryHeader />}
+        {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
           <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />

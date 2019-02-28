@@ -24,7 +24,7 @@ export default class ProviderBanner extends React.PureComponent {
 
   render() {
     const { locale } = this.context
-    const { bannerCards=[], view, noncompliantClusterSet, overview: {clusters=[]} } = this.props
+    const { bannerCards=[], view, conditionFilterSets: {noncompliantClusterSet}, overview: {clusters=[]} } = this.props
 
     // gather data
     const allKubeMap = {}
@@ -47,10 +47,10 @@ export default class ProviderBanner extends React.PureComponent {
 
     // unfilter all providers
     const onClose = () =>{
-      const {updateActiveFilters} = view
+      const {updateFilters} = view
       const activeFilters = _.cloneDeep(view.activeFilters)
       activeFilters[BANNER_FILTER] = []
-      updateActiveFilters(activeFilters)
+      updateFilters(activeFilters)
     }
 
     const handleKeyPress = (e) => {
@@ -110,7 +110,7 @@ export default class ProviderBanner extends React.PureComponent {
 
 ProviderBanner.propTypes = {
   bannerCards: PropTypes.array,
-  noncompliantClusterSet: PropTypes.object,
+  conditionFilterSets: PropTypes.object,
   overview: PropTypes.object,
   view: PropTypes.object,
 }

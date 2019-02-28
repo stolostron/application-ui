@@ -11,7 +11,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Masonry from 'react-masonry-component'
-import { HeatSelections, SizeChoices, ShadeChoices } from '../constants.js'
+import { HeatSelections, SizeChoices } from '../constants.js'
+import { Tooltip } from 'carbon-components-react'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -81,10 +82,11 @@ export default class HeatExpanded extends React.Component {
   render() {
     const { locale } = this.context
     const { mapRect, heatMapChoices, heatMapData } = this.props
-    const {mapData} = _.cloneDeep(heatMapData)
+    const { mapData, filteredMapData} = _.cloneDeep(heatMapData)
 
     // get map data
     const keys = Object.keys(mapData).sort()
+    const filteredKeys = Object.keys(filteredMapData).sort()
 
     // set rough estimate of map height
     // we'll shrink wrap it once masonry has laid out the clusters
@@ -123,8 +125,8 @@ export default class HeatExpanded extends React.Component {
 
 
     // sort, first by size, then by color, then by name
-    keys.map((key)=> {
-      mapData[key].sort(({boxWidth:az, shade:as, name:an}, {boxWidth:bz, shade:bs, name:bn})=>{
+    filteredKeys.map((key)=> {
+      filteredMapData[key].sort(({boxWidth:az, shade:as, name:an}, {boxWidth:bz, shade:bs, name:bn})=>{
         let r = bz-az
         if (r!==0)
           return r
@@ -155,23 +157,11 @@ export default class HeatExpanded extends React.Component {
       break
     }
 
-    let shadeLabel
-    switch (heatMapChoices[HeatSelections.shade]) {
-    case ShadeChoices.vcpu:
-      shadeLabel = msgs.get('overview.heatmap.vcpu', locale)
-      break
-    case ShadeChoices.memory:
-      shadeLabel = msgs.get('overview.heatmap.memory', locale)
-      break
-    case ShadeChoices.storage:
-      shadeLabel = msgs.get('overview.heatmap.storage', locale)
-      break
-    }
-
     const sectionShrink = 20
+    const launchCluster = msgs.get('overview.heatmap.launch', locale)
     return (
       <div className='heatMap' style={{height: mapHeight+'px'}} ref={this.setMapRef} >
-        {keys.map((key)=> {
+        {filteredKeys.map((key)=> {
           let groupingWidth = (sizeMap[key]/groupingDivisor*mapWidth)
           groupingWidth = groupingWidth - sectionShrink
           return (
@@ -186,28 +176,50 @@ export default class HeatExpanded extends React.Component {
                   className={'masonry-class'}
                   ref={this.setMasonryRef}
                   options={masonryOptions} >
-                  {mapData[key].map(({color, name, size, boxWidth, shadeForTooltip})=>{
+                  {filteredMapData[key].map(({color, name, size, consoleURL, boxWidth, clusterTooltips})=>{
                     // not to exceed the width of the grouping
                     // not to go below SMALLEST_BRICK_SIZE
                     boxWidth = Math.max(SMALLEST_BRICK_SIZE, Math.min(groupingWidth, boxWidth))
                     const boxHeight = boxWidth
+                    const id = key+name
                     return (
-                      <div key={key+name} className={'heat-item ' + color}
+                      <div key={id} id={id} className={'heat-item ' + color}
                         style={{width: boxWidth+'px', height: boxHeight+'px'}}>
-                        <div className='tooltip'>
-                          <div className='tooltip-line'>
-                            <div className='label'>{clusterLabel}</div>
-                            <div className='value'>{name}</div>
+                        <Tooltip showIcon={false}  triggerText={null} triggerId={id} direction='top'
+                          triggerClassName={'heatTooltip'} tabIndex={0}>
+                          <div className='heat-tooltip'>
+                            <div className='tooltip-line'>
+                              <div className='label'>{`${clusterLabel}:`}</div>
+                              <div className='value'>{name}</div>
+                            </div>
+                            <div className='tooltip-line'>
+                              <div className='label'>{`${sizeLabel}:`}</div>
+                              <div className='value'>{size}</div>
+                            </div>
+                            {Object.keys(clusterTooltips).map(key=>{
+                              let shadeLabel
+                              switch (key) {
+                              case 'cpu':
+                                shadeLabel = msgs.get('overview.heatmap.vcpu', locale)
+                                break
+                              case 'memory':
+                                shadeLabel = msgs.get('overview.heatmap.memory', locale)
+                                break
+                              case 'storage':
+                                shadeLabel = msgs.get('overview.heatmap.storage', locale)
+                                break
+                              }
+                              return (
+                                <div key={key} className='tooltip-line'>
+                                  <div className='label'>{`${shadeLabel}:`}</div>
+                                  <div className='value'>{clusterTooltips[key]}</div>
+                                </div>
+                              )})}
+                            <div className='bx--tooltip__footer'>
+                              <a href={`${consoleURL}/console`} target='_blank' className='bx--link'>{launchCluster}</a>
+                            </div>
                           </div>
-                          <div className='tooltip-line'>
-                            <div className='label'>{sizeLabel}</div>
-                            <div className='value'>{size}</div>
-                          </div>
-                          <div className='tooltip-line'>
-                            <div className='label'>{shadeLabel}</div>
-                            <div className='value'>{shadeForTooltip}</div>
-                          </div>
-                        </div>
+                        </Tooltip>
                       </div>
                     )
                   })

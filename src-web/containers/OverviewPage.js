@@ -10,16 +10,11 @@
 /* eslint-disable import/no-named-as-default */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { DragDropContextProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { updateSecondaryHeader } from '../actions/common'
 import Page from '../components/common/Page'
-import msgs from '../../nls/platform.properties'
 import { OVERVIEW_REFRESH_INTERVAL_COOKIE, OVERVIEW_QUERY_COOKIE } from '../../lib/shared/constants'
 import {getFreshOrStoredObject} from '../../lib/client/resource-helper'
 import config from '../../lib/shared/config'
@@ -49,6 +44,7 @@ const OVERVIEW_QUERY = gql`
           pods
           storage
         }
+        consoleURL
         status
       }
       applications {
@@ -91,14 +87,9 @@ class OverviewPage extends React.Component {
     this.firstLoad = true
   }
 
-  static propTypes = {
-    secondaryHeaderProps: PropTypes.object,
-    updateSecondaryHeader: PropTypes.func,
-  }
-
-  componentWillMount() {
-    const { updateSecondaryHeader, secondaryHeaderProps } = this.props
-    updateSecondaryHeader(msgs.get(secondaryHeaderProps.title, this.context.locale))
+  componentDidMount() {
+    const pageContainer = document.getElementsByClassName('page-content-container')[0]
+    pageContainer.style.padding = 0
   }
 
   render () {
@@ -138,10 +129,4 @@ class OverviewPage extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateSecondaryHeader: title => dispatch(updateSecondaryHeader(title))
-  }
-}
-
-export default withRouter(connect(null, mapDispatchToProps)(OverviewPage))
+export default OverviewPage

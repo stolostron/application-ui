@@ -39,6 +39,7 @@ $overview-heat-collapsed: 90px !default;
           color: $color__blue-50;
           background-color: $color__white;
           box-shadow: none;
+          padding-left: 0;
         }
       }
     }
@@ -99,7 +100,6 @@ $overview-heat-collapsed: 90px !default;
     }
 
     .heat-card-map {
-      border: 1px solid $color__gray-1;
       width: 100%;
       position: relative;
     }
@@ -122,6 +122,7 @@ $overview-heat-collapsed: 90px !default;
     }
 
     .heat-card-map {
+      border-top: 1px solid $color__gray-1;
     }
  }
 }
@@ -209,42 +210,58 @@ div.heatMap {
               background-color: $mcm_heat_blue;
             }
 
-            .tooltip {
-              visibility: hidden;
-              background-color: $color__white;
-              text-align: center;
-              padding: 5px;
-              position: absolute;
-              top: 3px;
-              left: 3px;
-              z-index: 1;
-
-              .tooltip-line {
-                height: 10px;
-                padding:0;
-                margin:0;
-                font-size: 12px;
-                display: flex;
-                white-space: nowrap;
-
-                .label {
-                  font-weight: bold;
-                  color: $color__blue-90;
-                  padding-right: 5px;
-                }
-
-                .value {
-                  color: $color__navy-gray-6;
-                 }
-              }
+            .heatTooltip {
+              width: 100%;
+              height: 100%;
             }
 
-            &:hover .tooltip {
-              visibility: visible;
-            }
          }
       }
     }
   }
-
 }
+
+.bx--tooltip {
+  padding: 10px;
+}
+
+.bx--tooltip div {
+  margin: 0;
+  align-items: flex-start;
+}
+
+.bx--tooltip div.bx--tooltip__footer {
+  padding-top: 10px;
+  white-space: nowrap;
+  justify-content: flex-end;
+  min-width: 150px;
+}
+
+.heat-tooltip {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  height: fit-content;
+  cursor: default;
+  margin:0;
+
+  .tooltip-line {
+    height: 18px;
+    padding:0;
+    margin:0;
+    font-size: 14px;
+    display: flex;
+    white-space: nowrap;
+
+    .label {
+      color: $color__navy-gray-6;
+      padding-right: 5px;
+    }
+
+    .value {
+      font-weight: bold;
+      color: $color__blue-90;
+     }
+  }
+}
+

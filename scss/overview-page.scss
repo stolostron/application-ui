@@ -13,30 +13,55 @@ $overview-view-width: 1200px !default;
 
 $overview-heat-collapsed: 90px !default;
 
-/* counter act default padding of page */
-.overview-view {
-  margin: -54px -5% 0;
+.overview-page {
   position: relative;
-  visibility: hidden;
+  display: flex;
+  flex-direction: column;
 
-  &.laidout {
-    visibility: visible;
+  .overview-header {
+    top: $secondary-header-top;
+    left: 0;
+    min-height: 70px;
+    position: fixed;
+    background-color: white;
+    width: 100%;
+    z-index: 1000;
+
+    &.bottom-border {
+      box-shadow: 0 3px 8px 0 rgba(0,0,0,0.05);
+    }
+
+    .overview-header-title {
+      font-size: 1.75rem;
+      font-weight: 300;
+      color: #5a6872;
+      margin: 30px;
+    }
+
   }
 
-  .refresh-time-container {
-    position: fixed;
-    top: calc(#{$secondary-header-top} + #{$secondary-header-min-height} + 10px);
-    right: 25px;
-    z-index: 1001;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    height: 20px;
+  .overview-providers {
+    background-color: white;
+    box-shadow: 0 3px 8px 0 rgba(0,0,0,0.05);
 
-    .bx--loading--small {
-      width: 1rem;
-      height: 1rem;
-      margin: -2px 0;
+    .provider-view {
+      display: flex;
+      width: $overview-view-width;
+      margin: 0 auto;
+
+      &.banner-open {
+        margin-left: 30px;
+      }
+    }
+  }
+
+  /* counter act default padding of page */
+  .overview-view {
+    position: relative;
+    visibility: hidden;
+
+    &.laidout {
+      visibility: visible;
     }
   }
 }
@@ -59,6 +84,7 @@ $overview-heat-collapsed: 90px !default;
     font-size: 1rem;
     padding: .8rem;
     line-height: 20px;
+    white-space: nowrap;
 
     .closeIcon {
       fill: $color__blue-90;
@@ -89,7 +115,7 @@ $overview-heat-collapsed: 90px !default;
 .grid-item {
   margin-bottom: $overview-card-margin-bottom;
   background-color: $color__white;
-  box-shadow: 0px 1px 8px 0px #c3c7ca;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   position: relative;
 
   .grid-menu {
@@ -156,7 +182,7 @@ $overview-heat-collapsed: 90px !default;
 }
 
 .bx--overflow-menu-options:focus {
-        outline: none;
-        box-shadow: none;
+  outline: none;
+  box-shadow: none;
 }
 

@@ -22,14 +22,14 @@ export default class HeatCollapsed extends React.PureComponent {
   render() {
     const { mapRect, heatMapData } = this.props
     const { width } = mapRect
-    const {sizeTotal, mapData} = heatMapData
+    const {sizeTotal, filteredMapData} = heatMapData
 
     // determine a scaling factor based on # of squares we have data for
     let scaling = 1
     if (sizeTotal>COLLAPSED_SQUARES) {
       scaling = COLLAPSED_SQUARES/sizeTotal
     } else {
-      switch (Object.keys(mapData).length) {
+      switch (Object.keys(filteredMapData).length) {
       case 1:
       case 2:
         scaling = (COLLAPSED_SQUARES/2)/sizeTotal
@@ -43,8 +43,8 @@ export default class HeatCollapsed extends React.PureComponent {
 
     // create an array
     const heatArray=[]
-    Object.keys(mapData).forEach(key=>{
-      mapData[key].forEach(cluster=>{
+    Object.keys(filteredMapData).forEach(key=>{
+      filteredMapData[key].forEach(cluster=>{
         const {size, color} = cluster
         const multiplier = Math.round(scaling*size)
         for (var i = 0; i < multiplier; i++) {

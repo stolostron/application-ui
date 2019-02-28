@@ -17,11 +17,22 @@ import _ from 'lodash'
 
 export const BANNER_FILTER = '_banner_'
 export const PROVIDER_FILTER = '_provider_'
+export const CONDITION_FILTER = '_condition_'
+export const ConditionTypes = Object.freeze({
+  noncompliant: 'noncompliant',
+  highVcpu: 'highVcpu',
+  highStorage: 'highStorage',
+  highMemory: 'highMemory',
+})
+
 
 // make sure all the providers that exist have a card
-export const updateProviderCards = (overview, cardOrder, activeFilters, locale) => {
+export const getProviderCards = (overview, filteredOverview, activeFilters, conditionFilters, locale) => {
 
+  // only show provider cards that have clusters
+  // unless NO provider has a cluster, then show them all
   const {clusters=[]} = overview
+  const {clusters:filteredClusters=[]} = filteredOverview
 
   // get providers we've been configured for
   let configuredProviders = config['overview']
@@ -56,55 +67,54 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
     })
   }
 
-  // remove non existant provider cards
-  let idx = 0
-  const existingMap = _.keyBy(existingProviders, 'title')
-  while(idx < cardOrder.length) {
-    const {type, title} = cardOrder[idx]
-    if (type === CardTypes.provider) {
-      if (!existingMap[title]) {
-        cardOrder.splice(idx,1)
-        idx--
-      }
-    }
-    idx++
+  // filter out empty providers (no clusters after filtering)
+  let filteredProviders = existingProviders
+  if (clusters.length>filteredClusters.length) {
+    filteredProviders = existingProviders.filter(({includes})=>{
+      const {matchingClusters} = getMatchingClusters(filteredClusters, includes)
+      return (matchingClusters.length!==0)
+    })
+  }
+  if (filteredProviders.length==0) {
+    filteredProviders = existingProviders
   }
 
+
+  // start with existing provider cards
+  let providerCards = []
+  filteredProviders.forEach(({title, includes})=>{
+    providerCards.push({
+      title,
+      type: CardTypes.provider,
+      includes,
+      actions: [],
+    })
+  })
+
+  // filter cards based on active filters
+  const bannerCards = []
   const bannerFiltered = activeFilters[BANNER_FILTER].length>0
   const providerFiltered = activeFilters[PROVIDER_FILTER].length>0
-  if (!bannerFiltered && !providerFiltered) {
+  if (bannerFiltered || providerFiltered) {
 
-    // remove redundant provider cards
-    let idx = 0
-    const providerSet = new Set()
-    while(idx < cardOrder.length) {
-      const {type, title} = cardOrder[idx]
-      if (type === CardTypes.provider) {
-        if (!providerSet.has(title)) {
-          providerSet.add(title)
-        } else {
-          cardOrder.splice(idx,1)
-          idx--
+    // if banner mode put selected provider in banner
+    if (bannerFiltered) {
+      const map = _.keyBy(activeFilters[BANNER_FILTER], 'title')
+      providerCards.forEach(card=>{
+        const { title } = card
+        if (map[title]) {
+          // goes in banner
+          bannerCards.push(card)
         }
-      }
-      idx++
+      })
+      providerCards=[]
+    } else {
+      const map = _.keyBy(activeFilters[PROVIDER_FILTER], 'title')
+      providerCards = providerCards.filter(({title})=>{
+        return map[title]
+      })
     }
 
-    // make sure cardOrder has existing providers
-    // don't chage provider cards if filtering providers
-    existingProviders.reverse().forEach(({title, includes})=>{
-      const idx = cardOrder.findIndex(card=>{
-        return card.type === CardTypes.provider && card.title===title
-      })
-      if (idx===-1) {
-        cardOrder.unshift({
-          title,
-          type: CardTypes.provider,
-          includes,
-          actions: [],
-        })
-      }
-    })
   }
 
   // calculate provider width so that it can fit in as little rows as possible
@@ -123,76 +133,26 @@ export const updateProviderCards = (overview, cardOrder, activeFilters, locale) 
     }
   }
 
-  return {allProviders: existingProviders, providerWidth: width-CARD_SPACING}
+  return {allProviders: existingProviders, providerWidth: width-CARD_SPACING, providerCards, bannerCards}
 }
 
-export const filterViewState = (activeFilters, prevState) => {
-  const { viewState } = prevState
-  let { bannerCards, providerCards=[] } = prevState
-
-  // filter cards based on cloud filter
-  const bannerFiltered = activeFilters[BANNER_FILTER].length>0
-  const providerFiltered = activeFilters[PROVIDER_FILTER].length>0
-  if (bannerFiltered || providerFiltered) {
-
-    // remember all provider cards
-    if (providerCards.length===0) {
-      providerCards = []
-      viewState.cardOrder.forEach(card=>{
-        if (card.type===CardTypes.provider) {
-          providerCards.push(card)
-        }
-      })
-    }
-    // then filter them out
-    viewState.cardOrder = viewState.cardOrder.filter(card=>{
-      return (card.type!==CardTypes.provider)
-    })
-
-    // if banner mode put selected provider in banner
-    bannerCards = []
-    if (bannerFiltered) {
-      const map = _.keyBy(activeFilters[BANNER_FILTER], 'title')
-      providerCards.forEach(card=>{
-        const { title } = card
-        if (map[title]) {
-          // goes in banner
-          bannerCards.push(card)
-        }
-      })
-    } else {
-      const map = _.keyBy(activeFilters[PROVIDER_FILTER], 'title')
-      const filteredProviders = providerCards.filter(({title})=>{
-        return map[title]
-      })
-      viewState.cardOrder = [...filteredProviders, ...viewState.cardOrder]
-    }
-
-  } else if (providerCards.length>0) {
-    // restore all cards in original order
-    viewState.cardOrder = viewState.cardOrder.filter(card=>{
-      return (card.type!==CardTypes.provider)
-    })
-    viewState.cardOrder = [...providerCards, ...viewState.cardOrder]
-    bannerCards = []
-    providerCards = []
-  }
-
-  return { viewState, bannerCards, providerCards }
-}
-
-export const filterOverview = (activeFilters, overview) => {
+export const filterOverview = (activeFilters, conditionFilters, conditionFilterSets, overview) => {
   // filter clusters based on activeFilters
   const filteredOverview = _.cloneDeep(overview)
 
-  // provider filter
-  filteredOverview.clusters = getFilteredClusters(filteredOverview.clusters, activeFilters)
+  // filter by condition (ex: non-compliant)
+  filteredOverview.clusters = filterByCondition(filteredOverview.clusters, conditionFilters, conditionFilterSets)
 
-  // other cluster filters
+  // filter by provider (ex: only AWS)
+  filteredOverview.clusters = filterByProvider(filteredOverview.clusters, activeFilters)
+
+  // filter by label (ex: only Dev)
   const clusterSet = new Set()
   filteredOverview.clusters = filteredOverview.clusters.filter(cluster=>{
     const labels = _.get(cluster, 'metadata.labels', {})
     const { vendor='Other', environment='Other', region='Other'} = labels
+
+    // filter by Region, Purpose, Vendor (ex: IKS)
     const types = [{vendor}, {environment}, {region}]
     for (var i = 0; i < types.length; i++) {
       const type = types[i]
@@ -201,6 +161,8 @@ export const filterOverview = (activeFilters, overview) => {
         return false
       }
     }
+
+    // else we show this cluster in overview
     clusterSet.add(_.get(cluster, 'metadata.name', 'unknown'))
     return true
   })
@@ -215,7 +177,46 @@ export const filterOverview = (activeFilters, overview) => {
 }
 
 
-export const getFilteredClusters = (clusters, activeFilters) => {
+export const filterByCondition = (clusters, conditionFilters, conditionFilterSets) => {
+  if (conditionFilters.size>0) {
+    const {noncompliantClusterSet, usageSets} = conditionFilterSets
+    return clusters.filter((cluster)=>{
+      const {metadata={}} = cluster
+      const {namespace, name} = metadata
+      const clusterPath=`${namespace}//${name}`
+      let meetsAllConditions = true
+      conditionFilters.forEach(condition=>{
+        switch (condition) {
+        case ConditionTypes.noncompliant:
+          if (!noncompliantClusterSet.has(name)) {
+            meetsAllConditions = false
+          }
+          break
+        case ConditionTypes.highVcpu:
+          if (!usageSets['cpu'].has(clusterPath)) {
+            meetsAllConditions = false
+          }
+          break
+        case ConditionTypes.highStorage:
+          if (!usageSets['storage'].has(clusterPath)) {
+            meetsAllConditions = false
+          }
+          break
+        case ConditionTypes.highMemory:
+          if (!usageSets['memory'].has(clusterPath)) {
+            meetsAllConditions = false
+          }
+          break
+        }
+      })
+      return meetsAllConditions
+    })
+  }
+  return clusters
+}
+
+
+export const filterByProvider = (clusters, activeFilters) => {
   const bannerFiltered = activeFilters[BANNER_FILTER].length>0
   const providerFiltered = activeFilters[PROVIDER_FILTER].length>0
   if (bannerFiltered || providerFiltered) {

@@ -8,7 +8,8 @@
  *******************************************************************************/
 'use strict'
 
-export const CARD_SPACING = 7
+// also change $overview-card-margin-right in variables.scss
+export const CARD_SPACING = 20
 
 export const CardTypes = Object.freeze({
   provider: 'provider',

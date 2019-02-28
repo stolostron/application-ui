@@ -13,7 +13,6 @@ import classNames from 'classnames'
 import resources from '../../../../lib/shared/resources'
 import '../../../../graphics/diagramIcons.svg'
 import {getMatchingClusters, BANNER_FILTER} from '../filterHelper'
-import GridCard from '../GridCard'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -21,19 +20,19 @@ resources(() => {
   require('../../../../scss/overview-providers.scss')
 })
 
-export default class ProviderCard extends React.PureComponent {
+export default class ProviderCard extends React.Component {
 
   render() {
     const { locale } = this.context
-    const { view, item, width, noncompliantClusterSet } = this.props
+    const { view, item, width, conditionFilterSets: {noncompliantClusterSet} } = this.props
     const {cardData: {title, includes=[]}, overview: {clusters=[]} } = item
 
     // add this provider's cloud label to active filters
     const updateFilters = () => {
-      const {updateActiveFilters} = view
+      const {updateFilters} = view
       const activeFilters = _.cloneDeep(view.activeFilters)
       activeFilters[BANNER_FILTER] = [{title, includes: includes.slice()}]
-      updateActiveFilters(activeFilters)
+      updateFilters(activeFilters)
     }
 
     const handleKeyPress = (e) => {
@@ -77,51 +76,49 @@ export default class ProviderCard extends React.PureComponent {
       'non-compliant': nonComplaintCnt>0,
     })
     return (
-      <GridCard item={item} >
-        <div className={providerClasses} style={{width}}
-          tabIndex='0' role={'button'} onClick={updateFilters} onKeyPress={handleKeyPress}>
-          <div className='provider-title-container'>
-            <div className='provider-title'>
-              <div className='provider-name'>{title}</div>
-              <div className='provider-cluster-container'>
-                <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
-                <div className={compliantClasses}>
-                  <div>
-                    <svg className='provider-noncompilant-icon'>
-                      <use href={'#diagramIcons_error'} ></use>
-                    </svg>
-                  </div>
-                  <div>
-                    {nonComplaintCnt}
-                  </div>
+      <div className={providerClasses} style={{width}}
+        tabIndex='0' role={'button'} onClick={updateFilters} onKeyPress={handleKeyPress}>
+        <div className='provider-title-container'>
+          <div className='provider-title'>
+            <div className='provider-name'>{title}</div>
+            <div className='provider-cluster-container'>
+              <div className='provider-cluster'>{msgs.get('overview.cluster.count', [matchingClusters.length], locale)}</div>
+              <div className={compliantClasses}>
+                <div>
+                  <svg className='provider-noncompilant-icon'>
+                    <use href={'#diagramIcons_error'} ></use>
+                  </svg>
+                </div>
+                <div>
+                  {nonComplaintCnt}
                 </div>
               </div>
             </div>
           </div>
-          <div className='provider-counts'>{
-            filteredKubeTypes.map((kubeType,idx)=>{
-              const kubeCnt = _.padStart(kubeMap[kubeType].length+'', 2, 0)
-              const title = (idx===otherIdx) ?
-                otherTypes.map(type=>{
-                  return `${_.padStart(kubeMap[type].length+'', 2, 0)} ${type}`
-                }).join('\n') : ''
-              return (
-                <div key={kubeType} className='provider-count-cell'>
-                  <div className='provider-count' title={title}>{kubeCnt}</div>
-                  <div className='provider-type' title={title}>{kubeType}</div>
-                </div>
-              )
-            })
-          }</div>
         </div>
-      </GridCard>
+        <div className='provider-counts'>{
+          filteredKubeTypes.map((kubeType,idx)=>{
+            const kubeCnt = _.padStart(kubeMap[kubeType].length+'', 2, 0)
+            const title = (idx===otherIdx) ?
+              otherTypes.map(type=>{
+                return `${_.padStart(kubeMap[type].length+'', 2, 0)} ${type}`
+              }).join('\n') : ''
+            return (
+              <div key={kubeType} className='provider-count-cell'>
+                <div className='provider-count' title={title}>{kubeCnt}</div>
+                <div className='provider-type' title={title}>{kubeType}</div>
+              </div>
+            )
+          })
+        }</div>
+      </div>
     )
   }
 }
 
 ProviderCard.propTypes = {
+  conditionFilterSets: PropTypes.object,
   item: PropTypes.object,
-  noncompliantClusterSet: PropTypes.object,
   view: PropTypes.object,
   width: PropTypes.number,
 }

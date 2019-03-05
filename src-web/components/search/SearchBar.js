@@ -36,10 +36,12 @@ class SearchBar extends React.Component {
         matchText: []
       },
       searchComplete: '',
-      tags, // tags can be used for the filter popup modal
-      fieldOptions: []
+      tags,
+      fieldOptions: [],
+      chosenOperator: null
     }
     this.matchTextOptions = []
+    this.operators = ['=', '<', '>', '<=', '>=', '!=']
 
     this.handleDelete = this.handleDelete.bind(this)
     this.handleAddition = this.handleAddition.bind(this)
@@ -89,13 +91,15 @@ class SearchBar extends React.Component {
           matchText: matchText
         }
       })
-      const field = (tags[tags.length - 1].classType === 'keyword' || _.get(tags[tags.length - 1], 'matchText[0]', '') !== '')
+      const currentOperator = this.operators[this.operators.findIndex(op => op === tags[tags.length - 1].matchText[0])] || null
+      const field = ((tags[tags.length - 1].classType === 'keyword' || _.get(tags[tags.length - 1], 'matchText[0]', '') !== '') && currentOperator === null)
         ? ''
         : tags[tags.length - 1].field
       this.setState({
         currentQuery: nextProps.value,
         searchComplete: field,
-        tags: tags
+        tags: tags,
+        chosenOperator: currentOperator || null
       })
     }
   }
@@ -162,7 +166,7 @@ class SearchBar extends React.Component {
   }
 
   formatSuggestionOptions(data) {
-    const { fieldOptions, searchComplete, tags } = this.state
+    const { chosenOperator, fieldOptions, searchComplete, tags } = this.state
     const labelTag = {
       id: 'id-filter-label',
       key:'key-filter-label',
@@ -185,6 +189,50 @@ class SearchBar extends React.Component {
           disabled: true
         }]
       } else {
+        if (data.searchComplete[0] === 'isNumber') {
+          if (chosenOperator !== null) {
+            const rangeText = data.searchComplete.length > 2
+              ? msgs.get('searchbar.operator.range', [parseInt(data.searchComplete[1], 10), parseInt(data.searchComplete[2], 10)], this.context.locale)
+              : msgs.get('searchbar.operator.range', [parseInt(data.searchComplete[1], 10), parseInt(data.searchComplete[1], 10)], this.context.locale)
+            return [
+              labelTag,
+              {
+                id: 'id-values-range',
+                key:'key-values-range',
+                name: rangeText,
+                value: rangeText,
+                disabled: true
+              }
+            ]
+          }
+          return this.operators.map(operator => {
+            return {
+              id: `id-operators-${operator}`,
+              key:`key-operators-${operator}`,
+              name: operator,
+              value: operator
+            }
+          })
+        } else if (data.searchComplete[0] === 'isDate') {
+          const dateOptions = ['hour', 'day', 'week', 'month', 'year']
+          return this.convertObjectToArray(
+            dateOptions.map(date => {
+              return {
+                id: `id-date-${date}`,
+                key:`key-date-${date}`,
+                name: date,
+                value: date
+              }
+            }),
+            {
+              id: 'id-filter-label',
+              key:'key-filter-label',
+              name: msgs.get('searchbar.operator.dateSort', [searchComplete], this.context.locale),
+              value: msgs.get('searchbar.operator.dateSort', [searchComplete], this.context.locale),
+              disabled: true
+            }
+          )
+        }
         return this.convertObjectToArray(
           data.searchComplete.map(item => {
             return {
@@ -210,26 +258,38 @@ class SearchBar extends React.Component {
           field: '',
           matchText: []
         },
-        searchComplete: ''
+        searchComplete: '',
+        chosenOperator: null
       })
     }
     this.props.updateBrowserURL('')
   }
 
   handleDelete(i) {
-    const { tags } = this.state
+    const { tags, searchComplete } = this.state
     if (tags.length > 0) {
       if (tags[i].matchText === undefined || (tags[i].matchText && tags[i].matchText.length <= 1) || tags[i].classType === 'keyword') {
         const newTags = tags.filter((tag, index) => index !== i)
+        const newQuery = newTags.map(tag => {return tag.value}).join(' ')
         this.updateSelectedTags(newTags, {})
-        this.props.updateBrowserURL({query: newTags.map(tag => {return tag.value}).join(' ')})
+        this.props.updateBrowserURL({query: newQuery})
         this.setState({
-          currentTag: {
-            field: '',
-            matchText: []
-          },
-          searchComplete: ''
+          currentQuery: newQuery
         })
+        if (i !== tags.length - 1) {
+          this.setState({
+            searchComplete: searchComplete
+          })
+        } else {
+          this.setState({
+            currentTag: {
+              field: '',
+              matchText: []
+            },
+            searchComplete: '',
+            chosenOperator: null
+          })
+        }
       } else if (tags[i].matchText && tags[i].matchText.length > 1) {
         tags[i].matchText.pop()
         const tagText = tags[i].field + ':' + tags[i].matchText.join(',')
@@ -263,14 +323,14 @@ class SearchBar extends React.Component {
         tags.push(lastTag)
       }
     }
-
-    if (field !== '' && matchText !== undefined) {
+    if (field !== '' && matchText !== undefined && this.operators.findIndex(op => op === matchText[0]) === -1) {
       this.setState({
         currentTag: {
           field: '',
           matchText: []
         },
-        searchComplete: ''
+        searchComplete: '',
+        chosenOperator: null
       })
     }
 
@@ -289,7 +349,8 @@ class SearchBar extends React.Component {
     const {
       fieldOptions,
       searchComplete,
-      tags
+      tags,
+      chosenOperator
     } = this.state
 
     if (!searchComplete && !input.id) { // Adds keyword tag
@@ -298,12 +359,21 @@ class SearchBar extends React.Component {
       this.updateSelectedTags([...tags, input], {})
     } else {
       // Adds matchText string
-      if (searchComplete) {
+      if (searchComplete && input.id && input.id.indexOf('id-operators') > -1) {
         this.setState({
+          chosenOperator: input,
           currentTag: {
             field: searchComplete,
             matchText: _.concat(input.name)
           }
+        })
+      } else if (searchComplete) {
+        this.setState({
+          currentTag: {
+            field: searchComplete,
+            matchText: chosenOperator === null ? _.concat(input.name) : _.concat(chosenOperator.name + input.name)
+          },
+          chosenOperator: null
         })
       } else {
         // Adds field if name matches available option (name, status, etc.) otherwise keyword

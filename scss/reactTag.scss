@@ -279,12 +279,15 @@
 .react-tags__suggestions li.is-disabled {
   cursor: auto;
   padding: .5rem .75rem .5rem .5rem;
-  font-weight: 700;
   letter-spacing: .05rem;
-  color: $color__blue-51;
   border-bottom: 1px solid #ddd;
-  font-size: .6rem;
-  text-transform: uppercase;
+
+  &:first-of-type {
+    font-size: .6rem;
+    font-weight: 700;
+    color: $color__blue-51;
+    text-transform: uppercase;
+  }
 
   &:hover {
     background: white;

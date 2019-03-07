@@ -41,7 +41,7 @@ class SearchBar extends React.Component {
       chosenOperator: null
     }
     this.matchTextOptions = []
-    this.operators = ['=', '<', '>', '<=', '>=', '!=']
+    this.operators = ['=', '<', '>', '<=', '>=', '!=', '!']
 
     this.handleDelete = this.handleDelete.bind(this)
     this.handleAddition = this.handleAddition.bind(this)
@@ -359,7 +359,7 @@ class SearchBar extends React.Component {
       this.updateSelectedTags([...tags, input], {})
     } else {
       // Adds matchText string
-      if (searchComplete && input.id && input.id.indexOf('id-operators') > -1) {
+      if (searchComplete && input.name && this.operators.findIndex(op => op === input.name) > -1) {
         this.setState({
           chosenOperator: input,
           currentTag: {

@@ -8,13 +8,12 @@
  *******************************************************************************/
 'use strict'
 
+import moment from 'moment'
 import {getWrappedNodeLabel} from '../../../lib/client/diagram-helper'
-import { NODE_SIZE } from '../../components/diagrams/constants.js'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { NODE_SIZE, PodIcon, StatusIcon } from '../../components/diagrams/constants.js'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
-
-//if controller contains a pod
-const podIcon = {icon:'circle', classType:'pod', width: 24, height: 24, dx:0, dy:0}
 
 export default {
 
@@ -78,6 +77,7 @@ export default {
   getNodeGroups,
 
   // get description for under node
+  updateNodeIcons,
   getNodeDescription,
 
   //getNodeDetails: what desciption to put in details view when node is clicked
@@ -205,7 +205,6 @@ export function getNodeGroups(nodes) {
   })
 
   // show pods in the deployment that created it
-  const addPodIcon = []
   if (groupMap['deployment']) {
     if (groupMap['pod']) {
       let i=groupMap['pod'].nodes.length
@@ -216,7 +215,6 @@ export function getNodeGroups(nodes) {
           if (controller) {
             controller.layout.pods.push(node)
             controller.layout.hasPods = true
-            addPodIcon.push(controller.layout)
             groupMap['pod'].nodes.splice(i,1)
             delete allNodeMap[node.uid]
             delete node.layout
@@ -230,13 +228,46 @@ export function getNodeGroups(nodes) {
       })
     }
   }
-  addPodIcon.forEach(layout=>{
-    const tooltips = Object.keys(_.keyBy(layout.pods, 'name')).map(key=>{
-      return {name:'Pod', value:key}
-    })
-    layout.nodeIcons = [Object.assign(podIcon, {tooltips})]
-  })
   return {nodeGroups: groupMap, allNodeMap}
+}
+
+export function updateNodeIcons(nodes) {
+  const addStatusIcon = (node, nodeIcons) => {
+    const {podModel} = node
+    if (podModel) {
+      let statusIcon
+      const tooltips={name:'Status', value: podModel.status}
+      switch (podModel.status.toLowerCase()) {
+      case 'running':
+      case 'succeeded':
+        statusIcon = StatusIcon.success
+        break
+      case 'pending':
+        statusIcon = StatusIcon.pending
+        break
+      default:
+        statusIcon = StatusIcon.error
+        break
+      }
+      nodeIcons['status'] = Object.assign(statusIcon, {tooltips})
+    }
+  }
+  nodes.forEach(node=>{
+    const nodeIcons = {}
+    const {layout={}} = node
+    if (layout.hasPods) {
+      const tooltips = layout.pods.map(pod=>{
+        addStatusIcon(pod, nodeIcons)
+        return {name:'Pod', value:pod.name}
+      })
+      nodeIcons['pod'] = Object.assign(PodIcon, {tooltips})
+    } else {
+      addStatusIcon(node, nodeIcons)
+    }
+    if (Object.keys(nodeIcons).length>0) {
+      layout.nodeIcons = Object.assign(layout.nodeIcons||{}, nodeIcons)
+    }
+  })
 }
 
 export function getSectionTitles(isMulticluster, clusters, types, locale) {
@@ -316,7 +347,8 @@ export function getNodeTooltips(node, locale) {
   tooltips.push({name:msgs.get('resource.cluster', locale), value:clusterName})
   tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace})
   if (nodeIcons) {
-    nodeIcons.forEach(({tooltips:ntps})=>{
+    Object.keys(nodeIcons).forEach(key => {
+      const {tooltips:ntps} = nodeIcons[key]
       tooltips = tooltips.concat(ntps)
     })
   }
@@ -326,22 +358,56 @@ export function getNodeTooltips(node, locale) {
 export function getNodeDetails(currentNode) {
   const details = []
   if (currentNode){
-    const { clusterName, name, namespace, topology, type, layout, labels=[] } = currentNode
-    const { hasPods, hasService, pods, type: ltype } = layout
+    addNodeDetails(currentNode, details)
+    const { layout: { hasPods, pods } } = currentNode
 
-    const addDetails = (dets) => {
-      dets.forEach(({labelKey, value})=>{
-        if (value) {
-          details.push({
-            type: 'label',
-            labelKey,
-            value,
-          })
-        }
+    // pods
+    if (hasPods) {
+      details.push({
+        type: 'spacer',
+      })
+      details.push({
+        type: 'label',
+        labelKey: 'resource.pods.deployed'
+      })
+
+      // the pod stuff
+      pods.forEach((pod)=>{
+        addNodeDetails(pod, details, true)
       })
     }
+  }
+  return details
+}
 
-    // the main stuff
+function addNodeDetails(node, details, podOnly) {
+  const { clusterName, name, namespace, type, podModel, layout={}, labels=[] } = node
+  const { type: ltype } = layout
+
+  const addDetails = (dets) => {
+    dets.forEach(({labelKey, value})=>{
+      if (value!==undefined) {
+        details.push({
+          type: 'label',
+          labelKey,
+          value,
+        })
+      }
+    })
+  }
+  const getAge = (value) => {
+    if (value) {
+      if (value.includes('T')) {
+        return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+      } else {
+        return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+      }
+    }
+    return '-'
+  }
+
+  // the main stuff
+  if (!podOnly) {
     const mainDetails = [
       {labelKey: 'resource.type',
         value: ltype||type},
@@ -349,59 +415,51 @@ export function getNodeDetails(currentNode) {
         value: clusterName},
       {labelKey: 'resource.namespace',
         value: namespace},
-      {labelKey: 'resource.topology',
-        value: topology},
     ]
     addDetails(mainDetails)
-
-    // labels
-    if (labels.length) {
-      details.push({
-        type: 'label',
-        labelKey: 'resource.labels'
-      })
-      labels.forEach(({name:lname, value:lvalue})=>{
-        const labelDetails = [
-          {value: `${lname} = ${lvalue}`},
-        ]
-        addDetails(labelDetails)
-      })
-    }
-
-    // controllers
-    if (hasService) {
-      details.push({
-        type: 'label',
-        labelKey: 'resource.controllers.used'
-      })
-      // the controller stuff
-      const ctrlDetails = [
-        {labelKey: 'resource.name',
-          value: name},
-        {labelKey: 'resource.type',
-          value: type},
-      ]
-      addDetails(ctrlDetails)
-    }
-
-    // pods
-    if (hasPods) {
-      details.push({
-        type: 'label',
-        labelKey: 'resource.pods.deployed'
-      })
-
-      // the pod stuff
-      pods.forEach(({name:pname})=>{
-        const podDetails = [
-          {value: pname},
-        ]
-        addDetails(podDetails)
-
-      })
-    }
+  } else {
+    const podName = [
+      {labelKey: 'resource.name',
+        value: name},
+    ]
+    addDetails(podName)
   }
-  return details
+
+  // labels
+  if (labels.length) {
+    details.push({
+      type: 'label',
+      labelKey: 'resource.labels'
+    })
+    labels.forEach(({name:lname, value:lvalue})=>{
+      const labelDetails = [
+        {value: `${lname} = ${lvalue}`},
+      ]
+      addDetails(labelDetails)
+    })
+  }
+
+  // pod stuff
+  if (podModel) {
+    const { status, restarts, hostIP, podIP, metadata: {creationTimestamp}} = podModel
+    const podDetails = [
+      {labelKey: 'resource.hostip',
+        value: hostIP},
+      {labelKey: 'resource.podip',
+        value: podIP},
+      {labelKey: 'resource.created',
+        value: getAge(creationTimestamp)},
+      {labelKey: 'resource.status',
+        value: status},
+      {labelKey: 'resource.restarts',
+        value: restarts},
+    ]
+    addDetails(podDetails)
+    details.push({
+      type: 'logs',
+      value: {resourceType: RESOURCE_TYPES.HCM_PODS, data: podModel}
+    })
+  }
 }
 
 export function getConnectedLayoutOptions({elements, details: {isConsolidation}}, options) {

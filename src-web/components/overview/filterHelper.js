@@ -275,12 +275,14 @@ export const getUnknownClusters = (clusters, configuredProviders) => {
 
 export const getSavedViewState = (locale) => {
   let state = null
-  const savedState = localStorage.getItem(OVERVIEW_STATE_COOKIE)
-  if (savedState) {
-    try {
-      state = JSON.parse(savedState)
-    } catch (e) {
-      //
+  if (window.localStorage) {
+    const savedState = localStorage.getItem(OVERVIEW_STATE_COOKIE)
+    if (savedState) {
+      try {
+        state = JSON.parse(savedState)
+      } catch (e) {
+        //
+      }
     }
   }
   if (!state) {

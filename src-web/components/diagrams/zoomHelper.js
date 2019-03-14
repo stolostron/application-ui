@@ -23,7 +23,7 @@ export default class ZoomHelper {
     this.diagramOptions = diagramOptions
     this.currentZoom = {x:0, y:0, k:1}
     this.isAutoZoom = true
-    this.resize = _.debounce(()=>{
+    this.viewer.resize = _.debounce(()=>{
       if (this.isAutoZoom) {
         this.zoomFit(true)
       }
@@ -31,11 +31,11 @@ export default class ZoomHelper {
   }
 
   mountViewer = () => {
-    window.addEventListener('resize', this.resize)
+    window.addEventListener('resize', this.viewer.resize)
   }
 
   dismountViewer = () => {
-    window.removeEventListener('resize', this.resize)
+    window.removeEventListener('resize', this.viewer.resize)
   }
 
   isAutoZoomToFit = () => {

@@ -271,8 +271,8 @@ export default class NodeHelper {
     const icons = this.svg.select('g.nodes')
       .selectAll('g.node')
       .selectAll('use.nodeIcon')
-      .data(({layout: {nodeIcons=[]}}) => {
-        return nodeIcons
+      .data(({layout: {nodeIcons}}) => {
+        return nodeIcons ? Object.values(nodeIcons) : []
       })
 
       // remove icons if nodeIcons is gone

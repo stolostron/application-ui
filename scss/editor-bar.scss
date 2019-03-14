@@ -1,0 +1,87 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2017. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+.editor-bar {
+    display: flex;
+    align-items: center;
+
+    > div {
+      display: flex;
+      align-items: center;
+    }
+
+    .editor-bar-search {
+
+      .bx--search--sm .bx--search-input {
+        background-color: #fff;
+        font-size: 14px;
+        height: 22px;
+      }
+
+    }
+
+    .editor-bar-button {
+      padding: 2px;
+      cursor: pointer;
+
+      &.disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+
+      &.failure {
+        cursor: default;
+        fill: #e0182d;
+      }
+    }
+
+    .editor-error-button {
+      fill: #e0182d;
+    }
+
+    .editor-bar-spacer {
+      width: 16px;
+      height: 16px;
+    }
+
+    .bx--overflow-menu {
+      height: 22px;
+
+      &:focus, &.bx--overflow-menu--open {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+
+}
+
+.bx--overflow-menu-options {
+  width: auto;
+  min-width: 200px;
+}
+
+.editor-error-button-item {
+  font-size: 12px;
+  line-height: 16px;
+  padding: 4px;
+  width: 100%;
+  max-width: none;
+
+  .item-container {
+    display: flex;
+
+    .item-icon {
+      fill: #e0182d;
+      padding-right: 8px;
+    }
+  }
+}
+

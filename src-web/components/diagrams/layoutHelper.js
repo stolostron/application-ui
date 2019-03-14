@@ -67,6 +67,11 @@ export default class LayoutHelper {
     // definitions/diagram/hcm-xxx.js can provide this
     const groups = this.getNodeGroups ? this.getNodeGroups(nodes) : this.getNodeGroupsDefault(nodes)
 
+    // add node icons (ex: success)
+    if (this.updateNodeIcons) {
+      this.updateNodeIcons(nodes)
+    }
+
     // group by connections which may pull nodes into other groups
     this.groupNodesByConnections(groups, links)
 

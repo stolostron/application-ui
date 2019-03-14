@@ -14,7 +14,7 @@
   right: 1rem;
   background-color: $color__white;
   box-shadow: -1px 0 7px 0 rgba(0,0,0,0.10);
-  width: 300px;
+  width: 320px;
   padding-bottom: 20px;
   min-height: 75%;
 
@@ -67,6 +67,13 @@
     font-size: .75rem;
     color: $color__navy-gray-6;
     word-break: break-all;
+  }
+
+  .logs {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $color__blue-30;
+    cursor: pointer;
   }
 
   .spacer {

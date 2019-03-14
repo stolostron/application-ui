@@ -8,8 +8,8 @@
  *******************************************************************************/
 'use strict'
 import moment from 'moment'
-import {dumpAndParse} from '../../../lib/client/design-helper'
-import { NODE_SIZE } from '../../components/diagrams/constants.js'
+import {getStringAndParsed} from '../../../lib/client/design-helper'
+import { NODE_SIZE, StatusIcon } from '../../components/diagrams/constants.js'
 import { getStoredObject, saveStoredObject } from '../../../lib/client/resource-helper'
 import * as Actions from '../../actions'
 import msgs from '../../../nls/platform.properties'
@@ -77,6 +77,11 @@ export function mergeDefinitions(tableDefs, topologyDefs) {
   defs.getTopologyElements = topologyDefs.getTopologyElements
   defs.getNodeGroups = topologyDefs.getNodeGroups
 
+  this.updateNodeIcons = (nodes) => {
+    updateNodeIcons(nodes)
+    topologyDefs.updateNodeIcons(nodes)
+  }
+
   this.getNodeDescription = (node, locale) => {
     if (node.isDesign) {
       return getDesignNodeDescription(node, locale)
@@ -107,7 +112,7 @@ export function mergeDefinitions(tableDefs, topologyDefs) {
   return defs
 }
 
-export function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
+export function getDiagramElements(item, topology, diagramFilters, podList, localStoreKey) {
 
   const { placementPolicies = [] } = item
   // get design elements like application
@@ -122,7 +127,7 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
   targetClusters = new Set(targetClusters)
   let {nodes=[], links=[]} = elements
   let {yaml, designLoaded} = elements
-  const {chartMap, kubeSelectors, deployablesMap} = elements
+  const {parsed, chartMap, kubeSelectors, deployablesMap} = elements
   const hasKubeDeploments = kubeSelectors.length>0
   const hasChartDeploments = Object.keys(chartMap).length>0
 
@@ -135,6 +140,7 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
   let clusters = []
   let topologyLoaded = false
   let topologyError = false
+  let statusesLoaded = false
   const {activeFilters, status, reloading} = topology
   let topologyReloading = reloading
   const requiredTopologyLoaded = _.isEqual(requiredFilters, activeFilters) && status===Actions.REQUEST_STATUS.DONE
@@ -145,6 +151,14 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
     const {nodes:tnodes, links:tlinks} = elements
     nodes = [...nodes, ...tnodes]
     links = [...links, ...tlinks]
+
+    // get pod map
+    statusesLoaded = podList.status===Actions.REQUEST_STATUS.DONE
+    const podMap = statusesLoaded ? _.keyBy(podList.items, (item)=>{
+      const cluster = _.get(item, 'cluster.metadata.name', 'unknown')
+      const name = _.get(item, 'metadata.name', 'unknown')
+      return `${cluster}//${name}`
+    }) : {}
 
     // add links between design nodes and topology nodes
     // don't add k8 node if it has no connection to design
@@ -186,7 +200,7 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
             return name==='release'
           })
           if (label) {
-            shapeId = chartMap[label.value] //chart id through "release" label
+            shapeId = chartMap[`${clusterName}//${label.value}`] //chart id through "release" label
           }
         }
         if (shapeId) {
@@ -196,6 +210,13 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
             label: '',
             uid: shapeId+uid
           })
+          // kube data on this pod
+          if (statusesLoaded) {
+            const podModel = podMap[`${clusterName}//${name}`]
+            if (podModel) {
+              node.podModel = podModel
+            }
+          }
           return true
         }
         return false
@@ -244,9 +265,11 @@ export function getDiagramElements(item, topology, diagramFilters, localStoreKey
     links,
     nodes,
     yaml,
+    parsed,
     designLoaded,
     requiredFilters,
     topologyLoaded,
+    statusesLoaded,
     topologyReloading,
     topologyError
   }
@@ -259,24 +282,25 @@ export function getDesignElements(item) {
   const kubeSelectors=[]
   const deployablesMap = {}
   let yaml = ''
+  let parsed = {}
   // wait for full application to load
-  const designLoaded = item && item.raw
+  const designLoaded = !!(item && item.raw)
   if (designLoaded) {
-    const dnp = dumpAndParse(item, ['applicationRelationships', 'deployables', 'placementPolicies', 'placementBindings'])
-    const {parsed} = dnp
+    const dnp = getStringAndParsed(item, ['applicationRelationships', 'deployables', 'placementPolicies', 'placementBindings'])
+    parsed = dnp.parsed
     yaml = dnp.yaml
 
     // create application node
-    const name = _.get(parsed, 'metadata.$v.name.$v')
-    const appId = `application--${name}`
+    const name = _.get(parsed, 'metadata.$v.name')
+    const appId = `application--${name.$v}`
     nodes.push({
-      name,
+      name: name.$v,
       namespace: _.get(parsed, 'metadata.$v.namespace.$v'),
       application: item,
       type: 'application',
       uid: appId,
       isDesign: true,
-      $r: 0
+      $r: name.$r
     })
 
     // to simiplify diagram remove links between app and deployable if there's another link
@@ -407,18 +431,29 @@ export function getDesignElements(item) {
     Object.keys(applicationWorksMap).forEach((key,idx)=>{
 
       applicationWorksMap[key].forEach(work=>{
-        const {release, result: {chartName, chartVersion, kubeKind, kubeName, kubeCluster}} = work
+        const {release, status, reason, cluster, result: {chartName, chartVersion, chartURL, kubeKind, kubeName, kubeCluster}} = work
 
         // if a chart was used:
         //  create its shape, connect it to deployable
         //  and add a relationship to be used to connect chart to k8 objects (in chartMap)
-        if(chartName || chartVersion) {
+        if(chartName || chartVersion || chartURL) {
+
+          let name, chartId, statusIcon
+          if (chartName || chartVersion) {
+            name= `${chartName} ${chartVersion}`
+            chartId = `member--${release}--${idx}`
+          } else {
+            name= chartURL.split('\\').pop().split('/').pop()
+            chartId = `member--failed--${idx}`
+          }
 
           // create chart shape
-          const chartId = `member--${release}--${idx}`
           nodes.push({
-            name: `${chartName} ${chartVersion}`,
+            name,
             work,
+            status,
+            reason,
+            statusIcon,
             type: 'chart',
             isWork: true,
             isDivider: true, // organize diagram so that charts form barrier between design and k8
@@ -437,7 +472,7 @@ export function getDesignElements(item) {
           })
 
           // tell how to connect chart to k8 object (thru release label on k8 object)
-          chartMap[release] = chartId
+          chartMap[`${cluster}//${release}`] = chartId
 
         } else {
           // if no chart, use work to directly connect deployable to k8 object thru kind/name/cluster
@@ -458,6 +493,7 @@ export function getDesignElements(item) {
     links,
     nodes,
     yaml,
+    parsed,
     chartMap,
     kubeSelectors,
     deployablesMap,
@@ -472,7 +508,7 @@ export function getTopologyFilters(item, topologyTypes, kubeSelectors) {
     // if any k8 objects are used, we need to pull in everything from weave from selecter clusters
     // and then match up the types and names
     if (kubeSelectors.length>0) {
-      filters.cluster = Object.keys(_.keyBy(kubeSelectors, 'kubeCluster'))//.map(key=>{
+      filters.cluster = Object.keys(_.keyBy(kubeSelectors, 'kubeCluster'))
     } else {
       // else we can use the labels on the application to find k8 objects
       const {selector={}} = item
@@ -560,6 +596,30 @@ export function getNodeTitle(node, locale) {
   return ''
 }
 
+export function updateNodeIcons(nodes) {
+  nodes.forEach(node=>{
+    if (node.status) {
+      let statusIcon
+      let tooltips=''
+      switch (node.status.toLowerCase()) {
+      case 'completed':
+        statusIcon = StatusIcon.success
+        break
+
+      default:
+        statusIcon = StatusIcon.error
+        tooltips = [{name:'Reason', value: node.reason}]
+        break
+      }
+      let nodeIcons = node.layout.nodeIcons
+      if (!nodeIcons) {
+        nodeIcons = node.layout.nodeIcons = {}
+      }
+      nodeIcons['status'] = Object.assign(statusIcon, {tooltips})
+    }
+  })
+}
+
 export function getWorkNodeDescription(node) {
   let description = _.get(node, 'work.result.description')
   if (description && description.length>16) {
@@ -571,7 +631,7 @@ export function getWorkNodeDescription(node) {
 export function getWorkNodeDetails(currentNode) {
   const details = []
   if (currentNode){
-    const { work: {cluster, release, result, status }} = currentNode
+    const { work: {cluster, release, result, status, reason }} = currentNode
     const { chartName, chartVersion, chartURL, namespace, description, firstDeployed, lastDeployed } = result
     const addDetails = (dets) => {
       dets.forEach(({labelKey, value})=>{
@@ -585,10 +645,12 @@ export function getWorkNodeDetails(currentNode) {
       })
     }
     const getAge = (value) => {
-      if (value.includes('T')) {
-        return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-      } else if (value) {
-        return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+      if (value) {
+        if (value.includes('T')) {
+          return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+        } else {
+          return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+        }
       }
       return '-'
     }
@@ -599,29 +661,45 @@ export function getWorkNodeDetails(currentNode) {
       {labelKey: 'resource.version', value: chartVersion},
       {labelKey: 'resource.namespace', value: namespace},
       {labelKey: 'resource.description', value: description},
-      {labelKey: 'resource.release', value: release},
       {labelKey: 'resource.status', value: status},
-      {labelKey: 'resource.firstDeployed', value: getAge(firstDeployed)},
-      {labelKey: 'resource.lastDeployed', value: getAge(lastDeployed)},
-      {labelKey: 'resource.url', value: chartURL},
     ]
-    addDetails(mainDetails)
+    let extraDetails
+    if (firstDeployed) {
+      extraDetails = [
+        {labelKey: 'resource.release', value: release},
+        {labelKey: 'resource.firstDeployed', value: getAge(firstDeployed)},
+        {labelKey: 'resource.lastDeployed', value: getAge(lastDeployed)},
+        {labelKey: 'resource.url', value: chartURL},
+      ]
+    } else {
+      extraDetails = [
+        {labelKey: 'resource.reason', value: reason},
+        {labelKey: 'resource.url', value: chartURL},
+      ]
+    }
+    addDetails([...mainDetails, ...extraDetails])
   }
   return details
 }
 
 export function getDesignNodeTooltips(node, locale) {
-  const tooltips = []
-  const {name, type, namespace} = node
+  let tooltips = []
+  const {name, type, namespace, layout:{nodeIcons}} = node
   tooltips.push({name:msgs.get('resource.name', locale), value:name})
   tooltips.push({name:msgs.get('resource.type', locale), value:type})
   tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace})
+  if (nodeIcons) {
+    Object.keys(nodeIcons).forEach(key => {
+      const {tooltips:ntps} = nodeIcons[key]
+      if (ntps) tooltips = tooltips.concat(ntps)
+    })
+  }
   return tooltips
 }
 
 export function getWorkNodeTooltips(node, locale) {
-  const tooltips = []
-  const {name, type, work} = node
+  let tooltips = []
+  const {name, type, work, layout:{nodeIcons}} = node
   const {cluster, status} = work
   const description = _.get(work, 'result.description', '')
   tooltips.push({name:msgs.get('resource.name', locale), value:name})
@@ -629,6 +707,12 @@ export function getWorkNodeTooltips(node, locale) {
   tooltips.push({name:msgs.get('resource.cluster', locale), value:cluster})
   tooltips.push({name:msgs.get('resource.description', locale), value:description})
   tooltips.push({name:msgs.get('resource.status', locale), value:status})
+  if (nodeIcons) {
+    Object.keys(nodeIcons).forEach(key => {
+      const {tooltips:ntps} = nodeIcons[key]
+      if (ntps) tooltips = tooltips.concat(ntps)
+    })
+  }
   return tooltips
 }
 

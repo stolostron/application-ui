@@ -14,7 +14,7 @@ import msgs from '../../../nls/platform.properties'
 import jsYaml from 'js-yaml'
 import YamlEditor from '../common/YamlEditor'
 import lodash from 'lodash'
-import { dumpAndParse } from '../../../lib/client/design-helper'
+import { toString } from '../../../lib/client/design-helper'
 import { Button, InlineNotification, Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -36,7 +36,7 @@ class PolicyTemplates extends React.Component {
 
   componentWillMount() {
     const { resourceData } = this.props
-    const { yaml } = dumpAndParse(resourceData)
+    const yaml = toString(resourceData)
     if (yaml && !this.state.yaml) {
       this.setState({ yaml })
     }

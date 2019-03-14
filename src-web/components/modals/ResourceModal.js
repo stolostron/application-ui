@@ -18,7 +18,7 @@ import { clearRequestStatus, editResource, updateModal } from '../../actions/com
 import { connect } from 'react-redux'
 import { REQUEST_STATUS } from '../../actions/index'
 import msgs from '../../../nls/platform.properties'
-import { dumpAndParse, saveLoad } from '../../../lib/client/design-helper'
+import { toString, saveLoad } from '../../../lib/client/design-helper'
 import YamlEditor from '../common/YamlEditor'
 
 
@@ -36,7 +36,7 @@ class ResourceModal extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      data: dumpAndParse(props.data).yaml,
+      data: toString(props.data),
     }
   }
 
@@ -87,8 +87,7 @@ class ResourceModal extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.data && this.props.data !== nextProps.data) {
-      // this.setState({data: JSON.stringify(this.props.data, null, 2)})
-      this.setState({data: dumpAndParse(this.props.data).yaml})
+      this.setState({data: toString(this.props.data)})
     }
     if (nextProps.reqStatus && nextProps.reqStatus === REQUEST_STATUS.ERROR) {
       this.setState(preState => {

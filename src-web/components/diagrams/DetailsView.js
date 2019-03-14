@@ -20,6 +20,22 @@ class DetailsView extends React.Component {
     super(props)
   }
 
+  handleClick(value) {
+    this.fetchLogs(value)
+  }
+
+  handleKeyPress(value, e) {
+    if ( e.key === 'Enter') {
+      this.fetchLogs(value)
+    }
+  }
+
+  fetchLogs(value) {
+    const { fetchLogs } = this.props
+    const { resourceType, data } = value
+    fetchLogs(resourceType, data)
+  }
+
   render() {
     const { context, onClose, getLayoutNodes, staticResourceData, selectedNodeId} = this.props
     const {typeToShapeMap, getNodeDetails} = staticResourceData
@@ -47,15 +63,29 @@ class DetailsView extends React.Component {
           />
         </h3>
         <hr />
-        {details.map(({type, labelKey, value, reactKey}) =>
-        {return (type==='spacer' ?
-          <div className='sectionContent' key={reactKey}>
-            <div className='spacer'></div>
-          </div> :
-          <div className='sectionContent' key={labelKey+value}>
-            {labelKey && <span className='label'>{msgs.get(labelKey, context.locale)}: </span>}
-            <span className='value'>{value}</span>
-          </div>)}
+        {details.map(({type, labelKey, value}) =>
+        {
+          let handleClick, handleKeyPress
+          if (type==='logs') {
+            handleClick = this.handleClick.bind(this, value)
+            handleKeyPress = this.handleKeyPress.bind(this, value)
+          } else {
+            handleClick = handleKeyPress = null
+          }
+          return (type==='spacer' ?
+            <div className='sectionContent' key={Math.random()}>
+              <div className='spacer'></div>
+            </div> : (type!=='logs' ?
+              <div className='sectionContent' key={Math.random()}>
+                {labelKey && <span className='label'>{msgs.get(labelKey, context.locale)}: </span>}
+                <span className='value'>{value}</span>
+              </div> :
+              <div className='sectionContent' key={Math.random()}>
+                <div className='logs' tabIndex='0' role={'button'}
+                  onClick={handleClick} onKeyPress={handleKeyPress}>
+                  {msgs.get('topology.view.logs', context.locale)}
+                </div>
+              </div>))}
         )}
       </section>)
   }
@@ -63,6 +93,7 @@ class DetailsView extends React.Component {
 
 DetailsView.propTypes = {
   context: PropTypes.object,
+  fetchLogs: PropTypes.func,
   getLayoutNodes: PropTypes.func,
   onClose: PropTypes.func,
   selectedNodeId: PropTypes.string,

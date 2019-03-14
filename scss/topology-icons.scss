@@ -12,12 +12,23 @@
   .nodeIcon {
     stroke-width: 6px;
     stroke-opacity: 1;
-    fill: $color__gray-3;
   }
 }
 
 .pod {
   stroke: $color__purple-30;
-  fill: $color__purple-30;
+  fill: $color__gray-3;
   border-top: 6px solid $color__purple-30;
+}
+
+.success {
+  fill: #5aa700;
+}
+
+.warning {
+  fill: #efc100;
+}
+
+.failure {
+  fill: #e0182d;
 }

@@ -98,6 +98,7 @@
     "react-masonry-component": "^6.2.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-split-pane": "^0.1.84",
     "react-tag-autocomplete": "^5.5.1",
     "recharts": "^1.4.1",
     "recompose": "^0.27.0",

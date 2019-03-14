@@ -14,7 +14,6 @@ import * as d3 from 'd3'
 import { Loading, InlineNotification  } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import '../../../graphics/diagramIcons.svg'
-import DesignView from './DesignView'
 import DetailsView from './DetailsView'
 import DiagramControls from './DiagramControls'
 import LayoutHelper from './layoutHelper'
@@ -39,6 +38,8 @@ class DiagramViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
+    fetchLogs: PropTypes.func,
+    handleNodeSelected: PropTypes.func,
     isMulticluster: PropTypes.bool,
     links: PropTypes.array,
     nodes: PropTypes.array,
@@ -46,11 +47,12 @@ class DiagramViewer extends React.Component {
     searchName: PropTypes.string,
     secondaryError: PropTypes.bool,
     secondaryLoad: PropTypes.bool,
+    selectedNode: PropTypes.object,
     setUpdateDiagramRefreshTimeFunc: PropTypes.func,
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
+    statusesLoaded: PropTypes.bool,
     title: PropTypes.string,
-    yaml: PropTypes.string,
   }
 
   constructor (props) {
@@ -59,8 +61,8 @@ class DiagramViewer extends React.Component {
       links: _.uniqBy(props.links, 'uid'),
       nodes: _.uniqBy(props.nodes, 'uid'),
       hiddenLinks: new Set(),
-      selectedNodeId: '',
-      selectedDesignNode: null,
+      selectedNodeId: props.selectedNode ? props.selectedNode.uid : '',
+      showDetailsView: null,
     }
     if (props.setViewer) {
       props.setViewer(this)
@@ -76,6 +78,7 @@ class DiagramViewer extends React.Component {
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.getZoomHelper = this.getZoomHelper.bind(this)
     this.getViewContainer = this.getViewContainer.bind(this)
+    this.handleNodeClick = this.handleNodeClick.bind(this)
     this.showsShapeTitles = typeof this.props.staticResourceData.getNodeTitle === 'function'
     this.lastLayoutBBox=undefined
     this.isDragging = false
@@ -105,6 +108,7 @@ class DiagramViewer extends React.Component {
     || this.props.searchName !== nextProps.searchName
     || this.props.secondaryLoad !== nextProps.secondaryLoad
     || this.state.secondaryError !== nextState.secondaryError
+    || this.props.statusesLoaded !== nextProps.statusesLoaded
   }
 
   // weave scans can:
@@ -144,7 +148,9 @@ class DiagramViewer extends React.Component {
 
       // reuse existing states for the same node
       nodes = nodes.map(node => {
-        return prevStateNodeMap[node.uid] || Object.assign(node, {layout: {newComer: {}}})
+        const ret = prevStateNodeMap[node.uid] || Object.assign(node, {layout: {newComer: {}}})
+        ret.podModel = node.podModel
+        return ret
       })
       // remember new nodes---unless there's more then 10
       const newComers = nodes.filter(({layout})=>{
@@ -215,8 +221,8 @@ class DiagramViewer extends React.Component {
   }
 
   render() {
-    const { title, yaml, staticResourceData, secondaryLoad } = this.props
-    const { selectedNodeId, selectedDesignNode, secondaryError } = this.state
+    const { title, staticResourceData, secondaryLoad, fetchLogs } = this.props
+    const { selectedNodeId, showDetailsView, secondaryError } = this.state
     // don't screw up the jest test by having the current time in the snapshot
     const time = this.props.setUpdateDiagramRefreshTimeFunc ? moment().format('h:mm:ss A') : ''
     return (
@@ -246,25 +252,18 @@ class DiagramViewer extends React.Component {
           <Loading withOverlay={false} small />
           <div ref={this.setDiagramRefreshTimeRef}>{time}</div>
         </div>
-        <DesignView
-          context={this.context}
-          open={!!(selectedNodeId && selectedDesignNode)}
-          yaml={yaml}
-          getLayoutNodes={this.getLayoutNodes}
-          selectedDesignNode={selectedDesignNode}
-          onClose={this.handleDesignClose}
-        />
         <DiagramControls
           getZoomHelper={this.getZoomHelper}
           getViewContainer={this.getViewContainer}
         />
-        { selectedNodeId && !selectedDesignNode &&
+        { showDetailsView &&
           <DetailsView
             context={this.context}
             onClose={this.handleDetailsClose}
             staticResourceData={staticResourceData}
             getLayoutNodes={this.getLayoutNodes}
             selectedNodeId={selectedNodeId}
+            fetchLogs={fetchLogs}
           /> }
       </div>
     )
@@ -278,9 +277,21 @@ class DiagramViewer extends React.Component {
     if (svg) {
       setSelections(svg, node)
     }
+
+    // for design nodes, sync with split screen text editor
+    let showDetailsView = !!node
+    if (showDetailsView && node.isDesign) {
+      const { handleNodeSelected } = this.props
+      if (handleNodeSelected) {
+        handleNodeSelected(node)
+        showDetailsView = false
+      }
+    }
+
+    // else just show details view
     this.setState({
       selectedNodeId: node ? node.uid : '',
-      selectedDesignNode: node && node.isDesign ? node: null,
+      showDetailsView,
     })
   }
 
@@ -295,13 +306,13 @@ class DiagramViewer extends React.Component {
   handleDetailsClose = () => {
     this.setState({
       selectedNodeId: '',
+      showDetailsView: false,
     })
   }
 
   handleDesignClose = () => {
     this.setState({
       selectedNodeId: '',
-      selectedDesignNode: null,
     })
   }
 
@@ -331,8 +342,10 @@ class DiagramViewer extends React.Component {
       searchName,
       activeFilters
     }
-    if (this.viewerContainerRef)
+
+    if (this.viewerContainerRef) {
       this.viewerContainerRef.classList.toggle('search-mode', !!searchName)
+    }
     this.layoutHelper.layout(nodes, links, hiddenLinks, options, (layoutResults)=>{
 
       const {laidoutNodes, titles, searchNames, selfLinks, layoutBBox} = layoutResults
@@ -382,6 +395,15 @@ class DiagramViewer extends React.Component {
 
       this.laidoutNodes = laidoutNodes
       this.lastLayoutBBox = laidoutNodes.length ? this.layoutBBox : undefined
+
+      // if diagram split screen openned, re-select node that openned it
+      if (firstLayout) {
+        const {selectedNode} = this.props
+        if (selectedNode) {
+          setSelections(this.svg, selectedNode)
+        }
+      }
+
     })
   }
 

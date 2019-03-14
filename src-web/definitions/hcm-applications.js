@@ -11,6 +11,8 @@ import React from 'react'
 import { Loading } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
+import { validator } from './validators/hcm-application-validator'
+import { getUpdates } from './deployers/hcm-application-deployer'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
@@ -21,6 +23,8 @@ export default {
   uriKey: 'metadata.name',
   primaryKey: 'metadata.name',
   secondaryKey: 'metadata.namespace',
+  validator,
+  getUpdates,
   tableKeys: [
     {
       msgKey: 'table.header.name',

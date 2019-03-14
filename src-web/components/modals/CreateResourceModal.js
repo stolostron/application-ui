@@ -16,6 +16,7 @@ import jsYaml from 'js-yaml'
 import { Button, InlineNotification, Loading, Modal } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
+import getResourceDefinitions from '../../definitions'
 import YamlEditor from '../common/YamlEditor'
 
 resources(() => {
@@ -34,6 +35,7 @@ class CreateResourceModal extends React.PureComponent {
     headingTextKey: PropTypes.string,
     onCreateResource: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
+    resourceType: PropTypes.object,
     submitBtnTextKey: PropTypes.string,
   }
 
@@ -62,12 +64,16 @@ class CreateResourceModal extends React.PureComponent {
 
   handleEditorChange = (yaml) => this.setState({ yaml })
 
+  handleParsingError = (yamlParsingError) => this.setState({ yamlParsingError })
+
   handleNotificationClosed = () => this.setState({ yamlParsingError: null })
 
   isSubmitDisabled = () => this.state.processing === true
 
 
   render(){
+    const {resourceType} = this.props
+    const {validator} = getResourceDefinitions(resourceType)
     return (
       <div>
         <Button icon="add--glyph" small id={msgs.get(this.props.submitBtnTextKey, this.context.locale)} key='create-resource' onClick={this.handleModalOpen}>
@@ -100,7 +106,11 @@ class CreateResourceModal extends React.PureComponent {
               onCloseButtonClick={this.handleNotificationClosed}
             />
           }
-          <YamlEditor onYamlChange={this.handleEditorChange} yaml={this.state.yaml} />
+          <YamlEditor
+            validator={validator}
+            onYamlChange={this.handleEditorChange}
+            handleParsingError={this.handleParsingError}
+            yaml={this.state.yaml} />
           {this.state.processing && <Loading />}
         </Modal>}
       </div>

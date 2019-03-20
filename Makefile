@@ -1,5 +1,5 @@
 ###############################################################################
-# Licensed Materials - Property of IBM Copyright IBM Corporation 2017, 2018. All Rights Reserved.
+# Licensed Materials - Property of IBM Copyright IBM Corporation 2017, 2019. All Rights Reserved.
 # U.S. Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP
 # Schedule Contract with IBM Corp.
 #
@@ -90,6 +90,10 @@ ifeq ($(ARCH), x86_64)
 	nightwatch
 endif
 endif
+
+.PHONY:
+image-dev: build
+	docker build -t $(IMAGE_NAME_ARCH):latest .
 
 include Makefile.docker
 include Makefile.cicd

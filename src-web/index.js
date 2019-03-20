@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -12,15 +12,18 @@ import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import { ApolloProvider } from 'react-apollo'
 import App from './containers/App'
 import ScrollToTop from './components/common/ScrollToTop'
 import * as reducers from './reducers'
 import config from '../lib/shared/config'
 import apolloClient from '../lib/client/apollo-client'
+import createBrowserHistory from 'history/createBrowserHistory'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+window.SHARED_HISTORY = window.SHARED_HISTORY ? window.SHARED_HISTORY : createBrowserHistory()
 
 const loggerMiddleware = createLogger()
 // Grab the state from a global variable injected into the server-generated HTML
@@ -42,11 +45,11 @@ const store = createStore(combineReducers(reducers), preloadedState, composeEnha
 hydrate(
   <ApolloProvider client={apolloClient.getClient()}>
     <Provider store={store}>
-      <BrowserRouter>
+      <Router history={window.SHARED_HISTORY}>
         <ScrollToTop>
           <App />
         </ScrollToTop>
-      </BrowserRouter>
+      </Router>
     </Provider>
   </ApolloProvider>
   , document.getElementById('page')

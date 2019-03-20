@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -72,7 +72,7 @@ function fetchHeader(req, res, store, context) {
     try {
       options = {
         method: 'POST',
-        url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header`,
+        url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header?serviceId=mcm-ui`,
         json: true,
         headers: {
           Cookie: createCookie(req)
@@ -90,62 +90,73 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'overview',
               label: msgs.get('routes.overview', req),
-              url: `${config.get('contextPath')}/overview`
+              url: `${config.get('contextPath')}/overview`,
+              serviceId: 'mcm-ui'
             },
             {
               id: 'search',
               label: msgs.get('routes.search', req),
               url: `${config.get('contextPath')}/search`,
+              serviceId: 'mcm-ui',
               disabled: config.get('featureFlags').search !== true
             },
             {
               id: 'clusters',
               label: msgs.get('routes.clusters', req),
-              url: `${config.get('contextPath')}/clusters`
+              url: `${config.get('contextPath')}/clusters`,
+              serviceId: 'mcm-ui'
             },
             {
               id: 'policies',
               label: msgs.get('routes.policies', req),
               url: `${config.get('contextPath')}/policies`,
+              serviceId: 'mcm-ui',
               disabled: isLowerThanOperator(userRole)
             },
             {
               id: 'applications',
               label: msgs.get('routes.applications', req),
-              url: `${config.get('contextPath')}/applications`
+              url: `${config.get('contextPath')}/applications`,
+              serviceId: 'mcm-ui'
             },
             {
               id: 'releases',
               label: msgs.get('routes.releases', req),
-              url: `${config.get('contextPath')}/releases`
+              url: `${config.get('contextPath')}/releases`,
+              serviceId: 'mcm-ui'
             },
             {
               id: 'pods',
               label: msgs.get('routes.pods', req),
-              url: `${config.get('contextPath')}/pods`
+              url: `${config.get('contextPath')}/pods`,
+              serviceId: 'mcm-ui'
             },
             {
               id: 'nodes',
               label: msgs.get('routes.nodes', req),
               url: `${config.get('contextPath')}/nodes`,
+              serviceId: 'mcm-ui',
               disabled: isLowerThanAdmin(userRole)
             },
             {
               id: 'storage',
               label: msgs.get('routes.storage', req),
               url: `${config.get('contextPath')}/storage`,
+              serviceId: 'mcm-ui',
               disabled: isLowerThanAdmin(userRole)
             },
             {
               id: 'topology',
               label: msgs.get('routes.topology', req),
               url: `${config.get('contextPath')}/topology`,
+              serviceId: 'mcm-ui',
               disabled: isLowerThanEditor(userRole)
             },
             {
               id: 'events',
               label: msgs.get('routes.events', req),
               url: '/cemui/launch',
+              serviceId: 'mcm-ui',
               disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
               target: '_cem'
             },
@@ -153,18 +164,21 @@ function fetchHeader(req, res, store, context) {
               id: 'security',
               label: msgs.get('routes.identity-access', req),
               url: '/console/manage/identity-access',
+              serviceId: 'platform-ui',
               disabled: isNotClusterAdmin(userRole)
             },
             {
               id: 'icp',
               label: msgs.get('routes.icp', req),
               url: '/console/dashboard',
+              serviceId: 'platform-ui',
               disabled: isNotClusterAdmin(userRole)
             },
             {
               id: 'welcome',
               label: msgs.get('routes.getting-started', req),
-              url: `${config.get('contextPath')}/welcome`
+              url: `${config.get('contextPath')}/welcome`,
+              serviceId: 'mcm-ui'
             }
           ]
         }

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -18,6 +18,7 @@ import { OVERVIEW_REFRESH_INTERVAL_COOKIE, REFRESH_TIMES } from '../../../lib/sh
 import FilterView from './modals/FilterView'
 import { Icon, Tag } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
+import { CSSTransition } from 'react-transition-group'
 
 resources(() => {
   require('../../../scss/overview-toolbar.scss')
@@ -92,14 +93,21 @@ export default class OverviewToolbar extends React.Component {
           <FilterBar boundFilters={boundFilters} locale={locale} />
           <RefreshTime refetch={refetch} timestamp={timestamp} reloading={reloading} />
         </div>
-        { filterViewOpen &&
+        <CSSTransition
+          in={filterViewOpen}
+          timeout={300}
+          classNames="transition"
+          mountOnEnter={true}
+          unmountOnExit={true}
+        >
           <FilterView
             context={this.context}
             updateFilters={this.updateFilters}
             onClose={this.handleFilterClose}
             allProviders={allProviders}
             view={view}
-          /> }
+          />
+        </CSSTransition>
       </div>)
   }
 

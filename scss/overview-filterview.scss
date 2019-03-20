@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -9,6 +9,8 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
+$filter_sidebar_width: 300px;
+$filter_sidebar_animation_duration: 300ms;
 
 /* *********************  popup filter checkboxes modal ************************ */
 
@@ -19,10 +21,24 @@
   z-index: 2000;
   color: $color__white;
   background-color: $color__blue-90;
-  width: 300px;
+  width: $filter_sidebar_width;
   padding: 30px;
   border-top: 5px solid $color__blue-50;
   font-size: 14px;
+
+  &.transition-enter {
+    right: -$filter_sidebar_width;
+
+    &.transition-enter-active {
+      transform: translateX(-100%);
+      transition: transform $filter_sidebar_animation_duration $animation__ease-in;
+    }
+  }
+
+  &.transition-exit.transition-exit-active {
+    transform: translateX(100%);
+    transition: transform $filter_sidebar_animation_duration $animation__ease-out;
+  }
 
   .filterHeader {
     display: flex;

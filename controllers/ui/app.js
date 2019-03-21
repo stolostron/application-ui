@@ -72,7 +72,7 @@ function fetchHeader(req, res, store, context) {
     try {
       options = {
         method: 'POST',
-        url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header?serviceId=mcm-ui`,
+        url: `${config.get('cfcRouterUrl')}${config.get('platformHeaderContextPath')}/api/v1/header?serviceId=mcm-ui&dev=${process.env.NODE_ENV === 'development'}`,
         json: true,
         headers: {
           Cookie: createCookie(req)

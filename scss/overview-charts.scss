@@ -14,18 +14,18 @@
 .pie-graph {
   display: flex;
   align-items: center;
-  width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin-right});
-  height: 145px;
+  width: calc(#{$overview-column-width} * 52 - #{$overview-card-margin-right});
+  height: 226px;
   position: relative;
-  padding: 10px;
+  padding: 31px 0px 31px 31px;
 
   &__container {
-    padding-right: 1.9375rem;
+    padding-right: 35px;
     &::after {
       content: " ";
       position: absolute;
       top: 0;
-      left: 9.5rem;
+      left: 11.5rem;
       height: 100%;
       border-right: 1px solid $color__gray-1;
     }
@@ -155,9 +155,9 @@
   .line-graph-legend {
     display: flex;
     justify-content: space-between;
-    margin: 10px;
+    margin-top: 30px;
     color: $color__blue-90;
-    width: 300px;
+    width: 435px;
 
     > div {
       padding-bottom: .3125rem;
@@ -185,9 +185,9 @@
   }
 
   .line-graph {
-    width: calc(#{$overview-column-width} * 36 - #{$overview-card-margin-right});
-    height: 145px;
-    padding: 10px;
+    width: calc(#{$overview-column-width} * 52 - #{$overview-card-margin-right});
+    height: 175px;
+    padding: 30px 24px;
   }
 
 }

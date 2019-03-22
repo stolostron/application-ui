@@ -87,7 +87,7 @@ export default class HeatCollapsed extends React.PureComponent {
               <rect className={cn}
                 x={x+COLLAPSED_PADDING}
                 y={y+COLLAPSED_PADDING}
-                width={w-(COLLAPSED_PADDING*2)}
+                width={w-(COLLAPSED_PADDING*3)}
                 height={h-(COLLAPSED_PADDING*2)} />
             </g>
           )})}

@@ -17,11 +17,11 @@ $overview-heat-collapsed: 90px !default;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(#{$overview-column-width} * 108 - #{$overview-card-margin-right});
+  width: calc(#{$overview-column-width} * 156 - #{$overview-card-margin-right});
 
   .heatMapSelections {
     display: flex;
-    justify-content: flex-end;
+    margin-left: 530px;
     padding: 5px;
 
     .heatMapSelectionContainer {
@@ -57,25 +57,27 @@ $overview-heat-collapsed: 90px !default;
 
     .heat-card-header {
       position: relative;
-      height: 22px;
+      height: 61px;
       font-size: 12px;
       font-weight: bold;
       display: flex;
       align-items: center;
+      border-bottom: 1px solid #dfe3e6;
       cursor: move;
 
-      > div:not(.legend-container) {
-        padding-left: 20px;
+      > div:first-child {
+        margin-left: 24px;
+        margin-right: 40px;
       }
 
       .legend-container {
        display: flex;
-       margin-left: 8px;
+       margin-left: 15px;
 
        .legend {
           width: 10px;
           height: 10px;
-          margin-right: 4px;
+          margin-right: 5px;
           &.above {
             background-color: $mcm_heat_red;
           }
@@ -87,16 +89,18 @@ $overview-heat-collapsed: 90px !default;
           }
         }
       }
+    }
 
-      .heat-card-toggle {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        color: $color__blue-51;
-        cursor: pointer;
-        padding: 3px 3px 0 3px;
-        outline: none;
-      }
+    .heat-card-toggle {
+      position: absolute;
+      top: 75px;
+      right: 15px;
+      color: $color__blue-51;
+      cursor: pointer;
+      padding: 3px 3px 0 3px;
+      outline: none;
+      font-weight: bold;
+      font-size: 12px;
     }
 
     .heat-card-map {
@@ -112,6 +116,8 @@ $overview-heat-collapsed: 90px !default;
 
     .heat-card-map {
       height: $overview-heat-collapsed;
+      margin-top: 46px;
+      padding: 0 10px;
     }
   }
 
@@ -122,7 +128,7 @@ $overview-heat-collapsed: 90px !default;
     }
 
     .heat-card-map {
-      border-top: 1px solid $color__gray-1;
+      margin-top: 26px
     }
  }
 }

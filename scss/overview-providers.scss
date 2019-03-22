@@ -23,7 +23,7 @@ $overview-view-width: 1200px !default;
   padding: 0;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   margin: 0 20px 23px 0;
-  width: calc(#{$overview-column-width} * 21 - #{$overview-card-margin-right});
+  width: calc(#{$overview-column-width} * 39 - #{$overview-card-margin-right});
   min-height: 125px;
   color: $color__navy-gray-3;
   background-color: $mcm_provider_card_background_color;
@@ -42,7 +42,7 @@ $overview-view-width: 1200px !default;
     padding: 0 20px;
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 105px;
 
    .provider-title {
       .provider-name {
@@ -53,6 +53,7 @@ $overview-view-width: 1200px !default;
         display: flex;
         font-size: 12px;
         align-items: baseline;
+        margin-top: 10px;
 
         .provider-cluster {
           color: $color__navy-gray-5;
@@ -65,7 +66,8 @@ $overview-view-width: 1200px !default;
     display: flex;
     justify-content: center;
     border-top: 1px solid $color__gray-1;
-    min-height: 64px;
+    height: 80px;
+    align-items: center;
     padding: 10px 15px;
 
    .provider-count-cell {
@@ -92,7 +94,7 @@ $overview-view-width: 1200px !default;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 0 30px;
+  margin: 0 70px;
   padding-bottom: 20px;
   color: $color__navy-gray-3;
 

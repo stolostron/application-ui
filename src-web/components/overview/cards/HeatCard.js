@@ -82,12 +82,16 @@ class HeatCard extends React.Component {
       'expanded': expanded,
       'collapsed': !expanded
     })
+    const toggleMsg = msgs.get(expanded ? 'overview.collapse' : 'overview.expand', this.context.locale)
     return (
       <GridCard item={item}>
         <div className={mapClasses}>
           <div className='heat-card-container'>
             {this.renderHeader(expanded, heatMapChoices, heatMapData, highFiltering, conditionFilters, conditionFilterSets)}
-            {expanded && this.renderHeatMapSelections(highFiltering) }
+            <div className='heat-card-toggle' tabIndex='0' role='button'
+              onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
+              {toggleMsg}
+            </div>
             <div className='heat-card-map' ref={this.setHeatMapRef}>
               {mapRect && (!expanded ?
                 <HeatCollapsed heatMapData={heatMapData} mapRect={mapRect} /> :
@@ -102,7 +106,6 @@ class HeatCard extends React.Component {
 
   renderHeader = (expanded, {shade, size}, heatMapData, highFiltering, conditionFilters, conditionFilterSets) => {
     const {locale} = this.context
-    const toggleMsg = msgs.get(expanded?'overview.collapse':'overview.expand', locale)
 
     const {usageMsg, legend} = !highFiltering ? this.getRegularLegend(shade, heatMapData) :
       this.getConditionLegend(heatMapData, conditionFilters, conditionFilterSets)
@@ -129,10 +132,7 @@ class HeatCard extends React.Component {
             </div>
           )
         })}
-        <div className='heat-card-toggle' tabIndex='0' role={'button'}
-          onClick={this.handleClick} onKeyPress={this.handleKeyPress}>
-          {toggleMsg}
-        </div>
+        <div>{expanded && this.renderHeatMapSelections(highFiltering)}</div>
       </div>
     )
   }

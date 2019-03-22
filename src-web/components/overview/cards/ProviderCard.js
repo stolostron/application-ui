@@ -24,7 +24,7 @@ export default class ProviderCard extends React.Component {
 
   render() {
     const { locale } = this.context
-    const { view, item, width, conditionFilterSets: {noncompliantClusterSet} } = this.props
+    const { view, item, conditionFilterSets: {noncompliantClusterSet} } = this.props
     const {cardData: {title, includes=[]}, overview: {clusters=[]} } = item
 
     // add this provider's cloud label to active filters
@@ -76,7 +76,7 @@ export default class ProviderCard extends React.Component {
       'non-compliant': nonComplaintCnt>0,
     })
     return (
-      <div className={providerClasses} style={{width}}
+      <div className={providerClasses}
         tabIndex='0' role={'button'} onClick={updateFilters} onKeyPress={handleKeyPress}>
         <div className='provider-title-container'>
           <div className='provider-title'>
@@ -120,5 +120,4 @@ ProviderCard.propTypes = {
   conditionFilterSets: PropTypes.object,
   item: PropTypes.object,
   view: PropTypes.object,
-  width: PropTypes.number,
 }

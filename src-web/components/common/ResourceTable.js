@@ -25,7 +25,9 @@ import { Link, withRouter } from 'react-router-dom'
 import lodash from 'lodash'
 import ResourceTableRowExpandableContent from './ResourceTableRowExpandableContent'
 import constants from '../../../lib/shared/constants'
-import { fliterTableAction } from '../../../lib/client/access-helper'
+import { filterTableAction } from '../../../lib/client/access-helper'
+import apolloClient from '../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 
 
 resources(() => {
@@ -217,8 +219,33 @@ class ResourceTable extends React.Component {
     return userRole !== constants.ROLES.VIEWER
   }
 
+  handleActionClick(action, resourceType, item, history) {
+    if (action === 'table.actions.cluster.view.nodes' || action === 'table.actions.cluster.view.pods') {
+      this.props.getResourceAction(action, item, null, history, this.props.locale)
+    } else {
+      const client = apolloClient.getClient()
+      client.mutate({
+        mutation: UPDATE_ACTION_MODAL,
+        variables: {
+          __typename: 'actionModal',
+          open: true,
+          type: action,
+          resourceType: {
+            __typename: 'resourceType',
+            name: resourceType.name,
+            list: resourceType.list
+          },
+          data: {
+            __typename:'ModalData',
+            item: JSON.stringify(item)
+          }
+        }
+      })
+    }
+  }
+
   getRows() {
-    const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, getResourceAction, userRole } = this.props
+    const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, userRole } = this.props
     const { locale } = this.context
     const { normalizedKey } = staticResourceData
     const resources = itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && lodash.get(target, normalizedKey) === id) || (target.name === id))))
@@ -233,17 +260,16 @@ class ResourceTable extends React.Component {
         }
 
         const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
+        const filteredActions = menuActions ? filterTableAction(menuActions,userRole,resourceType) : null
 
-        const fliteredActions = menuActions ? fliterTableAction(menuActions,userRole,resourceType) : null
-
-        if (fliteredActions && fliteredActions.length > 0 && this.showTableToobar()) {
+        if (filteredActions && filteredActions.length > 0 && this.showTableToobar()) {
           row.action = (
             <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
-              {fliteredActions.map((action) =>
+              {filteredActions.map((action) =>
                 <OverflowMenuItem
                   data-table-action={action}
                   isDelete={action ==='table.actions.remove' || action ==='table.actions.policy.remove'|| action ==='table.actions.applications.remove'|| action ==='table.actions.compliance.remove'}
-                  onClick={() => getResourceAction(action, item, null, history, locale)}
+                  onClick={() => this.handleActionClick(action, resourceType, item, history)}
                   key={action}
                   itemText={msgs.get(action, locale)}
                 />

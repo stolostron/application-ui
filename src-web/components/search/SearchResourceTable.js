@@ -8,12 +8,16 @@
  *******************************************************************************/
 
 import React from 'react'
+import lodash from 'lodash'
 import PropTypes from 'prop-types'
-import { DataTable, PaginationV2, Icon } from 'carbon-components-react'
+import { PaginationV2, DataTable, OverflowMenu, OverflowMenuItem, Icon } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import tableDefinitions from '../../definitions/search-definitions'
+import apolloClient from '../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { PAGE_SIZES } from '../../actions/index'
-import lodash from 'lodash'
+import { filterTableAction } from '../../../lib/client/access-helper'
+import constants from '../../../lib/shared/constants'
 
 const {
   Table,
@@ -51,7 +55,8 @@ class SearchResourceTable extends React.PureComponent {
     expandFullPage: PropTypes.bool,
     items: PropTypes.array,
     kind: PropTypes.string,
-    related: PropTypes.bool
+    related: PropTypes.bool,
+    userRole: PropTypes.string
   }
 
   constructor(props){
@@ -76,9 +81,22 @@ class SearchResourceTable extends React.PureComponent {
     })
   }
 
+  getResourceType = (kind) => {
+    const types = Object.keys(constants.RESOURCE_TYPES)
+    const type = types.filter(type => type.toLowerCase().includes(kind))
+    return constants.RESOURCE_TYPES[type]
+  }
+
   getHeaders(){
-    if (tableDefinitions[this.props.kind]) {
-      return tableDefinitions[this.props.kind].columns.map(col => ({ key: col.key, header: msgs.get(`table.header.${col.msgKey || col.key}`, this.context.locale) }))
+    const { kind } = this.props
+    if (tableDefinitions[kind]) {
+      const headers = tableDefinitions[kind].columns.map(col => ({
+        key: col.key, header: msgs.get(`table.header.${col.msgKey || col.key}`, this.context.locale)
+      }))
+      if (tableDefinitions[kind].actions && tableDefinitions[kind].actions.length > 0) {
+        headers.push({ key: 'action', header: ''})
+      }
+      return headers
     }
 
     console.log(`Using default resource table for resource kind: ${this.props.kind}`) // eslint-disable-line no-console
@@ -91,9 +109,64 @@ class SearchResourceTable extends React.PureComponent {
     })
   }
 
+  showTableToobar() {
+    const { userRole } = this.props
+    return userRole !== constants.ROLES.VIEWER
+  }
+
+  handleActionClick(action, name, namespace) {
+    const { kind } = this.props
+    const resourceType = this.getResourceType(kind)
+    const client = apolloClient.getClient()
+    client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: true,
+        type: action,
+        resourceType: {
+          __typename: 'resourceType',
+          name: resourceType.name,
+          list: resourceType.list
+        },
+        data: {
+          __typename:'ModalData',
+          item: ''
+        }
+      }
+    })
+    // TODO - dont need to call this for remove actions
+    apolloClient.getResource(resourceType, {namespace, name})
+      .then(response => {
+        if (response.errors) {
+          return (response.errors[0], resourceType)
+        }
+        client.mutate({
+          mutation: UPDATE_ACTION_MODAL,
+          variables: {
+            __typename: 'actionModal',
+            open: true,
+            type: action,
+            resourceType: {
+              __typename: 'resourceType',
+              name: resourceType.name,
+              list: resourceType.list
+            },
+            data: {
+              __typename:'ModalData',
+              item: JSON.stringify(response.data.items[0])
+            }
+          }
+        })
+      })
+      .catch(err => (err, resourceType))
+  }
+
   getRows(){
     const { page, pageSize, selectedKey, sortDirection } = this.state
+    const { locale } = this.context
     let { items } = this.props
+    const { kind, userRole } = this.props
     // TODO searchFeature: need to sort columns before pagination
     if (selectedKey) {
       items = lodash.orderBy(items, [selectedKey], [sortDirection])
@@ -101,15 +174,34 @@ class SearchResourceTable extends React.PureComponent {
     const startItem = (page - 1) * pageSize
     const visibleItems = items.slice(startItem, startItem + pageSize)
     return visibleItems.map(item => {
-      const row = { id: item._uid}
-
-      if (tableDefinitions[this.props.kind]) {
-        tableDefinitions[this.props.kind].columns.forEach(column => {
+      const { namespace, name } = item
+      const row = { id: item._uid }
+      if (tableDefinitions[kind]) {
+        tableDefinitions[kind].columns.forEach(column => {
           row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
         })
+        if (tableDefinitions[kind].actions && tableDefinitions[kind].actions.length > 0) {
+          const menuActions = tableDefinitions[kind].actions
+          const filteredActions = menuActions ? filterTableAction(menuActions, userRole, null) : null
+
+          if (filteredActions && filteredActions.length > 0 && this.showTableToobar()) {
+            row.action = (
+              <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
+                {filteredActions.map((action) =>
+                  <OverflowMenuItem
+                    data-table-action={action}
+                    isDelete={action ==='table.actions.remove' || action ==='table.actions.policy.remove'|| action ==='table.actions.applications.remove'|| action ==='table.actions.compliance.remove'}
+                    onClick={() => this.handleActionClick(action, name, namespace)}
+                    key={action}
+                    itemText={msgs.get(action, locale)}
+                  />
+                )}
+              </OverflowMenu>
+            )
+          }
+        }
         return row
       }
-
       return { id: item._uid, ...item }
     })
   }
@@ -207,6 +299,10 @@ class SearchResourceTable extends React.PureComponent {
       </div>
     )
   }
+}
+
+SearchResourceTable.contextTypes = {
+  locale: PropTypes.string
 }
 
 export default SearchResourceTable

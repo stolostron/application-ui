@@ -14,9 +14,8 @@ import React from 'react'
 import lodash from 'lodash'
 import { Modal, Loading, InlineNotification } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
-import { clearRequestStatus, editResource, updateModal } from '../../actions/common'
-import { connect } from 'react-redux'
-import { REQUEST_STATUS } from '../../actions/index'
+import apolloClient from '../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import msgs from '../../../nls/platform.properties'
 import { toString, saveLoad } from '../../../lib/client/design-helper'
 import YamlEditor from '../common/YamlEditor'
@@ -28,21 +27,31 @@ resources(() => {
 
 
 class ResourceModal extends React.PureComponent {
-
-  state = {
-    reqErrorMsg: []
-  }
-
   constructor(props) {
     super(props)
+    this.client = apolloClient.getClient()
     this.state = {
+      loading: true,
       data: toString(props.data),
     }
   }
 
+  putResource(resourceType, namespace, name, data, selfLink) {
+    apolloClient.updateResource(resourceType.name, namespace, name, data, selfLink)
+      .then(res => {
+        if (res.errors) {
+          this.setState({
+            loading: false,
+            errors: res.errors[0].message
+          })
+        } else {
+          this.handleClose()
+        }
+      })
+  }
+
   handleSubmit = () => {
-    this.props.clearRequestStatus()
-    this.setState({ reqErrorMsg: [] }, () => {
+    this.setState({loading: true}, () => {
       const resourceType = this.props.resourceType
       let namespace = this.props.namespace
       let name = this.props.name
@@ -60,7 +69,7 @@ class ResourceModal extends React.PureComponent {
           if (resource.metadata && resource.metadata.selfLink) {
             selfLink = resource.metadata.selfLink
           }
-          this.props.putResource(resourceType, namespace, name, resource, selfLink)
+          this.putResource(resourceType, namespace, name, resource, selfLink)
         })
       } catch(e) {
         this.setState(preState => {
@@ -71,8 +80,24 @@ class ResourceModal extends React.PureComponent {
   }
 
   handleClose = () => {
-    this.setState({reqErrorMsg: []})
-    this.props.handleClose()
+    const { type } = this.props
+    this.client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: false,
+        type: type,
+        resourceType: {
+          __typename: 'resourceType',
+          name: '',
+          list: ''
+        },
+        data: {
+          __typename:'ModalData',
+          item: ''
+        }
+      }
+    })
   }
 
   escapeEditor = e => {
@@ -85,17 +110,22 @@ class ResourceModal extends React.PureComponent {
     this.setState({data: value})
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data && this.props.data !== nextProps.data) {
-      this.setState({data: toString(this.props.data)})
-    }
-    if (nextProps.reqStatus && nextProps.reqStatus === REQUEST_STATUS.ERROR) {
-      this.setState(preState => {
-        return {reqErrorMsg: [...preState.reqErrorMsg, nextProps.reqErrorMsg]}
+  componentWillMount() {
+    if (this.props.data.item !== '') {
+      const { data } = this.props
+      this.setState({
+        data: toString(data),
+        loading: false,
       })
     }
-    if (nextProps.reqCount === 0 && !nextProps.reqErrCount) {
-      this.handleClose()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data && this.state.data !== nextProps.data) {
+      this.setState({
+        data: toString(nextProps.data),
+        loading: false
+      })
     }
   }
 
@@ -104,10 +134,11 @@ class ResourceModal extends React.PureComponent {
   }
 
   render() {
-    const { reqCount, open, label, locale, resourceType } = this.props
+    const { open, label, locale, resourceType } = this.props
+    const { errors, loading } = this.state
     return (
       <div id='resource-modal-container' ref={div => this.resourceModal = div} tabIndex='-1' role='region' onKeyDown={this.escapeEditor} aria-label={msgs.get('a11y.editor.escape', locale)}> {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
-        {reqCount && reqCount > 0 && <Loading />}
+        {loading && <Loading />}
         <Modal
           id={`resource-modal-${resourceType}`}
           className='modal'
@@ -121,10 +152,8 @@ class ResourceModal extends React.PureComponent {
           role='region'
           aria-label={msgs.get(label.heading, locale)}>
           <div>
-            {this.state.reqErrorMsg && this.state.reqErrorMsg.length > 0 &&
-              this.state.reqErrorMsg.map((err) => <InlineNotification key={`inline-notification-${err}`} kind='error' title='' subtitle={err} iconDescription={msgs.get('svg.description.error', locale)} />)
+            {errors && <InlineNotification key={`inline-notification-${errors}`} kind='error' title='' subtitle={errors} iconDescription={msgs.get('svg.description.error', locale)} />
             }
-            {/*{reqErrorMsg && reqErrorMsg.length > 0 && <InlineNotification key={`inline-notification-${reqErrorMsg}`} kind='error' title='' subtitle={reqErrorMsg} iconDescription={msgs.get('svg.description.error', locale)} />}*/}
             <YamlEditor
               width={'50vw'}
               height={'40vh'}
@@ -139,24 +168,4 @@ class ResourceModal extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    ...state.modal,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    putResource: (resourceType, namespace, name, data, selfLink) => {
-      dispatch(editResource(resourceType, namespace, name, data, selfLink))
-    },
-    handleClose: () => {
-      dispatch(clearRequestStatus())
-      dispatch(updateModal({open: false, type: 'resource'}))
-    },
-    clearRequestStatus: () => dispatch(clearRequestStatus())
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceModal)
+export default ResourceModal

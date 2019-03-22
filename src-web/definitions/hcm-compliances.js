@@ -677,8 +677,11 @@ export default {
 }
 
 export function createComplianceLink(item = {}, ...param){
+  const { name, namespace = 'default' } = item.metadata
+    ? item.metadata
+    : item
   if (param[2]) return item.metadata.name
-  return <Link to={`${config.contextPath}/policies/${encodeURIComponent(item.metadata.namespace)}/${encodeURIComponent(item.metadata.name)}`}>{item.metadata.name}</Link>
+  return <Link to={`${config.contextPath}/policies/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`}>{name}</Link>
 }
 
 export function getStatus(item, locale) {

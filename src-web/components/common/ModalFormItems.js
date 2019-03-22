@@ -28,7 +28,7 @@ const Label = ({ id, item, onRemove, onClickRow, onUndo }) =>
         <UndoIcon id={`labels-undo-${id}`} onUndo={onUndo} uniqueKey={item.key} />
       </div>:
       <div>
-        {!item.formServer && <p className={'secondary-text-field'}>Added</p>}
+        {!item.fromServer && <p className={'secondary-text-field'}>Added</p>}
         {item.updated && <p className={'secondary-text-field'}>Updated</p>}
         <RemoveIcon id={`labels-remove-${id}`} onRemove={onRemove} uniqueKey={item.key} />
       </div>}

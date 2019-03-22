@@ -24,9 +24,31 @@ export const GET_MODAL_STATE = gql`
   }
 `
 
+export const GET_ACTION_MODAL_STATE = gql`
+  {
+    actionModal @client {
+      open
+      type
+      resourceType {
+        name
+        list
+      }
+      data {
+        item
+      }
+    }
+  }
+`
+
 export const UPDATE_MODAL = gql`
   mutation UpdateModal($__typename: String, $open: Boolean, $type: String, $data: JSON) {
     updateModal(__typename: $__typename, open:$open, type:$type, data:$data) @client
+  }
+`
+
+export const UPDATE_ACTION_MODAL = gql`
+  mutation UpdateActionModal($__typename: String, $open: Boolean, $type: String, $resourceType: JSON, $data: JSON) {
+    updateActionModal(__typename: $__typename, open:$open, type:$type, resourceType:$resourceType, data:$data) @client
   }
 `
 

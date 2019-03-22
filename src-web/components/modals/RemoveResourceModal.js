@@ -10,25 +10,45 @@
 
 import _ from 'lodash'
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Checkbox, Modal, Loading, Notification } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
-import { withRouter } from 'react-router-dom'
-import { REQUEST_STATUS } from '../../actions/index'
-import { removeResource, clearRequestStatus, receiveDelError, updateModal } from '../../actions/common'
+import apolloClient from '../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import { Checkbox, Modal, Loading, Notification } from 'carbon-components-react'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
     super(props)
-    this.handleSubmitClick = this.handleSubmitClick.bind(this)
+    this.client = apolloClient.getClient()
     this.state = {
+      data: '',
+      loading: true,
       selected: [],
     }
   }
 
   componentWillMount() {
-    const { data } = this.props
+    if (this.props.data.item !== '') {
+      const { data } = this.props
+      this.getChildResources(data)
+      this.setState({
+        data,
+        loading: false,
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data !== '' && nextProps.data !== this.props.data) {
+      this.getChildResources(nextProps.data)
+      this.setState({
+        data: nextProps.data,
+        loading: false
+      })
+    }
+  }
+
+  getChildResources(data) {
     const children = []
     // Create object specifying Application resources that can be deleted
     _.map(data.deployables, (curr, idx) => {
@@ -77,20 +97,55 @@ class RemoveResourceModal extends React.Component {
     })
   }
 
-  handleSubmitClick() {
-    const { handleSubmit, data } = this.props
+  handleClose() {
+    const { type } = this.props
+    this.client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: false,
+        type: type,
+        resourceType: {
+          __typename: 'resourceType',
+          name: '',
+          list: ''
+        },
+        data: {
+          __typename:'ModalData',
+          item: ''
+        }
+      }
+    })
+  }
+
+  handleSubmit() {
+    const { resourceType } = this.props
+    const { data } = this.state
     data.selected = this.state.selected
-    handleSubmit()
+    this.setState({
+      loading: true
+    })
+    apolloClient.remove(resourceType, data).then(res => {
+      if (res.errors) {
+        this.setState({
+          loading: false,
+          submitErrors: res.errors[0].message
+        })
+      } else {
+        this.handleClose()
+      }
+    })
   }
 
   modalBody = (data, label, locale) => {
+    const name = data !== '' ? data.name || data.Name || data.metadata.name : ''
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
     case 'modal.remove-hcmcompliance.label':
       return this.state.selected.length > 0
         ? <div className='remove-app-modal-content' >
           <div className='remove-app-modal-content-text' >
-            {msgs.get('modal.remove.application.confirm', [data.name || data.Name || data.metadata.name], locale)}
+            {msgs.get('modal.remove.application.confirm', [name], locale)}
           </div>
           <div>
             {this.state.selected.map((child) => {
@@ -108,21 +163,22 @@ class RemoveResourceModal extends React.Component {
           </div>
         </div>
         : <p>
-          {msgs.get('modal.remove.confirm', [data.name || data.Name || data.metadata.name], locale)}
+          {msgs.get('modal.remove.confirm', [name], locale)}
         </p>
     default:
       return (
         <p>
-          {msgs.get('modal.remove.confirm', [data.name || data.Name || data.metadata.name], locale)}
+          {msgs.get('modal.remove.confirm', [name], locale)}
         </p>
       )}
   }
 
   render() {
-    const { data, handleClose, label, locale, open, reqErrorMsg, reqStatus } = this.props
+    const { label, locale, open } = this.props
+    const { data, loading, submitErrors } = this.state
     return (
       <div>
-        {reqStatus === REQUEST_STATUS.IN_PROGRESS && <Loading />}
+        {loading && <Loading />}
         <Modal
           danger
           id='remove-resource-modal'
@@ -131,16 +187,16 @@ class RemoveResourceModal extends React.Component {
           secondaryButtonText={msgs.get('modal.button.cancel', locale)}
           modalLabel={msgs.get(label.label, locale)}
           modalHeading={msgs.get(label.heading, locale)}
-          onRequestClose={handleClose}
-          onRequestSubmit={this.handleSubmitClick}
+          onRequestClose={this.handleClose.bind(this)}
+          onRequestSubmit={this.handleSubmit.bind(this)}
           role='region'
           aria-label={msgs.get(label.heading, locale)}>
           <div>
-            {reqStatus === REQUEST_STATUS.ERROR &&
+            {submitErrors &&
               <Notification
                 kind='error'
                 title=''
-                subtitle={reqErrorMsg || msgs.get('error.default.description', locale)} />}
+                subtitle={submitErrors || msgs.get('error.default.description', locale)} />}
           </div>
           {this.modalBody(data, label, locale)}
         </Modal>
@@ -150,38 +206,15 @@ class RemoveResourceModal extends React.Component {
 }
 
 RemoveResourceModal.propTypes = {
-  data: PropTypes.shape({
-    name: PropTypes.string
-  }),
-  handleClose: PropTypes.func,
-  handleSubmit: PropTypes.func,
+  data: PropTypes.object,
   label: PropTypes.shape({
     heading: PropTypes.string,
     label: PropTypes.string,
   }),
   locale: PropTypes.string,
   open:  PropTypes.bool,
-  reqErrorMsg:  PropTypes.string,
-  reqStatus:  PropTypes.string,
+  resourceType: PropTypes.object,
+  type: PropTypes.string
 }
 
-const mapStateToProps = state =>  {
-  return state.modal
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    handleSubmit: () => {
-      dispatch(removeResource(ownProps.resourceType, ownProps.data))
-    },
-    handleClose: () => {
-      dispatch(clearRequestStatus())
-      dispatch(updateModal({open: false, type: 'resource-remove'}))
-    },
-    receiveDelError: (resourceType, err) => {
-      dispatch(receiveDelError(err, resourceType))
-    }
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RemoveResourceModal))
+export default RemoveResourceModal

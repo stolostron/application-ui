@@ -90,12 +90,12 @@ class SearchPage extends React.Component {
             }}
           </Query>
           <Query query={GET_SEARCH_INPUT_TEXT}>
-            {( { data } ) => {
+            {( { data, loading } ) => {
               let query = {keywords: [], filters: []}
               if (data && data.searchInput && data.searchInput.text !== '') {
                 query = convertStringToQuery(data.searchInput.text)
               }
-              if (this.props.clientSideFilters !== undefined && (data && data.searchInput && data.searchInput.text === '')) {
+              if (loading || (this.props.clientSideFilters !== undefined && (data && data.searchInput && data.searchInput.text === ''))) {
                 return (
                   <SearchResult loading={true} />
                 )

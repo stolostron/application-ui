@@ -10,14 +10,12 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Modal, Loading, Notification } from 'carbon-components-react'
-import { Labels } from '../common/ModalFormItems'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
-import { clearRequestStatus, updateModal, updateResourceLabels } from '../../actions/common'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import {REQUEST_STATUS} from '../../actions'
+import apolloClient from '../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import { Modal, Loading, Notification } from 'carbon-components-react'
+import { Labels } from '../common/ModalFormItems'
 
 resources(() => {
   require('../../../scss/label-editing-modal.scss')
@@ -27,28 +25,48 @@ resources(() => {
 class LabelEditingModal extends React.Component {
   constructor(props) {
     super(props)
-    this.handleSubmitClick = this.handleSubmitClick.bind(this)
-    this.onRemove = this.onRemove.bind(this)
+    this.client = apolloClient.getClient()
     this.state = {
       labels: [],
+      loading: true,
       newLabel: {},
-      searchValue:'',
-      onEditValue: {},
       onEdit: false,
+      onEditValue: {},
+      searchValue:'',
     }
   }
 
   componentWillMount() {
-    const { labels } = this.props.data.metadata
-    if (labels) {
+    if (this.props.data.item !== '') {
+      const { labels, name, namespace, selfLink } = this.props.data.metadata
       const labelArray = this.convertObjectToArray(labels)
-      this.setState({labels: labelArray})
+      this.setState({
+        loading: false,
+        labels: labelArray,
+        name,
+        namespace,
+        selfLink
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { labels, name, namespace, selfLink } = nextProps.data.metadata
+    if (labels && name && namespace) {
+      const labelArray = this.convertObjectToArray(labels)
+      this.setState({
+        loading: false,
+        labels: labelArray,
+        name,
+        namespace,
+        selfLink
+      })
     }
   }
 
   convertObjectToArray(input) {
     const resultArray = []
-    Object.entries(input).forEach(([key, value]) => resultArray.push({key, value, formServer: true}))
+    Object.entries(input).forEach(([key, value]) => resultArray.push({key, value, fromServer: true}))
     return resultArray
   }
 
@@ -62,17 +80,52 @@ class LabelEditingModal extends React.Component {
     return resultObject
   }
 
-  handleSubmitClick() {
-    const { handleSubmit, data: {metadata: { name = '', namespace = '', selfLink = ''}} } = this.props
-    const labelObject = this.convertArrayToObject(this.state.labels)
-    handleSubmit(labelObject, name, namespace, selfLink)
+  handleClose() {
+    const { type } = this.props
+    this.client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: false,
+        type: type,
+        resourceType: {
+          __typename: 'resourceType',
+          name: '',
+          list: ''
+        },
+        data: {
+          __typename:'ModalData',
+          item: ''
+        }
+      }
+    })
+  }
+
+  handleSubmit() {
+    const { resourceType } = this.props
+    const { labels, name = '', namespace = '', selfLink = '' } = this.state
+    const labelObject = this.convertArrayToObject(labels)
+    this.setState({
+      loading: true
+    })
+    return apolloClient.updateResourceLabels(resourceType.name, namespace, name, labelObject, selfLink, '/metadata/labels')
+      .then(response => {
+        if (response.errors) {
+          this.setState({
+            loading: false,
+            errors: response.errors[0].message
+          })
+        } else {
+          this.handleClose()
+        }
+      })
   }
 
   onRemove(key) {
     this.setState(preState => {
       const existingLabels = [...preState.labels]
       const labelIndex = existingLabels.findIndex(item => item.key === key)
-      if (existingLabels[labelIndex].formServer) {
+      if (existingLabels[labelIndex].fromServer) {
         existingLabels[labelIndex] = {...existingLabels[labelIndex],
           deleted: true
         }
@@ -85,7 +138,7 @@ class LabelEditingModal extends React.Component {
     this.setState(preState => {
       const existingLabels = [...preState.labels]
       const labelIndex = existingLabels.findIndex(item => item.key === key)
-      if (existingLabels[labelIndex].formServer) {
+      if (existingLabels[labelIndex].fromServer) {
         existingLabels[labelIndex] = {...existingLabels[labelIndex],
           deleted: false
         }
@@ -102,7 +155,7 @@ class LabelEditingModal extends React.Component {
           if (preState.onEditValue.key && preState.onEditValue.value) {
             const labelIndex = existingLabels.findIndex(item => item.key === preState.onEditValue.key)
             if (labelIndex > -1) {
-              if (existingLabels[labelIndex].formServer) {
+              if (existingLabels[labelIndex].fromServer) {
                 existingLabels[labelIndex] = {...existingLabels[labelIndex],
                   updated: true,
                   editable: false,
@@ -128,7 +181,7 @@ class LabelEditingModal extends React.Component {
             const labelIndex = existingLabels.findIndex(item => item.key === preState.newLabel.key)
             // label exists then update existing one
             if (labelIndex > -1) {
-              if (existingLabels[labelIndex].formServer) {
+              if (existingLabels[labelIndex].fromServer) {
                 existingLabels[labelIndex] = {...existingLabels[labelIndex],
                   updated: true,
                   value: preState.newLabel.value
@@ -206,10 +259,11 @@ class LabelEditingModal extends React.Component {
   }
 
   render(){
-    const { handleClose, open, reqErrorMsg, reqStatus } = this.props
+    const { open } = this.props
+    const { errors, loading } = this.state
     return (
       <div>
-        {reqStatus === REQUEST_STATUS.IN_PROGRESS && <Loading />}
+        {loading && <Loading />}
         <Modal
           id='label-editing-modal'
           className='modal-with-editor-and-list'
@@ -218,28 +272,28 @@ class LabelEditingModal extends React.Component {
           primaryButtonText={ msgs.get('actions.save', this.context.locale) }
           primaryButtonDisabled={false}
           secondaryButtonText={ msgs.get('actions.cancel', this.context.locale) }
-          onRequestSubmit={ this.handleSubmitClick }
-          onRequestClose={ handleClose }
+          onRequestSubmit={ this.handleSubmit.bind(this) }
+          onRequestClose={ this.handleClose.bind(this) }
         >
-          {reqStatus === REQUEST_STATUS.ERROR &&
+          {errors &&
           <Notification
             kind='error'
             title=''
-            subtitle={reqErrorMsg || msgs.get('error.default.description', this.context.locale)} />}
+            subtitle={errors || msgs.get('error.default.description', this.context.locale)} />}
           <Labels
             type='labels'
             items={this.itemFilter(this.state.labels, this.state.searchValue)}
             newLabel={this.state.newLabel}
             addLabel={msgs.get('modal.form.action.editLabel', this.context.locale)}
-            onRemove={this.onRemove}
-            onUndo={this.onUndo}
-            onAdd={this.onAdd}
-            onTextInputChange={this.onTextInputChange}
-            handleSearch={this.handleSearch}
+            onRemove={this.onRemove.bind(this)}
+            onUndo={this.onUndo.bind(this)}
+            onAdd={this.onAdd.bind(this)}
+            onTextInputChange={this.onTextInputChange.bind(this)}
+            handleSearch={this.handleSearch.bind(this)}
             searchValue={this.state.searchValue}
             onEditValue={this.state.onEditValue}
-            onTextInputSelect={this.onTextInputSelect}
-            onClickRow={this.onClickRow}
+            onTextInputSelect={this.onTextInputSelect.bind(this)}
+            onClickRow={this.onClickRow.bind(this)}
           />
         </Modal>
       </div>
@@ -249,29 +303,9 @@ class LabelEditingModal extends React.Component {
 
 LabelEditingModal.propTypes = {
   data: PropTypes.object,
-  handleClose: PropTypes.func,
-  handleSubmit: PropTypes.func,
   open: PropTypes.bool,
-  reqErrorMsg:  PropTypes.string,
-  reqStatus:  PropTypes.string,
+  resourceType: PropTypes.object,
+  type: PropTypes.string
 }
 
-
-const mapStateToProps = state =>  {
-  return state.modal
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { resourceType } = ownProps
-  return {
-    handleSubmit: (labels, name, namespace, selfLink) => {
-      dispatch(updateResourceLabels(resourceType, namespace, name, labels, selfLink))
-    },
-    handleClose: () => {
-      dispatch(clearRequestStatus())
-      dispatch(updateModal({open: false, type: 'label-editing'}))
-    },
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LabelEditingModal))
+export default LabelEditingModal

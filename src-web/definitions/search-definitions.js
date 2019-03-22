@@ -11,19 +11,21 @@
   NOTE: See documentation in SearchResourceTable.js
  */
 import { getAge } from '../../lib/client/resource-helper'
-import { createDashboardLink } from './hcm-applications'
+import { createDashboardLink, createApplicationLink } from './hcm-applications'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
-import { getComplianceStatusIcon, getStatusCount, getClusterCount, getStatusIcon as getPolocyStatusIcon } from './hcm-compliances'
+import { createComplianceLink, getComplianceStatusIcon, getStatusCount, getClusterCount, getStatusIcon as getPolocyStatusIcon } from './hcm-compliances'
 
 export default {
   application: {
     columns: [
-      { key: 'name' },
+      { key: 'name', transform: createApplicationLink },
       { key: 'namespace' },
       { key: 'created', transform: getAge },
       { key: 'dashboard', transform: createDashboardLink },
     ],
-    actions: [],
+    actions: [
+      'table.actions.applications.remove'
+    ],
   },
   applicationrelationship: {
     columns: [
@@ -55,7 +57,7 @@ export default {
   },
   compliance: {
     columns: [
-      { key: 'name' },
+      { key: 'name', transform: createComplianceLink },
       { key: 'namespace' },
       { key: 'status', transform: getComplianceStatusIcon },
       { key: 'clusterCompliant', transform: getClusterCount},
@@ -63,7 +65,8 @@ export default {
       { key: 'created', transform: getAge},
     ],
     actions: [
-      'table.actions.cluster.edit.labels',
+      'table.actions.edit',
+      'table.actions.compliance.remove'
     ],
   },
   configmap: {
@@ -217,7 +220,10 @@ export default {
       { key: 'podIP'},
       { key: 'created', transform: getAge }
     ],
-    actions: [],
+    actions: [
+      'table.actions.pod.logs',
+      'table.actions.remove'
+    ],
   },
   policy: {
     columns: [
@@ -227,9 +233,6 @@ export default {
       { key: 'cluster'},
       { key: 'remediationAction'},
       { key: 'created', transform: getAge},
-    ],
-    actions: [
-      'table.actions.cluster.edit.labels',
     ],
   },
   releases: {
@@ -242,7 +245,9 @@ export default {
       { key: 'chartVersion'},
       { key: 'lastDeployed', transform: (item) => getAge({ created: item.lastDeployed }) }
     ],
-    actions: [],
+    actions: [
+      'table.actions.remove'
+    ],
   },
   replicaset: {
     columns: [

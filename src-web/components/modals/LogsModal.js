@@ -12,14 +12,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ScrollBox from './ScrollBox'
+import apolloClient from '../../../lib/client/apollo-client'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { Modal, DropdownV2, Loading } from 'carbon-components-react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { fetchLogs, resetLogs } from '../../actions/logs'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { REQUEST_STATUS } from '../../actions/index'
 import resources from '../../../lib/shared/resources'
-import { updateModal } from '../../actions/common'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 
@@ -27,12 +23,13 @@ resources(() => {
   require('../../../scss/logs.scss')
 })
 
-class LogsModal extends React.Component {
+class LogsModal extends React.PureComponent {
   constructor(props) {
     super(props)
+    this.client = apolloClient.getClient()
     this.state = {
-      selectedContainer: props.containerName,
-      xhrPoll: false
+      xhrPoll: false,
+      loading: true
     }
   }
 
@@ -41,21 +38,83 @@ class LogsModal extends React.Component {
       const intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
       this.setState({ intervalId: intervalId })
     }
+    if (this.props.data.item !== '') {
+      const { data } = this.props
+      this.setState({
+        loading: false,
+        selectedContainer: data.containers[0].name,
+        containers: data.containers,
+        containerName: data.containers[0].name,
+        podName: data.metadata.name,
+        podNamespace: data.metadata.namespace,
+        clusterName: data.cluster.metadata.name
+      })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data !== this.props.data) {
+      const { data } = nextProps
+      this.setState({
+        selectedContainer: data.containers[0].name,
+        containers: data.containers,
+        containerName: data.containers[0].name,
+        podName: data.metadata.name,
+        podNamespace: data.metadata.namespace,
+        clusterName: data.cluster.metadata.name,
+        loading: false
+      })
+    }
+  }
+
+  fetchLogs(containerName, podName, podNamespace, clusterName) {
+    return apolloClient.getLogs(containerName, podName, podNamespace, clusterName).then(result => {
+      if (result.data.logs.errors && result.data.logs.errors.length > 0){
+        return result.data.logs.errors[0]
+      } else {
+        this.setState({
+          logs: result.data.logs,
+          loading: result.loading
+        })
+      }
+    })
   }
 
   componentDidMount() {
-    const { containerName, podName, podNamespace, clusterName } = this.props
-    this.props.fetchLogs(containerName, podName, podNamespace, clusterName)
+    const { clusterName, containerName, loading, podName, podNamespace } = this.state
+    if (!loading) {
+      this.fetchLogs(containerName, podName, podNamespace, clusterName)
+    }
   }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
-    this.props.resetLogs()
+  }
+
+  handleClose() {
+    const { type } = this.props
+    this.client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: false,
+        type: type,
+        resourceType: {
+          __typename: 'resourceType',
+          name: '',
+          list: ''
+        },
+        data: {
+          __typename:'ModalData',
+          item: ''
+        }
+      }
+    })
   }
 
   render() {
-    const { logs, status, containers, podName, open } = this.props,
-          { xhrPoll } = this.state,
+    const { open } = this.props,
+          { containers, loading, logs, podName, xhrPoll } = this.state,
           { locale } = this.context
 
     return (
@@ -67,7 +126,7 @@ class LogsModal extends React.Component {
         modalLabel='Pod'
         modalHeading={podName}
         primaryButtonDisabled
-        onRequestClose={this.props.handleClose}
+        onRequestClose={this.handleClose.bind(this)}
         role='region'
         aria-label='logs'>
         <div className='logs-container'>
@@ -75,14 +134,14 @@ class LogsModal extends React.Component {
             <div className='dropdown-container'>
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
-                label={containers[0].name}
+                label={containers ? containers[0].name : ''}
                 onChange={this.handleContainerChange.bind(this)}
-                items={containers.map((container, index) => ({ id: `${container.name}-${index}`, label: container.name, value: container.name}))} />
+                items={containers ? containers.map((container, index) => ({ id: `${container.name}-${index}`, label: container.name, value: container.name})) : []} />
             </div>
           </div>
 
           {(() => {
-            if (!xhrPoll && status !== REQUEST_STATUS.DONE) {
+            if (!xhrPoll && loading) {
               return <Loading withOverlay={false} className='content-spinner' />
             }
             return <ScrollBox className='logs-container__content' content={logs} />
@@ -93,24 +152,23 @@ class LogsModal extends React.Component {
   }
 
   handleContainerChange(data) {
-    const containerName = data.selectedItem.label,
-          { fetchLogs, status } = this.props
+    const containerName = data.selectedItem.label
+    const { loading } = this.state
     this.setState({
       xhrPoll: false,
       selectedContainer: containerName,
     })
-    if (status === REQUEST_STATUS.DONE) {
-      const { podName, podNamespace, clusterName } = this.props
-      fetchLogs(containerName, podName, podNamespace, clusterName)
+    if (!loading) {
+      const { podName, podNamespace, clusterName } = this.state
+      this.fetchLogs(containerName, podName, podNamespace, clusterName)
     }
   }
 
   reload() {
-    const { selectedContainer } = this.state
-    const { podName, podNamespace, clusterName } = this.props
-    if (this.props.status === REQUEST_STATUS.DONE) {
+    const { clusterName, loading, podName, podNamespace, selectedContainer } = this.state
+    if (!loading) {
       this.setState({ xhrPoll: true })
-      this.props.fetchLogs(selectedContainer, podName, podNamespace, clusterName)
+      this.fetchLogs(selectedContainer, podName, podNamespace, clusterName)
     }
   }
 }
@@ -120,39 +178,9 @@ LogsModal.contextTypes = {
 }
 
 LogsModal.propTypes = {
-  clusterName: PropTypes.string,
-  containerName: PropTypes.string,
-  containers: PropTypes.array,
-  fetchLogs: PropTypes.func,
-  handleClose: PropTypes.func,
-  logs: PropTypes.string,
+  data: PropTypes.object,
   open: PropTypes.bool,
-  podName: PropTypes.string,
-  podNamespace: PropTypes.string,
-  resetLogs: PropTypes.func,
-  status: PropTypes.string,
+  type: PropTypes.string
 }
 
-
-const mapStateToProps = (state, ownProps) => {
-//   const { logs } = formattedLogData(state, {'storeRoot': RESOURCE_TYPES.LOGS.name})
-  return {
-    logs: state.logs && state.logs.data,
-    status: state.logs && state.logs.status,
-    containers: ownProps.data.containers,
-    containerName: ownProps.data.containers[0].name,
-    podName: ownProps.data.metadata.name,
-    podNamespace: ownProps.data.metadata.namespace,
-    clusterName: ownProps.data.cluster.metadata.name
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleClose: () => dispatch(updateModal({open: false, type: 'view-logs'})),
-    fetchLogs: (containerName, podName, podNamespace, clusterName) => dispatch(fetchLogs(containerName, podName, podNamespace, clusterName)),
-    resetLogs: () => dispatch(resetLogs(RESOURCE_TYPES.LOGS)),
-  }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LogsModal))
+export default LogsModal

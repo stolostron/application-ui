@@ -232,6 +232,13 @@ export const resourceItemByName = (items, props) => {
   )
 }
 
+export const resourceItemByNameAndNamespace = (items, props) => {
+  const key = ResourceDefinitions.getURIKey(props.resourceType)
+  return lodash.find(items, item =>
+    (lodash.get(item, key) === props.name && lodash.get(item, 'metadata.namespace') === props.namespace)
+  )
+}
+
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
 
   var items,index

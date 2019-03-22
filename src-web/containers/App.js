@@ -34,6 +34,7 @@ export const SearchPage = loadable(() => import(/* webpackChunkName: "search" */
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
 export const ModalApollo = loadable(() => import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
+export const ActionModalApollo = loadable(() => import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo'))
 
 resources(() => {
   require('../../scss/common.scss')
@@ -86,6 +87,7 @@ class App extends React.Component {
         </Switch>
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />
+        <ActionModalApollo locale={serverProps.context.locale} />
       </div>
     )
   }

@@ -109,8 +109,8 @@ function fetchHeader(req, res, store, context) {
             {
               id: 'policies',
               label: msgs.get('routes.policies', req),
-              url: `${config.get('contextPath')}/policies`,
-              serviceId: 'mcm-ui',
+              url: '/policy',
+              serviceId: 'grc-ui',
               disabled: isLowerThanOperator(userRole)
             },
             {

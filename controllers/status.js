@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -21,8 +21,8 @@ router.get('/', (req, res) => {
 router.get('/status', (req, res) => res.sendStatus(200) )
 
 router.get('/livenessProbe', (req, res) => {
-  logger.debug('/readinessProbe')
-  res.send(`Testing livenessProbe --> ${new Date().toLocaleString()}`)
+  logger.debug('/livenessProbe')
+  res.sendStatus(200)
 })
 
 router.get('/readinessProbe', (req, res) => {

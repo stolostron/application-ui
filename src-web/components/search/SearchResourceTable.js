@@ -114,7 +114,7 @@ class SearchResourceTable extends React.PureComponent {
     return userRole !== constants.ROLES.VIEWER
   }
 
-  handleActionClick(action, name, namespace) {
+  handleActionClick(action, name, namespace, clusterName) {
     const { kind } = this.props
     const resourceType = this.getResourceType(kind)
     const client = apolloClient.getClient()
@@ -136,7 +136,7 @@ class SearchResourceTable extends React.PureComponent {
       }
     })
     // TODO - dont need to call this for remove actions
-    apolloClient.getResource(resourceType, {namespace, name})
+    apolloClient.getResource(resourceType, {namespace, name, clusterName})
       .then(response => {
         if (response.errors) {
           return (response.errors[0], resourceType)
@@ -174,7 +174,7 @@ class SearchResourceTable extends React.PureComponent {
     const startItem = (page - 1) * pageSize
     const visibleItems = items.slice(startItem, startItem + pageSize)
     return visibleItems.map(item => {
-      const { namespace, name } = item
+      const { namespace, name, cluster } = item
       const row = { id: item._uid }
       if (tableDefinitions[kind]) {
         tableDefinitions[kind].columns.forEach(column => {
@@ -191,7 +191,7 @@ class SearchResourceTable extends React.PureComponent {
                   <OverflowMenuItem
                     data-table-action={action}
                     isDelete={action ==='table.actions.remove' || action ==='table.actions.policy.remove'|| action ==='table.actions.applications.remove'|| action ==='table.actions.compliance.remove'}
-                    onClick={() => this.handleActionClick(action, name, namespace)}
+                    onClick={() => this.handleActionClick(action, name, namespace, cluster)}
                     key={action}
                     itemText={msgs.get(action, locale)}
                   />

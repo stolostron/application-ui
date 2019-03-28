@@ -102,7 +102,7 @@ class CompliancePolicyDetail extends React.Component {
     const policyNamespace = lodash.get(this.props, 'match.params.policyNamespace')
     const {staticResourceData, params, resourceType} = this.props
     return (
-      <Query query={HCMPolicy} variables={{name: policyName, clusterName: policyNamespace}}>
+      <Query query={HCMPolicy} variables={{name: policyName, namespace: policyNamespace, clusterName: policyNamespace}}>
         {({ data, loading }) => {
           if (loading) {
             return (<Loading withOverlay={false} className='content-spinner' />)

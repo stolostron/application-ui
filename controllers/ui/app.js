@@ -120,30 +120,12 @@ function fetchHeader(req, res, store, context) {
               serviceId: 'mcm-ui'
             },
             {
-              id: 'releases',
-              label: msgs.get('routes.releases', req),
-              url: `${config.get('contextPath')}/releases`,
-              serviceId: 'mcm-ui'
-            },
-            {
-              id: 'pods',
-              label: msgs.get('routes.pods', req),
-              url: `${config.get('contextPath')}/pods`,
-              serviceId: 'mcm-ui'
-            },
-            {
-              id: 'nodes',
-              label: msgs.get('routes.nodes', req),
-              url: `${config.get('contextPath')}/nodes`,
+              id: 'events',
+              label: msgs.get('routes.events', req),
+              url: '/cemui/launch',
               serviceId: 'mcm-ui',
-              disabled: isLowerThanAdmin(userRole)
-            },
-            {
-              id: 'storage',
-              label: msgs.get('routes.storage', req),
-              url: `${config.get('contextPath')}/storage`,
-              serviceId: 'mcm-ui',
-              disabled: isLowerThanAdmin(userRole)
+              disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
+              target: '_cem'
             },
             {
               id: 'topology',
@@ -153,32 +135,69 @@ function fetchHeader(req, res, store, context) {
               disabled: isLowerThanEditor(userRole)
             },
             {
-              id: 'events',
-              label: msgs.get('routes.events', req),
-              url: '/cemui/launch',
-              serviceId: 'mcm-ui',
-              disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
-              target: '_cem'
+              id: 'metering',
+              label: msgs.get('routes.metering', req),
+              url: '/metering/dashboard?%7B%20%22showClusterData%22%3A%20true%20%7D',
+              serviceId: 'metering-ui',
+              disabled: !serviceDiscovery.serviceEnabled('metering-ui')
             },
             {
-              id: 'security',
-              label: msgs.get('routes.identity-access', req),
-              url: '/console/manage/identity-access',
-              serviceId: 'platform-ui',
-              disabled: isNotClusterAdmin(userRole)
+              id: 'local',
+              label: msgs.get('routes.local', req),
+              subItems: [
+                {
+                  id: 'releases',
+                  label: msgs.get('routes.releases', req),
+                  url: `${config.get('contextPath')}/releases`,
+                  serviceId: 'mcm-ui'
+                },
+                {
+                  id: 'security',
+                  label: msgs.get('routes.identity-access', req),
+                  url: '/console/manage/identity-access/realms?emb=nav',
+                  serviceId: 'platform-ui',
+                  disabled: isNotClusterAdmin(userRole)
+                },
+                {
+                  id: 'images',
+                  label: msgs.get('routes.images', req),
+                  url: '/console/images?emb=nav',
+                  serviceId: 'platform-ui',
+                  disabled: !serviceDiscovery.serviceEnabled('image-manager')
+                },
+                {
+                  id: 'helm-repositories',
+                  label: msgs.get('routes.helmRepositories', req),
+                  serviceId: 'catalog',
+                  url: '/catalog/repositories?emb=nav',
+                },
+                {
+                  id: 'namespaces',
+                  label: msgs.get('routes.namespaces', req),
+                  url: '/console/manage/namespaces?emb=nav',
+                  serviceId: 'platform-ui'
+                },
+                {
+                  id: 'servicebrokers',
+                  label: msgs.get('routes.clusterservicebroker', req),
+                  url: '/console/manage/clusterservicebrokers?emb=nav',
+                  serviceId: 'platform-ui',
+                  disabled: !serviceDiscovery.serviceEnabled('service-catalog')
+                },
+                {
+                  id: 'logging',
+                  label: msgs.get('routes.logging', req),
+                  url: '/kibana',
+                  serviceId: 'kibana',
+                  target: 'logging',
+                  disabled: !serviceDiscovery.serviceEnabled('kibana')
+                }
+              ]
             },
             {
-              id: 'icp',
-              label: msgs.get('routes.icp', req),
-              url: '/console/dashboard',
-              serviceId: 'platform-ui',
-              disabled: isNotClusterAdmin(userRole)
-            },
-            {
-              id: 'welcome',
-              label: msgs.get('routes.getting-started', req),
-              url: `${config.get('contextPath')}/welcome`,
-              serviceId: 'mcm-ui'
+              id: 'addons',
+              label: msgs.get('routes.addons', req),
+              subItems: []
             }
           ]
         }
@@ -255,9 +274,9 @@ function isLowerThanOperator(role) {
   return role === constants.ROLES.VIEWER || role === constants.ROLES.EDITOR
 }
 
-function isLowerThanAdmin(role) {
-  return role !== constants.ROLES.CLUSTER_ADMIN && role !== constants.ROLES.ADMIN
-}
+// function isLowerThanAdmin(role) {
+//   return role !== constants.ROLES.CLUSTER_ADMIN && role !== constants.ROLES.ADMIN
+// }
 
 function isNotClusterAdmin(role) {
   return role !== constants.ROLES.CLUSTER_ADMIN

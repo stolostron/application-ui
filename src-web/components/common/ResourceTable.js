@@ -237,7 +237,8 @@ class ResourceTable extends React.Component {
           },
           data: {
             __typename:'ModalData',
-            item: JSON.stringify(item)
+            item: JSON.stringify(item),
+            errors: (item === null || item === undefined) ? msgs.get('modal.errors.querying.resource', this.context.locale) : ''
           }
         }
       })

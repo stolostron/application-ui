@@ -22,6 +22,7 @@ class RemoveResourceModal extends React.Component {
     this.client = apolloClient.getClient()
     this.state = {
       data: '',
+      errors: '',
       loading: true,
       selected: [],
     }
@@ -30,19 +31,25 @@ class RemoveResourceModal extends React.Component {
   componentWillMount() {
     if (this.props.data.item !== '') {
       const { data } = this.props
-      this.getChildResources(data)
+      this.getChildResources(data.item)
       this.setState({
-        data,
+        data: data.item,
         loading: false,
       })
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== '' && nextProps.data !== this.props.data) {
-      this.getChildResources(nextProps.data)
+    if (nextProps.data.item !== '' && nextProps.data !== this.props.data) {
+      this.getChildResources(nextProps.data.item)
       this.setState({
-        data: nextProps.data,
+        data: nextProps.data.item,
+        loading: false
+      })
+    }
+    if (nextProps.data.errors !== '') {
+      this.setState({
+        errors: nextProps.data.errors,
         loading: false
       })
     }
@@ -112,7 +119,8 @@ class RemoveResourceModal extends React.Component {
         },
         data: {
           __typename:'ModalData',
-          item: ''
+          item: '',
+          errors: ''
         }
       }
     })
@@ -129,7 +137,7 @@ class RemoveResourceModal extends React.Component {
       if (res.errors) {
         this.setState({
           loading: false,
-          submitErrors: res.errors[0].message
+          errors: res.errors[0].message
         })
       } else {
         this.handleClose()
@@ -138,7 +146,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   modalBody = (data, label, locale) => {
-    const name = data !== '' ? data.name || data.Name || data.metadata.name : ''
+    const name = (data && data !== '') ? data.name || data.Name || data.metadata.name : ''
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
     case 'modal.remove-hcmcompliance.label':
@@ -175,7 +183,7 @@ class RemoveResourceModal extends React.Component {
 
   render() {
     const { label, locale, open } = this.props
-    const { data, loading, submitErrors } = this.state
+    const { data, loading, errors } = this.state
     return (
       <div>
         {loading && <Loading />}
@@ -192,11 +200,12 @@ class RemoveResourceModal extends React.Component {
           role='region'
           aria-label={msgs.get(label.heading, locale)}>
           <div>
-            {submitErrors &&
-              <Notification
+            {(errors !== '' && errors !== undefined)
+              ? <Notification
                 kind='error'
                 title=''
-                subtitle={submitErrors || msgs.get('error.default.description', locale)} />}
+                subtitle={errors} />
+              : null}
           </div>
           {this.modalBody(data, label, locale)}
         </Modal>
@@ -207,6 +216,7 @@ class RemoveResourceModal extends React.Component {
 
 RemoveResourceModal.propTypes = {
   data: PropTypes.object,
+  errors: PropTypes.string,
   label: PropTypes.shape({
     heading: PropTypes.string,
     label: PropTypes.string,

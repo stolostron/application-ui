@@ -131,13 +131,15 @@ class SearchResourceTable extends React.PureComponent {
         },
         data: {
           __typename:'ModalData',
-          item: ''
+          item: '',
+          errors: ''
         }
       }
     })
     // TODO - dont need to call this for remove actions
     apolloClient.getResource(resourceType, {namespace, name, clusterName})
       .then(response => {
+        const errors = response.data.items.length === 0 ? msgs.get('modal.errors.querying.resource', this.context.locale) : ''
         if (response.errors) {
           return (response.errors[0], resourceType)
         }
@@ -154,7 +156,8 @@ class SearchResourceTable extends React.PureComponent {
             },
             data: {
               __typename:'ModalData',
-              item: JSON.stringify(response.data.items[0])
+              item: JSON.stringify(response.data.items[0]) || '',
+              errors
             }
           }
         })

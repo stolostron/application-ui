@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 import ScrollBox from './ScrollBox'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import { Modal, DropdownV2, Loading } from 'carbon-components-react'
+import { Modal, DropdownV2, Loading, Notification } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
@@ -29,7 +29,8 @@ class LogsModal extends React.PureComponent {
     this.client = apolloClient.getClient()
     this.state = {
       xhrPoll: false,
-      loading: true
+      loading: true,
+      errors: ''
     }
   }
 
@@ -39,30 +40,35 @@ class LogsModal extends React.PureComponent {
       this.setState({ intervalId: intervalId })
     }
     if (this.props.data.item !== '') {
-      const { data } = this.props
+      const { data: { item } } = this.props
       this.setState({
         loading: false,
-        selectedContainer: data.containers[0].name,
-        containers: data.containers,
-        containerName: data.containers[0].name,
-        podName: data.metadata.name,
-        podNamespace: data.metadata.namespace,
-        clusterName: data.cluster.metadata.name
+        selectedContainer: item.containers[0].name,
+        containers: item.containers,
+        containerName: item.containers[0].name,
+        podName: item.metadata.name,
+        podNamespace: item.metadata.namespace,
+        clusterName: item.cluster.metadata.name
       })
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.props.data) {
-      const { data } = nextProps
+    if (nextProps.data.item !== '') {
+      const { data: { item } } = nextProps
       this.setState({
-        selectedContainer: data.containers[0].name,
-        containers: data.containers,
-        containerName: data.containers[0].name,
-        podName: data.metadata.name,
-        podNamespace: data.metadata.namespace,
-        clusterName: data.cluster.metadata.name,
+        selectedContainer: item.containers[0].name,
+        containers: item.containers,
+        containerName: item.containers[0].name,
+        podName: item.metadata.name,
+        podNamespace: item.metadata.namespace,
+        clusterName: item.cluster.metadata.name,
         loading: false
+      })
+    }
+    if (nextProps.data.errors !== '') {
+      this.setState({
+        errors: nextProps.data.errors
       })
     }
   }
@@ -106,7 +112,8 @@ class LogsModal extends React.PureComponent {
         },
         data: {
           __typename:'ModalData',
-          item: ''
+          item: '',
+          errors: ''
         }
       }
     })
@@ -114,7 +121,7 @@ class LogsModal extends React.PureComponent {
 
   render() {
     const { open } = this.props,
-          { containers, loading, logs, podName, xhrPoll } = this.state,
+          { containers, loading, logs, podName, xhrPoll, errors } = this.state,
           { locale } = this.context
 
     return (
@@ -130,6 +137,12 @@ class LogsModal extends React.PureComponent {
         role='region'
         aria-label='logs'>
         <div className='logs-container'>
+          {(errors !== '' && errors !== undefined)
+            ? <Notification
+              kind='error'
+              title=''
+              subtitle={errors} />
+            : null}
           <div className='logs-container__actions'>
             <div className='dropdown-container'>
               <DropdownV2
@@ -141,7 +154,7 @@ class LogsModal extends React.PureComponent {
           </div>
 
           {(() => {
-            if (!xhrPoll && loading) {
+            if (!xhrPoll && loading && errors === '') {
               return <Loading withOverlay={false} className='content-spinner' />
             }
             return <ScrollBox className='logs-container__content' content={logs} />
@@ -179,6 +192,7 @@ LogsModal.contextTypes = {
 
 LogsModal.propTypes = {
   data: PropTypes.object,
+  errors: PropTypes.string,
   open: PropTypes.bool,
   type: PropTypes.string
 }

@@ -31,8 +31,9 @@ class ResourceModal extends React.PureComponent {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
+      data: toString(props.data.item),
+      errors: '',
       loading: true,
-      data: toString(props.data),
     }
   }
 
@@ -53,10 +54,8 @@ class ResourceModal extends React.PureComponent {
   handleSubmit = () => {
     this.setState({loading: true}, () => {
       const resourceType = this.props.resourceType
-      let namespace = this.props.namespace
-      let name = this.props.name
-      let selfLink = this.props.data.metadata.selfLink
-      let resources
+      let namespace, name, resources
+      let selfLink = this.props.data.item.metadata.selfLink
       try {
         resources = lodash.compact(saveLoad(this.state.data))
         resources.forEach(resource => {
@@ -94,7 +93,8 @@ class ResourceModal extends React.PureComponent {
         },
         data: {
           __typename:'ModalData',
-          item: ''
+          item: '',
+          errors: ''
         }
       }
     })
@@ -112,18 +112,24 @@ class ResourceModal extends React.PureComponent {
 
   componentWillMount() {
     if (this.props.data.item !== '') {
-      const { data } = this.props
+      const { data: { item } } = this.props
       this.setState({
-        data: toString(data),
+        data: toString(item),
         loading: false,
       })
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data && this.state.data !== nextProps.data) {
+    if (nextProps.data.item && this.state.data !== nextProps.data) {
       this.setState({
-        data: toString(nextProps.data),
+        data: toString(nextProps.data.item),
+        loading: false
+      })
+    }
+    if (nextProps.data.errors !== '') {
+      this.setState({
+        errors: nextProps.data.errors,
         loading: false
       })
     }
@@ -135,7 +141,7 @@ class ResourceModal extends React.PureComponent {
 
   render() {
     const { open, label, locale, resourceType } = this.props
-    const { errors, loading } = this.state
+    const { data, errors, loading } = this.state
     return (
       <div id='resource-modal-container' ref={div => this.resourceModal = div} tabIndex='-1' role='region' onKeyDown={this.escapeEditor} aria-label={msgs.get('a11y.editor.escape', locale)}> {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
         {loading && <Loading />}
@@ -152,14 +158,15 @@ class ResourceModal extends React.PureComponent {
           role='region'
           aria-label={msgs.get(label.heading, locale)}>
           <div>
-            {errors && <InlineNotification key={`inline-notification-${errors}`} kind='error' title='' subtitle={errors} iconDescription={msgs.get('svg.description.error', locale)} />
-            }
+            {errors !== ''
+              ? <InlineNotification key={`inline-notification-${errors}`} kind='error' title='' subtitle={errors} iconDescription={msgs.get('svg.description.error', locale)} />
+              : null}
             <YamlEditor
               width={'50vw'}
               height={'40vh'}
               readOnly={false}
               onYamlChange={this.onChange}
-              yaml={this.state && this.state.data}
+              yaml={data}
             />
           </div>
         </Modal>

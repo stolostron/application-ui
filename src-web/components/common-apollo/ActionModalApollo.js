@@ -22,13 +22,12 @@ let LogsModal
 class ActionModalApollo extends React.PureComponent {
 
   getMatchedModal = ({type, resourceType, open, data}) => {
-    if (data.item !== '') {
-      data = JSON.parse(data.item)
+    if (typeof data.item === 'string' && data.item !== '') {
+      data.item = JSON.parse(data.item)
     }
     // remove the typename field
     resourceType = { name: resourceType.name, list: resourceType.list }
     switch (type) {
-    // Handle search action modals
     case 'table.actions.edit': {
       return open && this.getResourceModal({
         open: true,
@@ -37,7 +36,8 @@ class ActionModalApollo extends React.PureComponent {
         resourceType,
         editorMode: 'json',
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        data: data
+        data: data,
+        errors: data.errors
       })
     }
     case 'table.actions.applications.remove':
@@ -49,7 +49,9 @@ class ActionModalApollo extends React.PureComponent {
         type: 'resource-remove',
         resourceType,
         label: { primaryBtn: `modal.remove-${resourceType.name.toLowerCase()}.heading`, label: `modal.remove-${resourceType.name.toLowerCase()}.label`, heading: `modal.remove-${resourceType.name.toLowerCase()}.heading` },
-        data: data })
+        data: data,
+        errors: data.errors
+      })
     }
     case 'table.actions.cluster.edit.labels': {
       return open && this.getLabelEditingModal({
@@ -58,10 +60,18 @@ class ActionModalApollo extends React.PureComponent {
         action: 'put',
         resourceType,
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        data: data })
+        data: data,
+        errors: data.errors
+      })
     }
     case 'table.actions.pod.logs': {
-      return open && this.getLogsModal({ open: true, type: 'view-logs', resourceType, data })
+      return open && this.getLogsModal({
+        open: true,
+        type: 'view-logs',
+        resourceType,
+        data: data,
+        errors: data.errors
+      })
     }
     default:
       return null

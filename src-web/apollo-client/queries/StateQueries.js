@@ -35,6 +35,7 @@ export const GET_ACTION_MODAL_STATE = gql`
       }
       data {
         item
+        errors
       }
     }
   }

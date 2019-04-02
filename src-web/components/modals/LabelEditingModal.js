@@ -27,6 +27,7 @@ class LabelEditingModal extends React.Component {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
+      errors: '',
       labels: [],
       loading: true,
       newLabel: {},
@@ -38,7 +39,7 @@ class LabelEditingModal extends React.Component {
 
   componentWillMount() {
     if (this.props.data.item !== '') {
-      const { labels, name, namespace, selfLink } = this.props.data.metadata
+      const { labels, name, namespace, selfLink } = this.props.data.item.metadata
       const labelArray = this.convertObjectToArray(labels)
       this.setState({
         loading: false,
@@ -51,7 +52,7 @@ class LabelEditingModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { labels, name, namespace, selfLink } = nextProps.data.metadata
+    const { labels, name, namespace, selfLink } = nextProps.data.item.metadata
     if (labels && name && namespace) {
       const labelArray = this.convertObjectToArray(labels)
       this.setState({
@@ -60,6 +61,12 @@ class LabelEditingModal extends React.Component {
         name,
         namespace,
         selfLink
+      })
+    }
+    if (nextProps.data.errors !== '') {
+      this.setState({
+        errors: nextProps.data.errors,
+        loading: false
       })
     }
   }
@@ -95,7 +102,8 @@ class LabelEditingModal extends React.Component {
         },
         data: {
           __typename:'ModalData',
-          item: ''
+          item: '',
+          errors: ''
         }
       }
     })
@@ -275,11 +283,12 @@ class LabelEditingModal extends React.Component {
           onRequestSubmit={ this.handleSubmit.bind(this) }
           onRequestClose={ this.handleClose.bind(this) }
         >
-          {errors &&
-          <Notification
-            kind='error'
-            title=''
-            subtitle={errors || msgs.get('error.default.description', this.context.locale)} />}
+          {errors !== ''
+            ? <Notification
+              kind='error'
+              title=''
+              subtitle={errors} />
+            : null}
           <Labels
             type='labels'
             items={this.itemFilter(this.state.labels, this.state.searchValue)}

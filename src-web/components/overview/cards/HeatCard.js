@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -12,7 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
 import { ConditionTypes } from '../filterHelper'
-import { Select, SelectItem } from 'carbon-components-react'
+import { DropdownV2 } from 'carbon-components-react'
 import { HeatSelections, GroupByChoices, SizeChoices, ShadeChoices } from '../constants.js'
 import { deflateKubeValue } from '../../../../lib/client/charts-helper'
 import { getHeatMapData } from '../dataHelper'
@@ -122,17 +122,17 @@ class HeatCard extends React.Component {
     }
     return (
       <div className='heat-card-header'>
-        <div>{usedByMsg}</div>
-        <div>{usageMsg}</div>
-        {legend.map(({title, className})=>{
-          return (
-            <div key={title} className='legend-container' >
+        <div className='heat-card-header-legends'>
+          <h6>{usedByMsg}</h6>
+          <h6>{usageMsg}</h6>
+          {legend.map(({title, className}) => (
+            <div key={title} className='legend-container'>
               <div className={className} />
-              <div>{title}</div>
+              {title}
             </div>
-          )
-        })}
-        <div>{expanded && this.renderHeatMapSelections(highFiltering)}</div>
+          ))}
+        </div>
+        {expanded && this.renderHeatMapSelections(highFiltering)}
       </div>
     )
   }
@@ -214,25 +214,18 @@ class HeatCard extends React.Component {
       <div className='heatMapSelections'>
         {this.getHeatMapSelections().map(({key, label, choice, choices=[], onChange})=> {
           // if filtering by condition, no need for shade control
-          if (highFiltering && key==='shade') {
+          if (highFiltering && key === HeatSelections.shade) {
             return null
           }
-
           return (
             <div key={key} className='heatMapSelectionContainer'>
-              <div className='heatMapSelectionLabel'>
-                {label}
-              </div>
-              <Select id={key} className='heatMapSelection'
-                value={heatMapChoices[key] || choice}
-                hideLabel={true}
-                onChange={onChange}>
-                {choices.map(({text, value})=> {
-                  return (
-                    <SelectItem key={value} text={text} value={value} />
-                  )
-                })}
-              </Select>
+              <label htmlFor={key}>{label}:</label>
+              <DropdownV2
+                label={choices.find(c => c.value === heatMapChoices[key]).text || choice}
+                items={choices}
+                itemToString={item => (item ? item.text : '')}
+                onChange={onChange}
+              />
             </div>
           )})}
       </div>
@@ -325,7 +318,7 @@ class HeatCard extends React.Component {
   }
 
   onChange = (key, e) => {
-    const {value} = this.heatMapSelections.find(s=>{return s.key===key}).choices[e.currentTarget.selectedIndex]
+    const {value} = this.heatMapSelections.find(s => s.key === key).choices.find(c => c.value === e.selectedItem.value)
     this.setState(prevState=>{
       const heatMapState = _.cloneDeep(prevState.heatMapState)
       heatMapState.heatMapChoices[key] = value

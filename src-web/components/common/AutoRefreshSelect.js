@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -10,7 +10,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Select, SelectItem } from 'carbon-components-react'
+import { DropdownV2 } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
@@ -64,7 +64,7 @@ export default class AutoRefreshSelect extends React.Component {
 
 
   handleChange = (e) => {
-    const {pollInterval} = this.autoRefreshChoices[e.currentTarget.selectedIndex]
+    const pollInterval = e.selectedItem.pollInterval
     const {refreshCookie, startPolling, stopPolling} = this.props
     if (pollInterval===0) {
       stopPolling()
@@ -78,6 +78,7 @@ export default class AutoRefreshSelect extends React.Component {
   render() {
     const { pollInterval } = this.state
     const refresh = msgs.get('refresh', this.context.locale)
+    const currentChoice = this.autoRefreshChoices.find(choice => choice.pollInterval === pollInterval)
     return (
       <div className='auto-refresh-selection'>
         <div className='button' tabIndex='0' role={'button'}
@@ -87,16 +88,12 @@ export default class AutoRefreshSelect extends React.Component {
             <use href={'#diagramIcons_autoRefresh'} ></use>
           </svg>
         </div>
-        <Select id='refresh-select' className='selection'
-          value={pollInterval}
-          hideLabel={true}
-          onChange={this.handleChange}>
-          {this.autoRefreshChoices.map(({text, pollInterval:value})=> {
-            return (
-              <SelectItem key={value} text={text} value={value} />
-            )
-          })}
-        </Select>
+        <DropdownV2
+          label={currentChoice.text}
+          items={this.autoRefreshChoices}
+          itemToString={item => (item ? item.text : '')}
+          onChange={this.handleChange}
+        />
       </div>
     )
   }

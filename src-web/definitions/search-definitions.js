@@ -235,7 +235,7 @@ export default {
       { key: 'created', transform: getAge},
     ],
   },
-  releases: {
+  release: {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
@@ -243,7 +243,7 @@ export default {
       { key: 'status'},
       { key: 'chartName'},
       { key: 'chartVersion'},
-      { key: 'lastDeployed', transform: (item) => getAge({ created: item.lastDeployed }) }
+      { key: 'updated', transform: (item) => getAge({ created: item.updated }) }
     ],
     actions: [
       'table.actions.remove'

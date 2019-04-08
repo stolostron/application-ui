@@ -1,9 +1,21 @@
 sudo: required
 language: node_js
 
-os:
-  - linux-ppc64le
-  - linux
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::6}
+
+matrix:
+  include:
+    - os: linux
+      env: OS=rhel7 TARGET=${TARGET_IP}
+      dist: trusty
+    - os: linux-ppc64le
+      env: OS=linux-ppc64le
+      dist: trusty
+    - os: linux
+      env: OS=linux-amd64
+      dist: trusty
 
 addons:
   packages:

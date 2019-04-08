@@ -124,8 +124,7 @@ function fetchHeader(req, res, store, context) {
               label: msgs.get('routes.events', req),
               url: '/cemui/launch',
               serviceId: 'mcm-ui',
-              disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem'),
-              target: '_cem'
+              disabled: isLowerThanOperator(userRole) || !serviceDiscovery.serviceEnabled('cem')
             },
             {
               id: 'topology',

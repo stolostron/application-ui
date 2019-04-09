@@ -7,6 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
 .search--input-area {
   .bx--search--light {
@@ -148,7 +149,7 @@
       }
     }
     p {
-      color: $color__blue-40;
+      color: $color__blue-51;
       font-weight: bold;
       font-size: 0.8rem;
       display: inline;
@@ -208,7 +209,7 @@
         color: $color__blue-40;
         font-size: 2rem;
         &__suggested {
-          color: $color__teal-40;
+          color: $mcm_search_suggested;
           font-size: 2rem;
         }
       }
@@ -317,7 +318,7 @@
   }
 
   .header-tab-add-new {
-    margin-left: 5rem;
+    margin-left: 1.8rem;
   }
 
   .header-tab-separator-container{
@@ -328,7 +329,18 @@
       border-left: 1px solid $color__navy-gray-8;
     }
   }
+
+  .header-tab-divider {
+    position: relative;
+    margin: 1rem;
+    height: 1rem;
+    top: 0.7rem;
+    border-left: 1px solid $color__navy-gray-8;
+  }
+
 }
+
+
 
 
 .header-tab-container {
@@ -351,7 +363,7 @@
     -webkit-border-radius: 1rem;
     -moz-border-radius: 1rem;
     border-radius: 1rem;
-    background: $color__teal-40;
+    background: $mcm_search_suggested;
 
     svg {
       margin: 0.5rem 0.65rem;

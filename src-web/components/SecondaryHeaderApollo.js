@@ -86,20 +86,11 @@ export class SecondaryHeaderSearchPage extends React.Component {
   }
 
   renderTabs(client, tabs, unsavedCount) {
-    let index = 0
     const result = tabs.reduce((r, a) => r.concat(a, 0), [])
     return result.map((tab) => {
       if (!tab) {
-        index++
         return (
-          <Tab label={''}
-            key={`tab-spacer-${index}`}
-            className={'header-tab-separator-container'}
-            id={`separator-${index}`} onClick={()=>{}}
-            subcomponent = {
-              <div className={'header-tab-separator'}></div>
-            }
-          />
+          <div className="header-tab-divider"></div>
         )
       }
       return (

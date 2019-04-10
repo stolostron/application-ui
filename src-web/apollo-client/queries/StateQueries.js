@@ -34,8 +34,10 @@ export const GET_ACTION_MODAL_STATE = gql`
         list
       }
       data {
-        item
-        errors
+        name
+        namespace
+        clusterName
+        selfLink
       }
     }
   }

@@ -11,6 +11,7 @@
 /* NOTE: These eslint exceptions are added to help keep this file consistent with platform-ui. */
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
+import _ from 'lodash'
 import React from 'react'
 import resources from '../../../lib/shared/resources'
 import { PAGE_SIZES } from '../../actions/index'
@@ -22,7 +23,6 @@ import { resourceActions } from './ResourceTableRowMenuItemActions'
 import { connect } from 'react-redux'
 import { getLink, getPrimaryKey, getSecondaryKey } from '../../definitions'
 import { Link, withRouter } from 'react-router-dom'
-import lodash from 'lodash'
 import ResourceTableRowExpandableContent from './ResourceTableRowExpandableContent'
 import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
@@ -137,7 +137,7 @@ class ResourceTable extends React.Component {
                     if (expandableTable) {
                       return (
                         <React.Fragment key={row.id}>
-                          <TableExpandRow {...getRowProps({ row, 'data-row-name': lodash.get(items[row.id], lodash.get(staticResourceData, 'tableKeys[0].resourceKey')), 'aria-hidden': expandableTable && (items[row.id] && !items[row.id].subItems || items[row.id] && items[row.id].subItems.length === 0), className: expandableTable && (items[row.id] && !items[row.id].subItems || items[row.id] && items[row.id].subItems.length === 0) ? 'row-not-expanded' : '' })}>
+                          <TableExpandRow {...getRowProps({ row, 'data-row-name': _.get(items[row.id], _.get(staticResourceData, 'tableKeys[0].resourceKey')), 'aria-hidden': expandableTable && (items[row.id] && !items[row.id].subItems || items[row.id] && items[row.id].subItems.length === 0), className: expandableTable && (items[row.id] && !items[row.id].subItems || items[row.id] && items[row.id].subItems.length === 0) ? 'row-not-expanded' : '' })}>
                             {selectableTable &&
                               <TableCell key={`select-checkbox-${row.id}`}>
                                 <Checkbox
@@ -174,7 +174,7 @@ class ResourceTable extends React.Component {
                       )
                     } else {
                       return (
-                        <TableRow key={row.id} data-row-name={lodash.get(items[row.id], lodash.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
+                        <TableRow key={row.id} data-row-name={_.get(items[row.id], _.get(staticResourceData, 'tableKeys[0].resourceKey'))}>
                           {row.cells.map(cell => <TableCell key={cell.id}>{cell.value}</TableCell>)}
                         </TableRow>
                       )
@@ -210,7 +210,7 @@ class ResourceTable extends React.Component {
       return tableKey.disabled ? typeof tableKey.disabled === 'function' ? tableKey.disabled(itemIds && itemIds.map(id => items[id])) : !tableKey.disabled : tableKey
     })
     headers = headers.map(tableKey => ({ key: tableKey.resourceKey, header: tableKey.dropdown ? '' : msgs.get(tableKey.msgKey, locale) }))
-    tableActions && !lodash.isEmpty(tableActions) && headers.push({ key: 'action', header: ''})
+    tableActions && !_.isEmpty(tableActions) && headers.push({ key: 'action', header: ''})
     return headers
   }
 
@@ -224,6 +224,12 @@ class ResourceTable extends React.Component {
       this.props.getResourceAction(action, item, null, history, this.props.locale)
     } else {
       const client = apolloClient.getClient()
+      const name = resourceType.name !== 'HCMRelease'
+        ? _.get(item, 'metadata.name', '')
+        : _.get(item, 'name', '')
+      const namespace = resourceType.name !== 'HCMRelease'
+        ? _.get(item, 'metadata.namespace', '')
+        : _.get(item, 'Namespace', '')
       client.mutate({
         mutation: UPDATE_ACTION_MODAL,
         variables: {
@@ -237,8 +243,10 @@ class ResourceTable extends React.Component {
           },
           data: {
             __typename:'ModalData',
-            item: JSON.stringify(item),
-            errors: (item === null || item === undefined) ? msgs.get('modal.errors.querying.resource', this.context.locale) : ''
+            name,
+            namespace,
+            clusterName: _.get(item, 'cluster.metadata.name', ''),
+            selfLink: _.get(item, 'metadata.selfLink', ''),
           }
         }
       })
@@ -249,15 +257,15 @@ class ResourceTable extends React.Component {
     const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, userRole } = this.props
     const { locale } = this.context
     const { normalizedKey } = staticResourceData
-    const resources = itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && lodash.get(target, normalizedKey) === id) || (target.name === id))))
+    const resources = itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && _.get(target, normalizedKey) === id) || (target.name === id))))
     if (resources && resources.length > 0) {
       return resources.map((item, index) => {
         const row = {}
 
         if (normalizedKey) {
-          row.id = `${lodash.get(item, normalizedKey)}${lodash.get(item, 'cluster', '')}`
+          row.id = `${_.get(item, normalizedKey)}${_.get(item, 'cluster', '')}`
         } else {
-          row.id = getSecondaryKey(resourceType) ? `${lodash.get(item, getPrimaryKey(resourceType))}-${lodash.get(item, getSecondaryKey(resourceType))}` : lodash.get(item, getPrimaryKey(resourceType)) || `table-row-${index}`
+          row.id = getSecondaryKey(resourceType) ? `${_.get(item, getPrimaryKey(resourceType))}-${_.get(item, getSecondaryKey(resourceType))}` : _.get(item, getPrimaryKey(resourceType)) || `table-row-${index}`
         }
 
         const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions

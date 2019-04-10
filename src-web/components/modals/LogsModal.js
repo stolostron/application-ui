@@ -39,38 +39,20 @@ class LogsModal extends React.PureComponent {
       const intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
       this.setState({ intervalId: intervalId })
     }
-    if (this.props.data.item !== '') {
-      const { data: { item } } = this.props
-      this.setState({
-        loading: false,
-        selectedContainer: item.containers[0].name,
-        containers: item.containers,
-        containerName: item.containers[0].name,
-        podName: item.metadata.name,
-        podNamespace: item.metadata.namespace,
-        clusterName: item.cluster.metadata.name
+    const {resourceType, data: { namespace, name, clusterName } } = this.props
+    apolloClient.getResource(resourceType, {namespace, name, clusterName})
+      .then(response => {
+        const item = response.data.items[0]
+        this.setState({
+          loading: false,
+          selectedContainer: item.containers[0].name,
+          containers: item.containers,
+          containerName: item.containers[0].name,
+          podName: item.metadata.name,
+          podNamespace: item.metadata.namespace,
+          clusterName: item.cluster.metadata.name
+        })
       })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.item !== '') {
-      const { data: { item } } = nextProps
-      this.setState({
-        selectedContainer: item.containers[0].name,
-        containers: item.containers,
-        containerName: item.containers[0].name,
-        podName: item.metadata.name,
-        podNamespace: item.metadata.namespace,
-        clusterName: item.cluster.metadata.name,
-        loading: false
-      })
-    }
-    if (nextProps.data.errors !== '') {
-      this.setState({
-        errors: nextProps.data.errors
-      })
-    }
   }
 
   fetchLogs(containerName, podName, podNamespace, clusterName) {
@@ -112,8 +94,10 @@ class LogsModal extends React.PureComponent {
         },
         data: {
           __typename:'ModalData',
-          item: '',
-          errors: ''
+          name: '',
+          namespace: '',
+          clusterName: '',
+          selfLink: ''
         }
       }
     })
@@ -192,8 +176,8 @@ LogsModal.contextTypes = {
 
 LogsModal.propTypes = {
   data: PropTypes.object,
-  errors: PropTypes.string,
   open: PropTypes.bool,
+  resourceType: PropTypes.object,
   type: PropTypes.string
 }
 

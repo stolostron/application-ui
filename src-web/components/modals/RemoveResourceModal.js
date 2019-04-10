@@ -21,7 +21,10 @@ class RemoveResourceModal extends React.Component {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
-      data: '',
+      name: '',
+      namespace: '',
+      cluster: '',
+      selfLink: '',
       errors: '',
       loading: true,
       selected: [],
@@ -29,70 +32,66 @@ class RemoveResourceModal extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.data.item !== '') {
+    if (this.props.data) {
       const { data } = this.props
-      this.getChildResources(data.item)
+      this.getChildResources(data.name, data.namespace, data.clusterName)
       this.setState({
-        data: data.item,
-        loading: false,
+        name: data.name,
+        namespace: data.namespace,
+        cluster: data.clusterName,
+        selfLink: data.selfLink
       })
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.item !== '' && nextProps.data !== this.props.data) {
-      this.getChildResources(nextProps.data.item)
-      this.setState({
-        data: nextProps.data.item,
-        loading: false
-      })
-    }
-    if (nextProps.data.errors !== '') {
-      this.setState({
-        errors: nextProps.data.errors,
-        loading: false
-      })
-    }
-  }
-
-  getChildResources(data) {
+  getChildResources(name, namespace, cluster) {
     const children = []
-    // Create object specifying Application resources that can be deleted
-    _.map(data.deployables, (curr, idx) => {
-      children.push({
-        id: idx + '-deployable-' + curr.metadata.name,
-        selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + ' [Deployable]',
-        selected: true
+    const { resourceType } = this.props
+    resourceType.name === 'HCMApplication' || resourceType.name === 'HCMCompliance'
+      ? apolloClient.getResource(resourceType, {namespace, name, cluster})
+        .then(response => {
+          const resourceData = response.data.items[0]
+          // Create object specifying Application/Compliance resources that can be deleted
+          _.map(resourceData.deployables, (curr, idx) => {
+            children.push({
+              id: idx + '-deployable-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [Deployable]',
+              selected: true
+            })
+          })
+          _.map(resourceData.placementBindings, (curr, idx) => {
+            children.push({
+              id: idx + '-placementBinding-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [PlacementBinding]',
+              selected: true
+            })
+          })
+          _.map(resourceData.placementPolicies, (curr, idx) => {
+            children.push({
+              id: idx + '-placementPolicy-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [PlacementPolicy]',
+              selected: true
+            })
+          })
+          _.map(resourceData.applicationRelationships, (curr, idx) => {
+            children.push({
+              id: idx + '-appRelationship-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [ApplicationRelationship]',
+              selected: true
+            })
+          })
+          this.setState({
+            selected: children,
+            loading: false
+          })
+        })
+      : this.setState({
+        loading: false
       })
-    })
-    _.map(data.placementBindings, (curr, idx) => {
-      children.push({
-        id: idx + '-placementBinding-' + curr.metadata.name,
-        selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + ' [PlacementBinding]',
-        selected: true
-      })
-    })
-    _.map(data.placementPolicies, (curr, idx) => {
-      children.push({
-        id: idx + '-placementPolicy-' + curr.metadata.name,
-        selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + ' [PlacementPolicy]',
-        selected: true
-      })
-    })
-    _.map(data.applicationRelationships, (curr, idx) => {
-      children.push({
-        id: idx + '-appRelationship-' + curr.metadata.name,
-        selfLink: curr.metadata.selfLink,
-        label: curr.metadata.name + ' [ApplicationRelationship]',
-        selected: true
-      })
-    })
-    if (children.length > 0 && this.state.selected.length < 1) {
-      this.setState({selected: children})
-    }
   }
 
   toggleSelected = (i, target) => {
@@ -119,34 +118,53 @@ class RemoveResourceModal extends React.Component {
         },
         data: {
           __typename:'ModalData',
-          item: '',
-          errors: ''
+          name: '',
+          namespace: '',
+          clusterName: '',
+          selfLink: ''
         }
       }
     })
   }
 
   handleSubmit() {
-    const { resourceType } = this.props
-    const { data } = this.state
-    data.selected = this.state.selected
+    const { selected, selfLink, name, namespace, cluster } = this.state
     this.setState({
       loading: true
     })
-    apolloClient.remove(resourceType, data).then(res => {
-      if (res.errors) {
-        this.setState({
-          loading: false,
-          errors: res.errors[0].message
+    if (!selfLink || selfLink === '') {
+      const { resourceType } = this.props
+      if (resourceType.name === 'HCMRelease') {
+        apolloClient.remove({kind: 'release', name, namespace, cluster}).then(res => {
+          if (res.errors) {
+            this.setState({
+              loading: false,
+              errors: res.errors[0].message
+            })
+          } else {
+            this.handleClose()
+          }
         })
       } else {
-        this.handleClose()
+        this.setState({
+          errors: msgs.get('modal.errors.querying.resource', this.context.locale)
+        })
       }
-    })
+    } else {
+      apolloClient.remove({selfLink, childResources: selected || []}).then(res => {
+        if (res.errors) {
+          this.setState({
+            loading: false,
+            errors: res.errors[0].message
+          })
+        } else {
+          this.handleClose()
+        }
+      })
+    }
   }
 
-  modalBody = (data, label, locale) => {
-    const name = (data && data !== '') ? data.name || data.Name || data.metadata.name : ''
+  modalBody = (name, label, locale) => {
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
     case 'modal.remove-hcmcompliance.label':
@@ -183,7 +201,9 @@ class RemoveResourceModal extends React.Component {
 
   render() {
     const { label, locale, open } = this.props
-    const { data, loading, errors } = this.state
+    const { name, loading, errors } = this.state
+    const bodyLabel = msgs.get(label.label, locale) || msgs.get('modal.remove.resource', locale)
+    const heading = msgs.get(label.heading, locale)
     return (
       <div>
         {loading && <Loading />}
@@ -193,12 +213,12 @@ class RemoveResourceModal extends React.Component {
           open={open}
           primaryButtonText={msgs.get(label.primaryBtn, locale)}
           secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          modalLabel={msgs.get(label.label, locale)}
-          modalHeading={msgs.get(label.heading, locale)}
+          modalLabel={bodyLabel}
+          modalHeading={heading}
           onRequestClose={this.handleClose.bind(this)}
           onRequestSubmit={this.handleSubmit.bind(this)}
           role='region'
-          aria-label={msgs.get(label.heading, locale)}>
+          aria-label={heading}>
           <div>
             {(errors !== '' && errors !== undefined)
               ? <Notification
@@ -207,7 +227,7 @@ class RemoveResourceModal extends React.Component {
                 subtitle={errors} />
               : null}
           </div>
-          {this.modalBody(data, label, locale)}
+          {this.modalBody(name, label, locale)}
         </Modal>
       </div>
     )
@@ -216,7 +236,6 @@ class RemoveResourceModal extends React.Component {
 
 RemoveResourceModal.propTypes = {
   data: PropTypes.object,
-  errors: PropTypes.string,
   label: PropTypes.shape({
     heading: PropTypes.string,
     label: PropTypes.string,

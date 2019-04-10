@@ -31,9 +31,8 @@ class ResourceModal extends React.PureComponent {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
-      data: toString(props.data.item),
-      errors: '',
       loading: true,
+      errors: ''
     }
   }
 
@@ -55,7 +54,7 @@ class ResourceModal extends React.PureComponent {
     this.setState({loading: true}, () => {
       const resourceType = this.props.resourceType
       let namespace, name, resources
-      let selfLink = this.props.data.item.metadata.selfLink
+      let selfLink = this.props.data.selfLink
       try {
         resources = lodash.compact(saveLoad(this.state.data))
         resources.forEach(resource => {
@@ -93,8 +92,10 @@ class ResourceModal extends React.PureComponent {
         },
         data: {
           __typename:'ModalData',
-          item: '',
-          errors: ''
+          name: '',
+          namespace: '',
+          clusterName: '',
+          selfLink: ''
         }
       }
     })
@@ -111,28 +112,14 @@ class ResourceModal extends React.PureComponent {
   }
 
   componentWillMount() {
-    if (this.props.data.item !== '') {
-      const { data: { item } } = this.props
-      this.setState({
-        data: toString(item),
-        loading: false,
+    const {resourceType, data: { namespace, name, clusterName } } = this.props
+    apolloClient.getResource(resourceType, {namespace, name, clusterName})
+      .then(response => {
+        this.setState({
+          data: toString(response.data.items[0]),
+          loading: false,
+        })
       })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data.item && this.state.data !== nextProps.data) {
-      this.setState({
-        data: toString(nextProps.data.item),
-        loading: false
-      })
-    }
-    if (nextProps.data.errors !== '') {
-      this.setState({
-        errors: nextProps.data.errors,
-        loading: false
-      })
-    }
   }
 
   componentDidMount() {

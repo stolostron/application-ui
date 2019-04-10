@@ -22,9 +22,6 @@ let LogsModal
 class ActionModalApollo extends React.PureComponent {
 
   getMatchedModal = ({type, resourceType, open, data}) => {
-    if (typeof data.item === 'string' && data.item !== '') {
-      data.item = JSON.parse(data.item)
-    }
     // remove the typename field
     resourceType = { name: resourceType.name, list: resourceType.list }
     switch (type) {
@@ -36,8 +33,7 @@ class ActionModalApollo extends React.PureComponent {
         resourceType,
         editorMode: 'json',
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        data: data,
-        errors: data.errors
+        data: data
       })
     }
     case 'table.actions.applications.remove':
@@ -49,8 +45,7 @@ class ActionModalApollo extends React.PureComponent {
         type: 'resource-remove',
         resourceType,
         label: { primaryBtn: `modal.remove-${resourceType.name.toLowerCase()}.heading`, label: `modal.remove-${resourceType.name.toLowerCase()}.label`, heading: `modal.remove-${resourceType.name.toLowerCase()}.heading` },
-        data: data,
-        errors: data.errors
+        data: data
       })
     }
     case 'table.actions.cluster.edit.labels': {
@@ -60,8 +55,7 @@ class ActionModalApollo extends React.PureComponent {
         action: 'put',
         resourceType,
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        data: data,
-        errors: data.errors
+        data: data
       })
     }
     case 'table.actions.pod.logs': {
@@ -69,8 +63,7 @@ class ActionModalApollo extends React.PureComponent {
         open: true,
         type: 'view-logs',
         resourceType,
-        data: data,
-        errors: data.errors
+        data: data
       })
     }
     default:

@@ -38,37 +38,19 @@ class LabelEditingModal extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.data.item !== '') {
-      const { labels, name, namespace, selfLink } = this.props.data.item.metadata
-      const labelArray = this.convertObjectToArray(labels)
-      this.setState({
-        loading: false,
-        labels: labelArray,
-        name,
-        namespace,
-        selfLink
+    const {resourceType, data: { namespace, name, clusterName } } = this.props
+    apolloClient.getResource(resourceType, {namespace, name, clusterName})
+      .then(response => {
+        const { labels, name, namespace, selfLink } = response.data.items[0].metadata
+        const labelArray = this.convertObjectToArray(labels)
+        this.setState({
+          loading: false,
+          labels: labelArray,
+          name,
+          namespace,
+          selfLink
+        })
       })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { labels, name, namespace, selfLink } = nextProps.data.item.metadata
-    if (labels && name && namespace) {
-      const labelArray = this.convertObjectToArray(labels)
-      this.setState({
-        loading: false,
-        labels: labelArray,
-        name,
-        namespace,
-        selfLink
-      })
-    }
-    if (nextProps.data.errors !== '') {
-      this.setState({
-        errors: nextProps.data.errors,
-        loading: false
-      })
-    }
   }
 
   convertObjectToArray(input) {
@@ -102,8 +84,10 @@ class LabelEditingModal extends React.Component {
         },
         data: {
           __typename:'ModalData',
-          item: '',
-          errors: ''
+          name: '',
+          namespace: '',
+          clusterName: '',
+          selfLink: ''
         }
       }
     })

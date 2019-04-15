@@ -127,9 +127,8 @@
 /* Styles for the combo */
 .tagInput-comboBox {
   float: left;
-  padding-bottom: 0.5rem;
+  padding-bottom: 2.5rem;
   width: calc(100% - 2.5rem);
-  height: 4rem;
 }
 
 .react-tags {
@@ -229,13 +228,18 @@
   outline: none;
 
   /* match the font styles */
-  font-size: inherit;
-  font-weight: 700;
+  font-family: 'ibm-plex-sans';
+  font-size: 0.875rem;
+  font-weight: 400;
   line-height: inherit;
 }
 
 .react-tags__search input::-ms-clear {
   display: none;
+}
+
+.react-tags__search input::placeholder {
+  color: $color__navy-gray-6;
 }
 
 .react-tags__suggestions {

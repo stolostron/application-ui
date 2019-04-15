@@ -10,6 +10,8 @@
 import React from 'react'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import config from '../../../lib/shared/config'
 import { PaginationV2, DataTable, OverflowMenu, OverflowMenuItem, Icon } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import tableDefinitions from '../../definitions/search-definitions'
@@ -159,7 +161,15 @@ class SearchResourceTable extends React.PureComponent {
       const row = { id: item._uid }
       if (tableDefinitions[kind]) {
         tableDefinitions[kind].columns.forEach(column => {
-          row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
+          if (column.key === 'name') {
+            const link = this.getDetailsLink(item)
+            row[column.key] = link.includes('/multicloud')
+              ? <a href={link}>{name}</a>
+              : <Link to={link}>{name}</Link>
+
+          } else {
+            row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
+          }
         })
         if (this.props.kind !== 'cluster') {
           const action ='table.actions.remove'
@@ -189,6 +199,27 @@ class SearchResourceTable extends React.PureComponent {
       })
     }
   }
+
+  getDetailsLink(item) {
+    const { kind } = this.props
+    switch (kind){
+    case 'cluster':
+      return `${config.contextPath}/clusters?filters={"textsearch":["${item.name}"]}`
+    case 'application':
+      return `${config.contextPath}/applications/${item.namespace}/${item.name}`
+    case 'releases':
+      return item.cluster === 'local-cluster' // TODO - better method of determining hub-cluster
+        ? `/catalog/instancedetails/${item.namespace}/${item.name}`
+        : '/catalog/instances'
+    case 'policy':
+      return `/policy/policies/${item.namespace}/${item.name}/compliancePolicy/${item.namespace}/`
+    case 'compliance':
+      return `/policy/policies/${item.namespace}/${item.name}`
+    default:
+      return `${config.contextPath}/details/${item.cluster}${item.selfLink}`
+    }
+  }
+
   // need more research on carbon data table
   //<TableHeader key={header.key} onClick={this.handleSort(header.key)} > {header.header} </TableHeader>
   render() {

@@ -11,14 +11,14 @@
   NOTE: See documentation in SearchResourceTable.js
  */
 import { getAge } from '../../lib/client/resource-helper'
-import { createDashboardLink, createApplicationLink } from './hcm-applications'
+import { createDashboardLink } from './hcm-applications'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
-import { createComplianceLink, getComplianceStatusIcon, getStatusCount, getClusterCount, getStatusIcon as getPolocyStatusIcon } from './hcm-compliances'
+import { getComplianceStatusIcon, getStatusCount, getClusterCount, getStatusIcon as getPolocyStatusIcon } from './hcm-compliances'
 
 export default {
   application: {
     columns: [
-      { key: 'name', transform: createApplicationLink },
+      { key: 'name' },
       { key: 'namespace' },
       { key: 'created', transform: getAge },
       { key: 'dashboard', transform: createDashboardLink },
@@ -57,7 +57,7 @@ export default {
   },
   compliance: {
     columns: [
-      { key: 'name', transform: createComplianceLink },
+      { key: 'name' },
       { key: 'namespace' },
       { key: 'status', transform: getComplianceStatusIcon },
       { key: 'clusterCompliant', transform: getClusterCount},
@@ -235,7 +235,7 @@ export default {
       { key: 'created', transform: getAge},
     ],
   },
-  release: {
+  releases: {
     columns: [
       { key: 'name' },
       { key: 'namespace' },

@@ -31,6 +31,7 @@ export const Policies = loadable(() => import(/* webpackChunkName: "policies" */
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
 export const Storage = loadable(() => import(/* webpackChunkName: "storage" */ './PersistentVolumes'))
 export const SearchPage = loadable(() => import(/* webpackChunkName: "search" */ './SearchPage'))
+export const SearchDetailsPage = loadable(() => import(/* webpackChunkName: "searchDetails" */ './SearchDetailsPage'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
 export const ModalApollo = loadable(() => import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
@@ -83,6 +84,7 @@ class App extends React.Component {
           <Route path={`${match.url}/storage`} component={Storage} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/welcome`} render={() => <WelcomeTab />} />
+          <Route path={`${match.url}/details`} render={() => <SearchDetailsPage />} />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />

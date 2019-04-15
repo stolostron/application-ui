@@ -46,13 +46,17 @@
 }
 
 .save-and-edit-query-modal {
-  .bx--form-item {
-    display: inline-block;
-    width: 100%;
-  }
   .bx--modal-content{
     min-height: 7.5rem;
     overflow: visible;
+  }
+
+  .bx--form-item {
+    display: inline-block;
+    width: 100%;
+    &:nth-last-of-type(2){
+      padding-bottom:2.375rem;
+    }
   }
 }
 

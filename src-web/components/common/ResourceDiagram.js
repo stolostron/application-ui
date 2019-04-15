@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { fetchResource, fetchResources, editResource, updateModal } from '../../actions/common'
+import { fetchResource, fetchResources, editResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE, DIAGRAM_REFRESH_INTERVAL_COOKIE,
@@ -22,8 +22,10 @@ import { MCM_OPEN_DIAGRAM_TAB_COOKIE, DIAGRAM_REFRESH_INTERVAL_COOKIE,
   MCM_DESIGN_SPLITTER_SIZE_COOKIE, REFRESH_TIMES, RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { Loading, Icon, InlineNotification  } from 'carbon-components-react'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import msgs from '../../../nls/platform.properties'
 import * as Actions from '../../actions'
+import apolloClient from '../../../lib/client/apollo-client'
 import resources from '../../../lib/shared/resources'
 import DiagramViewer from '../diagrams/DiagramViewer'
 import AutoRefreshSelect, {getPollInterval} from './AutoRefreshSelect'
@@ -44,7 +46,6 @@ class ResourceDiagram extends React.Component {
       designLoaded: PropTypes.bool,
       diagramFilters: PropTypes.array,
       fetchDesign: PropTypes.func,
-      fetchLogs: PropTypes.func,
       fetchPods: PropTypes.func,
       fetchTopology: PropTypes.func,
       getUpdates: PropTypes.func,
@@ -94,6 +95,7 @@ class ResourceDiagram extends React.Component {
       this.handleEditorCommand = this.handleEditorCommand.bind(this)
       this.handleSearchChange = this.handleSearchChange.bind(this)
       this.gotoEditorLine = this.gotoEditorLine.bind(this)
+      this.fetchLogs = this.fetchLogs.bind(this)
       localStorage.setItem(MCM_OPEN_DIAGRAM_TAB_COOKIE, 'true')
     }
 
@@ -123,7 +125,7 @@ class ResourceDiagram extends React.Component {
       let intervalId = undefined
       const interval = newInterval || getPollInterval(DIAGRAM_REFRESH_INTERVAL_COOKIE)
       if (interval) {
-        intervalId = setInterval(this.refetch, Math.max(interval, 20*1000))
+        intervalId = setInterval(this.refetch, Math.max(interval, 5*1000))
       }
       this.setState({ intervalId })
     }
@@ -275,7 +277,7 @@ class ResourceDiagram extends React.Component {
       if (!this.state.designLoaded)
         return <Loading withOverlay={false} className='content-spinner' />
 
-      const { staticResourceData, onDiagramFilterChange, topologyError, fetchLogs } = this.props
+      const { staticResourceData, onDiagramFilterChange, topologyError } = this.props
       const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData
       const { links,  diagramFilters, selectedNode, showTextView, isMulticluster } = this.state
       const { firstLoad, topologyLoaded, topologyReloading, statusesLoaded } = this.state
@@ -319,7 +321,7 @@ class ResourceDiagram extends React.Component {
               reloading={topologyReloading}
               staticResourceData={staticResourceData}
               setUpdateDiagramRefreshTimeFunc={this.setUpdateDiagramRefreshTimeFunc}
-              fetchLogs={fetchLogs}
+              fetchLogs={this.fetchLogs}
               activeFilters={{type:diagramFilters}}
             />
             <div className='resource-diagram-toolbar' >
@@ -560,6 +562,29 @@ class ResourceDiagram extends React.Component {
         this.setState({updateMsgKind: 'error', updateMessage: msgs.get('error.update.only.placement', this.context.locale)})
       }
     }
+
+    fetchLogs(resourceType,{name,namespace,clusterName}) {
+      const client = apolloClient.getClient()
+      client.mutate({
+        mutation: UPDATE_ACTION_MODAL,
+        variables: {
+          __typename: 'actionModal',
+          open: true,
+          type: 'table.actions.pod.logs',
+          resourceType: {
+            __typename: 'resourceType',
+            name: resourceType.name,
+            list: resourceType.list
+          },
+          data: {
+            __typename:'ModalData',
+            name,
+            namespace,
+            clusterName,
+          }
+        }
+      })
+    }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -604,9 +629,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     fetchPods: () => {
       dispatch(fetchResources(RESOURCE_TYPES.HCM_PODS))
-    },
-    fetchLogs: (resourceType, data) => {
-      dispatch(updateModal({ open: true, type: 'view-logs', resourceType, data }))
     },
     putResource: (resourceType, namespace, name, data, selfLink) => {
       dispatch(editResource(resourceType, namespace, name, data, selfLink))

@@ -73,7 +73,7 @@ class ResourceTopology extends React.Component {
     let intervalId = undefined
     const interval = newInterval || getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
     if (interval) {
-      intervalId = setInterval(this.refetch, Math.max(interval, 20*1000))
+      intervalId = setInterval(this.refetch, Math.max(interval, 5*1000))
     }
     this.setState({ intervalId: intervalId })
   }

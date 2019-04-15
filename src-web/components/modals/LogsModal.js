@@ -28,8 +28,8 @@ class LogsModal extends React.PureComponent {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
-      xhrPoll: false,
       loading: true,
+      loadingLogs: true,
       errors: ''
     }
   }
@@ -58,11 +58,14 @@ class LogsModal extends React.PureComponent {
   fetchLogs(containerName, podName, podNamespace, clusterName) {
     return apolloClient.getLogs(containerName, podName, podNamespace, clusterName).then(result => {
       if (result.data.logs.errors && result.data.logs.errors.length > 0){
+        this.setState({
+          loadingLogs: false
+        })
         return result.data.logs.errors[0]
       } else {
         this.setState({
           logs: result.data.logs,
-          loading: result.loading
+          loadingLogs: result.loading
         })
       }
     })
@@ -105,7 +108,7 @@ class LogsModal extends React.PureComponent {
 
   render() {
     const { open } = this.props,
-          { containers, loading, logs, podName, xhrPoll, errors } = this.state,
+          { containers, loadingLogs, logs, podName, errors } = this.state,
           { locale } = this.context
 
     return (
@@ -138,7 +141,7 @@ class LogsModal extends React.PureComponent {
           </div>
 
           {(() => {
-            if (!xhrPoll && loading && errors === '') {
+            if (loadingLogs) {
               return <Loading withOverlay={false} className='content-spinner' />
             }
             return <ScrollBox className='logs-container__content' content={logs} />
@@ -152,7 +155,7 @@ class LogsModal extends React.PureComponent {
     const containerName = data.selectedItem.label
     const { loading } = this.state
     this.setState({
-      xhrPoll: false,
+      loadingLogs: true,
       selectedContainer: containerName,
     })
     if (!loading) {
@@ -164,7 +167,6 @@ class LogsModal extends React.PureComponent {
   reload() {
     const { clusterName, loading, podName, podNamespace, selectedContainer } = this.state
     if (!loading) {
-      this.setState({ xhrPoll: true })
       this.fetchLogs(selectedContainer, podName, podNamespace, clusterName)
     }
   }

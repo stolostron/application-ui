@@ -31,9 +31,10 @@ class DetailsView extends React.Component {
   }
 
   fetchLogs(value) {
-    const { fetchLogs } = this.props
+    const { fetchLogs, onClose } = this.props
     const { resourceType, data } = value
     fetchLogs(resourceType, data)
+    onClose()
   }
 
   render() {

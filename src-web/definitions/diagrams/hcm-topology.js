@@ -359,7 +359,8 @@ export function getNodeDetails(currentNode) {
   const details = []
   if (currentNode){
     addNodeDetails(currentNode, details)
-    const { layout: { hasPods, pods } } = currentNode
+    const { layout={} } = currentNode
+    const { hasPods, pods } = layout
 
     // pods
     if (hasPods) {
@@ -457,7 +458,8 @@ function addNodeDetails(node, details, podOnly) {
     addDetails(podDetails)
     details.push({
       type: 'logs',
-      value: {resourceType: RESOURCE_TYPES.HCM_PODS, data: podModel}
+      value: {resourceType: RESOURCE_TYPES.HCM_PODS,
+        data: { namespace, name, clusterName }}
     })
   }
 }

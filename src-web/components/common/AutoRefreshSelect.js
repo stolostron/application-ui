@@ -11,8 +11,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DropdownV2 } from 'carbon-components-react'
+import { DEFAULT_REFRESH_TIME } from '../../../lib/shared/constants'
 import '../../../graphics/diagramIcons.svg'
-import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
 
@@ -39,16 +39,16 @@ export default class AutoRefreshSelect extends React.Component {
     const { locale } = this.context
     const { refreshValues=[] } = this.props
     this.autoRefreshChoices = refreshValues.map(pollInterval=>{
-      let text
+      let label
       if (pollInterval>=60) {
-        text = msgs.get('refresh.interval.minutes', [pollInterval/60], locale)
+        label = msgs.get('refresh.interval.minutes', [pollInterval/60], locale)
       } else if (pollInterval!==0) {
-        text = msgs.get('refresh.interval.seconds', [pollInterval], locale)
+        label = msgs.get('refresh.interval.seconds', [pollInterval], locale)
       } else {
-        text = msgs.get('refresh.interval.never', locale)
+        label = msgs.get('refresh.interval.never', locale)
       }
       pollInterval*=1000
-      return {text, pollInterval}
+      return {label, pollInterval}
     })
   }
 
@@ -64,7 +64,7 @@ export default class AutoRefreshSelect extends React.Component {
 
 
   handleChange = (e) => {
-    const pollInterval = e.selectedItem.pollInterval
+    const {selectedItem: {pollInterval}} = e
     const {refreshCookie, startPolling, stopPolling} = this.props
     if (pollInterval===0) {
       stopPolling()
@@ -78,7 +78,10 @@ export default class AutoRefreshSelect extends React.Component {
   render() {
     const { pollInterval } = this.state
     const refresh = msgs.get('refresh', this.context.locale)
-    const currentChoice = this.autoRefreshChoices.find(choice => choice.pollInterval === pollInterval)
+    const label = msgs.get('refresh.choose', this.context.locale)
+    const idx = Math.max(0, this.autoRefreshChoices.findIndex(({pollInterval:pi})=>{
+      return pollInterval===pi
+    }))
     return (
       <div className='auto-refresh-selection'>
         <div className='button' tabIndex='0' role={'button'}
@@ -88,29 +91,33 @@ export default class AutoRefreshSelect extends React.Component {
             <use href={'#diagramIcons_autoRefresh'} ></use>
           </svg>
         </div>
-        <DropdownV2
-          label={currentChoice.text}
-          items={this.autoRefreshChoices}
-          itemToString={item => (item ? item.text : '')}
+        <DropdownV2 className='selection'
+          label={label}
+          ariaLabel={label}
           onChange={this.handleChange}
-        />
+          inline={true}
+          initialSelectedItem={this.autoRefreshChoices[idx].label}
+          items={this.autoRefreshChoices} />
       </div>
     )
   }
 }
 
 export const getPollInterval = (cookieKey) => {
-  let pollInterval = pollInterval = parseInt(config['featureFlags:liveUpdates']) === 2 ?
-    config['featureFlags:liveUpdatesPollInterval'] : 0
-  const savedInterval = localStorage.getItem(cookieKey)
-  if (savedInterval) {
-    try {
-      const saved = JSON.parse(savedInterval)
-      if (saved.pollInterval !== undefined) {
-        pollInterval = saved.pollInterval
-      }
-    } catch (e) {
+  let pollInterval = DEFAULT_REFRESH_TIME*1000
+  if (cookieKey) {
+    const savedInterval = localStorage.getItem(cookieKey)
+    if (savedInterval) {
+      try {
+        const saved = JSON.parse(savedInterval)
+        if (saved.pollInterval !== undefined) {
+          pollInterval = saved.pollInterval
+        }
+      } catch (e) {
       //
+      }
+    } else {
+      savePollInterval(cookieKey, pollInterval)
     }
   }
   return pollInterval

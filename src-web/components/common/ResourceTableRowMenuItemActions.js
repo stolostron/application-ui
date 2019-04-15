@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -10,6 +10,7 @@
 
 import { updateModal } from '../../actions/common'
 import config from '../../../lib/shared/config'
+import { MCM_CLUSTERS_SERVICES_ACTIONS } from '../../../lib/shared/constants'
 
 export const resourceActions = (action, dispatch, resourceType, data, hasService, history) => {
   switch (action) {
@@ -45,6 +46,26 @@ export const resourceActions = (action, dispatch, resourceType, data, hasService
   }
   case 'table.actions.pod.logs': {
     return dispatch(updateModal({ open: true, type: 'view-logs', resourceType, data }))
+  }
+  case 'table.actions.cluster.launch': {
+    window.open(`${data.consoleURL}/console`, '_blank')
+    return
+  }
+  case MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING.action: {
+    window.open(`${data.consoleURL}/kibana`, '_blank')
+    return
+  }
+  case MCM_CLUSTERS_SERVICES_ACTIONS.MONITORING.action: {
+    window.open(`${data.consoleURL}/grafana`, '_blank')
+    return
+  }
+  case MCM_CLUSTERS_SERVICES_ACTIONS.CEM.action: {
+    window.location.replace(`${data.consoleURL}/cemui/launch`)
+    return
+  }
+  case 'table.actions.cluster.search': {
+    history.push(`${config.contextPath}/search?filters={"textsearch":"cluster:${data.metadata.name}"}`)
+    return
   }
   default:
 

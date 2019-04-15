@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -28,7 +28,9 @@ import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-
+import clustersDef from '../../definitions/hcm-clusters'
+import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
+import { convertStringToQuery } from '../../../lib/client/search-helper'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -51,6 +53,18 @@ const {
   TableExpandedRow } = DataTable
 
 class ResourceTable extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      clustersServicesMap: {}
+    }
+    this.serviceList = [
+      constants.MCM_CLUSTERS_SERVICES_ACTIONS.MONITORING,
+      constants.MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING,
+      constants.MCM_CLUSTERS_SERVICES_ACTIONS.CEM
+    ]
+  }
 
   render() {
     const {
@@ -220,7 +234,8 @@ class ResourceTable extends React.Component {
   }
 
   handleActionClick(action, resourceType, item, history) {
-    if (action === 'table.actions.cluster.view.nodes' || action === 'table.actions.cluster.view.pods') {
+    const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
+    if (resourceActionsList.includes(action)) {
       this.props.getResourceAction(action, item, null, history, this.props.locale)
     } else {
       const client = apolloClient.getClient()
@@ -254,10 +269,10 @@ class ResourceTable extends React.Component {
   }
 
   getRows() {
-    const { history, items, itemIds, tableActions, resourceType, staticResourceData, match, userRole } = this.props
+    const { history, tableActions, resourceType, staticResourceData, match, userRole } = this.props
     const { locale } = this.context
     const { normalizedKey } = staticResourceData
-    const resources = itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && _.get(target, normalizedKey) === id) || (target.name === id))))
+    const resources = this.getResources()
     if (resources && resources.length > 0) {
       return resources.map((item, index) => {
         const row = {}
@@ -270,12 +285,14 @@ class ResourceTable extends React.Component {
 
         const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
         const filteredActions = menuActions ? filterTableAction(menuActions,userRole,resourceType) : null
+        const availableActions = filteredActions && this.getAvaiableActions(filteredActions, item)
 
         if (filteredActions && filteredActions.length > 0 && this.showTableToobar()) {
           row.action = (
             <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
               {filteredActions.map((action) =>
                 <OverflowMenuItem
+                  disabled={!availableActions.includes(action)}
                   data-table-action={action}
                   isDelete={action ==='table.actions.remove' || action ==='table.actions.policy.remove'|| action ==='table.actions.applications.remove'|| action ==='table.actions.compliance.remove'}
                   onClick={() => this.handleActionClick(action, resourceType, item, history)}
@@ -313,6 +330,50 @@ class ResourceTable extends React.Component {
     return indeterminateStatus
   }
 
+  componentDidMount() {
+    const resources = this.getResources()
+    if (resources && resources.length > 0) {
+      resources.map(item => {
+        this.setState(prevState => ({
+          clustersServicesMap: {
+            ...prevState.clustersServicesMap,
+            [item.metadata.name]: this.getClusterServices(item)
+          }
+        }))
+      })
+    }
+  }
+
+  getClusterServices(item) {
+    const serviceMap = {}
+    this.serviceList.map(service => serviceMap[service.name] = false)
+    _.keys(serviceMap).map(serviceName => {
+      const query = convertStringToQuery(`kind:service cluster:${item.metadata.name} name:${serviceName}`)
+      apolloClient.search(SEARCH_QUERY, {input: [query]}).then(response => {
+        if (response.errors) {
+          return serviceMap
+        }
+        const s = response.data.searchResult && response.data.searchResult[0]
+        if (s.items.length && s.items.length !== 0) {
+          serviceMap[serviceName] = true
+        }
+      }).catch(err=>(err, serviceMap))
+    })
+    return serviceMap
+  }
+
+  getResources() {
+    const { items, itemIds, staticResourceData } = this.props
+    const { normalizedKey } = staticResourceData
+    return itemIds && itemIds.map(id => items[id] || (Array.isArray(items) && items.find(target =>  (normalizedKey && _.get(target, normalizedKey) === id) || (target.name === id))))
+  }
+
+  getAvaiableActions(actions, item) {
+    actions = item.consoleURL ? actions : actions.filter(a => a !== 'table.actions.cluster.launch')
+    const serviceMap = this.state.clustersServicesMap[item.metadata.name] || {}
+    this.serviceList.map(service => actions = serviceMap[service.name] ? actions : actions.filter(a => a !== service.action))
+    return actions
+  }
 }
 
 ResourceTable.contextTypes = {

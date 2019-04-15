@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -12,6 +12,7 @@ import lodash from 'lodash'
 import msgs from '../../nls/platform.properties'
 import resources from '../../lib/shared/resources'
 import StatusField from '../components/common/StatusField'
+import constants from '../../lib/shared/constants'
 
 resources(() => {
   require('../../scss/table.scss')
@@ -73,9 +74,14 @@ export default {
     },
   ],
   tableActions: [
-    'table.actions.cluster.view.nodes',
-    'table.actions.cluster.view.pods',
-    'table.actions.cluster.edit.labels',
+    // 'table.actions.cluster.view.nodes',
+    // 'table.actions.cluster.view.pods',
+    // 'table.actions.cluster.edit.labels',
+    'table.actions.cluster.launch',
+    constants.MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING.action,
+    constants.MCM_CLUSTERS_SERVICES_ACTIONS.MONITORING.action,
+    constants.MCM_CLUSTERS_SERVICES_ACTIONS.CEM.action,
+    'table.actions.cluster.search'
   ],
 }
 

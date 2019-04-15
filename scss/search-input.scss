@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -175,7 +175,6 @@
     display: flex;
     flex-wrap: wrap;
     margin-left: -1rem;
-    //justify-content: space-around;
   }
   .bx--module__inner {
     box-shadow: none;
@@ -188,8 +187,6 @@
 
 .search-query-card {
   height: 8rem;
-  //max-width: 28rem;
-  //min-width: 24rem;
   margin: 1rem;
   &:hover .query-menu-button{
     visibility: visible;
@@ -206,9 +203,15 @@
         cursor: pointer;
       }
       .search-query-result-number {
+        font-family: 'ibm-plex-sans';
+        font-style: normal;
+        font-weight: 300;
         color: $mcm_search_icp_bright_blue;
         font-size: 2rem;
         &__suggested {
+          font-family: 'ibm-plex-sans';
+          font-style: normal;
+          font-weight: 300;
           color: $mcm_search_suggested;
           font-size: 2rem;
         }
@@ -217,10 +220,13 @@
         color: $color__navy-gray-6;
         text-transform: uppercase;
         font-size: 0.8rem;
+        letter-spacing: 1.03px;
         font-weight: bold;
       }
     }
     .search-query-content {
+      display: flex;
+      flex-direction: column;
       flex: 1 0 70%;
       margin-left: 0.8rem;
       .search-query-name {
@@ -232,16 +238,15 @@
         color: $color__navy-gray-7;
       }
       .search-query-description {
-        font-size: 0.7rem;
+        height: 100%;
+        font-size: 0.75rem;
         color: $color__navy-gray-6;
-        margin-top: 0.5rem;
         font-style: italic;
         max-height: 3rem;
         overflow: hidden;
         text-overflow: ellipsis;
         &__orb {
           border-top: 1px solid $color__navy-gray-8;
-          margin-top: 1rem;
           padding-top: 0.5rem;
         }
         &:hover {
@@ -313,8 +318,6 @@
     margin: 0.1rem 0 0 0.5rem;
     fill: $color__navy-gray-6;
     transform: scale(0.9);
-    //visibility: hidden;
-    //display: none;
   }
 
   .header-tab-add-new {
@@ -352,6 +355,8 @@
 }
 
 .search-query-card-inner-container {
+  height: 100%;
+
   .search-query-header{
     &__orb {
       margin: -2rem 0 0 3rem;
@@ -363,7 +368,7 @@
     -webkit-border-radius: 1rem;
     -moz-border-radius: 1rem;
     border-radius: 1rem;
-    background: $mcm_search_suggested;
+    background-image: linear-gradient(to bottom left,$mcm_search_suggested, $color__teal-20);
 
     svg {
       margin: 0.5rem 0.65rem;
@@ -416,7 +421,7 @@
 @media (max-width: 1280px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 20rem;
+      max-width: 25rem;
       min-width: 18rem;
     }
   }

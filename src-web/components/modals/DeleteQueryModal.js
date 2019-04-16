@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -78,7 +78,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
           >
             <div>
               { this.state.loading && <Loading className='content-spinner' />}
-              <p>{`${msgs.get('modal.query.remove.warning', [this.state.queryName], this.context.locale)}` }</p>
+              <p>{`${msgs.get('modal.query.remove.warning', [this.state.name], this.context.locale)}` }</p>
               { this.state.errorMessage &&
               <InlineNotification
                 kind='error'

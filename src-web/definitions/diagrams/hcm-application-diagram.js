@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -127,7 +127,7 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
   targetClusters = new Set(targetClusters)
   let {nodes=[], links=[]} = elements
   let {yaml, designLoaded} = elements
-  const {parsed, chartMap, kubeSelectors, deployablesMap} = elements
+  const {parsed, chartMap, kubeSelectors} = elements
   const hasKubeDeploments = kubeSelectors.length>0
   const hasChartDeploments = Object.keys(chartMap).length>0
 
@@ -139,11 +139,11 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
   // so we don't add its nodes and links until it's loaded
   let clusters = []
   let topologyLoaded = false
-  let topologyError = false
   let statusesLoaded = false
   const {activeFilters, status, reloading} = topology
   let topologyReloading = reloading
-  const requiredTopologyLoaded = _.isEqual(requiredFilters, activeFilters) && status===Actions.REQUEST_STATUS.DONE
+  const requiredTopologyLoaded = _.isEqual(requiredFilters, activeFilters) &&
+    (reloading || status===Actions.REQUEST_STATUS.DONE)
   if (designLoaded && requiredTopologyLoaded) {
     topologyLoaded = true
     elements = this.getTopologyElements(topology)
@@ -154,11 +154,11 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
 
     // get pod map
     statusesLoaded = podList.status===Actions.REQUEST_STATUS.DONE
-    const podMap = statusesLoaded ? _.keyBy(podList.items, (item)=>{
+    const podMap = _.keyBy(podList.items, (item)=>{
       const cluster = _.get(item, 'cluster.metadata.name', 'unknown')
       const name = _.get(item, 'metadata.name', 'unknown')
       return `${cluster}//${name}`
-    }) : {}
+    })
 
     // add links between design nodes and topology nodes
     // don't add k8 node if it has no connection to design
@@ -188,8 +188,6 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
           })
           if (selector) {
             shapeId = selector.deployableId
-            // organize diagram so that deployables form barrier between design and k8
-            deployablesMap[shapeId].isDivider = true
             node.isCRDDeployment = true
           }
         }
@@ -211,11 +209,9 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
             uid: shapeId+uid
           })
           // kube data on this pod
-          if (statusesLoaded) {
-            const podModel = podMap[`${clusterName}//${name}`]
-            if (podModel) {
-              node.podModel = podModel
-            }
+          const podModel = podMap[`${clusterName}//${name}`]
+          if (podModel) {
+            node.podModel = podModel
           }
           return true
         }
@@ -250,7 +246,7 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
       links = []
     }
     if (topology.status===Actions.REQUEST_STATUS.ERROR) {
-      topologyError=true
+      topologyLoaded = true
     }
   }
 
@@ -271,7 +267,6 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
     topologyLoaded,
     statusesLoaded,
     topologyReloading,
-    topologyError
   }
 }
 
@@ -426,6 +421,16 @@ export function getDesignElements(item) {
       arr.push(work)
     })
 
+    // create set of deployables that are a target of another deployable
+    // used when no charts in app and we divide diagram by deployable (se below)
+    const nonDividerSet = new Set()
+    const nodeMap = _.keyBy(nodes, 'uid')
+    links.forEach(({source, target})=>{
+      if (nodeMap[source].type==='deployable' && nodeMap[target].type==='deployable') {
+        nonDividerSet.add(target)
+      }
+    })
+
     // connect each works between deployable and k8 object
     // insert a chart shape in between if that was used
     Object.keys(applicationWorksMap).forEach((key,idx)=>{
@@ -480,9 +485,15 @@ export function getDesignElements(item) {
           if (deployer) {
             const name = deployer.metadata.name
             const deployableId = deployablesIdMap[name]
+
+            // pass a selector back that will find a topology element that thios deployer connects to
             kubeSelectors.push({
               deployableId, kubeKind, kubeName, kubeCluster
             })
+
+            // organize diagram so that deployables form barrier between design and k8
+            const deployable = deployablesMap[deployableId]
+            deployable.isDivider = !nonDividerSet.has(deployableId)
           }
         }
       })
@@ -496,7 +507,6 @@ export function getDesignElements(item) {
     parsed,
     chartMap,
     kubeSelectors,
-    deployablesMap,
     designLoaded
   }
 }

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -54,10 +54,6 @@ class ResourceTopologyDiagram extends React.Component {
     nodes.forEach(({clusterName})=>{
       set[clusterName] = true
     })
-
-    if (!this.initialNodes && loaded) {
-      this.initialNodes = nodes.length
-    }
     const keys = Object.keys(set).sort()
     const length = keys.length
     const clusterNames = length<=MAX_CLUSTERNAMES_TITLE+1 ? keys.join(', ') :
@@ -72,20 +68,6 @@ class ResourceTopologyDiagram extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState){
-    // weave scans can:
-    //  1) missing all nodes between scans
-    //  2) just barf
-    if (this.initialNodes && nextProps.nodes.length===0) {
-      if (this.latency===undefined) {
-        this.latency = 6
-      }
-      this.latency -= 1
-      // give it 3 scans where all objects are missing before we refresh topology with nothing
-      if (this.latency>0) {
-        return false
-      }
-    }
-    delete this.latency
     return !lodash.isEqual(this.props.clusters.map(n => n.id), nextProps.clusters.map(n => n.id)) ||
        !lodash.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
        !lodash.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||

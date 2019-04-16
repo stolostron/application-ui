@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -583,13 +583,13 @@ export const counterZoomLabels = (svg, currentZoom) => {
           .style('font-size', hideDescription ? 0 : fontSize-2+'px')
 
         // fix leading between lines
-        let textBBox
+        let height
         shownLabel.selectAll('tspan.beg')
           .each((d,j,ts)=>{
             ts[j].setAttribute('dy', fontSize)
-            textBBox = ts[j].getBBox()
+            height = ts.length * fontSize
           })
-        layout.textBBox.height = textBBox.height
+        layout.textBBox.height = height
 
         // fix opaque background behind label
         nodeLabel
@@ -597,7 +597,6 @@ export const counterZoomLabels = (svg, currentZoom) => {
           .each((d,k,rc)=>{
             d3.select(rc[k])
               .attrs(() => {
-                const {height} = textBBox
                 return {height}
               })
           })

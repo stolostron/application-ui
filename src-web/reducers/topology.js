@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -9,6 +9,7 @@
 
 import lodash from 'lodash'
 import * as Actions from '../actions'
+import { getBufferedResponse } from '../../lib/client/weave-helper'
 import { getFilterState, saveFilterState } from '../../lib/client/filter-helper'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
@@ -45,10 +46,10 @@ export const topology = (state = initialState, action) => {
 
       // ignore topologies that were fetched with a different set of active filters
       if (lodash.isEqual(action.fetchFilters, state.activeFilters)) {
+        const {nodes, links, buffer} = getBufferedResponse(state, action)
         return { ...state,
           status: Actions.REQUEST_STATUS.DONE,
-          nodes: action.nodes,
-          links: action.links,
+          nodes, links, buffer,
           fetchFilters: action.fetchFilters,
           reloading: false
         }

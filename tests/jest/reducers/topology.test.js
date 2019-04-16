@@ -43,10 +43,11 @@ describe('topology reducer with topology name', () => {
     }
     const expectedValue = {
       links: undefined,
-      nodes: undefined,
+      nodes: [],
       status: 'DONE',
       reloading: false,
-      test: 'test'
+      test: 'test',
+      buffer: {hadNodes: false, links: undefined, nodes: []}
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })

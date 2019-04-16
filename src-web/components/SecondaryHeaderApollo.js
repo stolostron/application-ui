@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -50,7 +50,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
           const openedTabId = _.get(data, 'searchQueryTabs.openedTabId')
           return (
             <div className='secondary-header-wrapper' role='region' aria-label={title}>
-              <div className='secondary-header'>
+              <div className='secondary-header apollo'>
                 {tabs && tabs.length > 0 ? (
                   <DetailPageHeader hasTabs={true} title={decodeURIComponent(title)} aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}>
                     <Tabs className='secondary-header-tabs' selected={this.getSelectedTab(tabs, openedTabId, client) || 0} aria-label={`${title} ${msgs.get('tabs.label', locale)}`}>

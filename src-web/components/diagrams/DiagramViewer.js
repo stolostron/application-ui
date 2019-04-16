@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -11,7 +11,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-import { Loading, InlineNotification  } from 'carbon-components-react'
+import { Loading  } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import '../../../graphics/diagramIcons.svg'
 import DetailsView from './DetailsView'
@@ -23,7 +23,6 @@ import LinkHelper, {defineLinkMarkers } from './linkHelper'
 import NodeHelper, {showMatches, setSelections} from './nodeHelper'
 import * as c from './constants.js'
 import moment from 'moment'
-import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 
@@ -45,7 +44,6 @@ class DiagramViewer extends React.Component {
     nodes: PropTypes.array,
     reloading: PropTypes.bool,
     searchName: PropTypes.string,
-    secondaryError: PropTypes.bool,
     secondaryLoad: PropTypes.bool,
     selectedNode: PropTypes.object,
     setUpdateDiagramRefreshTimeFunc: PropTypes.func,
@@ -107,47 +105,15 @@ class DiagramViewer extends React.Component {
     || !_.isEqual(this.props.activeFilters, nextProps.activeFilters)
     || this.props.searchName !== nextProps.searchName
     || this.props.secondaryLoad !== nextProps.secondaryLoad
-    || this.state.secondaryError !== nextState.secondaryError
     || this.props.statusesLoaded !== nextProps.statusesLoaded
   }
 
-  // weave scans can:
-  //  1) include multiple copies of the same node
-  //  2) can miss some nodes between scans
   componentWillReceiveProps(){
     this.setState((prevState, props) => {
 
-      // secondary load--when a design diagram loads the topology second
-      // if there was an error loading topology, set secondaryError state till topology loads succesfully
-      const secondaryError = props.secondaryError || (prevState.secondaryError && !props.secondaryLoad)
-
-      // keyBy makes sure nodes are unique
-      // also -- if they disappear in one scan, see if they reappear in the next 2 scan
-      // until topology filter is changed
-      const propNodeMap = _.keyBy(props.nodes, 'uid')
-      const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')
-      for (var uid in prevStateNodeMap) {
-        const prevNode = prevStateNodeMap[uid]
-        if (!propNodeMap[uid] && !prevNode.loading) {
-          // if node is missing in this scan, see if it reappears in the next 3 scans
-          if (prevNode.latency===undefined) {
-            prevNode.latency = 3
-          }
-          prevNode.latency -= 1
-          // give it 3 scans where an object is missing before we rewmove it
-          if (prevNode.latency>=0) {
-            propNodeMap[uid] = prevNode
-          }
-        } else {
-          // if it's back, forget it was ever gone
-          delete prevNode.latency
-        }
-      }
-      let nodes = Object.values(propNodeMap)
-
-
       // reuse existing states for the same node
-      nodes = nodes.map(node => {
+      const prevStateNodeMap = _.keyBy(prevState.nodes, 'uid')
+      const nodes = props.nodes.map(node => {
         const ret = prevStateNodeMap[node.uid] || Object.assign(node, {layout: {newComer: {}}})
         ret.podModel = node.podModel
         return ret
@@ -198,7 +164,7 @@ class DiagramViewer extends React.Component {
       // switching between search and not
       const {searchName=''} = props
       const searchChanged = searchName.localeCompare((prevState.searchName||''))!==0
-      return {links, nodes, hiddenLinks, searchName, searchChanged, secondaryError}
+      return {links, nodes, hiddenLinks, searchName, searchChanged}
     })
 
   }
@@ -222,7 +188,7 @@ class DiagramViewer extends React.Component {
 
   render() {
     const { title, staticResourceData, secondaryLoad, fetchLogs } = this.props
-    const { selectedNodeId, showDetailsView, secondaryError } = this.state
+    const { selectedNodeId, showDetailsView, } = this.state
     // don't screw up the jest test by having the current time in the snapshot
     const time = this.props.setUpdateDiagramRefreshTimeFunc ? moment().format('h:mm:ss A') : ''
     return (
@@ -235,18 +201,9 @@ class DiagramViewer extends React.Component {
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
             <svg id={c.DIAGRAM_SVG_ID} className="topologyDiagram" />
           </div>
-          {secondaryLoad && !secondaryError && <div className='secondaryLoad' >
+          {secondaryLoad && <div className='secondaryLoad' >
             <Loading withOverlay={false} />
           </div>}
-          {secondaryError &&
-            <InlineNotification
-              kind='error'
-              title={msgs.get('error.load.topology', this.context.locale)}
-              iconDescription=''
-              subtitle={''}
-              onCloseButtonClick={()=>{}}
-            />
-          }
         </div>
         <div className='diagramRefreshContainer' ref={this.setDiagramRefreshContainerRef}>
           <Loading withOverlay={false} small />

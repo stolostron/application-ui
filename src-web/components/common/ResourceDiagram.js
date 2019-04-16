@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -58,7 +58,6 @@ class ResourceDiagram extends React.Component {
       restoreSavedDiagramFilters: PropTypes.func,
       staticResourceData: PropTypes.object,
       statusesLoaded: PropTypes.bool,
-      topologyError: PropTypes.bool,
       topologyLoaded: PropTypes.bool,
       topologyReloading: PropTypes.bool,
       validator: PropTypes.func,
@@ -161,7 +160,7 @@ class ResourceDiagram extends React.Component {
         }
 
         // update loading spinner
-        const firstLoad = prevState.firstLoad || nextProps.topologyLoaded || nextProps.topologyError
+        const firstLoad = prevState.firstLoad || nextProps.topologyLoaded
         const {topologyReloading} = nextProps
         if (this.updateDiagramRefreshTime) {
           this.updateDiagramRefreshTime(topologyReloading)
@@ -186,7 +185,6 @@ class ResourceDiagram extends React.Component {
         !_.isEqual(this.state.exceptions, nextState.exceptions) ||
         this.state.updateMessage !== nextState.updateMessage ||
         this.state.showTextView !== nextState.showTextView ||
-        this.props.topologyError !== nextProps.topologyError ||
         this.props.topologyLoaded !== nextProps.topologyLoaded ||
         this.props.statusesLoaded !== nextProps.statusesLoaded ||
         this.props.yaml.localeCompare(nextProps.yaml) !==  0 ||
@@ -277,7 +275,7 @@ class ResourceDiagram extends React.Component {
       if (!this.state.designLoaded)
         return <Loading withOverlay={false} className='content-spinner' />
 
-      const { staticResourceData, onDiagramFilterChange, topologyError } = this.props
+      const { staticResourceData, onDiagramFilterChange } = this.props
       const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData
       const { links,  diagramFilters, selectedNode, showTextView, isMulticluster } = this.state
       const { firstLoad, topologyLoaded, topologyReloading, statusesLoaded } = this.state
@@ -315,7 +313,6 @@ class ResourceDiagram extends React.Component {
               handleNodeSelected={handleNodeSelected}
               selectedNode={selectedNode}
               setViewer={this.setViewer}
-              secondaryError={topologyError}
               secondaryLoad={!topologyLoaded && !firstLoad}
               statusesLoaded={statusesLoaded}
               reloading={topologyReloading}

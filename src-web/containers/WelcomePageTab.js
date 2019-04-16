@@ -14,7 +14,7 @@ import PropTypes from 'prop-types'
 import config from '../../lib/shared/config'
 // add back once we support access control
 // import { ROLES } from '../../lib/shared/constants'
-import { Kubernetes, Catalog, Clusters, HelmRepo, Application, Compliance, Users } from '../components/WelcomeSummaryItems'
+import { SetupCLI, Kubernetes, Catalog, Clusters, HelmRepo, Application, Compliance, Users } from '../components/WelcomeSummaryItems'
 
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
@@ -84,6 +84,7 @@ class Welcome extends React.PureComponent {
         <div className='welcome--summary--condensed' role='region' aria-label={msgs.get('welcome.box.label', locale)}>
           <h2>{msgs.get('welcome.box.one.title', locale)}</h2>
           <p>{msgs.get('welcome.box.one.description', locale)}</p>
+          <SetupCLI locale={locale} />
           <ul className='bx--list--unordered'>
             <Kubernetes locale={locale} showHorizontalRule={true} />
             <Catalog locale={locale} showHorizontalRule={true} />
@@ -102,6 +103,7 @@ class Welcome extends React.PureComponent {
             <div className='welcome--summary__inner'>
               <h2>{msgs.get('welcome.box.one.title', locale)}</h2>
               <p>{msgs.get('welcome.box.one.description', locale)}</p>
+              <SetupCLI locale={locale} />
               <ul className='bx--list--unordered'>
                 <Kubernetes locale={locale} />
                 <Catalog locale={locale} />

@@ -15,6 +15,14 @@ import { Icon } from 'carbon-components-react'
 
 /* eslint-disable react/prop-types */
 
+export const SetupCLI = ({ locale }) =>
+  <div className='setup-cli-container'>
+    <a href='/console/tools/cli?useNav=mcm-ui' className='cli-link'>
+      {msgs.get('install.cli.tools', locale)}
+      <img src={`${config.contextPath}/graphics/arrow.svg`} alt={msgs.get('cli.alt', locale)} />
+    </a>
+  </div>
+
 export const Kubernetes = ({ locale, showHorizontalRule }) =>
   <li className='bx--list__item'>
     {msgs.get('welcome.box.one.bullet.one', locale)}

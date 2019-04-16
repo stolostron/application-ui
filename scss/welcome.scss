@@ -209,21 +209,45 @@ $ibm_color_ultramarine60: #3151b7;
       p {
         font-size: 1.25rem;
         line-height: 1.5;
-        margin-bottom: 80px;
+        margin-bottom: 55px;
         position:relative;
-        &:after {
-          position: absolute;
-          bottom: -40px;
-          left: 0;
-          content: '';
-          width: 507px;
-          height: 1px;
-          background: $ibm_color_ultramarine10;
+      }
+      .setup-cli-container {
+        height: 54px;
+        width: 310px;
+        margin-bottom: 55px;
+        border: 1px solid $ibm_color_ultramarine10;
+        cursor: pointer;
+
+        .cli-link {
+          display: block;
+          height: 100%;
+          width: 100%;
+          padding-left: 25px;
+          padding-top: 20px;
+          text-decoration: none;
+          color: $ibm_color_ultramarine10;
+          font-size: 14px;
+          font-weight: 600;
+          img {
+            margin-left: 142px;
+            width: 17px;
+            height: 14px;
+          }
+        }
+        &:hover {
+          background-color: $ibm_color_ultramarine10;
+          .cli-link {
+            color: $ibm_color_ultramarine60;
+          }
         }
       }
       &__section {
         padding: 65px 0px 85px 65px;
         width: 50%;
+        &.welcome--summary__one {
+          color: white;
+        }
         .welcome--summary__inner {
           padding-right: 65px;
           max-width: 800px;

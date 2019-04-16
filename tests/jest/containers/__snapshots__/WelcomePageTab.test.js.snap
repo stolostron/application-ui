@@ -68,6 +68,20 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
         <p>
           Ready to get started? Check out some reference links and look around IBM Multicloud Manager.
         </p>
+        <div
+          className="setup-cli-container"
+        >
+          <a
+            className="cli-link"
+            href="/console/tools/cli?useNav=mcm-ui"
+          >
+            Install CLI tools
+            <img
+              alt="Install CLI tools arrow "
+              src="undefined/graphics/arrow.svg"
+            />
+          </a>
+        </div>
         <ul
           className="bx--list--unordered"
         >

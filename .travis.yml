@@ -8,13 +8,13 @@ env:
 matrix:
   include:
     - os: linux
-      env: OS=rhel7 TARGET=${TARGET_IP}
+      env: OSARCH=rhel7 TARGET=${TARGET_IP}
       dist: trusty
     - os: linux-ppc64le
-      env: OS=linux-ppc64le
+      env: OSARCH=linux-ppc64le
       dist: trusty
     - os: linux
-      env: OS=linux-amd64
+      env: OSARCH=linux-amd64
       dist: trusty
 
 addons:

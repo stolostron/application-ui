@@ -21,7 +21,7 @@ const ROUTE = {
 }
 
 module.exports = {
-  '@disabled': false,
+  '@disabled': true,//re-enabled after test environment has clusters
 
   before: function (browser) {
     const loginPage = browser.page.LoginPage()
@@ -29,45 +29,23 @@ module.exports = {
     loginPage.authenticate()
   },
 
-  'Cluster Page: table and search': (browser) => {
+  'Cluster Page: table and search': (browser) => { //not installed as default
     verifyResourcePage(browser, ROUTE['cluster'][0],false)
     verifyTableSearch(browser, ROUTE['cluster'][0], ROUTE['cluster'][1])
   },
 
-  'Compliance Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['compliance'][0],true)
-    verifyTableSearch(browser, ROUTE['compliance'][0], ROUTE['compliance'][1])
-  },
 
-  'Application Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['applications'][0],false)
-    verifyTableSearch(browser, ROUTE['applications'][0], ROUTE['applications'][1])
-  },
+  // 'Application Page: table and search': (browser) => { //not installed as default
+  //   verifyResourcePage(browser, ROUTE['applications'][0],false)
+  //   verifyTableSearch(browser, ROUTE['applications'][0], ROUTE['applications'][1])
+  // },
 
   // 'Helm Release Page: table and search': (browser) => {
   //   verifyResourcePage(browser, ROUTE['helm_releases'][0],false)
   //   verifyTableSearch(browser, ROUTE['helm_releases'][0], ROUTE['helm_releases'][1])
   // },
 
-  'Pod Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['pods'][0],false)
-    verifyTableSearch(browser, ROUTE['pods'][0], ROUTE['pods'][1])
-  },
 
-  'Node Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['nodes'][0],false)
-    verifyTableSearch(browser, ROUTE['nodes'][0], ROUTE['nodes'][1])
-  },
-
-  'Storage Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['persistent_volume'][0],true)
-    verifyTableSearch(browser, ROUTE['persistent_volume'][0], ROUTE['persistent_volume'][1])
-  },
-
-  'Storage Claim Page: table and search': (browser) => {
-    verifyResourcePage(browser, ROUTE['persistent_volume_claim'][0],true)
-    verifyTableSearch(browser, ROUTE['persistent_volume_claim'][0], ROUTE['persistent_volume_claim'][1])
-  },
 
   after: function (browser, done) {
     setTimeout(() => {

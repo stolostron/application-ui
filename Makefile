@@ -77,7 +77,7 @@ ifeq ($(UNIT_TESTS), TRUE)
 	npm test
 endif
 ifeq ($(SELENIUM_TESTS), TRUE)
-ifeq ($(ARCH), x86_64)
+ifeq ($(OSARCH), linux-amd64)
 	docker pull $(IMAGE_REPO)/mcm-ui-api-amd64
 	docker run \
 	-e NODE_ENV=test \

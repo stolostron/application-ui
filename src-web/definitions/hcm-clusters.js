@@ -102,6 +102,7 @@ export function getLabels(item) {
 export function getStatusIcon(item, locale) {
   let text
   switch (item.status) {
+  case 'OK':
   case 'ok':
     text = 'ready'
     break

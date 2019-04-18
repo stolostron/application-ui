@@ -27,7 +27,7 @@ const ReactDOMServer = require('react-dom/server'),
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
 
-let App, Login, reducers, uiConfig  //laziy initialize to reduce startup time seen on k8s
+let App, Login, role, reducers, uiConfig  //laziy initialize to reduce startup time seen on k8s
 router.get('/logout', (req, res) => {
   var LOGOUT_API = '/v1/auth/logout'
   var callbackUrl = req.headers['host']
@@ -58,6 +58,9 @@ router.get('*', (req, res) => {
     const { headerHtml: header, props: propsH, state: stateH, files: filesH } = headerRes
     uiConfig = uiConfig === undefined ? require('../../src-web/actions/uiconfig') : uiConfig
     store.dispatch(uiConfig.uiConfigReceiveSucess(stateH.uiconfig.uiConfiguration))
+
+    role = role === undefined ? require('../../src-web/actions/role') : role
+    store.dispatch(role.roleReceiveSuccess(stateH.role.role))
 
     if(process.env.NODE_ENV === 'development') {
       lodash.forOwn(filesH, value => {

@@ -234,6 +234,7 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
     // with the same diagram filters
     const storedElements = getStoredObject(localStoreKey)
     if (storedElements) {
+      topology.storedElements=storedElements
       clusters = storedElements.clusters || clusters
       nodes = storedElements.nodes || nodes
       links = storedElements.links || links

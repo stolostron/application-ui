@@ -186,18 +186,23 @@ export function getNodeGroups(nodes) {
     }
 
     if (node.namespace && node.name) {
-      switch (type) {
-      case 'deployment':
+      if (type === 'deployment') {
         Object.assign(node.layout, {
           qname: node.namespace+'/'+node.name,
           hasPods: false,
           pods: [],
         })
         deploymentMap[node.layout.qname] = node
-        break
-      case 'pod':
-        node.layout.qname = node.namespace+'/'+node.name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-        break
+      } else if (type === 'pod') {
+        // get pod name w/o uid suffix
+        let name = node.name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+        if (name===node.name) {
+          const idx = name.lastIndexOf('-')
+          if (idx!==-1) {
+            name = name.substr(0, idx)
+          }
+        }
+        node.layout.qname = node.namespace+'/'+name
       }
     }
 

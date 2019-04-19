@@ -107,15 +107,30 @@ export default class FilterView extends React.Component {
     this.resize = _.debounce(()=>{
       this.layoutView()
     }, 150)
+    this.handleMouse = this.handleMouse.bind(this)
+    this.handleWheel = this.handleWheel.bind(this)
     this.handleFilterClose = this.handleFilterClose.bind(this)
   }
 
   componentDidMount() {
     window.addEventListener('resize', this.resize)
+    window.addEventListener('mouseup', this.handleMouse, true)
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize)
+    window.removeEventListener('mouseup', this.handleMouse, true)
+  }
+
+  handleMouse (event) {
+    // make sure dropdown is closed when clicking outside
+    // unless they click a link and nothing is filtered
+    if (this.filterViewRef && !this.filterViewRef.contains(event.target)) {
+      const clickedTab = event.target.href!==undefined || event.target.firstChild.href!==undefined
+      if (!clickedTab || Object.keys(this.props.activeFilters).length==0) {
+        this.handleFilterClose()
+      }
+    }
   }
 
   layoutView() {
@@ -123,6 +138,25 @@ export default class FilterView extends React.Component {
   }
 
   setContainerRef = ref => {this.containerRef = ref}
+
+  setFilterViewRef = ref => {
+    if (ref) {
+      this.filterViewRef = ref
+      this.filterViewRef.addEventListener('wheel', this.handleWheel, {passive: false} )
+    } else if (this.filterViewRef) {
+      this.filterViewRef.removeEventListener('wheel', this.handleWheel, {passive: false} )
+      this.filterViewRef = ref
+    }
+  }
+
+  // prevent mouse wheel from affecting main display
+  handleWheel(event) {
+    if (this.containerRef) {
+      this.containerRef.view.scrollTop = this.containerRef.view.scrollTop + event.deltaY
+      event.preventDefault()
+      event.stopPropagation()
+    }
+  }
 
   render() {
     const { context: {locale}, view} = this.props
@@ -175,7 +209,7 @@ export default class FilterView extends React.Component {
     const scrollHeight = height-rect.top
     const containerWidth = 260 // based on overview-filterview width of 300px
     return (
-      <div className='overview-filterview' style={{height:scrollHeight+3}} >
+      <div className='overview-filterview' ref={this.setFilterViewRef} style={{height:scrollHeight+3}} >
         <h3 className='filterHeader'>
           <span className='titleText'>
             {msgs.get('filter.view.title', locale)}

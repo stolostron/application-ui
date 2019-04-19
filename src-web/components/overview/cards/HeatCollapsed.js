@@ -11,11 +11,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const COLLAPSED_COLUMNS = 80
-const COLLAPSED_ROWS = 7
-const COLLAPSED_SQUARES = COLLAPSED_COLUMNS * COLLAPSED_ROWS
-const COLLAPSED_HEIGHT = 90 // must match in css
+const COLLAPSED_SQUARE = 8
 const COLLAPSED_PADDING = 4
+const COLLAPSED_TOTAL_SQUARE = COLLAPSED_SQUARE+COLLAPSED_PADDING*2
+const COLLAPSED_ROWS = 7
 
 export default class HeatCollapsed extends React.PureComponent {
 
@@ -24,19 +23,25 @@ export default class HeatCollapsed extends React.PureComponent {
     const { width } = mapRect
     const {sizeTotal, filteredMapData} = heatMapData
 
+    // make sure squares are squares
+    const w = COLLAPSED_TOTAL_SQUARE
+    const h = COLLAPSED_TOTAL_SQUARE
+    const collapsed_columns = Math.floor(width/w) - 1
+    const collapsed_squares = collapsed_columns * COLLAPSED_ROWS
+
     // determine a scaling factor based on # of squares we have data for
     let scaling = 1
-    if (sizeTotal>COLLAPSED_SQUARES) {
-      scaling = COLLAPSED_SQUARES/sizeTotal
+    if (sizeTotal>collapsed_squares) {
+      scaling = collapsed_squares/sizeTotal
     } else {
       switch (Object.keys(filteredMapData).length) {
       case 1:
       case 2:
-        scaling = (COLLAPSED_SQUARES/2)/sizeTotal
+        scaling = (collapsed_squares/2)/sizeTotal
         break
 
       default:
-        scaling = (COLLAPSED_SQUARES)/sizeTotal
+        scaling = (collapsed_squares)/sizeTotal
         break
       }
     }
@@ -63,14 +68,12 @@ export default class HeatCollapsed extends React.PureComponent {
     let x=0
     let y=0
     let colIdx = 0
-    const w = width / COLLAPSED_COLUMNS
-    const h = COLLAPSED_HEIGHT / COLLAPSED_ROWS
-    const collapsedData = Array.from({length: COLLAPSED_SQUARES}, (u, idx) => {
+    const collapsedData = Array.from({length: collapsed_squares}, (u, idx) => {
       const cn = idx<heatArray.length ? heatArray[idx] : 'square-white'
       const data = {x, y, k:x+y, cn}
       x=x+w
       colIdx++
-      if (colIdx>=COLLAPSED_COLUMNS) {
+      if (colIdx>=collapsed_columns) {
         x = 0
         y = y + h
         colIdx = 0
@@ -87,7 +90,7 @@ export default class HeatCollapsed extends React.PureComponent {
               <rect className={cn}
                 x={x+COLLAPSED_PADDING}
                 y={y+COLLAPSED_PADDING}
-                width={w-(COLLAPSED_PADDING*3)}
+                width={w-(COLLAPSED_PADDING*2)}
                 height={h-(COLLAPSED_PADDING*2)} />
             </g>
           )})}

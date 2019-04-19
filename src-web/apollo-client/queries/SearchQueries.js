@@ -10,6 +10,12 @@
 
 import gql from 'graphql-tag'
 
+export const GET_RESOURCE = gql`
+query getResource($selfLink: String, $namespace: String, $kind: String, $name: String, $cluster: String) {
+  getResource(selfLink: $selfLink, namespace: $namespace, kind: $kind, name: $name, cluster: $cluster)
+}
+`
+
 export const GET_SEARCH_SCHEMA = gql`
 query searchSchema {
   searchSchema

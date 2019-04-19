@@ -10,7 +10,7 @@
 import React from 'react'
 import lodash from 'lodash'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'
 import { PaginationV2, DataTable, OverflowMenu, OverflowMenuItem, Icon } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
@@ -57,7 +57,9 @@ class SearchResourceTable extends React.PureComponent {
     expandFullPage: PropTypes.bool,
     items: PropTypes.array,
     kind: PropTypes.string,
+    location: PropTypes.object,
     related: PropTypes.bool,
+    // userRole: PropTypes.string
   }
 
   constructor(props){
@@ -149,7 +151,7 @@ class SearchResourceTable extends React.PureComponent {
     const { page, pageSize, selectedKey, sortDirection, canRemove } = this.state
     const { locale } = this.context
     let { items } = this.props
-    const { kind } = this.props
+    const { kind, location } = this.props
     // TODO searchFeature: need to sort columns before pagination
     if (selectedKey) {
       items = lodash.orderBy(items, [selectedKey], [sortDirection])
@@ -164,8 +166,8 @@ class SearchResourceTable extends React.PureComponent {
           if (column.key === 'name') {
             const link = this.getDetailsLink(item)
             row[column.key] = link.includes('/multicloud')
-              ? <a href={link}>{name}</a>
-              : <Link to={link}>{name}</Link>
+              ? <Link to={{ pathname: link, state: { search: location.search} }}>{name}</Link>
+              : <a href={link}>{name}</a>
 
           } else {
             row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
@@ -315,4 +317,4 @@ SearchResourceTable.contextTypes = {
   locale: PropTypes.string
 }
 
-export default SearchResourceTable
+export default withRouter(SearchResourceTable)

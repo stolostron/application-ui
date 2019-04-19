@@ -31,7 +31,7 @@ export const Policies = loadable(() => import(/* webpackChunkName: "policies" */
 export const ReleasesTab = loadable(() => import(/* webpackChunkName: "releases" */ './ClustersReleasesTab'))
 export const Storage = loadable(() => import(/* webpackChunkName: "storage" */ './PersistentVolumes'))
 export const SearchPage = loadable(() => import(/* webpackChunkName: "search" */ './SearchPage'))
-export const SearchDetailsPage = loadable(() => import(/* webpackChunkName: "searchDetails" */ './SearchDetailsPage'))
+export const ResourceDetailsPage = loadable(() => import(/* webpackChunkName: "resourcedetails" */ '../components/details/ResourceDetailsPage'))
 export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
 export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
 export const ModalApollo = loadable(() => import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
@@ -77,14 +77,14 @@ class App extends React.Component {
           <Route path={`${match.url}/policies`} component={Policies} />
           <Route path={`${match.url}/releases:filters?`} render={() => <ReleasesTab secondaryHeaderProps={{title: 'routes.releases'}} />} />
           <Route path={`${match.url}/remoteinstall`} render={() => <HelmRemoteInstallTab secondaryHeaderProps={{title: 'routes.charts'}} />} />
-          { /* TODO: searchFeature remove feature flag */
-            config['featureFlags:search'] === true &&
-            <Route path={`${match.url}/search`} render={() => <SearchPage secondaryHeaderProps={{title: 'routes.search'}} />} />
-          }
           <Route path={`${match.url}/storage`} component={Storage} />
           <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
           <Route path={`${match.url}/welcome`} render={() => <WelcomeTab />} />
-          <Route path={`${match.url}/details`} render={() => <SearchDetailsPage />} />
+          { /* TODO: searchFeature remove feature flag */
+            config['featureFlags:search'] === true &&
+              <Route path={`${match.url}/search`} render={() => <SearchPage secondaryHeaderProps={{title: 'routes.search'}} />} />
+          }
+          { config['featureFlags:search'] === true && <Route path={`${match.url}/details/:cluster`} render={() => <ResourceDetailsPage />} /> }
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />

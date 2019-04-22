@@ -47,7 +47,6 @@
 
 .save-and-edit-query-modal {
   .bx--modal-content{
-    min-height: 7.5rem;
     overflow: visible;
   }
 
@@ -149,7 +148,10 @@
       border: none;
       background-color: transparent;
       &:hover {
-        border-bottom: 1px solid $color__navy-gray-6;
+        cursor:pointer;
+        p {
+          color: $color__blue-60;
+        }
       }
     }
     p {
@@ -161,6 +163,7 @@
     svg {
       align-self: center;
       margin-left: 1rem;
+      color: $color__blue-51;
     }
   }
   .saved-search-query-header {
@@ -190,8 +193,19 @@
 }
 
 .search-query-card {
-  height: 8rem;
-  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  &:hover {
+    box-shadow: 0px 1px 2px 0px $color__blue-60;
+  }
+
+  &.bx--tile {
+    min-height: 8rem;
+    margin: 1rem;
+    max-width:31.25rem;
+    min-width:26rem;
+  }
+  
   &:hover .query-menu-button{
     visibility: visible;
   }
@@ -205,6 +219,9 @@
       margin-left: -1rem;
       &:hover {
         cursor: pointer;
+        .search-query-result-string {
+          color: $color__blue-51;
+        }
       }
       .search-query-result-number {
         font-family: 'ibm-plex-sans';
@@ -236,6 +253,7 @@
       .search-query-name {
         text-transform: capitalize;
         font-weight: bold;
+        margin-bottom: 5px;
       }
       .search-query-time {
         font-size: 0.7rem;
@@ -246,9 +264,6 @@
         font-size: 0.75rem;
         color: $color__navy-gray-6;
         font-style: italic;
-        max-height: 3rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
         &__orb {
           border-top: 1px solid $color__navy-gray-8;
           padding-top: 0.5rem;
@@ -265,7 +280,7 @@
 .header-icon--add {
   fill: $color__navy-gray-6;
   &__tab {
-    margin-left: -6.5rem;
+    margin-left: -4.5rem;
     fill: $color__blue-51;
   }
 }
@@ -314,11 +329,28 @@
 .secondary-header-tabs {
   li {
     margin-top: 1rem;
+    flex-grow: 1;
+    max-width: 12.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &.bx--tabs__nav-item--selected{
+      width: 100%;
+      cursor: default;
+      &:last-child{
+        width: auto;
+      }
+      a {
+        cursor:default;
+      }
+    }
     a {
       font-size: 0.9rem;
     }
   }
+
   .header-icon--close{
+    cursor:pointer;
     margin: 0.1rem 0 0 0.5rem;
     fill: $color__navy-gray-6;
     transform: scale(0.9);
@@ -326,6 +358,17 @@
 
   .header-tab-add-new {
     margin-left: 1.8rem;
+    overflow: unset;
+    &:hover{
+      width: auto;
+    }
+    &.inactive{
+      cursor:default;
+      margin: 1rem 0 0 0;
+      padding: 0.75rem 0 0.75rem;
+      font-size: 0.9rem;
+      color: $color__gray-1;
+    }
   }
 
   .header-tab-separator-container{
@@ -385,30 +428,19 @@
   margin-bottom: 2rem;
 }
 
-
-@media (min-width: 1930px)  {
-  .query-cards-container {
-    .search-query-card {
-      max-width: 34rem;
-      min-width: 30rem;
-    }
-  }
-}
-
 @media (max-width: 1920px)  {
   .query-cards-container {
     .search-query-card {
-      max-width: 30rem;
-      min-width: 26rem;
+      max-width: 30%;
+      min-width: 25rem;
     }
   }
 }
 
-@media (max-width: 1600px)  {
+@media (max-width:1600px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 26rem;
-      min-width: 25rem;
+      max-width: 30%;
     }
   }
 }
@@ -416,8 +448,7 @@
 @media (max-width: 1440px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 25rem;
-      min-width: 20rem;
+      max-width: 45%;
     }
   }
 }
@@ -425,17 +456,26 @@
 @media (max-width: 1280px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 25rem;
-      min-width: 18rem;
+      max-width: 45%;
+      min-width: 22rem;
     }
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 850px) {
   .query-cards-container {
+    justify-content: space-around;
     .search-query-card {
-      max-width: 22rem;
-      min-width: 22rem;
+      max-width: 36rem;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  .secondary-header header .bx--detail-page-header-title{
+    margin-top: 0;
+  }
+  .secondary-header-wrapper {
+    height: 0;
   }
 }

@@ -71,18 +71,24 @@ export class SecondaryHeaderSearchPage extends React.Component {
   }
 
   renderAddNewTab = (client, unsavedCount, tabs, locale) => {
-    return (
-      <Tab label={msgs.get('tabs.add.new', locale)}
-        className={'header-tab-add-new'}
-        id={'add-new-query'} onClick={this.handleClickNewTab(client, unsavedCount, tabs, locale)}
-        subcomponent = {
-          <Icon
-            className='header-icon--add__tab'
-            name='icon--add'
-            description={msgs.get('tabs.add.icon', this.context.locale)}
-          />}
-      />
-    )
+    if (tabs.length < 10){
+      return (
+        <Tab label={msgs.get('tabs.add.new', locale)}
+          className={'header-tab-add-new'}
+          id={'add-new-query'} onClick={this.handleClickNewTab(client, unsavedCount, tabs, locale)}
+          subcomponent = {
+            <Icon
+              className='header-icon--add__tab'
+              name='icon--add'
+              description={msgs.get('tabs.add.icon', this.context.locale)}
+            />}
+        />
+      )
+    } else {
+      return(
+        <div className='header-tab-add-new inactive'>{msgs.get('tabs.add.new', locale)}</div>
+      )
+    }
   }
 
   renderTabs(client, tabs, unsavedCount) {
@@ -152,13 +158,13 @@ export class SecondaryHeaderSearchPage extends React.Component {
     const newData =  {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount + 1,
-      openedTabName: `${newSearch} (${unsaved} - ${unsavedCount})`,
-      openedTabId: `${newSearch} (${unsaved} - ${unsavedCount})`,
+      openedTabName: `${newSearch} - ${unsavedCount} (${unsaved})`,
+      openedTabId: `${newSearch} - ${unsavedCount} (${unsaved})`,
       data:{
-        queryName: `${newSearch} (${unsaved} - ${unsavedCount})`,
+        queryName: `${newSearch} - ${unsavedCount} (${unsaved})`,
         searchText:'',
         description:'',
-        id: `${newSearch} (${unsaved} - ${unsavedCount})`,
+        id: `${newSearch} - ${unsavedCount} (${unsaved})`,
         updated: false,
         __typename: 'QueryTab'
       },

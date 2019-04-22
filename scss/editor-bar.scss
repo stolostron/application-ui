@@ -66,6 +66,9 @@
 .bx--overflow-menu-options {
   width: auto;
   min-width: 200px;
+  .bx--overflow-menu-options__btn{
+    max-width: 100%;
+  }
 }
 
 .editor-error-button-item {

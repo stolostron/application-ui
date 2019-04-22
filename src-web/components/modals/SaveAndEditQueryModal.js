@@ -127,6 +127,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
                   placeholder={ msgs.get('modal.query.add.name', this.context.locale) }
                   value={this.state.nameInput}
                   onChange={this.handleNameInputChange}
+                  maxlength="50"
                 />
                 <TextArea
                   id='add-query-desc'
@@ -134,6 +135,7 @@ class SaveAndEditQueryModal extends React.PureComponent {
                   placeholder={ msgs.get('modal.query.add.desc', this.context.locale) }
                   value={this.state.descriptionInput}
                   onChange={this.handleDesInputChange}
+                  maxlength="140"
                 />
               </div>
             </Modal>

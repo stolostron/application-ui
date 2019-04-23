@@ -38,11 +38,15 @@ class ResourceTopologyFilters extends React.Component {
     onNameSearch: PropTypes.func,
     onSelectedFilterChange: PropTypes.func,
     otherTypeFilters: PropTypes.array,
+    searchName: PropTypes.string,
     staticResourceData:  PropTypes.object,
   }
 
   constructor (props) {
     super(props)
+    this.state = {
+      searchName: props.searchName,
+    }
     this.nameSearchMode = false
   }
 
@@ -63,11 +67,12 @@ class ResourceTopologyFilters extends React.Component {
     }
 
     // if user clicks close button, stop search immediately
+    const searchName = (target.value||'')
+    this.setState({searchName})
     if (this.closeBtnClicked) {
-      this.props.onNameSearch(target.value)
+      this.props.onNameSearch(searchName)
       delete this.closeBtnClicked
     } else {
-      const searchName = (target.value||'')
       if (searchName.length>0 || this.nameSearchMode) {
         // if not in search mode yet, wait for an input > 2 chars
         // if in search mode, keep in mode until no chars left
@@ -85,15 +90,17 @@ class ResourceTopologyFilters extends React.Component {
 
   setNameSearchRef = ref => {this.nameSearchRef = ref}
 
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps, nextState){
     return !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
     !_.isEqual(this.props.availableFilters, nextProps.availableFilters) ||
-    !_.isEqual(this.props.otherTypeFilters, nextProps.otherTypeFilters)
+    !_.isEqual(this.props.otherTypeFilters, nextProps.otherTypeFilters) ||
+    this.state.searchName !== nextState.searchName
   }
 
   render() {
     const { activeFilters, availableFilters, fetching, failure,
       otherTypeFilters, staticResourceData, onSelectedFilterChange } = this.props
+    const {searchName} = this.state
 
     // cluster, namespace, label filters
     const filters = [
@@ -139,6 +146,19 @@ class ResourceTopologyFilters extends React.Component {
     const typeFilterTitle = msgs.get('type', this.context.locale)
     return (
       <div className='topologyFilters'>
+
+        {/*name search*/}
+        <div className='multi-select-filter' role='region' ref={this.setNameSearchRef}
+          aria-label={searchTitle} id={searchTitle}>
+          <div className='multi-select-filter-title'>
+            {searchTitle}
+          </div>
+          <Search id='search-name' labelText='' aria-label='Seach-input' value={searchName}
+            placeHolderText={msgs.get('search.label.links', this.context.locale)}
+            onChange={this.handleSearch}
+          />
+        </div>
+
         {/*dropdown filters*/}
         {filters.map((filter) =>
           <FilterableMultiSelect
@@ -165,18 +185,6 @@ class ResourceTopologyFilters extends React.Component {
             failure={failure}
           />
         </div>
-
-        {/*name search*/}
-        <div className='multi-select-filter' role='region' ref={this.setNameSearchRef}
-          aria-label={searchTitle} id={searchTitle}>
-          <div className='multi-select-filter-title'>
-            {searchTitle}
-          </div>
-          <Search id='search-name' labelText='' aria-label='Seach-input'
-            placeHolderText={msgs.get('search.label.links', this.context.locale)}
-            onChange={this.handleSearch}
-          />
-        </div>
       </div>
     )
   }
@@ -188,10 +196,11 @@ ResourceTopologyFilters.contextTypes = {
 
 
 const mapStateToProps = (state) =>{
-  const { activeFilters = {}, availableFilters = {}, filtersStatus } = state.topology
+  const { activeFilters = {}, availableFilters = {}, filtersStatus, searchName } = state.topology
   return {
     activeFilters,
     availableFilters,
+    searchName,
     fetching: filtersStatus !== Actions.REQUEST_STATUS.DONE,
     failure: filtersStatus === Actions.REQUEST_STATUS.ERROR
   }

@@ -61,12 +61,11 @@ export default class ZoomHelper {
             scale = c.MINIMUM_ZOOM_FIT//Math.min(c.MINIMUM_ZOOM_FIT, .8/(width / availableWidth)) // even below threshhold keep entire row visible
             this.viewer.viewerContainerContainerRef.classList.add('scrolled')
             this.viewer.viewerContainerRef.setAttribute('style', `height: ${height*scale+c.TOPOLOGY_PADDING}px;`)
-            this.viewer.clientRect = this.viewer.viewerContainerRef.getBoundingClientRect()
           } else {
             this.viewer.viewerContainerContainerRef.classList.remove('scrolled')
             this.viewer.viewerContainerRef.setAttribute('style', 'height: 100%;')
-            this.viewer.clientRect = this.viewer.viewerContainerContainerRef.getBoundingClientRect()
           }
+          this.viewer.clientRef = this.viewer.viewerContainerContainerRef
           d3.zoom().scaleTo(svg, scale)
           if (resetScrollbar) {
             this.viewer.viewerContainerContainerRef.scrollTo(0, 0)

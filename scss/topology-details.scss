@@ -10,13 +10,12 @@
 
 .topologyDetails {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 20px;
+  right: 0;
   background-color: $color__white;
   box-shadow: -1px 0 7px 0 rgba(0,0,0,0.10);
   width: 320px;
   padding-bottom: 20px;
-  min-height: 75%;
 
   .detailsHeader {
     margin: .5rem 0 0 .5rem;
@@ -78,6 +77,19 @@
 
   .spacer {
     height: 1rem;
+  }
+
+  .details-view-container {
+    .details-view-scrollbar {
+      width: 10px;
+      visibility: hidden;
+    }
+  }
+
+  &:hover {
+    .details-view-scrollbar {
+      visibility: visible;
+    }
   }
 
 }

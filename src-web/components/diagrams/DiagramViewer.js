@@ -220,6 +220,7 @@ class DiagramViewer extends React.Component {
             staticResourceData={staticResourceData}
             getLayoutNodes={this.getLayoutNodes}
             selectedNodeId={selectedNodeId}
+            getViewContainer={this.getViewContainer}
             fetchLogs={fetchLogs}
           /> }
       </div>
@@ -294,7 +295,6 @@ class DiagramViewer extends React.Component {
     const {activeFilters, isMulticluster, searchName} = this.props
     const options = {
       firstLayout: this.lastLayoutBBox===undefined,
-      clientRect: this.clientRect,
       isMulticluster,
       searchName,
       activeFilters
@@ -330,7 +330,7 @@ class DiagramViewer extends React.Component {
 
       // Create or refresh the nodes in the diagram.
       const nodeHelper = new NodeHelper(this.svg, laidoutNodes,
-        typeToShapeMap, this.showsShapeTitles, ()=>{return this.clientRect})
+        typeToShapeMap, this.showsShapeTitles, ()=>{return this.clientRef})
       nodeHelper.updateDiagramNodes(currentZoom, this.handleNodeClick, this.handleNodeDrag)
       nodeHelper.moveNodes(transition, currentZoom, searchChanged)
 

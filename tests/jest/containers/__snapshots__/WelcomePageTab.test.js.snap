@@ -77,7 +77,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           >
             Install CLI tools
             <img
-              alt="Install CLI tools arrow "
+              alt="Install CLI tools arrow"
               src="undefined/graphics/arrow.svg"
             />
           </a>

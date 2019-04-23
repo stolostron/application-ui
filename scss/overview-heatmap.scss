@@ -9,7 +9,7 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-$overview-heat-collapsed: 90px !default;
+$overview-heat-collapsed: 120px !default;
 $heatmap-selection-container-width-value: 180;
 
 /* *********************  heat map card ************************ */
@@ -42,7 +42,7 @@ $heatmap-selection-container-width-value: 180;
       .bx--dropdown {
         box-shadow: none;
       }
-    
+
       .bx--list-box {
         height: 16px;
         font-weight: normal;
@@ -91,7 +91,7 @@ $heatmap-selection-container-width-value: 180;
       cursor: move;
       justify-content: space-between;
       padding: 0 15px;
-      
+
       &-legends {
         display: flex;
         > h6 {

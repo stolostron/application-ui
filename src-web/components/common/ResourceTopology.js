@@ -107,9 +107,9 @@ class ResourceTopology extends React.Component {
     this.setState({ loaded, firstLoad })
   }
 
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps, nextState){
     return !lodash.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
-      nextProps.status !== this.props.status
+      nextProps.status !== this.props.status || nextState.loaded !== this.state.loaded
   }
 
   setTopologyContainerRef = ref => {this.topologyContainerRef = ref}

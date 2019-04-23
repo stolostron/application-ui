@@ -35,11 +35,11 @@ export default class NodeHelper {
    *
    * Contains functions to draw and manage nodes in the diagram.
    */
-  constructor(svg, nodes, typeToShapeMap, showsShapeTitles, getClientRect) {
+  constructor(svg, nodes, typeToShapeMap, showsShapeTitles, getClientRef) {
     this.svg = svg
     this.nodes = nodes
     this.typeToShapeMap = typeToShapeMap
-    this.getClientRect = getClientRect
+    this.getClientRef = getClientRef
     this.showsShapeTitles = showsShapeTitles
   }
 
@@ -93,7 +93,8 @@ export default class NodeHelper {
           .styles((d, j, ts)=>{
             const {width, height} = ts[j].getBoundingClientRect()
             let top = bb.top+32
-            if (top+height > this.getClientRect().bottom) {
+            const rect = this.getClientRef().getBoundingClientRect()
+            if (top+height > rect.bottom) {
               top = bb.top - height
             }
             return {

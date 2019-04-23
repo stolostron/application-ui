@@ -280,7 +280,8 @@
 .header-icon--add {
   fill: $color__navy-gray-6;
   &__tab {
-    margin-left: -4.5rem;
+    position: relative;
+    right: 4rem;
     fill: $color__blue-51;
   }
 }
@@ -328,9 +329,11 @@
 
 .secondary-header-tabs {
   li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-top: 1rem;
-    flex-grow: 1;
-    max-width: 12.5rem;
+    max-width: 11.5rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -342,10 +345,14 @@
       }
       a {
         cursor:default;
+        max-width: 90%;
+        overflow: hidden;
       }
     }
     a {
       font-size: 0.9rem;
+      flex: 1;
+      overflow:hidden;
     }
   }
 

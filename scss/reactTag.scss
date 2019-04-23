@@ -49,7 +49,6 @@
   transform: scale(0.9);
   fill: $color__navy-gray-7;
   display: inline-block;
-  float: left;
   margin: 0.6rem 0 0 -3.5rem;
   position: relative;
   z-index: 11;
@@ -66,7 +65,6 @@
     fill: $color__blue-51;
   }
   display: inline-block;
-  float: left;
   margin: 0.6rem 0 0 -2rem;
   position: relative;
   z-index: 11;
@@ -76,7 +74,6 @@
 .tagInput-copyButton {
   transform: scale(0.8);
   display: inline-block;
-  float: left;
   height: 2.8rem;
   width: 2.8rem;
   margin: -0.25rem 0 0 0.3rem;
@@ -100,7 +97,6 @@
 .tagInput-filterButton {
   transform: scale(0.8);
   display: inline-block;
-  float: left;
   height: 2.8rem;
   width: 2.8rem;
   margin: -0.25rem 0 0 -0.51rem;
@@ -132,6 +128,7 @@
 }
 
 .react-tags {
+  display: flex;
   position: relative;
   border-radius: 1px;
   background: $color__white;
@@ -159,7 +156,7 @@
 
 
 .react-tags__selected {
-  display: block;
+  display: inline;
 }
 
 .react-tags__selected-tag {
@@ -193,7 +190,6 @@
   display: inline-block;
   box-sizing: border-box;
   background: $color__white;
-  // color: $color__white;
   padding: 0.1rem .5rem;
   border-radius: 1.5rem;
   border-color: transparent;
@@ -208,7 +204,6 @@
 }
 
 .react-tags__search {
-  // display: inline;
   position: relative;
   display: inline-block;
   z-index: 200;

@@ -196,7 +196,8 @@
   display: flex;
   justify-content: center;
   &:hover {
-    box-shadow: 0px 1px 2px 0px $color__blue-60;
+    border: 1px solid $color__navy-gray-7;
+    transition: .25s cubic-bezier(.5,0,.1,1);
   }
 
   &.bx--tile {
@@ -243,6 +244,14 @@
         font-size: 0.8rem;
         letter-spacing: 1.03px;
         font-weight: bold;
+      }
+      &::after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
       }
     }
     .search-query-content {

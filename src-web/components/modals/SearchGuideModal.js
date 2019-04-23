@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
-import { Button, ListItem, Modal, UnorderedList } from 'carbon-components-react'
+import { ListItem, Modal, UnorderedList } from 'carbon-components-react'
 import { ApolloConsumer } from 'react-apollo'
 
 
@@ -84,9 +84,6 @@ class SearchGuideModal extends React.PureComponent {
                     <ListItem>{msgs.get('modal.query.info.special.note1', this.context.locale)}</ListItem>
                     <ListItem>{msgs.get('modal.query.info.special.note2', this.context.locale)}</ListItem>
                   </UnorderedList>
-                </div>
-                <div className={'bx--modal-content-footer'}>
-                  <Button type='button' onClick={this.handleModalClose.bind(this, client)}>{msgs.get('modal.button.close', this.context.locale)}</Button>
                 </div>
               </div>
             </Modal>

@@ -36,7 +36,7 @@ ADD license.txt /licenses
 WORKDIR /opt/ibm/mcm-ui
 
 COPY . /opt/ibm/mcm-ui
-
+ENV BABEL_DISABLE_CACHE=1
 EXPOSE 3000
 
 ENV NODE_ENV production

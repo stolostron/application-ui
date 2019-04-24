@@ -251,6 +251,7 @@
 }
 
 .react-tags__suggestions ul {
+  height: 16rem;
   margin: 4px -1px;
   padding: 0;
   list-style: none;
@@ -258,6 +259,7 @@
   border: 1px solid #D1D1D1;
   border-radius: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
 }
 
 .react-tags__suggestions li {
@@ -290,6 +292,9 @@
     font-weight: 700;
     color: $color__blue-51;
     text-transform: uppercase;
+    position: sticky;
+    top:0;
+    background: white;
   }
 
   &:hover {

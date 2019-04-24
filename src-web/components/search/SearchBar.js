@@ -432,7 +432,7 @@ class SearchBar extends React.Component {
                   tagComponent={FilterTag}
                   delimiterChars={[' ', ':', ',']}
                   autofocus={false}
-                  maxSuggestionsLength={7}
+                  maxSuggestionsLength= 'Infinity'
                 />
               </div>
               {currentQuery === ''

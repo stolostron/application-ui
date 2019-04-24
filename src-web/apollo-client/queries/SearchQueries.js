@@ -65,7 +65,6 @@ export const SEARCH_QUERY = gql`
   query searchResult($input: [SearchInput]) {
     searchResult: search(input: $input){
       items
-      updatedTimestamp
     }
   }
 `
@@ -74,7 +73,6 @@ export const SEARCH_QUERY_COUNT_ONLY = gql`
   query searchCountOnly($input: [SearchInput]) {
     searchResult: search(input: $input){
       count
-      updatedTimestamp
     }
   }
 `
@@ -84,7 +82,6 @@ export const SEARCH_QUERY_RELATED = gql`
     searchResult: search(input: $input){
       count
       items
-      updatedTimestamp
       related {
         kind
         count

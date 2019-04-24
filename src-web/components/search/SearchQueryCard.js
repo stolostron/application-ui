@@ -108,7 +108,6 @@ class SearchQueryCard extends React.Component {
 
   render() {
     const { locale } = this.context
-    // const { timeCreated = new Date().toLocaleString() } = this.props
     const { loading, searchText, description, name, count, results = [], resultHeader } = this.props
     if (loading)
       return this.loadingComponent()
@@ -137,7 +136,6 @@ class SearchQueryCard extends React.Component {
                     </div> : null }
                   <div className={`${resultHeader ? 'search-query-header__orb' : 'search-query-header'}`}>
                     <p className="search-query-name">{name}</p>
-                    {/*<p className="search-query-time">{`${msgs.get('table.header.updated', locale)} ${timeCreated}`}</p>*/}
                   </div>
                 </div>
                 <p className={`search-query-description ${resultHeader && 'search-query-description__orb'}`}>{description}</p>

@@ -28,6 +28,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
   constructor(props) {
     super(props)
     this.renderTabs = this.renderTabs.bind(this)
+    this.handleRemoveClick = this.handleRemoveClick.bind(this)
     this.state = {
       //eslint-disable-next-line
       isHovering: false,
@@ -113,9 +114,12 @@ export class SecondaryHeaderSearchPage extends React.Component {
           onMouseLeave={this.handleMouseHover}
           subcomponent = { tabs.length > 1 ?
             <Icon
+              tabIndex={0}
+              role={'button'}
               className='header-icon--close'
               name='icon--close'
               description={msgs.get('tabs.close.icon', this.context.locale)}
+              onKeyPress={this.handleRemoveClick(client, tabs, tab)}
               onClick={this.handleRemoveClick(client, tabs, tab)} /> : null
           }
         />
@@ -123,33 +127,35 @@ export class SecondaryHeaderSearchPage extends React.Component {
     })
   }
 
-  handleRemoveClick = (client, tabs, tab) => async () => {
-    const { id } = tab
-    const newData =  {
-      id
+  handleRemoveClick = (client, tabs, tab) => async (evt) => {
+    if (evt.which === undefined || evt.which === 13 || evt.which === 32) {
+      const { id } = tab
+      const newData =  {
+        id
+      }
+      let deleteIndex = 0
+      tabs.forEach((t, idx) => {
+        if (t.id === tab.id && idx === tabs.length - 1) {
+          deleteIndex = idx - 1
+        } else if (t.id === tab.id) {
+          deleteIndex = idx
+        }
+      })
+      await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
+
+      this.props.updateBrowserURL({ query: tabs[deleteIndex].searchText })
+
+      client.writeData({ data: {
+        searchInput: {
+          __typename: 'SearchInput',
+          text: tabs[deleteIndex].searchText
+        },
+        relatedResources: {
+          __typename: 'RelatedResources',
+          visibleKinds: []
+        }
+      }} )
     }
-    let deleteIndex = 0
-    tabs.forEach((t, idx) => {
-      if (t.id === tab.id && idx === tabs.length - 1) {
-        deleteIndex = idx - 1
-      } else if (t.id === tab.id) {
-        deleteIndex = idx
-      }
-    })
-    await client.mutate({ mutation: REMOVE_SINGLE_QUERY_TAB, variables: { ...newData } })
-
-    this.props.updateBrowserURL({ query: tabs[deleteIndex].searchText })
-
-    client.writeData({ data: {
-      searchInput: {
-        __typename: 'SearchInput',
-        text: tabs[deleteIndex].searchText
-      },
-      relatedResources: {
-        __typename: 'RelatedResources',
-        visibleKinds: []
-      }
-    }} )
   }
 
   handleClickNewTab = (client, unsavedCount, tabs, locale) => async () => {

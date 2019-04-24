@@ -439,18 +439,24 @@ class SearchBar extends React.Component {
                 ? null
                 : <div className='tagInput-cleanButton'>
                   <Icon
+                    tabIndex={0}
+                    role='button'
                     className='icon--close--outline'
                     name='icon--close--outline'
                     description={msgs.get('taginput.icon.clear', this.context.locale)}
-                    onClick={this.handleClearAllClick} />
+                    onClick={this.handleClearAllClick}
+                    onKeyPress={e => (e.which === 13 || e.which === 32) && this.handleClearAllClick()} />
                 </div>
               }
               <div className='tagInput-infoButton'>
                 <Icon
+                  tabIndex={0}
+                  role='button'
                   className='icon--info--outline'
                   name='icon--info--outline'
                   description={msgs.get('taginput.icon.info', this.context.locale)}
-                  onClick={this.props.handleInfoButtonClick} />
+                  onClick={this.props.handleInfoButtonClick}
+                  onKeyPress={e => (e.which === 13 || e.which === 32 ) && this.props.handleInfoButtonClick()} />
               </div>
             </div>
           )

@@ -8,5 +8,24 @@
  *******************************************************************************/
 
 .resource-details-page {
-   width: 100%;
- }
+  width: 100%;
+}
+
+
+// Overview tab styling
+
+
+// YAML tab styling
+.details-yaml {
+
+  &-editButton {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: .5rem;
+  }
+}
+
+// Events tab styling
+
+
+// Logs tab styling

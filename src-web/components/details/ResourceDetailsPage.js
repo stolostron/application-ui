@@ -67,9 +67,9 @@ const withResourceDetails = Component => {
 
     constructor(props) {
       super(props)
-      this.resourceTabs = ['overview'] // Remove when resources with pod info is supported
-      this.podTabs = ['overview', 'logs'] // Remove when resources with pod info is supported
-      this.tabs = ['overview', 'yaml', 'events', 'logs']
+      this.resourceTabs = ['yaml'] // Remove when resources with pod info is supported
+      this.podTabs = ['yaml', 'logs'] // Remove when resources with pod info is supported
+      this.tabs = ['yaml', 'events', 'logs']
       // this.tabsWithoutPods = ['overview', 'yaml']
       this.podResources = ['daemonsets', 'deployments', 'jobs', 'nodes', 'replicasets', 'statefulsets']
     }

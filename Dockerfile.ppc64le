@@ -1,4 +1,4 @@
-FROM ppc64le/node:carbon-alpine
+FROM ppc64le/node:lts-alpine
 
 ARG VCS_REF
 ARG VCS_URL

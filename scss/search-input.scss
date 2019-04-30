@@ -181,7 +181,7 @@
   .query-cards-container {
     display: flex;
     flex-wrap: wrap;
-    margin-left: -1rem;
+    justify-content: space-between;
   }
   .bx--module__inner {
     box-shadow: none;
@@ -202,7 +202,7 @@
 
   &.bx--tile {
     min-height: 8rem;
-    margin: 1rem;
+    margin: 1rem 0;
     max-width:31.25rem;
     min-width:26rem;
   }
@@ -447,7 +447,7 @@
 @media (max-width: 1920px)  {
   .query-cards-container {
     .search-query-card {
-      max-width: 30%;
+      max-width: 32%;
       min-width: 25rem;
     }
   }
@@ -456,7 +456,7 @@
 @media (max-width:1600px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 30%;
+      max-width: 32%;
     }
   }
 }
@@ -464,7 +464,8 @@
 @media (max-width: 1440px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 45%;
+      max-width: 49%;
+      min-width: 27rem
     }
   }
 }
@@ -472,8 +473,8 @@
 @media (max-width: 1280px) {
   .query-cards-container {
     .search-query-card {
-      max-width: 45%;
-      min-width: 22rem;
+      max-width: 49%;
+      min-width: 24rem;
     }
   }
 }
@@ -482,7 +483,7 @@
   .query-cards-container {
     justify-content: space-around;
     .search-query-card {
-      max-width: 36rem;
+      max-width: 100%;
     }
   }
 }

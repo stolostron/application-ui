@@ -162,9 +162,9 @@ class SearchResourceTable extends React.PureComponent {
       const { namespace, name, cluster, selfLink } = item
       const row = { id: item._uid }
       if (tableDefinitions[kind]) {
+        const link = this.getDetailsLink(item)
         tableDefinitions[kind].columns.forEach(column => {
           if (column.key === 'name') {
-            const link = this.getDetailsLink(item)
             row[column.key] = link.includes('/multicloud')
               ? <Link to={{ pathname: link, state: { search: location.search} }}>{name}</Link>
               : <a href={link}>{name}</a>
@@ -173,7 +173,7 @@ class SearchResourceTable extends React.PureComponent {
             row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
           }
         })
-        if (this.props.kind !== 'cluster') {
+        if (this.props.kind !== 'cluster' && this.props.kind !== 'release') {
           const action ='table.actions.remove'
           row.action = (
             <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
@@ -182,7 +182,7 @@ class SearchResourceTable extends React.PureComponent {
                 isDelete={true}
                 onClick={() => this.handleActionClick(action, name, namespace, cluster, selfLink)}
                 key={action}
-                itemText={msgs.get(action, locale)}
+                itemText={msgs.get('table.actions.remove.resource', [kind], locale)}
                 disabled={!canRemove}
               />
             </OverflowMenu>
@@ -209,7 +209,7 @@ class SearchResourceTable extends React.PureComponent {
       return `${config.contextPath}/clusters?filters={"textsearch":["${item.name}"]}`
     case 'application':
       return `${config.contextPath}/applications/${item.namespace}/${item.name}`
-    case 'releases':
+    case 'release':
       return item.cluster === 'local-cluster' // TODO - better method of determining hub-cluster
         ? `/catalog/instancedetails/${item.namespace}/${item.name}`
         : '/catalog/instances'

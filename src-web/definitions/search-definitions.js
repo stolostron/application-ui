@@ -235,7 +235,7 @@ export default {
       { key: 'created', transform: getAge},
     ],
   },
-  releases: {
+  release: {
     columns: [
       { key: 'name' },
       { key: 'namespace' },

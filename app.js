@@ -13,7 +13,8 @@ var log4js = require('log4js'),
     watchr = require('watchr'),
     moment = require('moment'),
     mime = require('mime-types'),
-    fs = require('fs')
+    fs = require('fs'),
+    helmet = require('helmet')
 
 
 var log4js_config = process.env.LOG4JS_CONFIG ? JSON.parse(process.env.LOG4JS_CONFIG) : undefined
@@ -54,6 +55,7 @@ require('./lib/shared/dust-helpers')
 
 var app = express()
 
+app.use(helmet())
 var morgan = require('morgan')
 if (process.env.NODE_ENV === 'production') {
   app.use(

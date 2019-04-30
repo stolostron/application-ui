@@ -24,9 +24,10 @@ class YAMLTab extends React.Component {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
-      readOnly: true, // TODO - check RBAC for editing
+      readOnly: true,
       open: false,
       loading: false,
+      resourceJson: undefined,
     }
   }
 
@@ -37,7 +38,7 @@ class YAMLTab extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.resourceJson !== this.props.resourceJson) {
+    if ((this.state.resourceJson === undefined && this.props.resourceJson) || (prevProps.resourceJson !== this.props.resourceJson)) {
       this.formatData(this.props.resourceJson)
       canCallAction(this.props.kind, 'update').then(response => {
         if (_.get(response, 'data.userAccess.allowed')) {
@@ -99,7 +100,7 @@ class YAMLTab extends React.Component {
     const { resourceLoading } = this.props
     const { readOnly, resourceJson, errors, loading } = this.state
 
-    if (resourceLoading || loading)
+    if (resourceJson === undefined || resourceLoading || loading)
       return <Loading className='content-spinner' />
 
     if (resourceJson && _.get(resourceJson, '[0].message'))
@@ -110,7 +111,7 @@ class YAMLTab extends React.Component {
         <div >
           {errors ? <Notification kind='error' title='' subtitle={errors} /> : null}
           <div className={'details-yaml-editButton'}>
-            <Button onClick={this.toggleModal.bind(this)}>{msgs.get('actions.save', this.context.locale)}</Button>
+            <Button onClick={this.toggleModal.bind(this)} disabled={readOnly}>{msgs.get('actions.save', this.context.locale)}</Button>
           </div>
           <div className='details-yaml'>
             <YamlEditor

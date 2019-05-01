@@ -127,6 +127,14 @@ export default {
     ],
     actions: [],
   },
+  genericresource: {
+    columns: [
+      { key: 'name' },
+      { key: 'namespace' },
+      { key: 'cluster' },
+      { key: 'created', transform: getAge }
+    ],
+  },
   job: {
     columns: [
       { key: 'name' },

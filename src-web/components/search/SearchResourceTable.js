@@ -103,22 +103,12 @@ class SearchResourceTable extends React.PureComponent {
 
   getHeaders(){
     const { kind } = this.props
-    if (tableDefinitions[kind]) {
-      const headers = tableDefinitions[kind].columns.map(col => ({
-        key: col.key, header: msgs.get(`table.header.${col.msgKey || col.key}`, this.context.locale)
-      }))
-      headers.push({ key: 'action', header: ''})
-      return headers
-    }
-
-    console.log(`Using default resource table for resource kind: ${this.props.kind}`) // eslint-disable-line no-console
-    // Remove internal properties
-    const columns = Object.keys(this.props.items[0]).filter(prop => prop.charAt(0) !== '_' && ['kind', 'selfLink'].indexOf(prop) === -1)
-    return columns.map(col => {
-      const headerMsg = msgs.get(`table.header.${col}`, this.context.locale)
-      // When there isn't a translation for the header, use the property key
-      return { key: col, header: headerMsg.indexOf(`table.header.${col}`) > -1 ? col : headerMsg }
-    })
+    const resource = tableDefinitions[kind] || tableDefinitions['genericresource']
+    const headers = resource.columns.map(col => ({
+      key: col.key, header: msgs.get(`table.header.${col.msgKey || col.key}`, this.context.locale)
+    }))
+    headers.push({ key: 'action', header: ''})
+    return headers
   }
 
   handleActionClick(action, name, namespace, clusterName = '', selfLink = '') {
@@ -161,36 +151,34 @@ class SearchResourceTable extends React.PureComponent {
     return visibleItems.map(item => {
       const { namespace, name, cluster, selfLink } = item
       const row = { id: item._uid }
-      if (tableDefinitions[kind]) {
-        const link = this.getDetailsLink(item)
-        tableDefinitions[kind].columns.forEach(column => {
-          if (column.key === 'name') {
-            row[column.key] = link.includes('/multicloud')
-              ? <Link to={{ pathname: link, state: { search: location.search} }}>{name}</Link>
-              : <a href={link}>{name}</a>
+      const resource = tableDefinitions[kind] || tableDefinitions['genericresource']
+      const link = this.getDetailsLink(item)
+      resource.columns.forEach(column => {
+        if (column.key === 'name') {
+          row[column.key] = link.includes('/multicloud')
+            ? <Link to={{ pathname: link, state: { search: location.search} }}>{name}</Link>
+            : <a href={link}>{name}</a>
 
-          } else {
-            row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
-          }
-        })
-        if (this.props.kind !== 'cluster' && this.props.kind !== 'release') {
-          const action ='table.actions.remove'
-          row.action = (
-            <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
-              <OverflowMenuItem
-                data-table-action={action}
-                isDelete={true}
-                onClick={() => this.handleActionClick(action, name, namespace, cluster, selfLink)}
-                key={action}
-                itemText={msgs.get('table.actions.remove.resource', [kind], locale)}
-                disabled={!canRemove}
-              />
-            </OverflowMenu>
-          )
+        } else {
+          row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
         }
-        return row
+      })
+      if (this.props.kind !== 'cluster' && this.props.kind !== 'release') {
+        const action ='table.actions.remove'
+        row.action = (
+          <OverflowMenu floatingMenu flipped iconDescription={msgs.get('svg.description.overflowMenu', locale)} ariaLabel='Overflow-menu'>
+            <OverflowMenuItem
+              data-table-action={action}
+              isDelete={true}
+              onClick={() => this.handleActionClick(action, name, namespace, cluster, selfLink)}
+              key={action}
+              itemText={msgs.get('table.actions.remove.resource', [kind], locale)}
+              disabled={!canRemove}
+            />
+          </OverflowMenu>
+        )
       }
-      return { id: item._uid, ...item }
+      return row
     })
   }
 

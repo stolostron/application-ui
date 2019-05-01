@@ -11,7 +11,6 @@
 var log4js = require('log4js'),
     logger = log4js.getLogger('server'),
     watchr = require('watchr'),
-    moment = require('moment'),
     mime = require('mime-types'),
     fs = require('fs'),
     helmet = require('helmet')
@@ -133,13 +132,7 @@ app.use(cookieParser(), csrfMiddleware, generateCsrfToken, (req, res, next) => {
 })
 app.use(CONTEXT_PATH, express.static(STATIC_PATH, {
   maxAge: process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
-  setHeaders: (res, fp) => {
-    if (fp.startsWith(`${STATIC_PATH}/nls`)) {
-      res.setHeader('Cache-Control', 'max-age=0')
-    } else {
-      res.setHeader('Expires', moment().add(12, 'months').toDate())
-    }
-  }
+  setHeaders: (res, fp) => res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
 }))
 
 

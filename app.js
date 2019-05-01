@@ -132,7 +132,10 @@ app.use(cookieParser(), csrfMiddleware, generateCsrfToken, (req, res, next) => {
 })
 app.use(CONTEXT_PATH, express.static(STATIC_PATH, {
   maxAge: process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
-  setHeaders: (res, fp) => res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
+  setHeaders: (res, fp) => {
+    res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
+    res.setHeader('X-Content-Type-Options', 'nosniff')
+  }
 }))
 
 

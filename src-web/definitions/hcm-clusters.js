@@ -76,7 +76,7 @@ export default {
   tableActions: [
     // 'table.actions.cluster.view.nodes',
     // 'table.actions.cluster.view.pods',
-    // 'table.actions.cluster.edit.labels',
+    'table.actions.cluster.edit.labels',
     'table.actions.cluster.launch',
     constants.MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING.action,
     constants.MCM_CLUSTERS_SERVICES_ACTIONS.MONITORING.action,

@@ -14,6 +14,7 @@ import { MCM_CLUSTERS_SERVICES_ACTIONS } from '../../../lib/shared/constants'
 
 export const resourceActions = (action, dispatch, resourceType, data, hasService, history) => {
   switch (action) {
+  case 'table.actions.application.edit':
   case 'table.actions.edit': {
     return dispatch(updateModal(
       { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'json',

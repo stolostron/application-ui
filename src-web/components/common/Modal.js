@@ -38,7 +38,7 @@ const getLogsModal = props => {
 }
 
 const getResourceModal = props => {
-  ResourceModal = ResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "edit-resource-modal" */ '../modals/ResourceModal')) : ResourceModal
+  ResourceModal = ResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "edit-resource-modal-redux" */ '../modals/ResourceModalRedux')) : ResourceModal
   return getModal(ResourceModal, props)
 }
 

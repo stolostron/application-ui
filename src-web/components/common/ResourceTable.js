@@ -235,7 +235,7 @@ class ResourceTable extends React.Component {
 
   handleActionClick(action, resourceType, item, history) {
     const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
-    if (resourceActionsList.includes(action)) {
+    if (resourceActionsList.includes(action) || action === 'table.actions.application.edit') {
       this.props.getResourceAction(action, item, null, history, this.props.locale)
     } else {
       const client = apolloClient.getClient()

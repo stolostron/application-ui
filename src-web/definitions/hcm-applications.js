@@ -271,7 +271,7 @@ export default {
       },
     ],
     tableActions: [
-      'table.actions.edit',
+      'table.actions.application.edit',
     ],
   },
   placementBindingKeys: {

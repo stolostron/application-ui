@@ -219,7 +219,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
             >
               <a
                 className="bx--link"
-                href="/catalog"
+                href="/catalog/repositories"
               >
                 Manage helm repositories
               </a>
@@ -250,8 +250,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
             >
               <a
                 className="bx--link"
-                href="undefined/policies"
-                onClick={[Function]}
+                href="/multicloud/policies"
               >
                 Manage role compliance
               </a>
@@ -268,7 +267,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
                 className="bx--link"
                 href="/console/manage/identity-access"
               >
-                Mange users
+                Manage users
               </a>
             </div>
           </li>

@@ -57,7 +57,7 @@ export const Clusters = ({ locale, hideVerticalRule }) =>
 export const HelmRepo = ({ locale, hideVerticalRule }) =>
   <li className={`bx--list__item${hideVerticalRule ? ' no-vertical-rule' : ''}`}>
     {msgs.get('welcome.box.two.bullet.two', locale)}
-    <div className='content'><a href={'/catalog'} className='bx--link'>{msgs.get('welcome.box.two.bullet.two.link', locale)}</a></div>
+    <div className='content'><a href='/catalog/repositories' className='bx--link'>{msgs.get('welcome.box.two.bullet.two.link', locale)}</a></div>
   </li>
 
 export const Application = ({ locale, hideVerticalRule }) =>
@@ -69,7 +69,7 @@ export const Application = ({ locale, hideVerticalRule }) =>
 export const Compliance = ({ locale, hideVerticalRule }) =>
   <li className={`bx--list__item${hideVerticalRule ? ' no-vertical-rule' : ''}`}>
     {msgs.get('welcome.box.two.bullet.four', locale)}
-    <div className='content'><Link to={`${config.contextPath}/policies`} className='bx--link'>{msgs.get('welcome.box.two.bullet.four.link', locale)}</Link></div>
+    <div className='content'><a href='/multicloud/policies' className='bx--link'>{msgs.get('welcome.box.two.bullet.four.link', locale)}</a></div>
   </li>
 
 export const Users = ({ locale, hideVerticalRule }) =>

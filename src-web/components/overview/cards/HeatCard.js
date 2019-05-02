@@ -123,7 +123,7 @@ class HeatCard extends React.Component {
     return (
       <div className='heat-card-header'>
         <div className='heat-card-header-legends'>
-          <h6>{usedByMsg}</h6>
+          <h6>{msgs.get('overview.used.label.cluster', locale)} &nbsp; <span className='used-by-type'>{usedByMsg}</span></h6>
           <h6>{usageMsg}</h6>
           {legend.map(({title, className}) => (
             <div key={title} className='legend-container'>

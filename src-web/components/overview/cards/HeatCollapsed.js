@@ -11,7 +11,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const COLLAPSED_SQUARE = 8
+const COLLAPSED_SQUARE = 5
 const COLLAPSED_PADDING = 4
 const COLLAPSED_TOTAL_SQUARE = COLLAPSED_SQUARE+COLLAPSED_PADDING*2
 const COLLAPSED_ROWS = 7

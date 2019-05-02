@@ -17,16 +17,24 @@ export default {
       searchText: 'kind:daemonset,deployment,job,statefulset,replicaset'
     },
     {
-      name: 'Configuration resources',
-      description: 'A pre-defined search to help you review your configuration resources.',
-      resultHeader: 'search.tile.results',
-      searchText: 'kind:configmap,secret'
-    },
-    {
       name: 'Unhealthy Pods',
       description: 'Show pods with status failed, pending, or unknown.',
       resultHeader: 'table.header.status.unhealthy',
-      searchText: 'kind:pod status:Pending,pending,Failed,failed,Unknown,unknown'
-    }
+      searchText: 'kind:pod status:Pending,Failed,Unknown'
+    },
+    {
+      name: 'Created last hour',
+      description: 'Search for resources created within the last hour.',
+      resultHeader: 'search.tile.results',
+      searchText: 'created:hour'
+    },
+    // Disabled because layout looks better with 3 cards.
+    // Will re-enable when we add a rotating suggestion mechanism.
+    // {
+    //   name: 'Configuration resources',
+    //   description: 'A pre-defined search to help you review your configuration resources.',
+    //   resultHeader: 'search.tile.results',
+    //   searchText: 'kind:configmap,secret'
+    // },
   ]
 }

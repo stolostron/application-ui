@@ -62,9 +62,9 @@ class App extends React.Component {
     const serverProps = this.getServerProps()
     const { match, location } = this.props
     const showSecondaryHeader = location.pathname &&
-      !location.pathname.includes('welcome') &&
-      !location.pathname.includes('overview') &&
-      !location.pathname.includes('search')
+      !location.pathname.startsWith('/multicloud/welcome') &&
+      !location.pathname.startsWith('/multicloud/overview') &&
+      !location.pathname.startsWith('/multicloud/search')
     return (
       <div className='expand-vertically'>
         {showSecondaryHeader && <SecondaryHeader />}

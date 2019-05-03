@@ -160,7 +160,7 @@ class SearchResourceTable extends React.PureComponent {
             : <a href={link}>{name}</a>
 
         } else {
-          row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] || '-')
+          row[column.key] = column.transform ? column.transform(item, this.context.locale) : (item[column.key] != undefined ? item[column.key] : '-')
         }
       })
       if (this.props.kind !== 'cluster' && this.props.kind !== 'release') {

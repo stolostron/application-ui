@@ -100,6 +100,12 @@ class YAMLTab extends React.Component {
     const { resourceLoading } = this.props
     const { readOnly, resourceJson, errors, loading } = this.state
 
+    if (this.props.resourceJson && resourceJson === undefined) {
+      this.setState({
+        resourceJson: this.formatData(this.props.resourceJson)
+      })
+    }
+
     if (resourceJson === undefined || resourceLoading || loading)
       return <Loading className='content-spinner' />
 

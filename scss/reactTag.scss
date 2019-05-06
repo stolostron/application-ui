@@ -209,11 +209,15 @@
 
 .react-tags__search {
   position: relative;
-  display: inline-block;
+  display: flex;
   z-index: 200;
   max-width: 100%;
   margin: 0.75rem 0.5rem 0.75rem 2.5rem;
   padding-right: 2rem;
+
+  &-input {
+    display: flex;
+  }
 }
 
 .react-tags__search input {

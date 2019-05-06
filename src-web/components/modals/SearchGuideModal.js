@@ -57,6 +57,7 @@ class SearchGuideModal extends React.PureComponent {
               passiveModal
               open={this.props.open}
               onRequestClose={this.handleModalClose.bind(this, client)}
+              iconDescription={msgs.get('modal.button.close', this.context.locale)}
             >
               <div>
                 <div className={'bx--modal-content-header'}>

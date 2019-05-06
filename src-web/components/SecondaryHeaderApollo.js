@@ -159,18 +159,17 @@ export class SecondaryHeaderSearchPage extends React.Component {
   }
 
   handleClickNewTab = (client, unsavedCount, tabs, locale) => async () => {
-    const newSearch = msgs.get('tabs.add.new', locale)
-    const unsaved = msgs.get('tabs.unsaved', locale)
+    const newTabText = msgs.get('tabs.new.title', [unsavedCount], locale)
     const newData =  {
       __typename: 'SearchQueryTabs',
       unsavedCount: unsavedCount + 1,
-      openedTabName: `${newSearch} - ${unsavedCount} (${unsaved})`,
-      openedTabId: `${newSearch} - ${unsavedCount} (${unsaved})`,
+      openedTabName: newTabText,
+      openedTabId: newTabText,
       data:{
-        queryName: `${newSearch} - ${unsavedCount} (${unsaved})`,
+        queryName: newTabText,
         searchText:'',
         description:'',
-        id: `${newSearch} - ${unsavedCount} (${unsaved})`,
+        id: newTabText,
         updated: false,
         __typename: 'QueryTab'
       },

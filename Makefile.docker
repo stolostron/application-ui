@@ -90,6 +90,10 @@ push: check-env app-version
 release: push
 	docker tag $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)
 	docker push $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)
+ifeq ($(ARCH), x86_64)
+	docker tag $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)-rhel
+	docker push $(IMAGE_REPO)/$(IMAGE_NAME):$(RELEASE_TAG)-rhel
+endif
 
 .PHONY: show-labels
 show-labels: app-version

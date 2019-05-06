@@ -12,8 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Query } from 'react-apollo'
 import { withRouter } from 'react-router-dom'
-import { updateSecondaryHeader } from '../actions/common'
-import { Loading } from 'carbon-components-react'
+import { Loading, InlineNotification } from 'carbon-components-react'
 import {
   GET_SAVED_USER_QUERY,
   SEARCH_QUERY,
@@ -34,6 +33,7 @@ import resources from '../../lib/shared/resources'
 import SecondaryHeaderApollo from '../components/SecondaryHeaderApollo'
 import pageWithUrlQuery from '../components/common/withUrlQuery'
 import { convertStringToQuery } from '../../lib/client/search-helper'
+import { HCMClusterList } from '../../lib/client/queries'
 
 
 resources(() => {
@@ -43,13 +43,7 @@ resources(() => {
 class SearchPage extends React.Component {
   static propTypes = {
     clientSideFilters: PropTypes.string,
-    secondaryHeaderProps: PropTypes.object,
     updateBrowserURL: PropTypes.func,
-  }
-
-  componentWillMount() {
-    const { secondaryHeaderProps } = this.props
-    updateSecondaryHeader(msgs.get(secondaryHeaderProps.title, this.context.locale))
   }
 
   shouldComponentUpdate(nextProps) {
@@ -59,9 +53,37 @@ class SearchPage extends React.Component {
   render() {
     return (
       <div>
-        <SecondaryHeaderApollo
-          title={msgs.get('search.label', this.context.locale)}
-          updateBrowserURL={this.props.updateBrowserURL} />
+        <Query query={HCMClusterList}>
+          {({ data }) => {
+            const response = _.get(data, 'items', [])
+            const invalidVersion = response.find(item => parseInt(item.klusterletVersion.split('.').splice(0,2).join('')) < 32)
+            if (invalidVersion){
+              return (
+                <div className="search-notification">
+                  <InlineNotification
+                    kind='warning'
+                    title={msgs.get('search.klusterletVersionWarning', [invalidVersion.klusterletVersion], this.context.locale)}
+                    iconDescription=''
+                    subtitle={msgs.get('search.klusterletVersionSubtitle', this.context.locale)}
+                    onCloseButtonClick={this.handleNotificationClosed}
+                  />
+                  <SecondaryHeaderApollo
+                    title={msgs.get('search.label', this.context.locale)}
+                    updateBrowserURL={this.props.updateBrowserURL}>
+                  </SecondaryHeaderApollo>
+                </div>
+              )
+            }
+            return (
+              <SecondaryHeaderApollo
+                title={msgs.get('search.label', this.context.locale)}
+                updateBrowserURL={this.props.updateBrowserURL}>
+              </SecondaryHeaderApollo>
+            )
+          }
+          }
+        </Query>
+
         <Page>
           <Query query={GET_SEARCH_TABS}>
             {( { data, client } ) => {

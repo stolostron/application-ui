@@ -18,9 +18,9 @@ export default {
     },
     {
       name: 'Unhealthy Pods',
-      description: 'Show pods with status failed, pending, or unknown.',
+      description: 'Show pods with unhealthy status.',
       resultHeader: 'table.header.status.unhealthy',
-      searchText: 'kind:pod status:Pending,Failed,Unknown'
+      searchText: 'kind:pod status:Pending,Failed,Terminating,ImagePullBackOff,CrashLoopBackOff,RunContainerError,ContainerCreating'
     },
     {
       name: 'Created last hour',

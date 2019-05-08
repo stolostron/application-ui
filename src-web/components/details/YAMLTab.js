@@ -39,8 +39,10 @@ class YAMLTab extends React.Component {
 
   componentDidUpdate(prevProps) {
     if ((this.state.resourceJson === undefined && this.props.resourceJson) || (prevProps.resourceJson !== this.props.resourceJson)) {
+      const apiData = this.props.api.split('/')
+      const apiGroup = apiData[1] === 'apis' ? apiData[2] : ''
       this.formatData(this.props.resourceJson)
-      canCallAction(this.props.kind, 'update', this.props.namespace).then(response => {
+      canCallAction(this.props.kind, 'update', this.props.namespace, apiGroup).then(response => {
         if (_.get(response, 'data.userAccess.allowed')) {
           this.setState({
             readOnly: false
@@ -141,6 +143,7 @@ YAMLTab.contextTypes = {
 }
 
 YAMLTab.propTypes = {
+  api: PropTypes.string,
   cluster: PropTypes.string,
   kind: PropTypes.string,
   name: PropTypes.string,

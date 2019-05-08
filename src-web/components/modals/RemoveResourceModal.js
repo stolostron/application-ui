@@ -38,7 +38,8 @@ class RemoveResourceModal extends React.Component {
       const { data } = this.props
       this.getChildResources(data.name, data.namespace, data.clusterName)
       const kind = data.selfLink.split('/')
-      canCallAction(kind[kind.length - 2], 'delete', 'remote-cluster-1-ns').then(response => {
+      const apiGroup = kind[1] === 'apis' ? kind[2] : ''
+      canCallAction(kind[kind.length - 2], 'delete', data.namespace, apiGroup).then(response => {
         const allowed = _.get(response, 'data.userAccess.allowed')
         this.setState({
           canRemove: allowed,

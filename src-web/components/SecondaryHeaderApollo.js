@@ -104,7 +104,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
         <Tab label={`${tab.queryName} ${tab.updated ? '*': ''}`}
           key={tab.id}
           id={tab.id}
-          className={'header-tab-container'}
+          className={tabs.length === 1 ? 'header-tab-container single-tab' : 'header-tab-container'}
           onClick={(evt) => {
             if (evt.target.nodeName === 'A' || evt.target.nodeName === 'LI') {
               this.handleClickTab(client, tabs, tab, unsavedCount)

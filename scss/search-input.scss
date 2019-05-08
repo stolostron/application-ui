@@ -181,7 +181,7 @@
   .query-cards-container {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -1rem;
+    margin: 0 -1rem 1.6rem -1rem;
   }
   .bx--module__inner {
     box-shadow: none;
@@ -351,6 +351,12 @@
     &.bx--tabs__nav-item--selected{
       width: 100%;
       cursor: default;
+      &.single-tab{
+        width:unset;
+        a {
+          max-width: 100%;
+        }
+      }
       &:last-child{
         width: auto;
       }
@@ -383,7 +389,6 @@
     &.inactive{
       cursor:default;
       margin: 1rem 0 0 0;
-      padding: 0.75rem 0 0.75rem;
       font-size: 0.9rem;
       color: $color__gray-1;
     }

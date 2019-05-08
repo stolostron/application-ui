@@ -67,7 +67,12 @@ if (process.env.NODE_ENV === 'production') {
   app.use('*', morgan('dev'))
 }
 
-const csrfMiddleware = csurf({ cookie: true })
+const csrfMiddleware = csurf({
+  cookie: {
+    httpOnly: false,
+    secure: true
+  }
+})
 const generateCsrfToken = (req, res, next) => {
   res.cookie('XSRF-TOKEN', req.csrfToken(), { secure: true, httpOnly: false })
   next()
@@ -75,6 +80,8 @@ const generateCsrfToken = (req, res, next) => {
 
 var proxy = require('http-proxy-middleware')
 app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('Pragma', 'no-cache')
   const accessToken = req.cookies['cfc-access-token-cookie']
   req.headers.Authorization = `Bearer ${accessToken}`
   next()
@@ -117,6 +124,7 @@ const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, generateCsrfToken, (req, res, next) => {
+  res.setHeader('Cache-Control', `max-age=${60 * 60 * 12}`)
   if(!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
     return
@@ -132,10 +140,7 @@ app.use(cookieParser(), csrfMiddleware, generateCsrfToken, (req, res, next) => {
 })
 app.use(CONTEXT_PATH, express.static(STATIC_PATH, {
   maxAge: process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
-  setHeaders: (res, fp) => {
-    res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
-    res.setHeader('X-Content-Type-Options', 'nosniff')
-  }
+  setHeaders: (res, fp) => res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
 }))
 
 

@@ -578,6 +578,7 @@ class ResourceDiagram extends React.Component {
             name,
             namespace,
             clusterName,
+            kind: ''
           }
         }
       })

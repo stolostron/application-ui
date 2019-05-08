@@ -40,7 +40,7 @@ class YAMLTab extends React.Component {
   componentDidUpdate(prevProps) {
     if ((this.state.resourceJson === undefined && this.props.resourceJson) || (prevProps.resourceJson !== this.props.resourceJson)) {
       this.formatData(this.props.resourceJson)
-      canCallAction(this.props.kind, 'update').then(response => {
+      canCallAction(this.props.kind, 'update', this.props.namespace).then(response => {
         if (_.get(response, 'data.userAccess.allowed')) {
           this.setState({
             readOnly: false

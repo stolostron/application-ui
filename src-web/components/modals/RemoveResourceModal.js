@@ -15,17 +15,19 @@ import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { Checkbox, Modal, Loading, Notification } from 'carbon-components-react'
+import { canCallAction } from '../../../lib/client/access-helper'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
+      canRemove: false,
       name: '',
       namespace: '',
       cluster: '',
       selfLink: '',
-      errors: '',
+      errors: undefined,
       loading: true,
       selected: [],
     }
@@ -35,6 +37,14 @@ class RemoveResourceModal extends React.Component {
     if (this.props.data) {
       const { data } = this.props
       this.getChildResources(data.name, data.namespace, data.clusterName)
+      const kind = data.selfLink.split('/')
+      canCallAction(kind[kind.length - 2], 'delete', 'remote-cluster-1-ns').then(response => {
+        const allowed = _.get(response, 'data.userAccess.allowed')
+        this.setState({
+          canRemove: allowed,
+          errors: allowed ? undefined : msgs.get('table.actions.remove.unauthorized', this.context.locale)
+        })
+      })
       this.setState({
         name: data.name,
         namespace: data.namespace,
@@ -121,7 +131,8 @@ class RemoveResourceModal extends React.Component {
           name: '',
           namespace: '',
           clusterName: '',
-          selfLink: ''
+          selfLink: '',
+          kind: ''
         }
       }
     })
@@ -201,7 +212,7 @@ class RemoveResourceModal extends React.Component {
 
   render() {
     const { label, locale, open } = this.props
-    const { name, loading, errors } = this.state
+    const { canRemove, name, loading, errors } = this.state
     const bodyLabel = msgs.get(label.label, locale) || msgs.get('modal.remove.resource', locale)
     const heading = msgs.get(label.heading, locale)
     return (
@@ -218,9 +229,10 @@ class RemoveResourceModal extends React.Component {
           onRequestClose={this.handleClose.bind(this)}
           onRequestSubmit={this.handleSubmit.bind(this)}
           role='region'
-          aria-label={heading}>
+          aria-label={heading}
+          primaryButtonDisabled={!canRemove} >
           <div>
-            {(errors !== '' && errors !== undefined)
+            {(errors !== undefined)
               ? <Notification
                 kind='error'
                 title=''

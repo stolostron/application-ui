@@ -262,6 +262,7 @@ class ResourceTable extends React.Component {
             namespace,
             clusterName: _.get(item, 'cluster.metadata.name', ''),
             selfLink: _.get(item, 'metadata.selfLink', ''),
+            kind: ''
           }
         }
       })

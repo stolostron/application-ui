@@ -18,7 +18,6 @@ import tableDefinitions from '../../definitions/search-definitions'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { PAGE_SIZES } from '../../actions/index'
-import { canCallAction } from '../../../lib/client/access-helper'
 import constants from '../../../lib/shared/constants'
 
 const {
@@ -58,8 +57,7 @@ class SearchResourceTable extends React.PureComponent {
     items: PropTypes.array,
     kind: PropTypes.string,
     location: PropTypes.object,
-    related: PropTypes.bool,
-    // userRole: PropTypes.string
+    related: PropTypes.bool
   }
 
   constructor(props){
@@ -68,19 +66,8 @@ class SearchResourceTable extends React.PureComponent {
       page: 1,
       pageSize: props.expandFullPage ? PAGE_SIZES.DEFAULT : PAGE_SIZES.VALUES[0],
       sortDirection: 'asc',
-      collapse: false,
-      canRemove: false
+      collapse: false
     }
-  }
-
-  componentWillMount() {
-    canCallAction(this.props.kind, 'delete').then(response => {
-      if (response && response.data && response.data.userAccess && response.data.userAccess.allowed) {
-        this.setState({
-          canRemove: true
-        })
-      }
-    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -111,7 +98,7 @@ class SearchResourceTable extends React.PureComponent {
     return headers
   }
 
-  handleActionClick(action, name, namespace, clusterName = '', selfLink = '') {
+  handleActionClick(action, name, namespace = '', clusterName = '', selfLink = '') {
     const { kind } = this.props
     const resourceType = this.getResourceType(kind)
     const client = apolloClient.getClient()
@@ -131,14 +118,15 @@ class SearchResourceTable extends React.PureComponent {
           name,
           namespace,
           clusterName,
-          selfLink
+          selfLink,
+          kind
         }
       }
     })
   }
 
   getRows(){
-    const { page, pageSize, selectedKey, sortDirection, canRemove } = this.state
+    const { page, pageSize, selectedKey, sortDirection } = this.state
     const { locale } = this.context
     let { items } = this.props
     const { kind, location } = this.props
@@ -172,9 +160,7 @@ class SearchResourceTable extends React.PureComponent {
               isDelete={true}
               onClick={() => this.handleActionClick(action, name, namespace, cluster, selfLink)}
               key={action}
-              itemText={msgs.get('table.actions.remove.resource', [kind], locale)}
-              disabled={!canRemove}
-            />
+              itemText={msgs.get('table.actions.remove.resource', [kind], locale)} />
           </OverflowMenu>
         )
       }

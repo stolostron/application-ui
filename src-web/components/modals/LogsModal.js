@@ -100,7 +100,8 @@ class LogsModal extends React.PureComponent {
           name: '',
           namespace: '',
           clusterName: '',
-          selfLink: ''
+          selfLink: '',
+          kind: ''
         }
       }
     })

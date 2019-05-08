@@ -205,8 +205,11 @@
     margin: 1rem;
     min-width: 26rem;
   }
-  
+
   &:hover .query-menu-button{
+    visibility: visible;
+  }
+  &:focus-within .query-menu-button{
     visibility: visible;
   }
   .search-query-card-summary {

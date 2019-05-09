@@ -54,9 +54,15 @@ require('./lib/shared/dust-helpers')
 
 var app = express()
 
-app.use(helmet())
 var morgan = require('morgan')
 if (process.env.NODE_ENV === 'production') {
+
+  app.use(helmet({ // in production these headers are set by icp-management-ingress
+    frameguard: false,
+    noSniff: false,
+    xssFilter: false
+  }))
+
   app.use(
     '*',
     morgan('combined', {
@@ -64,6 +70,7 @@ if (process.env.NODE_ENV === 'production') {
     }),
   )
 } else {
+  app.use(helmet())
   app.use('*', morgan('dev'))
 }
 

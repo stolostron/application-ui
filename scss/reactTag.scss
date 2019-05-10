@@ -221,6 +221,7 @@
 }
 
 .react-tags__search input {
+  min-height: 1rem;
   /* prevent autoresize overflowing the container */
   max-width: 100%;
   min-width: 8rem;

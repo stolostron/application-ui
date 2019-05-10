@@ -6,6 +6,7 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
+ @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
 .resource-details-page {
   width: 100%;
@@ -22,6 +23,13 @@
     display: flex;
     flex-direction: row-reverse;
     margin-bottom: .5rem;
+  }
+
+  &-editIcon {
+    margin-left: 1rem;
+    fill: $color__white;
+    height: .875rem;
+    width: .875rem;
   }
 }
 

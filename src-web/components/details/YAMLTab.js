@@ -15,7 +15,7 @@ import jsYaml from 'js-yaml'
 import msgs from '../../../nls/platform.properties'
 import YamlEditor from '../common/YamlEditor'
 import { saveLoad } from '../../../lib/client/design-helper'
-import { Button, Loading, Modal, Notification } from 'carbon-components-react'
+import { Button, Icon, Loading, Modal, Notification } from 'carbon-components-react'
 import apolloClient from '../../../lib/client/apollo-client'
 import { canCallAction } from '../../../lib/client/access-helper'
 
@@ -24,9 +24,10 @@ class YAMLTab extends React.Component {
     super(props)
     this.client = apolloClient.getClient()
     this.state = {
-      readOnly: true,
-      open: false,
+      editMode: false,
       loading: false,
+      open: false,
+      readOnly: true,
       resourceJson: undefined,
     }
   }
@@ -54,6 +55,10 @@ class YAMLTab extends React.Component {
 
   handleEditorChange = value => {
     this.setState({ resourceJson: value })
+  }
+
+  toggleEditMode() {
+    this.setState((prevState) => ({ editMode: !prevState.editMode }))
   }
 
   toggleModal() {
@@ -100,7 +105,7 @@ class YAMLTab extends React.Component {
 
   render() {
     const { resourceLoading } = this.props
-    const { readOnly, resourceJson, errors, loading } = this.state
+    const { editMode, readOnly, resourceJson, errors, loading } = this.state
 
     if (this.props.resourceJson && resourceJson === undefined) {
       this.setState({
@@ -119,13 +124,29 @@ class YAMLTab extends React.Component {
         <div >
           {errors ? <Notification kind='error' title='' subtitle={errors} /> : null}
           <div className={'details-yaml-editButton'}>
-            <Button onClick={this.toggleModal.bind(this)} disabled={readOnly}>{msgs.get('actions.save', this.context.locale)}</Button>
+            { editMode ?
+              <Button onClick={this.toggleModal.bind(this)} disabled={readOnly}>
+                {msgs.get('actions.save', this.context.locale)}
+              </Button>
+              :
+              <Button
+                onClick={this.toggleEditMode.bind(this)}
+                disabled={readOnly}
+              >
+                {msgs.get('actions.edit', this.context.locale)}
+                <Icon
+                  className='details-yaml-editIcon'
+                  name='icon--edit'
+                  description={msgs.get('actions.edit', this.context.locale)}
+                />
+              </Button>
+            }
           </div>
           <div className='details-yaml'>
             <YamlEditor
               width='100%'
               height='65vh'
-              readOnly={readOnly}
+              readOnly={!editMode || readOnly}
               onYamlChange={this.handleEditorChange}
               yaml={resourceJson} />
           </div>

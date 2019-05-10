@@ -81,7 +81,7 @@ export class SecondaryHeaderSearchPage extends React.Component {
             <Icon
               className='header-icon--add__tab'
               name='icon--add'
-              description={msgs.get('tabs.add.icon', this.context.locale)}
+              description={msgs.get('tabs.add.new', this.context.locale)}
             />}
         />
       )

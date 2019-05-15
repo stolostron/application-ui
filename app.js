@@ -80,10 +80,6 @@ const csrfMiddleware = csurf({
     secure: true
   }
 })
-const generateCsrfToken = (req, res, next) => {
-  res.cookie('XSRF-TOKEN', req.csrfToken(), { secure: true, httpOnly: false })
-  next()
-}
 
 var proxy = require('http-proxy-middleware')
 app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
@@ -130,7 +126,7 @@ appUtil.app(app)
 const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
-app.use(cookieParser(), csrfMiddleware, generateCsrfToken, (req, res, next) => {
+app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   res.setHeader('Cache-Control', `max-age=${60 * 60 * 12}`)
   if(!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()

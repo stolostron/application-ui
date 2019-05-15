@@ -99,7 +99,8 @@ function getContext(req) {
   const req_context = context(req)
   return {
     title: msgs.get('common.app.name', req_context.locale),
-    context: req_context
+    context: req_context,
+    xsrfToken: req.csrfToken()
   }
 }
 

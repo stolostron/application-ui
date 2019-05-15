@@ -90,6 +90,7 @@ class App extends React.Component {
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />
         <ActionModalApollo locale={serverProps.context.locale} />
+        <input type='hidden' id='app-access' style={{display: 'none'}} value={serverProps.xsrfToken.toString('base64')} />
       </div>
     )
   }

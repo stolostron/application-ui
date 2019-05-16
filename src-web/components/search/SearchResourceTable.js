@@ -56,7 +56,6 @@ class SearchResourceTable extends React.PureComponent {
     expandFullPage: PropTypes.bool,
     items: PropTypes.array,
     kind: PropTypes.string,
-    location: PropTypes.object,
     related: PropTypes.bool
   }
 
@@ -129,7 +128,7 @@ class SearchResourceTable extends React.PureComponent {
     const { page, pageSize, selectedKey, sortDirection } = this.state
     const { locale } = this.context
     let { items } = this.props
-    const { kind, location } = this.props
+    const { kind } = this.props
     // TODO searchFeature: need to sort columns before pagination
     if (selectedKey) {
       items = lodash.orderBy(items, [selectedKey], [sortDirection])
@@ -143,8 +142,8 @@ class SearchResourceTable extends React.PureComponent {
       const link = this.getDetailsLink(item)
       resource.columns.forEach(column => {
         if (column.key === 'name') {
-          row[column.key] = link.includes('/multicloud')
-            ? <Link to={{ pathname: link, state: { search: location.search} }}>{name}</Link>
+          row[column.key] = link.pathname
+            ? <Link to={{ pathname: link.pathname, search: link.search }}>{name}</Link>
             : <a href={link}>{name}</a>
 
         } else {
@@ -180,9 +179,15 @@ class SearchResourceTable extends React.PureComponent {
     const { kind } = this.props
     switch (kind){
     case 'cluster':
-      return `${config.contextPath}/clusters?filters={"textsearch":["${item.name}"]}`
+      return {
+        pathname: `${config.contextPath}/clusters`,
+        search: `?filters={"textsearch":["${item.name}"]}`
+      }
     case 'application':
-      return `${config.contextPath}/applications/${item.namespace}/${item.name}`
+      return {
+        pathname: `${config.contextPath}/applications/${item.namespace}/${item.name}`,
+        search: ''
+      }
     case 'release':
       return item.cluster === 'local-cluster' // TODO - better method of determining hub-cluster
         ? `/catalog/instancedetails/${item.namespace}/${item.name}`
@@ -192,7 +197,10 @@ class SearchResourceTable extends React.PureComponent {
     case 'compliance':
       return `/policy/policies/${item.namespace}/${item.name}`
     default:
-      return `${config.contextPath}/details/${item.cluster}${item.selfLink}`
+      return {
+        pathname: `${config.contextPath}/details/${item.cluster}${item.selfLink}`,
+        search: ''
+      }
     }
   }
 

@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import SearchBar from '../search/SearchBar'
+import ApolloClient from '../../../lib/client/apollo-client'
 import { Icon } from 'carbon-components-react'
 import { Query } from 'react-apollo'
 import { GET_SEARCH_SCHEMA, GET_SEARCH_INPUT_TEXT } from '../../apollo-client/queries/SearchQueries'
@@ -23,6 +24,20 @@ resources(() => {
 })
 
 class SearchInput extends React.PureComponent {
+  constructor(props){
+    super(props)
+    this.client = ApolloClient.getClient()
+  }
+
+  componentWillUnmount(){
+    this.client.writeData({ data: {
+      searchInput: {
+        __typename: 'SearchInput',
+        text: ''
+      }
+    }} )
+  }
+
   render() {
     const { clientSideFilters, tabName, tabId, updateBrowserURL } = this.props
     return (
@@ -33,9 +48,10 @@ class SearchInput extends React.PureComponent {
             <div className='search--input-area'>
               <Query query={GET_SEARCH_INPUT_TEXT}>
                 {( { data } ) => {
+                  const text = _.get(data, 'searchInput.text', '')
                   return (
                     <SearchBar
-                      value={_.get(data, 'searchInput.text', '')}
+                      value={text}
                       availableFilters={searchSchema || []}
                       onChange={(input) => {
                         // TODO searchFeature: use a mutation with a schema.

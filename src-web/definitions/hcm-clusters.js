@@ -86,7 +86,7 @@ export default {
 }
 
 export function getExternalLink(item, locale) {
-  return item.consoleURL ? <a target="_blank" href={`${item.consoleURL}/console`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
+  return item.consoleURL ? <a target="_blank" href={`${item.consoleURL}/console?useNav=platform-ui`}>{msgs.get('table.actions.launch', locale)}</a> : '-'
 }
 
 export function getLabels(item) {

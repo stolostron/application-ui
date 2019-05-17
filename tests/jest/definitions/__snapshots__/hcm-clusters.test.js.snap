@@ -2,7 +2,7 @@
 
 exports[`hcm-clusters - getExternalLink should return vaild link 1`] = `
 <a
-  href="https://9.10.11.12:8443/console"
+  href="https://9.10.11.12:8443/console?useNav=platform-ui"
   target="_blank"
 >
   launch

@@ -50,7 +50,7 @@ export const Clusters = ({ locale, hideVerticalRule }) =>
     {msgs.get('welcome.box.two.bullet.one', locale)}
     <div className='content'>
       <Icon name='launch--glyph' fill='#3d70b2' description={msgs.get('svg.description.launch', locale)} />
-      <a href={'https://www.ibm.com/support/knowledgecenter/SSBS6K_3.1.0/mcm/manage_cluster/add_remove_cluster.html'} target="_cluster" className='bx--link' aria-describedby='launchWindow'>{msgs.get('welcome.box.two.bullet.one.link', locale)}</a>
+      <a href={'https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.0/mcm/manage_cluster/add_remove_cluster.html'} target="_cluster" className='bx--link' aria-describedby='launchWindow'>{msgs.get('welcome.box.two.bullet.one.link', locale)}</a>
     </div>
   </li>
 

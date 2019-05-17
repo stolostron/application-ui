@@ -49,7 +49,7 @@ export const resourceActions = (action, dispatch, resourceType, data, hasService
     return dispatch(updateModal({ open: true, type: 'view-logs', resourceType, data }))
   }
   case 'table.actions.cluster.launch': {
-    window.open(`${data.consoleURL}/console`, '_blank')
+    window.open(`${data.consoleURL}/console?useNav=platform-ui`, '_blank')
     return
   }
   case MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING.action: {

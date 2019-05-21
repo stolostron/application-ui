@@ -53,9 +53,9 @@ const PieGraph = ({
   <GridCard header={header} tagValue={tagValue} item={item}>
     {(() => {
       const searchText = {
-        'compliance' : ['"kind:compliance status:compliant"', '"kind:compliance status:noncompliant"'],
-        'pods': ['"kind:pod status:running,succeeded"', '"kind:pod status:pending"', '"kind:pod status:failed,notrunning"'],
-        'cluster': ['"kind:cluster status:ok"', '"kind:cluster status:failed,critical,offline"']
+        'compliance' : ['"kind:policy compliant:Compliant"', '"kind:policy status:NonCompliant"'],
+        'pods': ['"kind:pod status:Running"', '"kind:pod status:ContainerCreating,Pending,Terminating,Waiting"', '"kind:pod status:CrashLoopBackOff,Failed,ImagePullBackOff,RunContainerError,Terminated,Unknown"'],
+        'cluster': ['"kind:cluster status:OK"', '"kind:cluster status:Failed,Critical,Offline"']
       }
       return (
         <div className='pie-graph'>

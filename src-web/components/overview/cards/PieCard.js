@@ -53,7 +53,7 @@ const PieGraph = ({
   <GridCard header={header} tagValue={tagValue} item={item}>
     {(() => {
       const searchText = {
-        'compliance' : ['"kind:policy compliant:Compliant"', '"kind:policy status:NonCompliant"'],
+        'compliance' : ['"kind:policy compliant:Compliant"', '"kind:policy compliant:NonCompliant"'],
         'pods': ['"kind:pod status:Running"', '"kind:pod status:ContainerCreating,Pending,Terminating,Waiting"', '"kind:pod status:CrashLoopBackOff,Failed,ImagePullBackOff,RunContainerError,Terminated,Unknown"'],
         'cluster': ['"kind:cluster status:OK"', '"kind:cluster status:Failed,Critical,Offline"']
       }

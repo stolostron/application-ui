@@ -24,7 +24,7 @@ resources(() => {
   require('../../scss/secondary-header.scss')
 })
 
-export class SecondaryHeaderSearchPage extends React.Component {
+export class SecondaryHeaderApollo extends React.Component {
   constructor(props) {
     super(props)
     this.renderTabs = this.renderTabs.bind(this)
@@ -240,13 +240,13 @@ export class SecondaryHeaderSearchPage extends React.Component {
 
 }
 
-SecondaryHeaderSearchPage.contextTypes = {
+SecondaryHeaderApollo.contextTypes = {
   locale: PropTypes.string
 }
 
-SecondaryHeaderSearchPage.propTypes = {
+SecondaryHeaderApollo.propTypes = {
   title: PropTypes.string,
   updateBrowserURL: PropTypes.func
 }
 
-export default SecondaryHeaderSearchPage
+export default SecondaryHeaderApollo

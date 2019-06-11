@@ -40,8 +40,9 @@ const jestConfig = {
     },
   },
   testMatch: [
-    '<rootDir>/tests/jest/*/*.test.js?(x)',
-    '<rootDir>/tests/jest/*/*/*.test.js?(x)'
+    '<rootDir>/tests/jest/**/*.test.js?(x)',
+    '<rootDir>/tests/jest/**/**/*.test.js?(x)',
+    '<rootDir>/tests/jest/**/**/**/*.test.js?(x)'
   ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: [

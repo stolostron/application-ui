@@ -60,12 +60,3 @@ describe('SecondaryHeader component 3', () => {
     expect(component.toJSON()).toMatchSnapshot()
   })
 })
-
-describe('SecondaryHeader component 4', () => {
-  it('renders as expected', () => {
-    const component = renderer.create(
-      <SecondaryHeader title='hello world' />
-    )
-    expect(component.toJSON()).toMatchSnapshot()
-  })
-})

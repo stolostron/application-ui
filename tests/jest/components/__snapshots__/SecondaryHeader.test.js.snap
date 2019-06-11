@@ -334,21 +334,3 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
   </div>
 </div>
 `;
-
-exports[`SecondaryHeader component 4 renders as expected 1`] = `
-<div
-  aria-label="hello world secondary"
-  className="secondary-header-wrapper-min"
-  role="region"
->
-  <div
-    className="secondary-header simple-header"
-  >
-    <h1
-      className="bx--detail-page-header-title"
-    >
-      hello world
-    </h1>
-  </div>
-</div>
-`;

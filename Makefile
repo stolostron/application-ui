@@ -88,7 +88,7 @@ ifeq ($(OSARCH), linux-amd64)
 	--network mcm-network \
 	--ip 10.10.0.5 \
 	-d -p 127.0.0.1:4000:4000 $(IMAGE_REPO)/mcm-ui-api-amd64
-	npm install selenium-standalone@6.12.0 xml2json@0.11.0 nightwatch@0.9.20
+	npm install selenium-standalone@6.16.0 xml2json@0.11.0 nightwatch@0.9.21
 	nightwatch
 endif
 endif

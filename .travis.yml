@@ -39,6 +39,7 @@ branches:
 
 services:
   - docker
+  - xvfb
 
 before_install:
   - make cicd-log-init
@@ -49,8 +50,6 @@ install:
   - make install
 
 before_script:
-  - "export DISPLAY=:99.0"
-  - if [ $(uname -m) == 'x86_64' ]; then sh -e /etc/init.d/xvfb start; else echo 's390x or ppc64le - skipping'; fi
   - make image
   - make run
   - chmod +x copyright-check.sh

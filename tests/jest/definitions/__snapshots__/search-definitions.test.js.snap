@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search-definitions - getPolicyStatusIcon should return NON-compliant status 1`] = `
+<StatusField
+  status="critical"
+  text="not compliant"
+/>
+`;
+
+exports[`search-definitions - getPolicyStatusIcon should return blank status 1`] = `"-"`;
+
+exports[`search-definitions - getPolicyStatusIcon should return compliant status 1`] = `
+<StatusField
+  status="ok"
+  text="compliant"
+/>
+`;

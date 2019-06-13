@@ -118,7 +118,7 @@ class ResourceList extends React.Component {
       return <Loading withOverlay={false} className='content-spinner' />
 
     const actions = React.Children.map(children, action => {
-      if (action.props.disabled || !showCreate(userRole, resourceType))
+      if (action.props.disabled || !showCreate(userRole))
         return null
       return React.cloneElement(action, { resourceType })
     })

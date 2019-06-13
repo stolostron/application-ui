@@ -10,10 +10,12 @@
 /**
   NOTE: See documentation in SearchResourceTable.js
  */
+import React from 'react'
+import msgs from '../../nls/platform.properties'
 import { getAge } from '../../lib/client/resource-helper'
 import { createDashboardLink } from './hcm-applications'
 import { getStatusIcon as getClusterStatusIcon, getExternalLink } from './hcm-clusters'
-import { getComplianceStatusIcon, getStatusCount, getClusterCount, getStatusIcon as getPolocyStatusIcon } from './hcm-compliances'
+import StatusField from '../components/common/StatusField'
 
 export default {
   application: {
@@ -53,20 +55,6 @@ export default {
     ],
     actions: [
       'table.actions.cluster.edit.labels',
-    ],
-  },
-  compliance: {
-    columns: [
-      { key: 'name' },
-      { key: 'namespace' },
-      { key: 'status', transform: getComplianceStatusIcon },
-      { key: 'clusterCompliant', transform: getClusterCount},
-      { key: 'policyCompliant', transform: getStatusCount},
-      { key: 'created', transform: getAge},
-    ],
-    actions: [
-      'table.actions.edit',
-      'table.actions.compliance.remove'
     ],
   },
   configmap: {
@@ -237,7 +225,7 @@ export default {
     columns: [
       { key: 'name' },
       { key: 'namespace' },
-      { key: 'compliant', transform: getPolocyStatusIcon },
+      { key: 'compliant', transform: getPolicyStatusIcon },
       { key: 'cluster'},
       { key: 'remediationAction'},
       { key: 'created', transform: getAge},
@@ -297,4 +285,15 @@ export default {
     ],
     actions: [],
   }
+}
+
+export function getPolicyStatusIcon(item, locale) {
+  if (item.compliant){
+    if (item.compliant.toLowerCase() === 'compliant') {
+      return <StatusField status='ok' text={msgs.get('policy.status.compliant', locale)} />
+    } else {
+      return <StatusField status='critical' text={msgs.get('policy.status.noncompliant', locale)} />
+    }
+  }
+  return '-'
 }

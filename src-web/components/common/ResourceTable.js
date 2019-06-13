@@ -239,12 +239,8 @@ class ResourceTable extends React.Component {
       this.props.getResourceAction(action, item, null, history, this.props.locale)
     } else {
       const client = apolloClient.getClient()
-      const name = resourceType.name !== 'HCMRelease'
-        ? _.get(item, 'metadata.name', '')
-        : _.get(item, 'name', '')
-      const namespace = resourceType.name !== 'HCMRelease'
-        ? _.get(item, 'metadata.namespace', '')
-        : _.get(item, 'Namespace', '')
+      const name = _.get(item, 'metadata.name', '')
+      const namespace = _.get(item, 'metadata.namespace', '')
       client.mutate({
         mutation: UPDATE_ACTION_MODAL,
         variables: {
@@ -285,7 +281,7 @@ class ResourceTable extends React.Component {
         }
 
         const menuActions = item.metadata && tableActions && tableActions[item.metadata.namespace] || tableActions
-        const filteredActions = menuActions ? filterTableAction(menuActions,userRole,resourceType) : null
+        const filteredActions = menuActions ? filterTableAction(menuActions,userRole) : null
         const availableActions = filteredActions && this.getAvaiableActions(filteredActions, item)
 
         if (filteredActions && filteredActions.length > 0 && this.showTableToobar()) {

@@ -11,7 +11,6 @@
 /*
 For a given input, a selector should always produce the same output.
  */
-
 import {secondaryHeader, resourceReducerFunction, INITIAL_STATE} from '../../../src-web/reducers/common'
 
 describe('secondaryHeader creation', () => {
@@ -264,8 +263,8 @@ describe('resourceReducerFunction', () => {
     const action = {
       type: 'RESOURCE_MODIFY',
       resourceType:{
-        list: 'HCMPodList',
-        name: 'HCMPod'
+        list: 'HCMClusterList',
+        name: 'HCMCluster'
       }
     }
     const expectedValue = {

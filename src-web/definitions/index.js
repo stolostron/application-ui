@@ -14,14 +14,6 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 import hcmapplications from './hcm-applications'
 import hcmclusters from './hcm-clusters'
-import hcmcompliances from './hcm-compliances'
-import hcmnodes from './hcm-nodes'
-import hcmpods from './hcm-pods'
-import hcmpolicies from './hcm-policies'
-import hcmpvs from './hcm-pvs'
-import hcmpvsClaim from './hcm-pvs-claim'
-import hcmreleases from './hcm-releases'
-import hcmrepositories from './hcm-repositories'
 
 import hcmappdiagram from './diagrams/hcm-application-diagram'
 import hcmtopology from './diagrams/hcm-topology'
@@ -29,14 +21,6 @@ import hcmtopology from './diagrams/hcm-topology'
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
   [RESOURCE_TYPES.HCM_CLUSTERS.name]: hcmclusters,
-  [RESOURCE_TYPES.HCM_COMPLIANCES.name]: hcmcompliances,
-  [RESOURCE_TYPES.HCM_NODES.name]: hcmnodes,
-  [RESOURCE_TYPES.HCM_PODS.name]: hcmpods,
-  [RESOURCE_TYPES.HCM_POLICIES.name]: hcmpolicies,
-  [RESOURCE_TYPES.HCM_PVS.name]: hcmpvs,
-  [RESOURCE_TYPES.HCM_PVS_CLAIM.name]: hcmpvsClaim,
-  [RESOURCE_TYPES.HCM_RELEASES.name]: hcmreleases,
-  [RESOURCE_TYPES.HCM_REPOSITORIES.name]: hcmrepositories,
   [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology
 }
 

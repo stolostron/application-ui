@@ -7,67 +7,96 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import {getDefaultSearchField, getDefaultSortField, getLink, getPrimaryKey} from '../../../src-web/definitions/index'
+import getResourceData, {
+  getPrimaryKey,
+  getSecondaryKey,
+  getURIKey,
+  getDefaultSearchField,
+  getDefaultSortField,
+  getTableKeys,
+  getLink
+} from '../../../src-web/definitions/index'
 
 // regular properties/selector/reducer testing
 // compare the received and expect values
-describe('definitions/index', () => {
-  describe('#getDefaultSearchField', () => {
-    it('should return the default search field of node', () => {
-      const item = {
-        list: 'HCMPodList',
-        name: 'HCMPod'
-      }
-      expect(getDefaultSearchField(item)).toBe('metadata.name')
-    })
+describe('definitions/index tests', () => {
+  it('should return the resource data for specified resource', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getResourceData(item)).toMatchSnapshot()
   })
 
-  describe('#getDefaultSortField', () => {
-    it('should return the default sort field of node', () => {
-      const item = {
-        list: 'HCMPodList',
-        name: 'HCMPod'
-      }
-      expect(getDefaultSortField(item)).toBe('metadata.name')
-    })
+  it('should return the primary key of node', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getPrimaryKey(item)).toMatchSnapshot()
   })
 
-  describe('#getLink', () => {
-    it('should return the link of node as /namespace/name', () => {
-      const link = true
-      const resource = {
-        metadata: {
-          namespace: 'namespace',
-          name: 'name'
-        }
-      }
-      expect(getLink(link, resource)).toBe('/namespace/name')
-    })
-    it('should return the link of node as /domain/host', () => {
-      const link = 'domain/host'
-      const resource = {
-        domain: 'domain',
-        host: 'host',
-        metadata: {
-          namespace: 'namespace',
-          name: 'name'
-        }
-      }
-      expect(getLink(link, resource)).toBe('/domain/host')
-    })
+  it('should return the secondary key', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getSecondaryKey(item)).toMatchSnapshot()
   })
 
-  describe('#getPrimaryKey', () => {
-    it('should return the primary key of node', () => {
-      const item = {
-        list: 'HCMPodList',
-        name: 'HCMPod'
-      }
-      expect(getPrimaryKey(item)).toBe('metadata.name')
-    })
+  it('should return the URI key', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getURIKey(item)).toMatchSnapshot()
   })
 
-  describe('#getURIKey', () => {
-    //getURIKey not been used
+  it('should return the default search field of node', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getDefaultSearchField(item)).toMatchSnapshot()
+  })
+
+  it('should return the default sort field of node', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getDefaultSortField(item)).toMatchSnapshot()
+  })
+
+  it('should return the table keys', () => {
+    const item = {
+      list: 'HCMClusterList',
+      name: 'HCMCluster'
+    }
+    expect(getTableKeys(item)).toMatchSnapshot()
+  })
+
+  it('should return the link of node as /namespace/name', () => {
+    const link = true
+    const resource = {
+      metadata: {
+        namespace: 'namespace',
+        name: 'name'
+      }
+    }
+    expect(getLink(link, resource)).toMatchSnapshot()
+  })
+
+  it('should return the link of node as /domain/host', () => {
+    const link = 'domain/host'
+    const resource = {
+      domain: 'domain',
+      host: 'host',
+      metadata: {
+        namespace: 'namespace',
+        name: 'name'
+      }
+    }
+    expect(getLink(link, resource)).toMatchSnapshot()
   })
 })

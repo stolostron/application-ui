@@ -11,6 +11,47 @@ include Configfile
 
 SHELL := /bin/bash
 
+NAMESPACE ?= kube-system
+DOCKER_PASS ?= $(DOCKER_PASSWORD)
+DOCKER_BUILD_OPTS= --build-arg "VCS_REF=$(VCS_REF)" \
+           --build-arg "VCS_URL=$(GIT_REMOTE_URL)" \
+           --build-arg "IMAGE_NAME=$(IMAGE_NAME)" \
+					--build-arg "IMAGE_DESCRIPTION=$(IMAGE_DESCRIPTION)" \
+					--build-arg "IMAGE_DISPLAY_NAME=$(IMAGE_DISPLAY_NAME)" \
+					--build-arg "IMAGE_NAME_ARCH=$(IMAGE_NAME_ARCH)" \
+					--build-arg "IMAGE_MAINTAINER=$(IMAGE_MAINTAINER)" \
+					--build-arg "IMAGE_VENDOR=$(IMAGE_VENDOR)" \
+					--build-arg "IMAGE_VERSION=$(IMAGE_VERSION)" \
+					--build-arg "IMAGE_DESCRIPTION=$(IMAGE_DESCRIPTION)" \
+					--build-arg "IMAGE_SUMMARY=$(IMAGE_SUMMARY)" \
+					--build-arg "IMAGE_OPENSHIFT_TAGS=$(IMAGE_OPENSHIFT_TAGS)"
+
+ifneq ($(BUILD_HARNESS_ARCH),amd64)
+DOCKER_FILE = Dockerfile.$(ARCH)
+endif
+
+ifneq ($(BUILD_HARNESS_ARCH),amd64)
+DOCKER_FILE = Dockerfile.$(ARCH)
+endif
+
+.PHONY: default
+default:: init;
+
+.PHONY: init\:
+init::
+	@mkdir -p variables
+ifndef GITHUB_USER
+	$(info GITHUB_USER not defined)
+	exit -1
+endif
+GITHUB_USER := $(shell echo $(GITHUB_USER) | sed 's/@/%40/g')
+ifndef GITHUB_TOKEN
+	$(info GITHUB_TOKEN not defined)
+	exit -1
+endif
+
+-include $(shell curl -fso .build-harness -H "Authorization: token ${GITHUB_TOKEN}" -H "Accept: application/vnd.github.v3.raw" "https://raw.github.ibm.com/ICP-DevOps/build-harness/master/templates/Makefile.build-harness"; echo .build-harness)
+
 .PHONY: copyright-check
 copyright-check:
 	./copyright-check.sh
@@ -25,25 +66,25 @@ prune:
 	npm prune --production
 
 
-.PHONY: my-version
-my-version:
-	$(eval IMAGE_VERSION := $(shell git rev-parse --short HEAD))
-
-#Removed so that IMAGE_VERSION from config file is added to the version label in the docker image
-#for redhat certification
-#app-version: my-version
-
-
 .PHONY: build
 build:
 	npm run build:production
 
 image:: build lint prune
 
-push: check-env app-version
+.PHONY: docker-logins
+docker-logins:
+	make docker:login DOCKER_REGISTRY=$(DOCKER_EDGE_REGISTRY)
+	make docker:login DOCKER_REGISTRY=$(DOCKER_SCRATCH_REGISTRY)
+	make docker:login DOCKER_REGISTRY=$(DOCKER_INTEGRATION_REGISTRY)
+
+.PHONY: image
+image:: docker-logins
+	make docker:info
+	make docker:build 
 
 .PHONY: run
-run: check-env app-version
+run:
 	# Both containers mcm-ui and mcm-ui-api must be on the same network.
 	docker network create --subnet 10.10.0.0/16 mcm-network
 	docker run \
@@ -57,8 +98,6 @@ run: check-env app-version
 	--name mcm-ui \
 	--network mcm-network \
 	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
-
-push: check-env app-version
 
 .PHONY: test
 test:
@@ -97,5 +136,24 @@ endif
 image-dev: build
 	docker build -t $(IMAGE_NAME_ARCH):latest .
 
-include Makefile.docker
+.PHONY: push
+push:
+	$(eval DOCKER_REGISTRY = $(DOCKER_SCRATCH_REGISTRY))
+	make docker:login DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+	make docker:tag-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+	make docker:push-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+
+.PHONY: release
+release:
+	$(eval DOCKER_REGISTRY = $(DOCKER_INTEGRATION_REGISTRY))
+	make docker:login DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+	make docker:tag-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+	make docker:push-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+ifeq ($(ARCH), x86_64)
+	#$(eval DOCKER_TAG = $(RELEASE_TAG)-rhel)
+	make docker:tag-arch DOCKER_ARCH_URI=$(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)-rhel DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+	make docker:push-arch DOCKER_ARCH_URI=$(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)/$(IMAGE_NAME_ARCH):$(RELEASE_TAG)-rhel DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+endif
+
+#include Makefile.docker
 include Makefile.cicd

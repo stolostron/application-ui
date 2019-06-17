@@ -29,6 +29,7 @@ or npm run build:production
 </pre>
 
 ## Running
+
 1. The localhost redirect ui registration URL was removed by the auth team.  You must configure an existing cluster to support local development.
 
 > 1. SSH into your existing cluster (`make ssh`)

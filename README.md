@@ -1,4 +1,4 @@
-# mcm-ui[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-ui)
+# mcm-application[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-application)
 The UI micro-service for IBM Hybrid Cloud Manager.
 
 ## Design
@@ -115,4 +115,3 @@ These are a few useful links that will help provide technical reference and best
 - [React Best Practices](https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8)
 - [Smart and Dumb Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)
 - [Redux Best Practices](https://medium.com/@kylpo/redux-best-practices-eef55a20cc72)
-

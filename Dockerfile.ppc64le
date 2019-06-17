@@ -13,10 +13,10 @@ LABEL org.label-schema.vendor="IBM" \
       org.label-schema.license="Licensed Materials - Property of IBM" \
       org.label-schema.schema-version="1.0"
 
-RUN mkdir -p /opt/ibm/mcm-ui
-WORKDIR /opt/ibm/mcm-ui
+RUN mkdir -p /opt/ibm/mcm-application
+WORKDIR /opt/ibm/mcm-application
 
-COPY . /opt/ibm/mcm-ui
+COPY . /opt/ibm/mcm-application
 
 EXPOSE 3000
 

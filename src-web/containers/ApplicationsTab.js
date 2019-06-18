@@ -34,10 +34,26 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   [registerApplicationModal],
   ['/diagram'],
   [
-    <ResourceTableModule key='applicationWorks' definitionsKey='applicationWorkKeys' />,
-    <ResourceTableModule key='placementPolicies' definitionsKey='placementPolicyKeys' subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES} />,
-    <ResourceTableModule key='placementBindings' definitionsKey='placementBindingKeys' />,
-    <ResourceTableModule key='deployables' definitionsKey='deployablesKeys' />,
-    <ResourceTableModule key='applicationRelationships' definitionsKey='applicationRelationshipKeys' />
+    <ResourceTableModule
+      key='applicationWorks'
+      definitionsKey='applicationWorkKeys'
+    />,
+    <ResourceTableModule
+      key='placementPolicies'
+      definitionsKey='placementPolicyKeys'
+      subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES}
+    />,
+    <ResourceTableModule
+      key='placementBindings'
+      definitionsKey='placementBindingKeys'
+    />,
+    <ResourceTableModule
+      key='deployables'
+      definitionsKey='deployablesKeys'
+    />,
+    <ResourceTableModule
+      key='applicationRelationships'
+      definitionsKey='applicationRelationshipKeys'
+    />
   ]
 ), ROLES.VIEWER))

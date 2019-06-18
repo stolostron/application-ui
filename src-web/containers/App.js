@@ -22,12 +22,6 @@ import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
-export const OverviewPage = loadable(() => import(/* webpackChunkName: "dashboard" */ './OverviewPage'))
-export const ClustersTab = loadable(() => import(/* webpackChunkName: "clusters" */ './ClustersTab'))
-export const SearchPage = loadable(() => import(/* webpackChunkName: "search" */ './SearchPage'))
-export const ResourceDetailsPage = loadable(() => import(/* webpackChunkName: "resourcedetails" */ '../components/details/ResourceDetailsPage'))
-export const TopologyTab = loadable(() => import(/* webpackChunkName: "topology" */ './TopologyTab'))
-export const WelcomeTab = loadable(() => import(/* webpackChunkName: "empty" */ './WelcomePageTab'))
 export const ModalApollo = loadable(() => import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
 export const ActionModalApollo = loadable(() => import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo'))
 
@@ -64,15 +58,6 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
-          <Route path={`${match.url}/clusters:filters?`} render={() => <ClustersTab secondaryHeaderProps={{title: 'routes.clusters'}} />} />
-          <Route path={`${match.url}/overview`} render={() => <OverviewPage secondaryHeaderProps={{title: 'routes.overview'}} />} />
-          <Route path={`${match.url}/topology`} render={() => <TopologyTab serverProps={serverProps} />} />
-          <Route path={`${match.url}/welcome`} render={() => <WelcomeTab />} />
-          { /* TODO: searchFeature remove feature flag */
-            config['featureFlags:search'] === true &&
-              <Route path={`${match.url}/search`} render={() => <SearchPage secondaryHeaderProps={{title: 'routes.search'}} />} />
-          }
-          { config['featureFlags:search'] === true && <Route path={`${match.url}/details/:cluster`} render={() => <ResourceDetailsPage />} /> }
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />

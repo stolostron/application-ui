@@ -64,9 +64,9 @@ npm run start
 </pre>
 
 6. In Google Chrome, log into the platform via `https://MYCLUSTERIP/console` (MYCLUSTERIP is generally the same as cfcRouterUrl from your env variables).
- - Open chrome devtools -> Application (Tab)
- - Left sidebar: Cookies -> MYCLUSTERIP
- - On the cookies table, double click on the "domain" entry of each cookie with the prefix `cfc-`, and overwrite by typing 'localhost' + enter.
+ - Open Chrome's developer tools, then click on the "Application" tab.
+ - Expand "Cookies" in the left sidebar, then click on "MYCLUSTERIP".
+ - In the cookies table, double-click on the "Domain" entry of each cookie with the prefix `cfc-`, then overwrite by typing 'localhost' + enter.
 
 7. Open a browser to `https://localhost:3001/multicloud/applications`, and you should already be logged in.
 

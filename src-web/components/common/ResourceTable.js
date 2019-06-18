@@ -266,7 +266,7 @@ class ResourceTable extends React.Component {
   }
 
   getRows() {
-    const { tableActions, resourceType, staticResourceData, match, userRole } = this.props
+    const { history, tableActions, resourceType, staticResourceData, match, userRole } = this.props
     const { locale } = this.context
     const { normalizedKey } = staticResourceData
     const resources = this.getResources()
@@ -292,7 +292,7 @@ class ResourceTable extends React.Component {
                   disabled={!availableActions.includes(action)}
                   data-table-action={action}
                   isDelete={action ==='table.actions.remove' || action ==='table.actions.policy.remove'|| action ==='table.actions.applications.remove'|| action ==='table.actions.compliance.remove'}
-                  onClick={() => this.handleActionClick(action, resourceType, item)}
+                  onClick={() => this.handleActionClick(action, resourceType, item, history)}
                   key={action}
                   itemText={msgs.get(action, locale)}
                 />
@@ -387,7 +387,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const resourceType = ownProps.subResourceType || ownProps.resourceType
   return {
-    getResourceAction: (action, resource, hasService, locale) => resourceActions(action, dispatch, resourceType, resource, hasService, locale)
+    getResourceAction: (action, resource, hasService, history, locale) => resourceActions(action, dispatch, resourceType, resource, hasService, history, locale)
   }
 }
 

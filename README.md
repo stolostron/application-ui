@@ -38,9 +38,11 @@ or npm run build:production
 >    or copy the script from `https://github.ibm.com/IBMPrivateCloud/platform-ui/blob/master/setup-dev.sh` then execute it
 > 4. Copy the environment variables printed at the end of the script and proceed to step 2.
 
-2. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
+2. Run mcm-ui-api locally following the instructions in the readme.md file from https://github.ibm.com/IBMPrivateCloud/mcm-ui-api to get grahql calls working
+
+3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
-hcmUiApiUrl=https://localhost:4000/hcmuiapi
+hcmUiApiUrl=https://localhost:4000/hcmuiapi (mcm-ui-api service running locally 
 cfcRouterUrl
 PLATFORM_IDENTITY_PROVIDER_URL
 WLP_CLIENT_SECRET
@@ -50,18 +52,18 @@ ARTIFACTORY_USER - mcmdev@us.ibm.com
 ARTIFACTORY_PWD - Artifactory API KEY, base64 encoded. You can get this value for functional id mcmdev@us.ibm.com from: https://ibm.ent.box.com/notes/287638278960
 </pre>
 
-3. Start the server for production
+4. Start the server for production
 <pre>
 npm run start:production
 </pre>
 
-4. Start the server for development, make sure execute both following npm commands
+5. Start the server for development, make sure execute both following npm commands
 <pre>
 npm run build:watch
 npm run start
 </pre>
 
-5.Open a browser to `https://localhost:{httpPort}/multicloud` and log in using your cluster admin credentials.
+6.Open a browser to `https://localhost:{httpPort}/multicloud` and log in using your cluster admin credentials.
 
 ## Storybook
 <pre>

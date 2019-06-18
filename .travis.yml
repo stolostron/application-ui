@@ -43,7 +43,6 @@ services:
 
 before_install:
   - make init
-  - make cicd-log-init
   - source travis-env.sh
 
 install:
@@ -79,7 +78,6 @@ after_success:
           fi
         fi
       fi
-  - make cicd-log-success
 
 after_failure:
   - |
@@ -89,7 +87,6 @@ after_failure:
         expect upload-selenium.sh
         echo Selenium test failed! Result available at http://9.42.81.137:81/$TRAVIS_JOB_NUMBER/e2e/
       fi
-  - make cicd-log-fail
 
 deploy:
   provider: pages

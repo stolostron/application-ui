@@ -1,6 +1,6 @@
 {
     "contextPath": "/multicloud",
-    "httpPort": 3000,
+    "httpPort": 3001,
     "hcmUiApiUrl": "",
     "cfcRouterUrl": "",
     "platformHeaderContextPath": "/header",

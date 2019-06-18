@@ -1,4 +1,4 @@
-# mcm-ui[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-ui)
+# mcm-application[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-application)
 The UI micro-service for IBM Hybrid Cloud Manager.
 
 ## Design
@@ -29,6 +29,7 @@ or npm run build:production
 </pre>
 
 ## Running
+
 1. The localhost redirect ui registration URL was removed by the auth team.  You must configure an existing cluster to support local development.
 
 > 1. SSH into your existing cluster (`make ssh`)
@@ -37,9 +38,11 @@ or npm run build:production
 >    or copy the script from `https://github.ibm.com/IBMPrivateCloud/platform-ui/blob/master/setup-dev.sh` then execute it
 > 4. Copy the environment variables printed at the end of the script and proceed to step 2.
 
-2. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
+2. Run mcm-ui-api locally following the instructions in the readme.md file from https://github.ibm.com/IBMPrivateCloud/mcm-ui-api to get grahql calls working
+
+3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
-hcmUiApiUrl=https://localhost:4000/hcmuiapi
+hcmUiApiUrl=https://localhost:4000/hcmuiapi (mcm-ui-api service running locally 
 cfcRouterUrl
 PLATFORM_IDENTITY_PROVIDER_URL
 WLP_CLIENT_SECRET
@@ -49,18 +52,23 @@ ARTIFACTORY_USER - mcmdev@us.ibm.com
 ARTIFACTORY_PWD - Artifactory API KEY, base64 encoded. You can get this value for functional id mcmdev@us.ibm.com from: https://ibm.ent.box.com/notes/287638278960
 </pre>
 
-3. Start the server for production
+4. Start the server for production
 <pre>
 npm run start:production
 </pre>
 
-4. Start the server for development, make sure execute both following npm commands
+5. Start the server for development, make sure execute both following npm commands
 <pre>
 npm run build:watch
 npm run start
 </pre>
 
-5.Open a browser to `https://localhost:{httpPort}/multicloud` and log in using your cluster admin credentials.
+6. In Google Chrome, log into the platform via `https://MYCLUSTERIP/console` (MYCLUSTERIP is generally the same as cfcRouterUrl from your env variables).
+ - Open Chrome's developer tools, then click on the "Application" tab.
+ - Expand "Cookies" in the left sidebar, then click on "MYCLUSTERIP".
+ - In the cookies table, double-click on the "Domain" entry of each cookie with the prefix `cfc-`, then overwrite by typing 'localhost' + enter.
+
+7. Open a browser to `https://localhost:3001/multicloud/applications`, and you should already be logged in.
 
 ## Storybook
 <pre>
@@ -115,4 +123,3 @@ These are a few useful links that will help provide technical reference and best
 - [React Best Practices](https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8)
 - [Smart and Dumb Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)
 - [Redux Best Practices](https://medium.com/@kylpo/redux-best-practices-eef55a20cc72)
-

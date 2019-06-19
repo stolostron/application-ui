@@ -1,4 +1,4 @@
-# mcm-application[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-application)
+# mcm-application-ui[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-application-ui)
 The UI micro-service for IBM Hybrid Cloud Manager.
 
 ## Design

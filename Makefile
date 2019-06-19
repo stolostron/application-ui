@@ -85,7 +85,7 @@ image:: docker-logins
 
 .PHONY: run
 run:
-	# Both containers mcm-application and mcm-ui-api must be on the same network.
+	# Both containers mcm-application-ui and mcm-ui-api must be on the same network.
 	docker network create --subnet 10.10.0.0/16 mcm-network
 	docker run \
 	-e NODE_ENV=development \
@@ -95,7 +95,7 @@ run:
 	-e WLP_CLIENT_SECRET=$(WLP_CLIENT_SECRET) \
 	-e WLP_REDIRECT_URL=$(WLP_REDIRECT_URL) \
 	-e hcmUiApiUrl=https://10.10.0.5:4000/hcmuiapi \
-	--name mcm-application \
+	--name mcm-application-ui \
 	--network mcm-network \
 	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
 

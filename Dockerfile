@@ -31,7 +31,7 @@ LABEL org.label-schema.vendor="IBM" \
       io.k8s.description="$IMAGE_DESCRIPTION" \
       io.openshift.tags="$IMAGE_OPENSHIFT_TAGS"
 
-RUN mkdir -p /opt/ibm/mcm-application-ui/licenses
+RUN mkdir -p /opt/ibm/mcm-application-ui /licenses
 ADD license.txt /licenses
 WORKDIR /opt/ibm/mcm-application-ui
 

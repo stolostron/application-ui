@@ -30,10 +30,6 @@ ifneq ($(BUILD_HARNESS_ARCH),amd64)
 DOCKER_FILE = Dockerfile.$(ARCH)
 endif
 
-ifneq ($(BUILD_HARNESS_ARCH),amd64)
-DOCKER_FILE = Dockerfile.$(ARCH)
-endif
-
 .PHONY: default
 default:: init;
 

@@ -98,9 +98,6 @@ after_failure:
 #   on:
 #     branch: master
 #
-# notifications:
-#   slack:
-#     secure: VYEghDGikEyR83C23NsbJ12A+h4TlFPC7xVn1ezrnGoIPnGVaffwXNQAyzBOMxEOG24fXY3LxpvJSL2dh/bXkMf6v6QgP43YC2csM5CYKsW2clYhXxD2o85rtpS8HFP39CvhhocK2hk4sMn1kdu7CktkejmdGu9t0DIAaIkehyIr7m5Ru8t/iSsyq1ySesOwl22hOJFja2bLDJB+W8IbYXzvkQRSbsVBkkI+9x6DZ7DZFqUM1ugEK0ptufD03LWmSojpbaG75MQdT2U8TLrOQOeUoInQi3CJFZLz8Ca6cVfXm7gX9KBrcyD2ZR5K6eIFeAhzH4sj6TIklUrN+QhVYumWk7hAFpLCjvbYCoemOKEFVPHt6AYmBZ0qa/mNSnfxwO+W5Q0J3yq3Nx0RMO75mDuKJhksTjLh1hLftWRe1tmp7T4C79oyZ0xWlWtLgT8jTZPBFnCDfLBJfI70qkqRKJ83sa6n85lkCeAHOvRgYkyZqsCI8OedRD3tIZnB4Ny24SYibinF1X2HcF7ryseEEPPrpx3v6hQStMAnS2bqHcl4ynxFDwRGcHA3XPOlCquR3BETtMrk3lRusSZp9PTxIh8MNeCyXZRMUFoMY4330PlNYw8v7+MlHJDurqcesW87zUOeO95zB5Rs2sK//kA5QsIJPsBBMqRwcTbPx8dhw+o=
-#     on_pull_requests: false
-#     on_success: change
-#     on_failure: always
+
+notifications:
+  slack: ibm-cloudplatform:L8wJzwiKzLuYBmdQIEF1QQDt

@@ -81,11 +81,13 @@ after_success:
 after_failure:
   - |
       if [ -d "test-output" ]; then
-        sudo apt-get install -y expect
-        mkdir selenium-test && mkdir selenium-test/$TRAVIS_JOB_NUMBER && cp -R test-output/e2e selenium-test/$TRAVIS_JOB_NUMBER
-        expect upload-selenium.sh
-        echo Selenium test failed! Result available at http://9.42.81.137:81/$TRAVIS_JOB_NUMBER/e2e/
+        echo "Some jobs failed"
       fi
+#        sudo apt-get install -y expect
+#        mkdir selenium-test && mkdir selenium-test/$TRAVIS_JOB_NUMBER && cp -R test-output/e2e selenium-test/$TRAVIS_JOB_NUMBER
+#        expect upload-selenium.sh
+#        echo Selenium test failed! Result available at http://9.42.81.137:81/$TRAVIS_JOB_NUMBER/e2e/
+#      fi
 
 deploy:
   provider: pages

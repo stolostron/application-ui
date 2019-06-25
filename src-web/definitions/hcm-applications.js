@@ -10,7 +10,7 @@
 import React from 'react'
 import { Loading } from 'carbon-components-react'
 import lodash from 'lodash'
-import { getAge, getLabelsToString, getLabelsToList } from '../../lib/client/resource-helper'
+import { getAge, getLabelsToList, getNumDeployables, getNumDeployments, getNumFailedDeployments } from '../../lib/client/resource-helper'
 import { validator } from './validators/hcm-application-validator'
 import { getUpdates } from './deployers/hcm-application-deployer'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../lib/shared/constants'
@@ -33,18 +33,38 @@ export default {
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'metadata.namespace'
+      resourceKey: 'metadata.namespace',
     },
-    {
-      msgKey: 'table.header.labels',
-      resourceKey: 'metadata.labels',
-      transformFunction: getLabelsToString
-    },
+    // {
+    //   msgKey: 'table.header.labels',
+    //   resourceKey: 'metadata.labels',
+    //   transformFunction: getLabelsToString,
+    // },
     {
       msgKey: 'table.header.created',
       resourceKey: 'metadata.creationTimestamp',
       transformFunction: getAge,
     },
+    {
+      msgKey: 'table.header.deployables',
+      resourceKey: 'deployables',
+      transformFunction: getNumDeployables,
+    },
+    {
+      msgKey: 'table.header.deployments',
+      resourceKey: 'deployments',
+      transformFunction: getNumDeployments,
+    },
+    {
+      msgKey: 'table.header.failedDeployments',
+      resourceKey: 'failedDeployments',
+      transformFunction: getNumFailedDeployments,
+    },
+    // {
+    //   msgKey: 'table.header.policies',
+    //   resourceKey: 'placementPolicies',
+    //   transformFunction: getNumPolicies,
+    // },
     // {
     //   msgKey: 'table.header.status',
     //   resourceKey: 'metadata.status',

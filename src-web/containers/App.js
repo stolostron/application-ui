@@ -20,8 +20,8 @@ import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
+import ApplicationHeaderTabs from './ApplicationHeaderTabs'
 
-export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ './ApplicationsTab'))
 export const ModalApollo = loadable(() => import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
 export const ActionModalApollo = loadable(() => import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo'))
 
@@ -57,7 +57,11 @@ class App extends React.Component {
       <div className='expand-vertically'>
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
-          <Route path={`${match.url}/applications`} render={() => <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />} />
+          <Route path={`${match.url}/applications`} render=
+            {() =>
+              <ApplicationHeaderTabs />
+            }
+          />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />

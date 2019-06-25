@@ -14,13 +14,17 @@
 import React from 'react'
 import loadable from 'loadable-components'
 import { Tabs, Tab } from 'carbon-components-react'
+import msgs from '../../../nls/platform.properties'
+import { withLocale } from '../../providers/LocaleProvider'
 import './style.scss'
 
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ '../ApplicationsTab'))
 
 // This will render the three tabs
 // Overview, Deployments, Incidents
-const ApplicationHeaderTabs = () => {
+const ApplicationHeaderTabs = withLocale(({
+  locale,
+}) => {
   return (
     <div id="applicationheadertabs">
       <div className="whiteSpacer">
@@ -36,9 +40,9 @@ const ApplicationHeaderTabs = () => {
             disabled={false}
             onClick={()=>{}}
             onKeyDown={()=>{}}
-            label="Overview"
+            label={msgs.get('description.title.overview', locale)}
           >
-            <div className="some-content" style={{paddingLeft: 16}}>
+            <div className="some-content">
               <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />
             </div>
           </Tab>
@@ -46,9 +50,9 @@ const ApplicationHeaderTabs = () => {
             disabled={false}
             onClick={()=>{}}
             onKeyDown={()=>{}}
-            label="Deployments"
+            label={msgs.get('description.title.deployments', locale)}
           >
-            <div className="some-content" style={{paddingLeft: 16}}>
+            <div className="some-content">
               Deployments
             </div>
           </Tab>
@@ -56,9 +60,9 @@ const ApplicationHeaderTabs = () => {
             disabled={false}
             onClick={()=>{}}
             onKeyDown={()=>{}}
-            label="Incidents"
+            label={msgs.get('description.title.incidents', locale)}
           >
-            <div className="some-content" style={{paddingLeft: 16}}>
+            <div className="some-content">
               Incidents
             </div>
           </Tab>
@@ -66,6 +70,5 @@ const ApplicationHeaderTabs = () => {
       </div>
     </div>
   )
-}
-
-export default (ApplicationHeaderTabs)
+})
+export default withLocale(ApplicationHeaderTabs)

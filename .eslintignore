@@ -3,6 +3,7 @@ public/*
 coverage/*
 storybook-static
 nightwatch.conf.js
+webpack.config.js
 
 lib/client/http-util.js
 lib/server/auth-client.js

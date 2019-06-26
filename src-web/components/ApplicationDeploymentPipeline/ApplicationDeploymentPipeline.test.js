@@ -7,13 +7,14 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('react')
-const renderer = require('react-test-renderer')
-const ApplicationDeploymentPipeline = require('../ApplicationDeploymentPipeline').default
+const React = require('react');
+const renderer = require('react-test-renderer');
+const ApplicationDeploymentPipeline = require('../ApplicationDeploymentPipeline')
+  .default;
 
 describe('ApplicationDeploymentPipeline', () => {
   it('ApplicationDeploymentPipeline renders correctly.', () => {
-    const tree = renderer.create(<ApplicationDeploymentPipeline />).toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
+    const tree = renderer.create(<ApplicationDeploymentPipeline />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

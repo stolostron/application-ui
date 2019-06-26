@@ -6,52 +6,52 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
 
 // seems to be an issue with this rule and redux
 /* eslint-disable import/no-named-as-default */
 
-import React from 'react'
-import loadable from 'loadable-components'
-import { Tabs, Tab } from 'carbon-components-react'
-import msgs from '../../../nls/platform.properties'
-import { withLocale } from '../../providers/LocaleProvider'
-import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
-import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline'
-import './style.scss'
+import React from 'react';
+// import loadable from 'loadable-components'
+import { Tabs, Tab } from 'carbon-components-react';
+import msgs from '../../../nls/platform.properties';
+import { withLocale } from '../../providers/LocaleProvider';
+import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights';
+import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline';
+import ApplicationsTab from '../ApplicationsTab';
+import './style.scss';
 
-export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ '../ApplicationsTab'))
+// export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ '../ApplicationsTab'));
 
 // This will render the three tabs
 // Overview, Deployments, Incidents
-const ApplicationHeaderTabs = withLocale(({
-  locale,
-}) => {
+const ApplicationHeaderTabs = withLocale(({ locale }) => {
   return (
     <div id="applicationheadertabs">
       <div className="whiteSpacer">
         <Tabs
           className="some-class"
           selected={0}
-          onClick={()=>{}}
-          onKeyDown={()=>{}}
-          onSelectionChange={()=>{}}
+          onClick={() => {}}
+          onKeyDown={() => {}}
+          onSelectionChange={() => {}}
           tabContentClassName="tab-content"
         >
           <Tab
             disabled={false}
-            onClick={()=>{}}
-            onKeyDown={()=>{}}
+            onClick={() => {}}
+            onKeyDown={() => {}}
             label={msgs.get('description.title.overview', locale)}
           >
             <div className="some-content">
-              <ApplicationsTab secondaryHeaderProps={{title: 'routes.applications'}} />
+              <ApplicationsTab
+                secondaryHeaderProps={{ title: 'routes.applications' }}
+              />
             </div>
           </Tab>
           <Tab
             disabled={false}
-            onClick={()=>{}}
-            onKeyDown={()=>{}}
+            onClick={() => {}}
+            onKeyDown={() => {}}
             label={msgs.get('description.title.deployments', locale)}
           >
             <div className="some-content">
@@ -61,17 +61,15 @@ const ApplicationHeaderTabs = withLocale(({
           </Tab>
           <Tab
             disabled={false}
-            onClick={()=>{}}
-            onKeyDown={()=>{}}
+            onClick={() => {}}
+            onKeyDown={() => {}}
             label={msgs.get('description.title.incidents', locale)}
           >
-            <div className="some-content">
-              Incidents
-            </div>
+            <div className="some-content">Incidents</div>
           </Tab>
         </Tabs>
       </div>
     </div>
-  )
-})
-export default withLocale(ApplicationHeaderTabs)
+  );
+});
+export default withLocale(ApplicationHeaderTabs);

@@ -7,19 +7,17 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react'
+import React from 'react';
 // import { Tabs } from 'carbon-components-react'
-import msgs from '../../../nls/platform.properties'
-import { withLocale } from '../../providers/LocaleProvider'
-import './style.scss'
+import msgs from '../../../nls/platform.properties';
+import { withLocale } from '../../providers/LocaleProvider';
+import './style.scss';
 
-const ApplicationDeploymentHighlights = withLocale(({
-  locale,
-}) => {
+const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
   return (
-    <div id="DeploymentHighlights" >
+    <div id="DeploymentHighlights">
       {msgs.get('description.title.deploymentHighlights', locale)}
     </div>
-  )
-})
-export default withLocale(ApplicationDeploymentHighlights)
+  );
+});
+export default withLocale(ApplicationDeploymentHighlights);

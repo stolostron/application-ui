@@ -6,21 +6,18 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
 
-import React from 'react'
+import React from 'react';
 // import { Tabs } from 'carbon-components-react'
-import msgs from '../../../nls/platform.properties'
-import { withLocale } from '../../providers/LocaleProvider'
-import './style.scss'
+import msgs from '../../../nls/platform.properties';
+import { withLocale } from '../../providers/LocaleProvider';
+import './style.scss';
 
-const ApplicationDeploymentPipeline = withLocale(({
-  locale,
-}) => {
+const ApplicationDeploymentPipeline = withLocale(({ locale }) => {
   return (
-    <div id="DeploymentPipeline" >
+    <div id="DeploymentPipeline">
       {msgs.get('description.title.deploymentPipeline', locale)}
     </div>
-  )
-})
-export default withLocale(ApplicationDeploymentPipeline)
+  );
+});
+export default withLocale(ApplicationDeploymentPipeline);

@@ -66,7 +66,7 @@ prune:
 build:
 	npm run build:production
 
-image:: build lint prune
+image:: build prune
 
 .PHONY: docker-logins
 docker-logins:

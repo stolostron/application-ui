@@ -22,7 +22,20 @@
     "test:update-snapshot": "jest --updateSnapshot",
     "test:install-selenium": "selenium-standalone install --version=3.141.5 --drivers.chrome.version=2.36",
     "storybook": "start-storybook -p 6006 -s ./public,./node_modules/carbon-components/css",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run test:unit -- --bail --findRelatedTests",
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.scss": [
+      "stylefmt",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
@@ -124,7 +137,7 @@
     "apollo-cache-inmemory": "^1.6.2",
     "assets-webpack-plugin": "^3.0.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.3",
+    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
@@ -134,22 +147,29 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-import-resolver-babel-module": "^4.0.0",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-html": "^4.0.3",
-    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-html": "^3.1.0",
+    "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-lodash": "^2.7.0",
     "eslint-plugin-react": "^7.7.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "filemanager-webpack-plugin": "^1.0.26",
     "flatpickr": "^4.4.4",
     "git-revision-webpack-plugin": "^2.5.1",
+    "husky": "^0.14.3",
     "jest": "^22.4.3",
     "jest-tap-reporter": "^1.9.0",
     "jsonfile": "^4.0.0",
+    "lint-staged": "^7.0.0",
     "nightwatch": "^0.9.21",
     "node-sass": "^4.11.0",
     "postcss-loader": "^2.1.4",
     "properties-parser": "^0.3.1",
+    "prettier": "1.11.0",
     "sass-loader": "^7.0.1",
     "selenium-standalone": "^6.16.0",
     "style-loader": "^0.21.0",

@@ -12,9 +12,9 @@ const tapReporter = [
   {
     logLevel: 'ERROR',
     showInternalStackTraces: true,
-    filePath: 'test-output/jestTestLogs.tap'
-  }
-]
+    filePath: 'test-output/jestTestLogs.tap',
+  },
+];
 
 const jestConfig = {
   collectCoverage: true,
@@ -36,33 +36,33 @@ const jestConfig = {
     'html',
     'lcov',
     'text',
-    'text-summary'
+    'text-summary',
   ],
   testURL: 'http://localhost/',
-  coverageThreshold: {
-    global: {
-      branches: 11,
-      functions: 15,
-      lines: 14,
-      statements: 14,
-    },
-  },
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 11,
+  //     functions: 15,
+  //     lines: 14,
+  //     statements: 14,
+  //   },
+  // },
   testMatch: [
     '<rootDir>/tests/jest/**/*.test.js?(x)',
     '<rootDir>/tests/jest/**/**/*.test.js?(x)',
     '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
     '**/tests/jest/**/*.test.js',
-    '**/src-web/**/*.test.js'
+    '**/src-web/**/*.test.js',
   ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
-  setupFiles: [
-    '<rootDir>/tests/jest/config/setup.js'
-  ],
+  setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   moduleNameMapper: {
-    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
-  }
-}
+    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js',
+  },
+};
 
-jestConfig.reporters = process.env.TRAVIS ? [ 'default', tapReporter ] : [ 'default']
+jestConfig.reporters = process.env.TRAVIS
+  ? ['default', tapReporter]
+  : ['default'];
 
-module.exports = jestConfig
+module.exports = jestConfig;

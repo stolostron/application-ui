@@ -19,7 +19,15 @@ const tapReporter = [
 const jestConfig = {
   collectCoverage: true,
   collectCoverageFrom: [
-    'src-web/**/*.{js,jsx}'
+    'src-web/**/*.{js,jsx}',
+    '**/src-web/**/*.{js}',
+    '!**/src-web/root.js',
+    '!**/src-web/app.js',
+    '!**/src-web/providers/*.*',
+    '!**/src-web/pages/routes/*',
+    '!**/node_modules/**',
+    '!**/vendor/**',
+    '!**/tmp/**',
   ],
   coverageDirectory: './test-output/coverage',
   coverageReporters: [
@@ -42,7 +50,9 @@ const jestConfig = {
   testMatch: [
     '<rootDir>/tests/jest/**/*.test.js?(x)',
     '<rootDir>/tests/jest/**/**/*.test.js?(x)',
-    '<rootDir>/tests/jest/**/**/**/*.test.js?(x)'
+    '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
+    '**/tests/jest/**/*.test.js',
+    '**/src-web/**/*.test.js'
   ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: [

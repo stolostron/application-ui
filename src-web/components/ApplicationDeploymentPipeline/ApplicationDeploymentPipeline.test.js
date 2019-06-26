@@ -7,10 +7,13 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-// @flow
-export default (deployments) => {
-  const { deployment } = deployments
-  return {
-    clusterName: deployment || '',
-  }
-}
+const React = require('react')
+const renderer = require('react-test-renderer')
+const ApplicationDeploymentPipeline = require('../ApplicationDeploymentPipeline').default
+
+describe('ApplicationDeploymentPipeline', () => {
+  it('ApplicationDeploymentPipeline renders correctly.', () => {
+    const tree = renderer.create(<ApplicationDeploymentPipeline />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})

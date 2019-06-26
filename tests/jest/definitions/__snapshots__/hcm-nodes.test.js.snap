@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`hcm-nodes - getRole should return vaild link 1`] = `"proxy, management, master, va"`;

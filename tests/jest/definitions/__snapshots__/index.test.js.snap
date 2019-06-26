@@ -2,9 +2,9 @@
 
 exports[`definitions/index tests should return the URI key 1`] = `"metadata.name"`;
 
-exports[`definitions/index tests should return the default search field of node 1`] = `"metadata.name"`;
+exports[`definitions/index tests should return the default search field of node 1`] = `undefined`;
 
-exports[`definitions/index tests should return the default sort field of node 1`] = `"metadata.name"`;
+exports[`definitions/index tests should return the default sort field of node 1`] = `undefined`;
 
 exports[`definitions/index tests should return the link of node as /domain/host 1`] = `"/domain/host"`;
 
@@ -12,72 +12,7 @@ exports[`definitions/index tests should return the link of node as /namespace/na
 
 exports[`definitions/index tests should return the primary key of node 1`] = `"metadata.name"`;
 
-exports[`definitions/index tests should return the resource data for specified resource 1`] = `
-Object {
-  "defaultSortField": "metadata.name",
-  "primaryKey": "metadata.name",
-  "tableActions": Array [
-    "table.actions.cluster.edit.labels",
-    "table.actions.cluster.launch",
-    "table.actions.cluster.logging",
-    "table.actions.cluster.monitoring",
-    "table.actions.cluster.cem",
-    "table.actions.cluster.search",
-  ],
-  "tableKeys": Array [
-    Object {
-      "msgKey": "table.header.name",
-      "resourceKey": "metadata.name",
-    },
-    Object {
-      "msgKey": "table.header.namespace",
-      "resourceKey": "metadata.namespace",
-    },
-    Object {
-      "msgKey": "table.header.labels",
-      "resourceKey": "metadata.labels",
-      "transformFunction": [Function],
-    },
-    Object {
-      "msgKey": "table.header.endpoint",
-      "resourceKey": "clusterip",
-      "transformFunction": [Function],
-    },
-    Object {
-      "msgKey": "table.header.status",
-      "resourceKey": "status",
-      "transformFunction": [Function],
-    },
-    Object {
-      "msgKey": "table.header.nodes",
-      "resourceKey": "nodes",
-    },
-    Object {
-      "msgKey": "table.header.klusterletVersion",
-      "resourceKey": "klusterletVersion",
-    },
-    Object {
-      "msgKey": "table.header.k8sVersion",
-      "resourceKey": "k8sVersion",
-    },
-    Object {
-      "msgKey": "table.header.storage",
-      "resourceKey": "totalStorage",
-      "transformFunction": [Function],
-    },
-    Object {
-      "msgKey": "table.header.memory",
-      "resourceKey": "totalMemory",
-      "transformFunction": [Function],
-    },
-    Object {
-      "msgKey": "table.header.cpu",
-      "resourceKey": "totalCPU",
-      "transformFunction": [Function],
-    },
-  ],
-}
-`;
+exports[`definitions/index tests should return the resource data for specified resource 1`] = `undefined`;
 
 exports[`definitions/index tests should return the secondary key 1`] = `"cluster"`;
 

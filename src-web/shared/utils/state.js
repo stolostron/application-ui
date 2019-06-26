@@ -8,7 +8,7 @@
  *******************************************************************************/
 
 // @flow
-import type { ActionT } from 'types';
+import type { ActionT } from '../../../lib/types/ReduxT'
 
 // Create flux standard action.
 type ActionCreatorT = (payload: string, meta: string) => ActionT;
@@ -17,5 +17,5 @@ export const createAction = (type: string): ActionCreatorT => {
     type,
     ...(payload !== undefined ? { payload } : {}),
     ...(meta !== undefined ? { meta } : {}),
-  });
-};
+  })
+}

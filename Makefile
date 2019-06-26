@@ -52,8 +52,8 @@ endif
 copyright-check:
 	./copyright-check.sh
 
-lint:
-	npm run lint
+# lint:
+# 	npm run lint
 
 install:
 	npm install

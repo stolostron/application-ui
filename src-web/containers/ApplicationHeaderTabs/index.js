@@ -16,6 +16,8 @@ import loadable from 'loadable-components'
 import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
+import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
+import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline'
 import './style.scss'
 
 export const ApplicationsTab = loadable(() => import(/* webpackChunkName: "applications" */ '../ApplicationsTab'))
@@ -53,7 +55,8 @@ const ApplicationHeaderTabs = withLocale(({
             label={msgs.get('description.title.deployments', locale)}
           >
             <div className="some-content">
-              Deployments
+              <ApplicationDeploymentHighlights />
+              <ApplicationDeploymentPipeline />
             </div>
           </Tab>
           <Tab

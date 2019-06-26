@@ -7,13 +7,10 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('react')
-const renderer = require('react-test-renderer')
-const ApplicationHeaderTabs = require('../../../src-web/containers/ApplicationHeaderTabs').default
-
-describe('ApplicationHeaderTabs', () => {
-  it('ApplicationHeaderTabs renders correctly.', () => {
-    const tree = renderer.create(<ApplicationHeaderTabs />).toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
+// @flow
+export default (deployments) => {
+  const { deployment } = deployments
+  return {
+    clusterName: deployment || '',
+  }
+}

@@ -11,7 +11,11 @@ import React from 'react';
 // import { Tabs } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
-import './style.scss';
+import resources from '../../../lib/shared/resources';
+
+resources(() => {
+  require('./style.scss');
+});
 
 const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
   return (

@@ -17,7 +17,11 @@ import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
 import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights';
 import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline';
-import './style.scss';
+import resources from '../../../lib/shared/resources';
+
+resources(() => {
+  require('./style.scss');
+});
 
 export const ApplicationsTab = loadable(() =>
   import(/* webpackChunkName: "applications" */ '../ApplicationsTab'));

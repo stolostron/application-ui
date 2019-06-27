@@ -61,11 +61,6 @@ export default {
       transformFunction: getNumFailedDeployments,
     },
     // {
-    //   msgKey: 'table.header.policies',
-    //   resourceKey: 'placementPolicies',
-    //   transformFunction: getNumPolicies,
-    // },
-    // {
     //   msgKey: 'table.header.status',
     //   resourceKey: 'metadata.status',
     //   transformFunction: getStatus,

@@ -87,7 +87,8 @@ class ResourceTable extends React.Component {
       selectableTable,
       onSelect,
       onSelectAll,
-      onSelectSubItem
+      onSelectSubItem,
+      tableTitle,
     } = this.props
     return [
       <DataTable
@@ -103,6 +104,7 @@ class ResourceTable extends React.Component {
                 {actions}
               </TableToolbarContent>
             </TableToolbar>
+            {tableTitle && <p className="table-title">{tableTitle}</p>}
             <Table className='resource-table'>
               <TableHead>
                 <TableRow>

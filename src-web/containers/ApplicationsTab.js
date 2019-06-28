@@ -16,8 +16,13 @@ import { typedResourcePageWithListAndDetails } from '../components/common/Resour
 import { createApplication } from '../actions/applications'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
 import withAccess from '../components/common/withAccess'
+import msgs from '../../nls/platform.properties'
+import context from '../../lib/shared/context'
 
 const handleCreateResource = (dispatch, yaml) => dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
+
+const { locale } = context()
+const tableTitle = msgs.get('table.title.allApplications', locale)
 
 const registerApplicationModal = <CreateResourceModal
   key='registerApplication'
@@ -26,7 +31,6 @@ const registerApplicationModal = <CreateResourceModal
   onCreateResource={ handleCreateResource }
   resourceDescriptionKey='modal.createresource.application'
 />
-
 
 export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_APPLICATIONS,
@@ -55,5 +59,6 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
       key='applicationRelationships'
       definitionsKey='applicationRelationshipKeys'
     />
-  ]
+  ],
+  tableTitle
 ), ROLES.VIEWER))

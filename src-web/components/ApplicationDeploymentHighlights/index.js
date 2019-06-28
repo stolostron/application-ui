@@ -12,6 +12,7 @@ import React from 'react';
 import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
 import resources from '../../../lib/shared/resources';
+import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
 
 resources(() => {
   require('./style.scss');
@@ -21,6 +22,7 @@ const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
   return (
     <div id="DeploymentHighlights">
       {msgs.get('description.title.deploymentHighlights', locale)}
+      <ApplicationDeploymentHighlightsTerminology />
     </div>
   );
 });

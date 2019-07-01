@@ -60,5 +60,6 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
       definitionsKey='applicationRelationshipKeys'
     />
   ],
-  tableTitle
+  tableTitle,
+  'All Applications',
 ), ROLES.VIEWER))

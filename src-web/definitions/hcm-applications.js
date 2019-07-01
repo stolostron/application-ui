@@ -27,23 +27,9 @@ export default {
   getUpdates,
   tableKeys: [
     {
-      msgKey: 'table.header.name',
+      msgKey: 'table.header.applicationName',
       resourceKey: 'metadata.name',
       transformFunction: createApplicationLink,
-    },
-    {
-      msgKey: 'table.header.namespace',
-      resourceKey: 'metadata.namespace',
-    },
-    // {
-    //   msgKey: 'table.header.labels',
-    //   resourceKey: 'metadata.labels',
-    //   transformFunction: getLabelsToString,
-    // },
-    {
-      msgKey: 'table.header.created',
-      resourceKey: 'metadata.creationTimestamp',
-      transformFunction: getAge,
     },
     {
       msgKey: 'table.header.deployables',
@@ -59,6 +45,20 @@ export default {
       msgKey: 'table.header.failedDeployments',
       resourceKey: 'failedDeployments',
       transformFunction: getNumFailedDeployments,
+    },
+    {
+      msgKey: 'table.header.namespace',
+      resourceKey: 'metadata.namespace',
+    },
+    // {
+    //   msgKey: 'table.header.labels',
+    //   resourceKey: 'metadata.labels',
+    //   transformFunction: getLabelsToString,
+    // },
+    {
+      msgKey: 'table.header.created',
+      resourceKey: 'metadata.creationTimestamp',
+      transformFunction: getAge,
     },
     // {
     //   msgKey: 'table.header.status',

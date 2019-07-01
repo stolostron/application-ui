@@ -16,6 +16,7 @@ import React from 'react'
 import resources from '../../../lib/shared/resources'
 import { PAGE_SIZES } from '../../actions/index'
 import { PaginationV2, DataTable, OverflowMenu, OverflowMenuItem, Icon, Checkbox } from 'carbon-components-react'
+import ApplicationIcon from '@carbon/icons-react/es/application/32';
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import { transform } from '../../../lib/client/resource-helper'
@@ -89,6 +90,7 @@ class ResourceTable extends React.Component {
       onSelectAll,
       onSelectSubItem,
       tableTitle,
+      tableName,
     } = this.props
     return [
       <DataTable
@@ -104,7 +106,21 @@ class ResourceTable extends React.Component {
                 {actions}
               </TableToolbarContent>
             </TableToolbar>
-            {tableTitle && <p className="table-title">{tableTitle}</p>}
+            {tableTitle &&
+              <span>
+                <h3 className="table-title">
+                  {tableName === 'All Applications' &&
+                    <ApplicationIcon
+                      name="icon-application"
+                      width={20}
+                      height={20}
+                      style={{ margin: '0 10px 0 5px' }}
+                    />
+                  }
+                  {tableTitle}
+                </h3>
+              </span>
+            }
             <Table className='resource-table'>
               <TableHead>
                 <TableRow>

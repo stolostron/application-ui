@@ -93,6 +93,7 @@ class ResourceList extends React.Component {
       updateBrowserURL,
       clientSideFilters,
       tableTitle,
+      tableName,
     } = this.props
     const { locale } = this.context
 
@@ -163,6 +164,7 @@ class ResourceList extends React.Component {
           defaultSearchValue={clientSideFilters}
           tableActions={staticResourceData.tableActions}
           tableTitle={tableTitle}
+          tableName={tableName}
         />
       </div>
     }

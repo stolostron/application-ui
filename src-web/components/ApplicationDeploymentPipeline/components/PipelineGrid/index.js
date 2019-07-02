@@ -36,6 +36,18 @@ const headerss = [
   },
 ];
 
+const DisplayDeployables = ({ dList }, { locale }) => {
+  return (
+    <div className="DisplayDeployablesContainer">
+      {dList.map((deployable) => {
+        const dName =
+          (deployable && deployable.metadata && deployable.metadata.name) || '';
+        return <div className="deployableName">{dName}</div>;
+      })}
+    </div>
+  );
+};
+
 const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
   const applicationRows = createApplicationRows(applications);
   const applicationRowsLookUp = createApplicationRowsLookUp(applications);
@@ -53,42 +65,50 @@ const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
           </div>
         </Tile>
       </div>
-      <DataTable
-        headers={headerss}
-        rows={applicationRows}
-        render={({ rows, headers, getRowProps, getTableProps }) => (
-          <Table {...getTableProps()}>
-            <TableBody>
-              {rows.map((row) => {
-                const thisRowId = row.id;
-                const deployablesList =
-                  applicationRowsLookUp[thisRowId].deployables || [];
-                return (
-                  <React.Fragment key={thisRowId}>
-                    <TableExpandRow {...getRowProps({ row })}>
-                      {row.cells.map(cell => (
-                        <TableCell key={cell.id} className="tableCell">
-                          <div className="applicationEntryName">
-                            {cell.value}
-                          </div>
-                          <div>{`${deployablesList.length} deployables`}</div>
-                        </TableCell>
-                      ))}
-                    </TableExpandRow>
-                    {/* toggle based off of if the row is expanded. If it is, render TableExpandedRow */}
-                    {row.isExpanded && (
-                      <TableExpandedRow colSpan={headers.length + 1}>
-                        <h1>Expandable row content</h1>
-                        <p>Description here</p>
-                      </TableExpandedRow>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </TableBody>
-          </Table>
-        )}
-      />
+      <div className="horizontalScroll-outer">
+        <div className="horizontalScroll-inner">
+          <DataTable
+            headers={headerss}
+            rows={applicationRows}
+            render={({ rows, headers, getRowProps, getTableProps }) => (
+              <Table {...getTableProps()}>
+                <TableBody>
+                  {rows.map((row) => {
+                    const thisRowId = row.id;
+                    const deployablesList =
+                      applicationRowsLookUp[thisRowId].deployables || [];
+                    return (
+                      <React.Fragment key={thisRowId}>
+                        <TableExpandRow {...getRowProps({ row })}>
+                          {row.cells.map(cell => (
+                            <TableCell key={cell.id} className="tableCell">
+                              <div className="applicationEntryName">
+                                {cell.value}
+                              </div>
+                              <div>
+                                {`${deployablesList.length} ${msgs.get(
+                                  'description.title.deployables',
+                                  locale,
+                                )}`}
+                              </div>
+                            </TableCell>
+                          ))}
+                        </TableExpandRow>
+                        {/* toggle based off of if the row is expanded. If it is, render TableExpandedRow */}
+                        {row.isExpanded && (
+                          <TableExpandedRow colSpan={headers.length}>
+                            <DisplayDeployables dList={deployablesList} />
+                          </TableExpandedRow>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            )}
+          />
+        </div>
+      </div>
     </div>
   );
 });

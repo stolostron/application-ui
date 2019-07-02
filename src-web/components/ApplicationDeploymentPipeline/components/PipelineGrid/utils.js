@@ -35,7 +35,8 @@ const mapApplicationForRow = (application) => {
 // Method will take in an object of applications and return back a mapped version
 // for the DataTable
 export const createApplicationRows = (list) => {
-  const mappedApps = list.map(item => mapApplicationForRow(item));
+  const mappedApps =
+    (list && list.map(item => mapApplicationForRow(item))) || {};
   return mappedApps;
 };
 
@@ -43,6 +44,7 @@ export const createApplicationRows = (list) => {
 // for the DataTable that will contain more data that we will use to look up and
 // reference given the ID
 export const createApplicationRowsLookUp = (list) => {
-  const mappedApps = list.map(item => mapApplicationLookUp(item));
+  const mappedApps =
+    (list && list.map(item => mapApplicationLookUp(item))) || {};
   return R.mergeAll(mappedApps);
 };

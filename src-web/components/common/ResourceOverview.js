@@ -13,6 +13,7 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
+import CountsCardModule from '../../components/common/CountsCardModule'
 import StructuredListModule from '../../components/common/StructuredListModule'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants'
@@ -44,6 +45,9 @@ const ResourceOverview = ({
 
   return (
     <div className='overview-content'>
+      <div className='overview-content-bottom'>
+        <CountsCardModule />
+      </div>
       <StructuredListModule
         title={staticResourceData.detailKeys.title}
         headerRows={staticResourceData.detailKeys.headerRows}

@@ -7,16 +7,25 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-export const getApplicationsListTotal = (list) => {
+// import R from 'ramda';
+
+// Method will take in an object and return back the items of applications
+export const getApplicationsList = (list) => {
   if (list && list.items) {
-    return list.items.length;
+    return list.items;
   }
-  return -1;
+  return [];
 };
 
-// export const getDeployablesListTotal = (list) => {
-//   if (list && list.items && ) {
-//     return list.items.length;
-//   }
-//   return -1;
-// };
+// This method takes in an object and drills down to find the items of applications
+// Within that it will go a step further and find the deployables and merge them together.
+export const getDeployablesList = (list) => {
+  if (list && list.items) {
+    const deployables = list.items.map((item) => {
+      return (item && item.deployables) || [];
+    });
+    const emptyArray = [];
+    return emptyArray.concat.apply([], deployables);
+  }
+  return [];
+};

@@ -121,6 +121,7 @@
     "redux-thunk": "^2.2.0",
     "requestretry": "^1.13.0",
     "reselect": "^3.0.1",
+    "stylefmt": "^6.0.3",
     "svg-loader": "0.0.2",
     "svg-react-loader": "^0.4.4",
     "svg-sprite-loader": "^3.2.3",

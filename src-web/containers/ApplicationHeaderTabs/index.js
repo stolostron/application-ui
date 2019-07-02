@@ -58,7 +58,7 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
             onKeyDown={() => {}}
             label={msgs.get('description.title.deployments', locale)}
           >
-            <div className="some-content">
+            <div className="page-content-container">
               <ApplicationDeploymentHighlights />
               <ApplicationDeploymentPipeline />
             </div>

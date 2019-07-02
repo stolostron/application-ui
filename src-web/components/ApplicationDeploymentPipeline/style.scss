@@ -1,3 +1,22 @@
 #DeploymentPipeline {
+  .deploymentPipelineSearch {
+    width: 80%;
+    margin-top: 40px;
+    display: inline-block;
+  }
 
+  .piplineHeader {
+    font-size: 25px;
+  }
+
+  .AddChannelButton {
+    display: inline-flex;
+    margin-top: 40px;
+    float: right;
+  }
+
+  .addChannelIcon {
+    fill: white;
+    margin-left: 20px;
+  }
 }

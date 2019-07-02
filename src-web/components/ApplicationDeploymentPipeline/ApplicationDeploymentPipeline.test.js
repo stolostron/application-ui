@@ -7,6 +7,10 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../../../src-web/index';
+
 const React = require('react');
 const renderer = require('react-test-renderer');
 const ApplicationDeploymentPipeline = require('../ApplicationDeploymentPipeline')
@@ -14,7 +18,7 @@ const ApplicationDeploymentPipeline = require('../ApplicationDeploymentPipeline'
 
 describe('ApplicationDeploymentPipeline', () => {
   it('ApplicationDeploymentPipeline renders correctly.', () => {
-    const tree = renderer.create(<ApplicationDeploymentPipeline />).toJSON();
+    const tree = renderer.create(<Provider store={store}><Router><ApplicationDeploymentPipeline /></Router></Provider>).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

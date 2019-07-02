@@ -10,18 +10,55 @@
 import React from 'react';
 // import { Tabs } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties';
-import { withLocale } from '../../providers/LocaleProvider';
+import { connect } from 'react-redux';
+// import { withRouter } from 'react-router-dom'
 import resources from '../../../lib/shared/resources';
+import { getApplicationsListTotal } from './utils';
 
 resources(() => {
   require('./style.scss');
 });
 
-const ApplicationDeploymentPipeline = withLocale(({ locale }) => {
-  return (
-    <div id="DeploymentPipeline">
-      {msgs.get('description.title.deploymentPipeline', locale)}
-    </div>
-  );
-});
-export default withLocale(ApplicationDeploymentPipeline);
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  };
+};
+
+const mapStateToProps = (state) => {
+  const {
+    HCMApplicationList,
+    role,
+  } = state;
+
+  return {
+    userRole: role.role,
+    HCMApplicationList,
+    totalApplications: getApplicationsListTotal(HCMApplicationList),
+    // totalDeployables,
+  };
+};
+
+class ApplicationDeploymentPipeline extends React.Component {
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render() {
+    const {
+      HCMApplicationList
+    } = this.props;
+    const { locale } = this.context;
+    return (
+      <div id="DeploymentPipeline">
+        {msgs.get('description.title.deploymentPipeline', locale)}
+      </div>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline)

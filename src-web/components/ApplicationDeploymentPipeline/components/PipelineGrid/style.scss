@@ -1,4 +1,4 @@
-#PipelineGrid  {
+#PipelineGrid {
   .firstTotalTile {
     background: black;
     color: white;
@@ -6,12 +6,14 @@
     max-width: 400px;
     position: relative;
   }
+
   .totalApplications {
     position: absolute;
     bottom: 0;
     margin-bottom: 40px;
     font-size: 20px;
   }
+
   .totalDeployables {
     position: absolute;
     bottom: 0;
@@ -24,6 +26,19 @@
     grid-template-columns: repeat(auto-fit, minmax(432px, 1fr));
     grid-template-rows: auto;
     grid-gap: 20px;
+  }
+
+  .applicationEntryName {
+    font-size: 17px;
+    margin-bottom: 25px;
+  }
+
+  .tableCell {
+    height: 100px;
+  }
+
+  .bx--table-expand-v2__svg {
+    margin-bottom: 40px;
   }
 }
 

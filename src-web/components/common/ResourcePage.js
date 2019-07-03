@@ -96,7 +96,7 @@ const typedResourcePageWithList = (resourceType, detailsTabs, buttons) => {
   }
 }
 
-const typedResourcePageWithListAndDetails = (resourceType, detailsTabs, buttons, routes, modules) => {
+const typedResourcePageWithListAndDetails = (resourceType, detailsTabs, buttons, routes, modules, tableTitle = '', tableName = '') => {
 
   const staticResourceData = getResourceDefinitions(resourceType)
   const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
@@ -119,7 +119,9 @@ const typedResourcePageWithListAndDetails = (resourceType, detailsTabs, buttons,
             staticResourceData={staticResourceData}
             getVisibleResources={getVisibleResources}
             buttons={buttons}
-            modules={modules}>
+            modules={modules}
+            tableTitle={tableTitle}
+            tableName={tableName}>
           </ResourcePageWithListAndDetails>
         </Page>
       )

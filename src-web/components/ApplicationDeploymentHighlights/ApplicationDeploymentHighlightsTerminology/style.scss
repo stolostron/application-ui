@@ -1,0 +1,18 @@
+#ApplicationDeploymentHighlightsTerminology {
+  .bx--tile {
+    border: 0;
+    box-shadow: none;
+    overflow: auto;
+  }
+
+  .bx--tile div {
+    width: 33.33%;
+    padding-left: 2em;
+    padding-right: 2em;
+    float: left;
+  }
+
+  .bx--tile .deployment-highlights-terminology-header {
+    font-size: 1.2em;
+  }
+}

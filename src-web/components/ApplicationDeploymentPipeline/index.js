@@ -12,12 +12,12 @@ import msgs from '../../../nls/platform.properties';
 import { connect } from 'react-redux';
 // import { withRouter } from 'react-router-dom'
 import resources from '../../../lib/shared/resources';
-import { RESOURCE_TYPES} from '../../../lib/shared/constants'
-import { createResources } from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants';
+import { createResources } from '../../actions/common';
 import PipelineGrid from './components/PipelineGrid';
-import { Search, Button, Icon } from 'carbon-components-react';
+import { Search } from 'carbon-components-react';
 import { getApplicationsList, getDeployablesList } from './utils';
-import CreateResourceModal from '../modals/CreateResourceModal'
+import CreateResourceModal from '../modals/CreateResourceModal';
 
 resources(() => {
   require('./style.scss');
@@ -25,8 +25,9 @@ resources(() => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCreateResource: (dispatch, yaml) => dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
-  }
+    handleCreateResource: (dispatch, yaml) =>
+      dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml)),
+  };
 };
 
 const mapStateToProps = (state) => {
@@ -40,24 +41,37 @@ const mapStateToProps = (state) => {
   };
 };
 
+const CreateChannelModal = (handleCreateResource) => {
+  return (
+    <CreateResourceModal
+      key="createChannel"
+      headingTextKey="actions.add.channel"
+      submitBtnTextKey="actions.add.channel"
+      onCreateResource={handleCreateResource}
+      resourceDescriptionKey="modal.createresource.application"
+    />
+  );
+};
+
 class ApplicationDeploymentPipeline extends React.Component {
   componentDidMount() {}
 
   componentWillUnmount() {}
 
   render() {
-    const { HCMApplicationList, applications, deployables, handleCreateResource } = this.props;
+    const {
+      HCMApplicationList,
+      applications,
+      deployables,
+      handleCreateResource,
+    } = this.props;
     const { locale } = this.context;
     console.log('lotd', HCMApplicationList);
-    //const handleCreateResource = (dispatch, yaml) => dispatch(createChannel(RESOURCE_TYPES.HCM_CHANNELS, yaml))
-    const createChannelModal = <CreateResourceModal
-      key='createChannel'
-      headingTextKey='actions.add.channel'
-      submitBtnTextKey='actions.add.channel'
-      onCreateResource={ handleCreateResource }
-      resourceDescriptionKey='modal.createresource.application'
-    />
-    const modal = React.cloneElement(createChannelModal, { resourceType: RESOURCE_TYPES.HCM_CHANNELS })
+    // const handleCreateResource = (dispatch, yaml) => dispatch(createChannel(RESOURCE_TYPES.HCM_CHANNELS, yaml))
+    const modal = React.cloneElement(CreateChannelModal(handleCreateResource), {
+      resourceType: RESOURCE_TYPES.HCM_CHANNELS,
+    });
+
     return (
       <div id="DeploymentPipeline">
         <div className="piplineHeader">
@@ -74,9 +88,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           onChange={() => {}}
           id="search-1"
         />
-        <div className="AddChannelButton">
-          {[modal]}
-        </div>
+        <div className="AddChannelButton">{[modal]}</div>
         <PipelineGrid applications={applications} deployables={deployables} />
       </div>
     );

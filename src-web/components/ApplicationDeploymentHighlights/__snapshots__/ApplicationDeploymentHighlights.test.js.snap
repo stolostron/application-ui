@@ -4,7 +4,9 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
 <div
   id="DeploymentHighlights"
 >
-  Deployment Highlights
+  <h1>
+    Deployment Highlights
+  </h1>
   <div
     id="ApplicationDeploymentHighlightsTerminology"
   >
@@ -56,32 +58,36 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
           <div
             className="bx--tile"
           >
-            <p>
-              Channels
-            </p>
-            <p>
-              Channels are used ot streamline the deployment model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can they be used to target a subset of the clusters.
-            </p>
-          </div>
-          <div
-            className="bx--tile"
-          >
-            <p>
-              Channel Gate & Conditions
-            </p>
-            <p>
-              Each channel has certain gate conditions that a deployment hcannel has to meet in order to get deployed to such channel. If the deployment is missing all the required conditions, it will initially shown as "pending" until more deployment conditions are added.
-            </p>
-          </div>
-          <div
-            className="bx--tile"
-          >
-            <p>
-              Deployment Conditions
-            </p>
-            <p>
-              Deployment conditions can be added manually or automated based on events outcome. When a deployment has all the conditions that a channel gate requires, it will then be deployed to such channel.
-            </p>
+            <div>
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Channels
+              </p>
+              <p>
+                Channels are used to streamline the deployment model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can they be used to target a subset of the clusters.
+              </p>
+            </div>
+            <div>
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Channel Gate & Conditions
+              </p>
+              <p>
+                Each channel has certain gate conditions that a deployment channel has to meet in order to get deployed to such channel. If the deployment is missing all the required conditions, it will initially shown as "pending" until more deployment conditions are added.
+              </p>
+            </div>
+            <div>
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Deployment Conditions
+              </p>
+              <p>
+                Deployment conditions can be added manually or automated based on events outcome. When a deployment has all the conditions that a channel gate requires, it will then be deployed to such channel.
+              </p>
+            </div>
           </div>
         </div>
       </li>

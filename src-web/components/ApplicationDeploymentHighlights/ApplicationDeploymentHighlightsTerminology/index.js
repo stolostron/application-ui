@@ -25,46 +25,48 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
           )}
         >
           <Tile>
-            <p>
-              {msgs.get(
-                'description.title.deploymentHighlightsTerminology.channels',
-                locale,
-              )}
-            </p>
-            <p>
-              {msgs.get(
-                'description.title.deploymentHighlightsTerminology.channelsSummary',
-                locale,
-              )}
-            </p>
-          </Tile>
-          <Tile>
-            <p>
-              {msgs.get(
-                'description.title.deploymentHighlightsTerminology.channelGateConditions',
-                locale,
-              )}
-            </p>
-            <p>
-              {msgs.get(
-                'description.title.deploymentHighlightsTerminology.channelGateConditionsSummary',
-                locale,
-              )}
-            </p>
-          </Tile>
-          <Tile>
-            <p>
-              {msgs.get(
-                'description.title.deploymentHighlightsTerminology.deploymentConditions',
-                locale,
-              )}
-            </p>
-            <p>
-              {msgs.get(
-                'description.title.deploymentHighlightsTerminology.deploymentConditionsSummary',
-                locale,
-              )}
-            </p>
+            <div>
+              <p className="deployment-highlights-terminology-header">
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.channels',
+                  locale,
+                )}
+              </p>
+              <p>
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.channelsSummary',
+                  locale,
+                )}
+              </p>
+            </div>
+            <div>
+              <p className="deployment-highlights-terminology-header">
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.channelGateConditions',
+                  locale,
+                )}
+              </p>
+              <p>
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.channelGateConditionsSummary',
+                  locale,
+                )}
+              </p>
+            </div>
+            <div>
+              <p className="deployment-highlights-terminology-header">
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.deploymentConditions',
+                  locale,
+                )}
+              </p>
+              <p>
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.deploymentConditionsSummary',
+                  locale,
+                )}
+              </p>
+            </div>
           </Tile>
         </AccordionItem>
       </Accordion>

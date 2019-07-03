@@ -21,7 +21,9 @@ resources(() => {
 const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
   return (
     <div id="DeploymentHighlights">
-      <h1>{msgs.get('description.title.deploymentHighlights', locale)}</h1>
+      <div className="deployment-highlights-header">
+        {msgs.get('description.title.deploymentHighlights', locale)}
+      </div>
       <ApplicationDeploymentHighlightsTerminology />
     </div>
   );

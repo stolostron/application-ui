@@ -4,9 +4,11 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
 <div
   id="DeploymentHighlights"
 >
-  <h1>
+  <div
+    className="deployment-highlights-header"
+  >
     Deployment Highlights
-  </h1>
+  </div>
   <div
     id="ApplicationDeploymentHighlightsTerminology"
   >

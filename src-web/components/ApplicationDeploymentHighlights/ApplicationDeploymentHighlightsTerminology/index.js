@@ -11,8 +11,11 @@ import React from 'react';
 import { Accordion, AccordionItem, Tile } from 'carbon-components-react';
 import msgs from '../../../../nls/platform.properties';
 import { withLocale } from '../../../providers/LocaleProvider';
+import resources from '../../../../lib/shared/resources';
 
-import './style.scss';
+resources(() => {
+  require('./style.scss');
+});
 
 const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
   return (

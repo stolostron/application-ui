@@ -16,7 +16,7 @@ import { Tabs, Tab } from 'carbon-components-react';
 import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
 import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights';
-import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline';
+//import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline';
 import resources from '../../../lib/shared/resources';
 
 resources(() => {
@@ -25,6 +25,10 @@ resources(() => {
 
 export const ApplicationsTab = loadable(() =>
   import(/* webpackChunkName: "applications" */ '../ApplicationsTab'));
+
+export const ApplicationDeploymentPipeline = loadable(() =>
+  import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline'));
+
 
 // This will render the three tabs
 // Overview, Deployments, Incidents

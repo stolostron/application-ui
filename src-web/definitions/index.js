@@ -13,6 +13,7 @@ import lodash from 'lodash'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 import hcmapplications from './hcm-applications'
+import hcmchannels from './hcm-channel'
 //import hcmclusters from './hcm-clusters'
 
 import hcmappdiagram from './diagrams/hcm-application-diagram'
@@ -20,7 +21,8 @@ import hcmtopology from './diagrams/hcm-topology'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
-  [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology
+  [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology,
+  [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels
 }
 
 // diagram tabs

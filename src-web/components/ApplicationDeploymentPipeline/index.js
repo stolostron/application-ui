@@ -55,7 +55,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       headingTextKey='actions.add.channel'
       submitBtnTextKey='actions.add.channel'
       onCreateResource={ handleCreateResource }
-      resourceDescriptionKey='modal.createresource.application'
+      resourceDescriptionKey='modal.createresource.channel'
     />
     const modal = React.cloneElement(createChannelModal, { resourceType: RESOURCE_TYPES.HCM_CHANNELS })
     return (

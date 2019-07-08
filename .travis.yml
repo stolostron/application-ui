@@ -70,9 +70,9 @@ after_success:
         if [[ "$BUILD_LEADER" == "YES" ]]; then
           if [[ "$BUILD_AGGREGATE_STATUS" == "others_succeeded" ]]; then
             echo "All jobs succeeded! Creating multi arch image..."
-            make docker:login DOCKER_REGISTRY=${DOCKER_REGISTRY}
-            make docker:manifest-tool DOCKER_REGISTRY=${DOCKER_REGISTRY}
-            make docker:multi-arch DOCKER_REGISTRY=${DOCKER_REGISTRY}
+            make docker:login DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
+            make docker:manifest-tool DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
+            make docker:multi-arch DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
           else
             echo "Some jobs failed" && exit 1
           fi

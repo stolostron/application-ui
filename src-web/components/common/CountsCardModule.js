@@ -21,12 +21,16 @@ resources(() => {
 export default class CountsCardModule extends React.Component {
   getModuleData = () => {
     const { locale } = this.context
+    const { data } = this.props
+    const countCardItems = []
+    data.map(({msgKey, count}, idx) => {
+      countCardItems.push({
+        count,
+        type: msgs.get(msgKey, locale)
+      })
+    })
     return {
-      countCardItems: [
-        { count: 6, type: msgs.get('table.header.deployables', locale) },
-        { count: 8, type: msgs.get('table.header.deployments', locale) },
-        { count: 2, type: msgs.get('table.header.failedDeployments', locale) },
-      ]
+      countCardItems,
     }
   }
 

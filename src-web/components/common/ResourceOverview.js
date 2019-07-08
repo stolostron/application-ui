@@ -17,6 +17,7 @@ import CountsCardModule from '../../components/common/CountsCardModule'
 import StructuredListModule from '../../components/common/StructuredListModule'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants'
+import { getNumDeployables, getNumDeployments, getNumFailedDeployments } from '../../../lib/client/resource-helper'
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -43,10 +44,25 @@ const ResourceOverview = ({
     }
   })
 
+  const countsCardData = [
+    {
+      msgKey: 'table.header.deployables',
+      count: getNumDeployables(item),
+    },
+    {
+      msgKey: 'table.header.deployments',
+      count: getNumDeployments(item),
+    },
+    {
+      msgKey: 'table.header.failedDeployments',
+      count: getNumFailedDeployments(item),
+    }
+  ]
+
   return (
     <div className='overview-content'>
       <div className='overview-content-bottom'>
-        <CountsCardModule />
+        <CountsCardModule data={countsCardData} />
       </div>
       <StructuredListModule
         title={staticResourceData.detailKeys.title}

@@ -1,5 +1,21 @@
 #DeploymentHighlights {
   .deployment-highlights-header {
     font-size: 1.5em;
+    padding-bottom: 10px;
+  }
+
+  .bx--accordion__item {
+    border-bottom: none;
+    border-top: none;
+  }
+
+  .bx--accordion__title {
+    margin-left: 0px;
+    font-size: 15px;
+  }
+
+  .bx--accordion__arrow {
+    position: absolute;
+    margin-left: 230px;
   }
 }

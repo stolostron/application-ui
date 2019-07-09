@@ -35,13 +35,12 @@
           justify-content: center;
 
           &.hasBorder {
-            border-right: 1px solid $color__gray-1;
+            border-right: 2px solid $color__gray-1;
             padding-right: 80px;
           }
 
           .card-count {
-            font-size: 34px;
-            font-weight: bold;
+            font-size: 35px;
             margin-bottom: 8px;
             color: $mcm_color_blue_gray;
             &.alert {
@@ -51,10 +50,8 @@
 
           .card-type {
             text-align: center;
-            font-size: 12px;
-            font-variant: small-caps;
+            font-size: 14px;
             line-height: 16px;
-            font-weight: bold;
             color: $mcm_color_blue_gray;
           }
 

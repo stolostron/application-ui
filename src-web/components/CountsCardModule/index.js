@@ -83,7 +83,7 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
             </div>
             <div className="card-type">
               <div>
-                {type.toUpperCase()}
+                {type}
               </div>
             </div>
           </div>

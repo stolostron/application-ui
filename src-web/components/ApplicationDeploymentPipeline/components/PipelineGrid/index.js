@@ -36,15 +36,19 @@ const headerss = [
   },
 ];
 
-const DisplayDeployables = ({ dList }, { locale }) => {
+const DisplayDeployables = ({ dList, headers }, { locale }) => {
   return (
-    <div className="DisplayDeployablesContainer">
+    <React.Fragment>
       {dList.map((deployable) => {
         const dName =
           (deployable && deployable.metadata && deployable.metadata.name) || '';
-        return <div className="deployableName">{dName}</div>;
+        return (
+          <TableExpandedRow colSpan={headers.length + 1}>
+            {dName}
+          </TableExpandedRow>
+        );
       })}
-    </div>
+    </React.Fragment>
   );
 };
 
@@ -96,9 +100,10 @@ const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
                         </TableExpandRow>
                         {/* toggle based off of if the row is expanded. If it is, render TableExpandedRow */}
                         {row.isExpanded && (
-                          <TableExpandedRow colSpan={headers.length}>
-                            <DisplayDeployables dList={deployablesList} />
-                          </TableExpandedRow>
+                          <DisplayDeployables
+                            dList={deployablesList}
+                            headers={headers}
+                          />
                         )}
                       </React.Fragment>
                     );

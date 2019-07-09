@@ -15,7 +15,7 @@ import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 
 resources(() => {
-  require('../../../scss/counts-card-module.scss')
+  require('./style.scss')
 })
 
 export default class CountsCardModule extends React.Component {
@@ -38,13 +38,11 @@ export default class CountsCardModule extends React.Component {
     const { locale } = this.context
     const moduleData = this.getModuleData()
     return (
-      <div className="counts-card-module">
-        <div className="card-container-container">
-          <div className="card-container">
-            <div className="card-content">
-              <div className="card-inner-content">
-                <CountCards moduleData={moduleData} locale={locale} />
-              </div>
+      <div id="CountsCardModule">
+        <div className="card-container">
+          <div className="card-content">
+            <div className="card-inner-content">
+              <CountCards moduleData={moduleData} locale={locale} />
             </div>
           </div>
         </div>

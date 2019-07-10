@@ -95,5 +95,30 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
       </li>
     </ul>
   </div>
+  <div
+    id="ApplicationDeploymentHighlightsSummary"
+  >
+    <div
+      class="content-container"
+    >
+      <div
+        class="deployment-summary-container"
+      >
+        Deployment Summary
+        <div
+          class="deployment-summary-content"
+        />
+      </div>
+      <div
+        class="deployment-status-container"
+      >
+        Deployment Status
+        <div
+          class="deployment-status-content"
+        />
+      </div>
+    </div>
+  </div>
+  <br />
 </div>
 `;

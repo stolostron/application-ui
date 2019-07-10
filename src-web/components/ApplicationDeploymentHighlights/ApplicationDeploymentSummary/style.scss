@@ -115,6 +115,22 @@ $overview-heat-collapsed: 90px !default;
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
   position: relative;
 
+  .title {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dfe3e6;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: $color__blue-90;
+    padding: 11px 24px;
+    cursor: move;
+
+    .bx--tag {
+      margin-left: 10px;
+    }
+  }
+  
   .grid-menu {
     position: absolute;
     top: -6px;

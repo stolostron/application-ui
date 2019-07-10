@@ -11,7 +11,7 @@
 $overview-view-width: 1540px !default;
 $overview-heat-collapsed: 90px !default;
 
-#ApplicationDeploymentSummary {
+#StackedChartCardModule {
   .overview-page {
     position: relative;
     display: flex;
@@ -131,6 +131,23 @@ $overview-heat-collapsed: 90px !default;
         outline: none;
         box-shadow: none;
       }
+
+      .title {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #dfe3e6;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 0;
+        color: $color__blue-90;
+        padding: 11px 24px;
+        cursor: move;
+
+        .bx--tag {
+          margin-left: 10px;
+        }
+      }
+     
     }
 
     &:hover .grid-menu {

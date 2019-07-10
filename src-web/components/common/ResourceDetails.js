@@ -144,7 +144,9 @@ class ResourceDetails extends React.Component {
           staticResourceData={staticResourceData}
           modules={children}
         />
-        <br /><br /><br />
+        <br /><br />
+        <h2>{msgs.get(`application.topology`, this.context.locale)}</h2>
+        <br />
         <ResourceDiagram
           resourceType={resourceType}
           params={match.params}

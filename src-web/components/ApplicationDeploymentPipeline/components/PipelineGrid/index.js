@@ -12,40 +12,22 @@ import msgs from '../../../../../nls/platform.properties';
 import { withLocale } from '../../../../providers/LocaleProvider';
 import resources from '../../../../../lib/shared/resources';
 import { createApplicationRows, createApplicationRowsLookUp } from './utils';
-import { Tile, DataTable } from 'carbon-components-react';
-
-const {
-  TableBody,
-  Table,
-  TableExpandRow,
-  TableCell,
-  TableExpandedRow,
-} = DataTable;
+import { Tile } from 'carbon-components-react';
 
 resources(() => {
   require('./style.scss');
 });
 
-// We would have a headers array like the following
-const headerss = [
-  {
-    // `key` is the name of the field on the row object itself for the header
-    key: 'name',
-    // `header` will be the name you want rendered in the Table Header
-    header: 'Foo',
-  },
-];
-
-const DisplayDeployables = ({ dList, headers }, { locale }) => {
+const DisplayDeployables = ({ dList }, { locale }) => {
   return (
     <React.Fragment>
       {dList.map((deployable) => {
         const dName =
           (deployable && deployable.metadata && deployable.metadata.name) || '';
         return (
-          <TableExpandedRow colSpan={headers.length + 1}>
+          <div>
             {dName}
-          </TableExpandedRow>
+          </div>
         );
       })}
     </React.Fragment>
@@ -71,50 +53,11 @@ const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
       </div>
       <div className="horizontalScroll-outer">
         <div className="horizontalScroll-inner">
-          <DataTable
-            headers={headerss}
-            rows={applicationRows}
-            render={({ rows, headers, getRowProps, getTableProps }) => (
-              <Table {...getTableProps()}>
-                <TableBody>
-                  {rows.map((row) => {
-                    const thisRowId = row.id;
-                    const deployablesList =
-                      applicationRowsLookUp[thisRowId].deployables || [];
-                    return (
-                      <React.Fragment key={thisRowId}>
-                        <TableExpandRow {...getRowProps({ row })}>
-                          {row.cells.map(cell => (
-                            <TableCell key={cell.id} className="tableCell">
-                              <div className="applicationEntryName">
-                                {cell.value}
-                              </div>
-                              <div>
-                                {`${deployablesList.length} ${msgs.get(
-                                  'description.title.deployables',
-                                  locale,
-                                )}`}
-                              </div>
-                            </TableCell>
-                          ))}
-                        </TableExpandRow>
-                        {/* toggle based off of if the row is expanded. If it is, render TableExpandedRow */}
-                        {row.isExpanded && (
-                          <DisplayDeployables
-                            dList={deployablesList}
-                            headers={headers}
-                          />
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          />
+          {'start'}
         </div>
       </div>
     </div>
   );
 });
+
 export default withLocale(PipelineGrid);

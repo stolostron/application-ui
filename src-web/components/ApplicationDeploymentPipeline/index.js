@@ -16,7 +16,12 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants';
 import { createResources } from '../../actions/common';
 import PipelineGrid from './components/PipelineGrid';
 import { Search } from 'carbon-components-react';
-import { getApplicationsList, getDeployablesList } from './utils';
+import {
+  getApplicationsList,
+  getDeployablesList,
+  getChannelsList,
+  getSubscriptionsList,
+} from './utils';
 import CreateResourceModal from '../modals/CreateResourceModal';
 
 resources(() => {
@@ -31,13 +36,25 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-  const { HCMApplicationList, role } = state;
+  const {
+    HCMApplicationList,
+    HCMChannelList,
+    HCMSubscriptionList,
+    role,
+  } = state;
+  console.log('lotd', JSON.stringify(state));
+  console.log(
+    'stringify',
+    JSON.stringify(getDeployablesList(HCMApplicationList)),
+  );
 
   return {
     userRole: role.role,
     HCMApplicationList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList),
+    channels: getChannelsList(HCMChannelList),
+    subscriptions: getSubscriptionsList(HCMSubscriptionList),
   };
 };
 

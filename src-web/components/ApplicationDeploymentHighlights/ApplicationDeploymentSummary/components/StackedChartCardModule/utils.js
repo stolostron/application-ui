@@ -36,7 +36,6 @@ export const getChartKeyName = (value, locale) => {
 };
 
 export const getModuleData = (data) => {
-    //const { data } = this.props;
     const chartCardItems = [];
     data.map(({ name, cm, pr, fl }) => {
         return chartCardItems.push({

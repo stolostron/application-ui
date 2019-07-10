@@ -8,7 +8,7 @@
  *******************************************************************************/
 
 import React from 'react';
-import msgs from '../../../../../../nls/platform.properties';
+import { withLocale } from '../../../../../providers/LocaleProvider';
 import resources from '../../../../../../lib/shared/resources';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { getChartKeyColor, getChartKeyName, getModuleData } from './utils';
@@ -17,11 +17,8 @@ resources(() => {
   require('./style.scss');
 });
 
-export default class StackedChartCardModule extends React.Component {
+const StackedChartCardModule = withLocale(({ data, locale }) => {
 
-  render() {
-    const { locale } = this.props;
-    const { data } = this.props;
     const moduleData = getModuleData(data);
     return (
       <BarChart
@@ -35,7 +32,7 @@ export default class StackedChartCardModule extends React.Component {
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+       <CartesianGrid strokeDasharray="3 3" vertical={false} />
         <XAxis
           dataKey="name"
           tick={{ fontSize: 10, transform: 'translate(0, 12)' }}
@@ -58,25 +55,24 @@ export default class StackedChartCardModule extends React.Component {
           dataKey="cm"
           stackId="a"
           fill={getChartKeyColor('cm')}
-          name={getChartKeyName('cm', { locale })}
+          name={getChartKeyName('cm', locale)}
         />
         <Bar
           dataKey="pr"
           stackId="a"
           fill={getChartKeyColor('pr')}
-          name={getChartKeyName('pr', { locale })}
+          name={getChartKeyName('pr', locale)}
         />
         <Bar
           dataKey="fl"
           stackId="a"
           fill={getChartKeyColor('fl')}
-          name={getChartKeyName('fl', { locale })}
+          name={getChartKeyName('fl', locale)}
         />
       </BarChart>
-    );
-  }
-}
+  );
+});
 
 StackedChartCardModule.propTypes = {};
 
-//export default withLocale(StackedChartCardModule);
+export default withLocale(StackedChartCardModule);

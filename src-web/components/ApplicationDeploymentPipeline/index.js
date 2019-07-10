@@ -80,6 +80,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       HCMApplicationList,
       applications,
       deployables,
+      channels,
       handleCreateResource,
     } = this.props;
     const { locale } = this.context;
@@ -106,7 +107,11 @@ class ApplicationDeploymentPipeline extends React.Component {
           id="search-1"
         />
         <div className="AddChannelButton">{[modal]}</div>
-        <PipelineGrid applications={applications} deployables={deployables} />
+        <PipelineGrid
+          applications={applications}
+          deployables={deployables}
+          channels={channels}
+        />
       </div>
     );
   }

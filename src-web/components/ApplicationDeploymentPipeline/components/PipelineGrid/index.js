@@ -12,7 +12,7 @@ import msgs from '../../../../../nls/platform.properties';
 import { withLocale } from '../../../../providers/LocaleProvider';
 import resources from '../../../../../lib/shared/resources';
 import { createApplicationRows, createApplicationRowsLookUp } from './utils';
-import { Tile } from 'carbon-components-react';
+import { Tile, Icon } from 'carbon-components-react';
 
 resources(() => {
   require('./style.scss');
@@ -24,21 +24,20 @@ const DisplayDeployables = ({ dList }, { locale }) => {
       {dList.map((deployable) => {
         const dName =
           (deployable && deployable.metadata && deployable.metadata.name) || '';
-        return (
-          <div>
-            {dName}
-          </div>
-        );
+        return <div>{dName}</div>;
       })}
     </React.Fragment>
   );
 };
 
-const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
-  const applicationRows = createApplicationRows(applications);
-  const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+// This component displays all the LEFT column applications in the table.
+// It displays all the applications names and their number of deployables.
+const LeftColumnForApplicationNames = (
+  { applicationRows, applications, deployables },
+  { locale },
+) => {
   return (
-    <div id="PipelineGrid">
+    <div className="applicationColumnContainer">
       <div className="tileContainer">
         <Tile className="firstTotalTile">
           <div className="totalApplications">
@@ -51,10 +50,62 @@ const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
           </div>
         </Tile>
       </div>
-      <div className="horizontalScroll-outer">
-        <div className="horizontalScroll-inner">
-          {'start'}
-        </div>
+      {applicationRows.map((application) => {
+        const appName = application.name;
+        const appDeployables = application.deployables;
+        return (
+          <div className="tileContainerApp">
+            <Tile className="applicationTile">
+              <Icon
+                name="icon--chevron--right"
+                fill="#6089bf"
+                description=""
+                className="closeRowChevron"
+              />
+              <div className="ApplicationContents">
+                <div className="appName">{`${appName} `}</div>
+                <div className="appDeployables">
+                  {`${appDeployables.length} `}
+                  {msgs.get('description.title.deployables', locale)}
+                </div>
+              </div>
+            </Tile>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const ChannelColumnList = ({ channelList }, { locale }) => {
+  return (
+    <div className="channelGridContainer">
+      <div className="horizontalScroll">
+        {channelList.map((channel) => {
+          const channelName = channel.metaData.name;
+          return (
+            <div className="channelColumn">
+              <Tile className="channelColumnHeader">{`${channelName}`}</Tile>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const PipelineGrid = withLocale(({ deployables, applications, channels, locale }) => {
+  const applicationRows = createApplicationRows(applications);
+  // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+  return (
+    <div id="PipelineGrid">
+      <div className="tableGridContainer">
+        <LeftColumnForApplicationNames
+          applicationRows={applicationRows}
+          deployables={deployables}
+          applications={applications}
+        />
+        <ChannelColumnList channelList={channels} />
       </div>
     </div>
   );

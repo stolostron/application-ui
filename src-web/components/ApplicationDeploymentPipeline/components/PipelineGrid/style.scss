@@ -6,6 +6,28 @@
     position: relative;
   }
 
+  .channelColumnHeader {
+    background: white;
+    color: black;
+    height: 200px;
+    position: relative;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
+    border-left-style: dashed;
+    border-left-width: 0px;
+  }
+
+  .applicationTile {
+    background: #ffffff;
+    color: black;
+    height: 80px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #d5d9db;
+  }
+
   .totalApplications {
     position: absolute;
     bottom: 0;
@@ -32,16 +54,41 @@
     margin-bottom: 25px;
   }
 
-  .tableCell {
-    height: 100px;
+  .closeRowChevron {
+    display: inline-block;
+    position: absolute;
   }
 
-  .horizontalScroll-outer {
+  .ApplicationContents {
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .tableGridContainer {
+    display: inline-block;
+  }
+
+  .channelGridContainer {
+    display: inline-block;
+    position: absolute;
+    margin-top: 20px;
     overflow: scroll;
-    width: 100%;
+    width: 63%;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
   }
 
-  .horizontalScroll-inner {
-    width: 100%;
+  .horizontalScroll {
+    width: 10000px;
+  }
+
+  .applicationColumnContainer {
+    display: inline-block;
+  }
+
+  .channelColumn {
+    display: inline-block;
+    width: 350px;
   }
 }

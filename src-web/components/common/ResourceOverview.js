@@ -13,9 +13,11 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
+import CountsCardModule from '../CountsCardModule'
 import StructuredListModule from '../../components/common/StructuredListModule'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants'
+import { getNumDeployables, getNumDeployments, getNumFailedDeployments } from '../../../lib/client/resource-helper'
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -42,8 +44,26 @@ const ResourceOverview = ({
     }
   })
 
+  const countsCardData = [
+    {
+      msgKey: 'table.header.deployables',
+      count: getNumDeployables(item),
+    },
+    {
+      msgKey: 'table.header.deployments',
+      count: getNumDeployments(item),
+    },
+    {
+      msgKey: 'table.header.failedDeployments',
+      count: getNumFailedDeployments(item),
+    }
+  ]
+
   return (
     <div className='overview-content'>
+      <div className='overview-content-bottom'>
+        <CountsCardModule data={countsCardData} />
+      </div>
       <StructuredListModule
         title={staticResourceData.detailKeys.title}
         headerRows={staticResourceData.detailKeys.headerRows}

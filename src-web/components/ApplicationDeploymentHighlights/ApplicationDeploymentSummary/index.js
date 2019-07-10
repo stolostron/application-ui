@@ -12,44 +12,15 @@ import Masonry from 'react-masonry-component';
 
 import { withLocale } from '../../../providers/LocaleProvider';
 import resources from '../../../../lib/shared/resources';
-import StackedChartCardModule from '../../common/StackedChartCardModule';
+import StackedChartCardModule from './components/StackedChartCardModule/index';
+import { masonryOptions, stackChartCardData } from './utils';
+
 
 resources(() => {
-  require('../../../../scss/resource-overview.scss');
-  require('../../../../scss/overview-page.scss');
+  require('./style.scss');
 });
 
-const masonryOptions = {
-  layoutInstant: true,
-  horizontalOrder: true,
-  fitWidth: true,
-  initLayout: true,
-  resizeContainer: true,
-  columnWidth: 10,
-  gutter: 0,
-};
-
 const ApplicationDeploymentSummary = withLocale(({ locale }) => {
-  const stackChartCardData = [
-    {
-      name: 'Development',
-      cm: 500,
-      pr: 900,
-      fl: 700,
-    },
-    {
-      name: 'QA',
-      cm: 200,
-      pr: 400,
-      fl: 900,
-    },
-    {
-      name: 'Production',
-      cm: 800,
-      pr: 300,
-      fl: 900,
-    },
-  ];
 
   return (
     <div id="ApplicationDeploymentSummary">

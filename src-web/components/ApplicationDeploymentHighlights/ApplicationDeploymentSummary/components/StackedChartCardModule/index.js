@@ -8,60 +8,21 @@
  *******************************************************************************/
 
 import React from 'react';
-import msgs from '../../../nls/platform.properties';
-import resources from '../../../lib/shared/resources';
+import msgs from '../../../../../../nls/platform.properties';
+import resources from '../../../../../../lib/shared/resources';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { getChartKeyColor, getChartKeyName, getModuleData } from './utils';
 
 resources(() => {
-  require('../../../scss/counts-card-module.scss');
+  require('./style.scss');
 });
 
 export default class StackedChartCardModule extends React.Component {
-  getChartKeyColor = (value) => {
-    switch (true) {
-      case value === 'pr':
-        return '#5A6872';
-      case value === 'fl':
-        return '#8c9ba5';
-      case value === 'cm':
-        return 'black';
-      default:
-        return '';
-    }
-  };
-
-  getChartKeyName = (value, locale) => {
-    switch (true) {
-      case value === 'pr':
-        return msgs.get('channel.deploy.status.progress', locale);
-      case value === 'fl':
-        return msgs.get('channel.deploy.status.failed', locale);
-      case value === 'cm':
-        return msgs.get('channel.deploy.status.completed', locale);
-      default:
-        return '';
-    }
-  };
-
-  getModuleData = () => {
-    const { data } = this.props;
-    const chartCardItems = [];
-    data.map(({ name, cm, pr, fl }) => {
-      return chartCardItems.push({
-        name,
-        cm,
-        pr,
-        fl,
-      });
-    });
-    return {
-      chartCardItems,
-    };
-  };
 
   render() {
     const { locale } = this.props;
-    const moduleData = this.getModuleData();
+    const { data } = this.props;
+    const moduleData = getModuleData(data);
     return (
       <BarChart
         width={300}
@@ -96,20 +57,20 @@ export default class StackedChartCardModule extends React.Component {
           legendType="circle"
           dataKey="cm"
           stackId="a"
-          fill={this.getChartKeyColor('cm')}
-          name={this.getChartKeyName('cm', { locale })}
+          fill={getChartKeyColor('cm')}
+          name={getChartKeyName('cm', { locale })}
         />
         <Bar
           dataKey="pr"
           stackId="a"
-          fill={this.getChartKeyColor('pr')}
-          name={this.getChartKeyName('pr', { locale })}
+          fill={getChartKeyColor('pr')}
+          name={getChartKeyName('pr', { locale })}
         />
         <Bar
           dataKey="fl"
           stackId="a"
-          fill={this.getChartKeyColor('fl')}
-          name={this.getChartKeyName('fl', { locale })}
+          fill={getChartKeyColor('fl')}
+          name={getChartKeyName('fl', { locale })}
         />
       </BarChart>
     );
@@ -117,3 +78,5 @@ export default class StackedChartCardModule extends React.Component {
 }
 
 StackedChartCardModule.propTypes = {};
+
+//export default withLocale(StackedChartCardModule);

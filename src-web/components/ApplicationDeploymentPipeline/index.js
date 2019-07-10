@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
     HCMSubscriptionList,
     role,
   } = state;
-  console.log('lotd', JSON.stringify(state));
+  console.log('lotd', state);
   console.log(
     'stringify',
     JSON.stringify(getDeployablesList(HCMApplicationList)),

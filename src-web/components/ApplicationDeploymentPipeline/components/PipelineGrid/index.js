@@ -18,16 +18,15 @@ resources(() => {
   require('./style.scss');
 });
 
-const DisplayDeployables = ({ dList }, { locale }) => {
-  return (
-    <React.Fragment>
-      {dList.map((deployable) => {
-        const dName =
-          (deployable && deployable.metadata && deployable.metadata.name) || '';
-        return <div>{dName}</div>;
-      })}
-    </React.Fragment>
-  );
+// This method takes in an ID and then changes the css to either display or
+// hide the row
+const showHideTrigger = (id) => {
+  const x = document.getElementById(id);
+  if (x.style.display === 'none') {
+    x.style.display = 'block';
+  } else {
+    x.style.display = 'none';
+  }
 };
 
 // This component displays all the LEFT column applications in the table.
@@ -55,7 +54,10 @@ const LeftColumnForApplicationNames = (
         const appDeployables = application.deployables;
         return (
           <div className="tileContainerApp">
-            <Tile className="applicationTile">
+            <Tile
+              className="applicationTile"
+              onClick={() => showHideTrigger(appName)}
+            >
               <Icon
                 name="icon--chevron--right"
                 fill="#6089bf"
@@ -70,6 +72,25 @@ const LeftColumnForApplicationNames = (
                 </div>
               </div>
             </Tile>
+            <div
+              id={appName}
+              className="deployablesDisplay"
+              style={{ display: 'none' }}
+            >
+              {appDeployables.map((deployable) => {
+                // const placementRule = deployable.rule;
+                const deployableName = deployable.metadata.name;
+                return (
+                  <Tile className="deployableTile">
+                    <div className="DeployableContents">
+                      <div className="deployableName">
+                        {`${deployableName} `}
+                      </div>
+                    </div>
+                  </Tile>
+                );
+              })}
+            </div>
           </div>
         );
       })}
@@ -97,6 +118,7 @@ const ChannelColumnList = ({ channelList }, { locale }) => {
 const PipelineGrid = withLocale(({ deployables, applications, channels, locale }) => {
   const applicationRows = createApplicationRows(applications);
   // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+  // const channelRows = createChannelRow(application, channels)
   return (
     <div id="PipelineGrid">
       <div className="tableGridContainer">

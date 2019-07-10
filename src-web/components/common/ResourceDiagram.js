@@ -95,7 +95,7 @@ class ResourceDiagram extends React.Component {
       this.handleSearchChange = this.handleSearchChange.bind(this)
       this.gotoEditorLine = this.gotoEditorLine.bind(this)
       this.fetchLogs = this.fetchLogs.bind(this)
-      localStorage.setItem(MCM_OPEN_DIAGRAM_TAB_COOKIE, 'true')
+      // localStorage.setItem(MCM_OPEN_DIAGRAM_TAB_COOKIE, 'true')
     }
 
     componentWillMount() {

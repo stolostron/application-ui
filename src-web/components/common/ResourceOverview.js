@@ -31,7 +31,7 @@ const ResourceOverview = ({
   modules,
   resourceType
 }) => {
-  localStorage.removeItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)
+  // localStorage.removeItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)
   if (!item)
     return <Loading withOverlay={false} className='content-spinner' />
   const modulesRight = []

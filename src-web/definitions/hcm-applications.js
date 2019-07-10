@@ -410,9 +410,9 @@ export function createApplicationLink(item = {}, ...param){
   if (param[2]) return item.metadata.name
   let link = `${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`
   // if user at any point opens the diagram tab, they will continue to open application diagrams isntead of overview
-  if (localStorage.getItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)) {
-    link = link+'/diagram'
-  }
+  // if (localStorage.getItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)) {
+  //   link = link+'/diagram'
+  // }
   return <Link to={link}>{name}</Link>
 }
 

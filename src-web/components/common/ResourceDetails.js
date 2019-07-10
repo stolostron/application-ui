@@ -144,6 +144,13 @@ class ResourceDetails extends React.Component {
           staticResourceData={staticResourceData}
           modules={children}
         />
+        <br /><br /><br />
+        <ResourceDiagram
+          resourceType={resourceType}
+          params={match.params}
+          staticResourceData={staticResourceData}
+          modules={children}
+        />
       </div>
     )
   }

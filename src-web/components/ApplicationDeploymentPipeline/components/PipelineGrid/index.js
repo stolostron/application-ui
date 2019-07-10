@@ -86,6 +86,9 @@ const LeftColumnForApplicationNames = (
                       <div className="deployableName">
                         {`${deployableName} `}
                       </div>
+                      <div className="deployablePlacement">
+                        {'Placement rule'}
+                      </div>
                     </div>
                   </Tile>
                 );

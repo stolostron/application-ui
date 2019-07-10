@@ -94,9 +94,18 @@
 
   .deployableTile {
     background-color: #f5f9ff;
+    height: 80px;
   }
 
   .DeployableContents {
     padding-left: 35px;
+  }
+
+  .deployableName {
+    padding-bottom: 10px;
+  }
+
+  .deployablePlacement {
+    font-size: 14px;
   }
 }

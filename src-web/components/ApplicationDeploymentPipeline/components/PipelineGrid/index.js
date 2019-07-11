@@ -27,6 +27,12 @@ const showHideTrigger = (id) => {
   } else {
     x.style.display = 'none';
   }
+  const y = document.getElementById(`${id}deployableRows`);
+  if (y.style.display === 'none') {
+    y.style.display = 'block';
+  } else {
+    y.style.display = 'none';
+  }
 };
 
 // This component displays all the LEFT column applications in the table.
@@ -101,10 +107,11 @@ const LeftColumnForApplicationNames = (
   );
 };
 
-const ChannelColumnList = ({ channelList }, { locale }) => {
+const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
   return (
     <div className="channelGridContainer">
-      <div className="horizontalScroll">
+      <div className="horizontalScrollRow">
+        {/* This is the where the channel header information will go */}
         {channelList.map((channel) => {
           const channelName = channel.metaData.name;
           return (
@@ -114,6 +121,55 @@ const ChannelColumnList = ({ channelList }, { locale }) => {
           );
         })}
       </div>
+      {/* All the applicaion totals and the deployable information is found here */}
+      {applicationList.map((application) => {
+        return (
+          <React.Fragment>
+            <div className="horizontalScrollRow">
+              {/* This is the where the row totals will go for the applications */}
+              {channelList.map(() => {
+                return (
+                  <div className="channelColumn">
+                    <Tile className="channelColumnHeaderApplication">
+                      filler
+                    </Tile>
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              id={`${application.metadata.name}deployableRows`}
+              className="horizontalScrollRow deployablesDisplay"
+              style={{ display: 'none' }}
+            >
+              {application.deployables.map((deployable) => {
+                const deployableChannels = deployable.channel || [
+                  'channel1',
+                  'channel2',
+                ];
+                return (
+                  <div className="deployableRow">
+                    {channelList.map((channel) => {
+                      const channelMatch = deployableChannels.includes(channel.metaData.name);
+                      return (
+                        <div className="channelColumn">
+                          {channelMatch ? (
+                            <Tile className="channelColumnDeployable">
+                              does have the channel
+                            </Tile>
+                          ) : (
+                            <Tile className="channelColumnDeployable" />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </React.Fragment>
+        );
+      })}
     </div>
   );
 };
@@ -130,7 +186,10 @@ const PipelineGrid = withLocale(({ deployables, applications, channels, locale }
           deployables={deployables}
           applications={applications}
         />
-        <ChannelColumnList channelList={channels} />
+        <ChannelColumnGrid
+          channelList={channels}
+          applicationList={applications}
+        />
       </div>
     </div>
   );

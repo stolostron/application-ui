@@ -136,6 +136,9 @@ export const getChannelsList = () => {
   ];
 };
 
+// TODO TODO TODO not sure if this is accurate
+// TODO TODO Not even using this yet
+// TODO right now we are just using mock data
 // Method will take in an object and return back the channels
 export const getSubscriptionsList = () => {
   return [

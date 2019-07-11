@@ -20,7 +20,6 @@ import {
   getApplicationsList,
   getDeployablesList,
   getChannelsList,
-  getSubscriptionsList,
 } from './utils';
 import CreateResourceModal from '../modals/CreateResourceModal';
 
@@ -54,7 +53,6 @@ const mapStateToProps = (state) => {
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList),
     channels: getChannelsList(HCMChannelList),
-    subscriptions: getSubscriptionsList(HCMSubscriptionList),
   };
 };
 

@@ -32,7 +32,6 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   const { HCMApplicationList, role } = state;
-  console.log("state:", state)
   return {
     userRole: role.role,
     HCMApplicationList,

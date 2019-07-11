@@ -80,8 +80,14 @@ class ApplicationDeploymentHighlightsSummary extends React.Component {
 
         return (
             <React.Fragment>
-                <CountsCardModule id="deployment-summary" data={countsCardDataSummary} title="dashboard.card.deployment.summary.title"></CountsCardModule>
-                <CountsCardModule id="deployment-status" data={countsCardDataStatus} title="dashboard.card.deployment.status.title"></CountsCardModule>
+                <div id="applicationDeploymentsDash">
+                    <div className="deployment-summary">
+                        <CountsCardModule data={countsCardDataSummary} title="dashboard.card.deployment.summary.title"></CountsCardModule>
+                    </div>
+                    <div className="deployment-status">
+                        <CountsCardModule data={countsCardDataStatus} title="dashboard.card.deployment.status.title"></CountsCardModule>
+                    </div>
+                </div >
             </React.Fragment>
         );
     }

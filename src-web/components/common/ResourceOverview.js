@@ -43,7 +43,7 @@ const ResourceOverview = ({
       modulesBottom.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: item, params }))
     }
   })
-
+  console.log("item info", item);
   const countsCardData = [
     {
       msgKey: 'table.header.deployables',
@@ -70,9 +70,9 @@ const ResourceOverview = ({
         rows={staticResourceData.detailKeys.rows}
         data={item} />
       {modulesRight.length > 0 &&
-      <div className='overview-content-right'>
-        {modulesRight}
-      </div>}
+        <div className='overview-content-right'>
+          {modulesRight}
+        </div>}
       <div className='overview-content-bottom'>
         {modulesBottom}
       </div>
@@ -101,8 +101,10 @@ ResourceOverview.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
   const name = decodeURIComponent(params.name)
-  const item = getSingleResourceItem(state, { storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
-    namespace: params.namespace ? decodeURIComponent(params.namespace) : null })
+  const item = getSingleResourceItem(state, {
+    storeRoot: resourceType.list, resourceType, name, predicate: resourceItemByName,
+    namespace: params.namespace ? decodeURIComponent(params.namespace) : null
+  })
   return { item }
 }
 

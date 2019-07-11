@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   const { HCMApplicationList, role } = state;
-
+  console.log("state:", state)
   return {
     userRole: role.role,
     HCMApplicationList,
@@ -54,9 +54,9 @@ const CreateChannelModal = (handleCreateResource) => {
 };
 
 class ApplicationDeploymentPipeline extends React.Component {
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
@@ -85,7 +85,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           labelText="Search"
           closeButtonLabelText=""
           placeHolderText="Search"
-          onChange={() => {}}
+          onChange={() => { }}
           id="search-1"
         />
         <div className="AddChannelButton">{[modal]}</div>

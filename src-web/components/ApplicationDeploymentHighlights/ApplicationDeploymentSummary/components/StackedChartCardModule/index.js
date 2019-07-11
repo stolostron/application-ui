@@ -13,9 +13,6 @@ import resources from '../../../../../../lib/shared/resources';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { getChartKeyColor, getChartKeyName, getModuleData } from './utils';
 
-resources(() => {
-  require('./style.scss');
-});
 
 const StackedChartCardModule = withLocale(({ data, locale }) => {
 

@@ -26,15 +26,16 @@ const ApplicationDeploymentSummary = withLocale(({ locale }) => {
 
   return (
     <div id="ApplicationDeploymentSummary">
-      <div className="grid-view">
-        <div className="masonry-container">
-          <Masonry
-            enableResizableChildren
-            disableImagesLoaded
-            className="masonry-class"
-            style={masonryOptions}
-          >
-            <div className="grid-item">
+      <div className="masonry-container">
+        <Masonry
+          enableResizableChildren
+          disableImagesLoaded
+          className="masonry-class"
+          style={masonryOptions}
+        >
+          <div className="grid-item">
+            <div className="grid-view">
+
               <div className="title">
                 {msgs.get(
                   'channel.deployments.chart.title',
@@ -46,8 +47,9 @@ const ApplicationDeploymentSummary = withLocale(({ locale }) => {
                 locale={locale}
               />
             </div>
-          </Masonry>
-        </div>
+          </div>
+
+        </Masonry>
       </div>
     </div>
   );

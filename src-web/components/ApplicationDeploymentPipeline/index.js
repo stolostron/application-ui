@@ -25,7 +25,7 @@ resources(() => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    handleCreateResource: yaml =>
+    handleCreateResource: (dispatch, yaml) =>
       dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml)),
   };
 };
@@ -60,9 +60,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchChannels();
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
@@ -95,7 +95,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           labelText="Search"
           closeButtonLabelText=""
           placeHolderText="Search"
-          onChange={() => {}}
+          onChange={() => { }}
           id="search-1"
         />
         <div className="AddChannelButton">{[modal]}</div>

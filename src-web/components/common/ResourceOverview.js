@@ -43,7 +43,7 @@ const ResourceOverview = ({
       modulesBottom.push(React.cloneElement(module, { staticResourceData: staticResourceData, resourceType: resourceType, resourceData: item, params }))
     }
   })
-  console.log("item info", item);
+
   const countsCardData = [
     {
       msgKey: 'table.header.deployables',

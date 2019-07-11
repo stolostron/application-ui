@@ -79,29 +79,9 @@ class ApplicationDeploymentHighlightsSummary extends React.Component {
         ]
 
         return (
-            // <div id="ApplicationDeploymentHighlightsSummary">
-            //     <div className="content-container">
-            //         <div className="deployment-summary-container">
-            //             {msgs.get(
-            //                 'description.title.deploymentHighlightsSummary.summary',
-            //                 locale,
-            //             )}
-            //             <div className="deployment-summary-content">
-
-            //             </div>
-            //         </div>
-            //         <div className="deployment-status-container">
-            //             {msgs.get(
-            //                 'description.title.deploymentHighlightsSummary.status',
-            //                 locale,
-            //             )}
-            //             <div className="deployment-status-content" />
-            //         </div>
-            //     </div>
-            // </div>
             <React.Fragment>
-                <CountsCardModule id="deployment-summary" data={countsCardDataSummary}></CountsCardModule>
-                <CountsCardModule id="deployment-status" data={countsCardDataStatus}></CountsCardModule>
+                <CountsCardModule id="deployment-summary" data={countsCardDataSummary} title="dashboard.card.deployment.summary.title"></CountsCardModule>
+                <CountsCardModule id="deployment-status" data={countsCardDataStatus} title="dashboard.card.deployment.status.title"></CountsCardModule>
             </React.Fragment>
         );
     }

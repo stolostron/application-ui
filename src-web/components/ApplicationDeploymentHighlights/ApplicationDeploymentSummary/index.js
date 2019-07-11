@@ -11,19 +11,16 @@ import React from 'react';
 import Masonry from 'react-masonry-component';
 import msgs from '../../../../nls/platform.properties';
 
-
 import { withLocale } from '../../../providers/LocaleProvider';
 import resources from '../../../../lib/shared/resources';
 import StackedChartCardModule from './components/StackedChartCardModule/index';
 import { masonryOptions, stackChartCardData } from './utils';
-
 
 resources(() => {
   require('./style.scss');
 });
 
 const ApplicationDeploymentSummary = withLocale(({ locale }) => {
-
   return (
     <div id="ApplicationDeploymentSummary">
       <div className="masonry-container">
@@ -35,12 +32,8 @@ const ApplicationDeploymentSummary = withLocale(({ locale }) => {
         >
           <div className="grid-item">
             <div className="grid-view">
-
               <div className="title">
-                {msgs.get(
-                  'channel.deployments.chart.title',
-                  locale,
-                )}
+                {msgs.get('channel.deployments.chart.title', locale)}
               </div>
               <StackedChartCardModule
                 data={stackChartCardData}
@@ -48,7 +41,6 @@ const ApplicationDeploymentSummary = withLocale(({ locale }) => {
               />
             </div>
           </div>
-
         </Masonry>
       </div>
     </div>

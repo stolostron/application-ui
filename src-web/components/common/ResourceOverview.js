@@ -14,6 +14,7 @@ import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import CountsCardModule from '../CountsCardModule'
+import ChannelsCardModule from '../ChannelsCardModule'
 import StructuredListModule from '../../components/common/StructuredListModule'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
 import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants'
@@ -59,10 +60,58 @@ const ResourceOverview = ({
     }
   ]
 
+  const channelsCardData = [
+    {
+      name: 'Development',
+      counts: {
+        pending: {
+          total: 2,
+        },
+        'in progress': {
+          total: 3,
+        },
+        failed: {
+          total: 4,
+        },
+      }
+    },
+    {
+      name: 'QA',
+      counts: {
+        pending: {
+          total: 2,
+        },
+        'in progress': {
+          total: 3,
+        },
+        failed: {
+          total: 4,
+        },
+      }
+    },
+    {
+      name: 'Dev',
+      counts: {
+        pending: {
+          total: 2,
+        },
+        'in progress': {
+          total: 3,
+        },
+        failed: {
+          total: 4,
+        },
+      }
+    }
+  ]
+
   return (
     <div className='overview-content'>
       <div className='overview-content-bottom'>
         <CountsCardModule data={countsCardData} />
+      </div>
+      <div className='overview-content-bottom'>
+        <ChannelsCardModule data={channelsCardData} />
       </div>
       <StructuredListModule
         title={staticResourceData.detailKeys.title}

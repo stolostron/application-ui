@@ -9,12 +9,14 @@
 
 // const React = require('react');
 // const renderer = require('react-test-renderer');
-// const ApplicationDeploymentHighlights = require('../ApplicationDeploymentHighlights')
+// const ApplicationDeploymentSummary = require('../ApplicationDeploymentSummary')
 //   .default;
 
-describe('ApplicationDeploymentHighlights', () => {
-  it('ApplicationDeploymentHighlights renders correctly.', () => {
-    // const tree = renderer.create(<ApplicationDeploymentHighlights />).toJSON();
+describe('ApplicationDeploymentSummary', () => {
+  it('ApplicationDeploymentSummary renders correctly.', () => {
+    // const tree = renderer
+    //   .create(<ApplicationDeploymentSummary />)
+    //   .toJSON();
     // expect(tree).toMatchSnapshot();
   });
 });

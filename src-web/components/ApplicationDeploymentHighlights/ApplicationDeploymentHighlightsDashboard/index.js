@@ -7,10 +7,10 @@
 //  * Contract with IBM Corp.
 //  *******************************************************************************/
 
-import React from 'react';
+import React from '../../../../node_modules/react';
 import CountsCardModule from '../../CountsCardModule';
 import { getNumItems } from '../../../../lib/client/resource-helper';
-import { connect } from 'react-redux';
+import { connect } from '../../../../node_modules/react-redux';
 import resources from '../../../../lib/shared/resources';
 
 resources(() => {
@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
     };
 };
 
-class ApplicationDeploymentHighlightsSummary extends React.Component {
+class ApplicationDeploymentHighlightsDashboard extends React.Component {
     componentDidMount() { }
     componentWillUnmount() { }
 
@@ -93,4 +93,4 @@ class ApplicationDeploymentHighlightsSummary extends React.Component {
     }
 }
 
-export default connect(mapStateToProps)(ApplicationDeploymentHighlightsSummary);
+export default connect(mapStateToProps)(ApplicationDeploymentHighlightsDashboard);

@@ -6,15 +6,12 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
-import lodash from 'lodash'
-import React from 'react'
-import { validator } from './validators/hcm-channel-validator'
+import lodash from 'lodash';
+import { validator } from './validators/hcm-channel-validator';
 
 export default {
   defaultSortField: 'metadata.name',
   primaryKey: 'metadata.name',
   secondaryKey: 'cluster.metadata.name',
-  validator
-}
-
+  validator,
+};

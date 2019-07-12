@@ -80,7 +80,7 @@ class ApplicationDeploymentHighlightsDashboard extends React.Component {
 
         return (
             <React.Fragment>
-                <div id="applicationDeploymentsDash">
+                <div id="ApplicationDeploymentsDashboard">
                     <div className="deployment-summary">
                         <CountsCardModule data={countsCardDataSummary} title="dashboard.card.deployment.summary.title"></CountsCardModule>
                     </div>

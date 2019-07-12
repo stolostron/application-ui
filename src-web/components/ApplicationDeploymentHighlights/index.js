@@ -29,7 +29,6 @@ const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
       <ApplicationDeploymentHighlightsTerminology />
       <ApplicationDeploymentHighlightsDashboard />
       <ApplicationDeploymentSummary />
-      <br />
     </div>
   );
 });

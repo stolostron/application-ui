@@ -113,7 +113,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
         {channelList.map((channel) => {
-          const channelName = channel.metaData.name;
+          const channelName = channel.name;
           return (
             <div className="channelColumn">
               <Tile className="channelColumnHeader">{`${channelName}`}</Tile>
@@ -130,9 +130,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
               {channelList.map(() => {
                 return (
                   <div className="channelColumn">
-                    <Tile className="channelColumnHeaderApplication">
-                      filler
-                    </Tile>
+                    <Tile className="channelColumnHeaderApplication">---</Tile>
                   </div>
                 );
               })}
@@ -143,6 +141,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
               style={{ display: 'none' }}
             >
               {application.deployables.map((deployable) => {
+                // TODO will need to fix once we have the API fully returning everything
                 const deployableChannels = deployable.channel || [
                   'channel1',
                   'channel2',
@@ -150,7 +149,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
                 return (
                   <div className="deployableRow">
                     {channelList.map((channel) => {
-                      const channelMatch = deployableChannels.includes(channel.metaData.name);
+                      const channelMatch = deployableChannels.includes(channel.name);
                       return (
                         <div className="channelColumn">
                           {channelMatch ? (

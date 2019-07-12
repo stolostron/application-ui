@@ -53,7 +53,7 @@ const mapStateToProps = (state) => {
     HCMApplicationList,
     HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
-    deployables: getDeployablesList(HCMApplicationList),
+    deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
   };
 };

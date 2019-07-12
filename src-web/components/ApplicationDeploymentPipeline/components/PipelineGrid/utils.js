@@ -18,12 +18,6 @@ const mapApplicationLookUp = (application) => {
       id: (metadata && metadata.name) || '',
       name: (metadata && metadata.name) || '',
       deployables: deployables || [],
-      selfLink:
-        '/apis/mcm.ibm.com/v1alpha1/namespaces/services/deployables/appdeploy-guestbook-app',
-      channel: ['channel1', 'channel2', 'channel4'],
-      clusters: ['cluster1', 'cluster2', 'cluster3'],
-      status: 'fail',
-      version: '1.4.4',
     },
   };
 };
@@ -35,12 +29,6 @@ const mapApplicationForRow = (application) => {
     id: (metadata && metadata.name) || '',
     name: (metadata && metadata.name) || '',
     deployables: deployables || [],
-    selfLink:
-      '/apis/mcm.ibm.com/v1alpha1/namespaces/services/deployables/appdeploy-guestbook-app',
-    channel: ['channel1', 'channel2', 'channel4'],
-    clusters: ['cluster1', 'cluster2', 'cluster3'],
-    status: 'fail',
-    version: '1.4.4',
   };
 };
 

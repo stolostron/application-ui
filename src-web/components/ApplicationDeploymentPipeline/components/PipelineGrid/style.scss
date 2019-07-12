@@ -6,6 +6,53 @@
     position: relative;
   }
 
+  .channelColumnHeader {
+    background: white;
+    color: black;
+    height: 200px;
+    position: relative;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
+    border-left-style: dashed;
+    border-left-width: 0px;
+  }
+
+  .channelColumnHeaderApplication {
+    background: white;
+    color: black;
+    height: 80px;
+    position: relative;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
+    border-left-style: dashed;
+    border-left-width: 0px;
+  }
+
+  .channelColumnDeployable {
+    background: white;
+    background-color: #f5f9ff;
+    color: black;
+    height: 80px;
+    position: relative;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
+    border-left-style: dashed;
+    border-left-width: 0px;
+  }
+
+  .applicationTile {
+    background: #ffffff;
+    color: black;
+    height: 80px;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #d5d9db;
+  }
+
   .totalApplications {
     position: absolute;
     bottom: 0;
@@ -32,27 +79,94 @@
     margin-bottom: 25px;
   }
 
-  .tableCell {
-    height: 100px;
-  }
-
-  .bx--table-expand-v2__svg {
-    margin-bottom: 40px;
-  }
-
-  .horizontalScroll-outer {
-    overflow: scroll;
-    width: 100%;
-  }
-
-  .horizontalScroll-inner {
-    width: 100%;
-  }
-
-  .DisplayDeployablesContainer {
+  .closeRowChevron {
+    display: inline-block;
     position: absolute;
   }
 
+  .openRowChevron {
+    display: inline-block;
+    position: absolute;
+    transform: rotate(90deg);
+  }
+
+  .ApplicationContents {
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .tableGridContainer {
+    display: inline-block;
+  }
+
+  .channelGridContainer {
+    display: inline-block;
+    position: absolute;
+    margin-top: 20px;
+    overflow: scroll;
+    width: 63%;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
+  }
+
+  .horizontalScrollRow {
+    width: max-content;
+  }
+
+  .applicationColumnContainer {
+    display: inline-block;
+  }
+
+  .channelColumn {
+    display: inline-block;
+    width: 350px;
+  }
+
+  .statusTag {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #c0e6ff;
+    color: #325c80;
+  }
+
+  .deployableTile {
+    background-color: #f5f9ff;
+    height: 80px;
+  }
+
+  .DeployableContents {
+    padding-left: 35px;
+  }
+
+  .appDeployables {
+    padding-top: 10px;
+    font-size: 13px;
+  }
+
   .deployableName {
+    padding-bottom: 10px;
+  }
+
+  .deployablePlacement {
+    font-size: 14px;
+  }
+
+  .deployableRow {
+    display: flex;
+    height: 80px;
+  }
+
+  .channelNameHeader {
+    font-size: 22px;
+    padding-top: 5px;
+    padding-left: 10px;
+  }
+
+  .channelEditIcon {
+    fill: black;
+    margin-left: 20px;
   }
 }

@@ -6,17 +6,16 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
 
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import resources from '../../../lib/shared/resources'
-import msgs from '../../../nls/platform.properties'
+import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import resources from '../../../lib/shared/resources';
+import msgs from '../../../nls/platform.properties';
 
 resources(() => {
-  require('./style.scss')
-})
+  require('./style.scss');
+});
 
 export default class CountsCardModule extends React.Component {
   getModuleData = () => {
@@ -26,13 +25,13 @@ export default class CountsCardModule extends React.Component {
     data.map(({ msgKey, count }, idx) => {
       countCardItems.push({
         count,
-        type: msgs.get(msgKey, locale)
-      })
-    })
+        type: msgs.get(msgKey, locale),
+      });
+    });
     return {
       countCardItems,
-    }
-  }
+    };
+  };
 
   render() {
     const moduleData = this.getModuleData()
@@ -50,7 +49,7 @@ export default class CountsCardModule extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -58,12 +57,12 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
   return (
     <React.Fragment>
       {countCardItems.map(({ count, type }, idx) => {
-        const onClick = () => { }
+        const onClick = () => {};
         const onKeyPress = (e) => {
           if (e.key === 'Enter') {
-            onClick()
+            onClick();
           }
-        }
+        };
         const cardClasses = classNames({
           'card-count-type': true,
           // hasBorder: idx === 0,
@@ -71,7 +70,7 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
         const countClasses = classNames({
           'card-count': true,
           // 'alert': count>0,
-        })
+        });
         return (
           <div
             key={type}
@@ -81,24 +80,20 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
             onClick={onClick}
             onKeyPress={onKeyPress}
           >
-            <div className={countClasses}>
-              {count}
-            </div>
+            <div className={countClasses}>{count}</div>
             <div className="card-type">
-              <div>
-                {type}
-              </div>
+              <div>{type}</div>
             </div>
           </div>
-        )
+        );
       })}
     </React.Fragment>
-  )
-}
+  );
+};
 
 CountCards.propTypes = {
   locale: PropTypes.string,
   moduleData: PropTypes.object,
-}
+};
 
-CountsCardModule.propTypes = {}
+CountsCardModule.propTypes = {};

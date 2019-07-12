@@ -38,15 +38,13 @@ export default class CountsCardModule extends React.Component {
     const moduleData = this.getModuleData()
     const { locale } = this.context
     const { title } = this.props
-    let titleText;
-    if (title) {
-      titleText = <span className="card-container-title">{msgs.get(title, locale)}</span>
-    }
-
     return (
       <div id="CountsCardModule">
         <div className="card-container">
-          {titleText}
+          {title &&
+            <span className="card-container-title">{msgs.get(title, locale)}</span>
+          }
+
           <div className="card-container-content">
             <CountCards moduleData={moduleData} locale={locale} />
           </div>

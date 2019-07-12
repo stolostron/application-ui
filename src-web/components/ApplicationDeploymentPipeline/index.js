@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux';
 import * as Actions from '../../actions';
 import resources from '../../../lib/shared/resources';
 import { RESOURCE_TYPES } from '../../../lib/shared/constants';
-import { createResources } from '../../actions/common';
+import { createResources, fetchResources } from '../../actions/common';
 import PipelineGrid from './components/PipelineGrid';
 import { Search } from 'carbon-components-react';
 import {
@@ -31,10 +31,11 @@ resources(() => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    actions: bindActionCreators(Actions, dispatch),
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
     handleCreateResource: (yaml) => {
       dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
     },
-    actions: bindActionCreators(Actions, dispatch),
   };
 };
 
@@ -50,6 +51,7 @@ const mapStateToProps = (state) => {
   return {
     userRole: role.role,
     HCMApplicationList,
+    HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList),
     channels: getChannelsList(HCMChannelList),
@@ -69,12 +71,19 @@ const CreateChannelModal = (handleCreateResource) => {
 };
 
 class ApplicationDeploymentPipeline extends React.Component {
+  componentWillMount() {
+    const { fetchChannels } = this.props;
+    fetchChannels();
+  }
+
   componentDidMount() {}
 
   componentWillUnmount() {}
 
   render() {
     const {
+      HCMApplicationList,
+      HCMChannelList,
       applications,
       deployables,
       channels,

@@ -8,11 +8,12 @@
  *******************************************************************************/
 
 import React from 'react';
-// import { Tabs } from 'carbon-components-react'
+
 import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
 import resources from '../../../lib/shared/resources';
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
+import ApplicationDeploymentSummary from './ApplicationDeploymentSummary';
 
 resources(() => {
   require('./style.scss');
@@ -25,6 +26,7 @@ const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
         {msgs.get('description.title.deploymentHighlights', locale)}
       </div>
       <ApplicationDeploymentHighlightsTerminology />
+      <ApplicationDeploymentSummary />
     </div>
   );
 });

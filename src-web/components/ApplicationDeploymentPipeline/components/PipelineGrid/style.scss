@@ -84,6 +84,12 @@
     position: absolute;
   }
 
+  .openRowChevron {
+    display: inline-block;
+    position: absolute;
+    transform: rotate(90deg);
+  }
+
   .ApplicationContents {
     display: inline-block;
     margin-left: 20px;

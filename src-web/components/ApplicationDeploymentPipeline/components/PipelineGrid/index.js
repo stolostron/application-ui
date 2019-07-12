@@ -33,6 +33,14 @@ const showHideTrigger = (id) => {
   } else {
     y.style.display = 'none';
   }
+  const z = document.getElementById(`${id}chevron`);
+  if (z.className.animVal === 'closeRowChevron') {
+    z.classList.remove('closeRowChevron');
+    z.classList.add('openRowChevron');
+  } else {
+    z.classList.remove('openRowChevron');
+    z.classList.add('closeRowChevron');
+  }
 };
 
 // This component displays all the LEFT column applications in the table.
@@ -65,6 +73,7 @@ const LeftColumnForApplicationNames = (
               onClick={() => showHideTrigger(appName)}
             >
               <Icon
+                id={`${appName}chevron`}
                 name="icon--chevron--right"
                 fill="#6089bf"
                 description=""

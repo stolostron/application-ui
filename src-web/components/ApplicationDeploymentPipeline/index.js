@@ -11,6 +11,8 @@ import React from 'react';
 import msgs from '../../../nls/platform.properties';
 import { connect } from 'react-redux';
 // import { withRouter } from 'react-router-dom'
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 import resources from '../../../lib/shared/resources';
 import { RESOURCE_TYPES } from '../../../lib/shared/constants';
 import { createResources } from '../../actions/common';
@@ -29,8 +31,10 @@ resources(() => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleCreateResource: (dispatch, yaml) =>
-      dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml)),
+    handleCreateResource: (yaml) => {
+      dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
+    },
+    actions: bindActionCreators(Actions, dispatch),
   };
 };
 
@@ -38,15 +42,11 @@ const mapStateToProps = (state) => {
   const {
     HCMApplicationList,
     HCMChannelList,
-    HCMSubscriptionList,
+    // AppDeployments,
     role,
   } = state;
-  console.log('lotd', state);
-  console.log(
-    'stringify',
-    JSON.stringify(getDeployablesList(HCMApplicationList)),
-  );
-
+  // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
+  // the applications, deployables, and channels
   return {
     userRole: role.role,
     HCMApplicationList,
@@ -75,15 +75,13 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      HCMApplicationList,
       applications,
       deployables,
       channels,
       handleCreateResource,
+      actions,
     } = this.props;
     const { locale } = this.context;
-    console.log('lotd', HCMApplicationList);
-    // const handleCreateResource = (dispatch, yaml) => dispatch(createChannel(RESOURCE_TYPES.HCM_CHANNELS, yaml))
     const modal = React.cloneElement(CreateChannelModal(handleCreateResource), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS,
     });
@@ -101,7 +99,9 @@ class ApplicationDeploymentPipeline extends React.Component {
           labelText="Search"
           closeButtonLabelText=""
           placeHolderText="Search"
-          onChange={() => {}}
+          onChange={(event) => {
+            actions.setDeploymentSearch(event.target.value);
+          }}
           id="search-1"
         />
         <div className="AddChannelButton">{[modal]}</div>

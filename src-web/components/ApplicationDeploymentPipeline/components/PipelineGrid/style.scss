@@ -123,6 +123,15 @@
     width: 350px;
   }
 
+  .statusTag {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #c0e6ff;
+    color: #325c80;
+  }
+
   .deployableTile {
     background-color: #f5f9ff;
     height: 80px;

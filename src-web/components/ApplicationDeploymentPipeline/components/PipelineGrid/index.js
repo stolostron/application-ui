@@ -12,7 +12,7 @@ import msgs from '../../../../../nls/platform.properties';
 import { withLocale } from '../../../../providers/LocaleProvider';
 import resources from '../../../../../lib/shared/resources';
 import { createApplicationRows, createApplicationRowsLookUp } from './utils';
-import { Tile, Icon } from 'carbon-components-react';
+import { Tile, Icon, Tag } from 'carbon-components-react';
 
 resources(() => {
   require('./style.scss');
@@ -21,18 +21,21 @@ resources(() => {
 // This method takes in an ID and then changes the css to either display or
 // hide the row
 const showHideTrigger = (id) => {
+  // This will display or hide the deplable rows under the applications
   const x = document.getElementById(id);
   if (x.style.display === 'none') {
     x.style.display = 'block';
   } else {
     x.style.display = 'none';
   }
+  // This will display or hide the deployable rows under the channels
   const y = document.getElementById(`${id}deployableRows`);
   if (y.style.display === 'none') {
     y.style.display = 'block';
   } else {
     y.style.display = 'none';
   }
+  // Toggle the chevron Icon which is the drop down indicator for the deployables
   const z = document.getElementById(`${id}chevron`);
   if (z.className.animVal === 'closeRowChevron') {
     z.classList.remove('closeRowChevron');
@@ -102,7 +105,7 @@ const LeftColumnForApplicationNames = (
                         {`${deployableName} `}
                       </div>
                       <div className="deployablePlacement">
-                        {'Placement rule'}
+                        {'Subscription'}
                       </div>
                     </div>
                   </Tile>
@@ -149,7 +152,9 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
               {channelList.map(() => {
                 return (
                   <div className="channelColumn">
-                    <Tile className="channelColumnHeaderApplication">---</Tile>
+                    <Tile className="channelColumnHeaderApplication">
+                      <Tag className="statusTag">N/A</Tag>
+                    </Tile>
                   </div>
                 );
               })}
@@ -176,7 +181,9 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
                               does have the channel
                             </Tile>
                           ) : (
-                            <Tile className="channelColumnDeployable" />
+                            <Tile className="channelColumnDeployable">
+                              <Tag className="statusTag">N/A</Tag>
+                            </Tile>
                           )}
                         </div>
                       );

@@ -22,28 +22,21 @@ $overview-column-width: 10px !default; /* card width must be multiple of this */
 // also change CARD_SPACING in constants.js
 $overview-card-margin-right: 20px !default; /* margin around cards */
 $overview-card-margin-bottom: 46px !default; /* margin around cards */
-
 $mcm__color__gray: #6f7878 !default;
 $mcm__color__critical: #e0182d !default;
-
 $mcm__available_color: #047cc0 !default;
 $mcm__used_color: #40d5bb !default;
-
 $mcm_color_green: #8cd211 !default;
 $mcm_color_gray: #8c9ba5 !default;
-$mcm_color_yellow: #EFC199 !default;
-$mcm_color_red: #E71D32 !default;
-$mcm_color_blue_gray: #5A6872 !default;
+$mcm_color_yellow: #efc199 !default;
+$mcm_color_red: #e71d32 !default;
+$mcm_color_blue_gray: #5a6872 !default;
 $mcm_color_drak_blue: #30588c !default;
-
-$mcm_heat_red: #FF4253 !default;
-$mcm_heat_yellow: #FFCB00 !default;
+$mcm_heat_red: #ff4253 !default;
+$mcm_heat_yellow: #ffcb00 !default;
 $mcm_heat_blue: #92eeee !default;
-
-$mcm_view_filter: #DFEBF1 !default;
-
+$mcm_view_filter: #dfebf1 !default;
 $mcm_background_color: #f4f7fb !default;
 $mcm_provider_card_background_color: #fafafa !default;
-
-$mcm_search_suggested: #04A091 !default;
-$mcm_search_icp_bright_blue: #3E69F5 !default;
+$mcm_search_suggested: #04a091 !default;
+$mcm_search_icp_bright_blue: #3e69f5 !default;

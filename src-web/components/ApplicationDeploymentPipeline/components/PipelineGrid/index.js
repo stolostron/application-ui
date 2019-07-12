@@ -116,7 +116,17 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
           const channelName = channel.name;
           return (
             <div className="channelColumn">
-              <Tile className="channelColumnHeader">{`${channelName}`}</Tile>
+              <Tile className="channelColumnHeader">
+                <div className="channelNameHeader">
+                  {`${channelName}`}
+                  <Icon
+                    name="icon--edit"
+                    fill="#6089bf"
+                    description=""
+                    className="channelEditIcon"
+                  />
+                </div>
+              </Tile>
             </div>
           );
         })}

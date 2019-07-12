@@ -57,6 +57,8 @@
   "dashboard.card.deployment.inProgress": "In Progress",
   "dashboard.card.deployment.pending": "Pending",
   "dashboard.card.deployment.placementRules": "Placement Rules",
+  "dashboard.card.deployment.summary.title": "Deployment Summary",
+  "dashboard.card.deployment.status.title": "Deployment Status",
   "dashboard.card.cpu": "CPU Health",
   "dashboard.card.helmReleases": "Helm Releases",
   "dashboard.card.memory": "Memory Health",
@@ -110,8 +112,6 @@
   "description.title.deploymentHighlightsTerminology.channelGateConditionsSummary": "Each channel has certain gate conditions that a deployment channel has to meet in order to get deployed to such channel. If the deployment is missing all the required conditions, it will initially shown as \"pending\" until more deployment conditions are added.",
   "description.title.deploymentHighlightsTerminology.deploymentConditions": "Deployment Conditions",
   "description.title.deploymentHighlightsTerminology.deploymentConditionsSummary": "Deployment conditions can be added manually or automated based on events outcome. When a deployment has all the conditions that a channel gate requires, it will then be deployed to such channel.",
-  "description.title.deploymentHighlightsSummary.summary": "Deployment Summary",
-  "description.title.deploymentHighlightsSummary.status": "Deployment Status",
   "description.title.deploymentPipeline": "Deployment Pipeline",
   "description.title.applications": "applications",
   "description.title.deployables": "deployables",
@@ -669,5 +669,9 @@
   "welcome.connect.box.two.link": "Join our Slack team",
   "welcome.connect.box.three.title.one": "Need more help?",
   "welcome.connect.box.three.title.two": "Contact support.",
-  "welcome.connect.box.three.link": "IBM Cloud Private support center"
+  "welcome.connect.box.three.link": "IBM Cloud Private support center",
+  "channel.deploy.status.progress": "In Progress",
+  "channel.deploy.status.completed": "Completed",
+  "channel.deploy.status.failed": "Failed",
+  "channel.deployments.chart.title": "Deployments by channels"
 }

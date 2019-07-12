@@ -12,7 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import resources from '../../../lib/shared/resources'
-import msgs from '../../../nls/platform.properties'
+// import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 resources(() => {

@@ -18,13 +18,13 @@ describe('ChannelsCardModule', () => {
       name: 'Development',
       counts: {
         pending: {
-          total: 2,
-        },
-        'in progress': {
           total: 3,
         },
+        'in progress': {
+          total: 2,
+        },
         failed: {
-          total: 4,
+          total: 1,
         },
       }
     },
@@ -32,13 +32,13 @@ describe('ChannelsCardModule', () => {
       name: 'QA',
       counts: {
         pending: {
-          total: 2,
-        },
-        'in progress': {
           total: 3,
         },
+        'in progress': {
+          total: 2,
+        },
         failed: {
-          total: 4,
+          total: 1,
         },
       }
     },
@@ -46,17 +46,17 @@ describe('ChannelsCardModule', () => {
       name: 'Dev',
       counts: {
         pending: {
-          total: 2,
-        },
-        'in progress': {
           total: 3,
         },
+        'in progress': {
+          total: 2,
+        },
         failed: {
-          total: 4,
+          total: 1,
         },
       }
     }
-  ]
+  ];
 
   it('ChannelsCardModule renders correctly.', () => {
     const tree = renderer.create(<ChannelsCardModule data={channelsCardData} />).toJSON();

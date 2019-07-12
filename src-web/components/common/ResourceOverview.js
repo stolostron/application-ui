@@ -80,13 +80,13 @@ const ResourceOverview = ({
       name: 'Development',
       counts: {
         pending: {
-          total: 2,
-        },
-        'in progress': {
           total: 3,
         },
+        'in progress': {
+          total: 2,
+        },
         failed: {
-          total: 4,
+          total: 1,
         },
       }
     },
@@ -94,13 +94,13 @@ const ResourceOverview = ({
       name: 'QA',
       counts: {
         pending: {
-          total: 2,
-        },
-        'in progress': {
           total: 3,
         },
+        'in progress': {
+          total: 2,
+        },
         failed: {
-          total: 4,
+          total: 1,
         },
       }
     },
@@ -108,17 +108,17 @@ const ResourceOverview = ({
       name: 'Dev',
       counts: {
         pending: {
-          total: 2,
-        },
-        'in progress': {
           total: 3,
         },
+        'in progress': {
+          total: 2,
+        },
         failed: {
-          total: 4,
+          total: 1,
         },
       }
     }
-  ]
+  ];
 
   return (
     <div className="overview-content">

@@ -12,11 +12,10 @@ import Masonry from 'react-masonry-component';
 import msgs from '../../../../nls/platform.properties';
 import { connect } from 'react-redux';
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants';
-import resources from '../../../../lib/shared/resources';
 import { fetchResources } from '../../../actions/common';
-
-import StackedChartCardModule from './components/StackedChartCardModule';
-import { masonryOptions, stackChartCardData, getChannelNames } from './utils';
+import resources from '../../../../lib/shared/resources';
+import StackedChartCardModule from './components/StackedChartCardModule/index';
+import { masonryOptions, getChannelChartData } from './utils';
 
 resources(() => {
   require('./style.scss');
@@ -33,10 +32,9 @@ const mapStateToProps = (state) => {
 
   return {
     HCMChannelList,
-    channelNames: getChannelNames(HCMChannelList),
+    channelChartData: getChannelChartData(HCMChannelList),
   };
 };
-
 class ApplicationDeploymentSummary extends React.Component {
   componentWillMount() {
     const { fetchChannels } = this.props;
@@ -48,10 +46,10 @@ class ApplicationDeploymentSummary extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const { channelNames } = this.props;
+    const { channelChartData } = this.props;
 
     const { locale } = this.context;
-    console.log('channelNames !!!!!', channelNames);
+    console.log('channelChartData !!!!!', channelChartData);
 
     return (
       <div id="ApplicationDeploymentSummary">
@@ -68,7 +66,7 @@ class ApplicationDeploymentSummary extends React.Component {
                   {msgs.get('channel.deployments.chart.title', locale)}
                 </div>
                 <StackedChartCardModule
-                  data={stackChartCardData}
+                  data={channelChartData}
                   locale={locale}
                 />
               </div>

@@ -17,18 +17,6 @@ export const masonryOptions = {
   gutter: 0,
 };
 
-// get all channel names
-export const getChannelNames = (list) => {
-  if (list && list.items) {
-    const channelNames = list.items.map((item) => {
-      return (item && item.metadata && item.metadata.name) || 'unknown';
-    });
-    const emptyArray = [];
-    return emptyArray.concat.apply([], channelNames);
-  }
-  return [];
-};
-
 // return the data for the stacked channel
 export const getChannelChartData = (list) => {
   if (list && list.items) {

@@ -35,6 +35,7 @@ const mapStateToProps = (state) => {
     channelChartData: getChannelChartData(HCMChannelList),
   };
 };
+
 class ApplicationDeploymentSummary extends React.Component {
   componentWillMount() {
     const { fetchChannels } = this.props;
@@ -49,7 +50,6 @@ class ApplicationDeploymentSummary extends React.Component {
     const { channelChartData } = this.props;
 
     const { locale } = this.context;
-    console.log('channelChartData !!!!!', channelChartData);
 
     return (
       <div id="ApplicationDeploymentSummary">

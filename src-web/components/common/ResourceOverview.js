@@ -86,7 +86,7 @@ const ResourceOverview = ({
         failed: {
           total: 1,
         },
-      }
+      },
     },
     {
       name: 'QA',
@@ -100,7 +100,7 @@ const ResourceOverview = ({
         failed: {
           total: 1,
         },
-      }
+      },
     },
     {
       name: 'Dev',
@@ -114,16 +114,16 @@ const ResourceOverview = ({
         failed: {
           total: 1,
         },
-      }
-    }
+      },
+    },
   ];
 
   return (
     <div className="overview-content">
-      <div className="overview-content-bottom">
+      <div className="overview-content-bottom overview-content-with-padding">
         <CountsCardModule data={countsCardData} />
       </div>
-      <div className='overview-content-bottom'>
+      <div className="overview-content-bottom">
         <ChannelsCardModule data={channelsCardData} />
       </div>
       <StructuredListModule

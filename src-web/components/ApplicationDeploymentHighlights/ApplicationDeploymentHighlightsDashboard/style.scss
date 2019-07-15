@@ -6,64 +6,33 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import "node_modules/carbon-components/scss/globals/scss/_colors";
-@import "../../../scss/variables";
+ @import "../../../../node_modules/carbon-components/scss/globals/scss/_colors";
+ @import "../../../../scss/variables";
 
-#CountsCardModule {
+ #ApplicationDeploymentsDashboard {
   width: 100%;
   height: 180px;
-  padding: 25px;
   background-color: white;
-  display: flex;
-  align-items: center;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
-  .card-container {
-    width: 100%;
-    height: 100%;
-  }
+  .deployment-summary {
+    width: 65%;
+    float: left;
+    border-right: 2px solid $color__gray-1;
+    border-image: linear-gradient(to bottom, rgba(0,0,0,0) 15%,$color__gray-1 15%,$color__gray-1 85%,rgba(0,0,0,0) 85%);
+    border-image-slice: 1;
 
-  .card-container-content {
-    display: flex;
-    padding: 0 5%;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .card-count-type {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-top: 2px solid $color__gray-1;
-    padding-top: 10px;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:hover > .card-type {
-      color: $color__blue-51;
-      text-decoration: underline;
+    #CountsCardModule {
+      box-shadow: none;
     }
   }
 
-  .card-count {
-    font-size: 35px;
-    margin-bottom: 8px;
-    color: $mcm_color_blue_gray;
+  .deployment-status {
+    width: 35%;
+    float: right;
 
-    &.alert {
-      color: $mcm_color_red;
+    #CountsCardModule{
+      box-shadow: none;
     }
   }
-
-  .card-type {
-    text-align: center;
-    font-size: 14px;
-    line-height: 16px;
-    color: $mcm_color_blue_gray;
-  }
-}
+ }

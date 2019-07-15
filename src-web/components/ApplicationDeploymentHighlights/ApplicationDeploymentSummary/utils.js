@@ -17,23 +17,19 @@ export const masonryOptions = {
   gutter: 0,
 };
 
-export const stackChartCardData = [
-  {
-    name: 'Development',
-    cm: 500,
-    pr: 900,
-    fl: 700,
-  },
-  {
-    name: 'QA',
-    cm: 200,
-    pr: 400,
-    fl: 900,
-  },
-  {
-    name: 'Production',
-    cm: 800,
-    pr: 300,
-    fl: 900,
-  },
-];
+// return the data for the stacked channel
+export const getChannelChartData = (list) => {
+  if (list && list.items) {
+    const channelChartDataList = list.items.map((item) => {
+      return {
+        name: (item && item.metadata && item.metadata.name) || 'unknown',
+        cm: 500,
+        pr: 900,
+        fl: 700,
+      };
+    });
+    const emptyArray = [];
+    return emptyArray.concat.apply([], channelChartDataList);
+  }
+  return [];
+};

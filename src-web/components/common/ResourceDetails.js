@@ -142,7 +142,7 @@ class ResourceDetails extends React.Component {
   renderOverview() {
     const { match, resourceType, staticResourceData, children } = this.props
     return (
-      <div>
+      <div id="ResourceDetails">
         <OverviewTab
           resourceType={resourceType}
           params={match.params}

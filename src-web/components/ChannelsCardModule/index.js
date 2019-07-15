@@ -62,15 +62,9 @@ const ChannelsCard = ({ data, locale }) => {
               const containerClasses = classNames({
                 'card-count-container': true,
               })
-              const onClick = () => { }
-              const onKeyPress = (e) => {
-                if (e.key === 'Enter') {
-                  onClick()
-                }
-              }
               return (
                 <div key={channel} className={containerClasses} role={'button'}
-                  tabIndex='0' onClick={onClick} onKeyPress={onKeyPress} >
+                  tabIndex='0'>
                   <div className='card-count'>
                     <div className='card-count-total'>
                       {total}

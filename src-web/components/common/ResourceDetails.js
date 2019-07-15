@@ -17,10 +17,15 @@ import { updateSecondaryHeader, fetchResource } from '../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import lodash from 'lodash'
+import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
 import ResourceDiagram from './ResourceDiagram'
 import config from '../../../lib/shared/config'
+
+resources(() => {
+  require('../../../scss/resource-details.scss')
+})
 
 const withResource = (Component) => {
   const mapDispatchToProps = (dispatch, ownProps) => {
@@ -144,9 +149,9 @@ class ResourceDetails extends React.Component {
           staticResourceData={staticResourceData}
           modules={children}
         />
-        <br /><br />
-        <h2>{msgs.get(`application.topology`, this.context.locale)}</h2>
-        <br />
+        <div className="resource-diagram-title">
+          {msgs.get(`application.topology`, this.context.locale)}
+        </div>
         <ResourceDiagram
           resourceType={resourceType}
           params={match.params}

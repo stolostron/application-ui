@@ -12,51 +12,48 @@ import msgs from '../../../../../nls/platform.properties';
 import { withLocale } from '../../../../providers/LocaleProvider';
 import resources from '../../../../../lib/shared/resources';
 import { createApplicationRows, createApplicationRowsLookUp } from './utils';
-import { Tile, DataTable } from 'carbon-components-react';
-
-const {
-  TableBody,
-  Table,
-  TableExpandRow,
-  TableCell,
-  TableExpandedRow,
-} = DataTable;
+import { Tile, Icon, Tag } from 'carbon-components-react';
 
 resources(() => {
   require('./style.scss');
 });
 
-// We would have a headers array like the following
-const headerss = [
-  {
-    // `key` is the name of the field on the row object itself for the header
-    key: 'name',
-    // `header` will be the name you want rendered in the Table Header
-    header: 'Foo',
-  },
-];
-
-const DisplayDeployables = ({ dList, headers }, { locale }) => {
-  return (
-    <React.Fragment>
-      {dList.map((deployable) => {
-        const dName =
-          (deployable && deployable.metadata && deployable.metadata.name) || '';
-        return (
-          <TableExpandedRow colSpan={headers.length + 1}>
-            {dName}
-          </TableExpandedRow>
-        );
-      })}
-    </React.Fragment>
-  );
+// This method takes in an ID and then changes the css to either display or
+// hide the row
+const showHideTrigger = (id) => {
+  // This will display or hide the deplable rows under the applications
+  const x = document.getElementById(id);
+  if (x.style.display === 'none') {
+    x.style.display = 'block';
+  } else {
+    x.style.display = 'none';
+  }
+  // This will display or hide the deployable rows under the channels
+  const y = document.getElementById(`${id}deployableRows`);
+  if (y.style.display === 'none') {
+    y.style.display = 'block';
+  } else {
+    y.style.display = 'none';
+  }
+  // Toggle the chevron Icon which is the drop down indicator for the deployables
+  const z = document.getElementById(`${id}chevron`);
+  if (z.className.animVal === 'closeRowChevron') {
+    z.classList.remove('closeRowChevron');
+    z.classList.add('openRowChevron');
+  } else {
+    z.classList.remove('openRowChevron');
+    z.classList.add('closeRowChevron');
+  }
 };
 
-const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
-  const applicationRows = createApplicationRows(applications);
-  const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+// This component displays all the LEFT column applications in the table.
+// It displays all the applications names and their number of deployables.
+const LeftColumnForApplicationNames = (
+  { applicationRows, applications, deployables },
+  { locale },
+) => {
   return (
-    <div id="PipelineGrid">
+    <div className="applicationColumnContainer">
       <div className="tileContainer">
         <Tile className="firstTotalTile">
           <div className="totalApplications">
@@ -69,52 +66,158 @@ const PipelineGrid = withLocale(({ deployables, applications, locale }) => {
           </div>
         </Tile>
       </div>
-      <div className="horizontalScroll-outer">
-        <div className="horizontalScroll-inner">
-          <DataTable
-            headers={headerss}
-            rows={applicationRows}
-            render={({ rows, headers, getRowProps, getTableProps }) => (
-              <Table {...getTableProps()}>
-                <TableBody>
-                  {rows.map((row) => {
-                    const thisRowId = row.id;
-                    const deployablesList =
-                      applicationRowsLookUp[thisRowId].deployables || [];
-                    return (
-                      <React.Fragment key={thisRowId}>
-                        <TableExpandRow {...getRowProps({ row })}>
-                          {row.cells.map(cell => (
-                            <TableCell key={cell.id} className="tableCell">
-                              <div className="applicationEntryName">
-                                {cell.value}
-                              </div>
-                              <div>
-                                {`${deployablesList.length} ${msgs.get(
-                                  'description.title.deployables',
-                                  locale,
-                                )}`}
-                              </div>
-                            </TableCell>
-                          ))}
-                        </TableExpandRow>
-                        {/* toggle based off of if the row is expanded. If it is, render TableExpandedRow */}
-                        {row.isExpanded && (
-                          <DisplayDeployables
-                            dList={deployablesList}
-                            headers={headers}
-                          />
-                        )}
-                      </React.Fragment>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          />
-        </div>
+      {applicationRows.map((application) => {
+        const appName = application.name;
+        const appDeployables = application.deployables;
+        return (
+          <div className="tileContainerApp">
+            <Tile
+              className="applicationTile"
+              onClick={() => showHideTrigger(appName)}
+            >
+              <Icon
+                id={`${appName}chevron`}
+                name="icon--chevron--right"
+                fill="#6089bf"
+                description=""
+                className="closeRowChevron"
+              />
+              <div className="ApplicationContents">
+                <div className="appName">{`${appName} `}</div>
+                <div className="appDeployables">
+                  {`${appDeployables.length} `}
+                  {msgs.get('description.title.deployables', locale)}
+                </div>
+              </div>
+            </Tile>
+            <div
+              id={appName}
+              className="deployablesDisplay"
+              style={{ display: 'none' }}
+            >
+              {appDeployables.map((deployable) => {
+                // const placementRule = deployable.rule;
+                const deployableName = deployable.metadata.name;
+                return (
+                  <Tile className="deployableTile">
+                    <div className="DeployableContents">
+                      <div className="deployableName">
+                        {`${deployableName} `}
+                      </div>
+                      <div className="deployablePlacement">
+                        {'Subscription'}
+                      </div>
+                    </div>
+                  </Tile>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
+  return (
+    <div className="channelGridContainer">
+      <div className="horizontalScrollRow">
+        {/* This is the where the channel header information will go */}
+        {channelList.map((channel) => {
+          const channelName = channel.name;
+          return (
+            <div className="channelColumn">
+              <Tile className="channelColumnHeader">
+                <div className="channelNameHeader">
+                  {`${channelName}`}
+                  <Icon
+                    name="icon--edit"
+                    fill="#6089bf"
+                    description=""
+                    className="channelEditIcon"
+                  />
+                </div>
+              </Tile>
+            </div>
+          );
+        })}
+      </div>
+      {/* All the applicaion totals and the deployable information is found here */}
+      {applicationList.map((application) => {
+        return (
+          <React.Fragment>
+            <div className="horizontalScrollRow">
+              {/* This is the where the row totals will go for the applications */}
+              {channelList.map(() => {
+                return (
+                  <div className="channelColumn">
+                    <Tile className="channelColumnHeaderApplication">
+                      <Tag className="statusTag">N/A</Tag>
+                    </Tile>
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              id={`${application.metadata.name}deployableRows`}
+              className="horizontalScrollRow deployablesDisplay"
+              style={{ display: 'none' }}
+            >
+              {application.deployables.map((deployable) => {
+                // TODO will need to fix once we have the API fully returning everything
+                const deployableChannels = deployable.channel || [
+                  'channel1',
+                  'channel2',
+                ];
+                return (
+                  <div className="deployableRow">
+                    {channelList.map((channel) => {
+                      const channelMatch = deployableChannels.includes(channel.name);
+                      return (
+                        <div className="channelColumn">
+                          {channelMatch ? (
+                            <Tile className="channelColumnDeployable">
+                              does have the channel
+                            </Tile>
+                          ) : (
+                            <Tile className="channelColumnDeployable">
+                              <Tag className="statusTag">N/A</Tag>
+                            </Tile>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
+
+const PipelineGrid = withLocale(({ deployables, applications, channels, locale }) => {
+  const applicationRows = createApplicationRows(applications);
+  // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+  // const channelRows = createChannelRow(application, channels)
+  return (
+    <div id="PipelineGrid">
+      <div className="tableGridContainer">
+        <LeftColumnForApplicationNames
+          applicationRows={applicationRows}
+          deployables={deployables}
+          applications={applications}
+        />
+        <ChannelColumnGrid
+          channelList={channels}
+          applicationList={applications}
+        />
       </div>
     </div>
   );
 });
+
 export default withLocale(PipelineGrid);

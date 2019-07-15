@@ -16,6 +16,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 1rem;
+    padding-right: 10px;
 
     > div {
       flex-basis: 34%;
@@ -69,6 +70,7 @@
 
             &:hover {
               cursor: pointer;
+
               .card-status {
                 color: $color__blue-51;
                 text-decoration: underline;
@@ -82,6 +84,7 @@
               align-items: flex-end;
               padding-bottom: 16px;
               align-items: baseline;
+
               .card-count-total {
                 font-size: 34px;
                 padding-right: 3px;
@@ -95,16 +98,9 @@
   }
 }
 
-@media (min-width: 1922px) {
-  .card-container-container {
-    width: 1572px;
-  }
-}
-
 @media (max-width: 1222px) {
   .card-container-container > div {
     flex-grow: 1;
-    margin-left: -0.625rem;
   }
 }
 
@@ -117,6 +113,5 @@
 @media (max-width: 799px) {
   .card-container-container > div {
     flex-grow: 1;
-    margin-right: -0.625rem;
   }
 }

@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { fetchResource, fetchResources, editResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
-import { MCM_OPEN_DIAGRAM_TAB_COOKIE, DIAGRAM_REFRESH_INTERVAL_COOKIE,
+import { DIAGRAM_REFRESH_INTERVAL_COOKIE,
   DIAGRAM_QUERY_COOKIE, MCM_DESIGN_SPLITTER_OPEN_COOKIE,
   MCM_DESIGN_SPLITTER_SIZE_COOKIE, REFRESH_TIMES, RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
@@ -95,7 +95,6 @@ class ResourceDiagram extends React.Component {
       this.handleSearchChange = this.handleSearchChange.bind(this)
       this.gotoEditorLine = this.gotoEditorLine.bind(this)
       this.fetchLogs = this.fetchLogs.bind(this)
-      // localStorage.setItem(MCM_OPEN_DIAGRAM_TAB_COOKIE, 'true')
     }
 
     componentWillMount() {

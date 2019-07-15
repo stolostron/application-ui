@@ -19,7 +19,6 @@ import {
   getSingleResourceItem,
   resourceItemByName,
 } from '../../reducers/common';
-import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants';
 import {
   getNumDeployables,
   getNumDeployments,
@@ -38,7 +37,6 @@ const ResourceOverview = ({
   modules,
   resourceType,
 }) => {
-  // localStorage.removeItem(MCM_OPEN_DIAGRAM_TAB_COOKIE);
   if (!item) return <Loading withOverlay={false} className="content-spinner" />;
   const modulesRight = [];
   const modulesBottom = [];

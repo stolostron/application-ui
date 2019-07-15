@@ -11,9 +11,12 @@ import React from 'react';
 
 import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
+import loadable from 'loadable-components';
 import resources from '../../../lib/shared/resources';
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
-import ApplicationDeploymentSummary from './ApplicationDeploymentSummary';
+
+export const ApplicationDeploymentSummary = loadable(() =>
+  import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary'));
 
 resources(() => {
   require('./style.scss');

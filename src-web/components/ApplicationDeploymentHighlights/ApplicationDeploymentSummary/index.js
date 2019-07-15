@@ -10,40 +10,72 @@
 import React from 'react';
 import Masonry from 'react-masonry-component';
 import msgs from '../../../../nls/platform.properties';
-
-import { withLocale } from '../../../providers/LocaleProvider';
+import { connect } from 'react-redux';
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants';
+import { fetchResources } from '../../../actions/common';
 import resources from '../../../../lib/shared/resources';
-import StackedChartCardModule from './components/StackedChartCardModule/index';
-import { masonryOptions, stackChartCardData } from './utils';
+import StackedChartCardModule from './components/StackedChartCardModule';
+import { masonryOptions, getChannelChartData } from './utils';
 
 resources(() => {
   require('./style.scss');
 });
 
-const ApplicationDeploymentSummary = withLocale(({ locale }) => {
-  return (
-    <div id="ApplicationDeploymentSummary">
-      <div className="masonry-container">
-        <Masonry
-          enableResizableChildren
-          disableImagesLoaded
-          className="masonry-class"
-          style={masonryOptions}
-        >
-          <div className="grid-item">
-            <div className="grid-view">
-              <div className="title">
-                {msgs.get('channel.deployments.chart.title', locale)}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+  };
+};
+
+const mapStateToProps = (state) => {
+  const { HCMChannelList } = state;
+
+  return {
+    HCMChannelList,
+    channelChartData: getChannelChartData(HCMChannelList),
+  };
+};
+
+class ApplicationDeploymentSummary extends React.Component {
+  componentWillMount() {
+    const { fetchChannels } = this.props;
+    fetchChannels();
+  }
+
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
+  render() {
+    const { channelChartData } = this.props;
+
+    const { locale } = this.context;
+
+    return (
+      <div id="ApplicationDeploymentSummary">
+        <div className="masonry-container">
+          <Masonry
+            enableResizableChildren
+            disableImagesLoaded
+            className="masonry-class"
+            style={masonryOptions}
+          >
+            <div className="grid-item">
+              <div className="grid-view">
+                <div className="title">
+                  {msgs.get('channel.deployments.chart.title', locale)}
+                </div>
+                <StackedChartCardModule
+                  data={channelChartData}
+                  locale={locale}
+                />
               </div>
-              <StackedChartCardModule
-                data={stackChartCardData}
-                locale={locale}
-              />
             </div>
-          </div>
-        </Masonry>
+          </Masonry>
+        </div>
       </div>
-    </div>
-  );
-});
-export default withLocale(ApplicationDeploymentSummary);
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentSummary);

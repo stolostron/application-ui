@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants';
 import { fetchResources } from '../../../actions/common';
 import resources from '../../../../lib/shared/resources';
-import StackedChartCardModule from './components/StackedChartCardModule/index';
+import StackedChartCardModule from './components/StackedChartCardModule';
 import { masonryOptions, getChannelChartData } from './utils';
 
 resources(() => {

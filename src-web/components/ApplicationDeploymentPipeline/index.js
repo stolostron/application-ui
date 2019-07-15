@@ -78,7 +78,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   componentDidMount() {}
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {

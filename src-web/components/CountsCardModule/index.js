@@ -19,9 +19,9 @@ resources(() => {
 
 export default class CountsCardModule extends React.Component {
   getModuleData = () => {
-    const { locale } = this.context;
-    const { data } = this.props;
-    const countCardItems = [];
+    const { locale } = this.context
+    const { data } = this.props
+    const countCardItems = []
     data.map(({ msgKey, count }, idx) => {
       countCardItems.push({
         count,
@@ -34,15 +34,18 @@ export default class CountsCardModule extends React.Component {
   };
 
   render() {
-    const { locale } = this.context;
-    const moduleData = this.getModuleData();
+    const moduleData = this.getModuleData()
+    const { locale } = this.context
+    const { title } = this.props
     return (
       <div id="CountsCardModule">
         <div className="card-container">
-          <div className="card-content">
-            <div className="card-inner-content">
-              <CountCards moduleData={moduleData} locale={locale} />
-            </div>
+          {title &&
+            <span className="card-container-title">{msgs.get(title, locale)}</span>
+          }
+
+          <div className="card-container-content">
+            <CountCards moduleData={moduleData} locale={locale} />
           </div>
         </div>
       </div>
@@ -62,8 +65,8 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
         };
         const cardClasses = classNames({
           'card-count-type': true,
-          hasBorder: idx === 0,
-        });
+          // hasBorder: idx === 0,
+        })
         const countClasses = classNames({
           'card-count': true,
           // 'alert': count>0,

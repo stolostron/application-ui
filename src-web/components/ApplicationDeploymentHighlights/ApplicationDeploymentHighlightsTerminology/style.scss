@@ -1,8 +1,13 @@
 #ApplicationDeploymentHighlightsTerminology {
+
   .bx--tile {
     border: 0;
     box-shadow: none;
     overflow: auto;
+  }
+
+  .bx--tile:first-child {
+    border-left: 2px solid black;
   }
 
   .bx--tile div {
@@ -14,5 +19,10 @@
 
   .bx--tile .deployment-highlights-terminology-header {
     font-size: 1.2em;
+  }
+
+  .bx--accordion__content {
+    padding-left: 0;
+    padding-right: 0;
   }
 }

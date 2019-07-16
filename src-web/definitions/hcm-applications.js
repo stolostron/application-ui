@@ -13,7 +13,6 @@ import lodash from 'lodash'
 import { getAge, getLabelsToList, getNumDeployables, getNumDeployments, getNumFailedDeployments } from '../../lib/client/resource-helper'
 import { validator } from './validators/hcm-application-validator'
 import { getUpdates } from './deployers/hcm-application-deployer'
-import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -409,10 +408,6 @@ export function createApplicationLink(item = {}, ...param){
     : item
   if (param[2]) return item.metadata.name
   let link = `${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`
-  // if user at any point opens the diagram tab, they will continue to open application diagrams isntead of overview
-  if (localStorage.getItem(MCM_OPEN_DIAGRAM_TAB_COOKIE)) {
-    link = link+'/diagram'
-  }
   return <Link to={link}>{name}</Link>
 }
 

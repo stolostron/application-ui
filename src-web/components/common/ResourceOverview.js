@@ -13,12 +13,12 @@ import PropTypes from 'prop-types';
 import { Loading } from 'carbon-components-react';
 import { connect } from 'react-redux';
 import CountsCardModule from '../CountsCardModule';
+import ChannelsCardModule from '../ChannelsCardModule';
 import StructuredListModule from '../../components/common/StructuredListModule';
 import {
   getSingleResourceItem,
   resourceItemByName,
 } from '../../reducers/common';
-import { MCM_OPEN_DIAGRAM_TAB_COOKIE } from '../../../lib/shared/constants';
 import {
   getNumDeployables,
   getNumDeployments,
@@ -37,7 +37,6 @@ const ResourceOverview = ({
   modules,
   resourceType,
 }) => {
-  localStorage.removeItem(MCM_OPEN_DIAGRAM_TAB_COOKIE);
   if (!item) return <Loading withOverlay={false} className="content-spinner" />;
   const modulesRight = [];
   const modulesBottom = [];
@@ -74,10 +73,58 @@ const ResourceOverview = ({
     },
   ];
 
+  const channelsCardData = [
+    {
+      name: 'Development',
+      counts: {
+        pending: {
+          total: 3,
+        },
+        'in progress': {
+          total: 2,
+        },
+        failed: {
+          total: 1,
+        },
+      },
+    },
+    {
+      name: 'QA',
+      counts: {
+        pending: {
+          total: 3,
+        },
+        'in progress': {
+          total: 2,
+        },
+        failed: {
+          total: 1,
+        },
+      },
+    },
+    {
+      name: 'Dev',
+      counts: {
+        pending: {
+          total: 3,
+        },
+        'in progress': {
+          total: 2,
+        },
+        failed: {
+          total: 1,
+        },
+      },
+    },
+  ];
+
   return (
     <div className="overview-content">
-      <div className="overview-content-bottom">
+      <div className="overview-content-bottom overview-content-with-padding">
         <CountsCardModule data={countsCardData} />
+      </div>
+      <div className="overview-content-bottom">
+        <ChannelsCardModule data={channelsCardData} />
       </div>
       <StructuredListModule
         title={staticResourceData.detailKeys.title}

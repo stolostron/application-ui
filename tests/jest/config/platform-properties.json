@@ -19,6 +19,7 @@
   "application.deployables": "Deployable Objects",
   "application.policy": "policy",
   "application.relationships": "Application Relationships",
+  "application.topology": "Application Topology",
   "application.works": "Application Deployments",
   "breadcrumb.viewall": "View All",
   "button.copyButton.feedback": "Copied to clipboard",

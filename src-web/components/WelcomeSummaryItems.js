@@ -63,7 +63,7 @@ export const HelmRepo = ({ locale, hideVerticalRule }) =>
 export const Application = ({ locale, hideVerticalRule }) =>
   <li className={`bx--list__item${hideVerticalRule ? ' no-vertical-rule' : ''}`}>
     {msgs.get('welcome.box.two.bullet.three', locale)}
-    <div className='content'><Link to={`${config.contextPath}/applications`} className='bx--link'>{msgs.get('welcome.box.two.bullet.three.link', locale)}</Link></div>
+    <div className='content'><Link to={`${config.contextPath}/mcmapplications`} className='bx--link'>{msgs.get('welcome.box.two.bullet.three.link', locale)}</Link></div>
   </li>
 
 export const Compliance = ({ locale, hideVerticalRule }) =>

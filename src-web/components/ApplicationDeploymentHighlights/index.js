@@ -14,6 +14,7 @@ import { withLocale } from '../../providers/LocaleProvider';
 import loadable from 'loadable-components';
 import resources from '../../../lib/shared/resources';
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
+import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard';
 
 export const ApplicationDeploymentSummary = loadable(() =>
   import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary'));
@@ -29,6 +30,7 @@ const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
         {msgs.get('description.title.deploymentHighlights', locale)}
       </div>
       <ApplicationDeploymentHighlightsTerminology />
+      <ApplicationDeploymentHighlightsDashboard />
       <ApplicationDeploymentSummary />
     </div>
   );

@@ -34,7 +34,7 @@ const registerApplicationModal = <CreateResourceModal
 
 export default withRouter(withAccess(typedResourcePageWithListAndDetails(
   RESOURCE_TYPES.HCM_APPLICATIONS,
-  ['overview', 'diagram'],
+  [],
   [registerApplicationModal],
   ['/diagram'],
   [

@@ -68,12 +68,15 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${match.url}/applications`}
-            render={() => <ApplicationHeaderTabs />}
+            path={`${
+              match.url
+            }/mcmapplications/services/:application/deployable/:namespace/:name`}
+            exact
+            render={params => <ApplicationDeployableDetails params={params} />}
           />
           <Route
-            path={`${match.url}/deployable/:namespace/:name`}
-            render={params => <ApplicationDeployableDetails params={params} />}
+            path={`${match.url}/mcmapplications`}
+            render={() => <ApplicationHeaderTabs />}
           />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>

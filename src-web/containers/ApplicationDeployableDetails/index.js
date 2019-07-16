@@ -21,13 +21,8 @@ resources(() => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSecondaryHeaderInfo: (title, tabs, breadcrumbItems, links) =>
-      dispatch(updateSecondaryHeader(
-        title,
-        tabs,
-        [{ label: 'Applications', url: '/multicloud/applications' }],
-        links,
-      )),
+    updateSecondaryHeaderInfo: (title, breadCrumbs) =>
+      dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
   };
 };
 
@@ -36,21 +31,37 @@ const mapStateToProps = (state) => {
   return {};
 };
 
-class ApplicationDeploymentPipeline extends React.Component {
+class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
-    const {
-      updateSecondaryHeaderInfo,
-      tabs,
-      launch_links,
-      params,
-    } = this.props;
+    const { updateSecondaryHeaderInfo, params } = this.props;
     const deployableName =
       (params &&
         params.match &&
         params.match.params &&
         params.match.params.name) ||
       '';
-    updateSecondaryHeaderInfo(deployableName);
+    const applicationName =
+      (params &&
+        params.match &&
+        params.match.params &&
+        params.match.params.application) ||
+      '';
+    const breadCrumbs = [
+      {
+        label: 'Applications',
+        url: '/multicloud/mcmapplications',
+      },
+      {
+        label: `${applicationName}`,
+        url: `/multicloud/mcmapplications/services/${applicationName}`,
+      },
+      {
+        label: `${deployableName}`,
+        url: `/multicloud/mcmapplications/services/${applicationName}/deployable/${deployableName}`,
+      },
+    ];
+
+    updateSecondaryHeaderInfo(deployableName, breadCrumbs);
     // pdateSecondaryHeader(deployableName, getTabs(tabs, (tab, index) => (index === 0 ? params.match.url : `${params.match.url}/${tab}`)), this.getBreadcrumb(), launch_links)
   }
 
@@ -73,4 +84,4 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeployableDetails);

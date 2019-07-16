@@ -68,7 +68,7 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${match.url}/applications`}
+            path={`${match.url}/mcmapplications`}
             render={() => <ApplicationHeaderTabs />}
           />
           <Route

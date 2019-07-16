@@ -75,7 +75,7 @@ class App extends React.Component {
             path={`${match.url}/deployable`}
             render={() => <ApplicationDeployableDetails />}
           />
-          <Redirect to={`${config.contextPath}/welcomes`} />
+          <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />

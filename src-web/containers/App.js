@@ -73,8 +73,8 @@ class App extends React.Component {
             render={() => <ApplicationHeaderTabs />}
           />
           <Route
-            path={`${match.url}/applications/deployable`}
-            render={() => <ApplicationDeployableDetails />}
+            path={`${match.url}/applications/deployable/:namespace/:name`}
+            render={params => <ApplicationDeployableDetails params={params} />}
           />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>

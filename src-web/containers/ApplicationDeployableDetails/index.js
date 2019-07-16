@@ -14,7 +14,6 @@ import resources from '../../../lib/shared/resources';
 import {
   updateSecondaryHeader, /* , fetchResource */
 } from '../../actions/common';
-import { getTabs } from '../../../lib/client/resource-helper';
 
 resources(() => {
   require('./style.scss');
@@ -22,8 +21,13 @@ resources(() => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSecondaryHeader: (title, tabs, breadcrumbItems, links) =>
-      dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links)),
+    updateSecondaryHeaderInfo: (title, tabs, breadcrumbItems, links) =>
+      dispatch(updateSecondaryHeader(
+        title,
+        tabs,
+        [{ label: 'Applications', url: '/multicloud/applications' }],
+        links,
+      )),
   };
 };
 
@@ -34,14 +38,19 @@ const mapStateToProps = (state) => {
 
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, launch_links, params } = this.props;
+    const {
+      updateSecondaryHeaderInfo,
+      tabs,
+      launch_links,
+      params,
+    } = this.props;
     const deployableName =
       (params &&
         params.match &&
         params.match.params &&
         params.match.params.name) ||
       '';
-    updateSecondaryHeader(deployableName);
+    updateSecondaryHeaderInfo(deployableName);
     // pdateSecondaryHeader(deployableName, getTabs(tabs, (tab, index) => (index === 0 ? params.match.url : `${params.match.url}/${tab}`)), this.getBreadcrumb(), launch_links)
   }
 

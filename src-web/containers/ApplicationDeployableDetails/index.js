@@ -34,6 +34,12 @@ const mapStateToProps = (state) => {
 class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
     const { updateSecondaryHeaderInfo, params } = this.props;
+    const deployableNamespace =
+      (params &&
+        params.match &&
+        params.match.params &&
+        params.match.params.namespace) ||
+      '';
     const deployableName =
       (params &&
         params.match &&
@@ -53,11 +59,11 @@ class ApplicationDeployableDetails extends React.Component {
       },
       {
         label: `${applicationName}`,
-        url: `/multicloud/mcmapplications/services/${applicationName}`,
+        url: `/multicloud/mcmapplications/${deployableNamespace}/${applicationName}`,
       },
       {
         label: `${deployableName}`,
-        url: `/multicloud/mcmapplications/services/${applicationName}/deployable/${deployableName}`,
+        url: `/multicloud/mcmapplications/${deployableNamespace}/${applicationName}/deployable/${deployableName}`,
       },
     ];
 

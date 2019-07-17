@@ -24,7 +24,7 @@ resources(() => {
 });
 
 export const ApplicationsTab = loadable(() =>
-  import(/* webpackChunkName: "applicationsdashboard" */ '../ApplicationsTab'));
+  import(/* webpackChunkName: "applicationsTab" */ '../ApplicationsTab'));
 
 export const ApplicationDeploymentPipeline = loadable(() =>
   import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline'));

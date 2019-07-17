@@ -21,26 +21,26 @@ describe('getBreadCrumbs', () => {
     // RESULT will have undefined because we are using config.contextPath which will
     // actually render multicloud
     const result = [
-      { label: 'Applications', url: 'undefined/mcmapplications' },
-      { label: 'dragoon', url: 'undefined/mcmapplications/hellena/dragoon' },
+      { label: 'Applications', url: 'undefined' },
+      { label: 'dragoon', url: 'undefined/hellena/dragoon' },
       {
         label: 'dart',
-        url: 'undefined/mcmapplications/hellena/dragoon/deployable/dart',
+        url: 'undefined/hellena/dragoon/deployable/dart',
       },
     ];
     expect(getBreadCrumbs(deployableParams, locale)).toEqual(result);
   });
   it('should return an object of breadCrumbs used for the deployable details page with empty data', () => {
     const result = [
-      { label: 'Applications', url: 'undefined/mcmapplications' },
-      { label: '', url: 'undefined/mcmapplications//' },
-      { label: '', url: 'undefined/mcmapplications///deployable/' },
+      { label: 'Applications', url: 'undefined' },
+      { label: '', url: 'undefined//' },
+      { label: '', url: 'undefined///deployable/' },
     ];
     expect(getBreadCrumbs(deployableParamsDud)).toEqual(result);
   });
   it('should handle undefined object', () => {
     const result = [
-      { label: 'Applications', url: 'undefined/mcmapplications' },
+      { label: 'Applications', url: 'undefined' },
     ];
     expect(getBreadCrumbs(undefined)).toEqual(result);
   });

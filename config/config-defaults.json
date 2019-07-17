@@ -1,7 +1,7 @@
 {
-    "contextPath": "/multicloud",
+    "contextPath": "/multicloud/applications",
     "httpPort": 3001,
-
+    "commonRoute": "/multicloud",
     "hcmUiApiUrl": "",
     "cfcRouterUrl": "",
     "platformHeaderContextPath": "/header",

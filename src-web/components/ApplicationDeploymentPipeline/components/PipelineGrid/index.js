@@ -106,7 +106,7 @@ const LeftColumnForApplicationNames = (
                         className="deployableName"
                         href={`${
                           config.contextPath
-                        }/mcmapplications/${appNamespace}/${appName}/deployable/${deployableName}`}
+                        }/${appNamespace}/${appName}/deployable/${deployableName}`}
                       >
                         {`${deployableName} `}
                       </a>

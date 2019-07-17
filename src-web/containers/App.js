@@ -74,12 +74,12 @@ class App extends React.Component {
           <Route
             path={`${
               match.url
-            }/mcmapplications/:namespace/:application/deployable/:name`}
+            }/:namespace/:application/deployable/:name`}
             exact
             render={params => <ApplicationDeployableDetails params={params} />}
           />
           <Route
-            path={`${match.url}/mcmapplications`}
+            path={`${match.url}`}
             render={() => <ApplicationHeaderTabs />}
           />
           <Redirect to={`${config.contextPath}/welcome`} />

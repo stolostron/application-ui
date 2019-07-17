@@ -78,7 +78,7 @@ class App extends React.Component {
             path={`${match.url}/mcmapplications`}
             render={() => <ApplicationHeaderTabs />}
           />
-          <Redirect to={`${config.contextPath}/welcome` } />
+          <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />

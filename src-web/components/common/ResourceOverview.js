@@ -24,20 +24,16 @@ import {
   getNumDeployments,
   getNumFailedDeployments,
 } from '../../../lib/client/resource-helper';
+import { withLocale } from '../../providers/LocaleProvider';
 import resources from '../../../lib/shared/resources';
+import msgs from '../../../nls/platform.properties';
 
 resources(() => {
   require('../../../scss/resource-overview.scss');
 });
 
-const ResourceOverview = ({
-  staticResourceData,
-  item,
-  params,
-  modules,
-  resourceType,
-}) => {
-  if (!item) return <Loading withOverlay={false} className="content-spinner" />;
+const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, locale }) => {
+  if (!item) { return <Loading withOverlay={false} className="content-spinner" />; }
   const modulesRight = [];
   const modulesBottom = [];
   React.Children.map(modules, (module) => {
@@ -123,6 +119,9 @@ const ResourceOverview = ({
       <div className="overview-content-bottom overview-content-with-padding">
         <CountsCardModule data={countsCardData} />
       </div>
+      <div className="deployment-channels-title">
+        {msgs.get('application.deployment.channels', locale)}
+      </div>
       <div className="overview-content-bottom">
         <ChannelsCardModule data={channelsCardData} />
       </div>
@@ -133,12 +132,12 @@ const ResourceOverview = ({
         data={item}
       />
       {modulesRight.length > 0 && (
-        <div className="overview-content-right">{modulesRight}</div>
-      )}
+      <div className="overview-content-right">{modulesRight}</div>
+        )}
       <div className="overview-content-bottom">{modulesBottom}</div>
     </div>
   );
-};
+});
 
 ResourceOverview.contextTypes = {
   locale: PropTypes.string,
@@ -165,4 +164,4 @@ const mapStateToProps = (state, ownProps) => {
   return { item };
 };
 
-export default withRouter(connect(mapStateToProps)(ResourceOverview));
+export default withRouter(connect(mapStateToProps)(withLocale(ResourceOverview)));

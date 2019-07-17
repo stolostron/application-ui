@@ -407,7 +407,7 @@ export function createApplicationLink(item = {}, ...param){
     ? item.metadata
     : item
   if (param[2]) return item.metadata.name
-  let link = `${config.contextPath}/mcmapplications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`
+  let link = `${config.contextPath}/applications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`
   return <Link to={link}>{name}</Link>
 }
 

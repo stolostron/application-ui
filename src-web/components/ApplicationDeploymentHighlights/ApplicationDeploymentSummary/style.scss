@@ -23,7 +23,7 @@ $overview-heat-collapsed: 90px !default;
 
   .masonry-container {
     width: $overview-view-width;
-    margin: 10px auto 0;
+    margin-top: 10px;
   }
 
   /* *********************  base card ************************ */
@@ -43,7 +43,7 @@ $overview-heat-collapsed: 90px !default;
     background-color: $color__white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     position: relative;
-    margin-left: $overview-card-margin-right;
+    margin-left: 0px;
 
     .title {
       display: flex;

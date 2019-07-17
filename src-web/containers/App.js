@@ -20,14 +20,16 @@ import loadable from 'loadable-components';
 import config from '../../lib/shared/config';
 import Modal from '../components/common/Modal';
 //import ApplicationHeaderTabs from './ApplicationHeaderTabs';
-import ApplicationDeployableDetails from './ApplicationDeployableDetails';
+//import ApplicationDeployableDetails from './ApplicationDeployableDetails';
 
 export const ModalApollo = loadable(() =>
   import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'));
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo'));
 export const ApplicationHeaderTabs = loadable(() =>
-import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs'));
+  import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs'));
+export const ApplicationDeployableDetails = loadable(() =>
+  import(/* webpackChunkName: "applicationDeployableDetails" */ './ApplicationDeployableDetails'));
 
 resources(() => {
   require('../../scss/common.scss');

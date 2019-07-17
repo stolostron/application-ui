@@ -8,6 +8,7 @@
  *******************************************************************************/
 
 import msgs from '../../../nls/platform.properties';
+import config from '../../../lib/shared/config';
 
 // This method constructs the breadCrumbs for the application deployable details
 export const getBreadCrumbs = (deployableParams, locale) => {
@@ -15,16 +16,20 @@ export const getBreadCrumbs = (deployableParams, locale) => {
     const breadCrumbs = [
       {
         label: msgs.get('dashboard.card.deployment.applications', locale),
-        url: '/multicloud/mcmapplications',
+        url: `${config.contextPath}/mcmapplications`,
       },
       {
         label: `${deployableParams.application || ''}`,
-        url: `/multicloud/mcmapplications/${deployableParams.namespace ||
+        url: `${
+          config.contextPath
+        }/mcmapplications/${deployableParams.namespace ||
           ''}/${deployableParams.application || ''}`,
       },
       {
         label: `${deployableParams.name || ''}`,
-        url: `/multicloud/mcmapplications/${deployableParams.namespace ||
+        url: `${
+          config.contextPath
+        }/mcmapplications/${deployableParams.namespace ||
           ''}/${deployableParams.application ||
           ''}/deployable/${deployableParams.name || ''}`,
       },
@@ -35,7 +40,7 @@ export const getBreadCrumbs = (deployableParams, locale) => {
   return [
     {
       label: msgs.get('dashboard.card.deployment.applications', locale),
-      url: '/multicloud/mcmapplications',
+      url: `${config.contextPath}/mcmapplications`,
     },
   ];
 };

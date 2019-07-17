@@ -70,7 +70,7 @@ class App extends React.Component {
           <Route
             path={`${
               match.url
-            }/mcmapplications/:services/:application/deployable/:namespace/:name`}
+            }/mcmapplications/:namespace/:application/deployable/:name`}
             exact
             render={params => <ApplicationDeployableDetails params={params} />}
           />

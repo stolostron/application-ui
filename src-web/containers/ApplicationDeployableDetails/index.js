@@ -8,12 +8,12 @@
  *******************************************************************************/
 
 import React from 'react';
-import msgs from '../../../nls/platform.properties';
 import { connect } from 'react-redux';
 import resources from '../../../lib/shared/resources';
 import {
   updateSecondaryHeader, /* , fetchResource */
 } from '../../actions/common';
+import { getBreadCrumbs } from './utils';
 
 resources(() => {
   require('./style.scss');
@@ -34,51 +34,15 @@ const mapStateToProps = (state) => {
 class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
     const { updateSecondaryHeaderInfo, params } = this.props;
-    const deployableNamespace =
-      (params &&
-        params.match &&
-        params.match.params &&
-        params.match.params.namespace) ||
-      '';
-    const deployableName =
-      (params &&
-        params.match &&
-        params.match.params &&
-        params.match.params.name) ||
-      '';
-    const applicationName =
-      (params &&
-        params.match &&
-        params.match.params &&
-        params.match.params.application) ||
-      '';
-    const breadCrumbs = [
-      {
-        label: 'Applications',
-        url: '/multicloud/mcmapplications',
-      },
-      {
-        label: `${applicationName}`,
-        url: `/multicloud/mcmapplications/${deployableNamespace}/${applicationName}`,
-      },
-      {
-        label: `${deployableName}`,
-        url: `/multicloud/mcmapplications/${deployableNamespace}/${applicationName}/deployable/${deployableName}`,
-      },
-    ];
+    const { locale } = this.context;
+    const deployableParams =
+      (params && params.match && params.match.params) || {};
+    const breadCrumbs = getBreadCrumbs(deployableParams, locale);
 
-    updateSecondaryHeaderInfo(deployableName, breadCrumbs);
-    // pdateSecondaryHeader(deployableName, getTabs(tabs, (tab, index) => (index === 0 ? params.match.url : `${params.match.url}/${tab}`)), this.getBreadcrumb(), launch_links)
+    updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs);
   }
 
   componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.location !== this.props.location) {
-    //   const { updateSecondaryHeader, tabs, launch_links, match } = this.props, params = match && match.params
-    //   updateSecondaryHeader(params.name, getTabs(tabs, (tab, index) => (index === 0 ? match.url : `${match.url}/${tab}`)), this.getBreadcrumb(nextProps.location), launch_links)
-    // }
-  }
 
   componentWillUnmount() {}
 

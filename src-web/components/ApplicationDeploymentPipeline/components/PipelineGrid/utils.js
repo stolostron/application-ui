@@ -17,6 +17,7 @@ const mapApplicationLookUp = (application) => {
     [idRef]: {
       id: (metadata && metadata.name) || '',
       name: (metadata && metadata.name) || '',
+      namespace: (metadata && metadata.namespace) || '',
       deployables: deployables || [],
     },
   };
@@ -28,6 +29,7 @@ const mapApplicationForRow = (application) => {
   return {
     id: (metadata && metadata.name) || '',
     name: (metadata && metadata.name) || '',
+    namespace: (metadata && metadata.namespace) || '',
     deployables: deployables || [],
   };
 };

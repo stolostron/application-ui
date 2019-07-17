@@ -68,7 +68,7 @@ npm run start
  - Expand "Cookies" in the left sidebar, then click on "MYCLUSTERIP".
  - In the cookies table, double-click on the "Domain" entry of each cookie with the prefix `cfc-`, then overwrite by typing 'localhost' + enter.
 
-7. Open a browser to `https://localhost:3001/multicloud/mcmapplications`, and you should already be logged in.
+7. Open a browser to `https://localhost:3001/multicloud/applications`, and you should already be logged in.
 
 ## Storybook
 <pre>

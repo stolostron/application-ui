@@ -82,7 +82,7 @@ const csrfMiddleware = csurf({
 })
 
 var proxy = require('http-proxy-middleware')
-app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
+app.use(`${appConfig.get('commonRoute')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store')
   res.setHeader('Pragma', 'no-cache')
   const accessToken = req.cookies['cfc-access-token-cookie']
@@ -92,7 +92,7 @@ app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddlewar
   target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
   changeOrigin: true,
   pathRewrite: {
-    [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
+    [`^${appConfig.get('commonRoute')}/graphql`]: '/graphql'
   },
   secure: false
 }))

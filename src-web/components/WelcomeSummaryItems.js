@@ -110,7 +110,7 @@ export const Application = ({ locale, hideVerticalRule }) => (
   >
     {msgs.get('welcome.box.two.bullet.three', locale)}
     <div className="content">
-      <Link to={`${config.contextPath}/mcmapplications`} className="bx--link">
+      <Link to={`${config.contextPath}`} className="bx--link">
         {msgs.get('welcome.box.two.bullet.three.link', locale)}
       </Link>
     </div>

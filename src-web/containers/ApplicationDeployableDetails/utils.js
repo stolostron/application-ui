@@ -16,20 +16,20 @@ export const getBreadCrumbs = (deployableParams, locale) => {
     const breadCrumbs = [
       {
         label: msgs.get('dashboard.card.deployment.applications', locale),
-        url: `${config.contextPath}/mcmapplications`,
+        url: `${config.contextPath}`,
       },
       {
         label: `${deployableParams.application || ''}`,
         url: `${
           config.contextPath
-        }/mcmapplications/${deployableParams.namespace ||
+        }/${deployableParams.namespace ||
           ''}/${deployableParams.application || ''}`,
       },
       {
         label: `${deployableParams.name || ''}`,
         url: `${
           config.contextPath
-        }/mcmapplications/${deployableParams.namespace ||
+        }/${deployableParams.namespace ||
           ''}/${deployableParams.application ||
           ''}/deployable/${deployableParams.name || ''}`,
       },
@@ -40,7 +40,7 @@ export const getBreadCrumbs = (deployableParams, locale) => {
   return [
     {
       label: msgs.get('dashboard.card.deployment.applications', locale),
-      url: `${config.contextPath}/mcmapplications`,
+      url: `${config.contextPath}`,
     },
   ];
 };

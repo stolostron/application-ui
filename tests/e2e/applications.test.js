@@ -39,7 +39,7 @@ module.exports = {
     loginPage.navigate();
     loginPage.authenticate();
 
-    const url = `${browser.launch_url}${config.get('contextPath')}/mcmapplications`;
+    const url = `${browser.launch_url}${config.get('contextPath')}`;
     appsPage = browser.page.ApplicationsPage();
     appsPage.navigate(url);
   },

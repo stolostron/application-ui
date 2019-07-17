@@ -407,7 +407,7 @@ export default {
 export function createApplicationLink(item = {}, ...param) {
   const { name, namespace = 'default' } = item.metadata ? item.metadata : item;
   if (param[2]) return item.metadata.name;
-  const link = `${config.contextPath}/mcmapplications/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`;
+  const link = `${config.contextPath}/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`;
   return <Link to={link}>{name}</Link>;
 }
 

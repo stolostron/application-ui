@@ -19,13 +19,17 @@ import client from '../../lib/shared/client';
 import loadable from 'loadable-components';
 import config from '../../lib/shared/config';
 import Modal from '../components/common/Modal';
-import ApplicationHeaderTabs from './ApplicationHeaderTabs';
-import ApplicationDeployableDetails from './ApplicationDeployableDetails';
+//import ApplicationHeaderTabs from './ApplicationHeaderTabs';
+//import ApplicationDeployableDetails from './ApplicationDeployableDetails';
 
 export const ModalApollo = loadable(() =>
   import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'));
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo'));
+export const ApplicationHeaderTabs = loadable(() =>
+  import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs'));
+export const ApplicationDeployableDetails = loadable(() =>
+  import(/* webpackChunkName: "applicationDeployableDetails" */ './ApplicationDeployableDetails'));
 
 resources(() => {
   require('../../scss/common.scss');
@@ -68,14 +72,13 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${match.url}/mcmapplications`}
+            path={`${match.url}`}
             render={() => <ApplicationHeaderTabs />}
           />
           <Route
             path={`${match.url}/deployable/:namespace/:name`}
             render={params => <ApplicationDeployableDetails params={params} />}
           />
-          <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />

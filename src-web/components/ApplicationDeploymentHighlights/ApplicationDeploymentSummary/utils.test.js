@@ -10,23 +10,33 @@
 import { getChannelChartData } from './utils';
 
 describe('getChannelChartData', () => {
+  const channel1 = 'channel1Name';
+  const channel2 = 'channel2Name';
+
   const channelList = {
-    items: [
-      { metadata: { name: 'channel1' } },
-      { metadata: { name: 'channel2' } },
-    ],
+    items: [{ metadata: { name: channel1 } }, { metadata: { name: channel2 } }],
   };
   const channelListDummy = {
     itteemmss: [
-      { metadata: { name: 'channel1' } },
-      { metadata: { name: 'channel2' } },
+      { metadata: { name: channel1 } },
+      { metadata: { name: channel2 } },
     ],
   };
 
   it('should return channels list of 2', () => {
     const result = [
-      { name: 'channel1', cm: 500, pr: 900, fl: 700 },
-      { name: 'channel2', cm: 500, pr: 900, fl: 700 },
+      {
+        name: channel1,
+        cm: channel1.length * 20,
+        pr: channel1.length * 30,
+        fl: channel1.length * 50,
+      },
+      {
+        name: channel2,
+        cm: channel2.length * 20,
+        pr: channel2.length * 30,
+        fl: channel2.length * 50,
+      },
     ];
     expect(getChannelChartData(channelList)).toEqual(result);
   });

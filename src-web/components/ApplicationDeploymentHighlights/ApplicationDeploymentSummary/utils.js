@@ -23,13 +23,27 @@ export const getChannelChartData = (list) => {
     const channelChartDataList = list.items.map((item) => {
       return {
         name: (item && item.metadata && item.metadata.name) || 'unknown',
-        cm: 500,
-        pr: 900,
-        fl: 700,
+        cm: item.metadata.name.length * 20,
+        pr: item.metadata.name.length * 30,
+        fl: item.metadata.name.length * 50,
       };
     });
     const emptyArray = [];
     return emptyArray.concat.apply([], channelChartDataList);
   }
   return [];
+};
+
+// return the width of the chart
+export const getChannelChartWidth = (list) => {
+  if (list && list.items) {
+    if (list.items.length > 10) {
+      return 900;
+    }
+    if (list.items.length > 7) {
+      return 600;
+    }
+    return list.items.length * 100;
+  }
+  return 300;
 };

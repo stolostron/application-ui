@@ -15,7 +15,11 @@ import { RESOURCE_TYPES } from '../../../../lib/shared/constants';
 import { fetchResources } from '../../../actions/common';
 import resources from '../../../../lib/shared/resources';
 import StackedChartCardModule from './components/StackedChartCardModule';
-import { masonryOptions, getChannelChartData } from './utils';
+import {
+  masonryOptions,
+  getChannelChartData,
+  getChannelChartWidth,
+} from './utils';
 
 resources(() => {
   require('./style.scss');
@@ -33,6 +37,7 @@ const mapStateToProps = (state) => {
   return {
     HCMChannelList,
     channelChartData: getChannelChartData(HCMChannelList),
+    chartWidth: getChannelChartWidth(HCMChannelList),
   };
 };
 
@@ -47,7 +52,7 @@ class ApplicationDeploymentSummary extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const { channelChartData } = this.props;
+    const { channelChartData, chartWidth } = this.props;
 
     const { locale } = this.context;
 
@@ -68,6 +73,7 @@ class ApplicationDeploymentSummary extends React.Component {
                 <StackedChartCardModule
                   data={channelChartData}
                   locale={locale}
+                  chartWidth={chartWidth}
                 />
               </div>
             </div>

@@ -12,11 +12,11 @@ import { withLocale } from '../../../../../providers/LocaleProvider';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { getChartKeyColor, getChartKeyName, getModuleData } from './utils';
 
-const StackedChartCardModule = withLocale(({ data, locale }) => {
+const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
   const moduleData = getModuleData(data);
   return (
     <BarChart
-      width={300}
+      width={chartWidth}
       height={250}
       data={moduleData.chartCardItems}
       margin={{

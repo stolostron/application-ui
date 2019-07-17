@@ -1,5 +1,5 @@
 {
-    "contextPath": "/mcmmulticloud",
+    "contextPath": "/multicloud",
     "httpPort": 3001,
     "hcmUiApiUrl": "",
     "cfcRouterUrl": "",

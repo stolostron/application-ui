@@ -10,8 +10,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import resources from '../../../lib/shared/resources';
-import { fetchResources, updateSecondaryHeader } from '../../actions/common';
-import { RESOURCE_TYPES } from '../../../lib/shared/constants';
+import {
+  updateSecondaryHeader, /* , fetchResource */
+} from '../../actions/common';
 import { getBreadCrumbs } from './utils';
 
 resources(() => {
@@ -20,8 +21,6 @@ resources(() => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchDeployables: () =>
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_DEPLOYABLE)),
     updateSecondaryHeaderInfo: (title, breadCrumbs) =>
       dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
   };
@@ -29,19 +28,17 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   const {} = state;
-  console.log('state', state);
   return {};
 };
 
 class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
-    const { updateSecondaryHeaderInfo, params, fetchDeployables } = this.props;
+    const { updateSecondaryHeaderInfo, params } = this.props;
     const { locale } = this.context;
     const deployableParams =
       (params && params.match && params.match.params) || {};
     const breadCrumbs = getBreadCrumbs(deployableParams, locale);
 
-    fetchDeployables();
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs);
   }
 
@@ -52,7 +49,7 @@ class ApplicationDeployableDetails extends React.Component {
   render() {
     const { params } = this.props;
     const { locale } = this.context;
-    console.log('props', this.props);
+
     return <div id="ApplicationDeployableDetails" />;
   }
 }

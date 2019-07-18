@@ -14,6 +14,9 @@ import {
   updateSecondaryHeader, /* , fetchResource */
 } from '../../actions/common';
 import { getBreadCrumbs } from './utils';
+import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights';
+import ApplicationDeployableSubscription from '../../components/ApplicationDeployableSubscription';
+import ApplicationDeployableVersionStatus from '../../components/ApplicationDeployableVersionStatus';
 
 resources(() => {
   require('./style.scss');
@@ -27,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const mapStateToProps = (state) => {
-  const {} = state;
+  const { } = state;
   return {};
 };
 
@@ -42,15 +45,21 @@ class ApplicationDeployableDetails extends React.Component {
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs);
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const { params } = this.props;
     const { locale } = this.context;
 
-    return <div id="ApplicationDeployableDetails" />;
+    return (<div id="ApplicationDeployableDetails">
+
+      <ApplicationDeployableHighlights />
+      <ApplicationDeployableSubscription />
+      <ApplicationDeployableVersionStatus />
+
+    </div>);
   }
 }
 

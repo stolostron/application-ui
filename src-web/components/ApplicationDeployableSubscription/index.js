@@ -9,6 +9,7 @@
 
 import React from '../../../node_modules/react';
 import msgs from '../../../nls/platform.properties';
+import { withLocale } from '../../providers/LocaleProvider';
 import { connect } from '../../../node_modules/react-redux';
 import resources from '../../../lib/shared/resources';
 
@@ -16,26 +17,15 @@ resources(() => {
   require('./style.scss');
 });
 
-const mapStateToProps = (state) => {
-  const { } = state;
-  return {};
-};
 
-class ApplicationDeployableSubscription extends React.Component {
-  componentDidMount() { }
-  componentWillUnmount() { }
+const ApplicationDeployableSubscription = withLocale(({ locale }) => {
 
-  render() {
-    const { locale } = this.context;
+  return (<div id="ApplicationDeployableSubscription">
+    <div className="deployable-subscription-header">
+      {msgs.get('description.title.deployableSubscription', locale)}
+    </div>
+  </div>);
 
-    return (
-      <div id="ApplicationDeployableSubscription">
-        <div className="deployable-subscription-header">
-          {msgs.get('description.title.deployableSubscription', locale)}
-        </div>
-      </div>
-    );
-  }
-}
+});
 
-export default connect(mapStateToProps)(ApplicationDeployableSubscription);
+export default withLocale(ApplicationDeployableSubscription);

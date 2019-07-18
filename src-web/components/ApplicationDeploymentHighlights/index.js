@@ -10,8 +10,8 @@
 import React from 'react';
 
 import msgs from '../../../nls/platform.properties';
-import { withLocale } from '../../providers/LocaleProvider';
 import loadable from 'loadable-components';
+import { connect } from 'react-redux';
 import resources from '../../../lib/shared/resources';
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
 import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard';
@@ -23,16 +23,47 @@ resources(() => {
   require('./style.scss');
 });
 
-const ApplicationDeploymentHighlights = withLocale(({ locale }) => {
-  return (
-    <div id="DeploymentHighlights">
-      <div className="deployment-highlights-header">
-        {msgs.get('description.title.deploymentHighlights', locale)}
+const mapDispatchToProps = () => {
+  return {};
+};
+
+const mapStateToProps = (state) => {
+  const { HCMChannelList, HCMApplicationList, HCMClusterList } = state;
+
+  return {
+    HCMChannelList,
+    HCMClusterList,
+    HCMApplicationList,
+  };
+};
+
+class ApplicationDeploymentHighlights extends React.Component {
+  componentWillMount() {}
+
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
+  render() {
+    const { HCMChannelList, HCMClusterList, HCMApplicationList } = this.props;
+
+    const { locale } = this.context;
+
+    return (
+      <div id="DeploymentHighlights">
+        <div className="deployment-highlights-header">
+          {msgs.get('description.title.deploymentHighlights', locale)}
+        </div>
+        <ApplicationDeploymentHighlightsTerminology />
+        <ApplicationDeploymentHighlightsDashboard
+          HCMApplicationList={HCMApplicationList}
+          HCMChannelList={HCMChannelList}
+          HCMClusterList={HCMClusterList}
+        />
+        <ApplicationDeploymentSummary />
       </div>
-      <ApplicationDeploymentHighlightsTerminology />
-      <ApplicationDeploymentHighlightsDashboard />
-      <ApplicationDeploymentSummary />
-    </div>
-  );
-});
-export default withLocale(ApplicationDeploymentHighlights);
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentHighlights);

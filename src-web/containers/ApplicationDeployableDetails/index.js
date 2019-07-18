@@ -53,13 +53,15 @@ class ApplicationDeployableDetails extends React.Component {
     const { params } = this.props;
     const { locale } = this.context;
 
-    return (<div id="ApplicationDeployableDetails">
+    return (
+      <div id="ApplicationDeployableDetails">
 
-      <ApplicationDeployableHighlights />
-      <ApplicationDeployableSubscription />
-      <ApplicationDeployableVersionStatus />
+        <ApplicationDeployableHighlights />
+        <ApplicationDeployableSubscription />
+        <ApplicationDeployableVersionStatus />
 
-    </div>);
+      </div>
+    );
   }
 }
 

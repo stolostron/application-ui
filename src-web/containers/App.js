@@ -19,8 +19,8 @@ import client from '../../lib/shared/client';
 import loadable from 'loadable-components';
 import config from '../../lib/shared/config';
 import Modal from '../components/common/Modal';
-//import ApplicationHeaderTabs from './ApplicationHeaderTabs';
-//import ApplicationDeployableDetails from './ApplicationDeployableDetails';
+// import ApplicationHeaderTabs from './ApplicationHeaderTabs';
+// import ApplicationDeployableDetails from './ApplicationDeployableDetails';
 
 export const ModalApollo = loadable(() =>
   import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'));
@@ -72,13 +72,17 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${match.url}/applications`}
-            render={() => <ApplicationHeaderTabs />}
-          />
-          <Route
-            path={`${match.url}/deployable/:namespace/:name`}
+            path={`${
+              match.url
+            }/:namespace/:application/deployable/:name`}
+            exact
             render={params => <ApplicationDeployableDetails params={params} />}
           />
+          <Route
+            path={`${match.url}`}
+            render={() => <ApplicationHeaderTabs />}
+          />
+          <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />

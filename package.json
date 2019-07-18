@@ -1,5 +1,5 @@
 {
-  "name": "mcm-ui",
+  "name": "mcm-application-ui",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -39,7 +39,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.ibm.com:IBMPrivateCloud/mcm-ui.git"
+    "url": "git@github.ibm.com:IBMPrivateCloud/mcm-application-ui.git"
   },
   "author": "",
   "license": "SEE LICENSE IN LICENSE",

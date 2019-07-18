@@ -13,6 +13,7 @@ import { withLocale } from '../../../../providers/LocaleProvider';
 import resources from '../../../../../lib/shared/resources';
 import { createApplicationRows, createApplicationRowsLookUp } from './utils';
 import { Tile, Icon, Tag } from 'carbon-components-react';
+import config from '../../../../../lib/shared/config';
 
 resources(() => {
   require('./style.scss');
@@ -68,6 +69,7 @@ const LeftColumnForApplicationNames = (
       </div>
       {applicationRows.map((application) => {
         const appName = application.name;
+        const appNamespace = application.namespace;
         const appDeployables = application.deployables;
         return (
           <div className="tileContainerApp">
@@ -96,14 +98,18 @@ const LeftColumnForApplicationNames = (
               style={{ display: 'none' }}
             >
               {appDeployables.map((deployable) => {
-                // const placementRule = deployable.rule;
                 const deployableName = deployable.metadata.name;
                 return (
                   <Tile className="deployableTile">
                     <div className="DeployableContents">
-                      <div className="deployableName">
+                      <a
+                        className="deployableName"
+                        href={`${
+                          config.contextPath
+                        }/${appNamespace}/${appName}/deployable/${deployableName}`}
+                      >
                         {`${deployableName} `}
-                      </div>
+                      </a>
                       <div className="deployablePlacement">
                         {'Subscription'}
                       </div>

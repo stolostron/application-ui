@@ -26,7 +26,7 @@ class ApplicationDeployableHighlights extends React.Component {
   componentWillUnmount() { }
 
   render() {
-    const { locale } = this.context
+    const { locale } = this.context;
 
     return (
       <div id="ApplicationDeployableHighlights">

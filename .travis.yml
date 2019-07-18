@@ -16,7 +16,7 @@ matrix:
     - os: linux
       env: OSARCH=linux-amd64
       dist: trusty
-    - os: linux
+    - os: linux-s390
       env: OSARCH=linux-s390
       dist: trusty
 addons:

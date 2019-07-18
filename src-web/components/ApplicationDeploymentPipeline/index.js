@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    handleCreateResource: (yaml) => {
+    handleCreateResource: (dispatch, yaml) => {
       dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
     },
   };
@@ -78,7 +78,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {

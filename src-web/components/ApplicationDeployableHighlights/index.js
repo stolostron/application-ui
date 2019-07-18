@@ -18,7 +18,6 @@ resources(() => {
   require('./style.scss');
 });
 
-
 const countsCardDataGeneralInfo = [
   {
     msgKey: 'dashboard.card.deployable.versions',
@@ -40,38 +39,34 @@ const countsCardDataGeneralInfo = [
     msgKey: 'dashboard.card.deployable.pending',
     count: 0,
   },
-]
+];
 
 const countsCardDataIncidents = [
   {
     msgKey: 'dashboard.card.deployable.incidents',
     count: 1,
-  }
-]
-
+  },
+];
 
 const ApplicationDeployableHighlights = withLocale(({ locale }) => {
-  return (<React.Fragment>
-    <div id="ApplicationDeployableHighlights">
-      <div className="deployable-highlights-header">
-        {msgs.get('description.title.deployableHighlights', locale)}
-      </div>
-
-      <div className="deployable-highlights-container">
-        <div className="deployable-highlights-info">
-          <CountsCardModule
-            data={countsCardDataGeneralInfo}
-          />
+  return (
+    <React.Fragment>
+      <div id="ApplicationDeployableHighlights">
+        <div className="deployable-highlights-header">
+          {msgs.get('description.title.deployableHighlights', locale)}
         </div>
-        <div className="deployable-highlights-incidents">
-          <CountsCardModule
-            data={countsCardDataIncidents}
-          />
+
+        <div className="deployable-highlights-container">
+          <div className="deployable-highlights-info">
+            <CountsCardModule data={countsCardDataGeneralInfo} />
+          </div>
+          <div className="deployable-highlights-incidents">
+            <CountsCardModule data={countsCardDataIncidents} />
+          </div>
         </div>
       </div>
-    </div>
-  </React.Fragment>);
-
+    </React.Fragment>
+  );
 });
 
 export default withLocale(ApplicationDeployableHighlights);

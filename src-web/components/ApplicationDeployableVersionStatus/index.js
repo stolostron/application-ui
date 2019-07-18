@@ -17,20 +17,14 @@ resources(() => {
   require('./style.scss');
 });
 
-const mapStateToProps = (state) => {
-  const { } = state;
-  return {};
-};
-
-
 const ApplicationDeployableVersionStatus = withLocale(({ locale }) => {
-
-  return (<div id="ApplicationDeployableVersionStatus">
-    <div className="deployable-versionStatus-header">
-      {msgs.get('description.title.deployableVersionStatus', locale)}
+  return (
+    <div id="ApplicationDeployableVersionStatus">
+      <div className="deployable-versionStatus-header">
+        {msgs.get('description.title.deployableVersionStatus', locale)}
+      </div>
     </div>
-  </div>);
-
+  );
 });
 
 export default withLocale(ApplicationDeployableVersionStatus);

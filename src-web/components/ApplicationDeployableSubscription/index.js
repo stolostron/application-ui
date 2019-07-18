@@ -17,15 +17,14 @@ resources(() => {
   require('./style.scss');
 });
 
-
 const ApplicationDeployableSubscription = withLocale(({ locale }) => {
-
-  return (<div id="ApplicationDeployableSubscription">
-    <div className="deployable-subscription-header">
-      {msgs.get('description.title.deployableSubscription', locale)}
+  return (
+    <div id="ApplicationDeployableSubscription">
+      <div className="deployable-subscription-header">
+        {msgs.get('description.title.deployableSubscription', locale)}
+      </div>
     </div>
-  </div>);
-
+  );
 });
 
 export default withLocale(ApplicationDeployableSubscription);

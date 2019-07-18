@@ -33,8 +33,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    handleCreateResource: (dispatch, yaml) => {
-      dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
+    handleCreateResource: (yaml) => {
+      return dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
     },
   };
 };
@@ -82,8 +82,8 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      HCMApplicationList,
-      HCMChannelList,
+      //      HCMApplicationList,
+      //      HCMChannelList,
       applications,
       deployables,
       channels,

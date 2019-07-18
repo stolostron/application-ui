@@ -13,6 +13,8 @@ import msgs from '../../../nls/platform.properties';
 import loadable from 'loadable-components';
 import { connect } from 'react-redux';
 import resources from '../../../lib/shared/resources';
+import { RESOURCE_TYPES } from '../../../lib/shared/constants';
+import { fetchResources } from '../../actions/common';
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
 import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard';
 
@@ -23,8 +25,10 @@ resources(() => {
   require('./style.scss');
 });
 
-const mapDispatchToProps = () => {
-  return {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+  };
 };
 
 const mapStateToProps = (state) => {
@@ -60,7 +64,7 @@ class ApplicationDeploymentHighlights extends React.Component {
           HCMChannelList={HCMChannelList}
           HCMClusterList={HCMClusterList}
         />
-        <ApplicationDeploymentSummary />
+        <ApplicationDeploymentSummary HCMChannelList={HCMChannelList} />
       </div>
     );
   }

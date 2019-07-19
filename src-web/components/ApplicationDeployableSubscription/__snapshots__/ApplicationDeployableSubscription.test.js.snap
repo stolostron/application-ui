@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDeployableSubscription ApplicationDeployableSubscription renders correctly. 1`] = `
+<div
+  id="ApplicationDeployableSubscription"
+>
+  <div
+    className="deployable-subscription-header"
+  >
+    Subscription
+  </div>
+</div>
+`;

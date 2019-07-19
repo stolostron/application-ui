@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, Loading } from 'carbon-components-react'
+import { Notification, Loading, Link } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../actions/index'
 import { getTabs } from '../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../actions/common'
@@ -104,6 +104,9 @@ class ResourceDetails extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      showAppInfo: false,
+    }
     this.getBreadcrumb = this.getBreadcrumb.bind(this)
 
     this.otherBinding = {}
@@ -143,21 +146,34 @@ class ResourceDetails extends React.Component {
     const { match, resourceType, staticResourceData, children } = this.props
     return (
       <div id="ResourceDetails">
+        <div className="app-information-link">
+          {!this.state.showAppInfo &&
+            <Link href="#" onClick={() => {this.setState({showAppInfo: true})}}>Show App Information</Link>
+          }
+          {this.state.showAppInfo &&
+            <Link href="#" onClick={() => {this.setState({showAppInfo: false})}}>Show App Overview</Link>
+          }
+        </div>
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
           staticResourceData={staticResourceData}
           modules={children}
+          showAppInfo={this.state.showAppInfo}
         />
-        <div className="resource-diagram-title">
-          {msgs.get(`application.topology`, this.context.locale)}
-        </div>
-        <ResourceDiagram
-          resourceType={resourceType}
-          params={match.params}
-          staticResourceData={staticResourceData}
-          modules={children}
-        />
+        {!this.state.showAppInfo &&
+          <React.Fragment>
+            <div className="resource-diagram-title">
+              {msgs.get(`application.topology`, this.context.locale)}
+            </div>
+            <ResourceDiagram
+              resourceType={resourceType}
+              params={match.params}
+              staticResourceData={staticResourceData}
+              modules={children}
+            />
+          </React.Fragment>
+        }
       </div>
     )
   }

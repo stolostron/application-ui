@@ -9,6 +9,11 @@
 @import "node_modules/carbon-components/scss/globals/scss/_colors";
 
 #ResourceDetails {
+  .app-information-link {
+    text-align: right;
+    padding: 0 0 5px 0;
+  }
+
   .resource-diagram-title {
     font-size: 1.4rem;
     line-height: 1.25;

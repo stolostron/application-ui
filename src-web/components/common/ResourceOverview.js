@@ -32,7 +32,7 @@ resources(() => {
   require('../../../scss/resource-overview.scss');
 });
 
-const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, locale }) => {
+const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, showAppInfo, locale }) => {
   if (!item) { return <Loading withOverlay={false} className="content-spinner" />; }
   const modulesRight = [];
   const modulesBottom = [];
@@ -116,25 +116,33 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
 
   return (
     <div className="overview-content">
-      <div className="overview-content-bottom overview-content-with-padding">
-        <CountsCardModule data={countsCardData} />
-      </div>
-      <div className="deployment-channels-title">
-        {msgs.get('application.deployment.channels', locale)}
-      </div>
-      <div className="overview-content-bottom">
-        <ChannelsCardModule data={channelsCardData} />
-      </div>
-      <StructuredListModule
-        title={staticResourceData.detailKeys.title}
-        headerRows={staticResourceData.detailKeys.headerRows}
-        rows={staticResourceData.detailKeys.rows}
-        data={item}
-      />
-      {modulesRight.length > 0 && (
-      <div className="overview-content-right">{modulesRight}</div>
-        )}
-      <div className="overview-content-bottom">{modulesBottom}</div>
+      {!showAppInfo &&
+        <React.Fragment>
+          <div className="overview-content-bottom overview-content-with-padding">
+            <CountsCardModule data={countsCardData} />
+          </div>
+          <div className="deployment-channels-title">
+            {msgs.get('application.deployment.channels', locale)}
+          </div>
+          <div className="overview-content-bottom">
+            <ChannelsCardModule data={channelsCardData} />
+          </div>
+        </React.Fragment>
+      }
+      {showAppInfo &&
+        <StructuredListModule
+          title={staticResourceData.detailKeys.title}
+          headerRows={staticResourceData.detailKeys.headerRows}
+          rows={staticResourceData.detailKeys.rows}
+          data={item}
+        />
+      }
+      {showAppInfo && modulesRight.length > 0 && (
+        <div className="overview-content-right">{modulesRight}</div>
+      )}
+      {showAppInfo &&
+        <div className="overview-content-bottom">{modulesBottom}</div>
+      }
     </div>
   );
 });

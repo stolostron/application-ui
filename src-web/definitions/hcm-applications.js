@@ -32,9 +32,13 @@ export default {
   getUpdates,
   tableKeys: [
     {
-      msgKey: 'table.header.applicationName',
+      msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
       transformFunction: createApplicationLink,
+    },
+    {
+      msgKey: 'table.header.namespace',
+      resourceKey: 'metadata.namespace',
     },
     {
       msgKey: 'table.header.deployables',
@@ -50,10 +54,6 @@ export default {
       msgKey: 'table.header.failedDeployments',
       resourceKey: 'failedDeployments',
       transformFunction: getNumFailedDeployments,
-    },
-    {
-      msgKey: 'table.header.namespace',
-      resourceKey: 'metadata.namespace',
     },
     // {
     //   msgKey: 'table.header.labels',

@@ -16,7 +16,6 @@ import React from 'react'
 import resources from '../../../lib/shared/resources'
 import { PAGE_SIZES } from '../../actions/index'
 import { PaginationV2, DataTable, OverflowMenu, OverflowMenuItem, Icon, Checkbox } from 'carbon-components-react'
-import ApplicationIcon from '@carbon/icons-react/es/application/32';
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import { transform } from '../../../lib/client/resource-helper'
@@ -100,27 +99,20 @@ class ResourceTable extends React.Component {
         translateWithId={translateWithId.bind(null, this.context.locale)}
         render={({ rows, headers, getRowProps }) => (
           <TableContainer id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-table-container`}>
+            {tableTitle &&
+              <div className="table-title">
+                {tableTitle}
+                {tableName === "All applications" && Array.isArray(rows) &&
+                  <span>&nbsp;({rows.length})</span>
+                }
+              </div>
+            }
             <TableToolbar aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} role='region'>
               <TableToolbarSearch onChange={handleSearch} defaultValue={defaultSearchValue} value={searchValue} aria-label={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} id={`${staticResourceData.resourceKey && staticResourceData.resourceKey}-search`} light={!darkSearchBox} />
               <TableToolbarContent>
                 {actions}
               </TableToolbarContent>
             </TableToolbar>
-            {tableTitle &&
-              <span>
-                <h3 className="table-title">
-                  {tableName === 'All Applications' &&
-                    <ApplicationIcon
-                      name="icon-application"
-                      width={20}
-                      height={20}
-                      style={{ margin: '0 10px 0 5px' }}
-                    />
-                  }
-                  {tableTitle}
-                </h3>
-              </span>
-            }
             <Table className='resource-table'>
               <TableHead>
                 <TableRow>

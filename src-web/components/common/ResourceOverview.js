@@ -122,7 +122,10 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
             <CountsCardModule data={countsCardData} />
           </div>
           <div className="deployment-channels-title">
-            {msgs.get('application.deployment.channels', locale)}
+            {msgs.get('application.deployments.channels', locale)}
+            {Array.isArray(channelsCardData) &&
+              <span>&nbsp;({channelsCardData.length})</span>
+            }
           </div>
           <div className="overview-content-bottom">
             <ChannelsCardModule data={channelsCardData} />

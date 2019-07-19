@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus renders correctly. 1`] = `
+<div
+  id="ApplicationDeployableVersionStatus"
+>
+  <div
+    className="deployable-versionStatus-header"
+  >
+    Version Status
+  </div>
+</div>
+`;

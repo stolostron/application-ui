@@ -14,9 +14,7 @@ const ApplicationDeployableHighlights = require('../ApplicationDeployableHighlig
 
 describe('ApplicationDeployableHighlights', () => {
   it('ApplicationDeployableHighlights renders correctly.', () => {
-    const tree = renderer
-      .create(<ApplicationDeployableHighlights />)
-      .toJSON();
+    const tree = renderer.create(<ApplicationDeployableHighlights />).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

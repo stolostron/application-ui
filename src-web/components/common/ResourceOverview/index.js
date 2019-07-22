@@ -30,7 +30,7 @@ import msgs from '../../../../nls/platform.properties';
 import { getChannelsList } from './utils';
 
 resources(() => {
-  require('../../../../scss/resource-overview.scss');
+  require('./style.scss');
 });
 
 const ResourceOverview = withLocale(({
@@ -82,7 +82,7 @@ const ResourceOverview = withLocale(({
   ];
 
   return (
-    <div className="overview-content">
+    <div id="resource-overview" className="overview-content">
       {showAppDetails ? (
         <React.Fragment>
           <StructuredListModule

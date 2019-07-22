@@ -83,35 +83,35 @@ const ResourceOverview = withLocale(({
 
   return (
     <div className="overview-content">
-      {!showAppDetails &&
+      {showAppDetails ? (
         <React.Fragment>
-          <div className="overview-content-bottom overview-content-with-padding">
-            <CountsCardModule data={countsCardData} />
-          </div>
-          <div className="deployment-channels-title">
-            {msgs.get('application.deployments.channels', locale)}
-            {Array.isArray(channelList) &&
-              <span>&nbsp;({channelList.length})</span>
-            }
-          </div>
-          <div className="overview-content-bottom">
-            <ChannelsCardModule data={channelList} />
-          </div>
+          <StructuredListModule
+            title={staticResourceData.detailKeys.title}
+            headerRows={staticResourceData.detailKeys.headerRows}
+            rows={staticResourceData.detailKeys.rows}
+            data={item}
+          />
+          {modulesRight.length > 0 && (
+            <div className="overview-content-right">{modulesRight}</div>
+          )}
+          <div className="overview-content-bottom">{modulesBottom}</div>
         </React.Fragment>
-      }
-      {showAppDetails &&
-        <StructuredListModule
-          title={staticResourceData.detailKeys.title}
-          headerRows={staticResourceData.detailKeys.headerRows}
-          rows={staticResourceData.detailKeys.rows}
-          data={item}
-        />
-      }
-      {showAppDetails && modulesRight.length > 0 && (
-        <div className="overview-content-right">{modulesRight}</div>
-      )}
-      {showAppDetails &&
-        <div className="overview-content-bottom">{modulesBottom}</div>
+      ) : (
+          <React.Fragment>
+            <div className="overview-content-bottom overview-content-with-padding">
+              <CountsCardModule data={countsCardData} />
+            </div>
+            <div className="deployment-channels-title">
+              {msgs.get('application.deployments.channels', locale)}
+              {Array.isArray(channelList) &&
+                <span>&nbsp;({channelList.length})</span>
+              }
+            </div>
+            <div className="overview-content-bottom">
+              <ChannelsCardModule data={channelList} />
+            </div>
+          </React.Fragment>
+        )
       }
     </div>
   );

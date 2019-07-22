@@ -146,12 +146,9 @@ class ResourceDetails extends React.Component {
     return (
       <div id="ResourceDetails">
         <div className="app-information-link">
-          {!showAppDetails &&
-            <Link href="#" onClick={() => {actions.setShowAppDetails(true)}}>Show App Information</Link>
-          }
-          {showAppDetails &&
-            <Link href="#" onClick={() => {actions.setShowAppDetails(false)}}>Show App Overview</Link>
-          }
+          <Link href="#" onClick={() => { actions.setShowAppDetails(!showAppDetails) }}>
+            {!showAppDetails ? msgs.get("application.show.information", this.context.locale) : msgs.get("application.show.overview", this.context.locale)}
+          </Link>
         </div>
         <OverviewTab
           resourceType={resourceType}
@@ -163,7 +160,7 @@ class ResourceDetails extends React.Component {
         {!showAppDetails &&
           <React.Fragment>
             <div className="resource-diagram-title">
-              {msgs.get(`application.topology`, this.context.locale)}
+              {msgs.get("application.topology", this.context.locale)}
             </div>
             <ResourceDiagram
               resourceType={resourceType}

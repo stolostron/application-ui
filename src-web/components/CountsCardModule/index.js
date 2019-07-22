@@ -34,15 +34,11 @@ export default class CountsCardModule extends React.Component {
   };
 
   render() {
+    const moduleData = this.getModuleData()
     const { locale } = this.context
     const { title } = this.props
-    const moduleData = this.getModuleData()
-    const moduleStyle = {}
-    if (this.props.height && this.props.height > 0) {
-      moduleStyle.height = this.props.height;
-    }
     return (
-      <div id="CountsCardModule" style={moduleStyle}>
+      <div id="CountsCardModule">
         <div className="card-container">
           {title &&
             <span className="card-container-title">{msgs.get(title, locale)}</span>

@@ -119,7 +119,7 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
       {!showAppDetails &&
         <React.Fragment>
           <div className="overview-content-bottom overview-content-with-padding">
-            <CountsCardModule data={countsCardData} height={150} />
+            <CountsCardModule data={countsCardData} />
           </div>
           <div className="deployment-channels-title">
             {msgs.get('application.deployments.channels', locale)}

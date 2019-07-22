@@ -17,7 +17,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
     >
       <div
         id="CountsCardModule"
-        style={Object {}}
       >
         <div
           className="card-container"
@@ -134,7 +133,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
     >
       <div
         id="CountsCardModule"
-        style={Object {}}
       >
         <div
           className="card-container"

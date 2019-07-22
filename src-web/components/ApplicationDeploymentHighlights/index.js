@@ -64,7 +64,10 @@ class ApplicationDeploymentHighlights extends React.Component {
           HCMChannelList={HCMChannelList}
           HCMClusterList={HCMClusterList}
         />
-        <ApplicationDeploymentSummary HCMChannelList={HCMChannelList} />
+        <ApplicationDeploymentSummary
+          HCMChannelList={HCMChannelList}
+          HCMApplicationList={HCMApplicationList}
+        />
       </div>
     );
   }

@@ -7,15 +7,14 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from '../../../node_modules/react';
-import msgs from '../../../nls/platform.properties';
-import { withLocale } from '../../providers/LocaleProvider';
-import { connect } from '../../../node_modules/react-redux';
-import resources from '../../../lib/shared/resources';
+import React from '../../../node_modules/react'
+import msgs from '../../../nls/platform.properties'
+import { withLocale } from '../../providers/LocaleProvider'
+import resources from '../../../lib/shared/resources'
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const ApplicationDeployableVersionStatus = withLocale(({ locale }) => {
   return (
@@ -24,7 +23,7 @@ const ApplicationDeployableVersionStatus = withLocale(({ locale }) => {
         {msgs.get('description.title.deployableVersionStatus', locale)}
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default withLocale(ApplicationDeployableVersionStatus);
+export default withLocale(ApplicationDeployableVersionStatus)

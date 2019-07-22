@@ -14,7 +14,7 @@ const tapReporter = [
     showInternalStackTraces: true,
     filePath: 'test-output/jestTestLogs.tap',
   },
-];
+]
 
 const jestConfig = {
   collectCoverage: true,
@@ -59,10 +59,10 @@ const jestConfig = {
   moduleNameMapper: {
     '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js',
   },
-};
+}
 
 jestConfig.reporters = process.env.TRAVIS
   ? ['default', tapReporter]
-  : ['default'];
+  : ['default']
 
-module.exports = jestConfig;
+module.exports = jestConfig

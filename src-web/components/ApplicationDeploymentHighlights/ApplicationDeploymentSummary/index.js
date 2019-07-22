@@ -7,25 +7,25 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import Masonry from 'react-masonry-component';
-import msgs from '../../../../nls/platform.properties';
-import { withLocale } from '../../../providers/LocaleProvider';
-import resources from '../../../../lib/shared/resources';
-import StackedChartCardModule from './components/StackedChartCardModule';
+import React from 'react'
+import Masonry from 'react-masonry-component'
+import msgs from '../../../../nls/platform.properties'
+import { withLocale } from '../../../providers/LocaleProvider'
+import resources from '../../../../lib/shared/resources'
+import StackedChartCardModule from './components/StackedChartCardModule'
 import {
   masonryOptions,
   getChannelChartData,
   getChannelChartWidth,
-} from './utils';
+} from './utils'
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, locale }) => {
-  const channelChartData = getChannelChartData(HCMChannelList);
-  const chartWidth = getChannelChartWidth(HCMChannelList);
+  const channelChartData = getChannelChartData(HCMChannelList)
+  const chartWidth = getChannelChartWidth(HCMChannelList)
   return (
     <div id="ApplicationDeploymentSummary">
       <div className="masonry-container">
@@ -50,7 +50,7 @@ const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, locale }) => 
         </Masonry>
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default withLocale(ApplicationDeploymentSummary);
+export default withLocale(ApplicationDeploymentSummary)

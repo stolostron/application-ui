@@ -7,35 +7,35 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Loading } from 'carbon-components-react';
-import { connect } from 'react-redux';
-import CountsCardModule from '../CountsCardModule';
-import ChannelsCardModule from '../ChannelsCardModule';
-import StructuredListModule from '../../components/common/StructuredListModule';
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Loading } from 'carbon-components-react'
+import { connect } from 'react-redux'
+import CountsCardModule from '../CountsCardModule'
+import ChannelsCardModule from '../ChannelsCardModule'
+import StructuredListModule from '../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
   resourceItemByName,
-} from '../../reducers/common';
+} from '../../reducers/common'
 import {
   getNumDeployables,
   getNumDeployments,
   getNumFailedDeployments,
-} from '../../../lib/client/resource-helper';
-import { withLocale } from '../../providers/LocaleProvider';
-import resources from '../../../lib/shared/resources';
-import msgs from '../../../nls/platform.properties';
+} from '../../../lib/client/resource-helper'
+import { withLocale } from '../../providers/LocaleProvider'
+import resources from '../../../lib/shared/resources'
+import msgs from '../../../nls/platform.properties'
 
 resources(() => {
-  require('../../../scss/resource-overview.scss');
-});
+  require('../../../scss/resource-overview.scss')
+})
 
 const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, locale }) => {
-  if (!item) { return <Loading withOverlay={false} className="content-spinner" />; }
-  const modulesRight = [];
-  const modulesBottom = [];
+  if (!item) { return <Loading withOverlay={false} className="content-spinner" /> }
+  const modulesRight = []
+  const modulesBottom = []
   React.Children.map(modules, (module) => {
     if (module.props.right) {
       modulesRight.push(React.cloneElement(module, {
@@ -43,16 +43,16 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
         resourceType,
         resourceData: item,
         params,
-      }));
+      }))
     } else {
       modulesBottom.push(React.cloneElement(module, {
         staticResourceData,
         resourceType,
         resourceData: item,
         params,
-      }));
+      }))
     }
-  });
+  })
 
   const countsCardData = [
     {
@@ -67,7 +67,7 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
       msgKey: 'table.header.failedDeployments',
       count: getNumFailedDeployments(item),
     },
-  ];
+  ]
 
   const channelsCardData = [
     {
@@ -112,7 +112,7 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
         },
       },
     },
-  ];
+  ]
 
   return (
     <div className="overview-content">
@@ -132,16 +132,16 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
         data={item}
       />
       {modulesRight.length > 0 && (
-      <div className="overview-content-right">{modulesRight}</div>
-        )}
+        <div className="overview-content-right">{modulesRight}</div>
+      )}
       <div className="overview-content-bottom">{modulesBottom}</div>
     </div>
-  );
-});
+  )
+})
 
 ResourceOverview.contextTypes = {
   locale: PropTypes.string,
-};
+}
 
 ResourceOverview.propTypes = {
   item: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -149,19 +149,19 @@ ResourceOverview.propTypes = {
   params: PropTypes.object,
   resourceType: PropTypes.object,
   staticResourceData: PropTypes.object,
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
-  const { resourceType, params } = ownProps;
-  const name = decodeURIComponent(params.name);
+  const { resourceType, params } = ownProps
+  const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
     storeRoot: resourceType.list,
     resourceType,
     name,
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null,
-  });
-  return { item };
-};
+  })
+  return { item }
+}
 
-export default withRouter(connect(mapStateToProps)(withLocale(ResourceOverview)));
+export default withRouter(connect(mapStateToProps)(withLocale(ResourceOverview)))

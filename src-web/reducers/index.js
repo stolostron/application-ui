@@ -35,6 +35,7 @@ export { modal } from './modal';
 export { logs } from './logs';
 
 export { AppDeployments } from './reducerAppDeployments';
+export { AppOverview } from './reducerAppOverview';
 
 // the exported function name must match the resourceType value
 export const HCMApplicationList = createResourceReducer(

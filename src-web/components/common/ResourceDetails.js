@@ -16,6 +16,8 @@ import { getTabs } from '../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
+import * as Actions from '../../actions';
 import lodash from 'lodash'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
@@ -104,9 +106,6 @@ class ResourceDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      showAppInfo: false,
-    }
     this.getBreadcrumb = this.getBreadcrumb.bind(this)
 
     this.otherBinding = {}
@@ -143,15 +142,15 @@ class ResourceDetails extends React.Component {
   }
 
   renderOverview() {
-    const { match, resourceType, staticResourceData, children } = this.props
+    const { match, resourceType, staticResourceData, showAppDetails, actions, children } = this.props
     return (
       <div id="ResourceDetails">
         <div className="app-information-link">
-          {!this.state.showAppInfo &&
-            <Link href="#" onClick={() => {this.setState({showAppInfo: true})}}>Show App Information</Link>
+          {!showAppDetails &&
+            <Link href="#" onClick={() => {actions.setShowAppDetails(true)}}>Show App Information</Link>
           }
-          {this.state.showAppInfo &&
-            <Link href="#" onClick={() => {this.setState({showAppInfo: false})}}>Show App Overview</Link>
+          {showAppDetails &&
+            <Link href="#" onClick={() => {actions.setShowAppDetails(false)}}>Show App Overview</Link>
           }
         </div>
         <OverviewTab
@@ -159,9 +158,9 @@ class ResourceDetails extends React.Component {
           params={match.params}
           staticResourceData={staticResourceData}
           modules={children}
-          showAppInfo={this.state.showAppInfo}
+          showAppDetails={showAppDetails}
         />
-        {!this.state.showAppInfo &&
+        {!showAppDetails &&
           <React.Fragment>
             <div className="resource-diagram-title">
               {msgs.get(`application.topology`, this.context.locale)}
@@ -238,8 +237,18 @@ ResourceDetails.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
+    actions: bindActionCreators(Actions, dispatch),
     updateSecondaryHeader: (title, tabs, breadcrumbItems, links) => dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }
 
-export default withRouter(connect(() => ({}), mapDispatchToProps)(ResourceDetails))
+const mapStateToProps = (state) => {
+  const {
+    AppOverview,
+  } = state;
+  return {
+    showAppDetails: AppOverview.showAppDetails,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResourceDetails))

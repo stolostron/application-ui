@@ -32,7 +32,7 @@ resources(() => {
   require('../../../scss/resource-overview.scss');
 });
 
-const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, showAppInfo, locale }) => {
+const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, showAppDetails, locale }) => {
   if (!item) { return <Loading withOverlay={false} className="content-spinner" />; }
   const modulesRight = [];
   const modulesBottom = [];
@@ -116,7 +116,7 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
 
   return (
     <div className="overview-content">
-      {!showAppInfo &&
+      {!showAppDetails &&
         <React.Fragment>
           <div className="overview-content-bottom overview-content-with-padding">
             <CountsCardModule data={countsCardData} height={150} />
@@ -132,7 +132,7 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
           </div>
         </React.Fragment>
       }
-      {showAppInfo &&
+      {showAppDetails &&
         <StructuredListModule
           title={staticResourceData.detailKeys.title}
           headerRows={staticResourceData.detailKeys.headerRows}
@@ -140,10 +140,10 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
           data={item}
         />
       }
-      {showAppInfo && modulesRight.length > 0 && (
+      {showAppDetails && modulesRight.length > 0 && (
         <div className="overview-content-right">{modulesRight}</div>
       )}
-      {showAppInfo &&
+      {showAppDetails &&
         <div className="overview-content-bottom">{modulesBottom}</div>
       }
     </div>

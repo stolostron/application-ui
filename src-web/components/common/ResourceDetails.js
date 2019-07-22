@@ -20,7 +20,6 @@ import lodash from 'lodash'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
-import ResourceDiagram from './ResourceDiagram'
 import config from '../../../lib/shared/config'
 
 resources(() => {
@@ -96,10 +95,6 @@ const withResource = (Component) => {
 
 const OverviewTab = withResource(ResourceOverview)
 
-const components = {
-  '/diagram': ResourceDiagram,
-}
-
 class ResourceDetails extends React.Component {
 
   constructor(props) {
@@ -144,15 +139,6 @@ class ResourceDetails extends React.Component {
     return (
       <div id="ResourceDetails">
         <OverviewTab
-          resourceType={resourceType}
-          params={match.params}
-          staticResourceData={staticResourceData}
-          modules={children}
-        />
-        <div className="resource-diagram-title">
-          {msgs.get(`application.topology`, this.context.locale)}
-        </div>
-        <ResourceDiagram
           resourceType={resourceType}
           params={match.params}
           staticResourceData={staticResourceData}

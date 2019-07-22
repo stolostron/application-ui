@@ -61,13 +61,11 @@ const getDeployablesList = (list) => {
 };
 
 export const getDeployablesChartData = (list) => {
-  console.log('mmmm', list);
   if (list) {
     const deployableList = getDeployablesList(list);
 
     if (deployableList) {
       const deplChartDataList = deployableList.map((item) => {
-        console.log('item aaaa', item);
         return {
           name: (item && item.metadata && item.metadata.name) || 'unknown',
           cm: item.metadata.name.length * 20,

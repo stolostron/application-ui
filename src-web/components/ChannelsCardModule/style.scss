@@ -24,11 +24,11 @@
       --is-end: 1;
     }
 
-    > div:nth-child(3n + 3) {
-      flex-basis: 32%;
-      flex-grow: 0;
-      --is-end: 0;
-    }
+    // > div:nth-child(3n + 3) {
+    //   flex-basis: 32%;
+    //   flex-grow: 0;
+    //   --is-end: 0;
+    // }
 
     .card-container {
       //self-defined property --is-end to determine last item layout

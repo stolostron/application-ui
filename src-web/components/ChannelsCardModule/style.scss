@@ -13,7 +13,7 @@
   padding-top: 1px;
 
   .card-container-container {
-    display: flex;
+    display: inline-block;
     flex-wrap: wrap;
     margin-bottom: 1rem;
     padding-right: 10px;
@@ -95,5 +95,9 @@
         }
       }
     }
+  }
+
+  .individualCard {
+    display: inline-block;
   }
 }

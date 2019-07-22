@@ -12,28 +12,40 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Loading } from 'carbon-components-react';
 import { connect } from 'react-redux';
-import CountsCardModule from '../CountsCardModule';
-import ChannelsCardModule from '../ChannelsCardModule';
-import StructuredListModule from '../../components/common/StructuredListModule';
+import CountsCardModule from '../../CountsCardModule';
+import ChannelsCardModule from '../../ChannelsCardModule';
+import StructuredListModule from '../../../components/common/StructuredListModule';
 import {
   getSingleResourceItem,
   resourceItemByName,
-} from '../../reducers/common';
+} from '../../../reducers/common';
 import {
   getNumDeployables,
   getNumDeployments,
   getNumFailedDeployments,
-} from '../../../lib/client/resource-helper';
-import { withLocale } from '../../providers/LocaleProvider';
-import resources from '../../../lib/shared/resources';
-import msgs from '../../../nls/platform.properties';
+} from '../../../../lib/client/resource-helper';
+import { withLocale } from '../../../providers/LocaleProvider';
+import resources from '../../../../lib/shared/resources';
+import msgs from '../../../../nls/platform.properties';
+import { getChannelsList } from './utils';
 
 resources(() => {
-  require('../../../scss/resource-overview.scss');
+  require('../../../../scss/resource-overview.scss');
 });
 
-const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, showAppDetails, locale }) => {
-  if (!item) { return <Loading withOverlay={false} className="content-spinner" />; }
+const ResourceOverview = withLocale(({
+  staticResourceData,
+  item,
+  channelList,
+  params,
+  modules,
+  resourceType,
+  showAppDetails,
+  locale,
+}) => {
+  if (!item) {
+    return <Loading withOverlay={false} className="content-spinner" />;
+  }
   const modulesRight = [];
   const modulesBottom = [];
   React.Children.map(modules, (module) => {
@@ -69,51 +81,6 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
     },
   ];
 
-  const channelsCardData = [
-    {
-      name: 'Development',
-      counts: {
-        pending: {
-          total: 3,
-        },
-        'in progress': {
-          total: 2,
-        },
-        failed: {
-          total: 1,
-        },
-      },
-    },
-    {
-      name: 'QA',
-      counts: {
-        pending: {
-          total: 3,
-        },
-        'in progress': {
-          total: 2,
-        },
-        failed: {
-          total: 1,
-        },
-      },
-    },
-    {
-      name: 'Dev',
-      counts: {
-        pending: {
-          total: 3,
-        },
-        'in progress': {
-          total: 2,
-        },
-        failed: {
-          total: 1,
-        },
-      },
-    },
-  ];
-
   return (
     <div className="overview-content">
       {!showAppDetails &&
@@ -123,12 +90,12 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
           </div>
           <div className="deployment-channels-title">
             {msgs.get('application.deployments.channels', locale)}
-            {Array.isArray(channelsCardData) &&
-              <span>&nbsp;({channelsCardData.length})</span>
+            {Array.isArray(channelList) &&
+              <span>&nbsp;({channelList.length})</span>
             }
           </div>
           <div className="overview-content-bottom">
-            <ChannelsCardModule data={channelsCardData} />
+            <ChannelsCardModule data={channelList} />
           </div>
         </React.Fragment>
       }
@@ -164,6 +131,7 @@ ResourceOverview.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps;
+  const { HCMChannelList } = state;
   const name = decodeURIComponent(params.name);
   const item = getSingleResourceItem(state, {
     storeRoot: resourceType.list,
@@ -172,7 +140,7 @@ const mapStateToProps = (state, ownProps) => {
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null,
   });
-  return { item };
+  return { item, channelList: getChannelsList(HCMChannelList) };
 };
 
 export default withRouter(connect(mapStateToProps)(withLocale(ResourceOverview)));

@@ -13,7 +13,7 @@
   padding-top: 1px;
 
   .card-container-container {
-    display: flex;
+    display: inline-block;
     flex-wrap: wrap;
     margin-bottom: 1rem;
     padding-right: 10px;
@@ -24,11 +24,11 @@
       --is-end: 1;
     }
 
-    > div:nth-child(3n + 3) {
-      flex-basis: 32%;
-      flex-grow: 0;
-      --is-end: 0;
-    }
+    // > div:nth-child(3n + 3) {
+    //   flex-basis: 32%;
+    //   flex-grow: 0;
+    //   --is-end: 0;
+    // }
 
     .card-container {
       //self-defined property --is-end to determine last item layout
@@ -65,17 +65,7 @@
             align-items: center;
             height: 100%;
             font-size: 12px;
-            color: $color__navy-gray-6;
             padding: 10px 0;
-
-            &:hover {
-              cursor: pointer;
-
-              .card-status {
-                color: $color__blue-51;
-                text-decoration: underline;
-              }
-            }
 
             .card-count {
               display: flex;
@@ -88,12 +78,15 @@
               .card-count-total {
                 font-size: 34px;
                 padding-right: 3px;
-                color: $color__navy-gray-6;
               }
             }
           }
         }
       }
     }
+  }
+
+  .individualCard {
+    display: inline-block;
   }
 }

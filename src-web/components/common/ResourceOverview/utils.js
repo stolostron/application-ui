@@ -15,13 +15,13 @@ export const getChannelsList = (channels) => {
         name: channel.metadata.name || '',
         counts: {
           pending: {
-            total: 3,
+            total: channel.metadata.pending || 'N/A',
           },
           'in progress': {
-            total: 2,
+            total: channel.metadata.inprogress || 'N/A',
           },
           failed: {
-            total: 1,
+            total: channel.metadata.failed || 'N/A',
           },
         },
       };

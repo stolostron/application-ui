@@ -3,6 +3,7 @@
 exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
 <div
   id="CountsCardModule"
+  style={Object {}}
 >
   <div
     className="card-container"

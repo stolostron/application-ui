@@ -7,25 +7,25 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import mapAllDeployments from './mapAllDeployments';
+import mapAllDeployments from './mapAllDeployments'
 
 describe('data-mappers testing for mapAllDeployments', () => {
   it('should mold the data properly', () => {
     const apiResponse = {
       deployment: 'sampleDeploymentName',
       shouldIgnore: 'ignore',
-    };
+    }
     const result = {
       deploymentName: 'sampleDeploymentName',
-    };
-    expect(mapAllDeployments(apiResponse)).toEqual(result);
-  });
+    }
+    expect(mapAllDeployments(apiResponse)).toEqual(result)
+  })
 
   it('should not break on empty response', () => {
-    const apiResponse = {};
+    const apiResponse = {}
     const result = {
       deploymentName: '',
-    };
-    expect(mapAllDeployments(apiResponse)).toEqual(result);
-  });
-});
+    }
+    expect(mapAllDeployments(apiResponse)).toEqual(result)
+  })
+})

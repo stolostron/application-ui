@@ -6,19 +6,20 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
+/* eslint-disable no-unused-vars */
 
-import React from 'react';
-import { MockedProvider } from 'react-apollo/test-utils';
-import renderer from 'react-test-renderer';
+import React from 'react'
+import { MockedProvider } from 'react-apollo/test-utils'
+import renderer from 'react-test-renderer'
 // import ActionModalApollo from '../../../../../src-web/components/common-apollo/ActionModalApollo';
-import { GET_ACTION_MODAL_STATE } from '../../../../../src-web/apollo-client/queries/StateQueries';
+import { GET_ACTION_MODAL_STATE } from '../../../../../src-web/apollo-client/queries/StateQueries'
 
 const delay = ms =>
   new Promise((resolve) => {
     setTimeout(() => {
-      resolve();
-    }, ms);
-  });
+      resolve()
+    }, ms)
+  })
 
 const mocks = {
   invalidMock: {
@@ -131,12 +132,12 @@ const mocks = {
       },
     },
   },
-};
+}
 
 describe('ActionModalApollo Testing', () => {
   it('We need to enable the ActionModalApollo tests eventually or confirm we can remove them.', async () => {
-    expect('hi').toEqual('hi');
-  });
+    expect('hi').toEqual('hi')
+  })
   // it('To Return Null For Invalid Table Action', async () => {
   //   const component = renderer.create(
   //     <MockedProvider mocks={[mocks.invalidMock]} addTypename={false}>
@@ -186,4 +187,4 @@ describe('ActionModalApollo Testing', () => {
   //   await delay(0)
   //   expect(component.getInstance().state.client.cache.data.data).toMatchSnapshot()
   // })
-});
+})

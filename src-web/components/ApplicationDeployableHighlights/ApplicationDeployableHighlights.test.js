@@ -7,14 +7,14 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('../../../node_modules/react');
-const renderer = require('../../../node_modules/react-test-renderer');
+const React = require('../../../node_modules/react')
+const renderer = require('../../../node_modules/react-test-renderer')
 const ApplicationDeployableHighlights = require('../ApplicationDeployableHighlights')
-  .default;
+  .default
 
 describe('ApplicationDeployableHighlights', () => {
   it('ApplicationDeployableHighlights renders correctly.', () => {
-    const tree = renderer.create(<ApplicationDeployableHighlights />).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-});
+    const tree = renderer.create(<ApplicationDeployableHighlights />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})

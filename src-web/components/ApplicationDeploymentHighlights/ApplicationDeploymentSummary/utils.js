@@ -15,7 +15,7 @@ export const masonryOptions = {
   resizeContainer: true,
   columnWidth: 10,
   gutter: 0,
-};
+}
 
 // return the data for the stacked channel
 export const getChannelChartData = (list) => {
@@ -26,24 +26,24 @@ export const getChannelChartData = (list) => {
         cm: item.metadata.name.length * 20,
         pr: item.metadata.name.length * 30,
         fl: item.metadata.name.length * 50,
-      };
-    });
-    const emptyArray = [];
-    return emptyArray.concat.apply([], channelChartDataList);
+      }
+    })
+    const emptyArray = []
+    return emptyArray.concat.apply([], channelChartDataList)
   }
-  return [];
-};
+  return []
+}
 
 // return the width of the chart
 export const getChannelChartWidth = (list) => {
   if (list && list.items) {
     if (list.items.length > 10) {
-      return 900;
+      return 900
     }
     if (list.items.length > 7) {
-      return 600;
+      return 600
     }
-    return list.items.length * 100;
+    return list.items.length * 100
   }
-  return 300;
-};
+  return 300
+}

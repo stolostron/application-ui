@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChannelsList } from './utils';
+import { getChannelsList } from './utils'
 
 describe('getChannelsList', () => {
   const channelList = {
@@ -28,10 +28,10 @@ describe('getChannelsList', () => {
         },
       },
     ],
-  };
+  }
   const channelDud = {
     itteemmss: [{ channel: [{}, {}] }, { deployables: [{}] }],
-  };
+  }
   it('should return channel list to be displayed in cards on overview tab', () => {
     const result = [
       {
@@ -50,10 +50,10 @@ describe('getChannelsList', () => {
         },
         name: 'name3',
       },
-    ];
-    expect(getChannelsList(channelList)).toEqual(result);
-  });
+    ]
+    expect(getChannelsList(channelList)).toEqual(result)
+  })
   it('should return blank array', () => {
-    expect(getChannelsList(channelDud)).toEqual([]);
-  });
-});
+    expect(getChannelsList(channelDud)).toEqual([])
+  })
+})

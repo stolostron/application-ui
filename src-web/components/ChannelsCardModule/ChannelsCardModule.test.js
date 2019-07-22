@@ -7,10 +7,10 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('react');
-const renderer = require('react-test-renderer');
+const React = require('react')
+const renderer = require('react-test-renderer')
 const ChannelsCardModule = require('../ChannelsCardModule')
-  .default;
+  .default
 
 describe('ChannelsCardModule', () => {
   const channelsCardData = [
@@ -56,10 +56,10 @@ describe('ChannelsCardModule', () => {
         },
       }
     }
-  ];
+  ]
 
   it('ChannelsCardModule renders correctly.', () => {
-    const tree = renderer.create(<ChannelsCardModule data={channelsCardData} />).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-});
+    const tree = renderer.create(<ChannelsCardModule data={channelsCardData} />).toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})

@@ -23,13 +23,14 @@ import {
 } from './utils';
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, HCMApplicationList, locale }) => {
   const channelChartData = getChannelChartData(HCMChannelList);
   const deployablesChartData = getDeployablesChartData(HCMApplicationList);
   const chartWidth = getChannelChartWidth(HCMChannelList);
+
   return (
     <div id="ApplicationDeploymentSummary">
       <div className="masonry-container">
@@ -66,7 +67,7 @@ const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, HCMApplicatio
         </Masonry>
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default withLocale(ApplicationDeploymentSummary);
+export default withLocale(ApplicationDeploymentSummary)

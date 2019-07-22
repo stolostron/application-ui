@@ -24,9 +24,9 @@ export const getChannelsList = (channels) => {
             total: channel.metadata.failed || 'N/A',
           },
         },
-      };
-    });
-    return mappedChannels;
+      }
+    })
+    return mappedChannels
   }
-  return [];
-};
+  return []
+}

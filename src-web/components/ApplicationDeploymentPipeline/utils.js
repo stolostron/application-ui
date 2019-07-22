@@ -12,23 +12,23 @@
 // Method will take in an object and return back the items of applications
 export const getApplicationsList = (list) => {
   if (list && list.items) {
-    return list.items;
+    return list.items
   }
-  return [];
-};
+  return []
+}
 
 // This method takes in an object and drills down to find the items of applications
 // Within that it will go a step further and find the deployables and merge them together.
 export const getDeployablesList = (list) => {
   if (list && list.items) {
     const deployables = list.items.map((item) => {
-      return (item && item.deployables) || [];
-    });
-    const emptyArray = [];
-    return emptyArray.concat.apply([], deployables);
+      return (item && item.deployables) || []
+    })
+    const emptyArray = []
+    return emptyArray.concat.apply([], deployables)
   }
-  return [];
-};
+  return []
+}
 
 // Method will take in an object and return back the channels mapped
 export const getChannelsList = (channels) => {
@@ -43,12 +43,12 @@ export const getChannelsList = (channels) => {
         creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
         pathName: channel.objectPath || '',
         type: channel.type || '',
-      };
-    });
-    return mappedChannels;
+      }
+    })
+    return mappedChannels
   }
-  return [];
-};
+  return []
+}
 
 // TODO TODO TODO not sure if this is accurate
 // TODO TODO Not even using this yet
@@ -107,5 +107,5 @@ export const getSubscriptionsList = () => {
         },
       },
     },
-  ];
-};
+  ]
+}

@@ -12,39 +12,28 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
-import CountsCardModule from '../../CountsCardModule'
-import ChannelsCardModule from '../../ChannelsCardModule'
-import StructuredListModule from '../../../components/common/StructuredListModule'
+import CountsCardModule from '../CountsCardModule'
+import ChannelsCardModule from '../ChannelsCardModule'
+import StructuredListModule from '../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
   resourceItemByName,
-} from '../../../reducers/common'
+} from '../../reducers/common'
 import {
   getNumDeployables,
   getNumDeployments,
   getNumFailedDeployments,
-} from '../../../../lib/client/resource-helper'
-import { withLocale } from '../../../providers/LocaleProvider'
-import resources from '../../../../lib/shared/resources'
-import msgs from '../../../../nls/platform.properties'
-import { getChannelsList } from './utils'
+} from '../../../lib/client/resource-helper'
+import { withLocale } from '../../providers/LocaleProvider'
+import resources from '../../../lib/shared/resources'
+import msgs from '../../../nls/platform.properties'
 
 resources(() => {
-  require('../../../../scss/resource-overview.scss')
+  require('../../../scss/resource-overview.scss')
 })
 
-const ResourceOverview = withLocale(({
-  staticResourceData,
-  item,
-  channelList,
-  params,
-  modules,
-  resourceType,
-  locale,
-}) => {
-  if (!item) {
-    return <Loading withOverlay={false} className="content-spinner" />
-  }
+const ResourceOverview = withLocale(({ staticResourceData, item, params, modules, resourceType, locale }) => {
+  if (!item) { return <Loading withOverlay={false} className="content-spinner" /> }
   const modulesRight = []
   const modulesBottom = []
   React.Children.map(modules, (module) => {
@@ -80,6 +69,51 @@ const ResourceOverview = withLocale(({
     },
   ]
 
+  const channelsCardData = [
+    {
+      name: 'Development',
+      counts: {
+        pending: {
+          total: 3,
+        },
+        'in progress': {
+          total: 2,
+        },
+        failed: {
+          total: 1,
+        },
+      },
+    },
+    {
+      name: 'QA',
+      counts: {
+        pending: {
+          total: 3,
+        },
+        'in progress': {
+          total: 2,
+        },
+        failed: {
+          total: 1,
+        },
+      },
+    },
+    {
+      name: 'Dev',
+      counts: {
+        pending: {
+          total: 3,
+        },
+        'in progress': {
+          total: 2,
+        },
+        failed: {
+          total: 1,
+        },
+      },
+    },
+  ]
+
   return (
     <div className="overview-content">
       <div className="overview-content-bottom overview-content-with-padding">
@@ -89,7 +123,7 @@ const ResourceOverview = withLocale(({
         {msgs.get('application.deployment.channels', locale)}
       </div>
       <div className="overview-content-bottom">
-        <ChannelsCardModule data={channelList} />
+        <ChannelsCardModule data={channelsCardData} />
       </div>
       <StructuredListModule
         title={staticResourceData.detailKeys.title}
@@ -119,7 +153,6 @@ ResourceOverview.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { HCMChannelList } = state
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
     storeRoot: resourceType.list,
@@ -128,7 +161,7 @@ const mapStateToProps = (state, ownProps) => {
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null,
   })
-  return { item, channelList: getChannelsList(HCMChannelList) }
+  return { item }
 }
 
 export default withRouter(connect(mapStateToProps)(withLocale(ResourceOverview)))

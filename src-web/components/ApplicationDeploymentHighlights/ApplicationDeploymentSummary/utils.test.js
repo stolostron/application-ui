@@ -64,8 +64,15 @@ describe('getDeployablesChartData', () => {
   };
   const deployableListDummy = {
     itteemmss: [
-      { metadata: { name: deployable1 } },
-      { metadata: { name: deployable2 } },
+      {
+        deployables: [
+          { metadata: { name: deployable1 } },
+          { metadata: { name: deployable2 } },
+        ],
+      },
+      {
+        deployables: [],
+      },
     ],
   };
 

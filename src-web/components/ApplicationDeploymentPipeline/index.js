@@ -29,13 +29,13 @@ resources(() => {
   require('./style.scss');
 });
 
+const handleCreateResource = (dispatch, yaml) =>
+  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
+
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    handleCreateResource: (dispatch, yaml) => {
-      dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
-    },
   };
 };
 
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const CreateChannelModal = (handleCreateResource) => {
+const CreateChannelModal = () => {
   return (
     <CreateResourceModal
       key="createChannel"
@@ -82,16 +82,15 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      HCMApplicationList,
-      HCMChannelList,
+      //      HCMApplicationList,
+      //      HCMChannelList,
       applications,
       deployables,
       channels,
-      handleCreateResource,
       actions,
     } = this.props;
     const { locale } = this.context;
-    const modal = React.cloneElement(CreateChannelModal(handleCreateResource), {
+    const modal = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS,
     });
 

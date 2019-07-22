@@ -77,13 +77,15 @@ const LeftColumnForApplicationNames = (
               className="applicationTile"
               onClick={() => showHideTrigger(appName)}
             >
-              <Icon
-                id={`${appName}chevron`}
-                name="icon--chevron--right"
-                fill="#6089bf"
-                description=""
-                className="closeRowChevron"
-              />
+              {appDeployables.length > 0 && (
+                <Icon
+                  id={`${appName}chevron`}
+                  name="icon--chevron--right"
+                  fill="#6089bf"
+                  description=""
+                  className="closeRowChevron"
+                />
+              )}
               <div className="ApplicationContents">
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">

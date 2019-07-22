@@ -16,4 +16,36 @@
     font-size: 1.5em;
     padding-bottom: 10px;
   }
+
+  .deployable-subscription-container {
+    width: 100%;
+    height: 360px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 20px;
+  }
+
+  .deployable-subscription-edit-container {
+    text-align: right;
+
+    .yamlEditIconTitle {
+      font-size: 0.8em;
+      display: inline-block;
+      margin: 0 5px;
+    }
+  }
+
+  .deployable-subscription-tile-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-areas: ". . . .";
+    grid-gap: 5px;
+    padding: 10px;
+
+    .tile-title {
+      font-weight: bold;
+    }
+  }
+
 }

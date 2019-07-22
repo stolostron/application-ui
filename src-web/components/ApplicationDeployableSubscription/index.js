@@ -10,8 +10,8 @@
 import React from '../../../node_modules/react';
 import msgs from '../../../nls/platform.properties';
 import { withLocale } from '../../providers/LocaleProvider';
-import { connect } from '../../../node_modules/react-redux';
 import resources from '../../../lib/shared/resources';
+import { Icon } from 'carbon-components-react';
 
 resources(() => {
   require('./style.scss');
@@ -22,6 +22,41 @@ const ApplicationDeployableSubscription = withLocale(({ locale }) => {
     <div id="ApplicationDeployableSubscription">
       <div className="deployable-subscription-header">
         {msgs.get('description.title.deployableSubscription', locale)}
+      </div>
+
+      <div className="deployable-subscription-container">
+        <div className="deployable-subscription-edit-container">
+          <p className="yamlEditIconTitle">YAML</p>
+          <Icon
+            name="icon--edit"
+            fill="#6089bf"
+            description=""
+            className="yamlEditIcon"
+          />
+        </div>
+        <div className="deployable-subscription-tile-container">
+          <div className="subscription-name">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.subscriptionName')}</div>
+          </div>
+          <div className="landing-channel">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.landingChannel')}</div>
+          </div>
+          <div className="certificates">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.certificates')}</div>
+          </div>
+          <div className="annotations">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.annotations')}</div>
+          </div>
+          <div className="placement-rules">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.placementRules')}</div>
+          </div>
+          <div className="version">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.version')}</div>
+          </div>
+          <div className="labels">
+            <div className="tile-title">{msgs.get('description.title.deployableSubscription.labels')}</div>
+          </div>
+        </div>
       </div>
     </div>
   );

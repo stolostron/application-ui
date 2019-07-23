@@ -20,6 +20,8 @@
   "application.deployments.channels": "Deployments by channels",
   "application.policy": "policy",
   "application.relationships": "Application Relationships",
+  "application.show.information": "Show App Information",
+  "application.show.overview": "Show App Overview",
   "application.topology": "Application Topology",
   "application.works": "Application Deployments",
   "breadcrumb.viewall": "View All",
@@ -60,6 +62,7 @@
   "dashboard.card.deployment.applications": "Applications",
   "dashboard.card.deployment.availabilityZones": "Availability Zones",
   "dashboard.card.deployment.channels": "Channels",
+  "dashboard.card.deployment.channel": "Channel",
   "dashboard.card.deployment.clusters": "Clusters",
   "dashboard.card.deployment.completed": "Completed",
   "dashboard.card.deployment.inProgress": "In Progress",
@@ -683,5 +686,6 @@
   "channel.deploy.status.progress": "In Progress",
   "channel.deploy.status.completed": "Completed",
   "channel.deploy.status.failed": "Failed",
-  "channel.deployments.chart.title": "Deployments by channels"
+  "channel.deployments.chart.title": "Deployments by channels",
+  "recent.deployments.chart.title": "Recent scheduled deployments"
 }

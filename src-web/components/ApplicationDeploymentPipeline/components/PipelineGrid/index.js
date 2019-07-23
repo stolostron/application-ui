@@ -73,7 +73,7 @@ const LeftColumnForApplicationNames = (
         const appNamespace = application.namespace
         const appDeployables = application.deployables
         return (
-          <div key={appName} className="tileContainerApp">
+          <div key={`${appName}key`} className="tileContainerApp">
             <Tile
               className="applicationTile"
               onClick={() => showHideTrigger(appName)}
@@ -136,7 +136,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }) => {
         {channelList.map((channel) => {
           const channelName = channel.name
           return (
-            <div key={channelName} className="channelColumn">
+            <div key={`${channelName}key`} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
                   {`${channelName}`}

@@ -22,7 +22,20 @@
     "test:update-snapshot": "jest --updateSnapshot",
     "test:install-selenium": "selenium-standalone install --version=3.141.5 --drivers.chrome.version=2.36",
     "storybook": "start-storybook -p 6006 -s ./public,./node_modules/carbon-components/css",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run test:unit -- --bail --findRelatedTests",
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.scss": [
+      "stylefmt",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",

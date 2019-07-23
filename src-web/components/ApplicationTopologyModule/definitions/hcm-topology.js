@@ -9,9 +9,9 @@
 'use strict'
 
 import moment from 'moment'
-import {getWrappedNodeLabel} from '../utils/diagram-helper'
+import {getWrappedNodeLabel} from '../utils.js'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
-import { NODE_SIZE, PodIcon, StatusIcon } from './constants.js'
+import { NODE_SIZE, PodIcon, StatusIcon } from '../visualizers/constants.js'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 

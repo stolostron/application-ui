@@ -11,7 +11,7 @@
 import cytoscape from 'cytoscape'
 import cycola from 'cytoscape-cola'
 import dagre from 'cytoscape-dagre'
-import {getWrappedNodeLabel, getHashCode} from '../utils/diagram-helper'
+import {getWrappedNodeLabel, getHashCode} from '../utils.js'
 import {layoutEdges, setDraggedLineData} from './linkHelper'
 import FilterHelper from './filterHelper'
 import _ from 'lodash'

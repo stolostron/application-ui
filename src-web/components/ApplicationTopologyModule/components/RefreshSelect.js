@@ -16,7 +16,7 @@ import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
 import moment from 'moment'
 
-export default class AutoRefreshSelect extends React.Component {
+export default class RefreshSelect extends React.Component {
 
   static propTypes = {
     pollInterval: PropTypes.number,

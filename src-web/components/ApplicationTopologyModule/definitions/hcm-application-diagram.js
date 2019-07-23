@@ -9,7 +9,7 @@
 'use strict'
 import moment from 'moment'
 import {getStringAndParsed} from '../../../../lib/client/design-helper'
-import { NODE_SIZE, StatusIcon } from './constants.js'
+import { NODE_SIZE, StatusIcon } from '../visualizers/constants.js'
 import { getStoredObject, saveStoredObject } from '../../../../lib/client/resource-helper'
 import * as Actions from '../../../actions'
 import msgs from '../../../../nls/platform.properties'
@@ -67,9 +67,9 @@ export default {
 }
 
 // merge table/diagram/topology definitions
-export function mergeDefinitions(tableDefs, topologyDefs) {
+function mergeDefinitions(topologyDefs) {
   // merge diagram with table definitions
-  const defs = Object.assign(this, tableDefs)
+  const defs = Object.assign(this, {})
 
   // add topology types to design types
   defs.typeToShapeMap = Object.assign(defs.typeToShapeMap, topologyDefs.typeToShapeMap)
@@ -112,7 +112,7 @@ export function mergeDefinitions(tableDefs, topologyDefs) {
   return defs
 }
 
-export function getDiagramElements(item, topology, diagramFilters, podList, localStoreKey) {
+function getDiagramElements(item, topology, diagramFilters, podList, localStoreKey) {
 
   const { placementPolicies = [] } = item
   // get design elements like application
@@ -271,7 +271,7 @@ export function getDiagramElements(item, topology, diagramFilters, podList, loca
   }
 }
 
-export function getDesignElements(item) {
+function getDesignElements(item) {
   const links=[]
   const nodes=[]
   const chartMap={}
@@ -512,7 +512,7 @@ export function getDesignElements(item) {
   }
 }
 
-export function getTopologyFilters(item, topologyTypes, kubeSelectors) {
+function getTopologyFilters(item, topologyTypes, kubeSelectors) {
   if (item) {
     let labels = []
     const filters = {type: topologyTypes}
@@ -567,7 +567,7 @@ export function getTopologyFilters(item, topologyTypes, kubeSelectors) {
   return {}
 }
 
-export function getDesignNodeDescription(node, locale) {
+function getDesignNodeDescription(node, locale) {
   let description = ''
   switch (node.type) {
   case 'application':
@@ -586,7 +586,7 @@ export function getDesignNodeDescription(node, locale) {
   return description
 }
 
-export function getNodeTitle(node, locale) {
+function getNodeTitle(node, locale) {
   switch (node.type) {
   case 'application':
     return msgs.get('topology.title.application', locale)
@@ -607,7 +607,7 @@ export function getNodeTitle(node, locale) {
   return ''
 }
 
-export function updateNodeIcons(nodes) {
+function updateNodeIcons(nodes) {
   nodes.forEach(node=>{
     if (node.status) {
       let statusIcon
@@ -631,7 +631,7 @@ export function updateNodeIcons(nodes) {
   })
 }
 
-export function getWorkNodeDescription(node) {
+function getWorkNodeDescription(node) {
   let description = _.get(node, 'work.result.description')
   if (description && description.length>16) {
     description = `${description.slice(0,8)}...${description.slice(-8)}`
@@ -639,7 +639,7 @@ export function getWorkNodeDescription(node) {
   return description
 }
 
-export function getWorkNodeDetails(currentNode) {
+function getWorkNodeDetails(currentNode) {
   const details = []
   if (currentNode){
     const { work: {cluster, release, result, status, reason }} = currentNode
@@ -693,7 +693,7 @@ export function getWorkNodeDetails(currentNode) {
   return details
 }
 
-export function getDesignNodeTooltips(node, locale) {
+function getDesignNodeTooltips(node, locale) {
   let tooltips = []
   const {name, type, namespace, layout:{nodeIcons}} = node
   tooltips.push({name:msgs.get('resource.name', locale), value:name})
@@ -708,7 +708,7 @@ export function getDesignNodeTooltips(node, locale) {
   return tooltips
 }
 
-export function getWorkNodeTooltips(node, locale) {
+function getWorkNodeTooltips(node, locale) {
   let tooltips = []
   const {name, type, work, layout:{nodeIcons}} = node
   const {cluster, status} = work
@@ -727,7 +727,7 @@ export function getWorkNodeTooltips(node, locale) {
   return tooltips
 }
 
-export function getSectionTitles(isMulticluster, clusters, types) {
+function getSectionTitles(isMulticluster, clusters, types) {
   const hasTitle = ['chart','deployment','pod','service']
   types = types.filter(type=>{
     return hasTitle.indexOf(type)===-1
@@ -735,7 +735,7 @@ export function getSectionTitles(isMulticluster, clusters, types) {
   return types.length===0 ? clusters.join(', ') : ''
 }
 
-export function getConnectedLayoutOptions({elements}) {
+function getConnectedLayoutOptions({elements}) {
 
   // pre position elements to try to keep webcola from random layouts
   positionRow(0, elements.nodes().roots().toArray(), new Set())
@@ -802,7 +802,7 @@ const positionRow = (y, row, placedSet) => {
   }
 }
 
-export function getUnconnectedLayoutOptions(collection, columns, index) {
+function getUnconnectedLayoutOptions(collection, columns, index) {
   const count = collection.elements.length
   const cols = Math.min(count, columns[index])
   const h = Math.ceil(count/columns[index])*NODE_SIZE*2.7

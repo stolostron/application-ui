@@ -11,7 +11,7 @@
 import * as d3 from 'd3'
 import 'd3-selection-multi'
 import _ from 'lodash'
-import {counterZoom} from '../utils/diagram-helper'
+import {counterZoom} from '../utils.js'
 
 import { FilterResults, NODE_RADIUS } from './constants.js'
 

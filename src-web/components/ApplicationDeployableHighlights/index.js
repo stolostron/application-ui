@@ -20,31 +20,31 @@ resources(() => {
 const countsCardDataGeneralInfo = [
   {
     msgKey: 'dashboard.card.deployable.versions',
-    count: 5,
+    count: 5
   },
   {
     msgKey: 'dashboard.card.deployable.completed',
-    count: 3,
+    count: 3
   },
   {
     msgKey: 'dashboard.card.deployable.failed',
-    count: 1,
+    count: 1
   },
   {
     msgKey: 'dashboard.card.deployable.inProgress',
-    count: 1,
+    count: 1
   },
   {
     msgKey: 'dashboard.card.deployable.pending',
-    count: 0,
-  },
+    count: 0
+  }
 ]
 
 const countsCardDataIncidents = [
   {
     msgKey: 'dashboard.card.deployable.incidents',
-    count: 1,
-  },
+    count: 1
+  }
 ]
 
 const ApplicationDeployableHighlights = withLocale(({ locale }) => {

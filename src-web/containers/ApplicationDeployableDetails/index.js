@@ -11,7 +11,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
 import {
-  updateSecondaryHeader, /* , fetchResource */
+  updateSecondaryHeader /* , fetchResource */
 } from '../../actions/common'
 import { getBreadCrumbs } from './utils'
 import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights'
@@ -23,10 +23,10 @@ resources(() => {
   require('./style.scss')
 })
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     updateSecondaryHeaderInfo: (title, breadCrumbs) =>
-      dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
+      dispatch(updateSecondaryHeader(title, [], breadCrumbs, []))
   }
 }
 
@@ -45,9 +45,9 @@ class ApplicationDeployableDetails extends React.Component {
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     return (
@@ -60,4 +60,6 @@ class ApplicationDeployableDetails extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeployableDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ApplicationDeployableDetails
+)

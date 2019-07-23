@@ -16,6 +16,6 @@ export const createAction = (type: string): ActionCreatorT => {
   return (payload, meta) => ({
     type,
     ...(payload !== undefined ? { payload } : {}),
-    ...(meta !== undefined ? { meta } : {}),
+    ...(meta !== undefined ? { meta } : {})
   })
 }

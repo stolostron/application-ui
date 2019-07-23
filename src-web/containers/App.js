@@ -23,13 +23,17 @@ import Modal from '../components/common/Modal'
 // import ApplicationDeployableDetails from './ApplicationDeployableDetails';
 
 export const ModalApollo = loadable(() =>
-  import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo'))
+  import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo')
+)
 export const ActionModalApollo = loadable(() =>
-  import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo'))
+  import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
+)
 export const ApplicationHeaderTabs = loadable(() =>
-  import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs'))
+  import(/* webpackChunkName: "applicationHeaderTabs" */ './ApplicationHeaderTabs')
+)
 export const ApplicationDeployableDetails = loadable(() =>
-  import(/* webpackChunkName: "applicationDeployableDetails" */ './ApplicationDeployableDetails'))
+  import(/* webpackChunkName: "applicationDeployableDetails" */ './ApplicationDeployableDetails')
+)
 
 resources(() => {
   require('../../scss/common.scss')
@@ -43,13 +47,15 @@ class App extends React.Component {
     super(props)
 
     if (client) {
-      this.serverProps = JSON.parse(document.getElementById('propshcm').textContent)
+      this.serverProps = JSON.parse(
+        document.getElementById('propshcm').textContent
+      )
     }
   }
 
   getChildContext() {
     return {
-      locale: this.getServerProps().context.locale,
+      locale: this.getServerProps().context.locale
     }
   }
 
@@ -72,9 +78,7 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${
-              match.url
-            }/:namespace/:application/deployable/:name`}
+            path={`${match.url}/:namespace/:application/deployable/:name`}
             exact
             render={params => <ApplicationDeployableDetails params={params} />}
           />
@@ -99,7 +103,7 @@ class App extends React.Component {
 }
 
 App.childContextTypes = {
-  locale: PropTypes.string,
+  locale: PropTypes.string
 }
 
 export default props => (

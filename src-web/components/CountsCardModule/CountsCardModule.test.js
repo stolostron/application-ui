@@ -15,16 +15,16 @@ describe('CountsCardModule', () => {
   const countsCardData = [
     {
       msgKey: 'table.header.deployables',
-      count: 3,
+      count: 3
     },
     {
       msgKey: 'table.header.deployments',
-      count: 1,
+      count: 1
     },
     {
       msgKey: 'table.header.failedDeployments',
-      count: 0,
-    },
+      count: 0
+    }
   ]
 
   it('CountsCardModule renders correctly.', () => {

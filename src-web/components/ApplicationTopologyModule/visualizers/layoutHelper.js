@@ -940,9 +940,13 @@ export default class LayoutHelper {
       const transform = {x: section.x - x1, y: section.y - y1}
 
       // set title position
-      const title = titleMap[hashCode]||{x:0, y:0}
-      title.x = section.x + (w/2)
-      title.y = currentY + dyCell - NODE_SIZE*2
+      let title = titleMap[hashCode]
+      if (title) {
+        title.x = section.x + (w/2)
+        title.y = currentY + dyCell - NODE_SIZE*2
+      } else {
+        title = {x:0, y:-NODE_SIZE}
+      }
 
       // keep track of bounding box
       layoutBBox.y1 = Math.min(layoutBBox.y1||title.y, title.y)

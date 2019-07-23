@@ -739,39 +739,11 @@ function getConnectedLayoutOptions({elements}) {
 
   // pre position elements to try to keep webcola from random layouts
   positionRow(0, elements.nodes().roots().toArray(), new Set())
-
-
-  // let cola position them, nicely
   return {
-    name: 'cola',
-    animate: false,
-    boundingBox: {
-      x1: 0,
-      y1: 0,
-      w: 1000,
-      h: 1000
-    },
-
-    // do directed graph, top to bottom
-    flow: { axis: 'y', minSeparation: NODE_SIZE*1.2},
-
-    // running in headless mode, we need to provide node size here
-    nodeSpacing: ()=>{
-      return NODE_SIZE*1.3
-    },
-
-    // put charts along y to separate design from k8 objects
-    alignment: (node)=>{
-      const {node:{isDivider}} = node.data()
-      if (isDivider) {
-        return { y: 0 }
-      }
-      return null
-    },
-
-    unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
-    userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
-    allConstIter: 20, // works on overlap
+    name: 'dagre',
+    rankDir: 'LR',
+    rankSep: NODE_SIZE*2.4, // running in headless mode, we need to provide node size here
+    nodeSep: NODE_SIZE*2.2, // running in headless mode, we need to provide node size here
   }
 }
 

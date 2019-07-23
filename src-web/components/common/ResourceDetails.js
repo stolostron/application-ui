@@ -86,7 +86,7 @@ const withResource = (Component) => {
           subtitle={msgs.get(`error.${(statusCode === 401 || statusCode === 403) ? 'unauthorized' : 'default'}.description`, this.context.locale)}
           kind='error' />
       } else if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
-        return <Loading className='resource-detail-content-spinner' />
+        return <Loading withOverlay={false} className="content-spinner" />
       }
       return <Component  {...this.props} />
     }

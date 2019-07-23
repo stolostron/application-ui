@@ -22,7 +22,7 @@ import { parse } from '../../../lib/client/design-helper'
 import { DIAGRAM_REFRESH_INTERVAL_COOKIE,
   DIAGRAM_QUERY_COOKIE, MCM_DESIGN_SPLITTER_OPEN_COOKIE,
   MCM_DESIGN_SPLITTER_SIZE_COOKIE, RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { Loading, Icon, InlineNotification  } from 'carbon-components-react'
+import { Icon, InlineNotification  } from 'carbon-components-react'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import * as Actions from '../../actions'
 import apolloClient from '../../../lib/client/apollo-client'
@@ -272,8 +272,7 @@ class ApplicationTopologyModule extends React.Component {
     handleUpdateMessageClosed = () => this.setState({ updateMessage: '' })
 
     render() {
-      if (!this.state.designLoaded)
-        return <Loading withOverlay={false} className='content-spinner' />
+      if (!this.state.designLoaded) return null
 
       const { staticResourceData, onDiagramFilterChange } = this.props
       const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData

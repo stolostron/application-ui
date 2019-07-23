@@ -16,36 +16,18 @@ import hcmapplications from './hcm-applications'
 import hcmchannels from './hcm-channel'
 //import hcmclusters from './hcm-clusters'
 
-import hcmappdiagram from './diagrams/hcm-application-diagram'
-import hcmtopology from './diagrams/hcm-topology'
-
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
-  [RESOURCE_TYPES.HCM_TOPOLOGY.name]: hcmtopology,
   [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels
 }
 
-// diagram tabs
-const diagramData = {
-  [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmappdiagram,
-}
-
 function getResourceData(resourceType) {
-  // main Topology tab
-  if (resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name) {
-    return hcmtopology
-  } else {
-    let def = resourceData[resourceType.name]
-    if (!def) {
-      //eslint-disable-next-line no-console
-      console.error(`No resource data found for '${resourceType}'`)
-    }
-    // merge table/diagram/topology definitions
-    if (diagramData[resourceType.name]) {
-      def = diagramData[resourceType.name].mergeDefinitions(def, hcmtopology)
-    }
-    return def
+  const def = resourceData[resourceType.name]
+  if (!def) {
+    //eslint-disable-next-line no-console
+    console.error(`No resource data found for '${resourceType}'`)
   }
+  return def
 }
 
 export default getResourceData

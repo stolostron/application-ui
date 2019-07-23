@@ -95,12 +95,21 @@ const withResource = (Component) => {
 
 const OverviewTab = withResource(ResourceOverview)
 
+const components = {
+}
+
 class ResourceDetails extends React.Component {
 
   constructor(props) {
     super(props)
     this.getBreadcrumb = this.getBreadcrumb.bind(this)
+
+    this.otherBinding = {}
+    const { routes } = this.props
     this.renderOverview = this.renderOverview.bind(this)
+    routes.forEach(route=>{
+      this.otherBinding[route] = this.renderOther.bind(this, route)
+    })
   }
 
   componentWillMount() {
@@ -139,6 +148,19 @@ class ResourceDetails extends React.Component {
           modules={children}
         />
       </div>
+    )
+  }
+
+  renderOther(route) {
+    const { match, resourceType, staticResourceData, children, tabs } = this.props
+    const Component = components[route]
+    return (
+      <Component
+        resourceType={resourceType}
+        params={match.params}
+        tabs={tabs}
+        staticResourceData={staticResourceData}
+        modules={children} />
     )
   }
 

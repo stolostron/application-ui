@@ -284,12 +284,14 @@ ResourceDetails.contextTypes = {
 }
 
 ResourceDetails.propTypes = {
+  actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
+  showAppDetails: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
   updateSecondaryHeader: PropTypes.func

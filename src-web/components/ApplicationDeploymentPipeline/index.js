@@ -41,7 +41,7 @@ const handleEditResource = (dispatch, resourceType, data) => {
         label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
         name: (data && data.name) || '',
         namespace: (data && data.namespace) || '',        
-        data: data.data}))
+        data: (data && data.data) || ''}))
 }
 
 const mapDispatchToProps = (dispatch) => {

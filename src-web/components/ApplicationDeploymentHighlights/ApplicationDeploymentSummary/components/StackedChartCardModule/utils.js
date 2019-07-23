@@ -9,7 +9,7 @@
 
 import msgs from '../../../../../../nls/platform.properties'
 
-export const getChartKeyColor = (value) => {
+export const getChartKeyColor = value => {
   switch (true) {
   case value === 'pr':
     return '#5A6872'
@@ -35,17 +35,17 @@ export const getChartKeyName = (value, locale) => {
   }
 }
 
-export const getModuleData = (data) => {
+export const getModuleData = data => {
   const chartCardItems = []
   data.map(({ name, cm, pr, fl }) => {
     return chartCardItems.push({
       name,
       cm,
       pr,
-      fl,
+      fl
     })
   })
   return {
-    chartCardItems,
+    chartCardItems
   }
 }

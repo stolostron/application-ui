@@ -17,6 +17,7 @@ import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 
 /* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-key*/
 
 resources(() => {
   require('./style.scss')
@@ -24,7 +25,7 @@ resources(() => {
 
 // This method takes in an ID and then changes the css to either display or
 // hide the row
-const showHideTrigger = (id) => {
+const showHideTrigger = id => {
   // This will display or hide the deplable rows under the applications
   const x = document.getElementById(id)
   if (x.style.display === 'none') {
@@ -54,7 +55,7 @@ const showHideTrigger = (id) => {
 // It displays all the applications names and their number of deployables.
 const LeftColumnForApplicationNames = (
   { applicationRows, applications, deployables },
-  { locale },
+  { locale }
 ) => {
   return (
     <div className="applicationColumnContainer">
@@ -70,12 +71,12 @@ const LeftColumnForApplicationNames = (
           </div>
         </Tile>
       </div>
-      {applicationRows.map((application) => {
+      {applicationRows.map(application => {
         const appName = application.name
         const appNamespace = application.namespace
         const appDeployables = application.deployables
         return (
-          <div key={appName} className="tileContainerApp">
+          <div className="tileContainerApp">
             <Tile
               className="applicationTile"
               onClick={() => showHideTrigger(appName)}
@@ -102,10 +103,10 @@ const LeftColumnForApplicationNames = (
               className="deployablesDisplay"
               style={{ display: 'none' }}
             >
-              {appDeployables.map((deployable) => {
+              {appDeployables.map(deployable => {
                 const deployableName = deployable.metadata.name
                 return (
-                  <Tile key={deployableName} className="deployableTile">
+                  <Tile className="deployableTile">
                     <div className="DeployableContents">
                       <a
                         className="deployableName"
@@ -135,10 +136,10 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
-        {channelList.map((channel) => {
+        {channelList.map(channel => {
           const channelName = channel.name
           return (
-            <div key={channelName} className="channelColumn">
+            <div className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
                   {`${channelName}`}
@@ -156,14 +157,14 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
         })}
       </div>
       {/* All the applicaion totals and the deployable information is found here */}
-      {applicationList.map((application) => {
+      {applicationList.map(application => {
         return (
-          <React.Fragment key={Math.random()}>
+          <React.Fragment>
             <div className="horizontalScrollRow">
               {/* This is the where the row totals will go for the applications */}
               {channelList.map(() => {
                 return (
-                  <div key={Math.random()} className="channelColumn">
+                  <div className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
                       <Tag className="statusTag">N/A</Tag>
                     </Tile>
@@ -176,18 +177,20 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
               className="horizontalScrollRow deployablesDisplay"
               style={{ display: 'none' }}
             >
-              {application.deployables.map((deployable) => {
+              {application.deployables.map(deployable => {
                 // TODO will need to fix once we have the API fully returning everything
                 const deployableChannels = deployable.channel || [
                   'channel1',
-                  'channel2',
+                  'channel2'
                 ]
                 return (
-                  <div key={Math.random()} className="deployableRow">
-                    {channelList.map((channel) => {
-                      const channelMatch = deployableChannels.includes(channel.name)
+                  <div className="deployableRow">
+                    {channelList.map(channel => {
+                      const channelMatch = deployableChannels.includes(
+                        channel.name
+                      )
                       return (
-                        <div key={Math.random()} className="channelColumn">
+                        <div className="channelColumn">
                           {channelMatch ? (
                             <Tile className="channelColumnDeployable">
                               does have the channel

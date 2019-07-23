@@ -26,11 +26,11 @@ export default class CountsCardModule extends React.Component {
     data.map(({ msgKey, count }) => {
       countCardItems.push({
         count,
-        type: msgs.get(msgKey, locale),
+        type: msgs.get(msgKey, locale)
       })
     })
     return {
-      countCardItems,
+      countCardItems
     }
   };
 
@@ -41,9 +41,11 @@ export default class CountsCardModule extends React.Component {
     return (
       <div id="CountsCardModule">
         <div className="card-container">
-          {title &&
-            <span className="card-container-title">{msgs.get(title, locale)}</span>
-          }
+          {title && (
+            <span className="card-container-title">
+              {msgs.get(title, locale)}
+            </span>
+          )}
 
           <div className="card-container-content">
             <CountCards moduleData={moduleData} locale={locale} />
@@ -58,29 +60,16 @@ const CountCards = ({ moduleData: { countCardItems } }) => {
   return (
     <React.Fragment>
       {countCardItems.map(({ count, type }) => {
-        const onClick = () => {}
-        const onKeyPress = (e) => {
-          if (e.key === 'Enter') {
-            onClick()
-          }
-        }
         const cardClasses = classNames({
-          'card-count-type': true,
+          'card-count-type': true
           // hasBorder: idx === 0,
         })
         const countClasses = classNames({
-          'card-count': true,
+          'card-count': true
           // 'alert': count>0,
         })
         return (
-          <div
-            key={type}
-            className={cardClasses}
-            role="button"
-            tabIndex="0"
-            onClick={onClick}
-            onKeyPress={onKeyPress}
-          >
+          <div key={type} className={cardClasses} role="button" tabIndex="0">
             <div className={countClasses}>{count}</div>
             <div className="card-type">
               <div>{type}</div>
@@ -93,7 +82,7 @@ const CountCards = ({ moduleData: { countCardItems } }) => {
 }
 
 CountCards.propTypes = {
-  moduleData: PropTypes.object,
+  moduleData: PropTypes.object
 }
 
 CountsCardModule.propTypes = {}

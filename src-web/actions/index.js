@@ -13,6 +13,7 @@
  */
 
 export * from '../reducers/reducerAppDeployments'
+export * from '../reducers/reducerAppOverview'
 
 export const CATALOG_DROPDOWN_FILTERS_VISIBILITY_TOGGLE =
   'CATALOG_DROPDOWN_FILTER_VISIBILITY_TOGGLE'
@@ -116,24 +117,24 @@ export const LOGS_RECEIVE_IN_PROGRESS = 'LOGS_RECEIVE_IN_PROGRESS'
 export const VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
   SHOW_COMPLETED: 'SHOW_COMPLETED',
-  SHOW_ACTIVE: 'SHOW_ACTIVE',
+  SHOW_ACTIVE: 'SHOW_ACTIVE'
 }
 
 export const USER_LOGIN_STATUS = {
   LOGGED_IN: 'LOGGED_IN',
-  LOGGED_OUT: 'LOGGED_OUT',
+  LOGGED_OUT: 'LOGGED_OUT'
 }
 
 export const REQUEST_STATUS = {
   INCEPTION: 'INCEPTION',
   DONE: 'DONE',
   IN_PROGRESS: 'IN_PROGRESS',
-  ERROR: 'ERROR',
+  ERROR: 'ERROR'
 }
 
 export const PAGE_SIZES = {
   DEFAULT: 20,
-  VALUES: [5, 10, 20, 50, 75, 100],
+  VALUES: [5, 10, 20, 50, 75, 100]
 }
 
 export const SORT_DIRECTION_ASCENDING = 'asc'

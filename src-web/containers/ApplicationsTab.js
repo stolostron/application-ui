@@ -61,5 +61,5 @@ export default withRouter(withAccess(typedResourcePageWithListAndDetails(
     />
   ],
   tableTitle,
-  'All Applications',
+  'All applications',
 ), ROLES.VIEWER))

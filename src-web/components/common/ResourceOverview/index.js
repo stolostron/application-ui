@@ -17,12 +17,12 @@ import ChannelsCardModule from '../../ChannelsCardModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
-  resourceItemByName,
+  resourceItemByName
 } from '../../../reducers/common'
 import {
   getNumDeployables,
   getNumDeployments,
-  getNumFailedDeployments,
+  getNumFailedDeployments
 } from '../../../../lib/client/resource-helper'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
@@ -30,83 +30,100 @@ import msgs from '../../../../nls/platform.properties'
 import { getChannelsList } from './utils'
 
 resources(() => {
-  require('../../../../scss/resource-overview.scss')
+  require('./style.scss')
 })
 
-const ResourceOverview = withLocale(({
-  staticResourceData,
-  item,
-  channelList,
-  params,
-  modules,
-  resourceType,
-  locale,
-}) => {
-  if (!item) {
-    return <Loading withOverlay={false} className="content-spinner" />
-  }
-  const modulesRight = []
-  const modulesBottom = []
-  React.Children.map(modules, (module) => {
-    if (module.props.right) {
-      modulesRight.push(React.cloneElement(module, {
-        staticResourceData,
-        resourceType,
-        resourceData: item,
-        params,
-      }))
-    } else {
-      modulesBottom.push(React.cloneElement(module, {
-        staticResourceData,
-        resourceType,
-        resourceData: item,
-        params,
-      }))
+const ResourceOverview = withLocale(
+  ({
+    staticResourceData,
+    item,
+    channelList,
+    params,
+    modules,
+    resourceType,
+    showAppDetails,
+    locale
+  }) => {
+    if (!item) {
+      return <Loading withOverlay={false} className="content-spinner" />
     }
-  })
+    const modulesRight = []
+    const modulesBottom = []
+    React.Children.map(modules, module => {
+      if (module.props.right) {
+        modulesRight.push(
+          React.cloneElement(module, {
+            staticResourceData,
+            resourceType,
+            resourceData: item,
+            params
+          })
+        )
+      } else {
+        modulesBottom.push(
+          React.cloneElement(module, {
+            staticResourceData,
+            resourceType,
+            resourceData: item,
+            params
+          })
+        )
+      }
+    })
 
-  const countsCardData = [
-    {
-      msgKey: 'table.header.deployables',
-      count: getNumDeployables(item),
-    },
-    {
-      msgKey: 'table.header.deployments',
-      count: getNumDeployments(item),
-    },
-    {
-      msgKey: 'table.header.failedDeployments',
-      count: getNumFailedDeployments(item),
-    },
-  ]
+    const countsCardData = [
+      {
+        msgKey: 'table.header.deployables',
+        count: getNumDeployables(item)
+      },
+      {
+        msgKey: 'table.header.deployments',
+        count: getNumDeployments(item)
+      },
+      {
+        msgKey: 'table.header.failedDeployments',
+        count: getNumFailedDeployments(item)
+      }
+    ]
 
-  return (
-    <div className="overview-content">
-      <div className="overview-content-bottom overview-content-with-padding">
-        <CountsCardModule data={countsCardData} />
+    return (
+      <div id="resource-overview" className="overview-content">
+        {showAppDetails ? (
+          <React.Fragment>
+            <StructuredListModule
+              title={staticResourceData.detailKeys.title}
+              headerRows={staticResourceData.detailKeys.headerRows}
+              rows={staticResourceData.detailKeys.rows}
+              data={item}
+            />
+            {modulesRight.length > 0 && (
+              <div className="overview-content-right">{modulesRight}</div>
+            )}
+            <div className="overview-content-bottom">{modulesBottom}</div>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <div className="overview-content-bottom overview-content-with-padding">
+              <CountsCardModule data={countsCardData} />
+            </div>
+            <div className="deployment-channels-title">
+              {msgs.get('application.deployments.channels', locale)}
+              {Array.isArray(channelList) && (
+                <span>&nbsp;({channelList.length})</span>
+              )}
+            </div>
+            <div className="overview-content-bottom">
+              <ChannelsCardModule data={channelList} />
+            </div>
+          </React.Fragment>
+        )}
       </div>
-      <div className="deployment-channels-title">
-        {msgs.get('application.deployment.channels', locale)}
-      </div>
-      <div className="overview-content-bottom">
-        <ChannelsCardModule data={channelList} />
-      </div>
-      <StructuredListModule
-        title={staticResourceData.detailKeys.title}
-        headerRows={staticResourceData.detailKeys.headerRows}
-        rows={staticResourceData.detailKeys.rows}
-        data={item}
-      />
-      {modulesRight.length > 0 && (
-        <div className="overview-content-right">{modulesRight}</div>
-      )}
-      <div className="overview-content-bottom">{modulesBottom}</div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 ResourceOverview.contextTypes = {
-  locale: PropTypes.string,
+  locale: PropTypes.string
 }
 
 ResourceOverview.propTypes = {
@@ -114,7 +131,7 @@ ResourceOverview.propTypes = {
   modules: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   params: PropTypes.object,
   resourceType: PropTypes.object,
-  staticResourceData: PropTypes.object,
+  staticResourceData: PropTypes.object
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -126,9 +143,11 @@ const mapStateToProps = (state, ownProps) => {
     resourceType,
     name,
     predicate: resourceItemByName,
-    namespace: params.namespace ? decodeURIComponent(params.namespace) : null,
+    namespace: params.namespace ? decodeURIComponent(params.namespace) : null
   })
   return { item, channelList: getChannelsList(HCMChannelList) }
 }
 
-export default withRouter(connect(mapStateToProps)(withLocale(ResourceOverview)))
+export default withRouter(
+  connect(mapStateToProps)(withLocale(ResourceOverview))
+)

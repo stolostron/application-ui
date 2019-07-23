@@ -25,15 +25,15 @@ const mocks = {
           tabs: [
             {
               queryName: 'UnitTesting',
-              searchText:'kind:pod',
-              description:'Search for pods',
+              searchText: 'kind:pod',
+              description: 'Search for pods',
               updated: false,
               id: 'UnitTesting'
             },
             {
               queryName: 'UnitTesting-1',
-              searchText:'kind:pod',
-              description:'Search for pods 1',
+              searchText: 'kind:pod',
+              description: 'Search for pods 1',
               updated: false,
               id: 'UnitTesting-1'
             }
@@ -41,13 +41,13 @@ const mocks = {
           unsavedCount: 2,
           openedTabName: 'UnitTesting',
           openedTabId: 'UnitTesting'
-        },
+        }
       }
     }
-  },
+  }
 }
 
-const delay = (ms) =>
+const delay = ms =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve()
@@ -58,12 +58,10 @@ describe('SecondaryHeaderApollo component 1', () => {
   it('Changes Apollo Client Cache For Edit Modal', async () => {
     const component = shallow(
       <MockedProvider mocks={[mocks.getSearchTabsMock]} addTypename={false}>
-        <SecondaryHeaderApollo title='hello world' />
-      </MockedProvider>,
+        <SecondaryHeaderApollo title="hello world" />
+      </MockedProvider>
     )
     await delay(0)
     expect(component.find(SecondaryHeaderApollo)).toMatchSnapshot()
   })
 })
-
-

@@ -17,13 +17,18 @@ resources(() => {
   require('./style.scss');
 });
 
-const ApplicationDeployableVersionStatus = withLocale(({ locale }) => {
+const ApplicationDeployableVersionStatus = withLocale(({ deployableDetails, channels, subscriptions, locale }) => {
   return (
-    <div id="ApplicationDeployableVersionStatus">
+    <div id="ApplicationDeployableVersionStatus" >
+      <p>Channels: {JSON.stringify(channels)}</p>
+      <p>Channels: {JSON.stringify(subscriptions)}</p>
+
+      <h1>name: {deployableDetails.deployables.metadata.name} </h1>
+      <h1>Version: {JSON.stringify(subscriptions.version)}</h1>
       <div className="deployable-versionStatus-header">
         {msgs.get('description.title.deployableVersionStatus', locale)}
       </div>
-    </div>
+    </div >
   );
 });
 

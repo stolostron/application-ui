@@ -121,13 +121,23 @@ export const getSubscriptions = (data) => {
   return [];
 };
 
+export const getChannels = (data) => {
+
+  if (data && data.deployables && data.deployables.channels) {
+    return data.deployables.channels;
+  }
+  return [];
+
+}
+
 const mapStateToProps = (state) => {
-  const {} = state;
+  const { } = state;
 
   const deployableDetails = getDeployableDetails(tempData);
   const subscriptions = getSubscriptions(tempData);
+  const channels = getChannels(tempData);
 
-  return { deployableDetails, subscriptions };
+  return { deployableDetails, subscriptions, channels };
 };
 
 class ApplicationDeployableDetails extends React.Component {
@@ -141,9 +151,9 @@ class ApplicationDeployableDetails extends React.Component {
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs);
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const { params } = this.props;
@@ -153,7 +163,7 @@ class ApplicationDeployableDetails extends React.Component {
       <div id="ApplicationDeployableDetails">
         <ApplicationDeployableHighlights />
         <ApplicationDeployableSubscription />
-        <ApplicationDeployableVersionStatus />
+        <ApplicationDeployableVersionStatus deployableDetails={this.props.deployableDetails} channels={this.props.channels} subscriptions={this.props.subscriptions} />
       </div>
     );
   }

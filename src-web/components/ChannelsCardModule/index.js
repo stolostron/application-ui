@@ -12,7 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import resources from '../../../lib/shared/resources'
-// import msgs from '../../../nls/platform.properties'
+import msgs from '../../../nls/platform.properties'
 
 resources(() => {
   require('./style.scss')
@@ -20,7 +20,6 @@ resources(() => {
 /* eslint-disable react/prop-types */
 
 export default class ChannelsCardsModule extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {}
@@ -30,9 +29,9 @@ export default class ChannelsCardsModule extends React.Component {
     const { data } = this.props
     const { locale } = this.context
     return (
-      <div id='ChannelsCardModule'>
-        <div className='card-container-container'>
-          {data.map((elem) => {
+      <div id="ChannelsCardModule">
+        <div className="card-container-container">
+          {data.map(elem => {
             return <ChannelsCard key={elem.name} data={elem} locale={locale} />
           })}
         </div>
@@ -42,37 +41,37 @@ export default class ChannelsCardsModule extends React.Component {
 }
 
 // functional card component
-const ChannelsCard = ({ data }) => {
+const ChannelsCard = ({ data, locale }) => {
   const { counts, name } = data
   const countData = Object.keys(counts).map(channel => {
     return {
       ...counts[channel],
-      channel,
+      channel
     }
   })
   return (
-    <div key={name}>
-      <div className='card-container'>
-        <div className='card-content'>
-          <div className='card-name'>
-            Channel: {name}
+    <div className="individualCard" key={name}>
+      <div className="card-container">
+        <div className="card-content">
+          <div className="card-name">
+            {msgs.get('dashboard.card.deployment.channel', locale)}: {name}
           </div>
-          <div className='card-count-content'>
+          <div className="card-count-content">
             {countData.map(({ total, channel }) => {
               const containerClasses = classNames({
-                'card-count-container': true,
+                'card-count-container': true
               })
               return (
-                <div key={channel} className={containerClasses} role={'button'}
-                  tabIndex='0'>
-                  <div className='card-count'>
-                    <div className='card-count-total'>
-                      {total}
-                    </div>
+                <div
+                  key={channel}
+                  className={containerClasses}
+                  role={'button'}
+                  tabIndex="0"
+                >
+                  <div className="card-count">
+                    <div className="card-count-total">{total}</div>
                   </div>
-                  <div className='card-status'>
-                    {channel.toUpperCase()}
-                  </div>
+                  <div className="card-status">{channel.toUpperCase()}</div>
                 </div>
               )
             })}
@@ -84,7 +83,7 @@ const ChannelsCard = ({ data }) => {
 }
 
 ChannelsCard.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object
 }
 
 ChannelsCardsModule.propTypes = {}

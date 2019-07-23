@@ -21,7 +21,7 @@ import { Search } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
-  getChannelsList,
+  getChannelsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
 /* eslint-disable react/prop-types */
@@ -33,19 +33,19 @@ resources(() => {
 const handleCreateResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     HCMApplicationList,
     HCMChannelList,
     // AppDeployments,
-    role,
+    role
   } = state
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
@@ -55,7 +55,7 @@ const mapStateToProps = (state) => {
     HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
-    channels: getChannelsList(HCMChannelList),
+    channels: getChannelsList(HCMChannelList)
   }
 }
 
@@ -88,11 +88,11 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications,
       deployables,
       channels,
-      actions,
+      actions
     } = this.props
     const { locale } = this.context
     const modal = React.cloneElement(CreateChannelModal(), {
-      resourceType: RESOURCE_TYPES.HCM_CHANNELS,
+      resourceType: RESOURCE_TYPES.HCM_CHANNELS
     })
 
     return (
@@ -108,7 +108,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           labelText="Search"
           closeButtonLabelText=""
           placeHolderText="Search"
-          onChange={(event) => {
+          onChange={event => {
             actions.setDeploymentSearch(event.target.value)
           }}
           id="search-1"
@@ -124,4 +124,6 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ApplicationDeploymentPipeline
+)

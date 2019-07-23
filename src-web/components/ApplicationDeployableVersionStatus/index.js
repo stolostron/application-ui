@@ -7,23 +7,29 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from '../../../node_modules/react'
-import msgs from '../../../nls/platform.properties'
-import { withLocale } from '../../providers/LocaleProvider'
-import resources from '../../../lib/shared/resources'
+import React from '../../../node_modules/react';
+import msgs from '../../../nls/platform.properties';
+import { withLocale } from '../../providers/LocaleProvider';
+import { connect } from '../../../node_modules/react-redux';
+import resources from '../../../lib/shared/resources';
 
 resources(() => {
-  require('./style.scss')
-})
+  require('./style.scss');
+});
 
-const ApplicationDeployableVersionStatus = withLocale(({ locale }) => {
+const ApplicationDeployableVersionStatus = withLocale(({ deployableDetails, channels, subscriptions, locale }) => {
   return (
-    <div id="ApplicationDeployableVersionStatus">
+    <div id="ApplicationDeployableVersionStatus" >
+      <p>Channels: {JSON.stringify(channels)}</p>
+      <p>Channels: {JSON.stringify(subscriptions)}</p>
+
+      <h1>name: {deployableDetails.deployables.metadata.name} </h1>
+      <h1>Version: {JSON.stringify(subscriptions.version)}</h1>
       <div className="deployable-versionStatus-header">
         {msgs.get('description.title.deployableVersionStatus', locale)}
       </div>
-    </div>
-  )
-})
+    </div >
+  );
+});
 
-export default withLocale(ApplicationDeployableVersionStatus)
+export default withLocale(ApplicationDeployableVersionStatus);

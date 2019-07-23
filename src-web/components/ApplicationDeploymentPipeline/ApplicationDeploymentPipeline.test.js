@@ -20,5 +20,5 @@ describe('ApplicationDeploymentPipeline', () => {
   it('ApplicationDeploymentPipeline renders correctly.', () => {
     // const tree = renderer.create(<Provider store={store}><Router><ApplicationDeploymentPipeline /></Router></Provider>).toJSON();
     // expect(tree).toMatchSnapshot();
-  });
-});
+  })
+})

@@ -7,15 +7,15 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import { Accordion, AccordionItem, Tile } from 'carbon-components-react';
-import msgs from '../../../../nls/platform.properties';
-import { withLocale } from '../../../providers/LocaleProvider';
-import resources from '../../../../lib/shared/resources';
+import React from 'react'
+import { Accordion, AccordionItem, Tile } from 'carbon-components-react'
+import msgs from '../../../../nls/platform.properties'
+import { withLocale } from '../../../providers/LocaleProvider'
+import resources from '../../../../lib/shared/resources'
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
   return (
@@ -74,6 +74,6 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
         </AccordionItem>
       </Accordion>
     </div>
-  );
-});
-export default withLocale(ApplicationDeploymentHighlightsTerminology);
+  )
+})
+export default withLocale(ApplicationDeploymentHighlightsTerminology)

@@ -20,5 +20,5 @@ describe('ApplicationDeployableDetails', () => {
   it('ApplicationDeployableDetails renders correctly.', () => {
     // const tree = renderer.create(<Provider store={store}><Router><ApplicationDeployableDetails /></Router></Provider>).toJSON();
     // expect(tree).toMatchSnapshot();
-  });
-});
+  })
+})

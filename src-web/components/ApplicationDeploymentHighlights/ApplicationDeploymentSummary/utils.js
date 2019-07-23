@@ -27,13 +27,13 @@ export const getChannelChartData = (list) => {
         cm: item.metadata.name.length * 20,
         pr: item.metadata.name.length * 30,
         fl: item.metadata.name.length * 50,
-      };
-    });
-    const emptyArray = [];
-    return emptyArray.concat.apply([], channelChartDataList);
+      }
+    })
+    const emptyArray = []
+    return emptyArray.concat.apply([], channelChartDataList)
   }
-  return [];
-};
+  return []
+}
 
 // return the width of the chart
 export const getChannelChartWidth = (list) => {

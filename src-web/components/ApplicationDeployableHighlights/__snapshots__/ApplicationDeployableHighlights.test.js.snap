@@ -26,8 +26,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
           >
             <div
               className="card-count-type"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
               tabIndex="0"
             >
@@ -46,8 +44,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
             </div>
             <div
               className="card-count-type"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
               tabIndex="0"
             >
@@ -66,8 +62,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
             </div>
             <div
               className="card-count-type"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
               tabIndex="0"
             >
@@ -86,8 +80,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
             </div>
             <div
               className="card-count-type"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
               tabIndex="0"
             >
@@ -106,8 +98,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
             </div>
             <div
               className="card-count-type"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
               tabIndex="0"
             >
@@ -142,8 +132,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
           >
             <div
               className="card-count-type"
-              onClick={[Function]}
-              onKeyPress={[Function]}
               role="button"
               tabIndex="0"
             >

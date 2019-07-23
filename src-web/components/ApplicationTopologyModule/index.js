@@ -78,6 +78,7 @@ class ApplicationTopologyModule extends React.Component {
         statusesLoaded:false,
         showTextView: !!localStorage.getItem(`${MCM_DESIGN_SPLITTER_OPEN_COOKIE}`),
         selectedNode: undefined,
+        expandedView: false,
         firstLoad:false,
         hasUndo: false,
         hasRedo: false,
@@ -94,6 +95,7 @@ class ApplicationTopologyModule extends React.Component {
       this.handeNodeSelected = this.handleNodeSelected.bind(this)
       this.handleEditorCommand = this.handleEditorCommand.bind(this)
       this.handleSearchChange = this.handleSearchChange.bind(this)
+      this.handleToggleSize = this.handleToggleSize.bind(this)
       this.gotoEditorLine = this.gotoEditorLine.bind(this)
       this.fetchLogs = this.fetchLogs.bind(this)
     }
@@ -185,6 +187,7 @@ class ApplicationTopologyModule extends React.Component {
         !_.isEqual(this.state.exceptions, nextState.exceptions) ||
         this.state.updateMessage !== nextState.updateMessage ||
         this.state.showTextView !== nextState.showTextView ||
+        this.state.expandedView !== nextState.expandedView ||
         this.props.topologyLoaded !== nextProps.topologyLoaded ||
         this.props.statusesLoaded !== nextProps.statusesLoaded ||
         this.props.yaml.localeCompare(nextProps.yaml) !==  0 ||
@@ -276,10 +279,10 @@ class ApplicationTopologyModule extends React.Component {
 
       const { staticResourceData, onDiagramFilterChange } = this.props
       const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData
-      const { links,  diagramFilters, selectedNode, showTextView, isMulticluster } = this.state
+      const { nodes, links,  diagramFilters, selectedNode, showTextView, isMulticluster } = this.state
       const { firstLoad, topologyLoaded, topologyReloading, statusesLoaded } = this.state
       const { currentYaml, hasUndo, hasRedo, exceptions, updateMessage, updateMsgKind } = this.state
-      const { nodes } = this.state
+      const { expandedView } = this.state
       const { locale } = this.context
 
       // set up type filter bar
@@ -289,6 +292,9 @@ class ApplicationTopologyModule extends React.Component {
 
       const typeFilterTitle = msgs.get('type', locale)
       const diagramTitle = msgs.get('application.diagram', locale)
+      const viewFullMsg = expandedView ?
+        msgs.get('application.diagram.view.collapsed', locale) :
+        msgs.get('application.diagram.view.full', locale)
 
       const handleNodeSelected = (node) => {
         this.handleNodeSelected(node)
@@ -314,6 +320,7 @@ class ApplicationTopologyModule extends React.Component {
               links={links}
               isMulticluster={isMulticluster}
               context={this.context}
+              expandedView={expandedView}
               handleNodeSelected={handleNodeSelected}
               selectedNode={selectedNode}
               setViewer={this.setViewer}
@@ -325,6 +332,15 @@ class ApplicationTopologyModule extends React.Component {
               fetchLogs={this.fetchLogs}
               activeFilters={{type:diagramFilters}}
             />
+            <div className='diagram-expand-button'>
+              {viewFullMsg}
+              <Icon
+                className='closeIcon'
+                description={msgs.get('filter.remove.tag', locale)}
+                name="icon--close"
+                onClick={this.handleToggleSize}
+              />
+            </div>
           </div>
         )
       }
@@ -394,6 +410,12 @@ class ApplicationTopologyModule extends React.Component {
       )
     }
 
+
+    handleToggleSize() {
+      this.setState(({expandedView})=>{
+        return { expandedView: !expandedView }
+      })
+    }
 
     // user clicked a node in diagram
     handleNodeSelected(node) {

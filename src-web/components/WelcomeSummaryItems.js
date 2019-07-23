@@ -7,11 +7,11 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import msgs from '../../nls/platform.properties';
-import config from '../../lib/shared/config';
-import { Link } from 'react-router-dom';
-import { Icon } from 'carbon-components-react';
+import React from 'react'
+import msgs from '../../nls/platform.properties'
+import config from '../../lib/shared/config'
+import { Link } from 'react-router-dom'
+import { Icon } from 'carbon-components-react'
 
 /* eslint-disable react/prop-types */
 
@@ -25,7 +25,7 @@ export const SetupCLI = ({ locale }) => (
       />
     </a>
   </div>
-);
+)
 
 export const Kubernetes = ({ locale, showHorizontalRule }) => (
   <li className="bx--list__item">
@@ -49,7 +49,7 @@ export const Kubernetes = ({ locale, showHorizontalRule }) => (
     </div>
     {showHorizontalRule && <div className="horizontal-rule" />}
   </li>
-);
+)
 
 export const Catalog = ({ locale, showHorizontalRule }) => (
   <li className="bx--list__item">
@@ -65,7 +65,7 @@ export const Catalog = ({ locale, showHorizontalRule }) => (
     </div>
     {showHorizontalRule && <div className="horizontal-rule" />}
   </li>
-);
+)
 
 // TODO: update doc link
 export const Clusters = ({ locale, hideVerticalRule }) => (
@@ -89,7 +89,7 @@ export const Clusters = ({ locale, hideVerticalRule }) => (
       </a>
     </div>
   </li>
-);
+)
 
 export const HelmRepo = ({ locale, hideVerticalRule }) => (
   <li
@@ -102,7 +102,7 @@ export const HelmRepo = ({ locale, hideVerticalRule }) => (
       </a>
     </div>
   </li>
-);
+)
 
 export const Application = ({ locale, hideVerticalRule }) => (
   <li
@@ -115,7 +115,7 @@ export const Application = ({ locale, hideVerticalRule }) => (
       </Link>
     </div>
   </li>
-);
+)
 
 export const Compliance = ({ locale, hideVerticalRule }) => (
   <li
@@ -128,7 +128,7 @@ export const Compliance = ({ locale, hideVerticalRule }) => (
       </a>
     </div>
   </li>
-);
+)
 
 export const Users = ({ locale, hideVerticalRule }) => (
   <li
@@ -141,4 +141,4 @@ export const Users = ({ locale, hideVerticalRule }) => (
       </a>
     </div>
   </li>
-);
+)

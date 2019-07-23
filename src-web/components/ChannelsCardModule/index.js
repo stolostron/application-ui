@@ -13,11 +13,11 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import resources from '../../../lib/shared/resources'
 // import msgs from '../../../nls/platform.properties'
-import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
 })
+/* eslint-disable react/prop-types */
 
 export default class ChannelsCardsModule extends React.Component {
 
@@ -42,7 +42,7 @@ export default class ChannelsCardsModule extends React.Component {
 }
 
 // functional card component
-const ChannelsCard = ({ data, locale }) => {
+const ChannelsCard = ({ data }) => {
   const { counts, name } = data
   const countData = Object.keys(counts).map(channel => {
     return {
@@ -85,7 +85,6 @@ const ChannelsCard = ({ data, locale }) => {
 
 ChannelsCard.propTypes = {
   data: PropTypes.object,
-  locale: PropTypes.string
 }
 
 ChannelsCardsModule.propTypes = {}

@@ -18,5 +18,5 @@ describe('ApplicationDeploymentHighlightsDashboard', () => {
     //   .create(<ApplicationDeploymentHighlightsDashboard />)
     //   .toJSON();
     // expect(tree).toMatchSnapshot();
-  });
-});
+  })
+})

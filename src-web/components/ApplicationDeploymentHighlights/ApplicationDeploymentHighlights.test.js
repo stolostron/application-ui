@@ -16,5 +16,5 @@ describe('ApplicationDeploymentHighlights', () => {
   it('ApplicationDeploymentHighlights renders correctly.', () => {
     // const tree = renderer.create(<ApplicationDeploymentHighlights />).toJSON();
     // expect(tree).toMatchSnapshot();
-  });
-});
+  })
+})

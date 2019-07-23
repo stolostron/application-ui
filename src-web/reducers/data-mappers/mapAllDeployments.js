@@ -9,8 +9,8 @@
 
 // @flow
 export default (deployments) => {
-  const { deployment } = deployments;
+  const { deployment } = deployments
   return {
     deploymentName: deployment || '',
-  };
-};
+  }
+}

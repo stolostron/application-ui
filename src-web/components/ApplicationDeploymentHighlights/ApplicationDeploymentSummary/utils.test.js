@@ -7,21 +7,21 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChannelChartData } from './utils';
+import { getChannelChartData } from './utils'
 
 describe('getChannelChartData', () => {
-  const channel1 = 'channel1Name';
-  const channel2 = 'channel2Name';
+  const channel1 = 'channel1Name'
+  const channel2 = 'channel2Name'
 
   const channelList = {
     items: [{ metadata: { name: channel1 } }, { metadata: { name: channel2 } }],
-  };
+  }
   const channelListDummy = {
     itteemmss: [
       { metadata: { name: channel1 } },
       { metadata: { name: channel2 } },
     ],
-  };
+  }
 
   it('should return channels list of 2', () => {
     const result = [
@@ -37,10 +37,10 @@ describe('getChannelChartData', () => {
         pr: channel2.length * 30,
         fl: channel2.length * 50,
       },
-    ];
-    expect(getChannelChartData(channelList)).toEqual(result);
-  });
+    ]
+    expect(getChannelChartData(channelList)).toEqual(result)
+  })
   it('should return blank array', () => {
-    expect(getChannelChartData(channelListDummy)).toEqual([]);
-  });
-});
+    expect(getChannelChartData(channelListDummy)).toEqual([])
+  })
+})

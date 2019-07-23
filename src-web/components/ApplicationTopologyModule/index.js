@@ -7,30 +7,31 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import resources from '../../../lib/shared/resources';
-import msgs from '../../../nls/platform.properties';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import resources from '../../../lib/shared/resources'
+import msgs from '../../../nls/platform.properties'
+/* eslint-disable react/prop-types */
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
-export default class TopologyModule extends React.Component {
+export default class ApplicationTopologyModule extends React.Component {
   getModuleData = () => {
     const { locale } = this.context
     const { data } = this.props
     const countCardItems = []
-    data.map(({ msgKey, count }, idx) => {
+    data.map(({ msgKey, count }) => {
       countCardItems.push({
         count,
         type: msgs.get(msgKey, locale),
-      });
-    });
+      })
+    })
     return {
       countCardItems,
-    };
+    }
   };
 
   render() {
@@ -38,7 +39,7 @@ export default class TopologyModule extends React.Component {
     const { locale } = this.context
     const { title } = this.props
     return (
-      <div id="TopologyModule">
+      <div id="ApplicationTopologyModule">
         <div className="card-container">
           {title &&
             <span className="card-container-title">{msgs.get(title, locale)}</span>
@@ -49,20 +50,20 @@ export default class TopologyModule extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-const CountCards = ({ moduleData: { countCardItems }, locale }) => {
+const CountCards = ({ moduleData: { countCardItems } }) => {
   return (
     <React.Fragment>
-      {countCardItems.map(({ count, type }, idx) => {
-        const onClick = () => {};
+      {countCardItems.map(({ count, type }) => {
+        const onClick = () => {}
         const onKeyPress = (e) => {
           if (e.key === 'Enter') {
-            onClick();
+            onClick()
           }
-        };
+        }
         const cardClasses = classNames({
           'card-count-type': true,
           // hasBorder: idx === 0,
@@ -70,7 +71,7 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
         const countClasses = classNames({
           'card-count': true,
           // 'alert': count>0,
-        });
+        })
         return (
           <div
             key={type}
@@ -85,15 +86,14 @@ const CountCards = ({ moduleData: { countCardItems }, locale }) => {
               <div>{type}</div>
             </div>
           </div>
-        );
+        )
       })}
     </React.Fragment>
-  );
-};
+  )
+}
 
 CountCards.propTypes = {
-  locale: PropTypes.string,
   moduleData: PropTypes.object,
-};
+}
 
-TopologyModule.propTypes = {};
+ApplicationTopologyModule.propTypes = {}

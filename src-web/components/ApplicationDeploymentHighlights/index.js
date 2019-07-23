@@ -7,39 +7,41 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
+import React from 'react'
 
-import msgs from '../../../nls/platform.properties';
-import loadable from 'loadable-components';
-import { connect } from 'react-redux';
-import resources from '../../../lib/shared/resources';
-import { RESOURCE_TYPES } from '../../../lib/shared/constants';
-import { fetchResources } from '../../actions/common';
-import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology';
-import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard';
+import msgs from '../../../nls/platform.properties'
+import loadable from 'loadable-components'
+import { connect } from 'react-redux'
+import resources from '../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { fetchResources } from '../../actions/common'
+import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
+import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard'
+
+/* eslint-disable react/prop-types */
 
 export const ApplicationDeploymentSummary = loadable(() =>
-  import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary'));
+  import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary'))
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-  };
-};
+  }
+}
 
 const mapStateToProps = (state) => {
-  const { HCMChannelList, HCMApplicationList, HCMClusterList } = state;
+  const { HCMChannelList, HCMApplicationList, HCMClusterList } = state
 
   return {
     HCMChannelList,
     HCMClusterList,
     HCMApplicationList,
-  };
-};
+  }
+}
 
 class ApplicationDeploymentHighlights extends React.Component {
   componentWillMount() {}
@@ -49,9 +51,9 @@ class ApplicationDeploymentHighlights extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const { HCMChannelList, HCMClusterList, HCMApplicationList } = this.props;
+    const { HCMChannelList, HCMClusterList, HCMApplicationList } = this.props
 
-    const { locale } = this.context;
+    const { locale } = this.context
 
     return (
       <div id="DeploymentHighlights">
@@ -66,8 +68,8 @@ class ApplicationDeploymentHighlights extends React.Component {
         />
         <ApplicationDeploymentSummary HCMChannelList={HCMChannelList} />
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentHighlights);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentHighlights)

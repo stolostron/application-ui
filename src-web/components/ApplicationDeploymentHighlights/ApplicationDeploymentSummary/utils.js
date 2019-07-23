@@ -39,10 +39,10 @@ export const getChannelChartData = (list) => {
 export const getChannelChartWidth = (list) => {
   if (list && list.items) {
     if (list.items.length > 10) {
-      return 700;
+      return 500;
     }
     if (list.items.length > 7) {
-      return 500;
+      return 400;
     }
     return list.items.length * 75;
   }

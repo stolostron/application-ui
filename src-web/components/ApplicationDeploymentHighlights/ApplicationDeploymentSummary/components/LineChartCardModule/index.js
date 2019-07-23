@@ -17,7 +17,7 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
   return (
     <BarChart
       layout="vertical"
-      width={450}
+      width={400}
       height={250}
       data={moduleData.chartCardItems}
       margin={{

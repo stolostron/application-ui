@@ -150,7 +150,9 @@ class ApplicationDeployableDetails extends React.Component {
     return (
       <div id="ApplicationDeployableDetails">
         <ApplicationDeployableHighlights />
-        <ApplicationDeployableSubscription />
+        <ApplicationDeployableSubscription
+          subscription={this.props.subscriptions}
+        />
         <ApplicationDeployableVersionStatus />
       </div>
     )

@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChannelsList } from './utils';
+import { getChannelsList } from './utils'
 
 describe('getChannelsList', () => {
   const channelList = {
@@ -17,43 +17,43 @@ describe('getChannelsList', () => {
           name: 'name1',
           pending: 1,
           inprogress: 2,
-          failed: 3,
-        },
+          failed: 3
+        }
       },
       {
         metadata: {
           name: 'name3',
           pending: 1,
-          failed: 2,
-        },
-      },
-    ],
-  };
+          failed: 2
+        }
+      }
+    ]
+  }
   const channelDud = {
-    itteemmss: [{ channel: [{}, {}] }, { deployables: [{}] }],
-  };
+    itteemmss: [{ channel: [{}, {}] }, { deployables: [{}] }]
+  }
   it('should return channel list to be displayed in cards on overview tab', () => {
     const result = [
       {
         counts: {
           failed: { total: 3 },
           'in progress': { total: 2 },
-          pending: { total: 1 },
+          pending: { total: 1 }
         },
-        name: 'name1',
+        name: 'name1'
       },
       {
         counts: {
           failed: { total: 2 },
           'in progress': { total: 'N/A' },
-          pending: { total: 1 },
+          pending: { total: 1 }
         },
-        name: 'name3',
-      },
-    ];
-    expect(getChannelsList(channelList)).toEqual(result);
-  });
+        name: 'name3'
+      }
+    ]
+    expect(getChannelsList(channelList)).toEqual(result)
+  })
   it('should return blank array', () => {
-    expect(getChannelsList(channelDud)).toEqual([]);
-  });
-});
+    expect(getChannelsList(channelDud)).toEqual([])
+  })
+})

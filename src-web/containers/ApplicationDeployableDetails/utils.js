@@ -7,8 +7,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import msgs from '../../../nls/platform.properties';
-import config from '../../../lib/shared/config';
+import msgs from '../../../nls/platform.properties'
+import config from '../../../lib/shared/config'
 
 // This method constructs the breadCrumbs for the application deployable details
 export const getBreadCrumbs = (deployableParams, locale) => {
@@ -16,31 +16,27 @@ export const getBreadCrumbs = (deployableParams, locale) => {
     const breadCrumbs = [
       {
         label: msgs.get('dashboard.card.deployment.applications', locale),
-        url: `${config.contextPath}`,
+        url: `${config.contextPath}`
       },
       {
         label: `${deployableParams.application || ''}`,
-        url: `${
-          config.contextPath
-        }/${deployableParams.namespace ||
-          ''}/${deployableParams.application || ''}`,
+        url: `${config.contextPath}/${deployableParams.namespace ||
+          ''}/${deployableParams.application || ''}`
       },
       {
         label: `${deployableParams.name || ''}`,
-        url: `${
-          config.contextPath
-        }/${deployableParams.namespace ||
+        url: `${config.contextPath}/${deployableParams.namespace ||
           ''}/${deployableParams.application ||
-          ''}/deployable/${deployableParams.name || ''}`,
-      },
-    ];
+          ''}/deployable/${deployableParams.name || ''}`
+      }
+    ]
 
-    return breadCrumbs;
+    return breadCrumbs
   }
   return [
     {
       label: msgs.get('dashboard.card.deployment.applications', locale),
-      url: `${config.contextPath}`,
-    },
-  ];
-};
+      url: `${config.contextPath}`
+    }
+  ]
+}

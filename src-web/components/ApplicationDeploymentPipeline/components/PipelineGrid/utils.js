@@ -7,46 +7,46 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda';
+import R from 'ramda'
 
 // A created Mapper to create the row for our application data table
-const mapApplicationLookUp = (application) => {
-  const { metadata, deployables } = application;
-  const idRef = (metadata && metadata.name) || 'default';
+const mapApplicationLookUp = application => {
+  const { metadata, deployables } = application
+  const idRef = (metadata && metadata.name) || 'default'
   return {
     [idRef]: {
       id: (metadata && metadata.name) || '',
       name: (metadata && metadata.name) || '',
       namespace: (metadata && metadata.namespace) || '',
-      deployables: deployables || [],
-    },
-  };
-};
+      deployables: deployables || []
+    }
+  }
+}
 
 // A created Mapper to create the row for our application data table
-const mapApplicationForRow = (application) => {
-  const { metadata, deployables } = application;
+const mapApplicationForRow = application => {
+  const { metadata, deployables } = application
   return {
     id: (metadata && metadata.name) || '',
     name: (metadata && metadata.name) || '',
     namespace: (metadata && metadata.namespace) || '',
-    deployables: deployables || [],
-  };
-};
+    deployables: deployables || []
+  }
+}
 
 // Method will take in an object of applications and return back a mapped version
 // for the DataTable
-export const createApplicationRows = (list) => {
+export const createApplicationRows = list => {
   const mappedApps =
-    (list && list.map(item => mapApplicationForRow(item))) || {};
-  return mappedApps;
-};
+    (list && list.map(item => mapApplicationForRow(item))) || {}
+  return mappedApps
+}
 
 // Method will take in an object of applications and return back a mapped version
 // for the DataTable that will contain more data that we will use to look up and
 // reference given the ID
-export const createApplicationRowsLookUp = (list) => {
+export const createApplicationRowsLookUp = list => {
   const mappedApps =
-    (list && list.map(item => mapApplicationLookUp(item))) || {};
-  return R.mergeAll(mappedApps);
-};
+    (list && list.map(item => mapApplicationLookUp(item))) || {}
+  return R.mergeAll(mappedApps)
+}

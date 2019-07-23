@@ -7,46 +7,45 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from '../../../node_modules/react';
-import CountsCardModule from '../CountsCardModule';
-import msgs from '../../../nls/platform.properties';
-import { withLocale } from '../../providers/LocaleProvider';
-import { connect } from '../../../node_modules/react-redux';
-import resources from '../../../lib/shared/resources';
+import React from '../../../node_modules/react'
+import CountsCardModule from '../CountsCardModule'
+import msgs from '../../../nls/platform.properties'
+import { withLocale } from '../../providers/LocaleProvider'
+import resources from '../../../lib/shared/resources'
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const countsCardDataGeneralInfo = [
   {
     msgKey: 'dashboard.card.deployable.versions',
-    count: 5,
+    count: 5
   },
   {
     msgKey: 'dashboard.card.deployable.completed',
-    count: 3,
+    count: 3
   },
   {
     msgKey: 'dashboard.card.deployable.failed',
-    count: 1,
+    count: 1
   },
   {
     msgKey: 'dashboard.card.deployable.inProgress',
-    count: 1,
+    count: 1
   },
   {
     msgKey: 'dashboard.card.deployable.pending',
-    count: 0,
-  },
-];
+    count: 0
+  }
+]
 
 const countsCardDataIncidents = [
   {
     msgKey: 'dashboard.card.deployable.incidents',
-    count: 1,
-  },
-];
+    count: 1
+  }
+]
 
 const ApplicationDeployableHighlights = withLocale(({ locale }) => {
   return (
@@ -66,7 +65,7 @@ const ApplicationDeployableHighlights = withLocale(({ locale }) => {
         </div>
       </div>
     </React.Fragment>
-  );
-});
+  )
+})
 
-export default withLocale(ApplicationDeployableHighlights);
+export default withLocale(ApplicationDeployableHighlights)

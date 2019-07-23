@@ -7,21 +7,21 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import { Loading } from 'carbon-components-react';
-import lodash from 'lodash';
+import React from 'react'
+import { Loading } from 'carbon-components-react'
+import lodash from 'lodash'
 import {
   getAge,
   getLabelsToList,
   getNumDeployables,
   getNumDeployments,
-  getNumFailedDeployments,
-} from '../../lib/client/resource-helper';
-import { validator } from './validators/hcm-application-validator';
-import { getUpdates } from './deployers/hcm-application-deployer';
-import msgs from '../../nls/platform.properties';
-import { Link } from 'react-router-dom';
-import config from '../../lib/shared/config';
+  getNumFailedDeployments
+} from '../../lib/client/resource-helper'
+import { validator } from './validators/hcm-application-validator'
+import { getUpdates } from './deployers/hcm-application-deployer'
+import msgs from '../../nls/platform.properties'
+import { Link } from 'react-router-dom'
+import config from '../../lib/shared/config'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -34,26 +34,26 @@ export default {
     {
       msgKey: 'table.header.name',
       resourceKey: 'metadata.name',
-      transformFunction: createApplicationLink,
+      transformFunction: createApplicationLink
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'metadata.namespace',
+      resourceKey: 'metadata.namespace'
     },
     {
       msgKey: 'table.header.deployables',
       resourceKey: 'deployables',
-      transformFunction: getNumDeployables,
+      transformFunction: getNumDeployables
     },
     {
       msgKey: 'table.header.deployments',
       resourceKey: 'deployments',
-      transformFunction: getNumDeployments,
+      transformFunction: getNumDeployments
     },
     {
       msgKey: 'table.header.failedDeployments',
       resourceKey: 'failedDeployments',
-      transformFunction: getNumFailedDeployments,
+      transformFunction: getNumFailedDeployments
     },
     // {
     //   msgKey: 'table.header.labels',
@@ -63,7 +63,7 @@ export default {
     {
       msgKey: 'table.header.created',
       resourceKey: 'metadata.creationTimestamp',
-      transformFunction: getAge,
+      transformFunction: getAge
     },
     // {
     //   msgKey: 'table.header.status',
@@ -73,8 +73,8 @@ export default {
     {
       msgKey: 'table.header.dashboard',
       resourceKey: 'dashboard',
-      transformFunction: createDashboardLink,
-    },
+      transformFunction: createDashboardLink
+    }
   ],
   tableActions: ['table.actions.applications.remove'],
   detailKeys: {
@@ -85,35 +85,35 @@ export default {
         cells: [
           {
             resourceKey: 'description.title.name',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name',
-          },
-        ],
+            resourceKey: 'metadata.name'
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.namespace',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
-            resourceKey: 'metadata.namespace',
-          },
-        ],
+            resourceKey: 'metadata.namespace'
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.created',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
             resourceKey: 'metadata.creationTimestamp',
-            transformFunction: getAge,
-          },
-        ],
+            transformFunction: getAge
+          }
+        ]
       },
       // {
       //   cells: [
@@ -131,72 +131,72 @@ export default {
         cells: [
           {
             resourceKey: 'description.title.labels',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
             resourceKey: 'metadata.labels',
-            transformFunction: getLabelsToList,
-          },
-        ],
+            transformFunction: getLabelsToList
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.selector',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
             resourceKey: 'selector',
-            transformFunction: getLabelsToList,
-          },
-        ],
+            transformFunction: getLabelsToList
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.annotations',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
             resourceKey: 'metadata.annotations',
-            transformFunction: getLabelsToList,
-          },
-        ],
+            transformFunction: getLabelsToList
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.resource.version',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
-            resourceKey: 'metadata.resourceVersion',
-          },
-        ],
+            resourceKey: 'metadata.resourceVersion'
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.self.link',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
-            resourceKey: 'metadata.selfLink',
-          },
-        ],
+            resourceKey: 'metadata.selfLink'
+          }
+        ]
       },
       {
         cells: [
           {
             resourceKey: 'description.title.uid',
-            type: 'i18n',
+            type: 'i18n'
           },
           {
-            resourceKey: 'metadata.uid',
-          },
-        ],
-      },
-    ],
+            resourceKey: 'metadata.uid'
+          }
+        ]
+      }
+    ]
   },
   applicationWorkKeys: {
     title: 'application.works',
@@ -207,40 +207,40 @@ export default {
       {
         key: 'name',
         resourceKey: 'metadata.name',
-        msgKey: 'table.header.name',
+        msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
         resourceKey: 'metadata.namespace',
-        msgKey: 'table.header.namespace',
+        msgKey: 'table.header.namespace'
       },
       {
         key: 'cluster',
         resourceKey: 'cluster',
-        msgKey: 'table.header.cluster',
+        msgKey: 'table.header.cluster'
       },
       {
         key: 'release',
         resourceKey: 'release',
-        msgKey: 'table.header.helm.release',
+        msgKey: 'table.header.helm.release'
       },
       {
         key: 'status',
         resourceKey: 'status',
-        msgKey: 'table.header.status',
+        msgKey: 'table.header.status'
       },
       {
         key: 'reason',
         resourceKey: 'reason',
-        msgKey: 'table.header.reason',
+        msgKey: 'table.header.reason'
       },
       {
         key: 'timestamp',
         resourceKey: 'metadata.creationTimestamp',
         msgKey: 'table.header.created',
-        transformFunction: getAge,
-      },
-    ],
+        transformFunction: getAge
+      }
+    ]
   },
   placementPolicyKeys: {
     title: 'application.placement.policies',
@@ -251,44 +251,44 @@ export default {
       {
         key: 'name',
         resourceKey: 'metadata.name',
-        msgKey: 'table.header.name',
+        msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
         resourceKey: 'metadata.namespace',
-        msgKey: 'table.header.namespace',
+        msgKey: 'table.header.namespace'
       },
       {
         key: 'replicas',
         resourceKey: 'clusterReplicas',
-        msgKey: 'table.header.replicas',
+        msgKey: 'table.header.replicas'
       },
       {
         key: 'clusterSelector',
         resourceKey: 'clusterLabels',
         msgKey: 'table.header.cluster.selector',
-        transformFunction: getLabelsToList,
+        transformFunction: getLabelsToList
       },
       {
         key: 'resourceSelector',
         resourceKey: 'resourceSelector',
         msgKey: 'table.header.resource.selector',
-        transformFunction: getLabelsToList,
+        transformFunction: getLabelsToList
       },
       {
         key: 'decisions',
         resourceKey: 'status',
         msgKey: 'table.header.decisions',
-        transformFunction: getDecisions,
+        transformFunction: getDecisions
       },
       {
         key: 'timestamp',
         resourceKey: 'metadata.creationTimestamp',
         msgKey: 'table.header.created',
-        transformFunction: getAge,
-      },
+        transformFunction: getAge
+      }
     ],
-    tableActions: ['table.actions.application.edit'],
+    tableActions: ['table.actions.application.edit']
   },
   placementBindingKeys: {
     title: 'application.placement.bindings',
@@ -299,31 +299,31 @@ export default {
       {
         key: 'name',
         resourceKey: 'metadata.name',
-        msgKey: 'table.header.name',
+        msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
         resourceKey: 'metadata.namespace',
-        msgKey: 'table.header.namespace',
+        msgKey: 'table.header.namespace'
       },
       {
         key: 'placementpolicy',
         resourceKey: 'placementRef.name',
-        msgKey: 'table.header.placementpolicy',
+        msgKey: 'table.header.placementpolicy'
       },
       {
         key: 'subjects',
         resourceKey: 'subjects',
         msgKey: 'table.header.subjects',
-        transformFunction: getSubjects,
+        transformFunction: getSubjects
       },
       {
         key: 'timestamp',
         resourceKey: 'metadata.creationTimestamp',
         msgKey: 'table.header.created',
-        transformFunction: getAge,
-      },
-    ],
+        transformFunction: getAge
+      }
+    ]
   },
   deployablesKeys: {
     title: 'application.deployables',
@@ -334,32 +334,32 @@ export default {
       {
         key: 'name',
         resourceKey: 'metadata.name',
-        msgKey: 'table.header.name',
+        msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
         resourceKey: 'metadata.namespace',
-        msgKey: 'table.header.namespace',
+        msgKey: 'table.header.namespace'
       },
       {
         key: 'chart',
         resourceKey: 'deployer',
         msgKey: 'table.header.deployerDetails',
-        transformFunction: getDeployerDetails,
+        transformFunction: getDeployerDetails
       },
       {
         key: 'dependencies',
         resourceKey: 'dependencies',
         msgKey: 'table.header.dependencies',
-        transformFunction: getDependencies,
+        transformFunction: getDependencies
       },
       {
         key: 'timestamp',
         resourceKey: 'metadata.creationTimestamp',
         msgKey: 'table.header.created',
-        transformFunction: getAge,
-      },
-    ],
+        transformFunction: getAge
+      }
+    ]
   },
   applicationRelationshipKeys: {
     title: 'application.relationships',
@@ -370,45 +370,47 @@ export default {
       {
         key: 'name',
         resourceKey: 'metadata.name',
-        msgKey: 'table.header.name',
+        msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
         resourceKey: 'metadata.namespace',
-        msgKey: 'table.header.namespace',
+        msgKey: 'table.header.namespace'
       },
       {
         key: 'source',
         resourceKey: 'source',
         msgKey: 'table.header.source',
-        transformFunction: getRelationshipSourceDest,
+        transformFunction: getRelationshipSourceDest
       },
       {
         key: 'destination',
         resourceKey: 'destination',
         msgKey: 'table.header.destination',
-        transformFunction: getRelationshipSourceDest,
+        transformFunction: getRelationshipSourceDest
       },
       {
         key: 'type',
         resourceKey: 'type',
-        msgKey: 'table.header.type',
+        msgKey: 'table.header.type'
       },
       {
         key: 'timestamp',
         resourceKey: 'metadata.creationTimestamp',
         msgKey: 'table.header.created',
-        transformFunction: getAge,
-      },
-    ],
-  },
-};
+        transformFunction: getAge
+      }
+    ]
+  }
+}
 
 export function createApplicationLink(item = {}, ...param) {
-  const { name, namespace = 'default' } = item.metadata ? item.metadata : item;
-  if (param[2]) return item.metadata.name;
-  const link = `${config.contextPath}/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`;
-  return <Link to={link}>{name}</Link>;
+  const { name, namespace = 'default' } = item.metadata ? item.metadata : item
+  if (param[2]) return item.metadata.name
+  const link = `${config.contextPath}/${encodeURIComponent(
+    namespace
+  )}/${encodeURIComponent(name)}`
+  return <Link to={link}>{name}</Link>
 }
 
 export function createDashboardLink({ dashboard = '' }, locale) {
@@ -417,10 +419,10 @@ export function createDashboardLink({ dashboard = '' }, locale) {
       <a target="_blank" rel="noopener noreferrer" href={dashboard}>
         {msgs.get('table.actions.launch.grafana', locale)}
       </a>
-    );
+    )
   }
 
-  return '-';
+  return '-'
 }
 
 export function getStatus(item = {}) {
@@ -428,17 +430,17 @@ export function getStatus(item = {}) {
     <Loading id={`loading-${item.name}`} small withOverlay={false} />
   ) : (
     item.status
-  );
+  )
 }
 
 export function getDecisions(item = {}) {
   const decisions =
     lodash.get(item, 'placementPolicies[0].status.decisions') ||
-    lodash.get(item, 'status.decisions');
+    lodash.get(item, 'status.decisions')
   if (decisions) {
-    return decisions.map(decision => decision.clusterName).join(', ');
+    return decisions.map(decision => decision.clusterName).join(', ')
   }
-  return '-';
+  return '-'
 }
 
 export function getDeployerDetails(item = {}, locale) {
@@ -456,7 +458,7 @@ export function getDeployerDetails(item = {}, locale) {
             {` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
           </li>
         </ul>
-      );
+      )
       // deployer was a chart
     } else if (item.deployer.chartName) {
       return (
@@ -478,7 +480,7 @@ export function getDeployerDetails(item = {}, locale) {
             {` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
           </li>
         </ul>
-      );
+      )
     } else if (item.deployer.kubeKind) {
       // deployer was a k8 object
       return (
@@ -492,20 +494,20 @@ export function getDeployerDetails(item = {}, locale) {
             {` = ${item.deployer.kubeName ? item.deployer.kubeName : '-'}`}
           </li>
         </ul>
-      );
+      )
     }
   }
 }
 
 export function getDependencies(item = {}) {
   if (item.dependencies) {
-    let str = '';
+    let str = ''
     item.dependencies.forEach(({ name, kind }) => {
-      str += `${name} [${kind}], `;
-    });
-    return str.substring(0, str.length - 2);
+      str += `${name} [${kind}], `
+    })
+    return str.substring(0, str.length - 2)
   }
-  return '-';
+  return '-'
 }
 
 export function getRelationshipSourceDest(item, locale, arg) {
@@ -531,12 +533,12 @@ export function getRelationshipSourceDest(item, locale, arg) {
         {` = ${item.destination ? item.destination.name : '-'}`}
       </li>
     </ul>
-  );
+  )
 }
 
 export function getSubjects(item) {
   return (
     item.subjects &&
     item.subjects.map(subject => `${subject.name}(${subject.kind})`).join(', ')
-  );
+  )
 }

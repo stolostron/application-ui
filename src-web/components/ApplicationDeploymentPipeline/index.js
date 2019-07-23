@@ -7,45 +7,46 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import msgs from '../../../nls/platform.properties';
-import { connect } from 'react-redux';
+import React from 'react'
+import msgs from '../../../nls/platform.properties'
+import { connect } from 'react-redux'
 // import { withRouter } from 'react-router-dom'
-import { bindActionCreators } from 'redux';
-import * as Actions from '../../actions';
-import resources from '../../../lib/shared/resources';
-import { RESOURCE_TYPES } from '../../../lib/shared/constants';
-import { createResources, fetchResources } from '../../actions/common';
-import PipelineGrid from './components/PipelineGrid';
-import { Search } from 'carbon-components-react';
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../actions'
+import resources from '../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { createResources, fetchResources } from '../../actions/common'
+import PipelineGrid from './components/PipelineGrid'
+import { Search } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
-  getChannelsList,
-} from './utils';
-import CreateResourceModal from '../modals/CreateResourceModal';
+  getChannelsList
+} from './utils'
+import CreateResourceModal from '../modals/CreateResourceModal'
+/* eslint-disable react/prop-types */
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const handleCreateResource = (dispatch, yaml) =>
-  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml));
+  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-  };
-};
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
+  }
+}
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     HCMApplicationList,
     HCMChannelList,
     // AppDeployments,
-    role,
-  } = state;
+    role
+  } = state
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {
@@ -54,9 +55,9 @@ const mapStateToProps = (state) => {
     HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
-    channels: getChannelsList(HCMChannelList),
-  };
-};
+    channels: getChannelsList(HCMChannelList)
+  }
+}
 
 const CreateChannelModal = () => {
   return (
@@ -67,13 +68,13 @@ const CreateChannelModal = () => {
       onCreateResource={handleCreateResource}
       resourceDescriptionKey="modal.createresource.application"
     />
-  );
-};
+  )
+}
 
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
-    const { fetchChannels } = this.props;
-    fetchChannels();
+    const { fetchChannels } = this.props
+    fetchChannels()
   }
 
   componentDidMount() {}
@@ -87,12 +88,12 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications,
       deployables,
       channels,
-      actions,
-    } = this.props;
-    const { locale } = this.context;
+      actions
+    } = this.props
+    const { locale } = this.context
     const modal = React.cloneElement(CreateChannelModal(), {
-      resourceType: RESOURCE_TYPES.HCM_CHANNELS,
-    });
+      resourceType: RESOURCE_TYPES.HCM_CHANNELS
+    })
 
     return (
       <div id="DeploymentPipeline">
@@ -107,8 +108,8 @@ class ApplicationDeploymentPipeline extends React.Component {
           labelText="Search"
           closeButtonLabelText=""
           placeHolderText="Search"
-          onChange={(event) => {
-            actions.setDeploymentSearch(event.target.value);
+          onChange={event => {
+            actions.setDeploymentSearch(event.target.value)
           }}
           id="search-1"
         />
@@ -119,8 +120,10 @@ class ApplicationDeploymentPipeline extends React.Component {
           channels={channels}
         />
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ApplicationDeploymentPipeline
+)

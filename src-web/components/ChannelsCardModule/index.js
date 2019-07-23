@@ -6,47 +6,49 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
+'use strict'
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import resources from '../../../lib/shared/resources';
-import msgs from '../../../nls/platform.properties';
+import React from 'react'
+import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import resources from '../../../lib/shared/resources'
+import msgs from '../../../nls/platform.properties'
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
+/* eslint-disable react/prop-types */
 
 export default class ChannelsCardsModule extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
   }
 
   render() {
-    const { data } = this.props;
-    const { locale } = this.context;
+    const { data } = this.props
+    const { locale } = this.context
     return (
       <div id="ChannelsCardModule">
         <div className="card-container-container">
-          {data.map((elem) => {
-            return <ChannelsCard key={elem.name} data={elem} locale={locale} />;
+          {data.map(elem => {
+            return <ChannelsCard key={elem.name} data={elem} locale={locale} />
           })}
         </div>
       </div>
-    );
+    )
   }
 }
 
 // functional card component
 const ChannelsCard = ({ data, locale }) => {
-  const { counts, name } = data;
-  const countData = Object.keys(counts).map((channel) => {
+  const { counts, name } = data
+  const countData = Object.keys(counts).map(channel => {
     return {
       ...counts[channel],
-      channel,
-    };
-  });
+      channel
+    }
+  })
   return (
     <div className="individualCard" key={name}>
       <div className="card-container">
@@ -57,13 +59,13 @@ const ChannelsCard = ({ data, locale }) => {
           <div className="card-count-content">
             {countData.map(({ total, channel }) => {
               const containerClasses = classNames({
-                'card-count-container': true,
-              });
+                'card-count-container': true
+              })
               return (
                 <div
                   key={channel}
                   className={containerClasses}
-                  role="button"
+                  role={'button'}
                   tabIndex="0"
                 >
                   <div className="card-count">
@@ -71,18 +73,17 @@ const ChannelsCard = ({ data, locale }) => {
                   </div>
                   <div className="card-status">{channel.toUpperCase()}</div>
                 </div>
-              );
+              )
             })}
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 ChannelsCard.propTypes = {
-  data: PropTypes.object,
-  locale: PropTypes.string,
-};
+  data: PropTypes.object
+}
 
-ChannelsCardsModule.propTypes = {};
+ChannelsCardsModule.propTypes = {}

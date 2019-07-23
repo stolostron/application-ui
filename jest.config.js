@@ -12,9 +12,9 @@ const tapReporter = [
   {
     logLevel: 'ERROR',
     showInternalStackTraces: true,
-    filePath: 'test-output/jestTestLogs.tap',
-  },
-];
+    filePath: 'test-output/jestTestLogs.tap'
+  }
+]
 
 const jestConfig = {
   collectCoverage: true,
@@ -27,7 +27,7 @@ const jestConfig = {
     '!**/src-web/pages/routes/*',
     '!**/node_modules/**',
     '!**/vendor/**',
-    '!**/tmp/**',
+    '!**/tmp/**'
   ],
   coverageDirectory: './test-output/coverage',
   coverageReporters: [
@@ -36,7 +36,7 @@ const jestConfig = {
     'html',
     'lcov',
     'text',
-    'text-summary',
+    'text-summary'
   ],
   testURL: 'http://localhost/',
   // coverageThreshold: {
@@ -52,17 +52,17 @@ const jestConfig = {
     '<rootDir>/tests/jest/**/**/*.test.js?(x)',
     '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
     '**/tests/jest/**/*.test.js',
-    '**/src-web/**/*.test.js',
+    '**/src-web/**/*.test.js'
   ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   moduleNameMapper: {
-    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js',
-  },
-};
+    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
+  }
+}
 
 jestConfig.reporters = process.env.TRAVIS
   ? ['default', tapReporter]
-  : ['default'];
+  : ['default']
 
-module.exports = jestConfig;
+module.exports = jestConfig

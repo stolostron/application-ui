@@ -8,25 +8,25 @@
  *******************************************************************************/
 
 // Method will take in an object and return back the channels mapped for display purposes
-export const getChannelsList = (channels) => {
+export const getChannelsList = channels => {
   if (channels && channels.items) {
-    const mappedChannels = channels.items.map((channel) => {
+    const mappedChannels = channels.items.map(channel => {
       return {
         name: channel.metadata.name || '',
         counts: {
           pending: {
-            total: channel.metadata.pending || 'N/A',
+            total: channel.metadata.pending || 'N/A'
           },
           'in progress': {
-            total: channel.metadata.inprogress || 'N/A',
+            total: channel.metadata.inprogress || 'N/A'
           },
           failed: {
-            total: channel.metadata.failed || 'N/A',
-          },
-        },
-      };
-    });
-    return mappedChannels;
+            total: channel.metadata.failed || 'N/A'
+          }
+        }
+      }
+    })
+    return mappedChannels
   }
-  return [];
-};
+  return []
+}

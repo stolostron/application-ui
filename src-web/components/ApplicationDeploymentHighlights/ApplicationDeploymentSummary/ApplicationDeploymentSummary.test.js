@@ -18,5 +18,5 @@ describe('ApplicationDeploymentSummary', () => {
     //   .create(<ApplicationDeploymentSummary />)
     //   .toJSON();
     // expect(tree).toMatchSnapshot();
-  });
-});
+  })
+})

@@ -12,39 +12,35 @@ import { withLocale } from '../../../../../providers/LocaleProvider'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
 import { getChartKeyColor, getChartKeyName, getModuleData } from './utils'
 
-const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
+const LineChartCardModule = withLocale(({ data, locale }) => {
   const moduleData = getModuleData(data)
   return (
     <BarChart
-      width={chartWidth}
+      layout="vertical"
+      width={400}
       height={250}
       data={moduleData.chartCardItems}
       margin={{
         top: 20,
-        right: 30,
-        left: 20,
+        right: 0,
+        left: 140,
         bottom: 5
       }}
     >
       <CartesianGrid strokeDasharray="3 3" vertical={false} />
-      <XAxis
+      <XAxis type="number" axisLine={false} />
+      <YAxis
+        type="category"
         dataKey="name"
         tick={{ fontSize: 10, transform: 'translate(0, 12)' }}
         interval="preserveStartEnd"
         tickSize={10}
+        axisLine={false}
         tickLine={{ stroke: '#DFE3E6', transform: 'translate(0, 6)' }}
-        axisLine={false}
-      />
-      <YAxis
-        tick={{ fontSize: 12, transform: 'translate(-5, 0)' }}
-        tickLine={false}
-        axisLine={false}
-        tickCount={4}
-        width={43}
       />
       <Tooltip />
       <Bar
-        barSize={30}
+        barSize={10}
         legendType="circle"
         dataKey="cm"
         stackId="a"
@@ -67,6 +63,6 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
   )
 })
 
-StackedChartCardModule.propTypes = {}
+LineChartCardModule.propTypes = {}
 
-export default withLocale(StackedChartCardModule)
+export default withLocale(LineChartCardModule)

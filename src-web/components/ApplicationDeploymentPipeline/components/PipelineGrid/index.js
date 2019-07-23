@@ -7,51 +7,52 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import msgs from '../../../../../nls/platform.properties';
-import { withLocale } from '../../../../providers/LocaleProvider';
-import resources from '../../../../../lib/shared/resources';
-import { createApplicationRows, createApplicationRowsLookUp } from './utils';
-import { Tile, Icon, Tag } from 'carbon-components-react';
-import config from '../../../../../lib/shared/config';
+import React from 'react'
+import msgs from '../../../../../nls/platform.properties'
+import { withLocale } from '../../../../providers/LocaleProvider'
+import resources from '../../../../../lib/shared/resources'
+import { createApplicationRows } from './utils'
+import { Tile, Icon, Tag } from 'carbon-components-react'
+import config from '../../../../../lib/shared/config'
+/* eslint-disable react/prop-types */
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 // This method takes in an ID and then changes the css to either display or
 // hide the row
-const showHideTrigger = (id) => {
+const showHideTrigger = id => {
   // This will display or hide the deplable rows under the applications
-  const x = document.getElementById(id);
+  const x = document.getElementById(id)
   if (x.style.display === 'none') {
-    x.style.display = 'block';
+    x.style.display = 'block'
   } else {
-    x.style.display = 'none';
+    x.style.display = 'none'
   }
   // This will display or hide the deployable rows under the channels
-  const y = document.getElementById(`${id}deployableRows`);
+  const y = document.getElementById(`${id}deployableRows`)
   if (y.style.display === 'none') {
-    y.style.display = 'block';
+    y.style.display = 'block'
   } else {
-    y.style.display = 'none';
+    y.style.display = 'none'
   }
   // Toggle the chevron Icon which is the drop down indicator for the deployables
-  const z = document.getElementById(`${id}chevron`);
+  const z = document.getElementById(`${id}chevron`)
   if (z.className.animVal === 'closeRowChevron') {
-    z.classList.remove('closeRowChevron');
-    z.classList.add('openRowChevron');
+    z.classList.remove('closeRowChevron')
+    z.classList.add('openRowChevron')
   } else {
-    z.classList.remove('openRowChevron');
-    z.classList.add('closeRowChevron');
+    z.classList.remove('openRowChevron')
+    z.classList.add('closeRowChevron')
   }
-};
+}
 
 // This component displays all the LEFT column applications in the table.
 // It displays all the applications names and their number of deployables.
 const LeftColumnForApplicationNames = (
   { applicationRows, applications, deployables },
-  { locale },
+  { locale }
 ) => {
   return (
     <div className="applicationColumnContainer">
@@ -67,12 +68,12 @@ const LeftColumnForApplicationNames = (
           </div>
         </Tile>
       </div>
-      {applicationRows.map((application) => {
-        const appName = application.name;
-        const appNamespace = application.namespace;
-        const appDeployables = application.deployables;
+      {applicationRows.map(application => {
+        const appName = application.name
+        const appNamespace = application.namespace
+        const appDeployables = application.deployables
         return (
-          <div className="tileContainerApp">
+          <div key={`${appName}key`} className="tileContainerApp">
             <Tile
               className="applicationTile"
               onClick={() => showHideTrigger(appName)}
@@ -99,10 +100,10 @@ const LeftColumnForApplicationNames = (
               className="deployablesDisplay"
               style={{ display: 'none' }}
             >
-              {appDeployables.map((deployable) => {
-                const deployableName = deployable.metadata.name;
+              {appDeployables.map(deployable => {
+                const deployableName = deployable.metadata.name
                 return (
-                  <Tile className="deployableTile">
+                  <Tile key={deployableName} className="deployableTile">
                     <div className="DeployableContents">
                       <a
                         className="deployableName"
@@ -117,25 +118,25 @@ const LeftColumnForApplicationNames = (
                       </div>
                     </div>
                   </Tile>
-                );
+                )
               })}
             </div>
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
+const ChannelColumnGrid = ({ channelList, applicationList }) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
-        {channelList.map((channel) => {
-          const channelName = channel.name;
+        {channelList.map(channel => {
+          const channelName = channel.name
           return (
-            <div className="channelColumn">
+            <div key={`${channelName}key`} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
                   {`${channelName}`}
@@ -148,23 +149,23 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
                 </div>
               </Tile>
             </div>
-          );
+          )
         })}
       </div>
       {/* All the applicaion totals and the deployable information is found here */}
-      {applicationList.map((application) => {
+      {applicationList.map(application => {
         return (
-          <React.Fragment>
+          <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
               {/* This is the where the row totals will go for the applications */}
               {channelList.map(() => {
                 return (
-                  <div className="channelColumn">
+                  <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
                       <Tag className="statusTag">N/A</Tag>
                     </Tile>
                   </div>
-                );
+                )
               })}
             </div>
             <div
@@ -172,18 +173,20 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
               className="horizontalScrollRow deployablesDisplay"
               style={{ display: 'none' }}
             >
-              {application.deployables.map((deployable) => {
+              {application.deployables.map(deployable => {
                 // TODO will need to fix once we have the API fully returning everything
                 const deployableChannels = deployable.channel || [
                   'channel1',
-                  'channel2',
-                ];
+                  'channel2'
+                ]
                 return (
-                  <div className="deployableRow">
-                    {channelList.map((channel) => {
-                      const channelMatch = deployableChannels.includes(channel.name);
+                  <div key={Math.random()} className="deployableRow">
+                    {channelList.map(channel => {
+                      const channelMatch = deployableChannels.includes(
+                        channel.name
+                      )
                       return (
-                        <div className="channelColumn">
+                        <div key={Math.random()} className="channelColumn">
                           {channelMatch ? (
                             <Tile className="channelColumnDeployable">
                               does have the channel
@@ -194,21 +197,21 @@ const ChannelColumnGrid = ({ channelList, applicationList }, { locale }) => {
                             </Tile>
                           )}
                         </div>
-                      );
+                      )
                     })}
                   </div>
-                );
+                )
               })}
             </div>
           </React.Fragment>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-const PipelineGrid = withLocale(({ deployables, applications, channels, locale }) => {
-  const applicationRows = createApplicationRows(applications);
+const PipelineGrid = withLocale(({ deployables, applications, channels }) => {
+  const applicationRows = createApplicationRows(applications)
   // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
   // const channelRows = createChannelRow(application, channels)
   return (
@@ -225,7 +228,7 @@ const PipelineGrid = withLocale(({ deployables, applications, channels, locale }
         />
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default withLocale(PipelineGrid);
+export default withLocale(PipelineGrid)

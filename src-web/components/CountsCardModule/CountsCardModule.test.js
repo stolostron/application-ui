@@ -7,30 +7,30 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('react');
-const renderer = require('react-test-renderer');
-const CountsCardModule = require('../CountsCardModule').default;
+const React = require('react')
+const renderer = require('react-test-renderer')
+const CountsCardModule = require('../CountsCardModule').default
 
 describe('CountsCardModule', () => {
   const countsCardData = [
     {
       msgKey: 'table.header.deployables',
-      count: 3,
+      count: 3
     },
     {
       msgKey: 'table.header.deployments',
-      count: 1,
+      count: 1
     },
     {
       msgKey: 'table.header.failedDeployments',
-      count: 0,
-    },
-  ];
+      count: 0
+    }
+  ]
 
   it('CountsCardModule renders correctly.', () => {
     const tree = renderer
       .create(<CountsCardModule data={countsCardData} />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-});
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})

@@ -12,8 +12,8 @@
 
 .topology-controls {
   position: absolute;
-  right: 40px;
-  bottom: 60px;
+  right: 20px;
+  top: 20px;
 
   .zoom-buttons {
     position: relative;
@@ -30,34 +30,34 @@
 
     .zoom-target-button {
       position: absolute;
-      top: -70px;
+      top: 0px;
       right: 0;
 
       .icon {
-        width: 32px;
-        height: 32px;
+        width: 22px;
+        height: 22px;
       }
     }
 
     .zoom-in-button {
       position: absolute;
-      top: -32px;
+      top: 30px;
       right: 0;
 
       .icon {
-        width: 31px;
-        height: 33px;
+        width: 21px;
+        height: 23px;
       }
     }
 
     .zoom-out-button {
       position: absolute;
-      top: 0;
+      top: 52px;
       right: 0;
 
       .icon {
-        width: 31px;
-        height: 33px;
+        width: 21px;
+        height: 23px;
       }
     }
 

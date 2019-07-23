@@ -21,18 +21,18 @@ import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
 import { DIAGRAM_REFRESH_INTERVAL_COOKIE,
   DIAGRAM_QUERY_COOKIE, MCM_DESIGN_SPLITTER_OPEN_COOKIE,
-  MCM_DESIGN_SPLITTER_SIZE_COOKIE, REFRESH_TIMES, RESOURCE_TYPES } from '../../../lib/shared/constants'
+  MCM_DESIGN_SPLITTER_SIZE_COOKIE, RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { Loading, Icon, InlineNotification  } from 'carbon-components-react'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import msgs from '../../../nls/platform.properties'
 import * as Actions from '../../actions'
 import apolloClient from '../../../lib/client/apollo-client'
 import resources from '../../../lib/shared/resources'
 import DiagramViewer from './visualizers/DiagramViewer'
-import RefreshSelect, {getPollInterval} from './components/RefreshSelect'
+import {getPollInterval} from './components/RefreshSelect'
 import EditorBar from './components/EditorBar'
 import FilterBar from './components/FilterBar'
 import YamlEditor from '../common/YamlEditor'
+import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 resources(() => {
@@ -281,13 +281,15 @@ class ApplicationTopologyModule extends React.Component {
       const { firstLoad, topologyLoaded, topologyReloading, statusesLoaded } = this.state
       const { currentYaml, hasUndo, hasRedo, exceptions, updateMessage, updateMsgKind } = this.state
       const { nodes } = this.state
+      const { locale } = this.context
 
       // set up type filter bar
       const availableFilters = [...designTypes, ...topologyTypes].map(label=>{
         return {label}
       })
 
-      const typeFilterTitle = msgs.get('type', this.context.locale)
+      const typeFilterTitle = msgs.get('type', locale)
+      const diagramTitle = msgs.get('application.diagram', locale)
 
       const handleNodeSelected = (node) => {
         this.handleNodeSelected(node)
@@ -296,6 +298,9 @@ class ApplicationTopologyModule extends React.Component {
       const renderDiagramView = () =>{
         return (
           <div className="resourceDiagramContainer" >
+            <div className='diagram-title'>
+              {diagramTitle}
+            </div>
             <div className='diagram-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
               <FilterBar
                 availableFilters={availableFilters}
@@ -321,16 +326,6 @@ class ApplicationTopologyModule extends React.Component {
               fetchLogs={this.fetchLogs}
               activeFilters={{type:diagramFilters}}
             />
-            <div className='resource-diagram-toolbar' >
-              <RefreshSelect
-                startPolling={this.startPolling}
-                stopPolling={this.stopPolling}
-                pollInterval={getPollInterval(DIAGRAM_REFRESH_INTERVAL_COOKIE)}
-                refetch={this.refetch}
-                refreshValues = {REFRESH_TIMES}
-                refreshCookie={DIAGRAM_REFRESH_INTERVAL_COOKIE}
-              />
-            </div>
           </div>
         )
       }

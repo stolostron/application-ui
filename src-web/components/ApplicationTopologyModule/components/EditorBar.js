@@ -17,7 +17,7 @@ import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
 
 resources(() => {
-  require('../../../../scss/editor-bar.scss')
+  require('../scss/editor-bar.scss')
 })
 
 class EditorBar extends React.Component {

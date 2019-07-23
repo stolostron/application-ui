@@ -118,10 +118,10 @@ const ResourceOverview = withLocale(({ staticResourceData, item, params, modules
   return (
     <div className="overview-content">
       <div className="overview-content-bottom overview-content-with-padding">
-        <CountsCardModule data={countsCardData} />
+        <ApplicationTopologyModule params={params} />
       </div>
       <div className="overview-content-bottom overview-content-with-padding">
-        <ApplicationTopologyModule params={params} />
+        <CountsCardModule data={countsCardData} />
       </div>
       <div className="deployment-channels-title">
         {msgs.get('application.deployment.channels', locale)}

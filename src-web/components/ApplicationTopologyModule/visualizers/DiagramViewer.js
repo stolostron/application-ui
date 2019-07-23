@@ -22,7 +22,6 @@ import TitleHelper from './titleHelper'
 import LinkHelper, {defineLinkMarkers } from './linkHelper'
 import NodeHelper, {showMatches, setSelections} from './nodeHelper'
 import * as c from './constants.js'
-import moment from 'moment'
 import _ from 'lodash'
 
 
@@ -50,7 +49,6 @@ class DiagramViewer extends React.Component {
     setViewer: PropTypes.func,
     staticResourceData: PropTypes.object,
     statusesLoaded: PropTypes.bool,
-    title: PropTypes.string,
   }
 
   constructor (props) {
@@ -176,26 +174,11 @@ class DiagramViewer extends React.Component {
   getZoomHelper = () => {return this.zoomHelper}
   getViewContainer = () => {return this.viewerContainerContainerRef}
 
-  updateDiagramRefreshTime = (refreshing) => {
-    if (this.diagramRefreshContainerRef) {
-      this.diagramRefreshContainerRef.classList.toggle('refreshing', !!refreshing)
-    }
-    if (this.diagramRefreshTimeRef && this.lastRefreshing && !refreshing) {
-      this.diagramRefreshTimeRef.textContent = moment().format('h:mm:ss A')
-    }
-    this.lastRefreshing = refreshing
-  }
-
   render() {
-    const { title, staticResourceData, secondaryLoad, fetchLogs } = this.props
+    const { staticResourceData, secondaryLoad, fetchLogs } = this.props
     const { selectedNodeId, showDetailsView, } = this.state
-    // don't screw up the jest test by having the current time in the snapshot
-    const time = this.props.setUpdateDiagramRefreshTimeFunc ? moment().format('h:mm:ss A') : ''
     return (
       <div className="diagramViewerDiagram" ref={this.setContainerRef} >
-        <div className='diagramViewerTitle'>
-          {title}
-        </div>
         <div className='diagramViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
           <div className='diagramViewerContainer' ref={this.setViewerContainerRef}
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
@@ -204,10 +187,6 @@ class DiagramViewer extends React.Component {
           {secondaryLoad && <div className='secondaryLoad' >
             <Loading withOverlay={false} />
           </div>}
-        </div>
-        <div className='diagramRefreshContainer' ref={this.setDiagramRefreshContainerRef}>
-          <Loading withOverlay={false} small />
-          <div ref={this.setDiagramRefreshTimeRef}>{time}</div>
         </div>
         <DiagramControls
           getZoomHelper={this.getZoomHelper}

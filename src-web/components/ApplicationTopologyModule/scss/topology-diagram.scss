@@ -11,44 +11,6 @@
 
 
 /********************************************
- ****   PURE TOPOLOGY PAGE ********
- ********************************************/
-
-.topologyDiagramContainer {
-  height: 100%;
-
-  .diagramViewerDiagram {
-      margin: 0 1rem 1rem 1rem;
-      position: relative;
-
-    .diagramViewerTitle {
-        color: $color__blue-90;
-        line-height: 25px;
-        min-height: 25px;
-        margin: 1rem 1rem 0 1rem;
-    }
-
-    .diagramViewerContainerContainer {
-        width: 100%;
-        height: calc(100vh - 280px);
-        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
-        overflow: hidden;
-        position: relative;
-        background-color: #fff;
-
-        &.scrolled {
-          overflow-y: auto;
-          overflow-x: hidden;
-        }
-
-       .diagramViewerContainer {
-          width: 100%;
-       }
-    }
-  }
-}
-
-/********************************************
  ***   HYBRID RESOURCE/TOPOLOGY PAGE ******
  ********************************************/
 
@@ -57,13 +19,9 @@
 
    .diagramViewerDiagram {
 
-    .diagramViewerTitle {
-      height: 0;
-    }
-
    .diagramViewerContainerContainer {
       width: 100%;
-      height: calc(100vh - 220px);
+      height: 400px;
       background-color: #fff;
       position: relative;
       box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);

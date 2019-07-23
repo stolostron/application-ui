@@ -17,7 +17,7 @@ import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
 resources(() => {
-  require('../../../../scss/filter-bar.scss')
+  require('../scss/filter-bar.scss')
 })
 
 class FilterBar extends React.Component {

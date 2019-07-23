@@ -11,8 +11,7 @@
 
 
 .resourceDiagramSourceContainer {
-  margin: -20px -2rem -50px;
-  height: calc(100vh - 195px);
+  height: 400px;
   position: relative;
 
   .resourceDiagramContainer {
@@ -20,10 +19,24 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    .diagram-title {
+      position: absolute;
+      z-index: 10;
+      font-weight: bold;
+      left: 10px;
+      top: 10px;
+      font-size: 14px;
+    }
 
     .diagram-type-filter-bar {
+      position: absolute;
       display: flex;
       justify-content: flex-end;
+      z-index: 10;
+      bottom: 10px;
+      left: 10px;
     }
 
     .resource-diagram-toolbar {
@@ -39,7 +52,6 @@
   }
 
   &.split {
-    margin: -20px -4rem -50px;
     .resourceDiagramContainer {
       .diagram-type-filter-bar {
         justify-content: flex-start;

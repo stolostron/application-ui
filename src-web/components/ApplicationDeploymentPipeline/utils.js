@@ -42,7 +42,8 @@ export const getChannelsList = channels => {
         uid: channel.metadata.uid || '',
         creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
         pathName: channel.objectPath || '',
-        type: channel.type || ''
+        type: channel.type || '',
+        data : channel
       }
     })
     return mappedChannels

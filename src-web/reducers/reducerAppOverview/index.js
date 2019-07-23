@@ -8,23 +8,23 @@
  *******************************************************************************/
 
 // @flow
-import { createAction } from '../../shared/utils/state';
+import { createAction } from '../../shared/utils/state'
 
-const SET_SHOW_APP_DETAILS = 'SET_SHOW_APP_DETAILS';
+const SET_SHOW_APP_DETAILS = 'SET_SHOW_APP_DETAILS'
 
 export const initialStateOverview = {
-  showAppDetails: false,
-};
+  showAppDetails: false
+}
 
 export const AppOverview = (state = initialStateOverview, action) => {
   switch (action.type) {
-    case SET_SHOW_APP_DETAILS: {
-      return { ...state, showAppDetails: action.payload };
-    }
-    default:
-      return state;
+  case SET_SHOW_APP_DETAILS: {
+    return { ...state, showAppDetails: action.payload }
   }
-};
-export default AppOverview;
+  default:
+    return state
+  }
+}
+export default AppOverview
 
-export const setShowAppDetails = createAction(SET_SHOW_APP_DETAILS);
+export const setShowAppDetails = createAction(SET_SHOW_APP_DETAILS)

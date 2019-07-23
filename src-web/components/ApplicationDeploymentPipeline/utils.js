@@ -43,6 +43,7 @@ export const getChannelsList = (channels) => {
         creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
         pathName: channel.objectPath || '',
         type: channel.type || '',
+        data : channel
       }
     })
     return mappedChannels

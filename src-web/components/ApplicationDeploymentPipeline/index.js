@@ -24,6 +24,8 @@ import {
   getChannelsList,
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
+import { updateModal } from '../../actions/common'
+
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -33,10 +35,19 @@ resources(() => {
 const handleCreateResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
+const handleEditResource = (dispatch, resourceType, data) =>
+   dispatch(updateModal(
+      { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'yaml',
+        label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
+        name: (data && data.name) || '',
+        namespace: (data && data.namespace) || '',        
+        data: (data && data.data) || undefined}))
+
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    editChannel: (resourceType, data) => handleEditResource(dispatch, resourceType, data),
   }
 }
 
@@ -89,6 +100,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployables,
       channels,
       actions,
+      editChannel,
     } = this.props
     const { locale } = this.context
     const modal = React.cloneElement(CreateChannelModal(), {
@@ -118,6 +130,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           applications={applications}
           deployables={deployables}
           channels={channels}
+          editChannel={editChannel}
         />
       </div>
     )

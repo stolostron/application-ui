@@ -14,6 +14,8 @@ import resources from '../../../../../lib/shared/resources'
 import { createApplicationRows } from './utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
+import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
+
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -128,7 +130,7 @@ const LeftColumnForApplicationNames = (
   )
 }
 
-const ChannelColumnGrid = ({ channelList, applicationList }) => {
+const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
@@ -145,6 +147,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }) => {
                     fill="#6089bf"
                     description=""
                     className="channelEditIcon"
+                    onClick={() => editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)}
                   />
                 </div>
               </Tile>
@@ -208,7 +211,7 @@ const ChannelColumnGrid = ({ channelList, applicationList }) => {
   )
 }
 
-const PipelineGrid = withLocale(({ deployables, applications, channels }) => {
+const PipelineGrid = withLocale(({ deployables, applications, channels, editChannel }) => {
   const applicationRows = createApplicationRows(applications)
   // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
   // const channelRows = createChannelRow(application, channels)
@@ -223,6 +226,7 @@ const PipelineGrid = withLocale(({ deployables, applications, channels }) => {
         <ChannelColumnGrid
           channelList={channels}
           applicationList={applications}
+          editChannel={editChannel}
         />
       </div>
     </div>

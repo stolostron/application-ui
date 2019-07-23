@@ -7,7 +7,9 @@ exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
   <div
     className="card-container-container"
   >
-    <div>
+    <div
+      className="individualCard"
+    >
       <div
         className="card-container"
       >
@@ -17,7 +19,8 @@ exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
           <div
             className="card-name"
           >
-            Channel: 
+            Channel
+            : 
             Development
           </div>
           <div
@@ -87,7 +90,9 @@ exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
         </div>
       </div>
     </div>
-    <div>
+    <div
+      className="individualCard"
+    >
       <div
         className="card-container"
       >
@@ -97,7 +102,8 @@ exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
           <div
             className="card-name"
           >
-            Channel: 
+            Channel
+            : 
             QA
           </div>
           <div
@@ -167,7 +173,9 @@ exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
         </div>
       </div>
     </div>
-    <div>
+    <div
+      className="individualCard"
+    >
       <div
         className="card-container"
       >
@@ -177,7 +185,8 @@ exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
           <div
             className="card-name"
           >
-            Channel: 
+            Channel
+            : 
             Dev
           </div>
           <div

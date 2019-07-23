@@ -7,15 +7,15 @@
 //  * Contract with IBM Corp.
 //  *******************************************************************************/
 
-import React from '../../../../node_modules/react';
-import CountsCardModule from '../../CountsCardModule';
-import { getNumItems } from '../../../../lib/client/resource-helper';
-import { withLocale } from '../../../providers/LocaleProvider';
-import resources from '../../../../lib/shared/resources';
+import React from '../../../../node_modules/react'
+import CountsCardModule from '../../CountsCardModule'
+import { getNumItems } from '../../../../lib/client/resource-helper'
+import { withLocale } from '../../../providers/LocaleProvider'
+import resources from '../../../../lib/shared/resources'
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const countsCardDataSummary = (
   HCMApplicationList,
@@ -43,9 +43,9 @@ const countsCardDataSummary = (
       msgKey: 'dashboard.card.deployment.clusters',
       count: getNumItems(HCMClusterList),
     },
-  ];
-  return result;
-};
+  ]
+  return result
+}
 
 const countsCardDataStatus = [
   {
@@ -60,14 +60,14 @@ const countsCardDataStatus = [
     msgKey: 'dashboard.card.deployment.completed',
     count: 3,
   },
-];
+]
 
-const ApplicationDeploymentHighlightsDashboard = withLocale(({ HCMApplicationList, HCMChannelList, HCMClusterList, locale }) => {
+const ApplicationDeploymentHighlightsDashboard = withLocale(({ HCMApplicationList, HCMChannelList, HCMClusterList }) => {
   const countsCardData = countsCardDataSummary(
     HCMApplicationList,
     HCMChannelList,
     HCMClusterList,
-  );
+  )
   return (
     <React.Fragment>
       <div id="ApplicationDeploymentsDashboard">
@@ -85,7 +85,7 @@ const ApplicationDeploymentHighlightsDashboard = withLocale(({ HCMApplicationLis
         </div>
       </div>
     </React.Fragment>
-  );
-});
+  )
+})
 
-export default withLocale(ApplicationDeploymentHighlightsDashboard);
+export default withLocale(ApplicationDeploymentHighlightsDashboard)

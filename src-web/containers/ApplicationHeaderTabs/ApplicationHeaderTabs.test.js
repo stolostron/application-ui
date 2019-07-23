@@ -15,5 +15,5 @@ describe('ApplicationHeaderTabs', () => {
   it('ApplicationHeaderTabs renders correctly.', () => {
     // const tree = renderer.create(<ApplicationHeaderTabs />).toJSON()
     // expect(tree).toMatchSnapshot()
-  });
-});
+  })
+})

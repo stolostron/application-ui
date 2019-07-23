@@ -150,7 +150,7 @@ class ResourceDetails extends React.Component {
           modules={children}
         />
         <div className="resource-diagram-title">
-          {msgs.get(`application.topology`, this.context.locale)}
+          {msgs.get('application.topology', this.context.locale)}
         </div>
         <ResourceDiagram
           resourceType={resourceType}

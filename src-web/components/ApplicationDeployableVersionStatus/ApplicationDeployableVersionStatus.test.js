@@ -7,16 +7,16 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('../../../node_modules/react');
-const renderer = require('../../../node_modules/react-test-renderer');
+const React = require('../../../node_modules/react')
+const renderer = require('../../../node_modules/react-test-renderer')
 const ApplicationDeployableVersionStatus = require('../ApplicationDeployableVersionStatus')
-  .default;
+  .default
 
 describe('ApplicationDeployableVersionStatus', () => {
   it('ApplicationDeployableVersionStatus renders correctly.', () => {
     const tree = renderer
       .create(<ApplicationDeployableVersionStatus />)
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-});
+      .toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})

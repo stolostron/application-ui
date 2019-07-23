@@ -7,27 +7,28 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import { connect } from 'react-redux';
-import resources from '../../../lib/shared/resources';
+import React from 'react'
+import { connect } from 'react-redux'
+import resources from '../../../lib/shared/resources'
 import {
   updateSecondaryHeader, /* , fetchResource */
-} from '../../actions/common';
-import { getBreadCrumbs } from './utils';
-import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights';
-import ApplicationDeployableSubscription from '../../components/ApplicationDeployableSubscription';
-import ApplicationDeployableVersionStatus from '../../components/ApplicationDeployableVersionStatus';
+} from '../../actions/common'
+import { getBreadCrumbs } from './utils'
+import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights'
+import ApplicationDeployableSubscription from '../../components/ApplicationDeployableSubscription'
+import ApplicationDeployableVersionStatus from '../../components/ApplicationDeployableVersionStatus'
+/* eslint-disable react/prop-types */
 
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateSecondaryHeaderInfo: (title, breadCrumbs) =>
       dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
-  };
-};
+  }
+}
 
 const tempData = {
   deployables: {
@@ -142,13 +143,13 @@ const mapStateToProps = (state) => {
 
 class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
-    const { updateSecondaryHeaderInfo, params } = this.props;
-    const { locale } = this.context;
+    const { updateSecondaryHeaderInfo, params } = this.props
+    const { locale } = this.context
     const deployableParams =
-      (params && params.match && params.match.params) || {};
-    const breadCrumbs = getBreadCrumbs(deployableParams, locale);
+      (params && params.match && params.match.params) || {}
+    const breadCrumbs = getBreadCrumbs(deployableParams, locale)
 
-    updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs);
+    updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
   }
 
   componentDidMount() { }
@@ -156,17 +157,14 @@ class ApplicationDeployableDetails extends React.Component {
   componentWillUnmount() { }
 
   render() {
-    const { params } = this.props;
-    const { locale } = this.context;
-
     return (
       <div id="ApplicationDeployableDetails">
         <ApplicationDeployableHighlights />
         <ApplicationDeployableSubscription />
         <ApplicationDeployableVersionStatus deployableDetails={this.props.deployableDetails} channels={this.props.channels} subscriptions={this.props.subscriptions} />
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeployableDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeployableDetails)

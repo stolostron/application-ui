@@ -7,21 +7,21 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import { Loading } from 'carbon-components-react';
-import lodash from 'lodash';
+import React from 'react'
+import { Loading } from 'carbon-components-react'
+import lodash from 'lodash'
 import {
   getAge,
   getLabelsToList,
   getNumDeployables,
   getNumDeployments,
   getNumFailedDeployments,
-} from '../../lib/client/resource-helper';
-import { validator } from './validators/hcm-application-validator';
-import { getUpdates } from './deployers/hcm-application-deployer';
-import msgs from '../../nls/platform.properties';
-import { Link } from 'react-router-dom';
-import config from '../../lib/shared/config';
+} from '../../lib/client/resource-helper'
+import { validator } from './validators/hcm-application-validator'
+import { getUpdates } from './deployers/hcm-application-deployer'
+import msgs from '../../nls/platform.properties'
+import { Link } from 'react-router-dom'
+import config from '../../lib/shared/config'
 
 export default {
   defaultSortField: 'metadata.name',
@@ -402,13 +402,13 @@ export default {
       },
     ],
   },
-};
+}
 
 export function createApplicationLink(item = {}, ...param) {
-  const { name, namespace = 'default' } = item.metadata ? item.metadata : item;
-  if (param[2]) return item.metadata.name;
-  const link = `${config.contextPath}/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`;
-  return <Link to={link}>{name}</Link>;
+  const { name, namespace = 'default' } = item.metadata ? item.metadata : item
+  if (param[2]) return item.metadata.name
+  const link = `${config.contextPath}/${encodeURIComponent(namespace)}/${encodeURIComponent(name)}`
+  return <Link to={link}>{name}</Link>
 }
 
 export function createDashboardLink({ dashboard = '' }, locale) {
@@ -417,10 +417,10 @@ export function createDashboardLink({ dashboard = '' }, locale) {
       <a target="_blank" rel="noopener noreferrer" href={dashboard}>
         {msgs.get('table.actions.launch.grafana', locale)}
       </a>
-    );
+    )
   }
 
-  return '-';
+  return '-'
 }
 
 export function getStatus(item = {}) {
@@ -428,17 +428,17 @@ export function getStatus(item = {}) {
     <Loading id={`loading-${item.name}`} small withOverlay={false} />
   ) : (
     item.status
-  );
+  )
 }
 
 export function getDecisions(item = {}) {
   const decisions =
     lodash.get(item, 'placementPolicies[0].status.decisions') ||
-    lodash.get(item, 'status.decisions');
+    lodash.get(item, 'status.decisions')
   if (decisions) {
-    return decisions.map(decision => decision.clusterName).join(', ');
+    return decisions.map(decision => decision.clusterName).join(', ')
   }
-  return '-';
+  return '-'
 }
 
 export function getDeployerDetails(item = {}, locale) {
@@ -456,7 +456,7 @@ export function getDeployerDetails(item = {}, locale) {
             {` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
           </li>
         </ul>
-      );
+      )
       // deployer was a chart
     } else if (item.deployer.chartName) {
       return (
@@ -478,7 +478,7 @@ export function getDeployerDetails(item = {}, locale) {
             {` = ${item.deployer.namespace ? item.deployer.namespace : '-'}`}
           </li>
         </ul>
-      );
+      )
     } else if (item.deployer.kubeKind) {
       // deployer was a k8 object
       return (
@@ -492,20 +492,20 @@ export function getDeployerDetails(item = {}, locale) {
             {` = ${item.deployer.kubeName ? item.deployer.kubeName : '-'}`}
           </li>
         </ul>
-      );
+      )
     }
   }
 }
 
 export function getDependencies(item = {}) {
   if (item.dependencies) {
-    let str = '';
+    let str = ''
     item.dependencies.forEach(({ name, kind }) => {
-      str += `${name} [${kind}], `;
-    });
-    return str.substring(0, str.length - 2);
+      str += `${name} [${kind}], `
+    })
+    return str.substring(0, str.length - 2)
   }
-  return '-';
+  return '-'
 }
 
 export function getRelationshipSourceDest(item, locale, arg) {
@@ -531,12 +531,12 @@ export function getRelationshipSourceDest(item, locale, arg) {
         {` = ${item.destination ? item.destination.name : '-'}`}
       </li>
     </ul>
-  );
+  )
 }
 
 export function getSubjects(item) {
   return (
     item.subjects &&
     item.subjects.map(subject => `${subject.name}(${subject.kind})`).join(', ')
-  );
+  )
 }

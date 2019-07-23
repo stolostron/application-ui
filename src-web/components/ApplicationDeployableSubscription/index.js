@@ -13,9 +13,10 @@ import { withLocale } from '../../providers/LocaleProvider';
 import resources from '../../../lib/shared/resources';
 import { Icon } from 'carbon-components-react';
 
+
 resources(() => {
-  require('./style.scss');
-});
+  require('./style.scss')
+})
 
 const ApplicationDeployableSubscription = withLocale(({ locale }) => {
   return (
@@ -59,7 +60,7 @@ const ApplicationDeployableSubscription = withLocale(({ locale }) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default withLocale(ApplicationDeployableSubscription);
+export default withLocale(ApplicationDeployableSubscription)

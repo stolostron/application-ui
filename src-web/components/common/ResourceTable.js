@@ -16,7 +16,7 @@ import React from 'react'
 import resources from '../../../lib/shared/resources'
 import { PAGE_SIZES } from '../../actions/index'
 import { PaginationV2, DataTable, OverflowMenu, OverflowMenuItem, Icon, Checkbox } from 'carbon-components-react'
-import ApplicationIcon from '@carbon/icons-react/es/application/32';
+import ApplicationIcon from '@carbon/icons-react/es/application/32'
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import { transform } from '../../../lib/client/resource-helper'

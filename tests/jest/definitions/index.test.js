@@ -8,14 +8,14 @@
  *******************************************************************************/
 
 import getResourceData, {
-  getPrimaryKey,
-  getSecondaryKey,
-  getURIKey,
+  //getPrimaryKey,
+  //getSecondaryKey,
+  //getURIKey,
   getDefaultSearchField,
   getDefaultSortField,
-  getTableKeys,
+  //getTableKeys,
   getLink,
-} from '../../../src-web/definitions/index';
+} from '../../../src-web/definitions/index'
 
 // regular properties/selector/reducer testing
 // compare the received and expect values
@@ -24,9 +24,9 @@ describe('definitions/index tests', () => {
     const item = {
       list: 'HCMClusterList',
       name: 'HCMCluster',
-    };
-    expect(getResourceData(item)).toMatchSnapshot();
-  });
+    }
+    expect(getResourceData(item)).toMatchSnapshot()
+  })
 
   // it('should return the primary key of node', () => {
   //   const item = {
@@ -56,17 +56,17 @@ describe('definitions/index tests', () => {
     const item = {
       list: 'HCMClusterList',
       name: 'HCMCluster',
-    };
-    expect(getDefaultSearchField(item)).toMatchSnapshot();
-  });
+    }
+    expect(getDefaultSearchField(item)).toMatchSnapshot()
+  })
 
   it('should return the default sort field of node', () => {
     const item = {
       list: 'HCMClusterList',
       name: 'HCMCluster',
-    };
-    expect(getDefaultSortField(item)).toMatchSnapshot();
-  });
+    }
+    expect(getDefaultSortField(item)).toMatchSnapshot()
+  })
 
   // it('should return the table keys', () => {
   //   const item = {
@@ -77,18 +77,18 @@ describe('definitions/index tests', () => {
   // })
 
   it('should return the link of node as /namespace/name', () => {
-    const link = true;
+    const link = true
     const resource = {
       metadata: {
         namespace: 'namespace',
         name: 'name',
       },
-    };
-    expect(getLink(link, resource)).toMatchSnapshot();
-  });
+    }
+    expect(getLink(link, resource)).toMatchSnapshot()
+  })
 
   it('should return the link of node as /domain/host', () => {
-    const link = 'domain/host';
+    const link = 'domain/host'
     const resource = {
       domain: 'domain',
       host: 'host',
@@ -96,7 +96,7 @@ describe('definitions/index tests', () => {
         namespace: 'namespace',
         name: 'name',
       },
-    };
-    expect(getLink(link, resource)).toMatchSnapshot();
-  });
-});
+    }
+    expect(getLink(link, resource)).toMatchSnapshot()
+  })
+})

@@ -7,13 +7,13 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import { withLocale } from '../../../../../providers/LocaleProvider';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-import { getChartKeyColor, getChartKeyName, getModuleData } from './utils';
+import React from 'react'
+import { withLocale } from '../../../../../providers/LocaleProvider'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import { getChartKeyColor, getChartKeyName, getModuleData } from './utils'
 
 const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
-  const moduleData = getModuleData(data);
+  const moduleData = getModuleData(data)
   return (
     <BarChart
       width={chartWidth}
@@ -64,9 +64,9 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         name={getChartKeyName('fl', locale)}
       />
     </BarChart>
-  );
-});
+  )
+})
 
-StackedChartCardModule.propTypes = {};
+StackedChartCardModule.propTypes = {}
 
-export default withLocale(StackedChartCardModule);
+export default withLocale(StackedChartCardModule)

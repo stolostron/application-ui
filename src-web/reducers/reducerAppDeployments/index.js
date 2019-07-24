@@ -17,7 +17,7 @@ const SET_LOADING = 'SET_LOADING'
 
 export const initialStateDeployments = {
   deploymentPipelineSearch: '',
-  loading: false,
+  loading: false
 }
 
 export const AppDeployments = (state = initialStateDeployments, action) => {

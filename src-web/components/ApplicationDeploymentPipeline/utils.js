@@ -10,7 +10,7 @@
 // import R from 'ramda';
 
 // Method will take in an object and return back the items of applications
-export const getApplicationsList = (list) => {
+export const getApplicationsList = list => {
   if (list && list.items) {
     return list.items
   }
@@ -19,9 +19,9 @@ export const getApplicationsList = (list) => {
 
 // This method takes in an object and drills down to find the items of applications
 // Within that it will go a step further and find the deployables and merge them together.
-export const getDeployablesList = (list) => {
+export const getDeployablesList = list => {
   if (list && list.items) {
-    const deployables = list.items.map((item) => {
+    const deployables = list.items.map(item => {
       return (item && item.deployables) || []
     })
     const emptyArray = []
@@ -31,9 +31,9 @@ export const getDeployablesList = (list) => {
 }
 
 // Method will take in an object and return back the channels mapped
-export const getChannelsList = (channels) => {
+export const getChannelsList = channels => {
   if (channels && channels.items) {
-    const mappedChannels = channels.items.map((channel) => {
+    const mappedChannels = channels.items.map(channel => {
       return {
         id: channel.metadata.name || '',
         name: channel.metadata.name || '',
@@ -43,6 +43,7 @@ export const getChannelsList = (channels) => {
         creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
         pathName: channel.objectPath || '',
         type: channel.type || '',
+        data : channel
       }
     })
     return mappedChannels
@@ -60,7 +61,7 @@ export const getSubscriptionsList = () => {
       kind: 'Subscription',
       metaData: {
         name: 'subscription1',
-        namespace: 'namespace1',
+        namespace: 'namespace1'
       },
       spec: {
         source: 'https://kubernetes-charts.storage.googleapis.com/',
@@ -68,16 +69,16 @@ export const getSubscriptionsList = () => {
         packageFilter: { version: '1.x' },
         placement: {
           clusters: {
-            name: 'cluster1',
-          },
-        },
-      },
+            name: 'cluster1'
+          }
+        }
+      }
     },
     {
       kind: 'Subscription',
       metaData: {
         name: 'subscription2',
-        namespace: 'namespace2',
+        namespace: 'namespace2'
       },
       spec: {
         source: 'https://kubernetes-charts.storage.googleapis.com/',
@@ -85,16 +86,16 @@ export const getSubscriptionsList = () => {
         packageFilter: { version: '1.x' },
         placement: {
           clusters: {
-            name: 'cluster2',
-          },
-        },
-      },
+            name: 'cluster2'
+          }
+        }
+      }
     },
     {
       kind: 'Subscription',
       metaData: {
         name: 'subscription3',
-        namespace: 'namespace',
+        namespace: 'namespace'
       },
       spec: {
         source: 'https://kubernetes-charts.storage.googleapis.com/',
@@ -102,10 +103,10 @@ export const getSubscriptionsList = () => {
         packageFilter: { version: '1.x' },
         placement: {
           clusters: {
-            name: 'cluster3',
-          },
-        },
-      },
-    },
+            name: 'cluster3'
+          }
+        }
+      }
+    }
   ]
 }

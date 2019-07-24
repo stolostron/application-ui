@@ -7,41 +7,34 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react';
-import Masonry from 'react-masonry-component';
-import msgs from '../../../../nls/platform.properties';
-import { withLocale } from '../../../providers/LocaleProvider';
-import resources from '../../../../lib/shared/resources';
-import StackedChartCardModule from './components/StackedChartCardModule';
-import LineChartCardModule from './components/LineChartCardModule';
+import React from 'react'
+import msgs from '../../../../nls/platform.properties'
+import { withLocale } from '../../../providers/LocaleProvider'
+import resources from '../../../../lib/shared/resources'
+import StackedChartCardModule from './components/StackedChartCardModule'
+import LineChartCardModule from './components/LineChartCardModule'
 
 import {
-  masonryOptions,
   getChannelChartData,
   getChannelChartWidth,
-  getDeployablesChartData,
-} from './utils';
+  getDeployablesChartData
+} from './utils'
 
 resources(() => {
   require('./style.scss')
 })
 
-const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, HCMApplicationList, locale }) => {
-  const channelChartData = getChannelChartData(HCMChannelList);
-  const deployablesChartData = getDeployablesChartData(HCMApplicationList);
-  const chartWidth = getChannelChartWidth(HCMChannelList);
+const ApplicationDeploymentSummary = withLocale(
+  ({ HCMChannelList, HCMApplicationList, locale }) => {
+    const channelChartData = getChannelChartData(HCMChannelList)
+    const deployablesChartData = getDeployablesChartData(HCMApplicationList)
+    const chartWidth = getChannelChartWidth(HCMChannelList)
 
-  return (
-    <div id="ApplicationDeploymentSummary">
-      <div className="masonry-container">
-        <Masonry
-          enableResizableChildren
-          disableImagesLoaded
-          className="masonry-class"
-          style={masonryOptions}
-        >
-          <div className="grid-item">
-            <div className="grid-view">
+    return (
+      <div id="ApplicationDeploymentSummary">
+        <div className="masonry-container">
+          {deployablesChartData.length > 0 && (
+            <div className="grid-item grid-item-deployable">
               <div className="title">
                 {msgs.get('recent.deployments.chart.title', locale)}
               </div>
@@ -50,10 +43,9 @@ const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, HCMApplicatio
                 locale={locale}
               />
             </div>
-          </div>
-
-          <div className="grid-item">
-            <div className="grid-view">
+          )}
+          {channelChartData.length > 0 && (
+            <div className="grid-item">
               <div className="title">
                 {msgs.get('channel.deployments.chart.title', locale)}
               </div>
@@ -63,11 +55,11 @@ const ApplicationDeploymentSummary = withLocale(({ HCMChannelList, HCMApplicatio
                 chartWidth={chartWidth}
               />
             </div>
-          </div>
-        </Masonry>
+          )}
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 export default withLocale(ApplicationDeploymentSummary)

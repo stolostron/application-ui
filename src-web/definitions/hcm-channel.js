@@ -12,5 +12,5 @@ export default {
   defaultSortField: 'metadata.name',
   primaryKey: 'metadata.name',
   secondaryKey: 'cluster.metadata.name',
-  validator,
+  validator
 }

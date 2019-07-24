@@ -8,9 +8,9 @@
  *******************************************************************************/
 
 // @flow
-export default (deployments) => {
+export default deployments => {
   const { deployment } = deployments
   return {
-    deploymentName: deployment || '',
+    deploymentName: deployment || ''
   }
 }

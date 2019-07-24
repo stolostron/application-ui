@@ -11,15 +11,20 @@
 import { createAction } from '../../shared/utils/state'
 
 const SET_SHOW_APP_DETAILS = 'SET_SHOW_APP_DETAILS'
+const SET_SHOW_EXANDED_TOPOLOGY = 'SET_SHOW_EXANDED_TOPOLOGY'
 
 export const initialStateOverview = {
-  showAppDetails: false
+  showAppDetails: false,
+  showExpandedTopology: false,
 }
 
 export const AppOverview = (state = initialStateOverview, action) => {
   switch (action.type) {
   case SET_SHOW_APP_DETAILS: {
     return { ...state, showAppDetails: action.payload }
+  }
+  case SET_SHOW_EXANDED_TOPOLOGY: {
+    return { ...state, showExpandedTopology: action.payload }
   }
   default:
     return state
@@ -28,3 +33,4 @@ export const AppOverview = (state = initialStateOverview, action) => {
 export default AppOverview
 
 export const setShowAppDetails = createAction(SET_SHOW_APP_DETAILS)
+export const setShowExpandedTopology = createAction(SET_SHOW_EXANDED_TOPOLOGY)

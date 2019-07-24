@@ -26,6 +26,7 @@ import _ from 'lodash'
 
 
 resources(() => {
+  require('../scss/topology-diagram.scss')
   require('../scss/topology-link.scss')
   require('../scss/topology-node.scss')
   require('../scss/topology-icons.scss')
@@ -36,7 +37,6 @@ class DiagramViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
-    expandedView: PropTypes.bool,
     fetchLogs: PropTypes.func,
     handleNodeSelected: PropTypes.func,
     isMulticluster: PropTypes.bool,
@@ -48,6 +48,7 @@ class DiagramViewer extends React.Component {
     selectedNode: PropTypes.object,
     setUpdateDiagramRefreshTimeFunc: PropTypes.func,
     setViewer: PropTypes.func,
+    showExpandedTopology: PropTypes.bool,
     staticResourceData: PropTypes.object,
     statusesLoaded: PropTypes.bool,
   }
@@ -102,7 +103,7 @@ class DiagramViewer extends React.Component {
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
     || !_.isEqual(this.props.activeFilters, nextProps.activeFilters)
-    || this.props.expandedView !== nextProps.expandedView
+    || this.props.showExpandedTopology !== nextProps.showExpandedTopology
     || this.props.searchName !== nextProps.searchName
     || this.props.secondaryLoad !== nextProps.secondaryLoad
     || this.props.statusesLoaded !== nextProps.statusesLoaded
@@ -175,30 +176,12 @@ class DiagramViewer extends React.Component {
   setDiagramRefreshTimeRef = ref => {this.diagramRefreshTimeRef = ref}
   getZoomHelper = () => {return this.zoomHelper}
   getViewContainer = () => {return this.viewerContainerContainerRef}
-  setContainerRef = ref => {
-    if (ref) {
-      this.containerRef = ref
-      this.handleMouseFunc = this.handleMouse.bind(this)
-      this.containerRef.parentNode.addEventListener('mousewheel', this.handleMouseFunc, true)
-    } else if (this.containerRef) {
-      this.containerRef.parentNode.removeEventListener('mousewheel', this.handleMouseFunc, true)
-      delete this.containerRef
-    }
-  }
-
-  // when use scrolls mouse wheel, don't zoom diagram UNLESS in expanded mode
-  handleMouse(e) {
-    const { expandedView } = this.props
-    if (!expandedView) {
-      e.stopPropagation()
-    }
-  }
 
   render() {
     const { staticResourceData, secondaryLoad, fetchLogs } = this.props
     const { selectedNodeId, showDetailsView, } = this.state
     return (
-      <div className="diagramViewerDiagram" ref={this.setContainerRef} >
+      <div className="diagramViewerDiagram" >
         <div className='diagramViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
           <div className='diagramViewerContainer' ref={this.setViewerContainerRef}
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
@@ -285,7 +268,7 @@ class DiagramViewer extends React.Component {
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
-      this.svg.call(this.zoomHelper.canvasZoom())
+      //this.svg.call(this.zoomHelper.canvasZoom())
       defineLinkMarkers(this.svg)
     }
 
@@ -371,6 +354,10 @@ class DiagramViewer extends React.Component {
       svg.select('g.nodes').selectAll('*').remove()
       svg.select('g.links').selectAll('*').remove()
       svg.select('g.titles').selectAll('*').remove()
+    }
+    if (this.svg) {
+      delete this.svg
+      this.svg=null
     }
   }
 }

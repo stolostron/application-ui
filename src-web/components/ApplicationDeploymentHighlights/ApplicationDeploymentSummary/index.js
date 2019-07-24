@@ -35,29 +35,25 @@ const ApplicationDeploymentSummary = withLocale(
         <div className="masonry-container">
           {deployablesChartData.length > 0 && (
             <div className="grid-item grid-item-deployable">
-              <div className="grid-view">
-                <div className="title">
-                  {msgs.get('recent.deployments.chart.title', locale)}
-                </div>
-                <LineChartCardModule
-                  data={deployablesChartData}
-                  locale={locale}
-                />
+              <div className="title">
+                {msgs.get('recent.deployments.chart.title', locale)}
               </div>
+              <LineChartCardModule
+                data={deployablesChartData}
+                locale={locale}
+              />
             </div>
           )}
           {channelChartData.length > 0 && (
             <div className="grid-item">
-              <div className="grid-view">
-                <div className="title">
-                  {msgs.get('channel.deployments.chart.title', locale)}
-                </div>
-                <StackedChartCardModule
-                  data={channelChartData}
-                  locale={locale}
-                  chartWidth={chartWidth}
-                />
+              <div className="title">
+                {msgs.get('channel.deployments.chart.title', locale)}
               </div>
+              <StackedChartCardModule
+                data={channelChartData}
+                locale={locale}
+                chartWidth={chartWidth}
+              />
             </div>
           )}
         </div>

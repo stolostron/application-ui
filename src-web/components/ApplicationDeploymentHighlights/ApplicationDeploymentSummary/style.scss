@@ -26,6 +26,22 @@ $overview-heat-collapsed: 90px !default;
     margin: auto;
   }
 
+  .title {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dfe3e6;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: $color__blue-90;
+    padding: 11px 24px;
+    cursor: move;
+
+    .bx--tag {
+      margin-left: 10px;
+    }
+  }
+
   .masonry-container {
     margin-top: 10px;
     display: inline-flex;
@@ -61,46 +77,12 @@ $overview-heat-collapsed: 90px !default;
     min-width: 450px;
     width: 100%;
 
-    .title {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #dfe3e6;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 0;
-      color: $color__blue-90;
-      padding: 11px 24px;
-      cursor: move;
-
-      .bx--tag {
-        margin-left: 10px;
-      }
-    }
-
     &.replaced {
       animation: appear 400ms ease-in-out;
     }
 
     .masonry-class.dragging &:hover .grid-menu {
       visibility: hidden;
-    }
-
-    .grid-view {
-      .title {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #dfe3e6;
-        font-size: 12px;
-        font-weight: bold;
-        letter-spacing: 0;
-        color: $color__blue-90;
-        padding: 11px 24px;
-        cursor: move;
-
-        .bx--tag {
-          margin-left: 10px;
-        }
-      }
     }
   }
 }

@@ -10,10 +10,66 @@
 @import "../../../scss/variables";
 
 #ApplicationDeployableVersionStatus {
-    margin-bottom: 2%;
+  margin-bottom: 2%;
 
-    .deployable-versionStatus-header {
-        font-size: 1.5em;
-        padding-bottom: 10px;
-    }
+  .deployable-versionStatus-header {
+    font-size: 1.5em;
+    padding-bottom: 10px;
+  }
+
+  .deployableGrouping {
+  }
+
+  .deployableLeftColumn {
+    margin-top: 20px;
+    display: inline-block;
+    width: 30%;
+  }
+
+  .versionStatusGridContainer {
+    display: inline-block;
+    position: absolute;
+    margin-top: 20px;
+    overflow: scroll;
+    width: 63%;
+    border-right-style: dashed;
+    border-right-width: 2px;
+    border-color: #d5d9db;
+  }
+
+  .bx--tile {
+    height: 200px;
+  }
+
+  .horizontalScrollRow {
+    width: max-content;
+  }
+
+  .environment-grouping {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .environment {
+    font-size: 2em;
+    font-weight: bold;
+  }
+
+  .versionStatusColumn {
+    display: inline-block;
+    width: 350px;
+  }
+
+  .yaml-edit {
+    text-align: right;
+  }
+
+  .statusTag {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #c0e6ff;
+    color: #325c80;
+  }
 }

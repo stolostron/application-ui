@@ -21,8 +21,31 @@ $overview-heat-collapsed: 90px !default;
     }
   }
 
+  .recharts-wrapper {
+    display: block;
+    margin: auto;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dfe3e6;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: $color__blue-90;
+    padding: 11px 24px;
+    cursor: move;
+
+    .bx--tag {
+      margin-left: 10px;
+    }
+  }
+
   .masonry-container {
     margin-top: 10px;
+    display: inline-flex;
+    width: 100%;
   }
 
   .masonry-class {
@@ -41,31 +64,18 @@ $overview-heat-collapsed: 90px !default;
     }
   }
 
+  .grid-item-deployable {
+    margin-right: 10px;
+  }
+
   .grid-item {
     margin-bottom: $overview-card-margin-bottom;
     background-color: $color__white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     position: relative;
     margin-left: 0px;
-    margin-right: 10px;
     min-width: 450px;
-    width: 49%;
-
-    .title {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #dfe3e6;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 0;
-      color: $color__blue-90;
-      padding: 11px 24px;
-      cursor: move;
-
-      .bx--tag {
-        margin-left: 10px;
-      }
-    }
+    width: 100%;
 
     &.replaced {
       animation: appear 400ms ease-in-out;
@@ -73,24 +83,6 @@ $overview-heat-collapsed: 90px !default;
 
     .masonry-class.dragging &:hover .grid-menu {
       visibility: hidden;
-    }
-
-    .grid-view {
-      .title {
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #dfe3e6;
-        font-size: 12px;
-        font-weight: bold;
-        letter-spacing: 0;
-        color: $color__blue-90;
-        padding: 11px 24px;
-        cursor: move;
-
-        .bx--tag {
-          margin-left: 10px;
-        }
-      }
     }
   }
 }

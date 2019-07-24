@@ -36,32 +36,41 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
         </div>
         <div className="deployable-subscription-tile-container">
           <div className="subscription-name">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.subscriptionName')}</div>
-            <span className="tile-content">{subscription.name ? subscription.name : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.subscriptionName')}</p>
+            <span className="tile-content">{subscription.name ? subscription.name : "--"}</span>
           </div>
           <div className="landing-channel">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.landingChannel')}</div>
-            <span className="tile-content">{subscription.channel ? subscription.channel : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.landingChannel')}</p>
+            <span className="tile-content">{subscription.channel ? subscription.channel : "--"}</span>
           </div>
           <div className="certificates">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.certificates')}</div>
-            <span className="tile-content">{subscription.certificates ? subscription.certificates : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.certificates')}</p>
+            <span className="tile-content">
+              {subscription.certificates ? subscription.certificates + " (" : "--"}
+              <a href="#">{subscription.certificates ? msgs.get('routes.viewDetails') : ""}</a>
+              {subscription.certificates ? ")" : ""}
+            </span>
           </div>
           <div className="annotations">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.annotations')}</div>
-            <span className="tile-content">{subscription.annotations ? subscription.annotations : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.annotations')}</p>
+            <span className="tile-content">{subscription.annotations ? subscription.annotations : "--"}</span>
           </div>
           <div className="placement-rules">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.placementRules')}</div>
-            <span className="tile-content">{subscription.rules ? subscription.rules : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.placementRules')}</p>
+            <span className="tile-content">{subscription.rules ? subscription.rules : "--"}</span>
           </div>
           <div className="version">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.version')}</div>
-            <span className="tile-content">{subscription.version ? subscription.version : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.version')}</p>
+            <span className="tile-content">{subscription.version ? subscription.version : "--"}</span>
           </div>
           <div className="labels">
-            <div className="tile-title">{msgs.get('description.title.deployableSubscription.labels')}</div>
-            <span className="tile-content">{subscription.labels ? subscription.labels : "-"}</span>
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.labels')}</p>
+            <div className="tile-content">
+              {subscription.labels ? subscription.labels.map(item => (
+                <div className="label-item" key={item[0]}>{item[0]}: {item[1]}</div>
+              ))
+                : "--"}
+            </div>
           </div>
         </div>
       </div>

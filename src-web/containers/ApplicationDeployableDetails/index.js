@@ -75,9 +75,12 @@ const tempData = {
       metadata: {
         name: 'mydevsub',
         namespace: 'myspace',
-        labels: {
-          'controller-tools.k8s.io': '1.0',
-        },
+        labels: [
+          ['Region', 'North America'],
+          ['DataCenter', 'Austin'],
+          ['ClusterType', 'AWS'],
+          ['controller-tools.k8s.io', '1.0'],
+        ],
       },
       spec: {
         channel: 'ch - dev / dev',
@@ -111,8 +114,8 @@ export const getSubscriptions = (data) => {
 
     return {
       name: data.deployables.subscription.metadata.name || '',
-      namespace: data.deployables.subscription.metadata.name || '',
-      labels: data.deployables.subscription.metadata.name || '',
+      namespace: data.deployables.subscription.metadata.namespace || '',
+      labels: data.deployables.subscription.metadata.labels || '',
       channel: data.deployables.subscription.spec.channel || '',
       package: data.deployables.subscription.spec.package || '',
       version: data.deployables.subscription.spec.version || '',
@@ -163,7 +166,11 @@ class ApplicationDeployableDetails extends React.Component {
         <ApplicationDeployableSubscription
           subscription={this.props.subscriptions}
         />
-        <ApplicationDeployableVersionStatus deployableDetails={this.props.deployableDetails} channels={this.props.channels} subscriptions={this.props.subscriptions} />
+        <ApplicationDeployableVersionStatus
+          deployableDetails={this.props.deployableDetails}
+          channels={this.props.channels}
+          subscriptions={this.props.subscriptions}
+        />
       </div>
     )
   }

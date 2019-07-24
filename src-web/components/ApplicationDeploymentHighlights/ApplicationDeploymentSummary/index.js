@@ -8,7 +8,6 @@
  *******************************************************************************/
 
 import React from 'react'
-import Masonry from 'react-masonry-component'
 import msgs from '../../../../nls/platform.properties'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
@@ -16,7 +15,6 @@ import StackedChartCardModule from './components/StackedChartCardModule'
 import LineChartCardModule from './components/LineChartCardModule'
 
 import {
-  masonryOptions,
   getChannelChartData,
   getChannelChartWidth,
   getDeployablesChartData
@@ -35,13 +33,8 @@ const ApplicationDeploymentSummary = withLocale(
     return (
       <div id="ApplicationDeploymentSummary">
         <div className="masonry-container">
-          <Masonry
-            enableResizableChildren
-            disableImagesLoaded
-            className="masonry-class"
-            style={masonryOptions}
-          >
-            <div className="grid-item">
+          {deployablesChartData.length > 0 && (
+            <div className="grid-item grid-item-deployable">
               <div className="grid-view">
                 <div className="title">
                   {msgs.get('recent.deployments.chart.title', locale)}
@@ -52,7 +45,8 @@ const ApplicationDeploymentSummary = withLocale(
                 />
               </div>
             </div>
-
+          )}
+          {channelChartData.length > 0 && (
             <div className="grid-item">
               <div className="grid-view">
                 <div className="title">
@@ -65,7 +59,7 @@ const ApplicationDeploymentSummary = withLocale(
                 />
               </div>
             </div>
-          </Masonry>
+          )}
         </div>
       </div>
     )

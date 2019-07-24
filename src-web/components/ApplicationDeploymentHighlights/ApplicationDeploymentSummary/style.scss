@@ -21,8 +21,15 @@ $overview-heat-collapsed: 90px !default;
     }
   }
 
+  .recharts-wrapper {
+    display: block;
+    margin: auto;
+  }
+
   .masonry-container {
     margin-top: 10px;
+    display: inline-flex;
+    width: 100%;
   }
 
   .masonry-class {
@@ -41,15 +48,18 @@ $overview-heat-collapsed: 90px !default;
     }
   }
 
+  .grid-item-deployable {
+    margin-right: 10px;
+  }
+
   .grid-item {
     margin-bottom: $overview-card-margin-bottom;
     background-color: $color__white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     position: relative;
     margin-left: 0px;
-    margin-right: 10px;
     min-width: 450px;
-    width: 49%;
+    width: 100%;
 
     .title {
       display: flex;

@@ -15,16 +15,16 @@ describe('getChartKeyColor', () => {
   const value2 = 'fl'
   const value3 = 'cm'
 
-  it('should return #5A6872', () => {
-    const result = '#5A6872'
+  it('should return #ff4969', () => {
+    const result = '#ff4969'
     expect(getChartKeyColor(value1)).toEqual(result)
   })
-  it('should return #8c9ba5', () => {
-    const result = '#8c9ba5'
+  it('should return #a0edff', () => {
+    const result = '#a0edff'
     expect(getChartKeyColor(value2)).toEqual(result)
   })
-  it('should return black', () => {
-    const result = 'black'
+  it('should return #018c6d', () => {
+    const result = '#018c6d'
     expect(getChartKeyColor(value3)).toEqual(result)
   })
 })

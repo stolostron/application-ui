@@ -12,11 +12,11 @@ import msgs from '../../../../../../nls/platform.properties'
 export const getChartKeyColor = value => {
   switch (true) {
   case value === 'pr':
-    return '#5A6872'
+    return '#ff4969'
   case value === 'fl':
-    return '#8c9ba5'
+    return '#a0edff'
   case value === 'cm':
-    return 'black'
+    return '#018c6d'
   default:
     return ''
   }

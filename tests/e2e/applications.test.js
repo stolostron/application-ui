@@ -48,7 +48,7 @@ module.exports = {
     appsPage.verifyPageContent()
   },
 
-  'Applications: Register new application - yaml validation': (browser) => {
+  'Applications: Register new application - yaml validation': browser => {
     appsPage.openAppRegistrationModal()
     appsPage.verifyModalOpened()
     appsPage.enterTextInYamlEditor(browser, 'BadYaml:\nThis is bad Yaml')
@@ -57,10 +57,10 @@ module.exports = {
     appsPage.closeAppRegistrationModal()
   },
 
-  'Applications: Register new application template': (browser) => {
+  'Applications: Register new application template': browser => {
     let templateYaml = fs.readFileSync(
       path.join(__dirname, '..', 'resources', 'players_case1_template.yaml'),
-      'utf8',
+      'utf8'
     )
     templateYaml = templateYaml.replace('{{application-name}}', appName)
 
@@ -71,10 +71,10 @@ module.exports = {
     appsPage.verifyModalSubmitted()
   },
 
-  'Applications: Register new application instance': (browser) => {
+  'Applications: Register new application instance': browser => {
     let instanceYaml = fs.readFileSync(
       path.join(__dirname, '..', 'resources', 'players_instance.yaml'),
-      'utf8',
+      'utf8'
     )
     instanceYaml = instanceYaml.replace('{{application-name}}', appName)
 
@@ -111,5 +111,5 @@ module.exports = {
       browser.end()
       done()
     })
-  },
+  }
 }

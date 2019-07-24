@@ -1,0 +1,66 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'scss/variables';
+
+
+.topology-controls {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  .zoom-buttons {
+    position: relative;
+
+    & > div {
+      display: flex;
+      cursor: pointer;
+
+      &.disabled {
+        opacity: 0.3;
+        outline: none;
+      }
+    }
+
+    .zoom-target-button {
+      position: absolute;
+      top: 0px;
+      right: 0;
+
+      .icon {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    .zoom-in-button {
+      position: absolute;
+      top: 30px;
+      right: 0;
+
+      .icon {
+        width: 21px;
+        height: 23px;
+      }
+    }
+
+    .zoom-out-button {
+      position: absolute;
+      top: 52px;
+      right: 0;
+
+      .icon {
+        width: 21px;
+        height: 23px;
+      }
+    }
+
+  }
+
+}

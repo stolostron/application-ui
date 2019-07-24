@@ -15,7 +15,7 @@ import renderer from 'react-test-renderer'
 import { GET_ACTION_MODAL_STATE } from '../../../../../src-web/apollo-client/queries/StateQueries'
 
 const delay = ms =>
-  new Promise((resolve) => {
+  new Promise(resolve => {
     setTimeout(() => {
       resolve()
     }, ms)
@@ -31,18 +31,18 @@ const mocks = {
           type: 'invalid',
           resourceType: {
             name: 'invalid',
-            list: 'invalid',
+            list: 'invalid'
           },
           data: {
             name: 'invalid',
             namespace: 'invalid',
             clusterName: 'invalid',
             selfLink: 'invalid',
-            kind: 'invalid',
-          },
-        },
-      },
-    },
+            kind: 'invalid'
+          }
+        }
+      }
+    }
   },
   editMock: {
     request: { query: GET_ACTION_MODAL_STATE },
@@ -53,18 +53,18 @@ const mocks = {
           type: 'table.actions.edit',
           resourceType: {
             name: 'HCMPod',
-            list: 'HCMPodList',
+            list: 'HCMPodList'
           },
           data: {
             name: 'icp-mongodb-0',
             namespace: 'kube-system',
             clusterName: 'local-cluster',
             selfLink: '/api/v1/namespaces/kube-system/pods/icp-mongodb-0',
-            kind: 'pods',
-          },
-        },
-      },
-    },
+            kind: 'pods'
+          }
+        }
+      }
+    }
   },
   editLabelMock: {
     request: { query: GET_ACTION_MODAL_STATE },
@@ -75,18 +75,18 @@ const mocks = {
           type: 'table.actions.cluster.edit.labels',
           resourceType: {
             name: 'HCMPod',
-            list: 'HCMPodList',
+            list: 'HCMPodList'
           },
           data: {
             name: 'icp-mongodb-0',
             namespace: 'kube-system',
             clusterName: 'local-cluster',
             selfLink: '/api/v1/namespaces/kube-system/pods/icp-mongodb-0',
-            kind: 'pods',
-          },
-        },
-      },
-    },
+            kind: 'pods'
+          }
+        }
+      }
+    }
   },
   podLogsMock: {
     request: { query: GET_ACTION_MODAL_STATE },
@@ -97,18 +97,18 @@ const mocks = {
           type: 'table.actions.pod.logs',
           resourceType: {
             name: 'HCMPod',
-            list: 'HCMPodList',
+            list: 'HCMPodList'
           },
           data: {
             name: 'icp-mongodb-0',
             namespace: 'kube-system',
             clusterName: 'local-cluster',
             selfLink: '/api/v1/namespaces/kube-system/pods/icp-mongodb-0',
-            kind: 'pods',
-          },
-        },
-      },
-    },
+            kind: 'pods'
+          }
+        }
+      }
+    }
   },
   removeMock: {
     request: { query: GET_ACTION_MODAL_STATE },
@@ -119,19 +119,19 @@ const mocks = {
           type: 'table.actions.remove',
           resourceType: {
             name: 'HCMPod',
-            list: 'HCMPodList',
+            list: 'HCMPodList'
           },
           data: {
             name: 'icp-mongodb-0',
             namespace: 'kube-system',
             clusterName: 'local-cluster',
             selfLink: '/api/v1/namespaces/kube-system/pods/icp-mongodb-0',
-            kind: 'pods',
-          },
-        },
-      },
-    },
-  },
+            kind: 'pods'
+          }
+        }
+      }
+    }
+  }
 }
 
 describe('ActionModalApollo Testing', () => {

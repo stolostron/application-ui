@@ -25,11 +25,11 @@ describe('getDeployablesList', () => {
   const applicationList = {
     items: [
       { deployables: [{ hi: 'hi' }, { hii: 'hii' }] },
-      { deployables: [{ hiii: 'hiii' }] },
-    ],
+      { deployables: [{ hiii: 'hiii' }] }
+    ]
   }
   const applicationDud = {
-    itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }],
+    itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }]
   }
   it('should return deployable list of 3', () => {
     const result = [{ hi: 'hi' }, { hii: 'hii' }, { hiii: 'hiii' }]

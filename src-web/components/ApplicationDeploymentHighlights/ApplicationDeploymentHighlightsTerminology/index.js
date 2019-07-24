@@ -24,7 +24,7 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
         <AccordionItem
           title={msgs.get(
             'description.title.deploymentHighlightsTerminology',
-            locale,
+            locale
           )}
         >
           <Tile>
@@ -32,13 +32,13 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
               <p className="deployment-highlights-terminology-header">
                 {msgs.get(
                   'description.title.deploymentHighlightsTerminology.channels',
-                  locale,
+                  locale
                 )}
               </p>
               <p>
                 {msgs.get(
                   'description.title.deploymentHighlightsTerminology.channelsSummary',
-                  locale,
+                  locale
                 )}
               </p>
             </div>
@@ -46,13 +46,13 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
               <p className="deployment-highlights-terminology-header">
                 {msgs.get(
                   'description.title.deploymentHighlightsTerminology.channelGateConditions',
-                  locale,
+                  locale
                 )}
               </p>
               <p>
                 {msgs.get(
                   'description.title.deploymentHighlightsTerminology.channelGateConditionsSummary',
-                  locale,
+                  locale
                 )}
               </p>
             </div>
@@ -60,13 +60,13 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
               <p className="deployment-highlights-terminology-header">
                 {msgs.get(
                   'description.title.deploymentHighlightsTerminology.deploymentConditions',
-                  locale,
+                  locale
                 )}
               </p>
               <p>
                 {msgs.get(
                   'description.title.deploymentHighlightsTerminology.deploymentConditionsSummary',
-                  locale,
+                  locale
                 )}
               </p>
             </div>

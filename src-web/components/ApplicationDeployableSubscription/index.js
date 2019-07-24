@@ -67,7 +67,7 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.labels')}</p>
             <div className="tile-content">
               {subscription.labels ? subscription.labels.map(item => (
-                <div className="label-item" key={item[0]}>{item[0]}: {item[1]}</div>
+                <div className="label-item" key={item[0]}>{item[0]}={item[1]}</div>
               ))
                 : "--"}
             </div>

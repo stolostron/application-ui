@@ -76,7 +76,7 @@ const tempData = {
         name: 'mydevsub',
         namespace: 'myspace',
         labels: [
-          ['Region', 'North America'],
+          ['Region', 'NorthAmerica'],
           ['DataCenter', 'Austin'],
           ['ClusterType', 'AWS'],
           ['controller-tools.k8s.io', '1.0'],
@@ -155,9 +155,9 @@ class ApplicationDeployableDetails extends React.Component {
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     return (

@@ -1,5 +1,4 @@
 #ApplicationDeploymentHighlightsTerminology {
-
   .bx--tile {
     border: 0;
     box-shadow: none;
@@ -24,5 +23,9 @@
   .bx--accordion__content {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .bx--accordion__title {
+    color: #4676b5;
   }
 }

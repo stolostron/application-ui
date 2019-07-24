@@ -70,7 +70,9 @@ const PaginationIterator = ({
   const totalPages = Math.ceil(channelLength / 3.0)
   return (
     <div className="paginationContainer">
-      <div className="pageCounter">{`${currentPage + 1} of ${totalPages}`}</div>
+      <div className="pageCounter">
+        {msgs.get('pagination.of', [currentPage + 1, totalPages], locale)}
+      </div>
       <div className="arrowsContainer">
         <div className="leftArrow">
           <Icon

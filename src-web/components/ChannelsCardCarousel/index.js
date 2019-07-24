@@ -23,7 +23,7 @@ resources(() => {
 })
 /* eslint-disable react/prop-types */
 
-class ChannelsCardsModule extends React.Component {
+class ChannelsCardCarousel extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -143,7 +143,7 @@ ChannelsCard.propTypes = {
   data: PropTypes.object
 }
 
-ChannelsCardsModule.propTypes = {}
+ChannelsCardCarousel.propTypes = {}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -159,5 +159,5 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  ChannelsCardsModule
+  ChannelsCardCarousel
 )

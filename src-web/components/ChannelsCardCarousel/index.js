@@ -13,27 +13,43 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import resources from '../../../lib/shared/resources'
 import { Icon } from 'carbon-components-react'
-//<Icon className={`dashboard-card-header__icon__${cardStatus}`} name={getIcon(cardStatus)} description={`table-status-icon-${cardStatus}`} role='img' />
 import msgs from '../../../nls/platform.properties'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../actions'
 
 resources(() => {
   require('./style.scss')
 })
 /* eslint-disable react/prop-types */
 
-export default class ChannelsCardsModule extends React.Component {
+class ChannelsCardsModule extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
   }
 
   render() {
-    const { data } = this.props
+    const { data, carouselIterator, actions } = this.props
     const { locale } = this.context
+    const dataToDisplay = data.slice(
+      0 + carouselIterator * 3,
+      3 + carouselIterator * 3
+    )
     return (
       <div id="ChannelsCardCarousel">
+        <div className="deployment-channels-title">
+          {msgs.get('application.deployments.channels', locale)}
+          {Array.isArray(data) && <span>({data.length})</span>}
+        </div>
+        <PaginationIterator
+          currentPage={carouselIterator}
+          channelLength={data.length}
+          setIterator={actions.setCarouselIterator}
+          locale={locale}
+        />
         <div className="card-container-container">
-          {data.map(elem => {
+          {dataToDisplay.map(elem => {
             return <ChannelsCard key={elem.name} data={elem} locale={locale} />
           })}
         </div>
@@ -44,19 +60,39 @@ export default class ChannelsCardsModule extends React.Component {
 
 // This method is what is responsible for displaying the progress dot indicators
 // to alert the user of where they currently are in the carousel
-const PaginationDots = (currentPage, totalPages) => {
-  const totalPagesToMapOver = new Array(totalPages)
-  let iteratorLocation = 0
+const PaginationIterator = ({
+  currentPage,
+  channelLength,
+  setIterator,
+  locale
+}) => {
+  // this const is used just have something to iterate through
+  const totalPages = Math.ceil(channelLength / 3.0)
   return (
-    <div className="dotsContainer">
-      {totalPagesToMapOver.map(() => {
-        const thisPageDisplayed =
-          (iteratorLocation === currentPage && 'darkenDot') || ''
-        iteratorLocation = iteratorLocation + 1
-        return (
-          <span key={Math.random()} className={`dot ${thisPageDisplayed}`} />
-        )
-      })}
+    <div className="paginationContainer">
+      <div className="pageCounter">{`${currentPage + 1} of ${totalPages}`}</div>
+      <div className="arrowsContainer">
+        <div className="leftArrow">
+          <Icon
+            className="closeIcon"
+            description={msgs.get('actions.scroll.left', locale)}
+            name="chevron--left"
+            onClick={() => {
+              setIterator(currentPage - 1)
+            }}
+          />
+        </div>
+        <div className="rightArrow">
+          <Icon
+            className="closeIcon"
+            description={msgs.get('actions.scroll.right', locale)}
+            name="chevron--right"
+            onClick={() => {
+              currentPage + 2 <= totalPages && setIterator(currentPage + 1)
+            }}
+          />
+        </div>
+      </div>
     </div>
   )
 }
@@ -108,3 +144,20 @@ ChannelsCard.propTypes = {
 }
 
 ChannelsCardsModule.propTypes = {}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
+}
+
+const mapStateToProps = state => {
+  const { AppOverview } = state
+  return {
+    carouselIterator: AppOverview.carouselIterator
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ChannelsCardsModule
+)

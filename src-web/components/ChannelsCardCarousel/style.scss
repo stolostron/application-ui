@@ -1,100 +1,114 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import "node_modules/carbon-components/scss/globals/scss/_colors";
-@import "../../../scss/variables";
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
-#ChannelsCardCarousel {
-  padding-top: 1px;
-
-  .dot {
-    height: 25px;
-    width: 25px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
+#resource-overview {
+  #CountsCardModule {
+    height: 150px;
   }
+}
 
-  .card-container-container {
-    display: inline-block;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    padding-right: 10px;
+.overview-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -.625rem;
+  margin-right: -.625rem;
 
-    > div {
-      flex-basis: 34%;
-      flex-grow: 0;
-      --is-end: 1;
-    }
+  .bx--module {
+    flex: 1 0 50%;
+    max-width: 100%;
 
-    // > div:nth-child(3n + 3) {
-    //   flex-basis: 32%;
-    //   flex-grow: 0;
-    //   --is-end: 0;
-    // }
+    .bx--module__inner {
+      flex: 1 0 50%;
+      position: relative;
+      min-height: 250px;
+      overflow: auto;
 
-    .card-container {
-      //self-defined property --is-end to determine last item layout
-      padding: 10px calc(20px * var(--is-end)) 10px 10px;
+      .yaml-editor-button {
+        position: relative;
+        float: right;
+        margin: -2.5rem 0.5rem 0 0;
 
-      .card-content {
-        display: flex;
-        flex-direction: column;
-        height: 160px;
-        min-width: 16rem;
-        background-color: white;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-
-        .card-name {
-          font-weight: bold;
-          padding: 20px;
-          font-size: 16px;
+        button {
+          margin: 0 0.3rem;
+          width: 5.5rem;
+          font-size: 0.7rem;
         }
 
-        .card-count-content {
-          display: flex;
-          padding: 10px;
-          height: 100%;
-          border-top: 1px solid $color__gray-1;
-          align-items: center;
+        .read-only-button {
+          background-color: $ibm-colors__gray--40;
+        }
+      }
 
-          > div {
-            flex-basis: 50%;
-          }
-
-          .card-count-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            font-size: 12px;
-            padding: 10px 0;
-
-            .card-count {
-              display: flex;
-              height: 48px;
-              line-height: 34px;
-              align-items: flex-end;
-              padding-bottom: 16px;
-              align-items: baseline;
-
-              .card-count-total {
-                font-size: 34px;
-                padding-right: 3px;
-              }
+      .bx--module__content {
+        .bx--structured-list-tbody {
+          .bx--structured-list-row {
+            .bx--structured-list-td:nth-child(2) {
+              max-width: 20rem;
+              word-wrap: break-word;
             }
           }
         }
       }
+
+      .bx--structured-list-th:first-child {
+        min-width: 150px;
+      }
     }
   }
 
-  .individualCard {
-    display: inline-block;
+  .module-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  &-right {
+    flex: 1 0 50%;
+    display: flex;
+    flex-direction: column;
+
+    .bx--module {
+      min-height: 25rem;
+    }
+
+    .yamlEditorContainer {
+      height: calc(100% - 3rem);
+    }
+  }
+
+  &-bottom {
+    width: 100%;
+    flex: 1 0 100%;
+  }
+
+  &-with-padding {
+    padding: 10px;
+  }
+
+  b {
+    font-weight: bold;
+  }
+
+  li {
+    margin-bottom: .3rem;
+  }
+
+  code {
+    font-size: .6rem;
+  }
+
+  .bx--snippet.bx--snippet--code {
+    margin-bottom: .3rem;
   }
 }

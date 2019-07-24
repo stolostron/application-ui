@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChannelsCardModule ChannelsCardModule renders correctly. 1`] = `
+exports[`ChannelsCardCarousel ChannelsCardCarousel renders correctly. 1`] = `
 <div
-  id="ChannelsCardModule"
+  id="ChannelsCardCarousel"
 >
   <div
     className="card-container-container"

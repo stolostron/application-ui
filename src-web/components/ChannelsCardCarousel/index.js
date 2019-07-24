@@ -12,6 +12,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import resources from '../../../lib/shared/resources'
+import { Icon } from 'carbon-components-react'
+//<Icon className={`dashboard-card-header__icon__${cardStatus}`} name={getIcon(cardStatus)} description={`table-status-icon-${cardStatus}`} role='img' />
 import msgs from '../../../nls/platform.properties'
 
 resources(() => {
@@ -29,7 +31,7 @@ export default class ChannelsCardsModule extends React.Component {
     const { data } = this.props
     const { locale } = this.context
     return (
-      <div id="ChannelsCardModule">
+      <div id="ChannelsCardCarousel">
         <div className="card-container-container">
           {data.map(elem => {
             return <ChannelsCard key={elem.name} data={elem} locale={locale} />
@@ -38,6 +40,25 @@ export default class ChannelsCardsModule extends React.Component {
       </div>
     )
   }
+}
+
+// This method is what is responsible for displaying the progress dot indicators
+// to alert the user of where they currently are in the carousel
+const PaginationDots = (currentPage, totalPages) => {
+  const totalPagesToMapOver = new Array(totalPages)
+  let iteratorLocation = 0
+  return (
+    <div className="dotsContainer">
+      {totalPagesToMapOver.map(() => {
+        const thisPageDisplayed =
+          (iteratorLocation === currentPage && 'darkenDot') || ''
+        iteratorLocation = iteratorLocation + 1
+        return (
+          <span key={Math.random()} className={`dot ${thisPageDisplayed}`} />
+        )
+      })}
+    </div>
+  )
 }
 
 // functional card component

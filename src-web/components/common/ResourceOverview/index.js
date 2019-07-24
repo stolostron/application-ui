@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import CountsCardModule from '../../CountsCardModule'
-import ChannelsCardModule from '../../ChannelsCardModule'
+import ChannelsCardCarousel from '../../ChannelsCardCarousel'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -117,7 +117,7 @@ const ResourceOverview = withLocale(
               )}
             </div>
             <div className="overview-content-bottom">
-              <ChannelsCardModule data={channelList} />
+              <ChannelsCardCarousel data={channelList} />
             </div>
           </React.Fragment>
         )}

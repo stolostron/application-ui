@@ -9,9 +9,9 @@
 
 const React = require('react')
 const renderer = require('react-test-renderer')
-const ChannelsCardModule = require('../ChannelsCardModule').default
+const ChannelsCardCarousel = require('../ChannelsCardCarousel').default
 
-describe('ChannelsCardModule', () => {
+describe('ChannelsCardCarousel', () => {
   const channelsCardData = [
     {
       name: 'Development',
@@ -57,9 +57,9 @@ describe('ChannelsCardModule', () => {
     }
   ]
 
-  it('ChannelsCardModule renders correctly.', () => {
+  it('ChannelsCardCarousel renders correctly.', () => {
     const tree = renderer
-      .create(<ChannelsCardModule data={channelsCardData} />)
+      .create(<ChannelsCardCarousel data={channelsCardData} />)
       .toJSON()
     expect(tree).toMatchSnapshot()
   })

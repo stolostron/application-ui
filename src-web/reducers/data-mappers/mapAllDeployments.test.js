@@ -13,10 +13,10 @@ describe('data-mappers testing for mapAllDeployments', () => {
   it('should mold the data properly', () => {
     const apiResponse = {
       deployment: 'sampleDeploymentName',
-      shouldIgnore: 'ignore',
+      shouldIgnore: 'ignore'
     }
     const result = {
-      deploymentName: 'sampleDeploymentName',
+      deploymentName: 'sampleDeploymentName'
     }
     expect(mapAllDeployments(apiResponse)).toEqual(result)
   })
@@ -24,7 +24,7 @@ describe('data-mappers testing for mapAllDeployments', () => {
   it('should not break on empty response', () => {
     const apiResponse = {}
     const result = {
-      deploymentName: '',
+      deploymentName: ''
     }
     expect(mapAllDeployments(apiResponse)).toEqual(result)
   })

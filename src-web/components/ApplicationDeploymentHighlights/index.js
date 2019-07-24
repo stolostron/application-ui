@@ -21,25 +21,26 @@ import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHig
 /* eslint-disable react/prop-types */
 
 export const ApplicationDeploymentSummary = loadable(() =>
-  import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary'))
+  import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary')
+)
 
 resources(() => {
   require('./style.scss')
 })
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { HCMChannelList, HCMApplicationList, HCMClusterList } = state
 
   return {
     HCMChannelList,
     HCMClusterList,
-    HCMApplicationList,
+    HCMApplicationList
   }
 }
 
@@ -66,10 +67,15 @@ class ApplicationDeploymentHighlights extends React.Component {
           HCMChannelList={HCMChannelList}
           HCMClusterList={HCMClusterList}
         />
-        <ApplicationDeploymentSummary HCMChannelList={HCMChannelList} />
+        <ApplicationDeploymentSummary
+          HCMChannelList={HCMChannelList}
+          HCMApplicationList={HCMApplicationList}
+        />
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentHighlights)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ApplicationDeploymentHighlights
+)

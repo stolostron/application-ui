@@ -13,7 +13,7 @@ describe('getBreadCrumbs', () => {
   const deployableParams = {
     application: 'dragoon',
     namespace: 'hellena',
-    name: 'dart',
+    name: 'dart'
   }
   const locale = 'en'
   const deployableParamsDud = [{ itteemmss: [{ josh: 'hi' }, { dart: 'hi' }] }]
@@ -25,8 +25,8 @@ describe('getBreadCrumbs', () => {
       { label: 'dragoon', url: 'undefined/hellena/dragoon' },
       {
         label: 'dart',
-        url: 'undefined/hellena/dragoon/deployable/dart',
-      },
+        url: 'undefined/hellena/dragoon/deployable/dart'
+      }
     ]
     expect(getBreadCrumbs(deployableParams, locale)).toEqual(result)
   })
@@ -34,14 +34,12 @@ describe('getBreadCrumbs', () => {
     const result = [
       { label: 'Applications', url: 'undefined' },
       { label: '', url: 'undefined//' },
-      { label: '', url: 'undefined///deployable/' },
+      { label: '', url: 'undefined///deployable/' }
     ]
     expect(getBreadCrumbs(deployableParamsDud)).toEqual(result)
   })
   it('should handle undefined object', () => {
-    const result = [
-      { label: 'Applications', url: 'undefined' },
-    ]
+    const result = [{ label: 'Applications', url: 'undefined' }]
     expect(getBreadCrumbs(undefined)).toEqual(result)
   })
 })

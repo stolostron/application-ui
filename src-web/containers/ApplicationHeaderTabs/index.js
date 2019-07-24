@@ -24,10 +24,12 @@ resources(() => {
 })
 
 export const ApplicationsTab = loadable(() =>
-  import(/* webpackChunkName: "applications" */ '../ApplicationsTab'))
+  import(/* webpackChunkName: "applications" */ '../ApplicationsTab')
+)
 
 export const ApplicationDeploymentPipeline = loadable(() =>
-  import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline'))
+  import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline')
+)
 
 // This will render the three tabs
 // Overview, Deployments, Incidents

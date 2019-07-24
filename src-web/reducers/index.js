@@ -35,23 +35,24 @@ export { modal } from './modal'
 export { logs } from './logs'
 
 export { AppDeployments } from './reducerAppDeployments'
+export { AppOverview } from './reducerAppOverview'
 
 // the exported function name must match the resourceType value
 export const HCMApplicationList = createResourceReducer(
   resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.HCM_APPLICATIONS),
+  predicate.bind(null, RESOURCE_TYPES.HCM_APPLICATIONS)
 )
 export const HCMClusterList = createResourceReducer(
   resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.HCM_CLUSTERS),
+  predicate.bind(null, RESOURCE_TYPES.HCM_CLUSTERS)
 )
 export const HCMPodList = createResourceReducer(
   resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.HCM_PODS),
+  predicate.bind(null, RESOURCE_TYPES.HCM_PODS)
 )
 export const HCMChannelList = createResourceReducer(
   resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.HCM_CHANNELS),
+  predicate.bind(null, RESOURCE_TYPES.HCM_CHANNELS)
 )
 
 export { topology } from './topology'
@@ -59,7 +60,7 @@ export { resourceFilters } from './filter'
 
 function predicate(resourceType, action) {
   if (lodash.isEqual(resourceType, action.resourceType)) return true
-  return lodash.find(lodash.values(resourceType), (type) => {
+  return lodash.find(lodash.values(resourceType), type => {
     if (typeof type === 'string') {
       return type.indexOf(action.resourceType) > -1
     }

@@ -9,8 +9,7 @@
 
 const React = require('react')
 const renderer = require('react-test-renderer')
-const ChannelsCardModule = require('../ChannelsCardModule')
-  .default
+const ChannelsCardModule = require('../ChannelsCardModule').default
 
 describe('ChannelsCardModule', () => {
   const channelsCardData = [
@@ -18,48 +17,50 @@ describe('ChannelsCardModule', () => {
       name: 'Development',
       counts: {
         pending: {
-          total: 3,
+          total: 3
         },
         'in progress': {
-          total: 2,
+          total: 2
         },
         failed: {
-          total: 1,
-        },
+          total: 1
+        }
       }
     },
     {
       name: 'QA',
       counts: {
         pending: {
-          total: 3,
+          total: 3
         },
         'in progress': {
-          total: 2,
+          total: 2
         },
         failed: {
-          total: 1,
-        },
+          total: 1
+        }
       }
     },
     {
       name: 'Dev',
       counts: {
         pending: {
-          total: 3,
+          total: 3
         },
         'in progress': {
-          total: 2,
+          total: 2
         },
         failed: {
-          total: 1,
-        },
+          total: 1
+        }
       }
     }
   ]
 
   it('ChannelsCardModule renders correctly.', () => {
-    const tree = renderer.create(<ChannelsCardModule data={channelsCardData} />).toJSON()
+    const tree = renderer
+      .create(<ChannelsCardModule data={channelsCardData} />)
+      .toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

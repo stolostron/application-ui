@@ -8,13 +8,13 @@
  *******************************************************************************/
 
 import getResourceData, {
-  //getPrimaryKey,
-  //getSecondaryKey,
-  //getURIKey,
+//getPrimaryKey,
+//getSecondaryKey,
+//getURIKey,
   getDefaultSearchField,
   getDefaultSortField,
   //getTableKeys,
-  getLink,
+  getLink
 } from '../../../src-web/definitions/index'
 
 // regular properties/selector/reducer testing
@@ -23,7 +23,7 @@ describe('definitions/index tests', () => {
   it('should return the resource data for specified resource', () => {
     const item = {
       list: 'HCMClusterList',
-      name: 'HCMCluster',
+      name: 'HCMCluster'
     }
     expect(getResourceData(item)).toMatchSnapshot()
   })
@@ -55,7 +55,7 @@ describe('definitions/index tests', () => {
   it('should return the default search field of node', () => {
     const item = {
       list: 'HCMClusterList',
-      name: 'HCMCluster',
+      name: 'HCMCluster'
     }
     expect(getDefaultSearchField(item)).toMatchSnapshot()
   })
@@ -63,7 +63,7 @@ describe('definitions/index tests', () => {
   it('should return the default sort field of node', () => {
     const item = {
       list: 'HCMClusterList',
-      name: 'HCMCluster',
+      name: 'HCMCluster'
     }
     expect(getDefaultSortField(item)).toMatchSnapshot()
   })
@@ -81,8 +81,8 @@ describe('definitions/index tests', () => {
     const resource = {
       metadata: {
         namespace: 'namespace',
-        name: 'name',
-      },
+        name: 'name'
+      }
     }
     expect(getLink(link, resource)).toMatchSnapshot()
   })
@@ -94,8 +94,8 @@ describe('definitions/index tests', () => {
       host: 'host',
       metadata: {
         namespace: 'namespace',
-        name: 'name',
-      },
+        name: 'name'
+      }
     }
     expect(getLink(link, resource)).toMatchSnapshot()
   })

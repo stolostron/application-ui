@@ -21,9 +21,11 @@ import { Search } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
-  getChannelsList,
+  getChannelsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
+import { updateModal } from '../../actions/common'
+
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -33,19 +35,29 @@ resources(() => {
 const handleCreateResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
+const handleEditResource = (dispatch, resourceType, data) => {
+  return dispatch(updateModal(
+    { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'yaml',
+      label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
+      name: (data && data.name) || '',
+      namespace: (data && data.namespace) || '',
+      data: (data && data.data) || ''}))
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    editChannel: (resourceType, data) => handleEditResource(dispatch, resourceType, data),
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {
     HCMApplicationList,
     HCMChannelList,
     // AppDeployments,
-    role,
+    role
   } = state
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
@@ -55,7 +67,7 @@ const mapStateToProps = (state) => {
     HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
-    channels: getChannelsList(HCMChannelList),
+    channels: getChannelsList(HCMChannelList)
   }
 }
 
@@ -89,10 +101,11 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployables,
       channels,
       actions,
+      editChannel,
     } = this.props
     const { locale } = this.context
     const modal = React.cloneElement(CreateChannelModal(), {
-      resourceType: RESOURCE_TYPES.HCM_CHANNELS,
+      resourceType: RESOURCE_TYPES.HCM_CHANNELS
     })
 
     return (
@@ -108,7 +121,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           labelText="Search"
           closeButtonLabelText=""
           placeHolderText="Search"
-          onChange={(event) => {
+          onChange={event => {
             actions.setDeploymentSearch(event.target.value)
           }}
           id="search-1"
@@ -118,10 +131,13 @@ class ApplicationDeploymentPipeline extends React.Component {
           applications={applications}
           deployables={deployables}
           channels={channels}
+          editChannel={editChannel}
         />
       </div>
     )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicationDeploymentPipeline)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ApplicationDeploymentPipeline
+)

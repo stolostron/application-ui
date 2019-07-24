@@ -20,29 +20,29 @@ resources(() => {
 const countsCardDataSummary = (
   HCMApplicationList,
   HCMChannelList,
-  HCMClusterList,
+  HCMClusterList
 ) => {
   const result = [
     {
       msgKey: 'dashboard.card.deployment.applications',
-      count: getNumItems(HCMApplicationList),
+      count: getNumItems(HCMApplicationList)
     },
     {
       msgKey: 'dashboard.card.deployment.channels',
-      count: getNumItems(HCMChannelList),
+      count: getNumItems(HCMChannelList)
     },
     {
       msgKey: 'dashboard.card.deployment.placementRules',
-      count: 0,
+      count: 0
     },
     {
       msgKey: 'dashboard.card.deployment.availabilityZones',
-      count: 0,
+      count: 0
     },
     {
       msgKey: 'dashboard.card.deployment.clusters',
-      count: getNumItems(HCMClusterList),
-    },
+      count: getNumItems(HCMClusterList)
+    }
   ]
   return result
 }
@@ -50,42 +50,44 @@ const countsCardDataSummary = (
 const countsCardDataStatus = [
   {
     msgKey: 'dashboard.card.deployment.pending',
-    count: 1,
+    count: 1
   },
   {
     msgKey: 'dashboard.card.deployment.inProgress',
-    count: 2,
+    count: 2
   },
   {
     msgKey: 'dashboard.card.deployment.completed',
-    count: 3,
-  },
+    count: 3
+  }
 ]
 
-const ApplicationDeploymentHighlightsDashboard = withLocale(({ HCMApplicationList, HCMChannelList, HCMClusterList }) => {
-  const countsCardData = countsCardDataSummary(
-    HCMApplicationList,
-    HCMChannelList,
-    HCMClusterList,
-  )
-  return (
-    <React.Fragment>
-      <div id="ApplicationDeploymentsDashboard">
-        <div className="deployment-summary">
-          <CountsCardModule
-            data={countsCardData}
-            title="dashboard.card.deployment.summary.title"
-          />
+const ApplicationDeploymentHighlightsDashboard = withLocale(
+  ({ HCMApplicationList, HCMChannelList, HCMClusterList }) => {
+    const countsCardData = countsCardDataSummary(
+      HCMApplicationList,
+      HCMChannelList,
+      HCMClusterList
+    )
+    return (
+      <React.Fragment>
+        <div id="ApplicationDeploymentsDashboard">
+          <div className="deployment-summary">
+            <CountsCardModule
+              data={countsCardData}
+              title="dashboard.card.deployment.summary.title"
+            />
+          </div>
+          <div className="deployment-status">
+            <CountsCardModule
+              data={countsCardDataStatus}
+              title="dashboard.card.deployment.status.title"
+            />
+          </div>
         </div>
-        <div className="deployment-status">
-          <CountsCardModule
-            data={countsCardDataStatus}
-            title="dashboard.card.deployment.status.title"
-          />
-        </div>
-      </div>
-    </React.Fragment>
-  )
-})
+      </React.Fragment>
+    )
+  }
+)
 
 export default withLocale(ApplicationDeploymentHighlightsDashboard)

@@ -13,7 +13,7 @@ import { shallow } from 'enzyme'
 
 
 
-import EditorBar from '../../../../src-web/components/common/EditorBar'
+import EditorBar from '../../../../src-web/components/ApplicationTopologyModule/components/EditorBar'
 
 describe('EditorBar components', () => {
 

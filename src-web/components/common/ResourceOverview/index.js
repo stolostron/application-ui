@@ -14,6 +14,7 @@ import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import CountsCardModule from '../../CountsCardModule'
 import ChannelsCardModule from '../../ChannelsCardModule'
+import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
@@ -105,6 +106,9 @@ const ResourceOverview = withLocale(
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
               <CountsCardModule data={countsCardData} />
+            </div>
+            <div className="overview-content-bottom overview-content-with-padding">
+              <ApplicationTopologyModule params={params} />
             </div>
             <div className="deployment-channels-title">
               {msgs.get('application.deployments.channels', locale)}

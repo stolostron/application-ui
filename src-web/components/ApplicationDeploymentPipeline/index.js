@@ -36,12 +36,12 @@ const handleCreateResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 const handleEditResource = (dispatch, resourceType, data) => {
-   return dispatch(updateModal(
-      { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'yaml',
-        label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
-        name: (data && data.name) || '',
-        namespace: (data && data.namespace) || '',        
-        data: (data && data.data) || ''}))
+  return dispatch(updateModal(
+    { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'yaml',
+      label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
+      name: (data && data.name) || '',
+      namespace: (data && data.namespace) || '',
+      data: (data && data.data) || ''}))
 }
 
 const mapDispatchToProps = (dispatch) => {

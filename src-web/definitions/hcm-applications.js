@@ -17,8 +17,6 @@ import {
   getNumDeployments,
   getNumFailedDeployments
 } from '../../lib/client/resource-helper'
-import { validator } from './validators/hcm-application-validator'
-import { getUpdates } from './deployers/hcm-application-deployer'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -28,8 +26,6 @@ export default {
   uriKey: 'metadata.name',
   primaryKey: 'metadata.name',
   secondaryKey: 'metadata.namespace',
-  validator,
-  getUpdates,
   tableKeys: [
     {
       msgKey: 'table.header.name',

@@ -22,7 +22,6 @@ import lodash from 'lodash'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
-import ResourceDiagram from './ResourceDiagram'
 import config from '../../../lib/shared/config'
 
 resources(() => {
@@ -104,7 +103,7 @@ const withResource = Component => {
             />
           )
         } else if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
-          return <Loading className="resource-detail-content-spinner" />
+          return <Loading withOverlay={false} className="content-spinner" />
         }
         return <Component {...this.props} />
       }
@@ -115,7 +114,6 @@ const withResource = Component => {
 const OverviewTab = withResource(ResourceOverview)
 
 const components = {
-  '/diagram': ResourceDiagram
 }
 
 class ResourceDetails extends React.Component {
@@ -209,19 +207,6 @@ class ResourceDetails extends React.Component {
           modules={children}
           showAppDetails={showAppDetails}
         />
-        {!showAppDetails && (
-          <React.Fragment>
-            <div className="resource-diagram-title">
-              {msgs.get('application.topology', this.context.locale)}
-            </div>
-            <ResourceDiagram
-              resourceType={resourceType}
-              params={match.params}
-              staticResourceData={staticResourceData}
-              modules={children}
-            />
-          </React.Fragment>
-        )}
       </div>
     )
   }

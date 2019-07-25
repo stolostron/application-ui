@@ -125,7 +125,7 @@ export default class NodeHelper {
     }
 
     // node hover/select shape
-    this.createNodeHilites(newNodes)
+    //this.createNodeHilites(newNodes)
 
     // update node icons
     this.updateNodeIcons()

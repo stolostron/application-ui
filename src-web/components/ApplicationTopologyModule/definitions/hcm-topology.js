@@ -26,41 +26,17 @@ export default {
   shapeTypeOrder: ['internet', 'host', 'service', 'deployment', 'daemonset', 'statefulset', 'cronjob', 'pod', 'container'],
 
   typeToShapeMap: {
-    'internet': {
-      shape: 'cloud',
-      className: 'internet'
-    },
-    'host': {
-      shape: 'host',
-      className: 'host'
-    },
     'service': {
-      shape: 'hexagon',
+      shape: 'service',
       className: 'service'
     },
     'deployment': {
-      shape: 'gear',
+      shape: 'deployment',
       className: 'deployment'
     },
-    'daemonset': {
-      shape: 'star4',
-      className: 'daemonset'
-    },
-    'statefulset': {
-      shape: 'cylinder',
-      className: 'statefulset'
-    },
     'pod': {
-      shape: 'circle',
+      shape: 'pod',
       className: 'pod'
-    },
-    'container': {
-      shape: 'irregularHexagon',
-      className: 'container'
-    },
-    'cronjob': {
-      shape: 'clock',
-      className: 'default'
     },
   },
 

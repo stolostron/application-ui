@@ -22,7 +22,7 @@ export default {
 
   typeToShapeMap: {
     'application': {
-      shape: 'roundedSq',
+      shape: 'application',
       className: 'design',
       nodeRadius: 30
     },

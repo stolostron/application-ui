@@ -72,7 +72,7 @@ class DiagramViewer extends React.Component {
     this.titles=[]
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, this.titles, locale)
     this.diagramOptions = this.props.staticResourceData.diagramOptions||{}
-    this.zoomHelper = new ZoomHelper(this, this.diagramOptions)
+    this.zoomHelper = new ZoomHelper(this, this.diagramOptions, !props.showExpandedTopology)
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.getZoomHelper = this.getZoomHelper.bind(this)
     this.getViewContainer = this.getViewContainer.bind(this)
@@ -176,12 +176,30 @@ class DiagramViewer extends React.Component {
   setDiagramRefreshTimeRef = ref => {this.diagramRefreshTimeRef = ref}
   getZoomHelper = () => {return this.zoomHelper}
   getViewContainer = () => {return this.viewerContainerContainerRef}
+  setContainerRef = ref => {
+    if (ref) {
+      this.containerRef = ref
+      this.handleMouseFunc = this.handleMouse.bind(this)
+      this.containerRef.parentNode.addEventListener('mousewheel', this.handleMouseFunc, true)
+    } else if (this.containerRef) {
+      this.containerRef.parentNode.removeEventListener('mousewheel', this.handleMouseFunc, true)
+      delete this.containerRef
+    }
+  }
+
+  // when use scrolls mouse wheel, don't zoom diagram UNLESS in expanded mode
+  handleMouse(e) {
+    const { showExpandedTopology } = this.props
+    if (!showExpandedTopology) {
+      e.stopPropagation()
+    }
+  }
 
   render() {
     const { staticResourceData, secondaryLoad, fetchLogs } = this.props
     const { selectedNodeId, showDetailsView, } = this.state
     return (
-      <div className="diagramViewerDiagram" >
+      <div className="diagramViewerDiagram" ref={this.setContainerRef} >
         <div className='diagramViewerContainerContainer' ref={this.setViewerContainerContainerRef}>
           <div className='diagramViewerContainer' ref={this.setViewerContainerRef}
             style={{height:'100%', width:'100%'}}  role='region' aria-label='zoom'>
@@ -268,7 +286,7 @@ class DiagramViewer extends React.Component {
       this.svg.append('g').attr('class', 'links')  // Links must be added before nodes, so nodes are painted on top.
       this.svg.append('g').attr('class', 'nodes')
       this.svg.on('click', this.handleNodeClick)
-      //this.svg.call(this.zoomHelper.canvasZoom())
+      this.svg.call(this.zoomHelper.canvasZoom())
       defineLinkMarkers(this.svg)
     }
 

@@ -186,30 +186,30 @@ export function getNodeGroups(nodes) {
     group.nodes.push(node)
   })
 
-  // show pods in the deployment that created it
-  if (groupMap['deployment']) {
-    if (groupMap['pod']) {
-      let i=groupMap['pod'].nodes.length
-      while(--i>=0) {
-        const node = groupMap['pod'].nodes[i]
-        if (node.layout) {
-          const controller = deploymentMap[node.layout.qname]
-          if (controller) {
-            controller.layout.pods.push(node)
-            controller.layout.hasPods = true
-            groupMap['pod'].nodes.splice(i,1)
-            delete allNodeMap[node.uid]
-            delete node.layout
-          }
-        }
-      }
-    } else {
-      // unset any pods
-      groupMap['deployment'].nodes.forEach(({layout})=>{
-        delete layout.nodeIcons
-      })
-    }
-  }
+  //  // show pods in the deployment that created it
+  //  if (groupMap['deployment']) {
+  //    if (groupMap['pod']) {
+  //      let i=groupMap['pod'].nodes.length
+  //      while(--i>=0) {
+  //        const node = groupMap['pod'].nodes[i]
+  //        if (node.layout) {
+  //          const controller = deploymentMap[node.layout.qname]
+  //          if (controller) {
+  //            controller.layout.pods.push(node)
+  //            controller.layout.hasPods = true
+  //            groupMap['pod'].nodes.splice(i,1)
+  //            delete allNodeMap[node.uid]
+  //            delete node.layout
+  //          }
+  //        }
+  //      }
+  //    } else {
+  //      // unset any pods
+  //      groupMap['deployment'].nodes.forEach(({layout})=>{
+  //        delete layout.nodeIcons
+  //      })
+  //    }
+  //  }
   return {nodeGroups: groupMap, allNodeMap}
 }
 

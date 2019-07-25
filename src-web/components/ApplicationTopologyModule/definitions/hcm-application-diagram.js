@@ -128,12 +128,12 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
   targetClusters = new Set(targetClusters)
   let {nodes=[], links=[]} = elements
   let {yaml, designLoaded} = elements
-  const {parsed, chartMap, kubeSelectors} = elements
+  const {parsed, chartMap, clusterSet, kubeSelectors} = elements
   const hasKubeDeploments = kubeSelectors.length>0
   const hasChartDeploments = Object.keys(chartMap).length>0
 
   // get filters we should use to query topology
-  const requiredFilters = getTopologyFilters(item, this.topologyTypes, kubeSelectors)
+  const requiredFilters = getTopologyFilters(item, clusterSet)
 
   // changing the active filter will cause the topology to load
   // which won't happen in this first pass
@@ -277,6 +277,7 @@ function getDesignElements(item) {
   const nodes=[]
   const chartMap={}
   const kubeSelectors=[]
+  const clusterSet = new Set()
   const deployablesMap = {}
   let yaml = ''
   let parsed = {}
@@ -439,6 +440,7 @@ function getDesignElements(item) {
 
       applicationWorksMap[key].forEach(work=>{
         const {release, status, reason, cluster, result: {chartName, chartVersion, chartURL, kubeKind, kubeName, kubeCluster}} = work
+        clusterSet.add(kubeCluster)
 
         // if a chart was used:
         //  create its shape, connect it to deployable
@@ -509,60 +511,50 @@ function getDesignElements(item) {
     parsed,
     chartMap,
     kubeSelectors,
+    clusterSet,
     designLoaded
   }
 }
 
-function getTopologyFilters(item, topologyTypes, kubeSelectors) {
+function getTopologyFilters(item, clusterSet) {
   if (item) {
     let labels = []
-    const filters = {type: topologyTypes}
-    // if any k8 objects are used, we need to pull in everything from weave from selecter clusters
-    // and then match up the types and names
-    if (kubeSelectors.length>0) {
-      filters.cluster = Object.keys(_.keyBy(kubeSelectors, 'kubeCluster'))
-    } else {
-      // else we can use the labels on the application to find k8 objects
-      const {selector={}} = item
-      for (var key in selector) {
-        if (selector.hasOwnProperty(key)) {
-          switch (key) {
+    const filters = {
+      cluster: Array.from(clusterSet),
+      type: ['service', 'deployment', 'pod'],
+    }
+    // else we can use the labels on the application to find k8 objects
+    const {selector={}} = item
+    Object.entries(selector).forEach(([key, value]) => {
+      switch (key) {
+      case 'matchLabels':
+        Object.entries(value).forEach(([k, v]) => {
+          labels.push({ label: `${k}: ${v}`, name: k, value: v })
+        })
+        break
 
-          case 'matchLabels':
-            for (var k in selector[key]) {
-              if (selector[key].hasOwnProperty(k)) {
-                const v = selector[key][k]
-                labels.push({ label: `${k}: ${v}`, name: k, value: v})
-              }
-            }
+      case 'matchExpressions':
+        value.forEach(({ key: k = '', operator = '', values = [] }) => {
+          switch (operator.toLowerCase()) {
+          case 'in':
+            labels = values.map(v => ({ label: `${k}: ${v}`, name: k, value: v }))
             break
 
-          case 'matchExpressions':
-            selector[key].forEach(({key:k='', operator='', values=[]})=>{
-              switch (operator.toLowerCase()) {
-              case 'in':
-                labels = values.map(v => {
-                  return { label: `${k}: ${v}`, name: k, value:v}
-                })
-                break
-
-              case 'notin':
-                //TODO
-                break
-
-              default:
-                break
-              }
-            })
+          case 'notin':
+            // TODO
             break
 
           default:
             break
           }
-        }
+        })
+        break
+
+      default:
+        break
       }
-      filters.label = labels
-    }
+    })
+    filters.label = labels
     return filters
   }
   return {}

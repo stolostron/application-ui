@@ -35,7 +35,7 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
     // Verify Contents makes sure the data is coming in properly
     const verifiedContents = {
       application: action.payload.application || '',
-      deployable: action.payload.deployable
+      deployable: action.payload.deployable || ''
     }
     return { ...state, deployableModalHeaderInfo: verifiedContents }
   }

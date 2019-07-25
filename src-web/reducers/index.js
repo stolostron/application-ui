@@ -54,6 +54,11 @@ export const HCMChannelList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_CHANNELS)
 )
+export const CEMIncidentList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.CEM_INCIDENTS),
+)
+
 
 export { topology } from './topology'
 export { resourceFilters } from './filter'

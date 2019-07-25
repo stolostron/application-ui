@@ -131,7 +131,12 @@ const LeftColumnForApplicationNames = (
   )
 }
 
-const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
+const ChannelColumnGrid = ({
+  channelList,
+  applicationList,
+  editChannel,
+  openDeployableModal
+}) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
@@ -148,7 +153,9 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
                     fill="#6089bf"
                     description=""
                     className="channelEditIcon"
-                    onClick={() => editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)}
+                    onClick={() =>
+                      editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)
+                    }
                   />
                 </div>
               </Tile>
@@ -192,11 +199,17 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
                       return (
                         <div className="channelColumn">
                           {channelMatch ? (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable"
+                              onClick={() => openDeployableModal()}
+                            >
                               does have the channel
                             </Tile>
                           ) : (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable"
+                              onClick={() => openDeployableModal()}
+                            >
                               <Tag className="statusTag">N/A</Tag>
                             </Tile>
                           )}
@@ -214,26 +227,35 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
   )
 }
 
-const PipelineGrid = withLocale(({ deployables, applications, channels, editChannel }) => {
-  const applicationRows = createApplicationRows(applications)
-  // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
-  // const channelRows = createChannelRow(application, channels)
-  return (
-    <div id="PipelineGrid">
-      <div className="tableGridContainer">
-        <LeftColumnForApplicationNames
-          applicationRows={applicationRows}
-          deployables={deployables}
-          applications={applications}
-        />
-        <ChannelColumnGrid
-          channelList={channels}
-          applicationList={applications}
-          editChannel={editChannel}
-        />
+const PipelineGrid = withLocale(
+  ({
+    deployables,
+    applications,
+    channels,
+    editChannel,
+    openDeployableModal
+  }) => {
+    const applicationRows = createApplicationRows(applications)
+    // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+    // const channelRows = createChannelRow(application, channels)
+    return (
+      <div id="PipelineGrid">
+        <div className="tableGridContainer">
+          <LeftColumnForApplicationNames
+            applicationRows={applicationRows}
+            deployables={deployables}
+            applications={applications}
+          />
+          <ChannelColumnGrid
+            channelList={channels}
+            applicationList={applications}
+            editChannel={editChannel}
+            openDeployableModal={openDeployableModal}
+          />
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 export default withLocale(PipelineGrid)

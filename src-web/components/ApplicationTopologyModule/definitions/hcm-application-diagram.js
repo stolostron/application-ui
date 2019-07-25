@@ -11,6 +11,7 @@ import moment from 'moment'
 import {getStringAndParsed} from '../../../../lib/client/design-helper'
 import { NODE_SIZE, StatusIcon } from '../visualizers/constants.js'
 import { getStoredObject, saveStoredObject } from '../../../../lib/client/resource-helper'
+import config from '../../../../lib/shared/config'
 import * as Actions from '../../../actions'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -694,16 +695,14 @@ function getWorkNodeDetails(currentNode) {
 }
 
 function getDesignNodeTooltips(node, locale) {
-  let tooltips = []
-  const {name, type, namespace, layout:{nodeIcons}} = node
-  tooltips.push({name:msgs.get('resource.name', locale), value:name})
-  tooltips.push({name:msgs.get('resource.type', locale), value:type})
-  tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace})
-  if (nodeIcons) {
-    Object.keys(nodeIcons).forEach(key => {
-      const {tooltips:ntps} = nodeIcons[key]
-      if (ntps) tooltips = tooltips.concat(ntps)
-    })
+  const tooltips = []
+  const {name, type, namespace} = node
+  const contextPath = config.contextPath.replace(new RegExp('/applications'), '')
+  let href = `${contextPath}/search?filters={"textsearch":"kind:${type} name:${name}"}`
+  tooltips.push({name:_.capitalize(_.startCase(type)), value:name, href})
+  if (namespace) {
+    href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
+    tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace, href})
   }
   return tooltips
 }

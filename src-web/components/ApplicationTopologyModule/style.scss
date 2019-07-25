@@ -168,6 +168,13 @@
 
   }
 
+  &.split {
+    .topologyDetails {
+      left: 0;
+      right: unset;
+    }
+  }
+
   .yamlEditorContainer {
     height: calc(100% - 30px);
   }

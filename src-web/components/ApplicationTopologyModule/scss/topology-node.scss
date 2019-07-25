@@ -33,9 +33,9 @@
   }
 
   .shadow {
-    stroke-width: 3px;
+    stroke-width: 2px;
     stroke-opacity: 0;
-    stroke: blue;
+    stroke: #0062FF;
     fill: none;
     pointer-events: none;
   }
@@ -46,6 +46,7 @@
 
   &.selected .shadow {
     stroke-opacity: 1;
+    fill: #ECF4FF;
   }
 
   .centralCircle {
@@ -65,21 +66,22 @@
 
 div.tooltip {
   position: absolute;
+  z-index: 10000;
   text-align: left;
   width: auto;
   height: auto;
-  max-width: 300px;
-  padding: 4px;
+  max-width: 500px;
   background: white;
-  font-size: 11px;
-  border: 1px solid $color__navy-gray-7;
-  border-radius: 3px;
-  pointer-events: none;
+  padding: 8px;
+  cursor: default;
+  font-size: 14px;
+  border: 1px solid #DFE3E6;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1);
 
   div {
     height: 100%;
     padding:0;
-    margin:0;
+    margin:2px;
 
     .label {
       font-weight: bold;
@@ -89,8 +91,32 @@ div.tooltip {
     .value {
       color: $color__navy-gray-6;
      }
+
+    .link {
+      color: $color__blue-51;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }
+
+div.tooltip:after {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  margin-left: -5px;
+  border-width: 5px;
+  border-color: transparent;
+  border-top-color: white;
+}
+
 
 .container {
   stroke: $color__teal-40;

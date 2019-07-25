@@ -83,7 +83,9 @@ export default class NodeHelper {
       .on('mouseover', ({layout}, i, ns) => {
         const bb = ns[i].getBoundingClientRect()
         tooltip.style('display', undefined)
-        tooltip.transition()
+        tooltip
+          .interrupt()
+          .transition()
           .delay(200)
           .duration(100)
           .style('opacity', 1)
@@ -92,19 +94,16 @@ export default class NodeHelper {
         })
           .styles((d, j, ts)=>{
             const {width, height} = ts[j].getBoundingClientRect()
-            let top = bb.top+32
-            const rect = this.getClientRef().getBoundingClientRect()
-            if (top+height > rect.bottom) {
-              top = bb.top - height
-            }
             return {
-              'top': top + 'px',
-              'left': (bb.left-width/2+30) + 'px',
+              'top': (bb.top-height+window.scrollY-6) + 'px',
+              'left': (bb.left+bb.width/2-width/2) + 'px',
             }
           })
       })
       .on('mouseout', () => {
-        tooltip.transition()
+        tooltip
+          .transition()
+          .delay(1000)
           .duration(100)
           .style('opacity', 0)
           .on('end', ()=>{
@@ -112,6 +111,9 @@ export default class NodeHelper {
           })
       })
 
+
+    // node hover/select shape
+    this.createNodeHilites(newNodes)
 
     // node shape
     this.createNodeShapes(newNodes, nodeDragHandler)
@@ -124,20 +126,15 @@ export default class NodeHelper {
       this.createLabels(draw, newNodes)
     }
 
-    // node hover/select shape
-    //this.createNodeHilites(newNodes)
-
     // update node icons
     this.updateNodeIcons()
   }
 
   createNodeHilites = (nodes) => {
     nodes.append('use')
-      .attrs(({layout}) => {
-        const {type} = layout
-        const shape = this.typeToShapeMap[type] ? this.typeToShapeMap[type].shape : 'circle'
+      .attrs(() => {
         return {
-          'xlink:href': `#diagramShapes_${shape}`,
+          'xlink:href': '#diagramShapes_circle',
           'width': NODE_SIZE,
           'height': NODE_SIZE,
           'tabindex': -1,
@@ -365,7 +362,7 @@ export default class NodeHelper {
     visible.selectAll('use.shadow')
       .attrs(({layout}) => {
         const {x, y, scale=1} = layout
-        const sz = NODE_SIZE*scale + 20
+        const sz = NODE_SIZE*scale + 18
         return {
           'width': sz,
           'height': sz,
@@ -703,7 +700,7 @@ export const moveLabels = (svg) => {
         .attrs(() => {
           return {
             'x': x - (textBBox.width/2),
-            'y': y + dy
+            'y': y + dy + 4
           }
         })
       nodeLabel.selectAll('tspan.beg')

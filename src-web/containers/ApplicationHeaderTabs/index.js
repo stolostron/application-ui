@@ -79,7 +79,7 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
           >
             <div className="some-content">
               <IncidentsTab
-                secondaryHeaderProps={{ title: 'routes.incidents' }}
+                secondaryHeaderProps={{ title: 'routes.applications' }}
               />
             </div>
           </Tab>

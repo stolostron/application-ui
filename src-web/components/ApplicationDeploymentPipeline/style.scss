@@ -6,69 +6,42 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import "node_modules/carbon-components/scss/globals/scss/_colors";
-@import "../../../scss/variables";
 
-#CountsCardModule {
-  width: 100%;
-  height: 180px;
-  padding: 25px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-
-  .card-container {
-    width: 100%;
-    height: 100%;
+#DeploymentPipeline {
+  .deploymentPipelineSearch {
+    width: 80%;
+    margin-top: 40px;
+    display: inline-block;
   }
 
   .card-container-title {
     font-weight: 700;
   }
 
-  .card-container-content {
-    display: flex;
-    padding: 0 5%;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
-    align-items: center;
+  .piplineHeader {
+    font-size: 25px;
   }
 
-  .card-count-type {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-top: 2px solid $color__gray-1;
-    padding-top: 10px;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:hover > .card-type {
-      color: $color__blue-51;
-      text-decoration: underline;
-    }
+  .AddChannelButton {
+    display: inline-flex;
+    margin-top: 40px;
+    float: right;
   }
 
-  .card-count {
-    font-size: 35px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: $mcm_color_blue_gray;
-
-    &.alert {
-      color: $mcm_color_red;
-    }
+  .addChannelIcon {
+    fill: white;
+    margin-left: 20px;
   }
 
-  .card-type {
-    text-align: center;
-    font-size: 14px;
-    line-height: 16px;
-    color: $mcm_color_blue_gray;
+  .bx--btn {
+    background-color: #f4f7fb;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #4a79b7;
+    color: #4a79b7;
+  }
+
+  .bx--btn__icon {
+    fill: #4a79b7;
   }
 }

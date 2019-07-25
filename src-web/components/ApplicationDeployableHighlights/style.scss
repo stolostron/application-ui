@@ -10,11 +10,11 @@
 @import "../../../scss/variables";
 
 #ApplicationDeployableHighlights {
-    margin-bottom: 2%;
+    margin-bottom: 5%;
 
     .deployable-highlights-header {
         font-size: 1.5em;
-        padding-bottom: 10px;
+        padding-bottom: 20px;
     }
 
     .deployable-highlights-container {
@@ -41,6 +41,11 @@
     
             #CountsCardModule{
                 box-shadow: none;
+            }
+
+            .card-container-content {
+                width: 50%;
+                margin: 0 auto;
             }
         }
     }  

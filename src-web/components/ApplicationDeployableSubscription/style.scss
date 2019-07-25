@@ -10,11 +10,11 @@
 @import "../../../scss/variables";
 
 #ApplicationDeployableSubscription {
-    margin-bottom: 2%;
+    margin-bottom: 5%;
 
   .deployable-subscription-header {
     font-size: 1.5em;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
   }
 
   .deployable-subscription-container {
@@ -49,7 +49,7 @@
 
     .tile-title {
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .label-item {

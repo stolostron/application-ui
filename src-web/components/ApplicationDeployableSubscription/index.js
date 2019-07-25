@@ -72,6 +72,10 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
                 : "--"}
             </div>
           </div>
+          <div className="rolling-updates">
+            <p className="tile-title">{msgs.get('description.title.deployableSubscription.rollingUpdates')}</p>
+            <span className="tile-content">{subscription.updates ? subscription.updates : "--"}</span>
+          </div>
         </div>
       </div>
     </div>

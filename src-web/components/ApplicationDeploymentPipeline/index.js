@@ -17,6 +17,7 @@ import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { createResources, fetchResources } from '../../actions/common'
 import PipelineGrid from './components/PipelineGrid'
+import DeployableModal from './components/DeployableModal'
 import { Search } from 'carbon-components-react'
 import {
   getApplicationsList,
@@ -36,32 +37,41 @@ const handleCreateResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 const handleEditResource = (dispatch, resourceType, data) => {
-  return dispatch(updateModal(
-    { open: true, type: 'resource-edit', action: 'put', resourceType, editorMode: 'yaml',
-      label: { primaryBtn: 'modal.button.submit', label: `modal.edit-${resourceType.name.toLowerCase()}.label`, heading: `modal.edit-${resourceType.name.toLowerCase()}.heading` },
+  return dispatch(
+    updateModal({
+      open: true,
+      type: 'resource-edit',
+      action: 'put',
+      resourceType,
+      editorMode: 'yaml',
+      label: {
+        primaryBtn: 'modal.button.submit',
+        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
+        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
+      },
       name: (data && data.name) || '',
       namespace: (data && data.namespace) || '',
-      data: (data && data.data) || ''}))
+      data: (data && data.data) || ''
+    })
+  )
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    editChannel: (resourceType, data) => handleEditResource(dispatch, resourceType, data),
+    editChannel: (resourceType, data) =>
+      handleEditResource(dispatch, resourceType, data)
   }
 }
 
 const mapStateToProps = state => {
-  const {
-    HCMApplicationList,
-    HCMChannelList,
-    // AppDeployments,
-    role
-  } = state
+  const { HCMApplicationList, HCMChannelList, AppDeployments, role } = state
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {
+    displayDeployableModal: AppDeployments.displayDeployableModal,
+    deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
     userRole: role.role,
     HCMApplicationList,
     HCMChannelList,
@@ -102,11 +112,17 @@ class ApplicationDeploymentPipeline extends React.Component {
       channels,
       actions,
       editChannel,
+      displayDeployableModal,
+      deployableModalHeaderInfo
     } = this.props
     const { locale } = this.context
     const modal = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
     })
+    const deployableModalHeader =
+      deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
+    const deployableModalLabel =
+      deployableModalHeaderInfo && deployableModalHeaderInfo.application
 
     return (
       <div id="DeploymentPipeline">
@@ -132,6 +148,14 @@ class ApplicationDeploymentPipeline extends React.Component {
           deployables={deployables}
           channels={channels}
           editChannel={editChannel}
+          openDeployableModal={actions.openDisplayDeployableModal}
+          setDeployableModalHdeaderInfo={actions.setDeployableModalHdeaderInfo}
+        />
+        <DeployableModal
+          displayModal={displayDeployableModal}
+          closeModal={actions.closeModals}
+          header={deployableModalHeader}
+          label={deployableModalLabel}
         />
       </div>
     )

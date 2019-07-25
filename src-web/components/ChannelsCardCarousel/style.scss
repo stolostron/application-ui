@@ -9,30 +9,77 @@
 @import "node_modules/carbon-components/scss/globals/scss/_colors";
 @import "../../../scss/variables";
 
-#ChannelsCardModule {
+#ChannelsCardCarousel {
   padding-top: 1px;
+  margin-top: 20px;
+
+  .deployment-channels-title {
+    font-size: 1.4rem;
+    line-height: 1.25;
+    font-weight: 300;
+    padding: 0px 0 10px 10px;
+    display: -webkit-inline-box;
+  }
+
+  .paginationContainer {
+    float: right;
+    background-color: white;
+  }
+
+  .pageCounter {
+    display: inline-block;
+    font-size: 12px;
+    padding: 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #dfe3e6;
+  }
+
+  .arrowsContainer {
+    display: inline-block;
+  }
+
+  .leftArrow {
+    display: inline-block;
+    padding: 15px;
+    padding-top: 11px;
+    border-width: 1px;
+    border-left-width: 0px;
+    border-style: solid;
+    border-color: #dfe3e6;
+  }
+
+  .rightArrow {
+    display: inline-block;
+    padding: 15px;
+    padding-top: 11px;
+    border-width: 1px;
+    border-left-width: 1px;
+    border-style: solid;
+    border-color: #dfe3e6;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+  }
+
+  .individualCard {
+    display: inline-block;
+    width: -webkit-fill-available;
+  }
 
   .card-container-container {
-    display: inline-block;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-    padding-right: 10px;
+    display: flex;
+    width: 100%;
 
     > div {
-      flex-basis: 34%;
-      flex-grow: 0;
       --is-end: 1;
     }
-
-    // > div:nth-child(3n + 3) {
-    //   flex-basis: 32%;
-    //   flex-grow: 0;
-    //   --is-end: 0;
-    // }
 
     .card-container {
       //self-defined property --is-end to determine last item layout
       padding: 10px calc(20px * var(--is-end)) 10px 10px;
+      padding-right: 0px;
 
       .card-content {
         display: flex;
@@ -84,9 +131,5 @@
         }
       }
     }
-  }
-
-  .individualCard {
-    display: inline-block;
   }
 }

@@ -1,6 +1,6 @@
 #PipelineGrid {
   .firstTotalTile {
-    background: black;
+    background: #4c4c4c;
     color: white;
     height: 200px;
     position: relative;
@@ -58,6 +58,7 @@
     bottom: 0;
     margin-bottom: 40px;
     font-size: 20px;
+    font-weight: 700;
   }
 
   .totalDeployables {
@@ -108,6 +109,7 @@
     border-right-style: dashed;
     border-right-width: 2px;
     border-color: #d5d9db;
+    background-color: white;
   }
 
   .horizontalScrollRow {
@@ -170,6 +172,6 @@
   .channelEditIcon {
     fill: black;
     margin-left: 20px;
-    cursor: pointer;    
+    cursor: pointer;
   }
 }

@@ -12,10 +12,12 @@ import { createAction } from '../../shared/utils/state'
 
 const SET_SHOW_APP_DETAILS = 'SET_SHOW_APP_DETAILS'
 const SET_SHOW_EXANDED_TOPOLOGY = 'SET_SHOW_EXANDED_TOPOLOGY'
+const SET_CAROUSEL_ITERATOR = 'SET_CAROUSEL_ITERATOR'
 
 export const initialStateOverview = {
   showAppDetails: false,
   showExpandedTopology: false,
+  carouselIterator: 0
 }
 
 export const AppOverview = (state = initialStateOverview, action) => {
@@ -26,6 +28,13 @@ export const AppOverview = (state = initialStateOverview, action) => {
   case SET_SHOW_EXANDED_TOPOLOGY: {
     return { ...state, showExpandedTopology: action.payload }
   }
+  case SET_CAROUSEL_ITERATOR: {
+    // We want to protect from going below 0
+    if (action.payload < 0) {
+      return { ...state, carouselIterator: 0 }
+    }
+    return { ...state, carouselIterator: action.payload }
+  }
   default:
     return state
   }
@@ -34,3 +43,4 @@ export default AppOverview
 
 export const setShowAppDetails = createAction(SET_SHOW_APP_DETAILS)
 export const setShowExpandedTopology = createAction(SET_SHOW_EXANDED_TOPOLOGY)
+export const setCarouselIterator = createAction(SET_CAROUSEL_ITERATOR)

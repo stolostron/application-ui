@@ -1,8 +1,21 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+
 #DeploymentPipeline {
   .deploymentPipelineSearch {
     width: 80%;
     margin-top: 40px;
     display: inline-block;
+  }
+
+  .card-container-title {
+    font-weight: 700;
   }
 
   .piplineHeader {
@@ -18,5 +31,17 @@
   .addChannelIcon {
     fill: white;
     margin-left: 20px;
+  }
+
+  .bx--btn {
+    background-color: #f4f7fb;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #4a79b7;
+    color: #4a79b7;
+  }
+
+  .bx--btn__icon {
+    fill: #4a79b7;
   }
 }

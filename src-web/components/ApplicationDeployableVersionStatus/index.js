@@ -27,17 +27,17 @@ const deployableColumns = (channels) => {
 
 
   return (
-    <div class="versionStatusGridContainer">
-      <div class="horizontalScrollRow">
+    <div className="version-status-grid-container">
+      <div className="horizontal-scroll-row">
         {channels.map((channel) => {
           return (
-            <div class="versionStatusColumn">
+            <div className="version-status-column">
 
               <Tile>
-                <div class="yaml-edit">YAML <Icon name="icon--edit" fill="#6089bf"
-                  className="channelEditIcon" /></div>
-                <div class="environment"> {channel.name} </div>
-                <div class="gate-conditions">Gate conditions to arrive to this channel</div>
+                <div className="yaml-edit"><span className="yamlEditIconTitle">YAML</span><Icon name="icon--edit" fill="#6089bf" description=""
+                  className="yamlEditIcon" /></div>
+                <div className="environment"> {channel.name} </div>
+                <div className="gate-conditions">{msgs.get('description.title.deployableVersionStatus.gateConditions')}</div>
               </Tile>
 
             </div>
@@ -50,16 +50,14 @@ const deployableColumns = (channels) => {
 
 
 
-      <div class="horizontalScrollRow">
+      <div className="horizontal-scroll-row">
         {channels.map((channel) => {
           return (
-            <div class="versionStatusColumn">
-
+            <div className="version-status-column">
               <Tile>
-                <span class="statusTag"> {channel.status}</span>
+                <span className="statusTag"> {channel.status}</span>
 
-
-                <span class="lastUpdateTime">{channel.lastUpdateTime}</span>
+                <span className="lastUpdateTime">{channel.lastUpdateTime}</span>
               </Tile>
             </div>
           );
@@ -76,16 +74,14 @@ const deployableColumns = (channels) => {
 const ApplicationDeployableVersionStatus = withLocale(({ deployableDetails, channels, subscriptions, locale }) => {
   return (
     <div id="ApplicationDeployableVersionStatus" >
-
-
       <div className="deployable-versionStatus-header">
         {msgs.get('description.title.deployableVersionStatus', locale)}
       </div>
 
-      <div className="deployable-grouping">
-        <div className="deployableLeftColumn">
+      <div className="deployable-version-status-container">
+        <div className="deployable-left-column">
           <Tile></Tile>
-          <Tile>{deployableDetails.deployables.metadata.name} {subscriptions.version}</Tile>
+          <Tile><div className="deployable-version-name">{deployableDetails.deployables.metadata.name} {subscriptions.version}</div></Tile>
         </div>
 
         {deployableColumns(channels)}

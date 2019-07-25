@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, Loading, Link } from 'carbon-components-react'
+import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../actions/index'
 import { getTabs } from '../../../lib/client/resource-helper'
 import { updateSecondaryHeader, fetchResource } from '../../actions/common'
@@ -113,8 +113,7 @@ const withResource = Component => {
 
 const OverviewTab = withResource(ResourceOverview)
 
-const components = {
-}
+const components = {}
 
 class ResourceDetails extends React.Component {
   constructor(props) {
@@ -195,9 +194,14 @@ class ResourceDetails extends React.Component {
               actions.setShowAppDetails(!showAppDetails)
             }}
           >
+            <Icon
+              className="app-information-icon"
+              name="icon--document"
+              fill="blue"
+            />
             {!showAppDetails
-              ? msgs.get('application.show.information', this.context.locale)
-              : msgs.get('application.show.overview', this.context.locale)}
+              ? msgs.get('application.information', this.context.locale)
+              : msgs.get('application.overview', this.context.locale)}
           </Link>
         </div>
         <OverviewTab

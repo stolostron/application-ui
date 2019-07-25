@@ -182,28 +182,31 @@ class ResourceDetails extends React.Component {
       resourceType,
       staticResourceData,
       showAppDetails,
+      tableName,
       actions,
       children
     } = this.props
     return (
       <div id="ResourceDetails">
-        <div className="app-information-link">
-          <Link
-            href="#"
-            onClick={() => {
-              actions.setShowAppDetails(!showAppDetails)
-            }}
-          >
-            <Icon
-              className="app-information-icon"
-              name="icon--document"
-              fill="blue"
-            />
-            {!showAppDetails
-              ? msgs.get('application.information', this.context.locale)
-              : msgs.get('application.overview', this.context.locale)}
-          </Link>
-        </div>
+        {tableName === 'All applications' && (
+          <div className="app-information-link">
+            <Link
+              href="#"
+              onClick={() => {
+                actions.setShowAppDetails(!showAppDetails)
+              }}
+            >
+              <Icon
+                className="app-information-icon"
+                name="icon--document"
+                fill="blue"
+              />
+              {!showAppDetails
+                ? msgs.get('application.information', this.context.locale)
+                : msgs.get('application.overview', this.context.locale)}
+            </Link>
+          </div>
+        )}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
@@ -282,6 +285,7 @@ ResourceDetails.propTypes = {
   routes: PropTypes.array,
   showAppDetails: PropTypes.bool,
   staticResourceData: PropTypes.object,
+  tableName: PropTypes.string,
   tabs: PropTypes.array,
   updateSecondaryHeader: PropTypes.func
 }

@@ -71,6 +71,7 @@ const mapStateToProps = state => {
   // the applications, deployables, and channels
   return {
     displayDeployableModal: AppDeployments.displayDeployableModal,
+    deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
     userRole: role.role,
     HCMApplicationList,
     HCMChannelList,
@@ -111,12 +112,17 @@ class ApplicationDeploymentPipeline extends React.Component {
       channels,
       actions,
       editChannel,
-      displayDeployableModal
+      displayDeployableModal,
+      deployableModalHeaderInfo
     } = this.props
     const { locale } = this.context
     const modal = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
     })
+    const deployableModalHeader =
+      deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
+    const deployableModalLabel =
+      deployableModalHeaderInfo && deployableModalHeaderInfo.application
 
     return (
       <div id="DeploymentPipeline">
@@ -143,10 +149,13 @@ class ApplicationDeploymentPipeline extends React.Component {
           channels={channels}
           editChannel={editChannel}
           openDeployableModal={actions.openDisplayDeployableModal}
+          setDeployableModalHdeaderInfo={actions.setDeployableModalHdeaderInfo}
         />
         <DeployableModal
           displayModal={displayDeployableModal}
           closeModal={actions.closeModals}
+          header={deployableModalHeader}
+          label={deployableModalLabel}
         />
       </div>
     )

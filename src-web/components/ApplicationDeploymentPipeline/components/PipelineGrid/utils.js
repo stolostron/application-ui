@@ -50,3 +50,19 @@ export const createApplicationRowsLookUp = list => {
     (list && list.map(item => mapApplicationLookUp(item))) || {}
   return R.mergeAll(mappedApps)
 }
+
+// This contains all the actions that will be done when clicking on the tile
+// Opens the modal and sets the header information
+export const tileClick = (
+  openDeployableModal,
+  setDeployableModalHdeaderInfo,
+  applicationName,
+  deployableName
+) => {
+  const headerInfo = {
+    application: applicationName,
+    deployable: deployableName
+  }
+  setDeployableModalHdeaderInfo(headerInfo)
+  openDeployableModal()
+}

@@ -11,7 +11,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { createApplicationRows } from './utils'
+import { createApplicationRows, tileClick } from './utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
@@ -135,7 +135,8 @@ const ChannelColumnGrid = ({
   channelList,
   applicationList,
   editChannel,
-  openDeployableModal
+  openDeployableModal,
+  setDeployableModalHdeaderInfo
 }) => {
   return (
     <div className="channelGridContainer">
@@ -165,6 +166,7 @@ const ChannelColumnGrid = ({
       </div>
       {/* All the applicaion totals and the deployable information is found here */}
       {applicationList.map(application => {
+        const applicationName = application.metadata.name || ''
         return (
           <React.Fragment>
             <div className="horizontalScrollRow">
@@ -180,7 +182,7 @@ const ChannelColumnGrid = ({
               })}
             </div>
             <div
-              id={`${application.metadata.name}deployableRows`}
+              id={`${applicationName}deployableRows`}
               className="horizontalScrollRow deployablesDisplay"
               style={{ display: 'none' }}
             >
@@ -190,6 +192,7 @@ const ChannelColumnGrid = ({
                   'channel1',
                   'channel2'
                 ]
+                const deployableName = deployable.metadata.name
                 return (
                   <div className="deployableRow">
                     {channelList.map(channel => {
@@ -201,14 +204,28 @@ const ChannelColumnGrid = ({
                           {channelMatch ? (
                             <Tile
                               className="channelColumnDeployable"
-                              onClick={() => openDeployableModal()}
+                              onClick={() =>
+                                tileClick(
+                                  openDeployableModal,
+                                  setDeployableModalHdeaderInfo,
+                                  applicationName,
+                                  deployableName
+                                )
+                              }
                             >
                               does have the channel
                             </Tile>
                           ) : (
                             <Tile
                               className="channelColumnDeployable"
-                              onClick={() => openDeployableModal()}
+                              onClick={() =>
+                                tileClick(
+                                  openDeployableModal,
+                                  setDeployableModalHdeaderInfo,
+                                  applicationName,
+                                  deployableName
+                                )
+                              }
                             >
                               <Tag className="statusTag">N/A</Tag>
                             </Tile>
@@ -233,7 +250,8 @@ const PipelineGrid = withLocale(
     applications,
     channels,
     editChannel,
-    openDeployableModal
+    openDeployableModal,
+    setDeployableModalHdeaderInfo
   }) => {
     const applicationRows = createApplicationRows(applications)
     // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
@@ -251,6 +269,7 @@ const PipelineGrid = withLocale(
             applicationList={applications}
             editChannel={editChannel}
             openDeployableModal={openDeployableModal}
+            setDeployableModalHdeaderInfo={setDeployableModalHdeaderInfo}
           />
         </div>
       </div>

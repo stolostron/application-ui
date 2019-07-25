@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import CountsCardModule from '../../CountsCardModule'
-import ChannelsCardModule from '../../ChannelsCardModule'
+import ChannelsCardCarousel from '../../ChannelsCardCarousel'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -27,7 +27,6 @@ import {
 } from '../../../../lib/client/resource-helper'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import msgs from '../../../../nls/platform.properties'
 import { getChannelsList } from './utils'
 
 resources(() => {
@@ -110,14 +109,8 @@ const ResourceOverview = withLocale(
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule params={params} />
             </div>
-            <div className="deployment-channels-title">
-              {msgs.get('application.deployments.channels', locale)}
-              {Array.isArray(channelList) && (
-                <span>&nbsp;({channelList.length})</span>
-              )}
-            </div>
             <div className="overview-content-bottom">
-              <ChannelsCardModule data={channelList} />
+              <ChannelsCardCarousel data={channelList} />
             </div>
           </React.Fragment>
         )}

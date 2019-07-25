@@ -69,7 +69,6 @@ export default {
 };
 
 export function createIncidentLink({ id = '' }, locale) {
-  console.log('incident id id ' + id)
   const link = `${config.cfcRouterUrl}/cemui/incidents/${id}/resolution`;
   if (id !== null && id !== '') {
     return (

@@ -218,7 +218,9 @@ const ChannelColumnGrid = ({
                             </Tile>
                           ) : (
                             <Tile className="channelColumnDeployable">
-                              {[addSubscriptionModal]}
+                              <div className="addSubscriptionButton">
+                                {[addSubscriptionModal]}
+                              </div>
                               <Tag className="statusTag">N/A</Tag>
                             </Tile>
                           )}

@@ -6,6 +6,10 @@
     position: relative;
   }
 
+  .addSubscriptionButton {
+    display: inline-block;
+  }
+
   .channelColumnHeader {
     background: white;
     color: black;
@@ -132,6 +136,7 @@
     font-size: 0.75rem;
     background-color: #c0e6ff;
     color: #325c80;
+    display: inline-block;
   }
 
   .deployableTile {

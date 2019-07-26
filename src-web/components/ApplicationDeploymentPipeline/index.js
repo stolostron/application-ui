@@ -36,8 +36,34 @@ resources(() => {
 const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
+// Create Resource for Channel
+const CreateChannelModal = () => {
+  return (
+    <CreateResourceModal
+      key="createChannel"
+      headingTextKey="actions.add.channel"
+      submitBtnTextKey="actions.add.channel"
+      onCreateResource={handleCreateChannelResource}
+      resourceDescriptionKey="modal.createresource.channel"
+    />
+  )
+}
+
 const handleCreateSubscriptionResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
+
+// Create Resource for Subscription
+const CreateSubscriptionModal = () => {
+  return (
+    <CreateResourceModal
+      key="createSubscription"
+      headingTextKey="actions.add.subscription"
+      submitBtnTextKey="actions.add.subscription"
+      onCreateResource={handleCreateSubscriptionResource}
+      resourceDescriptionKey="modal.createresource.subscription"
+    />
+  )
+}
 
 const handleEditResource = (dispatch, resourceType, data) => {
   return dispatch(
@@ -86,30 +112,6 @@ const mapStateToProps = state => {
   }
 }
 
-const CreateChannelModal = () => {
-  return (
-    <CreateResourceModal
-      key="createChannel"
-      headingTextKey="actions.add.channel"
-      submitBtnTextKey="actions.add.channel"
-      onCreateResource={handleCreateChannelResource}
-      resourceDescriptionKey="modal.createresource.channel"
-    />
-  )
-}
-
-const CreateSubscriptionModal = () => {
-  return (
-    <CreateResourceModal
-      key="createSubscription"
-      headingTextKey="actions.add.subscription"
-      submitBtnTextKey="actions.add.subscription"
-      onCreateResource={handleCreateSubscriptionResource}
-      resourceDescriptionKey="modal.createresource.subscription"
-    />
-  )
-}
-
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
     const { fetchChannels, fetchSubscriptions } = this.props
@@ -123,8 +125,8 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      //      HCMApplicationList,
-      //      HCMChannelList,
+      // HCMApplicationList,
+      // HCMChannelList,
       applications,
       deployables,
       channels,

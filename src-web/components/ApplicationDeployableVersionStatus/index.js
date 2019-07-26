@@ -29,7 +29,7 @@ const deployableColumns = (channels) => {
             <div className="version-status-column">
 
               <Tile>
-                <div className="yaml-edit"><span className="yamlEditIconTitle">YAML</span><Icon name="icon--edit" fill="#6089bf" description=""
+                <div className="yaml-edit"><span className="yamlEditIconTitle">{msgs.get('tabs.yaml')}</span><Icon name="icon--edit" fill="#6089bf" description=""
                   className="yamlEditIcon" /></div>
                 <div className="environment"> {channel.name} </div>
                 <div className="gate-conditions">{msgs.get('description.title.deployableVersionStatus.gateConditions')}</div>

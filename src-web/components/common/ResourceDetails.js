@@ -313,7 +313,7 @@ const mapStateToProps = (state, ownProps) => {
           storeRoot: typeListName
         })
   const items = visibleResources.normalizedItems
-  const params = ownProps.match && ownProps.match.params
+  const params = (ownProps.match && ownProps.match.params) || ''
   let dashboard = ''
   if (items && params && items[params.name + '-' + params.namespace]) {
     dashboard = items[params.name + '-' + params.namespace]['dashboard'] || ''

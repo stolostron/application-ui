@@ -18,6 +18,12 @@ resources(() => {
 })
 
 const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) => {
+  const name = (subscription && subscription.name) || "--"
+  const channel = (subscription && subscription.channel) || "--"
+  const annotations = (subscription && subscription.annotations) || "--"
+  const rules = (subscription && subscription.rules) || "--"
+  const version = (subscription && subscription.version) || "--"
+
   return (
     <div id="ApplicationDeployableSubscription">
       <div className="deployable-subscription-header">
@@ -26,7 +32,7 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
 
       <div className="deployable-subscription-container">
         <div className="deployable-subscription-edit-container">
-          <p className="yamlEditIconTitle">YAML</p>
+          <p className="yamlEditIconTitle">{msgs.get('tabs.yaml')}</p>
           <Icon
             name="icon--edit"
             fill="#6089bf"
@@ -37,11 +43,11 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
         <div className="deployable-subscription-tile-container">
           <div className="subscription-name">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.subscriptionName')}</p>
-            <span className="tile-content">{subscription.name ? subscription.name : "--"}</span>
+            <span className="tile-content">{name}</span>
           </div>
           <div className="landing-channel">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.landingChannel')}</p>
-            <span className="tile-content">{subscription.channel ? subscription.channel : "--"}</span>
+            <span className="tile-content">{channel}</span>
           </div>
           <div className="certificates">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.certificates')}</p>
@@ -53,15 +59,15 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
           </div>
           <div className="annotations">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.annotations')}</p>
-            <span className="tile-content">{subscription.annotations ? subscription.annotations : "--"}</span>
+            <span className="tile-content">{annotations}</span>
           </div>
           <div className="placement-rules">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.placementRules')}</p>
-            <span className="tile-content">{subscription.rules ? subscription.rules : "--"}</span>
+            <span className="tile-content">{rules}</span>
           </div>
           <div className="version">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.version')}</p>
-            <span className="tile-content">{subscription.version ? subscription.version : "--"}</span>
+            <span className="tile-content">{version}</span>
           </div>
           <div className="labels">
             <p className="tile-title">{msgs.get('description.title.deployableSubscription.labels')}</p>
@@ -71,10 +77,6 @@ const ApplicationDeployableSubscription = withLocale(({ subscription, locale }) 
               ))
                 : "--"}
             </div>
-          </div>
-          <div className="rolling-updates">
-            <p className="tile-title">{msgs.get('description.title.deployableSubscription.rollingUpdates')}</p>
-            <span className="tile-content">{subscription.updates ? subscription.updates : "--"}</span>
           </div>
         </div>
       </div>

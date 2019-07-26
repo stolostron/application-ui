@@ -9,5 +9,146 @@ exports[`ApplicationDeployableSubscription ApplicationDeployableSubscription ren
   >
     Subscription
   </div>
+  <div
+    className="deployable-subscription-container"
+  >
+    <div
+      className="deployable-subscription-edit-container"
+    >
+      <p
+        className="yamlEditIconTitle"
+      >
+        YAML
+      </p>
+      <svg
+        alt=""
+        aria-label=""
+        className="yamlEditIcon"
+        fill="#6089bf"
+        fillRule="evenodd"
+        height="16"
+        name="icon--edit"
+        role="img"
+        style={undefined}
+        viewBox="0 0 16 16"
+        width="16"
+      >
+        <title>
+          
+        </title>
+        <path
+          d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+        />
+      </svg>
+    </div>
+    <div
+      className="deployable-subscription-tile-container"
+    >
+      <div
+        className="subscription-name"
+      >
+        <p
+          className="tile-title"
+        >
+          Subscription Name
+        </p>
+        <span
+          className="tile-content"
+        >
+          --
+        </span>
+      </div>
+      <div
+        className="landing-channel"
+      >
+        <p
+          className="tile-title"
+        >
+          Landing Channel
+        </p>
+        <span
+          className="tile-content"
+        >
+          --
+        </span>
+      </div>
+      <div
+        className="certificates"
+      >
+        <p
+          className="tile-title"
+        >
+          Certificates
+        </p>
+        <span
+          className="tile-content"
+        >
+          --
+          <a
+            href="#"
+          >
+            
+          </a>
+          
+        </span>
+      </div>
+      <div
+        className="annotations"
+      >
+        <p
+          className="tile-title"
+        >
+          Annotations
+        </p>
+        <span
+          className="tile-content"
+        >
+          --
+        </span>
+      </div>
+      <div
+        className="placement-rules"
+      >
+        <p
+          className="tile-title"
+        >
+          Placement Rules
+        </p>
+        <span
+          className="tile-content"
+        >
+          --
+        </span>
+      </div>
+      <div
+        className="version"
+      >
+        <p
+          className="tile-title"
+        >
+          Version
+        </p>
+        <span
+          className="tile-content"
+        >
+          --
+        </span>
+      </div>
+      <div
+        className="labels"
+      >
+        <p
+          className="tile-title"
+        >
+          Labels
+        </p>
+        <div
+          className="tile-content"
+        >
+          --
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

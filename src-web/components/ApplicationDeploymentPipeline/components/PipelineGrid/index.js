@@ -11,7 +11,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { createApplicationRows } from './utils'
+import { createApplicationRows, tileClick } from './utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
@@ -131,7 +131,13 @@ const LeftColumnForApplicationNames = (
   )
 }
 
-const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
+const ChannelColumnGrid = ({
+  channelList,
+  applicationList,
+  editChannel,
+  openDeployableModal,
+  setDeployableModalHdeaderInfo
+}) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
@@ -148,7 +154,9 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
                     fill="#6089bf"
                     description=""
                     className="channelEditIcon"
-                    onClick={() => editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)}
+                    onClick={() =>
+                      editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)
+                    }
                   />
                 </div>
               </Tile>
@@ -158,6 +166,7 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
       </div>
       {/* All the applicaion totals and the deployable information is found here */}
       {applicationList.map(application => {
+        const applicationName = application.metadata.name || ''
         return (
           <React.Fragment>
             <div className="horizontalScrollRow">
@@ -173,7 +182,7 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
               })}
             </div>
             <div
-              id={`${application.metadata.name}deployableRows`}
+              id={`${applicationName}deployableRows`}
               className="horizontalScrollRow deployablesDisplay"
               style={{ display: 'none' }}
             >
@@ -183,6 +192,7 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
                   'channel1',
                   'channel2'
                 ]
+                const deployableName = deployable.metadata.name
                 return (
                   <div className="deployableRow">
                     {channelList.map(channel => {
@@ -192,11 +202,31 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
                       return (
                         <div className="channelColumn">
                           {channelMatch ? (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable"
+                              onClick={() =>
+                                tileClick(
+                                  openDeployableModal,
+                                  setDeployableModalHdeaderInfo,
+                                  applicationName,
+                                  deployableName
+                                )
+                              }
+                            >
                               does have the channel
                             </Tile>
                           ) : (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable"
+                              onClick={() =>
+                                tileClick(
+                                  openDeployableModal,
+                                  setDeployableModalHdeaderInfo,
+                                  applicationName,
+                                  deployableName
+                                )
+                              }
+                            >
                               <Tag className="statusTag">N/A</Tag>
                             </Tile>
                           )}
@@ -214,26 +244,37 @@ const ChannelColumnGrid = ({ channelList, applicationList, editChannel }) => {
   )
 }
 
-const PipelineGrid = withLocale(({ deployables, applications, channels, editChannel }) => {
-  const applicationRows = createApplicationRows(applications)
-  // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
-  // const channelRows = createChannelRow(application, channels)
-  return (
-    <div id="PipelineGrid">
-      <div className="tableGridContainer">
-        <LeftColumnForApplicationNames
-          applicationRows={applicationRows}
-          deployables={deployables}
-          applications={applications}
-        />
-        <ChannelColumnGrid
-          channelList={channels}
-          applicationList={applications}
-          editChannel={editChannel}
-        />
+const PipelineGrid = withLocale(
+  ({
+    deployables,
+    applications,
+    channels,
+    editChannel,
+    openDeployableModal,
+    setDeployableModalHdeaderInfo
+  }) => {
+    const applicationRows = createApplicationRows(applications)
+    // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
+    // const channelRows = createChannelRow(application, channels)
+    return (
+      <div id="PipelineGrid">
+        <div className="tableGridContainer">
+          <LeftColumnForApplicationNames
+            applicationRows={applicationRows}
+            deployables={deployables}
+            applications={applications}
+          />
+          <ChannelColumnGrid
+            channelList={channels}
+            applicationList={applications}
+            editChannel={editChannel}
+            openDeployableModal={openDeployableModal}
+            setDeployableModalHdeaderInfo={setDeployableModalHdeaderInfo}
+          />
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 export default withLocale(PipelineGrid)

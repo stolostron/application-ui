@@ -17,15 +17,15 @@ import {
 
 
 export default {
-  defaultSortField: 'id',
+  defaultSortField: 'lastUpdated',
   uriKey: 'id',
   primaryKey: 'id',
-  secondaryKey: '',
+  secondaryKey: 'id',
   tableKeys: [
     {
       msgKey: 'table.header.incidentName',
       resourceKey: 'id',
-      transformFunction: createIncidentLink,
+      //transformFunction: createIncidentLink,
     },
     {
       msgKey: 'table.header.incidentPriority',

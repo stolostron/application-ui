@@ -9,5 +9,27 @@ exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus r
   >
     Version Status
   </div>
+  <div
+    className="deployable-version-status-container"
+  >
+    <div
+      className="deployable-left-column"
+    >
+      <div
+        className="bx--tile"
+      />
+      <div
+        className="bx--tile"
+      >
+        <div
+          className="deployable-version-name"
+        >
+          
+           
+          
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;

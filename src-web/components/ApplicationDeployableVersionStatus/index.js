@@ -21,11 +21,6 @@ resources(() => {
 
 const deployableColumns = (channels) => {
 
-
-
-
-
-
   return (
     <div className="version-status-grid-container">
       <div className="horizontal-scroll-row">
@@ -48,8 +43,6 @@ const deployableColumns = (channels) => {
         }
       </div>
 
-
-
       <div className="horizontal-scroll-row">
         {channels.map((channel) => {
           return (
@@ -66,7 +59,6 @@ const deployableColumns = (channels) => {
         )
         }
       </div></div>);
-
 
 };
 

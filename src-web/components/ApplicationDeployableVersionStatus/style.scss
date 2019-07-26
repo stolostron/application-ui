@@ -35,40 +35,38 @@
 
   .version-status-grid-container {
     display: inline-block;
-    // position: absolute;
-
     overflow: scroll;
     width: calc(100% - 350px);
     border-color: #d5d9db;
+  }
 
-    .version-status-column .bx--tile {
-      border-left-style: dashed;
-      border-right-style: dashed;
-    }
+  .version-status-grid-container .version-status-column .bx--tile {
+    border-left-style: dashed;
+    border-right-style: dashed;
+  }
 
-    .version-status-column:first-of-type .bx--tile {
-      border-left-style: solid;
-    }
+  .version-status-grid-container .version-status-column:first-of-type .bx--tile {
+    border-left-style: solid;
+  }
 
-    .version-status-column:last-of-type .bx--tile {
-      border-right-style: solid;
-    }
+  .version-status-grid-container.version-status-column:last-of-type .bx--tile {
+    border-right-style: solid;
+  }
 
-    .version-status-column {
-      display: inline-block;
-      width: 350px;
+  .version-status-grid-container .version-status-column {
+    display: inline-block;
+    width: 350px;
+  }
 
-      .environment {
-        font-size: 2em;
-        font-weight: bold;
-      }
+  .version-status-grid-container .version-status-column  .environment {
+    font-size: 2em;
+    font-weight: bold;
+  }
 
-      .gate-conditions {
-        font-size: 1em;
-        font-weight: bold;
-        margin-top: 1em;
-      }
-    }
+  .version-status-grid-container .version-status-column .gate-conditions {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 1em;
   }
 
   .bx--tile {
@@ -81,16 +79,16 @@
 
   .yaml-edit {
     text-align: right;
+  }
 
-    .yamlEditIconTitle {
-      font-size: 0.8em;
-      display: inline-block;
-      margin: 0 5px;
-    }
+  .yamlEditIconTitle {
+    font-size: 0.8em;
+    display: inline-block;
+    margin: 0 5px;
+  }
 
-    .yamlEditIcon {
-      cursor: pointer;
-    }
+  .yamlEditIcon {
+    cursor: pointer;
   }
 
   .statusTag {

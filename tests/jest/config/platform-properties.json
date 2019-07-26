@@ -23,6 +23,7 @@
   "application.deployables": "Deployable Objects",
   "application.deployments.channels": "Deployments by channels",
   "application.information": "App Information",
+  "application.launch.grafana": "Grafana",
   "application.overview": "App Overview",
   "application.policy": "policy",
   "application.relationships": "Application Relationships",

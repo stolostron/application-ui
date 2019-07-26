@@ -182,26 +182,37 @@ class ResourceDetails extends React.Component {
       resourceType,
       staticResourceData,
       showAppDetails,
+      dashboard,
       actions,
       children
     } = this.props
     return (
       <div id="ResourceDetails">
-        <div className="app-information-link">
+        <div className="app-info-and-dashboard-links">
           <Link
             href="#"
             onClick={() => {
               actions.setShowAppDetails(!showAppDetails)
             }}
           >
-            <Icon
-              className="app-information-icon"
-              name="icon--document"
-              fill="blue"
-            />
+            <Icon className="app-info-icon" name="icon--document" fill="blue" />
             {!showAppDetails
               ? msgs.get('application.information', this.context.locale)
               : msgs.get('application.overview', this.context.locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            href={dashboard}
+            aria-disabled={!dashboard}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--launch"
+              fill="blue"
+            />
+            {msgs.get('application.launch.grafana', this.context.locale)}
           </Link>
         </div>
         <OverviewTab
@@ -275,6 +286,7 @@ ResourceDetails.contextTypes = {
 ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  dashboard: PropTypes.string,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -294,9 +306,20 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const { AppOverview } = state
+  const { list: typeListName } = ownProps.resourceType,
+        visibleResources = ownProps.getVisibleResources(state, {
+          storeRoot: typeListName
+        })
+  const items = visibleResources.normalizedItems
+  const params = ownProps.match && ownProps.match.params
+  let dashboard = ''
+  if (items && params && items[params.name + '-' + params.namespace]) {
+    dashboard = items[params.name + '-' + params.namespace]['dashboard'] || ''
+  }
   return {
+    dashboard,
     showAppDetails: AppOverview.showAppDetails
   }
 }

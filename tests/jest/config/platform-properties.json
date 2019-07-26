@@ -267,6 +267,7 @@
   "no-resource.hcmapplication": "Applications",
   "no-resource.hcmpolicy": "Policy",
   "no-resource.hcmcompliance": "Compliance",
+  "no-resource.cemincident": "Incidents",
   "overview.all.providers": "Back to all cloud providers",
   "overview.other.type": "Other",
   "overview.error.default": "An unexpected error occurred. Try again.",

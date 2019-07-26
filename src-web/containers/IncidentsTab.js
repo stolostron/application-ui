@@ -11,7 +11,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
-import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
+import { typedResourcePageWithListForIncidents } from '../components/common/ResourcePage'
 import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
@@ -20,7 +20,7 @@ import context from '../../lib/shared/context'
 const { locale } = context()
 const tableTitle = msgs.get('table.title.allIncidents', locale)
 
-export default withRouter(withAccess(typedResourcePageWithListAndDetails(
+export default withRouter(withAccess(typedResourcePageWithListForIncidents(
   RESOURCE_TYPES.CEM_INCIDENTS,
   [],
   [],

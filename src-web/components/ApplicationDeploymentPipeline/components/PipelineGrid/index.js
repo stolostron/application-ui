@@ -136,7 +136,8 @@ const ChannelColumnGrid = ({
   applicationList,
   editChannel,
   openDeployableModal,
-  setDeployableModalHdeaderInfo
+  setDeployableModalHdeaderInfo,
+  addSubscriptionModal
 }) => {
   return (
     <div className="channelGridContainer">
@@ -216,17 +217,8 @@ const ChannelColumnGrid = ({
                               does have the channel
                             </Tile>
                           ) : (
-                            <Tile
-                              className="channelColumnDeployable"
-                              onClick={() =>
-                                tileClick(
-                                  openDeployableModal,
-                                  setDeployableModalHdeaderInfo,
-                                  applicationName,
-                                  deployableName
-                                )
-                              }
-                            >
+                            <Tile className="channelColumnDeployable">
+                              {[addSubscriptionModal]}
                               <Tag className="statusTag">N/A</Tag>
                             </Tile>
                           )}
@@ -251,7 +243,8 @@ const PipelineGrid = withLocale(
     channels,
     editChannel,
     openDeployableModal,
-    setDeployableModalHdeaderInfo
+    setDeployableModalHdeaderInfo,
+    addSubscriptionModal
   }) => {
     const applicationRows = createApplicationRows(applications)
     // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
@@ -270,6 +263,7 @@ const PipelineGrid = withLocale(
             editChannel={editChannel}
             openDeployableModal={openDeployableModal}
             setDeployableModalHdeaderInfo={setDeployableModalHdeaderInfo}
+            addSubscriptionModal={addSubscriptionModal}
           />
         </div>
       </div>

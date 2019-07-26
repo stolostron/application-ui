@@ -33,7 +33,10 @@ resources(() => {
   require('./style.scss')
 })
 
-const handleCreateResource = (dispatch, yaml) =>
+const handleCreateChannelResource = (dispatch, yaml) =>
+  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
+
+const handleCreateSubscriptionResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 const handleEditResource = (dispatch, resourceType, data) => {
@@ -60,6 +63,8 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchSubscriptions: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editChannel: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data)
   }
@@ -87,16 +92,29 @@ const CreateChannelModal = () => {
       key="createChannel"
       headingTextKey="actions.add.channel"
       submitBtnTextKey="actions.add.channel"
-      onCreateResource={handleCreateResource}
-      resourceDescriptionKey="modal.createresource.application"
+      onCreateResource={handleCreateChannelResource}
+      resourceDescriptionKey="modal.createresource.channel"
+    />
+  )
+}
+
+const CreateSubscriptionModal = () => {
+  return (
+    <CreateResourceModal
+      key="createSubscription"
+      headingTextKey="actions.add.subscription"
+      submitBtnTextKey="actions.add.subscription"
+      onCreateResource={handleCreateSubscriptionResource}
+      resourceDescriptionKey="modal.createresource.subscription"
     />
   )
 }
 
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
-    const { fetchChannels } = this.props
+    const { fetchChannels, fetchSubscriptions } = this.props
     fetchChannels()
+    fetchSubscriptions()
   }
 
   componentDidMount() {}
@@ -116,8 +134,11 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalHeaderInfo
     } = this.props
     const { locale } = this.context
-    const modal = React.cloneElement(CreateChannelModal(), {
+    const modalChannel = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
+    })
+    const modalSubscription = React.cloneElement(CreateSubscriptionModal(), {
+      resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
     })
     const deployableModalHeader =
       deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
@@ -142,7 +163,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           }}
           id="search-1"
         />
-        <div className="AddChannelButton">{[modal]}</div>
+        <div className="AddChannelButton">{[modalChannel]}</div>
         <PipelineGrid
           applications={applications}
           deployables={deployables}
@@ -150,6 +171,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           editChannel={editChannel}
           openDeployableModal={actions.openDisplayDeployableModal}
           setDeployableModalHdeaderInfo={actions.setDeployableModalHdeaderInfo}
+          addSubscriptionModal={modalSubscription}
         />
         <DeployableModal
           displayModal={displayDeployableModal}

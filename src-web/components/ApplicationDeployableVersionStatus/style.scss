@@ -10,10 +10,93 @@
 @import "../../../scss/variables";
 
 #ApplicationDeployableVersionStatus {
-    margin-bottom: 2%;
+  margin-bottom: 2%;
 
-    .deployable-versionStatus-header {
-        font-size: 1.5em;
-        padding-bottom: 10px;
-    }
+  .deployable-versionStatus-header {
+    font-size: 1.5em;
+    padding-bottom: 10px;
+  }
+
+  .deployable-version-status-container {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .deployable-left-column {
+    width: 350px;
+    display: inline-block;
+  }
+
+  .deployable-version-name {
+    margin: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .version-status-grid-container {
+    display: inline-block;
+    overflow: scroll;
+    width: calc(100% - 350px);
+    border-color: #d5d9db;
+  }
+
+  .version-status-grid-container .version-status-column .bx--tile {
+    border-left-style: dashed;
+    border-right-style: dashed;
+  }
+
+  .version-status-grid-container .version-status-column:first-of-type .bx--tile {
+    border-left-style: solid;
+  }
+
+  .version-status-grid-container .version-status-column:last-of-type .bx--tile {
+    border-right-style: solid;
+  }
+
+  .version-status-column {
+    display: inline-block;
+    width: 350px;
+  }
+
+  .environment {
+    font-size: 2em;
+    font-weight: bold;
+  }
+
+  .gate-conditions {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 1em;
+  }
+
+  .bx--tile {
+    height: 200px;
+  }
+
+  .horizontal-scroll-row {
+    width: max-content;
+  }
+
+  .yaml-edit {
+    text-align: right;
+  }
+
+  .yamlEditIconTitle {
+    font-size: 0.8em;
+    display: inline-block;
+    margin: 0 5px;
+  }
+
+  .yamlEditIcon {
+    cursor: pointer;
+  }
+
+  .statusTag {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #c0e6ff;
+    color: #325c80;
+  }
 }

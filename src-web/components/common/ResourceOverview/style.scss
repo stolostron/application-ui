@@ -12,6 +12,14 @@
   #CountsCardModule {
     height: 150px;
   }
+
+  .table-title {
+    font-size: 1.4rem;
+    line-height: 1.25;
+    font-weight: 300;
+    padding: 0px 0 10px 0;
+    display: -webkit-inline-box;
+  }
 }
 
 .overview-content {
@@ -93,7 +101,11 @@
   }
 
   &-with-padding {
-    padding: 10px;
+    padding: 0 10px 30px 10px;
+  }
+
+  &-with-padding-except-left {
+    padding: 0 10px 30px 0;
   }
 
   b {
@@ -111,5 +123,4 @@
   .bx--snippet.bx--snippet--code {
     margin-bottom: .3rem;
   }
-
 }

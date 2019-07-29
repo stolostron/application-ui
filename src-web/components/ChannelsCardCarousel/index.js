@@ -40,7 +40,7 @@ class ChannelsCardCarousel extends React.Component {
       <div id="ChannelsCardCarousel">
         <div className="deployment-channels-title">
           {msgs.get('application.deployments.channels', locale)}
-          {Array.isArray(data) && <span>({data.length})</span>}
+          {Array.isArray(data) && <span>&nbsp;({data.length})</span>}
         </div>
         <PaginationIterator
           currentPage={carouselIterator}

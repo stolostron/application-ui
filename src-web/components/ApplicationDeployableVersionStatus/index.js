@@ -11,7 +11,6 @@ import React from '../../../node_modules/react'
 import msgs from '../../../nls/platform.properties'
 import { Tile, Icon } from 'carbon-components-react'
 import { withLocale } from '../../providers/LocaleProvider'
-import { connect } from '../../../node_modules/react-redux'
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -23,8 +22,10 @@ const deployableColumns = channels => {
     <div className="version-status-grid-container">
       <div className="horizontal-scroll-row">
         {channels.map(channel => {
+          const channelName = (channel && channel.name) || ''
+
           return (
-            <div className="version-status-column">
+            <div className="version-status-column" key="{channel.name}">
               <Tile>
                 <div className="yaml-edit">
                   <span className="yamlEditIconTitle">
@@ -37,7 +38,7 @@ const deployableColumns = channels => {
                     className="yamlEditIcon"
                   />
                 </div>
-                <div className="environment"> {channel.name} </div>
+                <div className="environment"> {channelName} </div>
                 <div className="gate-conditions">
                   {msgs.get(
                     'description.title.deployableVersionStatus.gateConditions'
@@ -51,12 +52,15 @@ const deployableColumns = channels => {
 
       <div className="horizontal-scroll-row">
         {channels.map(channel => {
-          return (
-            <div className="version-status-column">
-              <Tile>
-                <span className="statusTag"> {channel.status}</span>
+          const channelStatus = (channel && channel.status) || ''
+          const channelLastUpdateTime =
+            (channel && channel.lastUpdateTime) || ''
 
-                <span className="lastUpdateTime">{channel.lastUpdateTime}</span>
+          return (
+            <div className="version-status-column" key="{channel.name}">
+              <Tile>
+                <span className="statusTag"> {channelStatus}</span>
+                <span className="lastUpdateTime">{channelLastUpdateTime}</span>
               </Tile>
             </div>
           )

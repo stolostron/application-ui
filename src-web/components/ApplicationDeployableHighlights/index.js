@@ -56,6 +56,9 @@ const ApplicationDeployableHighlights = withLocale(({ locale }) => {
         </div>
 
         <div className="deployable-highlights-container">
+          <div className="deployable-highlights-title">
+            {msgs.get('description.title.deployableSummary', locale)}
+          </div>
           <div className="deployable-highlights-info">
             <CountsCardModule data={countsCardDataGeneralInfo} />
           </div>

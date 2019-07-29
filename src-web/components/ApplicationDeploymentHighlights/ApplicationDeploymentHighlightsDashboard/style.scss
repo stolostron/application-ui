@@ -11,18 +11,19 @@
 
  #ApplicationDeploymentsDashboard {
   width: 100%;
-  height: 180px;
+  height: 190px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
   .deployment-summary {
     width: 65%;
     float: left;
-    border-right: 2px solid $color__gray-1;
-    border-image: linear-gradient(to bottom, rgba(0,0,0,0) 15%,$color__gray-1 15%,$color__gray-1 85%,rgba(0,0,0,0) 85%);
-    border-image-slice: 1;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    // border-right: 2px solid $color__gray-1;
+    // border-image: linear-gradient(to bottom, rgba(0,0,0,0) 15%,$color__gray-1 15%,$color__gray-1 85%,rgba(0,0,0,0) 85%);
+    // border-image-slice: 1;
 
-    #CountsCardModule {
+    #CountsCardModuleWithHeader, #CountsCardModule {
       box-shadow: none;
     }
   }
@@ -31,7 +32,7 @@
     width: 35%;
     float: right;
 
-    #CountsCardModule{
+    #CountsCardModuleWithHeader, #CountsCardModule {
       box-shadow: none;
     }
   }

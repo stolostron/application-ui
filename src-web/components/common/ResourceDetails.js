@@ -182,12 +182,13 @@ class ResourceDetails extends React.Component {
       resourceType,
       staticResourceData,
       showAppDetails,
+      showExpandedTopology,
       actions,
       children
     } = this.props
     return (
       <div id="ResourceDetails">
-        <div className="app-information-link">
+        {!showExpandedTopology && <div className="app-information-link">
           <Link
             href="#"
             onClick={() => {
@@ -203,13 +204,15 @@ class ResourceDetails extends React.Component {
               ? msgs.get('application.information', this.context.locale)
               : msgs.get('application.overview', this.context.locale)}
           </Link>
-        </div>
+        </div>}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
           staticResourceData={staticResourceData}
+          actions={actions}
           modules={children}
           showAppDetails={showAppDetails}
+          showExpandedTopology={showExpandedTopology}
         />
       </div>
     )
@@ -281,6 +284,7 @@ ResourceDetails.propTypes = {
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   showAppDetails: PropTypes.bool,
+  showExpandedTopology: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
   updateSecondaryHeader: PropTypes.func
@@ -297,7 +301,8 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   const { AppOverview } = state
   return {
-    showAppDetails: AppOverview.showAppDetails
+    showAppDetails: AppOverview.showAppDetails,
+    showExpandedTopology: AppOverview.showExpandedTopology,
   }
 }
 

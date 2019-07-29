@@ -13,7 +13,12 @@ import PropTypes from 'prop-types'
 import { Icon } from 'carbon-components-react'
 import { DetailsViewDecorator } from './DetailsViewDecorator'
 import { Scrollbars } from 'react-custom-scrollbars'
+import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
+
+resources(() => {
+  require('../scss/topology-details.scss')
+})
 
 class DetailsView extends React.Component {
 

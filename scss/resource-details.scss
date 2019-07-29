@@ -10,23 +10,31 @@
 @import 'variables';
 
 #ResourceDetails {
-  .app-information-link {
+  .app-info-and-dashboard-links {
     position: fixed;
-    top: calc(#{$secondary-header-top} + 75px);
+    top: calc(#{$secondary-header-top} + 32px);
     right: 10%;
     z-index: 1001;
     background-color: $color__white;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    display: inline-block;
   }
 
-  .app-information-link .bx--link {
+  .app-info-and-dashboard-links .bx--link {
     text-decoration: none;
     color: $color__navy-gray-6;
   }
 
-  .app-information-icon {
+  .app-info-and-dashboard-links-separator {
+    border-left: 2px solid $color__gray-1;
+    margin: 0 15px 0 15px;
+  }
+
+  .app-info-icon {
+    margin: 0 10px 0 0;
+    vertical-align: sub;
+  }
+
+  .app-dashboard-icon {
     margin: 0 10px 0 0;
     vertical-align: sub;
   }

@@ -189,7 +189,7 @@ class ResourceDetails extends React.Component {
     } = this.props
     return (
       <div id="ResourceDetails">
-        {!showExpandedTopology &&
+        {!showExpandedTopology && (
           <div className="app-info-and-dashboard-links">
             <Link
               href="#"
@@ -197,7 +197,11 @@ class ResourceDetails extends React.Component {
                 actions.setShowAppDetails(!showAppDetails)
               }}
             >
-              <Icon className="app-info-icon" name="icon--document" fill="blue" />
+              <Icon
+                className="app-info-icon"
+                name="icon--document"
+                fill="blue"
+              />
               {!showAppDetails
                 ? msgs.get('application.information', this.context.locale)
                 : msgs.get('application.overview', this.context.locale)}
@@ -217,7 +221,7 @@ class ResourceDetails extends React.Component {
               {msgs.get('application.launch.grafana', this.context.locale)}
             </Link>
           </div>
-        }
+        )}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
@@ -320,14 +324,16 @@ const mapStateToProps = (state, ownProps) => {
         })
   const items = visibleResources.normalizedItems
   const params = (ownProps.match && ownProps.match.params) || ''
-  let dashboard = ''
-  if (items && params && items[params.name + '-' + params.namespace]) {
-    dashboard = items[params.name + '-' + params.namespace]['dashboard'] || ''
-  }
+  const dashboard =
+    (items &&
+      params &&
+      items[params.name + '-' + params.namespace] &&
+      items[params.name + '-' + params.namespace]['dashboard']) ||
+    ''
   return {
     dashboard,
     showAppDetails: AppOverview.showAppDetails,
-    showExpandedTopology: AppOverview.showExpandedTopology,
+    showExpandedTopology: AppOverview.showExpandedTopology
   }
 }
 

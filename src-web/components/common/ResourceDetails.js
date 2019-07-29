@@ -183,44 +183,49 @@ class ResourceDetails extends React.Component {
       staticResourceData,
       showAppDetails,
       dashboard,
+      showExpandedTopology,
       actions,
       children
     } = this.props
     return (
       <div id="ResourceDetails">
-        <div className="app-info-and-dashboard-links">
-          <Link
-            href="#"
-            onClick={() => {
-              actions.setShowAppDetails(!showAppDetails)
-            }}
-          >
-            <Icon className="app-info-icon" name="icon--document" fill="blue" />
-            {!showAppDetails
-              ? msgs.get('application.information', this.context.locale)
-              : msgs.get('application.overview', this.context.locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            href={dashboard}
-            aria-disabled={!dashboard}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--launch"
-              fill="blue"
-            />
-            {msgs.get('application.launch.grafana', this.context.locale)}
-          </Link>
-        </div>
+        {!showExpandedTopology &&
+          <div className="app-info-and-dashboard-links">
+            <Link
+              href="#"
+              onClick={() => {
+                actions.setShowAppDetails(!showAppDetails)
+              }}
+            >
+              <Icon className="app-info-icon" name="icon--document" fill="blue" />
+              {!showAppDetails
+                ? msgs.get('application.information', this.context.locale)
+                : msgs.get('application.overview', this.context.locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
+              href={dashboard}
+              aria-disabled={!dashboard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="blue"
+              />
+              {msgs.get('application.launch.grafana', this.context.locale)}
+            </Link>
+          </div>
+        }
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
           staticResourceData={staticResourceData}
+          actions={actions}
           modules={children}
           showAppDetails={showAppDetails}
+          showExpandedTopology={showExpandedTopology}
         />
       </div>
     )
@@ -293,6 +298,7 @@ ResourceDetails.propTypes = {
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   showAppDetails: PropTypes.bool,
+  showExpandedTopology: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
   updateSecondaryHeader: PropTypes.func
@@ -320,7 +326,8 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     dashboard,
-    showAppDetails: AppOverview.showAppDetails
+    showAppDetails: AppOverview.showAppDetails,
+    showExpandedTopology: AppOverview.showExpandedTopology,
   }
 }
 

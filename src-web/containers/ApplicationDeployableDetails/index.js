@@ -13,7 +13,13 @@ import resources from '../../../lib/shared/resources'
 import {
   updateSecondaryHeader /* , fetchResource */
 } from '../../actions/common'
-import { getBreadCrumbs } from './utils'
+import {
+  getBreadCrumbs,
+  getDeployableDetails,
+  getSubscriptions,
+  getChannels,
+  sampleData
+} from './utils'
 import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights'
 import ApplicationDeployableSubscription from '../../components/ApplicationDeployableSubscription'
 import ApplicationDeployableVersionStatus from '../../components/ApplicationDeployableVersionStatus'
@@ -31,7 +37,11 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = () => {
-  return {}
+  const deployableDetails = getDeployableDetails(sampleData)
+  const subscriptions = getSubscriptions(sampleData)
+  const channels = getChannels(sampleData)
+
+  return { deployableDetails, subscriptions, channels }
 }
 
 class ApplicationDeployableDetails extends React.Component {
@@ -53,8 +63,14 @@ class ApplicationDeployableDetails extends React.Component {
     return (
       <div id="ApplicationDeployableDetails">
         <ApplicationDeployableHighlights />
-        <ApplicationDeployableSubscription />
-        <ApplicationDeployableVersionStatus />
+        <ApplicationDeployableSubscription
+          subscription={this.props.subscriptions}
+        />
+        <ApplicationDeployableVersionStatus
+          deployableDetails={this.props.deployableDetails}
+          channels={this.props.channels}
+          subscriptions={this.props.subscriptions}
+        />
       </div>
     )
   }

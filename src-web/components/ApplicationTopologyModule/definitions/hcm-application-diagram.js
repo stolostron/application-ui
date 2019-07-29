@@ -11,6 +11,7 @@ import moment from 'moment'
 import {getStringAndParsed} from '../../../../lib/client/design-helper'
 import { NODE_SIZE, StatusIcon } from '../visualizers/constants.js'
 import { getStoredObject, saveStoredObject } from '../../../../lib/client/resource-helper'
+import config from '../../../../lib/shared/config'
 import * as Actions from '../../../actions'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -22,7 +23,7 @@ export default {
 
   typeToShapeMap: {
     'application': {
-      shape: 'roundedSq',
+      shape: 'application',
       className: 'design',
       nodeRadius: 30
     },
@@ -127,12 +128,12 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
   targetClusters = new Set(targetClusters)
   let {nodes=[], links=[]} = elements
   let {yaml, designLoaded} = elements
-  const {parsed, chartMap, kubeSelectors} = elements
+  const {parsed, chartMap, clusterSet, kubeSelectors} = elements
   const hasKubeDeploments = kubeSelectors.length>0
   const hasChartDeploments = Object.keys(chartMap).length>0
 
   // get filters we should use to query topology
-  const requiredFilters = getTopologyFilters(item, this.topologyTypes, kubeSelectors)
+  const requiredFilters = getTopologyFilters(item, clusterSet)
 
   // changing the active filter will cause the topology to load
   // which won't happen in this first pass
@@ -276,6 +277,7 @@ function getDesignElements(item) {
   const nodes=[]
   const chartMap={}
   const kubeSelectors=[]
+  const clusterSet = new Set()
   const deployablesMap = {}
   let yaml = ''
   let parsed = {}
@@ -438,6 +440,7 @@ function getDesignElements(item) {
 
       applicationWorksMap[key].forEach(work=>{
         const {release, status, reason, cluster, result: {chartName, chartVersion, chartURL, kubeKind, kubeName, kubeCluster}} = work
+        clusterSet.add(kubeCluster)
 
         // if a chart was used:
         //  create its shape, connect it to deployable
@@ -508,60 +511,50 @@ function getDesignElements(item) {
     parsed,
     chartMap,
     kubeSelectors,
+    clusterSet,
     designLoaded
   }
 }
 
-function getTopologyFilters(item, topologyTypes, kubeSelectors) {
+function getTopologyFilters(item, clusterSet) {
   if (item) {
     let labels = []
-    const filters = {type: topologyTypes}
-    // if any k8 objects are used, we need to pull in everything from weave from selecter clusters
-    // and then match up the types and names
-    if (kubeSelectors.length>0) {
-      filters.cluster = Object.keys(_.keyBy(kubeSelectors, 'kubeCluster'))
-    } else {
-      // else we can use the labels on the application to find k8 objects
-      const {selector={}} = item
-      for (var key in selector) {
-        if (selector.hasOwnProperty(key)) {
-          switch (key) {
+    const filters = {
+      cluster: Array.from(clusterSet),
+      type: ['service', 'deployment', 'pod'],
+    }
+    // else we can use the labels on the application to find k8 objects
+    const {selector={}} = item
+    Object.entries(selector).forEach(([key, value]) => {
+      switch (key) {
+      case 'matchLabels':
+        Object.entries(value).forEach(([k, v]) => {
+          labels.push({ label: `${k}: ${v}`, name: k, value: v })
+        })
+        break
 
-          case 'matchLabels':
-            for (var k in selector[key]) {
-              if (selector[key].hasOwnProperty(k)) {
-                const v = selector[key][k]
-                labels.push({ label: `${k}: ${v}`, name: k, value: v})
-              }
-            }
+      case 'matchExpressions':
+        value.forEach(({ key: k = '', operator = '', values = [] }) => {
+          switch (operator.toLowerCase()) {
+          case 'in':
+            labels = values.map(v => ({ label: `${k}: ${v}`, name: k, value: v }))
             break
 
-          case 'matchExpressions':
-            selector[key].forEach(({key:k='', operator='', values=[]})=>{
-              switch (operator.toLowerCase()) {
-              case 'in':
-                labels = values.map(v => {
-                  return { label: `${k}: ${v}`, name: k, value:v}
-                })
-                break
-
-              case 'notin':
-                //TODO
-                break
-
-              default:
-                break
-              }
-            })
+          case 'notin':
+            // TODO
             break
 
           default:
             break
           }
-        }
+        })
+        break
+
+      default:
+        break
       }
-      filters.label = labels
-    }
+    })
+    filters.label = labels
     return filters
   }
   return {}
@@ -694,16 +687,14 @@ function getWorkNodeDetails(currentNode) {
 }
 
 function getDesignNodeTooltips(node, locale) {
-  let tooltips = []
-  const {name, type, namespace, layout:{nodeIcons}} = node
-  tooltips.push({name:msgs.get('resource.name', locale), value:name})
-  tooltips.push({name:msgs.get('resource.type', locale), value:type})
-  tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace})
-  if (nodeIcons) {
-    Object.keys(nodeIcons).forEach(key => {
-      const {tooltips:ntps} = nodeIcons[key]
-      if (ntps) tooltips = tooltips.concat(ntps)
-    })
+  const tooltips = []
+  const {name, type, namespace} = node
+  const contextPath = config.contextPath.replace(new RegExp('/applications'), '')
+  let href = `${contextPath}/search?filters={"textsearch":"kind:${type} name:${name}"}`
+  tooltips.push({name:_.capitalize(_.startCase(type)), value:name, href})
+  if (namespace) {
+    href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
+    tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace, href})
   }
   return tooltips
 }

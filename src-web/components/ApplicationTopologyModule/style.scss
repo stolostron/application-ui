@@ -30,13 +30,43 @@
       font-size: 14px;
     }
 
-    .diagram-type-filter-bar {
+    .diagramViewerDiagram {
+      position: relative;
+    }
+
+    .diagram-controls-container {
       position: absolute;
-      display: flex;
-      justify-content: flex-end;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
       z-index: 10;
-      bottom: 10px;
-      left: 10px;
+
+      .diagram-type-filter-bar {
+        position: absolute;
+        display: flex;
+        justify-content: flex-end;
+        z-index: 10;
+        bottom: 10px;
+        left: 10px;
+      }
+
+      .diagram-expand-button {
+        display: flex;
+        position: absolute;
+        z-index: 10;
+        right: 10px;
+        bottom: 10px;
+        font-size: 12px;
+        cursor: pointer;
+        color: #3d70b2;
+
+        .icon {
+          margin-left: 8px;
+          width: 13px;
+          height: 13px;
+          stroke: #3d70b2;
+        }
+      }
     }
 
     .resource-diagram-toolbar {
@@ -48,28 +78,6 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-    }
-
-    .diagram-expand-button {
-      display: flex;
-      position: absolute;
-      z-index: 10;
-      right: 10px;
-      bottom: 10px;
-      font-size: 12px;
-      cursor: default;
-
-      svg {
-        margin-left: 8px;
-      }
-    }
-  }
-
-  &.split {
-    .resourceDiagramContainer {
-      .diagram-type-filter-bar {
-        justify-content: flex-start;
-      }
     }
   }
 
@@ -101,6 +109,69 @@
       fill: $color__navy-gray-6;
       stroke: $color__navy-gray-6;
       cursor: pointer;
+    }
+  }
+
+  /* when topology is expanded */
+ &.showExpandedTopology {
+    height: calc(100vh - 240px);
+    margin: -30px -8rem -50px -3rem;
+
+    .diagram-controls-container {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .diagram-type-filter-bar {
+        position: relative;
+        bottom: unset;
+        left: unset;
+      }
+      .diagram-expand-button {
+        position: relative;
+        bottom: unset;
+        right: unset;
+      }
+    }
+
+    .diagramViewerContainerContainer {
+      width: 100%;
+      height: calc(100vh - 270px);
+      background-color: #fff;
+      position: relative;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+      overflow: hidden;
+
+      .secondaryLoad {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.scrolled {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .diagramViewerContainer {
+        margin-right: 0;
+      }
+
+      .bx--inline-notification--error {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+      }
+    }
+
+  }
+
+  &.split {
+    .topologyDetails {
+      left: 0;
+      right: unset;
     }
   }
 

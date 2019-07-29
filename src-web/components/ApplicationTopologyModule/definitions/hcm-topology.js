@@ -12,6 +12,7 @@ import moment from 'moment'
 import {getWrappedNodeLabel} from '../utils.js'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import { NODE_SIZE, PodIcon, StatusIcon } from '../visualizers/constants.js'
+import config from '../../../../lib/shared/config'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
@@ -26,41 +27,17 @@ export default {
   shapeTypeOrder: ['internet', 'host', 'service', 'deployment', 'daemonset', 'statefulset', 'cronjob', 'pod', 'container'],
 
   typeToShapeMap: {
-    'internet': {
-      shape: 'cloud',
-      className: 'internet'
-    },
-    'host': {
-      shape: 'host',
-      className: 'host'
-    },
     'service': {
-      shape: 'hexagon',
+      shape: 'service',
       className: 'service'
     },
     'deployment': {
-      shape: 'gear',
+      shape: 'deployment',
       className: 'deployment'
     },
-    'daemonset': {
-      shape: 'star4',
-      className: 'daemonset'
-    },
-    'statefulset': {
-      shape: 'cylinder',
-      className: 'statefulset'
-    },
     'pod': {
-      shape: 'circle',
+      shape: 'pod',
       className: 'pod'
-    },
-    'container': {
-      shape: 'irregularHexagon',
-      className: 'container'
-    },
-    'cronjob': {
-      shape: 'clock',
-      className: 'default'
     },
   },
 
@@ -209,30 +186,30 @@ export function getNodeGroups(nodes) {
     group.nodes.push(node)
   })
 
-  // show pods in the deployment that created it
-  if (groupMap['deployment']) {
-    if (groupMap['pod']) {
-      let i=groupMap['pod'].nodes.length
-      while(--i>=0) {
-        const node = groupMap['pod'].nodes[i]
-        if (node.layout) {
-          const controller = deploymentMap[node.layout.qname]
-          if (controller) {
-            controller.layout.pods.push(node)
-            controller.layout.hasPods = true
-            groupMap['pod'].nodes.splice(i,1)
-            delete allNodeMap[node.uid]
-            delete node.layout
-          }
-        }
-      }
-    } else {
-      // unset any pods
-      groupMap['deployment'].nodes.forEach(({layout})=>{
-        delete layout.nodeIcons
-      })
-    }
-  }
+  //  // show pods in the deployment that created it
+  //  if (groupMap['deployment']) {
+  //    if (groupMap['pod']) {
+  //      let i=groupMap['pod'].nodes.length
+  //      while(--i>=0) {
+  //        const node = groupMap['pod'].nodes[i]
+  //        if (node.layout) {
+  //          const controller = deploymentMap[node.layout.qname]
+  //          if (controller) {
+  //            controller.layout.pods.push(node)
+  //            controller.layout.hasPods = true
+  //            groupMap['pod'].nodes.splice(i,1)
+  //            delete allNodeMap[node.uid]
+  //            delete node.layout
+  //          }
+  //        }
+  //      }
+  //    } else {
+  //      // unset any pods
+  //      groupMap['deployment'].nodes.forEach(({layout})=>{
+  //        delete layout.nodeIcons
+  //      })
+  //    }
+  //  }
   return {nodeGroups: groupMap, allNodeMap}
 }
 
@@ -344,20 +321,50 @@ export function getNodeDescription(node, locale) {
   return description
 }
 
-export function getNodeTooltips(node, locale) {
-  let tooltips = []
-  const {name, clusterName, namespace, layout:{type, nodeIcons}} = node
-  tooltips.push({name:msgs.get('resource.name', locale), value:name})
-  tooltips.push({name:msgs.get('resource.type', locale), value:type})
-  tooltips.push({name:msgs.get('resource.cluster', locale), value:clusterName})
-  tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace})
-  if (nodeIcons) {
-    Object.keys(nodeIcons).forEach(key => {
-      const {tooltips:ntps} = nodeIcons[key]
-      tooltips = tooltips.concat(ntps)
-    })
+function getNodeTooltips(node, locale) {
+  const tooltips = []
+  const {name, namespace, layout:{type}, specs} = node
+  const { hasPods, pods } = specs||{}
+  const contextPath = config.contextPath.replace(new RegExp('/applications'), '')
+  if (type==='pod') {
+    addPodTooltips(node, tooltips, contextPath, locale)
+  } else {
+    let kind=undefined
+    switch (type) {
+    case 'deployment':
+    case 'service':
+    case 'daemonset':
+    case 'statefulset':
+    case 'cronjob':
+    case 'replicaset':
+      kind=type
+      break
+    case 'persistent_volume':
+      kind='persistentvolume'
+      break
+    case 'persistent_volume_claim':
+      kind='persistentvolumeclaim'
+      break
+    }
+    const href = kind ? `${contextPath}/search?filters={"textsearch":"kind:${kind} name:${name}"}` : undefined
+    tooltips.push({name:_.capitalize(_.startCase(type)), value:name, href})
+    if (hasPods) {
+      pods.forEach(pod=>{
+        addPodTooltips(pod, tooltips, contextPath, locale)
+      })
+    }
+  }
+  if (namespace) {
+    const href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
+    tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace, href})
   }
   return tooltips
+}
+
+function addPodTooltips(pod, tooltips, contextPath) {
+  const {name} = pod
+  const href = `${contextPath}/search?filters={"textsearch":"kind:pod name:${name}"}`
+  tooltips.push({name:'Pod', value:name, href})
 }
 
 export function getNodeDetails(currentNode) {

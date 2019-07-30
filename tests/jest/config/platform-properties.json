@@ -600,6 +600,7 @@
   "table.header.violation": "Violations",
   "table.hide.button": "Hide",
   "table.inactive.services": "Inactive Services",
+  "table.search.labelText": "Filter table",
   "table.show.all.button": "Show All",
   "table.title.allApplications": "All applications",
   "time.days.ago": "{0} days ago",

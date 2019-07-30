@@ -57,6 +57,13 @@
     top: 3.082rem;
   }
 
+  .bx--detail-page-header--no-tabs {
+    top: 3.082rem;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+  }
+
 }
 
 .secondary-header-wrapper {
@@ -71,3 +78,7 @@
   height: $secondary-header-min-height;
 }
 
+.secondary-header-wrapper-no-tabs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-no-tabs-height;
+}

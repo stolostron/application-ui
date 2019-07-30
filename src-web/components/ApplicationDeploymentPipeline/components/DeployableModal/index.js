@@ -17,14 +17,16 @@ resources(() => {
   require('./style.scss')
 })
 
-const DeployableModalContents = () => {
+const DeployableModalContents = withLocale(({ modalSubscription }) => {
   return (
-    <div className="channelGridContainer">{'TODO insert Information Here'}</div>
+    <div className="channelGridContainer">
+      <div className="addSubscriptionButton">{[modalSubscription]}</div>
+    </div>
   )
-}
+})
 
 const DeployableModal = withLocale(
-  ({ displayModal, closeModal, header, label, locale }) => {
+  ({ displayModal, closeModal, header, label, modalSubscription, locale }) => {
     return (
       <div id="DeployableModal">
         <Modal
@@ -36,7 +38,7 @@ const DeployableModal = withLocale(
           primaryButtonText={'TODO button'}
           secondaryButtonText={msgs.get('actions.close', locale)}
         >
-          <DeployableModalContents />
+          <DeployableModalContents modalSubscription={modalSubscription} />
         </Modal>
       </div>
     )

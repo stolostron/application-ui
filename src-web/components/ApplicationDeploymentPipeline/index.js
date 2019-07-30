@@ -173,13 +173,13 @@ class ApplicationDeploymentPipeline extends React.Component {
           editChannel={editChannel}
           openDeployableModal={actions.openDisplayDeployableModal}
           setDeployableModalHdeaderInfo={actions.setDeployableModalHdeaderInfo}
-          addSubscriptionModal={modalSubscription}
         />
         <DeployableModal
           displayModal={displayDeployableModal}
           closeModal={actions.closeModals}
           header={deployableModalHeader}
           label={deployableModalLabel}
+          modalSubscription={modalSubscription}
         />
       </div>
     )

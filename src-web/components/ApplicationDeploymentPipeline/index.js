@@ -15,7 +15,11 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { createResources, fetchResources } from '../../actions/common'
+import {
+  createResources,
+  fetchResources,
+  fetchSubscriptions
+} from '../../actions/common'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
 import { Search } from 'carbon-components-react'
@@ -89,9 +93,11 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    fetchSubscriptions: () =>
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editChannel: (resourceType, data) =>
+      handleEditResource(dispatch, resourceType, data),
+    fetchSubscriptions: () =>
+      dispatch(fetchSubscriptions(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
+    editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data)
   }
 }
@@ -132,6 +138,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       channels,
       actions,
       editChannel,
+      editSubscription,
       displayDeployableModal,
       deployableModalHeaderInfo
     } = this.props
@@ -180,6 +187,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           header={deployableModalHeader}
           label={deployableModalLabel}
           modalSubscription={modalSubscription}
+          editSubscription={editSubscription}
         />
       </div>
     )

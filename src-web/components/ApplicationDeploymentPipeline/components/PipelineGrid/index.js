@@ -216,7 +216,17 @@ const ChannelColumnGrid = ({
                               does have the channel
                             </Tile>
                           ) : (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable"
+                              onClick={() =>
+                                tileClick(
+                                  openDeployableModal,
+                                  setDeployableModalHdeaderInfo,
+                                  applicationName,
+                                  deployableName
+                                )
+                              }
+                            >
                               <Tag className="statusTag">N/A</Tag>
                             </Tile>
                           )}

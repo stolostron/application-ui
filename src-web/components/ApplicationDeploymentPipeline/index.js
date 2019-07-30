@@ -10,7 +10,6 @@
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
-// import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
@@ -18,7 +17,8 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createResources,
   fetchResources,
-  fetchSubscriptions
+  fetchSubscriptions,
+  updateModal
 } from '../../actions/common'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
@@ -30,8 +30,6 @@ import {
   getSubscriptionsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
-import { updateModal } from '../../actions/common'
-import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -117,6 +115,8 @@ const mapStateToProps = state => {
   return {
     displayDeployableModal: AppDeployments.displayDeployableModal,
     deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
+    deployableModalSubscriptionInfo:
+      AppDeployments.deployableModalSubscriptionInfo,
     userRole: role.role,
     HCMApplicationList,
     HCMChannelList,
@@ -164,9 +164,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
     const deployableModalLabel =
       deployableModalHeaderInfo && deployableModalHeaderInfo.application
-    // If there is currently noDeployableSubscription then we want to add rather
-    // than edit
-    const noDeployableSubscription = R.isEmpty(deployableModalSubscriptionInfo)
 
     return (
       <div id="DeploymentPipeline">
@@ -206,6 +203,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           label={deployableModalLabel}
           modalSubscription={modalSubscription}
           editSubscription={editSubscription}
+          deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
         />
       </div>
     )

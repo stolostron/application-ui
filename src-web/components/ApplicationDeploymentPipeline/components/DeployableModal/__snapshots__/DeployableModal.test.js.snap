@@ -60,8 +60,9 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
         <div
           className="channelGridContainer"
         >
-          <div
-            className="addSubscriptionButton"
+          <button
+            className="editSubscriptionButton"
+            onClick={[Function]}
           />
         </div>
       </div>

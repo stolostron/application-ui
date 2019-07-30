@@ -11,17 +11,38 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 import { Modal } from 'carbon-components-react'
+import R from 'ramda'
 
 resources(() => {
   require('./style.scss')
 })
 
 const DeployableModalContents = withLocale(
-  ({ modalSubscription, editSubscription }) => {
+  ({
+    modalSubscription,
+    editSubscription,
+    deployableModalSubscriptionInfo
+  }) => {
+    // If there is currently noDeployableSubscription then we want to add rather
+    // than edit
+    const noDeployableSubscription = R.isEmpty(deployableModalSubscriptionInfo)
     return (
       <div className="channelGridContainer">
-        <div className="addSubscriptionButton">{[modalSubscription]}</div>
+        {noDeployableSubscription ? (
+          <div className="addSubscriptionButton">{[modalSubscription]}</div>
+        ) : (
+          <button
+            className="editSubscriptionButton"
+            onClick={() =>
+              editSubscription(
+                RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                deployableModalSubscriptionInfo
+              )
+            }
+          />
+        )}
       </div>
     )
   }
@@ -35,6 +56,7 @@ const DeployableModal = withLocale(
     label,
     modalSubscription,
     editSubscription,
+    deployableModalSubscriptionInfo,
     locale
   }) => {
     return (
@@ -51,6 +73,7 @@ const DeployableModal = withLocale(
           <DeployableModalContents
             modalSubscription={modalSubscription}
             editSubscription={editSubscription}
+            deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
           />
         </Modal>
       </div>

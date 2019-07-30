@@ -7,7 +7,11 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { createApplicationRows, createApplicationRowsLookUp } from './utils'
+import {
+  createApplicationRows,
+  createApplicationRowsLookUp,
+  findMatchingSubscription
+} from './utils'
 
 describe('createApplicationRows', () => {
   const data = [
@@ -64,5 +68,40 @@ describe('createApplicationRowsLookUp', () => {
   })
   it('should handle undefined object for reference', () => {
     expect(createApplicationRowsLookUp(undefined)).toEqual({})
+  })
+})
+
+describe('findMatchingSubscription', () => {
+  const data = [
+    {
+      channel: 'dev',
+      raw: 'raw1'
+    },
+    {
+      channel: 'dev2',
+      raw: 'raw2'
+    },
+    {
+      channel: 'dev3',
+      raw: 'raw3'
+    }
+  ]
+  const applicationDud = [{ itteemmss: [{ josh: 'hi' }, { dart: 'hi' }] }]
+  it('should return matching raw if found matching channel', () => {
+    const result = 'raw3'
+    expect(findMatchingSubscription(data, 'dev3')).toEqual(result)
+  })
+  it('should return matching raw if found matching channel', () => {
+    const result = 'raw2'
+    expect(findMatchingSubscription(data, 'dev2')).toEqual(result)
+  })
+  it('should return {} if not found matching channel', () => {
+    expect(findMatchingSubscription(data, 'dev66')).toEqual({})
+  })
+  it('should return {} if incalid format passed in', () => {
+    expect(findMatchingSubscription(applicationDud, 'dev66')).toEqual({})
+  })
+  it('should handle undefined object', () => {
+    expect(findMatchingSubscription(undefined)).toEqual({})
   })
 })

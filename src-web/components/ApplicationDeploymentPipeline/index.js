@@ -26,10 +26,12 @@ import { Search } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
-  getChannelsList
+  getChannelsList,
+  getSubscriptionsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import { updateModal } from '../../actions/common'
+import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -103,7 +105,13 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const { HCMApplicationList, HCMChannelList, AppDeployments, role } = state
+  const {
+    HCMApplicationList,
+    HCMChannelList,
+    HCMSubscriptionList,
+    AppDeployments,
+    role
+  } = state
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {
@@ -114,7 +122,8 @@ const mapStateToProps = state => {
     HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
-    channels: getChannelsList(HCMChannelList)
+    channels: getChannelsList(HCMChannelList),
+    subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
 }
 
@@ -136,11 +145,13 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications,
       deployables,
       channels,
+      subscriptions,
       actions,
       editChannel,
       editSubscription,
       displayDeployableModal,
-      deployableModalHeaderInfo
+      deployableModalHeaderInfo,
+      deployableModalSubscriptionInfo
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -153,6 +164,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
     const deployableModalLabel =
       deployableModalHeaderInfo && deployableModalHeaderInfo.application
+    // If there is currently noDeployableSubscription then we want to add rather
+    // than edit
+    const noDeployableSubscription = R.isEmpty(deployableModalSubscriptionInfo)
 
     return (
       <div id="DeploymentPipeline">
@@ -177,9 +191,13 @@ class ApplicationDeploymentPipeline extends React.Component {
           applications={applications}
           deployables={deployables}
           channels={channels}
+          subscriptions={subscriptions}
           editChannel={editChannel}
           openDeployableModal={actions.openDisplayDeployableModal}
-          setDeployableModalHdeaderInfo={actions.setDeployableModalHdeaderInfo}
+          setDeployableModalHeaderInfo={actions.setDeployableModalHeaderInfo}
+          setCurrentDeployableSubscriptionData={
+            actions.setCurrentDeployableSubscriptionData
+          }
         />
         <DeployableModal
           displayModal={displayDeployableModal}

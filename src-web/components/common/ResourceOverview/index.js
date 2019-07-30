@@ -41,7 +41,9 @@ const ResourceOverview = withLocale(
     params,
     modules,
     resourceType,
+    actions,
     showAppDetails,
+    showExpandedTopology,
     locale
   }) => {
     if (!item) {
@@ -101,19 +103,24 @@ const ResourceOverview = withLocale(
             )}
             <div className="overview-content-bottom">{modulesBottom}</div>
           </React.Fragment>
-        ) : (
+        ) :  !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
               <CountsCardModule data={countsCardData} />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule params={params} />
+              <ApplicationTopologyModule showExpandedTopology={showExpandedTopology} params={params} actions={actions} />
             </div>
             <div className="overview-content-bottom">
               <ChannelsCardCarousel data={channelList} />
             </div>
           </React.Fragment>
-        )}
+        ) : (
+          <div className="overview-content-bottom overview-content-with-padding">
+            <ApplicationTopologyModule showExpandedTopology={showExpandedTopology} params={params} actions={actions} />
+          </div>
+        )
+        }
       </div>
     )
   }

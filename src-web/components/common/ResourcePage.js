@@ -36,6 +36,7 @@ const WrappedResourceDetails = props => (
     staticResourceData={props.staticResourceData}
     tabs={props.detailsTabs}
     routes={props.routes}
+    getVisibleResources={props.getVisibleResources}
     tableTitle={props.tableTitle}
     tableName={props.tableName}
   >

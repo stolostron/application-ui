@@ -130,6 +130,10 @@ class ResourceTable extends React.Component {
                 id={`${staticResourceData.resourceKey &&
                   staticResourceData.resourceKey}-search`}
                 light={!darkSearchBox}
+                labelText={msgs.get(
+                  'table.search.labelText',
+                  this.context.locale
+                )}
               />
               <TableToolbarContent>{actions}</TableToolbarContent>
             </TableToolbar>

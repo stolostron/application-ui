@@ -15,10 +15,12 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import hcmapplications from './hcm-applications'
 import hcmchannels from './hcm-channel'
 //import hcmclusters from './hcm-clusters'
+import cemincidents from './cem-incidents'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
-  [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels
+  [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels,
+  [RESOURCE_TYPES.CEM_INCIDENTS.name]: cemincidents
 }
 
 function getResourceData(resourceType) {

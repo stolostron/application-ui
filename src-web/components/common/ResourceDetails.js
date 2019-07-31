@@ -182,29 +182,46 @@ class ResourceDetails extends React.Component {
       resourceType,
       staticResourceData,
       showAppDetails,
+      dashboard,
       showExpandedTopology,
       actions,
       children
     } = this.props
     return (
       <div id="ResourceDetails">
-        {!showExpandedTopology && <div className="app-information-link">
-          <Link
-            href="#"
-            onClick={() => {
-              actions.setShowAppDetails(!showAppDetails)
-            }}
-          >
-            <Icon
-              className="app-information-icon"
-              name="icon--document"
-              fill="blue"
-            />
-            {!showAppDetails
-              ? msgs.get('application.information', this.context.locale)
-              : msgs.get('application.overview', this.context.locale)}
-          </Link>
-        </div>}
+        {!showExpandedTopology && (
+          <div className="app-info-and-dashboard-links">
+            <Link
+              href="#"
+              onClick={() => {
+                actions.setShowAppDetails(!showAppDetails)
+              }}
+            >
+              <Icon
+                className="app-info-icon"
+                name="icon--document"
+                fill="blue"
+              />
+              {!showAppDetails
+                ? msgs.get('application.information', this.context.locale)
+                : msgs.get('application.overview', this.context.locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
+              href={dashboard}
+              aria-disabled={!dashboard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="blue"
+              />
+              {msgs.get('application.launch.grafana', this.context.locale)}
+            </Link>
+          </div>
+        )}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
@@ -278,6 +295,7 @@ ResourceDetails.contextTypes = {
 ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  dashboard: PropTypes.string,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
@@ -298,11 +316,24 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const { AppOverview } = state
+  const { list: typeListName } = ownProps.resourceType,
+        visibleResources = ownProps.getVisibleResources(state, {
+          storeRoot: typeListName
+        })
+  const items = visibleResources.normalizedItems
+  const params = (ownProps.match && ownProps.match.params) || ''
+  const dashboard =
+    (items &&
+      params &&
+      items[params.name + '-' + params.namespace] &&
+      items[params.name + '-' + params.namespace]['dashboard']) ||
+    ''
   return {
+    dashboard,
     showAppDetails: AppOverview.showAppDetails,
-    showExpandedTopology: AppOverview.showExpandedTopology,
+    showExpandedTopology: AppOverview.showExpandedTopology
   }
 }
 

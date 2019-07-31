@@ -18,11 +18,12 @@ import _ from 'lodash'
 
 export default class ZoomHelper {
 
-  constructor(viewer, diagramOptions) {
+  constructor(viewer, diagramOptions, collapsedView) {
     this.viewer = viewer
     this.diagramOptions = diagramOptions
     this.currentZoom = {x:0, y:0, k:1}
     this.isAutoZoom = true
+    this.collapsedView = collapsedView
     this.viewer.resize = _.debounce(()=>{
       if (this.isAutoZoom) {
         this.zoomFit(true)
@@ -53,7 +54,7 @@ export default class ZoomHelper {
       if (svg) {
         if (this.viewer.viewerContainerContainerRef) {
           const {width: availableWidth, height: availableHeight} = this.viewer.viewerContainerContainerRef.getBoundingClientRect()
-          let scale = Math.min( 1, .95 / Math.max(width / availableWidth, height / availableHeight))
+          let scale = Math.min( 1, .95 / Math.max(width / availableWidth, height / (availableHeight-(this.collapsedView?50:0))))
 
           // don't allow scale to drop too far for accessability reasons
           // below threshHold, show scrollbar instead

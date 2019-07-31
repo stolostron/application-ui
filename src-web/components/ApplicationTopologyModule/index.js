@@ -23,6 +23,7 @@ import { DIAGRAM_REFRESH_INTERVAL_COOKIE,
   DIAGRAM_QUERY_COOKIE, MCM_DESIGN_SPLITTER_OPEN_COOKIE,
   MCM_DESIGN_SPLITTER_SIZE_COOKIE, RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { Icon, InlineNotification  } from 'carbon-components-react'
+import '../../../graphics/diagramIcons.svg'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import * as Actions from '../../actions'
 import apolloClient from '../../../lib/client/apollo-client'
@@ -36,13 +37,12 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 resources(() => {
-  require('./scss/resource-diagram.scss')
-  require('./scss/topology-details.scss')
-  require('./scss/topology-diagram.scss')
+  require('./style.scss')
 })
 
 class ApplicationTopologyModule extends React.Component {
     static propTypes = {
+      actions: PropTypes.object,
       clusters: PropTypes.array,
       designLoaded: PropTypes.bool,
       diagramFilters: PropTypes.array,
@@ -57,6 +57,7 @@ class ApplicationTopologyModule extends React.Component {
       putResource: PropTypes.func,
       requiredFilters: PropTypes.object,
       restoreSavedDiagramFilters: PropTypes.func,
+      showExpandedTopology: PropTypes.bool,
       staticResourceData: PropTypes.object,
       statusesLoaded: PropTypes.bool,
       topologyLoaded: PropTypes.bool,
@@ -78,7 +79,6 @@ class ApplicationTopologyModule extends React.Component {
         statusesLoaded:false,
         showTextView: !!localStorage.getItem(`${MCM_DESIGN_SPLITTER_OPEN_COOKIE}`),
         selectedNode: undefined,
-        expandedView: false,
         firstLoad:false,
         hasUndo: false,
         hasRedo: false,
@@ -187,7 +187,7 @@ class ApplicationTopologyModule extends React.Component {
         !_.isEqual(this.state.exceptions, nextState.exceptions) ||
         this.state.updateMessage !== nextState.updateMessage ||
         this.state.showTextView !== nextState.showTextView ||
-        this.state.expandedView !== nextState.expandedView ||
+        this.props.showExpandedTopology !== nextProps.showExpandedTopology ||
         this.props.topologyLoaded !== nextProps.topologyLoaded ||
         this.props.statusesLoaded !== nextProps.statusesLoaded ||
         this.props.yaml.localeCompare(nextProps.yaml) !==  0 ||
@@ -277,12 +277,11 @@ class ApplicationTopologyModule extends React.Component {
     render() {
       if (!this.state.designLoaded) return null
 
-      const { staticResourceData, onDiagramFilterChange } = this.props
+      const { staticResourceData, onDiagramFilterChange, showExpandedTopology } = this.props
       const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData
       const { nodes, links,  diagramFilters, selectedNode, showTextView, isMulticluster } = this.state
       const { firstLoad, topologyLoaded, topologyReloading, statusesLoaded } = this.state
       const { currentYaml, hasUndo, hasRedo, exceptions, updateMessage, updateMsgKind } = this.state
-      const { expandedView } = this.state
       const { locale } = this.context
 
       // set up type filter bar
@@ -292,7 +291,7 @@ class ApplicationTopologyModule extends React.Component {
 
       const typeFilterTitle = msgs.get('type', locale)
       const diagramTitle = msgs.get('application.diagram', locale)
-      const viewFullMsg = expandedView ?
+      const viewFullMsg = showExpandedTopology ?
         msgs.get('application.diagram.view.collapsed', locale) :
         msgs.get('application.diagram.view.full', locale)
 
@@ -300,19 +299,35 @@ class ApplicationTopologyModule extends React.Component {
         this.handleNodeSelected(node)
       }
 
+      const diagramClasses = classNames({
+        'resourceDiagramSourceContainer': true,
+        showExpandedTopology,
+        split: showTextView
+      })
+
       const renderDiagramView = () =>{
         return (
           <div className="resourceDiagramContainer" >
             <div className='diagram-title'>
               {diagramTitle}
             </div>
-            <div className='diagram-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
-              <FilterBar
-                availableFilters={availableFilters}
-                activeFilters={diagramFilters}
-                typeToShapeMap={typeToShapeMap}
-                onChange={onDiagramFilterChange}
-              />
+            <div className='diagram-controls-container'>
+              <div className='diagram-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
+                <FilterBar
+                  availableFilters={availableFilters}
+                  activeFilters={diagramFilters}
+                  typeToShapeMap={typeToShapeMap}
+                  onChange={onDiagramFilterChange}
+                />
+              </div>
+              <div className='diagram-expand-button' tabIndex='0' role={'button'}
+                title={viewFullMsg} aria-label={viewFullMsg}
+                onClick={this.handleToggleSize} onKeyPress={this.handleToggleSize}>
+                {viewFullMsg}
+                <svg className='icon'>
+                  <use href={'#diagramIcons_launch'} ></use>
+                </svg>
+              </div>
             </div>
             <DiagramViewer
               id={'application'}
@@ -320,7 +335,7 @@ class ApplicationTopologyModule extends React.Component {
               links={links}
               isMulticluster={isMulticluster}
               context={this.context}
-              expandedView={expandedView}
+              showExpandedTopology={showExpandedTopology}
               handleNodeSelected={handleNodeSelected}
               selectedNode={selectedNode}
               setViewer={this.setViewer}
@@ -332,15 +347,6 @@ class ApplicationTopologyModule extends React.Component {
               fetchLogs={this.fetchLogs}
               activeFilters={{type:diagramFilters}}
             />
-            <div className='diagram-expand-button'>
-              {viewFullMsg}
-              <Icon
-                className='closeIcon'
-                description={msgs.get('filter.remove.tag', locale)}
-                name="icon--close"
-                onClick={this.handleToggleSize}
-              />
-            </div>
           </div>
         )
       }
@@ -388,13 +394,8 @@ class ApplicationTopologyModule extends React.Component {
         )
       }
 
-      const classes = classNames({
-        'resourceDiagramSourceContainer': true,
-        split: showTextView
-      })
-
       return (
-        <div className={classes} ref={this.setContainerRef} >
+        <div className={diagramClasses} ref={this.setContainerRef} >
           {showTextView ?
             <SplitPane
               split='vertical'
@@ -412,9 +413,8 @@ class ApplicationTopologyModule extends React.Component {
 
 
     handleToggleSize() {
-      this.setState(({expandedView})=>{
-        return { expandedView: !expandedView }
-      })
+      const { actions, showExpandedTopology } = this.props
+      actions.setShowExpandedTopology(!showExpandedTopology)
     }
 
     // user clicked a node in diagram

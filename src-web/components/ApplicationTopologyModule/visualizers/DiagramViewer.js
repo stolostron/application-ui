@@ -26,6 +26,7 @@ import _ from 'lodash'
 
 
 resources(() => {
+  require('../scss/topology-diagram.scss')
   require('../scss/topology-link.scss')
   require('../scss/topology-node.scss')
   require('../scss/topology-icons.scss')
@@ -36,7 +37,6 @@ class DiagramViewer extends React.Component {
   static propTypes = {
     activeFilters: PropTypes.object,
     context: PropTypes.object,
-    expandedView: PropTypes.bool,
     fetchLogs: PropTypes.func,
     handleNodeSelected: PropTypes.func,
     isMulticluster: PropTypes.bool,
@@ -48,6 +48,7 @@ class DiagramViewer extends React.Component {
     selectedNode: PropTypes.object,
     setUpdateDiagramRefreshTimeFunc: PropTypes.func,
     setViewer: PropTypes.func,
+    showExpandedTopology: PropTypes.bool,
     staticResourceData: PropTypes.object,
     statusesLoaded: PropTypes.bool,
   }
@@ -71,7 +72,7 @@ class DiagramViewer extends React.Component {
     this.titles=[]
     this.layoutHelper = new LayoutHelper(this.props.staticResourceData, this.titles, locale)
     this.diagramOptions = this.props.staticResourceData.diagramOptions||{}
-    this.zoomHelper = new ZoomHelper(this, this.diagramOptions)
+    this.zoomHelper = new ZoomHelper(this, this.diagramOptions, !props.showExpandedTopology)
     this.getLayoutNodes = this.getLayoutNodes.bind(this)
     this.getZoomHelper = this.getZoomHelper.bind(this)
     this.getViewContainer = this.getViewContainer.bind(this)
@@ -102,7 +103,7 @@ class DiagramViewer extends React.Component {
     || !_.isEqual(this.state.links.map(l => l.uid), nextState.links.map(l => l.uid))
     || !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks)
     || !_.isEqual(this.props.activeFilters, nextProps.activeFilters)
-    || this.props.expandedView !== nextProps.expandedView
+    || this.props.showExpandedTopology !== nextProps.showExpandedTopology
     || this.props.searchName !== nextProps.searchName
     || this.props.secondaryLoad !== nextProps.secondaryLoad
     || this.props.statusesLoaded !== nextProps.statusesLoaded
@@ -188,8 +189,8 @@ class DiagramViewer extends React.Component {
 
   // when use scrolls mouse wheel, don't zoom diagram UNLESS in expanded mode
   handleMouse(e) {
-    const { expandedView } = this.props
-    if (!expandedView) {
+    const { showExpandedTopology } = this.props
+    if (!showExpandedTopology) {
       e.stopPropagation()
     }
   }
@@ -371,6 +372,10 @@ class DiagramViewer extends React.Component {
       svg.select('g.nodes').selectAll('*').remove()
       svg.select('g.links').selectAll('*').remove()
       svg.select('g.titles').selectAll('*').remove()
+    }
+    if (this.svg) {
+      delete this.svg
+      this.svg=null
     }
   }
 }

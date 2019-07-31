@@ -120,9 +120,7 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${deployableName} `}
                       </a>
-                      <div className="deployablePlacement">
-                        {'Subscription'}
-                      </div>
+                      <div className="deployablePlacement" />
                     </div>
                   </Tile>
                 )
@@ -143,7 +141,7 @@ const ChannelColumnGrid = ({
   openDeployableModal,
   setDeployableModalHeaderInfo,
   setCurrentDeployableSubscriptionData
-}) => {
+}, locale) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
@@ -154,7 +152,9 @@ const ChannelColumnGrid = ({
             <div className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
-                  {`${channelName}`}
+                  <div className="yamlTitle">
+                    {msgs.get('actions.yaml', locale)}
+                  </div>
                   <Icon
                     name="icon--edit"
                     fill="#6089bf"
@@ -164,6 +164,7 @@ const ChannelColumnGrid = ({
                       editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)
                     }
                   />
+                  <div className="channelNameTitle">{`${channelName}`}</div>
                 </div>
               </Tile>
             </div>

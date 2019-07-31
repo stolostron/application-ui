@@ -88,12 +88,17 @@ export const counterZoom = (scale, scaleMin, scaleMax, valueMin, valueMax) => {
 }
 
 export const getTooltip = (tooltips) => {
-  return tooltips.map(({name, value})=>{
-    return ReactDOMServer.renderToStaticMarkup(<div>
-      <span className='label'>{name}:  </span>
-      <span className='value'>{value}</span>
-    </div>)
-  }).join('')
+  return ReactDOMServer.renderToStaticMarkup(
+    <React.Fragment>
+      {tooltips.map(({name, value, href, target='', rel=''}) => {
+        return (<div key={Math.random()} >
+          <span className='label'>{name}:  </span>
+          {href ?
+            <a className='link' href={href} target={target} rel={rel} >{value}</a>
+            : <span className='value'>{value}</span>}
+        </div>)
+      })}
+    </React.Fragment>)
 }
 
 export const getHashCode = (str) => {

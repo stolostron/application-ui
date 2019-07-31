@@ -182,7 +182,6 @@ class ResourceDetails extends React.Component {
       resourceType,
       staticResourceData,
       showAppDetails,
-      tableName,
       dashboard,
       showExpandedTopology,
       actions,
@@ -190,7 +189,7 @@ class ResourceDetails extends React.Component {
     } = this.props
     return (
       <div id="ResourceDetails">
-        {!showExpandedTopology && tableName === 'All applications' && (
+        {!showExpandedTopology && (
           <div className="app-info-and-dashboard-links">
             <Link
               href="#"
@@ -305,7 +304,6 @@ ResourceDetails.propTypes = {
   showAppDetails: PropTypes.bool,
   showExpandedTopology: PropTypes.bool,
   staticResourceData: PropTypes.object,
-  tableName: PropTypes.string,
   tabs: PropTypes.array,
   updateSecondaryHeader: PropTypes.func
 }

@@ -7,14 +7,11 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import React from 'react'
-//import { Loading } from 'carbon-components-react'
-//import lodash from 'lodash'
+// import React from 'react'
 import {
   getAgeForIncident,
-  getTimeGMT,
+  getTimeGMT
 } from '../../lib/client/resource-helper'
-
 
 export default {
   defaultSortField: 'lastUpdated',
@@ -24,26 +21,26 @@ export default {
   tableKeys: [
     {
       msgKey: 'table.header.incidentName',
-      resourceKey: 'id',
+      resourceKey: 'id'
       //transformFunction: createIncidentLink,
     },
     {
       msgKey: 'table.header.incidentPriority',
-      resourceKey: 'priority',
+      resourceKey: 'priority'
     },
     {
       msgKey: 'table.header.openfor',
       resourceKey: 'createdTime',
-      transformFunction: getAgeForIncident,
+      transformFunction: getAgeForIncident
     },
     {
       msgKey: 'table.header.lastChanged',
       resourceKey: 'lastChanged',
-      transformFunction: getTimeGMT,
+      transformFunction: getTimeGMT
     },
     {
       msgKey: 'table.header.escalated',
-      resourceKey: 'escalated',
+      resourceKey: 'escalated'
     },
     // {
     //   msgKey: 'table.header.failedDeployments',
@@ -51,8 +48,8 @@ export default {
     // },
     {
       msgKey: 'table.header.events',
-      resourceKey: 'eventSummary.events',
-    },
+      resourceKey: 'eventSummary.events'
+    }
     // {
     //   msgKey: 'table.header.labels',
     //   resourceKey: 'metadata.labels',
@@ -65,18 +62,18 @@ export default {
     // },
   ],
   tableActions: [],
-  detailKeys: [],
-};
-
-export function createIncidentLink({ id = '' }, locale) {
-  const link = `${config.cfcRouterUrl}/cemui/incidents/${id}/resolution`;
-  if (id !== null && id !== '') {
-    return (
-      <a target="_blank" rel="noopener noreferrer" href={link}>
-        {id}
-      </a>
-    );
-  }
-
-  return '-';
+  detailKeys: []
 }
+
+// export function createIncidentLink({ id = '' }, locale) {
+//   const link = `${config.cfcRouterUrl}/cemui/incidents/${id}/resolution`;
+//   if (id !== null && id !== '') {
+//     return (
+//       <a target="_blank" rel="noopener noreferrer" href={link}>
+//         {id}
+//       </a>
+//     );
+//   }
+
+//   return '-';
+// }

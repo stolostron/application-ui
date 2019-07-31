@@ -37,8 +37,6 @@ const WrappedResourceDetails = props => (
     tabs={props.detailsTabs}
     routes={props.routes}
     getVisibleResources={props.getVisibleResources}
-    tableTitle={props.tableTitle}
-    tableName={props.tableName}
   >
     {props.modules}
   </ResourceDetails>
@@ -77,7 +75,9 @@ const ResourcePageWithListForIncidents = props => (
     />
     <Route
       path={`${props.match.url}/:namespace/:name?`}
-      render={() => <WrappedResourceList {...props} />}
+      render={() => {
+        return <div>Incidents</div>
+      }}
     />
   </Switch>
 )
@@ -186,4 +186,8 @@ const typedResourcePageWithListForIncidents = (
   }
 }
 
-export { typedResourcePageWithList, typedResourcePageWithListAndDetails, typedResourcePageWithListForIncidents }
+export {
+  typedResourcePageWithList,
+  typedResourcePageWithListAndDetails,
+  typedResourcePageWithListForIncidents
+}

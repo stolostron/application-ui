@@ -13,6 +13,8 @@ import { Tile, Icon } from 'carbon-components-react'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 
+import { getChannelStatusClass } from './utils'
+
 resources(() => {
   require('./style.scss')
 })
@@ -75,8 +77,13 @@ const deployableColumns = (channels, locale) => {
           return (
             <div className="version-status-column" key="{channel.name}">
               <Tile>
-                <span className="statusTag"> {channelStatus}</span>
-                <span className="lastUpdateTime">{channelLastUpdateTime}</span>
+                <span className={getChannelStatusClass(channelStatus)}>
+                  {' '}
+                  {channelStatus}
+                </span>
+                <span className="lastUpdateTime">
+                  {channelStatus == 'failed' && channelLastUpdateTime}
+                </span>
               </Tile>
             </div>
           )

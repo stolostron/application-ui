@@ -35,12 +35,10 @@ export class SecondaryHeader extends React.Component {
     const { tabs, title, breadcrumbItems } = this.props
     const { locale } = this.context
     const noTabsClass =
-      (tabs &&
-        tabs.length <= 0 &&
-        (breadcrumbItems &&
-          breadcrumbItems.length > 0 &&
-          'secondary-header-wrapper-no-tabs')) ||
-      'secondary-header-wrapper'
+      !(tabs && tabs.length > 0) &&
+      (breadcrumbItems && breadcrumbItems.length > 0)
+        ? 'secondary-header-wrapper-no-tabs'
+        : 'secondary-header-wrapper'
     if (
       (tabs && tabs.length > 0) ||
       (breadcrumbItems && breadcrumbItems.length > 0)

@@ -78,7 +78,6 @@ const deployableColumns = (channels, locale) => {
             <div className="version-status-column" key="{channel.name}">
               <Tile>
                 <span className={getChannelStatusClass(channelStatus)}>
-                  {' '}
                   {channelStatus}
                 </span>
                 <span className="lastUpdateTime">

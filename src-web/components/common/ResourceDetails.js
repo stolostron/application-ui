@@ -20,6 +20,7 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import lodash from 'lodash'
 import resources from '../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import msgs from '../../../nls/platform.properties'
 import ResourceOverview from './ResourceOverview'
 import config from '../../../lib/shared/config'
@@ -33,24 +34,55 @@ const withResource = Component => {
     const { resourceType, params } = ownProps
     return {
       fetchResource: () =>
-        dispatch(fetchResource(resourceType, params.namespace, params.name))
+        dispatch(fetchResource(resourceType, params.namespace, params.name)),
+      fetchIncidents: () =>
+        dispatch(
+          fetchResource(
+            RESOURCE_TYPES.CEM_INCIDENTS,
+            params.namespace,
+            params.name
+          )
+        )
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
+    const { CEMIncidentList } = state
     return {
       status: state[typeListName].status,
-      statusCode: error && error.response && error.response.status
+      statusCode: error && error.response && error.response.status,
+      incidents: getIncidentList(CEMIncidentList),
+      incidentCount: getIncidentCount(CEMIncidentList)
     }
+  }
+
+  const getIncidentList = list => {
+    if (list && list.items) {
+      return list.items
+    }
+    return []
+  }
+
+  const getIncidentCount = list => {
+    if (list && list.items && Array.isArray(list.items)) {
+      return list.items.length
+    }
+    return '-'
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(
     class extends React.PureComponent {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
+        fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
+        incidentCount: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string
+        ]),
+        incidents: PropTypes.array,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -71,6 +103,7 @@ const withResource = Component => {
           this.setState({ intervalId: intervalId })
         }
         this.props.fetchResource()
+        this.props.fetchIncidents()
       }
 
       componentWillUnmount() {
@@ -81,6 +114,7 @@ const withResource = Component => {
         if (this.props.status === REQUEST_STATUS.DONE) {
           this.setState({ xhrPoll: true })
           this.props.fetchResource()
+          this.props.fetchIncidents()
         }
       }
 

@@ -52,17 +52,30 @@ export const createApplicationRowsLookUp = list => {
 }
 
 // This contains all the actions that will be done when clicking on the tile
-// Opens the modal and sets the header information
+// Opens the modal and sets the header information and subscription information
+// for that deployable clicked
 export const tileClick = (
   openDeployableModal,
-  setDeployableModalHdeaderInfo,
+  setDeployableModalHeaderInfo,
+  setCurrentDeployableSubscriptionData,
   applicationName,
-  deployableName
+  deployableName,
+  matchingSubscription
 ) => {
   const headerInfo = {
     application: applicationName,
     deployable: deployableName
   }
-  setDeployableModalHdeaderInfo(headerInfo)
+  setDeployableModalHeaderInfo(headerInfo)
+  setCurrentDeployableSubscriptionData(matchingSubscription)
   openDeployableModal()
+}
+
+// This method will find the matching subscription the the given channel and
+// return the corresponding subscription from the list
+export const findMatchingSubscription = (subscriptionList, channelName) => {
+  const subscription =
+    subscriptionList &&
+    R.find(R.propEq('channel', channelName))(subscriptionList)
+  return (subscription && subscription.raw) || {}
 }

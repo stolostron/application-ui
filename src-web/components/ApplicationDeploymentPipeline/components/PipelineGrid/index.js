@@ -11,7 +11,11 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { createApplicationRows, tileClick } from './utils'
+import {
+  createApplicationRows,
+  tileClick,
+  findMatchingSubscription
+} from './utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
@@ -129,16 +133,15 @@ const LeftColumnForApplicationNames = (
   )
 }
 
-const ChannelColumnGrid = (
-  {
-    channelList,
-    applicationList,
-    editChannel,
-    openDeployableModal,
-    setDeployableModalHdeaderInfo
-  },
-  locale
-) => {
+const ChannelColumnGrid = ({
+  channelList,
+  subscriptionList,
+  applicationList,
+  editChannel,
+  openDeployableModal,
+  setDeployableModalHeaderInfo,
+  setCurrentDeployableSubscriptionData
+}, locale) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
@@ -203,6 +206,11 @@ const ChannelColumnGrid = (
                       const channelMatch = deployableChannels.includes(
                         channel.name
                       )
+                      // This will find the matching subscription for the given channel
+                      const matchingSubscription = findMatchingSubscription(
+                        subscriptionList,
+                        channel.name
+                      )
                       return (
                         <div className="channelColumn">
                           {channelMatch ? (
@@ -211,9 +219,11 @@ const ChannelColumnGrid = (
                               onClick={() =>
                                 tileClick(
                                   openDeployableModal,
-                                  setDeployableModalHdeaderInfo,
+                                  setDeployableModalHeaderInfo,
+                                  setCurrentDeployableSubscriptionData,
                                   applicationName,
-                                  deployableName
+                                  deployableName,
+                                  matchingSubscription
                                 )
                               }
                             >
@@ -225,9 +235,11 @@ const ChannelColumnGrid = (
                               onClick={() =>
                                 tileClick(
                                   openDeployableModal,
-                                  setDeployableModalHdeaderInfo,
+                                  setDeployableModalHeaderInfo,
+                                  setCurrentDeployableSubscriptionData,
                                   applicationName,
-                                  deployableName
+                                  deployableName,
+                                  matchingSubscription
                                 )
                               }
                             >
@@ -253,9 +265,11 @@ const PipelineGrid = withLocale(
     deployables,
     applications,
     channels,
+    subscriptions,
     editChannel,
     openDeployableModal,
-    setDeployableModalHdeaderInfo
+    setDeployableModalHeaderInfo,
+    setCurrentDeployableSubscriptionData
   }) => {
     const applicationRows = createApplicationRows(applications)
     // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
@@ -270,10 +284,14 @@ const PipelineGrid = withLocale(
           />
           <ChannelColumnGrid
             channelList={channels}
+            subscriptionList={subscriptions}
             applicationList={applications}
             editChannel={editChannel}
             openDeployableModal={openDeployableModal}
-            setDeployableModalHdeaderInfo={setDeployableModalHdeaderInfo}
+            setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
+            setCurrentDeployableSubscriptionData={
+              setCurrentDeployableSubscriptionData
+            }
           />
         </div>
       </div>

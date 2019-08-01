@@ -43,7 +43,7 @@ export const getChannelsList = channels => {
         creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
         pathName: channel.objectPath || '',
         type: channel.type || '',
-        data : channel
+        data: channel
       }
     })
     return mappedChannels
@@ -51,62 +51,21 @@ export const getChannelsList = channels => {
   return []
 }
 
-// TODO TODO TODO not sure if this is accurate
-// TODO TODO Not even using this yet
-// TODO right now we are just using mock data
-// Method will take in an object and return back the channels
-export const getSubscriptionsList = () => {
-  return [
-    {
-      kind: 'Subscription',
-      metaData: {
-        name: 'subscription1',
-        namespace: 'namespace1'
-      },
-      spec: {
-        source: 'https://kubernetes-charts.storage.googleapis.com/',
-        package: 'nginx',
-        packageFilter: { version: '1.x' },
-        placement: {
-          clusters: {
-            name: 'cluster1'
-          }
-        }
+// Method will take in an object and return back the subscriptions
+export const getSubscriptionsList = subscriptions => {
+  if (subscriptions && subscriptions.items) {
+    const mappedSubscriptions = subscriptions.items.map(subscription => {
+      return {
+        name: subscription.metadata.name || '',
+        namespace: subscription.metadata.namespace || '',
+        creationTimestamp: subscription.metadata.creationTimestamp || '',
+        apiVersion: subscription.raw.apiVersion || '',
+        resourceVersion: subscription.raw.metadata.resourceVersion || '',
+        channel: subscription.raw.spec.channel || '',
+        raw: subscription.raw || {}
       }
-    },
-    {
-      kind: 'Subscription',
-      metaData: {
-        name: 'subscription2',
-        namespace: 'namespace2'
-      },
-      spec: {
-        source: 'https://kubernetes-charts.storage.googleapis.com/',
-        package: 'nginx',
-        packageFilter: { version: '1.x' },
-        placement: {
-          clusters: {
-            name: 'cluster2'
-          }
-        }
-      }
-    },
-    {
-      kind: 'Subscription',
-      metaData: {
-        name: 'subscription3',
-        namespace: 'namespace'
-      },
-      spec: {
-        source: 'https://kubernetes-charts.storage.googleapis.com/',
-        package: 'nginx',
-        packageFilter: { version: '1.x' },
-        placement: {
-          clusters: {
-            name: 'cluster3'
-          }
-        }
-      }
-    }
-  ]
+    })
+    return mappedSubscriptions
+  }
+  return []
 }

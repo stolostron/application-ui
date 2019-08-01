@@ -13,24 +13,33 @@
   margin-bottom: 2%;
 
   .deployable-versionStatus-header {
-    font-size: 1.5em;
-    padding-bottom: 10px;
+    font-size: 1.2em;
+    padding-bottom: 15px;
   }
 
   .deployable-version-status-container {
     display: flex;
-    margin-top: 20px;
   }
 
   .deployable-left-column {
+    display: flex;
+    flex-direction: column;
     width: 350px;
-    display: inline-block;
+  }
+
+  .deployable-left-column-header {
+    background-color: #3c3c3c;
   }
 
   .deployable-version-name {
-    margin: 10px;
-    font-size: 1.2em;
     font-weight: bold;
+    color: #2772b7;
+  }
+
+  .incidents-count {
+    margin-top: 10px;
+    color: #2772b7;
+    text-decoration: underline;
   }
 
   .version-status-grid-container {
@@ -40,37 +49,44 @@
     border-color: #d5d9db;
   }
 
-  .version-status-grid-container .version-status-column .bx--tile {
-    border-left-style: dashed;
-    border-right-style: dashed;
-  }
-
-  .version-status-grid-container .version-status-column:first-of-type .bx--tile {
-    border-left-style: solid;
-  }
-
-  .version-status-grid-container .version-status-column:last-of-type .bx--tile {
-    border-right-style: solid;
-  }
-
   .version-status-column {
     display: inline-block;
     width: 350px;
   }
 
+  .clusters {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #2772b7;
+  }
+
+  .clustersIcon {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  .clusters-count {
+    margin-top: 10px;
+  }
+
   .environment {
-    font-size: 2em;
+    font-size: 1.2em;
     font-weight: bold;
   }
 
-  .gate-conditions {
+  .gate-conditions-header {
     font-size: 1em;
     font-weight: bold;
-    margin-top: 1em;
+    margin-top: 20px;
+  }
+
+  .gate-conditions {
+    margin-top: 10px;
   }
 
   .bx--tile {
     height: 200px;
+    margin: 3px;
   }
 
   .horizontal-scroll-row {
@@ -79,6 +95,7 @@
 
   .yaml-edit {
     text-align: right;
+    color: #6c7b85;
   }
 
   .yamlEditIconTitle {
@@ -96,7 +113,34 @@
     margin-right: 1%;
     border-radius: 0.9375rem;
     font-size: 0.75rem;
+    background-color: #dee3e6;
+    color: black;
+  }
+
+  .statusTagInProgress {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
     background-color: #c0e6ff;
     color: #325c80;
+  }
+
+  .statusTagFailed {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    color: #c61934;
+    background-color: #ffd0dd;
+  }
+
+  .statusTagCompleted {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    color: #297811;
+    background-color: #bff088;
   }
 }

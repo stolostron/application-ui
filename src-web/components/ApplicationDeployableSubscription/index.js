@@ -29,9 +29,6 @@ const ApplicationDeployableSubscription = withLocale(
       <div id="ApplicationDeployableSubscription">
         <div className="deployable-subscription-header">
           {msgs.get('description.title.deployableSubscription', locale)}
-        </div>
-
-        <div className="deployable-subscription-container">
           <div className="deployable-subscription-edit-container">
             <p className="yamlEditIconTitle">{msgs.get('tabs.yaml')}</p>
             <Icon
@@ -41,8 +38,10 @@ const ApplicationDeployableSubscription = withLocale(
               className="yamlEditIcon"
             />
           </div>
+        </div>
+        <div className="deployable-subscription-container">
           <div className="deployable-subscription-tile-container">
-            <div className="subscription-name">
+            <div className="tile subscription-name">
               <p className="tile-title">
                 {msgs.get(
                   'description.title.deployableSubscription.subscriptionName'
@@ -50,7 +49,7 @@ const ApplicationDeployableSubscription = withLocale(
               </p>
               <span className="tile-content">{name}</span>
             </div>
-            <div className="landing-channel">
+            <div className="tile landing-channel">
               <p className="tile-title">
                 {msgs.get(
                   'description.title.deployableSubscription.landingChannel'
@@ -58,7 +57,7 @@ const ApplicationDeployableSubscription = withLocale(
               </p>
               <span className="tile-content">{channel}</span>
             </div>
-            <div className="certificates">
+            <div className="tile certificates">
               <p className="tile-title">
                 {msgs.get(
                   'description.title.deployableSubscription.certificates'
@@ -76,7 +75,7 @@ const ApplicationDeployableSubscription = withLocale(
                 {subscription && subscription.certificates ? ')' : ''}
               </span>
             </div>
-            <div className="annotations">
+            <div className="tile annotations">
               <p className="tile-title">
                 {msgs.get(
                   'description.title.deployableSubscription.annotations'
@@ -84,7 +83,7 @@ const ApplicationDeployableSubscription = withLocale(
               </p>
               <span className="tile-content">{annotations}</span>
             </div>
-            <div className="placement-rules">
+            <div className="tile placement-rules">
               <p className="tile-title">
                 {msgs.get(
                   'description.title.deployableSubscription.placementRules'
@@ -92,13 +91,13 @@ const ApplicationDeployableSubscription = withLocale(
               </p>
               <span className="tile-content">{rules}</span>
             </div>
-            <div className="version">
+            <div className="tile version">
               <p className="tile-title">
                 {msgs.get('description.title.deployableSubscription.version')}
               </p>
               <span className="tile-content">{version}</span>
             </div>
-            <div className="labels">
+            <div className="tile labels">
               <p className="tile-title">
                 {msgs.get('description.title.deployableSubscription.labels')}
               </p>

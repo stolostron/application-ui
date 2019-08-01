@@ -13,6 +13,6 @@ export const getChannelStatusClass = status => {
     (status === 'success' && 'statusTagCompleted') ||
     (status === 'failed' && 'statusTagFailed') ||
     (status === 'inprogress' && 'statusTagInProgress') ||
-    (status && 'statusTag')
+    (true && 'statusTag')
   )
 }

@@ -70,6 +70,20 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
                 )}
               </p>
             </div>
+            <div>
+              <p className="deployment-highlights-terminology-header">
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.subscriptions',
+                  locale
+                )}
+              </p>
+              <p>
+                {msgs.get(
+                  'description.title.deploymentHighlightsTerminology.subscriptionsSummary',
+                  locale
+                )}
+              </p>
+            </div>
           </Tile>
         </AccordionItem>
       </Accordion>

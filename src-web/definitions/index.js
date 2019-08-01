@@ -14,11 +14,15 @@ import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 import hcmapplications from './hcm-applications'
 import hcmchannels from './hcm-channel'
+import hcmsubscriptions from './hcm-subscription'
 //import hcmclusters from './hcm-clusters'
+import cemincidents from './cem-incidents'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
-  [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels
+  [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels,
+  [RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name]: hcmsubscriptions,
+  [RESOURCE_TYPES.CEM_INCIDENTS.name]: cemincidents
 }
 
 function getResourceData(resourceType) {
@@ -36,8 +40,7 @@ export function getPrimaryKey(resourceType) {
   const def = getResourceData(resourceType)
   let pk = def.primaryKey
 
-  if (!pk)
-    pk = 'metadata.uid'
+  if (!pk) pk = 'metadata.uid'
 
   return pk
 }
@@ -46,8 +49,7 @@ export function getSecondaryKey(resourceType) {
   const def = getResourceData(resourceType)
   let sk = def.secondaryKey
 
-  if (!sk)
-    sk = 'cluster'
+  if (!sk) sk = 'cluster'
 
   return sk
 }
@@ -56,8 +58,7 @@ export function getURIKey(resourceType) {
   const def = getResourceData(resourceType)
   let uriKey = def.uriKey
 
-  if (!uriKey)
-    uriKey = 'metadata.name'
+  if (!uriKey) uriKey = 'metadata.name'
 
   return uriKey
 }
@@ -69,7 +70,8 @@ export function getDefaultSearchField(resourceType) {
     //eslint-disable-next-line no-console
     console.error(`No table keys found in ${resourceType} resource definition`)
   if (!sf)
-    sf = def && def.tableKeys && def.tableKeys[0] && def.tableKeys[0].resourceKey
+    sf =
+      def && def.tableKeys && def.tableKeys[0] && def.tableKeys[0].resourceKey
   return sf
 }
 
@@ -80,11 +82,14 @@ export function getDefaultSortField(resourceType) {
     //eslint-disable-next-line no-console
     console.error(`No table keys found in ${resourceType} resource definition`)
   if (!sf) {
-    sf = def && def.tableKeys && def.tableKeys[0] && def.tableKeys[0].resourceKey
+    sf =
+      def && def.tableKeys && def.tableKeys[0] && def.tableKeys[0].resourceKey
   }
   if (!sf)
     //eslint-disable-next-line no-console
-    console.error(`No sortable fields defined for '${resourceType}' resource definition`)
+    console.error(
+      `No sortable fields defined for '${resourceType}' resource definition`
+    )
   return sf
 }
 
@@ -94,9 +99,9 @@ export function getTableKeys(resourceType) {
 }
 
 export function getLink(link, resource) {
-  if(typeof(link) === 'boolean') {
+  if (typeof link === 'boolean') {
     return `/${resource.metadata.namespace}/${resource.metadata.name}`
-  } else if (typeof(link) === 'function') {
+  } else if (typeof link === 'function') {
     return link(resource)
   } else {
     const parts = link.split('/')

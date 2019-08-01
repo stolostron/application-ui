@@ -10,22 +10,26 @@
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
-// import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { createResources, fetchResources } from '../../actions/common'
+import {
+  createResources,
+  fetchResources,
+  fetchSubscriptions,
+  updateModal
+} from '../../actions/common'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
 import { Search } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
-  getChannelsList
+  getChannelsList,
+  getSubscriptionsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
-import { updateModal } from '../../actions/common'
 
 /* eslint-disable react/prop-types */
 
@@ -33,8 +37,37 @@ resources(() => {
   require('./style.scss')
 })
 
-const handleCreateResource = (dispatch, yaml) =>
+const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
+
+// Create Resource for Channel
+const CreateChannelModal = () => {
+  return (
+    <CreateResourceModal
+      key="createChannel"
+      headingTextKey="actions.add.channel"
+      submitBtnTextKey="actions.add.channel"
+      onCreateResource={handleCreateChannelResource}
+      resourceDescriptionKey="modal.createresource.channel"
+    />
+  )
+}
+
+const handleCreateSubscriptionResource = (dispatch, yaml) =>
+  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
+
+// Create Resource for Subscription
+const CreateSubscriptionModal = () => {
+  return (
+    <CreateResourceModal
+      key="createSubscription"
+      headingTextKey="actions.add.subscription"
+      submitBtnTextKey="actions.add.subscription"
+      onCreateResource={handleCreateSubscriptionResource}
+      resourceDescriptionKey="modal.createresource.subscription"
+    />
+  )
+}
 
 const handleEditResource = (dispatch, resourceType, data) => {
   return dispatch(
@@ -61,42 +94,44 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
     editChannel: (resourceType, data) =>
+      handleEditResource(dispatch, resourceType, data),
+    fetchSubscriptions: () =>
+      dispatch(fetchSubscriptions(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
+    editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data)
   }
 }
 
 const mapStateToProps = state => {
-  const { HCMApplicationList, HCMChannelList, AppDeployments, role } = state
+  const {
+    HCMApplicationList,
+    HCMChannelList,
+    HCMSubscriptionList,
+    AppDeployments,
+    role
+  } = state
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {
     displayDeployableModal: AppDeployments.displayDeployableModal,
     deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
+    deployableModalSubscriptionInfo:
+      AppDeployments.deployableModalSubscriptionInfo,
     userRole: role.role,
     HCMApplicationList,
     HCMChannelList,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
-    channels: getChannelsList(HCMChannelList)
+    channels: getChannelsList(HCMChannelList),
+    subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
-}
-
-const CreateChannelModal = () => {
-  return (
-    <CreateResourceModal
-      key="createChannel"
-      headingTextKey="actions.add.channel"
-      submitBtnTextKey="actions.add.channel"
-      onCreateResource={handleCreateResource}
-      resourceDescriptionKey="modal.createresource.application"
-    />
-  )
 }
 
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
-    const { fetchChannels } = this.props
+    const { fetchChannels, fetchSubscriptions } = this.props
     fetchChannels()
+    fetchSubscriptions()
   }
 
   componentDidMount() {}
@@ -105,19 +140,25 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      //      HCMApplicationList,
-      //      HCMChannelList,
+      // HCMApplicationList,
+      // HCMChannelList,
       applications,
       deployables,
       channels,
+      subscriptions,
       actions,
       editChannel,
+      editSubscription,
       displayDeployableModal,
-      deployableModalHeaderInfo
+      deployableModalHeaderInfo,
+      deployableModalSubscriptionInfo
     } = this.props
     const { locale } = this.context
-    const modal = React.cloneElement(CreateChannelModal(), {
+    const modalChannel = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
+    })
+    const modalSubscription = React.cloneElement(CreateSubscriptionModal(), {
+      resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
     })
     const deployableModalHeader =
       deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
@@ -142,20 +183,27 @@ class ApplicationDeploymentPipeline extends React.Component {
           }}
           id="search-1"
         />
-        <div className="AddChannelButton">{[modal]}</div>
+        <div className="AddChannelButton">{[modalChannel]}</div>
         <PipelineGrid
           applications={applications}
           deployables={deployables}
           channels={channels}
+          subscriptions={subscriptions}
           editChannel={editChannel}
           openDeployableModal={actions.openDisplayDeployableModal}
-          setDeployableModalHdeaderInfo={actions.setDeployableModalHdeaderInfo}
+          setDeployableModalHeaderInfo={actions.setDeployableModalHeaderInfo}
+          setCurrentDeployableSubscriptionData={
+            actions.setCurrentDeployableSubscriptionData
+          }
         />
         <DeployableModal
           displayModal={displayDeployableModal}
           closeModal={actions.closeModals}
           header={deployableModalHeader}
           label={deployableModalLabel}
+          modalSubscription={modalSubscription}
+          editSubscription={editSubscription}
+          deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
         />
       </div>
     )

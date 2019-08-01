@@ -12,7 +12,7 @@ import lodash from 'lodash'
 import * as Actions from './index'
 import apolloClient from '../../lib/client/apollo-client'
 
-export const changeTablePage = ({page, pageSize}, resourceType) => ({
+export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
   page,
   pageSize,
@@ -47,7 +47,7 @@ export const receiveResourceError = (err, resourceType) => ({
   resourceType
 })
 
-export const requestResource = (resourceType) => ({
+export const requestResource = resourceType => ({
   type: Actions.RESOURCE_REQUEST,
   status: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -74,80 +74,146 @@ export const deleteResource = (item, resourceType) => ({
 export const mutateResource = (resourceType, resourceName) => ({
   type: Actions.RESOURCE_MUTATE,
   resourceName,
-  resourceType,
+  resourceType
 })
 
 export const mutateResourceSuccess = (resourceType, resourceName) => ({
   type: Actions.RESOURCE_MUTATE_SUCCESS,
   resourceName,
-  resourceType,
+  resourceType
 })
 
 export const mutateResourceFailure = (resourceType, error) => ({
   type: Actions.RESOURCE_MUTATE_FAILURE,
   postStatus: Actions.REQUEST_STATUS.ERROR,
   err: { error },
-  resourceType,
+  resourceType
 })
 
-
-export const fetchResources = (resourceType, vars) => {
-  return (dispatch) => {
+export const fetchSubscriptions = (resourceType, vars) => {
+  return dispatch => {
     dispatch(requestResource(resourceType))
-    return apolloClient.get(resourceType, vars)
+    return apolloClient
+      .get(resourceType, vars)
       .then(response => {
         if (response.errors) {
-          return dispatch(receiveResourceError(response.errors[0], resourceType))
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
         }
-        return dispatch(receiveResourceSuccess({items: lodash.cloneDeep(response.data.items)}, resourceType))
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.subscriptions) },
+            resourceType
+          )
+        )
+      })
+      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+  }
+}
+
+export const fetchResources = (resourceType, vars) => {
+  return dispatch => {
+    dispatch(requestResource(resourceType))
+    return apolloClient
+      .get(resourceType, vars)
+      .then(response => {
+        if (response.errors) {
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
+        }
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.items) },
+            resourceType
+          )
+        )
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
 }
 
 export const fetchResource = (resourceType, namespace, name) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(requestResource(resourceType))
-    return apolloClient.getResource(resourceType, {namespace, name})
+    return apolloClient
+      .getResource(resourceType, { namespace, name })
       .then(response => {
         if (response.errors) {
-          return dispatch(receiveResourceError(response.errors[0], resourceType))
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
         }
-        return dispatch(receiveResourceSuccess({items: lodash.cloneDeep(response.data.items)}, resourceType))
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.items) },
+            resourceType
+          )
+        )
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
 }
 
-export const updateResourceLabels = (resourceType, namespace, name, labels, selfLink) => {
-  return (dispatch) => {
+export const updateResourceLabels = (
+  resourceType,
+  namespace,
+  name,
+  labels,
+  selfLink
+) => {
+  return dispatch => {
     dispatch(putResource(resourceType))
-    return apolloClient.updateResourceLabels(resourceType.name, namespace, name, labels, selfLink, '/metadata/labels')
+    return apolloClient
+      .updateResourceLabels(
+        resourceType.name,
+        namespace,
+        name,
+        labels,
+        selfLink,
+        '/metadata/labels'
+      )
       .then(response => {
         if (response.errors) {
           return dispatch(receivePutError(response.errors[0], resourceType))
         }
         dispatch(fetchResources(resourceType))
-        dispatch(updateModal({open: false, type: 'label-editing'}))
+        dispatch(updateModal({ open: false, type: 'label-editing' }))
         return dispatch(receivePutResource(resourceType))
       })
       .catch(err => dispatch(receivePutError(err, resourceType)))
   }
 }
 
-export const editResource = (resourceType, namespace, name, body, selfLink, resourcePath) => (dispatch => {
+export const editResource = (
+  resourceType,
+  namespace,
+  name,
+  body,
+  selfLink,
+  resourcePath
+) => dispatch => {
   dispatch(putResource(resourceType))
-  return apolloClient.updateResource(resourceType.name, namespace, name, body, selfLink, resourcePath)
+  return apolloClient
+    .updateResource(
+      resourceType.name,
+      namespace,
+      name,
+      body,
+      selfLink,
+      resourcePath
+    )
     .then(response => {
       if (response.errors) {
         return dispatch(receivePutError(response.errors[0], resourceType))
       } else {
-        dispatch(updateModal({open: false, type: 'resource-edit'}))
+        dispatch(updateModal({ open: false, type: 'resource-edit' }))
       }
       dispatch(fetchResources(resourceType))
       return dispatch(receivePutResource(response, resourceType))
     })
-})
+}
 
 export const removeResource = (resourceType, vars) => async dispatch => {
   dispatch(delResource(resourceType))
@@ -170,12 +236,13 @@ export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
   links
 })
 
-export const updateModal = (data) => ({
+export const updateModal = data => ({
   type: Actions.MODAL_UPDATE,
   data
 })
 
-export const postResource = (resourceType) => ({ // TODO: Consider renaming
+export const postResource = resourceType => ({
+  // TODO: Consider renaming
   type: Actions.POST_REQUEST,
   postStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -195,19 +262,20 @@ export const receivePostError = (err, resourceType) => ({
   resourceType
 })
 
-export const putResource = (resourceType) => ({ // TODO: Consider renaming
+export const putResource = resourceType => ({
+  // TODO: Consider renaming
   type: Actions.PUT_REQUEST,
   putStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
 })
 
 export const receivePutResource = (item, resourceType) => {
-  return ({
+  return {
     type: Actions.PUT_RECEIVE_SUCCESS,
     putStatus: Actions.REQUEST_STATUS.DONE,
     resourceType: item.kind || resourceType,
     item
-  })
+  }
 }
 
 export const receivePutError = (err, resourceType) => ({
@@ -217,7 +285,8 @@ export const receivePutError = (err, resourceType) => ({
   resourceType
 })
 
-export const delResource = (resourceType) => ({ // TODO: Consider renaming
+export const delResource = resourceType => ({
+  // TODO: Consider renaming
   type: Actions.DEL_REQUEST,
   delStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -238,72 +307,83 @@ export const receiveDelError = (err, resourceType) => ({
   resourceType
 })
 
-export const clearRequestStatus = (resourceType) => ({
+export const clearRequestStatus = resourceType => ({
   type: Actions.CLEAR_REQUEST_STATUS,
   resourceType: resourceType
 })
 
-export const resetResource = (resourceType) => ({
+export const resetResource = resourceType => ({
   type: Actions.RESOURCE_RESET,
   resourceType: resourceType
 })
 
 export const createResources = (resourceType, resourceJson) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(mutateResource(resourceType))
-    return apolloClient.createResources(resourceJson)
-      .then(result => {
-        if (result.data.createResources.errors && result.data.createResources.errors.length > 0){
-          dispatch(mutateResourceFailure(resourceType, result.data.createResources.errors[0]))
-        } else {
-          dispatch(mutateResourceSuccess(resourceType))
-        }
-        return result
-      })
+    return apolloClient.createResources(resourceJson).then(result => {
+      if (
+        result.data.createResources.errors &&
+        result.data.createResources.errors.length > 0
+      ) {
+        dispatch(
+          mutateResourceFailure(
+            resourceType,
+            result.data.createResources.errors[0]
+          )
+        )
+      } else {
+        dispatch(mutateResourceSuccess(resourceType))
+      }
+      return result
+    })
   }
 }
 
 export const createResource = (resourceType, variables) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(postResource(resourceType))
-    return apolloClient.createResource(resourceType, variables)
+    return apolloClient
+      .createResource(resourceType, variables)
       .then(response => {
         if (response.errors) {
           return dispatch(receivePostError(response.errors[0], resourceType))
         }
 
-        return dispatch(receivePostResource(lodash.cloneDeep(response.data.setHelmRepo), resourceType))
+        return dispatch(
+          receivePostResource(
+            lodash.cloneDeep(response.data.setHelmRepo),
+            resourceType
+          )
+        )
       })
       .catch(err => dispatch(receivePostError(err, resourceType)))
   }
 }
 
 export const createPolicy = (resourceType, resourceJson) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(mutateResource(resourceType))
-    return apolloClient.createPolicy(resourceJson)
-      .then(result => {
-        if (result.errors && result.errors.length > 0){
-          dispatch(mutateResourceFailure(resourceType, result.errors[0]))
-        } else {
-          dispatch(mutateResourceSuccess(resourceType))
-        }
-        return result
-      })
+    return apolloClient.createPolicy(resourceJson).then(result => {
+      if (result.errors && result.errors.length > 0) {
+        dispatch(mutateResourceFailure(resourceType, result.errors[0]))
+      } else {
+        dispatch(mutateResourceSuccess(resourceType))
+      }
+      return result
+    })
   }
 }
 
 export const createCompliance = (resourceType, resourceJson) => {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(mutateResource(resourceType))
-    return apolloClient.createCompliance(resourceJson)
-      .then(result => {
-        if (result.errors && result.errors.length > 0){
-          dispatch(mutateResourceFailure(resourceType, result.errors[0]))
-        } else {
-          dispatch(mutateResourceSuccess(resourceType))
-        }
-        return result
-      })
+    return apolloClient.createCompliance(resourceJson).then(result => {
+      if (result.errors && result.errors.length > 0) {
+        dispatch(mutateResourceFailure(resourceType, result.errors[0]))
+      } else {
+        dispatch(mutateResourceSuccess(resourceType))
+      }
+      return result
+    })
   }
 }

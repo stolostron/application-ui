@@ -10,9 +10,7 @@
 @import 'variables';
 
 .secondary-header {
-
   header {
-
     .bx--detail-page-header-title {
       font-size: 1.75rem;
     }
@@ -26,10 +24,12 @@
         display: none;
       }
     }
+
     .bx--detail-page-header-icon-container,
     .bx--detail-page-header-status-container {
       display: none;
     }
+
     .bx--detail-page-header-title-container:last-child {
       margin-bottom: 2.875rem; //TODO: decide what to do when there's no tab. Hack to display the title at same location
     }
@@ -43,20 +43,25 @@
     }
   }
 
-
   &.simple-header {
     position: fixed;
     width: 100%;
     top: $secondary-header-top;
     background-color: #fff;
     height: $secondary-header-min-height;
-    padding: 0.75rem 5% 0
+    padding: 0.75rem 5% 0;
   }
 
   .bx--detail-page-header--with-tabs {
     top: 3.082rem;
   }
 
+  .bx--detail-page-header--no-tabs {
+    top: 3.082rem;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+  }
 }
 
 .secondary-header-wrapper {
@@ -71,3 +76,7 @@
   height: $secondary-header-min-height;
 }
 
+.secondary-header-wrapper-no-tabs {
+  @extend .secondary-header-wrapper;
+  height: $secondary-header-no-tabs-height;
+}

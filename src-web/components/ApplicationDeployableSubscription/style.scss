@@ -13,16 +13,17 @@
     margin-bottom: 5%;
 
   .deployable-subscription-header {
-    font-size: 1.5em;
-    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    padding-bottom: 15px;
   }
 
   .deployable-subscription-container {
     width: 100%;
-    height: 280px;
+    height: 260px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 10px 20px;
   }
 
   .deployable-subscription-edit-container {
@@ -30,7 +31,7 @@
   }
 
   .yamlEditIconTitle {
-    font-size: 0.8em;
+    font-size: 0.6em;
     display: inline-block;
     margin: 0 5px;
   }
@@ -41,17 +42,19 @@
 
   .deployable-subscription-tile-container {
     width: 100%;
-    height: 95%;
+    height: 100%;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
     grid-template-rows: 50% 50%;
     grid-template-areas: 
       "tile1 tile2 tile3 tile4"
       "tile5 tile6 tile7 tile7";
-    grid-gap: 5px;
-    padding: 10px;
   }
 
+  .tile {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px 15px;
+  }
   .subscription-name {
     grid-area: tile1;
   }
@@ -78,7 +81,8 @@
     text-transform: uppercase;
     font-size: 0.8em;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, 0.6);
   }
 
   .tile-content {
@@ -87,10 +91,10 @@
 
   .label-item {
     display: inline-block;
-    font-size: 0.6em;
+    font-size: 0.65em;
     margin: 0 8px 8px 0;
     padding: 8px;
-    background-color: #f4f7fb;
+    background-color: #dee3e6;
     border-radius: 10px;
   }
 

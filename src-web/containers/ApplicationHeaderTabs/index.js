@@ -31,6 +31,9 @@ export const ApplicationDeploymentPipeline = loadable(() =>
   import(/* webpackChunkName: "applicationdeploymentpipeline" */ '../../components/ApplicationDeploymentPipeline')
 )
 
+export const IncidentsTab = loadable(() =>
+  import(/* webpackChunkName: "incidents" */ '../IncidentsTab'))
+
 // This will render the three tabs
 // Overview, Deployments, Incidents
 const ApplicationHeaderTabs = withLocale(({ locale }) => {
@@ -74,7 +77,11 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
             onKeyDown={() => {}}
             label={msgs.get('description.title.incidents', locale)}
           >
-            <div className="some-content">Incidents</div>
+            <div className="some-content">
+              <IncidentsTab
+                secondaryHeaderProps={{ title: 'routes.applications' }}
+              />
+            </div>
           </Tab>
         </Tabs>
       </div>

@@ -16,7 +16,7 @@ exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus r
       className="deployable-left-column"
     >
       <div
-        className="bx--tile"
+        className="bx--tile deployable-left-column-header"
       />
       <div
         className="bx--tile"
@@ -27,6 +27,12 @@ exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus r
           
            
           
+        </div>
+        <div
+          className="incidents-count"
+        >
+          0 
+          Incidents
         </div>
       </div>
     </div>

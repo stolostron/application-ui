@@ -68,6 +68,10 @@ export const HCMSubscriptionList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
 )
+export const CEMIncidentList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.CEM_INCIDENTS),
+)
 
 export { topology } from './topology'
 export { resourceFilters } from './filter'

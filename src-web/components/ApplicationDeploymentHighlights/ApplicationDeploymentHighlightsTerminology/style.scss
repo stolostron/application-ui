@@ -6,30 +6,32 @@
   }
 
   .bx--tile:first-child {
-    border-left: 2px solid black;
+    border-left: 5px solid #dee3e6;
+    border-right: 5px solid #dee3e6;
   }
 
   .bx--tile div {
-    width: 33.33%;
-    padding-left: 2em;
-    padding-right: 2em;
+    width: 25%;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
     float: left;
   }
 
   .bx--tile .deployment-highlights-terminology-header {
     font-size: 1.2em;
+    margin-bottom: 10px;
   }
 
   .bx--accordion__content {
     padding-left: 0;
     padding-right: 0;
+
+    .bx--tile {
+      padding: 1.5rem 0.5rem;
+    }
   }
 
   .bx--accordion__title {
     color: #4676b5;
-  }
-
-  .bx--accordion__heading {
-    padding-bottom: 20px;
   }
 }

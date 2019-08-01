@@ -16,11 +16,13 @@ import hcmapplications from './hcm-applications'
 import hcmchannels from './hcm-channel'
 import hcmsubscriptions from './hcm-subscription'
 //import hcmclusters from './hcm-clusters'
+import cemincidents from './cem-incidents'
 
 const resourceData = {
   [RESOURCE_TYPES.HCM_APPLICATIONS.name]: hcmapplications,
   [RESOURCE_TYPES.HCM_CHANNELS.name]: hcmchannels,
-  [RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name]: hcmsubscriptions
+  [RESOURCE_TYPES.HCM_SUBSCRIPTIONS.name]: hcmsubscriptions,
+  [RESOURCE_TYPES.CEM_INCIDENTS.name]: cemincidents
 }
 
 function getResourceData(resourceType) {

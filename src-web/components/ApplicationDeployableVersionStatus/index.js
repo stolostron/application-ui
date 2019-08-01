@@ -13,11 +13,13 @@ import { Tile, Icon } from 'carbon-components-react'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 
+import { getChannelStatusClass } from './utils'
+
 resources(() => {
   require('./style.scss')
 })
 
-const deployableColumns = channels => {
+const deployableColumns = (channels, locale) => {
   return (
     <div className="version-status-grid-container">
       <div className="horizontal-scroll-row">
@@ -33,16 +35,32 @@ const deployableColumns = channels => {
                   </span>
                   <Icon
                     name="icon--edit"
-                    fill="#6089bf"
+                    fill="#6c7b85"
                     description=""
                     className="yamlEditIcon"
                   />
                 </div>
                 <div className="environment"> {channelName} </div>
-                <div className="gate-conditions">
+                <div className="gate-conditions-header">
                   {msgs.get(
-                    'description.title.deployableVersionStatus.gateConditions'
+                    'description.title.deployableVersionStatus.gateConditions',
+                    locale
                   )}
+                </div>
+                <div className="gate-conditions">--</div>
+                <div>
+                  <div className="clusters">
+                    {msgs.get('resource.clusters', locale)}
+                    <Icon
+                      name="icon--arrow--right"
+                      fill="#2772b7"
+                      description=""
+                      className="clustersIcon"
+                    />
+                  </div>
+                  <div className="clusters-count">
+                    0 {msgs.get('resource.clusters', locale)}
+                  </div>
                 </div>
               </Tile>
             </div>
@@ -59,8 +77,12 @@ const deployableColumns = channels => {
           return (
             <div className="version-status-column" key="{channel.name}">
               <Tile>
-                <span className="statusTag"> {channelStatus}</span>
-                <span className="lastUpdateTime">{channelLastUpdateTime}</span>
+                <span className={getChannelStatusClass(channelStatus)}>
+                  {channelStatus}
+                </span>
+                <span className="lastUpdateTime">
+                  {channelStatus == 'failed' && channelLastUpdateTime}
+                </span>
               </Tile>
             </div>
           )
@@ -84,15 +106,19 @@ const ApplicationDeployableVersionStatus = withLocale(
 
         <div className="deployable-version-status-container">
           <div className="deployable-left-column">
-            <Tile />
+            <Tile className="deployable-left-column-header" />
+
             <Tile>
               <div className="deployable-version-name">
                 {deployableName} {subscriptionVersion}
               </div>
+              <div className="incidents-count">
+                0 {msgs.get('description.title.incidents', locale)}
+              </div>
             </Tile>
           </div>
 
-          {channels && deployableColumns(channels)}
+          {channels && deployableColumns(channels, locale)}
         </div>
       </div>
     )

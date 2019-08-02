@@ -48,15 +48,15 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
         <Tabs
           className="some-class"
           selected={0}
-          onClick={() => {}}
-          onKeyDown={() => {}}
-          onSelectionChange={() => {}}
+          onClick={() => { }}
+          onKeyDown={() => { }}
+          onSelectionChange={() => { }}
           tabContentClassName="tab-content"
         >
           <Tab
             disabled={false}
-            onClick={() => {}}
-            onKeyDown={() => {}}
+            onClick={() => { }}
+            onKeyDown={() => { }}
             label={msgs.get('description.title.overview', locale)}
           >
             <div className="some-content">
@@ -67,8 +67,8 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
           </Tab>
           <Tab
             disabled={false}
-            onClick={() => {}}
-            onKeyDown={() => {}}
+            onClick={() => { }}
+            onKeyDown={() => { }}
             label={msgs.get('description.title.deployments', locale)}
           >
             <div className="page-content-container">
@@ -78,8 +78,8 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
           </Tab>
           <Tab
             disabled={false}
-            onClick={() => {}}
-            onKeyDown={() => {}}
+            onClick={() => { }}
+            onKeyDown={() => { }}
             label={msgs.get('description.title.incidents', locale)}
           >
             <div className="some-content">
@@ -90,11 +90,11 @@ const ApplicationHeaderTabs = withLocale(({ locale }) => {
           </Tab>
           <Tab
             disabled={false}
-            onClick={() => {}}
-            onKeyDown={() => {}}
+            onClick={() => { }}
+            onKeyDown={() => { }}
             label={msgs.get('description.title.logs', locale)}
           >
-            <div className="some-content">
+            <div className="page-content-container">
               <ApplicationLogs />
             </div>
           </Tab>

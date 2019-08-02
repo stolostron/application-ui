@@ -60,10 +60,45 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
         <div
           className="channelGridContainer"
         >
-          <button
-            className="editSubscriptionButton"
-            onClick={[Function]}
-          />
+          <div
+            className="subscriptionInfoClass"
+          >
+            Subscription Name
+            subName
+            <div
+              className="innerContent"
+            >
+              <div
+                className="placement"
+              >
+                Placement
+                Clusters
+                cluster1
+                cluster2
+                cluster3
+                Label
+                label1
+                label2
+                label3
+              </div>
+              <div
+                className="versions"
+              >
+                Deployable versions
+                version2
+              </div>
+              <div
+                className="update"
+              >
+                Rolling update
+                50%
+              </div>
+              <button
+                className="editSubscriptionButton"
+                onClick={[Function]}
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div

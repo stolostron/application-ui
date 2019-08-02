@@ -19,30 +19,55 @@ resources(() => {
   require('./style.scss')
 })
 
-const DeployableModalContents = withLocale(
+const SubscriptionInfo = withLocale(
   ({
+    subName = 'subName',
+    clusters = ['cluster1', 'cluster2', 'cluster3'],
+    labels = ['label1', 'label2', 'label3'],
+    versions = 'version2',
+    rollingUpdate = '50%',
     modalSubscription,
     editSubscription,
-    deployableModalSubscriptionInfo
+    deployableModalSubscriptionInfo,
+    locale
   }) => {
     // If there is currently noDeployableSubscription then we want to add rather
     // than edit
     const noDeployableSubscription = R.isEmpty(deployableModalSubscriptionInfo)
     return (
-      <div className="channelGridContainer">
-        {noDeployableSubscription ? (
-          <div className="addSubscriptionButton">{[modalSubscription]}</div>
-        ) : (
-          <button
-            className="editSubscriptionButton"
-            onClick={() =>
-              editSubscription(
-                RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-                deployableModalSubscriptionInfo
-              )
-            }
-          />
-        )}
+      <div className="subscriptionInfoClass">
+        {msgs.get('description.Modal.SubscriptionInfo', locale)}
+        {subName}
+        <div className="innerContent">
+          <div className="placement">
+            {msgs.get('description.Modal.placement', locale)}
+            {msgs.get('description.Modal.clusters', locale)}
+            {clusters}
+            {msgs.get('description.Modal.label', locale)}
+            {labels}
+          </div>
+          <div className="versions">
+            {msgs.get('description.Modal.versions', locale)}
+            {versions}
+          </div>
+          <div className="update">
+            {msgs.get('description.Modal.update', locale)}
+            {rollingUpdate}
+          </div>
+          {noDeployableSubscription ? (
+            <div className="addSubscriptionButton">{[modalSubscription]}</div>
+          ) : (
+            <button
+              className="editSubscriptionButton"
+              onClick={() =>
+                editSubscription(
+                  RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                  deployableModalSubscriptionInfo
+                )
+              }
+            />
+          )}
+        </div>
       </div>
     )
   }
@@ -70,11 +95,14 @@ const DeployableModal = withLocale(
           primaryButtonText={'TODO button'}
           secondaryButtonText={msgs.get('actions.close', locale)}
         >
-          <DeployableModalContents
-            modalSubscription={modalSubscription}
-            editSubscription={editSubscription}
-            deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
-          />
+          <div className="channelGridContainer">
+            <SubscriptionInfo
+              subName={label}
+              modalSubscription={modalSubscription}
+              editSubscription={editSubscription}
+              deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
+            />
+          </div>
         </Modal>
       </div>
     )

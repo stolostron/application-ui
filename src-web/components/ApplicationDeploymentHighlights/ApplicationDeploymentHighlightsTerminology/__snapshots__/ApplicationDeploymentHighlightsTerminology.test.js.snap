@@ -82,6 +82,16 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
               Deployment conditions can be added manually or automated based on events outcome. When a deployment has all the conditions that a channel gate requires, it will then be deployed to such channel.
             </p>
           </div>
+          <div>
+            <p
+              className="deployment-highlights-terminology-header"
+            >
+              Subscriptions
+            </p>
+            <p>
+              Every deployable needs a set of definitions that guides it to which cluster and channel it should deploy to. A subscription includes a placement rule (which ties the deployable to all the clusters it can deploy to via labels), landing channels, annotations, and versions (to define which versions of the deployable will be deployed).
+            </p>
+          </div>
         </div>
       </div>
     </li>

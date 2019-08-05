@@ -159,11 +159,11 @@ const DeployableModal = withLocale(
         <Modal
           className="modalAddRepo"
           onRequestClose={() => closeModal()}
+          onRequestSubmit={() => closeModal()}
           open={displayModal}
           modalHeading={header}
           modalLabel={label}
-          primaryButtonText={'TODO button'}
-          secondaryButtonText={msgs.get('actions.close', locale)}
+          primaryButtonText={msgs.get('actions.close', locale)}
         >
           <div className="channelGridContainer">
             <SubscriptionInfo

@@ -63,20 +63,40 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
           <div
             className="subscriptionInfoClass"
           >
-            Subscription Name
-            subName
+            <div
+              className="subHeader"
+            >
+              <div
+                className="bold"
+              >
+                Subscription Name
+              </div>
+              subName
+            </div>
             <div
               className="innerContent"
             >
               <div
                 className="placement"
               >
-                Placement
-                Clusters
+                <div
+                  className="bold"
+                >
+                  Placement
+                </div>
+                <div
+                  className="bold"
+                >
+                  Clusters
+                </div>
                 cluster1
                 cluster2
                 cluster3
-                Label
+                <div
+                  className="bold"
+                >
+                  Label
+                </div>
                 label1
                 label2
                 label3
@@ -84,13 +104,21 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
               <div
                 className="versions"
               >
-                Deployable versions
+                <div
+                  className="bold"
+                >
+                  Deployable versions
+                </div>
                 version2
               </div>
               <div
                 className="update"
               >
-                Rolling update
+                <div
+                  className="bold"
+                >
+                  Rolling update
+                </div>
                 50%
               </div>
               <button
@@ -103,9 +131,64 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
             className="channelInfoClass"
           >
             <div
+              className="subHeader"
+            >
+              <div
+                className="bold"
+              >
+                Channel
+              </div>
+              chanName
+            </div>
+            <div
               className="innerContent"
             >
-              chanName
+              <div
+                className="conditions"
+              >
+                <div
+                  className="bold"
+                >
+                  Conditions
+                </div>
+                <div>
+                  condition1
+                </div>
+                <div>
+                  condition2
+                </div>
+                <div>
+                  condition3
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployableInfoClass"
+          >
+            <div
+              className="subHeader"
+            >
+              <div
+                className="bold"
+              >
+                Deployable
+              </div>
+              deployableName
+            </div>
+            <div
+              className="innerContent"
+            >
+              <div
+                className="conditions"
+              >
+                <div
+                  className="bold"
+                >
+                  Deployable Conditions
+                </div>
+                passed testing
+              </div>
             </div>
           </div>
         </div>

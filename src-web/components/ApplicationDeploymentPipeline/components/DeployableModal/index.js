@@ -19,6 +19,33 @@ resources(() => {
   require('./style.scss')
 })
 
+const DeployableInfo = withLocale(
+  ({
+    deployableName = 'deployableName',
+    conditions = 'passed testing',
+    locale
+  }) => {
+    return (
+      <div className="deployableInfoClass">
+        <div className="subHeader">
+          <div className="bold">
+            {msgs.get('description.Modal.deployable', locale)}
+          </div>
+          {deployableName}
+        </div>
+        <div className="innerContent">
+          <div className="conditions">
+            <div className="bold">
+              {msgs.get('description.Modal.deployableConditions', locale)}
+            </div>
+            {conditions}
+          </div>
+        </div>
+      </div>
+    )
+  }
+)
+
 const ChannelInfo = withLocale(
   ({
     chanName = 'chanName',
@@ -27,7 +54,22 @@ const ChannelInfo = withLocale(
   }) => {
     return (
       <div className="channelInfoClass">
-        <div className="innerContent">{chanName}</div>
+        <div className="subHeader">
+          <div className="bold">
+            {msgs.get('description.Modal.channel', locale)}
+          </div>
+          {chanName}
+        </div>
+        <div className="innerContent">
+          <div className="conditions">
+            <div className="bold">
+              {msgs.get('description.Modal.conditions', locale)}
+            </div>
+            {conditions.map(condition => {
+              return <div key={Math.random()}>{condition}</div>
+            })}
+          </div>
+        </div>
       </div>
     )
   }
@@ -50,22 +92,36 @@ const SubscriptionInfo = withLocale(
     const noDeployableSubscription = R.isEmpty(deployableModalSubscriptionInfo)
     return (
       <div className="subscriptionInfoClass">
-        {msgs.get('description.Modal.SubscriptionInfo', locale)}
-        {subName}
+        <div className="subHeader">
+          <div className="bold">
+            {msgs.get('description.Modal.SubscriptionInfo', locale)}
+          </div>
+          {subName}
+        </div>
         <div className="innerContent">
           <div className="placement">
-            {msgs.get('description.Modal.placement', locale)}
-            {msgs.get('description.Modal.clusters', locale)}
+            <div className="bold">
+              {msgs.get('description.Modal.placement', locale)}
+            </div>
+            <div className="bold">
+              {msgs.get('description.Modal.clusters', locale)}
+            </div>
             {clusters}
-            {msgs.get('description.Modal.label', locale)}
+            <div className="bold">
+              {msgs.get('description.Modal.label', locale)}
+            </div>
             {labels}
           </div>
           <div className="versions">
-            {msgs.get('description.Modal.versions', locale)}
+            <div className="bold">
+              {msgs.get('description.Modal.versions', locale)}
+            </div>
             {versions}
           </div>
           <div className="update">
-            {msgs.get('description.Modal.update', locale)}
+            <div className="bold">
+              {msgs.get('description.Modal.update', locale)}
+            </div>
             {rollingUpdate}
           </div>
           {noDeployableSubscription ? (
@@ -117,6 +173,7 @@ const DeployableModal = withLocale(
               deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
             />
             <ChannelInfo />
+            <DeployableInfo />
           </div>
         </Modal>
       </div>

@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -11,22 +11,23 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
-import { REQUEST_STATUS } from '../../actions/index'
-import { getTabs } from '../../../lib/client/resource-helper'
-import { updateSecondaryHeader, fetchResource } from '../../actions/common'
+import { REQUEST_STATUS } from '../../../actions/index'
+import { getTabs } from '../../../../lib/client/resource-helper'
+import { getIncidentCount, getIncidentList } from './utils'
+import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as Actions from '../../actions'
+import * as Actions from '../../../actions'
 import lodash from 'lodash'
-import resources from '../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
-import msgs from '../../../nls/platform.properties'
-import ResourceOverview from './ResourceOverview'
-import config from '../../../lib/shared/config'
+import resources from '../../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import msgs from '../../../../nls/platform.properties'
+import ResourceOverview from '../ResourceOverview'
+import config from '../../../../lib/shared/config'
 
 resources(() => {
-  require('../../../scss/resource-details.scss')
+  require('./style.scss')
 })
 
 const withResource = Component => {
@@ -56,20 +57,6 @@ const withResource = Component => {
       incidents: getIncidentList(CEMIncidentList),
       incidentCount: getIncidentCount(CEMIncidentList)
     }
-  }
-
-  const getIncidentList = list => {
-    if (list && list.items) {
-      return list.items
-    }
-    return []
-  }
-
-  const getIncidentCount = list => {
-    if (list && list.items && Array.isArray(list.items)) {
-      return list.items.length
-    }
-    return '-'
   }
 
   return connect(mapStateToProps, mapDispatchToProps)(

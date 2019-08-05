@@ -99,6 +99,15 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
               />
             </div>
           </div>
+          <div
+            className="channelInfoClass"
+          >
+            <div
+              className="innerContent"
+            >
+              chanName
+            </div>
+          </div>
         </div>
       </div>
       <div

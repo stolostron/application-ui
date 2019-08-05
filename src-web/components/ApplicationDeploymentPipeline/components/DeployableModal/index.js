@@ -19,6 +19,20 @@ resources(() => {
   require('./style.scss')
 })
 
+const ChannelInfo = withLocale(
+  ({
+    chanName = 'chanName',
+    conditions = ['condition1', 'condition2', 'condition3'],
+    locale
+  }) => {
+    return (
+      <div className="channelInfoClass">
+        <div className="innerContent">{chanName}</div>
+      </div>
+    )
+  }
+)
+
 const SubscriptionInfo = withLocale(
   ({
     subName = 'subName',
@@ -102,6 +116,7 @@ const DeployableModal = withLocale(
               editSubscription={editSubscription}
               deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
             />
+            <ChannelInfo />
           </div>
         </Modal>
       </div>

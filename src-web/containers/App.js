@@ -72,6 +72,10 @@ class App extends React.Component {
       !location.pathname.startsWith('/multicloud/welcome') &&
       !location.pathname.startsWith('/multicloud/overview') &&
       !location.pathname.startsWith('/multicloud/search')
+    const showIncidentsTab =
+      location.pathname &&
+      location.pathname.startsWith('/multicloud/applications/') &&
+      location.pathname.split('/').length === 5
 
     return (
       <div className="expand-vertically">
@@ -84,7 +88,9 @@ class App extends React.Component {
           />
           <Route
             path={`${match.url}`}
-            render={() => <ApplicationHeaderTabs />}
+            render={() => (
+              <ApplicationHeaderTabs showIncidentsTab={showIncidentsTab} />
+            )}
           />
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>

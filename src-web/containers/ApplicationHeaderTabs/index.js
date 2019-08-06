@@ -14,10 +14,9 @@ import React from 'react'
 import loadable from 'loadable-components'
 import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
-import { withLocale } from '../../providers/LocaleProvider'
 import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
-// import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline';
 import resources from '../../../lib/shared/resources'
+import { propType } from 'graphql-anywhere'
 
 resources(() => {
   require('./style.scss')
@@ -32,60 +31,72 @@ export const ApplicationDeploymentPipeline = loadable(() =>
 )
 
 export const IncidentsTab = loadable(() =>
-  import(/* webpackChunkName: "incidents" */ '../IncidentsTab'))
+  import(/* webpackChunkName: "incidents" */ '../IncidentsTab')
+)
 
-// This will render the three tabs
-// Overview, Deployments, Incidents
-const ApplicationHeaderTabs = withLocale(({ locale }) => {
-  return (
-    <div id="applicationheadertabs">
-      <div className="whiteSpacer">
-        <Tabs
-          className="some-class"
-          selected={0}
-          onClick={() => {}}
-          onKeyDown={() => {}}
-          onSelectionChange={() => {}}
-          tabContentClassName="tab-content"
-        >
-          <Tab
-            disabled={false}
+class ApplicationHeaderTabs extends React.Component {
+  static propTypes = {
+    showIncidentsTab: propType.bool
+  };
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const { locale } = this.context
+    const { showIncidentsTab } = this.props
+    return (
+      <div id="applicationheadertabs">
+        <div className="whiteSpacer">
+          <Tabs
+            className="some-class"
+            selected={0}
             onClick={() => {}}
             onKeyDown={() => {}}
-            label={msgs.get('description.title.overview', locale)}
+            onSelectionChange={() => {}}
+            tabContentClassName="tab-content"
           >
-            <div className="some-content">
-              <ApplicationsTab
-                secondaryHeaderProps={{ title: 'routes.applications' }}
-              />
-            </div>
-          </Tab>
-          <Tab
-            disabled={false}
-            onClick={() => {}}
-            onKeyDown={() => {}}
-            label={msgs.get('description.title.deployments', locale)}
-          >
-            <div className="page-content-container">
-              <ApplicationDeploymentHighlights />
-              <ApplicationDeploymentPipeline />
-            </div>
-          </Tab>
-          <Tab
-            disabled={false}
-            onClick={() => {}}
-            onKeyDown={() => {}}
-            label={msgs.get('description.title.incidents', locale)}
-          >
-            <div className="some-content">
-              <IncidentsTab
-                secondaryHeaderProps={{ title: 'routes.applications' }}
-              />
-            </div>
-          </Tab>
-        </Tabs>
+            <Tab
+              disabled={false}
+              onClick={() => {}}
+              onKeyDown={() => {}}
+              label={msgs.get('description.title.overview', locale)}
+            >
+              <div className="some-content">
+                <ApplicationsTab
+                  secondaryHeaderProps={{ title: 'routes.applications' }}
+                />
+              </div>
+            </Tab>
+            <Tab
+              disabled={false}
+              onClick={() => {}}
+              onKeyDown={() => {}}
+              label={msgs.get('description.title.deployments', locale)}
+            >
+              <div className="page-content-container">
+                <ApplicationDeploymentHighlights />
+                <ApplicationDeploymentPipeline />
+              </div>
+            </Tab>
+            {showIncidentsTab && (
+              <Tab
+                disabled={false}
+                onClick={() => {}}
+                onKeyDown={() => {}}
+                label={msgs.get('description.title.incidents', locale)}
+              >
+                <div className="some-content">
+                  <IncidentsTab />
+                </div>
+              </Tab>
+            )}
+          </Tabs>
+        </div>
       </div>
-    </div>
-  )
-})
-export default withLocale(ApplicationHeaderTabs)
+    )
+  }
+}
+
+export default ApplicationHeaderTabs

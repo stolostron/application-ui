@@ -12,18 +12,25 @@ import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 import { Icon } from 'carbon-components-react'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 resources(() => {
   require('./style.scss')
 })
 
 const ApplicationDeployableSubscription = withLocale(
-  ({ subscription, locale }) => {
+  ({ subscription, editSubscription, locale }) => {
     const name = (subscription && subscription.name) || '--'
     const channel = (subscription && subscription.channel) || '--'
     const annotations = (subscription && subscription.annotations) || '--'
     const rules = (subscription && subscription.rules) || '--'
     const version = (subscription && subscription.version) || '--'
+    const deployableModalSubscriptionInfo = (subscription &&
+      subscription.data) || {
+      data: { temp: 'tempData' },
+      name: 'tempName',
+      namespace: 'tempNamespace'
+    }
 
     return (
       <div id="ApplicationDeployableSubscription">
@@ -36,6 +43,12 @@ const ApplicationDeployableSubscription = withLocale(
               fill="#6089bf"
               description=""
               className="yamlEditIcon"
+              onClick={() =>
+                editSubscription(
+                  RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                  deployableModalSubscriptionInfo
+                )
+              }
             />
           </div>
         </div>

@@ -36,6 +36,7 @@ export const IncidentsTab = loadable(() =>
 
 class ApplicationHeaderTabs extends React.Component {
   static propTypes = {
+    params: propType.object,
     showIncidentsTab: propType.bool
   };
 
@@ -45,7 +46,7 @@ class ApplicationHeaderTabs extends React.Component {
 
   render() {
     const { locale } = this.context
-    const { showIncidentsTab } = this.props
+    const { showIncidentsTab, params } = this.props
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
@@ -88,7 +89,7 @@ class ApplicationHeaderTabs extends React.Component {
                 label={msgs.get('description.title.incidents', locale)}
               >
                 <div className="some-content">
-                  <IncidentsTab />
+                  <IncidentsTab params={params} />
                 </div>
               </Tab>
             )}

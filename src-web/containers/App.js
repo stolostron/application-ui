@@ -88,8 +88,11 @@ class App extends React.Component {
           />
           <Route
             path={`${match.url}`}
-            render={() => (
-              <ApplicationHeaderTabs showIncidentsTab={showIncidentsTab} />
+            render={params => (
+              <ApplicationHeaderTabs
+                params={params}
+                showIncidentsTab={showIncidentsTab}
+              />
             )}
           />
           <Redirect to={`${config.contextPath}/welcome`} />

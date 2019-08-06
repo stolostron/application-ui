@@ -59,6 +59,7 @@ const ResourceOverview = withLocale(
     clientSideFilters,
     sortTable,
     searchTable,
+    incidentCount,
     locale
   }) => {
     if (!item) {
@@ -100,6 +101,10 @@ const ResourceOverview = withLocale(
       {
         msgKey: 'table.header.failedDeployments',
         count: getNumFailedDeployments(item)
+      },
+      {
+        msgKey: 'table.header.incidents',
+        count: incidentCount
       }
     ]
 
@@ -223,7 +228,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     item,
     channelList: getChannelsList(HCMChannelList),
-
     userRole,
     items,
     itemIds: visibleResources.items,

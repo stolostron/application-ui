@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -11,21 +11,23 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
-import { REQUEST_STATUS } from '../../actions/index'
-import { getTabs } from '../../../lib/client/resource-helper'
-import { updateSecondaryHeader, fetchResource } from '../../actions/common'
+import { REQUEST_STATUS } from '../../../actions/index'
+import { getTabs } from '../../../../lib/client/resource-helper'
+import { getIncidentCount, getIncidentList } from './utils'
+import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as Actions from '../../actions'
+import * as Actions from '../../../actions'
 import lodash from 'lodash'
-import resources from '../../../lib/shared/resources'
-import msgs from '../../../nls/platform.properties'
-import ResourceOverview from './ResourceOverview'
-import config from '../../../lib/shared/config'
+import resources from '../../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import msgs from '../../../../nls/platform.properties'
+import ResourceOverview from '../ResourceOverview'
+import config from '../../../../lib/shared/config'
 
 resources(() => {
-  require('../../../scss/resource-details.scss')
+  require('./style.scss')
 })
 
 const withResource = Component => {
@@ -33,16 +35,27 @@ const withResource = Component => {
     const { resourceType, params } = ownProps
     return {
       fetchResource: () =>
-        dispatch(fetchResource(resourceType, params.namespace, params.name))
+        dispatch(fetchResource(resourceType, params.namespace, params.name)),
+      fetchIncidents: () =>
+        dispatch(
+          fetchResource(
+            RESOURCE_TYPES.CEM_INCIDENTS,
+            params.namespace,
+            params.name
+          )
+        )
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
+    const { CEMIncidentList } = state
     return {
       status: state[typeListName].status,
-      statusCode: error && error.response && error.response.status
+      statusCode: error && error.response && error.response.status,
+      incidents: getIncidentList(CEMIncidentList),
+      incidentCount: getIncidentCount(CEMIncidentList)
     }
   }
 
@@ -50,7 +63,13 @@ const withResource = Component => {
     class extends React.PureComponent {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
+        fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
+        incidentCount: PropTypes.oneOfType([
+          PropTypes.number,
+          PropTypes.string
+        ]),
+        incidents: PropTypes.array,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -71,6 +90,7 @@ const withResource = Component => {
           this.setState({ intervalId: intervalId })
         }
         this.props.fetchResource()
+        this.props.fetchIncidents()
       }
 
       componentWillUnmount() {
@@ -81,6 +101,7 @@ const withResource = Component => {
         if (this.props.status === REQUEST_STATUS.DONE) {
           this.setState({ xhrPoll: true })
           this.props.fetchResource()
+          this.props.fetchIncidents()
         }
       }
 

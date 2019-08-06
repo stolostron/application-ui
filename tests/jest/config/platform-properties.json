@@ -610,6 +610,7 @@
   "table.header.url": "URL",
   "table.header.valid": "Valid",
   "table.header.violation": "Violations",
+  "table.header.incidents": "Incidents",
   "table.header.incidentPriority": "Priority",
   "table.header.openfor": "Open For",
   "table.header.lastChanged": "Last Changed",

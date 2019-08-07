@@ -97,6 +97,22 @@ app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddlewar
   secure: false
 }))
 
+app.use(`${appConfig.get('contextPath')}/search/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('Pragma', 'no-cache')
+  const accessToken = req.cookies['cfc-access-token-cookie']
+  req.headers.Authorization = `Bearer ${accessToken}`
+  next()
+}, proxy({
+  // TODO - use flag while ironing out the chart changes
+  target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
+  changeOrigin: true,
+  pathRewrite: {
+    [`^${appConfig.get('contextPath')}/search/graphql`]: '/graphql'
+  },
+  secure: false
+}))
+
 if (process.env.NODE_ENV === 'development') {
   app.use(appConfig.get('platformHeaderContextPath'), cookieParser(), proxy({
     target: appConfig.get('cfcRouterUrl'),

@@ -631,6 +631,7 @@
   "table.search.labelText": "Filter table",
   "table.show.all.button": "Show All",
   "table.title.allApplications": "All applications",
+  "table.title.allIncidents": "All incidents",
   "time.days.ago": "{0} days ago",
   "time.hours.ago": "{0} hours ago",
   "time.minutes.ago": "{0} minutes ago",

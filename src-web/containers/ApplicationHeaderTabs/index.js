@@ -14,9 +14,9 @@ import React from 'react'
 import loadable from 'loadable-components'
 import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
+import { withLocale } from '../../providers/LocaleProvider'
 import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
 import resources from '../../../lib/shared/resources'
-import { propType } from 'graphql-anywhere'
 
 resources(() => {
   require('./style.scss')
@@ -34,19 +34,8 @@ export const IncidentsTab = loadable(() =>
   import(/* webpackChunkName: "incidents" */ '../IncidentsTab')
 )
 
-class ApplicationHeaderTabs extends React.Component {
-  static propTypes = {
-    params: propType.object,
-    showIncidentsTab: propType.bool
-  };
-
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const { locale } = this.context
-    const { showIncidentsTab, params } = this.props
+const ApplicationHeaderTabs = withLocale(
+  ({ showIncidentsTab, params, locale }) => {
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
@@ -98,6 +87,6 @@ class ApplicationHeaderTabs extends React.Component {
       </div>
     )
   }
-}
+)
 
-export default ApplicationHeaderTabs
+export default withLocale(ApplicationHeaderTabs)

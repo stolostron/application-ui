@@ -12,7 +12,6 @@
 .filter-bar {
     display: flex;
     flex-direction: row;
-    background-color: $mcm_background_color;
     padding: 3px 4px;
 
     .filter-bar-button-container {
@@ -24,7 +23,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: 2px;
+        padding: 0 10px;
 
         .filter-bar-button-icon {
           stroke-width: 3px;
@@ -41,7 +40,7 @@
         pointer-events: none;
         position: absolute;
         top: -4px;
-        left: 12px;
+        left: 20px;
         fill: blue;
       }
     }

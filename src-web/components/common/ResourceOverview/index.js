@@ -16,9 +16,6 @@ import CountsCardModule from '../../CountsCardModule'
 import ChannelsCardCarousel from '../../ChannelsCardCarousel'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
-import ResourceTable from '../ResourceTable'
-import TableHelper from '../../../util/table-helper'
-import msgs from '../../../../nls/platform.properties'
 import {
   getSingleResourceItem,
   resourceItemByName
@@ -31,6 +28,7 @@ import {
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { getChannelsList } from './utils'
+import InstancesTable from '../../InstancesTable'
 
 resources(() => {
   require('./style.scss')
@@ -47,20 +45,8 @@ const ResourceOverview = withLocale(
     actions,
     showAppDetails,
     showExpandedTopology,
-    page,
-    pageSize,
-    itemIds,
-    sortDirection,
-    sortColumn,
-    items,
-    totalFilteredItems,
-    changeTablePage,
-    searchValue,
-    clientSideFilters,
-    sortTable,
-    searchTable,
-    incidentCount,
-    locale
+    getVisibleResources,
+    incidentCount
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -108,8 +94,6 @@ const ResourceOverview = withLocale(
       }
     ]
 
-    const tableTitle = msgs.get('table.title.allInstances', locale)
-
     return (
       <div id="resource-overview" className="overview-content">
         {showAppDetails ? (
@@ -141,34 +125,10 @@ const ResourceOverview = withLocale(
               <ChannelsCardCarousel data={channelList} />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
-              <ResourceTable
-                actions=""
+              <InstancesTable
                 staticResourceData={staticResourceData}
-                page={page}
-                pageSize={pageSize}
-                itemIds={itemIds}
-                sortDirection={sortDirection}
-                sortColumn={sortColumn}
-                status={status}
-                items={items}
-                totalFilteredItems={totalFilteredItems}
                 resourceType={resourceType}
-                changeTablePage={changeTablePage}
-                handleSort={TableHelper.handleSort.bind(
-                  this,
-                  sortDirection,
-                  sortColumn,
-                  sortTable
-                )}
-                handleSearch={TableHelper.handleInputValue.bind(
-                  this,
-                  searchTable
-                )}
-                searchValue={searchValue}
-                defaultSearchValue={clientSideFilters}
-                tableActions={staticResourceData.tableActions}
-                tableTitle={tableTitle}
-                tableName="All instances"
+                getVisibleResources={getVisibleResources}
               />
             </div>
           </React.Fragment>
@@ -209,44 +169,7 @@ const mapStateToProps = (state, ownProps) => {
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null
   })
-
-  const { list: typeListName, name: resourceName } = ownProps.resourceType,
-        visibleResources = ownProps.getVisibleResources(state, {
-          storeRoot: typeListName
-        })
-
-  const pendingActions = state[typeListName].pendingActions
-  const items = visibleResources.normalizedItems
-  if (items && pendingActions) {
-    Object.keys(items).map(key => {
-      if (pendingActions.find(pending => pending.name === items[key].Name))
-        items[key].hasPendingActions = true
-    })
-  }
-  const userRole = state.role.role
-
-  return {
-    item,
-    channelList: getChannelsList(HCMChannelList),
-    userRole,
-    items,
-    itemIds: visibleResources.items,
-    totalFilteredItems: visibleResources.totalResults,
-    totalPages: visibleResources.totalPages,
-    status: state[typeListName].status,
-    page: state[typeListName].page,
-    pageSize: state[typeListName].itemsPerPage,
-    sortDirection: state[typeListName].sortDirection,
-    sortColumn: state[typeListName].sortColumn,
-    searchValue: state[typeListName].search,
-    err: state[typeListName].err,
-    mutateStatus: state[typeListName].mutateStatus,
-    mutateErrorMsg: state[typeListName].mutateErrorMsg,
-    resourceFilters: state['resourceFilters'].filters,
-    selectedFilters:
-      state['resourceFilters'].selectedFilters &&
-      state['resourceFilters'].selectedFilters[resourceName]
-  }
+  return { item, channelList: getChannelsList(HCMChannelList) }
 }
 
 export default withRouter(

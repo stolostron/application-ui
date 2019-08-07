@@ -14,6 +14,7 @@ import ResourceTable from '../common/ResourceTable'
 import TableHelper from '../../util/table-helper'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
+import { updatePendingActions } from './utils'
 
 resources(() => {
   require('./style.scss')
@@ -77,14 +78,12 @@ const mapStateToProps = (state, ownProps) => {
           storeRoot: typeListName
         })
 
-  const pendingActions = state[typeListName].pendingActions
-  const items = visibleResources.normalizedItems
-  if (items && pendingActions) {
-    Object.keys(items).map(key => {
-      if (pendingActions.find(pending => pending.name === items[key].Name))
-        items[key].hasPendingActions = true
-    })
-  }
+  const pendingActions =
+    (state && state[typeListName] && state[typeListName].pendingActions) || ''
+  const items = updatePendingActions(
+    visibleResources.normalizedItems,
+    pendingActions
+  )
   const userRole = state.role.role
 
   return {
@@ -93,19 +92,31 @@ const mapStateToProps = (state, ownProps) => {
     itemIds: visibleResources.items,
     totalFilteredItems: visibleResources.totalResults,
     totalPages: visibleResources.totalPages,
-    status: state[typeListName].status,
-    page: state[typeListName].page,
-    pageSize: state[typeListName].itemsPerPage,
-    sortDirection: state[typeListName].sortDirection,
-    sortColumn: state[typeListName].sortColumn,
-    searchValue: state[typeListName].search,
-    err: state[typeListName].err,
-    mutateStatus: state[typeListName].mutateStatus,
-    mutateErrorMsg: state[typeListName].mutateErrorMsg,
-    resourceFilters: state['resourceFilters'].filters,
+    status: (state && state[typeListName] && state[typeListName].status) || '',
+    page: (state && state[typeListName] && state[typeListName].page) || '',
+    pageSize:
+      (state && state[typeListName] && state[typeListName].itemsPerPage) || '',
+    sortDirection:
+      (state && state[typeListName] && state[typeListName].sortDirection) || '',
+    sortColumn:
+      (state && state[typeListName] && state[typeListName].sortColumn) || '',
+    searchValue:
+      (state && state[typeListName] && state[typeListName].search) || '',
+    err: (state && state[typeListName] && state[typeListName].err) || '',
+    mutateStatus:
+      (state && state[typeListName] && state[typeListName].mutateStatus) || '',
+    mutateErrorMsg:
+      (state && state[typeListName] && state[typeListName].mutateErrorMsg) ||
+      '',
+    resourceFilters:
+      (state && state['resourceFilters'] && state['resourceFilters'].filters) ||
+      '',
     selectedFilters:
-      state['resourceFilters'].selectedFilters &&
-      state['resourceFilters'].selectedFilters[resourceName]
+      (state &&
+        state['resourceFilters'] &&
+        state['resourceFilters'].selectedFilters &&
+        state['resourceFilters'].selectedFilters[resourceName]) ||
+      ''
   }
 }
 

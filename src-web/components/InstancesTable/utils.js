@@ -6,14 +6,13 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-@import "node_modules/carbon-components/scss/globals/scss/_colors";
 
-#instances-table {
-  .table-title {
-    font-size: 1.4rem;
-    line-height: 1.25;
-    font-weight: 300;
-    padding: 0px 0 10px 0;
-    display: -webkit-inline-box;
+export const updatePendingActions = (items, pendingActions) => {
+  if (items && pendingActions) {
+    Object.keys(items).map(key => {
+      if (pendingActions.find(pending => pending.name === items[key].Name))
+        items[key].hasPendingActions = true
+    })
   }
+  return items
 }

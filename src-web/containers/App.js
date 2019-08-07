@@ -72,7 +72,7 @@ class App extends React.Component {
       !location.pathname.startsWith('/multicloud/welcome') &&
       !location.pathname.startsWith('/multicloud/overview') &&
       !location.pathname.startsWith('/multicloud/search')
-    const showIncidentsTab =
+    const showExtraTabs =
       location.pathname &&
       location.pathname.startsWith('/multicloud/applications/') &&
       location.pathname.split('/').length === 5
@@ -91,7 +91,7 @@ class App extends React.Component {
             render={params => (
               <ApplicationHeaderTabs
                 params={params}
-                showIncidentsTab={showIncidentsTab}
+                showExtraTabs={showExtraTabs}
               />
             )}
           />

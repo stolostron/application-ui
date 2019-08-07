@@ -35,7 +35,7 @@ export const IncidentsTab = loadable(() =>
 )
 
 const ApplicationHeaderTabs = withLocale(
-  ({ showIncidentsTab, params, locale }) => {
+  ({ showExtraTabs, params, locale }) => {
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
@@ -70,7 +70,7 @@ const ApplicationHeaderTabs = withLocale(
                 <ApplicationDeploymentPipeline />
               </div>
             </Tab>
-            {showIncidentsTab && (
+            {showExtraTabs && (
               <Tab
                 disabled={false}
                 onClick={() => {}}

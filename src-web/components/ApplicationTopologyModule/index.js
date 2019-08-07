@@ -19,9 +19,8 @@ import hcmtopology from './definitions/hcm-topology'
 import { fetchResources, editResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
-import { DIAGRAM_REFRESH_INTERVAL_COOKIE,
-  DIAGRAM_QUERY_COOKIE, MCM_DESIGN_SPLITTER_OPEN_COOKIE,
-  MCM_DESIGN_SPLITTER_SIZE_COOKIE, RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { DIAGRAM_REFRESH_INTERVAL_COOKIE, MCM_DESIGN_SPLITTER_SIZE_COOKIE,
+  DIAGRAM_QUERY_COOKIE, RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { Icon, InlineNotification  } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
@@ -60,6 +59,7 @@ class ApplicationTopologyModule extends React.Component {
       showExpandedTopology: PropTypes.bool,
       staticResourceData: PropTypes.object,
       statusesLoaded: PropTypes.bool,
+      topologyLoadError: PropTypes.bool,
       topologyLoaded: PropTypes.bool,
       topologyReloading: PropTypes.bool,
       validator: PropTypes.func,
@@ -77,7 +77,6 @@ class ApplicationTopologyModule extends React.Component {
         designLoaded:false,
         topologyLoaded:false,
         statusesLoaded:false,
-        showTextView: !!localStorage.getItem(`${MCM_DESIGN_SPLITTER_OPEN_COOKIE}`),
         selectedNode: undefined,
         firstLoad:false,
         hasUndo: false,
@@ -107,12 +106,6 @@ class ApplicationTopologyModule extends React.Component {
       this.props.restoreSavedDiagramFilters()
       this.props.fetchDesign()
       this.startPolling()
-    }
-
-    componentDidMount() {
-      if (this.state.showTextView) {
-        this.layoutEditors()
-      }
     }
 
     componentWillUnmount() {
@@ -176,6 +169,7 @@ class ApplicationTopologyModule extends React.Component {
           isMulticluster: clusters.length>1,
           designLoaded: nextProps.designLoaded,
           topologyLoaded: nextProps.topologyLoaded,
+          topologyLoadError: nextProps.topologyLoadError,
           statusesLoaded:  nextProps.statusesLoaded,}
       })
     }
@@ -186,7 +180,6 @@ class ApplicationTopologyModule extends React.Component {
         !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
         !_.isEqual(this.state.exceptions, nextState.exceptions) ||
         this.state.updateMessage !== nextState.updateMessage ||
-        this.state.showTextView !== nextState.showTextView ||
         this.props.showExpandedTopology !== nextProps.showExpandedTopology ||
         this.props.topologyLoaded !== nextProps.topologyLoaded ||
         this.props.statusesLoaded !== nextProps.statusesLoaded ||
@@ -194,12 +187,6 @@ class ApplicationTopologyModule extends React.Component {
         this.state.currentYaml.localeCompare(nextState.currentYaml) !==  0 ||
         this.state.hasUndo!==nextState.hasUndo ||
         this.state.hasRedo!==nextState.hasRedo)
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-      if (this.state.showTextView && !prevState.showTextView) {
-        localStorage.setItem(`${MCM_DESIGN_SPLITTER_OPEN_COOKIE}`, true)
-      }
     }
 
     handleSplitterDefault = () => {
@@ -272,6 +259,7 @@ class ApplicationTopologyModule extends React.Component {
     getEditor = () => this.editor
     setCopyAreaRef = (ref) =>  this.copyArea = ref
     setUpdateDiagramRefreshTimeFunc = func => {this.updateDiagramRefreshTime = func}
+    handleTopologyErrorClosed = () => this.setState({ topologyLoadError: false })
     handleUpdateMessageClosed = () => this.setState({ updateMessage: '' })
 
     render() {
@@ -279,7 +267,7 @@ class ApplicationTopologyModule extends React.Component {
 
       const { staticResourceData, onDiagramFilterChange, showExpandedTopology } = this.props
       const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData
-      const { nodes, links,  diagramFilters, selectedNode, showTextView, isMulticluster } = this.state
+      const { nodes, links,  diagramFilters, selectedNode, isMulticluster, topologyLoadError } = this.state
       const { firstLoad, topologyLoaded, topologyReloading, statusesLoaded } = this.state
       const { currentYaml, hasUndo, hasRedo, exceptions, updateMessage, updateMsgKind } = this.state
       const { locale } = this.context
@@ -302,33 +290,24 @@ class ApplicationTopologyModule extends React.Component {
       const diagramClasses = classNames({
         'resourceDiagramSourceContainer': true,
         showExpandedTopology,
-        split: showTextView
+        split: showExpandedTopology
       })
 
       const renderDiagramView = () =>{
         return (
-          <div className="resourceDiagramContainer" >
+          <div className="resourceDiagramControlsContainer">
             <div className='diagram-title'>
               {diagramTitle}
             </div>
-            <div className='diagram-controls-container'>
-              <div className='diagram-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
-                <FilterBar
-                  availableFilters={availableFilters}
-                  activeFilters={diagramFilters}
-                  typeToShapeMap={typeToShapeMap}
-                  onChange={onDiagramFilterChange}
-                />
-              </div>
-              <div className='diagram-expand-button' tabIndex='0' role={'button'}
-                title={viewFullMsg} aria-label={viewFullMsg}
-                onClick={this.handleToggleSize} onKeyPress={this.handleToggleSize}>
-                {viewFullMsg}
-                <svg className='icon'>
-                  <use href={'#diagramIcons_launch'} ></use>
-                </svg>
-              </div>
-            </div>
+            {topologyLoadError &&
+            <InlineNotification
+              kind={'error'}
+              title={msgs.get('error.update.resource', this.context.locale)}
+              iconDescription=''
+              subtitle={msgs.get('error.load.topology', this.context.locale)}
+              onCloseButtonClick={this.handleTopologyErrorClosed}
+            />
+            }
             <DiagramViewer
               id={'application'}
               nodes={nodes}
@@ -347,6 +326,24 @@ class ApplicationTopologyModule extends React.Component {
               fetchLogs={this.fetchLogs}
               activeFilters={{type:diagramFilters}}
             />
+            <div className='diagram-controls-container'>
+              <div className='diagram-type-filter-bar' role='region' aria-label={typeFilterTitle} id={typeFilterTitle}>
+                <FilterBar
+                  availableFilters={availableFilters}
+                  activeFilters={diagramFilters}
+                  typeToShapeMap={typeToShapeMap}
+                  onChange={onDiagramFilterChange}
+                />
+              </div>
+              <div className='diagram-expand-button' tabIndex='0' role={'button'}
+                title={viewFullMsg} aria-label={viewFullMsg}
+                onClick={this.handleToggleSize} onKeyPress={this.handleToggleSize}>
+                <svg className='icon'>
+                  <use href={'#diagramIcons_launch'} ></use>
+                </svg>
+                {viewFullMsg}
+              </div>
+            </div>
           </div>
         )
       }
@@ -396,7 +393,7 @@ class ApplicationTopologyModule extends React.Component {
 
       return (
         <div className={diagramClasses} ref={this.setContainerRef} >
-          {showTextView ?
+          {showExpandedTopology ?
             <SplitPane
               split='vertical'
               minSize={50}
@@ -419,24 +416,18 @@ class ApplicationTopologyModule extends React.Component {
 
     // user clicked a node in diagram
     handleNodeSelected(node) {
-      this.setState((prevState) => {
+      this.setState(() => {
         this.selectTextLine(node)
         return {
           selectedNode: node,
-          showTextView: !!node || prevState.showTextView
         }
       })
     }
 
     closeTextView = () => {
-      localStorage.removeItem(`${MCM_DESIGN_SPLITTER_OPEN_COOKIE}`)
       delete this.editor
-      this.setState(() => {
-        return {
-          selectedNode: undefined,
-          showTextView: false
-        }
-      })
+      const { actions } = this.props
+      actions.setShowExpandedTopology(false)
     }
 
     // select text editor line associated with selected node/link

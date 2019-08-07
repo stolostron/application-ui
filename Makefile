@@ -91,6 +91,7 @@ run:
 	-e WLP_CLIENT_SECRET=$(WLP_CLIENT_SECRET) \
 	-e WLP_REDIRECT_URL=$(WLP_REDIRECT_URL) \
 	-e hcmUiApiUrl=https://10.10.0.5:4000/hcmuiapi \
+	-e searchApiUrl=https://10.10.0.6:4010/searchapi \
 	--name mcm-application-ui \
 	--network mcm-network \
 	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)

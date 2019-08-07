@@ -191,6 +191,12 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
               </div>
             </div>
           </div>
+          <div>
+            Deployment Progress
+          </div>
+          <div>
+            Target Clusters
+          </div>
         </div>
       </div>
       <div

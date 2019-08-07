@@ -143,6 +143,14 @@ const SubscriptionInfo = withLocale(
   }
 )
 
+const DeploymentProgress = withLocale(() => {
+  return <div>Deployment Progress</div>
+})
+
+const TargetClusters = withLocale(() => {
+  return <div>Target Clusters</div>
+})
+
 const DeployableModal = withLocale(
   ({
     displayModal,
@@ -174,6 +182,8 @@ const DeployableModal = withLocale(
             />
             <ChannelInfo />
             <DeployableInfo />
+            <DeploymentProgress />
+            <TargetClusters />
           </div>
         </Modal>
       </div>

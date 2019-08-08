@@ -93,10 +93,11 @@ export const mutateResourceFailure = (resourceType, error) => ({
 })
 
 export const fetchSubscriptions = (resourceType, vars) => {
+  const query = convertStringToQuery(`kind:subscription`);
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .get(resourceType, vars)
+      .search(SEARCH_QUERY, { input: [query] })
       .then(response => {
         if (response.errors) {
           return dispatch(
@@ -157,7 +158,7 @@ export const fetchResources = (resourceType, vars) => {
 }
 
 export const fetchResource = (resourceType, namespace, name) => {
-  const query = getQueryStringForResources(resourceType.name, name, namespace);
+  const query = getQueryStringForResource(resourceType.name, name, namespace);
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient

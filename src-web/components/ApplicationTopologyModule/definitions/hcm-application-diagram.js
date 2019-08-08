@@ -10,6 +10,7 @@
 import moment from 'moment'
 import {getStringAndParsed} from '../../../../lib/client/design-helper'
 import { NODE_SIZE, StatusIcon } from '../visualizers/constants.js'
+import jsYaml from 'js-yaml'
 import { getStoredObject, saveStoredObject } from '../../../../lib/client/resource-helper'
 import config from '../../../../lib/shared/config'
 import * as Actions from '../../../actions'
@@ -94,7 +95,9 @@ function mergeDefinitions(topologyDefs) {
 
   //getNodeDetails: what desciption to put in details view when node is clicked
   this.getNodeDetails = (currentNode) => {
-    if (currentNode.isWork) {
+    if (currentNode.isDesign) {
+      return getDesignNodeDetails(currentNode)
+    } else if (currentNode.isWork) {
       return getWorkNodeDetails(currentNode)
     }
     return topologyDefs.getNodeDetails(currentNode)
@@ -141,6 +144,7 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
   let clusters = []
   let topologyLoaded = false
   let statusesLoaded = false
+  let topologyLoadError = false
   const {activeFilters, status, reloading} = topology
   let topologyReloading = reloading
   const requiredTopologyLoaded = _.isEqual(requiredFilters, activeFilters) &&
@@ -242,10 +246,15 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
       yaml = storedElements.yaml || yaml
       designLoaded = topologyLoaded = topologyReloading = true
     } else {
-      // if topology not loaded yet and no stored version,
-      // don't even show design, it looks messy w/o topology
-      nodes = []
-      links = []
+      // topology load error
+      if (status===Actions.REQUEST_STATUS.ERROR) {
+        topologyLoadError = true
+      } else {
+        // if topology not loaded yet and no stored version,
+        // don't even show design, it looks messy w/o topology
+        nodes = []
+        links = []
+      }
     }
     if (topology.status===Actions.REQUEST_STATUS.ERROR) {
       topologyLoaded = true
@@ -268,6 +277,7 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
     requiredFilters,
     topologyLoaded,
     statusesLoaded,
+    topologyLoadError,
     topologyReloading,
   }
 }
@@ -632,6 +642,80 @@ function getWorkNodeDescription(node) {
   return description
 }
 
+function getDesignNodeDetails(currentNode) {
+  const details = []
+  let labels = {}
+  if (currentNode) {
+    switch (currentNode.type) {
+    case 'application': {
+      const {application: { metadata: {name, namespace, creationTimestamp, resourceVersion, labels:l=[] }}} = currentNode
+      addDetails(details, [
+        {labelKey: 'resource.type', value: currentNode.type},
+        {labelKey: 'resource.name', value: name},
+        {labelKey: 'resource.namespace', value: namespace},
+        {labelKey: 'resource.created', value: getAge(creationTimestamp)},
+        {labelKey: 'resource.version', value: resourceVersion},
+      ])
+      labels = l
+      break
+    }
+    case 'placement': {
+      const {name, namespace, member: {$raw: { spec: {clusterLabels, clusterReplicas}}}} = currentNode
+      addDetails(details, [
+        {labelKey: 'resource.type', value: currentNode.type},
+        {labelKey: 'resource.name', value: name},
+        {labelKey: 'resource.namespace', value: namespace},
+        {labelKey: 'resource.replicas', value: clusterReplicas},
+      ])
+      const yaml = jsYaml.safeDump(clusterLabels).split('\n')
+      if (yaml.length>0) {
+        details.push({
+          type: 'label',
+          labelKey: 'resource.cluster.labels'
+        })
+        yaml.forEach(value=>{
+          const labelDetails = [
+            {value},
+          ]
+          addDetails(details, labelDetails)
+        })
+
+      }
+      break
+    }
+    case 'deployable': {
+      const {member: { $raw: {metadata: {name, namespace, labels:l=[] }}}} = currentNode
+      addDetails(details, [
+        {labelKey: 'resource.type', value: currentNode.type},
+        {labelKey: 'resource.name', value: name},
+        {labelKey: 'resource.namespace', value: namespace},
+      ])
+      labels = l
+      break
+    }
+    }
+  }
+
+
+  // add labels
+  labels = Object.entries(labels)
+  if (labels.length>0) {
+    details.push({
+      type: 'label',
+      labelKey: 'resource.labels'
+    })
+    labels.forEach(([name, value])=>{
+      const labelDetails = [
+        {value: `${name} = ${value}`},
+      ]
+      addDetails(details, labelDetails)
+    })
+  }
+
+
+  return details
+}
+
 function getWorkNodeDetails(currentNode) {
   const details = []
   if (currentNode){
@@ -730,11 +814,54 @@ function getConnectedLayoutOptions({elements}) {
 
   // pre position elements to try to keep webcola from random layouts
   positionRow(0, elements.nodes().roots().toArray(), new Set())
-  return {
-    name: 'dagre',
-    rankDir: 'LR',
-    rankSep: NODE_SIZE*2.4, // running in headless mode, we need to provide node size here
-    nodeSep: NODE_SIZE*2.2, // running in headless mode, we need to provide node size here
+
+  const hasCharts = elements.some(( ele ) => {
+    return ele.isNode() && ele.data('node').type === 'chart'
+  })
+
+  // let cola position them, nicely
+  if (!hasCharts) {
+    return {
+      name: 'cola',
+      animate: false,
+      boundingBox: {
+        x1: 0,
+        y1: 0,
+        w: 1000,
+        h: 1000
+      },
+
+      // do directed graph, top to bottom
+      flow: { axis: 'y', minSeparation: NODE_SIZE*1.2},
+
+      // running in headless mode, we need to provide node size here
+      nodeSpacing: ()=>{
+        return NODE_SIZE*1.3
+      },
+
+      // put charts along y to separate design from k8 objects
+      alignment: (node)=>{
+        const {node:{isDivider}} = node.data()
+        if (isDivider) {
+          return { y: 0 }
+        }
+        return null
+      },
+
+      unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
+      userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
+      allConstIter: 20, // works on overlap
+    }
+
+  } else {
+    return {
+      name: 'dagre',
+      rankDir: 'LR',
+      rankSep: NODE_SIZE*3, // running in headless mode, we need to provide node size here
+      nodeSep: NODE_SIZE*2.8, // running in headless mode, we need to provide node size here
+      ranker: 'network-simplex', // 'network-simplex', 'tight-tree' or 'longest-path'
+
+    }
   }
 }
 
@@ -787,3 +914,27 @@ function getUnconnectedLayoutOptions(collection, columns, index) {
     cols
   }
 }
+
+function addDetails(details, newDetails) {
+  newDetails.forEach(({labelKey, value})=>{
+    if (value) {
+      details.push({
+        type: 'label',
+        labelKey,
+        value,
+      })
+    }
+  })
+}
+
+function getAge(value) {
+  if (value) {
+    if (value.includes('T')) {
+      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+    } else {
+      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+    }
+  }
+  return '-'
+}
+

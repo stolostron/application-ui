@@ -42,7 +42,8 @@ or npm run build:production
 
 3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
-hcmUiApiUrl=https://localhost:4000/hcmuiapi (mcm-ui-api service running locally 
+hcmUiApiUrl=https://localhost:4000/hcmuiapi (mcm-ui-api service running locally)
+searchApiUrl=https://localhost:4010/searchapi (search service running locally)
 cfcRouterUrl
 PLATFORM_IDENTITY_PROVIDER_URL
 WLP_CLIENT_SECRET

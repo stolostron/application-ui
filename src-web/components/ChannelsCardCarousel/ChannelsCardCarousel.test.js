@@ -8,6 +8,7 @@
  *******************************************************************************/
 // import { Provider } from 'react-redux'
 // import store from '../../../src-web/index'
+/* eslint-disable no-unused-vars */
 
 const React = require('react')
 const renderer = require('react-test-renderer')

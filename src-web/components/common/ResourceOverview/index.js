@@ -44,7 +44,7 @@ const ResourceOverview = withLocale(
     actions,
     showAppDetails,
     showExpandedTopology,
-    locale
+    incidentCount
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -85,6 +85,10 @@ const ResourceOverview = withLocale(
       {
         msgKey: 'table.header.failedDeployments',
         count: getNumFailedDeployments(item)
+      },
+      {
+        msgKey: 'table.header.incidents',
+        count: incidentCount
       }
     ]
 
@@ -103,13 +107,17 @@ const ResourceOverview = withLocale(
             )}
             <div className="overview-content-bottom">{modulesBottom}</div>
           </React.Fragment>
-        ) :  !showExpandedTopology ? (
+        ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
               <CountsCardModule data={countsCardData} />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule showExpandedTopology={showExpandedTopology} params={params} actions={actions} />
+              <ApplicationTopologyModule
+                showExpandedTopology={showExpandedTopology}
+                params={params}
+                actions={actions}
+              />
             </div>
             <div className="overview-content-bottom">
               <ChannelsCardCarousel data={channelList} />
@@ -117,10 +125,13 @@ const ResourceOverview = withLocale(
           </React.Fragment>
         ) : (
           <div className="overview-content-bottom overview-content-with-padding">
-            <ApplicationTopologyModule showExpandedTopology={showExpandedTopology} params={params} actions={actions} />
+            <ApplicationTopologyModule
+              showExpandedTopology={showExpandedTopology}
+              params={params}
+              actions={actions}
+            />
           </div>
-        )
-        }
+        )}
       </div>
     )
   }

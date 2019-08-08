@@ -2,6 +2,7 @@
     "contextPath": "/multicloud/applications",
     "httpPort": 3001,
     "hcmUiApiUrl": "",
+    "searchApiUrl":"",
     "cfcRouterUrl": "",
     "platformHeaderContextPath": "/header",
     "feature_searchRelated": false,

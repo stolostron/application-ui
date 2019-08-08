@@ -133,15 +133,18 @@ const LeftColumnForApplicationNames = (
   )
 }
 
-const ChannelColumnGrid = ({
-  channelList,
-  subscriptionList,
-  applicationList,
-  editChannel,
-  openDeployableModal,
-  setDeployableModalHeaderInfo,
-  setCurrentDeployableSubscriptionData
-}, locale) => {
+const ChannelColumnGrid = (
+  {
+    channelList,
+    subscriptionList,
+    applicationList,
+    editChannel,
+    openDeployableModal,
+    setDeployableModalHeaderInfo,
+    setCurrentDeployableSubscriptionData
+  },
+  locale
+) => {
   return (
     <div className="channelGridContainer">
       <div className="horizontalScrollRow">
@@ -190,7 +193,7 @@ const ChannelColumnGrid = ({
             </div>
             <div
               id={`${applicationName}deployableRows`}
-              className="horizontalScrollRow deployablesDisplay"
+              className="horizontalScrollRow spaceOutBelow"
               style={{ display: 'none' }}
             >
               {application.deployables.map(deployable => {

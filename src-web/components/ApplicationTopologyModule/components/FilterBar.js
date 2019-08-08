@@ -73,14 +73,17 @@ class FilterBar extends React.Component {
   }
 
   render() {
+    const {locale} = this.context
     const {activeFilters} = this.state
     const {availableFilters, typeToShapeMap, tooltipMap={} } = this.props
     return (
       <div className='filter-bar'>
         {availableFilters.map(({label}) => {
           const selected = !!activeFilters.find(({label: active})=> label===active)
+          const displayName = msgs.get(`filterbar.type.${label}`, locale)
           return (
             <FilterButton key={label} label={label}
+              displayName={displayName}
               selected={selected}
               typeToShapeMap={typeToShapeMap}
               tooltip={tooltipMap[label]}
@@ -95,6 +98,7 @@ class FilterBar extends React.Component {
 
 class FilterButton extends React.Component {
   static propTypes = {
+    displayName: PropTypes.string,
     handleClick: PropTypes.func,
     label: PropTypes.string,
     selected: PropTypes.bool,
@@ -117,9 +121,8 @@ class FilterButton extends React.Component {
     return this.props.selected !== nextProps.selected ||
       this.props.tooltip!==nextProps.tooltip
   }
-
   render() {
-    const {label, tooltip, selected, typeToShapeMap} = this.props
+    const {displayName, label, tooltip, selected, typeToShapeMap} = this.props
     const {shape='circle', className='default'} =  typeToShapeMap[label]||{}
     return (
       <div className='filter-bar-button-container' key={label} title={tooltip||''}>
@@ -131,7 +134,7 @@ class FilterButton extends React.Component {
             <use href={`#diagramShapes_${shape}`} className={`${className} filter-bar-button-icon`}></use>
           </svg>
           <div className='filter-bar-button-label'>
-            {label}
+            {displayName}
           </div>
         </div>
         {selected && <div className='filter-bar-button-checkmark'>

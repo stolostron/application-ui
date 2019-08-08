@@ -39,7 +39,7 @@ export default class CountsCardModule extends React.Component {
     const { locale } = this.context
     const { title } = this.props
     return (
-      <div id={title ? "CountsCardModuleWithHeader" : "CountsCardModule"}>
+      <div id={title ? 'CountsCardModuleWithHeader' : 'CountsCardModule'}>
         {title && (
           <span className="card-container-title">
             {msgs.get(title, locale)}

@@ -60,10 +60,137 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
         <div
           className="channelGridContainer"
         >
-          <button
-            className="editSubscriptionButton"
-            onClick={[Function]}
-          />
+          <div
+            className="subscriptionInfoClass"
+          >
+            <div
+              className="subHeader"
+            >
+              <div
+                className="bold"
+              >
+                Subscription Name
+              </div>
+              subName
+            </div>
+            <div
+              className="innerContent"
+            >
+              <div
+                className="placement"
+              >
+                <div
+                  className="bold"
+                >
+                  Placement
+                </div>
+                <div
+                  className="bold"
+                >
+                  Clusters
+                </div>
+                cluster1
+                cluster2
+                cluster3
+                <div
+                  className="bold"
+                >
+                  Label
+                </div>
+                label1
+                label2
+                label3
+              </div>
+              <div
+                className="versions"
+              >
+                <div
+                  className="bold"
+                >
+                  Deployable versions
+                </div>
+                version2
+              </div>
+              <div
+                className="update"
+              >
+                <div
+                  className="bold"
+                >
+                  Rolling update
+                </div>
+                50%
+              </div>
+              <button
+                className="editSubscriptionButton"
+                onClick={[Function]}
+              />
+            </div>
+          </div>
+          <div
+            className="channelInfoClass"
+          >
+            <div
+              className="subHeader"
+            >
+              <div
+                className="bold"
+              >
+                Channel
+              </div>
+              chanName
+            </div>
+            <div
+              className="innerContent"
+            >
+              <div
+                className="conditions"
+              >
+                <div
+                  className="bold"
+                >
+                  Conditions
+                </div>
+                <div>
+                  condition1
+                </div>
+                <div>
+                  condition2
+                </div>
+                <div>
+                  condition3
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployableInfoClass"
+          >
+            <div
+              className="subHeader"
+            >
+              <div
+                className="bold"
+              >
+                Deployable
+              </div>
+              deployableName
+            </div>
+            <div
+              className="innerContent"
+            >
+              <div
+                className="conditions"
+              >
+                <div
+                  className="bold"
+                >
+                  Deployable Conditions
+                </div>
+                passed testing
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -78,9 +205,7 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
             onClick={[Function]}
             tabIndex={0}
             type="button"
-          >
-            Close
-          </button>
+          />
           <button
             className="bx--btn bx--btn--primary"
             disabled={false}
@@ -93,7 +218,7 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
             tabIndex={0}
             type="button"
           >
-            TODO button
+            Close
           </button>
         </div>
       </div>

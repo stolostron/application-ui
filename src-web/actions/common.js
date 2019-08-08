@@ -92,7 +92,7 @@ export const mutateResourceFailure = (resourceType, error) => ({
   resourceType
 })
 
-export const fetchSubscriptions = (resourceType, vars) => {
+export const fetchSubscriptions = resourceType => {
   const query = convertStringToQuery('kind:subscription')
   return dispatch => {
     dispatch(requestResource(resourceType))
@@ -137,7 +137,7 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
   }
 }
 
-export const fetchResources = (resourceType, vars) => {
+export const fetchResources = resourceType => {
   const query = getQueryStringForResources(resourceType.name)
   return dispatch => {
     dispatch(requestResource(resourceType))
@@ -156,7 +156,9 @@ export const fetchResources = (resourceType, vars) => {
           )
         )
       })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+      .catch(err => {
+        dispatch(receiveResourceError(err, resourceType))
+      })
   }
 }
 
@@ -174,12 +176,14 @@ export const fetchResource = (resourceType, namespace, name) => {
         }
         return dispatch(
           receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
+            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
             resourceType
           )
         )
       })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+      .catch(err => {
+        dispatch(receiveResourceError(err, resourceType))
+      })
   }
 }
 

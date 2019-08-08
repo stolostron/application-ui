@@ -157,7 +157,7 @@ class IncidentsTab extends React.Component {
           </React.Fragment>
         )}
         {rowsList.length === 0 && (
-          <div className="incidents-tab-table-title-empty">
+          <div className="incidents-tab-table-title incidents-tab-table-title-empty">
             {noIncidentFound}
           </div>
         )}

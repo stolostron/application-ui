@@ -96,47 +96,48 @@ const SubscriptionInfo = withLocale(
           <div className="bold">
             {msgs.get('description.Modal.SubscriptionInfo', locale)}
           </div>
-          {subName}
+          <div>{subName}</div>
         </div>
         <div className="innerContent">
           <div className="placement">
             <div className="bold">
               {msgs.get('description.Modal.placement', locale)}
             </div>
+            <div></div>
             <div className="bold">
               {msgs.get('description.Modal.clusters', locale)}
             </div>
-            {clusters}
+            <div>{clusters}</div>
             <div className="bold">
               {msgs.get('description.Modal.label', locale)}
             </div>
-            {labels}
+            <div>{labels}</div>
           </div>
           <div className="versions">
             <div className="bold">
               {msgs.get('description.Modal.versions', locale)}
             </div>
-            {versions}
+            <div>{versions}</div>
           </div>
           <div className="update">
             <div className="bold">
               {msgs.get('description.Modal.update', locale)}
             </div>
-            {rollingUpdate}
+            <div>{rollingUpdate}</div>
           </div>
           {noDeployableSubscription ? (
-            <div className="addSubscriptionButton">{[modalSubscription]}</div>
+            <div className="addSubscriptionButton">add sub{[modalSubscription]}</div>
           ) : (
-            <button
-              className="editSubscriptionButton"
-              onClick={() =>
-                editSubscription(
-                  RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-                  deployableModalSubscriptionInfo
-                )
-              }
-            />
-          )}
+              <button
+                className="editSubscriptionButton"
+                onClick={() =>
+                  editSubscription(
+                    RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                    deployableModalSubscriptionInfo
+                  )
+                }
+              />
+            )}
         </div>
       </div>
     )

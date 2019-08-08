@@ -14,7 +14,10 @@
   .addSubscriptionButton {
     display: inline-block;
     padding-left: 15px;
+
   }
+
+
 
   .channelInfoClass {
     padding-top: 25px;
@@ -25,7 +28,7 @@
   }
 
   .innerContent {
-    border-left: #0e84ff;
+    border-left: #dde6ec;
     border-left-width: 3px;
     border-left-style: solid;
   }
@@ -62,5 +65,10 @@
 
   .subHeader {
     padding-bottom: 15px;
+  }
+
+  // override the .bx--btn 
+  .bx--btn {
+    background-color: black;
   }
 }

@@ -101,6 +101,10 @@ class IncidentsTab extends React.Component {
       'table.title.allIncidents',
       this.context.locale
     )
+    const noIncidentFound = msgs.get(
+      'table.title.noIncidentFound',
+      this.context.locale
+    )
     return (
       <div id="incidents-tab">
         {rowsList.length !== 0 && (
@@ -154,7 +158,7 @@ class IncidentsTab extends React.Component {
         )}
         {rowsList.length === 0 && (
           <div className="incidents-tab-table-title-empty">
-            No incidents found
+            {noIncidentFound}
           </div>
         )}
       </div>

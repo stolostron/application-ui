@@ -114,10 +114,27 @@ export const fetchSubscriptions = (resourceType, vars) => {
   }
 }
 
+export const getQueryStringForResources = (resourcename) => {
+  switch (resourcename){
+    case 'HCMChannel':
+      return convertStringToQuery(`kind:channel`);
+    default:
+      return convertStringToQuery(`kind:application`);
+  }
+}
+
+export const getQueryStringForResource = (resourcename, name, namespace) => {
+  switch (resourcename){
+    case 'HCMChannel':
+      return convertStringToQuery(`kind:channel name:${name} namespace:${namespace}`);
+    default:
+      return convertStringToQuery(`kind:application name:${name} namespace:${namespace}`);
+  }
+}
+
 export const fetchResources = (resourceType, vars) => {
-  const query = convertStringToQuery(
-    `kind:application`
-  )
+  const query = getQueryStringForResources(resourceType.name);
+  console.log('resource type is ' + query);
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
@@ -140,10 +157,11 @@ export const fetchResources = (resourceType, vars) => {
 }
 
 export const fetchResource = (resourceType, namespace, name) => {
+  const query = getQueryStringForResources(resourceType.name, name, namespace);
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .getResource(resourceType, { namespace, name })
+      .search(SEARCH_QUERY, { input: [query] })
       .then(response => {
         if (response.errors) {
           return dispatch(

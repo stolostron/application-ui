@@ -22,11 +22,20 @@ export const masonryOptions = {
 export const getChannelChartData = list => {
   if (list && list.items) {
     const channelChartDataList = list.items.map(item => {
-      return {
-        name: (item && item.metadata && item.metadata.name) || 'unknown',
-        cm: item.metadata.name.length * 20,
-        pr: item.metadata.name.length * 30,
-        fl: item.metadata.name.length * 50
+      if (item && item.metadata && item.metadata.name) {
+        return {
+          name: item.metadata.name || 'unknown',
+          cm: item.metadata.name.length * 20,
+          pr: item.metadata.name.length * 30,
+          fl: item.metadata.name.length * 50
+        }
+      } else {
+        return {
+          name: 'unknown',
+          cm: 40,
+          pr: 50,
+          fl: 30
+        }
       }
     })
     const emptyArray = []

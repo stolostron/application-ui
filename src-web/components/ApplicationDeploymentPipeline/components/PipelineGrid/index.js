@@ -176,7 +176,7 @@ const ChannelColumnGrid = (
       </div>
       {/* All the applicaion totals and the deployable information is found here */}
       {applicationList.map(application => {
-        const applicationName = application.metadata.name || ''
+        const applicationName = application.name || ''
         return (
           <React.Fragment>
             <div className="horizontalScrollRow">
@@ -196,7 +196,7 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={{ display: 'none' }}
             >
-              {application.deployables.map(deployable => {
+              {/*  {application.deployables.map(deployable => {
                 // TODO will need to fix once we have the API fully returning everything
                 const deployableChannels = deployable.channel || [
                   'channel1',
@@ -254,7 +254,7 @@ const ChannelColumnGrid = (
                     })}
                   </div>
                 )
-              })}
+              })} */}
             </div>
           </React.Fragment>
         )

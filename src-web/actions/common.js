@@ -93,7 +93,7 @@ export const mutateResourceFailure = (resourceType, error) => ({
 })
 
 export const fetchSubscriptions = (resourceType, vars) => {
-  const query = convertStringToQuery(`kind:subscription`);
+  const query = convertStringToQuery('kind:subscription')
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
@@ -106,7 +106,7 @@ export const fetchSubscriptions = (resourceType, vars) => {
         }
         return dispatch(
           receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.subscriptions) },
+            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
             resourceType
           )
         )
@@ -115,27 +115,30 @@ export const fetchSubscriptions = (resourceType, vars) => {
   }
 }
 
-export const getQueryStringForResources = (resourcename) => {
-  switch (resourcename){
-    case 'HCMChannel':
-      return convertStringToQuery(`kind:channel`);
-    default:
-      return convertStringToQuery(`kind:application`);
+export const getQueryStringForResources = resourcename => {
+  switch (resourcename) {
+  case 'HCMChannel':
+    return convertStringToQuery('kind:channel')
+  default:
+    return convertStringToQuery('kind:application')
   }
 }
 
 export const getQueryStringForResource = (resourcename, name, namespace) => {
-  switch (resourcename){
-    case 'HCMChannel':
-      return convertStringToQuery(`kind:channel name:${name} namespace:${namespace}`);
-    default:
-      return convertStringToQuery(`kind:application name:${name} namespace:${namespace}`);
+  switch (resourcename) {
+  case 'HCMChannel':
+    return convertStringToQuery(
+      `kind:channel name:${name} namespace:${namespace}`
+    )
+  default:
+    return convertStringToQuery(
+      `kind:application name:${name} namespace:${namespace}`
+    )
   }
 }
 
 export const fetchResources = (resourceType, vars) => {
-  const query = getQueryStringForResources(resourceType.name);
-  console.log('resource type is ' + query);
+  const query = getQueryStringForResources(resourceType.name)
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
@@ -148,7 +151,7 @@ export const fetchResources = (resourceType, vars) => {
         }
         return dispatch(
           receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
+            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
             resourceType
           )
         )
@@ -158,7 +161,7 @@ export const fetchResources = (resourceType, vars) => {
 }
 
 export const fetchResource = (resourceType, namespace, name) => {
-  const query = getQueryStringForResource(resourceType.name, name, namespace);
+  const query = getQueryStringForResource(resourceType.name, name, namespace)
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient

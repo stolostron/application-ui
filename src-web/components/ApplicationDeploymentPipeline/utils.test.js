@@ -140,75 +140,91 @@ describe('getSubscriptionsList', () => {
   it('should return deployable list of 3', () => {
     const result = [
       {
-        apiVersion: 'app.ibm.com/v1alpha1',
-        channel: 'dev/dev',
-        creationTimestamp: '2019-07-16T20:58:03Z',
-        name: 'dev-subscription',
-        namespace: 'default',
+        channel: '',
+        creationTimestamp: '',
+        name: '',
+        namespace: '',
         raw: {
-          apiVersion: 'app.ibm.com/v1alpha1',
-          kind: 'Subscription',
+          __typename: 'Subscription',
           metadata: {
-            annotations: {
-              'app.ibm.com/hosting-deployable':
-                'default/dev-subscription-deployable',
-              'app.ibm.com/managed-cluster': '/',
-              'app.ibm.com/syncid': 'default/dev-subscription-deployable',
-              'app.ibm.com/syncsource': 'deployable'
-            },
+            __typename: 'Metadata',
             creationTimestamp: '2019-07-16T20:58:03Z',
-            generation: 3,
             name: 'dev-subscription',
-            namespace: 'default',
-            resourceVersion: '11171507',
-            selfLink:
-              '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/dev-subscription',
-            uid: '66ee106e-a80c-11e9-914a-0e59e642c7ac'
+            namespace: 'default'
           },
-          spec: {
-            channel: 'dev/dev',
-            name: '',
-            packageFilter: { version: '1.x' },
-            source: '',
-            sourceNamespace: ''
+          raw: {
+            apiVersion: 'app.ibm.com/v1alpha1',
+            kind: 'Subscription',
+            metadata: {
+              annotations: {
+                'app.ibm.com/hosting-deployable':
+                  'default/dev-subscription-deployable',
+                'app.ibm.com/managed-cluster': '/',
+                'app.ibm.com/syncid': 'default/dev-subscription-deployable',
+                'app.ibm.com/syncsource': 'deployable'
+              },
+              creationTimestamp: '2019-07-16T20:58:03Z',
+              generation: 3,
+              name: 'dev-subscription',
+              namespace: 'default',
+              resourceVersion: '11171507',
+              selfLink:
+                '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/dev-subscription',
+              uid: '66ee106e-a80c-11e9-914a-0e59e642c7ac'
+            },
+            spec: {
+              channel: 'dev/dev',
+              name: '',
+              packageFilter: { version: '1.x' },
+              source: '',
+              sourceNamespace: ''
+            }
           }
         },
-        resourceVersion: '11171507'
+        resourceVersion: ''
       },
       {
-        apiVersion: 'app.ibm.com/v1alpha1',
-        channel: 'default/dev',
-        creationTimestamp: '2019-06-26T19:26:37Z',
-        name: 'mydevsub',
-        namespace: 'default',
+        channel: '',
+        creationTimestamp: '',
+        name: '',
+        namespace: '',
         raw: {
-          apiVersion: 'app.ibm.com/v1alpha1',
-          kind: 'Subscription',
+          __typename: 'Subscription',
           metadata: {
-            annotations: {
-              'app.ibm.com/hosting-deployable': 'default/mydevsub-deployable',
-              'app.ibm.com/managed-cluster': '/',
-              'app.ibm.com/syncid': 'default/mydevsub-deployable',
-              'app.ibm.com/syncsource': 'deployable'
-            },
+            __typename: 'Metadata',
             creationTimestamp: '2019-06-26T19:26:37Z',
-            generation: 2,
             name: 'mydevsub',
-            namespace: 'default',
-            resourceVersion: '11171499',
-            selfLink:
-              '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mydevsub',
-            uid: '50fc328d-9848-11e9-a05f-0e59e642c7ac'
+            namespace: 'default'
           },
-          spec: {
-            channel: 'default/dev',
-            name: '',
-            packageFilter: { version: '1.x' },
-            source: '',
-            sourceNamespace: ''
+          raw: {
+            apiVersion: 'app.ibm.com/v1alpha1',
+            kind: 'Subscription',
+            metadata: {
+              annotations: {
+                'app.ibm.com/hosting-deployable': 'default/mydevsub-deployable',
+                'app.ibm.com/managed-cluster': '/',
+                'app.ibm.com/syncid': 'default/mydevsub-deployable',
+                'app.ibm.com/syncsource': 'deployable'
+              },
+              creationTimestamp: '2019-06-26T19:26:37Z',
+              generation: 2,
+              name: 'mydevsub',
+              namespace: 'default',
+              resourceVersion: '11171499',
+              selfLink:
+                '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mydevsub',
+              uid: '50fc328d-9848-11e9-a05f-0e59e642c7ac'
+            },
+            spec: {
+              channel: 'default/dev',
+              name: '',
+              packageFilter: { version: '1.x' },
+              source: '',
+              sourceNamespace: ''
+            }
           }
         },
-        resourceVersion: '11171499'
+        resourceVersion: ''
       }
     ]
     expect(getSubscriptionsList(subscriptionList)).toEqual(result)

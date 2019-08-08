@@ -22,19 +22,19 @@ import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 
 export default {
-  defaultSortField: 'metadata.name',
-  uriKey: 'metadata.name',
-  primaryKey: 'metadata.name',
-  secondaryKey: 'metadata.namespace',
+  defaultSortField: 'name',
+  uriKey: 'name',
+  primaryKey: 'name',
+  secondaryKey: 'namespace',
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'metadata.name',
+      resourceKey: 'name',
       transformFunction: createApplicationLink
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'metadata.namespace'
+      resourceKey: 'namespace'
     },
     {
       msgKey: 'table.header.deployables',
@@ -58,7 +58,7 @@ export default {
     // },
     {
       msgKey: 'table.header.created',
-      resourceKey: 'metadata.creationTimestamp',
+      resourceKey: 'created',
       transformFunction: getAge
     },
     // {

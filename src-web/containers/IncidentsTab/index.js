@@ -15,7 +15,7 @@ import withAccess from '../../components/common/withAccess'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ROLES, RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { fetchResource } from '../../actions/common'
+import { fetchIncidents } from '../../actions/common'
 import {
   getIncidentCount,
   getIncidentList
@@ -171,7 +171,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchIncidents: () =>
       dispatch(
-        fetchResource(
+        fetchIncidents(
           RESOURCE_TYPES.CEM_INCIDENTS,
           params.namespace,
           params.name

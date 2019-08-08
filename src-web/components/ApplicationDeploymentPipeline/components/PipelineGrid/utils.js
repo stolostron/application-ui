@@ -11,13 +11,13 @@ import R from 'ramda'
 
 // A created Mapper to create the row for our application data table
 const mapApplicationLookUp = application => {
-  const { metadata, deployables } = application
-  const idRef = (metadata && metadata.name) || 'default'
+  const { name, namespace, deployables } = application
+  const idRef = name || 'default'
   return {
     [idRef]: {
-      id: (metadata && metadata.name) || '',
-      name: (metadata && metadata.name) || '',
-      namespace: (metadata && metadata.namespace) || '',
+      id: name || '',
+      name: name || '',
+      namespace: namespace || '',
       deployables: deployables || []
     }
   }
@@ -25,11 +25,11 @@ const mapApplicationLookUp = application => {
 
 // A created Mapper to create the row for our application data table
 const mapApplicationForRow = application => {
-  const { metadata, deployables } = application
+  const { name, namespace, deployables } = application
   return {
-    id: (metadata && metadata.name) || '',
-    name: (metadata && metadata.name) || '',
-    namespace: (metadata && metadata.namespace) || '',
+    id: name || '',
+    name: name || '',
+    namespace: namespace || '',
     deployables: deployables || []
   }
 }

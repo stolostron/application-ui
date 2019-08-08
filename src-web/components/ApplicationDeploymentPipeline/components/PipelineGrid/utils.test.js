@@ -24,10 +24,10 @@ describe('createApplicationRows', () => {
   it('should return a mapped object of application rows', () => {
     const result = [
       {
-        id: 'josh',
-        name: 'josh',
-        namespace: 'namespace1',
-        deployables: [{ josh: 'hi' }, { dart: 'hi' }]
+        deployables: [{ josh: 'hi' }, { dart: 'hi' }],
+        id: '',
+        name: '',
+        namespace: ''
       }
     ]
     expect(createApplicationRows(data)).toEqual(result)
@@ -51,11 +51,11 @@ describe('createApplicationRowsLookUp', () => {
   const applicationDud = [{ itteemmss: [{ josh: 'hi' }, { dart: 'hi' }] }]
   it('should return a mapped object of application rows for reference', () => {
     const result = {
-      josh: {
+      default: {
         deployables: [{ josh: 'hi' }, { dart: 'hi' }],
-        id: 'josh',
-        name: 'josh',
-        namespace: 'namespace1'
+        id: '',
+        name: '',
+        namespace: ''
       }
     }
     expect(createApplicationRowsLookUp(data)).toEqual(result)

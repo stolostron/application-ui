@@ -35,10 +35,18 @@ const DeployableInfo = withLocale(
         </div>
         <div className="innerContent">
           <div className="conditions">
-            <div className="bold">
-              {msgs.get('description.Modal.deployableConditions', locale)}
+            <div>
+              <div className="label">
+                {msgs.get('description.Modal.helmChart', locale)}
+              </div>
+              <div className="value">--</div>
             </div>
-            {conditions}
+            <div>
+              <div className="label">
+                {msgs.get('description.Modal.deployableConditions', locale)}
+              </div>
+              <div className="value">{conditions}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -62,11 +70,15 @@ const ChannelInfo = withLocale(
         </div>
         <div className="innerContent">
           <div className="conditions">
-            <div className="bold">
+            <div className="label">
               {msgs.get('description.Modal.conditions', locale)}
             </div>
             {conditions.map(condition => {
-              return <div key={Math.random()}>{condition}</div>
+              return (
+                <div className="value" key={Math.random()}>
+                  {condition}
+                </div>
+              )
             })}
           </div>
         </div>
@@ -96,61 +108,62 @@ const SubscriptionInfo = withLocale(
           <div className="bold">
             {msgs.get('description.Modal.SubscriptionInfo', locale)}
           </div>
-          <div>{subName}</div>
+          {subName}
         </div>
         <div className="innerContent">
           <div className="placement">
-            <div className="bold">
-              {msgs.get('description.Modal.placement', locale)}
+            <div>
+              <div className="label">
+                {msgs.get('description.Modal.placement', locale)}
+              </div>
             </div>
-            <div></div>
-            <div className="bold">
-              {msgs.get('description.Modal.clusters', locale)}
+            <div>
+              <div className="label-indented">
+                {msgs.get('description.Modal.clusters', locale)}
+              </div>
+              <div className="value">{clusters}</div>
             </div>
-            <div>{clusters}</div>
-            <div className="bold">
-              {msgs.get('description.Modal.label', locale)}
+            <div>
+              <div className="label-indented">
+                {msgs.get('description.Modal.label', locale)}
+              </div>
+              <div className="value">{labels}</div>
             </div>
-            <div>{labels}</div>
           </div>
           <div className="versions">
-            <div className="bold">
-              {msgs.get('description.Modal.versions', locale)}
+            <div>
+              <div className="label">
+                {msgs.get('description.Modal.versions', locale)}
+              </div>
+              <div className="value">{versions}</div>
             </div>
-            <div>{versions}</div>
           </div>
           <div className="update">
-            <div className="bold">
-              {msgs.get('description.Modal.update', locale)}
+            <div>
+              <div className="label">
+                {msgs.get('description.Modal.update', locale)}
+              </div>
+              <div className="value">{rollingUpdate}</div>
             </div>
-            <div>{rollingUpdate}</div>
           </div>
           {noDeployableSubscription ? (
-            <div className="addSubscriptionButton">add sub{[modalSubscription]}</div>
+            <div className="addSubscriptionButton">{[modalSubscription]}</div>
           ) : (
-              <button
-                className="editSubscriptionButton"
-                onClick={() =>
-                  editSubscription(
-                    RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-                    deployableModalSubscriptionInfo
-                  )
-                }
-              />
-            )}
+            <button
+              className="editSubscriptionButton"
+              onClick={() =>
+                editSubscription(
+                  RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+                  deployableModalSubscriptionInfo
+                )
+              }
+            />
+          )}
         </div>
       </div>
     )
   }
 )
-
-const DeploymentProgress = withLocale(() => {
-  return <div>Deployment Progress</div>
-})
-
-const TargetClusters = withLocale(() => {
-  return <div>Target Clusters</div>
-})
 
 const DeployableModal = withLocale(
   ({
@@ -183,8 +196,6 @@ const DeployableModal = withLocale(
             />
             <ChannelInfo />
             <DeployableInfo />
-            <DeploymentProgress />
-            <TargetClusters />
           </div>
         </Modal>
       </div>

@@ -79,47 +79,73 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
               <div
                 className="placement"
               >
-                <div
-                  className="bold"
-                >
-                  Placement
+                <div>
+                  <div
+                    className="label"
+                  >
+                    Placement
+                  </div>
                 </div>
-                <div
-                  className="bold"
-                >
-                  Clusters
+                <div>
+                  <div
+                    className="label-indented"
+                  >
+                    Clusters
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    cluster1
+                    cluster2
+                    cluster3
+                  </div>
                 </div>
-                cluster1
-                cluster2
-                cluster3
-                <div
-                  className="bold"
-                >
-                  Label
+                <div>
+                  <div
+                    className="label-indented"
+                  >
+                    Label
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    label1
+                    label2
+                    label3
+                  </div>
                 </div>
-                label1
-                label2
-                label3
               </div>
               <div
                 className="versions"
               >
-                <div
-                  className="bold"
-                >
-                  Deployable versions
+                <div>
+                  <div
+                    className="label"
+                  >
+                    Deployable versions
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    version2
+                  </div>
                 </div>
-                version2
               </div>
               <div
                 className="update"
               >
-                <div
-                  className="bold"
-                >
-                  Rolling update
+                <div>
+                  <div
+                    className="label"
+                  >
+                    Rolling update
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    50%
+                  </div>
                 </div>
-                50%
               </div>
               <button
                 className="editSubscriptionButton"
@@ -147,17 +173,23 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
                 className="conditions"
               >
                 <div
-                  className="bold"
+                  className="label"
                 >
                   Conditions
                 </div>
-                <div>
+                <div
+                  className="value"
+                >
                   condition1
                 </div>
-                <div>
+                <div
+                  className="value"
+                >
                   condition2
                 </div>
-                <div>
+                <div
+                  className="value"
+                >
                   condition3
                 </div>
               </div>
@@ -182,20 +214,32 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
               <div
                 className="conditions"
               >
-                <div
-                  className="bold"
-                >
-                  Deployable Conditions
+                <div>
+                  <div
+                    className="label"
+                  >
+                    Helm chart
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    --
+                  </div>
                 </div>
-                passed testing
+                <div>
+                  <div
+                    className="label"
+                  >
+                    Deployable Conditions
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    passed testing
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            Deployment Progress
-          </div>
-          <div>
-            Target Clusters
           </div>
         </div>
       </div>

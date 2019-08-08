@@ -14,10 +14,7 @@
   .addSubscriptionButton {
     display: inline-block;
     padding-left: 15px;
-
   }
-
-
 
   .channelInfoClass {
     padding-top: 25px;
@@ -29,13 +26,35 @@
 
   .innerContent {
     border-left: #dde6ec;
-    border-left-width: 3px;
+    border-left-width: 5px;
     border-left-style: solid;
   }
 
   .bold {
-    font-weight: bold;
     display: inline-block;
+    font-weight: bold;
+    width: 220px;
+  }
+
+  .label {
+    display: inline-block;
+    width: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .label-indented {
+    display: inline-block;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 200px;
+  }
+
+  .value {
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
   .placement {
@@ -65,10 +84,5 @@
 
   .subHeader {
     padding-bottom: 15px;
-  }
-
-  // override the .bx--btn 
-  .bx--btn {
-    background-color: black;
   }
 }

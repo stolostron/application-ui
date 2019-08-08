@@ -11,6 +11,8 @@ import lodash from 'lodash'
 
 import * as Actions from './index'
 import apolloClient from '../../lib/client/apollo-client'
+import { SEARCH_QUERY } from '../apollo-client/queries/SearchQueries'
+import { convertStringToQuery } from '../../lib/client/search-helper'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -113,10 +115,13 @@ export const fetchSubscriptions = (resourceType, vars) => {
 }
 
 export const fetchResources = (resourceType, vars) => {
+  const query = convertStringToQuery(
+    `kind:application`
+  )
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .get(resourceType, vars)
+      .search(SEARCH_QUERY, { input: [query] })
       .then(response => {
         if (response.errors) {
           return dispatch(

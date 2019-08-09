@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChannelChartData, getDeployablesChartData } from './utils'
+import { getChannelChartData, getDeployedResourcesChartData } from './utils'
 
 describe('getChannelChartData', () => {
   const channel1 = 'channel1Name'
@@ -73,55 +73,71 @@ describe('getChannelChartData', () => {
   })
 })
 
-describe('getDeployablesChartData', () => {
-  const deployable1 = 'deployable1Name'
-  const deployable2 = 'deployable2Name'
+describe('getDeployedResourcesChartData', () => {
+  const app1 = 'appName1'
+  const app2 = 'appName2'
 
-  const deployableList = {
+  const appList = {
     items: [
       {
-        deployables: [
-          { metadata: { name: deployable1 } },
-          { metadata: { name: deployable2 } }
+        name: app1,
+        related: [
+          {
+            kind: 'release',
+            items: [
+              {
+                kind: 'release',
+                status: 'DEPLOYED'
+              },
+
+              {
+                kind: 'release',
+                status: 'FAILED'
+              }
+            ]
+          }
         ]
       },
       {
-        deployables: []
+        name: app2,
+        related: []
       }
     ]
   }
-  const deployableListDummy = {
-    itteemmss: [
+  const appListDummy = {
+    itemss: [
       {
-        deployables: [
-          { metadata: { name: deployable1 } },
-          { metadata: { name: deployable2 } }
+        name: app1,
+        related: [
+          {
+            kind: 'release',
+            items: [
+              {
+                kind: 'release',
+                status: 'DEPLOYED'
+              },
+
+              {
+                kind: 'release',
+                status: 'FAILED'
+              }
+            ]
+          }
         ]
       },
       {
-        deployables: []
+        name: app2,
+        related: []
       }
     ]
   }
 
-  it('should return deployable list of 2', () => {
-    // const result = [
-    //   {
-    //     name: deployable1,
-    //     cm: deployable1.length * 20, // completed
-    //     pr: deployable1.length * 30, // in progress
-    //     fl: deployable1.length * 50 // failed
-    //   },
-    //   {
-    //     name: deployable2,
-    //     cm: deployable2.length * 20,
-    //     pr: deployable2.length * 30,
-    //     fl: deployable2.length * 50
-    //   }
-    // ]
-    expect(getDeployablesChartData(deployableList)).toEqual([])
+  it('should return app resource list of 2', () => {
+    const result = [{ name: app1, counter: 2 }, { name: app2, counter: 0 }]
+
+    expect(getDeployedResourcesChartData(appList)).toEqual(result)
   })
   it('should return blank array', () => {
-    expect(getDeployablesChartData(deployableListDummy)).toEqual([])
+    expect(getDeployedResourcesChartData(appListDummy)).toEqual([])
   })
 })

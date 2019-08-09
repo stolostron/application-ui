@@ -42,22 +42,10 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
       <Bar
         barSize={10}
         legendType="circle"
-        dataKey="cm"
+        dataKey="counter"
         stackId="a"
-        fill={getChartKeyColor('cm')}
-        name={getChartKeyName('cm', locale)}
-      />
-      <Bar
-        dataKey="pr"
-        stackId="a"
-        fill={getChartKeyColor('pr')}
-        name={getChartKeyName('pr', locale)}
-      />
-      <Bar
-        dataKey="fl"
-        stackId="a"
-        fill={getChartKeyColor('fl')}
-        name={getChartKeyName('fl', locale)}
+        fill={getChartKeyColor('counter')}
+        name={getChartKeyName('counter', locale)}
       />
     </BarChart>
   )

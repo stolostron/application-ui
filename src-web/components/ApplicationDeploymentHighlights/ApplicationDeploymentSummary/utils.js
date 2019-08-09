@@ -67,32 +67,27 @@ export const getChannelChartWidth = list => {
   return 300
 }
 
-const getDeployablesList = list => {
+export const getDeployedResourcesChartData = list => {
   if (list && list.items) {
-    const deployables = list.items.map(item => {
-      return (item && item.related) || []
+    const deplChartDataList = list.items.map(item => {
+      if (item && item.related) {
+        var app_resources = 0
+
+        for (var i = 0; i < item.related.length; i++) {
+          if (item.related[i].kind && item.related[i].kind === 'release') {
+            if (item.related[i].items) {
+              app_resources = app_resources + item.related[i].items.length
+            }
+          }
+        }
+        return {
+          name: item.name || 'unknown',
+          counter: app_resources
+        }
+      }
     })
     const emptyArray = []
-    return emptyArray.concat.apply([], deployables)
-  }
-  return []
-}
-
-export const getDeployablesChartData = list => {
-  if (list) {
-    const deployableList = getDeployablesList(list)
-    if (deployableList) {
-      const deplChartDataList = deployableList.map(item => {
-        return {
-          name: (item && item.items[0].name) || 'unknown',
-          cm: item.items[0].name.length * 20,
-          pr: item.items[0].name.length * 30,
-          fl: item.items[0].name.length * 50
-        }
-      })
-      const emptyArray = []
-      return emptyArray.concat.apply([], deplChartDataList)
-    }
+    return emptyArray.concat.apply([], deplChartDataList)
   }
   return []
 }

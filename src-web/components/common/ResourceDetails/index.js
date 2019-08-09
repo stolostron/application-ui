@@ -204,6 +204,7 @@ class ResourceDetails extends React.Component {
       dashboard,
       showExpandedTopology,
       actions,
+      getVisibleResources,
       children
     } = this.props
     return (
@@ -249,6 +250,7 @@ class ResourceDetails extends React.Component {
           modules={children}
           showAppDetails={showAppDetails}
           showExpandedTopology={showExpandedTopology}
+          getVisibleResources={getVisibleResources}
         />
       </div>
     )
@@ -315,6 +317,7 @@ ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   dashboard: PropTypes.string,
+  getVisibleResources: PropTypes.func,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,

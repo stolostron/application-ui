@@ -7,26 +7,44 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-export const masonryOptions = {
-  layoutInstant: true,
-  horizontalOrder: true,
-  fitWidth: true,
-  initLayout: true,
-  resizeContainer: true,
-  columnWidth: 10,
-  gutter: 0,
-  itemSelector: '.grid-item'
-}
-
 // return the data for the stacked channel
 export const getChannelChartData = list => {
   if (list && list.items) {
     const channelChartDataList = list.items.map(item => {
-      return {
-        name: (item && item.metadata && item.metadata.name) || 'unknown',
-        cm: item.metadata.name.length * 20,
-        pr: item.metadata.name.length * 30,
-        fl: item.metadata.name.length * 50
+      if (item && item.related) {
+        var completed = 0
+        var failed = 0
+        var progress = 0
+        var name = item.name || 'unknown'
+
+        for (var i = 0; i < item.related.length; i++) {
+          if (item.related[i].kind && item.related[i].kind === 'release') {
+            if (item.related[i].items) {
+              for (var j = 0; j < item.related[i].items.length; j++) {
+                if (item.related[i].items[j].status) {
+                  var status = item.related[i].items[j].status
+                  if (status === 'FAILED') {
+                    failed = failed + 1
+                  } else if (status === 'DEPLOYED') {
+                    completed = completed + 1
+                  } else if (status === 'PROGRESS') {
+                    progress = progress + 1
+                  } else {
+                    completed = completed + 1
+                  }
+                } else {
+                  completed = completed + 1
+                }
+              }
+            }
+          }
+        }
+        return {
+          name: name,
+          cm: completed,
+          pr: progress,
+          fl: failed
+        }
       }
     })
     const emptyArray = []
@@ -52,7 +70,7 @@ export const getChannelChartWidth = list => {
 const getDeployablesList = list => {
   if (list && list.items) {
     const deployables = list.items.map(item => {
-      return (item && item.deployables) || []
+      return (item && item.related) || []
     })
     const emptyArray = []
     return emptyArray.concat.apply([], deployables)
@@ -63,14 +81,13 @@ const getDeployablesList = list => {
 export const getDeployablesChartData = list => {
   if (list) {
     const deployableList = getDeployablesList(list)
-
     if (deployableList) {
       const deplChartDataList = deployableList.map(item => {
         return {
-          name: (item && item.metadata && item.metadata.name) || 'unknown',
-          cm: item.metadata.name.length * 20,
-          pr: item.metadata.name.length * 30,
-          fl: item.metadata.name.length * 50
+          name: (item && item.items[0].name) || 'unknown',
+          cm: item.items[0].name.length * 20,
+          pr: item.items[0].name.length * 30,
+          fl: item.items[0].name.length * 50
         }
       })
       const emptyArray = []

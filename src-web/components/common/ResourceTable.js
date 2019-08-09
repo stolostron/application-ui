@@ -111,9 +111,10 @@ class ResourceTable extends React.Component {
           >
             {tableTitle && (
               <div className="table-title">
-                {tableTitle}
-                {tableName === 'All applications' &&
-                  Array.isArray(rows) && <span>&nbsp;({rows.length})</span>}
+                {tableTitle}{' '}
+                {(tableName === 'All applications' ||
+                  tableName === 'All instances') &&
+                  Array.isArray(rows) && <span>({rows.length})</span>}
               </div>
             )}
             <TableToolbar
@@ -551,7 +552,9 @@ class ResourceTable extends React.Component {
         this.setState(prevState => ({
           clustersServicesMap: {
             ...prevState.clustersServicesMap,
-            [item && item.metadata && item.metadata.name]: this.getClusterServices(item)
+            [item &&
+            item.metadata &&
+            item.metadata.name]: this.getClusterServices(item)
           }
         }))
       })
@@ -563,7 +566,9 @@ class ResourceTable extends React.Component {
     this.serviceList.map(service => (serviceMap[service.name] = false))
     _.keys(serviceMap).map(serviceName => {
       const query = convertStringToQuery(
-        `kind:service cluster:${item && item.metadata && item.metadata.name} name:${serviceName}`
+        `kind:service cluster:${item &&
+          item.metadata &&
+          item.metadata.name} name:${serviceName}`
       )
       apolloClient
         .search(SEARCH_QUERY, { input: [query] })
@@ -603,7 +608,10 @@ class ResourceTable extends React.Component {
     actions = item.consoleURL
       ? actions
       : actions.filter(a => a !== 'table.actions.cluster.launch')
-    const serviceMap = this.state.clustersServicesMap[item && item.metadata && item.metadata.name] || {}
+    const serviceMap =
+      this.state.clustersServicesMap[
+        item && item.metadata && item.metadata.name
+      ] || {}
     this.serviceList.map(
       service =>
         (actions = serviceMap[service.name]

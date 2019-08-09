@@ -14,16 +14,38 @@ const CountsCardModule = require('../CountsCardModule').default
 describe('CountsCardModule', () => {
   const countsCardData = [
     {
-      msgKey: 'table.header.deployables',
-      count: 3
+      msgKey: 'dashboard.card.deployables',
+      textKey: 'dashboard.card.perInstance',
+      count: 6,
+      border: 'right'
     },
     {
-      msgKey: 'table.header.deployments',
-      count: 1
+      msgKey: 'dashboard.card.deployments',
+      textKey: 'dashboard.card.total',
+      count: 38
     },
     {
-      msgKey: 'table.header.failedDeployments',
-      count: 0
+      msgKey: 'dashboard.card.pending',
+      textKey: 'dashboard.card.deployments',
+      count: 4
+    },
+    {
+      msgKey: 'dashboard.card.inProgress',
+      textKey: 'dashboard.card.deployments',
+      count: 10
+    },
+    {
+      msgKey: 'dashboard.card.failed',
+      textKey: 'dashboard.card.deployments',
+      count: 14,
+      alert: true
+    },
+    {
+      msgKey: 'dashboard.card.incidents',
+      textKey: 'dashboard.card.total',
+      count: 2,
+      border: 'left',
+      alert: true
     }
   ]
 

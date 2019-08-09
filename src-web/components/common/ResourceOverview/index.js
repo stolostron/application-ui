@@ -23,6 +23,8 @@ import {
 import {
   getNumDeployables,
   getNumDeployments,
+  getNumPendingDeployments,
+  getNumInProgressDeployments,
   getNumFailedDeployments
 } from '../../../../lib/client/resource-helper'
 import { withLocale } from '../../../providers/LocaleProvider'
@@ -72,23 +74,40 @@ const ResourceOverview = withLocale(
         )
       }
     })
-
     const countsCardData = [
       {
-        msgKey: 'table.header.deployables',
-        count: getNumDeployables(item)
+        msgKey: 'dashboard.card.deployables',
+        textKey: 'dashboard.card.perInstance',
+        count: getNumDeployables(item),
+        border: 'right'
       },
       {
-        msgKey: 'table.header.deployments',
+        msgKey: 'dashboard.card.deployments',
+        textKey: 'dashboard.card.total',
         count: getNumDeployments(item)
       },
       {
-        msgKey: 'table.header.failedDeployments',
-        count: getNumFailedDeployments(item)
+        msgKey: 'dashboard.card.pending',
+        textKey: 'dashboard.card.deployments',
+        count: getNumPendingDeployments(item)
       },
       {
-        msgKey: 'table.header.incidents',
-        count: incidentCount
+        msgKey: 'dashboard.card.inProgress',
+        textKey: 'dashboard.card.deployments',
+        count: getNumInProgressDeployments(item)
+      },
+      {
+        msgKey: 'dashboard.card.failed',
+        textKey: 'dashboard.card.deployments',
+        count: getNumFailedDeployments(item),
+        alert: true
+      },
+      {
+        msgKey: 'dashboard.card.incidents',
+        textKey: 'dashboard.card.total',
+        count: incidentCount,
+        border: 'left',
+        alert: true
       }
     ]
 

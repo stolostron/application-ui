@@ -23,10 +23,13 @@ export default class CountsCardModule extends React.Component {
     const { locale } = this.context
     const { data } = this.props
     const countCardItems = []
-    data.map(({ msgKey, count }) => {
+    data.map(({ msgKey, count, textKey, border, alert }) => {
       countCardItems.push({
         count,
-        type: msgs.get(msgKey, locale)
+        type: msgs.get(msgKey, locale),
+        text: (textKey && msgs.get(textKey, locale)) || '',
+        border: border || '',
+        alert: alert || false
       })
     })
     return {
@@ -58,21 +61,21 @@ export default class CountsCardModule extends React.Component {
 const CountCards = ({ moduleData: { countCardItems } }) => {
   return (
     <React.Fragment>
-      {countCardItems.map(({ count, type }) => {
+      {countCardItems.map(({ count, type, text, border, alert }) => {
         const cardClasses = classNames({
-          'card-count-type': true
-          // hasBorder: idx === 0,
+          'card-count-type': true,
+          hasLeftBorder: border === 'left' ? true : false,
+          hasRightBorder: border === 'right' ? true : false
         })
         const countClasses = classNames({
-          'card-count': true
-          // 'alert': count>0,
+          'card-count': true,
+          alert: alert
         })
         return (
           <div key={type} className={cardClasses} role="button" tabIndex="0">
             <div className={countClasses}>{count}</div>
-            <div className="card-type">
-              <div>{type}</div>
-            </div>
+            <div className="card-type">{type}</div>
+            {text && <div className="card-text">{text}</div>}
           </div>
         )
       })}

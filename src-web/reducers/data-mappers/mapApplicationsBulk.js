@@ -13,7 +13,6 @@ export const mapBulkApplications = applications => {
     const mappedApplications = applications.map(application => {
       if (application && application.items && application.related) {
         const items = application.items[0]
-        console.log('mapBulkApplications', items)
         return {
           name: items.name || '',
           namespace: items.namespace || '',

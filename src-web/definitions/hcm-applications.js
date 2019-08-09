@@ -38,7 +38,7 @@ export default {
     },
     {
       msgKey: 'table.header.deployables',
-      resourceKey: 'deployables',
+      resourceKey: 'related',
       transformFunction: getNumDeployables
     },
     {
@@ -48,7 +48,7 @@ export default {
     },
     {
       msgKey: 'table.header.failedDeployments',
-      resourceKey: 'failedDeployments',
+      resourceKey: 'related',
       transformFunction: getNumFailedDeployments
     },
     // {

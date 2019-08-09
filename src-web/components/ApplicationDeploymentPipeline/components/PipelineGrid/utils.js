@@ -81,19 +81,22 @@ export const findMatchingSubscription = (subscriptionList, channelName) => {
 }
 
 export const getDeployablesPerApplication = application => {
-  const deployables = application.related.map(deployable => {
-    if (deployable.items) {
-      const items = deployable.items[0]
-      return {
-        name: items.name || '',
-        namespace: items.namespace || '',
-        status: items.status || '',
-        updated: items.updated || '',
-        kind: items.kind || ''
+  if (application && application.related) {
+    const deployables = application.related.map(deployable => {
+      if (deployable.items) {
+        const items = deployable.items[0]
+        return {
+          name: items.name || '',
+          namespace: items.namespace || '',
+          status: items.status || '',
+          updated: items.updated || '',
+          kind: items.kind || ''
+        }
       }
-    }
-  })
-  //ONLY show things of kind release
-  const isKind = n => n.kind === 'release'
-  return R.filter(isKind, deployables) || []
+    })
+    //ONLY show things of kind release
+    const isKind = n => n.kind === 'release'
+    return R.filter(isKind, deployables) || []
+  }
+  return []
 }

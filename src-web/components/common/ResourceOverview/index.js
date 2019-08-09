@@ -74,7 +74,6 @@ const ResourceOverview = withLocale(
         )
       }
     })
-
     const countsCardData = [
       {
         msgKey: 'dashboard.card.deployables',

@@ -31,4 +31,4 @@ export const StatusIcon = Object.freeze({
 })
 
 //if controller contains a pod
-export const PodIcon = {icon:'circle', classType:'pod', width: 24, height: 24, dx:0, dy:0}
+export const PodIcon = {icon:'pod', classType:'pod', width: 28, height: 28, dx:20, dy:10}

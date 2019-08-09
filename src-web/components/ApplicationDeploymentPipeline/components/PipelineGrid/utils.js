@@ -11,26 +11,26 @@ import R from 'ramda'
 
 // A created Mapper to create the row for our application data table
 const mapApplicationLookUp = application => {
-  const { metadata, deployables } = application
-  const idRef = (metadata && metadata.name) || 'default'
+  const { name, namespace, related } = application
+  const idRef = name || 'default'
   return {
     [idRef]: {
-      id: (metadata && metadata.name) || '',
-      name: (metadata && metadata.name) || '',
-      namespace: (metadata && metadata.namespace) || '',
-      deployables: deployables || []
+      id: name || '',
+      name: name || '',
+      namespace: namespace || '',
+      deployables: related || []
     }
   }
 }
 
 // A created Mapper to create the row for our application data table
 const mapApplicationForRow = application => {
-  const { metadata, deployables } = application
+  const { name, namespace, related } = application
   return {
-    id: (metadata && metadata.name) || '',
-    name: (metadata && metadata.name) || '',
-    namespace: (metadata && metadata.namespace) || '',
-    deployables: deployables || []
+    id: name || '',
+    name: name || '',
+    namespace: namespace || '',
+    deployables: related || []
   }
 }
 
@@ -78,4 +78,25 @@ export const findMatchingSubscription = (subscriptionList, channelName) => {
     subscriptionList &&
     R.find(R.propEq('channel', channelName))(subscriptionList)
   return (subscription && subscription.raw) || {}
+}
+
+export const getDeployablesPerApplication = application => {
+  if (application && application.related) {
+    const deployables = application.related.map(deployable => {
+      if (deployable.items) {
+        const items = deployable.items[0]
+        return {
+          name: items.name || '',
+          namespace: items.namespace || '',
+          status: items.status || '',
+          updated: items.updated || '',
+          kind: items.kind || ''
+        }
+      }
+    })
+    //ONLY show things of kind release
+    const isKind = n => n.kind === 'deployable'
+    return R.filter(isKind, deployables) || []
+  }
+  return []
 }

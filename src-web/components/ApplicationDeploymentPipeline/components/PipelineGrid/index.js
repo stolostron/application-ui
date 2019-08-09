@@ -14,11 +14,13 @@ import resources from '../../../../../lib/shared/resources'
 import {
   createApplicationRows,
   tileClick,
-  findMatchingSubscription
+  findMatchingSubscription,
+  getDeployablesPerApplication
 } from './utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
+import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key*/
@@ -78,7 +80,8 @@ const LeftColumnForApplicationNames = (
       {applicationRows.map(application => {
         const appName = application.name
         const appNamespace = application.namespace
-        const appDeployables = application.deployables
+        const isKind = n => n.kind === 'deployable'
+        const appDeployables = R.filter(isKind, application.deployables)
         return (
           <div className="tileContainerApp">
             <Tile
@@ -108,7 +111,11 @@ const LeftColumnForApplicationNames = (
               style={{ display: 'none' }}
             >
               {appDeployables.map(deployable => {
-                const deployableName = deployable.metadata.name
+                const deployableName =
+                  (deployable &&
+                    deployable.items &&
+                    deployable.items[0].name) ||
+                  ''
                 return (
                   <Tile className="deployableTile">
                     <div className="DeployableContents">
@@ -176,7 +183,8 @@ const ChannelColumnGrid = (
       </div>
       {/* All the applicaion totals and the deployable information is found here */}
       {applicationList.map(application => {
-        const applicationName = application.metadata.name || ''
+        const applicationName = application.name || ''
+        const deployables = getDeployablesPerApplication(application)
         return (
           <React.Fragment>
             <div className="horizontalScrollRow">
@@ -196,13 +204,10 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={{ display: 'none' }}
             >
-              {application.deployables.map(deployable => {
+              {deployables.map(deployable => {
                 // TODO will need to fix once we have the API fully returning everything
-                const deployableChannels = deployable.channel || [
-                  'channel1',
-                  'channel2'
-                ]
-                const deployableName = deployable.metadata.name
+                const deployableChannels = ['channel1', 'channel2']
+                const deployableName = (deployable && deployable.name) || ''
                 return (
                   <div className="deployableRow">
                     {channelList.map(channel => {

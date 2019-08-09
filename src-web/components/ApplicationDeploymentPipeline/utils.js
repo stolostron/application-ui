@@ -22,7 +22,7 @@ export const getApplicationsList = list => {
 export const getDeployablesList = list => {
   if (list && list.items) {
     const deployables = list.items.map(item => {
-      return (item && item.deployables) || []
+      return (item && item.related) || []
     })
     const emptyArray = []
     return emptyArray.concat.apply([], deployables)
@@ -35,13 +35,13 @@ export const getChannelsList = channels => {
   if (channels && channels.items) {
     const mappedChannels = channels.items.map(channel => {
       return {
-        id: channel.metadata.name || '',
-        name: channel.metadata.name || '',
-        namespace: channel.metadata.namespace || '',
-        selfLink: channel.metadata.selfLink || '',
-        uid: channel.metadata.uid || '',
-        creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
-        pathName: channel.objectPath || '',
+        id: channel.name || '',
+        name: channel.name || '',
+        namespace: channel.namespace || '',
+        selfLink: channel.selfLink || '',
+        uid: channel.uid || '',
+        creationTimeStamp: channel.created || '',
+        pathName: channel.pathName || '',
         type: channel.type || '',
         data: channel
       }
@@ -56,13 +56,12 @@ export const getSubscriptionsList = subscriptions => {
   if (subscriptions && subscriptions.items) {
     const mappedSubscriptions = subscriptions.items.map(subscription => {
       return {
-        name: subscription.metadata.name || '',
-        namespace: subscription.metadata.namespace || '',
-        creationTimestamp: subscription.metadata.creationTimestamp || '',
-        apiVersion: subscription.raw.apiVersion || '',
-        resourceVersion: subscription.raw.metadata.resourceVersion || '',
-        channel: subscription.raw.spec.channel || '',
-        raw: subscription.raw || {}
+        name: subscription.name || '',
+        namespace: subscription.namespace || '',
+        creationTimestamp: subscription.created || '',
+        resourceVersion: subscription.packageFilterVersion || '',
+        channel: subscription.channel || '',
+        raw: subscription || {}
       }
     })
     return mappedSubscriptions

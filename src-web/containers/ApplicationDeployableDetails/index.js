@@ -11,7 +11,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
 import {
-  updateSecondaryHeader /* , fetchResource */
+  updateSecondaryHeader,
+  updateModal /* , fetchResource */
 } from '../../actions/common'
 import {
   getBreadCrumbs,
@@ -29,10 +30,33 @@ resources(() => {
   require('./style.scss')
 })
 
+//handleEditResource(dispatch, resourceType, data)
+const handleEditResource = (dispatch, resourceType, data) => {
+  return dispatch(
+    updateModal({
+      open: true,
+      type: 'resource-edit',
+      action: 'put',
+      resourceType,
+      editorMode: 'yaml',
+      label: {
+        primaryBtn: 'modal.button.submit',
+        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
+        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
+      },
+      name: (data && data.name) || '',
+      namespace: (data && data.namespace) || '',
+      data: (data && data.data) || ''
+    })
+  )
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     updateSecondaryHeaderInfo: (title, breadCrumbs) =>
-      dispatch(updateSecondaryHeader(title, [], breadCrumbs, []))
+      dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
+    editSubscription: (resourceType, data) =>
+      handleEditResource(dispatch, resourceType, data)
   }
 }
 
@@ -60,11 +84,14 @@ class ApplicationDeployableDetails extends React.Component {
   componentWillUnmount() {}
 
   render() {
+    const { editSubscription } = this.props
+
     return (
       <div id="ApplicationDeployableDetails">
         <ApplicationDeployableHighlights />
         <ApplicationDeployableSubscription
           subscription={this.props.subscriptions}
+          editSubscription={editSubscription}
         />
         <ApplicationDeployableVersionStatus
           deployableDetails={this.props.deployableDetails}

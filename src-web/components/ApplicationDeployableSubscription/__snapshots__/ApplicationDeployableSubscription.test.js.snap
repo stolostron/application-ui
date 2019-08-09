@@ -24,6 +24,7 @@ exports[`ApplicationDeployableSubscription ApplicationDeployableSubscription ren
         fillRule="evenodd"
         height="16"
         name="icon--edit"
+        onClick={[Function]}
         role="img"
         style={undefined}
         viewBox="0 0 16 16"

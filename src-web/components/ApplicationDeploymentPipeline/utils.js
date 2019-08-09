@@ -22,7 +22,7 @@ export const getApplicationsList = list => {
 export const getDeployablesList = list => {
   if (list && list.items) {
     const deployables = list.items.map(item => {
-      return (item && item.deployables) || []
+      return (item && item.related) || []
     })
     const emptyArray = []
     return emptyArray.concat.apply([], deployables)

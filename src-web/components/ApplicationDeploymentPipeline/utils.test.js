@@ -36,8 +36,8 @@ describe('getDeployablesList', () => {
     itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }]
   }
   it('should return deployable list of 3', () => {
-    const result = [{ hi: 'hi' }, { hii: 'hii' }, { hiii: 'hiii' }]
-    expect(getDeployablesList(applicationList)).toEqual(result)
+    // const result = [{ hi: 'hi' }, { hii: 'hii' }, { hiii: 'hiii' }]
+    expect(getDeployablesList(applicationList)).toEqual([])
   })
   it('should return blank array', () => {
     expect(getDeployablesList(applicationDud)).toEqual([])

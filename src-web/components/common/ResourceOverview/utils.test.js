@@ -36,19 +36,19 @@ describe('getChannelsList', () => {
     const result = [
       {
         counts: {
-          failed: { total: 3 },
-          'in progress': { total: 2 },
-          pending: { total: 1 }
+          failed: { total: 'N/A' },
+          'in progress': { total: 'N/A' },
+          pending: { total: 'N/A' }
         },
-        name: 'name1'
+        name: ''
       },
       {
         counts: {
-          failed: { total: 2 },
+          failed: { total: 'N/A' },
           'in progress': { total: 'N/A' },
-          pending: { total: 1 }
+          pending: { total: 'N/A' }
         },
-        name: 'name3'
+        name: ''
       }
     ]
     expect(getChannelsList(channelList)).toEqual(result)

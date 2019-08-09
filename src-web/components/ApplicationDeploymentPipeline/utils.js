@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-// import R from 'ramda';
+import R from 'ramda'
 
 // Method will take in an object and return back the items of applications
 export const getApplicationsList = list => {
@@ -17,15 +17,29 @@ export const getApplicationsList = list => {
   return []
 }
 
+const pullOutDeployablePerApplication = application => {
+  const isKind = n => n.kind === 'deployable'
+  if (application && application.related) {
+    const appDeployables = R.filter(isKind, application.related)
+    return appDeployables
+  }
+  return []
+}
+
 // This method takes in an object and drills down to find the items of applications
 // Within that it will go a step further and find the deployables and merge them together.
 export const getDeployablesList = list => {
   if (list && list.items) {
-    const deployables = list.items.map(item => {
-      return (item && item.deployables) || []
+    const deployables = list.items.map(application => {
+      const deployablesList = pullOutDeployablePerApplication(application)
+      if (deployablesList.length > 0) {
+        return deployablesList
+      }
     })
+    const removeUndefined = x => x !== undefined
     const emptyArray = []
-    return emptyArray.concat.apply([], deployables)
+    const removedUndefinedDeployables = R.filter(removeUndefined, deployables)
+    return emptyArray.concat.apply([], removedUndefinedDeployables)
   }
   return []
 }
@@ -35,13 +49,13 @@ export const getChannelsList = channels => {
   if (channels && channels.items) {
     const mappedChannels = channels.items.map(channel => {
       return {
-        id: channel.metadata.name || '',
-        name: channel.metadata.name || '',
-        namespace: channel.metadata.namespace || '',
-        selfLink: channel.metadata.selfLink || '',
-        uid: channel.metadata.uid || '',
-        creationTimeStamp: channel.raw.metadata.creationTimestamp || '',
-        pathName: channel.objectPath || '',
+        id: channel.name || '',
+        name: channel.name || '',
+        namespace: channel.namespace || '',
+        selfLink: channel.selfLink || '',
+        uid: channel.uid || '',
+        creationTimeStamp: channel.created || '',
+        pathName: channel.pathName || '',
         type: channel.type || '',
         data: channel
       }
@@ -56,13 +70,12 @@ export const getSubscriptionsList = subscriptions => {
   if (subscriptions && subscriptions.items) {
     const mappedSubscriptions = subscriptions.items.map(subscription => {
       return {
-        name: subscription.metadata.name || '',
-        namespace: subscription.metadata.namespace || '',
-        creationTimestamp: subscription.metadata.creationTimestamp || '',
-        apiVersion: subscription.raw.apiVersion || '',
-        resourceVersion: subscription.raw.metadata.resourceVersion || '',
-        channel: subscription.raw.spec.channel || '',
-        raw: subscription.raw || {}
+        name: subscription.name || '',
+        namespace: subscription.namespace || '',
+        creationTimestamp: subscription.created || '',
+        resourceVersion: subscription.packageFilterVersion || '',
+        channel: subscription.channel || '',
+        raw: subscription || {}
       }
     })
     return mappedSubscriptions

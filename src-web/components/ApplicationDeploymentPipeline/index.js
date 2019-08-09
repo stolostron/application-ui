@@ -109,7 +109,6 @@ const mapStateToProps = state => {
     AppDeployments,
     role
   } = state
-  console.log('state2', state)
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {

@@ -80,7 +80,7 @@ const LeftColumnForApplicationNames = (
       {applicationRows.map(application => {
         const appName = application.name
         const appNamespace = application.namespace
-        const isKind = n => n.kind === 'release'
+        const isKind = n => n.kind === 'deployable'
         const appDeployables = R.filter(isKind, application.deployables)
         return (
           <div className="tileContainerApp">

@@ -95,7 +95,7 @@ export const getDeployablesPerApplication = application => {
       }
     })
     //ONLY show things of kind release
-    const isKind = n => n.kind === 'release'
+    const isKind = n => n.kind === 'deployable'
     return R.filter(isKind, deployables) || []
   }
   return []

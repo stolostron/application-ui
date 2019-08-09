@@ -38,12 +38,15 @@ export const getChartKeyName = (value, locale) => {
 export const getModuleData = data => {
   const chartCardItems = []
   data.map(({ name, cm, pr, fl }) => {
-    return chartCardItems.push({
-      name,
-      cm,
-      pr,
-      fl
-    })
+    //show only channels with at least one resource
+    if (cm != 0 || pr != 0 || fl != 0) {
+      return chartCardItems.push({
+        name,
+        cm,
+        pr,
+        fl
+      })
+    }
   })
   return {
     chartCardItems

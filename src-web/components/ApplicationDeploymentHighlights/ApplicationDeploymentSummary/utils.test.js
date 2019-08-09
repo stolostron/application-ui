@@ -14,19 +14,57 @@ describe('getChannelChartData', () => {
   const channel2 = 'channel2Name'
 
   const channelList = {
-    items: [{ metadata: { name: channel1 } }, { metadata: { name: channel2 } }]
+    items: [
+      {
+        name: channel1,
+        related: [
+          {
+            kind: 'release',
+            items: [
+              {
+                kind: 'release',
+                status: 'DEPLOYED'
+              },
+
+              {
+                kind: 'release',
+                status: 'FAILED'
+              },
+              {
+                kind: 'release',
+                status: 'SOMETHING ELSE'
+              },
+              {
+                kind: 'release',
+                status: 'PROGRESS'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: channel2,
+        related: [
+          {
+            kind: 'release',
+            items: [
+              {
+                kind: 'release'
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
   const channelListDummy = {
-    itteemmss: [
-      { metadata: { name: channel1 } },
-      { metadata: { name: channel2 } }
-    ]
+    itteemmss: [{ name: channel1 }, { name: channel2 }]
   }
 
   it('should return channels list of 2', () => {
     const result = [
-      { cm: 40, fl: 30, name: 'unknown', pr: 50 },
-      { cm: 40, fl: 30, name: 'unknown', pr: 50 }
+      { cm: 2, fl: 1, name: channel1, pr: 1 },
+      { cm: 1, fl: 0, name: channel2, pr: 0 }
     ]
     expect(getChannelChartData(channelList)).toEqual(result)
   })

@@ -25,18 +25,8 @@ describe('getChannelChartData', () => {
 
   it('should return channels list of 2', () => {
     const result = [
-      {
-        name: channel1,
-        cm: channel1.length * 20,
-        pr: channel1.length * 30,
-        fl: channel1.length * 50
-      },
-      {
-        name: channel2,
-        cm: channel2.length * 20,
-        pr: channel2.length * 30,
-        fl: channel2.length * 50
-      }
+      { cm: 40, fl: 30, name: 'unknown', pr: 50 },
+      { cm: 40, fl: 30, name: 'unknown', pr: 50 }
     ]
     expect(getChannelChartData(channelList)).toEqual(result)
   })
@@ -77,21 +67,21 @@ describe('getDeployablesChartData', () => {
   }
 
   it('should return deployable list of 2', () => {
-    const result = [
-      {
-        name: deployable1,
-        cm: deployable1.length * 20, // completed
-        pr: deployable1.length * 30, // in progress
-        fl: deployable1.length * 50 // failed
-      },
-      {
-        name: deployable2,
-        cm: deployable2.length * 20,
-        pr: deployable2.length * 30,
-        fl: deployable2.length * 50
-      }
-    ]
-    expect(getDeployablesChartData(deployableList)).toEqual(result)
+    // const result = [
+    //   {
+    //     name: deployable1,
+    //     cm: deployable1.length * 20, // completed
+    //     pr: deployable1.length * 30, // in progress
+    //     fl: deployable1.length * 50 // failed
+    //   },
+    //   {
+    //     name: deployable2,
+    //     cm: deployable2.length * 20,
+    //     pr: deployable2.length * 30,
+    //     fl: deployable2.length * 50
+    //   }
+    // ]
+    expect(getDeployablesChartData(deployableList)).toEqual([])
   })
   it('should return blank array', () => {
     expect(getDeployablesChartData(deployableListDummy)).toEqual([])

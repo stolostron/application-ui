@@ -22,23 +22,23 @@ import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 
 export default {
-  defaultSortField: 'metadata.name',
-  uriKey: 'metadata.name',
-  primaryKey: 'metadata.name',
-  secondaryKey: 'metadata.namespace',
+  defaultSortField: 'name',
+  uriKey: 'name',
+  primaryKey: 'name',
+  secondaryKey: 'namespace',
   tableKeys: [
     {
       msgKey: 'table.header.name',
-      resourceKey: 'metadata.name',
+      resourceKey: 'name',
       transformFunction: createApplicationLink
     },
     {
       msgKey: 'table.header.namespace',
-      resourceKey: 'metadata.namespace'
+      resourceKey: 'namespace'
     },
     {
       msgKey: 'table.header.deployables',
-      resourceKey: 'deployables',
+      resourceKey: 'related',
       transformFunction: getNumDeployables
     },
     {
@@ -48,7 +48,7 @@ export default {
     },
     {
       msgKey: 'table.header.failedDeployments',
-      resourceKey: 'failedDeployments',
+      resourceKey: 'related',
       transformFunction: getNumFailedDeployments
     },
     // {
@@ -58,7 +58,7 @@ export default {
     // },
     {
       msgKey: 'table.header.created',
-      resourceKey: 'metadata.creationTimestamp',
+      resourceKey: 'created',
       transformFunction: getAge
     },
     // {
@@ -84,7 +84,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.name'
+            resourceKey: 'name'
           }
         ]
       },
@@ -95,7 +95,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.namespace'
+            resourceKey: 'namespace'
           }
         ]
       },
@@ -106,7 +106,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.creationTimestamp',
+            resourceKey: 'created',
             transformFunction: getAge
           }
         ]
@@ -130,8 +130,8 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.labels',
-            transformFunction: getLabelsToList
+            resourceKey: 'label'
+            // transformFunction: getLabelsToList
           }
         ]
       },
@@ -154,7 +154,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.annotations',
+            resourceKey: 'annotations',
             transformFunction: getLabelsToList
           }
         ]
@@ -166,7 +166,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.resourceVersion'
+            resourceKey: 'resourceVersion'
           }
         ]
       },
@@ -177,7 +177,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.selfLink'
+            resourceKey: 'selfLink'
           }
         ]
       },
@@ -188,7 +188,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'metadata.uid'
+            resourceKey: '_uid'
           }
         ]
       }
@@ -198,16 +198,16 @@ export default {
     title: 'application.works',
     defaultSortField: 'name',
     resourceKey: 'applicationWorks',
-    normalizedKey: 'metadata.name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'metadata.name',
+        resourceKey: 'name',
         msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
-        resourceKey: 'metadata.namespace',
+        resourceKey: 'namespace',
         msgKey: 'table.header.namespace'
       },
       {
@@ -232,7 +232,7 @@ export default {
       },
       {
         key: 'timestamp',
-        resourceKey: 'metadata.creationTimestamp',
+        resourceKey: 'created',
         msgKey: 'table.header.created',
         transformFunction: getAge
       }
@@ -242,16 +242,16 @@ export default {
     title: 'application.placement.policies',
     defaultSortField: 'name',
     resourceKey: 'placementPolicies',
-    normalizedKey: 'metadata.name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'metadata.name',
+        resourceKey: 'name',
         msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
-        resourceKey: 'metadata.namespace',
+        resourceKey: 'namespace',
         msgKey: 'table.header.namespace'
       },
       {
@@ -279,7 +279,7 @@ export default {
       },
       {
         key: 'timestamp',
-        resourceKey: 'metadata.creationTimestamp',
+        resourceKey: 'created',
         msgKey: 'table.header.created',
         transformFunction: getAge
       }
@@ -290,16 +290,16 @@ export default {
     title: 'application.placement.bindings',
     defaultSortField: 'name',
     resourceKey: 'placementBindings',
-    normalizedKey: 'metadata.name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'metadata.name',
+        resourceKey: 'name',
         msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
-        resourceKey: 'metadata.namespace',
+        resourceKey: 'namespace',
         msgKey: 'table.header.namespace'
       },
       {
@@ -315,7 +315,7 @@ export default {
       },
       {
         key: 'timestamp',
-        resourceKey: 'metadata.creationTimestamp',
+        resourceKey: 'created',
         msgKey: 'table.header.created',
         transformFunction: getAge
       }
@@ -325,16 +325,16 @@ export default {
     title: 'application.deployables',
     defaultSortField: 'name',
     resourceKey: 'deployables',
-    normalizedKey: 'metadata.name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'metadata.name',
+        resourceKey: 'name',
         msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
-        resourceKey: 'metadata.namespace',
+        resourceKey: 'namespace',
         msgKey: 'table.header.namespace'
       },
       {
@@ -351,7 +351,7 @@ export default {
       },
       {
         key: 'timestamp',
-        resourceKey: 'metadata.creationTimestamp',
+        resourceKey: 'created',
         msgKey: 'table.header.created',
         transformFunction: getAge
       }
@@ -361,16 +361,16 @@ export default {
     title: 'application.relationships',
     defaultSortField: 'name',
     resourceKey: 'applicationRelationships',
-    normalizedKey: 'metadata.name',
+    normalizedKey: 'name',
     tableKeys: [
       {
         key: 'name',
-        resourceKey: 'metadata.name',
+        resourceKey: 'name',
         msgKey: 'table.header.name'
       },
       {
         key: 'namespace',
-        resourceKey: 'metadata.namespace',
+        resourceKey: 'namespace',
         msgKey: 'table.header.namespace'
       },
       {
@@ -392,7 +392,7 @@ export default {
       },
       {
         key: 'timestamp',
-        resourceKey: 'metadata.creationTimestamp',
+        resourceKey: 'created',
         msgKey: 'table.header.created',
         transformFunction: getAge
       }
@@ -401,8 +401,8 @@ export default {
 }
 
 export function createApplicationLink(item = {}, ...param) {
-  const { name, namespace = 'default' } = item.metadata ? item.metadata : item
-  if (param[2]) return item.metadata.name
+  const { name, namespace = 'default' } = item ? item : item
+  if (param[2]) return item.name
   const link = `${config.contextPath}/${encodeURIComponent(
     namespace
   )}/${encodeURIComponent(name)}`

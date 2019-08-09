@@ -13,7 +13,7 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount, getIncidentList } from './utils'
+import { getIncidentCount } from './utils'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -54,7 +54,6 @@ const withResource = Component => {
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidents: getIncidentList(CEMIncidentList),
       incidentCount: getIncidentCount(CEMIncidentList)
     }
   }
@@ -69,7 +68,6 @@ const withResource = Component => {
           PropTypes.number,
           PropTypes.string
         ]),
-        incidents: PropTypes.array,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };

@@ -22,11 +22,20 @@ export const masonryOptions = {
 export const getChannelChartData = list => {
   if (list && list.items) {
     const channelChartDataList = list.items.map(item => {
-      return {
-        name: (item && item.metadata && item.metadata.name) || 'unknown',
-        cm: item.metadata.name.length * 20,
-        pr: item.metadata.name.length * 30,
-        fl: item.metadata.name.length * 50
+      if (item && item.name) {
+        return {
+          name: item.name || 'unknown',
+          cm: item.name.length * 20,
+          pr: item.name.length * 30,
+          fl: item.name.length * 50
+        }
+      } else {
+        return {
+          name: 'unknown',
+          cm: 40,
+          pr: 50,
+          fl: 30
+        }
       }
     })
     const emptyArray = []
@@ -52,7 +61,7 @@ export const getChannelChartWidth = list => {
 const getDeployablesList = list => {
   if (list && list.items) {
     const deployables = list.items.map(item => {
-      return (item && item.deployables) || []
+      return (item && item.related) || []
     })
     const emptyArray = []
     return emptyArray.concat.apply([], deployables)
@@ -63,14 +72,13 @@ const getDeployablesList = list => {
 export const getDeployablesChartData = list => {
   if (list) {
     const deployableList = getDeployablesList(list)
-
     if (deployableList) {
       const deplChartDataList = deployableList.map(item => {
         return {
-          name: (item && item.metadata && item.metadata.name) || 'unknown',
-          cm: item.metadata.name.length * 20,
-          pr: item.metadata.name.length * 30,
-          fl: item.metadata.name.length * 50
+          name: (item && item.items[0].name) || 'unknown',
+          cm: item.items[0].name.length * 20,
+          pr: item.items[0].name.length * 30,
+          fl: item.items[0].name.length * 50
         }
       })
       const emptyArray = []

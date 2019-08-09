@@ -12,16 +12,16 @@ export const getChannelsList = channels => {
   if (channels && channels.items) {
     const mappedChannels = channels.items.map(channel => {
       return {
-        name: channel.metadata.name || '',
+        name: channel.name || '',
         counts: {
           pending: {
-            total: channel.metadata.pending || 'N/A'
+            total: channel.pending || 'N/A'
           },
           'in progress': {
-            total: channel.metadata.inprogress || 'N/A'
+            total: channel.inprogress || 'N/A'
           },
           failed: {
-            total: channel.metadata.failed || 'N/A'
+            total: channel.failed || 'N/A'
           }
         }
       }

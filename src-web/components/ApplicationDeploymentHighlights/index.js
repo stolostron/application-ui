@@ -36,7 +36,6 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   const { HCMChannelList, HCMApplicationList, HCMClusterList } = state
-
   return {
     HCMChannelList,
     HCMClusterList,

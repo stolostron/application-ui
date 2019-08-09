@@ -102,6 +102,10 @@ export const getQueryStringForResources = resourcename => {
   switch (resourcename) {
   case 'HCMChannel':
     return convertStringToQuery('kind:channel')
+  case 'HCMSubscription':
+    return convertStringToQuery('kind:subscription')
+  case 'HCMApplication':
+    return convertStringToQuery('kind:application')
   default:
     return convertStringToQuery('kind:application')
   }
@@ -112,6 +116,14 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
   case 'HCMChannel':
     return convertStringToQuery(
       `kind:channel name:${name} namespace:${namespace}`
+    )
+  case 'HCMSubscription':
+    return convertStringToQuery(
+      `kind:subscription name:${name} namespace:${namespace}`
+    )
+  case 'HCMApplication':
+    return convertStringToQuery(
+      `kind:application name:${name} namespace:${namespace}`
     )
   default:
     return convertStringToQuery(

@@ -30,6 +30,7 @@ import {
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { getChannelsList } from './utils'
+import InstancesTable from '../../InstancesTable'
 
 resources(() => {
   require('./style.scss')
@@ -46,6 +47,7 @@ const ResourceOverview = withLocale(
     actions,
     showAppDetails,
     showExpandedTopology,
+    getVisibleResources,
     incidentCount
   }) => {
     if (!item) {
@@ -138,8 +140,15 @@ const ResourceOverview = withLocale(
                 actions={actions}
               />
             </div>
-            <div className="overview-content-bottom">
+            <div className="overview-content-bottom overview-content-with-padding-except-left">
               <ChannelsCardCarousel data={channelList} />
+            </div>
+            <div className="overview-content-bottom overview-content-with-padding">
+              <InstancesTable
+                staticResourceData={staticResourceData}
+                resourceType={resourceType}
+                getVisibleResources={getVisibleResources}
+              />
             </div>
           </React.Fragment>
         ) : (

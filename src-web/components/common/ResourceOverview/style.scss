@@ -87,7 +87,11 @@
   }
 
   &-with-padding {
-    padding: 10px;
+    padding: 0 10px 30px 10px;
+  }
+
+  &-with-padding-except-left {
+    padding: 0 10px 30px 0;
   }
 
   b {
@@ -105,5 +109,4 @@
   .bx--snippet.bx--snippet--code {
     margin-bottom: .3rem;
   }
-
 }

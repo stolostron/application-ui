@@ -9,23 +9,26 @@
 
 // @flow
 export const mapBulkSubscriptions = subscriptions => {
-  if (subscriptions && subscriptions.items && subscriptions.related) {
+  if (subscriptions) {
     const mappedSubscriptions = subscriptions.map(subscription => {
-      return {
-        name: subscription.items.name || '',
-        namespace: subscription.items.namespace || '',
-        selfLink: subscription.items.selfLink || '',
-        _uid: subscription.items.uid || '',
-        created: subscription.items.created || '',
-        pathname: subscription.items.pathname || '',
-        apigroup: subscription.items.apigroup || '',
-        cluster: subscription.items.cluster || '',
-        kind: subscription.items.kind || '',
-        label: subscription.items.label || '',
-        type: subscription.items.type || '',
-        _hubClusterResource: subscription.items._hubClusterResource || '',
-        _rbac: subscription.items._rbac || '',
-        related: subscription.related || []
+      if (subscription.items && subscription.related) {
+        const items = subscription.items[0]
+        return {
+          name: items.name || '',
+          namespace: items.namespace || '',
+          selfLink: items.selfLink || '',
+          _uid: items.uid || '',
+          created: items.created || '',
+          pathname: items.pathname || '',
+          apigroup: items.apigroup || '',
+          cluster: items.cluster || '',
+          kind: items.kind || '',
+          label: items.label || '',
+          type: items.type || '',
+          _hubClusterResource: items._hubClusterResource || '',
+          _rbac: items._rbac || '',
+          related: subscription.related || []
+        }
       }
     })
     return mappedSubscriptions || [{}]

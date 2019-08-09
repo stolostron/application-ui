@@ -9,21 +9,25 @@
 
 // @flow
 export const mapBulkApplications = applications => {
-  if (applications && applications.items && applications.related) {
+  if (applications) {
     const mappedApplications = applications.map(application => {
-      return {
-        name: application.items.name || '',
-        namespace: application.items.namespace || '',
-        selfLink: application.items.selfLink || '',
-        _uid: application.items.uid || '',
-        created: application.items.created || '',
-        apigroup: application.items.apigroup || '',
-        cluster: application.items.cluster || '',
-        kind: application.items.kind || '',
-        label: application.items.label || '',
-        _hubClusterResource: application.items._hubClusterResource || '',
-        _rbac: application.items._rbac || '',
-        related: application.related || []
+      if (application && application.items && application.related) {
+        const items = application.items[0]
+        console.log('mapBulkApplications', items)
+        return {
+          name: items.name || '',
+          namespace: items.namespace || '',
+          selfLink: items.selfLink || '',
+          _uid: items.uid || '',
+          created: items.created || '',
+          apigroup: items.apigroup || '',
+          cluster: items.cluster || '',
+          kind: items.kind || '',
+          label: items.label || '',
+          _hubClusterResource: items._hubClusterResource || '',
+          _rbac: items._rbac || '',
+          related: application.related || []
+        }
       }
     })
     return mappedApplications || [{}]

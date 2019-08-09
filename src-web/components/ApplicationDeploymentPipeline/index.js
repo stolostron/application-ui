@@ -17,7 +17,6 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createResources,
   fetchResources,
-  fetchSubscriptions,
   updateModal
 } from '../../actions/common'
 import PipelineGrid from './components/PipelineGrid'
@@ -96,7 +95,7 @@ const mapDispatchToProps = dispatch => {
     editChannel: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
     fetchSubscriptions: () =>
-      dispatch(fetchSubscriptions(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data)
   }
@@ -110,6 +109,7 @@ const mapStateToProps = state => {
     AppDeployments,
     role
   } = state
+
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {

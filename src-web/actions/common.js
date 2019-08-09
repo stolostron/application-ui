@@ -98,73 +98,6 @@ export const mutateResourceFailure = (resourceType, error) => ({
   resourceType
 })
 
-export const fetchSubscriptions = resourceType => {
-  const query = convertStringToQuery('kind:subscription')
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .search(SEARCH_QUERY, { input: [query] })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        const itemRes =
-          response &&
-          response.data &&
-          response.data.searchResult[0] &&
-          response.data.searchResult[0].items
-        const combinedQuery = []
-        const combinedQueryForBulk = itemRes.map(item => {
-          combinedQuery.push(
-            getQueryStringForResource(
-              resourceType.name,
-              item.name,
-              item.namespace
-            )
-          )
-        })
-        return dispatch(fetchSubscriptionsInBulk(resourceType, combinedQuery))
-        // return dispatch(
-        //   receiveResourceSuccess(
-        //     { items: lodash.cloneDeep(response.data.searchResult[0].items) },
-        //     resourceType
-        //   )
-        // )
-      })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
-export const fetchSubscriptionsInBulk = (resourceType, bulkquery) => {
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .search(SEARCH_QUERY_RELATED, { input: bulkquery })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            {
-              items: mapBulkSubscriptions(
-                lodash.cloneDeep(response.data.searchResult)
-              )
-            },
-            resourceType
-          )
-        )
-      })
-      .catch(err => {
-        dispatch(receiveResourceError(err, resourceType))
-      })
-  }
-}
-
 export const getQueryStringForResources = resourcename => {
   switch (resourcename) {
   case 'HCMChannel':
@@ -216,12 +149,6 @@ export const fetchResources = resourceType => {
           )
         })
         return dispatch(fetchResourcesInBulk(resourceType, combinedQuery))
-        // return dispatch(
-        //   receiveResourceSuccess(
-        //     { items: lodash.cloneDeep(response.data.searchResult[0].items) },
-        //     resourceType
-        //   )
-        // )
       })
       .catch(err => {
         dispatch(receiveResourceError(err, resourceType))
@@ -229,30 +156,30 @@ export const fetchResources = resourceType => {
   }
 }
 
-// export const fetchResource = (resourceType, namespace, name) => {
-//   const query = getQueryStringForResource(resourceType.name, name, namespace)
-//   return dispatch => {
-//     dispatch(requestResource(resourceType))
-//     return apolloClient
-//       .search(SEARCH_QUERY, { input: [query] })
-//       .then(response => {
-//         if (response.errors) {
-//           return dispatch(
-//             receiveResourceError(response.errors[0], resourceType)
-//           )
-//         }
-//         return dispatch(
-//           receiveResourceSuccess(
-//             { items: lodash.cloneDeep(response.data.searchResult[0].items) },
-//             resourceType
-//           )
-//         )
-//       })
-//       .catch(err => {
-//         dispatch(receiveResourceError(err, resourceType))
-//       })
-//   }
-// }
+export const fetchResource = (resourceType, namespace, name) => {
+  const query = getQueryStringForResource(resourceType.name, name, namespace)
+  return dispatch => {
+    dispatch(requestResource(resourceType))
+    return apolloClient
+      .search(SEARCH_QUERY, { input: [query] })
+      .then(response => {
+        if (response.errors) {
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
+        }
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
+            resourceType
+          )
+        )
+      })
+      .catch(err => {
+        dispatch(receiveResourceError(err, resourceType))
+      })
+  }
+}
 
 export const fetchResourcesInBulk = (resourceType, bulkquery) => {
   return dispatch => {
@@ -267,13 +194,13 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
         }
         const dataClone = lodash.cloneDeep(response.data.searchResult)
         let result = false
-        if (resourceType === 'HCMChannel') {
+        if (resourceType.name === 'HCMChannel') {
           result = mapBulkChannels(dataClone)
-        } else if (resourceType === 'HCMApplication') {
+        } else if (resourceType.name === 'HCMApplication') {
           result = mapBulkApplications(dataClone)
-        } else if (resourceType === 'HCMSubscription') {
+        } else if (resourceType.name === 'HCMSubscription') {
           result = mapBulkSubscriptions(dataClone)
-        } else if (resourceType === 'CEMIncidentList') {
+        } else if (resourceType.name === 'CEMIncidentList') {
           result = dataClone
         } else {
           result = dataClone

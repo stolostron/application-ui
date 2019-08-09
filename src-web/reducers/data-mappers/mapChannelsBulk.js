@@ -9,23 +9,26 @@
 
 // @flow
 export const mapBulkChannels = channels => {
-  if (channels && channels.items && channels.related) {
+  if (channels) {
     const mappedChannels = channels.map(channel => {
-      return {
-        name: channel.items.name || '',
-        namespace: channel.items.namespace || '',
-        selfLink: channel.items.selfLink || '',
-        _uid: channel.items.uid || '',
-        created: channel.items.created || '',
-        pathname: channel.items.pathname || '',
-        apigroup: channel.items.apigroup || '',
-        cluster: channel.items.cluster || '',
-        kind: channel.items.kind || '',
-        label: channel.items.label || '',
-        type: channel.items.type || '',
-        _hubClusterResource: channel.items._hubClusterResource || '',
-        _rbac: channel.items._rbac || '',
-        related: channel.related || []
+      if (channel.items && channel.related) {
+        const items = channel.items[0]
+        return {
+          name: items.name || '',
+          namespace: items.namespace || '',
+          selfLink: items.selfLink || '',
+          _uid: items.uid || '',
+          created: items.created || '',
+          pathname: items.pathname || '',
+          apigroup: items.apigroup || '',
+          cluster: items.cluster || '',
+          kind: items.kind || '',
+          label: items.label || '',
+          type: items.type || '',
+          _hubClusterResource: items._hubClusterResource || '',
+          _rbac: items._rbac || '',
+          related: channel.related || []
+        }
       }
     })
     return mappedChannels || [{}]

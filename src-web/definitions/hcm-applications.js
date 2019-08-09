@@ -38,17 +38,17 @@ export default {
     },
     {
       msgKey: 'table.header.deployables',
-      resourceKey: 'custom.related',
+      resourceKey: 'deployables',
       transformFunction: getNumDeployables
     },
     {
       msgKey: 'table.header.deployments',
-      resourceKey: 'custom.deployments',
+      resourceKey: 'deployments',
       transformFunction: getNumDeployments
     },
     {
       msgKey: 'table.header.failedDeployments',
-      resourceKey: 'custom.deployments',
+      resourceKey: 'failedDeployments',
       transformFunction: getNumFailedDeployments
     },
     // {

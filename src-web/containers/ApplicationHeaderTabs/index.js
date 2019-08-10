@@ -16,7 +16,6 @@ import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
-// import ApplicationDeploymentPipeline from '../../components/ApplicationDeploymentPipeline';
 import resources from '../../../lib/shared/resources'
 
 resources(() => {
@@ -41,66 +40,69 @@ export const ApplicationLogs = loadable(() =>
 
 // This will render the three tabs
 // Overview, Deployments, Incidents
-const ApplicationHeaderTabs = withLocale(({ locale }) => {
-  return (
-    <div id="applicationheadertabs">
-      <div className="whiteSpacer">
-        <Tabs
-          className="some-class"
-          selected={0}
-          onClick={() => { }}
-          onKeyDown={() => { }}
-          onSelectionChange={() => { }}
-          tabContentClassName="tab-content"
-        >
-          <Tab
-            disabled={false}
+const ApplicationHeaderTabs = withLocale(
+  ({ showExtraTabs, params, locale }) => {
+    return (
+      <div id="applicationheadertabs">
+        <div className="whiteSpacer">
+          <Tabs
+            className="some-class"
+            selected={0}
             onClick={() => { }}
             onKeyDown={() => { }}
-            label={msgs.get('description.title.overview', locale)}
+            onSelectionChange={() => { }}
+            tabContentClassName="tab-content"
           >
-            <div className="some-content">
-              <ApplicationsTab
-                secondaryHeaderProps={{ title: 'routes.applications' }}
-              />
-            </div>
-          </Tab>
-          <Tab
-            disabled={false}
-            onClick={() => { }}
-            onKeyDown={() => { }}
-            label={msgs.get('description.title.deployments', locale)}
-          >
-            <div className="page-content-container">
-              <ApplicationDeploymentHighlights />
-              <ApplicationDeploymentPipeline />
-            </div>
-          </Tab>
-          <Tab
-            disabled={false}
-            onClick={() => { }}
-            onKeyDown={() => { }}
-            label={msgs.get('description.title.incidents', locale)}
-          >
-            <div className="some-content">
-              <IncidentsTab
-                secondaryHeaderProps={{ title: 'routes.applications' }}
-              />
-            </div>
-          </Tab>
-          <Tab
-            disabled={false}
-            onClick={() => { }}
-            onKeyDown={() => { }}
-            label={msgs.get('description.title.logs', locale)}
-          >
-            <div className="page-content-container">
-              <ApplicationLogs />
-            </div>
-          </Tab>
-        </Tabs>
+            <Tab
+              disabled={false}
+              onClick={() => { }}
+              onKeyDown={() => { }}
+              label={msgs.get('description.title.overview', locale)}
+            >
+              <div className="some-content">
+                <ApplicationsTab
+                  secondaryHeaderProps={{ title: 'routes.applications' }}
+                />
+              </div>
+            </Tab>
+            <Tab
+              disabled={false}
+              onClick={() => { }}
+              onKeyDown={() => { }}
+              label={msgs.get('description.title.deployments', locale)}
+            >
+              <div className="page-content-container">
+                <ApplicationDeploymentHighlights />
+                <ApplicationDeploymentPipeline />
+              </div>
+            </Tab>
+            {showExtraTabs && (
+              <Tab
+                disabled={false}
+                onClick={() => { }}
+                onKeyDown={() => { }}
+                label={msgs.get('description.title.incidents', locale)}
+              >
+                <div className="some-content">
+                  <IncidentsTab params={params} />
+                </div>
+              </Tab>
+            )}
+            <Tab
+              disabled={false}
+              onClick={() => { }}
+              onKeyDown={() => { }}
+              label={msgs.get('description.title.logs', locale)}
+            >
+              <div className="page-content-container">
+                <ApplicationLogs />
+              </div>
+            </Tab>
+          </Tabs>
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
+
 export default withLocale(ApplicationHeaderTabs)

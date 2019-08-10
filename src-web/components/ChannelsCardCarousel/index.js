@@ -39,7 +39,7 @@ class ChannelsCardCarousel extends React.Component {
     return (
       <div id="ChannelsCardCarousel">
         <div className="deployment-channels-title">
-          {msgs.get('application.deployments.channels', locale)}
+          {msgs.get('application.deployments.channels', locale)}{' '}
           {Array.isArray(data) && <span>({data.length})</span>}
         </div>
         <PaginationIterator

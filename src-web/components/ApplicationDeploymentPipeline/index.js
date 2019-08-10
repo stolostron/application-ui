@@ -19,6 +19,10 @@ import {
   fetchResources,
   updateModal
 } from '../../actions/common'
+import {
+  fetchChannelResource,
+  closeModals
+} from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
 import { Search } from 'carbon-components-react'
@@ -97,7 +101,10 @@ const mapDispatchToProps = dispatch => {
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editSubscription: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data)
+      handleEditResource(dispatch, resourceType, data),
+    getChannelResource: (selfLink, namespace, name, cluster) =>
+      dispatch(fetchChannelResource(selfLink, namespace, name, cluster)),
+    closeModal: () => dispatch(closeModals())
   }
 }
 
@@ -119,6 +126,8 @@ const mapStateToProps = state => {
     userRole: role.role,
     HCMApplicationList,
     HCMChannelList,
+    currentChannelInfo: AppDeployments.currentChannelInfo || {},
+    openEditChannelModal: AppDeployments.openEditChannelModal,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
@@ -147,10 +156,14 @@ class ApplicationDeploymentPipeline extends React.Component {
       subscriptions,
       actions,
       editChannel,
+      getChannelResource,
       editSubscription,
       displayDeployableModal,
       deployableModalHeaderInfo,
-      deployableModalSubscriptionInfo
+      deployableModalSubscriptionInfo,
+      currentChannelInfo,
+      closeModal,
+      openEditChannelModal
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -163,6 +176,17 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
     const deployableModalLabel =
       deployableModalHeaderInfo && deployableModalHeaderInfo.application
+
+    // This will trigger the edit Channel Modal because openEditChannelModal
+    // is true AFTER the fetch of the channel data has been completed
+    if (openEditChannelModal) {
+      closeModal()
+      editChannel(RESOURCE_TYPES.HCM_CHANNELS, {
+        name: currentChannelInfo.data.items[0].metadata.name,
+        namespace: currentChannelInfo.data.items[0].metadata.namespace,
+        data: currentChannelInfo.data.items[0]
+      })
+    }
 
     return (
       <div id="DeploymentPipeline">
@@ -188,7 +212,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           deployables={deployables}
           channels={channels}
           subscriptions={subscriptions}
-          editChannel={editChannel}
+          getChannelResource={getChannelResource}
           openDeployableModal={actions.openDisplayDeployableModal}
           setDeployableModalHeaderInfo={actions.setDeployableModalHeaderInfo}
           setCurrentDeployableSubscriptionData={

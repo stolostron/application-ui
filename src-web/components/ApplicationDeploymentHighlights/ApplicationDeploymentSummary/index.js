@@ -17,7 +17,7 @@ import LineChartCardModule from './components/LineChartCardModule'
 import {
   getChannelChartData,
   getChannelChartWidth,
-  getDeployablesChartData
+  getDeployedResourcesChartData
 } from './utils'
 
 resources(() => {
@@ -27,19 +27,21 @@ resources(() => {
 const ApplicationDeploymentSummary = withLocale(
   ({ HCMChannelList, HCMApplicationList, locale }) => {
     const channelChartData = getChannelChartData(HCMChannelList)
-    const deployablesChartData = getDeployablesChartData(HCMApplicationList)
+    const deployedResourcesChartData = getDeployedResourcesChartData(
+      HCMApplicationList
+    )
     const chartWidth = getChannelChartWidth(HCMChannelList)
 
     return (
       <div id="ApplicationDeploymentSummary">
         <div className="masonry-container">
-          {deployablesChartData.length > 0 && (
+          {deployedResourcesChartData.length > 0 && (
             <div className="grid-item grid-item-deployable">
               <div className="title">
                 {msgs.get('recent.deployments.chart.title', locale)}
               </div>
               <LineChartCardModule
-                data={deployablesChartData}
+                data={deployedResourcesChartData}
                 locale={locale}
               />
             </div>

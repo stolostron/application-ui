@@ -7,16 +7,17 @@
 * Contract with IBM Corp.
 *******************************************************************************/
 
-#applicationheadertabs {
-  .whiteSpacer {
-    background-color: white;
-    height: 40px;
-    padding-left: 5%;
-    padding-right: 5%;
+#incidents-tab {
+  .incidents-tab-table-title {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    font-weight: 300;
+    padding: 20px 0 20px 0;
+    display: -webkit-inline-box;
   }
 
-  .page-content-container {
-    padding-left: 0px;
-    padding-right: 0px;
+  .incidents-tab-table-title-empty {
+    text-align: center;
+    display: block;
   }
 }

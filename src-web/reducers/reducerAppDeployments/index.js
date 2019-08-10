@@ -83,16 +83,20 @@ export const openDisplayDeployableModal = createAction(
   OPEN_DISPLAY_DEPLOYABLE_MODAL
 )
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
+const setLoading = createAction(SET_LOADING)
 export const closeModals = createAction(CLOSE_MODALS)
 
 export const fetchChannelResource = (selfLink, namespace, name, cluster) => {
   return dispatch => {
+    dispatch(setLoading(true))
     return apolloClient
       .getResource({name: 'HCMChannel', list: 'HCMChannelList'}, {selfLink:`${selfLink}`, namespace:`${namespace}`, kind:'channels', name:`${name}`, cluster:`${cluster}`})
       .then(response => {
+        dispatch(setLoading(false))
         return dispatch(setCurrentChannelInfo(response))
       })
       .catch(err => {
+        dispatch(setLoading(false))
         dispatch(setCurrentChannelInfo(err))
       })
   }

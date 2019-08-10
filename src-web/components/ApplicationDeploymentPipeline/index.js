@@ -121,12 +121,12 @@ const mapStateToProps = state => {
     AppDeployments,
     role
   } = state
+  // Filter Application List based on search input
+  // Currently just filterin on application name
   const filteredApplications = filterApps(
     HCMApplicationList,
     AppDeployments.deploymentPipelineSearch
   )
-  // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
-  // the applications, deployables, and channels
   return {
     displayDeployableModal: AppDeployments.displayDeployableModal,
     deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,

@@ -86,7 +86,7 @@ const LeftColumnForApplicationNames = (
         const isKind = n => n.kind === 'deployable'
         const appDeployables = R.filter(isKind, application.deployables)
         return (
-          <div className="tileContainerApp">
+          <div key={Math.random()} className="tileContainerApp">
             <Tile
               className="applicationTile"
               onClick={() => showHideTrigger(appName, appDeployables.length)}
@@ -120,7 +120,7 @@ const LeftColumnForApplicationNames = (
                     deployable.items[0].name) ||
                   ''
                 return (
-                  <Tile className="deployableTile">
+                  <Tile key={Math.random()} className="deployableTile">
                     <div className="DeployableContents">
                       <a
                         className="deployableName"
@@ -163,7 +163,7 @@ const ChannelColumnGrid = (
         {channelList.map(channel => {
           const channelName = channel.name
           return (
-            <div className="channelColumn">
+            <div key={Math.random()} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
                   <div className="yamlTitle">
@@ -195,14 +195,16 @@ const ChannelColumnGrid = (
         const applicationName = application.name || ''
         const deployables = getDeployablesPerApplication(application)
         return (
-          <React.Fragment>
+          <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
               {/* This is the where the row totals will go for the applications */}
               {channelList.map(() => {
                 return (
-                  <div className="channelColumn">
+                  <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
-                      <Tag className="statusTag">N/A</Tag>
+                      <Tag type="custom" className="statusTag">
+                        N/A
+                      </Tag>
                     </Tile>
                   </div>
                 )
@@ -218,7 +220,7 @@ const ChannelColumnGrid = (
                 const deployableChannels = ['channel1', 'channel2']
                 const deployableName = (deployable && deployable.name) || ''
                 return (
-                  <div className="deployableRow">
+                  <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
                       const channelMatch = deployableChannels.includes(
                         channel.name
@@ -229,7 +231,7 @@ const ChannelColumnGrid = (
                         channel.name
                       )
                       return (
-                        <div className="channelColumn">
+                        <div key={Math.random()} className="channelColumn">
                           {channelMatch ? (
                             <Tile
                               className="channelColumnDeployable"

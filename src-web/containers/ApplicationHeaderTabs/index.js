@@ -45,7 +45,7 @@ const ApplicationHeaderTabs = withLocale(
             onClick={() => {}}
             onKeyDown={() => {}}
             onSelectionChange={() => {}}
-            tabContentClassName="tab-content"
+            tabcontentclassname="tab-content"
           >
             <Tab
               disabled={false}

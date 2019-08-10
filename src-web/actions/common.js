@@ -195,6 +195,7 @@ export const fetchResource = (resourceType, namespace, name) => {
 
 export const fetchResourcesInBulk = (resourceType, bulkquery) => {
   return dispatch => {
+    console.log('bulkbulk', resourceType)
     dispatch(requestResource(resourceType))
     return apolloClient
       .search(SEARCH_QUERY_RELATED, { input: bulkquery })

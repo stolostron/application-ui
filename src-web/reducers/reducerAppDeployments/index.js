@@ -9,11 +9,13 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
+import apolloClient from '../../../lib/client/apollo-client'
 
 const OPEN_DISPLAY_DEPLOYABLE_MODAL = 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
 const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
 const SET_DEPLOYABLE_SUBSCRIPTION_INFO = 'SET_DEPLOYABLE_SUBSCRIPTION_INFO'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
+const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
 const SET_LOADING = 'SET_LOADING'
 const CLOSE_MODALS = 'CLOSE_MODALS'
 
@@ -25,6 +27,8 @@ export const initialStateDeployments = {
   },
   deployableModalSubscriptionInfo: {},
   deploymentPipelineSearch: '',
+  currentChannelInfo: {},
+  openEditChannelModal: false,
   loading: false
 }
 
@@ -47,11 +51,20 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
   case SET_DEPLOYMENT_SEARCH: {
     return { ...state, deploymentPipelineSearch: action.payload }
   }
+  case SET_CURRENT_CHANNEL_INFO: {
+    return { ...state,
+      openEditChannelModal: true,
+      currentChannelInfo: action.payload
+    }
+  }
   case SET_LOADING: {
     return { ...state, loading: action.payload }
   }
   case CLOSE_MODALS: {
-    return { ...state, displayDeployableModal: false }
+    return { ...state,
+      displayDeployableModal: false,
+      openEditChannelModal: false
+    }
   }
   default:
     return state
@@ -69,4 +82,18 @@ export const setCurrentDeployableSubscriptionData = createAction(
 export const openDisplayDeployableModal = createAction(
   OPEN_DISPLAY_DEPLOYABLE_MODAL
 )
+const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
 export const closeModals = createAction(CLOSE_MODALS)
+
+export const fetchChannelResource = (selfLink, namespace, name, cluster) => {
+  return dispatch => {
+    return apolloClient
+      .getResource({name: 'HCMChannel', list: 'HCMChannelList'}, {selfLink:`${selfLink}`, namespace:`${namespace}`, kind:'channels', name:`${name}`, cluster:`${cluster}`})
+      .then(response => {
+        return dispatch(setCurrentChannelInfo(response))
+      })
+      .catch(err => {
+        dispatch(setCurrentChannelInfo(err))
+      })
+  }
+}

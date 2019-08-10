@@ -14,6 +14,7 @@ import resources from '../../../../../lib/shared/resources'
 import {
   createApplicationRows,
   tileClick,
+  editChannelClick,
   findMatchingSubscription,
   getDeployablesPerApplication
 } from './utils'
@@ -146,6 +147,7 @@ const ChannelColumnGrid = (
     subscriptionList,
     applicationList,
     editChannel,
+    getChannelResource,
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData
@@ -171,7 +173,7 @@ const ChannelColumnGrid = (
                     description=""
                     className="channelEditIcon"
                     onClick={() =>
-                      editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)
+                      editChannelClick(editChannel, RESOURCE_TYPES.HCM_CHANNELS, channel, getChannelResource)
                     }
                   />
                   <div className="channelNameTitle">{`${channelName}`}</div>
@@ -275,6 +277,7 @@ const PipelineGrid = withLocale(
     channels,
     subscriptions,
     editChannel,
+    getChannelResource,
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData
@@ -295,6 +298,7 @@ const PipelineGrid = withLocale(
             subscriptionList={subscriptions}
             applicationList={applications}
             editChannel={editChannel}
+            getChannelResource={getChannelResource}
             openDeployableModal={openDeployableModal}
             setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
             setCurrentDeployableSubscriptionData={

@@ -71,6 +71,15 @@ export const tileClick = (
   openDeployableModal()
 }
 
+// When we click on the edit Channel, we need to make a fetch to get the channel
+// yaml
+// We also want to open up the edit channel modal
+export const editChannelClick = (
+  editChannel, resourceTypeChannel, channel, getChannelResource
+) => {
+  getChannelResource(channel.selfLink, channel.namespace, channel.name, channel.data.cluster)
+}
+
 // This method will find the matching subscription the the given channel and
 // return the corresponding subscription from the list
 export const findMatchingSubscription = (subscriptionList, channelName) => {

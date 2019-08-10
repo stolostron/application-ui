@@ -19,7 +19,10 @@ import {
   fetchResources,
   updateModal
 } from '../../actions/common'
-import { fetchChannelResource, closeModals } from '../../reducers/reducerAppDeployments'
+import {
+  fetchChannelResource,
+  closeModals
+} from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
 import { Search } from 'carbon-components-react'
@@ -70,8 +73,6 @@ const CreateSubscriptionModal = () => {
 }
 
 const handleEditResource = (dispatch, resourceType, data) => {
-  console.log('datadatadata',data, resourceType)
-  console.log('datadatadata',data.data, data.name, data.namespace, resourceType)
   return dispatch(
     updateModal({
       open: true,
@@ -84,9 +85,9 @@ const handleEditResource = (dispatch, resourceType, data) => {
         label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
         heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
       },
-      name: 'CONFUSED',//(data && data.name) || 'aaaa',
-      namespace: 'OMG',//(data && data.namespace) || 'bbb',
-      data: ' sdf adfads fsa'//(data && data.data) || 'asdf'
+      name: (data && data.name) || '',
+      namespace: (data && data.namespace) || '',
+      data: (data && data.data) || ''
     })
   )
 }
@@ -175,10 +176,16 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
     const deployableModalLabel =
       deployableModalHeaderInfo && deployableModalHeaderInfo.application
-    if(openEditChannelModal) {
-      console.log('woah', currentChannelInfo)
+
+    // This will trigger the edit Channel Modal because openEditChannelModal
+    // is true AFTER the fetch of the channel data has been completed
+    if (openEditChannelModal) {
       closeModal()
-      editChannel(RESOURCE_TYPES.HCM_CHANNELS, {name: currentChannelInfo.data.items[0].metadata.name, namespace:currentChannelInfo.data.items[0].metadata.namespace, data:currentChannelInfo.data.items[0].raw })
+      editChannel(RESOURCE_TYPES.HCM_CHANNELS, {
+        name: currentChannelInfo.data.items[0].metadata.name,
+        namespace: currentChannelInfo.data.items[0].metadata.namespace,
+        data: currentChannelInfo.data.items[0]
+      })
     }
 
     return (

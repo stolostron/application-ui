@@ -25,7 +25,7 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
-import { Search } from 'carbon-components-react'
+import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
@@ -128,6 +128,7 @@ const mapStateToProps = state => {
     HCMChannelList,
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
+    loading: AppDeployments.loading,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
@@ -163,7 +164,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalSubscriptionInfo,
       currentChannelInfo,
       closeModal,
-      openEditChannelModal
+      openEditChannelModal,
+      loading
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -190,6 +192,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     return (
       <div id="DeploymentPipeline">
+        {loading && <Loading withOverlay={true} />}
         <div className="piplineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}
         </div>

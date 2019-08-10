@@ -33,6 +33,7 @@ import {
   getSubscriptionsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
+import apolloClient from '../../../lib/client/apollo-client'
 
 /* eslint-disable react/prop-types */
 
@@ -102,8 +103,11 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
+    //apolloClient requires CONTEXT .. so I have to pass it in here
     getChannelResource: (selfLink, namespace, name, cluster) =>
-      dispatch(fetchChannelResource(selfLink, namespace, name, cluster)),
+      dispatch(
+        fetchChannelResource(apolloClient, selfLink, namespace, name, cluster)
+      ),
     closeModal: () => dispatch(closeModals())
   }
 }

@@ -57,6 +57,17 @@
     padding-bottom: 10px;
   }
 
+  .valueGroupItem {
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .valueGroup {
+    display: inline-flex;
+    flex-flow: column;
+  }
+
   .placement {
     padding-left: 15px;
     padding-top: 5px;
@@ -80,6 +91,7 @@
 
   .conditions {
     padding-left: 15px;
+    display: block;
   }
 
   .subHeader {

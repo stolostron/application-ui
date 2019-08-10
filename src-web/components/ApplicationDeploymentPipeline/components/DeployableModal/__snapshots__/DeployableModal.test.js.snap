@@ -164,7 +164,12 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
               >
                 Channel
               </div>
-              chanName
+              <span>
+                chanName
+              </span>
+              <span>
+                all conditions passed
+              </span>
             </div>
             <div
               className="innerContent"
@@ -178,19 +183,23 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
                   Conditions
                 </div>
                 <div
-                  className="value"
+                  className="valueGroup"
                 >
-                  condition1
-                </div>
-                <div
-                  className="value"
-                >
-                  condition2
-                </div>
-                <div
-                  className="value"
-                >
-                  condition3
+                  <div
+                    className="valueGroupItem"
+                  >
+                    condition1
+                  </div>
+                  <div
+                    className="valueGroupItem"
+                  >
+                    condition2
+                  </div>
+                  <div
+                    className="valueGroupItem"
+                  >
+                    condition3
+                  </div>
                 </div>
               </div>
             </div>

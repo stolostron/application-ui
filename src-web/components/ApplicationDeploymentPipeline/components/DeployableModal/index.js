@@ -58,6 +58,7 @@ const ChannelInfo = withLocale(
   ({
     chanName = 'chanName',
     conditions = ['condition1', 'condition2', 'condition3'],
+    success = true,
     locale
   }) => {
     return (
@@ -66,20 +67,23 @@ const ChannelInfo = withLocale(
           <div className="bold">
             {msgs.get('description.Modal.channel', locale)}
           </div>
-          {chanName}
+          <span>{chanName}</span>
+          <span>{success && 'all conditions passed'}</span>
         </div>
         <div className="innerContent">
           <div className="conditions">
             <div className="label">
               {msgs.get('description.Modal.conditions', locale)}
             </div>
-            {conditions.map(condition => {
-              return (
-                <div className="value" key={Math.random()}>
-                  {condition}
-                </div>
-              )
-            })}
+            <div className="valueGroup">
+              {conditions.map(condition => {
+                return (
+                  <div className="valueGroupItem" key={Math.random()}>
+                    {condition}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

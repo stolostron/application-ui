@@ -7,6 +7,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
+
 // return the data for the stacked channel
 export const getChannelChartData = list => {
   if (list && list.items) {
@@ -86,8 +88,16 @@ export const getDeployedResourcesChartData = list => {
         }
       }
     })
+    // The way the above is written, if item && item.related is not true
+    // deplChartDataList will have an undefined in the list which will break the code
+    // down the line so we want to remove undefined
+    const removeUndefined = x => x !== undefined
     const emptyArray = []
-    return emptyArray.concat.apply([], deplChartDataList)
+    const removedUndefinedDeployables = R.filter(
+      removeUndefined,
+      deplChartDataList
+    )
+    return emptyArray.concat.apply([], removedUndefinedDeployables)
   }
   return []
 }

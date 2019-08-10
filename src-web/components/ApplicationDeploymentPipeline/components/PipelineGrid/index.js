@@ -32,29 +32,31 @@ resources(() => {
 
 // This method takes in an ID and then changes the css to either display or
 // hide the row
-const showHideTrigger = id => {
-  // This will display or hide the deplable rows under the applications
-  const x = document.getElementById(id)
-  if (x.style.display === 'none') {
-    x.style.display = 'block'
-  } else {
-    x.style.display = 'none'
-  }
-  // This will display or hide the deployable rows under the channels
-  const y = document.getElementById(`${id}deployableRows`)
-  if (y.style.display === 'none') {
-    y.style.display = 'block'
-  } else {
-    y.style.display = 'none'
-  }
-  // Toggle the chevron Icon which is the drop down indicator for the deployables
-  const z = document.getElementById(`${id}chevron`)
-  if (z.className.animVal === 'closeRowChevron') {
-    z.classList.remove('closeRowChevron')
-    z.classList.add('openRowChevron')
-  } else {
-    z.classList.remove('openRowChevron')
-    z.classList.add('closeRowChevron')
+const showHideTrigger = (id, deployableCount) => {
+  if (deployableCount > 0) {
+    // This will display or hide the deplable rows under the applications
+    const x = document.getElementById(id)
+    if (x.style.display === 'none') {
+      x.style.display = 'block'
+    } else {
+      x.style.display = 'none'
+    }
+    // This will display or hide the deployable rows under the channels
+    const y = document.getElementById(`${id}deployableRows`)
+    if (y.style.display === 'none') {
+      y.style.display = 'block'
+    } else {
+      y.style.display = 'none'
+    }
+    // Toggle the chevron Icon which is the drop down indicator for the deployables
+    const z = document.getElementById(`${id}chevron`)
+    if (z.className.animVal === 'closeRowChevron') {
+      z.classList.remove('closeRowChevron')
+      z.classList.add('openRowChevron')
+    } else {
+      z.classList.remove('openRowChevron')
+      z.classList.add('closeRowChevron')
+    }
   }
 }
 
@@ -87,7 +89,7 @@ const LeftColumnForApplicationNames = (
           <div className="tileContainerApp">
             <Tile
               className="applicationTile"
-              onClick={() => showHideTrigger(appName)}
+              onClick={() => showHideTrigger(appName, appDeployables.length)}
             >
               {appDeployables.length > 0 && (
                 <Icon
@@ -173,7 +175,12 @@ const ChannelColumnGrid = (
                     description=""
                     className="channelEditIcon"
                     onClick={() =>
-                      editChannelClick(editChannel, RESOURCE_TYPES.HCM_CHANNELS, channel, getChannelResource)
+                      editChannelClick(
+                        editChannel,
+                        RESOURCE_TYPES.HCM_CHANNELS,
+                        channel,
+                        getChannelResource
+                      )
                     }
                   />
                   <div className="channelNameTitle">{`${channelName}`}</div>

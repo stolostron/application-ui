@@ -30,7 +30,8 @@ import {
   getApplicationsList,
   getDeployablesList,
   getChannelsList,
-  getSubscriptionsList
+  getSubscriptionsList,
+  filterApps
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
@@ -120,6 +121,10 @@ const mapStateToProps = state => {
     AppDeployments,
     role
   } = state
+  const filteredApplications = filterApps(
+    HCMApplicationList,
+    AppDeployments.deploymentPipelineSearch
+  )
   // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
   // the applications, deployables, and channels
   return {
@@ -128,13 +133,13 @@ const mapStateToProps = state => {
     deployableModalSubscriptionInfo:
       AppDeployments.deployableModalSubscriptionInfo,
     userRole: role.role,
-    HCMApplicationList,
+    HCMApplicationList: filteredApplications,
     HCMChannelList,
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
     loading: AppDeployments.loading,
-    applications: getApplicationsList(HCMApplicationList),
-    deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
+    applications: getApplicationsList(filteredApplications),
+    deployables: getDeployablesList(filteredApplications), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }

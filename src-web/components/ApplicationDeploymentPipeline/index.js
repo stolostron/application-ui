@@ -210,9 +210,9 @@ class ApplicationDeploymentPipeline extends React.Component {
           light
           name=""
           defaultValue=""
-          labelText="Search"
+          labelText={msgs.get('actions.searchApplications', locale)}
           closeButtonLabelText=""
-          placeHolderText="Search"
+          placeHolderText={msgs.get('actions.searchApplications', locale)}
           onChange={event => {
             actions.setDeploymentSearch(event.target.value)
           }}

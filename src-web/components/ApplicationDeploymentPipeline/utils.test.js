@@ -10,7 +10,8 @@
 import {
   getApplicationsList,
   getDeployablesList,
-  getSubscriptionsList
+  getSubscriptionsList,
+  filterApps
 } from './utils'
 
 describe('getApplicationsList', () => {
@@ -231,5 +232,29 @@ describe('getSubscriptionsList', () => {
   })
   it('should return blank array', () => {
     expect(getSubscriptionsList(subscriptionDud)).toEqual([])
+  })
+})
+
+describe('filterApps', () => {
+  const applicationList = {
+    items: [{ name: 'dart' }, { name: 'shanna' }, { name: 'sheee' }]
+  }
+  const applicationDud = {
+    itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }]
+  }
+  it('should return applicationList list of 2', () => {
+    const result = {
+      items: [{ name: 'shanna' }, { name: 'sheee' }]
+    }
+    expect(filterApps(applicationList, 'sh')).toEqual(result)
+  })
+  it('should return applicationList list of 0', () => {
+    const result = {
+      items: []
+    }
+    expect(filterApps(applicationList, 'haschel')).toEqual(result)
+  })
+  it('should return what was inputed', () => {
+    expect(filterApps(applicationDud)).toEqual(applicationDud)
   })
 })

@@ -82,3 +82,19 @@ export const getSubscriptionsList = subscriptions => {
   }
   return []
 }
+
+// This takes in the applications list and searchText and filters down the applications
+export const filterApps = (applications, searchText) => {
+  if (
+    searchText !== '' &&
+    applications &&
+    applications.items &&
+    applications.items.length > 0
+  ) {
+    const doesContainName = x => x.name.includes(searchText)
+    const filteredApps = R.filter(doesContainName, applications.items)
+    // The format is expecting it in an objects of items so keeping the format
+    return { items: filteredApps }
+  }
+  return applications
+}

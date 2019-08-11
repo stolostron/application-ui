@@ -66,7 +66,13 @@ const LeftColumnForApplicationNames = (
           <div key={Math.random()} className="tileContainerApp">
             <Tile
               className="applicationTile"
-              onClick={() => updateAppDropDownList(appName)}
+              onClick={
+                appDeployables.length > 0
+                  ? () => updateAppDropDownList(appName)
+                  : () => {
+                    /* onClick expects a function thus we have placeholder */
+                  }
+              }
             >
               {appDeployables.length > 0 && (
                 <Icon
@@ -74,7 +80,7 @@ const LeftColumnForApplicationNames = (
                   name="icon--chevron--right"
                   fill="#6089bf"
                   description=""
-                  className={expandRow ? 'closeRowChevron' : 'closeRowChevron'}
+                  className={expandRow ? 'openRowChevron' : 'closeRowChevron'}
                 />
               )}
               <div className="ApplicationContents">

@@ -9,28 +9,24 @@
 
 // @flow
 export const mapSingleApplication = application => {
-  if (application) {
-    let mappedApplication = [{}]
-    if (application && application.items && application.related) {
-      const items = application.items[0]
-      mappedApplication = [
-        {
-          name: items.name || '',
-          namespace: items.namespace || '',
-          selfLink: items.selfLink || '',
-          _uid: items.uid || '',
-          created: items.created || '',
-          apigroup: items.apigroup || '',
-          cluster: items.cluster || '',
-          kind: items.kind || '',
-          label: items.label || '',
-          _hubClusterResource: items._hubClusterResource || '',
-          _rbac: items._rbac || '',
-          related: application.related || []
-        }
-      ]
-    }
-    return mappedApplication
+  if (application && application.items && application.related) {
+    const items = application.items[0]
+    return [
+      {
+        name: items.name || '',
+        namespace: items.namespace || '',
+        selfLink: items.selfLink || '',
+        _uid: items.uid || '',
+        created: items.created || '',
+        apigroup: items.apigroup || '',
+        cluster: items.cluster || '',
+        kind: items.kind || '',
+        label: items.label || '',
+        _hubClusterResource: items._hubClusterResource || '',
+        _rbac: items._rbac || '',
+        related: application.related || []
+      }
+    ]
   }
   return [
     {

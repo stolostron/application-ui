@@ -9,8 +9,10 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
+import R from 'ramda'
 
 const OPEN_DISPLAY_DEPLOYABLE_MODAL = 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
+const UPDATE_APP_DROPDOWN_LIST = 'UPDATE_APP_DROPDOWN_LIST'
 const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
 const SET_DEPLOYABLE_SUBSCRIPTION_INFO = 'SET_DEPLOYABLE_SUBSCRIPTION_INFO'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
@@ -24,13 +26,13 @@ export const initialStateDeployments = {
     application: '',
     deployable: ''
   },
+  appDropDownList: [],
   deployableModalSubscriptionInfo: {},
   deploymentPipelineSearch: '',
   currentChannelInfo: {},
   openEditChannelModal: false,
   loading: false
 }
-
 export const AppDeployments = (state = initialStateDeployments, action) => {
   switch (action.type) {
   case OPEN_DISPLAY_DEPLOYABLE_MODAL: {
@@ -46,6 +48,19 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
   }
   case SET_DEPLOYABLE_SUBSCRIPTION_INFO: {
     return { ...state, deployableModalSubscriptionInfo: action.payload }
+  }
+  case UPDATE_APP_DROPDOWN_LIST: {
+    const containsApp = state.appDropDownList.includes(action.payload)
+    // if it contains the application, remove it
+    if (containsApp) {
+      const filterRemoveName = name => name !== action.payload
+      const newList = R.filter(filterRemoveName, state.appDropDownList)
+      return { ...state, appDropDownList: newList }
+    } else {
+      // if its not there add it
+      const newList = state.appDropDownList.concat([action.payload])
+      return { ...state, appDropDownList: newList }
+    }
   }
   case SET_DEPLOYMENT_SEARCH: {
     return { ...state, deploymentPipelineSearch: action.payload }
@@ -83,6 +98,7 @@ export const setCurrentDeployableSubscriptionData = createAction(
 export const openDisplayDeployableModal = createAction(
   OPEN_DISPLAY_DEPLOYABLE_MODAL
 )
+export const updateAppDropDownList = createAction(UPDATE_APP_DROPDOWN_LIST)
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
 const setLoading = createAction(SET_LOADING)
 export const closeModals = createAction(CLOSE_MODALS)

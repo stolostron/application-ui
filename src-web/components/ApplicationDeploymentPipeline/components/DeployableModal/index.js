@@ -12,77 +12,143 @@ import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
-import { Modal } from 'carbon-components-react'
+import { Icon, Modal } from 'carbon-components-react'
 import R from 'ramda'
 
 resources(() => {
   require('./style.scss')
 })
 
-const DeployableInfo = withLocale(
+//TODO: could add this to a utils.js
+const getChannelStatusClass = status => {
+  return (
+    (status === 'success' && 'statusTagCompleted') ||
+    (status === 'failed' && 'statusTagFailed') ||
+    (status === 'inprogress' && 'statusTagInProgress') ||
+    (true && 'statusTag')
+  )
+}
+
+const DeploymentStatus = withLocale(
   ({
-    deployableName = 'deployableName',
-    conditions = 'passed testing',
+    deploymentTime = '2019-07-05T09:50:56Z',
+    failedTime = '2019-07-05T10:20:56Z',
+    deployments = ['d1', 'd2', 'd3', 'd4'],
+    clusters = ['c1', 'c2', 'c3', 'c4'],
+    percent = '50%',
+    status = 'failed', // show if not 'success'
     locale
   }) => {
+    // don't show block if it is successful
+    if (status == 'success') return null
+
     return (
-      <div className="deployableInfoClass">
-        <div className="subHeader">
-          <div className="bold">
-            {msgs.get('description.Modal.deployable', locale)}
-          </div>
-          {deployableName}
-        </div>
-        <div className="innerContent">
-          <div className="conditions">
-            <div>
-              <div className="label">
-                {msgs.get('description.Modal.helmChart', locale)}
+      <React.Fragment>
+        <div className="deploymentStatusClass">
+          <div className="innerContentBox">
+            <div className="subHeader">
+              <div className="deploymentStatusHeader">
+                {msgs.get('description.Modal.deploymentStatus', locale)}
               </div>
-              <div className="value">--</div>
+              <span className={getChannelStatusClass(status)}>{status}</span>
             </div>
-            <div>
-              <div className="label">
-                {msgs.get('description.Modal.deployableConditions', locale)}
+            <div className="deploymentProgress">
+              {status == 'inprogress' && percent ? percent : ''}
+            </div>
+            <div className="deploymentStatusTime">
+              {(status == 'failed' || status == 'inprogress') && deploymentTime
+                ? msgs.get('description.Modal.deployedAt', locale) +
+                  ' ' +
+                  deploymentTime +
+                  ' '
+                : ''}
+              {status == 'failed' && failedTime
+                ? msgs.get('description.Modal.failedAt', locale) +
+                  ' ' +
+                  failedTime
+                : ''}
+            </div>
+            <div>{deployments}</div>
+          </div>
+        </div>
+        <div className="targetClustersClass">
+          <div className="innerContentBox">
+            <div className="subHeader">
+              <div className="deploymentStatusHeader">
+                {msgs.get('description.Modal.targetClusters', locale)}
               </div>
-              <div className="value">{conditions}</div>
+              <div>{clusters}</div>
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 )
 
 const ChannelInfo = withLocale(
   ({
-    chanName = 'chanName',
-    conditions = ['condition1', 'condition2', 'condition3'],
+    conditions = [
+      { name: 'condition1', success: true },
+      { name: 'condition2', success: false },
+      { name: 'condition3', success: true }
+    ],
     success = true,
     locale
   }) => {
     return (
       <div className="channelInfoClass">
         <div className="subHeader">
-          <div className="bold">
+          <div className="channelHeader">
             {msgs.get('description.Modal.channel', locale)}
           </div>
-          <span>{chanName}</span>
-          <span>{success && 'all conditions passed'}</span>
+          <span className="conditionStatus">
+            {(success && msgs.get('description.Modal.conditionsMet', locale)) ||
+              msgs.get('description.Modal.conditionsNotMet', locale)}
+          </span>
         </div>
         <div className="innerContent">
           <div className="conditions">
-            <div className="label">
-              {msgs.get('description.Modal.conditions', locale)}
-            </div>
             <div className="valueGroup">
-              {conditions.map(condition => {
-                return (
-                  <div className="valueGroupItem" key={Math.random()}>
-                    {condition}
-                  </div>
-                )
-              })}
+              {conditions != null && conditions.length > 0
+                ? conditions.map(condition => {
+                  return (
+                    <div className="valueGroupItem" key={Math.random()}>
+                      <Icon
+                        name="icon--user"
+                        fill="#6c7b85"
+                        description=""
+                        className="icon"
+                      />
+                      {condition.name}
+
+                      {condition.success ? (
+                        <Icon
+                          name="icon--checkmark--solid"
+                          fill="#37a900"
+                          description=""
+                          className="icon"
+                        />
+                      ) : (
+                        <Icon
+                          name="icon--error--glyph"
+                          fill="#6c7b85"
+                          description=""
+                          className="icon"
+                        />
+                      )}
+                    </div>
+                  )
+                })
+                : 'None' +
+                  (
+                    <Icon
+                      name="icon--checkmark--solid"
+                      fill="#37a900"
+                      description=""
+                      className="icon"
+                    />
+                  )}
             </div>
           </div>
         </div>
@@ -109,7 +175,7 @@ const SubscriptionInfo = withLocale(
     return (
       <div className="subscriptionInfoClass">
         <div className="subHeader">
-          <div className="bold">
+          <div className="subscriptionInfoHeader">
             {msgs.get('description.Modal.SubscriptionInfo', locale)}
           </div>
           {subName}
@@ -131,7 +197,16 @@ const SubscriptionInfo = withLocale(
               <div className="label-indented">
                 {msgs.get('description.Modal.label', locale)}
               </div>
-              <div className="value">{labels}</div>
+              <div className="value">
+                {' '}
+                {labels.map(label => {
+                  return (
+                    <span className="labelTag" key={Math.random()}>
+                      {label}
+                    </span>
+                  )
+                })}
+              </div>
             </div>
           </div>
           <div className="versions">
@@ -199,7 +274,7 @@ const DeployableModal = withLocale(
               deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
             />
             <ChannelInfo />
-            <DeployableInfo />
+            <DeploymentStatus />
           </div>
         </Modal>
       </div>

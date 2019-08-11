@@ -20,8 +20,14 @@
     padding-top: 25px;
   }
 
-  .deployableInfoClass {
-    padding-top: 25px;
+  .deploymentStatusClass {
+    background-color: #f3f7fb;
+    margin-top: 25px;
+  }
+
+  .targetClustersClass {
+    border-top: 2px solid #e8edf0;
+    background-color: #f3f7fb;
   }
 
   .innerContent {
@@ -30,10 +36,30 @@
     border-left-style: solid;
   }
 
-  .bold {
+  .innerContentBox {
+    padding: 15px;
+  }
+
+  .subscriptionInfoHeader {
     display: inline-block;
     font-weight: bold;
     width: 220px;
+  }
+
+  .channelHeader {
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .deploymentStatusHeader {
+    display: inline-block;
+    font-weight: bold;
+    padding-bottom: 15px;
+  }
+
+  .deploymentStatusTime {
+    color: #687982;
+    padding-bottom: 15px;
   }
 
   .label {
@@ -94,7 +120,67 @@
     display: block;
   }
 
+  .conditionStatus {
+    padding-left: 15px;
+    font-style: italic;
+    color: #687982;
+  }
+
   .subHeader {
     padding-bottom: 15px;
+  }
+
+  .labelTag {
+    padding: 0.25em 10px;
+    margin-right: 10px;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #dee3e6;
+    color: black;
+  }
+
+  .statusTag {
+    margin-left: 10px;
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #dee3e6;
+    color: black;
+  }
+
+  .statusTagInProgress {
+    margin-left: 10px;
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    background-color: #c0e6ff;
+    color: #325c80;
+  }
+
+  .statusTagFailed {
+    margin-left: 10px;
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    color: #c61934;
+    background-color: #ffd0dd;
+  }
+
+  .statusTagCompleted {
+    margin-left: 10px;
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    color: #297811;
+    background-color: #bff088;
+  }
+
+  .icon {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 }

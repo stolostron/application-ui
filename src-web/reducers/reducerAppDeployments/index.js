@@ -53,6 +53,8 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
     const containsApp = state.appDropDownList.includes(action.payload)
     // if it contains the application, remove it
     if (containsApp) {
+      // Gather all names that are not in the payload to form the new list
+      // This basically removes the payload from the appDeployables
       const filterRemoveName = name => name !== action.payload
       const newList = R.filter(filterRemoveName, state.appDropDownList)
       return { ...state, appDropDownList: newList }

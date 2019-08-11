@@ -250,12 +250,12 @@ export const fetchIncidents = (resourceType, namespace, name) => {
 }
 
 //fetch pods for application - TODO change this this is dummy data
-fetchPodsForApplication = (namespace, name) => {
+export const fetchPodsForApplication = (namespace, name) => {
   const queryString = convertStringToQuery(`kind:pods label:app:gbchn namespace:${namespace}`)
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .search(SEARCH_QUERY, { input: [query] })
+      .search(SEARCH_QUERY, { input: [queryString] })
       .then(response => {
         if (response.errors) {
           return dispatch(
@@ -276,7 +276,7 @@ fetchPodsForApplication = (namespace, name) => {
 }
 
 //fetch containers for selected pod
-fetchContainersForPod = (selfLink, namespace, name, cluster) => {
+export const fetchContainersForPod = (selfLink, namespace, name, cluster) => {
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient

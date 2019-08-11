@@ -48,10 +48,10 @@ const ApplicationHeaderTabs = withLocale(
           <Tabs
             className="some-class"
             selected={0}
-            onClick={() => { }}
-            onKeyDown={() => { }}
-            onSelectionChange={() => { }}
-            tabContentClassName="tab-content"
+            onClick={() => {}}
+            onKeyDown={() => {}}
+            onSelectionChange={() => {}}
+            tabcontentclassname="tab-content"
           >
             <Tab
               disabled={false}

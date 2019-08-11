@@ -25,7 +25,7 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
-import { Search } from 'carbon-components-react'
+import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
@@ -33,6 +33,7 @@ import {
   getSubscriptionsList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
+import apolloClient from '../../../lib/client/apollo-client'
 
 /* eslint-disable react/prop-types */
 
@@ -102,8 +103,11 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
+    //apolloClient requires CONTEXT .. so I have to pass it in here
     getChannelResource: (selfLink, namespace, name, cluster) =>
-      dispatch(fetchChannelResource(selfLink, namespace, name, cluster)),
+      dispatch(
+        fetchChannelResource(apolloClient, selfLink, namespace, name, cluster)
+      ),
     closeModal: () => dispatch(closeModals())
   }
 }
@@ -128,6 +132,7 @@ const mapStateToProps = state => {
     HCMChannelList,
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
+    loading: AppDeployments.loading,
     applications: getApplicationsList(HCMApplicationList),
     deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
@@ -163,7 +168,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       deployableModalSubscriptionInfo,
       currentChannelInfo,
       closeModal,
-      openEditChannelModal
+      openEditChannelModal,
+      loading
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -190,6 +196,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     return (
       <div id="DeploymentPipeline">
+        {loading && <Loading withOverlay={true} />}
         <div className="piplineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}
         </div>

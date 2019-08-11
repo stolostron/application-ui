@@ -2,7 +2,7 @@
     "contextPath": "/multicloud/applications",
     "httpPort": 3001,
     "hcmUiApiUrl": "",
-    "searchApiUrl":"",
+    "searchApiUrl":"https://9.30.230.96:30100/searchapi",
     "cfcRouterUrl": "",
     "platformHeaderContextPath": "/header",
     "feature_searchRelated": false,

@@ -9,7 +9,6 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
-import apolloClient from '../../../lib/client/apollo-client'
 
 const OPEN_DISPLAY_DEPLOYABLE_MODAL = 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
 const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
@@ -52,7 +51,8 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
     return { ...state, deploymentPipelineSearch: action.payload }
   }
   case SET_CURRENT_CHANNEL_INFO: {
-    return { ...state,
+    return {
+      ...state,
       openEditChannelModal: true,
       currentChannelInfo: action.payload
     }
@@ -61,7 +61,8 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
     return { ...state, loading: action.payload }
   }
   case CLOSE_MODALS: {
-    return { ...state,
+    return {
+      ...state,
       displayDeployableModal: false,
       openEditChannelModal: false
     }
@@ -83,16 +84,37 @@ export const openDisplayDeployableModal = createAction(
   OPEN_DISPLAY_DEPLOYABLE_MODAL
 )
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
+const setLoading = createAction(SET_LOADING)
 export const closeModals = createAction(CLOSE_MODALS)
 
-export const fetchChannelResource = (selfLink, namespace, name, cluster) => {
+// ApolloClient requires CONTEXT so I have to pass it in from a file where it
+// can be defined with context.
+export const fetchChannelResource = (
+  apolloClient,
+  selfLink,
+  namespace,
+  name,
+  cluster
+) => {
   return dispatch => {
+    dispatch(setLoading(true))
     return apolloClient
-      .getResource({name: 'HCMChannel', list: 'HCMChannelList'}, {selfLink:`${selfLink}`, namespace:`${namespace}`, kind:'channels', name:`${name}`, cluster:`${cluster}`})
+      .getResource(
+        { name: 'HCMChannel', list: 'HCMChannelList' },
+        {
+          selfLink: `${selfLink}`,
+          namespace: `${namespace}`,
+          kind: 'channels',
+          name: `${name}`,
+          cluster: `${cluster}`
+        }
+      )
       .then(response => {
+        dispatch(setLoading(false))
         return dispatch(setCurrentChannelInfo(response))
       })
       .catch(err => {
+        dispatch(setLoading(false))
         dispatch(setCurrentChannelInfo(err))
       })
   }

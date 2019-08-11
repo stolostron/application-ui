@@ -99,7 +99,7 @@ const withResource = Component => {
         if (this.props.status === REQUEST_STATUS.DONE) {
           this.setState({ xhrPoll: true })
           this.props.fetchResource()
-          this.props.fetchIncidents()
+          //this.props.fetchIncidents()
         }
       }
 

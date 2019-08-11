@@ -49,43 +49,27 @@ class IncidentsTab extends React.Component {
     this.headers = [
       {
         key: 'id',
-        header: 'id'
+        header: 'ID'
       },
       {
         key: 'createdTime',
-        header: 'createdTime'
+        header: 'Created'
       },
       {
         key: 'lastChanged',
-        header: 'lastChanged'
+        header: 'Last changed'
       },
       {
         key: 'priority',
-        header: 'priority'
+        header: 'Priority'
       },
       {
         key: 'escalated',
-        header: 'escalated'
+        header: 'Escalated'
       },
       {
         key: 'correlationDetails',
-        header: 'correlationDetails'
-      },
-      // {
-      //   key: 'incidentURL',
-      //   header: 'incidentURL'
-      // },
-      // {
-      //   key: 'eventsURL',
-      //   header: 'eventsURL'
-      // },
-      // {
-      //   key: 'timelineURL',
-      //   header: 'timelineURL'
-      // },
-      {
-        key: 'eventSummary',
-        header: 'eventSummary'
+        header: 'Correlation Details'
       }
     ]
   }
@@ -97,10 +81,7 @@ class IncidentsTab extends React.Component {
   render() {
     const rowsList = this.props.incidents
     const rowCount = this.props.incidentCount
-    const tableTitle = msgs.get(
-      'table.title.allIncidents',
-      this.context.locale
-    )
+    const tableTitle = msgs.get('table.title.incidents', this.context.locale)
     const noIncidentFound = msgs.get(
       'table.title.noIncidentFound',
       this.context.locale

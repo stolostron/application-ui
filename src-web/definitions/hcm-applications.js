@@ -10,13 +10,12 @@
 import React from 'react'
 import { Loading } from 'carbon-components-react'
 import lodash from 'lodash'
+import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
-  getAge,
-  getLabelsToList,
   getNumDeployables,
   getNumDeployments,
   getNumFailedDeployments
-} from '../../lib/client/resource-helper'
+} from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'

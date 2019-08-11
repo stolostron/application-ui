@@ -19,6 +19,7 @@ import { convertStringToQuery } from '../../lib/client/search-helper'
 import { mapBulkApplications } from '../reducers/data-mappers/mapApplicationsBulk'
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
+import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -144,7 +145,6 @@ export const fetchResources = resourceType => {
             receiveResourceError(response.errors[0], resourceType)
           )
         }
-
         const itemRes =
           response &&
           response.data &&
@@ -173,7 +173,7 @@ export const fetchResource = (resourceType, namespace, name) => {
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .search(SEARCH_QUERY, { input: [query] })
+      .search(SEARCH_QUERY_RELATED, { input: [query] })
       .then(response => {
         if (response.errors) {
           return dispatch(
@@ -182,7 +182,11 @@ export const fetchResource = (resourceType, namespace, name) => {
         }
         return dispatch(
           receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
+            {
+              items: mapSingleApplication(
+                lodash.cloneDeep(response.data.searchResult[0])
+              )
+            },
             resourceType
           )
         )

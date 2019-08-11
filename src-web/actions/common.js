@@ -13,7 +13,8 @@ import * as Actions from './index'
 import apolloClient from '../../lib/client/apollo-client'
 import {
   SEARCH_QUERY,
-  SEARCH_QUERY_RELATED
+  SEARCH_QUERY_RELATED,
+  GET_RESOURCE
 } from '../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../lib/client/search-helper'
 import { mapBulkApplications } from '../reducers/data-mappers/mapApplicationsBulk'
@@ -144,7 +145,6 @@ export const fetchResources = resourceType => {
             receiveResourceError(response.errors[0], resourceType)
           )
         }
-
         const itemRes =
           response &&
           response.data &&
@@ -246,6 +246,57 @@ export const fetchIncidents = (resourceType, namespace, name) => {
         )
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
+  }
+}
+
+//fetch pods for application - TODO change this this is dummy data
+export const fetchPodsForApplication = (namespace, name) => {
+  const queryString = convertStringToQuery(`kind:pods label:app:gbchn namespace:${namespace}`)
+  return dispatch => {
+    dispatch(requestResource(resourceType))
+    return apolloClient
+      .search(SEARCH_QUERY, { input: [queryString] })
+      .then(response => {
+        if (response.errors) {
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
+        }
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
+            resourceType
+          )
+        )
+      })
+      .catch(err => {
+        dispatch(receiveResourceError(err, resourceType))
+      })
+  }
+}
+
+//fetch containers for selected pod
+export const fetchContainersForPod = (selfLink, namespace, name, cluster) => {
+  return dispatch => {
+    dispatch(requestResource(resourceType))
+    return apolloClient
+      .search(GET_RESOURCE, {selfLink:selfLink, namespace:namespace, kind:'PODS', name:name, cluster:cluster})
+      .then(response => {
+        if (response.errors) {
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
+        }
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
+            resourceType
+          )
+        )
+      })
+      .catch(err => {
+        dispatch(receiveResourceError(err, resourceType))
+      })
   }
 }
 

@@ -151,7 +151,7 @@ export const fetchResources = resourceType => {
           response.data.searchResult[0] &&
           response.data.searchResult[0].items
         const combinedQuery = []
-        const combinedQueryForBulk = itemRes.map(item => {
+        itemRes.map(item => {
           combinedQuery.push(
             getQueryStringForResource(
               resourceType.name,

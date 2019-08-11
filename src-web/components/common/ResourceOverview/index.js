@@ -21,15 +21,15 @@ import {
   resourceItemByName
 } from '../../../reducers/common'
 import {
+  getChannelsList,
   getNumDeployables,
   getNumDeployments,
   getNumPendingDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments
-} from '../../../../lib/client/resource-helper'
+} from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import { getChannelsList } from './utils'
 import InstancesTable from '../../InstancesTable'
 
 resources(() => {

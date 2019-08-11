@@ -14,6 +14,7 @@ import resources from '../../../../../lib/shared/resources'
 import {
   createApplicationRows,
   tileClick,
+  editChannelClick,
   findMatchingSubscription,
   getDeployablesPerApplication
 } from './utils'
@@ -31,29 +32,31 @@ resources(() => {
 
 // This method takes in an ID and then changes the css to either display or
 // hide the row
-const showHideTrigger = id => {
-  // This will display or hide the deplable rows under the applications
-  const x = document.getElementById(id)
-  if (x.style.display === 'none') {
-    x.style.display = 'block'
-  } else {
-    x.style.display = 'none'
-  }
-  // This will display or hide the deployable rows under the channels
-  const y = document.getElementById(`${id}deployableRows`)
-  if (y.style.display === 'none') {
-    y.style.display = 'block'
-  } else {
-    y.style.display = 'none'
-  }
-  // Toggle the chevron Icon which is the drop down indicator for the deployables
-  const z = document.getElementById(`${id}chevron`)
-  if (z.className.animVal === 'closeRowChevron') {
-    z.classList.remove('closeRowChevron')
-    z.classList.add('openRowChevron')
-  } else {
-    z.classList.remove('openRowChevron')
-    z.classList.add('closeRowChevron')
+const showHideTrigger = (id, deployableCount) => {
+  if (deployableCount > 0) {
+    // This will display or hide the deplable rows under the applications
+    const x = document.getElementById(id)
+    if (x.style.display === 'none') {
+      x.style.display = 'block'
+    } else {
+      x.style.display = 'none'
+    }
+    // This will display or hide the deployable rows under the channels
+    const y = document.getElementById(`${id}deployableRows`)
+    if (y.style.display === 'none') {
+      y.style.display = 'block'
+    } else {
+      y.style.display = 'none'
+    }
+    // Toggle the chevron Icon which is the drop down indicator for the deployables
+    const z = document.getElementById(`${id}chevron`)
+    if (z.className.animVal === 'closeRowChevron') {
+      z.classList.remove('closeRowChevron')
+      z.classList.add('openRowChevron')
+    } else {
+      z.classList.remove('openRowChevron')
+      z.classList.add('closeRowChevron')
+    }
   }
 }
 
@@ -83,10 +86,10 @@ const LeftColumnForApplicationNames = (
         const isKind = n => n.kind === 'deployable'
         const appDeployables = R.filter(isKind, application.deployables)
         return (
-          <div className="tileContainerApp">
+          <div key={Math.random()} className="tileContainerApp">
             <Tile
               className="applicationTile"
-              onClick={() => showHideTrigger(appName)}
+              onClick={() => showHideTrigger(appName, appDeployables.length)}
             >
               {appDeployables.length > 0 && (
                 <Icon
@@ -117,7 +120,7 @@ const LeftColumnForApplicationNames = (
                     deployable.items[0].name) ||
                   ''
                 return (
-                  <Tile className="deployableTile">
+                  <Tile key={Math.random()} className="deployableTile">
                     <div className="DeployableContents">
                       <a
                         className="deployableName"
@@ -146,6 +149,7 @@ const ChannelColumnGrid = (
     subscriptionList,
     applicationList,
     editChannel,
+    getChannelResource,
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData
@@ -159,7 +163,7 @@ const ChannelColumnGrid = (
         {channelList.map(channel => {
           const channelName = channel.name
           return (
-            <div className="channelColumn">
+            <div key={Math.random()} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
                   <div className="yamlTitle">
@@ -171,7 +175,12 @@ const ChannelColumnGrid = (
                     description=""
                     className="channelEditIcon"
                     onClick={() =>
-                      editChannel(RESOURCE_TYPES.HCM_CHANNELS, channel)
+                      editChannelClick(
+                        editChannel,
+                        RESOURCE_TYPES.HCM_CHANNELS,
+                        channel,
+                        getChannelResource
+                      )
                     }
                   />
                   <div className="channelNameTitle">{`${channelName}`}</div>
@@ -186,14 +195,16 @@ const ChannelColumnGrid = (
         const applicationName = application.name || ''
         const deployables = getDeployablesPerApplication(application)
         return (
-          <React.Fragment>
+          <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
               {/* This is the where the row totals will go for the applications */}
               {channelList.map(() => {
                 return (
-                  <div className="channelColumn">
+                  <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
-                      <Tag className="statusTag">N/A</Tag>
+                      <Tag type="custom" className="statusTag">
+                        N/A
+                      </Tag>
                     </Tile>
                   </div>
                 )
@@ -209,7 +220,7 @@ const ChannelColumnGrid = (
                 const deployableChannels = ['channel1', 'channel2']
                 const deployableName = (deployable && deployable.name) || ''
                 return (
-                  <div className="deployableRow">
+                  <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
                       const channelMatch = deployableChannels.includes(
                         channel.name
@@ -220,7 +231,7 @@ const ChannelColumnGrid = (
                         channel.name
                       )
                       return (
-                        <div className="channelColumn">
+                        <div key={Math.random()} className="channelColumn">
                           {channelMatch ? (
                             <Tile
                               className="channelColumnDeployable"
@@ -275,6 +286,7 @@ const PipelineGrid = withLocale(
     channels,
     subscriptions,
     editChannel,
+    getChannelResource,
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData
@@ -295,6 +307,7 @@ const PipelineGrid = withLocale(
             subscriptionList={subscriptions}
             applicationList={applications}
             editChannel={editChannel}
+            getChannelResource={getChannelResource}
             openDeployableModal={openDeployableModal}
             setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
             setCurrentDeployableSubscriptionData={

@@ -66,22 +66,6 @@ const ResourcePageWithListAndDetails = props => (
   </Switch>
 )
 
-const ResourcePageWithListForIncidents = props => (
-  <Switch>
-    <Route
-      exact
-      path={props.match.url}
-      render={() => <WrappedResourceList {...props} />}
-    />
-    <Route
-      path={`${props.match.url}/:namespace/:name?`}
-      render={() => {
-        return <div>Incidents</div>
-      }}
-    />
-  </Switch>
-)
-
 const typedResourcePageWithList = (resourceType, detailsTabs, buttons) => {
   const staticResourceData = getResourceDefinitions(resourceType)
   const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
@@ -147,47 +131,4 @@ const typedResourcePageWithListAndDetails = (
   }
 }
 
-const typedResourcePageWithListForIncidents = (
-  resourceType,
-  detailsTabs,
-  buttons,
-  routes,
-  modules,
-  tableTitle = '',
-  tableName = ''
-) => {
-  const staticResourceData = getResourceDefinitions(resourceType)
-  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
-
-  // eslint-disable-next-line react/display-name
-  return class extends React.PureComponent {
-    constructor(props) {
-      super(props)
-    }
-
-    render() {
-      return (
-        <Page>
-          <ResourcePageWithListForIncidents
-            {...this.props}
-            detailsTabs={detailsTabs}
-            routes={routes}
-            resourceType={resourceType}
-            staticResourceData={staticResourceData}
-            getVisibleResources={getVisibleResources}
-            buttons={buttons}
-            modules={modules}
-            tableTitle={tableTitle}
-            tableName={tableName}
-          />
-        </Page>
-      )
-    }
-  }
-}
-
-export {
-  typedResourcePageWithList,
-  typedResourcePageWithListAndDetails,
-  typedResourcePageWithListForIncidents
-}
+export { typedResourcePageWithList, typedResourcePageWithListAndDetails }

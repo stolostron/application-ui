@@ -19,16 +19,22 @@ import {
   fetchResources,
   updateModal
 } from '../../actions/common'
+import {
+  fetchChannelResource,
+  closeModals
+} from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import DeployableModal from './components/DeployableModal'
-import { Search } from 'carbon-components-react'
+import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
   getDeployablesList,
   getChannelsList,
-  getSubscriptionsList
+  getSubscriptionsList,
+  filterApps
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
+import apolloClient from '../../../lib/client/apollo-client'
 
 /* eslint-disable react/prop-types */
 
@@ -97,7 +103,13 @@ const mapDispatchToProps = dispatch => {
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     editSubscription: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data)
+      handleEditResource(dispatch, resourceType, data),
+    //apolloClient requires CONTEXT .. so I have to pass it in here
+    getChannelResource: (selfLink, namespace, name, cluster) =>
+      dispatch(
+        fetchChannelResource(apolloClient, selfLink, namespace, name, cluster)
+      ),
+    closeModal: () => dispatch(closeModals())
   }
 }
 
@@ -109,18 +121,25 @@ const mapStateToProps = state => {
     AppDeployments,
     role
   } = state
-  // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
-  // the applications, deployables, and channels
+  // Filter Application List based on search input
+  // Currently just filterin on application name
+  const filteredApplications = filterApps(
+    HCMApplicationList,
+    AppDeployments.deploymentPipelineSearch
+  )
   return {
     displayDeployableModal: AppDeployments.displayDeployableModal,
     deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
     deployableModalSubscriptionInfo:
       AppDeployments.deployableModalSubscriptionInfo,
     userRole: role.role,
-    HCMApplicationList,
+    HCMApplicationList: filteredApplications,
     HCMChannelList,
-    applications: getApplicationsList(HCMApplicationList),
-    deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
+    currentChannelInfo: AppDeployments.currentChannelInfo || {},
+    openEditChannelModal: AppDeployments.openEditChannelModal,
+    loading: AppDeployments.loading,
+    applications: getApplicationsList(filteredApplications),
+    deployables: getDeployablesList(filteredApplications), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
@@ -147,10 +166,15 @@ class ApplicationDeploymentPipeline extends React.Component {
       subscriptions,
       actions,
       editChannel,
+      getChannelResource,
       editSubscription,
       displayDeployableModal,
       deployableModalHeaderInfo,
-      deployableModalSubscriptionInfo
+      deployableModalSubscriptionInfo,
+      currentChannelInfo,
+      closeModal,
+      openEditChannelModal,
+      loading
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -164,8 +188,20 @@ class ApplicationDeploymentPipeline extends React.Component {
     const deployableModalLabel =
       deployableModalHeaderInfo && deployableModalHeaderInfo.application
 
+    // This will trigger the edit Channel Modal because openEditChannelModal
+    // is true AFTER the fetch of the channel data has been completed
+    if (openEditChannelModal) {
+      closeModal()
+      editChannel(RESOURCE_TYPES.HCM_CHANNELS, {
+        name: currentChannelInfo.data.items[0].metadata.name,
+        namespace: currentChannelInfo.data.items[0].metadata.namespace,
+        data: currentChannelInfo.data.items[0]
+      })
+    }
+
     return (
       <div id="DeploymentPipeline">
+        {loading && <Loading withOverlay={true} />}
         <div className="piplineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}
         </div>
@@ -174,9 +210,9 @@ class ApplicationDeploymentPipeline extends React.Component {
           light
           name=""
           defaultValue=""
-          labelText="Search"
+          labelText={msgs.get('actions.searchApplications', locale)}
           closeButtonLabelText=""
-          placeHolderText="Search"
+          placeHolderText={msgs.get('actions.searchApplications', locale)}
           onChange={event => {
             actions.setDeploymentSearch(event.target.value)
           }}
@@ -188,7 +224,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           deployables={deployables}
           channels={channels}
           subscriptions={subscriptions}
-          editChannel={editChannel}
+          getChannelResource={getChannelResource}
           openDeployableModal={actions.openDisplayDeployableModal}
           setDeployableModalHeaderInfo={actions.setDeployableModalHeaderInfo}
           setCurrentDeployableSubscriptionData={

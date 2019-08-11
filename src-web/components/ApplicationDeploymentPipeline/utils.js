@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-// import R from 'ramda';
+import R from 'ramda'
 
 // Method will take in an object and return back the items of applications
 export const getApplicationsList = list => {
@@ -17,15 +17,29 @@ export const getApplicationsList = list => {
   return []
 }
 
+const pullOutDeployablePerApplication = application => {
+  const isKind = n => n.kind === 'deployable'
+  if (application && application.related) {
+    const appDeployables = R.filter(isKind, application.related)
+    return appDeployables
+  }
+  return []
+}
+
 // This method takes in an object and drills down to find the items of applications
 // Within that it will go a step further and find the deployables and merge them together.
 export const getDeployablesList = list => {
   if (list && list.items) {
-    const deployables = list.items.map(item => {
-      return (item && item.related) || []
+    const deployables = list.items.map(application => {
+      const deployablesList = pullOutDeployablePerApplication(application)
+      if (deployablesList.length > 0) {
+        return deployablesList
+      }
     })
+    const removeUndefined = x => x !== undefined
     const emptyArray = []
-    return emptyArray.concat.apply([], deployables)
+    const removedUndefinedDeployables = R.filter(removeUndefined, deployables)
+    return emptyArray.concat.apply([], removedUndefinedDeployables)
   }
   return []
 }
@@ -67,4 +81,20 @@ export const getSubscriptionsList = subscriptions => {
     return mappedSubscriptions
   }
   return []
+}
+
+// This takes in the applications list and searchText and filters down the applications
+export const filterApps = (applications, searchText) => {
+  if (
+    searchText !== '' &&
+    applications &&
+    applications.items &&
+    applications.items.length > 0
+  ) {
+    const doesContainName = x => x.name.includes(searchText)
+    const filteredApps = R.filter(doesContainName, applications.items)
+    // The format is expecting it in an objects of items so keeping the format
+    return { items: filteredApps }
+  }
+  return applications
 }

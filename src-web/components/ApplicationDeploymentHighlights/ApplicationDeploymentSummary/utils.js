@@ -7,34 +7,45 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-export const masonryOptions = {
-  layoutInstant: true,
-  horizontalOrder: true,
-  fitWidth: true,
-  initLayout: true,
-  resizeContainer: true,
-  columnWidth: 10,
-  gutter: 0,
-  itemSelector: '.grid-item'
-}
+import R from 'ramda'
 
 // return the data for the stacked channel
 export const getChannelChartData = list => {
   if (list && list.items) {
     const channelChartDataList = list.items.map(item => {
-      if (item && item.name) {
-        return {
-          name: item.name || 'unknown',
-          cm: item.name.length * 20,
-          pr: item.name.length * 30,
-          fl: item.name.length * 50
+      if (item && item.related) {
+        var completed = 0
+        var failed = 0
+        var progress = 0
+        var name = item.name || 'unknown'
+
+        for (var i = 0; i < item.related.length; i++) {
+          if (item.related[i].kind && item.related[i].kind === 'release') {
+            if (item.related[i].items) {
+              for (var j = 0; j < item.related[i].items.length; j++) {
+                if (item.related[i].items[j].status) {
+                  var status = item.related[i].items[j].status
+                  if (status === 'FAILED') {
+                    failed = failed + 1
+                  } else if (status === 'DEPLOYED') {
+                    completed = completed + 1
+                  } else if (status === 'PROGRESS') {
+                    progress = progress + 1
+                  } else {
+                    completed = completed + 1
+                  }
+                } else {
+                  completed = completed + 1
+                }
+              }
+            }
+          }
         }
-      } else {
         return {
-          name: 'unknown',
-          cm: 40,
-          pr: 50,
-          fl: 30
+          name: name,
+          cm: completed,
+          pr: progress,
+          fl: failed
         }
       }
     })
@@ -58,32 +69,35 @@ export const getChannelChartWidth = list => {
   return 300
 }
 
-const getDeployablesList = list => {
+export const getDeployedResourcesChartData = list => {
   if (list && list.items) {
-    const deployables = list.items.map(item => {
-      return (item && item.related) || []
-    })
-    const emptyArray = []
-    return emptyArray.concat.apply([], deployables)
-  }
-  return []
-}
+    const deplChartDataList = list.items.map(item => {
+      if (item && item.related) {
+        var app_resources = 0
 
-export const getDeployablesChartData = list => {
-  if (list) {
-    const deployableList = getDeployablesList(list)
-    if (deployableList) {
-      const deplChartDataList = deployableList.map(item => {
-        return {
-          name: (item && item.items[0].name) || 'unknown',
-          cm: item.items[0].name.length * 20,
-          pr: item.items[0].name.length * 30,
-          fl: item.items[0].name.length * 50
+        for (var i = 0; i < item.related.length; i++) {
+          if (item.related[i].kind && item.related[i].kind === 'release') {
+            if (item.related[i].items) {
+              app_resources = app_resources + item.related[i].items.length
+            }
+          }
         }
-      })
-      const emptyArray = []
-      return emptyArray.concat.apply([], deplChartDataList)
-    }
+        return {
+          name: item.name || 'unknown',
+          counter: app_resources
+        }
+      }
+    })
+    // The way the above is written, if item && item.related is not true
+    // deplChartDataList will have an undefined in the list which will break the code
+    // down the line so we want to remove undefined
+    const removeUndefined = x => x !== undefined
+    const emptyArray = []
+    const removedUndefinedDeployables = R.filter(
+      removeUndefined,
+      deplChartDataList
+    )
+    return emptyArray.concat.apply([], removedUndefinedDeployables)
   }
   return []
 }

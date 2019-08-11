@@ -42,10 +42,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-type"
               >
-                <div>
-                  Versions
-                </div>
+                Versions
               </div>
+              
             </div>
             <div
               className="card-count-type"
@@ -60,10 +59,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-type"
               >
-                <div>
-                  Completed
-                </div>
+                Completed
               </div>
+              
             </div>
             <div
               className="card-count-type"
@@ -78,10 +76,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-type"
               >
-                <div>
-                  Failed
-                </div>
+                Failed
               </div>
+              
             </div>
             <div
               className="card-count-type"
@@ -96,10 +93,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-type"
               >
-                <div>
-                  In Progress
-                </div>
+                In Progress
               </div>
+              
             </div>
             <div
               className="card-count-type"
@@ -114,10 +110,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-type"
               >
-                <div>
-                  Pending
-                </div>
+                Pending
               </div>
+              
             </div>
           </div>
         </div>
@@ -148,10 +143,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-type"
               >
-                <div>
-                  Incidents
-                </div>
+                Incidents
               </div>
+              
             </div>
           </div>
         </div>

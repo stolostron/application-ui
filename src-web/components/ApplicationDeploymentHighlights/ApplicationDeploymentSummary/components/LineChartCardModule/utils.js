@@ -10,40 +10,28 @@
 import msgs from '../../../../../../nls/platform.properties'
 
 export const getChartKeyColor = value => {
-  switch (true) {
-  case value === 'pr':
-    return '#3dffef'
-  case value === 'fl':
-    return '#3dffef'
-  case value === 'cm':
-    return '#3dffef'
-  default:
-    return ''
-  }
+  if (value) return '#3dffef'
+
+  return '#3dffef'
 }
 
 export const getChartKeyName = (value, locale) => {
-  switch (true) {
-  case value === 'pr':
-    return msgs.get('channel.deploy.status.progress', locale)
-  case value === 'fl':
-    return msgs.get('channel.deploy.status.failed', locale)
-  case value === 'cm':
-    return msgs.get('channel.deploy.status.completed', locale)
-  default:
-    return ''
-  }
+  return msgs.get('channel.deploy.status.completed', locale)
 }
 
 export const getModuleData = data => {
   const chartCardItems = []
-  data.map(({ name, cm, pr, fl }) => {
-    return chartCardItems.push({
-      name,
-      cm,
-      pr,
-      fl
-    })
+  var nb_items = 0
+
+  data.map(({ name, counter }) => {
+    //show only apps with at least one resource, and no more than 5
+    if (nb_items < 5 && counter != 0) {
+      nb_items = nb_items + 1
+      return chartCardItems.push({
+        name,
+        counter
+      })
+    }
   })
   return {
     chartCardItems

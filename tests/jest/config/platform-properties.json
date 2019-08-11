@@ -18,6 +18,7 @@
   "actions.scroll.right": "Scroll right",
   "actions.close": "Close",
   "actions.yaml": "YAML",
+  "actions.searchApplications": "Search applications",
   "pagination.of": "{0} of {1}",
   "application.details": "Application Details",
   "application.placement.bindings": "Placement Bindings",

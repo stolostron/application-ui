@@ -30,7 +30,8 @@ import {
   getApplicationsList,
   getDeployablesList,
   getChannelsList,
-  getSubscriptionsList
+  getSubscriptionsList,
+  filterApps
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
@@ -120,21 +121,25 @@ const mapStateToProps = state => {
     AppDeployments,
     role
   } = state
-  // TODO use AppDeployments.deploymentPipelineSearch to search and narrow down
-  // the applications, deployables, and channels
+  // Filter Application List based on search input
+  // Currently just filterin on application name
+  const filteredApplications = filterApps(
+    HCMApplicationList,
+    AppDeployments.deploymentPipelineSearch
+  )
   return {
     displayDeployableModal: AppDeployments.displayDeployableModal,
     deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
     deployableModalSubscriptionInfo:
       AppDeployments.deployableModalSubscriptionInfo,
     userRole: role.role,
-    HCMApplicationList,
+    HCMApplicationList: filteredApplications,
     HCMChannelList,
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
     loading: AppDeployments.loading,
-    applications: getApplicationsList(HCMApplicationList),
-    deployables: getDeployablesList(HCMApplicationList), // right now its only used for total number
+    applications: getApplicationsList(filteredApplications),
+    deployables: getDeployablesList(filteredApplications), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
@@ -205,9 +210,9 @@ class ApplicationDeploymentPipeline extends React.Component {
           light
           name=""
           defaultValue=""
-          labelText="Search"
+          labelText={msgs.get('actions.searchApplications', locale)}
           closeButtonLabelText=""
-          placeHolderText="Search"
+          placeHolderText={msgs.get('actions.searchApplications', locale)}
           onChange={event => {
             actions.setDeploymentSearch(event.target.value)
           }}

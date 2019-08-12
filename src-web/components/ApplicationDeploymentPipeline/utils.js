@@ -17,8 +17,8 @@ export const getApplicationsList = list => {
   return []
 }
 
-const pullOutDeployablePerApplication = application => {
-  const isKind = n => n.kind === 'deployable'
+export const pullOutDeployablePerApplication = application => {
+  const isKind = n => n.kind == 'deployable'
   if (application && application.related) {
     const appDeployables = R.filter(isKind, application.related)
     return appDeployables

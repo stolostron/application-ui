@@ -7,32 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import {
-  createApplicationRows,
-  createApplicationRowsLookUp,
-  findMatchingSubscription
-} from './utils'
-
-describe('createApplicationRows', () => {
-  const data = [
-    {
-      deployables: [{ josh: 'hi' }, { dart: 'hi' }],
-      metadata: { name: 'josh', namespace: 'namespace1' }
-    }
-  ]
-  const applicationDud = [{ itteemmss: [{ josh: 'hi' }, { dart: 'hi' }] }]
-  it('should return a mapped object of application rows', () => {
-    const result = [{ deployables: [], id: '', name: '', namespace: '' }]
-    expect(createApplicationRows(data)).toEqual(result)
-  })
-  it('should return default data', () => {
-    const result = [{ id: '', name: '', namespace: '', deployables: [] }]
-    expect(createApplicationRows(applicationDud)).toEqual(result)
-  })
-  it('should handle undefined object', () => {
-    expect(createApplicationRows(undefined)).toEqual({})
-  })
-})
+import { createApplicationRowsLookUp, findMatchingSubscription } from './utils'
 
 describe('createApplicationRowsLookUp', () => {
   const data = [

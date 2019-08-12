@@ -43,13 +43,13 @@ const mapStateToProps = state => {
   }
 }
 
-const createPodItemsList = (podData, list) => {
+const createPodsList = (podData, podsList) => {
   if (podData && podData.data) {
     podData.data.searchResult[0].items.map((item, i) => {
-      list[i] = item.name
+      podsList[i] = item.name
     })
   }
-  return list
+  return podsList
 }
 
 class ApplicationLogs extends React.Component {
@@ -62,7 +62,7 @@ class ApplicationLogs extends React.Component {
       currentSelectedPod
     } = this.props
 
-    const podItems = createPodItemsList(podData, [])
+    const podItems = createPodsList(podData, [])
     const containerItems = ['container1', 'container2', 'container3']
     const logsContent = 'Testing logs...'
 

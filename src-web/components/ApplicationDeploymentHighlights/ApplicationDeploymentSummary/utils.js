@@ -76,7 +76,14 @@ export const getDeployedResourcesChartData = list => {
         var app_resources = 0
 
         for (var i = 0; i < item.related.length; i++) {
-          if (item.related[i].kind && item.related[i].kind === 'release') {
+          if (
+            item.related[i].kind &&
+            (item.related[i].kind === 'release' ||
+              item.related[i].kind === 'deployment' ||
+              item.related[i].kind === 'pod' ||
+              item.related[i].kind === 'service' ||
+              item.related[i].kind === 'replicaset')
+          ) {
             if (item.related[i].items) {
               app_resources = app_resources + item.related[i].items.length
             }

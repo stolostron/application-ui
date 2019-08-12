@@ -18,6 +18,7 @@ import resources from '../../../lib/shared/resources'
 import { handlePodChange } from './utils'
 import { fetchContainersForPod } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
+import { getPodsFromApplicationRelated } from './utils'
 
 /* eslint-disable react/prop-types */
 
@@ -36,10 +37,17 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const { AppLogs } = state
+  const { AppLogs, HCMApplicationList } = state
+  const applicationName =
+    HCMApplicationList &&
+    HCMApplicationList.items &&
+    HCMApplicationList.items[0] &&
+    HCMApplicationList.items[0].name
   return {
     podData: AppLogs.podData,
-    currentSelectedPod: AppLogs.currentSelectedPod
+    currentSelectedPod: AppLogs.currentSelectedPod,
+    podDataTwo: getPodsFromApplicationRelated(HCMApplicationList),
+    currentApplication: applicationName || ''
   }
 }
 
@@ -59,9 +67,12 @@ class ApplicationLogs extends React.Component {
       podData,
       actions,
       fetchContainersForPod,
-      currentSelectedPod
+      currentSelectedPod,
+      podDataTwo,
+      currentApplication
     } = this.props
 
+    console.log('herehere', podData, currentApplication)
     const podItems = createPodsList(podData, [])
     const containerItems = ['container1', 'container2', 'container3']
     const logsContent = 'Testing logs...'

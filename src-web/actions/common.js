@@ -254,38 +254,18 @@ export const fetchIncidents = (resourceType, namespace, name) => {
   }
 }
 
-//fetch pods for application - TODO change this this is dummy data
-export const fetchPodsForApplication = (namespace, name) => {
-  const queryString = convertStringToQuery(`kind:pods label:app:gbchn namespace:${namespace}`)
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .search(SEARCH_QUERY, { input: [queryString] })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.searchResult[0].items) },
-            resourceType
-          )
-        )
-      })
-      .catch(err => {
-        dispatch(receiveResourceError(err, resourceType))
-      })
-  }
-}
-
 //fetch containers for selected pod
 export const fetchContainersForPod = (selfLink, namespace, name, cluster) => {
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .search(GET_RESOURCE, {selfLink:selfLink, namespace:namespace, kind:'PODS', name:name, cluster:cluster})
+      .search(GET_RESOURCE, {
+        selfLink: selfLink,
+        namespace: namespace,
+        kind: 'PODS',
+        name: name,
+        cluster: cluster
+      })
       .then(response => {
         if (response.errors) {
           return dispatch(

@@ -15,6 +15,7 @@ export const mapSingleApplication = application => {
       {
         name: items.name || '',
         namespace: items.namespace || '',
+        dashboard: items.dashboard || '',
         selfLink: items.selfLink || '',
         _uid: items.uid || '',
         created: items.created || '',
@@ -32,6 +33,7 @@ export const mapSingleApplication = application => {
     {
       name: '',
       namespace: '',
+      dashboard: '',
       selfLink: '',
       _uid: '',
       created: '',

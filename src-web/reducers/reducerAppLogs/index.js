@@ -9,15 +9,27 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
-import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
+import {
+  SEARCH_QUERY,
+  GET_RESOURCE
+} from '../../apollo-client/queries/SearchQueries'
+import { convertStringToQuery } from '../../../lib/client/search-helper'
 
 const SET_LOG_DATA = 'SET_LOG_DATA'
-const SET_LOG_ERROR = 'SET_LOG_ERROR'
+const SET_POD_DATA = 'SET_POD_DATA'
+const SET_CONTAINER_DATA = 'SET_CONTAINER_DATA'
+const FETCH_LOG_ERROR = 'FETCH_LOG_ERROR'
+const FETCH_POD_ERROR = 'FETCH_POD_ERROR'
+const FETCH_CONTAINER_ERROR = 'FETCH_CONTAINER_ERROR'
 
 export const initialStateLogs = {
   logData: {},
+  podData: {},
+  containerData: {},
+  fetchPodDataError: '',
   fetchLogDataError: '',
-  loading: false,
+  fetchContainerDataError: '',
+  loading: false
 }
 
 export const LogOverview = (state = initialStateLogs, action) => {
@@ -25,8 +37,20 @@ export const LogOverview = (state = initialStateLogs, action) => {
   case SET_LOG_DATA: {
     return { ...state, logData: action.payload }
   }
-  case SET_LOG_ERROR: {
+  case SET_POD_DATA: {
+    return { ...state, podData: action.payload }
+  }
+  case SET_CONTAINER_DATA: {
+    return { ...state, containerData: action.payload }
+  }
+  case FETCH_LOG_ERROR: {
     return { ...state, fetchLogDataError: action.payload }
+  }
+  case FETCH_POD_ERROR: {
+    return { ...state, fetchPodDataError: action.payload }
+  }
+  case FETCH_CONTAINER_ERROR: {
+    return { ...state, fetchContainerDataError: action.payload }
   }
   default:
     return state
@@ -35,25 +59,58 @@ export const LogOverview = (state = initialStateLogs, action) => {
 export default LogOverview
 
 export const setLogData = createAction(SET_LOG_DATA)
-export const setLogError = createAction(SET_LOG_ERROR)
+export const setPodData = createAction(SET_POD_DATA)
+export const setContainerData = createAction(SET_CONTAINER_DATA)
+export const setFetchLogError = createAction(FETCH_LOG_ERROR)
+export const setFetchPodError = createAction(FETCH_POD_ERROR)
+export const setFetchContainerError = createAction(FETCH_CONTAINER_ERROR)
 
-//fetch pods for application - TODO change this this is dummy data
+// Fetch pods for application
 export const fetchPodsForApplication = (apolloClient, namespace, name) => {
+  const queryString = convertStringToQuery(
+    `kind:pods label:app:${name} namespace:${namespace}`
+  )
   console.log('fetchPodsForApplication')
   return dispatch => {
     return apolloClient
       .search(SEARCH_QUERY, {
-        input: [`kind:pods label:app:gbchn namespace:${namespace}`]
+        input: [queryString]
       })
       .then(response => {
         console.log('response', response)
         if (response.errors) {
-          return dispatch(setLogError(response.errors))
+          return dispatch(setFetchPodError(response.errors))
         }
-        return dispatch(setLogData(response))
+        return dispatch(setPodData(response))
       })
       .catch(err => {
-        dispatch(setLogError(err))
+        dispatch(setFetchPodError(err))
+      })
+  }
+}
+
+//fetch containers for selected pod
+export const fetchContainersForPod = (
+  apolloClient,
+  selfLink,
+  namespace,
+  name,
+  cluster
+) => {
+  const queryString = convertStringToQuery(
+    `selfLink:${selfLink}, namespace:${namespace}, kind:'PODS', name:${name}, cluster:${cluster}`
+  )
+  return dispatch => {
+    return apolloClient
+      .search(GET_RESOURCE, { input: [queryString] })
+      .then(response => {
+        if (response.errors) {
+          return dispatch(setFetchPodError(response.errors))
+        }
+        return dispatch(setPodData(response))
+      })
+      .catch(err => {
+        dispatch(setFetchPodError(err))
       })
   }
 }

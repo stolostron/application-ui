@@ -688,6 +688,8 @@
   "tabs.yaml": "YAML",
   "tabs.events": "Events",
   "tabs.logs": "Logs",
+  "tabs.logs.dropdown.divider": ">",
+  "tabs.logs.viewExternal": "View in Kibana",
   "taginput.icon.clean": "remove all tags",
   "taginput.icon.clear": "remove all filters",
   "taginput.icon.filter": "open modal for tags",

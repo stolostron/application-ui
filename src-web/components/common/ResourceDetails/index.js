@@ -15,6 +15,7 @@ import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { getIncidentCount } from './utils'
 import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
+import { fetchPodsForApplication } from '../../../reducers/reducerAppLogs'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -25,6 +26,7 @@ import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
 import config from '../../../../lib/shared/config'
+import apolloClient from '../../../../lib/client/apollo-client'
 
 resources(() => {
   require('./style.scss')
@@ -43,6 +45,10 @@ const withResource = Component => {
             params.namespace,
             params.name
           )
+        ),
+      fetchPods: () =>
+        dispatch(
+          fetchPodsForApplication(apolloClient, params.name, params.namespace)
         )
     }
   }
@@ -63,6 +69,7 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         fetchIncidents: PropTypes.func,
+        fetchPods: PropTypes.func,
         fetchResource: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
           PropTypes.number,
@@ -89,6 +96,7 @@ const withResource = Component => {
         }
         this.props.fetchResource()
         this.props.fetchIncidents()
+        this.props.fetchPods()
       }
 
       componentWillUnmount() {
@@ -100,6 +108,7 @@ const withResource = Component => {
           this.setState({ xhrPoll: true })
           this.props.fetchResource()
           this.props.fetchIncidents()
+          this.props.fetchPods()
         }
       }
 

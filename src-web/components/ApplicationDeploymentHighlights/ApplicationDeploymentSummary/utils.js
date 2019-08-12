@@ -20,14 +20,16 @@ export const getChannelChartData = list => {
         var name = item.name || 'unknown'
 
         for (var i = 0; i < item.related.length; i++) {
-          if (
-            item.related[i].kind &&
-            (item.related[i].kind === 'release' ||
-              item.related[i].kind === 'deployment' ||
-              item.related[i].kind === 'pod' ||
-              item.related[i].kind === 'service' ||
-              item.related[i].kind === 'replicaset')
-          ) {
+          const kind = item.related[i].kind
+          const correctKindAndItems =
+            (kind === 'release' ||
+              kind === 'deployment' ||
+              kind === 'pod' ||
+              kind === 'service' ||
+              kind === 'replicaset') &&
+            item.related[i].items
+
+          if (kind && correctKindAndItems) {
             if (item.related[i].items) {
               for (var j = 0; j < item.related[i].items.length; j++) {
                 if (item.related[i].items[j].status) {
@@ -83,14 +85,16 @@ export const getDeployedResourcesChartData = list => {
         var app_resources = 0
 
         for (var i = 0; i < item.related.length; i++) {
-          if (
-            item.related[i].kind &&
-            (item.related[i].kind === 'release' ||
-              item.related[i].kind === 'deployment' ||
-              item.related[i].kind === 'pod' ||
-              item.related[i].kind === 'service' ||
-              item.related[i].kind === 'replicaset')
-          ) {
+          const kind = item.related[i].kind
+          const correctKindAndItems =
+            (kind === 'release' ||
+              kind === 'deployment' ||
+              kind === 'pod' ||
+              kind === 'service' ||
+              kind === 'replicaset') &&
+            item.related[i].items
+
+          if (kind && correctKindAndItems) {
             if (item.related[i].items) {
               app_resources = app_resources + item.related[i].items.length
             }

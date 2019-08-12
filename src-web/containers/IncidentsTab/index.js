@@ -41,7 +41,8 @@ class IncidentsTab extends React.Component {
   static propTypes = {
     fetchIncidents: PropTypes.func,
     incidentCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    incidents: PropTypes.array
+    incidents: PropTypes.array,
+    params: PropTypes.object
   };
 
   constructor(props) {
@@ -75,7 +76,19 @@ class IncidentsTab extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchIncidents()
+    const { params } = this.props
+    if (params && params.namespace && params.name) {
+      this.props.fetchIncidents()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.params || !prevProps.params.name) {
+      const { params } = this.props
+      if (params && params.namespace && params.name) {
+        this.props.fetchIncidents()
+      }
+    }
   }
 
   render() {

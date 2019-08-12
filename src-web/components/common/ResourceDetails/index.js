@@ -48,7 +48,7 @@ const withResource = Component => {
         ),
       fetchPods: () =>
         dispatch(
-          fetchPodsForApplication(apolloClient, params.name, params.namespace)
+          fetchPodsForApplication(apolloClient, params.namespace, params.name)
         )
     }
   }

@@ -17,6 +17,7 @@ import { convertStringToQuery } from '../../../lib/client/search-helper'
 
 const SET_LOG_DATA = 'SET_LOG_DATA'
 const SET_POD_DATA = 'SET_POD_DATA'
+const SET_CURRENT_SELECTED_POD = 'SET_CURRENT_SELECTED_POD'
 const SET_CONTAINER_DATA = 'SET_CONTAINER_DATA'
 const FETCH_LOG_ERROR = 'FETCH_LOG_ERROR'
 const FETCH_POD_ERROR = 'FETCH_POD_ERROR'
@@ -25,6 +26,7 @@ const FETCH_CONTAINER_ERROR = 'FETCH_CONTAINER_ERROR'
 export const initialStateLogs = {
   logData: {},
   podData: {},
+  currentSelectedPod: 'Select Pod',
   containerData: {},
   fetchPodDataError: '',
   fetchLogDataError: '',
@@ -32,13 +34,16 @@ export const initialStateLogs = {
   loading: false
 }
 
-export const LogOverview = (state = initialStateLogs, action) => {
+export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
   case SET_LOG_DATA: {
     return { ...state, logData: action.payload }
   }
   case SET_POD_DATA: {
     return { ...state, podData: action.payload }
+  }
+  case SET_CURRENT_SELECTED_POD: {
+    return { ...state, currentSelectedPod: action.payload }
   }
   case SET_CONTAINER_DATA: {
     return { ...state, containerData: action.payload }
@@ -56,10 +61,11 @@ export const LogOverview = (state = initialStateLogs, action) => {
     return state
   }
 }
-export default LogOverview
+export default AppLogs
 
 export const setLogData = createAction(SET_LOG_DATA)
 export const setPodData = createAction(SET_POD_DATA)
+export const setCurrentPod = createAction(SET_CURRENT_SELECTED_POD)
 export const setContainerData = createAction(SET_CONTAINER_DATA)
 export const setFetchLogError = createAction(FETCH_LOG_ERROR)
 export const setFetchPodError = createAction(FETCH_POD_ERROR)
@@ -70,14 +76,12 @@ export const fetchPodsForApplication = (apolloClient, namespace, name) => {
   const queryString = convertStringToQuery(
     `kind:pods label:app:${name} namespace:${namespace}`
   )
-  console.log('fetchPodsForApplication')
   return dispatch => {
     return apolloClient
       .search(SEARCH_QUERY, {
         input: [queryString]
       })
       .then(response => {
-        console.log('response', response)
         if (response.errors) {
           return dispatch(setFetchPodError(response.errors))
         }
@@ -105,12 +109,12 @@ export const fetchContainersForPod = (
       .search(GET_RESOURCE, { input: [queryString] })
       .then(response => {
         if (response.errors) {
-          return dispatch(setFetchPodError(response.errors))
+          return dispatch(setFetchContainerError(response.errors))
         }
-        return dispatch(setPodData(response))
+        return dispatch(setContainerData(response))
       })
       .catch(err => {
-        dispatch(setFetchPodError(err))
+        dispatch(setFetchContainerError(err))
       })
   }
 }

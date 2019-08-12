@@ -23,11 +23,25 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
       margin={{
         top: 20,
         right: 0,
-        left: 140,
+        left: 80,
         bottom: 5
       }}
     >
       <CartesianGrid strokeDasharray="3 3" vertical={false} />
+      <defs>
+        <linearGradient id="colorUv" x1="1" y1="0" x2="0" y2="0">
+          <stop
+            offset="5%"
+            stopColor={getChartKeyColor('counter')}
+            stopOpacity={0.9}
+          />
+          <stop
+            offset="95%"
+            stopColor={getChartKeyColor('counter')}
+            stopOpacity={0.6}
+          />
+        </linearGradient>
+      </defs>
       <XAxis type="number" axisLine={false} />
       <YAxis
         type="category"
@@ -44,7 +58,9 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
         legendType="circle"
         dataKey="counter"
         stackId="a"
-        fill={getChartKeyColor('counter')}
+        stroke={getChartKeyColor('counter')}
+        fillOpacity={1}
+        fill="url(#colorUv)"
         name={getChartKeyName('counter', locale)}
       />
     </BarChart>

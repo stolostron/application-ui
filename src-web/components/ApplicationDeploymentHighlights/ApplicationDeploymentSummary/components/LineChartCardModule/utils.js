@@ -10,9 +10,9 @@
 import msgs from '../../../../../../nls/platform.properties'
 
 export const getChartKeyColor = value => {
-  if (value) return '#3dffef'
+  if (value) return '#2de3bb'
 
-  return '#3dffef'
+  return '#2de3bb'
 }
 
 export const getChartKeyName = (value, locale) => {

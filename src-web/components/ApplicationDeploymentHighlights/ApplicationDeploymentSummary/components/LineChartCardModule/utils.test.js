@@ -12,8 +12,8 @@ import { getChartKeyColor, getChartKeyName, getModuleData } from './utils'
 describe('getChartKeyColor', () => {
   const value = 'counter'
 
-  it('should return #3dffef', () => {
-    const result = '#3dffef'
+  it('should return #2de3bb', () => {
+    const result = '#2de3bb'
     expect(getChartKeyColor(value)).toEqual(result)
   })
 })

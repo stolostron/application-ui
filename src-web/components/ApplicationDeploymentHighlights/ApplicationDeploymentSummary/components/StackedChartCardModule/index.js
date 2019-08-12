@@ -27,6 +27,29 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
       }}
     >
       <CartesianGrid strokeDasharray="3 3" vertical={false} />
+      <defs>
+        <linearGradient id="colorCm" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="25%" stopColor="#014536" stopOpacity={0.8} />
+          <stop
+            offset="75%"
+            stopColor={getChartKeyColor('cm')}
+            stopOpacity={0.6}
+          />
+        </linearGradient>
+        <linearGradient id="colorPr" x1="0" y1="1" x2="0" y2="0">
+          <stop
+            offset="25%"
+            stopColor={getChartKeyColor('pr')}
+            stopOpacity={0.8}
+          />
+          <stop
+            offset="75%"
+            stopColor={getChartKeyColor('pr')}
+            stopOpacity={0.6}
+          />
+        </linearGradient>
+      </defs>
+
       <XAxis
         dataKey="name"
         tick={{ fontSize: 10, transform: 'translate(0, 12)' }}
@@ -48,13 +71,17 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         legendType="circle"
         dataKey="cm"
         stackId="a"
-        fill={getChartKeyColor('cm')}
+        stroke={getChartKeyColor('cm')}
+        fillOpacity={1}
+        fill="url(#colorCm)"
         name={getChartKeyName('cm', locale)}
       />
       <Bar
         dataKey="pr"
         stackId="a"
-        fill={getChartKeyColor('pr')}
+        stroke={getChartKeyColor('pr')}
+        fillOpacity={1}
+        fill="url(#colorPr)"
         name={getChartKeyName('pr', locale)}
       />
       <Bar

@@ -15,14 +15,15 @@ const SET_LOG_DATA = 'SET_LOG_DATA'
 const SET_LOG_ERROR = 'SET_LOG_ERROR'
 
 export const initialStateLogs = {
-  logData: false,
-  fetchLogDataError: ''
+  logData: {},
+  fetchLogDataError: '',
+  loading: false,
 }
 
 export const LogOverview = (state = initialStateLogs, action) => {
   switch (action.type) {
   case SET_LOG_DATA: {
-    return { ...state, showAppDetails: action.payload }
+    return { ...state, logData: action.payload }
   }
   case SET_LOG_ERROR: {
     return { ...state, fetchLogDataError: action.payload }
@@ -38,12 +39,14 @@ export const setLogError = createAction(SET_LOG_ERROR)
 
 //fetch pods for application - TODO change this this is dummy data
 export const fetchPodsForApplication = (apolloClient, namespace, name) => {
+  console.log('fetchPodsForApplication')
   return dispatch => {
     return apolloClient
       .search(SEARCH_QUERY, {
         input: [`kind:pods label:app:gbchn namespace:${namespace}`]
       })
       .then(response => {
+        console.log('response', response)
         if (response.errors) {
           return dispatch(setLogError(response.errors))
         }

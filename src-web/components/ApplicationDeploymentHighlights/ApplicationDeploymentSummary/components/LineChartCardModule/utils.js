@@ -37,3 +37,12 @@ export const getModuleData = data => {
     chartCardItems
   }
 }
+
+// return the max width of the app name shown in the chart
+export const getMaxStringWidth = list => {
+  let max = 0
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].name && list[i].name.length > max) max = list[i].name.length
+  }
+  return max
+}

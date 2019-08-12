@@ -30,40 +30,16 @@ resources(() => {
   require('./style.scss')
 })
 
-// This method takes in an ID and then changes the css to either display or
-// hide the row
-const showHideTrigger = (id, deployableCount) => {
-  if (deployableCount > 0) {
-    // This will display or hide the deplable rows under the applications
-    const x = document.getElementById(id)
-    if (x.style.display === 'none') {
-      x.style.display = 'block'
-    } else {
-      x.style.display = 'none'
-    }
-    // This will display or hide the deployable rows under the channels
-    const y = document.getElementById(`${id}deployableRows`)
-    if (y.style.display === 'none') {
-      y.style.display = 'block'
-    } else {
-      y.style.display = 'none'
-    }
-    // Toggle the chevron Icon which is the drop down indicator for the deployables
-    const z = document.getElementById(`${id}chevron`)
-    if (z.className.animVal === 'closeRowChevron') {
-      z.classList.remove('closeRowChevron')
-      z.classList.add('openRowChevron')
-    } else {
-      z.classList.remove('openRowChevron')
-      z.classList.add('closeRowChevron')
-    }
-  }
-}
-
 // This component displays all the LEFT column applications in the table.
 // It displays all the applications names and their number of deployables.
 const LeftColumnForApplicationNames = (
-  { applicationRows, applications, deployables },
+  {
+    applicationRows,
+    applications,
+    deployables,
+    updateAppDropDownList,
+    appDropDownList
+  },
   { locale }
 ) => {
   return (
@@ -85,11 +61,18 @@ const LeftColumnForApplicationNames = (
         const appNamespace = application.namespace
         const isKind = n => n.kind === 'deployable'
         const appDeployables = R.filter(isKind, application.deployables)
+        const expandRow = appDropDownList.includes(appName)
         return (
           <div key={Math.random()} className="tileContainerApp">
             <Tile
               className="applicationTile"
-              onClick={() => showHideTrigger(appName, appDeployables.length)}
+              onClick={
+                appDeployables.length > 0
+                  ? () => updateAppDropDownList(appName)
+                  : () => {
+                    /* onClick expects a function thus we have placeholder */
+                  }
+              }
             >
               {appDeployables.length > 0 && (
                 <Icon
@@ -97,7 +80,7 @@ const LeftColumnForApplicationNames = (
                   name="icon--chevron--right"
                   fill="#6089bf"
                   description=""
-                  className="closeRowChevron"
+                  className={expandRow ? 'openRowChevron' : 'closeRowChevron'}
                 />
               )}
               <div className="ApplicationContents">
@@ -111,7 +94,7 @@ const LeftColumnForApplicationNames = (
             <div
               id={appName}
               className="deployablesDisplay"
-              style={{ display: 'none' }}
+              style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {appDeployables.map(deployable => {
                 const deployableName =
@@ -152,7 +135,8 @@ const ChannelColumnGrid = (
     getChannelResource,
     openDeployableModal,
     setDeployableModalHeaderInfo,
-    setCurrentDeployableSubscriptionData
+    setCurrentDeployableSubscriptionData,
+    appDropDownList
   },
   locale
 ) => {
@@ -194,6 +178,7 @@ const ChannelColumnGrid = (
       {applicationList.map(application => {
         const applicationName = application.name || ''
         const deployables = getDeployablesPerApplication(application)
+        const expandRow = appDropDownList.includes(applicationName)
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
@@ -213,7 +198,7 @@ const ChannelColumnGrid = (
             <div
               id={`${applicationName}deployableRows`}
               className="horizontalScrollRow spaceOutBelow"
-              style={{ display: 'none' }}
+              style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {deployables.map(deployable => {
                 // TODO will need to fix once we have the API fully returning everything
@@ -289,7 +274,9 @@ const PipelineGrid = withLocale(
     getChannelResource,
     openDeployableModal,
     setDeployableModalHeaderInfo,
-    setCurrentDeployableSubscriptionData
+    setCurrentDeployableSubscriptionData,
+    updateAppDropDownList,
+    appDropDownList
   }) => {
     const applicationRows = createApplicationRows(applications)
     // const applicationRowsLookUp = createApplicationRowsLookUp(applications);
@@ -301,6 +288,8 @@ const PipelineGrid = withLocale(
             applicationRows={applicationRows}
             deployables={deployables}
             applications={applications}
+            updateAppDropDownList={updateAppDropDownList}
+            appDropDownList={appDropDownList}
           />
           <ChannelColumnGrid
             channelList={channels}
@@ -313,6 +302,7 @@ const PipelineGrid = withLocale(
             setCurrentDeployableSubscriptionData={
               setCurrentDeployableSubscriptionData
             }
+            appDropDownList={appDropDownList}
           />
         </div>
       </div>

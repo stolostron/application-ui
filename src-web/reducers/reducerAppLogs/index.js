@@ -36,29 +36,29 @@ export const initialStateLogs = {
 
 export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
-  case SET_LOG_DATA: {
-    return { ...state, logData: action.payload }
-  }
-  case SET_POD_DATA: {
-    return { ...state, podData: action.payload }
-  }
-  case SET_CURRENT_SELECTED_POD: {
-    return { ...state, currentSelectedPod: action.payload }
-  }
-  case SET_CONTAINER_DATA: {
-    return { ...state, containerData: action.payload }
-  }
-  case FETCH_LOG_ERROR: {
-    return { ...state, fetchLogDataError: action.payload }
-  }
-  case FETCH_POD_ERROR: {
-    return { ...state, fetchPodDataError: action.payload }
-  }
-  case FETCH_CONTAINER_ERROR: {
-    return { ...state, fetchContainerDataError: action.payload }
-  }
-  default:
-    return state
+    case SET_LOG_DATA: {
+      return { ...state, logData: action.payload }
+    }
+    case SET_POD_DATA: {
+      return { ...state, podData: action.payload }
+    }
+    case SET_CURRENT_SELECTED_POD: {
+      return { ...state, currentSelectedPod: action.payload }
+    }
+    case SET_CONTAINER_DATA: {
+      return { ...state, containerData: action.payload }
+    }
+    case FETCH_LOG_ERROR: {
+      return { ...state, fetchLogDataError: action.payload }
+    }
+    case FETCH_POD_ERROR: {
+      return { ...state, fetchPodDataError: action.payload }
+    }
+    case FETCH_CONTAINER_ERROR: {
+      return { ...state, fetchContainerDataError: action.payload }
+    }
+    default:
+      return state
   }
 }
 export default AppLogs
@@ -74,7 +74,7 @@ export const setFetchContainerError = createAction(FETCH_CONTAINER_ERROR)
 // Fetch pods for application
 export const fetchPodsForApplication = (apolloClient, namespace, name) => {
   const queryString = convertStringToQuery(
-    `kind:pods label:app:${name} namespace:${namespace}`
+    `kind:pod label:app=gbchn namespace:${namespace}`
   )
   return dispatch => {
     return apolloClient

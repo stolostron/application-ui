@@ -7,6 +7,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+import { getRelatedItems } from './utils'
+
 // @flow
 export const mapSingleApplication = application => {
   if (application && application.items && application.related) {
@@ -25,7 +27,11 @@ export const mapSingleApplication = application => {
         label: items.label || '',
         _hubClusterResource: items._hubClusterResource || '',
         _rbac: items._rbac || '',
-        related: application.related || []
+        related: application.related || [],
+        deployments: getRelatedItems(application.related, 'deployment'),
+        deployables: getRelatedItems(application.related, 'deployable'),
+        placementRules: getRelatedItems(application.related, 'placementrule'),
+        subscriptions: getRelatedItems(application.related, 'subscription')
       }
     ]
   }

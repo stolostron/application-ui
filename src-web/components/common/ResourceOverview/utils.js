@@ -53,7 +53,8 @@ export const getNumDeployments = data => {
           'channel',
           'cluster',
           'subscription',
-          'placementbinding'
+          'placementbinding',
+          'placementrule'
         ].includes(elem.kind)
     )
     if (filtered.length > 0) {
@@ -75,7 +76,8 @@ export const getNumPendingDeployments = data => {
           'channel',
           'cluster',
           'subscription',
-          'placementbinding'
+          'placementbinding',
+          'placementrule'
         ].includes(elem.kind)
     )
     if (filtered.length > 0) {
@@ -111,7 +113,8 @@ export const getNumInProgressDeployments = data => {
           'channel',
           'cluster',
           'subscription',
-          'placementbinding'
+          'placementbinding',
+          'placementrule'
         ].includes(elem.kind)
     )
     if (filtered.length > 0) {
@@ -147,7 +150,8 @@ export const getNumFailedDeployments = data => {
           'channel',
           'cluster',
           'subscription',
-          'placementbinding'
+          'placementbinding',
+          'placementrule'
         ].includes(elem.kind)
     )
     if (filtered.length > 0) {

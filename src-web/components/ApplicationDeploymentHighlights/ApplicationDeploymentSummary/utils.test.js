@@ -63,7 +63,7 @@ describe('getChannelChartData', () => {
 
   it('should return channels list of 2', () => {
     const result = [
-      { cm: 2, fl: 1, name: channel1, pr: 1 },
+      { cm: 1, fl: 1, name: channel1, pr: 2 },
       { cm: 1, fl: 0, name: channel2, pr: 0 }
     ]
     expect(getChannelChartData(channelList)).toEqual(result)

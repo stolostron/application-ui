@@ -58,16 +58,20 @@ export default withRouter(
         <ResourceTableModule
           key="placementRules"
           definitionsKey="placementRuleKeys"
+        />,
+        <ResourceTableModule
+          key="placementPolicies"
+          definitionsKey="placementPolicyKeys"
+          subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES}
+        />,
+        <ResourceTableModule
+          key="placementBindings"
+          definitionsKey="placementBindingKeys"
+        />,
+        <ResourceTableModule
+          key="applicationRelationships"
+          definitionsKey="applicationRelationshipKeys"
         />
-        // <ResourceTableModule
-        //   key='placementPolicies'
-        //   definitionsKey='placementPolicyKeys'
-        //   subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES}
-        // />,
-        // <ResourceTableModule
-        //   key='placementBindings'
-        //   definitionsKey='placementBindingKeys'
-        // />
       ],
       tableTitle,
       'All applications'

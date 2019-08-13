@@ -14,6 +14,7 @@ import {
   updateSecondaryHeader,
   updateModal /* , fetchResource */
 } from '../../actions/common'
+import { fetchDeployableResource } from '../../reducers/reducerDeployables'
 import {
   getBreadCrumbs,
   getDeployableDetails,
@@ -24,6 +25,7 @@ import {
 import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights'
 import ApplicationDeployableSubscription from '../../components/ApplicationDeployableSubscription'
 import ApplicationDeployableVersionStatus from '../../components/ApplicationDeployableVersionStatus'
+import apolloClient from '../../../lib/client/apollo-client'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -56,27 +58,40 @@ const mapDispatchToProps = dispatch => {
     updateSecondaryHeaderInfo: (title, breadCrumbs) =>
       dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
     editSubscription: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data)
+      handleEditResource(dispatch, resourceType, data),
+    fetchDeployableResource: (name, namespace) =>
+      dispatch(fetchDeployableResource(apolloClient, name, namespace))
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = state => {
+  const { DeployablesReducer } = state
   const deployableDetails = getDeployableDetails(sampleData)
   const subscriptions = getSubscriptions(sampleData)
   const channels = getChannels(sampleData)
 
-  return { deployableDetails, subscriptions, channels }
+  return {
+    deployableData: DeployablesReducer.deployableData,
+    loading: DeployablesReducer.loading,
+    deployableDetails,
+    subscriptions,
+    channels
+  }
 }
 
 class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
-    const { updateSecondaryHeaderInfo, params } = this.props
+    const {
+      updateSecondaryHeaderInfo,
+      params,
+      fetchDeployableResource
+    } = this.props
     const { locale } = this.context
     const deployableParams =
       (params && params.match && params.match.params) || {}
     const breadCrumbs = getBreadCrumbs(deployableParams, locale)
-
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
+    fetchDeployableResource(deployableParams.name, deployableParams.namespace)
   }
 
   componentDidMount() {}
@@ -84,7 +99,7 @@ class ApplicationDeployableDetails extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const { editSubscription } = this.props
+    const { editSubscription, deployableData, loading } = this.props
 
     return (
       <div id="ApplicationDeployableDetails">

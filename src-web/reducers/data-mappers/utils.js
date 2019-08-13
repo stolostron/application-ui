@@ -20,7 +20,9 @@ export const getRelatedItems = (related, kind) => {
             'cluster',
             'subscription',
             'placementbinding',
-            'placementrule'
+            'placementrule',
+            'placementpolicy',
+            'applicationrelationship'
           ].includes(elem.kind)
       )
     } else {

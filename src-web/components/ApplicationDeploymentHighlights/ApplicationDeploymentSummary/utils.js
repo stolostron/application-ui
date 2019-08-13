@@ -33,14 +33,14 @@ export const getChannelChartData = list => {
             for (var j = 0; j < item.related[i].items.length; j++) {
               if (item.related[i].items[j].status) {
                 var status = item.related[i].items[j].status
-                if (status === 'FAILED') {
+                if (status === 'FAILED' || status.includes('Error')) {
                   failed = failed + 1
-                } else if (status === 'DEPLOYED') {
+                } else if (status === 'DEPLOYED' || status === 'Running') {
                   completed = completed + 1
                 } else if (status === 'PROGRESS') {
                   progress = progress + 1
                 } else {
-                  completed = completed + 1
+                  progress = progress + 1
                 }
               } else {
                 completed = completed + 1

@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import { DropdownV2 } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
-import { handlePodChange } from './utils'
+import { handlePodChange, handleContainerChange } from './utils'
 import { fetchContainersForPod } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
 import { getPodsFromApplicationRelated } from './utils'
@@ -38,15 +38,11 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   const { AppLogs, HCMApplicationList } = state
-  const applicationName =
-    HCMApplicationList &&
-    HCMApplicationList.items &&
-    HCMApplicationList.items[0] &&
-    HCMApplicationList.items[0].name
   return {
     podData: getPodsFromApplicationRelated(HCMApplicationList),
+    containerData: AppLogs.containerData,
     currentSelectedPod: AppLogs.currentSelectedPod,
-    currentApplication: applicationName || ''
+    currentSelectedContainer: AppLogs.currentSelectedContainer
   }
 }
 
@@ -59,19 +55,29 @@ const createPodsList = (podData, podsList) => {
   return podsList
 }
 
+const createContainersList = (containerData, containersList) => {
+  if (containerData && containerData.data && containerData.data.getResource && containerData.data.getResource.spec && containerData.data.getResource.spec.containers) {
+    containerData.data.getResource.spec.containers.map((item, i) => {
+      containersList[i] = item.name
+    })
+  }
+  return containersList
+}
+
 class ApplicationLogs extends React.Component {
   render() {
     const { locale } = this.context
     const {
-      podData,
       actions,
       fetchContainersForPod,
+      podData,
+      containerData,
       currentSelectedPod,
-      currentApplication
+      currentSelectedContainer,
     } = this.props
 
     const podItems = createPodsList(podData, [])
-    const containerItems = ['container1', 'container2', 'container3']
+    const containerItems = createContainersList(containerData, [])
     const logsContent = 'Testing logs...'
 
     // // For these 4 guys here you are going to need to determine their values
@@ -105,14 +111,10 @@ class ApplicationLogs extends React.Component {
                 onChange={event =>
                   handlePodChange(
                     event,
-                    // podSelfLink,
-                    // podNamespace,
-                    // podName,
-                    // podCluster,
-                    podData,
-                    apolloClient,
                     fetchContainersForPod,
-                    actions.setCurrentPod
+                    podData,
+                    actions.setCurrentPod,
+                    actions.resetContainerData,
                   )
                 }
                 items={podItems}
@@ -125,8 +127,14 @@ class ApplicationLogs extends React.Component {
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 light
-                label="Containers"
-                // onChange={this.handleContainerChange.bind(this)}
+                label={currentSelectedContainer}
+                onChange={event =>
+                  handleContainerChange(
+                    event,
+                    containerData,
+                    actions.setCurrentContainer,
+                  )
+                }
                 items={containerItems}
               />
             </div>

@@ -31,7 +31,19 @@ export const mapSingleApplication = application => {
         deployments: getRelatedItems(application.related, 'deployment'),
         deployables: getRelatedItems(application.related, 'deployable'),
         placementRules: getRelatedItems(application.related, 'placementrule'),
-        subscriptions: getRelatedItems(application.related, 'subscription')
+        subscriptions: getRelatedItems(application.related, 'subscription'),
+        placementPolicies: getRelatedItems(
+          application.related,
+          'placementpolicy'
+        ),
+        placementBindings: getRelatedItems(
+          application.related,
+          'placementbinding'
+        ),
+        applicationRelationships: getRelatedItems(
+          application.related,
+          'applicationrelationship'
+        )
       }
     ]
   }

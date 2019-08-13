@@ -214,6 +214,11 @@ export default {
         resourceKey: 'cluster',
         msgKey: 'table.header.cluster'
       },
+      // {
+      //   key: 'release',
+      //   resourceKey: 'release',
+      //   msgKey: 'table.header.helm.release'
+      // },
       {
         key: 'apigroup',
         resourceKey: 'apigroup',
@@ -224,6 +229,11 @@ export default {
         resourceKey: 'status',
         msgKey: 'table.header.status'
       },
+      // {
+      //   key: 'reason',
+      //   resourceKey: 'reason',
+      //   msgKey: 'table.header.reason'
+      // },
       {
         key: 'kind',
         resourceKey: 'kind',
@@ -259,6 +269,18 @@ export default {
         resourceKey: 'namespace',
         msgKey: 'table.header.namespace'
       },
+      // {
+      //   key: 'chart',
+      //   resourceKey: 'deployer',
+      //   msgKey: 'table.header.deployerDetails',
+      //   transformFunction: getDeployerDetails
+      // },
+      // {
+      //   key: 'dependencies',
+      //   resourceKey: 'dependencies',
+      //   msgKey: 'table.header.dependencies',
+      //   transformFunction: getDependencies
+      // },
       {
         key: 'cluster',
         resourceKey: 'cluster',
@@ -414,6 +436,47 @@ export default {
         resourceKey: 'subjects',
         msgKey: 'table.header.subjects',
         transformFunction: getSubjects
+      },
+      {
+        key: 'timestamp',
+        resourceKey: 'created',
+        msgKey: 'table.header.created',
+        transformFunction: getAge
+      }
+    ]
+  },
+  applicationRelationshipKeys: {
+    title: 'application.relationships',
+    defaultSortField: 'name',
+    resourceKey: 'applicationRelationships',
+    normalizedKey: 'name',
+    tableKeys: [
+      {
+        key: 'name',
+        resourceKey: 'name',
+        msgKey: 'table.header.name'
+      },
+      {
+        key: 'namespace',
+        resourceKey: 'namespace',
+        msgKey: 'table.header.namespace'
+      },
+      {
+        key: 'source',
+        resourceKey: 'source',
+        msgKey: 'table.header.source',
+        transformFunction: getRelationshipSourceDest
+      },
+      {
+        key: 'destination',
+        resourceKey: 'destination',
+        msgKey: 'table.header.destination',
+        transformFunction: getRelationshipSourceDest
+      },
+      {
+        key: 'type',
+        resourceKey: 'type',
+        msgKey: 'table.header.type'
       },
       {
         key: 'timestamp',

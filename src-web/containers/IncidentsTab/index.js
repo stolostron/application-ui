@@ -22,6 +22,7 @@ import {
 } from '../../components/common/ResourceDetails/utils'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
+import { mapIncidents } from '../../reducers/data-mappers/mapIncidents'
 
 const {
   Table,
@@ -53,12 +54,12 @@ class IncidentsTab extends React.Component {
         header: 'ID'
       },
       {
-        key: 'createdTime',
-        header: 'Created'
+        key: 'summary',
+        header: 'Summary'
       },
       {
-        key: 'lastChanged',
-        header: 'Last changed'
+        key: 'description',
+        header: 'Description'
       },
       {
         key: 'priority',
@@ -69,8 +70,25 @@ class IncidentsTab extends React.Component {
         header: 'Escalated'
       },
       {
-        key: 'correlationDetails',
-        header: 'Correlation Details'
+        key: 'owner',
+        header: 'Owner'
+      },
+      {
+        key: 'team',
+        header: 'Team'
+      },
+      {
+        key: 'state',
+        header: 'State'
+      },
+
+      {
+        key: 'createdTime',
+        header: 'Created'
+      },
+      {
+        key: 'lastChanged',
+        header: 'Last changed'
       }
     ]
   }
@@ -92,7 +110,7 @@ class IncidentsTab extends React.Component {
   }
 
   render() {
-    const rowsList = this.props.incidents
+    const rowsList = mapIncidents(this.props.incidents)
     const rowCount = this.props.incidentCount
     const tableTitle = msgs.get('table.title.incidents', this.context.locale)
     const noIncidentFound = msgs.get(
@@ -134,9 +152,7 @@ class IncidentsTab extends React.Component {
                             >
                               {row.cells.map(cell => (
                                 <TableCell key={cell.id}>
-                                  {typeof cell.value === 'object'
-                                    ? JSON.stringify(cell.value)
-                                    : cell.value}
+                                  {cell.value}
                                 </TableCell>
                               ))}
                             </TableRow>

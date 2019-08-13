@@ -14,6 +14,7 @@
 
 export * from '../reducers/reducerAppDeployments'
 export * from '../reducers/reducerAppOverview'
+export * from '../reducers/reducerDeployables'
 
 export const CATALOG_DROPDOWN_FILTERS_VISIBILITY_TOGGLE =
   'CATALOG_DROPDOWN_FILTER_VISIBILITY_TOGGLE'

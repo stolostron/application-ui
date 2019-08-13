@@ -13,16 +13,21 @@ import R from 'ramda'
 // Set the current POD data and also fetch the conntainers
 export const handlePodChange = (
   event,
-  podSelfLink,
-  podNamespace,
-  podName,
-  podCluster,
+  // podSelfLink,
+  // podNamespace,
+  // podName,
+  // podCluster,
+  podData,
+  apolloClient,
   fetchContainersForPod,
   setCurrentPod
 ) => {
   // Get the selected POD from the event
   setCurrentPod(event.selectedItem)
-  // fetchContainersForPod(podSelfLink, podNamespace, podName, podCluster)
+  const nameMatch = n => n.name == event.selectedItem
+  const selectedPod = R.filter(nameMatch, podData[0].items)
+  console.log("selectedPod", selectedPod[0])
+  fetchContainersForPod(apolloClient, selectedPod[0].selfLink, selectedPod[0].namespace, selectedPod[0].name, selectedPod[0].cluster)
 }
 
 export const getPodsFromApplicationRelated = HCMApplicationList => {

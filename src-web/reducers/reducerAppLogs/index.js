@@ -36,29 +36,29 @@ export const initialStateLogs = {
 
 export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
-  case SET_LOG_DATA: {
-    return { ...state, logData: action.payload }
-  }
-  case SET_POD_DATA: {
-    return { ...state, podData: action.payload }
-  }
-  case SET_CURRENT_SELECTED_POD: {
-    return { ...state, currentSelectedPod: action.payload }
-  }
-  case SET_CONTAINER_DATA: {
-    return { ...state, containerData: action.payload }
-  }
-  case FETCH_LOG_ERROR: {
-    return { ...state, fetchLogDataError: action.payload }
-  }
-  case FETCH_POD_ERROR: {
-    return { ...state, fetchPodDataError: action.payload }
-  }
-  case FETCH_CONTAINER_ERROR: {
-    return { ...state, fetchContainerDataError: action.payload }
-  }
-  default:
-    return state
+    case SET_LOG_DATA: {
+      return { ...state, logData: action.payload }
+    }
+    case SET_POD_DATA: {
+      return { ...state, podData: action.payload }
+    }
+    case SET_CURRENT_SELECTED_POD: {
+      return { ...state, currentSelectedPod: action.payload }
+    }
+    case SET_CONTAINER_DATA: {
+      return { ...state, containerData: action.payload }
+    }
+    case FETCH_LOG_ERROR: {
+      return { ...state, fetchLogDataError: action.payload }
+    }
+    case FETCH_POD_ERROR: {
+      return { ...state, fetchPodDataError: action.payload }
+    }
+    case FETCH_CONTAINER_ERROR: {
+      return { ...state, fetchContainerDataError: action.payload }
+    }
+    default:
+      return state
   }
 }
 export default AppLogs
@@ -109,12 +109,14 @@ export const fetchContainersForPod = (
   cluster
 ) => {
   const queryString = convertStringToQuery(
-    `selfLink:${selfLink}, namespace:${namespace}, kind:'PODS', name:${name}, cluster:${cluster}`
+    `selfLink:${selfLink}, namespace:${namespace}, kind:pod, name:${name}, cluster:${cluster}`
   )
+  console.log("queryString", queryString)
   return dispatch => {
     return apolloClient
       .search(GET_RESOURCE, { input: [queryString] })
       .then(response => {
+        console.log("response", response)
         if (response.errors) {
           return dispatch(setFetchContainerError(response.errors))
         }

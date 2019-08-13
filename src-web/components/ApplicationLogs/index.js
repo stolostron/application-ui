@@ -44,16 +44,15 @@ const mapStateToProps = state => {
     HCMApplicationList.items[0] &&
     HCMApplicationList.items[0].name
   return {
-    podData: AppLogs.podData,
+    podData: getPodsFromApplicationRelated(HCMApplicationList),
     currentSelectedPod: AppLogs.currentSelectedPod,
-    podDataTwo: getPodsFromApplicationRelated(HCMApplicationList),
     currentApplication: applicationName || ''
   }
 }
 
 const createPodsList = (podData, podsList) => {
-  if (podData && podData.data) {
-    podData.data.searchResult[0].items.map((item, i) => {
+  if (podData && podData[0]) {
+    podData[0].items.map((item, i) => {
       podsList[i] = item.name
     })
   }
@@ -68,33 +67,31 @@ class ApplicationLogs extends React.Component {
       actions,
       fetchContainersForPod,
       currentSelectedPod,
-      podDataTwo,
       currentApplication
     } = this.props
 
-    console.log('herehere', podData, currentApplication)
     const podItems = createPodsList(podData, [])
     const containerItems = ['container1', 'container2', 'container3']
     const logsContent = 'Testing logs...'
 
-    // For these 4 guys here you are going to need to determine their values
-    // based on the currentSelectedPod.
-    // However currentSelectedPod doesn't contain these values because currently
-    // its just the name.
-    // There are two ways you go about solving this.
-    // 1 - Write an additional util function that takes in podData and currentSelectedPod
-    //     and searches through podData to find the matching POD and then return the
-    //     object so you can extract those values.
-    // 2 - You can modify the setCurrentPod action and the SET_CURRENT_SELECTED_POD case
-    //     to do this logic for you to where currentSelectedPod is no longer just a name
-    //     but an OBJECT that contains the name as well as this data.
-    //     Now that I'm writing all this I think thats what I would do, because you
-    //     never know if and when you might need taht data elsewhere. But I wanted
-    //     to explain the two options.
-    const podSelfLink = 'something'
-    const podNamespace = 'something'
-    const podName = 'something'
-    const podCluster = 'something'
+    // // For these 4 guys here you are going to need to determine their values
+    // // based on the currentSelectedPod.
+    // // However currentSelectedPod doesn't contain these values because currently
+    // // its just the name.
+    // // There are two ways you go about solving this.
+    // // 1 - Write an additional util function that takes in podData and currentSelectedPod
+    // //     and searches through podData to find the matching POD and then return the
+    // //     object so you can extract those values.
+    // // 2 - You can modify the setCurrentPod action and the SET_CURRENT_SELECTED_POD case
+    // //     to do this logic for you to where currentSelectedPod is no longer just a name
+    // //     but an OBJECT that contains the name as well as this data.
+    // //     Now that I'm writing all this I think thats what I would do, because you
+    // //     never know if and when you might need taht data elsewhere. But I wanted
+    // //     to explain the two options.
+    // const podSelfLink = 'something'
+    // const podNamespace = 'something'
+    // const podName = 'something'
+    // const podCluster = 'something'
 
     return (
       <React.Fragment>
@@ -108,10 +105,12 @@ class ApplicationLogs extends React.Component {
                 onChange={event =>
                   handlePodChange(
                     event,
-                    podSelfLink,
-                    podNamespace,
-                    podName,
-                    podCluster,
+                    // podSelfLink,
+                    // podNamespace,
+                    // podName,
+                    // podCluster,
+                    podData,
+                    apolloClient,
                     fetchContainersForPod,
                     actions.setCurrentPod
                   )

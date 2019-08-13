@@ -23,7 +23,6 @@ const SET_CURRENT_SELECTED_CONTAINER = 'SET_CURRENT_SELECTED_CONTAINER'
 const FETCH_LOG_ERROR = 'FETCH_LOG_ERROR'
 const FETCH_POD_ERROR = 'FETCH_POD_ERROR'
 const FETCH_CONTAINER_ERROR = 'FETCH_CONTAINER_ERROR'
-const RESET_CONTAINER_DATA = 'RESET_CONTAINER_DATA'
 
 export const initialStateLogs = {
   logData: {},
@@ -46,7 +45,7 @@ export const AppLogs = (state = initialStateLogs, action) => {
       return { ...state, podData: action.payload }
     }
     case SET_CURRENT_SELECTED_POD: {
-      return { ...state, currentSelectedPod: action.payload }
+      return { ...state, currentSelectedPod: action.payload, containerData: {}, currentSelectedContainer: 'Select Container' }
     }
     case SET_CONTAINER_DATA: {
       return { ...state, containerData: action.payload }
@@ -63,9 +62,6 @@ export const AppLogs = (state = initialStateLogs, action) => {
     case FETCH_CONTAINER_ERROR: {
       return { ...state, fetchContainerDataError: action.payload }
     }
-    case RESET_CONTAINER_DATA: {
-      return { ...state, containerData: {}, currentSelectedContainer: 'Select Container' }
-    }
     default:
       return state
   }
@@ -80,7 +76,6 @@ export const setCurrentContainer = createAction(SET_CURRENT_SELECTED_CONTAINER)
 export const setFetchLogError = createAction(FETCH_LOG_ERROR)
 export const setFetchPodError = createAction(FETCH_POD_ERROR)
 export const setFetchContainerError = createAction(FETCH_CONTAINER_ERROR)
-export const resetContainerData = createAction(RESET_CONTAINER_DATA)
 
 export const setCurrentPodActions = podName => {
   return dispatch => {

@@ -16,10 +16,8 @@ export const handlePodChange = (
   fetchContainersForPod,
   podData,
   setCurrentPod,
-  resetContainerData,
 ) => {
   // Get the selected POD from the event and reset container data
-  resetContainerData()
   setCurrentPod(event.selectedItem)
   const nameMatch = n => n.name == event.selectedItem
   const selectedPod = R.filter(nameMatch, podData[0].items)

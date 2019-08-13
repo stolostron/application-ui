@@ -64,6 +64,15 @@ const createContainersList = (containerData, containersList) => {
   return containersList
 }
 
+const isObjEmpty = (obj) => {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false
+    }
+  }
+  return true
+}
+
 class ApplicationLogs extends React.Component {
   render() {
     const { locale } = this.context
@@ -79,25 +88,10 @@ class ApplicationLogs extends React.Component {
     const podItems = createPodsList(podData, [])
     const containerItems = createContainersList(containerData, [])
     const logsContent = 'Testing logs...'
-
-    // // For these 4 guys here you are going to need to determine their values
-    // // based on the currentSelectedPod.
-    // // However currentSelectedPod doesn't contain these values because currently
-    // // its just the name.
-    // // There are two ways you go about solving this.
-    // // 1 - Write an additional util function that takes in podData and currentSelectedPod
-    // //     and searches through podData to find the matching POD and then return the
-    // //     object so you can extract those values.
-    // // 2 - You can modify the setCurrentPod action and the SET_CURRENT_SELECTED_POD case
-    // //     to do this logic for you to where currentSelectedPod is no longer just a name
-    // //     but an OBJECT that contains the name as well as this data.
-    // //     Now that I'm writing all this I think thats what I would do, because you
-    // //     never know if and when you might need taht data elsewhere. But I wanted
-    // //     to explain the two options.
-    // const podSelfLink = 'something'
-    // const podNamespace = 'something'
-    // const podName = 'something'
-    // const podCluster = 'something'
+    // console.log("1", currentSelectedPod)
+    // console.log("2", currentSelectedContainer)
+    // console.log("1a", podItems)
+    // console.log("2a", containerItems)
 
     return (
       <React.Fragment>
@@ -114,7 +108,6 @@ class ApplicationLogs extends React.Component {
                     fetchContainersForPod,
                     podData,
                     actions.setCurrentPod,
-                    actions.resetContainerData,
                   )
                 }
                 items={podItems}
@@ -127,6 +120,7 @@ class ApplicationLogs extends React.Component {
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 light
+                disabled={isObjEmpty(containerItems)}
                 label={currentSelectedContainer}
                 onChange={event =>
                   handleContainerChange(

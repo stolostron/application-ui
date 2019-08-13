@@ -10,7 +10,9 @@
 // @flow
 import { createAction } from '../../shared/utils/state'
 import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
-import { getQueryStringForResource } from '../../actions/common'
+import { returnDeployableBulkQueryString } from './utils'
+import { mapBulkDeployables } from '../data-mappers/mapDeployablesBulk'
+
 import R from 'ramda'
 
 const OPEN_DISPLAY_DEPLOYABLE_MODAL = 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
@@ -152,18 +154,11 @@ export const fetchChannelResource = (
   }
 }
 
+// This will fetch a bulk list of related information on deployables
+// we will use this data in order to relate deployables to each subscription which
+// cani then be related to the channel
 export const fetchBulkDeployableList = (apolloClient, applicationList) => {
-  const itemRes =
-    applicationList &&
-    applicationList.data &&
-    applicationList.data.searchResult[0] &&
-    applicationList.data.searchResult[0].items
-  const combinedQuery = []
-  itemRes.map(item => {
-    combinedQuery.push(
-      getQueryStringForResource(`kind:deployable name:${item.name} namespace:${item.namespace}`)
-    )
-  })
+  const combinedQuery = returnDeployableBulkQueryString(applicationList)
   return dispatch => {
     return apolloClient
       .search(SEARCH_QUERY_RELATED, { input: combinedQuery })
@@ -171,10 +166,12 @@ export const fetchBulkDeployableList = (apolloClient, applicationList) => {
         if (response.errors) {
           return dispatch(setBulkDeployableError(response.errors))
         }
-        dispatch(setBulkDeployableList(response))
+        dispatch(
+          setBulkDeployableList(mapBulkDeployables(response.data.searchResult))
+        )
       })
       .catch(err => {
-        dispatch(setBulkDeployableError(error))
+        dispatch(setBulkDeployableError(err))
       })
   }
 }

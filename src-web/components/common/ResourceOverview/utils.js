@@ -48,9 +48,13 @@ export const getNumDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(
       elem =>
-        !['deployable', 'channel', 'subscription', 'placementbinding'].includes(
-          elem.kind
-        )
+        ![
+          'deployable',
+          'channel',
+          'cluster',
+          'subscription',
+          'placementbinding'
+        ].includes(elem.kind)
     )
     if (filtered.length > 0) {
       return filtered.reduce((acc, cur) => acc + cur['count'], 0)
@@ -66,9 +70,13 @@ export const getNumPendingDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(
       elem =>
-        !['deployable', 'channel', 'subscription', 'placementbinding'].includes(
-          elem.kind
-        )
+        ![
+          'deployable',
+          'channel',
+          'cluster',
+          'subscription',
+          'placementbinding'
+        ].includes(elem.kind)
     )
     if (filtered.length > 0) {
       let total = 0
@@ -77,7 +85,10 @@ export const getNumPendingDeployments = data => {
           total =
             total +
             filtered[i].items.reduce(
-              (acc, cur) => (cur.status === 'PENDING' ? ++acc : acc),
+              (acc, cur) =>
+                cur.status && cur.status.toUpperCase() === 'PENDING'
+                  ? ++acc
+                  : acc,
               0
             )
         }
@@ -95,9 +106,13 @@ export const getNumInProgressDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(
       elem =>
-        !['deployable', 'channel', 'subscription', 'placementbinding'].includes(
-          elem.kind
-        )
+        ![
+          'deployable',
+          'channel',
+          'cluster',
+          'subscription',
+          'placementbinding'
+        ].includes(elem.kind)
     )
     if (filtered.length > 0) {
       let total = 0
@@ -106,7 +121,10 @@ export const getNumInProgressDeployments = data => {
           total =
             total +
             filtered[i].items.reduce(
-              (acc, cur) => (cur.status === 'IN PROGRESS' ? ++acc : acc),
+              (acc, cur) =>
+                cur.status && cur.status.toUpperCase() === 'IN PROGRESS'
+                  ? ++acc
+                  : acc,
               0
             )
         }
@@ -124,9 +142,13 @@ export const getNumFailedDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(
       elem =>
-        !['deployable', 'channel', 'subscription', 'placementbinding'].includes(
-          elem.kind
-        )
+        ![
+          'deployable',
+          'channel',
+          'cluster',
+          'subscription',
+          'placementbinding'
+        ].includes(elem.kind)
     )
     if (filtered.length > 0) {
       let total = 0
@@ -135,7 +157,12 @@ export const getNumFailedDeployments = data => {
           total =
             total +
             filtered[i].items.reduce(
-              (acc, cur) => (cur.status === 'FAILED' ? ++acc : acc),
+              (acc, cur) =>
+                cur.status &&
+                (cur.status.toUpperCase() === 'FAILED' ||
+                  cur.status.toUpperCase().includes('ERROR'))
+                  ? ++acc
+                  : acc,
               0
             )
         }

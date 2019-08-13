@@ -23,25 +23,6 @@ const mapApplicationLookUp = application => {
   }
 }
 
-// A created Mapper to create the row for our application data table
-const mapApplicationForRow = application => {
-  const { name, namespace, related } = application
-  return {
-    id: name || '',
-    name: name || '',
-    namespace: namespace || '',
-    deployables: related || []
-  }
-}
-
-// Method will take in an object of applications and return back a mapped version
-// for the DataTable
-export const createApplicationRows = list => {
-  const mappedApps =
-    (list && list.map(item => mapApplicationForRow(item))) || {}
-  return mappedApps
-}
-
 // Method will take in an object of applications and return back a mapped version
 // for the DataTable that will contain more data that we will use to look up and
 // reference given the ID
@@ -75,9 +56,17 @@ export const tileClick = (
 // yaml
 // We also want to open up the edit channel modal
 export const editChannelClick = (
-  editChannel, resourceTypeChannel, channel, getChannelResource
+  editChannel,
+  resourceTypeChannel,
+  channel,
+  getChannelResource
 ) => {
-  getChannelResource(channel.selfLink, channel.namespace, channel.name, channel.data.cluster)
+  getChannelResource(
+    channel.selfLink,
+    channel.namespace,
+    channel.name,
+    channel.data.cluster
+  )
 }
 
 // This method will find the matching subscription the the given channel and
@@ -87,25 +76,4 @@ export const findMatchingSubscription = (subscriptionList, channelName) => {
     subscriptionList &&
     R.find(R.propEq('channel', channelName))(subscriptionList)
   return (subscription && subscription.raw) || {}
-}
-
-export const getDeployablesPerApplication = application => {
-  if (application && application.related) {
-    const deployables = application.related.map(deployable => {
-      if (deployable.items) {
-        const items = deployable.items[0]
-        return {
-          name: items.name || '',
-          namespace: items.namespace || '',
-          status: items.status || '',
-          updated: items.updated || '',
-          kind: items.kind || ''
-        }
-      }
-    })
-    //ONLY show things of kind release
-    const isKind = n => n.kind === 'deployable'
-    return R.filter(isKind, deployables) || []
-  }
-  return []
 }

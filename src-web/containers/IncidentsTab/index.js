@@ -41,7 +41,8 @@ class IncidentsTab extends React.Component {
   static propTypes = {
     fetchIncidents: PropTypes.func,
     incidentCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    incidents: PropTypes.array
+    incidents: PropTypes.array,
+    params: PropTypes.object
   };
 
   constructor(props) {
@@ -49,58 +50,51 @@ class IncidentsTab extends React.Component {
     this.headers = [
       {
         key: 'id',
-        header: 'id'
+        header: 'ID'
       },
       {
         key: 'createdTime',
-        header: 'createdTime'
+        header: 'Created'
       },
       {
         key: 'lastChanged',
-        header: 'lastChanged'
+        header: 'Last changed'
       },
       {
         key: 'priority',
-        header: 'priority'
+        header: 'Priority'
       },
       {
         key: 'escalated',
-        header: 'escalated'
+        header: 'Escalated'
       },
       {
         key: 'correlationDetails',
-        header: 'correlationDetails'
-      },
-      // {
-      //   key: 'incidentURL',
-      //   header: 'incidentURL'
-      // },
-      // {
-      //   key: 'eventsURL',
-      //   header: 'eventsURL'
-      // },
-      // {
-      //   key: 'timelineURL',
-      //   header: 'timelineURL'
-      // },
-      {
-        key: 'eventSummary',
-        header: 'eventSummary'
+        header: 'Correlation Details'
       }
     ]
   }
 
   componentWillMount() {
-    this.props.fetchIncidents()
+    const { params } = this.props
+    if (params && params.namespace && params.name) {
+      this.props.fetchIncidents()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.params || !prevProps.params.name) {
+      const { params } = this.props
+      if (params && params.namespace && params.name) {
+        this.props.fetchIncidents()
+      }
+    }
   }
 
   render() {
     const rowsList = this.props.incidents
     const rowCount = this.props.incidentCount
-    const tableTitle = msgs.get(
-      'table.title.allIncidents',
-      this.context.locale
-    )
+    const tableTitle = msgs.get('table.title.incidents', this.context.locale)
     const noIncidentFound = msgs.get(
       'table.title.noIncidentFound',
       this.context.locale

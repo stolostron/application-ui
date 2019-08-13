@@ -15,8 +15,8 @@ describe('getChartKeyColor', () => {
   const value2 = 'fl'
   const value3 = 'cm'
 
-  it('should return #a0edff', () => {
-    const result = '#a0edff'
+  it('should return #8cf5de', () => {
+    const result = '#8cf5de'
     expect(getChartKeyColor(value1)).toEqual(result)
   })
   it('should return #ff4969', () => {

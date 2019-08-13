@@ -59,17 +59,17 @@ export default {
       msgKey: 'table.header.created',
       resourceKey: 'created',
       transformFunction: getAge
-    },
+    }
     // {
     //   msgKey: 'table.header.status',
     //   resourceKey: 'metadata.status',
     //   transformFunction: getStatus,
     // },
-    {
-      msgKey: 'table.header.dashboard',
-      resourceKey: 'dashboard',
-      transformFunction: createDashboardLink
-    }
+    // {
+    //   msgKey: 'table.header.dashboard',
+    //   resourceKey: 'dashboard',
+    //   transformFunction: createDashboardLink
+    // }
   ],
   tableActions: ['table.actions.applications.remove'],
   detailKeys: {

@@ -14,8 +14,11 @@ import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { getIncidentCount } from './utils'
-import { updateSecondaryHeader, fetchResource } from '../../../actions/common'
-import { fetchPodsForApplication } from '../../../reducers/reducerAppLogs'
+import {
+  updateSecondaryHeader,
+  fetchResource,
+  fetchIncidents
+} from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -26,7 +29,6 @@ import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
 import config from '../../../../lib/shared/config'
-import apolloClient from '../../../../lib/client/apollo-client'
 
 resources(() => {
   require('./style.scss')
@@ -40,15 +42,11 @@ const withResource = Component => {
         dispatch(fetchResource(resourceType, params.namespace, params.name)),
       fetchIncidents: () =>
         dispatch(
-          fetchResource(
+          fetchIncidents(
             RESOURCE_TYPES.CEM_INCIDENTS,
             params.namespace,
             params.name
           )
-        ),
-      fetchPods: () =>
-        dispatch(
-          fetchPodsForApplication(apolloClient, params.namespace, params.name)
         )
     }
   }
@@ -69,12 +67,12 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         fetchIncidents: PropTypes.func,
-        fetchPods: PropTypes.func,
         fetchResource: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
           PropTypes.number,
           PropTypes.string
         ]),
+        params: PropTypes.object,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -95,20 +93,33 @@ const withResource = Component => {
           this.setState({ intervalId: intervalId })
         }
         this.props.fetchResource()
-        this.props.fetchIncidents()
-        this.props.fetchPods()
+        const { params } = this.props
+        if (params && params.namespace && params.name) {
+          this.props.fetchIncidents()
+        }
       }
 
       componentWillUnmount() {
         clearInterval(this.state.intervalId)
       }
 
+      componentDidUpdate(prevProps) {
+        if (!prevProps.params || !prevProps.params.name) {
+          const { params } = this.props
+          if (params && params.namespace && params.name) {
+            this.props.fetchIncidents()
+          }
+        }
+      }
+
       reload() {
         if (this.props.status === REQUEST_STATUS.DONE) {
           this.setState({ xhrPoll: true })
           this.props.fetchResource()
-          this.props.fetchIncidents()
-          this.props.fetchPods()
+          const { params } = this.props
+          if (params && params.namespace && params.name) {
+            this.props.fetchIncidents()
+          }
         }
       }
 
@@ -213,7 +224,6 @@ class ResourceDetails extends React.Component {
       dashboard,
       showExpandedTopology,
       actions,
-      getVisibleResources,
       children
     } = this.props
     return (
@@ -259,7 +269,6 @@ class ResourceDetails extends React.Component {
           modules={children}
           showAppDetails={showAppDetails}
           showExpandedTopology={showExpandedTopology}
-          getVisibleResources={getVisibleResources}
         />
       </div>
     )
@@ -326,7 +335,6 @@ ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   dashboard: PropTypes.string,
-  getVisibleResources: PropTypes.func,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,

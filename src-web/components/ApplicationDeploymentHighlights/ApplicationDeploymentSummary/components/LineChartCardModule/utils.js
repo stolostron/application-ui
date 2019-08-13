@@ -10,9 +10,9 @@
 import msgs from '../../../../../../nls/platform.properties'
 
 export const getChartKeyColor = value => {
-  if (value) return '#3dffef'
+  if (value) return '#2de3bb'
 
-  return '#3dffef'
+  return '#2de3bb'
 }
 
 export const getChartKeyName = (value, locale) => {
@@ -36,4 +36,13 @@ export const getModuleData = data => {
   return {
     chartCardItems
   }
+}
+
+// return the max width of the app name shown in the chart
+export const getMaxStringWidth = list => {
+  let max = 0
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].name && list[i].name.length > max) max = list[i].name.length
+  }
+  return max
 }

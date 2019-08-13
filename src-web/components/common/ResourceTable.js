@@ -112,8 +112,7 @@ class ResourceTable extends React.Component {
             {tableTitle && (
               <div className="table-title">
                 {tableTitle}{' '}
-                {(tableName === 'All applications' ||
-                  tableName === 'All instances') &&
+                {tableName === 'All applications' &&
                   Array.isArray(rows) && <span>({rows.length})</span>}
               </div>
             )}

@@ -20,23 +20,30 @@ export const getChannelChartData = list => {
         var name = item.name || 'unknown'
 
         for (var i = 0; i < item.related.length; i++) {
-          if (item.related[i].kind && item.related[i].kind === 'release') {
-            if (item.related[i].items) {
-              for (var j = 0; j < item.related[i].items.length; j++) {
-                if (item.related[i].items[j].status) {
-                  var status = item.related[i].items[j].status
-                  if (status === 'FAILED') {
-                    failed = failed + 1
-                  } else if (status === 'DEPLOYED') {
-                    completed = completed + 1
-                  } else if (status === 'PROGRESS') {
-                    progress = progress + 1
-                  } else {
-                    completed = completed + 1
-                  }
+          const kind = item.related[i].kind
+          const correctKindAndItems =
+            (kind === 'release' ||
+              kind === 'deployment' ||
+              kind === 'pod' ||
+              kind === 'service' ||
+              kind === 'replicaset') &&
+            item.related[i].items
+
+          if (kind && correctKindAndItems) {
+            for (var j = 0; j < item.related[i].items.length; j++) {
+              if (item.related[i].items[j].status) {
+                var status = item.related[i].items[j].status
+                if (status === 'FAILED') {
+                  failed = failed + 1
+                } else if (status === 'DEPLOYED') {
+                  completed = completed + 1
+                } else if (status === 'PROGRESS') {
+                  progress = progress + 1
                 } else {
                   completed = completed + 1
                 }
+              } else {
+                completed = completed + 1
               }
             }
           }
@@ -64,7 +71,7 @@ export const getChannelChartWidth = list => {
     if (list.items.length > 7) {
       return 400
     }
-    return list.items.length * 75
+    return list.items.length * 100
   }
   return 300
 }
@@ -76,10 +83,17 @@ export const getDeployedResourcesChartData = list => {
         var app_resources = 0
 
         for (var i = 0; i < item.related.length; i++) {
-          if (item.related[i].kind && item.related[i].kind === 'release') {
-            if (item.related[i].items) {
-              app_resources = app_resources + item.related[i].items.length
-            }
+          const kind = item.related[i].kind
+          const correctKindAndItems =
+            (kind === 'release' ||
+              kind === 'deployment' ||
+              kind === 'pod' ||
+              kind === 'service' ||
+              kind === 'replicaset') &&
+            item.related[i].items
+
+          if (kind && correctKindAndItems) {
+            app_resources = app_resources + item.related[i].items.length
           }
         }
         return {

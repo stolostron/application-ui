@@ -32,11 +32,11 @@ const data1 = {
   related: [
     {
       kind: 'release',
-      count: 4,
+      count: 5,
       items: [
         {
           name: 'appdemo',
-          status: 'DEPLOYED'
+          status: 'Deployed'
         },
         {
           name: 'appdemo2',
@@ -44,11 +44,15 @@ const data1 = {
         },
         {
           name: 'appdemo3',
-          status: 'IN PROGRESS'
+          status: 'In Progress'
         },
         {
           name: 'appdemo4',
           status: 'FAILED'
+        },
+        {
+          name: 'appdemo5',
+          status: 'CreationError'
         }
       ],
       __typename: 'SearchRelatedResult'
@@ -76,6 +80,15 @@ const data1 = {
     },
     {
       kind: 'subscription',
+      count: 1,
+      items: [
+        {
+          name: 'appdemo'
+        }
+      ]
+    },
+    {
+      kind: 'cluster',
       count: 1,
       items: [
         {
@@ -152,7 +165,7 @@ describe('getChannelsList', () => {
 })
 
 describe('getNumDeployables', () => {
-  it('should return deployable count of 2', () => {
+  it('should return deployable count', () => {
     const result = 2
     expect(getNumDeployables(data1)).toEqual(result)
   })
@@ -162,8 +175,8 @@ describe('getNumDeployables', () => {
 })
 
 describe('getNumDeployments', () => {
-  it('should return deployment count of 4', () => {
-    const result = 4
+  it('should return deployment count', () => {
+    const result = 5
     expect(getNumDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
@@ -172,7 +185,7 @@ describe('getNumDeployments', () => {
 })
 
 describe('getNumPendingDeployments', () => {
-  it('should return pending deployment count of 1', () => {
+  it('should return pending deployment count', () => {
     const result = 1
     expect(getNumPendingDeployments(data1)).toEqual(result)
   })
@@ -182,7 +195,7 @@ describe('getNumPendingDeployments', () => {
 })
 
 describe('getNumInProgressDeployments', () => {
-  it('should return in progress deployment count of 1', () => {
+  it('should return in progress deployment count', () => {
     const result = 1
     expect(getNumInProgressDeployments(data1)).toEqual(result)
   })
@@ -192,8 +205,8 @@ describe('getNumInProgressDeployments', () => {
 })
 
 describe('getNumFailedDeployments', () => {
-  it('should return failed deployment count of 1', () => {
-    const result = 1
+  it('should return failed deployment count', () => {
+    const result = 2
     expect(getNumFailedDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {

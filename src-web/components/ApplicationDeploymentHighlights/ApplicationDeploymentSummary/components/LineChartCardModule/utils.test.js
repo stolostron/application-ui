@@ -7,13 +7,18 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChartKeyColor, getChartKeyName, getModuleData } from './utils'
+import {
+  getChartKeyColor,
+  getChartKeyName,
+  getModuleData,
+  getMaxStringWidth
+} from './utils'
 
 describe('getChartKeyColor', () => {
   const value = 'counter'
 
-  it('should return #3dffef', () => {
-    const result = '#3dffef'
+  it('should return #2de3bb', () => {
+    const result = '#2de3bb'
     expect(getChartKeyColor(value)).toEqual(result)
   })
 })
@@ -56,5 +61,31 @@ describe('getModuleData', () => {
   it('should return blank array', () => {
     const result = { chartCardItems: [] }
     expect(getModuleData(listDummy)).toEqual(result)
+  })
+})
+
+describe('getMaxStringWidth', () => {
+  const name1 = 'firstName'
+  const name2 = 'secondName'
+
+  const list = [
+    {
+      name: name1,
+      counter: 1
+    },
+    {
+      name: name2,
+      counter: 0
+    }
+  ]
+  const listDummy = []
+
+  it('should return 10', () => {
+    const result = 10
+    expect(getMaxStringWidth(list)).toEqual(result)
+  })
+  it('should return 0', () => {
+    const result = 0
+    expect(getMaxStringWidth(listDummy)).toEqual(result)
   })
 })

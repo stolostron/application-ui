@@ -17,7 +17,7 @@ export const mapBulkDeployables = deployables => {
           name: items.name || '',
           namespace: items.namespace || '',
           selfLink: items.selfLink || '',
-          _uid: items.uid || '',
+          _uid: items._uid || '',
           created: items.created || '',
           apigroup: items.apigroup || '',
           cluster: items.cluster || '',

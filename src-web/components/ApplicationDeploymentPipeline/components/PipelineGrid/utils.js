@@ -77,3 +77,29 @@ export const findMatchingSubscription = (subscriptionList, channelName) => {
     R.find(R.propEq('channel', channelName))(subscriptionList)
   return (subscription && subscription.raw) || {}
 }
+
+// Use tested Ramda to pull out uid
+export const getDeployableData = (deployableList, uid) => {
+  if (deployableList) {
+    const result = R.find(R.propEq('_uid', uid))(deployableList)
+    return result || {}
+  }
+  return {}
+}
+
+export const getDeployablesChannels = deployableData => {
+  if (deployableData && deployableData.related) {
+    const relatedData = deployableData.related
+    // We want to pull only subscription data
+    const filterToSubscriptions = x => x.kind == 'subscription'
+    const subscriptionData = R.filter(filterToSubscriptions, relatedData)
+    if (subscriptionData[0] && subscriptionData[0].items) {
+      const channels = subscriptionData[0].items.map(sub => {
+        return sub.channel
+      })
+      return channels
+    }
+    return []
+  }
+  return []
+}

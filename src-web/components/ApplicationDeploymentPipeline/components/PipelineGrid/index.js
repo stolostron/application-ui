@@ -11,7 +11,13 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { tileClick, editChannelClick, findMatchingSubscription } from './utils'
+import {
+  tileClick,
+  editChannelClick,
+  findMatchingSubscription,
+  getDeployableData,
+  getDeployablesChannels
+} from './utils'
 import { pullOutDeployablePerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
@@ -124,7 +130,8 @@ const ChannelColumnGrid = (
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
-    appDropDownList
+    appDropDownList,
+    bulkDeployableList
   },
   locale
 ) => {
@@ -166,7 +173,7 @@ const ChannelColumnGrid = (
       {applicationList.map(application => {
         const applicationName = application.name || ''
         const deployablesFetched = pullOutDeployablePerApplication(application)
-        const deployables =
+        const deployablesForThisApplication =
           (deployablesFetched &&
             deployablesFetched[0] &&
             deployablesFetched[0].items) ||
@@ -193,15 +200,20 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {deployables.map(deployable => {
+              {deployablesForThisApplication.map(deployable => {
                 // TODO will need to fix once we have the API fully returning everything
-                const deployableChannels = ['channel1', 'channel2']
-                const deployableName = (deployable && deployable.name) || ''
+                const deployableData = getDeployableData(
+                  bulkDeployableList,
+                  deployable._uid
+                )
+                const deployableChannels = getDeployablesChannels(
+                  deployableData
+                )
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
                       const channelMatch = deployableChannels.includes(
-                        channel.name
+                        `${channel.namespace}/${channel.name}`
                       )
                       // This will find the matching subscription for the given channel
                       const matchingSubscription = findMatchingSubscription(
@@ -219,7 +231,7 @@ const ChannelColumnGrid = (
                                   setDeployableModalHeaderInfo,
                                   setCurrentDeployableSubscriptionData,
                                   applicationName,
-                                  deployableName,
+                                  deployableData.name,
                                   matchingSubscription
                                 )
                               }
@@ -235,7 +247,7 @@ const ChannelColumnGrid = (
                                   setDeployableModalHeaderInfo,
                                   setCurrentDeployableSubscriptionData,
                                   applicationName,
-                                  deployableName,
+                                  deployableData.name,
                                   matchingSubscription
                                 )
                               }
@@ -271,7 +283,8 @@ const PipelineGrid = withLocale(
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
     updateAppDropDownList,
-    appDropDownList
+    appDropDownList,
+    bulkDeployableList
   }) => {
     return (
       <div id="PipelineGrid">
@@ -294,6 +307,7 @@ const PipelineGrid = withLocale(
               setCurrentDeployableSubscriptionData
             }
             appDropDownList={appDropDownList}
+            bulkDeployableList={bulkDeployableList}
           />
         </div>
       </div>

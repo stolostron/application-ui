@@ -177,7 +177,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       closeModal,
       openEditChannelModal,
       loading,
-      appDropDownList
+      appDropDownList,
+      bulkDeployableList
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -235,6 +236,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           }
           updateAppDropDownList={actions.updateAppDropDownList}
           appDropDownList={appDropDownList}
+          bulkDeployableList={bulkDeployableList}
         />
         <DeployableModal
           displayModal={displayDeployableModal}

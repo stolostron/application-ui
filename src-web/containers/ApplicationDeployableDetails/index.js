@@ -59,8 +59,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
     editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
-    fetchDeployableResource: name =>
-      dispatch(fetchDeployableResource(apolloClient, name))
+    fetchDeployableResource: (name, namespace) =>
+      dispatch(fetchDeployableResource(apolloClient, name, namespace))
   }
 }
 
@@ -91,7 +91,7 @@ class ApplicationDeployableDetails extends React.Component {
       (params && params.match && params.match.params) || {}
     const breadCrumbs = getBreadCrumbs(deployableParams, locale)
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
-    fetchDeployableResource(deployableParams.name)
+    fetchDeployableResource(deployableParams.name, deployableParams.namespace)
   }
 
   componentDidMount() {}

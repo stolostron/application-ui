@@ -10,7 +10,7 @@
 // @flow
 import { createAction } from '../../shared/utils/state'
 import { convertStringToQuery } from '../../../lib/client/search-helper'
-import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
+import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
 // import R from 'ramda'
 
 const SET_DEPLOYABLE_DATA = 'SET_DEPLOYABLE_DATA'
@@ -42,12 +42,14 @@ export const setLoading = createAction(SET_LOADING)
 
 // ApolloClient requires CONTEXT so I have to pass it in from a file where it
 // can be defined with context.
-export const fetchDeployableResource = (apolloClient, name) => {
-  const queryString = convertStringToQuery(`kind:deployable name:${name}`)
+export const fetchDeployableResource = (apolloClient, name, namespace) => {
+  const queryString = convertStringToQuery(
+    `kind:deployable name:${name} namespace:${namespace}`
+  )
   return dispatch => {
     dispatch(setLoading(true))
     return apolloClient
-      .search(SEARCH_QUERY, {
+      .search(SEARCH_QUERY_RELATED, {
         input: [queryString]
       })
       .then(response => {

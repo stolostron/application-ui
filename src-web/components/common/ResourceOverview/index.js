@@ -129,7 +129,11 @@ const ResourceOverview = withLocale(
         ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
-              <CountsCardModule data={countsCardData} />
+              <CountsCardModule
+                data={countsCardData}
+                title="dashboard.card.deployment.summary.title"
+                link="#"
+              />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule

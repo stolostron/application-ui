@@ -131,13 +131,13 @@ const ResourceOverview = withLocale(
             <div className="overview-content-bottom overview-content-with-padding">
               <CountsCardModule data={countsCardData} />
             </div>
-            {/* <div className="overview-content-bottom overview-content-with-padding">
+            <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule
                 showExpandedTopology={showExpandedTopology}
                 params={params}
                 actions={actions}
               />
-            </div> */}
+            </div>
             <div className="overview-content-bottom overview-content-with-padding-except-left">
               <ChannelsCardCarousel data={channelList} />
             </div>

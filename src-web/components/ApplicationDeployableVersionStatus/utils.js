@@ -39,3 +39,24 @@ export const getDeployableSubscription = item => {
   if (item && item.length > 0) return item[0]
   return null
 }
+
+// Get list of channels that are associated with the deployables subscription
+export const getSubscriptionForChannel = (channel, subscriptions) => {
+  if (channel && channel.name && channel.namespace) {
+    if (subscriptions && subscriptions.length > 0 && subscriptions[0].channel) {
+      const subscription = subscriptions[0]
+      const channelData = subscription.channel.split('/')
+
+      if (
+        subscription.name &&
+        subscription.namespace &&
+        channelData.length == 2 &&
+        channel.name === channelData[1] &&
+        channel.namespace === channelData[0]
+      ) {
+        return subscription.namespace + '/' + subscription.name
+      }
+    }
+  }
+  return 'None'
+}

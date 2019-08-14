@@ -47,11 +47,11 @@ describe('getDeployableSummary', () => {
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: '-'
+        count: 0
       },
       {
         msgKey: 'dashboard.card.deployable.pending',
-        count: '-'
+        count: 0
       }
     ]
 

@@ -60,12 +60,14 @@ export const getSubscriptions = data => {
 export const getChannels = (channels, subscriptions) => {
   if (channels && channels.items) {
     if (subscriptions && subscriptions.length > 0 && subscriptions[0].channel) {
-      const channelData = subscriptions[0].channel.split('//')
+      const channelData = subscriptions[0].channel.split('/')
+
       if (channelData.length == 2) {
         const channelsList = channels.items.map(channel => {
           if (
             channel &&
             channel.name &&
+            channel.namespace &&
             channel.name === channelData[1] &&
             channel.namespace &&
             channel.namespace === channelData[0]

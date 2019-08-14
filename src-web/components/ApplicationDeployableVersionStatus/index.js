@@ -17,20 +17,25 @@ import {
   getChannelStatusClass,
   getDeployableInfo,
   getDeployableSubscription,
-  getChannelClustersNb
+  getChannelClustersNb,
+  getSubscriptionForChannel
 } from './utils'
 
 resources(() => {
   require('./style.scss')
 })
 
-const deployableColumns = (channels, locale) => {
+const deployableColumns = (channels, subscriptions, locale) => {
   return (
     <div className="version-status-grid-container">
       <div className="horizontal-scroll-row">
         {channels.map(channel => {
           const channelName = (channel && channel.name) || ''
           const clusterCount = getChannelClustersNb(channel)
+          const subscriptionName = getSubscriptionForChannel(
+            channel,
+            subscriptions
+          )
 
           return (
             <div className="version-status-column" key="{channel.name}">
@@ -47,6 +52,8 @@ const deployableColumns = (channels, locale) => {
                   />
                 </div>
                 <div className="environment"> {channelName} </div>
+                <div> Subscription: {subscriptionName} </div>
+
                 <div className="gate-conditions-header">
                   {msgs.get(
                     'description.title.deployableVersionStatus.gateConditions',
@@ -126,7 +133,7 @@ const ApplicationDeployableVersionStatus = withLocale(
             </Tile>
           </div>
 
-          {channels && deployableColumns(channels, locale)}
+          {channels && deployableColumns(channels, subscriptions, locale)}
         </div>
       </div>
     )

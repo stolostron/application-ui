@@ -54,20 +54,20 @@ export const getDeployableSummary = item => {
       },
       {
         msgKey: 'dashboard.card.deployable.completed',
-        count: completed === 0 ? '-' : completed
+        count: completed
       },
       {
         msgKey: 'dashboard.card.deployable.failed',
-        count: failed === 0 ? '-' : failed,
+        count: failed,
         alert: true
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: progress === 0 ? '-' : progress
+        count: progress
       },
       {
         msgKey: 'dashboard.card.deployable.pending',
-        count: pending === 0 ? '-' : pending
+        count: pending
       }
     ]
     return countsCardDataGeneralInfo

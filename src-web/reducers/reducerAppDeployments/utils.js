@@ -16,15 +16,18 @@ import R from 'ramda'
 const extractAllDeployables = applicationList => {
   const filterDeployable = x => x.kind == 'deployable'
   // Get the totalDeploybleList for All the applications
-  const totalDeploybleList = applicationList.map(app => {
-    // filters out to only have deployables and then returns the items
-    const deployalbeList = R.filter(filterDeployable, app.related) || []
-    if (deployalbeList.length > 0) {
-      return deployalbeList[0].items
-    }
-    return deployalbeList
-  })
-  return totalDeploybleList
+  const totalDeploybleList =
+    applicationList &&
+    applicationList.map(app => {
+      // filters out to only have deployables and then returns the items
+      const deployalbeList =
+        R.filter(filterDeployable, app.related || []) || []
+      if (deployalbeList.length > 0) {
+        return deployalbeList[0].items
+      }
+      return deployalbeList
+    })
+  return totalDeploybleList || []
 }
 
 // This method flattens out the list of lists of deployables

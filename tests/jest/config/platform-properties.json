@@ -54,6 +54,7 @@
   "description.Modal.targetClusters": "Target clusters",
   "description.Modal.deployedAt": "Deployed at",
   "description.Modal.failedAt": "Failed at",
+  "description.na": "N/A",
   "breadcrumb.viewall": "View All",
   "button.copyButton.feedback": "Copied to clipboard",
   "button.save.query": "Save This Search",

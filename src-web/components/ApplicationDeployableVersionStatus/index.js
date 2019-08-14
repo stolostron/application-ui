@@ -53,8 +53,7 @@ const deployableColumns = (channels, subscriptions, locale) => {
                 </div>
                 <div className="environment"> {channelName} </div>
                 <div className="subscription-header">
-                  {' '}
-                  Subscription: {subscriptionName}{' '}
+                  {`Subscription: ${subscriptionName}`}
                 </div>
 
                 <div className="gate-conditions-header">

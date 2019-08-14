@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus renders correctly. 1`] = `
+<div
+  id="ApplicationDeployableVersionStatus"
+>
+  <div
+    className="deployable-versionStatus-header"
+  >
+    Deployable versions
+  </div>
+  <div
+    className="deployable-version-status-container"
+  >
+    <div
+      className="deployable-left-column"
+    >
+      <div
+        className="bx--tile deployable-left-column-header"
+      />
+      <div
+        className="bx--tile"
+      >
+        <div
+          className="deployable-version-name"
+        >
+          
+           
+          
+        </div>
+        <div
+          className="incidents-count"
+        >
+          0 
+          Incidents
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

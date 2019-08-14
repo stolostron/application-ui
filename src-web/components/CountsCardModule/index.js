@@ -10,6 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import { Icon } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 /* eslint-disable react/prop-types */
@@ -40,12 +41,35 @@ export default class CountsCardModule extends React.Component {
   render() {
     const moduleData = this.getModuleData()
     const { locale } = this.context
-    const { title } = this.props
+    const { title, link } = this.props
     return (
-      <div id={title ? 'CountsCardModuleWithHeader' : 'CountsCardModule'}>
+      <div
+        id={
+          title
+            ? link
+              ? 'CountsCardModuleWithHeaderAndLink'
+              : 'CountsCardModuleWithHeader'
+            : 'CountsCardModule'
+        }
+      >
         {title && (
           <span className="card-container-title">
             {msgs.get(title, locale)}
+            {link && (
+              <span className="card-container-link">
+                <a target="_blank" rel="noopener noreferrer" href={link}>
+                  {msgs.get('dashboard.card.icam.link', locale)}{' '}
+                  <Icon
+                    style={{ margin: '0 0 0 5px' }}
+                    className="icon--arrow--right"
+                    name="icon--arrow--right"
+                    fill="gray"
+                    width="12px"
+                    height="12px"
+                  />
+                </a>
+              </span>
+            )}
           </span>
         )}
         <div className="card-container">

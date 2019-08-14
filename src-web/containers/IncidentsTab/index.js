@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -22,6 +22,8 @@ import {
 } from '../../components/common/ResourceDetails/utils'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
+import { mapIncidents } from '../../reducers/data-mappers/mapIncidents'
+import { mapCell } from './utils'
 
 const {
   Table,
@@ -53,12 +55,12 @@ class IncidentsTab extends React.Component {
         header: 'ID'
       },
       {
-        key: 'createdTime',
-        header: 'Created'
+        key: 'summary',
+        header: 'Summary'
       },
       {
-        key: 'lastChanged',
-        header: 'Last changed'
+        key: 'description',
+        header: 'Description'
       },
       {
         key: 'priority',
@@ -69,8 +71,25 @@ class IncidentsTab extends React.Component {
         header: 'Escalated'
       },
       {
-        key: 'correlationDetails',
-        header: 'Correlation Details'
+        key: 'owner',
+        header: 'Owner'
+      },
+      {
+        key: 'team',
+        header: 'Team'
+      },
+      {
+        key: 'state',
+        header: 'State'
+      },
+
+      {
+        key: 'createdTime',
+        header: 'Created'
+      },
+      {
+        key: 'lastChanged',
+        header: 'Last changed'
       }
     ]
   }
@@ -92,19 +111,17 @@ class IncidentsTab extends React.Component {
   }
 
   render() {
-    const rowsList = this.props.incidents
-    const rowCount = this.props.incidentCount
-    const tableTitle = msgs.get('table.title.incidents', this.context.locale)
-    const noIncidentFound = msgs.get(
-      'table.title.noIncidentFound',
-      this.context.locale
-    )
+    const { locale } = this.context
+    const { incidents, incidentCount } = this.props
+    const rowsList = mapIncidents(incidents)
+    const tableTitle = msgs.get('table.title.incidents', locale)
+    const noIncidentFound = msgs.get('table.title.noIncidentFound', locale)
     return (
       <div id="incidents-tab">
         {rowsList.length !== 0 && (
           <React.Fragment>
             <div className="incidents-tab-table-title">
-              {tableTitle} ({rowCount})
+              {tableTitle} ({incidentCount})
             </div>
             <div className="incidents-tab-table">
               <DataTable
@@ -134,9 +151,7 @@ class IncidentsTab extends React.Component {
                             >
                               {row.cells.map(cell => (
                                 <TableCell key={cell.id}>
-                                  {typeof cell.value === 'object'
-                                    ? JSON.stringify(cell.value)
-                                    : cell.value}
+                                  {mapCell(cell)}
                                 </TableCell>
                               ))}
                             </TableRow>

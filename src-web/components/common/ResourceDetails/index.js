@@ -13,11 +13,16 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount } from './utils'
+import {
+  getIncidentCount,
+  getActiveAccountId,
+  getApplicationUid
+} from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
-  fetchIncidents
+  fetchIncidents,
+  fetchUserInfo
 } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -47,18 +52,21 @@ const withResource = Component => {
             params.namespace,
             params.name
           )
-        )
+        ),
+      fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO))
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { CEMIncidentList } = state
+    const { CEMIncidentList, HCMApplicationList, userInfoList } = state
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidentCount: getIncidentCount(CEMIncidentList)
+      incidentCount: getIncidentCount(CEMIncidentList),
+      activeAccountId: getActiveAccountId(userInfoList),
+      applicationUid: getApplicationUid(HCMApplicationList)
     }
   }
 
@@ -66,8 +74,11 @@ const withResource = Component => {
     class extends React.PureComponent {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
+        activeAccountId: PropTypes.string,
+        applicationUid: PropTypes.string,
         fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
+        fetchUserInfo: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
           PropTypes.number,
           PropTypes.string
@@ -93,6 +104,7 @@ const withResource = Component => {
           this.setState({ intervalId: intervalId })
         }
         this.props.fetchResource()
+        this.props.fetchUserInfo()
         const { params } = this.props
         if (params && params.namespace && params.name) {
           this.props.fetchIncidents()
@@ -179,6 +191,10 @@ class ResourceDetails extends React.Component {
       this.getBreadcrumb(),
       launch_links
     )
+  }
+
+  componentWillUnmount() {
+    this.props.actions.setShowAppDetails(false)
   }
 
   componentWillReceiveProps(nextProps) {

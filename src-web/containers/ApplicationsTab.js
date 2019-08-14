@@ -19,47 +19,63 @@ import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
 
-const handleCreateResource = (dispatch, yaml) => dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
+const handleCreateResource = (dispatch, yaml) =>
+  dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
 
 const { locale } = context()
 const tableTitle = msgs.get('table.title.allApplications', locale)
 
-const registerApplicationModal = <CreateResourceModal
-  key='registerApplication'
-  headingTextKey='actions.create.application'
-  submitBtnTextKey='actions.create.application'
-  onCreateResource={ handleCreateResource }
-  resourceDescriptionKey='modal.createresource.application'
-/>
+const registerApplicationModal = (
+  <CreateResourceModal
+    key="registerApplication"
+    headingTextKey="actions.create.application"
+    submitBtnTextKey="actions.create.application"
+    onCreateResource={handleCreateResource}
+    resourceDescriptionKey="modal.createresource.application"
+  />
+)
 
-export default withRouter(withAccess(typedResourcePageWithListAndDetails(
-  RESOURCE_TYPES.HCM_APPLICATIONS,
-  [],
-  [registerApplicationModal],
-  ['/diagram'],
-  [
-    <ResourceTableModule
-      key='applicationWorks'
-      definitionsKey='applicationWorkKeys'
-    />,
-    <ResourceTableModule
-      key='placementPolicies'
-      definitionsKey='placementPolicyKeys'
-      subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES}
-    />,
-    <ResourceTableModule
-      key='placementBindings'
-      definitionsKey='placementBindingKeys'
-    />,
-    <ResourceTableModule
-      key='deployables'
-      definitionsKey='deployablesKeys'
-    />,
-    <ResourceTableModule
-      key='applicationRelationships'
-      definitionsKey='applicationRelationshipKeys'
-    />
-  ],
-  tableTitle,
-  'All applications',
-), ROLES.VIEWER))
+export default withRouter(
+  withAccess(
+    typedResourcePageWithListAndDetails(
+      RESOURCE_TYPES.HCM_APPLICATIONS,
+      [],
+      [registerApplicationModal],
+      [],
+      [
+        <ResourceTableModule
+          key="deployments"
+          definitionsKey="deploymentKeys"
+        />,
+        <ResourceTableModule
+          key="deployables"
+          definitionsKey="deployableKeys"
+        />,
+        <ResourceTableModule
+          key="subscriptions"
+          definitionsKey="subscriptionKeys"
+        />,
+        <ResourceTableModule
+          key="placementRules"
+          definitionsKey="placementRuleKeys"
+        />,
+        <ResourceTableModule
+          key="placementPolicies"
+          definitionsKey="placementPolicyKeys"
+          subResourceType={RESOURCE_TYPES.HCM_PLACEMENT_POLICIES}
+        />,
+        <ResourceTableModule
+          key="placementBindings"
+          definitionsKey="placementBindingKeys"
+        />,
+        <ResourceTableModule
+          key="applicationRelationships"
+          definitionsKey="applicationRelationshipKeys"
+        />
+      ],
+      tableTitle,
+      'All applications'
+    ),
+    ROLES.VIEWER
+  )
+)

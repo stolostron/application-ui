@@ -9,6 +9,37 @@
 @import "node_modules/carbon-components/scss/globals/scss/_colors";
 @import "../../../scss/variables";
 
+#CountsCardModuleWithHeaderAndLink {
+  height: 190px;
+
+  .card-container-link {
+    color: #3d70b2;
+    display: flex;
+    margin-left: auto;
+    align-self: center;
+  }
+
+  .card-container-link a {
+    text-decoration: none;
+  }
+
+  .card-container {
+    width: 100%;
+    height: 140px;
+    padding: 25px;
+  }
+
+  .card-type {
+    letter-spacing: 1.03px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+    color: $mcm_color_blue_gray;
+    text-transform: uppercase;
+  }
+}
+
 #CountsCardModuleWithHeader {
   height: 190px;
 
@@ -47,17 +78,11 @@
     color: $mcm_color_blue_gray;
     text-transform: uppercase;
   }
-
-  .card-text {
-    text-align: center;
-    font-size: 12px;
-    font-style: italic;
-    line-height: 20px;
-    color: #4A4A4A;
-  }
 }
 
-#CountsCardModuleWithHeader, #CountsCardModule {
+#CountsCardModuleWithHeaderAndLink,
+#CountsCardModuleWithHeader,
+#CountsCardModule {
   font-family: "IBM Plex Sans";
   width: 100%;
   background-color: white;
@@ -115,8 +140,17 @@
     margin-bottom: 5px;
     text-align: center;
     color: $mcm_color_blue_gray;
+
     &.alert {
-      color: #E0182D;
+      color: #e0182d;
     }
+  }
+
+  .card-text {
+    text-align: center;
+    font-size: 12px;
+    font-style: italic;
+    line-height: 20px;
+    color: #4a4a4a;
   }
 }

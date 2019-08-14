@@ -7,7 +7,12 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChannelStatusClass } from './utils'
+import {
+  getChannelStatusClass,
+  getChannelClustersNb,
+  getDeployableInfo,
+  getSubscriptionForChannel
+} from './utils'
 
 describe('getChannelStatusClass', () => {
   const status1 = 'success'
@@ -41,5 +46,91 @@ describe('getChannelStatusClass', () => {
   it('should return statusTag', () => {
     const result = 'statusTag'
     expect(getChannelStatusClass(status6)).toEqual(result)
+  })
+})
+
+describe('getChannelClustersNb', () => {
+  const channel = {
+    name: 'channel1',
+    related: [
+      {
+        kind: 'cluster',
+        count: 3
+      }
+    ]
+  }
+  it('should return 3 clusters', () => {
+    expect(getChannelClustersNb(channel)).toEqual(3)
+  })
+})
+
+describe('getDeployableInfo', () => {
+  const deployable = {
+    items: [
+      {
+        name: 'deployable1',
+        kind: 'deployable',
+        related: [
+          {
+            kind: 'cluster',
+            count: 3
+          }
+        ]
+      }
+    ]
+  }
+  it('should return first item in items', () => {
+    const result = {
+      name: 'deployable1',
+      kind: 'deployable',
+      related: [
+        {
+          kind: 'cluster',
+          count: 3
+        }
+      ]
+    }
+    expect(getDeployableInfo(deployable)).toEqual(result)
+  })
+})
+
+describe('getSubscriptionForChannel', () => {
+  const channels = {
+    name: 'channel1',
+    namespace: 'chnamespace'
+  }
+
+  const channelsNoData = {
+    namespace: 'chnamespace'
+  }
+
+  const subscriptions = [
+    {
+      name: 'subscr',
+      namespace: 'subnamespace',
+      channel: 'chnamespace/channel1'
+    }
+  ]
+
+  const subscriptions2 = [
+    {
+      name: 'subscr',
+      namespace: 'subnamespace',
+      channel: 'test/channel1'
+    }
+  ]
+  it('should return subscription name and namespace', () => {
+    const result = 'subnamespace/subscr'
+    expect(getSubscriptionForChannel(channels, subscriptions)).toEqual(result)
+  })
+  it('should return None', () => {
+    const result = 'None'
+    expect(getSubscriptionForChannel(channels, subscriptions2)).toEqual(result)
+  })
+  it('should return None if no channel name', () => {
+    const result = 'None'
+    expect(getSubscriptionForChannel(channelsNoData, subscriptions2)).toEqual(
+      result
+    )
   })
 })

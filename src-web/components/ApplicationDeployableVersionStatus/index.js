@@ -13,18 +13,28 @@ import { Tile, Icon } from 'carbon-components-react'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 
-import { getChannelStatusClass } from './utils'
+import {
+  getChannelStatusClass,
+  getDeployableInfo,
+  getChannelClustersNb,
+  getSubscriptionForChannel
+} from './utils'
 
 resources(() => {
   require('./style.scss')
 })
 
-const deployableColumns = (channels, locale) => {
+const deployableColumns = (channels, subscriptions, locale) => {
   return (
     <div className="version-status-grid-container">
       <div className="horizontal-scroll-row">
         {channels.map(channel => {
           const channelName = (channel && channel.name) || ''
+          const clusterCount = getChannelClustersNb(channel)
+          const subscriptionName = getSubscriptionForChannel(
+            channel,
+            subscriptions
+          )
 
           return (
             <div className="version-status-column" key="{channel.name}">
@@ -41,6 +51,10 @@ const deployableColumns = (channels, locale) => {
                   />
                 </div>
                 <div className="environment"> {channelName} </div>
+                <div className="subscription-header">
+                  {`Subscription: ${subscriptionName}`}
+                </div>
+
                 <div className="gate-conditions-header">
                   {msgs.get(
                     'description.title.deployableVersionStatus.gateConditions',
@@ -59,7 +73,7 @@ const deployableColumns = (channels, locale) => {
                     />
                   </div>
                   <div className="clusters-count">
-                    0 {msgs.get('resource.clusters', locale)}
+                    {clusterCount} {msgs.get('resource.clusters', locale)}
                   </div>
                 </div>
               </Tile>
@@ -94,9 +108,9 @@ const deployableColumns = (channels, locale) => {
 
 const ApplicationDeployableVersionStatus = withLocale(
   ({ deployableDetails, channels, subscriptions, locale }) => {
-    const deployableName =
-      (deployableDetails && deployableDetails.deployables.metadata.name) || ''
-    const subscriptionVersion = (subscriptions && subscriptions.version) || ''
+    const deployableInfo = getDeployableInfo(deployableDetails)
+
+    const deployableName = (deployableInfo && deployableInfo.name) || ''
 
     return (
       <div id="ApplicationDeployableVersionStatus">
@@ -109,16 +123,14 @@ const ApplicationDeployableVersionStatus = withLocale(
             <Tile className="deployable-left-column-header" />
 
             <Tile>
-              <div className="deployable-version-name">
-                {deployableName} {subscriptionVersion}
-              </div>
+              <div className="deployable-version-name">{deployableName}</div>
               <div className="incidents-count">
                 0 {msgs.get('description.title.incidents', locale)}
               </div>
             </Tile>
           </div>
 
-          {channels && deployableColumns(channels, locale)}
+          {channels && deployableColumns(channels, subscriptions, locale)}
         </div>
       </div>
     )

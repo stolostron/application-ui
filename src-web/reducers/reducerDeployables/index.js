@@ -42,10 +42,8 @@ export const setLoading = createAction(SET_LOADING)
 
 // ApolloClient requires CONTEXT so I have to pass it in from a file where it
 // can be defined with context.
-export const fetchDeployableResource = (apolloClient, name, namespace) => {
-  const queryString = convertStringToQuery(
-    `kind:deployable name:${name} namespace:${namespace}`
-  )
+export const fetchDeployableResource = (apolloClient, name) => {
+  const queryString = convertStringToQuery(`kind:deployable name:${name}`)
   return dispatch => {
     dispatch(setLoading(true))
     return apolloClient

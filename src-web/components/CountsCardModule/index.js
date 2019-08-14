@@ -10,7 +10,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { Link, Icon } from 'carbon-components-react'
+import { Icon } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 /* eslint-disable react/prop-types */
@@ -57,8 +57,8 @@ export default class CountsCardModule extends React.Component {
             {msgs.get(title, locale)}
             {link && (
               <span className="card-container-link">
-                <Link href={link}>
-                  View hub cluster application instance{' '}
+                <a target="_blank" rel="noopener noreferrer" href={link}>
+                  {msgs.get('dashboard.card.icam.link', locale)}{' '}
                   <Icon
                     style={{ margin: '0 0 0 5px' }}
                     className="icon--arrow--right"
@@ -67,7 +67,7 @@ export default class CountsCardModule extends React.Component {
                     width="12px"
                     height="12px"
                   />
-                </Link>
+                </a>
               </span>
             )}
           </span>

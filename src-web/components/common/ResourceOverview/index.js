@@ -46,10 +46,18 @@ const ResourceOverview = withLocale(
     actions,
     showAppDetails,
     showExpandedTopology,
-    incidentCount
+    incidentCount,
+    activeAccountId,
+    applicationUid
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
+    }
+    let icamLink = '#'
+    if (activeAccountId && applicationUid) {
+      icamLink = `/cemui/applications/${encodeURIComponent(
+        applicationUid
+      )}?subscriptionId=${encodeURIComponent(activeAccountId)}`
     }
     const modulesRight = []
     const modulesBottom = []
@@ -74,40 +82,63 @@ const ResourceOverview = withLocale(
         )
       }
     })
+    const deployables = getNumDeployables(item)
+    const deployments = getNumDeployments(item)
+    const pendingDeployments = getNumPendingDeployments(item)
+    const inProgressDeployments = getNumInProgressDeployments(item)
+    const failedDeployments = getNumFailedDeployments(item)
     const countsCardData = [
       {
-        msgKey: 'dashboard.card.deployables',
+        msgKey:
+          deployables > 1
+            ? 'dashboard.card.deployables'
+            : 'dashboard.card.deployable',
         textKey: 'dashboard.card.perInstance',
-        count: getNumDeployables(item),
+        count: deployables,
         border: 'right'
       },
       {
-        msgKey: 'dashboard.card.deployments',
+        msgKey:
+          deployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
         textKey: 'dashboard.card.total',
-        count: getNumDeployments(item)
+        count: deployments
       },
       {
         msgKey: 'dashboard.card.pending',
-        textKey: 'dashboard.card.deployments',
-        count: getNumPendingDeployments(item)
+        textKey:
+          pendingDeployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
+        count: pendingDeployments
       },
       {
         msgKey: 'dashboard.card.inProgress',
-        textKey: 'dashboard.card.deployments',
-        count: getNumInProgressDeployments(item)
+        textKey:
+          inProgressDeployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
+        count: inProgressDeployments
       },
       {
         msgKey: 'dashboard.card.failed',
-        textKey: 'dashboard.card.deployments',
-        count: getNumFailedDeployments(item),
-        alert: true
+        textKey:
+          failedDeployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
+        count: failedDeployments,
+        alert: failedDeployments > 0 ? true : false
       },
       {
-        msgKey: 'dashboard.card.incidents',
+        msgKey:
+          incidentCount > 1
+            ? 'dashboard.card.incidents'
+            : 'dashboard.card.incident',
         textKey: 'dashboard.card.total',
         count: incidentCount,
-        border: 'left',
-        alert: true
+        alert: incidentCount > 0 ? true : false,
+        border: 'left'
       }
     ]
 
@@ -132,7 +163,7 @@ const ResourceOverview = withLocale(
               <CountsCardModule
                 data={countsCardData}
                 title="dashboard.card.deployment.summary.title"
-                link="#"
+                link={icamLink}
               />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">

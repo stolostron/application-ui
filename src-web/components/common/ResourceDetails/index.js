@@ -17,7 +17,8 @@ import { getIncidentCount } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
-  fetchIncidents
+  fetchIncidents,
+  fetchUserInfo
 } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -47,18 +48,38 @@ const withResource = Component => {
             params.namespace,
             params.name
           )
-        )
+        ),
+      fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO))
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { CEMIncidentList } = state
+    const { CEMIncidentList, HCMApplicationList, userInfoList } = state
+    let activeAccountId = ''
+    if (
+      userInfoList &&
+      userInfoList.items &&
+      userInfoList.items.activeAccountId
+    ) {
+      activeAccountId = userInfoList.items.activeAccountId
+    }
+    let applicationUid = ''
+    if (
+      HCMApplicationList &&
+      HCMApplicationList.items instanceof Array &&
+      HCMApplicationList.items.length > 0 &&
+      HCMApplicationList.items[0]._uid
+    ) {
+      applicationUid = HCMApplicationList.items[0]._uid
+    }
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidentCount: getIncidentCount(CEMIncidentList)
+      incidentCount: getIncidentCount(CEMIncidentList),
+      activeAccountId: activeAccountId,
+      applicationUid: applicationUid
     }
   }
 
@@ -66,8 +87,11 @@ const withResource = Component => {
     class extends React.PureComponent {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
+        activeAccountId: PropTypes.string,
+        applicationUid: PropTypes.string,
         fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
+        fetchUserInfo: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
           PropTypes.number,
           PropTypes.string
@@ -93,6 +117,7 @@ const withResource = Component => {
           this.setState({ intervalId: intervalId })
         }
         this.props.fetchResource()
+        this.props.fetchUserInfo()
         const { params } = this.props
         if (params && params.namespace && params.name) {
           this.props.fetchIncidents()
@@ -179,6 +204,10 @@ class ResourceDetails extends React.Component {
       this.getBreadcrumb(),
       launch_links
     )
+  }
+
+  componentWillUnmount() {
+    this.props.actions.setShowAppDetails(false)
   }
 
   componentWillReceiveProps(nextProps) {

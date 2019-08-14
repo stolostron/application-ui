@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -23,6 +23,7 @@ import {
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { mapIncidents } from '../../reducers/data-mappers/mapIncidents'
+import { mapCell } from './utils'
 
 const {
   Table,
@@ -110,13 +111,11 @@ class IncidentsTab extends React.Component {
   }
 
   render() {
+    const { locale } = this.context
     const rowsList = mapIncidents(this.props.incidents)
     const rowCount = this.props.incidentCount
-    const tableTitle = msgs.get('table.title.incidents', this.context.locale)
-    const noIncidentFound = msgs.get(
-      'table.title.noIncidentFound',
-      this.context.locale
-    )
+    const tableTitle = msgs.get('table.title.incidents', locale)
+    const noIncidentFound = msgs.get('table.title.noIncidentFound', locale)
     return (
       <div id="incidents-tab">
         {rowsList.length !== 0 && (
@@ -152,7 +151,7 @@ class IncidentsTab extends React.Component {
                             >
                               {row.cells.map(cell => (
                                 <TableCell key={cell.id}>
-                                  {cell.value}
+                                  {mapCell(cell)}
                                 </TableCell>
                               ))}
                             </TableRow>

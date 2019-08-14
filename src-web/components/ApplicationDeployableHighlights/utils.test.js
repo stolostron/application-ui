@@ -111,7 +111,7 @@ describe('getDeployableSummary', () => {
 
     expect(getDeployableSummary(deplListNoStatus)).toEqual(result)
   })
-  it('should return blank array', () => {
+  it('should return - no data - array', () => {
     const result = [
       {
         msgKey: 'dashboard.card.deployable.versions',

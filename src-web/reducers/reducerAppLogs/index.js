@@ -23,7 +23,6 @@ const SET_CURRENT_SELECTED_CONTAINER = 'SET_CURRENT_SELECTED_CONTAINER'
 const FETCH_LOG_ERROR = 'FETCH_LOG_ERROR'
 const FETCH_POD_ERROR = 'FETCH_POD_ERROR'
 const FETCH_CONTAINER_ERROR = 'FETCH_CONTAINER_ERROR'
-const RESET_CONTAINER_DATA = 'RESET_CONTAINER_DATA'
 
 export const initialStateLogs = {
   logData: '',
@@ -39,36 +38,38 @@ export const initialStateLogs = {
 
 export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
-    case SET_LOG_DATA: {
-      // probably would need a null check here for setting the logs
-      return { ...state, logData: action.payload.data.logs }
+  case SET_LOG_DATA: {
+    // probably would need a null check here for setting the logs
+    return { ...state, logData: action.payload.data.logs }
+  }
+  case SET_POD_DATA: {
+    return { ...state, podData: action.payload }
+  }
+  case SET_CURRENT_SELECTED_POD: {
+    return {
+      ...state,
+      currentSelectedPod: action.payload,
+      containerData: {},
+      currentSelectedContainer: 'Select Container'
     }
-    case SET_POD_DATA: {
-      return { ...state, podData: action.payload }
-    }
-    case SET_CURRENT_SELECTED_POD: {
-      return { ...state, currentSelectedPod: action.payload }
-    }
-    case SET_CONTAINER_DATA: {
-      return { ...state, containerData: action.payload }
-    }
-    case SET_CURRENT_SELECTED_CONTAINER: {
-      return { ...state, currentSelectedContainer: action.payload }
-    }
-    case FETCH_LOG_ERROR: {
-      return { ...state, fetchLogDataError: action.payload }
-    }
-    case FETCH_POD_ERROR: {
-      return { ...state, fetchPodDataError: action.payload }
-    }
-    case FETCH_CONTAINER_ERROR: {
-      return { ...state, fetchContainerDataError: action.payload }
-    }
-    case RESET_CONTAINER_DATA: {
-      return { ...state, containerData: {}, currentSelectedContainer: 'Select Container' }
-    }
-    default:
-      return state
+  }
+  case SET_CONTAINER_DATA: {
+    return { ...state, containerData: action.payload }
+  }
+  case SET_CURRENT_SELECTED_CONTAINER: {
+    return { ...state, currentSelectedContainer: action.payload }
+  }
+  case FETCH_LOG_ERROR: {
+    return { ...state, fetchLogDataError: action.payload }
+  }
+  case FETCH_POD_ERROR: {
+    return { ...state, fetchPodDataError: action.payload }
+  }
+  case FETCH_CONTAINER_ERROR: {
+    return { ...state, fetchContainerDataError: action.payload }
+  }
+  default:
+    return state
   }
 }
 export default AppLogs
@@ -81,7 +82,6 @@ export const setCurrentContainer = createAction(SET_CURRENT_SELECTED_CONTAINER)
 export const setFetchLogError = createAction(FETCH_LOG_ERROR)
 export const setFetchPodError = createAction(FETCH_POD_ERROR)
 export const setFetchContainerError = createAction(FETCH_CONTAINER_ERROR)
-export const resetContainerData = createAction(RESET_CONTAINER_DATA)
 
 export const setCurrentPodActions = podName => {
   return dispatch => {
@@ -144,8 +144,6 @@ export const fetchContainersForPod = (
   }
 }
 
-
-
 // fetchLogs(containerName, podName, podNamespace, clusterName) {
 //   return apolloClient.getLogs(containerName, podName, podNamespace, clusterName).then(result => {
 //     if (result.data.logs.errors && result.data.logs.errors.length > 0) {
@@ -164,17 +162,21 @@ export const fetchContainersForPod = (
 
 // fetch the logs for a given container
 export const fetchLogsForContainer = (
-  apolloClient, containerName, podName, podNamespace, clusterName
+  apolloClient,
+  containerName,
+  podName,
+  podNamespace,
+  clusterName
 ) => {
   return dispatch => {
-    return apolloClient.getLogs(containerName, podName, podNamespace, clusterName)
+    return apolloClient
+      .getLogs(containerName, podName, podNamespace, clusterName)
       .then(response => {
-        if (response.errors)
-          return dispatch(setFetchLogError(response.errors))
+        if (response.errors) return dispatch(setFetchLogError(response.errors))
 
         return dispatch(setLogData(response))
-
-      }).catch(err => {
+      })
+      .catch(err => {
         dispatch(setFetchLogError(err))
       })
   }

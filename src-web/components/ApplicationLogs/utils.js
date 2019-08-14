@@ -15,15 +15,18 @@ export const handlePodChange = (
   event,
   fetchContainersForPod,
   podData,
-  setCurrentPod,
-  resetContainerData,
+  setCurrentPod
 ) => {
   // Get the selected POD from the event and reset container data
-  resetContainerData()
   setCurrentPod(event.selectedItem)
   const nameMatch = n => n.name == event.selectedItem
   const selectedPod = R.filter(nameMatch, podData[0].items)
-  fetchContainersForPod(selectedPod[0].selfLink, selectedPod[0].namespace, selectedPod[0].name, selectedPod[0].cluster)
+  fetchContainersForPod(
+    selectedPod[0].selfLink,
+    selectedPod[0].namespace,
+    selectedPod[0].name,
+    selectedPod[0].cluster
+  )
 }
 
 export const handleContainerChange = (
@@ -38,7 +41,10 @@ export const handleContainerChange = (
   setCurrentContainer(event.selectedItem)
 
   const nameMatch = n => n.name == event.selectedItem
-  const selectedContainer = R.filter(nameMatch, containerData.data.getResource.spec.containers)
+  const selectedContainer = R.filter(
+    nameMatch,
+    containerData.data.getResource.spec.containers
+  )
 
   // getting the pod based on the known pod name
   const podNameMatch = n => n.name == currentSelectedPod
@@ -52,8 +58,6 @@ export const handleContainerChange = (
   const clusterName = selectedPod[0].cluster
 
   fetchLogsForContainer(containerName, podName, podNamespace, clusterName)
-
-
 }
 
 export const getPodsFromApplicationRelated = HCMApplicationList => {

@@ -20,11 +20,14 @@
         width: auto;
         float: left;
     }
-    .bx--list-box__label {
-        margin-right: 20px
-    }
     .bx--dropdown {
         box-shadow: none;
+    }
+    .bx--list-box__label {
+        margin-right: 20px;
+    }
+    .bx--list-box__menu {
+        position: static;
     }
     .dropdown-divider {
         padding: 10px 15px;

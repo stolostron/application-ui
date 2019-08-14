@@ -37,7 +37,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         fetchLogsForContainer(apolloClient, containerName, podName, podNamespace, clusterName)
       )
-
   }
 }
 
@@ -96,25 +95,6 @@ class ApplicationLogs extends React.Component {
     const podItems = createPodsList(podData, [])
     const containerItems = createContainersList(containerData, [])
 
-    // // For these 4 guys here you are going to need to determine their values
-    // // based on the currentSelectedPod.
-    // // However currentSelectedPod doesn't contain these values because currently
-    // // its just the name.
-    // // There are two ways you go about solving this.
-    // // 1 - Write an additional util function that takes in podData and currentSelectedPod
-    // //     and searches through podData to find the matching POD and then return the
-    // //     object so you can extract those values.
-    // // 2 - You can modify the setCurrentPod action and the SET_CURRENT_SELECTED_POD case
-    // //     to do this logic for you to where currentSelectedPod is no longer just a name
-    // //     but an OBJECT that contains the name as well as this data.
-    // //     Now that I'm writing all this I think thats what I would do, because you
-    // //     never know if and when you might need taht data elsewhere. But I wanted
-    // //     to explain the two options.
-    // const podSelfLink = 'something'
-    // const podNamespace = 'something'
-    // const podName = 'something'
-    // const podCluster = 'something'
-
     return (
       <React.Fragment>
         <div id="ApplicationLogs">
@@ -152,7 +132,6 @@ class ApplicationLogs extends React.Component {
                     podData,
                     containerData,
                     actions.setCurrentContainer,
-                    actions.setLogData,
                     currentSelectedPod
                   )
                 }

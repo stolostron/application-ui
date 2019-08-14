@@ -50,7 +50,8 @@ export const AppLogs = (state = initialStateLogs, action) => {
       ...state,
       currentSelectedPod: action.payload,
       containerData: {},
-      currentSelectedContainer: 'Select Container'
+      currentSelectedContainer: 'Select Container',
+      logData: ''
     }
   }
   case SET_CONTAINER_DATA: {

@@ -35,7 +35,6 @@ export const handleContainerChange = (
   podData,
   containerData,
   setCurrentContainer,
-  setLogData,
   currentSelectedPod
 ) => {
   setCurrentContainer(event.selectedItem)

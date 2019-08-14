@@ -13,7 +13,11 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount } from './utils'
+import {
+  getIncidentCount,
+  getActiveAccountId,
+  getApplicationUid
+} from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
@@ -57,29 +61,12 @@ const withResource = Component => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
     const { CEMIncidentList, HCMApplicationList, userInfoList } = state
-    let activeAccountId = ''
-    if (
-      userInfoList &&
-      userInfoList.items &&
-      userInfoList.items.activeAccountId
-    ) {
-      activeAccountId = userInfoList.items.activeAccountId
-    }
-    let applicationUid = ''
-    if (
-      HCMApplicationList &&
-      HCMApplicationList.items instanceof Array &&
-      HCMApplicationList.items.length > 0 &&
-      HCMApplicationList.items[0]._uid
-    ) {
-      applicationUid = HCMApplicationList.items[0]._uid
-    }
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
       incidentCount: getIncidentCount(CEMIncidentList),
-      activeAccountId: activeAccountId,
-      applicationUid: applicationUid
+      activeAccountId: getActiveAccountId(userInfoList),
+      applicationUid: getApplicationUid(HCMApplicationList)
     }
   }
 

@@ -26,7 +26,8 @@ import {
   getNumDeployments,
   getNumPendingDeployments,
   getNumInProgressDeployments,
-  getNumFailedDeployments
+  getNumFailedDeployments,
+  getIcamLink
 } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
@@ -52,12 +53,6 @@ const ResourceOverview = withLocale(
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
-    }
-    let icamLink = '#'
-    if (activeAccountId && applicationUid) {
-      icamLink = `/cemui/applications/${encodeURIComponent(
-        applicationUid
-      )}?subscriptionId=${encodeURIComponent(activeAccountId)}`
     }
     const modulesRight = []
     const modulesBottom = []
@@ -163,7 +158,7 @@ const ResourceOverview = withLocale(
               <CountsCardModule
                 data={countsCardData}
                 title="dashboard.card.deployment.summary.title"
-                link={icamLink}
+                link={getIcamLink(activeAccountId, applicationUid)}
               />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">

@@ -16,3 +16,26 @@ export const getChannelStatusClass = status => {
     (true && 'statusTag')
   )
 }
+
+export const getChannelClustersNb = channel => {
+  if (channel && channel.related) {
+    for (var i = 0; i < channel.related.length; i++) {
+      const item = channel.related[i]
+
+      if (item && item.kind && item.kind === 'cluster' && item.count)
+        return item.count
+    }
+  }
+
+  return 0
+}
+
+export const getDeployableInfo = item => {
+  if (item && item.items && item.items.length > 0) return item.items[0]
+  return {}
+}
+
+export const getDeployableSubscription = item => {
+  if (item && item.length > 0) return item[0]
+  return null
+}

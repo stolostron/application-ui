@@ -7,110 +7,82 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
+
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 
-export const sampleData = {
-  deployables: {
-    metadata: {
-      name: 'kirti1-guestbook-app',
-      selfLink:
-        '/apis/mcm.ibm.com/v1alpha1/namespaces/ibmcom/deployables/kirti1-guestbook-app',
-      __typename: 'Metadata'
-    },
-    status: {
-      cluster1: 'failed',
-      cluster2: 'success'
-    },
-    channels: [
-      {
-        name: 'dev',
-        template: {
-          kind: 'CustomResourceDefinition',
-          scope: 'Namespaced'
-        },
-        lastUpdateTime: '2019-07-05T09:50:56Z',
-        status: 'failed'
-      },
-      {
-        name: 'devkirti',
-        template: {
-          kind: 'CustomResourceDefinition',
-          scope: 'Namespaced'
-        },
-        lastUpdateTime: '2019-07-05T09:50:56Z',
-        status: 'success'
-      },
-      {
-        name: 'prod',
-        template: {
-          kind: 'CustomResourceDefinition',
-          scope: 'Namespaced'
-        },
-        lastUpdateTime: '2019-07-05T09:50:56Z',
-        status: 'success'
-      }
-    ],
-    subscription: {
-      metadata: {
-        name: 'mydevsub',
-        namespace: 'myspace',
-        labels: [
-          ['Region', 'NorthAmerica'],
-          ['DataCenter', 'Austin'],
-          ['ClusterType', 'AWS'],
-          ['controller-tools.k8s.io', '1.0']
-        ]
-      },
-      spec: {
-        channel: 'ch - dev / dev',
-        package: 'nginx',
-        packageFilter: {
-          version: '1. x'
-        },
-        version: 'v1alpha1'
-      },
-      placement: {
-        clusters: {
-          '-name': 'mydevcluster1'
-        }
-      }
-    },
-    __typename: 'Deployable'
-  }
-}
-
 // Get the full list of deployables with details
 export const getDeployableDetails = data => {
-  if (data) {
-    // perhaps restructure the object that is returned
-    return data
+  if (
+    data &&
+    data.data &&
+    data.data.searchResult &&
+    data.data.searchResult.length > 0
+  ) {
+    return data.data.searchResult[0]
   }
   return []
 }
 
-// Get the subscriptions contained in a specific deployable
+// Get list of subscriptions that are associated with a specific deployable
 export const getSubscriptions = data => {
-  if (data && data.deployables && data.deployables.subscription) {
-    // perhaps restructure the object that is returned
-
-    return {
-      name: data.deployables.subscription.metadata.name || '',
-      namespace: data.deployables.subscription.metadata.namespace || '',
-      labels: data.deployables.subscription.metadata.labels || '',
-      channel: data.deployables.subscription.spec.channel || '',
-      package: data.deployables.subscription.spec.package || '',
-      version: data.deployables.subscription.spec.version || '',
-      clusters: data.deployables.subscription.placement.clusters || ''
-    }
+  if (
+    data &&
+    data.data &&
+    data.data.searchResult &&
+    data.data.searchResult.length > 0 &&
+    data.data.searchResult[0].related
+  ) {
+    const result = data.data.searchResult[0].related
+    const subscriptionList = result.map(item => {
+      if (
+        item.kind &&
+        item.kind === 'subscription' &&
+        item.items &&
+        item.items.length > 0
+      ) {
+        return item.items[0]
+      }
+    })
+    const removeUndefined = x => x !== undefined
+    const emptyArray = []
+    const removedUndefinedSubscriptions = R.filter(
+      removeUndefined,
+      subscriptionList
+    )
+    return emptyArray.concat.apply([], removedUndefinedSubscriptions)
   }
   return []
 }
 
-// Get list of channels that are associated with a specific deployable
-export const getChannels = data => {
-  if (data && data.deployables && data.deployables.channels) {
-    return data.deployables.channels
+// Get list of channels that are associated with the deployables subscription
+export const getChannels = (channels, subscriptions) => {
+  if (channels && channels.items) {
+    if (subscriptions && subscriptions.length > 0 && subscriptions[0].channel) {
+      const channelData = subscriptions[0].channel.split('//')
+      if (channelData.length == 2) {
+        const channelsList = channels.items.map(channel => {
+          if (
+            channel &&
+            channel.name &&
+            channel.name === channelData[1] &&
+            channel.namespace &&
+            channel.namespace === channelData[0]
+          ) {
+            return channel
+          }
+        })
+        const removeUndefined = x => x !== undefined
+        const emptyArray = []
+        const removedUndefinedChannels = R.filter(
+          removeUndefined,
+          channelsList
+        )
+        return emptyArray.concat.apply([], removedUndefinedChannels)
+      }
+    }
+    return channels.items
   }
   return []
 }

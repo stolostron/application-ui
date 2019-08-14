@@ -13,7 +13,12 @@ import { Tile, Icon } from 'carbon-components-react'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 
-import { getChannelStatusClass } from './utils'
+import {
+  getChannelStatusClass,
+  getDeployableInfo,
+  getDeployableSubscription,
+  getChannelClustersNb
+} from './utils'
 
 resources(() => {
   require('./style.scss')
@@ -25,6 +30,7 @@ const deployableColumns = (channels, locale) => {
       <div className="horizontal-scroll-row">
         {channels.map(channel => {
           const channelName = (channel && channel.name) || ''
+          const clusterCount = getChannelClustersNb(channel)
 
           return (
             <div className="version-status-column" key="{channel.name}">
@@ -59,7 +65,7 @@ const deployableColumns = (channels, locale) => {
                     />
                   </div>
                   <div className="clusters-count">
-                    0 {msgs.get('resource.clusters', locale)}
+                    {clusterCount} {msgs.get('resource.clusters', locale)}
                   </div>
                 </div>
               </Tile>
@@ -94,9 +100,11 @@ const deployableColumns = (channels, locale) => {
 
 const ApplicationDeployableVersionStatus = withLocale(
   ({ deployableDetails, channels, subscriptions, locale }) => {
-    const deployableName =
-      (deployableDetails && deployableDetails.deployables.metadata.name) || ''
-    const subscriptionVersion = (subscriptions && subscriptions.version) || ''
+    const deployableInfo = getDeployableInfo(deployableDetails)
+    const subscription = getDeployableSubscription(subscriptions)
+
+    const deployableName = (deployableInfo && deployableInfo.name) || ''
+    const subscriptionVersion = (subscription && subscription.name) || ''
 
     return (
       <div id="ApplicationDeployableVersionStatus">

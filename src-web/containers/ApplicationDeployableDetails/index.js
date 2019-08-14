@@ -10,20 +10,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
-import {
-  updateSecondaryHeader,
-  updateModal /* , fetchResource */
-} from '../../actions/common'
+import { updateSecondaryHeader, fetchResources } from '../../actions/common'
 import { fetchDeployableResource } from '../../reducers/reducerDeployables'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   getBreadCrumbs,
   getDeployableDetails,
   getSubscriptions,
-  getChannels,
-  sampleData
+  getChannels
 } from './utils'
 import ApplicationDeployableHighlights from '../../components/ApplicationDeployableHighlights'
-import ApplicationDeployableSubscription from '../../components/ApplicationDeployableSubscription'
 import ApplicationDeployableVersionStatus from '../../components/ApplicationDeployableVersionStatus'
 import apolloClient from '../../../lib/client/apollo-client'
 /* eslint-disable react/prop-types */
@@ -32,56 +28,29 @@ resources(() => {
   require('./style.scss')
 })
 
-//handleEditResource(dispatch, resourceType, data)
-const handleEditResource = (dispatch, resourceType, data) => {
-  return dispatch(
-    updateModal({
-      open: true,
-      type: 'resource-edit',
-      action: 'put',
-      resourceType,
-      editorMode: 'yaml',
-      label: {
-        primaryBtn: 'modal.button.submit',
-        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-      },
-      name: (data && data.name) || '',
-      namespace: (data && data.namespace) || '',
-      data: (data && data.data) || ''
-    })
-  )
-}
-
 const mapDispatchToProps = dispatch => {
   return {
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
     updateSecondaryHeaderInfo: (title, breadCrumbs) =>
       dispatch(updateSecondaryHeader(title, [], breadCrumbs, [])),
-    editSubscription: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
-    fetchDeployableResource: (name, namespace) =>
-      dispatch(fetchDeployableResource(apolloClient, name, namespace))
+    fetchDeployableResource: name =>
+      dispatch(fetchDeployableResource(apolloClient, name))
   }
 }
 
 const mapStateToProps = state => {
-  const { DeployablesReducer } = state
-  const deployableDetails = getDeployableDetails(sampleData)
-  const subscriptions = getSubscriptions(sampleData)
-  const channels = getChannels(sampleData)
+  const { DeployablesReducer, HCMChannelList } = state
 
   return {
     deployableData: DeployablesReducer.deployableData,
-    loading: DeployablesReducer.loading,
-    deployableDetails,
-    subscriptions,
-    channels
+    HCMChannelList
   }
 }
 
 class ApplicationDeployableDetails extends React.Component {
   componentWillMount() {
     const {
+      fetchChannels,
       updateSecondaryHeaderInfo,
       params,
       fetchDeployableResource
@@ -92,6 +61,7 @@ class ApplicationDeployableDetails extends React.Component {
     const breadCrumbs = getBreadCrumbs(deployableParams, locale)
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
     fetchDeployableResource(deployableParams.name, deployableParams.namespace)
+    fetchChannels()
   }
 
   componentDidMount() {}
@@ -99,19 +69,20 @@ class ApplicationDeployableDetails extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const { editSubscription, deployableData, loading } = this.props
+    const { HCMChannelList, deployableData } = this.props
+    const subscriptions = getSubscriptions(deployableData)
+    const channels = getChannels(HCMChannelList, subscriptions)
+    const deployableDetails = getDeployableDetails(deployableData)
 
     return (
       <div id="ApplicationDeployableDetails">
-        <ApplicationDeployableHighlights />
-        <ApplicationDeployableSubscription
-          subscription={this.props.subscriptions}
-          editSubscription={editSubscription}
+        <ApplicationDeployableHighlights
+          deployableDetails={deployableDetails}
         />
         <ApplicationDeployableVersionStatus
-          deployableDetails={this.props.deployableDetails}
-          channels={this.props.channels}
-          subscriptions={this.props.subscriptions}
+          deployableDetails={deployableDetails}
+          channels={channels}
+          subscriptions={subscriptions}
         />
       </div>
     )

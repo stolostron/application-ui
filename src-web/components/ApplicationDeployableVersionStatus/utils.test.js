@@ -7,7 +7,12 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getChannelStatusClass } from './utils'
+import {
+  getChannelStatusClass,
+  getChannelClustersNb,
+  getDeployableInfo,
+  getDeployableSubscription
+} from './utils'
 
 describe('getChannelStatusClass', () => {
   const status1 = 'success'
@@ -41,5 +46,82 @@ describe('getChannelStatusClass', () => {
   it('should return statusTag', () => {
     const result = 'statusTag'
     expect(getChannelStatusClass(status6)).toEqual(result)
+  })
+})
+
+describe('getChannelClustersNb', () => {
+  const channel = {
+    name: 'channel1',
+    related: [
+      {
+        kind: 'cluster',
+        count: 3
+      }
+    ]
+  }
+  it('should return 3 clusters', () => {
+    expect(getChannelClustersNb(channel)).toEqual(3)
+  })
+})
+
+describe('getDeployableInfo', () => {
+  const deployable = {
+    items: [
+      {
+        name: 'deployable1',
+        kind: 'deployable',
+        related: [
+          {
+            kind: 'cluster',
+            count: 3
+          }
+        ]
+      }
+    ]
+  }
+  it('should return first item in items', () => {
+    const result = {
+      name: 'deployable1',
+      kind: 'deployable',
+      related: [
+        {
+          kind: 'cluster',
+          count: 3
+        }
+      ]
+    }
+    expect(getDeployableInfo(deployable)).toEqual(result)
+  })
+})
+
+describe('getDeployableSubscription', () => {
+  const subscriptions = [
+    {
+      name: 's1',
+      kind: 'subscription',
+      related: [
+        {
+          kind: 'cluster',
+          count: 3
+        }
+      ]
+    }
+  ]
+  const empty_subscriptions = []
+  it('should return first item in the list', () => {
+    const result = {
+      name: 's1',
+      kind: 'subscription',
+      related: [
+        {
+          kind: 'cluster',
+          count: 3
+        }
+      ]
+    }
+    expect(getDeployableSubscription(subscriptions)).toEqual(result)
+  })
+  it('should return null', () => {
+    expect(getDeployableSubscription(empty_subscriptions)).toEqual(null)
   })
 })

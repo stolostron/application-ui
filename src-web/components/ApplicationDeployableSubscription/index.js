@@ -13,13 +13,15 @@ import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 import { Icon } from 'carbon-components-react'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { getDeployableSubscription } from './utils'
 
 resources(() => {
   require('./style.scss')
 })
 
 const ApplicationDeployableSubscription = withLocale(
-  ({ subscription, editSubscription, locale }) => {
+  ({ subscriptions, editSubscription, locale }) => {
+    const subscription = getDeployableSubscription(subscriptions)
     const name = (subscription && subscription.name) || '--'
     const channel = (subscription && subscription.channel) || '--'
     const annotations = (subscription && subscription.annotations) || '--'

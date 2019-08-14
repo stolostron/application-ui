@@ -28,14 +28,14 @@ export const initialStateLogs = {
   fetchPodDataError: '',
   fetchLogDataError: '',
   fetchContainerDataError: '',
-  loading: false
+  logLoading: true
 }
 
 export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
   case SET_LOG_DATA: {
     // probably would need a null check here for setting the logs
-    return { ...state, logData: action.payload.data.logs }
+    return { ...state, logData: action.payload.data.logs, logLoading: false }
   }
   case SET_POD_DATA: {
     return { ...state, podData: action.payload }
@@ -46,14 +46,19 @@ export const AppLogs = (state = initialStateLogs, action) => {
       currentSelectedPod: action.payload,
       containerData: [],
       currentSelectedContainer: '',
-      logData: ''
+      logData: '',
+      logLoading: true
     }
   }
   case SET_CONTAINER_DATA: {
     return { ...state, containerData: action.payload }
   }
   case SET_CURRENT_SELECTED_CONTAINER: {
-    return { ...state, currentSelectedContainer: action.payload }
+    return {
+      ...state,
+      currentSelectedContainer: action.payload,
+      logLoading: true
+    }
   }
   case FETCH_LOG_ERROR: {
     return { ...state, fetchLogDataError: action.payload }

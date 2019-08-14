@@ -8,7 +8,7 @@
  *******************************************************************************/
 import React from '../../../node_modules/react'
 import msgs from '../../../nls/platform.properties'
-import { Icon } from 'carbon-components-react'
+import { Icon, Loading } from 'carbon-components-react'
 import ScrollBox from '../modals/ScrollBox'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -61,7 +61,8 @@ const mapStateToProps = state => {
     containerData: AppLogs.containerData,
     logData: AppLogs.logData,
     currentSelectedPod: AppLogs.currentSelectedPod,
-    currentSelectedContainer: AppLogs.currentSelectedContainer
+    currentSelectedContainer: AppLogs.currentSelectedContainer,
+    logLoading: AppLogs.logLoading
   }
 }
 
@@ -109,7 +110,8 @@ class ApplicationLogs extends React.Component {
       containerData,
       logData,
       currentSelectedPod,
-      currentSelectedContainer
+      currentSelectedContainer,
+      logLoading
     } = this.props
 
     const podItems = createPodsList(podData, [])
@@ -170,7 +172,13 @@ class ApplicationLogs extends React.Component {
               />
             </div>
           </div>
-          <ScrollBox className="logs-container__content" content={logData} />
+          {currentSelectedContainer && logLoading ? (
+            <div className="logs-loading-box">
+              <Loading withOverlay={false} />
+            </div>
+          ) : (
+            <ScrollBox className="logs-container__content" content={logData} />
+          )}
         </div>
       </React.Fragment>
     )

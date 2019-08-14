@@ -8,42 +8,53 @@
  *******************************************************************************/
 
 #ApplicationLogs {
+  .dropdown-container {
+    width: 100%;
+    display: inline-block;
+    background-color: white;
+    margin-bottom: 10px;
+  }
 
-    .dropdown-container {
-        width: 100%;
-        display: inline-block;
-        background-color: white;
-        margin-bottom: 10px;
-    }
+  .dropdown-pods-list,
+  .dropdown-containers-list {
+    width: auto;
+    float: left;
+  }
 
-    .dropdown-pods-list, .dropdown-containers-list {
-        width: auto;
-        float: left;
-    }
-    .bx--dropdown {
-        box-shadow: none;
-    }
-    .bx--list-box__label {
-        margin-right: 20px;
-    }
-    .bx--list-box__menu {
-        position: static;
-    }
-    .dropdown-divider {
-        padding: 10px 15px;
-        float: left;
-    }
+  .bx--dropdown {
+    box-shadow: none;
+  }
 
-    .view-external-container {
-        text-align: right;
-        padding: 0 2%;
-    }
-    .viewExternalIconTitle {
-        display: inline-block;
-        font-size: 0.8em;
-        margin: 10px;
-    }
-    .viewExternalIcon {
-        cursor: pointer;
-    }
+  .bx--list-box__label {
+    margin-right: 20px;
+  }
+
+  .bx--list-box__menu {
+    position: static;
+  }
+
+  .dropdown-divider {
+    padding: 10px 15px;
+    float: left;
+  }
+
+  .view-external-container {
+    text-align: right;
+    padding: 0 2%;
+  }
+
+  .viewExternalIconTitle {
+    display: inline-block;
+    font-size: 0.8em;
+    margin: 10px;
+  }
+
+  .viewExternalIcon {
+    cursor: pointer;
+  }
+
+  .logs-loading-box {
+    display: flex;
+    justify-content: center;
+  }
 }

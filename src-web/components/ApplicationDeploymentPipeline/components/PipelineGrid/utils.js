@@ -103,3 +103,62 @@ export const getDeployablesChannels = deployableData => {
   }
   return []
 }
+
+// Given the tall count of pass, fail, inprogress, unidentified
+// and the status. Add to the tall and return it
+const determineStatus = (statusPassFailInProgress, status) => {
+  const statusTotals = statusPassFailInProgress
+  if (status.includes('deploy') || status.includes('pass')) {
+    // Increment PASS
+    statusTotals[0] = statusTotals[0] + 1
+  } else if (status.includes('fail') || status.includes('error')) {
+    statusTotals[1] = statusTotals[1] + 1
+  } else if (status.includes('progress')) {
+    statusTotals[2] = statusTotals[2] + 1
+  } else {
+    statusTotals[3] = statusTotals[3] + 1
+  }
+  return statusTotals
+}
+
+// This method takes in an object of deployable data.
+// From that we want to get the related resources and then filter down only to
+// the resources we want to check status' for.
+// If the namespace of that particular resource matches the namespace of the
+// channel we can assume its in the channel.
+// We also will pass in the currentDeployableStatus because we want to add that
+// to the status count
+export const getResourcesStatusPerChannel = (
+  deployableData,
+  channelNamespace
+) => {
+  if (deployableData && deployableData.related) {
+    const relatedData = deployableData.related
+    // We want to pull resources data to check status
+    const filterToResources = x =>
+      x.kind == 'release' ||
+      x.kind == 'pod' ||
+      x.kind == 'replicaset' ||
+      x.kind == 'deployment' ||
+      x.kind == 'service'
+    // ResourceData is an array of objects
+    const resourceData = R.filter(filterToResources, relatedData)
+    // PASS, FAIL, INPROGRESS, unidentified status
+    let statusPassFailInProgress = [0, 0, 0, 0]
+    resourceData.map(resource => {
+      // Items is a list of that speecific resource kind
+      const items = resource.items
+      items.map(item => {
+        if (item.namespace == channelNamespace) {
+          const status = (item.status || '').toLowerCase()
+          statusPassFailInProgress = determineStatus(
+            statusPassFailInProgress,
+            status
+          )
+        }
+      })
+    })
+    return statusPassFailInProgress
+  }
+  return [0, 0, 0, 0]
+}

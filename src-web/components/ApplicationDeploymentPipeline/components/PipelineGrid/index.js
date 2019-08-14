@@ -16,7 +16,8 @@ import {
   editChannelClick,
   findMatchingSubscription,
   getDeployableData,
-  getDeployablesChannels
+  getDeployablesChannels,
+  getResourcesStatusPerChannel
 } from './utils'
 import { pullOutDeployablePerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -201,19 +202,29 @@ const ChannelColumnGrid = (
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {deployablesForThisApplication.map(deployable => {
-                // TODO will need to fix once we have the API fully returning everything
+                // Gather the deployable data that contains the matching UID
                 const deployableData = getDeployableData(
                   bulkDeployableList,
                   deployable._uid
                 )
+                // Gather all the channels that this deployable is in
                 const deployableChannels = getDeployablesChannels(
                   deployableData
                 )
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
+                      // Determine if this deployable is present in this channel
                       const channelMatch = deployableChannels.includes(
                         `${channel.namespace}/${channel.name}`
+                      )
+                      // Get status of resources within the deployable specific
+                      // to the channel. We will match the resources that contain
+                      // the same namespace as the channel
+                      // status = [0, 0, 0, 0] // pass, fail, inprogress, unidentifed
+                      const status = getResourcesStatusPerChannel(
+                        deployableData,
+                        channel.namespace
                       )
                       // This will find the matching subscription for the given channel
                       const matchingSubscription = findMatchingSubscription(
@@ -236,7 +247,12 @@ const ChannelColumnGrid = (
                                 )
                               }
                             >
-                              does have the channel
+                              {`Pass: ${status[0]} Fail: ${
+                                status[1]
+                              } InProgress: ${status[2]} / ${status[0] +
+                                status[1] +
+                                status[2] +
+                                status[3]}`}
                             </Tile>
                           ) : (
                             <Tile

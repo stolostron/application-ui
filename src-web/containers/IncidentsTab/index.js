@@ -112,8 +112,8 @@ class IncidentsTab extends React.Component {
 
   render() {
     const { locale } = this.context
-    const rowsList = mapIncidents(this.props.incidents)
-    const rowCount = this.props.incidentCount
+    const { incidents, incidentCount } = this.props
+    const rowsList = mapIncidents(incidents)
     const tableTitle = msgs.get('table.title.incidents', locale)
     const noIncidentFound = msgs.get('table.title.noIncidentFound', locale)
     return (
@@ -121,7 +121,7 @@ class IncidentsTab extends React.Component {
         {rowsList.length !== 0 && (
           <React.Fragment>
             <div className="incidents-tab-table-title">
-              {tableTitle} ({rowCount})
+              {tableTitle} ({incidentCount})
             </div>
             <div className="incidents-tab-table">
               <DataTable

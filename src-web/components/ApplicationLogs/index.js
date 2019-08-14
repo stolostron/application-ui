@@ -70,6 +70,15 @@ const createContainersList = (containerData, containersList) => {
   return containersList
 }
 
+const isObjEmpty = (obj) => {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false
+    }
+  }
+  return true
+}
+
 class ApplicationLogs extends React.Component {
   render() {
     const { locale } = this.context
@@ -86,7 +95,6 @@ class ApplicationLogs extends React.Component {
 
     const podItems = createPodsList(podData, [])
     const containerItems = createContainersList(containerData, [])
-    //const logsContent = 'Testing logs...'
 
     // // For these 4 guys here you are going to need to determine their values
     // // based on the currentSelectedPod.
@@ -135,6 +143,7 @@ class ApplicationLogs extends React.Component {
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 light
+                disabled={isObjEmpty(containerItems)}
                 label={currentSelectedContainer}
                 onChange={event =>
                   handleContainerChange(

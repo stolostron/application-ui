@@ -51,7 +51,6 @@ export const handleContainerChange = (
   const selectedPod = R.filter(podNameMatch, podData[0].items)
 
   // containerName, podName, podNamespace, clusterName
-
   const containerName = selectedContainer[0].name
   const podName = selectedPod[0].name
   const podNamespace = selectedPod[0].namespace

@@ -60,7 +60,7 @@ class ApplicationDeployableDetails extends React.Component {
       (params && params.match && params.match.params) || {}
     const breadCrumbs = getBreadCrumbs(deployableParams, locale)
     updateSecondaryHeaderInfo(deployableParams.name || '', breadCrumbs)
-    fetchDeployableResource(deployableParams.name, deployableParams.namespace)
+    fetchDeployableResource(deployableParams.name)
     fetchChannels()
   }
 

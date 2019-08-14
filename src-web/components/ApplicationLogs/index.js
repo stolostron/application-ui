@@ -16,7 +16,7 @@ import * as Actions from '../../actions'
 import { DropdownV2 } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import { handlePodChange, handleContainerChange } from './utils'
-import { fetchContainersForPod } from '../../reducers/reducerAppLogs'
+import { fetchContainersForPod, fetchLogsForContainer } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
 import { getPodsFromApplicationRelated } from './utils'
 
@@ -32,7 +32,12 @@ const mapDispatchToProps = dispatch => {
     fetchContainersForPod: (selfLink, namespace, name, cluster) =>
       dispatch(
         fetchContainersForPod(apolloClient, selfLink, namespace, name, cluster)
+      ),
+    fetchLogsForContainer: (containerName, podName, podNamespace, clusterName) =>
+      dispatch(
+        fetchLogsForContainer(apolloClient, containerName, podName, podNamespace, clusterName)
       )
+
   }
 }
 
@@ -41,6 +46,7 @@ const mapStateToProps = state => {
   return {
     podData: getPodsFromApplicationRelated(HCMApplicationList),
     containerData: AppLogs.containerData,
+    logData: AppLogs.logData,
     currentSelectedPod: AppLogs.currentSelectedPod,
     currentSelectedContainer: AppLogs.currentSelectedContainer
   }
@@ -70,15 +76,17 @@ class ApplicationLogs extends React.Component {
     const {
       actions,
       fetchContainersForPod,
+      fetchLogsForContainer,
       podData,
       containerData,
+      logData,
       currentSelectedPod,
       currentSelectedContainer,
     } = this.props
 
     const podItems = createPodsList(podData, [])
     const containerItems = createContainersList(containerData, [])
-    const logsContent = 'Testing logs...'
+    //const logsContent = 'Testing logs...'
 
     // // For these 4 guys here you are going to need to determine their values
     // // based on the currentSelectedPod.
@@ -131,8 +139,12 @@ class ApplicationLogs extends React.Component {
                 onChange={event =>
                   handleContainerChange(
                     event,
+                    fetchLogsForContainer,
+                    podData,
                     containerData,
                     actions.setCurrentContainer,
+                    actions.setLogData,
+                    currentSelectedPod
                   )
                 }
                 items={containerItems}
@@ -152,7 +164,7 @@ class ApplicationLogs extends React.Component {
           </div>
           <ScrollBox
             className="logs-container__content"
-            content={logsContent}
+            content={logData}
           />
         </div>
       </React.Fragment>

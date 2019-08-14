@@ -28,10 +28,32 @@ export const handlePodChange = (
 
 export const handleContainerChange = (
   event,
+  fetchLogsForContainer,
+  podData,
   containerData,
   setCurrentContainer,
+  setLogData,
+  currentSelectedPod
 ) => {
   setCurrentContainer(event.selectedItem)
+
+  const nameMatch = n => n.name == event.selectedItem
+  const selectedContainer = R.filter(nameMatch, containerData.data.getResource.spec.containers)
+
+  // getting the pod based on the known pod name
+  const podNameMatch = n => n.name == currentSelectedPod
+  const selectedPod = R.filter(podNameMatch, podData[0].items)
+
+  // containerName, podName, podNamespace, clusterName
+
+  const containerName = selectedContainer[0].name
+  const podName = selectedPod[0].name
+  const podNamespace = selectedPod[0].namespace
+  const clusterName = selectedPod[0].cluster
+
+  fetchLogsForContainer(containerName, podName, podNamespace, clusterName)
+
+
 }
 
 export const getPodsFromApplicationRelated = HCMApplicationList => {

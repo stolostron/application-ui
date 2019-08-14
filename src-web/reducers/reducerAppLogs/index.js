@@ -26,7 +26,7 @@ const FETCH_CONTAINER_ERROR = 'FETCH_CONTAINER_ERROR'
 const RESET_CONTAINER_DATA = 'RESET_CONTAINER_DATA'
 
 export const initialStateLogs = {
-  logData: {},
+  logData: '',
   podData: {},
   currentSelectedPod: 'Select Pod',
   containerData: {},
@@ -40,7 +40,8 @@ export const initialStateLogs = {
 export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
     case SET_LOG_DATA: {
-      return { ...state, logData: action.payload }
+      // probably would need a null check here for setting the logs
+      return { ...state, logData: action.payload.data.logs }
     }
     case SET_POD_DATA: {
       return { ...state, podData: action.payload }
@@ -139,6 +140,42 @@ export const fetchContainersForPod = (
       })
       .catch(err => {
         dispatch(setFetchContainerError(err))
+      })
+  }
+}
+
+
+
+// fetchLogs(containerName, podName, podNamespace, clusterName) {
+//   return apolloClient.getLogs(containerName, podName, podNamespace, clusterName).then(result => {
+//     if (result.data.logs.errors && result.data.logs.errors.length > 0) {
+//       this.setState({
+//         loadingLogs: false
+//       })
+//       return result.data.logs.errors[0]
+//     } else {
+//       this.setState({
+//         logs: result.data.logs,
+//         loadingLogs: result.loading
+//       })
+//     }
+//   })
+// }
+
+// fetch the logs for a given container
+export const fetchLogsForContainer = (
+  apolloClient, containerName, podName, podNamespace, clusterName
+) => {
+  return dispatch => {
+    return apolloClient.getLogs(containerName, podName, podNamespace, clusterName)
+      .then(response => {
+        if (response.errors)
+          return dispatch(setFetchLogError(response.errors))
+
+        return dispatch(setLogData(response))
+
+      }).catch(err => {
+        dispatch(setFetchLogError(err))
       })
   }
 }

@@ -87,6 +87,10 @@ export const getDeployableData = (deployableList, uid) => {
   return {}
 }
 
+// Given a current deployables data INCLUDING its related resources
+// we want to return all the channels.
+// Channels are not returned inside related resources so we have to
+// insepect each related subscription because it contains the channel
 export const getDeployablesChannels = deployableData => {
   if (deployableData && deployableData.related) {
     const relatedData = deployableData.related

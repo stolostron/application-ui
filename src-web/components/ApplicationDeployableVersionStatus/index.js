@@ -16,7 +16,6 @@ import resources from '../../../lib/shared/resources'
 import {
   getChannelStatusClass,
   getDeployableInfo,
-  getDeployableSubscription,
   getChannelClustersNb,
   getSubscriptionForChannel
 } from './utils'
@@ -110,10 +109,8 @@ const deployableColumns = (channels, subscriptions, locale) => {
 const ApplicationDeployableVersionStatus = withLocale(
   ({ deployableDetails, channels, subscriptions, locale }) => {
     const deployableInfo = getDeployableInfo(deployableDetails)
-    const subscription = getDeployableSubscription(subscriptions)
 
     const deployableName = (deployableInfo && deployableInfo.name) || ''
-    const subscriptionVersion = (subscription && subscription.version) || ''
 
     return (
       <div id="ApplicationDeployableVersionStatus">
@@ -126,9 +123,7 @@ const ApplicationDeployableVersionStatus = withLocale(
             <Tile className="deployable-left-column-header" />
 
             <Tile>
-              <div className="deployable-version-name">
-                {deployableName} {subscriptionVersion}
-              </div>
+              <div className="deployable-version-name">{deployableName}</div>
               <div className="incidents-count">
                 0 {msgs.get('description.title.incidents', locale)}
               </div>

@@ -11,7 +11,6 @@ import {
   getChannelStatusClass,
   getChannelClustersNb,
   getDeployableInfo,
-  getDeployableSubscription,
   getSubscriptionForChannel
 } from './utils'
 
@@ -92,38 +91,6 @@ describe('getDeployableInfo', () => {
       ]
     }
     expect(getDeployableInfo(deployable)).toEqual(result)
-  })
-})
-
-describe('getDeployableSubscription', () => {
-  const subscriptions = [
-    {
-      name: 's1',
-      kind: 'subscription',
-      related: [
-        {
-          kind: 'cluster',
-          count: 3
-        }
-      ]
-    }
-  ]
-  const empty_subscriptions = []
-  it('should return first item in the list', () => {
-    const result = {
-      name: 's1',
-      kind: 'subscription',
-      related: [
-        {
-          kind: 'cluster',
-          count: 3
-        }
-      ]
-    }
-    expect(getDeployableSubscription(subscriptions)).toEqual(result)
-  })
-  it('should return null', () => {
-    expect(getDeployableSubscription(empty_subscriptions)).toEqual(null)
   })
 })
 

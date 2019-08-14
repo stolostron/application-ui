@@ -56,7 +56,8 @@ export const getSubscriptions = data => {
   return []
 }
 
-// Get list of channels that are associated with the deployables subscription
+// Get list of channel object that are associated with the deployables subscription (mapping the
+//subscription channel attribute channel: "chn-gb/gbchn" with the channel object )
 export const getChannels = (channels, subscriptions) => {
   if (channels && channels.items) {
     if (subscriptions && subscriptions.length > 0 && subscriptions[0].channel) {

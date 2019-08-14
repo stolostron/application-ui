@@ -189,7 +189,7 @@ const ChannelColumnGrid = (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
                       <Tag type="custom" className="statusTag">
-                        N/A
+                        {msgs.get('description.na', locale)}
                       </Tag>
                     </Tile>
                   </div>
@@ -269,7 +269,7 @@ const ChannelColumnGrid = (
                               }
                             >
                               <Tag type="custom" className="statusTag">
-                                N/A
+                                {msgs.get('description.na', locale)}
                               </Tag>
                             </Tile>
                           )}

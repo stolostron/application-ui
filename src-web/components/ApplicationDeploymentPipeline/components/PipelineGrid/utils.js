@@ -108,7 +108,7 @@ export const getDeployablesChannels = deployableData => {
   return []
 }
 
-// Given the tall count of pass, fail, inprogress, unidentified
+// Given the tall count of pass, fail, inprogress, pending, unidentified
 // and the status. Add to the tall and return it
 const determineStatus = (statusPassFailInProgress, status) => {
   const statusTotals = statusPassFailInProgress
@@ -119,8 +119,10 @@ const determineStatus = (statusPassFailInProgress, status) => {
     statusTotals[1] = statusTotals[1] + 1
   } else if (status.includes('progress')) {
     statusTotals[2] = statusTotals[2] + 1
-  } else {
+  } else if (status.includes('pending')) {
     statusTotals[3] = statusTotals[3] + 1
+  } else {
+    statusTotals[4] = statusTotals[4] + 1
   }
   return statusTotals
 }
@@ -148,7 +150,7 @@ export const getResourcesStatusPerChannel = (
     // ResourceData is an array of objects
     const resourceData = R.filter(filterToResources, relatedData)
     // PASS, FAIL, INPROGRESS, unidentified status
-    let statusPassFailInProgress = [0, 0, 0, 0]
+    let statusPassFailInProgress = [0, 0, 0, 0, 0]
     resourceData.map(resource => {
       // Items is a list of that speecific resource kind
       const items = resource.items
@@ -164,5 +166,5 @@ export const getResourcesStatusPerChannel = (
     })
     return statusPassFailInProgress
   }
-  return [0, 0, 0, 0]
+  return [0, 0, 0, 0, 0]
 }

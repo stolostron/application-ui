@@ -10,8 +10,8 @@
 import {
   createApplicationRowsLookUp,
   findMatchingSubscription,
-  getDeployablesChannels
-  // getResourcesStatusPerChannel
+  getDeployablesChannels,
+  getResourcesStatusPerChannel
 } from './utils'
 
 describe('createApplicationRowsLookUp', () => {
@@ -92,6 +92,18 @@ describe('getDeployablesChannels', () => {
   })
 })
 
+describe('getResourcesStatusPerChannel', () => {
+  it('should return status array per channel', () => {
+    const result = [1, 0, 0, 1, 2]
+    expect(
+      getResourcesStatusPerChannel(realDataSampleWithSubscriptions, 'PICKME')
+    ).toEqual(result)
+  })
+  it('should handle undefined object', () => {
+    expect(getResourcesStatusPerChannel(undefined)).toEqual([0, 0, 0, 0, 0])
+  })
+})
+
 // Yes yes this is a huge chunk of data ... but hey nothing like real world data :)
 const realDataSampleWithSubscriptions = {
   name: 'apptest-gbapp',
@@ -119,7 +131,7 @@ const realDataSampleWithSubscriptions = {
           status: 'DEPLOYED',
           kind: 'release',
           name: 'apptest',
-          namespace: 'project-workspace',
+          namespace: 'PICKME',
           _rbac: 'project-workspace_null_releases',
           _uid: 'local-cluster/Release/apptest',
           _hubClusterResource: 'true',
@@ -167,7 +179,7 @@ const realDataSampleWithSubscriptions = {
             '/apis/app.ibm.com/v1alpha1/namespaces/chn-gb/deployables/gbchn-gbchn-redismasterservice',
           status: 'Deployed',
           kind: 'deployable',
-          name: 'joshDeployable',
+          name: 'PICKME',
           namespace: 'chn-gb',
           _rbac: 'chn-gb_app.ibm.com_deployables',
           _uid: 'local-cluster/e2fd5a6a-b88b-11e9-82a0-00163e019f14',
@@ -190,7 +202,7 @@ const realDataSampleWithSubscriptions = {
           status: 'Pending',
           kind: 'pod',
           name: 'gbchn-gbchn-redisslave-6bfbf95955-mnph5',
-          namespace: 'default',
+          namespace: 'PICKME',
           _rbac: 'search-squad-remote_null_pods',
           _uid: 'search-squad-remote/439ba0d5-be2a-11e9-833e-eeeeeeeeeeee',
           _clusterNamespace: 'search-squad-remote',
@@ -231,7 +243,7 @@ const realDataSampleWithSubscriptions = {
           selfLink: '/api/v1/namespaces/default/services/gbchn-gbchn',
           kind: 'service',
           name: 'gbchn-gbchn',
-          namespace: 'default',
+          namespace: 'PICKME',
           _rbac: 'search-squad-remote_null_services',
           _uid: 'search-squad-remote/4319d66a-be2a-11e9-833e-eeeeeeeeeeee',
           _hostingSubscription: 'default/apptest-gbapp-guestbook',
@@ -284,7 +296,7 @@ const realDataSampleWithSubscriptions = {
             '/apis/apps/v1/namespaces/default/deployments/gbchn-gbchn-redisslave',
           kind: 'deployment',
           name: 'gbchn-gbchn-redisslave',
-          namespace: 'default',
+          namespace: 'PICKME',
           _rbac: 'search-squad-remote_apps_deployments',
           _uid: 'search-squad-remote/43983ef0-be2a-11e9-833e-eeeeeeeeeeee',
           _hostingSubscription: 'default/apptest-gbapp-guestbook',
@@ -309,7 +321,7 @@ const realDataSampleWithSubscriptions = {
             '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/apptest-gbapp-guestbook',
           kind: 'subscription',
           name: 'apptest-gbapp-guestbook',
-          namespace: 'default',
+          namespace: 'PICKME',
           _rbac: 'default_null_subscriptions',
           _uid: 'local-cluster/003b9d4c-bbe7-11e9-82a0-00163e019f14',
           _hubClusterResource: 'true',
@@ -327,7 +339,7 @@ const realDataSampleWithSubscriptions = {
             '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/apptest-gbapp-guestbook',
           kind: 'subscription',
           name: 'apptest-gbapp-guestbook',
-          namespace: 'default',
+          namespace: 'PICKME',
           _rbac: 'default_null_subscriptions',
           _uid: 'local-cluster/003b9d4c-bbe7-11e9-82a0-00163e019f14',
           _hubClusterResource: 'true',
@@ -432,7 +444,7 @@ const realDataSampleWithNOSubscriptions = {
             '/apis/app.ibm.com/v1alpha1/namespaces/chn-gb/deployables/gbchn-gbchn-redismasterservice',
           status: 'Deployed',
           kind: 'deployable',
-          name: 'joshDeployable',
+          name: 'PICKME',
           namespace: 'chn-gb',
           _rbac: 'chn-gb_app.ibm.com_deployables',
           _uid: 'local-cluster/e2fd5a6a-b88b-11e9-82a0-00163e019f14',
@@ -455,7 +467,7 @@ const realDataSampleWithNOSubscriptions = {
           status: 'Pending',
           kind: 'pod',
           name: 'gbchn-gbchn-redisslave-6bfbf95955-mnph5',
-          namespace: 'default',
+          namespace: 'PICKME',
           _rbac: 'search-squad-remote_null_pods',
           _uid: 'search-squad-remote/439ba0d5-be2a-11e9-833e-eeeeeeeeeeee',
           _clusterNamespace: 'search-squad-remote',

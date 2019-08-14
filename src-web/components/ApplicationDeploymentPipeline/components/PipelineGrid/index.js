@@ -221,7 +221,7 @@ const ChannelColumnGrid = (
                       // Get status of resources within the deployable specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
-                      // status = [0, 0, 0, 0] // pass, fail, inprogress, unidentifed
+                      // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
                       const status = getResourcesStatusPerChannel(
                         deployableData,
                         channel.namespace
@@ -249,10 +249,13 @@ const ChannelColumnGrid = (
                             >
                               {`Pass: ${status[0]} Fail: ${
                                 status[1]
-                              } InProgress: ${status[2]} / ${status[0] +
+                              } InProgress: ${status[2]} Pending: ${
+                                status[3]
+                              } / ${status[0] +
                                 status[1] +
                                 status[2] +
-                                status[3]}`}
+                                status[3] +
+                                status[4]}`}
                             </Tile>
                           ) : (
                             <Tile

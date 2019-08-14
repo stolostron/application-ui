@@ -9,11 +9,6 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
-import {
-  SEARCH_QUERY,
-  GET_RESOURCE
-} from '../../apollo-client/queries/SearchQueries'
-import { convertStringToQuery } from '../../../lib/client/search-helper'
 
 const SET_LOG_DATA = 'SET_LOG_DATA'
 const SET_POD_DATA = 'SET_POD_DATA'
@@ -27,9 +22,9 @@ const FETCH_CONTAINER_ERROR = 'FETCH_CONTAINER_ERROR'
 export const initialStateLogs = {
   logData: '',
   podData: {},
-  currentSelectedPod: 'Select Pod',
+  currentSelectedPod: '',
   containerData: {},
-  currentSelectedContainer: 'Select Container',
+  currentSelectedContainer: '',
   fetchPodDataError: '',
   fetchLogDataError: '',
   fetchContainerDataError: '',
@@ -49,8 +44,8 @@ export const AppLogs = (state = initialStateLogs, action) => {
     return {
       ...state,
       currentSelectedPod: action.payload,
-      containerData: {},
-      currentSelectedContainer: 'Select Container',
+      containerData: [],
+      currentSelectedContainer: '',
       logData: ''
     }
   }
@@ -91,28 +86,6 @@ export const setCurrentPodActions = podName => {
   }
 }
 
-// Fetch pods for application
-export const fetchPodsForApplication = (apolloClient, namespace, name) => {
-  const queryString = convertStringToQuery(
-    `kind:pod label:app=gbchn namespace:${namespace}`
-  )
-  return dispatch => {
-    return apolloClient
-      .search(SEARCH_QUERY, {
-        input: [queryString]
-      })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(setFetchPodError(response.errors))
-        }
-        return dispatch(setPodData(response))
-      })
-      .catch(err => {
-        dispatch(setFetchPodError(err))
-      })
-  }
-}
-
 // Fetch containers for selected pod
 export const fetchContainersForPod = (
   apolloClient,
@@ -144,22 +117,6 @@ export const fetchContainersForPod = (
       })
   }
 }
-
-// fetchLogs(containerName, podName, podNamespace, clusterName) {
-//   return apolloClient.getLogs(containerName, podName, podNamespace, clusterName).then(result => {
-//     if (result.data.logs.errors && result.data.logs.errors.length > 0) {
-//       this.setState({
-//         loadingLogs: false
-//       })
-//       return result.data.logs.errors[0]
-//     } else {
-//       this.setState({
-//         logs: result.data.logs,
-//         loadingLogs: result.loading
-//       })
-//     }
-//   })
-// }
 
 // fetch the logs for a given container
 export const fetchLogsForContainer = (

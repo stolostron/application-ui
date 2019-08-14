@@ -16,7 +16,10 @@ import * as Actions from '../../actions'
 import { DropdownV2 } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import { handlePodChange, handleContainerChange } from './utils'
-import { fetchContainersForPod, fetchLogsForContainer } from '../../reducers/reducerAppLogs'
+import {
+  fetchContainersForPod,
+  fetchLogsForContainer
+} from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
 import { getPodsFromApplicationRelated } from './utils'
 
@@ -33,9 +36,20 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         fetchContainersForPod(apolloClient, selfLink, namespace, name, cluster)
       ),
-    fetchLogsForContainer: (containerName, podName, podNamespace, clusterName) =>
+    fetchLogsForContainer: (
+      containerName,
+      podName,
+      podNamespace,
+      clusterName
+    ) =>
       dispatch(
-        fetchLogsForContainer(apolloClient, containerName, podName, podNamespace, clusterName)
+        fetchLogsForContainer(
+          apolloClient,
+          containerName,
+          podName,
+          podNamespace,
+          clusterName
+        )
       )
   }
 }
@@ -61,7 +75,13 @@ const createPodsList = (podData, podsList) => {
 }
 
 const createContainersList = (containerData, containersList) => {
-  if (containerData && containerData.data && containerData.data.getResource && containerData.data.getResource.spec && containerData.data.getResource.spec.containers) {
+  if (
+    containerData &&
+    containerData.data &&
+    containerData.data.getResource &&
+    containerData.data.getResource.spec &&
+    containerData.data.getResource.spec.containers
+  ) {
     containerData.data.getResource.spec.containers.map((item, i) => {
       containersList[i] = item.name
     })
@@ -69,7 +89,7 @@ const createContainersList = (containerData, containersList) => {
   return containersList
 }
 
-const isObjEmpty = (obj) => {
+const isObjEmpty = obj => {
   for (var key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       return false
@@ -89,7 +109,7 @@ class ApplicationLogs extends React.Component {
       containerData,
       logData,
       currentSelectedPod,
-      currentSelectedContainer,
+      currentSelectedContainer
     } = this.props
 
     const podItems = createPodsList(podData, [])
@@ -103,14 +123,13 @@ class ApplicationLogs extends React.Component {
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 light
-                label={currentSelectedPod}
+                label={msgs.get('description.title.selectPod', locale)}
                 onChange={event =>
                   handlePodChange(
                     event,
                     fetchContainersForPod,
                     podData,
-                    actions.setCurrentPod,
-                    actions.resetContainerData,
+                    actions.setCurrentPod
                   )
                 }
                 items={podItems}
@@ -124,7 +143,7 @@ class ApplicationLogs extends React.Component {
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 light
                 disabled={isObjEmpty(containerItems)}
-                label={currentSelectedContainer}
+                label={msgs.get('description.title.selectContainer', locale)}
                 onChange={event =>
                   handleContainerChange(
                     event,
@@ -136,6 +155,7 @@ class ApplicationLogs extends React.Component {
                   )
                 }
                 items={containerItems}
+                selectedItem={currentSelectedContainer}
               />
             </div>
             <div className="view-external-container">
@@ -150,10 +170,7 @@ class ApplicationLogs extends React.Component {
               />
             </div>
           </div>
-          <ScrollBox
-            className="logs-container__content"
-            content={logData}
-          />
+          <ScrollBox className="logs-container__content" content={logData} />
         </div>
       </React.Fragment>
     )

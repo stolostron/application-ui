@@ -52,7 +52,10 @@ const deployableColumns = (channels, subscriptions, locale) => {
                   />
                 </div>
                 <div className="environment"> {channelName} </div>
-                <div> Subscription: {subscriptionName} </div>
+                <div className="subscription-header">
+                  {' '}
+                  Subscription: {subscriptionName}{' '}
+                </div>
 
                 <div className="gate-conditions-header">
                   {msgs.get(
@@ -111,7 +114,7 @@ const ApplicationDeployableVersionStatus = withLocale(
     const subscription = getDeployableSubscription(subscriptions)
 
     const deployableName = (deployableInfo && deployableInfo.name) || ''
-    const subscriptionVersion = (subscription && subscription.name) || ''
+    const subscriptionVersion = (subscription && subscription.version) || ''
 
     return (
       <div id="ApplicationDeployableVersionStatus">

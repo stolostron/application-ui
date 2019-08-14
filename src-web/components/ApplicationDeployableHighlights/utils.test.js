@@ -19,10 +19,37 @@ describe('getDeployableSummary', () => {
             kind: 'release',
             status: 'DEPLOYED'
           },
-
           {
             kind: 'release',
             status: 'FAILED'
+          },
+          {
+            kind: 'release',
+            status: 'In Progress'
+          }
+        ]
+      }
+    ]
+  }
+  const deplListNoStatus = {
+    related: [
+      {
+        kind: 'release',
+        items: [
+          {
+            kind: 'release',
+            status: 'DEPLOYED'
+          },
+          {
+            kind: 'release',
+            status: 'FAILED'
+          },
+          {
+            kind: 'release',
+            status: 'SOMETHING ELSE'
+          },
+          {
+            kind: 'release'
           }
         ]
       }
@@ -47,7 +74,7 @@ describe('getDeployableSummary', () => {
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: 0
+        count: 1
       },
       {
         msgKey: 'dashboard.card.deployable.pending',
@@ -56,6 +83,33 @@ describe('getDeployableSummary', () => {
     ]
 
     expect(getDeployableSummary(deplList)).toEqual(result)
+  })
+  it('should return depl resource 1 failed, 2 completed because the one with no status goes here, and 1 in progress,  the one with SOMETHING ELSE goes here too', () => {
+    const result = [
+      {
+        msgKey: 'dashboard.card.deployable.versions',
+        count: 1
+      },
+      {
+        msgKey: 'dashboard.card.deployable.completed',
+        count: 2
+      },
+      {
+        msgKey: 'dashboard.card.deployable.failed',
+        alert: true,
+        count: 1
+      },
+      {
+        msgKey: 'dashboard.card.deployable.inProgress',
+        count: 1
+      },
+      {
+        msgKey: 'dashboard.card.deployable.pending',
+        count: 0
+      }
+    ]
+
+    expect(getDeployableSummary(deplListNoStatus)).toEqual(result)
   })
   it('should return blank array', () => {
     const result = [

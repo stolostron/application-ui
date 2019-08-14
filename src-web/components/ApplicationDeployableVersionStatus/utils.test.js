@@ -133,6 +133,10 @@ describe('getSubscriptionForChannel', () => {
     namespace: 'chnamespace'
   }
 
+  const channelsNoData = {
+    namespace: 'chnamespace'
+  }
+
   const subscriptions = [
     {
       name: 'subscr',
@@ -155,5 +159,11 @@ describe('getSubscriptionForChannel', () => {
   it('should return None', () => {
     const result = 'None'
     expect(getSubscriptionForChannel(channels, subscriptions2)).toEqual(result)
+  })
+  it('should return None if no channel name', () => {
+    const result = 'None'
+    expect(getSubscriptionForChannel(channelsNoData, subscriptions2)).toEqual(
+      result
+    )
   })
 })

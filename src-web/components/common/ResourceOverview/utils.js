@@ -168,7 +168,7 @@ export const getNumFailedDeployments = data => {
 export const getIcamLink = (activeAccountId, applicationUid) => {
   if (activeAccountId && applicationUid) {
     return `/cemui/applications/${encodeURIComponent(
-      applicationUid
+      applicationUid.split('/').pop()
     )}?subscriptionId=${encodeURIComponent(activeAccountId)}`
   }
   return '#'

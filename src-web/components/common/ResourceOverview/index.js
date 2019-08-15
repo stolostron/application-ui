@@ -24,7 +24,7 @@ import {
   getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getNumPendingDeployments,
+  getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments,
   getIcamLink
@@ -79,7 +79,7 @@ const ResourceOverview = withLocale(
     })
     const deployables = getNumDeployables(item)
     const deployments = getNumDeployments(item)
-    const pendingDeployments = getNumPendingDeployments(item)
+    const completedDeployments = getNumCompletedDeployments(item)
     const inProgressDeployments = getNumInProgressDeployments(item)
     const failedDeployments = getNumFailedDeployments(item)
     const countsCardData = [
@@ -101,15 +101,15 @@ const ResourceOverview = withLocale(
         count: deployments
       },
       {
-        msgKey: 'dashboard.card.pending',
+        msgKey: 'dashboard.card.deployment.completed',
         textKey:
-          pendingDeployments > 1
+          completedDeployments > 1
             ? 'dashboard.card.deployments'
             : 'dashboard.card.deployment',
-        count: pendingDeployments
+        count: completedDeployments
       },
       {
-        msgKey: 'dashboard.card.inProgress',
+        msgKey: 'dashboard.card.deployment.inProgress',
         textKey:
           inProgressDeployments > 1
             ? 'dashboard.card.deployments'
@@ -117,7 +117,7 @@ const ResourceOverview = withLocale(
         count: inProgressDeployments
       },
       {
-        msgKey: 'dashboard.card.failed',
+        msgKey: 'dashboard.card.deployment.failed',
         textKey:
           failedDeployments > 1
             ? 'dashboard.card.deployments'

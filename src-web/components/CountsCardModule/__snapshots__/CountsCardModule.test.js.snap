@@ -60,12 +60,12 @@ exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
         <div
           className="card-count"
         >
-          4
+          24
         </div>
         <div
           className="card-type"
         >
-          Pending
+          Completed
         </div>
         <div
           className="card-text"
@@ -102,7 +102,7 @@ exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
         <div
           className="card-count alert"
         >
-          14
+          4
         </div>
         <div
           className="card-type"

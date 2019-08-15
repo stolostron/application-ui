@@ -1,0 +1,34 @@
+#ProgressBar {
+  .progressContainer {
+    padding: 0.25em 10px;
+    margin-right: 1%;
+    border-radius: 0.9375rem;
+    font-size: 0.75rem;
+    display: inline-block;
+    height: 10px;
+    width: 310px;
+  }
+
+  .inprogress {
+    font-size: 10px;
+    display: inline-flex;
+    padding-right: 30px;
+  }
+
+  .total {
+    font-size: 10px;
+    display: inline-flex;
+  }
+
+  .pass {
+    padding-right: 30px;
+    font-size: 10px;
+    display: inline-flex;
+  }
+
+  .fail {
+    padding-right: 30px;
+    font-size: 10px;
+    display: inline-flex;
+  }
+}

@@ -155,7 +155,7 @@ export const getResourcesStatusPerChannel = (
       // Items is a list of that speecific resource kind
       const items = resource.items
       items.map(item => {
-        if (item.namespace == channelNamespace) {
+        if (item.namespace == channelNamespace || !channelNamespace) {
           const status = (item.status || '').toLowerCase()
           statusPassFailInProgress = determineStatus(
             statusPassFailInProgress,

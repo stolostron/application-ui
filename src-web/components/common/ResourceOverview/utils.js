@@ -31,10 +31,10 @@ export const getChannelsList = channels => {
       return {
         name: channel.name || '',
         counts: {
-          pending: {
-            total: status[3]
+          completed: {
+            total: status[0]
           },
-          'in progress': {
+          inProgress: {
             total: status[2]
           },
           failed: {
@@ -76,35 +76,6 @@ export const getNumDeployments = data => {
   }
 }
 
-export const getNumPendingDeployments = data => {
-  if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(
-      elem => !kindsToExcludeForDeployments.includes(elem.kind)
-    )
-    if (filtered.length > 0) {
-      let total = 0
-      for (let i = 0; i < filtered.length; i++) {
-        if (filtered[i].items instanceof Array) {
-          total =
-            total +
-            filtered[i].items.reduce(
-              (acc, cur) =>
-                cur.status && cur.status.toUpperCase() === 'PENDING'
-                  ? ++acc
-                  : acc,
-              0
-            )
-        }
-      }
-      return total
-    } else {
-      return 0
-    }
-  } else {
-    return 0
-  }
-}
-
 export const getNumInProgressDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(
@@ -118,7 +89,9 @@ export const getNumInProgressDeployments = data => {
             total +
             filtered[i].items.reduce(
               (acc, cur) =>
-                cur.status && cur.status.toUpperCase() === 'IN PROGRESS'
+                cur.status &&
+                (cur.status.toUpperCase() === 'PENDING' ||
+                  cur.status.toUpperCase() === 'IN PROGRESS')
                   ? ++acc
                   : acc,
               0
@@ -163,6 +136,14 @@ export const getNumFailedDeployments = data => {
   } else {
     return 0
   }
+}
+
+export const getNumCompletedDeployments = data => {
+  return (
+    getNumDeployments(data) -
+    getNumInProgressDeployments(data) -
+    getNumFailedDeployments(data)
+  )
 }
 
 export const getIcamLink = (activeAccountId, applicationUid) => {

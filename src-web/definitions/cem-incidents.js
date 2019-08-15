@@ -42,10 +42,6 @@ export default {
       msgKey: 'table.header.escalated',
       resourceKey: 'escalated'
     },
-    // {
-    //   msgKey: 'table.header.failedDeployments',
-    //   resourceKey: 'incidentURL',
-    // },
     {
       msgKey: 'table.header.events',
       resourceKey: 'eventSummary.events'

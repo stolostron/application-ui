@@ -25,27 +25,27 @@ describe('CountsCardModule', () => {
       count: 38
     },
     {
-      msgKey: 'dashboard.card.pending',
+      msgKey: 'dashboard.card.deployment.completed',
       textKey: 'dashboard.card.deployments',
-      count: 4
+      count: 24
     },
     {
-      msgKey: 'dashboard.card.inProgress',
+      msgKey: 'dashboard.card.deployment.inProgress',
       textKey: 'dashboard.card.deployments',
       count: 10
     },
     {
-      msgKey: 'dashboard.card.failed',
+      msgKey: 'dashboard.card.deployment.failed',
       textKey: 'dashboard.card.deployments',
-      count: 14,
+      count: 4,
       alert: true
     },
     {
       msgKey: 'dashboard.card.incidents',
       textKey: 'dashboard.card.total',
       count: 2,
-      border: 'left',
-      alert: true
+      alert: true,
+      border: 'left'
     }
   ]
 

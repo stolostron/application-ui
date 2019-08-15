@@ -18,7 +18,8 @@ import {
   findMatchingSubscription,
   getDeployableData,
   getDeployablesChannels,
-  getResourcesStatusPerChannel
+  getResourcesStatusPerChannel,
+  getDeployableDataByChannels
 } from './utils'
 import { pullOutDeployablePerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -131,6 +132,7 @@ const ChannelColumnGrid = (
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
+    setCurrentDeployableModalData,
     appDropDownList,
     bulkDeployableList
   },
@@ -218,6 +220,10 @@ const ChannelColumnGrid = (
                       const channelMatch = deployableChannels.includes(
                         `${channel.namespace}/${channel.name}`
                       )
+                      const deployableDataByChannel = getDeployableDataByChannels(
+                        deployableData,
+                        channel.namespace
+                      )
                       // Get status of resources within the deployable specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
@@ -241,6 +247,8 @@ const ChannelColumnGrid = (
                                   openDeployableModal,
                                   setDeployableModalHeaderInfo,
                                   setCurrentDeployableSubscriptionData,
+                                  setCurrentDeployableModalData,
+                                  deployableDataByChannel,
                                   applicationName,
                                   deployableData.name,
                                   matchingSubscription
@@ -257,6 +265,8 @@ const ChannelColumnGrid = (
                                   openDeployableModal,
                                   setDeployableModalHeaderInfo,
                                   setCurrentDeployableSubscriptionData,
+                                  setCurrentDeployableModalData,
+                                  deployableDataByChannel,
                                   applicationName,
                                   deployableData.name,
                                   matchingSubscription
@@ -293,6 +303,7 @@ const PipelineGrid = withLocale(
     openDeployableModal,
     setDeployableModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
+    setCurrentDeployableModalData,
     updateAppDropDownList,
     appDropDownList,
     bulkDeployableList
@@ -317,6 +328,7 @@ const PipelineGrid = withLocale(
             setCurrentDeployableSubscriptionData={
               setCurrentDeployableSubscriptionData
             }
+            setCurrentDeployableModalData={setCurrentDeployableModalData}
             appDropDownList={appDropDownList}
             bulkDeployableList={bulkDeployableList}
           />

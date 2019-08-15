@@ -39,6 +39,8 @@ export const tileClick = (
   openDeployableModal,
   setDeployableModalHeaderInfo,
   setCurrentDeployableSubscriptionData,
+  setCurrentDeployableModalData,
+  deployableDataByChannel,
   applicationName,
   deployableName,
   matchingSubscription
@@ -49,6 +51,7 @@ export const tileClick = (
   }
   setDeployableModalHeaderInfo(headerInfo)
   setCurrentDeployableSubscriptionData(matchingSubscription)
+  setCurrentDeployableModalData(deployableDataByChannel)
   openDeployableModal()
 }
 
@@ -106,6 +109,36 @@ export const getDeployablesChannels = deployableData => {
     return []
   }
   return []
+}
+
+export const getDeployableDataByChannels = (
+  deployableData,
+  channelNamespace
+) => {
+  if (deployableData && deployableData.related) {
+    const relatedData = deployableData.related
+
+    const dataUnderChannel = relatedData.map(resource => {
+      // Items is a list of that speecific resource kind
+      const items = resource.items
+      const data = items.map(item => {
+        // This statement checks to see if the channels namespace matches the
+        // current resources namespace because if they match then we know it fails
+        // under the same channel. BUT the !channelNamespace is there for if we decide
+        // to pass in false we can still execute this method from other locations to
+        // still get the status from other resources no matter the channel namespace
+        if (item.namespace == channelNamespace || !channelNamespace) {
+          return item
+        }
+      })
+      const filterOutUndefined = x => x != undefined
+      const cleanData = R.filter(filterOutUndefined, data)
+      return cleanData
+    })
+    const filterOutEmpty = x => x.length > 0
+    const finalData = R.filter(filterOutEmpty, dataUnderChannel)
+    return finalData
+  }
 }
 
 // Given the tall count of pass, fail, inprogress, pending, unidentified

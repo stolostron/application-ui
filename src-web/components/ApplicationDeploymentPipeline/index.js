@@ -234,6 +234,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           setCurrentDeployableSubscriptionData={
             actions.setCurrentDeployableSubscriptionData
           }
+          setCurrentDeployableModalData={actions.setCurrentDeployableModalData}
           updateAppDropDownList={actions.updateAppDropDownList}
           appDropDownList={appDropDownList}
           bulkDeployableList={bulkDeployableList}

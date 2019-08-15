@@ -9,13 +9,10 @@
 
 import React from '../../../../node_modules/react'
 import CountsCardModule from '../../CountsCardModule'
-import {
-  getNumItems,
-  getDeploymentSummary,
-  getDeploymentCummulatedSummary
-} from '../../../../lib/client/resource-helper'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
+import { getAllDeployablesStatus } from './utils'
+import { getNumItems } from '../../../../lib/client/resource-helper'
 
 resources(() => {
   require('./style.scss')
@@ -58,21 +55,19 @@ const ApplicationDeploymentHighlightsDashboard = withLocale(
       HCMChannelList,
       HCMClusterList
     )
-    const summary = getDeploymentCummulatedSummary(
-      getDeploymentSummary(HCMApplicationList)
-    )
+    const summary = getAllDeployablesStatus(HCMApplicationList, false)
     const countsCardDataStatus = [
       {
         msgKey: 'dashboard.card.deployment.completed',
-        count: summary.cm
+        count: summary[0]
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: summary.pr
+        count: summary[2]
       },
       {
         msgKey: 'dashboard.card.deployable.failed',
-        count: summary.fl,
+        count: summary[1],
         alert: true
       }
     ]

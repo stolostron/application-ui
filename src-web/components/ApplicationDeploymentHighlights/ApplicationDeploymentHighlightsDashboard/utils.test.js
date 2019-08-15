@@ -6,11 +6,11 @@
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
-import { getDeploymentSummary } from './resource-helper'
+import { getAllDeployablesStatus } from './utils'
 
 // return the failed, completed, in progress resources related to these list of items
 //the items can be HCMChannelList, HCMApplicationList
-describe('getDeploymentSummary', () => {
+describe('getAllDeployablesStatus', () => {
   const channel1 = 'channel1Name'
   const channel2 = 'channel2Name'
 
@@ -62,14 +62,13 @@ describe('getDeploymentSummary', () => {
     itteemmss: [{ name: channel1 }, { name: channel2 }]
   }
 
-  it('should return channels list of 2', () => {
-    const result = [
-      { cm: 1, fl: 1, name: channel1, pr: 2 },
-      { cm: 1, fl: 0, name: channel2, pr: 0 }
-    ]
-    expect(getDeploymentSummary(channelList)).toEqual(result)
+  it('should return a list of 3 completed, 1 failed, 1 in progress', () => {
+    const result = [3, 1, 1]
+
+    expect(getAllDeployablesStatus(channelList)).toEqual(result)
   })
-  it('should return blank array', () => {
-    expect(getDeploymentSummary(channelListDummy)).toEqual([])
+  it('should return an array with 0 completed, 0 failed, 0 in progress', () => {
+    const result = [0, 0, 0]
+    expect(getAllDeployablesStatus(channelListDummy)).toEqual(result)
   })
 })

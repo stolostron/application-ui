@@ -585,22 +585,15 @@
   "table.header.dependencies": "Dependencies",
   "table.header.deployables": "Deployables",
   "table.header.deployerDetails": "Deployer Details",
-<<<<<<< HEAD
-  "table.header.deployments": "Resources",
-=======
   "table.header.deployment.completed": "Completed",
   "table.header.deployment.failed": "Failed",
   "table.header.deployment.inProgress": "In Progress",
-  "table.header.deployments": "Deployments",
->>>>>>> 56bcf7af24dccff5927d647b0e435076921676bd
+  "table.header.deployments": "Resources",
   "table.header.desired": "Desired",
   "table.header.destination": "Destination",
   "table.header.endpoint": "Endpoint",
   "table.header.enforcement": "Enforcement",
-<<<<<<< HEAD
   "table.header.failedDeployments": "Failed Resources",
-=======
->>>>>>> 56bcf7af24dccff5927d647b0e435076921676bd
   "table.header.helm.release": "Helm Release",
   "table.header.hostIP": "Host IP",
   "table.header.images": "Images",

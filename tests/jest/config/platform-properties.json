@@ -104,6 +104,7 @@
   "dashboard.card.deployment.channel": "Channel",
   "dashboard.card.deployment.clusters": "Clusters",
   "dashboard.card.deployment.completed": "Completed",
+  "dashboard.card.deployment.failed": "Failed",
   "dashboard.card.deployment.inProgress": "In Progress",
   "dashboard.card.deployment.pending": "Pending",
   "dashboard.card.deployment.placementRules": "Placement Rules",
@@ -111,14 +112,11 @@
   "dashboard.card.deployment.status.title": "Resource Status",
   "dashboard.card.deployments": "Resources",
   "dashboard.card.cpu": "CPU Health",
-  "dashboard.card.failed": "Failed",
   "dashboard.card.helmReleases": "Helm Releases",
   "dashboard.card.icam.link": "View hub cluster application instance",
-  "dashboard.card.inProgress": "In Progress",
   "dashboard.card.incident": "Incident",
   "dashboard.card.incidents": "Incidents",
   "dashboard.card.memory": "Memory Health",
-  "dashboard.card.pending": "Pending",
   "dashboard.card.perInstance": "Per instance",
   "dashboard.card.pods": "Pod Health",
   "dashboard.card.pvs": "Persistent Volumes Health",
@@ -587,12 +585,22 @@
   "table.header.dependencies": "Dependencies",
   "table.header.deployables": "Deployables",
   "table.header.deployerDetails": "Deployer Details",
+<<<<<<< HEAD
   "table.header.deployments": "Resources",
+=======
+  "table.header.deployment.completed": "Completed",
+  "table.header.deployment.failed": "Failed",
+  "table.header.deployment.inProgress": "In Progress",
+  "table.header.deployments": "Deployments",
+>>>>>>> 56bcf7af24dccff5927d647b0e435076921676bd
   "table.header.desired": "Desired",
   "table.header.destination": "Destination",
   "table.header.endpoint": "Endpoint",
   "table.header.enforcement": "Enforcement",
+<<<<<<< HEAD
   "table.header.failedDeployments": "Failed Resources",
+=======
+>>>>>>> 56bcf7af24dccff5927d647b0e435076921676bd
   "table.header.helm.release": "Helm Release",
   "table.header.hostIP": "Host IP",
   "table.header.images": "Images",

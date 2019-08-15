@@ -11,7 +11,7 @@ import {
   getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getNumPendingDeployments,
+  getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments
 } from './utils'
@@ -142,17 +142,17 @@ describe('getChannelsList', () => {
     const result = [
       {
         counts: {
-          failed: { total: 0 },
-          'in progress': { total: 0 },
-          pending: { total: 0 }
+          completed: { total: 0 },
+          inProgress: { total: 0 },
+          failed: { total: 0 }
         },
         name: ''
       },
       {
         counts: {
-          failed: { total: 0 },
-          'in progress': { total: 0 },
-          pending: { total: 0 }
+          completed: { total: 0 },
+          inProgress: { total: 0 },
+          failed: { total: 0 }
         },
         name: ''
       }
@@ -184,19 +184,19 @@ describe('getNumDeployments', () => {
   })
 })
 
-describe('getNumPendingDeployments', () => {
-  it('should return pending deployment count', () => {
+describe('getNumCompletedDeployments', () => {
+  it('should return completed deployment count', () => {
     const result = 1
-    expect(getNumPendingDeployments(data1)).toEqual(result)
+    expect(getNumCompletedDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
-    expect(getNumPendingDeployments(data2)).toEqual(0)
+    expect(getNumCompletedDeployments(data2)).toEqual(0)
   })
 })
 
 describe('getNumInProgressDeployments', () => {
   it('should return in progress deployment count', () => {
-    const result = 1
+    const result = 2
     expect(getNumInProgressDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {

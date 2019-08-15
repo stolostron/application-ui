@@ -14,6 +14,8 @@ import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
   getNumDeployables,
   getNumDeployments,
+  getNumCompletedDeployments,
+  getNumInProgressDeployments,
   getNumFailedDeployments
 } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
@@ -46,7 +48,17 @@ export default {
       transformFunction: getNumDeployments
     },
     {
-      msgKey: 'table.header.failedDeployments',
+      msgKey: 'table.header.deployment.completed',
+      resourceKey: 'completedDeployments',
+      transformFunction: getNumCompletedDeployments
+    },
+    {
+      msgKey: 'table.header.deployment.inProgress',
+      resourceKey: 'inProgressDeployments',
+      transformFunction: getNumInProgressDeployments
+    },
+    {
+      msgKey: 'table.header.deployment.failed',
       resourceKey: 'failedDeployments',
       transformFunction: getNumFailedDeployments
     },

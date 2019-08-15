@@ -8,59 +8,7 @@
  *******************************************************************************/
 
 import R from 'ramda'
-
-// return the data for the stacked channel
-export const getChannelChartData = list => {
-  if (list && list.items) {
-    const channelChartDataList = list.items.map(item => {
-      if (item && item.related) {
-        var completed = 0
-        var failed = 0
-        var progress = 0
-        var name = item.name || 'unknown'
-
-        for (var i = 0; i < item.related.length; i++) {
-          const kind = item.related[i].kind
-          const correctKindAndItems =
-            (kind === 'release' ||
-              kind === 'deployment' ||
-              kind === 'pod' ||
-              kind === 'service' ||
-              kind === 'replicaset') &&
-            item.related[i].items
-
-          if (kind && correctKindAndItems) {
-            for (var j = 0; j < item.related[i].items.length; j++) {
-              if (item.related[i].items[j].status) {
-                var status = item.related[i].items[j].status
-                if (status === 'FAILED' || status.includes('Error')) {
-                  failed = failed + 1
-                } else if (status === 'DEPLOYED' || status === 'Running') {
-                  completed = completed + 1
-                } else if (status === 'PROGRESS') {
-                  progress = progress + 1
-                } else {
-                  progress = progress + 1
-                }
-              } else {
-                completed = completed + 1
-              }
-            }
-          }
-        }
-        return {
-          name: name,
-          cm: completed,
-          pr: progress,
-          fl: failed
-        }
-      }
-    })
-    const emptyArray = []
-    return emptyArray.concat.apply([], channelChartDataList)
-  }
-  return []
-}
+import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 
 // return the width of the chart
 export const getChannelChartWidth = list => {
@@ -76,30 +24,56 @@ export const getChannelChartWidth = list => {
   return 300
 }
 
+// Method will take the list of channels and return a another list, for each app showing cummulated data
+export const getDeployedResourcesChannelChartData = list => {
+  if (list && list.items) {
+    const mappedChannels = list.items.map(item => {
+      // Will return back status as:
+      // [0, 0, 0, 0, 0]
+      // Given the tall count of pass, fail, inprogress, pending, unidentified
+      const status = getResourcesStatusPerChannel(item, false)
+      const statusPassFailInProgress = [0, 0, 0]
+
+      statusPassFailInProgress[0] =
+        statusPassFailInProgress[0] + status[0] + status[4] // pass and unidentified
+      statusPassFailInProgress[1] = statusPassFailInProgress[1] + status[1] //fail
+      statusPassFailInProgress[2] =
+        statusPassFailInProgress[2] + status[2] + status[3] //inprogress and pending
+      return {
+        name: item.name || 'unknown',
+        cm: statusPassFailInProgress[0],
+        fl: statusPassFailInProgress[1],
+        pr: statusPassFailInProgress[2]
+      }
+    })
+    // The way the above is written, if item && item.related is not true
+    // deplChartDataList will have an undefined in the list which will break the code
+    // down the line so we want to remove undefined
+    const removeUndefined = x => x !== undefined
+    const emptyArray = []
+    const removedUndefinedDeployables = R.filter(
+      removeUndefined,
+      mappedChannels
+    )
+    return emptyArray.concat.apply([], removedUndefinedDeployables)
+  }
+  return []
+}
+
+// Method will take the list of applications and return a another list, for each app showing cummulated data
 export const getDeployedResourcesChartData = list => {
   if (list && list.items) {
     const deplChartDataList = list.items.map(item => {
-      if (item && item.related) {
-        var app_resources = 0
+      // Will return cumulated status
+      let result_counter = 0
+      // Given the tall count of pass, fail, inprogress, pending, unidentified
+      const status = getResourcesStatusPerChannel(item, false)
 
-        for (var i = 0; i < item.related.length; i++) {
-          const kind = item.related[i].kind
-          const correctKindAndItems =
-            (kind === 'release' ||
-              kind === 'deployment' ||
-              kind === 'pod' ||
-              kind === 'service' ||
-              kind === 'replicaset') &&
-            item.related[i].items
-
-          if (kind && correctKindAndItems) {
-            app_resources = app_resources + item.related[i].items.length
-          }
-        }
-        return {
-          name: item.name || 'unknown',
-          counter: app_resources
-        }
+      result_counter =
+        status[0] + status[1] + status[2] + status[3] + status[4]
+      return {
+        name: item.name || 'unknown',
+        counter: result_counter
       }
     })
     // The way the above is written, if item && item.related is not true

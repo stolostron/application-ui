@@ -22,6 +22,7 @@ import {
 } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
 import { getPodsFromApplicationRelated } from './utils'
+import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -76,13 +77,7 @@ const createPodsList = (podData, podsList) => {
 }
 
 const createContainersList = (containerData, containersList) => {
-  if (
-    containerData &&
-    containerData.data &&
-    containerData.data.getResource &&
-    containerData.data.getResource.spec &&
-    containerData.data.getResource.spec.containers
-  ) {
+  if (R.path(['data', 'getResource', 'spec', 'containers'], containerData)) {
     containerData.data.getResource.spec.containers.map((item, i) => {
       containersList[i] = item.name
     })
@@ -125,6 +120,7 @@ class ApplicationLogs extends React.Component {
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 light
+                disabled={isObjEmpty(podItems)}
                 label={msgs.get('description.title.selectPod', locale)}
                 onChange={event =>
                   handlePodChange(
@@ -162,7 +158,9 @@ class ApplicationLogs extends React.Component {
             </div>
             <div className="view-external-container">
               <p className="viewExternalIconTitle">
-                {msgs.get('tabs.logs.viewExternal')}
+                <a href="/kibana" target="_blank">
+                  {msgs.get('tabs.logs.viewExternal')}
+                </a>
               </p>
               <Icon
                 name="icon--launch"

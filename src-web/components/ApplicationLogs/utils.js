@@ -20,13 +20,18 @@ export const handlePodChange = (
   // Get the selected POD from the event and reset container data
   setCurrentPod(event.selectedItem)
   const nameMatch = n => n.name == event.selectedItem
-  const selectedPod = R.filter(nameMatch, podData[0].items)
-  fetchContainersForPod(
-    selectedPod[0].selfLink,
-    selectedPod[0].namespace,
-    selectedPod[0].name,
-    selectedPod[0].cluster
-  )
+  if (podData && podData[0]) {
+    const selectedPod = R.filter(nameMatch, podData[0].items)
+
+    if (selectedPod && selectedPod[0]) {
+      fetchContainersForPod(
+        selectedPod[0].selfLink,
+        selectedPod[0].namespace,
+        selectedPod[0].name,
+        selectedPod[0].cluster
+      )
+    }
+  }
 }
 
 export const handleContainerChange = (
@@ -40,22 +45,27 @@ export const handleContainerChange = (
   setCurrentContainer(event.selectedItem)
 
   const nameMatch = n => n.name == event.selectedItem
-  const selectedContainer = R.filter(
-    nameMatch,
-    containerData.data.getResource.spec.containers
-  )
+  if (R.path(['data', 'getResource', 'spec', 'containers'], containerData)) {
+    const selectedContainer = R.filter(
+      nameMatch,
+      containerData.data.getResource.spec.containers
+    )
 
-  // getting the pod based on the known pod name
-  const podNameMatch = n => n.name == currentSelectedPod
-  const selectedPod = R.filter(podNameMatch, podData[0].items)
+    // getting the pod based on the known pod name
+    const podNameMatch = n => n.name == currentSelectedPod
+    if (podData && podData[0]) {
+      const selectedPod = R.filter(podNameMatch, podData[0].items)
 
-  // containerName, podName, podNamespace, clusterName
-  const containerName = selectedContainer[0].name
-  const podName = selectedPod[0].name
-  const podNamespace = selectedPod[0].namespace
-  const clusterName = selectedPod[0].cluster
-
-  fetchLogsForContainer(containerName, podName, podNamespace, clusterName)
+      if (selectedPod && selectedPod[0]) {
+        fetchLogsForContainer(
+          selectedContainer[0].name,
+          selectedPod[0].name,
+          selectedPod[0].namespace,
+          selectedPod[0].cluster
+        )
+      }
+    }
+  }
 }
 
 export const getPodsFromApplicationRelated = HCMApplicationList => {

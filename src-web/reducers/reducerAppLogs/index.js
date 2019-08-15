@@ -9,6 +9,7 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
+import R from 'ramda'
 
 const SET_LOG_DATA = 'SET_LOG_DATA'
 const SET_POD_DATA = 'SET_POD_DATA'
@@ -35,7 +36,11 @@ export const AppLogs = (state = initialStateLogs, action) => {
   switch (action.type) {
   case SET_LOG_DATA: {
     // probably would need a null check here for setting the logs
-    return { ...state, logData: action.payload.data.logs, logLoading: false }
+    return {
+      ...state,
+      logData: R.pathOr('', ['payload', 'data', 'logs'], action),
+      logLoading: false
+    }
   }
   case SET_POD_DATA: {
     return { ...state, podData: action.payload }

@@ -142,17 +142,17 @@ describe('getChannelsList', () => {
     const result = [
       {
         counts: {
-          failed: { total: 'N/A' },
-          'in progress': { total: 'N/A' },
-          pending: { total: 'N/A' }
+          failed: { total: 0 },
+          'in progress': { total: 0 },
+          pending: { total: 0 }
         },
         name: ''
       },
       {
         counts: {
-          failed: { total: 'N/A' },
-          'in progress': { total: 'N/A' },
-          pending: { total: 'N/A' }
+          failed: { total: 0 },
+          'in progress': { total: 0 },
+          pending: { total: 0 }
         },
         name: ''
       }

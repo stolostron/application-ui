@@ -155,7 +155,12 @@ export const getResourcesStatusPerChannel = (
       // Items is a list of that speecific resource kind
       const items = resource.items
       items.map(item => {
-        if (item.namespace == channelNamespace) {
+        // This statement checks to see if the channels namespace matches the
+        // current resources namespace because if they match then we know it fails
+        // under the same channel. BUT the !channelNamespace is there for if we decide
+        // to pass in false we can still execute this method from other locations to
+        // still get the status from other resources no matter the channel namespace
+        if (item.namespace == channelNamespace || !channelNamespace) {
           const status = (item.status || '').toLowerCase()
           statusPassFailInProgress = determineStatus(
             statusPassFailInProgress,

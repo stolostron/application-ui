@@ -7,6 +7,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+import { getResourcesStatusPerChannel } from '../../../components/ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+
 const kindsToExcludeForDeployments = [
   'deployable',
   'channel',
@@ -22,17 +24,21 @@ const kindsToExcludeForDeployments = [
 export const getChannelsList = channels => {
   if (channels && channels.items) {
     const mappedChannels = channels.items.map(channel => {
+      // Will return back status as:
+      // [0, 0, 0, 0, 0]
+      // Pass, Fail, InProgress, Pending, unidentified
+      const status = getResourcesStatusPerChannel(channel, false)
       return {
         name: channel.name || '',
         counts: {
           pending: {
-            total: channel.pending || 'N/A'
+            total: status[3]
           },
           'in progress': {
-            total: channel.inprogress || 'N/A'
+            total: status[2]
           },
           failed: {
-            total: channel.failed || 'N/A'
+            total: status[1]
           }
         }
       }

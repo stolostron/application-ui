@@ -11,6 +11,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
+import ProgressBar from '../ProgressBar/index'
 import {
   tileClick,
   editChannelClick,
@@ -108,7 +109,6 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${deployableName} `}
                       </a>
-                      <div className="deployablePlacement" />
                     </div>
                   </Tile>
                 )
@@ -232,7 +232,7 @@ const ChannelColumnGrid = (
                         channel.name
                       )
                       return (
-                        <div key={Math.random()} className="channelColumn">
+                        <div key={Math.random()} className="channelColumnDep">
                           {channelMatch ? (
                             <Tile
                               className="channelColumnDeployable"
@@ -247,15 +247,7 @@ const ChannelColumnGrid = (
                                 )
                               }
                             >
-                              {`Pass: ${status[0]} Fail: ${
-                                status[1]
-                              } InProgress: ${status[2]} Pending: ${
-                                status[3]
-                              } / ${status[0] +
-                                status[1] +
-                                status[2] +
-                                status[3] +
-                                status[4]}`}
+                              <ProgressBar status={status} />
                             </Tile>
                           ) : (
                             <Tile

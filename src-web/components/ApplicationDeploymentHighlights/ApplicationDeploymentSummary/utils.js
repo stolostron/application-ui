@@ -9,63 +9,6 @@
 
 import R from 'ramda'
 
-// return the data for the stacked channel
-export const getChannelChartData = list => {
-  if (list && list.items) {
-    const channelChartDataList = list.items.map(item => {
-      if (item && item.related) {
-        var completed = 0
-        var failed = 0
-        var progress = 0
-        var name = item.name || 'unknown'
-
-        for (var i = 0; i < item.related.length; i++) {
-          const kind = item.related[i].kind
-          const correctKindAndItems =
-            (kind === 'release' ||
-              kind === 'deployment' ||
-              kind === 'pod' ||
-              kind === 'service' ||
-              kind === 'replicaset') &&
-            item.related[i].items
-
-          if (kind && correctKindAndItems) {
-            for (var j = 0; j < item.related[i].items.length; j++) {
-              if (item.related[i].items[j].status) {
-                const status = item.related[i].items[j].status.toLowerCase()
-                if (status.includes('fail') || status.includes('error')) {
-                  failed = failed + 1
-                } else if (
-                  status.includes('deployed') ||
-                  status.includes('running')
-                ) {
-                  completed = completed + 1
-                } else if (status.includes('progress')) {
-                  progress = progress + 1
-                } else {
-                  //anything else is in progress
-                  progress = progress + 1
-                }
-              } else {
-                completed = completed + 1
-              }
-            }
-          }
-        }
-        return {
-          name: name,
-          cm: completed,
-          pr: progress,
-          fl: failed
-        }
-      }
-    })
-    const emptyArray = []
-    return emptyArray.concat.apply([], channelChartDataList)
-  }
-  return []
-}
-
 // return the width of the chart
 export const getChannelChartWidth = list => {
   if (list && list.items) {

@@ -13,12 +13,9 @@ import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import StackedChartCardModule from './components/StackedChartCardModule'
 import LineChartCardModule from './components/LineChartCardModule'
+import { getDeploymentSummary } from '../../../../lib/client/resource-helper'
 
-import {
-  getChannelChartData,
-  getChannelChartWidth,
-  getDeployedResourcesChartData
-} from './utils'
+import { getChannelChartWidth, getDeployedResourcesChartData } from './utils'
 
 resources(() => {
   require('./style.scss')
@@ -26,7 +23,7 @@ resources(() => {
 
 const ApplicationDeploymentSummary = withLocale(
   ({ HCMChannelList, HCMApplicationList, locale }) => {
-    const channelChartData = getChannelChartData(HCMChannelList)
+    const channelChartData = getDeploymentSummary(HCMChannelList)
     const deployedResourcesChartData = getDeployedResourcesChartData(
       HCMApplicationList
     )

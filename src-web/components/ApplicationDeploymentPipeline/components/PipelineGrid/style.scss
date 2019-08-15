@@ -22,9 +22,9 @@
 
   .channelColumnDeployable {
     background: white;
-    background-color: #f5f9ff;
+    background-color: white;
     color: black;
-    height: 80px;
+    height:100px;
     position: relative;
   }
 
@@ -58,12 +58,12 @@
     grid-template-columns: repeat(auto-fit, minmax(432px, 1fr));
     grid-template-rows: auto;
     grid-gap: 20px;
-    padding-top: 5px;
+    padding-top: 1px;
     padding-right: 5px;
   }
 
   .tileContainerApp {
-    padding-top: 5px;
+    padding-top: 1px;
     padding-right: 5px;
   }
 
@@ -106,7 +106,7 @@
 
   .spaceOutBelow {
     display: block;
-    padding-bottom: 5px;
+    padding-bottom: 1px;
   }
 
   .applicationColumnContainer {
@@ -117,7 +117,7 @@
     display: inline-block;
     width: 350px;
     padding-right: 5px;
-    padding-top: 5px;
+    padding-top: 1px;
   }
 
   .statusTag {
@@ -131,8 +131,8 @@
   }
 
   .deployableTile {
-    background-color: #f5f9ff;
-    height: 80px;
+    background-color: white;
+    height: 100px;
   }
 
   .DeployableContents {
@@ -156,7 +156,7 @@
 
   .deployablesDisplay {
     display: block;
-    padding-top: 5px;
+    // padding-top: 5px;
   }
 
   .deployableRow {

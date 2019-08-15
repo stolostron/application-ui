@@ -12,7 +12,7 @@
   .inprogress {
     font-size: 10px;
     display: inline-flex;
-    padding-right: 30px;
+    padding-right: 15%;
   }
 
   .total {
@@ -21,14 +21,19 @@
   }
 
   .pass {
-    padding-right: 30px;
+    padding-right: 15%;
     font-size: 10px;
     display: inline-flex;
   }
 
   .fail {
-    padding-right: 30px;
+    padding-right: 15%;
     font-size: 10px;
     display: inline-flex;
+  }
+
+  .percentageDeployed {
+    padding-top: 6px;
+    font-size: 13px;
   }
 }

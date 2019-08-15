@@ -17,7 +17,8 @@ resources(() => {
   require('./style.scss')
 })
 
-const ProgressBar = withLocale(({ status, locale }) => { // format [pass, fail, inprogress, pending, unidentifed]
+const ProgressBar = withLocale(({ status, locale }) => {
+  // format [pass, fail, inprogress, pending, unidentifed]
   const percentage = getStatusPercentages(status)
   const { pass, fail, inprogress, total } = percentage
   return (
@@ -39,6 +40,9 @@ const ProgressBar = withLocale(({ status, locale }) => { // format [pass, fail, 
       </div>
       <div className="total">
         {`${msgs.get('description.total', locale)}: ${total}`}
+      </div>
+      <div className="percentageDeployed">
+        {`${msgs.get('description.deployed', locale)}: ${pass}%`}
       </div>
     </div>
   )

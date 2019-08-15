@@ -8,20 +8,22 @@
  *******************************************************************************/
 import React from '../../../node_modules/react'
 import msgs from '../../../nls/platform.properties'
-import { Icon, Loading } from 'carbon-components-react'
+import { Icon, Loading, DropdownV2 } from 'carbon-components-react'
 import ScrollBox from '../modals/ScrollBox'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
-import { DropdownV2 } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
-import { handlePodChange, handleContainerChange } from './utils'
+import {
+  getPodsFromApplicationRelated,
+  handlePodChange,
+  handleContainerChange
+} from './utils'
 import {
   fetchContainersForPod,
   fetchLogsForContainer
 } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
-import { getPodsFromApplicationRelated } from './utils'
 import R from 'ramda'
 
 /* eslint-disable react/prop-types */
@@ -162,12 +164,14 @@ class ApplicationLogs extends React.Component {
                   {msgs.get('tabs.logs.viewExternal')}
                 </a>
               </p>
-              <Icon
-                name="icon--launch"
-                fill="#6089bf"
-                description=""
-                className="viewExternalIcon"
-              />
+              <a href="/kibana" target="_blank">
+                <Icon
+                  name="icon--launch"
+                  fill="#6089bf"
+                  description=""
+                  className="viewExternalIcon"
+                />
+              </a>
             </div>
           </div>
           {currentSelectedContainer && logLoading ? (

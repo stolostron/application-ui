@@ -24,7 +24,7 @@
     background: white;
     background-color: white;
     color: black;
-    height:100px;
+    height: 110px;
     position: relative;
   }
 
@@ -120,6 +120,14 @@
     padding-top: 1px;
   }
 
+  .channelColumnDep {
+    display: inline-block;
+    width: 350px;
+    padding-right: 5px;
+    padding-top: 1px;
+    height: 110px;
+  }
+
   .statusTag {
     padding: 0.25em 10px;
     margin-right: 1%;
@@ -132,7 +140,8 @@
 
   .deployableTile {
     background-color: white;
-    height: 100px;
+    height: 110px;
+    padding: 0px;
   }
 
   .DeployableContents {
@@ -145,23 +154,26 @@
   }
 
   .deployableName {
-    color: black;
+    color: #2190ff;
+    font-weight: 600;
     text-decoration: none;
-  }
-
-  .deployablePlacement {
     font-size: 14px;
-    padding-top: 10px;
+    padding-left: 5px;
+    padding-bottom: 11%;
+    padding-top: 11%;
+    border-left-style: solid;
+    border-left-width: 4px;
+    border-left-color: #e8f4ff;
+    position: absolute;
   }
 
   .deployablesDisplay {
     display: block;
-    // padding-top: 5px;
   }
 
   .deployableRow {
     display: flex;
-    height: 80px;
+    height: 110px;
   }
 
   .channelNameHeader {

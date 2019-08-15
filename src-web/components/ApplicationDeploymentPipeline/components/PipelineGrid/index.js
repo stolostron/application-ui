@@ -109,7 +109,6 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${deployableName} `}
                       </a>
-                      <div className="deployablePlacement" />
                     </div>
                   </Tile>
                 )
@@ -233,7 +232,7 @@ const ChannelColumnGrid = (
                         channel.name
                       )
                       return (
-                        <div key={Math.random()} className="channelColumn">
+                        <div key={Math.random()} className="channelColumnDep">
                           {channelMatch ? (
                             <Tile
                               className="channelColumnDeployable"

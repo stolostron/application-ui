@@ -28,12 +28,7 @@ export const createContainersList = (containerData, containersList) => {
 }
 
 export const isObjEmpty = obj => {
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false
-    }
-  }
-  return true
+  return R.isEmpty(obj)
 }
 
 // Handle the actions needed to be taken when the user selects a POD

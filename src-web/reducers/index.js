@@ -35,6 +35,7 @@ export { modal } from './modal'
 export { logs } from './logs'
 
 export { AppDeployments } from './reducerAppDeployments'
+export { AppLogs } from './reducerAppLogs'
 export { AppOverview } from './reducerAppOverview'
 export { DeployablesReducer } from './reducerDeployables'
 

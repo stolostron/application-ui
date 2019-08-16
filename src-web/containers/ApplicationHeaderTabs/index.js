@@ -34,6 +34,12 @@ export const IncidentsTab = loadable(() =>
   import(/* webpackChunkName: "incidents" */ '../IncidentsTab')
 )
 
+export const ApplicationLogs = loadable(() =>
+  import('../../components/ApplicationLogs')
+)
+
+// This will render the four tabs
+// Overview, Deployments, Incidents, Logs
 const ApplicationHeaderTabs = withLocale(
   ({ showExtraTabs, params, locale }) => {
     return (
@@ -79,6 +85,18 @@ const ApplicationHeaderTabs = withLocale(
               >
                 <div className="some-content">
                   <IncidentsTab params={params} />
+                </div>
+              </Tab>
+            )}
+            {showExtraTabs && (
+              <Tab
+                disabled={false}
+                onClick={() => {}}
+                onKeyDown={() => {}}
+                label={msgs.get('description.title.logs', locale)}
+              >
+                <div className="page-content-container">
+                  <ApplicationLogs />
                 </div>
               </Tab>
             )}

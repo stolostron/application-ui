@@ -37,7 +37,7 @@ export const createApplicationRowsLookUp = list => {
 // for that deployable clicked
 export const tileClick = (
   openDeployableModal,
-  setDeployableModalHeaderInfo,
+  setsubscriptionModalHeaderInfo,
   setCurrentDeployableSubscriptionData,
   setCurrentDeployableModalData,
   deployableDataByChannel,
@@ -49,7 +49,7 @@ export const tileClick = (
     application: applicationName,
     deployable: deployableName
   }
-  setDeployableModalHeaderInfo(headerInfo)
+  setsubscriptionModalHeaderInfo(headerInfo)
   setCurrentDeployableSubscriptionData(matchingSubscription)
   setCurrentDeployableModalData(deployableDataByChannel)
   openDeployableModal()

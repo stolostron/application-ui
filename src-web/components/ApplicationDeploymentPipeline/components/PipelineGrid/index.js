@@ -126,10 +126,10 @@ const ChannelColumnGrid = (
     applicationList,
     editChannel,
     getChannelResource,
-    openDeployableModal,
-    setDeployableModalHeaderInfo,
+    openSubscriptionModal,
+    setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
-    setCurrentDeployableModalData,
+    setCurrentsubscriptionModalData,
     appDropDownList,
     bulkSubscriptionList
   },
@@ -259,10 +259,10 @@ const PipelineGrid = withLocale(
     subscriptions,
     editChannel,
     getChannelResource,
-    openDeployableModal,
-    setDeployableModalHeaderInfo,
+    openSubscriptionModal,
+    setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
-    setCurrentDeployableModalData,
+    setCurrentsubscriptionModalData,
     updateAppDropDownList,
     appDropDownList,
     bulkSubscriptionList
@@ -281,12 +281,12 @@ const PipelineGrid = withLocale(
             applicationList={applications}
             editChannel={editChannel}
             getChannelResource={getChannelResource}
-            openDeployableModal={openDeployableModal}
-            setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
+            openSubscriptionModal={openSubscriptionModal}
+            setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
             setCurrentDeployableSubscriptionData={
               setCurrentDeployableSubscriptionData
             }
-            setCurrentDeployableModalData={setCurrentDeployableModalData}
+            setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
           />

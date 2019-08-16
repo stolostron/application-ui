@@ -28,14 +28,14 @@ const SET_LOADING = 'SET_LOADING'
 const CLOSE_MODALS = 'CLOSE_MODALS'
 
 export const initialStateDeployments = {
-  displayDeployableModal: false,
-  deployableModalHeaderInfo: {
+  displaySubscriptionModal: false,
+  subscriptionModalHeaderInfo: {
     application: '',
-    deployable: ''
+    subscription: ''
   },
   appDropDownList: [],
-  deployableModalSubscriptionInfo: {},
-  deployableModalData: [],
+  subscriptionModalSubscriptionInfo: {},
+  subscriptionModalData: [],
   deploymentPipelineSearch: '',
   currentChannelInfo: {},
   bulkSubscriptionList: [],
@@ -46,21 +46,21 @@ export const initialStateDeployments = {
 export const AppDeployments = (state = initialStateDeployments, action) => {
   switch (action.type) {
   case OPEN_DISPLAY_DEPLOYABLE_MODAL: {
-    return { ...state, displayDeployableModal: true }
+    return { ...state, displaySubscriptionModal: true }
   }
   case SET_DEPLOYABLE_MODAL_HEADERS: {
     // Verify Contents makes sure the data is coming in properly
     const verifiedContents = {
       application: action.payload.application || '',
-      deployable: action.payload.deployable || ''
+      subscription: action.payload.subscription || ''
     }
-    return { ...state, deployableModalHeaderInfo: verifiedContents }
+    return { ...state, subscriptionModalHeaderInfo: verifiedContents }
   }
   case SET_DEPLOYABLE_SUBSCRIPTION_INFO: {
-    return { ...state, deployableModalSubscriptionInfo: action.payload }
+    return { ...state, subscriptionModalSubscriptionInfo: action.payload }
   }
   case SET_DEPLOYABLE_MODAL_DATA: {
-    return { ...state, deployableModalData: action.payload }
+    return { ...state, subscriptionModalData: action.payload }
   }
   case SET_BULK_SUBSCRIPTION_LIST: {
     return { ...state, bulkSubscriptionList: action.payload }
@@ -99,7 +99,7 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
   case CLOSE_MODALS: {
     return {
       ...state,
-      displayDeployableModal: false,
+      displaySubscriptionModal: false,
       openEditChannelModal: false
     }
   }
@@ -114,16 +114,16 @@ export const setBulkSubscriptionList = createAction(SET_BULK_SUBSCRIPTION_LIST)
 export const setBulkSubscriptionError = createAction(
   SET_BULK_SUBSCRIPTION_ERROR
 )
-export const setDeployableModalHeaderInfo = createAction(
+export const setSubscriptionModalHeaderInfo = createAction(
   SET_DEPLOYABLE_MODAL_HEADERS
 )
 export const setCurrentDeployableSubscriptionData = createAction(
   SET_DEPLOYABLE_SUBSCRIPTION_INFO
 )
-export const setCurrentDeployableModalData = createAction(
+export const setCurrentsubscriptionModalData = createAction(
   SET_DEPLOYABLE_MODAL_DATA
 )
-export const openDisplayDeployableModal = createAction(
+export const openDisplaySubscriptionModal = createAction(
   OPEN_DISPLAY_DEPLOYABLE_MODAL
 )
 export const updateAppDropDownList = createAction(UPDATE_APP_DROPDOWN_LIST)

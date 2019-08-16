@@ -24,7 +24,7 @@ import {
   closeModals
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
-import DeployableModal from './components/DeployableModal'
+import subscriptionModal from './components/SubscriptionModal'
 import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
@@ -127,10 +127,10 @@ const mapStateToProps = state => {
     AppDeployments.deploymentPipelineSearch
   )
   return {
-    displayDeployableModal: AppDeployments.displayDeployableModal,
-    deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
-    deployableModalSubscriptionInfo:
-      AppDeployments.deployableModalSubscriptionInfo,
+    displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
+    subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
+    subscriptionModalSubscriptionInfo:
+      AppDeployments.subscriptionModalSubscriptionInfo,
     bulkSubscriptionList: AppDeployments.bulkSubscriptionList,
     userRole: role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
@@ -165,9 +165,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       editChannel,
       getChannelResource,
       editSubscription,
-      displayDeployableModal,
-      deployableModalHeaderInfo,
-      deployableModalSubscriptionInfo,
+      displaySubscriptionModal,
+      subscriptionModalHeaderInfo,
+      subscriptionModalSubscriptionInfo,
       currentChannelInfo,
       closeModal,
       openEditChannelModal,
@@ -182,10 +182,10 @@ class ApplicationDeploymentPipeline extends React.Component {
     const modalSubscription = React.cloneElement(CreateSubscriptionModal(), {
       resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
     })
-    const deployableModalHeader =
-      deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
-    const deployableModalLabel =
-      deployableModalHeaderInfo && deployableModalHeaderInfo.application
+    const subscriptionModalHeader =
+      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
+    const subscriptionModalLabel =
+      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.application
 
     // This will trigger the edit Channel Modal because openEditChannelModal
     // is true AFTER the fetch of the channel data has been completed
@@ -223,24 +223,28 @@ class ApplicationDeploymentPipeline extends React.Component {
           channels={channels}
           subscriptions={subscriptions}
           getChannelResource={getChannelResource}
-          openDeployableModal={actions.openDisplayDeployableModal}
-          setDeployableModalHeaderInfo={actions.setDeployableModalHeaderInfo}
+          openSubscriptionModal={actions.openDisplaySubscriptionModal}
+          setSubscriptionModalHeaderInfo={
+            actions.setSubscriptionModalHeaderInfo
+          }
           setCurrentDeployableSubscriptionData={
             actions.setCurrentDeployableSubscriptionData
           }
-          setCurrentDeployableModalData={actions.setCurrentDeployableModalData}
+          setCurrentsubscriptionModalData={
+            actions.setCurrentsubscriptionModalData
+          }
           updateAppDropDownList={actions.updateAppDropDownList}
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
         />
-        <DeployableModal
-          displayModal={displayDeployableModal}
+        <subscriptionModal
+          displayModal={displaySubscriptionModal}
           closeModal={actions.closeModals}
-          header={deployableModalHeader}
-          label={deployableModalLabel}
+          header={subscriptionModalHeader}
+          label={subscriptionModalLabel}
           modalSubscription={modalSubscription}
           editSubscription={editSubscription}
-          deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
+          subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
         />
       </div>
     )

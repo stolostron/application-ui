@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DeployableModal DeployableModal renders correctly. 1`] = `
+exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
 <div
-  id="DeployableModal"
+  id="SubscriptionModal"
 >
   <div
     className="bx--modal bx--modal-tall modalAddRepo"
@@ -352,7 +352,7 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
                 <div
                   className="deploymentStatusHeader"
                 >
-                  Deployment status
+                  Resource status
                 </div>
                 <span
                   className="statusTagFailed"

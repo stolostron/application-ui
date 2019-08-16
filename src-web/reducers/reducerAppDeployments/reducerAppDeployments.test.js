@@ -21,7 +21,7 @@ describe('AppDeployments reducer', () => {
       })
     ).toEqual({
       ...initialStateDeployments,
-      displayDeployableModal: true
+      displaySubscriptionModal: true
     })
   })
   it('handles CLOSE_MODALS', () => {
@@ -29,7 +29,7 @@ describe('AppDeployments reducer', () => {
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          displayDeployableModal: true
+          displaySubscriptionModal: true
         },
         {
           type: 'CLOSE_MODALS'
@@ -37,7 +37,7 @@ describe('AppDeployments reducer', () => {
       )
     ).toEqual({
       ...initialStateDeployments,
-      displayDeployableModal: false
+      displaySubscriptionModal: false
     })
   })
   it('handles SET_DEPLOYMENT_SEARCH', () => {
@@ -61,15 +61,15 @@ describe('AppDeployments reducer', () => {
   it('handles SET_DEPLOYABLE_MODAL_HEADERS', () => {
     const payload = {
       application: 'dart',
-      deployable: 'feld'
+      subscription: 'feld'
     }
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deployableModalHeaderInfo: {
+          subscriptionModalHeaderInfo: {
             application: '',
-            deployable: ''
+            subscription: ''
           }
         },
         {
@@ -79,7 +79,7 @@ describe('AppDeployments reducer', () => {
       )
     ).toEqual({
       ...initialStateDeployments,
-      deployableModalHeaderInfo: payload
+      subscriptionModalHeaderInfo: payload
     })
   })
   it('handles SET_DEPLOYABLE_MODAL_HEADERS undefined', () => {
@@ -91,9 +91,9 @@ describe('AppDeployments reducer', () => {
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deployableModalHeaderInfo: {
+          subscriptionModalHeaderInfo: {
             application: '',
-            deployable: ''
+            subscription: ''
           }
         },
         {
@@ -103,9 +103,9 @@ describe('AppDeployments reducer', () => {
       )
     ).toEqual({
       ...initialStateDeployments,
-      deployableModalHeaderInfo: {
+      subscriptionModalHeaderInfo: {
         application: '',
-        deployable: ''
+        subscription: ''
       }
     })
   })
@@ -115,9 +115,9 @@ describe('AppDeployments reducer', () => {
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deployableModalHeaderInfo: {
+          subscriptionModalHeaderInfo: {
             application: 'shanna',
-            deployable: 'lavitz'
+            subscription: 'lavitz'
           }
         },
         {
@@ -127,9 +127,9 @@ describe('AppDeployments reducer', () => {
       )
     ).toEqual({
       ...initialStateDeployments,
-      deployableModalHeaderInfo: {
+      subscriptionModalHeaderInfo: {
         application: '',
-        deployable: ''
+        subscription: ''
       }
     })
   })

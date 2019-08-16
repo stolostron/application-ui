@@ -32,27 +32,27 @@ export const createApplicationRowsLookUp = list => {
   return R.mergeAll(mappedApps)
 }
 
-// This contains all the actions that will be done when clicking on the tile
+// This contains all the actions that will be done when subscrition name under application
 // Opens the modal and sets the header information and subscription information
-// for that deployable clicked
-export const tileClick = (
-  openDeployableModal,
-  setsubscriptionModalHeaderInfo,
+// for that subscription clicked
+export const onSubscriptionClick = (
+  openSubscriptionModal,
+  setSubscriptionModalHeaderInfo,
   setCurrentDeployableSubscriptionData,
-  setCurrentDeployableModalData,
-  deployableDataByChannel,
+  setCurrentSubscriptionModalData,
+  subscription,
   applicationName,
-  deployableName,
-  matchingSubscription
+  subscriptionName,
+  matchingSubscription = {}
 ) => {
   const headerInfo = {
     application: applicationName,
-    deployable: deployableName
+    deployable: subscriptionName
   }
-  setsubscriptionModalHeaderInfo(headerInfo)
+  setSubscriptionModalHeaderInfo(headerInfo)
   setCurrentDeployableSubscriptionData(matchingSubscription)
-  setCurrentDeployableModalData(deployableDataByChannel)
-  openDeployableModal()
+  setCurrentSubscriptionModalData(subscription)
+  openSubscriptionModal()
 }
 
 // When we click on the edit Channel, we need to make a fetch to get the channel
@@ -74,6 +74,9 @@ export const editChannelClick = (
 
 // This method will find the matching subscription the the given channel and
 // return the corresponding subscription from the list
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const findMatchingSubscription = (subscriptionList, channelName) => {
   const subscription =
     subscriptionList &&

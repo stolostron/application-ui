@@ -13,19 +13,19 @@ import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
 import ProgressBar from '../ProgressBar/index'
 import {
-  tileClick,
+  onSubscriptionClick,
   editChannelClick,
-  findMatchingSubscription,
   getDataByKind,
   getResourcesStatusPerChannel
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
-import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key*/
+/* jsx-a11y/no-static-element-interactions*/
+/* jsx-a11y/click-events-have-key-events*/
 
 resources(() => {
   require('./style.scss')
@@ -34,7 +34,16 @@ resources(() => {
 // This component displays all the LEFT column applications in the table.
 // It displays all the applications names and their number of deployables.
 const LeftColumnForApplicationNames = (
-  { applications, subscriptions, updateAppDropDownList, appDropDownList },
+  {
+    applications,
+    subscriptions,
+    updateAppDropDownList,
+    appDropDownList,
+    openSubscriptionModal,
+    setSubscriptionModalHeaderInfo,
+    setCurrentDeployableSubscriptionData,
+    setCurrentsubscriptionModalData
+  },
   { locale }
 ) => {
   return (
@@ -105,7 +114,20 @@ const LeftColumnForApplicationNames = (
                 return (
                   <Tile key={Math.random()} className="deployableTile">
                     <div className="DeployableContents">
-                      <div className="deployableName">
+                      <div
+                        className="deployableName"
+                        onClick={() =>
+                          onSubscriptionClick(
+                            openSubscriptionModal,
+                            setSubscriptionModalHeaderInfo,
+                            setCurrentDeployableSubscriptionData,
+                            setCurrentsubscriptionModalData,
+                            subscription,
+                            appName,
+                            subscriptionName
+                          )
+                        }
+                      >
                         {`${subscriptionName} `}
                       </div>
                     </div>
@@ -126,10 +148,6 @@ const ChannelColumnGrid = (
     applicationList,
     editChannel,
     getChannelResource,
-    openSubscriptionModal,
-    setSubscriptionModalHeaderInfo,
-    setCurrentDeployableSubscriptionData,
-    setCurrentsubscriptionModalData,
     appDropDownList,
     bulkSubscriptionList
   },
@@ -275,18 +293,18 @@ const PipelineGrid = withLocale(
             applications={applications}
             updateAppDropDownList={updateAppDropDownList}
             appDropDownList={appDropDownList}
-          />
-          <ChannelColumnGrid
-            channelList={channels}
-            applicationList={applications}
-            editChannel={editChannel}
-            getChannelResource={getChannelResource}
             openSubscriptionModal={openSubscriptionModal}
             setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
             setCurrentDeployableSubscriptionData={
               setCurrentDeployableSubscriptionData
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
+          />
+          <ChannelColumnGrid
+            channelList={channels}
+            applicationList={applications}
+            editChannel={editChannel}
+            getChannelResource={getChannelResource}
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
           />

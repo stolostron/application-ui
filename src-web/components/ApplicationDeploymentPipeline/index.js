@@ -24,7 +24,7 @@ import {
   closeModals
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
-import subscriptionModal from './components/SubscriptionModal'
+import SubscriptionModal from './components/SubscriptionModal'
 import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
@@ -237,7 +237,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
         />
-        <subscriptionModal
+        <SubscriptionModal
           displayModal={displaySubscriptionModal}
           closeModal={actions.closeModals}
           header={subscriptionModalHeader}

@@ -123,7 +123,7 @@ export const getDeployableDataByChannels = (
       const items = resource.items
       const data = items.map(item => {
         // This statement checks to see if the channels namespace matches the
-        // current resources namespace because if they match then we know it fails
+        // current resources namespace because if they match then we know it falls
         // under the same channel. BUT the !channelNamespace is there for if we decide
         // to pass in false we can still execute this method from other locations to
         // still get the status from other resources no matter the channel namespace

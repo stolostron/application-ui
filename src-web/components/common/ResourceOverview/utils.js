@@ -10,7 +10,7 @@
 import {
   kindsToIncludeForDeployments,
   getResourcesStatusPerChannel
-} from '../../../components/ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 
 // Method will take in an object and return back the channels mapped for display purposes
 export const getChannelsList = channels => {

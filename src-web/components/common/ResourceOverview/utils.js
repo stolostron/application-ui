@@ -7,26 +7,22 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { getResourcesStatusPerChannel } from '../../../components/ApplicationDeploymentPipeline/components/PipelineGrid/utils'
-
-const kindsToExcludeForDeployments = [
-  'deployable',
-  'channel',
-  'cluster',
-  'subscription',
-  'placementbinding',
-  'placementrule',
-  'placementpolicy',
-  'applicationrelationship'
-]
+import {
+  kindsToIncludeForDeployments,
+  getResourcesStatusPerChannel
+} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 
 // Method will take in an object and return back the channels mapped for display purposes
 export const getChannelsList = channels => {
-  if (channels && channels.items) {
+  if (
+    channels &&
+    channels.items instanceof Array &&
+    channels.items.length > 0
+  ) {
     const mappedChannels = channels.items.map(channel => {
       // Will return back status as:
       // [0, 0, 0, 0, 0]
-      // Pass, Fail, InProgress, Pending, unidentified
+      // Pass, Fail, InProgress, Pending, Unidentified
       const status = getResourcesStatusPerChannel(channel, false)
       return {
         name: channel.name || '',
@@ -63,8 +59,8 @@ export const getNumDeployables = data => {
 
 export const getNumDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(
-      elem => !kindsToExcludeForDeployments.includes(elem.kind)
+    const filtered = data.related.filter(elem =>
+      kindsToIncludeForDeployments.includes(elem.kind)
     )
     if (filtered.length > 0) {
       return filtered.reduce((acc, cur) => acc + cur['count'], 0)
@@ -77,73 +73,18 @@ export const getNumDeployments = data => {
 }
 
 export const getNumInProgressDeployments = data => {
-  if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(
-      elem => !kindsToExcludeForDeployments.includes(elem.kind)
-    )
-    if (filtered.length > 0) {
-      let total = 0
-      for (let i = 0; i < filtered.length; i++) {
-        if (filtered[i].items instanceof Array) {
-          total =
-            total +
-            filtered[i].items.reduce(
-              (acc, cur) =>
-                cur.status &&
-                (cur.status.toUpperCase() === 'PENDING' ||
-                  cur.status.toUpperCase() === 'IN PROGRESS')
-                  ? ++acc
-                  : acc,
-              0
-            )
-        }
-      }
-      return total
-    } else {
-      return 0
-    }
-  } else {
-    return 0
-  }
+  const status = getResourcesStatusPerChannel(data, false)
+  return status[2] + status[3]
 }
 
 export const getNumFailedDeployments = data => {
-  if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(
-      elem => !kindsToExcludeForDeployments.includes(elem.kind)
-    )
-    if (filtered.length > 0) {
-      let total = 0
-      for (let i = 0; i < filtered.length; i++) {
-        if (filtered[i].items instanceof Array) {
-          total =
-            total +
-            filtered[i].items.reduce(
-              (acc, cur) =>
-                cur.status &&
-                (cur.status.toUpperCase() === 'FAILED' ||
-                  cur.status.toUpperCase().includes('ERROR'))
-                  ? ++acc
-                  : acc,
-              0
-            )
-        }
-      }
-      return total
-    } else {
-      return 0
-    }
-  } else {
-    return 0
-  }
+  const status = getResourcesStatusPerChannel(data, false)
+  return status[1]
 }
 
 export const getNumCompletedDeployments = data => {
-  return (
-    getNumDeployments(data) -
-    getNumInProgressDeployments(data) -
-    getNumFailedDeployments(data)
-  )
+  const status = getResourcesStatusPerChannel(data, false)
+  return status[0] + status[4]
 }
 
 export const getIcamLink = (activeAccountId, applicationUid) => {

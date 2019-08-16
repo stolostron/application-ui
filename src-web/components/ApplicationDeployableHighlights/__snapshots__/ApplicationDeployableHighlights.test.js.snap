@@ -97,23 +97,6 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               </div>
               
             </div>
-            <div
-              className="card-count-type"
-              role="button"
-              tabIndex="0"
-            >
-              <div
-                className="card-count"
-              >
-                -
-              </div>
-              <div
-                className="card-type"
-              >
-                Pending
-              </div>
-              
-            </div>
           </div>
         </div>
       </div>

@@ -9,6 +9,15 @@
 
 import R from 'ramda'
 
+export const kindsToIncludeForDeployments = [
+  'release',
+  'helmrelease',
+  'pod',
+  'replicaset',
+  'deployment',
+  'service'
+]
+
 // A created Mapper to create the row for our application data table
 const mapApplicationLookUp = application => {
   const { name, namespace, related } = application
@@ -141,11 +150,15 @@ export const getDeployableDataByChannels = (
   }
 }
 
-// Given the tall count of pass, fail, inprogress, pending, unidentified
-// and the status. Add to the tall and return it
+// Given the tally count of Pass, Fail, InProgress, Pending, Unidentified
+// and the status. Add to the tally and return it
 const determineStatus = (statusPassFailInProgress, status) => {
   const statusTotals = statusPassFailInProgress
-  if (status.includes('deploy') || status.includes('pass')) {
+  if (
+    status.includes('deployed') ||
+    status.includes('pass') ||
+    status.includes('running')
+  ) {
     // Increment PASS
     statusTotals[0] = statusTotals[0] + 1
   } else if (status.includes('fail') || status.includes('error')) {
@@ -171,18 +184,18 @@ export const getResourcesStatusPerChannel = (
   deployableData,
   channelNamespace
 ) => {
-  if (deployableData && deployableData.related) {
+  if (
+    deployableData &&
+    deployableData.related instanceof Array &&
+    deployableData.related.length > 0
+  ) {
     const relatedData = deployableData.related
     // We want to pull resources data to check status
-    const filterToResources = x =>
-      x.kind == 'release' ||
-      x.kind == 'pod' ||
-      x.kind == 'replicaset' ||
-      x.kind == 'deployment' ||
-      x.kind == 'service'
+    const filterToResources = elem =>
+      kindsToIncludeForDeployments.includes(elem.kind)
     // ResourceData is an array of objects
     const resourceData = R.filter(filterToResources, relatedData)
-    // PASS, FAIL, INPROGRESS, unidentified status
+    // Pass, Fail, InProgress, Pending, Unidentified
     let statusPassFailInProgress = [0, 0, 0, 0, 0]
     resourceData.map(resource => {
       // Items is a list of that speecific resource kind

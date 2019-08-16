@@ -352,7 +352,7 @@ exports[`DeployableModal DeployableModal renders correctly. 1`] = `
                 <div
                   className="deploymentStatusHeader"
                 >
-                  Deployment status
+                  Resource status
                 </div>
                 <span
                   className="statusTagFailed"

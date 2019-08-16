@@ -141,7 +141,7 @@ const mapStateToProps = state => {
     openEditChannelModal: AppDeployments.openEditChannelModal,
     loading: AppDeployments.loading,
     applications: getApplicationsList(filteredApplications),
-    deployables: getDeployablesList(filteredApplications), // right now its only used for total number
+    // deployables: getDeployablesList(filteredApplications), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
@@ -163,7 +163,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       // HCMApplicationList,
       // HCMChannelList,
       applications,
-      deployables,
+      // deployables,
       channels,
       subscriptions,
       actions,
@@ -225,7 +225,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         <div className="AddChannelButton">{[modalChannel]}</div>
         <PipelineGrid
           applications={applications}
-          deployables={deployables}
+          // deployables={deployables}
           channels={channels}
           subscriptions={subscriptions}
           getChannelResource={getChannelResource}

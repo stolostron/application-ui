@@ -21,7 +21,7 @@ import {
   getResourcesStatusPerChannel,
   getDeployableDataByChannels
 } from './utils'
-import { pullOutDeployablePerApplication } from '../../utils'
+import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
@@ -36,7 +36,12 @@ resources(() => {
 // This component displays all the LEFT column applications in the table.
 // It displays all the applications names and their number of deployables.
 const LeftColumnForApplicationNames = (
-  { applications, deployables, updateAppDropDownList, appDropDownList },
+  {
+    applications,
+    /*deployables,*/ subscriptions,
+    updateAppDropDownList,
+    appDropDownList
+  },
   { locale }
 ) => {
   return (
@@ -48,19 +53,22 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${deployables.length} `}
+            {`${subscriptions.length} `}
             {msgs.get('description.title.deployables', locale)}
           </div>
         </Tile>
       </div>
       {applications.map(application => {
         const appName = application.name
-        const appNamespace = application.namespace
-        const deployablesFetched = pullOutDeployablePerApplication(application)
-        const deployables =
-          (deployablesFetched &&
-            deployablesFetched[0] &&
-            deployablesFetched[0].items) ||
+        // const appNamespace = application.namespace
+        const subscriptionsFetched = pullOutKindPerApplication(
+          application,
+          'subscription'
+        )
+        const subscriptions =
+          (subscriptionsFetched &&
+            subscriptionsFetched[0] &&
+            subscriptionsFetched[0].items) ||
           []
         const expandRow = appDropDownList.includes(appName)
         return (
@@ -68,14 +76,14 @@ const LeftColumnForApplicationNames = (
             <Tile
               className="applicationTile"
               onClick={
-                deployables.length > 0
+                subscriptions.length > 0
                   ? () => updateAppDropDownList(appName)
                   : () => {
                     /* onClick expects a function thus we have placeholder */
                   }
               }
             >
-              {deployables.length > 0 && (
+              {subscriptions.length > 0 && (
                 <Icon
                   id={`${appName}chevron`}
                   name="icon--chevron--right"
@@ -87,7 +95,7 @@ const LeftColumnForApplicationNames = (
               <div className="ApplicationContents">
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
-                  {`${deployables.length} `}
+                  {`${subscriptions.length} `}
                   {msgs.get('description.title.deployables', locale)}
                 </div>
               </div>
@@ -97,19 +105,15 @@ const LeftColumnForApplicationNames = (
               className="deployablesDisplay"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {deployables.map(deployable => {
-                const deployableName = (deployable && deployable.name) || ''
+              {subscriptions.map(subscription => {
+                const subscriptionName =
+                  (subscription && subscription.name) || ''
                 return (
                   <Tile key={Math.random()} className="deployableTile">
                     <div className="DeployableContents">
-                      <a
-                        className="deployableName"
-                        href={`${
-                          config.contextPath
-                        }/${appNamespace}/${appName}/deployable/${deployableName}`}
-                      >
-                        {`${deployableName} `}
-                      </a>
+                      <div className="deployableName">
+                        {`${subscriptionName} `}
+                      </div>
                     </div>
                   </Tile>
                 )
@@ -172,14 +176,17 @@ const ChannelColumnGrid = (
           )
         })}
       </div>
-      {/* All the applicaion totals and the deployable information is found here */}
+      {/* All the applicaion totals and the subscription information is found here */}
       {applicationList.map(application => {
         const applicationName = application.name || ''
-        const deployablesFetched = pullOutDeployablePerApplication(application)
-        const deployablesForThisApplication =
-          (deployablesFetched &&
-            deployablesFetched[0] &&
-            deployablesFetched[0].items) ||
+        const subscriptionsFetched = pullOutKindPerApplication(
+          application,
+          'subscription'
+        )
+        const subscriptionsForThisApplication =
+          (subscriptionsFetched &&
+            subscriptionsFetched[0] &&
+            subscriptionsFetched[0].items) ||
           []
         const expandRow = appDropDownList.includes(applicationName)
         return (
@@ -203,76 +210,52 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {deployablesForThisApplication.map(deployable => {
-                // Gather the deployable data that contains the matching UID
-                const deployableData = getDeployableData(
-                  bulkDeployableList,
-                  deployable._uid
-                )
-                // Gather all the channels that this deployable is in
-                const deployableChannels = getDeployablesChannels(
-                  deployableData
-                )
+              {subscriptionsForThisApplication.map(subscription => {
+                // // Gather the deployable data that contains the matching UID
+                // const deployableData = getDeployableData(
+                //   bulkDeployableList,
+                //   deployable._uid
+                // )
+                // // Gather all the channels that this deployable is in
+                // const deployableChannels = getDeployablesChannels(
+                //   deployableData
+                // )
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
                       // Determine if this deployable is present in this channel
-                      const channelMatch = deployableChannels.includes(
-                        `${channel.namespace}/${channel.name}`
+                      // const channelMatch = deployableChannels.includes(
+                      //   `${channel.namespace}/${channel.name}`
+                      // )
+                      const channelMatch = subscription.channel.includes(
+                        channel.name
                       )
-                      const deployableDataByChannel = getDeployableDataByChannels(
-                        deployableData,
-                        channel.namespace
-                      )
+                      // const deployableDataByChannel = getDeployableDataByChannels(
+                      //   deployableData,
+                      //   channel.namespace
+                      // )
                       // Get status of resources within the deployable specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
                       const status = getResourcesStatusPerChannel(
-                        deployableData,
-                        channel.namespace
+                        subscription,
+                        false
                       )
                       // This will find the matching subscription for the given channel
-                      const matchingSubscription = findMatchingSubscription(
-                        subscriptionList,
-                        channel.name
-                      )
+                      // const matchingSubscription = findMatchingSubscription(
+                      //   subscriptionList,
+                      //   channel.name
+                      // )
+                      // const matchingSubscription = subscription
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {channelMatch ? (
-                            <Tile
-                              className="channelColumnDeployable"
-                              onClick={() =>
-                                tileClick(
-                                  openDeployableModal,
-                                  setDeployableModalHeaderInfo,
-                                  setCurrentDeployableSubscriptionData,
-                                  setCurrentDeployableModalData,
-                                  deployableDataByChannel,
-                                  applicationName,
-                                  deployableData.name,
-                                  matchingSubscription
-                                )
-                              }
-                            >
+                            <Tile className="channelColumnDeployable">
                               <ProgressBar status={status} />
                             </Tile>
                           ) : (
-                            <Tile
-                              className="channelColumnDeployable"
-                              onClick={() =>
-                                tileClick(
-                                  openDeployableModal,
-                                  setDeployableModalHeaderInfo,
-                                  setCurrentDeployableSubscriptionData,
-                                  setCurrentDeployableModalData,
-                                  deployableDataByChannel,
-                                  applicationName,
-                                  deployableData.name,
-                                  matchingSubscription
-                                )
-                              }
-                            >
+                            <Tile className="channelColumnDeployable">
                               <Tag type="custom" className="statusTag">
                                 {msgs.get('description.na', locale)}
                               </Tag>
@@ -292,50 +275,36 @@ const ChannelColumnGrid = (
   )
 }
 
-const PipelineGrid = withLocale(
-  ({
-    deployables,
-    applications,
-    channels,
-    subscriptions,
-    editChannel,
-    getChannelResource,
-    openDeployableModal,
-    setDeployableModalHeaderInfo,
-    setCurrentDeployableSubscriptionData,
-    setCurrentDeployableModalData,
-    updateAppDropDownList,
-    appDropDownList,
-    bulkDeployableList
-  }) => {
-    return (
-      <div id="PipelineGrid">
-        <div className="tableGridContainer">
-          <LeftColumnForApplicationNames
-            deployables={deployables}
-            applications={applications}
-            updateAppDropDownList={updateAppDropDownList}
-            appDropDownList={appDropDownList}
-          />
-          <ChannelColumnGrid
-            channelList={channels}
-            subscriptionList={subscriptions}
-            applicationList={applications}
-            editChannel={editChannel}
-            getChannelResource={getChannelResource}
-            openDeployableModal={openDeployableModal}
-            setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
-            setCurrentDeployableSubscriptionData={
-              setCurrentDeployableSubscriptionData
-            }
-            setCurrentDeployableModalData={setCurrentDeployableModalData}
-            appDropDownList={appDropDownList}
-            bulkDeployableList={bulkDeployableList}
-          />
-        </div>
+const PipelineGrid = withLocale(({ // deployables,
+  applications, channels, subscriptions, editChannel, getChannelResource, openDeployableModal, setDeployableModalHeaderInfo, setCurrentDeployableSubscriptionData, setCurrentDeployableModalData, updateAppDropDownList, appDropDownList, bulkDeployableList }) => {
+  return (
+    <div id="PipelineGrid">
+      <div className="tableGridContainer">
+        <LeftColumnForApplicationNames
+          // deployables={deployables}
+          subscriptions={subscriptions}
+          applications={applications}
+          updateAppDropDownList={updateAppDropDownList}
+          appDropDownList={appDropDownList}
+        />
+        <ChannelColumnGrid
+          channelList={channels}
+          subscriptionList={subscriptions}
+          applicationList={applications}
+          editChannel={editChannel}
+          getChannelResource={getChannelResource}
+          openDeployableModal={openDeployableModal}
+          setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
+          setCurrentDeployableSubscriptionData={
+            setCurrentDeployableSubscriptionData
+          }
+          setCurrentDeployableModalData={setCurrentDeployableModalData}
+          appDropDownList={appDropDownList}
+          bulkDeployableList={bulkDeployableList}
+        />
       </div>
-    )
-  }
-)
+    </div>
+  )
+})
 
 export default withLocale(PipelineGrid)

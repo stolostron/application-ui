@@ -69,8 +69,7 @@ export const getNumClusters = (applications, allsubscriptions) => {
         [],
         removedUndefinedSubscriptions
       )
-      return getAllRelatedForList({ items: resultList }, 'cluster', true)
-        .length
+      return getAllRelatedForList({ items: resultList }, 'cluster').length
     }
   }
 

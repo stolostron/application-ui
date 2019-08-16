@@ -11,7 +11,7 @@ import React from '../../../../node_modules/react'
 import CountsCardModule from '../../CountsCardModule'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import { getAllDeployablesStatus } from './utils'
+import { getAllDeployablesStatus, getNumClusters } from './utils'
 import { getNumItems } from '../../../../lib/client/resource-helper'
 
 resources(() => {
@@ -21,7 +21,7 @@ resources(() => {
 const countsCardDataSummary = (
   HCMApplicationList,
   HCMChannelList,
-  HCMClusterList
+  HCMSubscriptionList
 ) => {
   const result = [
     {
@@ -42,18 +42,18 @@ const countsCardDataSummary = (
     },
     {
       msgKey: 'dashboard.card.deployment.clusters',
-      count: getNumItems(HCMClusterList)
+      count: getNumClusters(HCMApplicationList, HCMSubscriptionList)
     }
   ]
   return result
 }
 
 const ApplicationDeploymentHighlightsDashboard = withLocale(
-  ({ HCMApplicationList, HCMChannelList, HCMClusterList }) => {
+  ({ HCMApplicationList, HCMChannelList, HCMSubscriptionList }) => {
     const countsCardData = countsCardDataSummary(
       HCMApplicationList,
       HCMChannelList,
-      HCMClusterList
+      HCMSubscriptionList
     )
     const summary = getAllDeployablesStatus(HCMApplicationList, false)
     const countsCardDataStatus = [

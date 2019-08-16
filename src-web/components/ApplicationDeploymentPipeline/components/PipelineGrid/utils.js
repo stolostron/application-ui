@@ -173,3 +173,56 @@ export const getResourcesStatusPerChannel = (
   }
   return [0, 0, 0, 0, 0]
 }
+
+//concatenate 2 arrays and removes duplicates
+Object.defineProperty(Array.prototype, 'unique', {
+  enumerable: false,
+  configurable: false,
+  writable: false,
+  value: function() {
+    var a = this.concat()
+    for (var i = 0; i < a.length; ++i) {
+      for (var j = i + 1; j < a.length; ++j) {
+        if (a[i].name && a[j].name && a[i].name === a[j].name) a.splice(j--, 1)
+      }
+    }
+
+    return a
+  }
+})
+
+//returns all objects of kind in the related for the specified item
+//for example pullOutRelatedPerItem(application, 'cluster') returns all clusters for this application
+export const pullOutRelatedPerItem = (item, kind) => {
+  const isKind = n => n.kind == kind
+  if (item && item.related) {
+    return R.filter(isKind, item.related)
+  }
+  return []
+}
+
+//returns all objects of kind in the related for the specified list
+//for example getAllRelatedForList(HCMApplicationList, 'cluster') returns all clusters for the applications list
+//it removes the duplicates so if a cluster is part of 2 app related list, it shows up only once in the resulted array
+export const getAllRelatedForList = (resources, kind, arrayUnique) => {
+  if (!resources) return []
+
+  const list = resources.items ? resources : { items: [resources] }
+  if (list && list.items) {
+    const relatedItems = list.items.map(item => {
+      const resultRelatedForItem = pullOutRelatedPerItem(item, kind)
+      if (resultRelatedForItem.length > 0 && resultRelatedForItem[0].items) {
+        return resultRelatedForItem[0].items
+      }
+    })
+    const removeUndefined = x => x !== undefined
+    const emptyArray = []
+    const removedUndefinedRelated = R.filter(removeUndefined, relatedItems)
+    if (arrayUnique || arrayUnique === 'true')
+      //filter duplicate values
+      return emptyArray.concat.apply([], removedUndefinedRelated).unique()
+
+    return emptyArray.concat.apply([], removedUndefinedRelated)
+  }
+  return []
+}

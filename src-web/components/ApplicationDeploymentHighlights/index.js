@@ -30,29 +30,37 @@ resources(() => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchSubscriptions: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS))
   }
 }
 
 const mapStateToProps = state => {
-  const { HCMChannelList, HCMApplicationList, HCMClusterList } = state
+  const { HCMChannelList, HCMApplicationList, HCMSubscriptionList } = state
   return {
     HCMChannelList,
-    HCMClusterList,
+    HCMSubscriptionList,
     HCMApplicationList
   }
 }
 
 class ApplicationDeploymentHighlights extends React.Component {
-  componentWillMount() {}
-
+  componentWillMount() {
+    const { fetchChannels, fetchSubscriptions } = this.props
+    fetchChannels()
+    fetchSubscriptions()
+  }
   componentDidMount() {}
 
   componentWillUnmount() {}
 
   render() {
-    const { HCMChannelList, HCMClusterList, HCMApplicationList } = this.props
-
+    const {
+      HCMChannelList,
+      HCMSubscriptionList,
+      HCMApplicationList
+    } = this.props
     const { locale } = this.context
 
     return (
@@ -64,7 +72,7 @@ class ApplicationDeploymentHighlights extends React.Component {
         <ApplicationDeploymentHighlightsDashboard
           HCMApplicationList={HCMApplicationList}
           HCMChannelList={HCMChannelList}
-          HCMClusterList={HCMClusterList}
+          HCMSubscriptionList={HCMSubscriptionList}
         />
         <ApplicationDeploymentSummary
           HCMChannelList={HCMChannelList}

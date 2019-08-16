@@ -44,7 +44,7 @@ exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
         <div
           className="card-type"
         >
-          Deployments
+          Resources
         </div>
         <div
           className="card-text"
@@ -70,7 +70,7 @@ exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
         <div
           className="card-text"
         >
-          Deployments
+          Resources
         </div>
       </div>
       <div
@@ -91,7 +91,7 @@ exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
         <div
           className="card-text"
         >
-          Deployments
+          Resources
         </div>
       </div>
       <div
@@ -112,7 +112,7 @@ exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
         <div
           className="card-text"
         >
-          Deployments
+          Resources
         </div>
       </div>
       <div

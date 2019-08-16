@@ -14,12 +14,11 @@ import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipelin
 // Given the tall count of completed + unidentified, fail, inprogress + pending
 export const getAllDeployablesStatus = list => {
   const statusPassFailInProgress = [0, 0, 0]
-
-  if (list && list.items) {
+  if (list && list.items instanceof Array && list.items.length > 0) {
     list.items.map(item => {
       // Will return back status as:
       // [0, 0, 0, 0, 0]
-      // Pass, Fail, InProgress, Pending, unidentified
+      // Pass, Fail, InProgress, Pending, Unidentified
       const status = getResourcesStatusPerChannel(item, false)
       statusPassFailInProgress[0] =
         statusPassFailInProgress[0] + status[0] + status[4]

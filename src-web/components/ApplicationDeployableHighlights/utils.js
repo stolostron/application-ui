@@ -7,49 +7,12 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
+import { getResourcesStatusPerChannel } from '../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+
 // return the summary for the deployable
 export const getDeployableSummary = item => {
-  if (item && item.related) {
-    var completed = 0
-    var failed = 0
-    var progress = 0
-    var pending = 0
-
-    for (var i = 0; i < item.related.length; i++) {
-      const kind = item.related[i].kind
-      const correctKindAndItems =
-        (kind === 'release' ||
-          kind === 'deployment' ||
-          kind === 'pod' ||
-          kind === 'service' ||
-          kind === 'replicaset') &&
-        item.related[i].items
-
-      if (kind && correctKindAndItems) {
-        for (var j = 0; j < item.related[i].items.length; j++) {
-          if (item.related[i].items[j].status) {
-            const status = item.related[i].items[j].status.toLowerCase()
-            if (status.includes('fail') || status.includes('error')) {
-              failed = failed + 1
-            } else if (
-              status.includes('deployed') ||
-              status.includes('running')
-            ) {
-              completed = completed + 1
-            } else if (status.includes('progress')) {
-              progress = progress + 1
-            } else if (status.includes('pending')) {
-              pending = pending + 1
-            } else {
-              //anything else is in progress
-              progress = progress + 1
-            }
-          } else {
-            completed = completed + 1
-          }
-        }
-      }
-    }
+  if (item && item.related instanceof Array && item.related.length > 0) {
+    const status = getResourcesStatusPerChannel(item, false)
     const countsCardDataGeneralInfo = [
       {
         msgKey: 'dashboard.card.deployable.versions',
@@ -57,20 +20,16 @@ export const getDeployableSummary = item => {
       },
       {
         msgKey: 'dashboard.card.deployable.completed',
-        count: completed
+        count: status[0] + status[4]
       },
       {
         msgKey: 'dashboard.card.deployable.failed',
-        count: failed,
+        count: status[1],
         alert: true
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: progress
-      },
-      {
-        msgKey: 'dashboard.card.deployable.pending',
-        count: pending
+        count: status[2] + status[3]
       }
     ]
     return countsCardDataGeneralInfo
@@ -90,10 +49,6 @@ export const getDeployableSummary = item => {
     },
     {
       msgKey: 'dashboard.card.deployable.inProgress',
-      count: '-'
-    },
-    {
-      msgKey: 'dashboard.card.deployable.pending',
       count: '-'
     }
   ]

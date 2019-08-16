@@ -13,6 +13,7 @@
  */
 
 export * from '../reducers/reducerAppDeployments'
+export * from '../reducers/reducerAppLogs'
 export * from '../reducers/reducerAppOverview'
 export * from '../reducers/reducerDeployables'
 

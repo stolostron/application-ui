@@ -34,6 +34,12 @@ export const IncidentsTab = loadable(() =>
   import(/* webpackChunkName: "incidents" */ '../IncidentsTab')
 )
 
+export const ApplicationLogs = loadable(() =>
+  import('../../components/ApplicationLogs')
+)
+
+// This will render the three tabs
+// Overview, Deployments, Incidents
 const ApplicationHeaderTabs = withLocale(
   ({ showExtraTabs, params, locale }) => {
     return (
@@ -42,15 +48,15 @@ const ApplicationHeaderTabs = withLocale(
           <Tabs
             className="some-class"
             selected={0}
-            onClick={() => {}}
-            onKeyDown={() => {}}
-            onSelectionChange={() => {}}
+            onClick={() => { }}
+            onKeyDown={() => { }}
+            onSelectionChange={() => { }}
             tabcontentclassname="tab-content"
           >
             <Tab
               disabled={false}
-              onClick={() => {}}
-              onKeyDown={() => {}}
+              onClick={() => { }}
+              onKeyDown={() => { }}
               label={msgs.get('description.title.overview', locale)}
             >
               <div className="some-content">
@@ -61,8 +67,8 @@ const ApplicationHeaderTabs = withLocale(
             </Tab>
             <Tab
               disabled={false}
-              onClick={() => {}}
-              onKeyDown={() => {}}
+              onClick={() => { }}
+              onKeyDown={() => { }}
               label={msgs.get('description.title.deployments', locale)}
             >
               <div className="page-content-container">
@@ -73,12 +79,24 @@ const ApplicationHeaderTabs = withLocale(
             {showExtraTabs && (
               <Tab
                 disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
+                onClick={() => { }}
+                onKeyDown={() => { }}
                 label={msgs.get('description.title.incidents', locale)}
               >
                 <div className="some-content">
                   <IncidentsTab params={params} />
+                </div>
+              </Tab>
+            )}
+            {showExtraTabs && (
+              <Tab
+                disabled={false}
+                onClick={() => { }}
+                onKeyDown={() => { }}
+                label={msgs.get('description.title.logs', locale)}
+              >
+                <div className="page-content-container">
+                  <ApplicationLogs />
                 </div>
               </Tab>
             )}

@@ -111,12 +111,9 @@ export const getDeployablesChannels = deployableData => {
   return []
 }
 
-export const getDeployableDataByChannels = (
-  deployableData,
-  channelNamespace
-) => {
-  if (deployableData && deployableData.related) {
-    const relatedData = deployableData.related
+export const getDeployableDataByChannels = (data, channelNamespace = false) => {
+  if (data && data.related) {
+    const relatedData = data.related
 
     const dataUnderChannel = relatedData.map(resource => {
       // Items is a list of that speecific resource kind

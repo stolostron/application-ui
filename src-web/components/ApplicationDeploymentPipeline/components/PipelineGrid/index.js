@@ -138,7 +138,7 @@ const ChannelColumnGrid = (
     setCurrentDeployableSubscriptionData,
     setCurrentDeployableModalData,
     appDropDownList,
-    bulkDeployableList
+    bulkSubscriptionList
   },
   locale
 ) => {
@@ -212,10 +212,10 @@ const ChannelColumnGrid = (
             >
               {subscriptionsForThisApplication.map(subscription => {
                 // // Gather the deployable data that contains the matching UID
-                // const deployableData = getDeployableData(
-                //   bulkDeployableList,
-                //   deployable._uid
-                // )
+                const subscriptionData = getDeployableData(
+                  bulkSubscriptionList,
+                  subscription._uid
+                )
                 // // Gather all the channels that this deployable is in
                 // const deployableChannels = getDeployablesChannels(
                 //   deployableData
@@ -230,16 +230,16 @@ const ChannelColumnGrid = (
                       const channelMatch = subscription.channel.includes(
                         channel.name
                       )
-                      // const deployableDataByChannel = getDeployableDataByChannels(
-                      //   deployableData,
-                      //   channel.namespace
-                      // )
+                      const subscriptionDataTwo = getDeployableDataByChannels(
+                        subscriptionData,
+                        false
+                      )
                       // Get status of resources within the deployable specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
                       const status = getResourcesStatusPerChannel(
-                        subscription,
+                        subscriptionData,
                         false
                       )
                       // This will find the matching subscription for the given channel
@@ -276,7 +276,7 @@ const ChannelColumnGrid = (
 }
 
 const PipelineGrid = withLocale(({ // deployables,
-  applications, channels, subscriptions, editChannel, getChannelResource, openDeployableModal, setDeployableModalHeaderInfo, setCurrentDeployableSubscriptionData, setCurrentDeployableModalData, updateAppDropDownList, appDropDownList, bulkDeployableList }) => {
+  applications, channels, subscriptions, editChannel, getChannelResource, openDeployableModal, setDeployableModalHeaderInfo, setCurrentDeployableSubscriptionData, setCurrentDeployableModalData, updateAppDropDownList, appDropDownList, bulkSubscriptionList }) => {
   return (
     <div id="PipelineGrid">
       <div className="tableGridContainer">
@@ -300,7 +300,7 @@ const PipelineGrid = withLocale(({ // deployables,
           }
           setCurrentDeployableModalData={setCurrentDeployableModalData}
           appDropDownList={appDropDownList}
-          bulkDeployableList={bulkDeployableList}
+          bulkSubscriptionList={bulkSubscriptionList}
         />
       </div>
     </div>

@@ -132,7 +132,7 @@ const mapStateToProps = state => {
     deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
     deployableModalSubscriptionInfo:
       AppDeployments.deployableModalSubscriptionInfo,
-    bulkDeployableList: AppDeployments.bulkDeployableList,
+    bulkSubscriptionList: AppDeployments.bulkSubscriptionList,
     userRole: role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
     HCMApplicationList: filteredApplications,
@@ -178,7 +178,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       openEditChannelModal,
       loading,
       appDropDownList,
-      bulkDeployableList
+      bulkSubscriptionList
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -237,7 +237,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           setCurrentDeployableModalData={actions.setCurrentDeployableModalData}
           updateAppDropDownList={actions.updateAppDropDownList}
           appDropDownList={appDropDownList}
-          bulkDeployableList={bulkDeployableList}
+          bulkSubscriptionList={bulkSubscriptionList}
         />
         <DeployableModal
           displayModal={displayDeployableModal}

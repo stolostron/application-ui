@@ -20,7 +20,7 @@ import { mapBulkApplications } from '../reducers/data-mappers/mapApplicationsBul
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
-import { fetchBulkDeployableList } from '../reducers/reducerAppDeployments'
+import { fetchBulkSubsciptionList } from '../reducers/reducerAppDeployments'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -215,7 +215,7 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
           result = mapBulkChannels(dataClone)
         } else if (resourceType.name === 'HCMApplication') {
           result = mapBulkApplications(dataClone)
-          dispatch(fetchBulkDeployableList(apolloClient, result))
+          dispatch(fetchBulkSubsciptionList(apolloClient, result))
         } else if (resourceType.name === 'HCMSubscription') {
           result = mapBulkSubscriptions(dataClone)
         } else if (resourceType.name === 'CEMIncidentList') {

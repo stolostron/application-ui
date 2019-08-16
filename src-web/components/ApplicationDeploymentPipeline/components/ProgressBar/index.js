@@ -42,7 +42,7 @@ const ProgressBar = withLocale(({ status, locale }) => {
         {`${msgs.get('description.total', locale)}: ${total}`}
       </div>
       <div className="percentageDeployed">
-        {`${msgs.get('description.deployed', locale)}: ${pass}%`}
+        {`${msgs.get('description.deployed', locale)}: ${Math.round(pass)}%`}
       </div>
     </div>
   )

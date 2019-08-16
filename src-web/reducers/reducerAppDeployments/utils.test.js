@@ -7,14 +7,14 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { returnDeployableBulkQueryString } from './utils'
+import { returnBulkQueryString } from './utils'
 
-// returnDeployableBulkQueryString is a function that utilizes TWO ADDTIONAL
+// returnBulkQueryString is a function that utilizes TWO ADDTIONAL
 // functions inside the utils called extractAllDeployables and flattenList
 // these are only used in this function as a helper so the tests written for
-// returnDeployableBulkQueryString will contain scenarios to handle the methods
+// returnBulkQueryString will contain scenarios to handle the methods
 // within as well.
-describe('returnDeployableBulkQueryString', () => {
+describe('returnBulkQueryString', () => {
   it('should return a deployable bulk querystring based on the applicationList', () => {
     const result = [
       {
@@ -40,29 +40,29 @@ describe('returnDeployableBulkQueryString', () => {
       }
     ]
     expect(
-      returnDeployableBulkQueryString(realDataSampleWithDeployables)
+      returnBulkQueryString(realDataSampleWithDeployables, 'deployable')
     ).toEqual(result)
   })
   it('should return an EMPTY deployable bulk querystring based on the applicationList that has no deploybles', () => {
     const result = []
     expect(
-      returnDeployableBulkQueryString(realDataSampleWithNODeployables)
+      returnBulkQueryString(realDataSampleWithNODeployables, 'deployable')
     ).toEqual(result)
   })
   it('should return an EMPTY deployable bulk querystring based on the applicationList that has no related attributes', () => {
     const result = []
     expect(
-      returnDeployableBulkQueryString(realDataSampleWithNORelatedData)
+      returnBulkQueryString(realDataSampleWithNORelatedData, 'deployable')
     ).toEqual(result)
   })
   it('should return an EMPTY deployable bulk querystring based on the applicationList that has no related attributes as undefined', () => {
     const result = []
     expect(
-      returnDeployableBulkQueryString(realDataSampleWithRelatedUndefined)
+      returnBulkQueryString(realDataSampleWithRelatedUndefined, 'deployable')
     ).toEqual(result)
   })
   it('should handle undefined object for reference', () => {
-    expect(returnDeployableBulkQueryString(undefined)).toEqual([])
+    expect(returnBulkQueryString(undefined)).toEqual([])
   })
 })
 

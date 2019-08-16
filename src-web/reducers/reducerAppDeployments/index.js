@@ -21,6 +21,7 @@ const SET_BULK_DEPLOYABLE_LIST = 'SET_BULK_DEPLOYABLE_LIST'
 const SET_BULK_DEPLOYABLE_ERROR = 'SET_BULK_DEPLOYABLE_ERROR'
 const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
 const SET_DEPLOYABLE_SUBSCRIPTION_INFO = 'SET_DEPLOYABLE_SUBSCRIPTION_INFO'
+const SET_DEPLOYABLE_MODAL_DATA = 'SET_DEPLOYABLE_MODAL_DATA'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
 const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
 const SET_LOADING = 'SET_LOADING'
@@ -34,6 +35,7 @@ export const initialStateDeployments = {
   },
   appDropDownList: [],
   deployableModalSubscriptionInfo: {},
+  deployableModalData: [],
   deploymentPipelineSearch: '',
   currentChannelInfo: {},
   bulkDeployableList: [],
@@ -56,6 +58,9 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
   }
   case SET_DEPLOYABLE_SUBSCRIPTION_INFO: {
     return { ...state, deployableModalSubscriptionInfo: action.payload }
+  }
+  case SET_DEPLOYABLE_MODAL_DATA: {
+    return { ...state, deployableModalData: action.payload }
   }
   case SET_BULK_DEPLOYABLE_LIST: {
     return { ...state, bulkDeployableList: action.payload }
@@ -112,6 +117,9 @@ export const setDeployableModalHeaderInfo = createAction(
 )
 export const setCurrentDeployableSubscriptionData = createAction(
   SET_DEPLOYABLE_SUBSCRIPTION_INFO
+)
+export const setCurrentDeployableModalData = createAction(
+  SET_DEPLOYABLE_MODAL_DATA
 )
 export const openDisplayDeployableModal = createAction(
   OPEN_DISPLAY_DEPLOYABLE_MODAL

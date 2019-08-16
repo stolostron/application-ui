@@ -11,17 +11,17 @@ import reducerAppDeployments, {
   initialStateDeployments
 } from '../reducerAppDeployments'
 
-// const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
+// const SET_SUBSCRIPTION_MODAL_HEADERS = 'SET_SUBSCRIPTION_MODAL_HEADERS'
 
 describe('AppDeployments reducer', () => {
-  it('handles OPEN_DISPLAY_DEPLOYABLE_MODAL', () => {
+  it('handles OPEN_DISPLAY_SUBSCRIPTION_MODAL', () => {
     expect(
       reducerAppDeployments(initialStateDeployments, {
-        type: 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
+        type: 'OPEN_DISPLAY_SUBSCRIPTION_MODAL'
       })
     ).toEqual({
       ...initialStateDeployments,
-      displayDeployableModal: true
+      displaySubscriptionModal: true
     })
   })
   it('handles CLOSE_MODALS', () => {
@@ -29,7 +29,7 @@ describe('AppDeployments reducer', () => {
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          displayDeployableModal: true
+          displaySubscriptionModal: true
         },
         {
           type: 'CLOSE_MODALS'
@@ -37,7 +37,7 @@ describe('AppDeployments reducer', () => {
       )
     ).toEqual({
       ...initialStateDeployments,
-      displayDeployableModal: false
+      displaySubscriptionModal: false
     })
   })
   it('handles SET_DEPLOYMENT_SEARCH', () => {
@@ -58,31 +58,31 @@ describe('AppDeployments reducer', () => {
       deploymentPipelineSearch: payload
     })
   })
-  it('handles SET_DEPLOYABLE_MODAL_HEADERS', () => {
+  it('handles SET_SUBSCRIPTION_MODAL_HEADERS', () => {
     const payload = {
       application: 'dart',
-      deployable: 'feld'
+      subscription: 'feld'
     }
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deployableModalHeaderInfo: {
+          subscriptionModalHeaderInfo: {
             application: '',
-            deployable: ''
+            subscription: ''
           }
         },
         {
           payload,
-          type: 'SET_DEPLOYABLE_MODAL_HEADERS'
+          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
         }
       )
     ).toEqual({
       ...initialStateDeployments,
-      deployableModalHeaderInfo: payload
+      subscriptionModalHeaderInfo: payload
     })
   })
-  it('handles SET_DEPLOYABLE_MODAL_HEADERS undefined', () => {
+  it('handles SET_SUBSCRIPTION_MODAL_HEADERS undefined', () => {
     const payload = {
       applicationnnnn: 'dart',
       deployablesssss: 'feld'
@@ -91,45 +91,45 @@ describe('AppDeployments reducer', () => {
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deployableModalHeaderInfo: {
+          subscriptionModalHeaderInfo: {
             application: '',
-            deployable: ''
+            subscription: ''
           }
         },
         {
           payload,
-          type: 'SET_DEPLOYABLE_MODAL_HEADERS'
+          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
         }
       )
     ).toEqual({
       ...initialStateDeployments,
-      deployableModalHeaderInfo: {
+      subscriptionModalHeaderInfo: {
         application: '',
-        deployable: ''
+        subscription: ''
       }
     })
   })
-  it('handles SET_DEPLOYABLE_MODAL_HEADERS undefined 2', () => {
+  it('handles SET_SUBSCRIPTION_MODAL_HEADERS undefined 2', () => {
     const payload = ''
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deployableModalHeaderInfo: {
+          subscriptionModalHeaderInfo: {
             application: 'shanna',
-            deployable: 'lavitz'
+            subscription: 'lavitz'
           }
         },
         {
           payload,
-          type: 'SET_DEPLOYABLE_MODAL_HEADERS'
+          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
         }
       )
     ).toEqual({
       ...initialStateDeployments,
-      deployableModalHeaderInfo: {
+      subscriptionModalHeaderInfo: {
         application: '',
-        deployable: ''
+        subscription: ''
       }
     })
   })

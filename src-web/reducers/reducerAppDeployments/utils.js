@@ -11,47 +11,44 @@ import { convertStringToQuery } from '../../../lib/client/search-helper'
 
 import R from 'ramda'
 
-// We go through each application and pull out each kind: deployable
+// We go through each application and pull out each kind
 // and add it to the list to be returned
-const extractAllDeployables = applicationList => {
-  const filterDeployable = x => x.kind == 'deployable'
-  // Get the totalDeploybleList for All the applications
-  const totalDeploybleList =
-    applicationList &&
-    applicationList.map(app => {
-      // filters out to only have deployables and then returns the items
-      const deployalbeList =
-        R.filter(filterDeployable, app.related || []) || []
-      if (deployalbeList.length > 0) {
-        return deployalbeList[0].items
+const extractAllOfKind = (list, kind = '') => {
+  const filterKind = x => x.kind == kind
+  // Get the totalKindList for All the applications
+  const totalKindList =
+    list &&
+    list.map(app => {
+      // filters out to only have kind and then returns the items
+      const kindList = R.filter(filterKind, app.related || []) || []
+      if (kindList.length > 0) {
+        return kindList[0].items
       }
-      return deployalbeList
+      return kindList
     })
-  return totalDeploybleList || []
+  return totalKindList || []
 }
 
 // This method flattens out the list of lists of deployables
-const flattenList = deployableList => {
+const flattenList = list => {
   var flattenedList = []
-  deployableList.map(deployable => {
-    flattenedList = flattenedList.concat(deployable)
+  list.map(resource => {
+    flattenedList = flattenedList.concat(resource)
   })
   return flattenedList
 }
 
 // This method creates the query string used in the api to get all
-// the deloyables related information
-export const returnDeployableBulkQueryString = applicationList => {
-  const deployableList = extractAllDeployables(applicationList)
+// the kind related information
+export const returnBulkQueryString = (applicationList, kind) => {
+  const list = extractAllOfKind(applicationList, kind)
   const removeEmptyArray = x => x.length > 0
-  const finalDeployableList = flattenList(
-    R.filter(removeEmptyArray, deployableList)
-  )
+  const finalList = flattenList(R.filter(removeEmptyArray, list))
   const combinedQuery = []
-  finalDeployableList.map(item => {
+  finalList.map(item => {
     if (item.name) {
       combinedQuery.push(
-        convertStringToQuery(`kind:deployable name:${item.name}`)
+        convertStringToQuery(`kind:${kind} name:${item.name}`)
       )
     }
   })

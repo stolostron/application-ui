@@ -41,27 +41,27 @@ export const createApplicationRowsLookUp = list => {
   return R.mergeAll(mappedApps)
 }
 
-// This contains all the actions that will be done when clicking on the tile
+// This contains all the actions that will be done when subscrition name under application
 // Opens the modal and sets the header information and subscription information
-// for that deployable clicked
-export const tileClick = (
-  openDeployableModal,
-  setDeployableModalHeaderInfo,
+// for that subscription clicked
+export const onSubscriptionClick = (
+  openSubscriptionModal,
+  setSubscriptionModalHeaderInfo,
   setCurrentDeployableSubscriptionData,
-  setCurrentDeployableModalData,
-  deployableDataByChannel,
+  setCurrentSubscriptionModalData,
+  subscription,
   applicationName,
-  deployableName,
-  matchingSubscription
+  subscriptionName,
+  matchingSubscription = {}
 ) => {
   const headerInfo = {
     application: applicationName,
-    deployable: deployableName
+    deployable: subscriptionName
   }
-  setDeployableModalHeaderInfo(headerInfo)
+  setSubscriptionModalHeaderInfo(headerInfo)
   setCurrentDeployableSubscriptionData(matchingSubscription)
-  setCurrentDeployableModalData(deployableDataByChannel)
-  openDeployableModal()
+  setCurrentSubscriptionModalData(subscription)
+  openSubscriptionModal()
 }
 
 // When we click on the edit Channel, we need to make a fetch to get the channel
@@ -83,6 +83,9 @@ export const editChannelClick = (
 
 // This method will find the matching subscription the the given channel and
 // return the corresponding subscription from the list
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const findMatchingSubscription = (subscriptionList, channelName) => {
   const subscription =
     subscriptionList &&
@@ -91,9 +94,9 @@ export const findMatchingSubscription = (subscriptionList, channelName) => {
 }
 
 // Use tested Ramda to pull out uid
-export const getDeployableData = (deployableList, uid) => {
-  if (deployableList) {
-    const result = R.find(R.propEq('_uid', uid))(deployableList)
+export const getDataByKind = (list, uid) => {
+  if (list) {
+    const result = R.find(R.propEq('_uid', uid))(list)
     return result || {}
   }
   return {}
@@ -103,6 +106,9 @@ export const getDeployableData = (deployableList, uid) => {
 // we want to return all the channels.
 // Channels are not returned inside related resources so we have to
 // insepect each related subscription because it contains the channel
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getDeployablesChannels = deployableData => {
   if (deployableData && deployableData.related) {
     const relatedData = deployableData.related
@@ -120,12 +126,12 @@ export const getDeployablesChannels = deployableData => {
   return []
 }
 
-export const getDeployableDataByChannels = (
-  deployableData,
-  channelNamespace
-) => {
-  if (deployableData && deployableData.related) {
-    const relatedData = deployableData.related
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
+export const getDataByKindByChannels = (data, channelNamespace = false) => {
+  if (data && data.related) {
+    const relatedData = data.related
 
     const dataUnderChannel = relatedData.map(resource => {
       // Items is a list of that speecific resource kind
@@ -182,7 +188,7 @@ const determineStatus = (statusPassFailInProgress, status) => {
 // to the status count
 export const getResourcesStatusPerChannel = (
   deployableData,
-  channelNamespace
+  channelNamespace = false
 ) => {
   if (
     deployableData &&

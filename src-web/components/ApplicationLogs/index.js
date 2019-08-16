@@ -15,16 +15,18 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
 import {
-  getPodsFromApplicationRelated,
+  createPodsList,
+  createContainersList,
+  isObjEmpty,
   handlePodChange,
-  handleContainerChange
+  handleContainerChange,
+  getPodsFromApplicationRelated
 } from './utils'
 import {
   fetchContainersForPod,
   fetchLogsForContainer
 } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
-import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -69,33 +71,6 @@ const mapStateToProps = state => {
   }
 }
 
-const createPodsList = (podData, podsList) => {
-  if (podData && podData[0]) {
-    podData[0].items.map((item, i) => {
-      podsList[i] = item.name
-    })
-  }
-  return podsList
-}
-
-const createContainersList = (containerData, containersList) => {
-  if (R.path(['data', 'getResource', 'spec', 'containers'], containerData)) {
-    containerData.data.getResource.spec.containers.map((item, i) => {
-      containersList[i] = item.name
-    })
-  }
-  return containersList
-}
-
-const isObjEmpty = obj => {
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false
-    }
-  }
-  return true
-}
-
 class ApplicationLogs extends React.Component {
   render() {
     const { locale } = this.context
@@ -115,74 +90,72 @@ class ApplicationLogs extends React.Component {
     const containerItems = createContainersList(containerData, [])
 
     return (
-      <React.Fragment>
-        <div id="ApplicationLogs">
-          <div className="dropdown-container">
-            <div className="dropdown-pods-list">
-              <DropdownV2
-                ariaLabel={msgs.get('dropdown.pod.label', locale)}
-                light
-                disabled={isObjEmpty(podItems)}
-                label={msgs.get('description.title.selectPod', locale)}
-                onChange={event =>
-                  handlePodChange(
-                    event,
-                    fetchContainersForPod,
-                    podData,
-                    actions.setCurrentPod
-                  )
-                }
-                items={podItems}
-              />
-            </div>
-            <span className="dropdown-divider">
-              {msgs.get('tabs.logs.dropdown.divider')}
-            </span>
-            <div className="dropdown-containers-list">
-              <DropdownV2
-                ariaLabel={msgs.get('dropdown.pod.label', locale)}
-                light
-                disabled={isObjEmpty(containerItems)}
-                label={msgs.get('description.title.selectContainer', locale)}
-                onChange={event =>
-                  handleContainerChange(
-                    event,
-                    fetchLogsForContainer,
-                    podData,
-                    containerData,
-                    actions.setCurrentContainer,
-                    currentSelectedPod
-                  )
-                }
-                items={containerItems}
-                selectedItem={currentSelectedContainer}
-              />
-            </div>
-            <div className="view-external-container">
-              <p className="viewExternalIconTitle">
-                <a href="/kibana" target="_blank">
-                  {msgs.get('tabs.logs.viewExternal')}
-                </a>
-              </p>
-              <a href="/kibana" target="_blank">
-                <Icon
-                  name="icon--launch"
-                  fill="#6089bf"
-                  description=""
-                  className="viewExternalIcon"
-                />
-              </a>
-            </div>
+      <div id="ApplicationLogs">
+        <div className="dropdown-container">
+          <div className="dropdown-pods-list">
+            <DropdownV2
+              ariaLabel={msgs.get('dropdown.pod.label', locale)}
+              light
+              disabled={isObjEmpty(podItems)}
+              label={msgs.get('description.title.selectPod', locale)}
+              onChange={event =>
+                handlePodChange(
+                  event,
+                  fetchContainersForPod,
+                  podData,
+                  actions.setCurrentPod
+                )
+              }
+              items={podItems}
+            />
           </div>
-          {currentSelectedContainer && logLoading ? (
-            <div className="logs-loading-box">
-              <Loading withOverlay={false} />
-            </div>
-          ) : (
-            <ScrollBox className="logs-container__content" content={logData} />
-          )}
+          <span className="dropdown-divider">
+            {msgs.get('tabs.logs.dropdown.divider')}
+          </span>
+          <div className="dropdown-containers-list">
+            <DropdownV2
+              ariaLabel={msgs.get('dropdown.pod.label', locale)}
+              light
+              disabled={isObjEmpty(containerItems)}
+              label={msgs.get('description.title.selectContainer', locale)}
+              onChange={event =>
+                handleContainerChange(
+                  event,
+                  fetchLogsForContainer,
+                  podData,
+                  containerData,
+                  actions.setCurrentContainer,
+                  currentSelectedPod
+                )
+              }
+              items={containerItems}
+              selectedItem={currentSelectedContainer}
+            />
+          </div>
+          <div className="view-external-container">
+            <p className="viewExternalIconTitle">
+              <a href="/kibana" target="_blank">
+                {msgs.get('tabs.logs.viewExternal')}
+              </a>
+            </p>
+            <a href="/kibana" target="_blank">
+              <Icon
+                name="icon--launch"
+                fill="#6089bf"
+                description=""
+                className="viewExternalIcon"
+              />
+            </a>
+          </div>
         </div>
-      </React.Fragment>
+        {currentSelectedContainer && logLoading ? (
+          <div className="logs-loading-box">
+            <Loading withOverlay={false} />
+          </div>
+        ) : (
+          <ScrollBox className="logs-container__content" content={logData} />
+        )}
+      </div>
     )
   }
 }

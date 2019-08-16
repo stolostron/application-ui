@@ -9,6 +9,33 @@
 
 import R from 'ramda'
 
+export const createPodsList = (podData, podsList) => {
+  if (podData && podData[0]) {
+    podData[0].items.map((item, i) => {
+      podsList[i] = item.name
+    })
+  }
+  return podsList
+}
+
+export const createContainersList = (containerData, containersList) => {
+  if (R.path(['data', 'getResource', 'spec', 'containers'], containerData)) {
+    containerData.data.getResource.spec.containers.map((item, i) => {
+      containersList[i] = item.name
+    })
+  }
+  return containersList
+}
+
+export const isObjEmpty = obj => {
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false
+    }
+  }
+  return true
+}
+
 // Handle the actions needed to be taken when the user selects a POD
 // Set the current POD data and also fetch the conntainers
 export const handlePodChange = (

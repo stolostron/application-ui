@@ -24,11 +24,9 @@ import {
   getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getNumCompletedDeployments,
-  getNumInProgressDeployments,
-  getNumFailedDeployments,
   getIcamLink
 } from './utils'
+import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 
@@ -79,9 +77,10 @@ const ResourceOverview = withLocale(
     })
     const deployables = getNumDeployables(item)
     const deployments = getNumDeployments(item)
-    const completedDeployments = getNumCompletedDeployments(item)
-    const inProgressDeployments = getNumInProgressDeployments(item)
-    const failedDeployments = getNumFailedDeployments(item)
+    const status = getResourcesStatusPerChannel(item, false)
+    const completedDeployments = status[0] + status[4]
+    const inProgressDeployments = status[2] + status[3]
+    const failedDeployments = status[1]
     const countsCardData = [
       {
         msgKey:

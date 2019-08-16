@@ -75,10 +75,6 @@ describe('getDeployableSummary', () => {
       {
         msgKey: 'dashboard.card.deployable.inProgress',
         count: 1
-      },
-      {
-        msgKey: 'dashboard.card.deployable.pending',
-        count: 0
       }
     ]
 
@@ -92,7 +88,7 @@ describe('getDeployableSummary', () => {
       },
       {
         msgKey: 'dashboard.card.deployable.completed',
-        count: 2
+        count: 3
       },
       {
         msgKey: 'dashboard.card.deployable.failed',
@@ -101,10 +97,6 @@ describe('getDeployableSummary', () => {
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: 1
-      },
-      {
-        msgKey: 'dashboard.card.deployable.pending',
         count: 0
       }
     ]
@@ -127,10 +119,6 @@ describe('getDeployableSummary', () => {
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: '-'
-      },
-      {
-        msgKey: 'dashboard.card.deployable.pending',
         count: '-'
       }
     ]

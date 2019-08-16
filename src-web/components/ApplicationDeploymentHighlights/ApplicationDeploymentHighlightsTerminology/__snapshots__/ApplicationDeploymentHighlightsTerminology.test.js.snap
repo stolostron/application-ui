@@ -59,7 +59,7 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
               Channels
             </p>
             <p>
-              Channels are used to streamline the deployment model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can they be used to target a subset of the clusters.
+              Channels are used to streamline the resource model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can they be used to target a subset of the clusters.
             </p>
           </div>
           <div>
@@ -69,17 +69,17 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
               Channel Gate & Conditions
             </p>
             <p>
-              Each channel has certain gate conditions that a deployment channel has to meet in order to get deployed to such channel. If the deployment is missing all the required conditions, it will initially shown as "pending" until more deployment conditions are added.
+              Each channel has certain gate conditions that a resource channel has to meet in order to get deployed to such channel. If the resource is missing all the required conditions, it will initially shown as "pending" until more resource conditions are added.
             </p>
           </div>
           <div>
             <p
               className="deployment-highlights-terminology-header"
             >
-              Deployment Conditions
+              Resource Conditions
             </p>
             <p>
-              Deployment conditions can be added manually or automated based on events outcome. When a deployment has all the conditions that a channel gate requires, it will then be deployed to such channel.
+              Resource conditions can be added manually or automated based on events outcome. When a resource has all the conditions that a channel gate requires, it will then be deployed to such channel.
             </p>
           </div>
           <div>

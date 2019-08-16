@@ -15,13 +15,13 @@ import { mapBulkSubscriptions } from '../data-mappers/mapSubscriptionsBulk'
 
 import R from 'ramda'
 
-const OPEN_DISPLAY_DEPLOYABLE_MODAL = 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
+const OPEN_DISPLAY_SUBSCRIPTION_MODAL = 'OPEN_DISPLAY_SUBSCRIPTION_MODAL'
 const UPDATE_APP_DROPDOWN_LIST = 'UPDATE_APP_DROPDOWN_LIST'
 const SET_BULK_SUBSCRIPTION_LIST = 'SET_BULK_SUBSCRIPTION_LIST'
 const SET_BULK_SUBSCRIPTION_ERROR = 'SET_BULK_SUBSCRIPTION_ERROR'
-const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
+const SET_SUBSCRIPTION_MODAL_HEADERS = 'SET_SUBSCRIPTION_MODAL_HEADERS'
 const SET_DEPLOYABLE_SUBSCRIPTION_INFO = 'SET_DEPLOYABLE_SUBSCRIPTION_INFO'
-const SET_DEPLOYABLE_MODAL_DATA = 'SET_DEPLOYABLE_MODAL_DATA'
+const SET_SUBSCRIPTION_MODAL_DATA = 'SET_SUBSCRIPTION_MODAL_DATA'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
 const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
 const SET_LOADING = 'SET_LOADING'
@@ -45,10 +45,10 @@ export const initialStateDeployments = {
 }
 export const AppDeployments = (state = initialStateDeployments, action) => {
   switch (action.type) {
-  case OPEN_DISPLAY_DEPLOYABLE_MODAL: {
+  case OPEN_DISPLAY_SUBSCRIPTION_MODAL: {
     return { ...state, displaySubscriptionModal: true }
   }
-  case SET_DEPLOYABLE_MODAL_HEADERS: {
+  case SET_SUBSCRIPTION_MODAL_HEADERS: {
     // Verify Contents makes sure the data is coming in properly
     const verifiedContents = {
       application: action.payload.application || '',
@@ -59,7 +59,7 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
   case SET_DEPLOYABLE_SUBSCRIPTION_INFO: {
     return { ...state, subscriptionModalSubscriptionInfo: action.payload }
   }
-  case SET_DEPLOYABLE_MODAL_DATA: {
+  case SET_SUBSCRIPTION_MODAL_DATA: {
     return { ...state, subscriptionModalData: action.payload }
   }
   case SET_BULK_SUBSCRIPTION_LIST: {
@@ -115,16 +115,16 @@ export const setBulkSubscriptionError = createAction(
   SET_BULK_SUBSCRIPTION_ERROR
 )
 export const setSubscriptionModalHeaderInfo = createAction(
-  SET_DEPLOYABLE_MODAL_HEADERS
+  SET_SUBSCRIPTION_MODAL_HEADERS
 )
 export const setCurrentDeployableSubscriptionData = createAction(
   SET_DEPLOYABLE_SUBSCRIPTION_INFO
 )
 export const setCurrentsubscriptionModalData = createAction(
-  SET_DEPLOYABLE_MODAL_DATA
+  SET_SUBSCRIPTION_MODAL_DATA
 )
 export const openDisplaySubscriptionModal = createAction(
-  OPEN_DISPLAY_DEPLOYABLE_MODAL
+  OPEN_DISPLAY_SUBSCRIPTION_MODAL
 )
 export const updateAppDropDownList = createAction(UPDATE_APP_DROPDOWN_LIST)
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)

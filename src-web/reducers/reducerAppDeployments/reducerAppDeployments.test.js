@@ -11,13 +11,13 @@ import reducerAppDeployments, {
   initialStateDeployments
 } from '../reducerAppDeployments'
 
-// const SET_DEPLOYABLE_MODAL_HEADERS = 'SET_DEPLOYABLE_MODAL_HEADERS'
+// const SET_SUBSCRIPTION_MODAL_HEADERS = 'SET_SUBSCRIPTION_MODAL_HEADERS'
 
 describe('AppDeployments reducer', () => {
-  it('handles OPEN_DISPLAY_DEPLOYABLE_MODAL', () => {
+  it('handles OPEN_DISPLAY_SUBSCRIPTION_MODAL', () => {
     expect(
       reducerAppDeployments(initialStateDeployments, {
-        type: 'OPEN_DISPLAY_DEPLOYABLE_MODAL'
+        type: 'OPEN_DISPLAY_SUBSCRIPTION_MODAL'
       })
     ).toEqual({
       ...initialStateDeployments,
@@ -58,7 +58,7 @@ describe('AppDeployments reducer', () => {
       deploymentPipelineSearch: payload
     })
   })
-  it('handles SET_DEPLOYABLE_MODAL_HEADERS', () => {
+  it('handles SET_SUBSCRIPTION_MODAL_HEADERS', () => {
     const payload = {
       application: 'dart',
       subscription: 'feld'
@@ -74,7 +74,7 @@ describe('AppDeployments reducer', () => {
         },
         {
           payload,
-          type: 'SET_DEPLOYABLE_MODAL_HEADERS'
+          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
         }
       )
     ).toEqual({
@@ -82,7 +82,7 @@ describe('AppDeployments reducer', () => {
       subscriptionModalHeaderInfo: payload
     })
   })
-  it('handles SET_DEPLOYABLE_MODAL_HEADERS undefined', () => {
+  it('handles SET_SUBSCRIPTION_MODAL_HEADERS undefined', () => {
     const payload = {
       applicationnnnn: 'dart',
       deployablesssss: 'feld'
@@ -98,7 +98,7 @@ describe('AppDeployments reducer', () => {
         },
         {
           payload,
-          type: 'SET_DEPLOYABLE_MODAL_HEADERS'
+          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
         }
       )
     ).toEqual({
@@ -109,7 +109,7 @@ describe('AppDeployments reducer', () => {
       }
     })
   })
-  it('handles SET_DEPLOYABLE_MODAL_HEADERS undefined 2', () => {
+  it('handles SET_SUBSCRIPTION_MODAL_HEADERS undefined 2', () => {
     const payload = ''
     expect(
       reducerAppDeployments(
@@ -122,7 +122,7 @@ describe('AppDeployments reducer', () => {
         },
         {
           payload,
-          type: 'SET_DEPLOYABLE_MODAL_HEADERS'
+          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
         }
       )
     ).toEqual({

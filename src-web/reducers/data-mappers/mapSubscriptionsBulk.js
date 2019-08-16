@@ -17,7 +17,7 @@ export const mapBulkSubscriptions = subscriptions => {
           name: items.name || '',
           namespace: items.namespace || '',
           selfLink: items.selfLink || '',
-          _uid: items.uid || '',
+          _uid: items._uid || '',
           created: items.created || '',
           pathname: items.pathname || '',
           apigroup: items.apigroup || '',

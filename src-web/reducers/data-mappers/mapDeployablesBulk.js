@@ -8,30 +8,28 @@
  *******************************************************************************/
 
 // @flow
-export const mapBulkChannels = channels => {
-  if (channels) {
-    const mappedChannels = channels.map(channel => {
-      if (channel.items && channel.related) {
-        const items = channel.items[0]
+export const mapBulkDeployables = deployables => {
+  if (deployables) {
+    const mappedDeployables = deployables.map(deployable => {
+      if (deployable.items) {
+        const items = deployable.items[0]
         return {
           name: items.name || '',
           namespace: items.namespace || '',
           selfLink: items.selfLink || '',
           _uid: items._uid || '',
           created: items.created || '',
-          pathname: items.pathname || '',
           apigroup: items.apigroup || '',
           cluster: items.cluster || '',
           kind: items.kind || '',
           label: items.label || '',
-          type: items.type || '',
           _hubClusterResource: items._hubClusterResource || '',
           _rbac: items._rbac || '',
-          related: channel.related || []
+          related: deployable.related || []
         }
       }
     })
-    return mappedChannels || [{}]
+    return mappedDeployables || [{}]
   }
   return [
     {
@@ -40,12 +38,10 @@ export const mapBulkChannels = channels => {
       selfLink: '',
       _uid: '',
       created: '',
-      pathname: '',
       apigroup: '',
       cluster: '',
       kind: '',
       label: '',
-      type: '',
       _hubClusterResource: '',
       _rbac: '',
       related: []

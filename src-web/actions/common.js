@@ -20,6 +20,7 @@ import { mapBulkApplications } from '../reducers/data-mappers/mapApplicationsBul
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
+import { fetchBulkDeployableList } from '../reducers/reducerAppDeployments'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -214,6 +215,7 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
           result = mapBulkChannels(dataClone)
         } else if (resourceType.name === 'HCMApplication') {
           result = mapBulkApplications(dataClone)
+          dispatch(fetchBulkDeployableList(apolloClient, result))
         } else if (resourceType.name === 'HCMSubscription') {
           result = mapBulkSubscriptions(dataClone)
         } else if (resourceType.name === 'CEMIncidentList') {
@@ -236,6 +238,28 @@ export const fetchIncidents = (resourceType, namespace, name) => {
     dispatch(requestResource(resourceType))
     return apolloClient
       .getResource(resourceType, { namespace, name })
+      .then(response => {
+        if (response.errors) {
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
+        }
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.items) },
+            resourceType
+          )
+        )
+      })
+      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+  }
+}
+
+export const fetchUserInfo = resourceType => {
+  return dispatch => {
+    dispatch(requestResource(resourceType))
+    return apolloClient
+      .getResource(resourceType)
       .then(response => {
         if (response.errors) {
           return dispatch(

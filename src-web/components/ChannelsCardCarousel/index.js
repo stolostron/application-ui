@@ -102,10 +102,12 @@ const PaginationIterator = ({
 // functional card component
 const ChannelsCard = ({ data, locale }) => {
   const { counts, name } = data
-  const countData = Object.keys(counts).map(channel => {
+  const countData = Object.keys(counts).map(status => {
+    const statusText = msgs.get('dashboard.card.deployment.' + status, locale)
     return {
-      ...counts[channel],
-      channel
+      ...counts[status],
+      status,
+      statusText
     }
   })
   return (
@@ -116,13 +118,13 @@ const ChannelsCard = ({ data, locale }) => {
             {msgs.get('dashboard.card.deployment.channel', locale)}: {name}
           </div>
           <div className="card-count-content">
-            {countData.map(({ total, channel }) => {
+            {countData.map(({ total, status, statusText }) => {
               const containerClasses = classNames({
                 'card-count-container': true
               })
               return (
                 <div
-                  key={channel}
+                  key={status}
                   className={containerClasses}
                   role={'button'}
                   tabIndex="0"
@@ -130,7 +132,7 @@ const ChannelsCard = ({ data, locale }) => {
                   <div className="card-count">
                     <div className="card-count-total">{total}</div>
                   </div>
-                  <div className="card-status">{channel.toUpperCase()}</div>
+                  <div className="card-status">{statusText.toUpperCase()}</div>
                 </div>
               )
             })}

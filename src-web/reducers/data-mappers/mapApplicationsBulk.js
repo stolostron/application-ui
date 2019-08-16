@@ -18,7 +18,7 @@ export const mapBulkApplications = applications => {
           namespace: items.namespace || '',
           dashboard: items.dashboard || '',
           selfLink: items.selfLink || '',
-          _uid: items.uid || '',
+          _uid: items._uid || '',
           created: items.created || '',
           apigroup: items.apigroup || '',
           cluster: items.cluster || '',

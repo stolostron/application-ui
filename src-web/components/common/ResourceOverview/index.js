@@ -24,9 +24,10 @@ import {
   getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getNumPendingDeployments,
+  getNumCompletedDeployments,
   getNumInProgressDeployments,
-  getNumFailedDeployments
+  getNumFailedDeployments,
+  getIcamLink
 } from './utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
@@ -46,7 +47,9 @@ const ResourceOverview = withLocale(
     actions,
     showAppDetails,
     showExpandedTopology,
-    incidentCount
+    incidentCount,
+    activeAccountId,
+    applicationUid
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -74,40 +77,63 @@ const ResourceOverview = withLocale(
         )
       }
     })
+    const deployables = getNumDeployables(item)
+    const deployments = getNumDeployments(item)
+    const completedDeployments = getNumCompletedDeployments(item)
+    const inProgressDeployments = getNumInProgressDeployments(item)
+    const failedDeployments = getNumFailedDeployments(item)
     const countsCardData = [
       {
-        msgKey: 'dashboard.card.deployables',
+        msgKey:
+          deployables > 1
+            ? 'dashboard.card.deployables'
+            : 'dashboard.card.deployable',
         textKey: 'dashboard.card.perInstance',
-        count: getNumDeployables(item),
+        count: deployables,
         border: 'right'
       },
       {
-        msgKey: 'dashboard.card.deployments',
+        msgKey:
+          deployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
         textKey: 'dashboard.card.total',
-        count: getNumDeployments(item)
+        count: deployments
       },
       {
-        msgKey: 'dashboard.card.pending',
-        textKey: 'dashboard.card.deployments',
-        count: getNumPendingDeployments(item)
+        msgKey: 'dashboard.card.deployment.completed',
+        textKey:
+          completedDeployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
+        count: completedDeployments
       },
       {
-        msgKey: 'dashboard.card.inProgress',
-        textKey: 'dashboard.card.deployments',
-        count: getNumInProgressDeployments(item)
+        msgKey: 'dashboard.card.deployment.inProgress',
+        textKey:
+          inProgressDeployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
+        count: inProgressDeployments
       },
       {
-        msgKey: 'dashboard.card.failed',
-        textKey: 'dashboard.card.deployments',
-        count: getNumFailedDeployments(item),
-        alert: true
+        msgKey: 'dashboard.card.deployment.failed',
+        textKey:
+          failedDeployments > 1
+            ? 'dashboard.card.deployments'
+            : 'dashboard.card.deployment',
+        count: failedDeployments,
+        alert: failedDeployments > 0 ? true : false
       },
       {
-        msgKey: 'dashboard.card.incidents',
+        msgKey:
+          incidentCount > 1
+            ? 'dashboard.card.incidents'
+            : 'dashboard.card.incident',
         textKey: 'dashboard.card.total',
         count: incidentCount,
-        border: 'left',
-        alert: true
+        alert: incidentCount > 0 ? true : false,
+        border: 'left'
       }
     ]
 
@@ -129,7 +155,11 @@ const ResourceOverview = withLocale(
         ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
-              <CountsCardModule data={countsCardData} />
+              <CountsCardModule
+                data={countsCardData}
+                title="dashboard.card.deployment.summary.title"
+                link={getIcamLink(activeAccountId, applicationUid)}
+              />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule

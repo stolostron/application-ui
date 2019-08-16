@@ -7,7 +7,7 @@ exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus r
   <div
     className="deployable-versionStatus-header"
   >
-    Version Status
+    Deployable versions
   </div>
   <div
     className="deployable-version-status-container"
@@ -24,8 +24,6 @@ exports[`ApplicationDeployableVersionStatus ApplicationDeployableVersionStatus r
         <div
           className="deployable-version-name"
         >
-          
-           
           
         </div>
         <div

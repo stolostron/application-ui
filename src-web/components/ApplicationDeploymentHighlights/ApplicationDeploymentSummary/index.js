@@ -15,9 +15,9 @@ import StackedChartCardModule from './components/StackedChartCardModule'
 import LineChartCardModule from './components/LineChartCardModule'
 
 import {
-  getChannelChartData,
   getChannelChartWidth,
-  getDeployedResourcesChartData
+  getDeployedResourcesChartData,
+  getDeployedResourcesChannelChartData
 } from './utils'
 
 resources(() => {
@@ -26,7 +26,9 @@ resources(() => {
 
 const ApplicationDeploymentSummary = withLocale(
   ({ HCMChannelList, HCMApplicationList, locale }) => {
-    const channelChartData = getChannelChartData(HCMChannelList)
+    const channelChartData = getDeployedResourcesChannelChartData(
+      HCMChannelList
+    )
     const deployedResourcesChartData = getDeployedResourcesChartData(
       HCMApplicationList
     )

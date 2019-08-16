@@ -37,12 +37,12 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-count"
               >
-                5
+                -
               </div>
               <div
                 className="card-type"
               >
-                Versions
+                Deployable versions
               </div>
               
             </div>
@@ -54,7 +54,7 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-count"
               >
-                3
+                -
               </div>
               <div
                 className="card-type"
@@ -71,7 +71,7 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-count"
               >
-                1
+                -
               </div>
               <div
                 className="card-type"
@@ -88,7 +88,7 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-count"
               >
-                1
+                -
               </div>
               <div
                 className="card-type"
@@ -105,7 +105,7 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               <div
                 className="card-count"
               >
-                0
+                -
               </div>
               <div
                 className="card-type"
@@ -136,9 +136,9 @@ exports[`ApplicationDeployableHighlights ApplicationDeployableHighlights renders
               tabIndex="0"
             >
               <div
-                className="card-count"
+                className="card-count alert"
               >
-                1
+                0
               </div>
               <div
                 className="card-type"

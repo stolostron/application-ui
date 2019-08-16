@@ -63,7 +63,6 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
     return { ...state, deployableModalData: action.payload }
   }
   case SET_BULK_SUBSCRIPTION_LIST: {
-    console.log('BULK', action.payload)
     return { ...state, bulkSubscriptionList: action.payload }
   }
   case SET_BULK_SUBSCRIPTION_ERROR: {

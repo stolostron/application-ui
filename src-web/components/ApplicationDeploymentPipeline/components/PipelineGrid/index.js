@@ -16,10 +16,10 @@ import {
   tileClick,
   editChannelClick,
   findMatchingSubscription,
-  getDeployableData,
+  getDataByKind,
   getDeployablesChannels,
   getResourcesStatusPerChannel,
-  getDeployableDataByChannels
+  getDataByKindByChannels
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -178,6 +178,7 @@ const ChannelColumnGrid = (
       </div>
       {/* All the applicaion totals and the subscription information is found here */}
       {applicationList.map(application => {
+        console.log('separate')
         const applicationName = application.name || ''
         const subscriptionsFetched = pullOutKindPerApplication(
           application,
@@ -212,7 +213,12 @@ const ChannelColumnGrid = (
             >
               {subscriptionsForThisApplication.map(subscription => {
                 // // Gather the deployable data that contains the matching UID
-                const subscriptionData = getDeployableData(
+                console.log(
+                  'subscriptionsForThisApplication',
+                  bulkSubscriptionList,
+                  subscription
+                )
+                const thisSubscriptionData = getDataByKind(
                   bulkSubscriptionList,
                   subscription._uid
                 )
@@ -230,17 +236,13 @@ const ChannelColumnGrid = (
                       const channelMatch = subscription.channel.includes(
                         channel.name
                       )
-                      const subscriptionDataTwo = getDeployableDataByChannels(
-                        subscriptionData,
-                        false
-                      )
                       // Get status of resources within the deployable specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
+                      console.log('channelMatch', thisSubscriptionData)
                       const status = getResourcesStatusPerChannel(
-                        subscriptionData,
-                        false
+                        thisSubscriptionData
                       )
                       // This will find the matching subscription for the given channel
                       // const matchingSubscription = findMatchingSubscription(

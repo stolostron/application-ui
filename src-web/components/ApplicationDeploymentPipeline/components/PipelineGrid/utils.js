@@ -82,9 +82,9 @@ export const findMatchingSubscription = (subscriptionList, channelName) => {
 }
 
 // Use tested Ramda to pull out uid
-export const getDeployableData = (deployableList, uid) => {
-  if (deployableList) {
-    const result = R.find(R.propEq('_uid', uid))(deployableList)
+export const getDataByKind = (list, uid) => {
+  if (list) {
+    const result = R.find(R.propEq('_uid', uid))(list)
     return result || {}
   }
   return {}
@@ -111,7 +111,7 @@ export const getDeployablesChannels = deployableData => {
   return []
 }
 
-export const getDeployableDataByChannels = (data, channelNamespace = false) => {
+export const getDataByKindByChannels = (data, channelNamespace = false) => {
   if (data && data.related) {
     const relatedData = data.related
 
@@ -166,7 +166,7 @@ const determineStatus = (statusPassFailInProgress, status) => {
 // to the status count
 export const getResourcesStatusPerChannel = (
   deployableData,
-  channelNamespace
+  channelNamespace = false
 ) => {
   if (deployableData && deployableData.related) {
     const relatedData = deployableData.related

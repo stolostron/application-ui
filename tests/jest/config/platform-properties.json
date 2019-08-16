@@ -187,6 +187,7 @@
   "description.title.deployableVersionStatus.gateConditions": "Gate conditions to arrive to this channel",
   "description.title.applications": "applications",
   "description.title.deployables": "deployables",
+  "description.title.subscriptions": "subscriptions ",
   "detail": "Detail",
   "error": "Error",
   "error.default.description": "An unexpected error occurred. Try again.",

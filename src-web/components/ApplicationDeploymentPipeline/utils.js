@@ -28,6 +28,9 @@ export const pullOutKindPerApplication = (application, kind = '') => {
 
 // This method takes in an object and drills down to find the items of applications
 // Within that it will go a step further and find the deployables and merge them together.
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getDeployablesList = list => {
   if (list && list.items) {
     const deployables = list.items.map(application => {

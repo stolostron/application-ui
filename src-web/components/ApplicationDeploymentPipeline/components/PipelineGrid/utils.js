@@ -94,6 +94,9 @@ export const getDataByKind = (list, uid) => {
 // we want to return all the channels.
 // Channels are not returned inside related resources so we have to
 // insepect each related subscription because it contains the channel
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getDeployablesChannels = deployableData => {
   if (deployableData && deployableData.related) {
     const relatedData = deployableData.related
@@ -111,6 +114,9 @@ export const getDeployablesChannels = deployableData => {
   return []
 }
 
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getDataByKindByChannels = (data, channelNamespace = false) => {
   if (data && data.related) {
     const relatedData = data.related

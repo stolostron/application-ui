@@ -17,9 +17,7 @@ import {
   editChannelClick,
   findMatchingSubscription,
   getDataByKind,
-  getDeployablesChannels,
-  getResourcesStatusPerChannel,
-  getDataByKindByChannels
+  getResourcesStatusPerChannel
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -36,12 +34,7 @@ resources(() => {
 // This component displays all the LEFT column applications in the table.
 // It displays all the applications names and their number of deployables.
 const LeftColumnForApplicationNames = (
-  {
-    applications,
-    /*deployables,*/ subscriptions,
-    updateAppDropDownList,
-    appDropDownList
-  },
+  { applications, subscriptions, updateAppDropDownList, appDropDownList },
   { locale }
 ) => {
   return (
@@ -54,17 +47,18 @@ const LeftColumnForApplicationNames = (
           </div>
           <div className="totalDeployables">
             {`${subscriptions.length} `}
-            {msgs.get('description.title.deployables', locale)}
+            {msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
       </div>
       {applications.map(application => {
         const appName = application.name
-        // const appNamespace = application.namespace
+        // Get the subscriptions given the application object
         const subscriptionsFetched = pullOutKindPerApplication(
           application,
           'subscription'
         )
+        // Pull the data up to the top
         const subscriptions =
           (subscriptionsFetched &&
             subscriptionsFetched[0] &&
@@ -96,7 +90,7 @@ const LeftColumnForApplicationNames = (
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
                   {`${subscriptions.length} `}
-                  {msgs.get('description.title.deployables', locale)}
+                  {msgs.get('description.title.subscriptions', locale)}
                 </div>
               </div>
             </Tile>
@@ -129,7 +123,6 @@ const LeftColumnForApplicationNames = (
 const ChannelColumnGrid = (
   {
     channelList,
-    subscriptionList,
     applicationList,
     editChannel,
     getChannelResource,
@@ -178,12 +171,13 @@ const ChannelColumnGrid = (
       </div>
       {/* All the applicaion totals and the subscription information is found here */}
       {applicationList.map(application => {
-        console.log('separate')
         const applicationName = application.name || ''
+        // Given the application pull out its object of kind subscription
         const subscriptionsFetched = pullOutKindPerApplication(
           application,
           'subscription'
         )
+        // Pull up the subscription data from the nested object
         const subscriptionsForThisApplication =
           (subscriptionsFetched &&
             subscriptionsFetched[0] &&
@@ -213,26 +207,14 @@ const ChannelColumnGrid = (
             >
               {subscriptionsForThisApplication.map(subscription => {
                 // // Gather the deployable data that contains the matching UID
-                console.log(
-                  'subscriptionsForThisApplication',
-                  bulkSubscriptionList,
-                  subscription
-                )
                 const thisSubscriptionData = getDataByKind(
                   bulkSubscriptionList,
                   subscription._uid
                 )
-                // // Gather all the channels that this deployable is in
-                // const deployableChannels = getDeployablesChannels(
-                //   deployableData
-                // )
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
                       // Determine if this deployable is present in this channel
-                      // const channelMatch = deployableChannels.includes(
-                      //   `${channel.namespace}/${channel.name}`
-                      // )
                       const channelMatch = subscription.channel.includes(
                         channel.name
                       )
@@ -240,16 +222,9 @@ const ChannelColumnGrid = (
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
-                      console.log('channelMatch', thisSubscriptionData)
                       const status = getResourcesStatusPerChannel(
                         thisSubscriptionData
                       )
-                      // This will find the matching subscription for the given channel
-                      // const matchingSubscription = findMatchingSubscription(
-                      //   subscriptionList,
-                      //   channel.name
-                      // )
-                      // const matchingSubscription = subscription
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {channelMatch ? (
@@ -277,36 +252,48 @@ const ChannelColumnGrid = (
   )
 }
 
-const PipelineGrid = withLocale(({ // deployables,
-  applications, channels, subscriptions, editChannel, getChannelResource, openDeployableModal, setDeployableModalHeaderInfo, setCurrentDeployableSubscriptionData, setCurrentDeployableModalData, updateAppDropDownList, appDropDownList, bulkSubscriptionList }) => {
-  return (
-    <div id="PipelineGrid">
-      <div className="tableGridContainer">
-        <LeftColumnForApplicationNames
-          // deployables={deployables}
-          subscriptions={subscriptions}
-          applications={applications}
-          updateAppDropDownList={updateAppDropDownList}
-          appDropDownList={appDropDownList}
-        />
-        <ChannelColumnGrid
-          channelList={channels}
-          subscriptionList={subscriptions}
-          applicationList={applications}
-          editChannel={editChannel}
-          getChannelResource={getChannelResource}
-          openDeployableModal={openDeployableModal}
-          setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
-          setCurrentDeployableSubscriptionData={
-            setCurrentDeployableSubscriptionData
-          }
-          setCurrentDeployableModalData={setCurrentDeployableModalData}
-          appDropDownList={appDropDownList}
-          bulkSubscriptionList={bulkSubscriptionList}
-        />
+const PipelineGrid = withLocale(
+  ({
+    applications,
+    channels,
+    subscriptions,
+    editChannel,
+    getChannelResource,
+    openDeployableModal,
+    setDeployableModalHeaderInfo,
+    setCurrentDeployableSubscriptionData,
+    setCurrentDeployableModalData,
+    updateAppDropDownList,
+    appDropDownList,
+    bulkSubscriptionList
+  }) => {
+    return (
+      <div id="PipelineGrid">
+        <div className="tableGridContainer">
+          <LeftColumnForApplicationNames
+            subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
+            applications={applications}
+            updateAppDropDownList={updateAppDropDownList}
+            appDropDownList={appDropDownList}
+          />
+          <ChannelColumnGrid
+            channelList={channels}
+            applicationList={applications}
+            editChannel={editChannel}
+            getChannelResource={getChannelResource}
+            openDeployableModal={openDeployableModal}
+            setDeployableModalHeaderInfo={setDeployableModalHeaderInfo}
+            setCurrentDeployableSubscriptionData={
+              setCurrentDeployableSubscriptionData
+            }
+            setCurrentDeployableModalData={setCurrentDeployableModalData}
+            appDropDownList={appDropDownList}
+            bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
+          />
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 export default withLocale(PipelineGrid)

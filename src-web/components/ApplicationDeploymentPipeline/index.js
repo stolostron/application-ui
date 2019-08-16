@@ -28,7 +28,6 @@ import DeployableModal from './components/DeployableModal'
 import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
-  getDeployablesList,
   getChannelsList,
   getSubscriptionsList,
   filterApps
@@ -141,7 +140,6 @@ const mapStateToProps = state => {
     openEditChannelModal: AppDeployments.openEditChannelModal,
     loading: AppDeployments.loading,
     applications: getApplicationsList(filteredApplications),
-    // deployables: getDeployablesList(filteredApplications), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
@@ -160,10 +158,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      // HCMApplicationList,
-      // HCMChannelList,
       applications,
-      // deployables,
       channels,
       subscriptions,
       actions,
@@ -225,7 +220,6 @@ class ApplicationDeploymentPipeline extends React.Component {
         <div className="AddChannelButton">{[modalChannel]}</div>
         <PipelineGrid
           applications={applications}
-          // deployables={deployables}
           channels={channels}
           subscriptions={subscriptions}
           getChannelResource={getChannelResource}

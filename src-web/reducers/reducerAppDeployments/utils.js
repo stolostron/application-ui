@@ -41,7 +41,6 @@ const flattenList = list => {
 // This method creates the query string used in the api to get all
 // the kind related information
 export const returnBulkQueryString = (applicationList, kind) => {
-  console.log('response', kind)
   const list = extractAllOfKind(applicationList, kind)
   const removeEmptyArray = x => x.length > 0
   const finalList = flattenList(R.filter(removeEmptyArray, list))

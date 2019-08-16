@@ -94,37 +94,46 @@ describe('getDeployablesChannels', () => {
 })
 
 describe('getAllRelatedForList', () => {
+  const clustersResult = [
+    {
+      apigroup: 'clusterregistry.k8s.io',
+      created: '2019-08-14T15:49:33Z',
+      consoleURL: 'https://9.30.230.96:8443',
+      cpu: 40,
+      selfLink:
+        '/apis/clusterregistry.k8s.io/v1alpha1/namespaces/local-cluster/clusters/local-cluster',
+      storage: '2296Gi',
+      status: 'OK',
+      kubernetesVersion: 'v1.13.5+icp-ee',
+      kind: 'cluster',
+      klusterletVersion: '3.2.0-10+94ee790ac3208b',
+      memory: '96327Mi',
+      name: 'local-cluster',
+      namespace: 'local-cluster',
+      nodes: 5,
+      _rbac: 'local-cluster_clusterregistry.k8s.io_clusters',
+      _uid: '1c7e2439-beab-11e9-bbb3-d659679b8eb9'
+    }
+  ]
   it('should return list of clusters, removing duplicates', () => {
-    const result = [
-      {
-        apigroup: 'clusterregistry.k8s.io',
-        created: '2019-08-14T15:49:33Z',
-        consoleURL: 'https://9.30.230.96:8443',
-        cpu: 40,
-        selfLink:
-          '/apis/clusterregistry.k8s.io/v1alpha1/namespaces/local-cluster/clusters/local-cluster',
-        storage: '2296Gi',
-        status: 'OK',
-        kubernetesVersion: 'v1.13.5+icp-ee',
-        kind: 'cluster',
-        klusterletVersion: '3.2.0-10+94ee790ac3208b',
-        memory: '96327Mi',
-        name: 'local-cluster',
-        namespace: 'local-cluster',
-        nodes: 5,
-        _rbac: 'local-cluster_clusterregistry.k8s.io_clusters',
-        _uid: '1c7e2439-beab-11e9-bbb3-d659679b8eb9'
-      }
-    ]
     expect(
       getAllRelatedForList(realDataSampleWithSubscriptions, 'cluster', true)
-    ).toEqual(result)
+    ).toEqual(clustersResult)
   })
-  it('should return a blank list because of no subscrition', () => {
+  it('should return a blank list because of no subscription', () => {
     const result = []
     expect(
       getAllRelatedForList(realDataSampleWithNOSubscriptions, 'subscription')
     ).toEqual(result)
+  })
+  it('should handle arrays of objects to search, similar wihh the HCMApplicationList or HCMChannelList format', () => {
+    expect(
+      getAllRelatedForList(
+        { items: [realDataSampleWithSubscriptions] },
+        'cluster',
+        true
+      )
+    ).toEqual(clustersResult)
   })
   it('should handle undefined object', () => {
     expect(getAllRelatedForList(undefined)).toEqual([])

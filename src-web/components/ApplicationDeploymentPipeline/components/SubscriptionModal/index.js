@@ -166,12 +166,14 @@ const SubscriptionInfo = withLocale(
     rollingUpdate = '50%',
     modalSubscription,
     editSubscription,
-    deployableModalSubscriptionInfo,
+    subscriptionModalSubscriptionInfo,
     locale
   }) => {
     // If there is currently noDeployableSubscription then we want to add rather
     // than edit
-    const noDeployableSubscription = R.isEmpty(deployableModalSubscriptionInfo)
+    const noDeployableSubscription = R.isEmpty(
+      subscriptionModalSubscriptionInfo
+    )
     return (
       <div className="subscriptionInfoClass">
         <div className="subHeader">
@@ -233,7 +235,7 @@ const SubscriptionInfo = withLocale(
               onClick={() =>
                 editSubscription(
                   RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-                  deployableModalSubscriptionInfo
+                  subscriptionModalSubscriptionInfo
                 )
               }
             />
@@ -244,7 +246,7 @@ const SubscriptionInfo = withLocale(
   }
 )
 
-const DeployableModal = withLocale(
+const SubscriptionModal = withLocale(
   ({
     displayModal,
     closeModal,
@@ -252,11 +254,11 @@ const DeployableModal = withLocale(
     label,
     modalSubscription,
     editSubscription,
-    deployableModalSubscriptionInfo,
+    subscriptionModalSubscriptionInfo,
     locale
   }) => {
     return (
-      <div id="DeployableModal">
+      <div id="SubscriptionModal">
         <Modal
           className="modalAddRepo"
           onRequestClose={() => closeModal()}
@@ -271,7 +273,9 @@ const DeployableModal = withLocale(
               subName={label}
               modalSubscription={modalSubscription}
               editSubscription={editSubscription}
-              deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
+              subscriptionModalSubscriptionInfo={
+                subscriptionModalSubscriptionInfo
+              }
             />
             <ChannelInfo />
             <DeploymentStatus />
@@ -282,4 +286,4 @@ const DeployableModal = withLocale(
   }
 )
 
-export default withLocale(DeployableModal)
+export default withLocale(SubscriptionModal)

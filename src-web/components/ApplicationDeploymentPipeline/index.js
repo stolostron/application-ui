@@ -24,11 +24,10 @@ import {
   closeModals
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
-import DeployableModal from './components/DeployableModal'
+import SubscriptionModal from './components/SubscriptionModal'
 import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
-  getDeployablesList,
   getChannelsList,
   getSubscriptionsList,
   filterApps
@@ -128,11 +127,11 @@ const mapStateToProps = state => {
     AppDeployments.deploymentPipelineSearch
   )
   return {
-    displayDeployableModal: AppDeployments.displayDeployableModal,
-    deployableModalHeaderInfo: AppDeployments.deployableModalHeaderInfo,
-    deployableModalSubscriptionInfo:
-      AppDeployments.deployableModalSubscriptionInfo,
-    bulkDeployableList: AppDeployments.bulkDeployableList,
+    displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
+    subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
+    subscriptionModalSubscriptionInfo:
+      AppDeployments.subscriptionModalSubscriptionInfo,
+    bulkSubscriptionList: AppDeployments.bulkSubscriptionList,
     userRole: role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
     HCMApplicationList: filteredApplications,
@@ -141,7 +140,6 @@ const mapStateToProps = state => {
     openEditChannelModal: AppDeployments.openEditChannelModal,
     loading: AppDeployments.loading,
     applications: getApplicationsList(filteredApplications),
-    deployables: getDeployablesList(filteredApplications), // right now its only used for total number
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
   }
@@ -160,25 +158,22 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
-      // HCMApplicationList,
-      // HCMChannelList,
       applications,
-      deployables,
       channels,
       subscriptions,
       actions,
       editChannel,
       getChannelResource,
       editSubscription,
-      displayDeployableModal,
-      deployableModalHeaderInfo,
-      deployableModalSubscriptionInfo,
+      displaySubscriptionModal,
+      subscriptionModalHeaderInfo,
+      subscriptionModalSubscriptionInfo,
       currentChannelInfo,
       closeModal,
       openEditChannelModal,
       loading,
       appDropDownList,
-      bulkDeployableList
+      bulkSubscriptionList
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -187,10 +182,10 @@ class ApplicationDeploymentPipeline extends React.Component {
     const modalSubscription = React.cloneElement(CreateSubscriptionModal(), {
       resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
     })
-    const deployableModalHeader =
-      deployableModalHeaderInfo && deployableModalHeaderInfo.deployable
-    const deployableModalLabel =
-      deployableModalHeaderInfo && deployableModalHeaderInfo.application
+    const subscriptionModalHeader =
+      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
+    const subscriptionModalLabel =
+      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.application
 
     // This will trigger the edit Channel Modal because openEditChannelModal
     // is true AFTER the fetch of the channel data has been completed
@@ -225,28 +220,31 @@ class ApplicationDeploymentPipeline extends React.Component {
         <div className="AddChannelButton">{[modalChannel]}</div>
         <PipelineGrid
           applications={applications}
-          deployables={deployables}
           channels={channels}
           subscriptions={subscriptions}
           getChannelResource={getChannelResource}
-          openDeployableModal={actions.openDisplayDeployableModal}
-          setDeployableModalHeaderInfo={actions.setDeployableModalHeaderInfo}
+          openSubscriptionModal={actions.openDisplaySubscriptionModal}
+          setSubscriptionModalHeaderInfo={
+            actions.setSubscriptionModalHeaderInfo
+          }
           setCurrentDeployableSubscriptionData={
             actions.setCurrentDeployableSubscriptionData
           }
-          setCurrentDeployableModalData={actions.setCurrentDeployableModalData}
+          setCurrentsubscriptionModalData={
+            actions.setCurrentsubscriptionModalData
+          }
           updateAppDropDownList={actions.updateAppDropDownList}
           appDropDownList={appDropDownList}
-          bulkDeployableList={bulkDeployableList}
+          bulkSubscriptionList={bulkSubscriptionList}
         />
-        <DeployableModal
-          displayModal={displayDeployableModal}
+        <SubscriptionModal
+          displayModal={displaySubscriptionModal}
           closeModal={actions.closeModals}
-          header={deployableModalHeader}
-          label={deployableModalLabel}
+          header={subscriptionModalHeader}
+          label={subscriptionModalLabel}
           modalSubscription={modalSubscription}
           editSubscription={editSubscription}
-          deployableModalSubscriptionInfo={deployableModalSubscriptionInfo}
+          subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
         />
       </div>
     )

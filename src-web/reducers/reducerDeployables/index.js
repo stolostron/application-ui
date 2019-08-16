@@ -17,7 +17,7 @@ const SET_DEPLOYABLE_DATA = 'SET_DEPLOYABLE_DATA'
 const SET_LOADING = 'SET_LOADING'
 
 export const initialStateDeployables = {
-  displayDeployableModal: false,
+  displaySubscriptionModal: false,
   deployableData: {}
 }
 export const DeployablesReducer = (state = initialStateDeployables, action) => {

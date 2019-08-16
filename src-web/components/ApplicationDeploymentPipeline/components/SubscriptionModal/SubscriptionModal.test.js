@@ -9,11 +9,11 @@
 
 const React = require('react')
 const renderer = require('react-test-renderer')
-const DeployableModal = require('../DeployableModal').default
+const SubscriptionModal = require('../SubscriptionModal').default
 
-describe('DeployableModal', () => {
-  it('DeployableModal renders correctly.', () => {
-    const tree = renderer.create(<DeployableModal />).toJSON()
+describe('subscriptionModal', () => {
+  it('subscriptionModal renders correctly.', () => {
+    const tree = renderer.create(<SubscriptionModal />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

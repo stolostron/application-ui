@@ -188,7 +188,7 @@
   "description.title.deployableVersionStatus.gateConditions": "Gate conditions to arrive to this channel",
   "description.title.applications": "applications",
   "description.title.deployables": "deployables",
-  "description.title.subscriptions": "subscriptions ",
+  "description.title.subscriptions": "subscriptions",
   "description.title.selectPod": "Select Pod",
   "description.title.selectContainer": "Select Container",
   "detail": "Detail",

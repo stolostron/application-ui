@@ -167,7 +167,7 @@ export const fetchChannelResource = (
 // This will fetch a bulk list of related information on deployables
 // we will use this data in order to relate deployables to each subscription which
 // cani then be related to the channel
-export const fetchBulkSubsciptionList = (apolloClient, applicationList) => {
+export const fetchBulkSubscriptionList = (apolloClient, applicationList) => {
   const combinedQuery = returnBulkQueryString(applicationList, 'subscription')
   return dispatch => {
     return apolloClient

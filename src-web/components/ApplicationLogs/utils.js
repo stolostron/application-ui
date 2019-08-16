@@ -27,10 +27,6 @@ export const createContainersList = (containerData, containersList) => {
   return containersList
 }
 
-export const isObjEmpty = obj => {
-  return R.isEmpty(obj)
-}
-
 // Handle the actions needed to be taken when the user selects a POD
 // Set the current POD data and also fetch the conntainers
 export const handlePodChange = (

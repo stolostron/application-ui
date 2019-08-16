@@ -17,7 +17,6 @@ import resources from '../../../lib/shared/resources'
 import {
   createPodsList,
   createContainersList,
-  isObjEmpty,
   handlePodChange,
   handleContainerChange,
   getPodsFromApplicationRelated
@@ -27,6 +26,7 @@ import {
   fetchLogsForContainer
 } from '../../reducers/reducerAppLogs'
 import apolloClient from '../../../lib/client/apollo-client'
+import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -96,7 +96,7 @@ class ApplicationLogs extends React.Component {
             <DropdownV2
               ariaLabel={msgs.get('dropdown.pod.label', locale)}
               light
-              disabled={isObjEmpty(podItems)}
+              disabled={R.isEmpty(podItems)}
               label={msgs.get('description.title.selectPod', locale)}
               onChange={event =>
                 handlePodChange(
@@ -116,7 +116,7 @@ class ApplicationLogs extends React.Component {
             <DropdownV2
               ariaLabel={msgs.get('dropdown.pod.label', locale)}
               light
-              disabled={isObjEmpty(containerItems)}
+              disabled={R.isEmpty(containerItems)}
               label={msgs.get('description.title.selectContainer', locale)}
               onChange={event =>
                 handleContainerChange(

@@ -32,10 +32,10 @@ export const getChannelsList = channels => {
         name: channel.name || '',
         counts: {
           completed: {
-            total: status[0]
+            total: status[0] + status[4]
           },
           inProgress: {
-            total: status[2]
+            total: status[2] + status[3]
           },
           failed: {
             total: status[1]

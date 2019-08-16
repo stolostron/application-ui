@@ -24,6 +24,7 @@ import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import { mapIncidents } from '../../reducers/data-mappers/mapIncidents'
 import { mapCell } from './utils'
+import NoResource from '../../components/common/NoResource'
 
 const {
   Table,
@@ -115,7 +116,6 @@ class IncidentsTab extends React.Component {
     const { incidents, incidentCount } = this.props
     const rowsList = mapIncidents(incidents)
     const tableTitle = msgs.get('table.title.incidents', locale)
-    const noIncidentFound = msgs.get('table.title.noIncidentFound', locale)
     return (
       <div id="incidents-tab">
         {rowsList.length !== 0 && (
@@ -166,8 +166,10 @@ class IncidentsTab extends React.Component {
           </React.Fragment>
         )}
         {rowsList.length === 0 && (
-          <div className="incidents-tab-table-title incidents-tab-table-title-empty">
-            {noIncidentFound}
+          <div className="incidents-tab-no-resource">
+            <NoResource
+              title={msgs.get('table.title.noIncidentFound', locale)}
+            />
           </div>
         )}
       </div>

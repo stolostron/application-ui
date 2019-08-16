@@ -97,7 +97,8 @@ const ResourceOverview = withLocale(
             ? 'dashboard.card.deployments'
             : 'dashboard.card.deployment',
         textKey: 'dashboard.card.total',
-        count: deployments
+        count: deployments,
+        targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.completed',
@@ -105,7 +106,8 @@ const ResourceOverview = withLocale(
           completedDeployments > 1
             ? 'dashboard.card.deployments'
             : 'dashboard.card.deployment',
-        count: completedDeployments
+        count: completedDeployments,
+        targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.inProgress',
@@ -113,7 +115,8 @@ const ResourceOverview = withLocale(
           inProgressDeployments > 1
             ? 'dashboard.card.deployments'
             : 'dashboard.card.deployment',
-        count: inProgressDeployments
+        count: inProgressDeployments,
+        targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.failed',
@@ -122,7 +125,8 @@ const ResourceOverview = withLocale(
             ? 'dashboard.card.deployments'
             : 'dashboard.card.deployment',
         count: failedDeployments,
-        alert: failedDeployments > 0 ? true : false
+        alert: failedDeployments > 0 ? true : false,
+        targetTab: 1
       },
       {
         msgKey:
@@ -132,6 +136,7 @@ const ResourceOverview = withLocale(
         textKey: 'dashboard.card.total',
         count: incidentCount,
         alert: incidentCount > 0 ? true : false,
+        targetTab: 2,
         border: 'left'
       }
     ]

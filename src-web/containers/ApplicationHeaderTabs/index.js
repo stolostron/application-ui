@@ -11,6 +11,9 @@
 /* eslint-disable import/no-named-as-default */
 
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../actions'
 import loadable from 'loadable-components'
 import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
@@ -41,16 +44,22 @@ export const ApplicationLogs = loadable(() =>
 // This will render the four tabs
 // Overview, Deployments, Incidents, Logs
 const ApplicationHeaderTabs = withLocale(
-  ({ showExtraTabs, params, locale }) => {
+  ({ selectedAppTab, showExtraTabs, params, actions, locale }) => {
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
           <Tabs
             className="some-class"
-            selected={0}
+            selected={selectedAppTab}
             onClick={() => {}}
             onKeyDown={() => {}}
-            onSelectionChange={() => {}}
+            onSelectionChange={id => {
+              actions.setSelectedAppTab(id)
+              // Show app overview (instead of app information)
+              // if the user clicks on another tab and then
+              // goes back to the Overview tab
+              actions.setShowAppDetails(false)
+            }}
             tabcontentclassname="tab-content"
           >
             <Tab
@@ -107,4 +116,19 @@ const ApplicationHeaderTabs = withLocale(
   }
 )
 
-export default withLocale(ApplicationHeaderTabs)
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
+}
+const mapStateToProps = state => {
+  const { AppOverview } = state
+  return {
+    selectedAppTab:
+      AppOverview.selectedAppTab == null ? 0 : AppOverview.selectedAppTab
+  }
+}
+
+export default withLocale(
+  connect(mapStateToProps, mapDispatchToProps)(ApplicationHeaderTabs)
+)

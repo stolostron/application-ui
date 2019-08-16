@@ -9,6 +9,9 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../actions'
 import classNames from 'classnames'
 import { Icon } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
@@ -19,18 +22,19 @@ resources(() => {
   require('./style.scss')
 })
 
-export default class CountsCardModule extends React.Component {
+class CountsCardModule extends React.Component {
   getModuleData = () => {
     const { locale } = this.context
     const { data } = this.props
     const countCardItems = []
-    data.map(({ msgKey, count, textKey, border, alert }) => {
+    data.map(({ msgKey, count, textKey, border, alert, targetTab }) => {
       countCardItems.push({
         count,
         type: msgs.get(msgKey, locale),
         text: (textKey && msgs.get(textKey, locale)) || '',
         border: border || '',
-        alert: alert || false
+        alert: alert || false,
+        targetTab: targetTab
       })
     })
     return {
@@ -41,7 +45,7 @@ export default class CountsCardModule extends React.Component {
   render() {
     const moduleData = this.getModuleData()
     const { locale } = this.context
-    const { title, link } = this.props
+    const { title, link, actions } = this.props
     return (
       <div
         id={
@@ -74,7 +78,11 @@ export default class CountsCardModule extends React.Component {
         )}
         <div className="card-container">
           <div className="card-container-content">
-            <CountCards moduleData={moduleData} locale={locale} />
+            <CountCards
+              moduleData={moduleData}
+              actions={actions}
+              locale={locale}
+            />
           </div>
         </div>
       </div>
@@ -82,10 +90,10 @@ export default class CountsCardModule extends React.Component {
   }
 }
 
-const CountCards = ({ moduleData: { countCardItems } }) => {
+const CountCards = ({ moduleData: { countCardItems }, actions }) => {
   return (
     <React.Fragment>
-      {countCardItems.map(({ count, type, text, border, alert }) => {
+      {countCardItems.map(({ count, type, text, border, alert, targetTab }) => {
         const cardClasses = classNames({
           'card-count-type': true,
           hasLeftBorder: border === 'left' ? true : false,
@@ -95,8 +103,25 @@ const CountCards = ({ moduleData: { countCardItems } }) => {
           'card-count': true,
           alert: alert
         })
+        const onClick = () => {
+          if (targetTab != null) {
+            actions.setSelectedAppTab(targetTab)
+          }
+        }
+        const onKeyPress = e => {
+          if (e.key === 'Enter') {
+            onClick()
+          }
+        }
         return (
-          <div key={type} className={cardClasses} role="button" tabIndex="0">
+          <div
+            key={type}
+            className={cardClasses}
+            role="button"
+            tabIndex="0"
+            onClick={onClick}
+            onKeyPress={onKeyPress}
+          >
             <div className={countClasses}>{count}</div>
             <div className="card-type">{type}</div>
             {text && <div className="card-text">{text}</div>}
@@ -108,7 +133,16 @@ const CountCards = ({ moduleData: { countCardItems } }) => {
 }
 
 CountCards.propTypes = {
+  actions: PropTypes.object,
   moduleData: PropTypes.object
 }
 
 CountsCardModule.propTypes = {}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CountsCardModule)

@@ -97,7 +97,7 @@
   "dashboard.card.deployable.pending": "Pending",
   "dashboard.card.deployable.versions": "Deployable versions",
   "dashboard.card.deployables": "Deployables",
-  "dashboard.card.deployment": "Deployment",
+  "dashboard.card.deployment": "Resource",
   "dashboard.card.deployment.applications": "Applications",
   "dashboard.card.deployment.availabilityZones": "Availability Zones",
   "dashboard.card.deployment.channels": "Channels",

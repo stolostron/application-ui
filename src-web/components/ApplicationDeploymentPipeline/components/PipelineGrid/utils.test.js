@@ -117,23 +117,21 @@ describe('getAllRelatedForList', () => {
   ]
   it('should return list of clusters, removing duplicates', () => {
     expect(
-      getAllRelatedForList(realDataSampleWithSubscriptions, 'cluster', true)
-    ).toEqual(clustersResult)
-  })
-  it('should return a blank list because of no subscription', () => {
-    const result = []
-    expect(
-      getAllRelatedForList(realDataSampleWithNOSubscriptions, 'subscription')
-    ).toEqual(result)
-  })
-  it('should handle arrays of objects to search, similar wihh the HCMApplicationList or HCMChannelList format', () => {
-    expect(
       getAllRelatedForList(
         { items: [realDataSampleWithSubscriptions] },
         'cluster',
         true
       )
     ).toEqual(clustersResult)
+  })
+  it('should return a blank list because of no subscription', () => {
+    const result = []
+    expect(
+      getAllRelatedForList(
+        { items: [realDataSampleWithNOSubscriptions] },
+        'subscription'
+      )
+    ).toEqual(result)
   })
   it('should handle undefined object', () => {
     expect(getAllRelatedForList(undefined)).toEqual([])

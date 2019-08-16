@@ -204,10 +204,8 @@ export const pullOutRelatedPerItem = (item, kind) => {
 //returns all objects of kind in the related for the specified list
 //for example getAllRelatedForList(HCMApplicationList, 'cluster') returns all clusters for the applications list
 //it removes the duplicates so if a cluster is part of 2 app related list, it shows up only once in the resulted array
-export const getAllRelatedForList = (resources, kind, arrayUnique) => {
-  if (!resources) return []
-
-  const list = resources.items ? resources : { items: [resources] }
+//the list should be in the HCMApplicationList format ( { items : [{related:items}] }
+export const getAllRelatedForList = (list, kind, arrayUnique) => {
   if (list && list.items) {
     const relatedItems = list.items.map(item => {
       const resultRelatedForItem = pullOutRelatedPerItem(item, kind)

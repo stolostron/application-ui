@@ -593,7 +593,6 @@
   "table.header.destination": "Destination",
   "table.header.endpoint": "Endpoint",
   "table.header.enforcement": "Enforcement",
-  "table.header.failedDeployments": "Failed Resources",
   "table.header.helm.release": "Helm Release",
   "table.header.hostIP": "Host IP",
   "table.header.images": "Images",

@@ -30,9 +30,7 @@ resources(() => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    fetchSubscriptions: () =>
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS))
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
   }
 }
 
@@ -46,11 +44,7 @@ const mapStateToProps = state => {
 }
 
 class ApplicationDeploymentHighlights extends React.Component {
-  componentWillMount() {
-    const { fetchChannels, fetchSubscriptions } = this.props
-    fetchChannels()
-    fetchSubscriptions()
-  }
+  componentWillMount() {}
   componentDidMount() {}
 
   componentWillUnmount() {}

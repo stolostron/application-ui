@@ -25,7 +25,12 @@
   .AddChannelButton {
     display: inline-flex;
     margin-top: 40px;
-    float: right;
+  }
+
+  .AddSubscriptionButton {
+    display: inline-block;
+    position: absolute;
+    margin-top: 41px;
   }
 
   .addChannelIcon {

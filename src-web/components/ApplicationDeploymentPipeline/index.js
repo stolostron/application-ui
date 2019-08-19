@@ -58,7 +58,7 @@ const CreateChannelModal = () => {
 }
 
 const handleCreateSubscriptionResource = (dispatch, yaml) =>
-  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
+  dispatch(createResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, yaml))
 
 // Create Resource for Subscription
 const CreateSubscriptionModal = () => {
@@ -218,6 +218,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           id="search-1"
         />
         <div className="AddChannelButton">{[modalChannel]}</div>
+        <div className="AddSubscriptionButton">{[modalSubscription]}</div>
         <PipelineGrid
           applications={applications}
           channels={channels}

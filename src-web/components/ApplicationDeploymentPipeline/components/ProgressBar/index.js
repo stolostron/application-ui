@@ -24,7 +24,10 @@ const ProgressBar = withLocale(({ status, locale }) => {
   const noneFound = total === 0
   const style =
     (noneFound && 'linear-gradient(to right,  #cccccc 0%, #cccccc 100%)') ||
-    `linear-gradient(to right,  #6ac4ff 0%,#6ac4ff ${pass}%, #53bd61 ${pass}%, #53bd61 ${inprogress}%, #ff0000 ${inprogress}%, #ff0000 ${fail}%, #cccccc ${fail}%, #cccccc 100%)`
+    `linear-gradient(to right,  #6ac4ff 0%,#6ac4ff ${pass}%, #53bd61 ${pass}%, #53bd61 ${pass +
+      inprogress}%, #ff0000 ${pass + inprogress}%, #ff0000 ${pass +
+      inprogress +
+      fail}%, #cccccc ${pass + inprogress + fail}%, #cccccc 100%)`
   return (
     <div id="ProgressBar">
       <div

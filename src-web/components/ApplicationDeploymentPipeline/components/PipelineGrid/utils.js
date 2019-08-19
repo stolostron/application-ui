@@ -256,3 +256,41 @@ export const getAllRelatedForList = (list, kind) => {
   }
   return []
 }
+
+// Given the subscriptionsForThisApplication, the channel,
+// we will look through match the subscription with the channel
+// and then tally up all the status under that application to give
+// the total status that will be displayed at the header level
+export const getApplicationLevelStatus = (
+  subscriptionsForThisApplication,
+  channel,
+  bulkSubscriptionList
+) => {
+  // Pass, Fail, In Progress, Pending, unidentifed
+  let appStatus = [0, 0, 0, 0, 0]
+  {
+    subscriptionsForThisApplication.map(subscription => {
+      // Determine if this subscription is present in this channel
+      const channelMatch = subscription.channel.includes(channel.name)
+      if (channelMatch) {
+        // Gather the subscription data that contains the matching UID
+        const currSubscriptionData = getDataByKind(
+          bulkSubscriptionList,
+          subscription._uid
+        )
+        const status = getResourcesStatusPerChannel(currSubscriptionData)
+        const newStatus = [
+          appStatus[0] + status[0],
+          appStatus[1] + status[1],
+          appStatus[2] + status[2],
+          appStatus[3] + status[3],
+          appStatus[4] + status[4]
+        ]
+        appStatus = newStatus
+      } else {
+        appStatus = false
+      }
+    })
+  }
+  return appStatus
+}

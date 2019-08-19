@@ -89,16 +89,20 @@ const DeploymentStatus = withLocale(
 
 const ChannelInfo = withLocale(
   ({
+    subscriptionModalSubscriptionInfo,
     conditions = [
       { name: 'condition1', success: true },
       { name: 'condition2', success: false },
       { name: 'condition3', success: true }
     ],
-    subscriptionModalSubscriptionInfo,
     success = true,
     locale
   }) => {
-    const channel = subscriptionModalSubscriptionInfo.channel || ''
+    const channel =
+      subscriptionModalSubscriptionInfo &&
+      subscriptionModalSubscriptionInfo.channel
+        ? subscriptionModalSubscriptionInfo.channel
+        : ''
     return (
       <div className="channelInfoClass">
         <div className="subHeader">
@@ -203,8 +207,16 @@ const SubscriptionInfo = withLocale(
       labels = labels_data.data
       label_hover = labels_data.hover
 
-      subName = subscriptionModalSubscriptionInfo.name || ''
-      subNamespace = subscriptionModalSubscriptionInfo.namespace || ''
+      subName =
+        subscriptionModalSubscriptionInfo &&
+        subscriptionModalSubscriptionInfo.name
+          ? subscriptionModalSubscriptionInfo.name
+          : ''
+      subNamespace =
+        subscriptionModalSubscriptionInfo &&
+        subscriptionModalSubscriptionInfo.namespace
+          ? subscriptionModalSubscriptionInfo.namespace
+          : ''
     }
     return (
       <div className="subscriptionInfoClass">
@@ -318,11 +330,7 @@ const SubscriptionModal = withLocale(
                 subscriptionModalSubscriptionInfo
               }
             />
-            <ChannelInfo
-              subscriptionModalSubscriptionInfo={
-                subscriptionModalSubscriptionInfo
-              }
-            />
+            <ChannelInfo SubscriptionInfo={subscriptionModalSubscriptionInfo} />
             <DeploymentStatus />
           </div>
         </Modal>

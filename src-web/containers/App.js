@@ -82,11 +82,6 @@ class App extends React.Component {
         {showSecondaryHeader && <SecondaryHeader />}
         <Switch>
           <Route
-            path={`${match.url}/:namespace/:application/deployable/:name`}
-            exact
-            render={params => <ApplicationDeployableDetails params={params} />}
-          />
-          <Route
             path={`${match.url}`}
             render={params => (
               <ApplicationHeaderTabs

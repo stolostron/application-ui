@@ -256,7 +256,7 @@ const SubscriptionInfo = withLocale(
                     <span
                       className="labelTag"
                       key={Math.random()}
-                      tooltip={label_hover}
+                      title={label_hover}
                     >
                       {label}
                     </span>

@@ -16,7 +16,8 @@ import {
   onSubscriptionClick,
   editChannelClick,
   getDataByKind,
-  getResourcesStatusPerChannel
+  getResourcesStatusPerChannel,
+  getApplicationLevelStatus
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -206,13 +207,28 @@ const ChannelColumnGrid = (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
               {/* This is the where the row totals will go for the applications */}
-              {channelList.map(() => {
+              {channelList.map(channel => {
+                // Given the subscriptionsForThisApplication, the channel,
+                // we will look through match the subscription with the channel
+                // and then tally up all the status under that application to give
+                // the total status that will be displayed at the header level
+                const appStatus = getApplicationLevelStatus(
+                  subscriptionsForThisApplication,
+                  channel,
+                  bulkSubscriptionList
+                )
+                const showStatus =
+                  subscriptionsForThisApplication.length > 0 && appStatus
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
-                      <Tag type="custom" className="statusTag">
-                        {msgs.get('description.na', locale)}
-                      </Tag>
+                      {showStatus ? (
+                        <ProgressBar status={appStatus} />
+                      ) : (
+                        <Tag type="custom" className="statusTag">
+                          {msgs.get('description.na', locale)}
+                        </Tag>
+                      )}
                     </Tile>
                   </div>
                 )
@@ -224,7 +240,7 @@ const ChannelColumnGrid = (
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {subscriptionsForThisApplication.map(subscription => {
-                // // Gather the deployable data that contains the matching UID
+                // // Gather the subscription data that contains the matching UID
                 const thisSubscriptionData = getDataByKind(
                   bulkSubscriptionList,
                   subscription._uid
@@ -232,11 +248,11 @@ const ChannelColumnGrid = (
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {channelList.map(channel => {
-                      // Determine if this deployable is present in this channel
+                      // Determine if this subscription is present in this channel
                       const channelMatch = subscription.channel.includes(
                         channel.name
                       )
-                      // Get status of resources within the deployable specific
+                      // Get status of resources within the subscription specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed

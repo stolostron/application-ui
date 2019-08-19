@@ -190,11 +190,28 @@
     float: right;
   }
 
+  .subscriptionEditIcon {
+    fill: black;
+    display: inline-block;
+    float: right;
+    margin-top: 15px;
+    margin-right: 15px;
+    cursor: pointer;
+  }
+
   .yamlTitle {
     font-size: 12px;
     padding-left: 250px;
     position: absolute;
     padding-top: 2px;
+    display: inline;
+  }
+
+  .yamlTitleSub {
+    font-size: 12px;
+    padding-left: 325px;
+    position: absolute;
+    padding-top: 17px;
     display: inline;
   }
 

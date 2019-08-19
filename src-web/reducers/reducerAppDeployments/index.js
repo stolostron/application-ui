@@ -111,7 +111,7 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
       ...state,
       displaySubscriptionModal: false,
       openEditChannelModal: false,
-      currentSubscriptionInfo: false
+      openEditSubscriptionModal: false
     }
   }
   default:

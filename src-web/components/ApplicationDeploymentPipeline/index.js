@@ -35,6 +35,7 @@ import {
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
+import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -207,21 +208,27 @@ class ApplicationDeploymentPipeline extends React.Component {
     // This will trigger the edit Channel Modal because openEditChannelModal
     // is true AFTER the fetch of the channel data has been completed
     if (openEditChannelModal) {
+      const data = R.pathOr([], ['data', 'items'], currentChannelInfo)[0]
+      const name = R.pathOr('', ['metadata', 'name'], data)
+      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
       closeModal()
       editResource(RESOURCE_TYPES.HCM_CHANNELS, {
-        name: currentChannelInfo.data.items[0].metadata.name,
-        namespace: currentChannelInfo.data.items[0].metadata.namespace,
-        data: currentChannelInfo.data.items[0]
+        name: name,
+        namespace: namespace,
+        data: data
       })
     }
     // This will trigger the edit Subscription Modal because openEditSubscriptionModal
     // is true AFTER the fetch of the subscription data has been completed
     if (openEditSubscriptionModal) {
+      const data = R.pathOr([], ['data', 'items'], currentSubscriptionInfo)[0]
+      const name = R.pathOr('', ['metadata', 'name'], data)
+      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
       closeModal()
       editResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, {
-        name: currentSubscriptionInfo.data.items[0].metadata.name,
-        namespace: currentSubscriptionInfo.data.items[0].metadata.namespace,
-        data: currentSubscriptionInfo.data.items[0]
+        name: name,
+        namespace: namespace,
+        data: data
       })
     }
 

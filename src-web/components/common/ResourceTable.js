@@ -34,7 +34,7 @@ import ResourceTableRowExpandableContent from './ResourceTableRowExpandableConte
 import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
-//import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
+import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 //import clustersDef from '../../definitions/hcm-clusters'
 import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../../lib/client/search-helper'
@@ -401,36 +401,36 @@ class ResourceTable extends React.Component {
     return userRole !== constants.ROLES.VIEWER
   }
 
-  handleActionClick() {
-    // const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
-    // if (resourceActionsList.includes(action) || action === 'table.actions.application.edit') {
-    //   this.props.getResourceAction(action, item, null, history, this.props.locale)
-    // } else {
-    //   const client = apolloClient.getClient()
-    //   const name = _.get(item, 'metadata.name', '')
-    //   const namespace = _.get(item, 'metadata.namespace', '')
-    //   client.mutate({
-    //     mutation: UPDATE_ACTION_MODAL,
-    //     variables: {
-    //       __typename: 'actionModal',
-    //       open: true,
-    //       type: action,
-    //       resourceType: {
-    //         __typename: 'resourceType',
-    //         name: resourceType.name,
-    //         list: resourceType.list
-    //       },
-    //       data: {
-    //         __typename:'ModalData',
-    //         name,
-    //         namespace,
-    //         clusterName: _.get(item, 'cluster.metadata.name', ''),
-    //         selfLink: _.get(item, 'metadata.selfLink', ''),
-    //         kind: ''
-    //       }
-    //     }
-    //   })
-    // }
+  handleActionClick(action, resourceType, item, history) {
+    //const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
+    if (action === 'table.actions.application.edit') {
+      this.props.getResourceAction(action, item, null, history, this.props.locale)
+    } else {
+      const client = apolloClient.getClient()
+      const name = _.get(item, 'name', '')
+      const namespace = _.get(item, 'namespace', '')
+      client.mutate({
+        mutation: UPDATE_ACTION_MODAL,
+        variables: {
+          __typename: 'actionModal',
+          open: true,
+          type: action,
+          resourceType: {
+            __typename: 'resourceType',
+            name: resourceType.name,
+            list: resourceType.list
+          },
+          data: {
+            __typename:'ModalData',
+            name,
+            namespace,
+            clusterName: _.get(item, 'cluster', ''),
+            selfLink: _.get(item, 'selfLink', ''),
+            kind: ''
+          }
+        }
+      })
+    }
   }
 
   getRows() {

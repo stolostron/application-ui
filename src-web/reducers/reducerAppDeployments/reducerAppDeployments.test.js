@@ -37,6 +37,7 @@ describe('AppDeployments reducer', () => {
       )
     ).toEqual({
       ...initialStateDeployments,
+      currentSubscriptionInfo: false,
       displaySubscriptionModal: false
     })
   })

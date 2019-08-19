@@ -14,14 +14,13 @@ import resources from '../../../../../lib/shared/resources'
 import ProgressBar from '../ProgressBar/index'
 import {
   onSubscriptionClick,
-  editChannelClick,
+  editResourceClick,
   getDataByKind,
   getResourcesStatusPerChannel,
   getApplicationLevelStatus
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
-import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key*/
@@ -43,7 +42,8 @@ const LeftColumnForApplicationNames = (
     openSubscriptionModal,
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
-    setCurrentsubscriptionModalData
+    setCurrentsubscriptionModalData,
+    getSubscriptionResource
   },
   { locale }
 ) => {
@@ -131,6 +131,18 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${subscriptionName} `}
                       </div>
+                      <Icon
+                        name="icon--edit"
+                        fill="#6089bf"
+                        description=""
+                        className="channelEditIcon"
+                        onClick={() =>
+                          editResourceClick(
+                            subscription,
+                            getSubscriptionResource
+                          )
+                        }
+                      />
                     </div>
                   </Tile>
                 )
@@ -147,7 +159,6 @@ const ChannelColumnGrid = (
   {
     channelList,
     applicationList,
-    editChannel,
     getChannelResource,
     appDropDownList,
     bulkSubscriptionList
@@ -173,12 +184,7 @@ const ChannelColumnGrid = (
                     description=""
                     className="channelEditIcon"
                     onClick={() =>
-                      editChannelClick(
-                        editChannel,
-                        RESOURCE_TYPES.HCM_CHANNELS,
-                        channel,
-                        getChannelResource
-                      )
+                      editResourceClick(channel, getChannelResource)
                     }
                   />
                   <div className="channelNameTitle">{`${channelName}`}</div>
@@ -291,8 +297,8 @@ const PipelineGrid = withLocale(
     applications,
     channels,
     subscriptions,
-    editChannel,
     getChannelResource,
+    getSubscriptionResource,
     openSubscriptionModal,
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
@@ -315,11 +321,11 @@ const PipelineGrid = withLocale(
               setCurrentDeployableSubscriptionData
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
+            getSubscriptionResource={getSubscriptionResource}
           />
           <ChannelColumnGrid
             channelList={channels}
             applicationList={applications}
-            editChannel={editChannel}
             getChannelResource={getChannelResource}
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications

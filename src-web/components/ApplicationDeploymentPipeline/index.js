@@ -21,6 +21,7 @@ import {
 } from '../../actions/common'
 import {
   fetchChannelResource,
+  fetchSubscriptionResource,
   closeModals
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
@@ -97,7 +98,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    editChannel: (resourceType, data) =>
+    editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
@@ -107,6 +108,17 @@ const mapDispatchToProps = dispatch => {
     getChannelResource: (selfLink, namespace, name, cluster) =>
       dispatch(
         fetchChannelResource(apolloClient, selfLink, namespace, name, cluster)
+      ),
+    //apolloClient requires CONTEXT .. so I have to pass it in here
+    getSubscriptionResource: (selfLink, namespace, name, cluster) =>
+      dispatch(
+        fetchSubscriptionResource(
+          apolloClient,
+          selfLink,
+          namespace,
+          name,
+          cluster
+        )
       ),
     closeModal: () => dispatch(closeModals())
   }
@@ -137,7 +149,9 @@ const mapStateToProps = state => {
     HCMApplicationList: filteredApplications,
     HCMChannelList,
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
+    currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
+    openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
     loading: AppDeployments.loading,
     applications: getApplicationsList(filteredApplications),
     channels: getChannelsList(HCMChannelList),
@@ -162,15 +176,18 @@ class ApplicationDeploymentPipeline extends React.Component {
       channels,
       subscriptions,
       actions,
-      editChannel,
+      editResource,
       getChannelResource,
+      getSubscriptionResource,
       editSubscription,
       displaySubscriptionModal,
       subscriptionModalHeaderInfo,
       subscriptionModalSubscriptionInfo,
       currentChannelInfo,
+      currentSubscriptionInfo,
       closeModal,
       openEditChannelModal,
+      openEditSubscriptionModal,
       loading,
       appDropDownList,
       bulkSubscriptionList
@@ -191,10 +208,20 @@ class ApplicationDeploymentPipeline extends React.Component {
     // is true AFTER the fetch of the channel data has been completed
     if (openEditChannelModal) {
       closeModal()
-      editChannel(RESOURCE_TYPES.HCM_CHANNELS, {
+      editResource(RESOURCE_TYPES.HCM_CHANNELS, {
         name: currentChannelInfo.data.items[0].metadata.name,
         namespace: currentChannelInfo.data.items[0].metadata.namespace,
         data: currentChannelInfo.data.items[0]
+      })
+    }
+    // This will trigger the edit Subscription Modal because openEditSubscriptionModal
+    // is true AFTER the fetch of the subscription data has been completed
+    if (openEditSubscriptionModal) {
+      closeModal()
+      editResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, {
+        name: currentSubscriptionInfo.data.items[0].metadata.name,
+        namespace: currentSubscriptionInfo.data.items[0].metadata.namespace,
+        data: currentSubscriptionInfo.data.items[0]
       })
     }
 
@@ -223,6 +250,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           channels={channels}
           subscriptions={subscriptions}
           getChannelResource={getChannelResource}
+          getSubscriptionResource={getSubscriptionResource}
           openSubscriptionModal={actions.openDisplaySubscriptionModal}
           setSubscriptionModalHeaderInfo={
             actions.setSubscriptionModalHeaderInfo
@@ -236,6 +264,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           updateAppDropDownList={actions.updateAppDropDownList}
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
+          editResource={editResource}
         />
         <SubscriptionModal
           displayModal={displaySubscriptionModal}

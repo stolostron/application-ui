@@ -64,20 +64,14 @@ export const onSubscriptionClick = (
   openSubscriptionModal()
 }
 
-// When we click on the edit Channel, we need to make a fetch to get the channel
-// yaml
-// We also want to open up the edit channel modal
-export const editChannelClick = (
-  editChannel,
-  resourceTypeChannel,
-  channel,
-  getChannelResource
-) => {
-  getChannelResource(
-    channel.selfLink,
-    channel.namespace,
-    channel.name,
-    channel.data.cluster
+// When we click on the edit Channel or edit subscription, we need to make a
+// fetch to get the channel yaml. We also want to open up the edit channel modal
+export const editResourceClick = (resource, getResource) => {
+  getResource(
+    resource.selfLink,
+    resource.namespace,
+    resource.name,
+    resource.cluster || resource.data.cluster
   )
 }
 

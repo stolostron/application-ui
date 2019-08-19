@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -66,16 +67,15 @@ class CreateResourceModal extends React.PureComponent {
     this.setState({ yamlParsingError: null, processing: true })
 
     this.props.onCreateResource(resources).then(result => {
-      if (
-        result &&
-        result.data &&
-        result.data.createResources &&
-        result.data.createResources.errors &&
-        result.data.createResources.errors.length > 0
-      ) {
+      const errors = R.pathOr(
+        [],
+        ['data', 'createResources', 'errors'],
+        result
+      )
+      if (errors.length > 0) {
         this.setState({
           createError: {
-            message: result.data.createResources.errors[0].message
+            message: errors[0].message
           },
           processing: false
         })

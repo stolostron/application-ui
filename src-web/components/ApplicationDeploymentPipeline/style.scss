@@ -9,7 +9,7 @@
 
 #DeploymentPipeline {
   .deploymentPipelineSearch {
-    width: 80%;
+    width: 35%;
     margin-top: 40px;
     display: inline-block;
   }
@@ -23,14 +23,17 @@
   }
 
   .AddChannelButton {
+    padding-left: 10px;
+    padding-right: 10px;
+    float: right;
     display: inline-flex;
     margin-top: 40px;
   }
 
   .AddSubscriptionButton {
     display: inline-block;
-    position: absolute;
-    margin-top: 41px;
+    float: right;
+    margin-top: 40px;
   }
 
   .addChannelIcon {

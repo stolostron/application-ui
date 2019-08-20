@@ -178,7 +178,8 @@ const SubscriptionInfo = withLocale(
     rollingUpdate = '50%',
     modalSubscription,
     editSubscription,
-    subscriptionModalSubscriptionInfo,
+    subscriptionModalSubscriptionInfo = {},
+    bulkSubscriptionList = {},
     locale
   }) => {
     // If there is currently noDeployableSubscription then we want to add rather
@@ -186,6 +187,12 @@ const SubscriptionInfo = withLocale(
     const noDeployableSubscription = R.isEmpty(
       subscriptionModalSubscriptionInfo
     )
+
+    // This will match the UID of the subscription with what we have in bulk subscription list
+    // which will return you all the related data we need to display.
+    const subscriptionWithRelatedData = R.find(
+      R.propEq('_uid', subscriptionModalSubscriptionInfo._uid)
+    )(bulkSubscriptionList)
 
     let clusters = []
     let labels = []
@@ -309,6 +316,7 @@ const SubscriptionModal = withLocale(
     modalSubscription,
     editSubscription,
     subscriptionModalSubscriptionInfo,
+    bulkSubscriptionList,
     locale
   }) => {
     return (
@@ -329,6 +337,7 @@ const SubscriptionModal = withLocale(
               subscriptionModalSubscriptionInfo={
                 subscriptionModalSubscriptionInfo
               }
+              bulkSubscriptionList={bulkSubscriptionList}
             />
             <ChannelInfo SubscriptionInfo={subscriptionModalSubscriptionInfo} />
             <DeploymentStatus />

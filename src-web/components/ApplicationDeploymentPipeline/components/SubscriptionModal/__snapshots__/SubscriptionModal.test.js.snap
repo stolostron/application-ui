@@ -104,9 +104,7 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                   </div>
                   <div
                     className="value"
-                  >
-                    
-                  </div>
+                  />
                 </div>
                 <div>
                   <div
@@ -118,12 +116,6 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                     className="value"
                   >
                      
-                    <span
-                      className="labelTag"
-                      title=""
-                    >
-                      
-                    </span>
                   </div>
                 </div>
               </div>
@@ -159,9 +151,8 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                   </div>
                 </div>
               </div>
-              <button
-                className="editSubscriptionButton"
-                onClick={[Function]}
+              <div
+                className="addSubscriptionButton"
               />
             </div>
           </div>

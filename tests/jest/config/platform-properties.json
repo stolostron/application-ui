@@ -39,7 +39,7 @@
   "application.diagram.view.collapsed": "Close editor",
   "description.Modal.SubscriptionInfo": "Subscription Name",
   "description.Modal.SubscriptionNamespace": "Namespace",
-  "description.Modal.label": "Label",
+  "description.Modal.label": "Labels",
   "description.Modal.clusters": "Clusters",
   "description.Modal.placement": "Placement",
   "description.Modal.versions": "Deployable versions",

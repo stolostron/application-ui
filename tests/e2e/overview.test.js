@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 const config = require('../../config')
@@ -14,7 +14,7 @@ let page
 module.exports = {
   '@disabled': true,
 
-  before: function (browser) {
+  before: function(browser) {
     const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
@@ -28,11 +28,11 @@ module.exports = {
     page.verifyPageLoaded()
   },
 
-  'Overview: Run Accessibility Scan': (browser) => {
+  'Overview: Run Accessibility Scan': browser => {
     a11yScan.runAccessibilityScan(browser, 'overview')
   },
 
-  after: function (browser, done) {
+  after: function(browser, done) {
     setTimeout(() => {
       browser.end()
       done()

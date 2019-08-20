@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import * as Actions from '../actions'
@@ -23,7 +23,7 @@ export const modal = (state = {}, action) => {
   case Actions.POST_REQUEST:
   case Actions.PUT_REQUEST:
   case Actions.DEL_REQUEST: {
-    const reqCount = (state.reqCount || 0)
+    const reqCount = state.reqCount || 0
     return Object.assign({}, state, {
       reqStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
       reqCount: reqCount + 1

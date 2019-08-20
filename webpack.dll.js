@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 var path = require('path'),
@@ -14,14 +14,16 @@ var path = require('path'),
     WebpackMd5Hash = require('webpack-md5-hash'),
     CompressionPlugin = require('compression-webpack-plugin')
 
-var NO_OP = () => { },
-    PRODUCTION = process.env.BUILD_ENV ? /production/.test(process.env.BUILD_ENV) : false
+var NO_OP = () => {},
+    PRODUCTION = process.env.BUILD_ENV
+      ? /production/.test(process.env.BUILD_ENV)
+      : false
 
 process.env.BABEL_ENV = 'client'
 
 module.exports = {
   entry: {
-    'vendorhcm': [
+    vendorhcm: [
       'carbon-components-react',
       'cytoscape',
       'cytoscape-cola',
@@ -64,13 +66,15 @@ module.exports = {
       name: '[name]',
       context: __dirname
     }),
-    PRODUCTION ? new UglifyJSPlugin({
-      sourceMap: true
-    }) : NO_OP,
+    PRODUCTION
+      ? new UglifyJSPlugin({
+        sourceMap: true
+      })
+      : NO_OP,
     new CompressionPlugin({
       asset: '[path].gz[query]',
       algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
+      test: /\.js$|\.css$|\.html$/
     }),
     new AssetsPlugin({
       path: path.join(__dirname, 'public'),
@@ -78,7 +82,9 @@ module.exports = {
       prettyPrint: true,
       update: true
     }),
-    PRODUCTION ? new webpack.HashedModuleIdsPlugin() : new webpack.NamedModulesPlugin(),
+    PRODUCTION
+      ? new webpack.HashedModuleIdsPlugin()
+      : new webpack.NamedModulesPlugin(),
     new WebpackMd5Hash()
   ],
   resolve: {

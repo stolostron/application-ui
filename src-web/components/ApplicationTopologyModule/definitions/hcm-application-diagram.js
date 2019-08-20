@@ -1,17 +1,20 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 import moment from 'moment'
-import {getStringAndParsed} from '../../../../lib/client/design-helper'
+import { getStringAndParsed } from '../../../../lib/client/design-helper'
 import { NODE_SIZE, StatusIcon } from '../visualizers/constants.js'
 import jsYaml from 'js-yaml'
-import { getStoredObject, saveStoredObject } from '../../../../lib/client/resource-helper'
+import {
+  getStoredObject,
+  saveStoredObject
+} from '../../../../lib/client/resource-helper'
 import config from '../../../../lib/shared/config'
 import * as Actions from '../../../actions'
 import msgs from '../../../../nls/platform.properties'
@@ -23,20 +26,20 @@ export default {
   topologyTypes: ['service', 'deployment', 'pod'],
 
   typeToShapeMap: {
-    'application': {
+    application: {
       shape: 'application',
       className: 'design',
       nodeRadius: 30
     },
-    'deployable': {
+    deployable: {
       shape: 'deployable',
       className: 'design'
     },
-    'placement': {
+    placement: {
       shape: 'placement',
       className: 'design'
     },
-    'chart': {
+    chart: {
       shape: 'chart',
       className: 'container'
     }
@@ -65,7 +68,7 @@ export default {
 
   // cytoscape layout options
   getConnectedLayoutOptions,
-  getUnconnectedLayoutOptions,
+  getUnconnectedLayoutOptions
 }
 
 // merge table/diagram/topology definitions
@@ -74,12 +77,15 @@ function mergeDefinitions(topologyDefs) {
   const defs = Object.assign(this, {})
 
   // add topology types to design types
-  defs.typeToShapeMap = Object.assign(defs.typeToShapeMap, topologyDefs.typeToShapeMap)
+  defs.typeToShapeMap = Object.assign(
+    defs.typeToShapeMap,
+    topologyDefs.typeToShapeMap
+  )
   defs.shapeTypeOrder = [...defs.designTypes, ...defs.topologyTypes]
   defs.getTopologyElements = topologyDefs.getTopologyElements
   defs.getNodeGroups = topologyDefs.getNodeGroups
 
-  this.updateNodeIcons = (nodes) => {
+  this.updateNodeIcons = nodes => {
     updateNodeIcons(nodes)
     topologyDefs.updateNodeIcons(nodes)
   }
@@ -94,7 +100,7 @@ function mergeDefinitions(topologyDefs) {
   }
 
   //getNodeDetails: what desciption to put in details view when node is clicked
-  this.getNodeDetails = (currentNode) => {
+  this.getNodeDetails = currentNode => {
     if (currentNode.isDesign) {
       return getDesignNodeDetails(currentNode)
     } else if (currentNode.isWork) {
@@ -116,8 +122,13 @@ function mergeDefinitions(topologyDefs) {
   return defs
 }
 
-function getDiagramElements(item, topology, diagramFilters, podList, localStoreKey) {
-
+function getDiagramElements(
+  item,
+  topology,
+  diagramFilters,
+  podList,
+  localStoreKey
+) {
   const { placementPolicies = [] } = item
   // get design elements like application
   let elements = getDesignElements(item)
@@ -129,11 +140,11 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
     }
   })
   targetClusters = new Set(targetClusters)
-  let {nodes=[], links=[]} = elements
-  let {yaml, designLoaded} = elements
-  const {parsed, chartMap, clusterSet, kubeSelectors} = elements
-  const hasKubeDeploments = kubeSelectors.length>0
-  const hasChartDeploments = Object.keys(chartMap).length>0
+  let { nodes = [], links = [] } = elements
+  let { yaml, designLoaded } = elements
+  const { parsed, chartMap, clusterSet, kubeSelectors } = elements
+  const hasKubeDeploments = kubeSelectors.length > 0
+  const hasChartDeploments = Object.keys(chartMap).length > 0
 
   // get filters we should use to query topology
   const requiredFilters = getTopologyFilters(item, clusterSet)
@@ -145,21 +156,22 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
   let topologyLoaded = false
   let statusesLoaded = false
   let topologyLoadError = false
-  const {activeFilters, status, reloading} = topology
+  const { activeFilters, status, reloading } = topology
   let topologyReloading = reloading
-  const requiredTopologyLoaded = _.isEqual(requiredFilters, activeFilters) &&
-    (reloading || status===Actions.REQUEST_STATUS.DONE)
+  const requiredTopologyLoaded =
+    _.isEqual(requiredFilters, activeFilters) &&
+    (reloading || status === Actions.REQUEST_STATUS.DONE)
   if (designLoaded && requiredTopologyLoaded) {
     topologyLoaded = true
     elements = this.getTopologyElements(topology)
     clusters = elements.clusters
-    const {nodes:tnodes, links:tlinks} = elements
+    const { nodes: tnodes, links: tlinks } = elements
     nodes = [...nodes, ...tnodes]
     links = [...links, ...tlinks]
 
     // get pod map
-    statusesLoaded = podList.status===Actions.REQUEST_STATUS.DONE
-    const podMap = _.keyBy(podList.items, (item)=>{
+    statusesLoaded = podList.status === Actions.REQUEST_STATUS.DONE
+    const podMap = _.keyBy(podList.items, item => {
       const cluster = _.get(item, 'cluster.metadata.name', 'unknown')
       const name = _.get(item, 'metadata.name', 'unknown')
       return `${cluster}//${name}`
@@ -167,30 +179,35 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
 
     // add links between design nodes and topology nodes
     // don't add k8 node if it has no connection to design
-    nodes = nodes.filter((node)=>{
-      const {uid, labels, clusterName, name, type} = node
+    nodes = nodes.filter(node => {
+      const { uid, labels, clusterName, name, type } = node
       if (uid && labels) {
-        let shapeId=null
+        let shapeId = null
 
         // if deployable connected directly to k8, use selector to match the k8 object
         if (hasKubeDeploments) {
-          const selector = kubeSelectors.find(({kubeCluster, kubeKind, kubeName})=>{
-            // must be in same cluster
-            if (clusterName!==kubeCluster) {
-              return false
+          const selector = kubeSelectors.find(
+            ({ kubeCluster, kubeKind, kubeName }) => {
+              // must be in same cluster
+              if (clusterName !== kubeCluster) {
+                return false
+              }
+              // must be service if kind is Service
+              // pod and deployment if kind is Deployment
+              if (kubeKind === 'Service' && type !== 'service') {
+                return false
+              }
+              // must be same name
+              const k8Name =
+                type === 'pod'
+                  ? name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+                  : name
+              if (k8Name !== kubeName) {
+                return false
+              }
+              return true
             }
-            // must be service if kind is Service
-            // pod and deployment if kind is Deployment
-            if (kubeKind === 'Service' && type!=='service') {
-              return false
-            }
-            // must be same name
-            const k8Name = type==='pod' ? name.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '') : name
-            if (k8Name!==kubeName) {
-              return false
-            }
-            return true
-          })
+          )
           if (selector) {
             shapeId = selector.deployableId
             node.isCRDDeployment = true
@@ -199,8 +216,8 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
 
         // else if deployable used a chart, connect the chart to the k8 object
         if (!shapeId && hasChartDeploments) {
-          const label = labels.find(({name})=>{
-            return name==='release'
+          const label = labels.find(({ name }) => {
+            return name === 'release'
           })
           if (label) {
             shapeId = chartMap[`${clusterName}//${label.value}`] //chart id through "release" label
@@ -211,7 +228,7 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
             source: shapeId,
             target: uid,
             label: '',
-            uid: shapeId+uid
+            uid: shapeId + uid
           })
           // kube data on this pod
           const podModel = podMap[`${clusterName}//${name}`]
@@ -231,7 +248,7 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
         clusters,
         links,
         nodes,
-        yaml,
+        yaml
       })
     }
   } else if (!topologyReloading) {
@@ -239,7 +256,7 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
     // with the same diagram filters
     const storedElements = getStoredObject(localStoreKey)
     if (storedElements) {
-      topology.storedElements=storedElements
+      topology.storedElements = storedElements
       clusters = storedElements.clusters || clusters
       nodes = storedElements.nodes || nodes
       links = storedElements.links || links
@@ -247,7 +264,7 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
       designLoaded = topologyLoaded = topologyReloading = true
     } else {
       // topology load error
-      if (status===Actions.REQUEST_STATUS.ERROR) {
+      if (status === Actions.REQUEST_STATUS.ERROR) {
         topologyLoadError = true
       } else {
         // if topology not loaded yet and no stored version,
@@ -256,14 +273,14 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
         links = []
       }
     }
-    if (topology.status===Actions.REQUEST_STATUS.ERROR) {
+    if (topology.status === Actions.REQUEST_STATUS.ERROR) {
       topologyLoaded = true
     }
   }
 
   // filter nodes based on current diagram filters
   const typeMap = _.keyBy(diagramFilters, 'label')
-  nodes = nodes.filter(({type})=>{
+  nodes = nodes.filter(({ type }) => {
     return !!typeMap[type]
   })
 
@@ -278,15 +295,15 @@ function getDiagramElements(item, topology, diagramFilters, podList, localStoreK
     topologyLoaded,
     statusesLoaded,
     topologyLoadError,
-    topologyReloading,
+    topologyReloading
   }
 }
 
 function getDesignElements(item) {
-  const links=[]
-  const nodes=[]
-  const chartMap={}
-  const kubeSelectors=[]
+  const links = []
+  const nodes = []
+  const chartMap = {}
+  const kubeSelectors = []
   const clusterSet = new Set()
   const deployablesMap = {}
   let yaml = ''
@@ -294,7 +311,12 @@ function getDesignElements(item) {
   // wait for full application to load
   const designLoaded = !!(item && item.raw)
   if (designLoaded) {
-    const dnp = getStringAndParsed(item, ['applicationRelationships', 'deployables', 'placementPolicies', 'placementBindings'])
+    const dnp = getStringAndParsed(item, [
+      'applicationRelationships',
+      'deployables',
+      'placementPolicies',
+      'placementBindings'
+    ])
     parsed = dnp.parsed
     yaml = dnp.yaml
 
@@ -312,12 +334,12 @@ function getDesignElements(item) {
     })
 
     // to simiplify diagram remove links between app and deployable if there's another link
-    const removeAppLink = (deployableId) => {
-      const idx = links.findIndex(({uid})=>{
-        return uid === appId+deployableId
+    const removeAppLink = deployableId => {
+      const idx = links.findIndex(({ uid }) => {
+        return uid === appId + deployableId
       })
-      if (idx!==-1) {
-        links.splice(idx,1)
+      if (idx !== -1) {
+        links.splice(idx, 1)
       }
     }
 
@@ -325,12 +347,11 @@ function getDesignElements(item) {
     const policiesIdMap = {}
     const deployablesIdMap = {}
     const keys = ['deployables', 'placementPolicies']
-    keys.forEach(key=>{
+    keys.forEach(key => {
       const arr = parsed[key]
       if (Array.isArray(arr)) {
-
         // create nodes and links
-        arr.forEach((member, idx)=>{
+        arr.forEach((member, idx) => {
           const name = _.get(member, 'metadata.$v.name', member)
           const namespace = _.get(member, 'metadata.$v.namespace.$v')
           const memberId = `member--${key}--${name.$v}--${idx}`
@@ -352,9 +373,9 @@ function getDesignElements(item) {
             target: memberId,
             label: '',
             isDesign: true,
-            uid: appId+memberId
+            uid: appId + memberId
           })
-          if (key==='deployables') {
+          if (key === 'deployables') {
             deployablesIdMap[name.$v] = memberId
           } else {
             policiesIdMap[name.$v] = memberId
@@ -366,9 +387,11 @@ function getDesignElements(item) {
     // create application relationship links between deployables
     let arr = parsed['applicationRelationships']
     if (Array.isArray(arr)) {
-      arr.forEach((member)=>{
-        var srcId = deployablesIdMap[_.get(member, 'spec.$v.source.$v.name.$v')]
-        var tgtId = deployablesIdMap[_.get(member, 'spec.$v.destination.$v.name.$v')]
+      arr.forEach(member => {
+        var srcId =
+          deployablesIdMap[_.get(member, 'spec.$v.source.$v.name.$v')]
+        var tgtId =
+          deployablesIdMap[_.get(member, 'spec.$v.destination.$v.name.$v')]
         if (srcId && tgtId) {
           // add link between deployables
           links.push({
@@ -376,7 +399,7 @@ function getDesignElements(item) {
             target: tgtId,
             label: _.get(member, 'spec.$v.type.$v') || 'usesCreated',
             isDesign: true,
-            uid: srcId+tgtId
+            uid: srcId + tgtId
           })
           // remove link between app and deployable
           removeAppLink(tgtId)
@@ -387,12 +410,12 @@ function getDesignElements(item) {
     // create placement binding links between policies and deployables
     arr = parsed['placementBindings']
     if (Array.isArray(arr)) {
-      arr.forEach((member)=>{
+      arr.forEach(member => {
         var srcId = policiesIdMap[_.get(member, 'placementRef.$v.name.$v')]
         if (srcId) {
           var subjects = _.get(member, 'subjects.$v')
           if (Array.isArray(subjects)) {
-            subjects.forEach((subject)=>{
+            subjects.forEach(subject => {
               var tgtId = deployablesIdMap[_.get(subject, '$v.name.$v')]
               if (tgtId) {
                 // add link between policy and deployable
@@ -401,7 +424,7 @@ function getDesignElements(item) {
                   target: tgtId,
                   label: 'binds',
                   isDesign: true,
-                  uid: srcId+tgtId
+                  uid: srcId + tgtId
                 })
                 // remove link between app and deployable
                 removeAppLink(tgtId)
@@ -414,19 +437,25 @@ function getDesignElements(item) {
 
     // create a relationship between deployable and works
     const deployerMap = {}
-    item.deployables.forEach(deployable=>{
-      if(deployable.deployer){
-        const {deployer: {namespace, chartURL, kubeKind, kubeName}} = deployable
+    item.deployables.forEach(deployable => {
+      if (deployable.deployer) {
+        const {
+          deployer: { namespace, chartURL, kubeKind, kubeName }
+        } = deployable
         // when a chart was used or when a k8 object was selected
-        const key = chartURL ? `${namespace}///${chartURL}` : `${kubeKind}///${kubeName}`
+        const key = chartURL
+          ? `${namespace}///${chartURL}`
+          : `${kubeKind}///${kubeName}`
         deployerMap[key] = deployable
       }
     })
     const applicationWorksMap = {}
-    item.applicationWorks.forEach(work=>{
-      const {result: {namespace, chartURL, kubeKind, kubeName}} = work
+    item.applicationWorks.forEach(work => {
+      const { result: { namespace, chartURL, kubeKind, kubeName } } = work
       // when a chart was used or when a k8 object was selected
-      const key = chartURL ? `${namespace}///${chartURL}` : `${kubeKind}///${kubeName}`
+      const key = chartURL
+        ? `${namespace}///${chartURL}`
+        : `${kubeKind}///${kubeName}`
       let arr = applicationWorksMap[key]
       if (!arr) {
         arr = applicationWorksMap[key] = []
@@ -438,31 +467,49 @@ function getDesignElements(item) {
     // used when no charts in app and we divide diagram by deployable (se below)
     const nonDividerSet = new Set()
     const nodeMap = _.keyBy(nodes, 'uid')
-    links.forEach(({source, target})=>{
-      if (nodeMap[source].type==='deployable' && nodeMap[target].type==='deployable') {
+    links.forEach(({ source, target }) => {
+      if (
+        nodeMap[source].type === 'deployable' &&
+        nodeMap[target].type === 'deployable'
+      ) {
         nonDividerSet.add(target)
       }
     })
 
     // connect each works between deployable and k8 object
     // insert a chart shape in between if that was used
-    Object.keys(applicationWorksMap).forEach((key,idx)=>{
-
-      applicationWorksMap[key].forEach(work=>{
-        const {release, status, reason, cluster, result: {chartName, chartVersion, chartURL, kubeKind, kubeName, kubeCluster}} = work
+    Object.keys(applicationWorksMap).forEach((key, idx) => {
+      applicationWorksMap[key].forEach(work => {
+        const {
+          release,
+          status,
+          reason,
+          cluster,
+          result: {
+            chartName,
+            chartVersion,
+            chartURL,
+            kubeKind,
+            kubeName,
+            kubeCluster
+          }
+        } = work
         clusterSet.add(kubeCluster)
 
         // if a chart was used:
         //  create its shape, connect it to deployable
         //  and add a relationship to be used to connect chart to k8 objects (in chartMap)
-        if(chartName || chartVersion || chartURL) {
-
+        if (chartName || chartVersion || chartURL) {
           let name, chartId, statusIcon
           if (chartName || chartVersion) {
-            name= `${chartName} ${chartVersion}`
+            name = `${chartName} ${chartVersion}`
             chartId = `member--${release}--${idx}`
           } else {
-            name= chartURL.split('\\').pop().split('/').pop()
+            name = chartURL
+              .split('\\')
+              .pop()
+              .split('/')
+              .pop()
             chartId = `member--failed--${idx}`
           }
 
@@ -476,23 +523,24 @@ function getDesignElements(item) {
             type: 'chart',
             isWork: true,
             isDivider: true, // organize diagram so that charts form barrier between design and k8
-            uid: chartId,
+            uid: chartId
           })
 
           // create link between deployable to chart
           const deployer = deployerMap[key]
-          const deployableId = deployer ? deployablesIdMap[deployer.metadata.name] : {}
+          const deployableId = deployer
+            ? deployablesIdMap[deployer.metadata.name]
+            : {}
           links.push({
             source: deployableId,
             target: chartId,
             label: 'deploys',
             isWork: true,
-            uid: deployableId+chartId
+            uid: deployableId + chartId
           })
 
           // tell how to connect chart to k8 object (thru release label on k8 object)
           chartMap[`${cluster}//${release}`] = chartId
-
         } else {
           // if no chart, use work to directly connect deployable to k8 object thru kind/name/cluster
           const deployer = deployerMap[key]
@@ -502,7 +550,10 @@ function getDesignElements(item) {
 
             // pass a selector back that will find a topology element that thios deployer connects to
             kubeSelectors.push({
-              deployableId, kubeKind, kubeName, kubeCluster
+              deployableId,
+              kubeKind,
+              kubeName,
+              kubeCluster
             })
 
             // organize diagram so that deployables form barrier between design and k8
@@ -531,10 +582,10 @@ function getTopologyFilters(item, clusterSet) {
     let labels = []
     const filters = {
       cluster: Array.from(clusterSet),
-      type: ['service', 'deployment', 'pod'],
+      type: ['service', 'deployment', 'pod']
     }
     // else we can use the labels on the application to find k8 objects
-    const {selector={}} = item
+    const { selector = {} } = item
     Object.entries(selector).forEach(([key, value]) => {
       switch (key) {
       case 'matchLabels':
@@ -547,7 +598,11 @@ function getTopologyFilters(item, clusterSet) {
         value.forEach(({ key: k = '', operator = '', values = [] }) => {
           switch (operator.toLowerCase()) {
           case 'in':
-            labels = values.map(v => ({ label: `${k}: ${v}`, name: k, value: v }))
+            labels = values.map(v => ({
+              label: `${k}: ${v}`,
+              name: k,
+              value: v
+            }))
             break
 
           case 'notin':
@@ -611,10 +666,10 @@ function getNodeTitle(node, locale) {
 }
 
 function updateNodeIcons(nodes) {
-  nodes.forEach(node=>{
+  nodes.forEach(node => {
     if (node.status) {
       let statusIcon
-      let tooltips=''
+      let tooltips = ''
       switch (node.status.toLowerCase()) {
       case 'completed':
         statusIcon = StatusIcon.success
@@ -622,22 +677,22 @@ function updateNodeIcons(nodes) {
 
       default:
         statusIcon = StatusIcon.error
-        tooltips = [{name:'Reason', value: node.reason}]
+        tooltips = [{ name: 'Reason', value: node.reason }]
         break
       }
       let nodeIcons = node.layout.nodeIcons
       if (!nodeIcons) {
         nodeIcons = node.layout.nodeIcons = {}
       }
-      nodeIcons['status'] = Object.assign(statusIcon, {tooltips})
+      nodeIcons['status'] = Object.assign(statusIcon, { tooltips })
     }
   })
 }
 
 function getWorkNodeDescription(node) {
   let description = _.get(node, 'work.result.description')
-  if (description && description.length>16) {
-    description = `${description.slice(0,8)}...${description.slice(-8)}`
+  if (description && description.length > 16) {
+    description = `${description.slice(0, 8)}...${description.slice(-8)}`
   }
   return description
 }
@@ -648,47 +703,60 @@ function getDesignNodeDetails(currentNode) {
   if (currentNode) {
     switch (currentNode.type) {
     case 'application': {
-      const {application: { metadata: {name, namespace, creationTimestamp, resourceVersion, labels:l=[] }}} = currentNode
+      const {
+        application: {
+          metadata: {
+            name,
+            namespace,
+            creationTimestamp,
+            resourceVersion,
+            labels: l = []
+          }
+        }
+      } = currentNode
       addDetails(details, [
-        {labelKey: 'resource.type', value: currentNode.type},
-        {labelKey: 'resource.name', value: name},
-        {labelKey: 'resource.namespace', value: namespace},
-        {labelKey: 'resource.created', value: getAge(creationTimestamp)},
-        {labelKey: 'resource.version', value: resourceVersion},
+        { labelKey: 'resource.type', value: currentNode.type },
+        { labelKey: 'resource.name', value: name },
+        { labelKey: 'resource.namespace', value: namespace },
+        { labelKey: 'resource.created', value: getAge(creationTimestamp) },
+        { labelKey: 'resource.version', value: resourceVersion }
       ])
       labels = l
       break
     }
     case 'placement': {
-      const {name, namespace, member: {$raw: { spec: {clusterLabels, clusterReplicas}}}} = currentNode
+      const {
+        name,
+        namespace,
+        member: { $raw: { spec: { clusterLabels, clusterReplicas } } }
+      } = currentNode
       addDetails(details, [
-        {labelKey: 'resource.type', value: currentNode.type},
-        {labelKey: 'resource.name', value: name},
-        {labelKey: 'resource.namespace', value: namespace},
-        {labelKey: 'resource.replicas', value: clusterReplicas},
+        { labelKey: 'resource.type', value: currentNode.type },
+        { labelKey: 'resource.name', value: name },
+        { labelKey: 'resource.namespace', value: namespace },
+        { labelKey: 'resource.replicas', value: clusterReplicas }
       ])
       const yaml = jsYaml.safeDump(clusterLabels).split('\n')
-      if (yaml.length>0) {
+      if (yaml.length > 0) {
         details.push({
           type: 'label',
           labelKey: 'resource.cluster.labels'
         })
-        yaml.forEach(value=>{
-          const labelDetails = [
-            {value},
-          ]
+        yaml.forEach(value => {
+          const labelDetails = [{ value }]
           addDetails(details, labelDetails)
         })
-
       }
       break
     }
     case 'deployable': {
-      const {member: { $raw: {metadata: {name, namespace, labels:l=[] }}}} = currentNode
+      const {
+        member: { $raw: { metadata: { name, namespace, labels: l = [] } } }
+      } = currentNode
       addDetails(details, [
-        {labelKey: 'resource.type', value: currentNode.type},
-        {labelKey: 'resource.name', value: name},
-        {labelKey: 'resource.namespace', value: namespace},
+        { labelKey: 'resource.type', value: currentNode.type },
+        { labelKey: 'resource.name', value: name },
+        { labelKey: 'resource.namespace', value: namespace }
       ])
       labels = l
       break
@@ -696,43 +764,47 @@ function getDesignNodeDetails(currentNode) {
     }
   }
 
-
   // add labels
   labels = Object.entries(labels)
-  if (labels.length>0) {
+  if (labels.length > 0) {
     details.push({
       type: 'label',
       labelKey: 'resource.labels'
     })
-    labels.forEach(([name, value])=>{
-      const labelDetails = [
-        {value: `${name} = ${value}`},
-      ]
+    labels.forEach(([name, value]) => {
+      const labelDetails = [{ value: `${name} = ${value}` }]
       addDetails(details, labelDetails)
     })
   }
-
 
   return details
 }
 
 function getWorkNodeDetails(currentNode) {
   const details = []
-  if (currentNode){
-    const { work: {cluster, release, result, status, reason }} = currentNode
-    const { chartName, chartVersion, chartURL, namespace, description, firstDeployed, lastDeployed } = result
-    const addDetails = (dets) => {
-      dets.forEach(({labelKey, value})=>{
+  if (currentNode) {
+    const { work: { cluster, release, result, status, reason } } = currentNode
+    const {
+      chartName,
+      chartVersion,
+      chartURL,
+      namespace,
+      description,
+      firstDeployed,
+      lastDeployed
+    } = result
+    const addDetails = dets => {
+      dets.forEach(({ labelKey, value }) => {
         if (value) {
           details.push({
             type: 'label',
             labelKey,
-            value,
+            value
           })
         }
       })
     }
-    const getAge = (value) => {
+    const getAge = value => {
       if (value) {
         if (value.includes('T')) {
           return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
@@ -743,26 +815,26 @@ function getWorkNodeDetails(currentNode) {
       return '-'
     }
     const mainDetails = [
-      {labelKey: 'resource.type', value:'chart'},
-      {labelKey: 'resource.cluster', value: cluster},
-      {labelKey: 'resource.name', value: chartName},
-      {labelKey: 'resource.version', value: chartVersion},
-      {labelKey: 'resource.namespace', value: namespace},
-      {labelKey: 'resource.description', value: description},
-      {labelKey: 'resource.status', value: status},
+      { labelKey: 'resource.type', value: 'chart' },
+      { labelKey: 'resource.cluster', value: cluster },
+      { labelKey: 'resource.name', value: chartName },
+      { labelKey: 'resource.version', value: chartVersion },
+      { labelKey: 'resource.namespace', value: namespace },
+      { labelKey: 'resource.description', value: description },
+      { labelKey: 'resource.status', value: status }
     ]
     let extraDetails
     if (firstDeployed) {
       extraDetails = [
-        {labelKey: 'resource.release', value: release},
-        {labelKey: 'resource.firstDeployed', value: getAge(firstDeployed)},
-        {labelKey: 'resource.lastDeployed', value: getAge(lastDeployed)},
-        {labelKey: 'resource.url', value: chartURL},
+        { labelKey: 'resource.release', value: release },
+        { labelKey: 'resource.firstDeployed', value: getAge(firstDeployed) },
+        { labelKey: 'resource.lastDeployed', value: getAge(lastDeployed) },
+        { labelKey: 'resource.url', value: chartURL }
       ]
     } else {
       extraDetails = [
-        {labelKey: 'resource.reason', value: reason},
-        {labelKey: 'resource.url', value: chartURL},
+        { labelKey: 'resource.reason', value: reason },
+        { labelKey: 'resource.url', value: chartURL }
       ]
     }
     addDetails([...mainDetails, ...extraDetails])
@@ -772,30 +844,40 @@ function getWorkNodeDetails(currentNode) {
 
 function getDesignNodeTooltips(node, locale) {
   const tooltips = []
-  const {name, type, namespace} = node
-  const contextPath = config.contextPath.replace(new RegExp('/applications'), '')
+  const { name, type, namespace } = node
+  const contextPath = config.contextPath.replace(
+    new RegExp('/applications'),
+    ''
+  )
   let href = `${contextPath}/search?filters={"textsearch":"kind:${type} name:${name}"}`
-  tooltips.push({name:_.capitalize(_.startCase(type)), value:name, href})
+  tooltips.push({ name: _.capitalize(_.startCase(type)), value: name, href })
   if (namespace) {
     href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
-    tooltips.push({name:msgs.get('resource.namespace', locale), value:namespace, href})
+    tooltips.push({
+      name: msgs.get('resource.namespace', locale),
+      value: namespace,
+      href
+    })
   }
   return tooltips
 }
 
 function getWorkNodeTooltips(node, locale) {
   let tooltips = []
-  const {name, type, work, layout:{nodeIcons}} = node
-  const {cluster, status} = work
+  const { name, type, work, layout: { nodeIcons } } = node
+  const { cluster, status } = work
   const description = _.get(work, 'result.description', '')
-  tooltips.push({name:msgs.get('resource.name', locale), value:name})
-  tooltips.push({name:msgs.get('resource.type', locale), value:type})
-  tooltips.push({name:msgs.get('resource.cluster', locale), value:cluster})
-  tooltips.push({name:msgs.get('resource.description', locale), value:description})
-  tooltips.push({name:msgs.get('resource.status', locale), value:status})
+  tooltips.push({ name: msgs.get('resource.name', locale), value: name })
+  tooltips.push({ name: msgs.get('resource.type', locale), value: type })
+  tooltips.push({ name: msgs.get('resource.cluster', locale), value: cluster })
+  tooltips.push({
+    name: msgs.get('resource.description', locale),
+    value: description
+  })
+  tooltips.push({ name: msgs.get('resource.status', locale), value: status })
   if (nodeIcons) {
     Object.keys(nodeIcons).forEach(key => {
-      const {tooltips:ntps} = nodeIcons[key]
+      const { tooltips: ntps } = nodeIcons[key]
       if (ntps) tooltips = tooltips.concat(ntps)
     })
   }
@@ -803,19 +885,25 @@ function getWorkNodeTooltips(node, locale) {
 }
 
 function getSectionTitles(isMulticluster, clusters, types) {
-  const hasTitle = ['chart','deployment','pod','service']
-  types = types.filter(type=>{
-    return hasTitle.indexOf(type)===-1
+  const hasTitle = ['chart', 'deployment', 'pod', 'service']
+  types = types.filter(type => {
+    return hasTitle.indexOf(type) === -1
   })
-  return types.length===0 ? clusters.join(', ') : ''
+  return types.length === 0 ? clusters.join(', ') : ''
 }
 
-function getConnectedLayoutOptions({elements}) {
-
+function getConnectedLayoutOptions({ elements }) {
   // pre position elements to try to keep webcola from random layouts
-  positionRow(0, elements.nodes().roots().toArray(), new Set())
+  positionRow(
+    0,
+    elements
+      .nodes()
+      .roots()
+      .toArray(),
+    new Set()
+  )
 
-  const hasCharts = elements.some(( ele ) => {
+  const hasCharts = elements.some(ele => {
     return ele.isNode() && ele.data('node').type === 'chart'
   })
 
@@ -832,16 +920,16 @@ function getConnectedLayoutOptions({elements}) {
       },
 
       // do directed graph, top to bottom
-      flow: { axis: 'y', minSeparation: NODE_SIZE*1.2},
+      flow: { axis: 'y', minSeparation: NODE_SIZE * 1.2 },
 
       // running in headless mode, we need to provide node size here
-      nodeSpacing: ()=>{
-        return NODE_SIZE*1.3
+      nodeSpacing: () => {
+        return NODE_SIZE * 1.3
       },
 
       // put charts along y to separate design from k8 objects
-      alignment: (node)=>{
-        const {node:{isDivider}} = node.data()
+      alignment: node => {
+        const { node: { isDivider } } = node.data()
         if (isDivider) {
           return { y: 0 }
         }
@@ -850,17 +938,15 @@ function getConnectedLayoutOptions({elements}) {
 
       unconstrIter: 10, // works on positioning nodes to making edge lengths ideal
       userConstIter: 20, // works on flow constraints (lr(x axis)or tb(y axis))
-      allConstIter: 20, // works on overlap
+      allConstIter: 20 // works on overlap
     }
-
   } else {
     return {
       name: 'dagre',
       rankDir: 'LR',
-      rankSep: NODE_SIZE*3, // running in headless mode, we need to provide node size here
-      nodeSep: NODE_SIZE*2.8, // running in headless mode, we need to provide node size here
-      ranker: 'network-simplex', // 'network-simplex', 'tight-tree' or 'longest-path'
-
+      rankSep: NODE_SIZE * 3, // running in headless mode, we need to provide node size here
+      nodeSep: NODE_SIZE * 2.8, // running in headless mode, we need to provide node size here
+      ranker: 'network-simplex' // 'network-simplex', 'tight-tree' or 'longest-path'
     }
   }
 }
@@ -869,34 +955,39 @@ const positionRow = (y, row, placedSet) => {
   const width = row.length * NODE_SIZE * 2
   if (width) {
     // place each node in this row
-    let x = -(width/2)
-    row.forEach(n=>{
+    let x = -(width / 2)
+    row.forEach(n => {
       placedSet.add(n.id())
-      n.position({x, y})
-      x+=NODE_SIZE*2
+      n.position({ x, y })
+      x += NODE_SIZE * 2
     })
 
     // find and sort next row down
     let nextRow = []
-    row.forEach(n=>{
-      const outgoers = n.outgoers().nodes().filter(n=>{
-        return !placedSet.has(n.id())
-      }).sort((a,b)=>{
-        return a.data().node.name.localeCompare(b.data().node.name)
-      }).toArray()
+    row.forEach(n => {
+      const outgoers = n
+        .outgoers()
+        .nodes()
+        .filter(n => {
+          return !placedSet.has(n.id())
+        })
+        .sort((a, b) => {
+          return a.data().node.name.localeCompare(b.data().node.name)
+        })
+        .toArray()
       nextRow = [...nextRow, ...outgoers]
     })
 
     // place next row down
-    positionRow(y+NODE_SIZE*1.1, nextRow, placedSet)
+    positionRow(y + NODE_SIZE * 1.1, nextRow, placedSet)
   }
 }
 
 function getUnconnectedLayoutOptions(collection, columns, index) {
   const count = collection.elements.length
   const cols = Math.min(count, columns[index])
-  const h = Math.ceil(count/columns[index])*NODE_SIZE*2.7
-  const w = cols*NODE_SIZE*3
+  const h = Math.ceil(count / columns[index]) * NODE_SIZE * 2.7
+  const w = cols * NODE_SIZE * 3
   return {
     name: 'grid',
     avoidOverlap: false, // prevents node overlap, may overflow boundingBox if not enough space
@@ -906,9 +997,9 @@ function getUnconnectedLayoutOptions(collection, columns, index) {
       w,
       h
     },
-    sort: (a,b) => {
-      const {node: {layout: la}} = a.data()
-      const {node: {layout: lb}} = b.data()
+    sort: (a, b) => {
+      const { node: { layout: la } } = a.data()
+      const { node: { layout: lb } } = b.data()
       return la.label.localeCompare(lb.label)
     },
     cols
@@ -916,12 +1007,12 @@ function getUnconnectedLayoutOptions(collection, columns, index) {
 }
 
 function addDetails(details, newDetails) {
-  newDetails.forEach(({labelKey, value})=>{
+  newDetails.forEach(({ labelKey, value }) => {
     if (value) {
       details.push({
         type: 'label',
         labelKey,
-        value,
+        value
       })
     }
   })
@@ -937,4 +1028,3 @@ function getAge(value) {
   }
   return '-'
 }
-

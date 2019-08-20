@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -13,7 +13,6 @@ import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 
 class ScrollBox extends React.PureComponent {
-
   componentDidMount() {
     this.scrollToBottom()
   }
@@ -25,11 +24,19 @@ class ScrollBox extends React.PureComponent {
   render() {
     const { content, className } = this.props
     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    return <div className={className} ref={div => {this.scrollBox=div}} tabIndex='0'>
-      <pre>
-        {content ? content : msgs.get('search.notfound', this.context.locale)}
-      </pre>
-    </div>
+    return (
+      <div
+        className={className}
+        ref={div => {
+          this.scrollBox = div
+        }}
+        tabIndex="0"
+      >
+        <pre>
+          {content ? content : msgs.get('search.notfound', this.context.locale)}
+        </pre>
+      </div>
+    )
   }
 
   scrollToBottom() {
@@ -42,7 +49,7 @@ ScrollBox.contextTypes = {
 }
 
 ScrollBox.propTypes = {
-  className:  PropTypes.string,
-  content: PropTypes.string,
+  className: PropTypes.string,
+  content: PropTypes.string
 }
 export default ScrollBox

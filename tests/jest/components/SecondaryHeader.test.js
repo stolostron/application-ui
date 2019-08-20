@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -15,22 +15,22 @@ import { SecondaryHeader } from '../../../src-web/components/SecondaryHeader'
 
 describe('SecondaryHeader component 1', () => {
   it('renders as expected', () => {
-    const component = renderer.create(
-      <SecondaryHeader title='hello world' />
-    )
+    const component = renderer.create(<SecondaryHeader title="hello world" />)
     expect(component.toJSON()).toMatchSnapshot()
   })
 })
 
 describe('SecondaryHeader component 2', () => {
-  const tabs = [{
-    id: 'dashboard-application',
-    label: 'tabs.dashboard.application',
-    url: '/multicloud/dashboard',
-  }]
+  const tabs = [
+    {
+      id: 'dashboard-application',
+      label: 'tabs.dashboard.application',
+      url: '/multicloud/dashboard'
+    }
+  ]
   it('renders as expected', () => {
     const component = renderer.create(
-      <SecondaryHeader title='hello world' tabs={tabs} />
+      <SecondaryHeader title="hello world" tabs={tabs} />
     )
     expect(component.toJSON()).toMatchSnapshot()
   })
@@ -41,12 +41,12 @@ describe('SecondaryHeader component 3', () => {
     {
       id: 'logs-tab',
       label: 'tabs.dashboard.application',
-      url: '/multicloud/dashboard',
+      url: '/multicloud/dashboard'
     },
     {
       id: 'logs-tab',
       label: 'tabs.dashboard',
-      url: '/hello',
+      url: '/hello'
     }
   ]
   const location = {
@@ -55,7 +55,12 @@ describe('SecondaryHeader component 3', () => {
   it('renders as expected', () => {
     const component = renderer.create(
       //eslint-disable-next-line
-      <SecondaryHeader title='hello world' role='Viewer' tabs={tabs} location={location} />
+      <SecondaryHeader
+        title="hello world"
+        role="Viewer"
+        tabs={tabs}
+        location={location}
+      />
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

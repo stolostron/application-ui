@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import React from 'react'
@@ -17,19 +17,18 @@ resources(() => {
   require('../../../scss/textWithTruncation.scss')
 })
 
-
 class TruncateText extends React.PureComponent {
   static propTypes = {
     maxCharacters: PropTypes.number,
-    text: PropTypes.string.isRequired,
-  }
+    text: PropTypes.string.isRequired
+  };
 
-  static defaultProps ={
-    maxCharacters: 35,
-  }
+  static defaultProps = {
+    maxCharacters: 35
+  };
 
   render() {
-    if (this.props.text.length <= this.props.maxCharacters){
+    if (this.props.text.length <= this.props.maxCharacters) {
       return this.props.text
     }
 
@@ -38,7 +37,8 @@ class TruncateText extends React.PureComponent {
         triggerClassName="textWithTruncation"
         showIcon={false}
         text={this.props.text}
-        triggerText={truncate(this.props.text, this.props.maxCharacters)} >
+        triggerText={truncate(this.props.text, this.props.maxCharacters)}
+      >
         {this.props.text}
       </Tooltip>
     )

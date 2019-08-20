@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -34,7 +34,6 @@ describe('User reducer', () => {
       expect(user({}, action)).toEqual(null)
     })
   })
-
 
   describe('#loggedIn', () => {
     const initialState = Actions.USER_LOGIN_STATUS.LOGGED_OUT

@@ -1,14 +1,17 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
-import { SORT_DIRECTION_ASCENDING, SORT_DIRECTION_DESCENDING } from '../actions/'
+import {
+  SORT_DIRECTION_ASCENDING,
+  SORT_DIRECTION_DESCENDING
+} from '../actions/'
 /*
 * UI helper to handle search and sort for table components
 * */
@@ -21,8 +24,17 @@ class TableHelper {
     const target = e.currentTarget
     if (target) {
       const newSortColumn = target && target.getAttribute('data-key')
-      const defaultSortColumn = target && target.getAttribute('data-default-key')
-      const newSortDirection = !prevSortColumn ? defaultSortColumn === newSortColumn ? SORT_DIRECTION_DESCENDING : SORT_DIRECTION_ASCENDING : prevSortColumn !== newSortColumn ? SORT_DIRECTION_ASCENDING: prevSortDirection === SORT_DIRECTION_ASCENDING ? SORT_DIRECTION_DESCENDING : SORT_DIRECTION_ASCENDING
+      const defaultSortColumn =
+        target && target.getAttribute('data-default-key')
+      const newSortDirection = !prevSortColumn
+        ? defaultSortColumn === newSortColumn
+          ? SORT_DIRECTION_DESCENDING
+          : SORT_DIRECTION_ASCENDING
+        : prevSortColumn !== newSortColumn
+          ? SORT_DIRECTION_ASCENDING
+          : prevSortDirection === SORT_DIRECTION_ASCENDING
+            ? SORT_DIRECTION_DESCENDING
+            : SORT_DIRECTION_ASCENDING
       cb(newSortDirection, newSortColumn)
     }
   }

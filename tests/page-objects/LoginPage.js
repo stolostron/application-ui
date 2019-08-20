@@ -1,16 +1,16 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 const config = require('../../config')
 
 module.exports = {
-  url: function () {
+  url: function() {
     return `${this.api.launchUrl}${config.get('contextPath')}`
   },
   elements: {
@@ -21,14 +21,16 @@ module.exports = {
     header: '.app-header',
     loginPage: '.login-container'
   },
-  commands: [{
-    inputUsername,
-    inputPassword,
-    submit,
-    authenticate,
-    waitForLoginSuccess,
-    waitForLoginPageLoad
-  }]
+  commands: [
+    {
+      inputUsername,
+      inputPassword,
+      submit,
+      authenticate,
+      waitForLoginSuccess,
+      waitForLoginPageLoad
+    }
+  ]
 }
 
 //helper for other pages to use for authentication in before() their suit
@@ -41,18 +43,21 @@ function authenticate(user, password) {
 }
 
 function inputUsername(user) {
-  this.waitForElementVisible('@username')
-    .setValue('@username', user || config.get('tests:user'))
+  this.waitForElementVisible('@username').setValue(
+    '@username',
+    user || config.get('tests:user')
+  )
 }
 
 function inputPassword(password) {
-  this.waitForElementVisible('@password')
-    .setValue('@password', password || config.get('tests:password'))
+  this.waitForElementVisible('@password').setValue(
+    '@password',
+    password || config.get('tests:password')
+  )
 }
 
 function submit() {
-  this.waitForElementVisible('@submit')
-    .click('@submit')
+  this.waitForElementVisible('@submit').click('@submit')
 }
 
 function waitForLoginSuccess() {

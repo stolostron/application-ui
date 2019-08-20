@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -15,22 +15,33 @@ import msgs from '../../../nls/platform.properties'
 
 /* FIXME: Please fix disabled eslint rules when making changes to this file. */
 /* eslint-disable react/prop-types */
-const ResourceSearch = ({
-  handleSearch,
-  searchLabel,
-  searchPlaceholder,
-  renderSmallSearch,
-  searchValue
-}, context) =>
+const ResourceSearch = (
+  {
+    handleSearch,
+    searchLabel,
+    searchPlaceholder,
+    renderSmallSearch,
+    searchValue
+  },
+  context
+) => (
   <Search
-    className='resource-search'
+    className="resource-search"
     small={renderSmallSearch}
     aria-label={msgs.get('search.label', context.locale)}
-    labelText={searchLabel ? searchLabel : msgs.get('search.label', context.locale)}
-    placeHolderText={searchPlaceholder ? searchPlaceholder : msgs.get('search.placeholder', context.locale)}
+    labelText={
+      searchLabel ? searchLabel : msgs.get('search.label', context.locale)
+    }
+    placeHolderText={
+      searchPlaceholder
+        ? searchPlaceholder
+        : msgs.get('search.placeholder', context.locale)
+    }
     value={searchValue}
     onChange={handleSearch}
-    id='resource-search' />
+    id="resource-search"
+  />
+)
 
 ResourceSearch.contextTypes = {
   locale: PropTypes.string

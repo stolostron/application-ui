@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
-const truncate = function (fullStr, strLen, separator) {
+const truncate = function(fullStr, strLen, separator) {
   if (fullStr === null || typeof fullStr === 'undefined') return fullStr
 
   if (fullStr.length <= strLen) return fullStr
@@ -17,10 +17,14 @@ const truncate = function (fullStr, strLen, separator) {
 
   var sepLen = separator.length,
       charsToShow = strLen - sepLen,
-      frontChars = Math.ceil(charsToShow/2),
-      backChars = Math.floor(charsToShow/2)
+      frontChars = Math.ceil(charsToShow / 2),
+      backChars = Math.floor(charsToShow / 2)
 
-  return fullStr.substr(0, frontChars) + separator + fullStr.substr(fullStr.length - backChars)
+  return (
+    fullStr.substr(0, frontChars) +
+    separator +
+    fullStr.substr(fullStr.length - backChars)
+  )
 }
 
 export default truncate

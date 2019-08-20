@@ -1,15 +1,15 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import * as Actions from './index'
 import loginClient from '../../lib/client/login-client'
 
-export const receiveLoginSuccess = (user) => ({
+export const receiveLoginSuccess = user => ({
   type: Actions.USER_LOGIN_RECEIVE_SUCCESS,
   loggedIn: Actions.USER_LOGIN_STATUS.LOGGED_IN,
   user
@@ -17,7 +17,7 @@ export const receiveLoginSuccess = (user) => ({
 
 export const logoutStart = () => ({
   type: Actions.USER_LOGOUT_REQUEST,
-  loggedIn: Actions.REQUEST_STATUS.IN_PROGRESS,
+  loggedIn: Actions.REQUEST_STATUS.IN_PROGRESS
 })
 
 export const receiveLogoutSuccess = () => ({
@@ -31,11 +31,11 @@ export const receiveLogoutError = () => ({
 })
 
 export const requestLogout = () => {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch(logoutStart())
 
     loginClient.logout(
-      (res) => {
+      res => {
         dispatch(receiveLogoutSuccess())
         window.location.replace(res.redirectUrl)
       },

@@ -1,10 +1,11 @@
-/*
+/*******************************************************************************
  * Licensed Materials - Property of IBM
  * 5737-E67
- * Copyright IBM Corporation 2019. All Rights Reserved
- * US Government Users Restricted Rights -
- * Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ *
+ * US Government Users Restricted Rights - Use, duplication or disclosure 
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
+ *******************************************************************************/
 
  To read the International Program License Agreement (IPLA) for IBM Cloud Private 3.2.0
  and IBM Multicloud Manager 3.2.0, complete the following steps:

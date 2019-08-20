@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -17,16 +17,15 @@ import 'brace/mode/yaml'
 import 'brace/theme/monokai'
 
 class IsomorphicEditor extends React.Component {
-
   static propTypes = {
     handleParsingError: PropTypes.func,
     setEditor: PropTypes.func,
-    validator: PropTypes.func,
-  }
+    validator: PropTypes.func
+  };
 
   constructor(props) {
     super(props)
-    const {setEditor, handleParsingError, validator} = props
+    const { setEditor, handleParsingError, validator } = props
     this.setEditorRef = elem => {
       if (elem) {
         if (setEditor) {
@@ -35,26 +34,41 @@ class IsomorphicEditor extends React.Component {
         if (handleParsingError) {
           elem.editor.on('input', () => {
             const yaml = elem.editor.getValue()
-            const {exceptions} = yaml.length>0 ? parse(yaml, validator, this.context.locale) : {exceptions:[]}
+            const { exceptions } =
+              yaml.length > 0
+                ? parse(yaml, validator, this.context.locale)
+                : { exceptions: [] }
             elem.editor.session.setAnnotations(exceptions)
-            let reason = exceptions.map(({text})=>{
-              return text
-            }).join('; ')
-            if (reason.length>200) reason=reason.substr(0,200)+'...'
-            handleParsingError(exceptions.length>0 ? {reason} : null)
+            let reason = exceptions
+              .map(({ text }) => {
+                return text
+              })
+              .join('; ')
+            if (reason.length > 200) reason = reason.substr(0, 200) + '...'
+            handleParsingError(exceptions.length > 0 ? { reason } : null)
           })
         }
       }
     }
   }
 
-  render = () => <AceEditor {...this.props} ref={this.setEditorRef} />
+  render = () => <AceEditor {...this.props} ref={this.setEditorRef} />;
 }
 
-const YamlEditor = ({ onYamlChange, setEditor, validator, handleParsingError, yaml, width='49.5vw', height='40vh', readOnly=false, wrapEnabled=false }) => (
+const YamlEditor = ({
+  onYamlChange,
+  setEditor,
+  validator,
+  handleParsingError,
+  yaml,
+  width = '49.5vw',
+  height = '40vh',
+  readOnly = false,
+  wrapEnabled = false
+}) => (
   <div className="yamlEditorContainer">
     <IsomorphicEditor
-      theme='monokai'
+      theme="monokai"
       mode={'yaml'}
       width={width}
       height={height}
@@ -70,14 +84,15 @@ const YamlEditor = ({ onYamlChange, setEditor, validator, handleParsingError, ya
       setOptions={{
         readOnly,
         showLineNumbers: true,
-        tabSize: 2,
+        tabSize: 2
       }}
       editorProps={{
         $blockScrolling: Infinity
       }}
       setEditor={setEditor}
     />
-  </div>)
+  </div>
+)
 
 YamlEditor.propTypes = {
   handleParsingError: PropTypes.func,
@@ -88,7 +103,7 @@ YamlEditor.propTypes = {
   validator: PropTypes.func,
   width: PropTypes.string,
   wrapEnabled: PropTypes.bool,
-  yaml: PropTypes.string,
+  yaml: PropTypes.string
 }
 
 export default YamlEditor

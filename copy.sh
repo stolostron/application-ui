@@ -1,8 +1,9 @@
 # Licensed Materials - Property of IBM
+# 5737-E67
 # (c) Copyright IBM Corporation 2018. All Rights Reserved.
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
+#
+# US Government Users Restricted Rights - Use, duplication or disclosure 
+# restricted by GSA ADP Schedule Contract with IBM Corp.
 
 spawn scp -r test-output root@9.42.23.217:/root
 

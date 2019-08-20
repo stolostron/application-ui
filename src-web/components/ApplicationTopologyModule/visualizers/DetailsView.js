@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -21,7 +21,6 @@ resources(() => {
 })
 
 class DetailsView extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -31,7 +30,7 @@ class DetailsView extends React.Component {
   }
 
   handleKeyPress(value, e) {
-    if ( e.key === 'Enter') {
+    if (e.key === 'Enter') {
       this.fetchLogs(value)
     }
   }
@@ -44,70 +43,87 @@ class DetailsView extends React.Component {
   }
 
   render() {
-    const { context, onClose, getLayoutNodes, getViewContainer, staticResourceData, selectedNodeId} = this.props
-    const {typeToShapeMap, getNodeDetails} = staticResourceData
-    const currentNode = getLayoutNodes().find((n) => n.uid === selectedNodeId) || {}
-    const { layout={} } = currentNode
+    const {
+      context,
+      onClose,
+      getLayoutNodes,
+      getViewContainer,
+      staticResourceData,
+      selectedNodeId
+    } = this.props
+    const { typeToShapeMap, getNodeDetails } = staticResourceData
+    const currentNode =
+      getLayoutNodes().find(n => n.uid === selectedNodeId) || {}
+    const { layout = {} } = currentNode
     const resourceType = layout.type || currentNode.type
-    const {shape='circle', className='default'} =  typeToShapeMap[resourceType]||{}
+    const { shape = 'circle', className = 'default' } =
+      typeToShapeMap[resourceType] || {}
     const details = getNodeDetails(currentNode, context)
     const name = currentNode.name
     const height = getViewContainer().getBoundingClientRect().height
-    const scrollHeight = height*.75
+    const scrollHeight = height * 0.75
     return (
       <section className={`topologyDetails ${className}`}>
-        <h3 className='detailsHeader'>
-          <DetailsViewDecorator
-            shape={shape}
-            className={className}
-          />
-          <span className='titleText'>
-            {name}
-          </span>
+        <h3 className="detailsHeader">
+          <DetailsViewDecorator shape={shape} className={className} />
+          <span className="titleText">{name}</span>
           <Icon
-            className='closeIcon'
+            className="closeIcon"
             description={msgs.get('topology.details.close', context.locale)}
             name="icon--close"
             onClick={onClose}
           />
         </h3>
         <hr />
-        <Scrollbars style={{ width: 310, height: scrollHeight }}
-          renderView = {this.renderView}
-          renderThumbVertical = {this.renderThumbVertical}
-          className='details-view-container'>
-          {details.map(({type, labelKey, value}) =>  {
+        <Scrollbars
+          style={{ width: 310, height: scrollHeight }}
+          renderView={this.renderView}
+          renderThumbVertical={this.renderThumbVertical}
+          className="details-view-container"
+        >
+          {details.map(({ type, labelKey, value }) => {
             let handleClick, handleKeyPress
-            if (type==='logs') {
+            if (type === 'logs') {
               handleClick = this.handleClick.bind(this, value)
               handleKeyPress = this.handleKeyPress.bind(this, value)
             } else {
               handleClick = handleKeyPress = null
             }
-            return (type==='spacer' ?
-              <div className='sectionContent' key={Math.random()}>
-                <div className='spacer'></div>
-              </div> : (type!=='logs' ?
-                <div className='sectionContent' key={Math.random()}>
-                  {labelKey && <span className='label'>{msgs.get(labelKey, context.locale)}: </span>}
-                  <span className='value'>{value}</span>
-                </div> :
-                <div className='sectionContent' key={Math.random()}>
-                  <div className='logs' tabIndex='0' role={'button'}
-                    onClick={handleClick} onKeyPress={handleKeyPress}>
-                    {msgs.get('topology.view.logs', context.locale)}
-                  </div>
-                </div>))}
-          )}
+            return type === 'spacer' ? (
+              <div className="sectionContent" key={Math.random()}>
+                <div className="spacer" />
+              </div>
+            ) : type !== 'logs' ? (
+              <div className="sectionContent" key={Math.random()}>
+                {labelKey && (
+                  <span className="label">
+                    {msgs.get(labelKey, context.locale)}:{' '}
+                  </span>
+                )}
+                <span className="value">{value}</span>
+              </div>
+            ) : (
+              <div className="sectionContent" key={Math.random()}>
+                <div
+                  className="logs"
+                  tabIndex="0"
+                  role={'button'}
+                  onClick={handleClick}
+                  onKeyPress={handleKeyPress}
+                >
+                  {msgs.get('topology.view.logs', context.locale)}
+                </div>
+              </div>
+            )
+          })}
         </Scrollbars>
-      </section>)
+      </section>
+    )
   }
 
   renderView({ style, ...props }) {
     style.marginBottom = -17
-    return (
-      <div {...props} style={{ ...style }} />
-    )
+    return <div {...props} style={{ ...style }} />
   }
 
   renderThumbVertical({ style, ...props }) {
@@ -117,9 +133,10 @@ class DetailsView extends React.Component {
       borderRadius: 'inherit',
       backgroundColor: 'rgba(0,0,0,.2)'
     }
-    return <div className={'details-view-scrollbar'} style={finalStyle} {...props} />
+    return (
+      <div className={'details-view-scrollbar'} style={finalStyle} {...props} />
+    )
   }
-
 }
 
 DetailsView.propTypes = {
@@ -129,8 +146,7 @@ DetailsView.propTypes = {
   getViewContainer: PropTypes.func,
   onClose: PropTypes.func,
   selectedNodeId: PropTypes.string,
-  staticResourceData: PropTypes.object,
+  staticResourceData: PropTypes.object
 }
 
 export default DetailsView
-

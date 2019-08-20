@@ -1,16 +1,22 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StructuredListWrapper, StructuredListHead, StructuredListRow, StructuredListCell, StructuredListBody } from 'carbon-components-react'
+import {
+  StructuredListWrapper,
+  StructuredListHead,
+  StructuredListRow,
+  StructuredListCell,
+  StructuredListBody
+} from 'carbon-components-react'
 import { Module, ModuleHeader, ModuleBody } from 'carbon-addons-cloud-react'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
@@ -21,49 +27,70 @@ resources(() => {
   require('../../../scss/structured-list.scss')
 })
 
-const StructuredListModule = ({
-  title,
-  headerRows,
-  rows,
-  data,
-  url
-}, context) =>
-  <Module className='structured-list-module'>
+const StructuredListModule = (
+  { title, headerRows, rows, data, url },
+  context
+) => (
+  <Module className="structured-list-module">
     <ModuleHeader>{msgs.get(title, context.locale)}</ModuleHeader>
     <ModuleBody>
-      <StructuredListWrapper className='bx--structured-list--condensed' role='region' ariaLabel={msgs.get(title, context.locale)}>
+      <StructuredListWrapper
+        className="bx--structured-list--condensed"
+        role="region"
+        ariaLabel={msgs.get(title, context.locale)}
+      >
         <StructuredListHead>
           <StructuredListRow head>
-            {headerRows.map(row =>
-              <StructuredListCell head key={row+'Header'}>
+            {headerRows.map(row => (
+              <StructuredListCell head key={row + 'Header'}>
                 {msgs.get(row, context.locale)}
               </StructuredListCell>
-            )}
+            ))}
           </StructuredListRow>
         </StructuredListHead>
         <StructuredListBody>
-          {Array.isArray(data) ? data.map((item, index) =>
-            <StructuredListRow key={rows[0].cells[0].resourceKey+`Row ${index}`}>
-              {rows[0].cells.map(cell =>
-                <StructuredListCell key={cell.resourceKey+'Cell'}>
-                  <p>{cell.link && url ? <Link to={url} className='bx--link'>{transform(item, cell, context.locale)}</Link> : transform(item, cell, context.locale)}</p>
-                </StructuredListCell>
-              )}
-            </StructuredListRow>
-          ) :
-            rows.map(({cells}) =>
-              <StructuredListRow key={cells[0].resourceKey+'Row'}>
-                {cells.map(cell =>
-                  <StructuredListCell key={cell.resourceKey+'Cell'}>
-                    <div>{cell.link && url ? <Link to={url} className='bx--link'>{transform(data, cell, context.locale)}</Link> : transform(data, cell, context.locale)}</div>
+          {Array.isArray(data)
+            ? data.map((item, index) => (
+              <StructuredListRow
+                key={rows[0].cells[0].resourceKey + `Row ${index}`}
+              >
+                {rows[0].cells.map(cell => (
+                  <StructuredListCell key={cell.resourceKey + 'Cell'}>
+                    <p>
+                      {cell.link && url ? (
+                        <Link to={url} className="bx--link">
+                          {transform(item, cell, context.locale)}
+                        </Link>
+                      ) : (
+                        transform(item, cell, context.locale)
+                      )}
+                    </p>
                   </StructuredListCell>
-                )}
+                ))}
               </StructuredListRow>
-            )}
+            ))
+            : rows.map(({ cells }) => (
+              <StructuredListRow key={cells[0].resourceKey + 'Row'}>
+                {cells.map(cell => (
+                  <StructuredListCell key={cell.resourceKey + 'Cell'}>
+                    <div>
+                      {cell.link && url ? (
+                        <Link to={url} className="bx--link">
+                          {transform(data, cell, context.locale)}
+                        </Link>
+                      ) : (
+                        transform(data, cell, context.locale)
+                      )}
+                    </div>
+                  </StructuredListCell>
+                ))}
+              </StructuredListRow>
+            ))}
         </StructuredListBody>
       </StructuredListWrapper>
     </ModuleBody>
   </Module>
+)
 
 StructuredListModule.contextTypes = {
   locale: PropTypes.string
@@ -74,7 +101,7 @@ StructuredListModule.propTypes = {
   headerRows: PropTypes.array,
   rows: PropTypes.array,
   title: PropTypes.string,
-  url: PropTypes.string,
+  url: PropTypes.string
 }
 
 export default StructuredListModule

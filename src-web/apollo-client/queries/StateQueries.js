@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -45,26 +45,70 @@ export const GET_ACTION_MODAL_STATE = gql`
 `
 
 export const UPDATE_MODAL = gql`
-  mutation UpdateModal($__typename: String, $open: Boolean, $type: String, $data: JSON) {
-    updateModal(__typename: $__typename, open:$open, type:$type, data:$data) @client
+  mutation UpdateModal(
+    $__typename: String
+    $open: Boolean
+    $type: String
+    $data: JSON
+  ) {
+    updateModal(__typename: $__typename, open: $open, type: $type, data: $data)
+      @client
   }
 `
 
 export const UPDATE_ACTION_MODAL = gql`
-  mutation UpdateActionModal($__typename: String, $open: Boolean, $type: String, $resourceType: JSON, $data: JSON) {
-    updateActionModal(__typename: $__typename, open:$open, type:$type, resourceType:$resourceType, data:$data) @client
+  mutation UpdateActionModal(
+    $__typename: String
+    $open: Boolean
+    $type: String
+    $resourceType: JSON
+    $data: JSON
+  ) {
+    updateActionModal(
+      __typename: $__typename
+      open: $open
+      type: $type
+      resourceType: $resourceType
+      data: $data
+    ) @client
   }
 `
 
 export const UPDATE_QUERY_TABS = gql`
-  mutation UpdateQueryTabs($__typename: String, $unsavedCount: Int, $openedTabName: String, $openedTabId: String, $data: JSON, $tabs: [JSON]) {
-    updateQueryTabs(__typename: $__typename, unsavedCount:$unsavedCount, openedTabName:$openedTabName, openedTabId:$openedTabId, data:$data, tabs: $tabs) @client
+  mutation UpdateQueryTabs(
+    $__typename: String
+    $unsavedCount: Int
+    $openedTabName: String
+    $openedTabId: String
+    $data: JSON
+    $tabs: [JSON]
+  ) {
+    updateQueryTabs(
+      __typename: $__typename
+      unsavedCount: $unsavedCount
+      openedTabName: $openedTabName
+      openedTabId: $openedTabId
+      data: $data
+      tabs: $tabs
+    ) @client
   }
 `
 
 export const UPDATE_SINGLE_QUERY_TAB = gql`
-  mutation UpdateSingleQueryTab($openedTabName: String, $openedTabId: String, $description: String, $searchText: String, $updateUnsavedOrExisting: Boolean) {
-    updateSingleQueryTab(openedTabName: $openedTabName, openedTabId: $openedTabId, description: $description, searchText:$searchText, updateUnsavedOrExisting:$updateUnsavedOrExisting) @client
+  mutation UpdateSingleQueryTab(
+    $openedTabName: String
+    $openedTabId: String
+    $description: String
+    $searchText: String
+    $updateUnsavedOrExisting: Boolean
+  ) {
+    updateSingleQueryTab(
+      openedTabName: $openedTabName
+      openedTabId: $openedTabId
+      description: $description
+      searchText: $searchText
+      updateUnsavedOrExisting: $updateUnsavedOrExisting
+    ) @client
   }
 `
 

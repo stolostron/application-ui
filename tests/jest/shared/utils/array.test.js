@@ -1,13 +1,16 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import { addOrRemove, findCommonElements } from'../../../../src-web/shared/utils/array'
+import {
+  addOrRemove,
+  findCommonElements
+} from '../../../../src-web/shared/utils/array'
 
 describe('array addOrRemove', () => {
   it('should return array as expected', () => {
@@ -27,13 +30,12 @@ describe('array addOrRemove', () => {
   })
 })
 
-
 describe('array findCommonElements', () => {
   it('should return array as expected', () => {
-    expect(typeof findCommonElements([{value: 'v1'}], null)).toBe('function')
+    expect(typeof findCommonElements([{ value: 'v1' }], null)).toBe('function')
   })
 
   it('should return array as expected', () => {
-    expect(findCommonElements([{value: 'v1'}], ['v1'])).toEqual([])
+    expect(findCommonElements([{ value: 'v1' }], ['v1'])).toEqual([])
   })
 })

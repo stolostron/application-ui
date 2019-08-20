@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -12,11 +12,17 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StructuredListWrapper, StructuredListHead, StructuredListRow, StructuredListCell, StructuredListBody } from 'carbon-components-react'
+import {
+  StructuredListWrapper,
+  StructuredListHead,
+  StructuredListRow,
+  StructuredListCell,
+  StructuredListBody
+} from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { getResourceType } from '../../../lib/client/resource-helper'
 
-const ResourceTableRowExpandableContent = ({ items }, context) =>
+const ResourceTableRowExpandableContent = ({ items }, context) => (
   <StructuredListWrapper>
     <StructuredListHead>
       <StructuredListRow head>
@@ -30,13 +36,19 @@ const ResourceTableRowExpandableContent = ({ items }, context) =>
     </StructuredListHead>
     <StructuredListBody>
       {items.map((item, index) => (
-        <StructuredListRow key={`${item.resource}-${index}`} data-row-name={item.resource} >
+        <StructuredListRow
+          key={`${item.resource}-${index}`}
+          data-row-name={item.resource}
+        >
           <StructuredListCell noWrap>{item.resource}</StructuredListCell>
-          <StructuredListCell noWrap>{getResourceType(item, context.locale)}</StructuredListCell>
+          <StructuredListCell noWrap>
+            {getResourceType(item, context.locale)}
+          </StructuredListCell>
         </StructuredListRow>
       ))}
     </StructuredListBody>
   </StructuredListWrapper>
+)
 
 ResourceTableRowExpandableContent.contextTypes = {
   locale: PropTypes.string

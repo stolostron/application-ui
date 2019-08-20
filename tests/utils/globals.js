@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 const del = require('del')
@@ -17,7 +17,6 @@ const reportFolder = `${BASE_DIR}/test-output/e2e`
 
 /* eslint-disable no-console*/
 module.exports = {
-
   // External before hook is ran at the beginning of the tests run, before creating the Selenium session
   before: function(done) {
     del([reportFolder, `${BASE_DIR}/selenium-debug.log`]).then(() => {
@@ -31,8 +30,15 @@ module.exports = {
     fs.readdirSync(reportFolder).forEach(file => {
       if (file.endsWith('.xml')) {
         const xml = fs.readFileSync(path.join(reportFolder, file))
-        const parsedDoc = parser.toJson(xml, {object: true, alternateTextNode: true, trim: true})
-        jsonfile.writeFileSync(path.join(reportFolder, file.replace('.xml', '.json')), parsedDoc/*, {spaces: 2, EOL: '\r\n'}*/)
+        const parsedDoc = parser.toJson(xml, {
+          object: true,
+          alternateTextNode: true,
+          trim: true
+        })
+        jsonfile.writeFileSync(
+          path.join(reportFolder, file.replace('.xml', '.json')),
+          parsedDoc /*, {spaces: 2, EOL: '\r\n'}*/
+        )
       }
     })
     done()

@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -87,8 +87,7 @@ export default class Tab extends React.Component {
     /**
      * Specify the tab index of the <a> node
      */
-    tabIndex: PropTypes.number.isRequired,
-
+    tabIndex: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -98,7 +97,7 @@ export default class Tab extends React.Component {
     href: '#',
     selected: false,
     onClick: () => {},
-    onKeyDown: () => {},
+    onKeyDown: () => {}
   };
 
   setTabFocus(evt) {
@@ -144,7 +143,7 @@ export default class Tab extends React.Component {
       ['aria-selected']: selected,
       ref: e => {
         this.tabAnchor = e
-      },
+      }
     }
 
     return (
@@ -162,7 +161,8 @@ export default class Tab extends React.Component {
           onKeyDown(evt)
         }}
         role="presentation"
-        selected={selected}>
+        selected={selected}
+      >
         {renderAnchor ? (
           renderAnchor(anchorProps)
         ) : (

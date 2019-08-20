@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 import React from 'react'
@@ -17,13 +17,18 @@ class Tag extends React.Component {
     switch (tag.classType) {
     case 'keyword':
       return 'react-tags__keyword-tag'
-    default: return classNames.selectedTag
+    default:
+      return classNames.selectedTag
     }
   }
   render() {
     const { classNames, onDelete, tag } = this.props
     return (
-      <button type='button' className={this.getClassType(tag)} onClick={onDelete}>
+      <button
+        type="button"
+        className={this.getClassType(tag)}
+        onClick={onDelete}
+      >
         <span className={classNames.selectedTagName}>{tag.name}</span>
       </button>
     )
@@ -33,7 +38,7 @@ class Tag extends React.Component {
 Tag.propTypes = {
   classNames: PropTypes.object,
   onDelete: PropTypes.func,
-  tag: PropTypes.object,
+  tag: PropTypes.object
 }
 
 export default Tag

@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -18,17 +18,12 @@ const mockData = {
   type: 'test',
   fetching: false,
   failure: false,
-  availableFilters: [
-
-  ],
-  activeFilters: [
-
-  ],
+  availableFilters: [],
+  activeFilters: [],
   onSelectedFilterChange: jest.fn()
 }
 
 describe('FilterableMultiSelect components', () => {
-
   it('renders as expected', () => {
     const component = shallow(
       <FilterableMultiSelect
@@ -43,5 +38,4 @@ describe('FilterableMultiSelect components', () => {
     )
     expect(component).toMatchSnapshot()
   })
-
 })

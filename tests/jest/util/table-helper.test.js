@@ -1,13 +1,13 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import tableHelper from'../../../src-web/util/table-helper'
+import tableHelper from '../../../src-web/util/table-helper'
 
 describe('table-helper handleInputValue', () => {
   const item = {
@@ -22,7 +22,6 @@ describe('table-helper handleInputValue', () => {
     expect(fn).toHaveBeenCalledWith(expect.stringContaining('world'))
   })
 })
-
 
 describe('table-helper handleSort newSortColumn==defaultSortColumn', () => {
   const item = {
@@ -47,7 +46,6 @@ describe('table-helper handleSort newSortColumn==defaultSortColumn', () => {
     expect(fn.mock.calls[0][1]).toBe(null)
   })
 })
-
 
 describe('table-helper handleSort newSortColumn!=defaultSortColumn', () => {
   const item_asc = {

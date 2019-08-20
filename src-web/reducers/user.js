@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import {
   USER_LOGIN_RECEIVE_SUCCESS,
@@ -37,4 +37,5 @@ export const loggedIn = (state = USER_LOGIN_STATUS.LOGGED_OUT, action) => {
   }
 }
 
-export const isAuthenticated = (state) => state.loggedIn === USER_LOGIN_STATUS.LOGGED_IN
+export const isAuthenticated = state =>
+  state.loggedIn === USER_LOGIN_STATUS.LOGGED_IN

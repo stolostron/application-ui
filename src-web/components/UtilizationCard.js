@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import React from 'react'
@@ -19,16 +19,35 @@ resources(() => {
   require('../../scss/dashboard-card.scss')
 })
 
-const DashboardOrb = ({ status = 'healthy', value, utilStatus, className = '' }) => (
+const DashboardOrb = ({
+  status = 'healthy',
+  value,
+  utilStatus,
+  className = ''
+}) => (
   <div className={`dashboard-count ${className}`}>
     <div className="dashboard-orb">
-      {value === 0
-        ? <div className={'dashboard-orb dashboard-orb__inner dashboard-orb__gray'}>{value}</div>
-        : <div className={`dashboard-orb dashboard-orb__inner dashboard-orb__util-${status}`}>{value}</div>}
+      {value === 0 ? (
+        <div
+          className={'dashboard-orb dashboard-orb__inner dashboard-orb__gray'}
+        >
+          {value}
+        </div>
+      ) : (
+        <div
+          className={`dashboard-orb dashboard-orb__inner dashboard-orb__util-${status}`}
+        >
+          {value}
+        </div>
+      )}
     </div>
-    {value === 0
-      ? <p className={'dashboard-card-text dashboard-card-text__gray'}>{utilStatus}</p>
-      : <p className={'dashboard-card-text'}>{utilStatus}</p>}
+    {value === 0 ? (
+      <p className={'dashboard-card-text dashboard-card-text__gray'}>
+        {utilStatus}
+      </p>
+    ) : (
+      <p className={'dashboard-card-text'}>{utilStatus}</p>
+    )}
   </div>
 )
 
@@ -44,36 +63,54 @@ DashboardOrb.propTypes = OrbPropType
 export class UtilizationCard extends React.PureComponent {
   render() {
     const { locale } = this.context
-    const {
-      critical = 0, healthy = 0, title, warning = 0
-    } = this.props
+    const { critical = 0, healthy = 0, title, warning = 0 } = this.props
     return (
-      <Module className={'bx--tile dashboard-card'} size="single" {...this.props}>
-        <ModuleHeader className={'dashboard-card-header__utilization'}>{title}</ModuleHeader>
+      <Module
+        className={'bx--tile dashboard-card'}
+        size="single"
+        {...this.props}
+      >
+        <ModuleHeader className={'dashboard-card-header__utilization'}>
+          {title}
+        </ModuleHeader>
         <ModuleBody className={'dashboard-card-orb'}>
           <div className="dashboard-overview">
             <div>
               <DashboardOrb
-                key='critical-orb'
-                status='critical'
-                utilStatus={msgs.get('dashboard.utilization.orb.critical', locale)}
-                value={critical} />
+                key="critical-orb"
+                status="critical"
+                utilStatus={msgs.get(
+                  'dashboard.utilization.orb.critical',
+                  locale
+                )}
+                value={critical}
+              />
               <DashboardOrb
-                key='warning-orb'
-                status='warning'
-                utilStatus={msgs.get('dashboard.utilization.orb.warning', locale)}
-                value={warning} />
+                key="warning-orb"
+                status="warning"
+                utilStatus={msgs.get(
+                  'dashboard.utilization.orb.warning',
+                  locale
+                )}
+                value={warning}
+              />
               <DashboardOrb
-                key='healthy-orb'
-                status='healthy'
-                utilStatus={msgs.get('dashboard.utilization.orb.healthy', locale)}
-                value={healthy} />
+                key="healthy-orb"
+                status="healthy"
+                utilStatus={msgs.get(
+                  'dashboard.utilization.orb.healthy',
+                  locale
+                )}
+                value={healthy}
+              />
             </div>
           </div>
         </ModuleBody>
         <ModuleBody className={'dashboard-card-table-body'}>
           <div className={'dashboard-card-separator-link'}>
-            <Link to={`${config.contextPath}/clusters`}>{msgs.get('dashboard.module.separator.link')}</Link>
+            <Link to={`${config.contextPath}/clusters`}>
+              {msgs.get('dashboard.module.separator.link')}
+            </Link>
           </div>
         </ModuleBody>
       </Module>
@@ -81,10 +118,9 @@ export class UtilizationCard extends React.PureComponent {
   }
 }
 
-
 UtilizationCard.propTypes = {
   critical: PropTypes.number,
   healthy: PropTypes.number,
   title: PropTypes.string,
-  warning: PropTypes.number,
+  warning: PropTypes.number
 }

@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import React from 'react'
@@ -27,21 +27,16 @@ class TagInput extends React.Component {
 
   render() {
     return (
-      <div className='dashboard-settings'>
-        <div className='dashboard-settings-button'>
+      <div className="dashboard-settings">
+        <div className="dashboard-settings-button">
           <Icon
-            className='icon--settings--glyph'
-            name='icon--settings--glyph'
-            description={'settings'} />
-        </div>
-        <div className='dashboard-slider'>
-          <Slider
-            id="slider"
-            value={50}
-            min={0}
-            max={100}
-            hideTextInput
+            className="icon--settings--glyph"
+            name="icon--settings--glyph"
+            description={'settings'}
           />
+        </div>
+        <div className="dashboard-slider">
+          <Slider id="slider" value={50} min={0} max={100} hideTextInput />
         </div>
       </div>
     )

@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import { lifecycle, withStateHandlers } from 'recompose'
@@ -14,16 +14,16 @@ import { forceCheck } from 'react-lazyload'
 export const withForceCheck = lifecycle({
   componentDidUpdate() {
     forceCheck()
-  },
+  }
 })
 
 export const withToggleOpen = withStateHandlers(
   ({ isOpenInitial = false }) => ({
-    isOpen: isOpenInitial,
+    isOpen: isOpenInitial
   }),
   {
     toggleOpen: ({ isOpen }) => (status = !isOpen) => ({
-      isOpen: status,
-    }),
-  },
+      isOpen: status
+    })
+  }
 )

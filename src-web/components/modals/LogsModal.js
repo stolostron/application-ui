@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 'use strict'
@@ -14,7 +14,12 @@ import PropTypes from 'prop-types'
 import ScrollBox from './ScrollBox'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import { Modal, DropdownV2, Loading, Notification } from 'carbon-components-react'
+import {
+  Modal,
+  DropdownV2,
+  Loading,
+  Notification
+} from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
@@ -36,11 +41,15 @@ class LogsModal extends React.PureComponent {
 
   componentWillMount() {
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      const intervalId = setInterval(this.reload.bind(this), config['featureFlags:liveUpdatesPollInterval'])
+      const intervalId = setInterval(
+        this.reload.bind(this),
+        config['featureFlags:liveUpdatesPollInterval']
+      )
       this.setState({ intervalId: intervalId })
     }
-    const {resourceType, data: { namespace, name, clusterName } } = this.props
-    apolloClient.getResource(resourceType, {namespace, name, clusterName})
+    const { resourceType, data: { namespace, name, clusterName } } = this.props
+    apolloClient
+      .getResource(resourceType, { namespace, name, clusterName })
       .then(response => {
         const item = response.data.items[0]
         this.setState({
@@ -56,23 +65,31 @@ class LogsModal extends React.PureComponent {
   }
 
   fetchLogs(containerName, podName, podNamespace, clusterName) {
-    return apolloClient.getLogs(containerName, podName, podNamespace, clusterName).then(result => {
-      if (result.data.logs.errors && result.data.logs.errors.length > 0){
-        this.setState({
-          loadingLogs: false
-        })
-        return result.data.logs.errors[0]
-      } else {
-        this.setState({
-          logs: result.data.logs,
-          loadingLogs: result.loading
-        })
-      }
-    })
+    return apolloClient
+      .getLogs(containerName, podName, podNamespace, clusterName)
+      .then(result => {
+        if (result.data.logs.errors && result.data.logs.errors.length > 0) {
+          this.setState({
+            loadingLogs: false
+          })
+          return result.data.logs.errors[0]
+        } else {
+          this.setState({
+            logs: result.data.logs,
+            loadingLogs: result.loading
+          })
+        }
+      })
   }
 
   componentDidMount() {
-    const { clusterName, containerName, loading, podName, podNamespace } = this.state
+    const {
+      clusterName,
+      containerName,
+      loading,
+      podName,
+      podNamespace
+    } = this.state
     if (!loading) {
       this.fetchLogs(containerName, podName, podNamespace, clusterName)
     }
@@ -96,7 +113,7 @@ class LogsModal extends React.PureComponent {
           list: ''
         },
         data: {
-          __typename:'ModalData',
+          __typename: 'ModalData',
           name: '',
           namespace: '',
           clusterName: '',
@@ -114,38 +131,49 @@ class LogsModal extends React.PureComponent {
 
     return (
       <Modal
-        id='view-logs-modal'
-        className='logs'
+        id="view-logs-modal"
+        className="logs"
         open={open}
         passiveModal
-        modalLabel='Pod'
+        modalLabel="Pod"
         modalHeading={podName}
         primaryButtonDisabled
         onRequestClose={this.handleClose.bind(this)}
-        role='region'
-        aria-label='logs'>
-        <div className='logs-container'>
-          {(errors !== '' && errors !== undefined)
-            ? <Notification
-              kind='error'
-              title=''
-              subtitle={errors} />
-            : null}
-          <div className='logs-container__actions'>
-            <div className='dropdown-container'>
+        role="region"
+        aria-label="logs"
+      >
+        <div className="logs-container">
+          {errors !== '' && errors !== undefined ? (
+            <Notification kind="error" title="" subtitle={errors} />
+          ) : null}
+          <div className="logs-container__actions">
+            <div className="dropdown-container">
               <DropdownV2
                 ariaLabel={msgs.get('dropdown.pod.label', locale)}
                 label={containers ? containers[0].name : ''}
                 onChange={this.handleContainerChange.bind(this)}
-                items={containers ? containers.map((container, index) => ({ id: `${container.name}-${index}`, label: container.name, value: container.name})) : []} />
+                items={
+                  containers
+                    ? containers.map((container, index) => ({
+                      id: `${container.name}-${index}`,
+                      label: container.name,
+                      value: container.name
+                    }))
+                    : []
+                }
+              />
             </div>
           </div>
 
           {(() => {
             if (loadingLogs) {
-              return <Loading withOverlay={false} className='content-spinner' />
+              return (
+                <Loading withOverlay={false} className="content-spinner" />
+              )
             }
-            return <ScrollBox className='logs-container__content' content={logs} />
+            return (
+              <ScrollBox className="logs-container__content" content={logs} />
+            )
           })()}
         </div>
       </Modal>
@@ -157,7 +185,7 @@ class LogsModal extends React.PureComponent {
     const { loading } = this.state
     this.setState({
       loadingLogs: true,
-      selectedContainer: containerName,
+      selectedContainer: containerName
     })
     if (!loading) {
       const { podName, podNamespace, clusterName } = this.state
@@ -166,7 +194,13 @@ class LogsModal extends React.PureComponent {
   }
 
   reload() {
-    const { clusterName, loading, podName, podNamespace, selectedContainer } = this.state
+    const {
+      clusterName,
+      loading,
+      podName,
+      podNamespace,
+      selectedContainer
+    } = this.state
     if (!loading) {
       this.fetchLogs(selectedContainer, podName, podNamespace, clusterName)
     }

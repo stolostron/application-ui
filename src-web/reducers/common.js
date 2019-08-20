@@ -1,11 +1,10 @@
-
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 /*
 Since these selectors are common (i.e used across different components and different parts of the store)
@@ -31,13 +30,18 @@ import getResourceDefinitions, * as ResourceDefinitions from '../definitions'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import msgs from '../../nls/platform.properties'
 
-
-export const getItems = (state, props) => getFromState(state,props.storeRoot, 'items')
-export const getItemsPerPage = (state, props) => getFromState(state,props.storeRoot, 'itemsPerPage')
-export const getPage = (state, props) => getFromState(state,props.storeRoot, 'page')
-export const getSearch = (state, props) => getFromState(state,props.storeRoot, 'search')
-export const getSortColumn = (state, props) => getFromState(state,props.storeRoot, 'sortColumn')
-export const getSortDirection = (state, props) => getFromState(state,props.storeRoot, 'sortDirection')
+export const getItems = (state, props) =>
+  getFromState(state, props.storeRoot, 'items')
+export const getItemsPerPage = (state, props) =>
+  getFromState(state, props.storeRoot, 'itemsPerPage')
+export const getPage = (state, props) =>
+  getFromState(state, props.storeRoot, 'page')
+export const getSearch = (state, props) =>
+  getFromState(state, props.storeRoot, 'search')
+export const getSortColumn = (state, props) =>
+  getFromState(state, props.storeRoot, 'sortColumn')
+export const getSortDirection = (state, props) =>
+  getFromState(state, props.storeRoot, 'sortDirection')
 
 function getFromState(state, root, attribute) {
   const storeRoot = state[root]
@@ -62,7 +66,7 @@ export const INITIAL_STATE = {
   postStatusCode: undefined,
   postErrorMsg: '',
   pendingActions: [],
-  clientSideFilters: undefined,
+  clientSideFilters: undefined
 }
 
 /**
@@ -73,23 +77,38 @@ export const INITIAL_STATE = {
  * @param {*} context - React context
  * @param {*} searchText - String to match
  */
-function searchTableCell(item, tableKey, context, searchText){
+function searchTableCell(item, tableKey, context, searchText) {
   const renderedElement = transform(item, tableKey, context.locale, true)
   if (typeof renderedElement === String) {
-    return renderedElement.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+    return (
+      renderedElement.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+    )
   } else {
-    return ReactDOMServer.renderToString(transform(item, tableKey, context.locale, true)).toString().toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+    return (
+      ReactDOMServer.renderToString(
+        transform(item, tableKey, context.locale, true)
+      )
+        .toString()
+        .toLowerCase()
+        .indexOf(searchText.toLowerCase()) !== -1
+    )
   }
 }
 
 function searchTableCellHelper(search, tableKeys, item, context) {
   const searchKey = search.substring(0, search.indexOf('='))
-  const searchField = search.substring(search.indexOf('=')+1)
+  const searchField = search.substring(search.indexOf('=') + 1)
 
   if (searchKey === 'textsearch') {
-    return tableKeys.find(tableKey => searchTableCell(item, tableKey, context, searchField.replace(/[{}]/g, '')))
+    return tableKeys.find(tableKey =>
+      searchTableCell(item, tableKey, context, searchField.replace(/[{}]/g, ''))
+    )
   }
-  const tableKey = tableKeys.find(tableKey => msgs.get(tableKey.msgKey, context.locale).toLowerCase() === searchKey.toLowerCase())
+  const tableKey = tableKeys.find(
+    tableKey =>
+      msgs.get(tableKey.msgKey, context.locale).toLowerCase() ===
+      searchKey.toLowerCase()
+  )
   if (!lodash.isEmpty(searchField)) {
     if (!searchField.includes('{')) {
       if (tableKey) {
@@ -98,34 +117,39 @@ function searchTableCellHelper(search, tableKeys, item, context) {
     } else {
       let found = false
       const searchKeys = searchField.replace(/[{}]/g, '').split(',')
-      if (searchKeys && tableKey) searchKeys.forEach(searchKey => {
-        if (searchTableCell(item, tableKey, context, searchKey)) found = true
-      })
+      if (searchKeys && tableKey)
+        searchKeys.forEach(searchKey => {
+          if (searchTableCell(item, tableKey, context, searchKey)) found = true
+        })
       return found
     }
   }
   // return all results when user types cluster=
-  if (searchField === '')
-    return true
+  if (searchField === '') return true
 
   // by default, search all fields
-  return tableKeys.find(tableKey => searchTableCell(item, tableKey, context, search))
+  return tableKeys.find(tableKey =>
+    searchTableCell(item, tableKey, context, search)
+  )
 }
 
-const makeGetFilteredItemsSelector = (resourceType) => {
-  return createSelector(
-    [getItems, getSearch],
-    (items, search) => items.filter((item) => {
-      if (lodash.isEmpty(search))
-        return true
+const makeGetFilteredItemsSelector = resourceType => {
+  return createSelector([getItems, getSearch], (items, search) =>
+    items.filter(item => {
+      if (lodash.isEmpty(search)) return true
 
       const tableKeys = ResourceDefinitions.getTableKeys(resourceType)
-      const context = JSON.parse(document.getElementById('context').textContent)
+      const context = JSON.parse(
+        document.getElementById('context').textContent
+      )
 
       if (search.includes('},')) {
         // special case like status={healthy}, labels={cloud=IBM}
         let found = false
-        const searchFields = search.replace('},', '}},').toLowerCase().split('},')
+        const searchFields = search
+          .replace('},', '}},')
+          .toLowerCase()
+          .split('},')
         searchFields.forEach(searchField => {
           if (searchTableCellHelper(searchField, tableKeys, item, context)) {
             found = true
@@ -139,41 +163,61 @@ const makeGetFilteredItemsSelector = (resourceType) => {
   )
 }
 
-const makeGetTransformedItemsSelector = (resourceType) => {
-  return createSelector(
-    [makeGetFilteredItemsSelector(resourceType)],
-    (items) => {
-      const resourceData = getResourceDefinitions(resourceType)
-      return items.map(item => {
-        const customData = {}
-        const context = JSON.parse(document.getElementById('context').textContent)
-        resourceData.tableKeys.forEach(key => {
-          if (key.transformFunction && typeof key.transformFunction === 'function') {
-            customData[key.resourceKey.replace('custom.', '')] = key.transformFunction(item, context.locale)
-          }
-        })
-        item.custom = customData
-        return item
+const makeGetTransformedItemsSelector = resourceType => {
+  return createSelector([makeGetFilteredItemsSelector(resourceType)], items => {
+    const resourceData = getResourceDefinitions(resourceType)
+    return items.map(item => {
+      const customData = {}
+      const context = JSON.parse(
+        document.getElementById('context').textContent
+      )
+      resourceData.tableKeys.forEach(key => {
+        if (
+          key.transformFunction &&
+          typeof key.transformFunction === 'function'
+        ) {
+          customData[
+            key.resourceKey.replace('custom.', '')
+          ] = key.transformFunction(item, context.locale)
+        }
       })
-    }
-  )
+      item.custom = customData
+      return item
+    })
+  })
 }
 
 //TODO could we do better? - we have one selector thus one cache for sorting.
 //Thus if the sort direction change is toggled back we re-calculate.
-const makeGetSortedItemsSelector = (resourceType) => {
+const makeGetSortedItemsSelector = resourceType => {
   return createSelector(
-    [makeGetTransformedItemsSelector(resourceType), getSortColumn, getSortDirection],
+    [
+      makeGetTransformedItemsSelector(resourceType),
+      getSortColumn,
+      getSortDirection
+    ],
     (items, sortColumn, sortDirection) => {
-      const initialSortField = sortColumn ? sortColumn : ResourceDefinitions.getDefaultSortField(resourceType)
-      const sortField = initialSortField === 'custom.age' ? 'metadata.creationTimestamp' : initialSortField // sort by the actual date, not formatted value
-      const sortDir = sortField === 'metadata.creationTimestamp' ? (sortDirection === Actions.SORT_DIRECTION_ASCENDING ? Actions.SORT_DIRECTION_DESCENDING : Actions.SORT_DIRECTION_ASCENDING) : sortDirection // date fields should initially sort from latest to oldest
-      return lodash.orderBy(items, item => lodash.get(item, sortField), [sortDir])
+      const initialSortField = sortColumn
+        ? sortColumn
+        : ResourceDefinitions.getDefaultSortField(resourceType)
+      const sortField =
+        initialSortField === 'custom.age'
+          ? 'metadata.creationTimestamp'
+          : initialSortField // sort by the actual date, not formatted value
+      const sortDir =
+        sortField === 'metadata.creationTimestamp'
+          ? sortDirection === Actions.SORT_DIRECTION_ASCENDING
+            ? Actions.SORT_DIRECTION_DESCENDING
+            : Actions.SORT_DIRECTION_ASCENDING
+          : sortDirection // date fields should initially sort from latest to oldest
+      return lodash.orderBy(items, item => lodash.get(item, sortField), [
+        sortDir
+      ])
     }
   )
 }
 
-const makeGetPagedItemsSelector = (resourceType) => {
+const makeGetPagedItemsSelector = resourceType => {
   return createSelector(
     [makeGetSortedItemsSelector(resourceType), getPage, getItemsPerPage],
     (items, page, itemsPerPage) => {
@@ -189,22 +233,29 @@ const makeGetPagedItemsSelector = (resourceType) => {
   )
 }
 
-export const makeGetVisibleTableItemsSelector = (resourceType) => {
+export const makeGetVisibleTableItemsSelector = resourceType => {
   const pk = ResourceDefinitions.getPrimaryKey(resourceType)
   const sk = ResourceDefinitions.getSecondaryKey(resourceType)
-  return createSelector(
-    [makeGetPagedItemsSelector(resourceType)],
-    result => {
-      const normalizedItems = normalize(result.items, [createResourcesSchema(pk, sk)]).entities.items
-      return Object.assign(result, {
-        normalizedItems: normalizedItems,
-        items: result.items.map(item => sk ? `${lodash.get(item, pk)}-${lodash.get(item, sk)}`:`${lodash.get(item, pk)}`) // to support multi cluster, use ${name}-${cluster} as unique id
-      })
-    }
-  )
+  return createSelector([makeGetPagedItemsSelector(resourceType)], result => {
+    const normalizedItems = normalize(result.items, [
+      createResourcesSchema(pk, sk)
+    ]).entities.items
+    return Object.assign(result, {
+      normalizedItems: normalizedItems,
+      items: result.items.map(
+        item =>
+          sk
+            ? `${lodash.get(item, pk)}-${lodash.get(item, sk)}`
+            : `${lodash.get(item, pk)}`
+      ) // to support multi cluster, use ${name}-${cluster} as unique id
+    })
+  })
 }
 
-export const secondaryHeader = (state = {title: '', tabs: [], breadcrumbItems: [], links: []}, action) => {
+export const secondaryHeader = (
+  state = { title: '', tabs: [], breadcrumbItems: [], links: [] },
+  action
+) => {
   switch (action.type) {
   case Actions.SECONDARY_HEADER_UPDATE:
     return Object.assign({}, state, {
@@ -218,7 +269,7 @@ export const secondaryHeader = (state = {title: '', tabs: [], breadcrumbItems: [
   }
 }
 
-const getItemProps= (state, props) => props
+const getItemProps = (state, props) => props
 
 export const getSingleResourceItem = createSelector(
   [getItems, getItemProps],
@@ -227,21 +278,21 @@ export const getSingleResourceItem = createSelector(
 
 export const resourceItemByName = (items, props) => {
   const key = ResourceDefinitions.getURIKey(props.resourceType)
-  return lodash.find(items, item =>
-    lodash.get(item, key) === props.name
-  )
+  return lodash.find(items, item => lodash.get(item, key) === props.name)
 }
 
 export const resourceItemByNameAndNamespace = (items, props) => {
   const key = ResourceDefinitions.getURIKey(props.resourceType)
-  return lodash.find(items, item =>
-    (lodash.get(item, key) === props.name && lodash.get(item, 'metadata.namespace') === props.namespace)
+  return lodash.find(
+    items,
+    item =>
+      lodash.get(item, key) === props.name &&
+      lodash.get(item, 'metadata.namespace') === props.namespace
   )
 }
 
 export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
-
-  var items,index
+  var items, index
   switch (action.type) {
   case Actions.RESOURCE_REQUEST:
     return Object.assign({}, state, {
@@ -251,7 +302,12 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.DONE,
       items: action.items,
-      page: action.items.length === 0 ? 1 : action.items.length > state.itemsPerPage * (state.page - 1) ? state.page : state.page - 1,
+      page:
+          action.items.length === 0
+            ? 1
+            : action.items.length > state.itemsPerPage * (state.page - 1)
+              ? state.page
+              : state.page - 1,
       resourceVersion: action.resourceVersion
     })
   case Actions.RESOURCE_RECEIVE_FAILURE:
@@ -265,7 +321,8 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.POST_RECEIVE_SUCCESS:
     items = state.items.slice(0)
-    if (action.item.length > 0) { // if returned as an array due to making async calls, push action.item elements to the items array
+    if (action.item.length > 0) {
+      // if returned as an array due to making async calls, push action.item elements to the items array
       action.item.forEach(el => {
         items.push(el)
       })
@@ -279,7 +336,10 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.POST_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       postStatus: Actions.REQUEST_STATUS.ERROR,
-      postStatusCode: action.err.error && action.err.error.response && action.err.error.response.status,
+      postStatusCode:
+          action.err.error &&
+          action.err.error.response &&
+          action.err.error.response.status,
       postErrorMsg: action.err.error && action.err.error.message
     })
   case Actions.PUT_REQUEST:
@@ -288,12 +348,14 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.PUT_RECEIVE_SUCCESS:
     return Object.assign({}, state, {
-      putStatus: Actions.REQUEST_STATUS.DONE,
+      putStatus: Actions.REQUEST_STATUS.DONE
     })
   case Actions.PUT_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       putStatus: Actions.REQUEST_STATUS.ERROR,
-      putErrorMsg: action.err.error ? action.err.error.message : action.err.message
+      putErrorMsg: action.err.error
+        ? action.err.error.message
+        : action.err.message
     })
   case Actions.CLEAR_REQUEST_STATUS:
     return Object.assign({}, state, {
@@ -322,11 +384,20 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.RESOURCE_ADD: /* eslint-disable no-case-declarations */
   case Actions.RESOURCE_MODIFY:
-    const resourceTypeObj = !lodash.isObject(action.resourceType) ? RESOURCE_TYPES[lodash.findKey(RESOURCE_TYPES, { name: action.resourceType })] : action.resourceType
+    const resourceTypeObj = !lodash.isObject(action.resourceType)
+      ? RESOURCE_TYPES[
+        lodash.findKey(RESOURCE_TYPES, { name: action.resourceType })
+      ]
+      : action.resourceType
     const primaryKey = ResourceDefinitions.getPrimaryKey(resourceTypeObj)
     items = state.items.slice(0)
-    index = lodash.findIndex(items, o => (lodash.get(o, primaryKey) === lodash.get(action.item, primaryKey)))
-    index > -1 ? items.splice(index, 1, action.item) : items.push(action.item)
+    index = lodash.findIndex(
+      items,
+      o => lodash.get(o, primaryKey) === lodash.get(action.item, primaryKey)
+    )
+    index > -1
+      ? items.splice(index, 1, action.item)
+      : items.push(action.item)
     return Object.assign({}, state, {
       items: items
     })
@@ -334,24 +405,39 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return Object.assign({}, state, {
       mutateStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
       mutateErrorMsg: null,
-      pendingActions: [...state.pendingActions, { name: action.resourceName, action: Actions.RESOURCE_MUTATE }]
+      pendingActions: [
+        ...state.pendingActions,
+        { name: action.resourceName, action: Actions.RESOURCE_MUTATE }
+      ]
     })
   case Actions.RESOURCE_MUTATE_FAILURE:
     return Object.assign({}, state, {
       mutateStatus: Actions.REQUEST_STATUS.ERROR,
-      mutateErrorMsg: action.err.message || action.err.error && (action.err.error.message ||
-        (action.err.error.data && action.err.error.data.Message)),
-      pendingActions: state.pendingActions.filter(r => r && r.name !== action.resourceName),
+      mutateErrorMsg:
+          action.err.message ||
+          (action.err.error &&
+            (action.err.error.message ||
+              (action.err.error.data && action.err.error.data.Message))),
+      pendingActions: state.pendingActions.filter(
+        r => r && r.name !== action.resourceName
+      )
     })
   case Actions.RESOURCE_MUTATE_SUCCESS:
     return Object.assign({}, state, {
       mutateStatus: Actions.REQUEST_STATUS.DONE,
-      pendingActions: state.pendingActions.filter(r => r && r.name !== action.resourceName),
+      pendingActions: state.pendingActions.filter(
+        r => r && r.name !== action.resourceName
+      )
     })
   case Actions.RESOURCE_DELETE:
     items = [...state.items]
-    index = lodash.findIndex(items, o => lodash.get(o, 'metadata.uid') === lodash.get(action, 'item.metadata.uid'))
-    if(index > -1) {
+    index = lodash.findIndex(
+      items,
+      o =>
+        lodash.get(o, 'metadata.uid') ===
+          lodash.get(action, 'item.metadata.uid')
+    )
+    if (index > -1) {
       items.splice(index, 1)
       return Object.assign({}, state, {
         items: items
@@ -363,17 +449,28 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     switch (action.resourceType) {
     case RESOURCE_TYPES.HCM_RELEASES:
       const release = lodash.get(action, 'resource')
-      index = lodash.findIndex(items, { 'name':release.name, 'cluster':release.cluster })
+      index = lodash.findIndex(items, {
+        name: release.name,
+        cluster: release.cluster
+      })
       break
     case RESOURCE_TYPES.HCM_APPLICATIONS:
       const app = lodash.get(action, 'resource')
-      index = lodash.findIndex(items, { metadata: { 'name':app.metadata.name, 'namespace':app.metadata.namespace }})
+      index = lodash.findIndex(items, {
+        metadata: {
+          name: app.metadata.name,
+          namespace: app.metadata.namespace
+        }
+      })
       break
     default:
-      index = lodash.findIndex(items, o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName'))
+      index = lodash.findIndex(
+        items,
+        o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName')
+      )
       break
     }
-    if(index > -1) {
+    if (index > -1) {
       items.splice(index, 1)
       return Object.assign({}, state, {
         items: items
@@ -392,7 +489,8 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
 export const createResourceReducer = (reducerFunction, reducerPredicate) => {
   return (state, action) => {
     const isInitializationCall = state === undefined
-    const shouldRunWrappedReducer = reducerPredicate(action) || isInitializationCall
+    const shouldRunWrappedReducer =
+      reducerPredicate(action) || isInitializationCall
     return shouldRunWrappedReducer ? reducerFunction(state, action) : state
   }
 }

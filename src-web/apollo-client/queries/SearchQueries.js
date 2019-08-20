@@ -1,25 +1,37 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
 import gql from 'graphql-tag'
 
 export const GET_RESOURCE = gql`
-query getResource($selfLink: String, $namespace: String, $kind: String, $name: String, $cluster: String) {
-  getResource(selfLink: $selfLink, namespace: $namespace, kind: $kind, name: $name, cluster: $cluster)
-}
+  query getResource(
+    $selfLink: String
+    $namespace: String
+    $kind: String
+    $name: String
+    $cluster: String
+  ) {
+    getResource(
+      selfLink: $selfLink
+      namespace: $namespace
+      kind: $kind
+      name: $name
+      cluster: $cluster
+    )
+  }
 `
 
 export const GET_SEARCH_SCHEMA = gql`
-query searchSchema {
-  searchSchema
-}
+  query searchSchema {
+    searchSchema
+  }
 `
 
 export const GET_SEARCH_COMPLETE = gql`
@@ -63,7 +75,7 @@ export const GET_RELATED_RESOURCES = gql`
 
 export const SEARCH_QUERY = gql`
   query searchResult($input: [SearchInput]) {
-    searchResult: search(input: $input){
+    searchResult: search(input: $input) {
       items
     }
   }
@@ -71,7 +83,7 @@ export const SEARCH_QUERY = gql`
 
 export const SEARCH_QUERY_COUNT_ONLY = gql`
   query searchCountOnly($input: [SearchInput]) {
-    searchResult: search(input: $input){
+    searchResult: search(input: $input) {
       count
     }
   }
@@ -79,7 +91,7 @@ export const SEARCH_QUERY_COUNT_ONLY = gql`
 
 export const SEARCH_QUERY_RELATED = gql`
   query searchResult($input: [SearchInput]) {
-    searchResult: search(input: $input){
+    searchResult: search(input: $input) {
       count
       items
       related {

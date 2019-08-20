@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -21,7 +21,6 @@ resources(() => {
   require('../../../scss/label-editing-modal.scss')
 })
 
-
 class LabelEditingModal extends React.Component {
   constructor(props) {
     super(props)
@@ -33,15 +32,21 @@ class LabelEditingModal extends React.Component {
       newLabel: {},
       onEdit: false,
       onEditValue: {},
-      searchValue:'',
+      searchValue: ''
     }
   }
 
   componentWillMount() {
-    const {resourceType, data: { namespace, name, clusterName } } = this.props
-    apolloClient.getResource(resourceType, {namespace, name, clusterName})
+    const { resourceType, data: { namespace, name, clusterName } } = this.props
+    apolloClient
+      .getResource(resourceType, { namespace, name, clusterName })
       .then(response => {
-        const { labels, name, namespace, selfLink } = response.data.items[0].metadata
+        const {
+          labels,
+          name,
+          namespace,
+          selfLink
+        } = response.data.items[0].metadata
         const labelArray = this.convertObjectToArray(labels)
         this.setState({
           loading: false,
@@ -55,14 +60,16 @@ class LabelEditingModal extends React.Component {
 
   convertObjectToArray(input) {
     const resultArray = []
-    Object.entries(input).forEach(([key, value]) => resultArray.push({key, value, fromServer: true}))
+    Object.entries(input).forEach(([key, value]) =>
+      resultArray.push({ key, value, fromServer: true })
+    )
     return resultArray
   }
 
   convertArrayToObject(input) {
     const resultObject = {}
     input.forEach(item => {
-      if (!item.deleted){
+      if (!item.deleted) {
         resultObject[item.key] = item.value
       }
     })
@@ -83,7 +90,7 @@ class LabelEditingModal extends React.Component {
           list: ''
         },
         data: {
-          __typename:'ModalData',
+          __typename: 'ModalData',
           name: '',
           namespace: '',
           clusterName: '',
@@ -101,7 +108,15 @@ class LabelEditingModal extends React.Component {
     this.setState({
       loading: true
     })
-    return apolloClient.updateResourceLabels(resourceType.name, namespace, name, labelObject, selfLink, '/metadata/labels')
+    return apolloClient
+      .updateResourceLabels(
+        resourceType.name,
+        namespace,
+        name,
+        labelObject,
+        selfLink,
+        '/metadata/labels'
+      )
       .then(response => {
         if (response.errors) {
           this.setState({
@@ -119,11 +134,12 @@ class LabelEditingModal extends React.Component {
       const existingLabels = [...preState.labels]
       const labelIndex = existingLabels.findIndex(item => item.key === key)
       if (existingLabels[labelIndex].fromServer) {
-        existingLabels[labelIndex] = {...existingLabels[labelIndex],
+        existingLabels[labelIndex] = {
+          ...existingLabels[labelIndex],
           deleted: true
         }
       }
-      return { labels: existingLabels}
+      return { labels: existingLabels }
     })
   }
 
@@ -132,13 +148,14 @@ class LabelEditingModal extends React.Component {
       const existingLabels = [...preState.labels]
       const labelIndex = existingLabels.findIndex(item => item.key === key)
       if (existingLabels[labelIndex].fromServer) {
-        existingLabels[labelIndex] = {...existingLabels[labelIndex],
+        existingLabels[labelIndex] = {
+          ...existingLabels[labelIndex],
           deleted: false
         }
       }
-      return { labels: existingLabels}
+      return { labels: existingLabels }
     })
-  }
+  };
 
   onAdd = update => () => {
     if (update) {
@@ -146,22 +163,26 @@ class LabelEditingModal extends React.Component {
         this.setState(preState => {
           const existingLabels = [...preState.labels]
           if (preState.onEditValue.key && preState.onEditValue.value) {
-            const labelIndex = existingLabels.findIndex(item => item.key === preState.onEditValue.key)
+            const labelIndex = existingLabels.findIndex(
+              item => item.key === preState.onEditValue.key
+            )
             if (labelIndex > -1) {
               if (existingLabels[labelIndex].fromServer) {
-                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                existingLabels[labelIndex] = {
+                  ...existingLabels[labelIndex],
                   updated: true,
                   editable: false,
                   value: preState.onEditValue.value
                 }
               } else {
-                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                existingLabels[labelIndex] = {
+                  ...existingLabels[labelIndex],
                   value: preState.onEditValue.value,
                   editable: false
                 }
               }
             }
-            return { labels: existingLabels, onEdit: false, onEditValue: {}}
+            return { labels: existingLabels, onEdit: false, onEditValue: {} }
           }
         })
       }
@@ -171,35 +192,42 @@ class LabelEditingModal extends React.Component {
           const existingLabels = [...preState.labels]
           if (preState.newLabel.key && preState.newLabel.value) {
             // check if target already exists in the state
-            const labelIndex = existingLabels.findIndex(item => item.key === preState.newLabel.key)
+            const labelIndex = existingLabels.findIndex(
+              item => item.key === preState.newLabel.key
+            )
             // label exists then update existing one
             if (labelIndex > -1) {
               if (existingLabels[labelIndex].fromServer) {
-                existingLabels[labelIndex] = {...existingLabels[labelIndex],
+                existingLabels[labelIndex] = {
+                  ...existingLabels[labelIndex],
                   updated: true,
                   value: preState.newLabel.value
                 }
               } else {
-                existingLabels[labelIndex] = {...existingLabels[labelIndex],
-                  value: preState.newLabel.value,
+                existingLabels[labelIndex] = {
+                  ...existingLabels[labelIndex],
+                  value: preState.newLabel.value
                 }
               }
             } else {
-              existingLabels.push({key: preState.newLabel.key, value: preState.newLabel.value})
+              existingLabels.push({
+                key: preState.newLabel.key,
+                value: preState.newLabel.value
+              })
             }
-            return { labels: existingLabels, newLabel: {}}
+            return { labels: existingLabels, newLabel: {} }
           }
         })
       }
     }
-  }
+  };
 
   handleSearch = e => {
     if (e) {
       const searchValue = e.target.value
       this.setState({ searchValue })
     }
-  }
+  };
 
   onClickRow = key => {
     if (key && this.state.onEdit === false) {
@@ -208,22 +236,30 @@ class LabelEditingModal extends React.Component {
         const labelIndex = existingLabels.findIndex(item => item.key === key)
         // label exists then update existing one
         if (labelIndex > -1) {
-          if (existingLabels[labelIndex] && !existingLabels[labelIndex].deleted) {
-            existingLabels[labelIndex] = {...existingLabels[labelIndex],
-              editable: true,
+          if (
+            existingLabels[labelIndex] &&
+            !existingLabels[labelIndex].deleted
+          ) {
+            existingLabels[labelIndex] = {
+              ...existingLabels[labelIndex],
+              editable: true
             }
           }
-          return { labels: existingLabels, onEdit: true, onEditValue: existingLabels[labelIndex] }
+          return {
+            labels: existingLabels,
+            onEdit: true,
+            onEditValue: existingLabels[labelIndex]
+          }
         }
       })
     }
-  }
+  };
 
   onTextInputChange = (type, onEdit) => e => {
     if (e) {
       const nextValue = e.target.value
       this.setState(preState => {
-        const newState= {...preState}
+        const newState = { ...preState }
         if (onEdit) {
           newState.onEditValue[type] = nextValue
         } else {
@@ -232,53 +268,61 @@ class LabelEditingModal extends React.Component {
         return newState
       })
     }
-  }
+  };
 
-  onTextInputSelect = (type) => value => {
+  onTextInputSelect = type => value => {
     if (value) {
       this.setState(preState => {
-        const newState= {...preState}
+        const newState = { ...preState }
         newState.newLabel[type] = value
         return newState
       })
     }
-  }
+  };
 
   itemFilter(input, searchKey) {
     if (searchKey && searchKey.length > 0) {
-      return input.filter(item => item && ((item.key && item.key.includes(searchKey)) || (item.value && item.value.includes(searchKey))))
+      return input.filter(
+        item =>
+          item &&
+          ((item.key && item.key.includes(searchKey)) ||
+            (item.value && item.value.includes(searchKey)))
+      )
     }
     return input
   }
 
-  render(){
+  render() {
     const { open } = this.props
     const { errors, loading } = this.state
     return (
       <div>
         {loading && <Loading />}
         <Modal
-          id='label-editing-modal'
-          className='modal-with-editor-and-list'
+          id="label-editing-modal"
+          className="modal-with-editor-and-list"
           open={open}
-          modalHeading={ msgs.get('modal.label-editing.label', this.context.locale) }
-          primaryButtonText={ msgs.get('actions.save', this.context.locale) }
+          modalHeading={msgs.get(
+            'modal.label-editing.label',
+            this.context.locale
+          )}
+          primaryButtonText={msgs.get('actions.save', this.context.locale)}
           primaryButtonDisabled={false}
-          secondaryButtonText={ msgs.get('actions.cancel', this.context.locale) }
-          onRequestSubmit={ this.handleSubmit.bind(this) }
-          onRequestClose={ this.handleClose.bind(this) }
+          secondaryButtonText={msgs.get('actions.cancel', this.context.locale)}
+          onRequestSubmit={this.handleSubmit.bind(this)}
+          onRequestClose={this.handleClose.bind(this)}
         >
-          {errors !== ''
-            ? <Notification
-              kind='error'
-              title=''
-              subtitle={errors} />
-            : null}
+          {errors !== '' ? (
+            <Notification kind="error" title="" subtitle={errors} />
+          ) : null}
           <Labels
-            type='labels'
+            type="labels"
             items={this.itemFilter(this.state.labels, this.state.searchValue)}
             newLabel={this.state.newLabel}
-            addLabel={msgs.get('modal.form.action.editLabel', this.context.locale)}
+            addLabel={msgs.get(
+              'modal.form.action.editLabel',
+              this.context.locale
+            )}
             onRemove={this.onRemove.bind(this)}
             onUndo={this.onUndo.bind(this)}
             onAdd={this.onAdd.bind(this)}

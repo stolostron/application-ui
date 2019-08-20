@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -33,7 +33,7 @@ class NestedTable extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      toggle: [],
+      toggle: []
     }
   }
 
@@ -45,9 +45,11 @@ class NestedTable extends React.PureComponent {
     })
   };
 
-  getToggleState = index => this.state.toggle[index] ? this.state.toggle[index] : false
+  getToggleState = index =>
+    this.state.toggle[index] ? this.state.toggle[index] : false;
 
-  getItemCheckedState = id => !!this.props.selectedItems.find(item => item.id === id)
+  getItemCheckedState = id =>
+    !!this.props.selectedItems.find(item => item.id === id);
 
   updateSelectedState = row => () => {
     const { selectedItems, selectionChanged } = this.props
@@ -59,13 +61,13 @@ class NestedTable extends React.PureComponent {
       newSelectedItems = [...selectedItems, row]
     }
     selectionChanged && selectionChanged(newSelectedItems)
-  }
+  };
 
-  createTableSelectRow = (rows) => (
+  createTableSelectRow = rows => (
     <Table>
       <TableBody>
         {rows.map(row => (
-          <TableRow key={row.id} even={false} >
+          <TableRow key={row.id} even={false}>
             <TableSelectRow
               onSelect={this.updateSelectedState(row)}
               checked={this.getItemCheckedState(row.id)}
@@ -80,12 +82,8 @@ class NestedTable extends React.PureComponent {
     </Table>
   );
 
-
   render() {
-    const {
-      availableItems,
-      header
-    } = this.props
+    const { availableItems, header } = this.props
 
     const createExpandedRows = (item, index, selectionChanged) => {
       const toggleState = this.getToggleState(index)
@@ -99,7 +97,11 @@ class NestedTable extends React.PureComponent {
     const rowData = availableItems.map((item, index) => {
       const toggleState = this.getToggleState(index)
       return [
-        <TableRow key={`b${item.key}`} even={false} className={'nested-table-select-row'}>
+        <TableRow
+          key={`b${item.key}`}
+          even={false}
+          className={'nested-table-select-row'}
+        >
           <TableData
             onClick={this.toggleRow(index)}
             key={`a${item.key}`}
@@ -121,8 +123,11 @@ class NestedTable extends React.PureComponent {
             <TableRow header className={'nested-table-header-row'}>
               <TableHeader />
               <TableHeader className={'nested-table-header'}>
-                <p>{header}  </p>
-                <p>({this.props.selectedItems.length} {msgs.get('nested.table.selected', this.context.locale)})</p>
+                <p>{header} </p>
+                <p>
+                  ({this.props.selectedItems.length}{' '}
+                  {msgs.get('nested.table.selected', this.context.locale)})
+                </p>
               </TableHeader>
             </TableRow>
           </TableHead>

@@ -11,8 +11,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
-import { Icon, Modal } from 'carbon-components-react'
+import { Modal } from 'carbon-components-react'
 import R from 'ramda'
 import { getLabelsListClass } from './utils.js'
 
@@ -20,199 +19,104 @@ resources(() => {
   require('./style.scss')
 })
 
-//TODO: could add this to a utils.js
-const getChannelStatusClass = status => {
+const ChannelInfo = withLocale(({ SubscriptionInfo, locale }) => {
+  const channel =
+    SubscriptionInfo && SubscriptionInfo.channel
+      ? SubscriptionInfo.channel
+      : ''
+  const channelData = R.split('/', channel)
   return (
-    (status === 'success' && 'statusTagCompleted') ||
-    (status === 'failed' && 'statusTagFailed') ||
-    (status === 'inprogress' && 'statusTagInProgress') ||
-    (true && 'statusTag')
-  )
-}
-
-const DeploymentStatus = withLocale(
-  ({
-    deploymentTime = '2019-07-05T09:50:56Z',
-    failedTime = '2019-07-05T10:20:56Z',
-    deployments = ['d1', 'd2', 'd3', 'd4'],
-    clusters = ['c1', 'c2', 'c3', 'c4'],
-    percent = '50%',
-    status = 'failed', // show if not 'success'
-    locale
-  }) => {
-    // don't show block if it is successful
-    if (status == 'success') return null
-
-    return (
-      <React.Fragment>
-        <div className="deploymentStatusClass">
-          <div className="innerContentBox">
-            <div className="subHeader">
-              <div className="deploymentStatusHeader">
-                {msgs.get('description.Modal.deploymentStatus', locale)}
-              </div>
-              <span className={getChannelStatusClass(status)}>{status}</span>
-            </div>
-            <div className="deploymentProgress">
-              {status == 'inprogress' && percent ? percent : ''}
-            </div>
-            <div className="deploymentStatusTime">
-              {(status == 'failed' || status == 'inprogress') && deploymentTime
-                ? msgs.get('description.Modal.deployedAt', locale) +
-                  ' ' +
-                  deploymentTime +
-                  ' '
-                : ''}
-              {status == 'failed' && failedTime
-                ? msgs.get('description.Modal.failedAt', locale) +
-                  ' ' +
-                  failedTime
-                : ''}
-            </div>
-            <div>{deployments}</div>
-          </div>
+    <div className="channelInfoClass">
+      <div className="subHeader">
+        <div className="channelHeader">
+          {msgs.get('description.Modal.channel', locale)}
         </div>
-        <div className="targetClustersClass">
-          <div className="innerContentBox">
-            <div className="subHeader">
-              <div className="deploymentStatusHeader">
-                {msgs.get('description.Modal.targetClusters', locale)}
-              </div>
-              <div>{clusters}</div>
-            </div>
-          </div>
-        </div>
-      </React.Fragment>
-    )
-  }
-)
-
-const ChannelInfo = withLocale(
-  ({
-    subscriptionModalSubscriptionInfo,
-    conditions = [
-      { name: 'condition1', success: true },
-      { name: 'condition2', success: false },
-      { name: 'condition3', success: true }
-    ],
-    success = true,
-    locale
-  }) => {
-    const channel =
-      subscriptionModalSubscriptionInfo &&
-      subscriptionModalSubscriptionInfo.channel
-        ? subscriptionModalSubscriptionInfo.channel
-        : ''
-    return (
-      <div className="channelInfoClass">
-        <div className="subHeader">
-          <div className="channelHeader">
-            {msgs.get('description.Modal.channel', locale)}
-          </div>
-          {channel}
-        </div>
-        <div className="innerContent">
-          <div className="conditions">
-            <div>
-              <div className="conditionStatus">
-                {msgs.get('description.Modal.conditions', locale)}
-                <span className="conditionStatus">
-                  {(success &&
-                    msgs.get('description.Modal.conditionsMet', locale)) ||
-                    msgs.get('description.Modal.conditionsNotMet', locale)}
-                </span>
-              </div>
-            </div>
-
-            <div className="valueGroup">
-              {conditions != null && conditions.length > 0
-                ? conditions.map(condition => {
-                  return (
-                    <div className="valueGroupItem" key={Math.random()}>
-                      <Icon
-                        name="icon--user"
-                        fill="#6c7b85"
-                        description=""
-                        className="icon"
-                      />
-                      {condition.name}
-
-                      {condition.success ? (
-                        <Icon
-                          name="icon--checkmark--solid"
-                          fill="#37a900"
-                          description=""
-                          className="icon"
-                        />
-                      ) : (
-                        <Icon
-                          name="icon--error--glyph"
-                          fill="#6c7b85"
-                          description=""
-                          className="icon"
-                        />
-                      )}
-                    </div>
-                  )
-                })
-                : 'None' +
-                  (
-                    <Icon
-                      name="icon--checkmark--solid"
-                      fill="#37a900"
-                      description=""
-                      className="icon"
-                    />
-                  )}
-            </div>
-          </div>
-        </div>
+        <div className="value">{channelData[0]}</div>
       </div>
-    )
-  }
-)
+      {channelData.length == 2 ? (
+        <div className="subHeader">
+          <div className="subscriptionInfoHeader">
+            {msgs.get('description.Modal.Namespace', locale)}
+          </div>
+          <div className="value">{channelData[1]}</div>
+        </div>
+      ) : (
+        ''
+      )}
+    </div>
+  )
+})
 
 const SubscriptionInfo = withLocale(
-  ({
-    versions = 'version2',
-    rollingUpdate = '50%',
-    modalSubscription,
-    editSubscription,
-    subscriptionModalSubscriptionInfo = {},
-    bulkSubscriptionList = {},
-    locale
-  }) => {
-    // If there is currently noDeployableSubscription then we want to add rather
-    // than edit
-    const noDeployableSubscription = R.isEmpty(
-      subscriptionModalSubscriptionInfo
-    )
+  ({ subscriptionModalSubscriptionInfo, bulkSubscriptionList, locale }) => {
+    const notEmptySubscription =
+      !R.isEmpty(subscriptionModalSubscriptionInfo) &&
+      subscriptionModalSubscriptionInfo &&
+      subscriptionModalSubscriptionInfo.namespace
 
-    // This will match the UID of the subscription with what we have in bulk subscription list
-    // which will return you all the related data we need to display.
-    const subscriptionWithRelatedData = R.find(
-      R.propEq('_uid', subscriptionModalSubscriptionInfo._uid)
-    )(bulkSubscriptionList)
-
-    let clusters = []
+    let clusterNames = ['N/A']
     let labels = []
+    let deployableNames = []
     let subName = ''
     let subNamespace = ''
     let label_hover = ''
+    let clusters_hover = ''
+    let deployables_hover = ''
+    let owningClusterName = ''
 
-    if (!noDeployableSubscription) {
+    if (notEmptySubscription) {
+      // This will match the UID of the subscription with what we have in bulk subscription list
+      // which will return you all the related data we need to display.
+      //     const subscriptionWithRelatedData = R.find(
+      //       R.propEq('_uid', subscriptionModalSubscriptionInfo._uid)
+      //     )(bulkSubscriptionList)
+
+      //uid not working at the moment, use name and namespace for now
+      const subscriptionWithRelatedData = R.find(
+        R.propEq('name', subscriptionModalSubscriptionInfo.name) &&
+          R.propEq('namespace', subscriptionModalSubscriptionInfo.namespace)
+      )(bulkSubscriptionList)
+
+      const foundBulkSubscription =
+        subscriptionWithRelatedData && !R.isEmpty(subscriptionWithRelatedData)
+      if (foundBulkSubscription) {
+        const related = R.pathOr(
+          [{}],
+          ['related'],
+          subscriptionWithRelatedData
+        )
+        const clusters = R.find(R.propEq('kind', 'cluster'))(related)
+
+        if (clusters && clusters.items) {
+          clusterNames = clusters.items.map(cluster => {
+            return ' ' + cluster.name || ''
+          })
+        }
+
+        const deployables = R.find(R.propEq('kind', 'deployable'))(related)
+        if (deployables && deployables.items) {
+          deployableNames = deployables.items.map(deployable => {
+            return ' ' + deployable.name || ''
+          })
+        }
+      }
+
       labels = R.split(
         ';',
-        R.pathOr('', ['label'], subscriptionModalSubscriptionInfo)
-      )
-      clusters = R.split(
-        ';',
-        R.pathOr('', ['cluster'], subscriptionModalSubscriptionInfo)
+        R.pathOr('N/A', ['label'], subscriptionModalSubscriptionInfo)
       )
 
       const labels_data = getLabelsListClass(labels)
       labels = labels_data.data
       label_hover = labels_data.hover
+
+      const clusters_data = getLabelsListClass(clusterNames)
+      clusterNames = clusters_data.data
+      clusters_hover = clusters_data.hover
+
+      const deployables_data = getLabelsListClass(deployableNames)
+      deployableNames = deployables_data.data
+      deployables_hover = deployables_data.hover
 
       subName =
         subscriptionModalSubscriptionInfo &&
@@ -224,6 +128,12 @@ const SubscriptionInfo = withLocale(
         subscriptionModalSubscriptionInfo.namespace
           ? subscriptionModalSubscriptionInfo.namespace
           : ''
+
+      owningClusterName = R.pathOr(
+        '',
+        ['cluster'],
+        subscriptionModalSubscriptionInfo
+      )
     }
     return (
       <div className="subscriptionInfoClass">
@@ -231,13 +141,19 @@ const SubscriptionInfo = withLocale(
           <div className="subscriptionInfoHeader">
             {msgs.get('description.Modal.SubscriptionInfo', locale)}
           </div>
-          {subName}
+          <div className="value">{subName}</div>
         </div>
         <div className="subHeader">
           <div className="subscriptionInfoHeader">
-            {msgs.get('description.Modal.SubscriptionNamespace', locale)}
+            {msgs.get('description.Modal.Namespace', locale)}
           </div>
-          {subNamespace}
+          <div className="value">{subNamespace}</div>
+        </div>
+        <div className="subHeader">
+          <div className="subscriptionInfoHeader">
+            {msgs.get('description.Modal.SubscriptionCluster', locale)}
+          </div>
+          <div className="value">{owningClusterName}</div>
         </div>
         <div className="innerContent">
           <div className="placement">
@@ -250,7 +166,20 @@ const SubscriptionInfo = withLocale(
               <div className="label-indented">
                 {msgs.get('description.Modal.clusters', locale)}
               </div>
-              <div className="value">{clusters}</div>
+              <div className="value">
+                {' '}
+                {clusterNames.map(cluster => {
+                  return (
+                    <span
+                      className="labelTag"
+                      key={Math.random()}
+                      title={clusters_hover}
+                    >
+                      {cluster}
+                    </span>
+                  )
+                })}
+              </div>
             </div>
             <div>
               <div className="label-indented">
@@ -271,36 +200,29 @@ const SubscriptionInfo = withLocale(
                 })}
               </div>
             </div>
-          </div>
-          <div className="versions">
             <div>
-              <div className="label">
-                {msgs.get('description.Modal.versions', locale)}
+              <div className="label-indented">
+                {msgs.get(
+                  'description.title.deployableSubscription.deployables',
+                  locale
+                )}
               </div>
-              <div className="value">{versions}</div>
+              <div className="value">
+                {' '}
+                {deployableNames.map(deployable => {
+                  return (
+                    <span
+                      className="labelTag"
+                      key={Math.random()}
+                      title={deployables_hover}
+                    >
+                      {deployable}
+                    </span>
+                  )
+                })}
+              </div>
             </div>
           </div>
-          <div className="update">
-            <div>
-              <div className="label">
-                {msgs.get('description.Modal.update', locale)}
-              </div>
-              <div className="value">{rollingUpdate}</div>
-            </div>
-          </div>
-          {noDeployableSubscription ? (
-            <div className="addSubscriptionButton">{[modalSubscription]}</div>
-          ) : (
-            <button
-              className="editSubscriptionButton"
-              onClick={() =>
-                editSubscription(
-                  RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-                  subscriptionModalSubscriptionInfo
-                )
-              }
-            />
-          )}
         </div>
       </div>
     )
@@ -313,8 +235,6 @@ const SubscriptionModal = withLocale(
     closeModal,
     header,
     label,
-    modalSubscription,
-    editSubscription,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
     locale
@@ -332,15 +252,12 @@ const SubscriptionModal = withLocale(
         >
           <div className="channelGridContainer">
             <SubscriptionInfo
-              modalSubscription={modalSubscription}
-              editSubscription={editSubscription}
               subscriptionModalSubscriptionInfo={
                 subscriptionModalSubscriptionInfo
               }
               bulkSubscriptionList={bulkSubscriptionList}
             />
             <ChannelInfo SubscriptionInfo={subscriptionModalSubscriptionInfo} />
-            <DeploymentStatus />
           </div>
         </Modal>
       </div>

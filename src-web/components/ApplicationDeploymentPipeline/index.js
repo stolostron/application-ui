@@ -282,6 +282,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           modalSubscription={modalSubscription}
           editSubscription={editSubscription}
           subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
+          bulkSubscriptionList={bulkSubscriptionList}
         />
       </div>
     )

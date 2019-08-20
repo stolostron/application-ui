@@ -71,7 +71,17 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
               >
                 Subscription Name
               </div>
-              subName
+              
+            </div>
+            <div
+              className="subHeader"
+            >
+              <div
+                className="subscriptionInfoHeader"
+              >
+                Namespace
+              </div>
+              
             </div>
             <div
               className="innerContent"
@@ -94,37 +104,18 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                   </div>
                   <div
                     className="value"
-                  >
-                    cluster1
-                    cluster2
-                    cluster3
-                  </div>
+                  />
                 </div>
                 <div>
                   <div
                     className="label-indented"
                   >
-                    Label
+                    Labels
                   </div>
                   <div
                     className="value"
                   >
                      
-                    <span
-                      className="labelTag"
-                    >
-                      label1
-                    </span>
-                    <span
-                      className="labelTag"
-                    >
-                      label2
-                    </span>
-                    <span
-                      className="labelTag"
-                    >
-                      label3
-                    </span>
                   </div>
                 </div>
               </div>
@@ -160,9 +151,8 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                   </div>
                 </div>
               </div>
-              <button
-                className="editSubscriptionButton"
-                onClick={[Function]}
+              <div
+                className="addSubscriptionButton"
               />
             </div>
           </div>
@@ -177,11 +167,7 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
               >
                 Channel
               </div>
-              <span
-                className="conditionStatus"
-              >
-                Conditions fully met
-              </span>
+              
             </div>
             <div
               className="innerContent"
@@ -189,6 +175,18 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
               <div
                 className="conditions"
               >
+                <div>
+                  <div
+                    className="conditionStatus"
+                  >
+                    Conditions
+                    <span
+                      className="conditionStatus"
+                    >
+                      Conditions fully met
+                    </span>
+                  </div>
+                </div>
                 <div
                   className="valueGroup"
                 >

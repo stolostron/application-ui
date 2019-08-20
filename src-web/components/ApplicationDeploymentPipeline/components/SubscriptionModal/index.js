@@ -14,6 +14,7 @@ import resources from '../../../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 import { Icon, Modal } from 'carbon-components-react'
 import R from 'ramda'
+import { getLabelsListClass } from './utils.js'
 
 resources(() => {
   require('./style.scss')
@@ -88,6 +89,7 @@ const DeploymentStatus = withLocale(
 
 const ChannelInfo = withLocale(
   ({
+    subscriptionModalSubscriptionInfo,
     conditions = [
       { name: 'condition1', success: true },
       { name: 'condition2', success: false },
@@ -96,19 +98,32 @@ const ChannelInfo = withLocale(
     success = true,
     locale
   }) => {
+    const channel =
+      subscriptionModalSubscriptionInfo &&
+      subscriptionModalSubscriptionInfo.channel
+        ? subscriptionModalSubscriptionInfo.channel
+        : ''
     return (
       <div className="channelInfoClass">
         <div className="subHeader">
           <div className="channelHeader">
             {msgs.get('description.Modal.channel', locale)}
           </div>
-          <span className="conditionStatus">
-            {(success && msgs.get('description.Modal.conditionsMet', locale)) ||
-              msgs.get('description.Modal.conditionsNotMet', locale)}
-          </span>
+          {channel}
         </div>
         <div className="innerContent">
           <div className="conditions">
+            <div>
+              <div className="conditionStatus">
+                {msgs.get('description.Modal.conditions', locale)}
+                <span className="conditionStatus">
+                  {(success &&
+                    msgs.get('description.Modal.conditionsMet', locale)) ||
+                    msgs.get('description.Modal.conditionsNotMet', locale)}
+                </span>
+              </div>
+            </div>
+
             <div className="valueGroup">
               {conditions != null && conditions.length > 0
                 ? conditions.map(condition => {
@@ -159,14 +174,12 @@ const ChannelInfo = withLocale(
 
 const SubscriptionInfo = withLocale(
   ({
-    subName = 'subName',
-    clusters = ['cluster1', 'cluster2', 'cluster3'],
-    labels = ['label1', 'label2', 'label3'],
     versions = 'version2',
     rollingUpdate = '50%',
     modalSubscription,
     editSubscription,
-    subscriptionModalSubscriptionInfo,
+    subscriptionModalSubscriptionInfo = {},
+    bulkSubscriptionList = {},
     locale
   }) => {
     // If there is currently noDeployableSubscription then we want to add rather
@@ -174,6 +187,44 @@ const SubscriptionInfo = withLocale(
     const noDeployableSubscription = R.isEmpty(
       subscriptionModalSubscriptionInfo
     )
+
+    // This will match the UID of the subscription with what we have in bulk subscription list
+    // which will return you all the related data we need to display.
+    const subscriptionWithRelatedData = R.find(
+      R.propEq('_uid', subscriptionModalSubscriptionInfo._uid)
+    )(bulkSubscriptionList)
+
+    let clusters = []
+    let labels = []
+    let subName = ''
+    let subNamespace = ''
+    let label_hover = ''
+
+    if (!noDeployableSubscription) {
+      labels = R.split(
+        ';',
+        R.pathOr('', ['label'], subscriptionModalSubscriptionInfo)
+      )
+      clusters = R.split(
+        ';',
+        R.pathOr('', ['cluster'], subscriptionModalSubscriptionInfo)
+      )
+
+      const labels_data = getLabelsListClass(labels)
+      labels = labels_data.data
+      label_hover = labels_data.hover
+
+      subName =
+        subscriptionModalSubscriptionInfo &&
+        subscriptionModalSubscriptionInfo.name
+          ? subscriptionModalSubscriptionInfo.name
+          : ''
+      subNamespace =
+        subscriptionModalSubscriptionInfo &&
+        subscriptionModalSubscriptionInfo.namespace
+          ? subscriptionModalSubscriptionInfo.namespace
+          : ''
+    }
     return (
       <div className="subscriptionInfoClass">
         <div className="subHeader">
@@ -181,6 +232,12 @@ const SubscriptionInfo = withLocale(
             {msgs.get('description.Modal.SubscriptionInfo', locale)}
           </div>
           {subName}
+        </div>
+        <div className="subHeader">
+          <div className="subscriptionInfoHeader">
+            {msgs.get('description.Modal.SubscriptionNamespace', locale)}
+          </div>
+          {subNamespace}
         </div>
         <div className="innerContent">
           <div className="placement">
@@ -203,7 +260,11 @@ const SubscriptionInfo = withLocale(
                 {' '}
                 {labels.map(label => {
                   return (
-                    <span className="labelTag" key={Math.random()}>
+                    <span
+                      className="labelTag"
+                      key={Math.random()}
+                      title={label_hover}
+                    >
                       {label}
                     </span>
                   )
@@ -255,6 +316,7 @@ const SubscriptionModal = withLocale(
     modalSubscription,
     editSubscription,
     subscriptionModalSubscriptionInfo,
+    bulkSubscriptionList,
     locale
   }) => {
     return (
@@ -270,14 +332,14 @@ const SubscriptionModal = withLocale(
         >
           <div className="channelGridContainer">
             <SubscriptionInfo
-              subName={label}
               modalSubscription={modalSubscription}
               editSubscription={editSubscription}
               subscriptionModalSubscriptionInfo={
                 subscriptionModalSubscriptionInfo
               }
+              bulkSubscriptionList={bulkSubscriptionList}
             />
-            <ChannelInfo />
+            <ChannelInfo SubscriptionInfo={subscriptionModalSubscriptionInfo} />
             <DeploymentStatus />
           </div>
         </Modal>

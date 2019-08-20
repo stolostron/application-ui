@@ -51,15 +51,14 @@ export const onSubscriptionClick = (
   setCurrentSubscriptionModalData,
   subscription,
   applicationName,
-  subscriptionName,
-  matchingSubscription = {}
+  subscriptionName
 ) => {
   const headerInfo = {
     application: applicationName,
     deployable: subscriptionName
   }
   setSubscriptionModalHeaderInfo(headerInfo)
-  setCurrentDeployableSubscriptionData(matchingSubscription)
+  setCurrentDeployableSubscriptionData(subscription)
   setCurrentSubscriptionModalData(subscription)
   openSubscriptionModal()
 }

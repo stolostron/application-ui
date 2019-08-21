@@ -94,7 +94,9 @@ const ApplicationDeploymentHighlightsDashboard = withLocale(
   }) => {
     const applicationName = getApplicationName(HCMApplicationList)
     const targetLink = isSingleApplicationView
-      ? getSearchLinkForOneApplication({ name: applicationName })
+      ? getSearchLinkForOneApplication({
+        name: encodeURIComponent(applicationName)
+      })
       : getSearchLinkForAllApplications()
     const countsCardData = countsCardDataSummary(
       HCMApplicationList,

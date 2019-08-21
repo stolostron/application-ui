@@ -11,7 +11,18 @@ import React from '../../../../node_modules/react'
 import CountsCardModule from '../../CountsCardModule'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import { getAllDeployablesStatus, getNumClusters } from './utils'
+import {
+  getAllDeployablesStatus,
+  getNumClusters,
+  getApplicationName,
+  getSingleApplicationObject,
+  getChannelsCountFromSubscriptions
+} from './utils'
+import {
+  getSearchLinkForOneApplication,
+  getSearchLinkForAllApplications
+} from '../../common/ResourceOverview/utils'
+import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 import { getNumItems } from '../../../../lib/client/resource-helper'
 
 resources(() => {
@@ -21,53 +32,93 @@ resources(() => {
 const countsCardDataSummary = (
   HCMApplicationList,
   HCMChannelList,
-  HCMSubscriptionList
+  HCMSubscriptionList,
+  isSingleApplicationView,
+  targetLink
 ) => {
+  const applications = getNumItems(HCMApplicationList)
+  const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
+  let channels = getNumItems(HCMChannelList)
+  let subscriptions = getNumItems(HCMSubscriptionList)
+  if (isSingleApplicationView) {
+    const subscriptionsArray = pullOutKindPerApplication(
+      getSingleApplicationObject(HCMApplicationList),
+      'subscription'
+    )
+    subscriptions = subscriptionsArray.length
+    channels = getChannelsCountFromSubscriptions(subscriptionsArray)
+  }
   const result = [
     {
-      msgKey: 'dashboard.card.deployment.applications',
-      count: getNumItems(HCMApplicationList)
+      msgKey:
+        applications > 1
+          ? 'dashboard.card.deployment.applications'
+          : 'dashboard.card.deployment.application',
+      count: applications,
+      targetLink
     },
     {
-      msgKey: 'dashboard.card.deployment.channels',
-      count: getNumItems(HCMChannelList)
+      msgKey:
+        channels > 1
+          ? 'dashboard.card.deployment.channels'
+          : 'dashboard.card.deployment.channel',
+      count: channels,
+      targetLink
     },
     {
-      msgKey: 'dashboard.card.deployment.placementRules',
-      count: 0
+      msgKey:
+        subscriptions > 1
+          ? 'dashboard.card.deployment.subscriptions'
+          : 'dashboard.card.deployment.subscription',
+      count: subscriptions,
+      targetLink
     },
     {
-      msgKey: 'dashboard.card.deployment.availabilityZones',
-      count: 0
-    },
-    {
-      msgKey: 'dashboard.card.deployment.clusters',
-      count: getNumClusters(HCMApplicationList, HCMSubscriptionList)
+      msgKey:
+        clusters > 1
+          ? 'dashboard.card.deployment.clusters'
+          : 'dashboard.card.deployment.cluster',
+      count: clusters,
+      targetLink
     }
   ]
   return result
 }
 
 const ApplicationDeploymentHighlightsDashboard = withLocale(
-  ({ HCMApplicationList, HCMChannelList, HCMSubscriptionList }) => {
+  ({
+    HCMApplicationList,
+    HCMChannelList,
+    HCMSubscriptionList,
+    isSingleApplicationView
+  }) => {
+    const applicationName = getApplicationName(HCMApplicationList)
+    const targetLink = isSingleApplicationView
+      ? getSearchLinkForOneApplication({ name: applicationName })
+      : getSearchLinkForAllApplications()
     const countsCardData = countsCardDataSummary(
       HCMApplicationList,
       HCMChannelList,
-      HCMSubscriptionList
+      HCMSubscriptionList,
+      isSingleApplicationView,
+      targetLink
     )
     const summary = getAllDeployablesStatus(HCMApplicationList, false)
     const countsCardDataStatus = [
       {
         msgKey: 'dashboard.card.deployment.completed',
-        count: summary[0]
+        count: summary[0],
+        targetLink
       },
       {
         msgKey: 'dashboard.card.deployable.inProgress',
-        count: summary[2]
+        count: summary[2],
+        targetLink
       },
       {
         msgKey: 'dashboard.card.deployable.failed',
         count: summary[1],
+        targetLink,
         alert: true
       }
     ]

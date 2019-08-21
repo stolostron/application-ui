@@ -117,47 +117,74 @@ export const getResourceChannels = resourceData => {
   return []
 }
 
-const findMatchingResource = (kind, item, resourcesTwo) => {
-  const match = resourcesTwo.map(resourceKindTwo => {
-    const kindItemsTwo = resourceKindTwo.items || []
-    const kindTwo = resourceKindTwo.kind || ''
-    const matched = kindItemsTwo.map(itemTwo => {
+// Given an resource Object (item) and a list of resources Objects (appRelations)
+// We want to go through the appRelations to see there is a resource UID that
+// matches the item resource.
+// If there is a match we want to return it and count it as common because
+// it appears in both.
+const findMatchingResource = (kind, item, appRelations) => {
+  const match = appRelations.map(resource => {
+    const kindItems = resource.items || []
+    const kindTwo = resource.kind || ''
+    const matched = kindItems.map(itemTwo => {
       if (kindTwo == kind && item._uid == itemTwo._uid) {
         return { kind: kind, items: [itemTwo] }
       }
     })
-    const filterOutUndefined = x => x != undefined
+    const filterOutUndefined = x => x != undefined && x.length > 0
     const filteredData = R.filter(filterOutUndefined, matched)
     return filteredData
   })
-  return match
+
+  const filterOutEmpty = x => x.length > 0
+  const filteredDataTwo = R.filter(filterOutEmpty, match)
+  console.log('match', filteredDataTwo, match)
+  return filteredDataTwo
 }
 
-export const getCommonResources = (resourcesListOne, resourcesTwo) => {
+// We want to find the commone resources that between too objects
+// EXAMPLE:
+//  - We have one application with all of its related resources.
+//  - We have a list of channels with all their relate resources.
+//  - Given those TWO lists we want to find the common resources that are in
+//    both the application related resources and the channels related resources.
+//
+// The reason is the channel resources wiill include ALL related resources in
+// that particular channel which includes many different application resources
+// if sepearate applications chose to put a subscription under that channel.
+//
+export const getCommonResources = (channelData, appRelations) => {
   let channelFormat = []
   let commonResources = []
-  // Each Channel
-  console.log(resourcesListOne)
-  resourcesListOne.map(resourceOne => {
+  // Go through Each Channel
+  channelData.map(channel => {
     // That channels related data
-    resourceOne.related.map(resource => {
+    channel.related.map(resource => {
       const kindItems = resource.items || []
       const kind = resource.kind || ''
       kindItems.map(item => {
-        const match = findMatchingResource(kind, item, resourcesTwo)
+        const match = findMatchingResource(kind, item, appRelations)
         commonResources = commonResources.concat(match)
+        console.log('commonResources', commonResources)
       })
     })
+    // we want to tall up all the related resources for the given channel
     channelFormat = channelFormat.concat([
-      { name: resourcesListOne.name, items: commonResources }
+      { name: channelData.name, items: commonResources }
     ])
   })
+  console.log('channelFormat', channelFormat)
   const filterOutEmpty = x => x.length > 0
-  const filteredData = R.filter(filterOutEmpty, commonResources)
-  console.log(filteredData)
+  const filteredData = R.filter(filterOutEmpty, channelFormat)
   return filteredData
 }
 
+// We want to get the current Application if there is only ONE application.
+// We check the secondaryHeader to see if there are two breadcrumbs which would
+// mean that the user has selected one application to look into.
+// We then extract the items from the application list and then pull out the application
+// at location 0 which we know because there is only 1 application selected
+// at this time.
 export const getCurrentApplication = (HCMApplicationList, secondaryHeader) => {
   const applicationView = secondaryHeader.breadcrumbItems.length == 2
   const currentApplication = R.pathOr([], ['items'])(HCMApplicationList)

@@ -47,6 +47,14 @@ const LeftColumnForApplicationNames = (
   },
   { locale }
 ) => {
+  // If there is just one application we want to find the subscription
+  // count for that one so that we can display it rather that that total
+  // subscription count
+  const oneApplications = applications.length == 1
+  const subscriptionsForOneApp = pullOutKindPerApplication(
+    applications[0],
+    'subscription'
+  )
   return (
     <div className="applicationColumnContainer">
       <div className="tileContainer">
@@ -56,7 +64,8 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${subscriptions.length} `}
+            {`${(oneApplications && subscriptionsForOneApp.length) ||
+              subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>

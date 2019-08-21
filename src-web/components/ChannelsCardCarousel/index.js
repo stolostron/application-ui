@@ -157,6 +157,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   const { AppOverview } = state
+
   return {
     carouselIterator: AppOverview.carouselIterator
   }

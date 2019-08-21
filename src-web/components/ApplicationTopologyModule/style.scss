@@ -31,34 +31,46 @@
       padding: 15px;
     }
 
-    /* diagram */
-    .diagramViewerDiagram {
-      background-color: #fff;
+    .channel-diagram-container {
+      display: flex;
       height: 400px;
-      position: relative;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+      background-color: white;
 
-      .diagramViewerContainerContainer {
-        width: 100%;
-        height: 100%;
+      .channel-controls-container {
+        width: 200px;
+        border-right: 1px solid #DFE3E6;
+      }
+
+      /* diagram */
+      .diagramViewerDiagram {
+        flex: 1;
         background-color: #fff;
         position: relative;
-        overflow: hidden;
 
-        .secondaryLoad {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
+        .diagramViewerContainerContainer {
+          width: 100%;
+          height: 100%;
+          background-color: #fff;
+          position: relative;
+          overflow: hidden;
 
-        .diagramViewerContainer {
-          margin-right: 0;
-        }
+          .secondaryLoad {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
 
-        .bx--inline-notification--error {
-          position: absolute;
-          top: 16px;
-          right: 16px;
+          .diagramViewerContainer {
+            margin-right: 0;
+          }
+
+          .bx--inline-notification--error {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+          }
         }
       }
     }
@@ -70,6 +82,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 20px 10px 10px;
+      border-top: 1px solid #DFE3E6;
 
       .diagram-type-filter-bar {
         display: flex;
@@ -112,25 +125,34 @@
       background-color: white;
     }
 
-    .closeIcon {
+    .diagram-collapse-button {
       position: absolute;
       top: 3px;
       right: 4px;
       z-index: 1000;
-      fill: $color__navy-gray-6;
-      stroke: $color__navy-gray-6;
+      font-size: 12px;
       cursor: pointer;
+      color: #3d70b2;
+      display: flex;
+      align-items: center;
+
+      .icon {
+        margin-left: 8px;
+        width: 13px;
+        height: 13px;
+        stroke: #3d70b2;
+      }
     }
   }
 
   /* when editor is open */
   &.showExpandedTopology {
-    height: calc(100vh - 210px);
+    height: calc(100vh - 220px);
     margin: -30px -8rem -50px -3rem;
 
     /* when editor is open, diagram and control positions */
     .resourceDiagramControlsContainer {
-      height: calc(100vh - 240px);
+      height: calc(100vh - 225px);
       box-shadow: none;
 
       /* title */
@@ -138,16 +160,28 @@
         display: none;
       }
 
-      /* diagram */
-      .diagramViewerDiagram {
+      .channel-diagram-container {
+        display: flex;
         margin-top: 26px;
-        height: 100%;
+        height: calc(100vh - 225px);
         box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+        background-color: white;
 
-        .diagramViewerContainerContainer {
-          &.scrolled {
-            overflow-y: auto;
-            overflow-x: hidden;
+        .channel-controls-container {
+          width: 200px;
+          border-right: 1px solid #DFE3E6;
+        }
+
+        /* diagram */
+        .diagramViewerDiagram {
+          flex: 1;
+          height: 100%;
+
+          .diagramViewerContainerContainer {
+            &.scrolled {
+              overflow-y: auto;
+              overflow-x: hidden;
+            }
           }
         }
       }
@@ -159,6 +193,7 @@
         align-items: center;
         background-color: transparent;
         padding: 0 0 0 10px;
+        border: none;
 
         .diagram-type-filter-bar {
           position: relative;
@@ -171,6 +206,30 @@
       }
     }
   }
+
+  .channel-controls-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    padding-top: 10px;
+
+    .channel-control {
+      padding: 10px 30px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #F3F7FB;
+      }
+
+      &.selected {
+        font-weight: bold;
+        border-left: 4px solid blue;
+        background-color: #F3F7FB;
+      }
+
+    }
+  }
+
 
   /* when view is split, show details view on other side of diagram */
   &.split {

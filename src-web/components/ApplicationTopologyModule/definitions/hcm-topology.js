@@ -439,7 +439,7 @@ function addNodeDetails(node, details, podOnly) {
   }
 
   // labels
-  if (labels.length) {
+  if (labels && labels.length) {
     details.push({
       type: 'label',
       labelKey: 'resource.labels'

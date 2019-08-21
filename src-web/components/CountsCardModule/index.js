@@ -111,7 +111,7 @@ const CountCards = ({ moduleData: { countCardItems }, actions }) => {
           const onClick = () => {
             if (targetTab != null) {
               actions.setSelectedAppTab(targetTab)
-            } else if (targetLink != null) {
+            } else if (targetLink) {
               window.open(targetLink, '_blank')
             }
           }

@@ -65,7 +65,7 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${(oneApplications && subscriptionsForOneApp.length) ||
+            {`${(oneApplications && subscriptionsForOneApp[0].count) ||
               subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>

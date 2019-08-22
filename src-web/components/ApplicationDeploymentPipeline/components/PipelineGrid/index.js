@@ -131,8 +131,6 @@ const LeftColumnForApplicationNames = (
                     <div className="DeployableContents">
                       <div
                         className="deployableName"
-                        role="button"
-                        tabIndex="0"
                         onClick={() =>
                           onSubscriptionClick(
                             openSubscriptionModal,
@@ -144,7 +142,6 @@ const LeftColumnForApplicationNames = (
                             subscriptionName
                           )
                         }
-                        onKeyPress={this.handleKeyPress}
                       >
                         {`${subscriptionName} `}
                       </div>
@@ -256,10 +253,10 @@ const ChannelColumnGrid = (
                       {showStatus ? (
                         <ProgressBar status={appStatus} />
                       ) : (
-                        <Tag type="custom" className="statusTag">
-                          {msgs.get('description.na', locale)}
-                        </Tag>
-                      )}
+                          <Tag type="custom" className="statusTag">
+                            {msgs.get('description.na', locale)}
+                          </Tag>
+                        )}
                     </Tile>
                   </div>
                 )
@@ -297,12 +294,12 @@ const ChannelColumnGrid = (
                               <ProgressBar status={status} />
                             </Tile>
                           ) : (
-                            <Tile className="channelColumnDeployable">
-                              <Tag type="custom" className="statusTag">
-                                {msgs.get('description.na', locale)}
-                              </Tag>
-                            </Tile>
-                          )}
+                              <Tile className="channelColumnDeployable">
+                                <Tag type="custom" className="statusTag">
+                                  {msgs.get('description.na', locale)}
+                                </Tag>
+                              </Tile>
+                            )}
                         </div>
                       )
                     })}

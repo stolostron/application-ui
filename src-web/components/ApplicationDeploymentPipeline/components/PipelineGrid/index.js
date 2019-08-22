@@ -44,14 +44,15 @@ const LeftColumnForApplicationNames = (
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
-    getSubscriptionResource
+    getSubscriptionResource,
+    breadcrumbItems
   },
   { locale }
 ) => {
   // If there is just one application we want to find the subscription
   // count for that one so that we can display it rather that that total
   // subscription count
-  const oneApplications = applications.length == 1
+  const oneApplications = breadcrumbItems.length == 2
   const subscriptionsForOneApp = pullOutKindPerApplication(
     applications[0],
     'subscription'
@@ -65,7 +66,10 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${(oneApplications && subscriptionsForOneApp[0].count) ||
+            {`${(oneApplications &&
+              subscriptionsForOneApp &&
+              subscriptionsForOneApp[0] &&
+              subscriptionsForOneApp[0].count) ||
               subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
@@ -323,7 +327,8 @@ const PipelineGrid = withLocale(
     setCurrentsubscriptionModalData,
     updateAppDropDownList,
     appDropDownList,
-    bulkSubscriptionList
+    bulkSubscriptionList,
+    breadcrumbItems
   }) => {
     return (
       <div id="PipelineGrid">
@@ -340,6 +345,7 @@ const PipelineGrid = withLocale(
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
             getSubscriptionResource={getSubscriptionResource}
+            breadcrumbItems={breadcrumbItems}
           />
           <ChannelColumnGrid
             channelList={channels}

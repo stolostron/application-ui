@@ -164,15 +164,15 @@ class ResourceList extends React.Component {
           )}
           {config['featureFlags:filters'] &&
             resourceType.filter && (
-              <div className="resource-list-filter">
-                <TagInput
-                  tags={selectedFilters}
-                  availableFilters={resourceFilters}
-                  onSelectedFilterChange={onSelectedFilterChange}
-                  updateBrowserURL={updateBrowserURL}
-                />
-              </div>
-            )}
+            <div className="resource-list-filter">
+              <TagInput
+                tags={selectedFilters}
+                availableFilters={resourceFilters}
+                onSelectedFilterChange={onSelectedFilterChange}
+                updateBrowserURL={updateBrowserURL}
+              />
+            </div>
+          )}
           <ResourceTable
             actions={actions}
             staticResourceData={staticResourceData}
@@ -242,9 +242,9 @@ class ResourceList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { list: typeListName, name: resourceName } = ownProps.resourceType,
-    visibleResources = ownProps.getVisibleResources(state, {
-      storeRoot: typeListName
-    })
+        visibleResources = ownProps.getVisibleResources(state, {
+          storeRoot: typeListName
+        })
 
   const pendingActions = state[typeListName].pendingActions
   const items = visibleResources.normalizedItems

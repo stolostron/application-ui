@@ -194,7 +194,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       bulkSubscriptionList,
       userRole
     } = this.props
-    const hasAdminRole = userRole && userRole === 'ClusterAdministrator1'
+    const hasAdminRole = userRole && userRole === 'ClusterAdministrator'
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS

@@ -194,8 +194,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       loading,
       appDropDownList,
       bulkSubscriptionList,
+      userRole,
       breadcrumbItems
     } = this.props
+    const hasAdminRole = userRole && userRole === 'ClusterAdministrator'
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
@@ -254,8 +256,12 @@ class ApplicationDeploymentPipeline extends React.Component {
           }}
           id="search-1"
         />
-        <div className="AddChannelButton">{[modalChannel]}</div>
-        <div className="AddSubscriptionButton">{[modalSubscription]}</div>
+        {hasAdminRole && (
+          <span>
+            <div className="AddChannelButton">{[modalChannel]}</div>
+            <div className="AddSubscriptionButton">{[modalSubscription]}</div>
+          </span>
+        )}
         <PipelineGrid
           applications={applications}
           channels={channels}
@@ -276,6 +282,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
+          hasAdminRole={hasAdminRole}
           breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal

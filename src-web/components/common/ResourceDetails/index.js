@@ -59,7 +59,7 @@ const withResource = Component => {
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
-          error = state[typeListName].err
+      error = state[typeListName].err
     const { CEMIncidentList, HCMApplicationList, userInfoList } = state
     return {
       status: state[typeListName].status,
@@ -144,9 +144,9 @@ const withResource = Component => {
               className="persistent"
               subtitle={msgs.get(
                 `error.${
-                  statusCode === 401 || statusCode === 403
-                    ? 'unauthorized'
-                    : 'default'
+                statusCode === 401 || statusCode === 403
+                  ? 'unauthorized'
+                  : 'default'
                 }.description`,
                 this.context.locale
               )}
@@ -181,7 +181,7 @@ class ResourceDetails extends React.Component {
 
   componentWillMount() {
     const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
-          params = match && match.params
+      params = match && match.params
     updateSecondaryHeader(
       params.name,
       getTabs(
@@ -200,7 +200,7 @@ class ResourceDetails extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
-            params = match && match.params
+        params = match && match.params
       updateSecondaryHeader(
         params.name,
         getTabs(
@@ -314,10 +314,10 @@ class ResourceDetails extends React.Component {
     const breadcrumbItems = []
     location = location || this.props.location
     const { tabs, match, resourceType } = this.props,
-          { locale } = this.context,
-          urlSegments = location.pathname.replace(/\/$/, '').split('/'),
-          lastSegment = urlSegments[urlSegments.length - 1],
-          currentTab = tabs.find(tab => tab === lastSegment)
+      { locale } = this.context,
+      urlSegments = location.pathname.replace(/\/$/, '').split('/'),
+      lastSegment = urlSegments[urlSegments.length - 1],
+      currentTab = tabs.find(tab => tab === lastSegment)
 
     // The base path, calculated by the current location minus params
     let paramsLength = 0
@@ -374,9 +374,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state, ownProps) => {
   const { AppOverview } = state
   const { list: typeListName } = ownProps.resourceType,
-        visibleResources = ownProps.getVisibleResources(state, {
-          storeRoot: typeListName
-        })
+    visibleResources = ownProps.getVisibleResources(state, {
+      storeRoot: typeListName
+    })
   const items = visibleResources.normalizedItems
   const params = (ownProps.match && ownProps.match.params) || ''
   const dashboard =
@@ -385,14 +385,14 @@ const mapStateToProps = (state, ownProps) => {
       params.name &&
       params.namespace &&
       items[
-        decodeURIComponent(params.name) +
-          '-' +
-          decodeURIComponent(params.namespace)
+      decodeURIComponent(params.name) +
+      '-' +
+      decodeURIComponent(params.namespace)
       ] &&
       items[
-        decodeURIComponent(params.name) +
-          '-' +
-          decodeURIComponent(params.namespace)
+      decodeURIComponent(params.name) +
+      '-' +
+      decodeURIComponent(params.namespace)
       ]['dashboard']) ||
     ''
   return {

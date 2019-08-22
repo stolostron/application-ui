@@ -155,17 +155,24 @@ class ResourceList extends React.Component {
               kind="error"
             />
           )}
+          {mutateStatus === REQUEST_STATUS.DONE && (
+            <Notification
+              title=""
+              subtitle={msgs.get('success.default.description', locale)}
+              kind="success"
+            />
+          )}
           {config['featureFlags:filters'] &&
             resourceType.filter && (
-            <div className="resource-list-filter">
-              <TagInput
-                tags={selectedFilters}
-                availableFilters={resourceFilters}
-                onSelectedFilterChange={onSelectedFilterChange}
-                updateBrowserURL={updateBrowserURL}
-              />
-            </div>
-          )}
+              <div className="resource-list-filter">
+                <TagInput
+                  tags={selectedFilters}
+                  availableFilters={resourceFilters}
+                  onSelectedFilterChange={onSelectedFilterChange}
+                  updateBrowserURL={updateBrowserURL}
+                />
+              </div>
+            )}
           <ResourceTable
             actions={actions}
             staticResourceData={staticResourceData}
@@ -195,6 +202,7 @@ class ResourceList extends React.Component {
         </div>
       )
     }
+
     if (resourceType.name === RESOURCE_TYPES.HCM_CLUSTERS.name) {
       return (
         <NoResource
@@ -234,9 +242,9 @@ class ResourceList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { list: typeListName, name: resourceName } = ownProps.resourceType,
-        visibleResources = ownProps.getVisibleResources(state, {
-          storeRoot: typeListName
-        })
+    visibleResources = ownProps.getVisibleResources(state, {
+      storeRoot: typeListName
+    })
 
   const pendingActions = state[typeListName].pendingActions
   const items = visibleResources.normalizedItems

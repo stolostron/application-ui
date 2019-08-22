@@ -19,8 +19,7 @@ const requiredValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo',
-      pathname: ''
+      channel: ''
     }
   }
 }

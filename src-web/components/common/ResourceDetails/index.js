@@ -382,8 +382,18 @@ const mapStateToProps = (state, ownProps) => {
   const dashboard =
     (items &&
       params &&
-      items[params.name + '-' + params.namespace] &&
-      items[params.name + '-' + params.namespace]['dashboard']) ||
+      params.name &&
+      params.namespace &&
+      items[
+        decodeURIComponent(params.name) +
+          '-' +
+          decodeURIComponent(params.namespace)
+      ] &&
+      items[
+        decodeURIComponent(params.name) +
+          '-' +
+          decodeURIComponent(params.namespace)
+      ]['dashboard']) ||
     ''
   return {
     dashboard,

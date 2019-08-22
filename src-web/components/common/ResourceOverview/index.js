@@ -220,6 +220,7 @@ const mapStateToProps = (state, ownProps) => {
     channelData,
     currentApp.related || []
   )
+  console.log('COMMON', commonResources)
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -229,7 +230,7 @@ const mapStateToProps = (state, ownProps) => {
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null
   })
-  return { item, channelList: getChannelsList(channelData) }
+  return { item, channelList: getChannelsList(commonResources) }
 }
 
 export default withRouter(

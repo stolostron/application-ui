@@ -16,10 +16,10 @@ import {
 export const getChannelsList = channels => {
   if (
     channels &&
-    channels.items instanceof Array &&
-    channels.items.length > 0
+    channels instanceof Array &&
+    channels.length > 0
   ) {
-    const mappedChannels = channels.items.map(channel => {
+    const mappedChannels = channels.map(channel => {
       // Will return back status as:
       // [0, 0, 0, 0, 0]
       // Pass, Fail, InProgress, Pending, Unidentified
@@ -123,15 +123,21 @@ export const getResourceChannels = resourceData => {
 // If there is a match we want to return it and count it as common because
 // it appears in both.
 const findMatchingResource = (kind, item, appRelations) => {
+  // Go through the relationship list
   const match = appRelations.map(resource => {
     const kindItems = resource.items || []
     const kindTwo = resource.kind || ''
+    // go through each kinds items
     const matched = kindItems.map(itemTwo => {
+      // If the UIDs match then we found a match
       if (kindTwo == kind && item._uid == itemTwo._uid) {
+        console.log('INSIDE MATCH')
         return { kind: kind, items: [itemTwo] }
       }
     })
-    const filterOutUndefined = x => x != undefined && x.length > 0
+    // Filter out the undefined entries
+    console.log('found match', matched)
+    const filterOutUndefined = x => x != undefined
     const filteredData = R.filter(filterOutUndefined, matched)
     return filteredData
   })
@@ -162,6 +168,7 @@ export const getCommonResources = (channelData, appRelations) => {
     channel.related.map(resource => {
       const kindItems = resource.items || []
       const kind = resource.kind || ''
+      // go through each kinds items
       kindItems.map(item => {
         const match = findMatchingResource(kind, item, appRelations)
         commonResources = commonResources.concat(match)
@@ -170,12 +177,14 @@ export const getCommonResources = (channelData, appRelations) => {
     })
     // we want to tall up all the related resources for the given channel
     channelFormat = channelFormat.concat([
-      { name: channelData.name, items: commonResources }
+      { name: channel.name, items: commonResources }
     ])
   })
   console.log('channelFormat', channelFormat)
-  const filterOutEmpty = x => x.length > 0
-  const filteredData = R.filter(filterOutEmpty, channelFormat)
+  // Filter out entries that are empty
+  const filterOutUndefinedName = x => x.name != 'undefined'
+  const filteredData = R.filter(filterOutUndefinedName, channelFormat)
+  console.log('channelFormat2', filteredData)
   return filteredData
 }
 

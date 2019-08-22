@@ -45,7 +45,8 @@ const LeftColumnForApplicationNames = (
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
     getSubscriptionResource,
-    breadcrumbItems
+    breadcrumbItems,
+    hasAdminRole,    
   },
   { locale }
 ) => {
@@ -145,21 +146,25 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${subscriptionName} `}
                       </div>
-                      <div className="yamlTitleSub">
-                        {msgs.get('actions.yaml', locale)}
-                      </div>
-                      <Icon
-                        name="icon--edit"
-                        fill="#6089bf"
-                        description=""
-                        className="subscriptionEditIcon"
-                        onClick={() =>
-                          editResourceClick(
-                            subscription,
-                            getSubscriptionResource
-                          )
-                        }
-                      />
+                      {hasAdminRole && (
+                        <span>
+                          <div className="yamlTitleSub">
+                            {msgs.get('actions.yaml', locale)}
+                          </div>
+                          <Icon
+                            name="icon--edit"
+                            fill="#6089bf"
+                            description=""
+                            className="subscriptionEditIcon"
+                            onClick={() =>
+                              editResourceClick(
+                                subscription,
+                                getSubscriptionResource
+                              )
+                            }
+                          />
+                        </span>
+                      )}
                     </div>
                   </Tile>
                 )
@@ -178,7 +183,8 @@ const ChannelColumnGrid = (
     applicationList,
     getChannelResource,
     appDropDownList,
-    bulkSubscriptionList
+    bulkSubscriptionList,
+    hasAdminRole
   },
   locale
 ) => {
@@ -192,18 +198,23 @@ const ChannelColumnGrid = (
             <div key={Math.random()} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
-                  <div className="yamlTitle">
-                    {msgs.get('actions.yaml', locale)}
-                  </div>
-                  <Icon
-                    name="icon--edit"
-                    fill="#6089bf"
-                    description=""
-                    className="channelEditIcon"
-                    onClick={() =>
-                      editResourceClick(channel, getChannelResource)
-                    }
-                  />
+                  {hasAdminRole && (
+                    <span>
+                      <div className="yamlTitle">
+                        {msgs.get('actions.yaml', locale)}
+                      </div>
+                      <Icon
+                        name="icon--edit"
+                        fill="#6089bf"
+                        description=""
+                        className="channelEditIcon"
+                        onClick={() =>
+                          editResourceClick(channel, getChannelResource)
+                        }
+                      />
+                    </span>
+                  )}
+
                   <div className="channelNameTitle">{`${channelName}`}</div>
                 </div>
               </Tile>
@@ -328,6 +339,7 @@ const PipelineGrid = withLocale(
     updateAppDropDownList,
     appDropDownList,
     bulkSubscriptionList,
+    hasAdminRole,
     breadcrumbItems
   }) => {
     return (
@@ -345,6 +357,7 @@ const PipelineGrid = withLocale(
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
             getSubscriptionResource={getSubscriptionResource}
+            hasAdminRole={hasAdminRole}
             breadcrumbItems={breadcrumbItems}
           />
           <ChannelColumnGrid
@@ -353,6 +366,7 @@ const PipelineGrid = withLocale(
             getChannelResource={getChannelResource}
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
+            hasAdminRole={hasAdminRole}
           />
         </div>
       </div>

@@ -35,11 +35,23 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const { HCMChannelList, HCMApplicationList, HCMSubscriptionList } = state
+  const {
+    HCMChannelList,
+    HCMApplicationList,
+    HCMSubscriptionList,
+    secondaryHeader
+  } = state
+  const isSingleApplicationView =
+    secondaryHeader &&
+    secondaryHeader.breadcrumbItems instanceof Array &&
+    secondaryHeader.breadcrumbItems.length > 0
+      ? true
+      : false
   return {
     HCMChannelList,
     HCMSubscriptionList,
-    HCMApplicationList
+    HCMApplicationList,
+    isSingleApplicationView
   }
 }
 
@@ -53,7 +65,8 @@ class ApplicationDeploymentHighlights extends React.Component {
     const {
       HCMChannelList,
       HCMSubscriptionList,
-      HCMApplicationList
+      HCMApplicationList,
+      isSingleApplicationView
     } = this.props
     const { locale } = this.context
 
@@ -67,6 +80,7 @@ class ApplicationDeploymentHighlights extends React.Component {
           HCMApplicationList={HCMApplicationList}
           HCMChannelList={HCMChannelList}
           HCMSubscriptionList={HCMSubscriptionList}
+          isSingleApplicationView={isSingleApplicationView}
         />
         <ApplicationDeploymentSummary
           HCMChannelList={HCMChannelList}

@@ -1,11 +1,3 @@
-/*******************************************************************************
- * Licensed Materials - Property of IBM
- * 5737-E67
- * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- *
- * US Government Users Restricted Rights - Use, duplication or disclosure
- * restricted by GSA ADP Schedule Contract with IBM Corp.
- *******************************************************************************/
 'use strict'
 
 /*
@@ -27,26 +19,36 @@ describe('topology reducer with topology name', () => {
       },
       type: Actions.RESOURCE_REQUEST
     }
-    const expectedValue = { status: 'IN_PROGRESS', test: 'test' }
+    const expectedValue = {
+      fetchFilters: undefined,
+      loaded: false,
+      reloading: undefined,
+      status: 'IN_PROGRESS',
+      test: 'test'
+    }
     expect(topology(state, action)).toEqual(expectedValue)
   })
 
   it('should return a state with DONE status', () => {
     const state = {
-      test: 'test'
+      test: 'test',
+      activeFilters: 'noApplication'
     }
     const action = {
       resourceType: {
         name: RESOURCE_TYPES.HCM_TOPOLOGY.name
       },
-      type: Actions.RESOURCE_RECEIVE_SUCCESS
+      type: Actions.RESOURCE_RECEIVE_SUCCESS,
+      fetchFilters: 'receivedApplication'
     }
     const expectedValue = {
       links: undefined,
       nodes: [],
       status: 'DONE',
+      loaded: true,
       reloading: false,
       test: 'test',
+      activeFilters: 'receivedApplication',
       buffer: {
         hadNodes: false,
         href: 'http://localhost/',

@@ -306,9 +306,11 @@ export default class NodeHelper {
     icons
       .enter()
       .append('use')
-      .attrs(({ icon, classType, width, height }) => {
+      .attrs(({ icon, shape, classType, width, height }) => {
         return {
-          'xlink:href': `#diagramIcons_${icon}`,
+          'xlink:href': icon
+            ? `#diagramIcons_${icon}`
+            : `#diagramShapes_${shape}`,
           width: width + 'px',
           height: height + 'px',
           'pointer-events': 'none',

@@ -27,16 +27,19 @@ class CountsCardModule extends React.Component {
     const { locale } = this.context
     const { data } = this.props
     const countCardItems = []
-    data.map(({ msgKey, count, textKey, border, alert, targetTab }) => {
-      countCardItems.push({
-        count,
-        type: msgs.get(msgKey, locale),
-        text: (textKey && msgs.get(textKey, locale)) || '',
-        border: border || '',
-        alert: alert || false,
-        targetTab: targetTab
-      })
-    })
+    data.map(
+      ({ msgKey, count, textKey, border, alert, targetTab, targetLink }) => {
+        countCardItems.push({
+          count,
+          type: msgs.get(msgKey, locale),
+          text: (textKey && msgs.get(textKey, locale)) || '',
+          border: border || '',
+          alert: alert || false,
+          targetTab,
+          targetLink
+        })
+      }
+    )
     return {
       countCardItems
     }
@@ -59,7 +62,8 @@ class CountsCardModule extends React.Component {
         {title && (
           <span className="card-container-title">
             {msgs.get(title, locale)}
-            {link && (
+            {link &&
+              link !== '#' && (
               <span className="card-container-link">
                 <a target="_blank" rel="noopener noreferrer" href={link}>
                   {msgs.get('dashboard.card.icam.link', locale)}{' '}
@@ -93,41 +97,45 @@ class CountsCardModule extends React.Component {
 const CountCards = ({ moduleData: { countCardItems }, actions }) => {
   return (
     <React.Fragment>
-      {countCardItems.map(({ count, type, text, border, alert, targetTab }) => {
-        const cardClasses = classNames({
-          'card-count-type': true,
-          hasLeftBorder: border === 'left' ? true : false,
-          hasRightBorder: border === 'right' ? true : false
-        })
-        const countClasses = classNames({
-          'card-count': true,
-          alert: alert
-        })
-        const onClick = () => {
-          if (targetTab != null) {
-            actions.setSelectedAppTab(targetTab)
+      {countCardItems.map(
+        ({ count, type, text, border, alert, targetTab, targetLink }) => {
+          const cardClasses = classNames({
+            'card-count-type': true,
+            hasLeftBorder: border === 'left' ? true : false,
+            hasRightBorder: border === 'right' ? true : false
+          })
+          const countClasses = classNames({
+            'card-count': true,
+            alert: alert
+          })
+          const onClick = () => {
+            if (targetTab != null) {
+              actions.setSelectedAppTab(targetTab)
+            } else if (targetLink) {
+              window.open(targetLink, '_blank')
+            }
           }
-        }
-        const onKeyPress = e => {
-          if (e.key === 'Enter') {
-            onClick()
+          const onKeyPress = e => {
+            if (e.key === 'Enter') {
+              onClick()
+            }
           }
+          return (
+            <div
+              key={type}
+              className={cardClasses}
+              role="button"
+              tabIndex="0"
+              onClick={onClick}
+              onKeyPress={onKeyPress}
+            >
+              <div className={countClasses}>{count}</div>
+              <div className="card-type">{type}</div>
+              {text && <div className="card-text">{text}</div>}
+            </div>
+          )
         }
-        return (
-          <div
-            key={type}
-            className={cardClasses}
-            role="button"
-            tabIndex="0"
-            onClick={onClick}
-            onKeyPress={onKeyPress}
-          >
-            <div className={countClasses}>{count}</div>
-            <div className="card-type">{type}</div>
-            {text && <div className="card-text">{text}</div>}
-          </div>
-        )
-      })}
+      )}
     </React.Fragment>
   )
 }

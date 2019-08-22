@@ -16,16 +16,15 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import hcmappdiagram from './definitions/hcm-application-diagram'
 import hcmtopology from './definitions/hcm-topology'
-import { fetchResources, editResource } from '../../actions/common'
+import { editResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
 import {
   DIAGRAM_REFRESH_INTERVAL_COOKIE,
   MCM_DESIGN_SPLITTER_SIZE_COOKIE,
-  DIAGRAM_QUERY_COOKIE,
-  RESOURCE_TYPES
+  DIAGRAM_QUERY_COOKIE
 } from '../../../lib/shared/constants'
-import { Icon, InlineNotification } from 'carbon-components-react'
+import { InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import * as Actions from '../../actions'
@@ -46,11 +45,10 @@ resources(() => {
 class ApplicationTopologyModule extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
+    activeChannel: PropTypes.string,
+    channels: PropTypes.array,
     clusters: PropTypes.array,
-    designLoaded: PropTypes.bool,
     diagramFilters: PropTypes.array,
-    fetchDesign: PropTypes.func,
-    fetchPods: PropTypes.func,
     fetchTopology: PropTypes.func,
     getUpdates: PropTypes.func,
     links: PropTypes.array,
@@ -58,7 +56,7 @@ class ApplicationTopologyModule extends React.Component {
     onDiagramFilterChange: PropTypes.func,
     parsed: PropTypes.object,
     putResource: PropTypes.func,
-    requiredFilters: PropTypes.object,
+    resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
     showExpandedTopology: PropTypes.bool,
     staticResourceData: PropTypes.object,
@@ -75,10 +73,10 @@ class ApplicationTopologyModule extends React.Component {
     this.state = {
       links: [],
       nodes: [],
+      activeChannel: props.activeChannel,
       currentYaml: props.yaml || '',
       exceptions: [],
       updateMessage: '',
-      designLoaded: false,
       topologyLoaded: false,
       statusesLoaded: false,
       selectedNode: undefined,
@@ -104,11 +102,9 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   componentWillMount() {
-    // when mounting, load design
-    // that will figure out what topology labels we need
-    // when topologyLabels changes we fetch the topology
     this.props.restoreSavedDiagramFilters()
-    this.props.fetchDesign()
+    this.props.resetFilters()
+    this.props.fetchTopology(this.props.activeChannel)
     this.startPolling()
   }
 
@@ -136,8 +132,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   refetch() {
-    this.props.fetchTopology(this.props.requiredFilters, true)
-    this.props.fetchPods()
+    this.props.fetchTopology(this.props.activeChannel)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -146,19 +141,6 @@ class ApplicationTopologyModule extends React.Component {
       const nodes = _.cloneDeep(nextProps.nodes || [])
       const clusters = _.cloneDeep(nextProps.clusters || [])
       const diagramFilters = _.cloneDeep(nextProps.diagramFilters || [])
-
-      // when the labels required by the design have been loaded, load the topology
-      if (
-        (!prevState.designLoaded && nextProps.designLoaded) ||
-        !_.isEqual(this.props.requiredFilters, nextProps.requiredFilters)
-      ) {
-        this.props.fetchTopology(nextProps.requiredFilters)
-      }
-
-      // after design and topology loaded, fetch pods
-      if (!prevState.topologyLoaded && nextProps.topologyLoaded) {
-        this.props.fetchPods()
-      }
 
       // update loading spinner
       const firstLoad = prevState.firstLoad || nextProps.topologyLoaded
@@ -179,7 +161,6 @@ class ApplicationTopologyModule extends React.Component {
         firstLoad,
         topologyReloading,
         isMulticluster: clusters.length > 1,
-        designLoaded: nextProps.designLoaded,
         topologyLoaded: nextProps.topologyLoaded,
         topologyLoadError: nextProps.topologyLoadError,
         statusesLoaded: nextProps.statusesLoaded
@@ -199,6 +180,8 @@ class ApplicationTopologyModule extends React.Component {
       ) ||
       !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
       !_.isEqual(this.state.exceptions, nextState.exceptions) ||
+      this.state.activeChannel !== nextState.activeChannel ||
+      !_.isEqual(this.props.channels, nextProps.channels) ||
       this.state.updateMessage !== nextState.updateMessage ||
       this.props.showExpandedTopology !== nextProps.showExpandedTopology ||
       this.props.topologyLoaded !== nextProps.topologyLoaded ||
@@ -289,8 +272,6 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    if (!this.state.designLoaded) return null
-
     const {
       staticResourceData,
       onDiagramFilterChange,
@@ -355,26 +336,29 @@ class ApplicationTopologyModule extends React.Component {
               onCloseButtonClick={this.handleTopologyErrorClosed}
             />
           )}
-          <DiagramViewer
-            id={'application'}
-            nodes={nodes}
-            links={links}
-            isMulticluster={isMulticluster}
-            context={this.context}
-            showExpandedTopology={showExpandedTopology}
-            handleNodeSelected={handleNodeSelected}
-            selectedNode={selectedNode}
-            setViewer={this.setViewer}
-            secondaryLoad={!topologyLoaded && !firstLoad}
-            statusesLoaded={statusesLoaded}
-            reloading={topologyReloading}
-            staticResourceData={staticResourceData}
-            setUpdateDiagramRefreshTimeFunc={
-              this.setUpdateDiagramRefreshTimeFunc
-            }
-            fetchLogs={this.fetchLogs}
-            activeFilters={{ type: diagramFilters }}
-          />
+          <div className="channel-diagram-container">
+            {this.renderChannelControls()}
+            <DiagramViewer
+              id={'application'}
+              nodes={nodes}
+              links={links}
+              isMulticluster={isMulticluster}
+              context={this.context}
+              showExpandedTopology={showExpandedTopology}
+              handleNodeSelected={handleNodeSelected}
+              selectedNode={selectedNode}
+              setViewer={this.setViewer}
+              secondaryLoad={!topologyLoaded && !firstLoad}
+              statusesLoaded={statusesLoaded}
+              reloading={topologyReloading}
+              staticResourceData={staticResourceData}
+              setUpdateDiagramRefreshTimeFunc={
+                this.setUpdateDiagramRefreshTimeFunc
+              }
+              fetchLogs={this.fetchLogs}
+              activeFilters={{ type: diagramFilters }}
+            />
+          </div>
           <div className="diagram-controls-container">
             <div
               className="diagram-type-filter-bar"
@@ -449,15 +433,20 @@ class ApplicationTopologyModule extends React.Component {
             onYamlChange={this.handleEditorChange}
             yaml={currentYaml}
           />
-          <Icon
-            className="closeIcon"
-            description={msgs.get(
-              'topology.details.close',
-              this.context.locale
-            )}
-            name="icon--close"
-            onClick={this.closeTextView}
-          />
+          <div
+            className="diagram-collapse-button"
+            tabIndex="0"
+            role={'button'}
+            title={viewFullMsg}
+            aria-label={viewFullMsg}
+            onClick={this.handleToggleSize}
+            onKeyPress={this.closeTextView}
+          >
+            {viewFullMsg}
+            <svg className="icon">
+              <use href={'#diagramIcons_launch'} />
+            </svg>
+          </div>
         </div>
       )
     }
@@ -480,6 +469,57 @@ class ApplicationTopologyModule extends React.Component {
         )}
       </div>
     )
+  }
+
+  renderChannelControls() {
+    const { locale } = this.context
+    const { channels } = this.props
+    const { activeChannel } = this.state
+    return (
+      <div className="channel-controls-container">
+        {channels.map(chn => {
+          const classes = classNames({
+            'channel-control': true,
+            selected: chn === activeChannel
+          })
+          const handleClick = () => {
+            this.changeTheChannel(chn)
+          }
+          const handleKeyPress = e => {
+            if (e.key === 'Enter') {
+              this.changeTheChannel(chn)
+            }
+          }
+          const tooltip = msgs.get(
+            'application.diagram.channel.tooltip',
+            [chn],
+            locale
+          )
+          return (
+            <div
+              className={classes}
+              key={chn}
+              tabIndex="0"
+              role={'button'}
+              aria-label={tooltip}
+              title={tooltip}
+              onClick={handleClick}
+              onKeyPress={handleKeyPress}
+            >
+              {chn
+                .split('/')
+                .slice(-1)
+                .pop()}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  changeTheChannel(fetchChannel) {
+    this.setState({ activeChannel: fetchChannel })
+    this.props.fetchTopology(fetchChannel)
   }
 
   handleToggleSize() {
@@ -508,7 +548,8 @@ class ApplicationTopologyModule extends React.Component {
     if (this.editor) {
       node = node || this.selectedNode
       if (node) {
-        this.gotoEditorLine(node.$r || 0)
+        const row = _.get(node, 'specs.row', 0)
+        this.gotoEditorLine(row)
       } else if (this.selectAfterRender) {
         this.editor.scrollToLine(0)
         this.editor.selection.moveCursorToPosition({ row: 0, column: 0 })
@@ -707,13 +748,15 @@ const mapStateToProps = (state, ownProps) => {
   const { HCMApplicationList } = state
   const item = HCMApplicationList.items[0]
   const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
-  const { topology, HCMPodList } = state
-  const { diagramFilters = [] } = topology
+  const { topology } = state
+  const { activeFilters = {}, diagramFilters = [] } = topology
+  const { application = {} } = activeFilters
+  topology.loaded =
+    application.name === name && application.namespace === namespace
   const diagramElements = staticResourceData.getDiagramElements(
     item,
     topology,
     diagramFilters,
-    HCMPodList,
     localStoreKey
   )
   return {
@@ -730,36 +773,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const staticResourceData = hcmappdiagram.mergeDefinitions(hcmtopology)
   const { designTypes, topologyTypes } = staticResourceData
   return {
-    fetchDesign: () => {
-      // in topology page, the filter dropdowns would be setting activeFilters
-      // but here we need to set the activeFilters based on the design
-      // and design hasn't loaded yet, so no active topology filters yet
+    resetFilters: () => {
       dispatch({
         type: Actions.TOPOLOGY_SET_ACTIVE_FILTERS,
         activeFilters: {}
       })
-
-      //dispatch(fetchResource(resourceType, namespace, name))
     },
-    fetchTopology: (requiredFilters, reloading) => {
-      const f = _.cloneDeep(requiredFilters)
-      f.label = f.label
-        ? f.label.map(l => ({ name: l.name, value: l.value }))
-        : []
-
-      // in topology page, the filter dropdowns would be setting the active topology filters
-      // but here we need to set the activeFilters based on the design
-      dispatch({
-        type: Actions.TOPOLOGY_SET_ACTIVE_FILTERS,
-        activeFilters: requiredFilters,
-        reloading
-      })
-
-      // fetch topology with these types and labels
-      dispatch(fetchTopology({ filter: { ...f } }, requiredFilters))
-    },
-    fetchPods: () => {
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_PODS))
+    fetchTopology: (fetchChannel, reloading) => {
+      const fetchFilters = {
+        application: { name, namespace, channel: fetchChannel }
+      }
+      dispatch(
+        fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
+      )
     },
     putResource: (resourceType, namespace, name, data, selfLink) => {
       dispatch(editResource(resourceType, namespace, name, data, selfLink))

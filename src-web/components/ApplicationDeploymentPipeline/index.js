@@ -131,6 +131,7 @@ const mapStateToProps = state => {
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
+    secondaryHeader,
     role
   } = state
   // Filter Application List based on search input
@@ -154,6 +155,7 @@ const mapStateToProps = state => {
     openEditChannelModal: AppDeployments.openEditChannelModal,
     openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
     loading: AppDeployments.loading,
+    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     applications: getApplicationsList(filteredApplications),
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
@@ -191,7 +193,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       openEditSubscriptionModal,
       loading,
       appDropDownList,
-      bulkSubscriptionList
+      bulkSubscriptionList,
+      breadcrumbItems
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -273,6 +276,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
+          breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal
           displayModal={displaySubscriptionModal}

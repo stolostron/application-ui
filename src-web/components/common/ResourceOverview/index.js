@@ -24,7 +24,8 @@ import {
   getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getIcamLink
+  getIcamLink,
+  getSearchLinkForOneApplication
 } from './utils'
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
@@ -89,6 +90,7 @@ const ResourceOverview = withLocale(
             : 'dashboard.card.deployable',
         textKey: 'dashboard.card.perInstance',
         count: deployables,
+        targetLink: getSearchLinkForOneApplication(params),
         border: 'right'
       },
       {

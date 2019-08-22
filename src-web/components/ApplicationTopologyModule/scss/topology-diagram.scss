@@ -9,98 +9,266 @@
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'scss/variables';
 
+.resourceDiagramSourceContainer {
+  position: relative;
 
-/********************************************
- ***   HYBRID RESOURCE/TOPOLOGY PAGE ******
- ********************************************/
-
-.resourceDiagramControlsContainer {
-   position: relative;
-
-   .diagramViewerDiagram {
-
-   .diagramViewerContainerContainer {
-      width: 100%;
-      height: 400px;
-      background-color: #fff;
-      position: relative;
-      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
-      overflow: hidden;
-
-      .secondaryLoad {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      &.scrolled {
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-
-      .diagramViewerContainer {
-        margin-right: 0;
-      }
-
-      .bx--inline-notification--error {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-      }
-
-    }
-  }
-}
-
-.diagramViewerDiagram {
-
-  .diagramRefreshContainer {
-    position: absolute;
-    top: 32px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-
-    .bx--loading--small {
-      width: 1rem;
-      height: 1rem;
-      margin: -2px 0;
-      visibility: hidden;
-    }
-
-    &.refreshing {
-      .bx--loading--small {
-        visibility: visible;
-      }
-    }
-
-  }
-
-}
-
-.diagramViewerContainer {
-  .hub-label {
-    font-weight: bold;
-  }
-
-  &.search-mode {
-    .matched {
-      fill: #d8124b;
-      stroke-width: 0;
-    }
-    .hub-label {
-      font-weight: normal;
-    }
-  }
-}
-
-/********************************************
- *****  SHOW FILTER BAR  *****
- ********************************************/
-
-svg.topologyDiagram {
-    height: 100%;
+  /* diagram and controls */
+  .resourceDiagramControlsContainer {
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
+
+    /* title */
+    .diagram-title {
+      background-color: #fff;
+      font-weight: bold;
+      font-size: 14px;
+      border-bottom: 1px solid #dfe3e6;
+      padding: 15px;
+    }
+
+    .channel-diagram-container {
+      display: flex;
+      height: 400px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
+      background-color: white;
+
+      .channel-controls-container {
+        width: 200px;
+        border-right: 1px solid #dfe3e6;
+      }
+
+      /* diagram */
+      .diagramViewerDiagram {
+        flex: 1;
+        background-color: #fff;
+        position: relative;
+
+        .diagramViewerContainerContainer {
+          width: 100%;
+          height: 100%;
+          background-color: #fff;
+          position: relative;
+          overflow: hidden;
+
+          .secondaryLoad {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .diagramViewerContainer {
+            margin-right: 0;
+          }
+
+          .bx--inline-notification--error {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+          }
+        }
+      }
+    }
+
+    /* filter bar */
+    .diagram-controls-container {
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px 10px 10px;
+      border-top: 1px solid #dfe3e6;
+
+      .diagram-type-filter-bar {
+        display: flex;
+      }
+
+      .diagram-expand-button {
+        display: flex;
+        font-size: 12px;
+        cursor: pointer;
+        color: #3d70b2;
+
+        .icon {
+          margin-right: 8px;
+          width: 13px;
+          height: 13px;
+          stroke: #3d70b2;
+        }
+      }
+    }
+  }
+
+  /* source editor */
+  .resourceEditorContainer {
+    width: 100%;
+    height: calc(100vh - 205px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .resource-editor-toolbar {
+      display: flex;
+      align-items: center;
+    }
+
+    .bx--inline-notification {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 1000;
+      background-color: white;
+    }
+
+    .diagram-collapse-button {
+      position: absolute;
+      top: 3px;
+      right: 4px;
+      z-index: 1000;
+      font-size: 12px;
+      cursor: pointer;
+      color: #3d70b2;
+      display: flex;
+      align-items: center;
+
+      .icon {
+        margin-left: 8px;
+        width: 13px;
+        height: 13px;
+        stroke: #3d70b2;
+      }
+    }
+  }
+
+  /* when editor is open */
+  &.showExpandedTopology {
+    height: calc(100vh - 220px);
+    margin: -30px -8rem -50px -3rem;
+
+    /* when editor is open, diagram and control positions */
+    .resourceDiagramControlsContainer {
+      height: calc(100vh - 225px);
+      box-shadow: none;
+
+      /* title */
+      .diagram-title {
+        display: none;
+      }
+
+      .channel-diagram-container {
+        display: flex;
+        margin-top: 26px;
+        height: calc(100vh - 225px);
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
+        background-color: white;
+
+        .channel-controls-container {
+          width: 200px;
+          border-right: 1px solid #dfe3e6;
+        }
+
+        /* diagram */
+        .diagramViewerDiagram {
+          flex: 1;
+          height: 100%;
+
+          .diagramViewerContainerContainer {
+            &.scrolled {
+              overflow-y: auto;
+              overflow-x: hidden;
+            }
+          }
+        }
+      }
+
+      /* filter bar */
+      .diagram-controls-container {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        padding: 0 0 0 10px;
+        border: none;
+
+        .diagram-type-filter-bar {
+          position: relative;
+          bottom: unset;
+          left: unset;
+        }
+
+        .diagram-expand-button {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .channel-controls-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    padding-top: 10px;
+
+    .channel-control {
+      padding: 10px 30px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #f3f7fb;
+      }
+
+      &.selected {
+        font-weight: bold;
+        border-left: 4px solid blue;
+        background-color: #f3f7fb;
+      }
+    }
+  }
+
+
+  /* when view is split, show details view on other side of diagram */
+  &.split {
+    .topologyDetails {
+      left: 0;
+      right: unset;
+    }
+  }
+
+  .yamlEditorContainer {
+    height: calc(100% - 30px);
+  }
+
+  .Resizer {
+    width: 0;
+    opacity: .2;
+    z-index: 1;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+    border-left: 3px solid rgba(255, 255, 255, 0);
+    border-right: 3px solid rgba(255, 255, 255, 0);
+    cursor: col-resize;
+    margin: 0 5px;
+  }
+
+  .Resizer:hover {
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+  }
+
+  .Resizer.vertical:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .ace-monokai .ace_marker-layer .ace_selection {
+    background-color: #808080;
+  }
 }
+

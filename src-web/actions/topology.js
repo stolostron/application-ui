@@ -13,10 +13,12 @@ import * as Actions from './index'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import apolloClient from '../../lib/client/apollo-client'
 
-export const requestResource = resourceType => ({
+export const requestResource = (resourceType, fetchFilters, reloading) => ({
   type: Actions.RESOURCE_REQUEST,
   status: Actions.REQUEST_STATUS.IN_PROGRESS,
-  resourceType
+  resourceType,
+  fetchFilters,
+  reloading
 })
 
 export const receiveResourceError = (err, resourceType) => ({
@@ -45,12 +47,12 @@ export const receiveTopologySuccess = (
   fetchFilters
 })
 
-export const fetchTopology = (vars, fetchFilters) => {
+export const fetchTopology = (vars, fetchFilters, reloading) => {
   const resourceType = RESOURCE_TYPES.HCM_TOPOLOGY
   return dispatch => {
-    dispatch(requestResource(resourceType))
+    dispatch(requestResource(resourceType, fetchFilters, reloading))
     return apolloClient
-      .get(resourceType, vars)
+      .getResource(resourceType, vars)
       .then(response => {
         if (response.errors) {
           return dispatch(

@@ -58,9 +58,9 @@ export const StatusIcon = Object.freeze({
   }
 })
 
-//if controller contains a pod
+//if shape contains another resource
 export const PodIcon = {
-  icon: 'pod',
+  shape: 'pod',
   classType: 'pod',
   width: 28,
   height: 28,

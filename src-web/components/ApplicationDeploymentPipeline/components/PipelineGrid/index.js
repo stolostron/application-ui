@@ -17,7 +17,8 @@ import {
   editResourceClick,
   getDataByKind,
   getResourcesStatusPerChannel,
-  getApplicationLevelStatus
+  getApplicationLevelStatus,
+  subscriptionPresentInGivenChannel
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -43,10 +44,19 @@ const LeftColumnForApplicationNames = (
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
-    getSubscriptionResource
+    getSubscriptionResource,
+    breadcrumbItems
   },
   { locale }
 ) => {
+  // If there is just one application we want to find the subscription
+  // count for that one so that we can display it rather that that total
+  // subscription count
+  const oneApplications = breadcrumbItems.length == 2
+  const subscriptionsForOneApp = pullOutKindPerApplication(
+    applications[0],
+    'subscription'
+  )
   return (
     <div className="applicationColumnContainer">
       <div className="tileContainer">
@@ -56,7 +66,11 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${subscriptions.length} `}
+            {`${(oneApplications &&
+              subscriptionsForOneApp &&
+              subscriptionsForOneApp[0] &&
+              subscriptionsForOneApp[0].count) ||
+              subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
@@ -117,6 +131,8 @@ const LeftColumnForApplicationNames = (
                     <div className="DeployableContents">
                       <div
                         className="deployableName"
+                        role="button"
+                        tabIndex="0"
                         onClick={() =>
                           onSubscriptionClick(
                             openSubscriptionModal,
@@ -128,6 +144,7 @@ const LeftColumnForApplicationNames = (
                             subscriptionName
                           )
                         }
+                        onKeyPress={this.handleKeyPress}
                       >
                         {`${subscriptionName} `}
                       </div>
@@ -226,8 +243,13 @@ const ChannelColumnGrid = (
                   channel,
                   bulkSubscriptionList
                 )
+                const subscriptionPresentInChannel = subscriptionPresentInGivenChannel(
+                  subscriptionsForThisApplication,
+                  channel
+                )
                 const showStatus =
-                  subscriptionsForThisApplication.length > 0 && appStatus
+                  subscriptionsForThisApplication.length > 0 &&
+                  subscriptionPresentInChannel
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
@@ -308,7 +330,8 @@ const PipelineGrid = withLocale(
     setCurrentsubscriptionModalData,
     updateAppDropDownList,
     appDropDownList,
-    bulkSubscriptionList
+    bulkSubscriptionList,
+    breadcrumbItems
   }) => {
     return (
       <div id="PipelineGrid">
@@ -325,6 +348,7 @@ const PipelineGrid = withLocale(
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
             getSubscriptionResource={getSubscriptionResource}
+            breadcrumbItems={breadcrumbItems}
           />
           <ChannelColumnGrid
             channelList={channels}

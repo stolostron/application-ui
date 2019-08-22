@@ -53,11 +53,17 @@ export const topology = (state = initialState, action) => {
   ) {
     switch (action.type) {
     case Actions.RESOURCE_REQUEST: {
-      return { ...state, status: Actions.REQUEST_STATUS.IN_PROGRESS }
+      return {
+        ...state,
+        status: Actions.REQUEST_STATUS.IN_PROGRESS,
+        fetchFilters: action.fetchFilters,
+        reloading: action.reloading,
+        loaded: false
+      }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
       // ignore topologies that were fetched with a different set of active filters
-      if (lodash.isEqual(action.fetchFilters, state.activeFilters)) {
+      if (!lodash.isEqual(action.fetchFilters, state.activeFilters)) {
         const { nodes, links, buffer } = getBufferedResponse(state, action)
         return {
           ...state,
@@ -65,7 +71,8 @@ export const topology = (state = initialState, action) => {
           nodes,
           links,
           buffer,
-          fetchFilters: action.fetchFilters,
+          activeFilters: action.fetchFilters,
+          loaded: true,
           reloading: false
         }
       } else {

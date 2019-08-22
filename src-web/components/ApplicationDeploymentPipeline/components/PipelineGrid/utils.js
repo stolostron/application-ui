@@ -286,7 +286,10 @@ export const getApplicationLevelStatus = (
   return appStatus
 }
 
-export const displayProgressBars = (
+
+// Go through the subscriptions For This Application and determine if one of them
+// exists in the given channel
+export const subscriptionPresentInGivenChannel = (
   subscriptionsForThisApplication,
   channel
 ) => {

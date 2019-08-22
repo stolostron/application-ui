@@ -11,7 +11,7 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 const requiredValues = {
-  subscription: {
+  Subscription: {
     apiVersion: '',
     kind: 'Subscription',
     metadata: {

@@ -67,9 +67,9 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
               className="subHeader"
             >
               <div
-                className="subscriptionInfoHeader"
+                className="mainSubscriptionHeader"
               >
-                Subscription Name
+                Subscription
               </div>
               <div
                 className="value"
@@ -78,31 +78,67 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
               </div>
             </div>
             <div
-              className="subHeader"
+              className="innerContent"
             >
               <div
-                className="subscriptionInfoHeader"
+                className="placement"
               >
-                Namespace
-              </div>
-              <div
-                className="value"
-              >
-                
-              </div>
-            </div>
-            <div
-              className="subHeader"
-            >
-              <div
-                className="subscriptionInfoHeader"
-              >
-                Cluster
-              </div>
-              <div
-                className="value"
-              >
-                
+                <div
+                  className="subHeader"
+                >
+                  <div
+                    className="subscriptionInfoHeader"
+                  >
+                    Namespace
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    
+                  </div>
+                </div>
+                <div
+                  className="subHeader"
+                >
+                  <div
+                    className="subscriptionInfoHeader"
+                  >
+                    Channel
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    
+                  </div>
+                </div>
+                <div
+                  className="subHeader"
+                >
+                  <div
+                    className="subscriptionInfoHeader"
+                  >
+                    Host cluster
+                  </div>
+                  <div
+                    className="value"
+                  >
+                    
+                  </div>
+                </div>
+                <div
+                  className="subHeader"
+                >
+                  <div
+                    className="subscriptionInfoHeader"
+                  >
+                    Deployables
+                  </div>
+                  <div
+                    className="value"
+                  >
+                     
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -122,7 +158,19 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                   <div
                     className="label-indented"
                   >
-                    Target Clusters
+                    Labels
+                  </div>
+                  <div
+                    className="value"
+                  >
+                     
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="label-indented"
+                  >
+                    Target clusters
                   </div>
                   <div
                     className="value"
@@ -136,51 +184,8 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                     </span>
                   </div>
                 </div>
-                <div>
-                  <div
-                    className="label-indented"
-                  >
-                    Labels
-                  </div>
-                  <div
-                    className="value"
-                  >
-                     
-                  </div>
-                </div>
-                <div>
-                  <div
-                    className="label-indented"
-                  >
-                    Deployables
-                  </div>
-                  <div
-                    className="value"
-                  >
-                     
-                  </div>
-                </div>
               </div>
             </div>
-          </div>
-          <div
-            className="channelInfoClass"
-          >
-            <div
-              className="subHeader"
-            >
-              <div
-                className="channelHeader"
-              >
-                Channel
-              </div>
-              <div
-                className="value"
-              >
-                
-              </div>
-            </div>
-            
           </div>
         </div>
       </div>

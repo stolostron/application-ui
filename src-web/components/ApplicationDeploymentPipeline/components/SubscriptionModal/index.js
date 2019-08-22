@@ -19,34 +19,6 @@ resources(() => {
   require('./style.scss')
 })
 
-const ChannelInfo = withLocale(({ SubscriptionInfo, locale }) => {
-  const channel =
-    SubscriptionInfo && SubscriptionInfo.channel
-      ? SubscriptionInfo.channel
-      : ''
-  const channelData = R.split('/', channel)
-  return (
-    <div className="channelInfoClass">
-      <div className="subHeader">
-        <div className="channelHeader">
-          {msgs.get('description.Modal.channel', locale)}
-        </div>
-        <div className="value">{channelData[0]}</div>
-      </div>
-      {channelData.length == 2 ? (
-        <div className="subHeader">
-          <div className="subscriptionInfoHeader">
-            {msgs.get('description.Modal.Namespace', locale)}
-          </div>
-          <div className="value">{channelData[1]}</div>
-        </div>
-      ) : (
-        ''
-      )}
-    </div>
-  )
-})
-
 const SubscriptionInfo = withLocale(
   ({ subscriptionModalSubscriptionInfo, bulkSubscriptionList, locale }) => {
     const notEmptySubscription =
@@ -63,6 +35,7 @@ const SubscriptionInfo = withLocale(
     let clusters_hover = ''
     let deployables_hover = ''
     let owningClusterName = ''
+    let channel = ''
 
     if (notEmptySubscription) {
       // This will match the UID of the subscription with what we have in bulk subscription list
@@ -134,51 +107,66 @@ const SubscriptionInfo = withLocale(
         ['cluster'],
         subscriptionModalSubscriptionInfo
       )
+
+      channel = R.pathOr('', ['channel'], subscriptionModalSubscriptionInfo)
     }
     return (
       <div className="subscriptionInfoClass">
         <div className="subHeader">
-          <div className="subscriptionInfoHeader">
+          <div className="mainSubscriptionHeader">
             {msgs.get('description.Modal.SubscriptionInfo', locale)}
           </div>
           <div className="value">{subName}</div>
         </div>
-        <div className="subHeader">
-          <div className="subscriptionInfoHeader">
-            {msgs.get('description.Modal.Namespace', locale)}
+        <div className="innerContent">
+          <div className="placement">
+            <div className="subHeader">
+              <div className="subscriptionInfoHeader">
+                {msgs.get('description.Modal.Namespace', locale)}
+              </div>
+              <div className="value">{subNamespace}</div>
+            </div>
+            <div className="subHeader">
+              <div className="subscriptionInfoHeader">
+                {msgs.get('description.Modal.channel', locale)}
+              </div>
+              <div className="value">{channel}</div>
+            </div>
+            <div className="subHeader">
+              <div className="subscriptionInfoHeader">
+                {msgs.get('description.Modal.SubscriptionCluster', locale)}
+              </div>
+              <div className="value">{owningClusterName}</div>
+            </div>
+            <div className="subHeader">
+              <div className="subscriptionInfoHeader">
+                {msgs.get(
+                  'description.title.deployableSubscription.deployables',
+                  locale
+                )}
+              </div>
+              <div className="value">
+                {' '}
+                {deployableNames.map(deployable => {
+                  return (
+                    <span
+                      className="labelTag"
+                      key={Math.random()}
+                      title={deployables_hover}
+                    >
+                      {deployable}
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
           </div>
-          <div className="value">{subNamespace}</div>
-        </div>
-        <div className="subHeader">
-          <div className="subscriptionInfoHeader">
-            {msgs.get('description.Modal.SubscriptionCluster', locale)}
-          </div>
-          <div className="value">{owningClusterName}</div>
         </div>
         <div className="innerContent">
           <div className="placement">
             <div>
               <div className="label">
                 {msgs.get('description.Modal.placement', locale)}
-              </div>
-            </div>
-            <div>
-              <div className="label-indented">
-                {msgs.get('description.Modal.clusters', locale)}
-              </div>
-              <div className="value">
-                {' '}
-                {clusterNames.map(cluster => {
-                  return (
-                    <span
-                      className="labelTag"
-                      key={Math.random()}
-                      title={clusters_hover}
-                    >
-                      {cluster}
-                    </span>
-                  )
-                })}
               </div>
             </div>
             <div>
@@ -202,21 +190,18 @@ const SubscriptionInfo = withLocale(
             </div>
             <div>
               <div className="label-indented">
-                {msgs.get(
-                  'description.title.deployableSubscription.deployables',
-                  locale
-                )}
+                {msgs.get('description.Modal.clusters', locale)}
               </div>
               <div className="value">
                 {' '}
-                {deployableNames.map(deployable => {
+                {clusterNames.map(cluster => {
                   return (
                     <span
                       className="labelTag"
                       key={Math.random()}
-                      title={deployables_hover}
+                      title={clusters_hover}
                     >
-                      {deployable}
+                      {cluster}
                     </span>
                   )
                 })}
@@ -257,7 +242,6 @@ const SubscriptionModal = withLocale(
               }
               bulkSubscriptionList={bulkSubscriptionList}
             />
-            <ChannelInfo SubscriptionInfo={subscriptionModalSubscriptionInfo} />
           </div>
         </Modal>
       </div>

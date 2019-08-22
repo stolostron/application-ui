@@ -280,10 +280,25 @@ export const getApplicationLevelStatus = (
           appStatus[4] + status[4]
         ]
         appStatus = newStatus
-      } else {
-        appStatus = false
       }
     })
   }
   return appStatus
+}
+
+export const displayProgressBars = (
+  subscriptionsForThisApplication,
+  channel
+) => {
+  {
+    const isItPresent = subscriptionsForThisApplication.map(subscription => {
+      // Determine if this subscription is present in this channel
+      const channelMatch = subscription.channel.includes(channel.name)
+      if (channelMatch) {
+        return true
+      }
+      return false
+    })
+    return isItPresent.includes(true)
+  }
 }

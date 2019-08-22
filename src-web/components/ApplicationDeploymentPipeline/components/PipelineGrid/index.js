@@ -17,7 +17,8 @@ import {
   editResourceClick,
   getDataByKind,
   getResourcesStatusPerChannel,
-  getApplicationLevelStatus
+  getApplicationLevelStatus,
+  displayProgressBars
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -235,8 +236,13 @@ const ChannelColumnGrid = (
                   channel,
                   bulkSubscriptionList
                 )
+                const displayProgressBar = displayProgressBars(
+                  subscriptionsForThisApplication,
+                  channel
+                )
                 const showStatus =
-                  subscriptionsForThisApplication.length > 0 && appStatus
+                  subscriptionsForThisApplication.length > 0 &&
+                  displayProgressBar
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">

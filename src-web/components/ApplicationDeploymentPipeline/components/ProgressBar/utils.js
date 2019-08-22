@@ -16,6 +16,10 @@ export const getStatusPercentages = status => {
   const inprogress = status[2] / total * 100
   // Get the percentage of fail
   const fail = status[1] / total * 100
-  // The remaining percentage is then pending
-  return { pass: pass, inprogress: inprogress, fail: fail, total: total }
+  if (total == 0) {
+    return { pass: 0, inprogress: 0, fail: 0, total: 0 }
+  } else {
+    // The remaining percentage is then pending
+    return { pass: pass, inprogress: inprogress, fail: fail, total: total }
+  }
 }

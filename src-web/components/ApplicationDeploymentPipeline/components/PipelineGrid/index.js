@@ -141,7 +141,7 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${subscriptionName} `}
                       </div>
-                      {hasAdminRole ? (
+                      {hasAdminRole && (
                         <span>
                           <div className="yamlTitleSub">
                             {msgs.get('actions.yaml', locale)}
@@ -159,8 +159,6 @@ const LeftColumnForApplicationNames = (
                             }
                           />
                         </span>
-                      ) : (
-                        <div />
                       )}
                     </div>
                   </Tile>
@@ -195,7 +193,7 @@ const ChannelColumnGrid = (
             <div key={Math.random()} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
-                  {hasAdminRole ? (
+                  {hasAdminRole && (
                     <span>
                       <div className="yamlTitle">
                         {msgs.get('actions.yaml', locale)}
@@ -210,8 +208,6 @@ const ChannelColumnGrid = (
                         }
                       />
                     </span>
-                  ) : (
-                    <div />
                   )}
 
                   <div className="channelNameTitle">{`${channelName}`}</div>

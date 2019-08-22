@@ -253,15 +253,11 @@ class ApplicationDeploymentPipeline extends React.Component {
           }}
           id="search-1"
         />
-        {hasAdminRole ? (
+        {hasAdminRole && (
           <span>
             <div className="AddChannelButton">{[modalChannel]}</div>
-            <div className="AddSubscriptionButton">
-              {[modalSubscription]}
-            </div>{' '}
+            <div className="AddSubscriptionButton">{[modalSubscription]}</div>
           </span>
-        ) : (
-          <div />
         )}
         <PipelineGrid
           applications={applications}

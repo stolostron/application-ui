@@ -239,7 +239,7 @@ class DiagramViewer extends React.Component {
     // for design nodes, sync with split screen text editor
     let showDetailsView = !!node
     const { handleNodeSelected, showExpandedTopology } = this.props
-    if (showDetailsView && showExpandedTopology && node.isDesign) {
+    if (showDetailsView && showExpandedTopology && _.get(node, 'specs.isDesign')) {
       if (handleNodeSelected) {
         handleNodeSelected(node)
         showDetailsView = false

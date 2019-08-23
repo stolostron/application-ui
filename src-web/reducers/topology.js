@@ -40,17 +40,23 @@ export const topology = (state = initialState, action) => {
   if (action.resourceType && action.resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name){
     switch (action.type) {
     case Actions.RESOURCE_REQUEST: {
-      return {...state, status: Actions.REQUEST_STATUS.IN_PROGRESS}
+      return {...state,
+        status: Actions.REQUEST_STATUS.IN_PROGRESS,
+        fetchFilters: action.fetchFilters,
+        reloading: action.reloading,
+        loaded: false,
+      }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
 
       // ignore topologies that were fetched with a different set of active filters
-      if (lodash.isEqual(action.fetchFilters, state.activeFilters)) {
+      if (!lodash.isEqual(action.fetchFilters, state.activeFilters)) {
         const {nodes, links, buffer} = getBufferedResponse(state, action)
         return { ...state,
           status: Actions.REQUEST_STATUS.DONE,
           nodes, links, buffer,
-          fetchFilters: action.fetchFilters,
+          activeFilters: action.fetchFilters,
+          loaded: true,
           reloading: false
         }
       } else {

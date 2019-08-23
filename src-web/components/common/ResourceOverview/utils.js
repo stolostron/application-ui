@@ -228,3 +228,16 @@ export const formatToChannel = (subscriptionList, bulkSubscription) => {
     })
   return channelList
 }
+
+export const getSearchLinkForOneApplication = params => {
+  if (params && params.name) {
+    return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
+      params.name
+    }"}`
+  }
+  return ''
+}
+
+export const getSearchLinkForAllApplications = () => {
+  return '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}'
+}

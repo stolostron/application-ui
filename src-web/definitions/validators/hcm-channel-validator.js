@@ -19,7 +19,7 @@ const requiredValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo',
+      type: 'ObjectBucket|HelmRepo|Namespace',
       pathname: ''
       //   'secretRef':{},
       //   'criteria':{

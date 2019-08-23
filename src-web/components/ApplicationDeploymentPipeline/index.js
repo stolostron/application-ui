@@ -36,6 +36,7 @@ import {
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
+import { showCreate } from '../../../lib/client/access-helper'
 
 /* eslint-disable react/prop-types */
 
@@ -131,6 +132,7 @@ const mapStateToProps = state => {
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
+    secondaryHeader,
     role
   } = state
   // Filter Application List based on search input
@@ -154,6 +156,7 @@ const mapStateToProps = state => {
     openEditChannelModal: AppDeployments.openEditChannelModal,
     openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
     loading: AppDeployments.loading,
+    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     applications: getApplicationsList(filteredApplications),
     channels: getChannelsList(HCMChannelList),
     subscriptions: getSubscriptionsList(HCMSubscriptionList)
@@ -191,7 +194,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       openEditSubscriptionModal,
       loading,
       appDropDownList,
-      bulkSubscriptionList
+      bulkSubscriptionList,
+      userRole,
+      breadcrumbItems
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -251,8 +256,12 @@ class ApplicationDeploymentPipeline extends React.Component {
           }}
           id="search-1"
         />
-        <div className="AddChannelButton">{[modalChannel]}</div>
-        <div className="AddSubscriptionButton">{[modalSubscription]}</div>
+        {showCreate(userRole) && (
+          <span>
+            <div className="AddChannelButton">{[modalChannel]}</div>
+            <div className="AddSubscriptionButton">{[modalSubscription]}</div>
+          </span>
+        )}
         <PipelineGrid
           applications={applications}
           channels={channels}
@@ -273,6 +282,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
+          breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal
           displayModal={displaySubscriptionModal}

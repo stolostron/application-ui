@@ -74,3 +74,38 @@ export const getNumClusters = (applications, allsubscriptions) => {
 
   return 0
 }
+
+export const getApplicationName = list => {
+  if (
+    list &&
+    list.items instanceof Array &&
+    list.items.length > 0 &&
+    list.items[0].name
+  ) {
+    return list.items[0].name
+  }
+  return ''
+}
+
+export const getSingleApplicationObject = list => {
+  if (list && list.items instanceof Array && list.items.length > 0) {
+    return list.items[0]
+  }
+  return ''
+}
+
+export const getChannelsCountFromSubscriptions = arr => {
+  const channelSet = new Set()
+  if (arr instanceof Array && arr.length > 0) {
+    arr.map(elem => {
+      if (elem && elem.items instanceof Array && elem.items.length > 0) {
+        elem.items.map(subelem => {
+          if (subelem.channel) {
+            channelSet.add(subelem.channel)
+          }
+        })
+      }
+    })
+  }
+  return channelSet.size
+}

@@ -30,5 +30,5 @@ export const StatusIcon = Object.freeze({
   pending: {icon:'pending', classType:'warning', width: 16, height: 16, dx:16, dy:-16},
 })
 
-//if controller contains a pod
-export const PodIcon = {icon:'pod', classType:'pod', width: 28, height: 28, dx:20, dy:10}
+//if shape contains another resource
+export const PodIcon = {shape:'pod', classType:'pod', width: 28, height: 28, dx:20, dy:10}

@@ -17,7 +17,8 @@ import {
   editResourceClick,
   getDataByKind,
   getResourcesStatusPerChannel,
-  getApplicationLevelStatus
+  getApplicationLevelStatus,
+  subscriptionPresentInGivenChannel
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -43,10 +44,19 @@ const LeftColumnForApplicationNames = (
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
-    getSubscriptionResource
+    getSubscriptionResource,
+    breadcrumbItems
   },
   { locale }
 ) => {
+  // If there is just one application we want to find the subscription
+  // count for that one so that we can display it rather that that total
+  // subscription count
+  const oneApplications = breadcrumbItems.length == 2
+  const subscriptionsForOneApp = pullOutKindPerApplication(
+    applications[0],
+    'subscription'
+  )
   return (
     <div className="applicationColumnContainer">
       <div className="tileContainer">
@@ -56,7 +66,11 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${subscriptions.length} `}
+            {`${(oneApplications &&
+              subscriptionsForOneApp &&
+              subscriptionsForOneApp[0] &&
+              subscriptionsForOneApp[0].count) ||
+              subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
@@ -131,21 +145,23 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${subscriptionName} `}
                       </div>
-                      <div className="yamlTitleSub">
-                        {msgs.get('actions.yaml', locale)}
-                      </div>
-                      <Icon
-                        name="icon--edit"
-                        fill="#6089bf"
-                        description=""
-                        className="subscriptionEditIcon"
-                        onClick={() =>
-                          editResourceClick(
-                            subscription,
-                            getSubscriptionResource
-                          )
-                        }
-                      />
+                      <span>
+                        <div className="yamlTitleSub">
+                          {msgs.get('actions.yaml', locale)}
+                        </div>
+                        <Icon
+                          name="icon--edit"
+                          fill="#6089bf"
+                          description=""
+                          className="subscriptionEditIcon"
+                          onClick={() =>
+                            editResourceClick(
+                              subscription,
+                              getSubscriptionResource
+                            )
+                          }
+                        />
+                      </span>
                     </div>
                   </Tile>
                 )
@@ -178,18 +194,20 @@ const ChannelColumnGrid = (
             <div key={Math.random()} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
-                  <div className="yamlTitle">
-                    {msgs.get('actions.yaml', locale)}
-                  </div>
-                  <Icon
-                    name="icon--edit"
-                    fill="#6089bf"
-                    description=""
-                    className="channelEditIcon"
-                    onClick={() =>
-                      editResourceClick(channel, getChannelResource)
-                    }
-                  />
+                  <span>
+                    <div className="yamlTitle">
+                      {msgs.get('actions.yaml', locale)}
+                    </div>
+                    <Icon
+                      name="icon--edit"
+                      fill="#6089bf"
+                      description=""
+                      className="channelEditIcon"
+                      onClick={() =>
+                        editResourceClick(channel, getChannelResource)
+                      }
+                    />
+                  </span>
                   <div className="channelNameTitle">{`${channelName}`}</div>
                 </div>
               </Tile>
@@ -226,8 +244,13 @@ const ChannelColumnGrid = (
                   channel,
                   bulkSubscriptionList
                 )
+                const subscriptionPresentInChannel = subscriptionPresentInGivenChannel(
+                  subscriptionsForThisApplication,
+                  channel
+                )
                 const showStatus =
-                  subscriptionsForThisApplication.length > 0 && appStatus
+                  subscriptionsForThisApplication.length > 0 &&
+                  subscriptionPresentInChannel
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
@@ -308,7 +331,9 @@ const PipelineGrid = withLocale(
     setCurrentsubscriptionModalData,
     updateAppDropDownList,
     appDropDownList,
-    bulkSubscriptionList
+    bulkSubscriptionList,
+    hasAdminRole,
+    breadcrumbItems
   }) => {
     return (
       <div id="PipelineGrid">
@@ -325,6 +350,8 @@ const PipelineGrid = withLocale(
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
             getSubscriptionResource={getSubscriptionResource}
+            hasAdminRole={hasAdminRole}
+            breadcrumbItems={breadcrumbItems}
           />
           <ChannelColumnGrid
             channelList={channels}
@@ -332,6 +359,7 @@ const PipelineGrid = withLocale(
             getChannelResource={getChannelResource}
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
+            hasAdminRole={hasAdminRole}
           />
         </div>
       </div>

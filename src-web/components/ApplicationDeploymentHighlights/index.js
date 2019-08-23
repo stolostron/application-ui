@@ -42,13 +42,13 @@ const mapStateToProps = state => {
     HCMSubscriptionList,
     secondaryHeader
   } = state
-  const singleAppView =
+  const isSingleApplicationView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
   return {
     HCMChannelList,
     HCMSubscriptionList,
     HCMApplicationList,
-    isSingleAppView: singleAppView
+    isSingleApplicationView
   }
 }
 
@@ -63,7 +63,7 @@ class ApplicationDeploymentHighlights extends React.Component {
       HCMChannelList,
       HCMSubscriptionList,
       HCMApplicationList,
-      isSingleAppView
+      isSingleApplicationView
     } = this.props
     const { locale } = this.context
 
@@ -77,12 +77,13 @@ class ApplicationDeploymentHighlights extends React.Component {
           HCMApplicationList={HCMApplicationList}
           HCMChannelList={HCMChannelList}
           HCMSubscriptionList={HCMSubscriptionList}
+          isSingleApplicationView={isSingleApplicationView}
         />
         <ApplicationDeploymentSummary
           HCMChannelList={HCMChannelList}
           HCMApplicationList={HCMApplicationList}
           HCMSubscriptionList={HCMSubscriptionList}
-          isSingleAppView={isSingleAppView}
+          isSingleAppView={isSingleApplicationView}
         />
       </div>
     )

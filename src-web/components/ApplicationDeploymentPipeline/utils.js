@@ -18,7 +18,7 @@ export const getApplicationsList = list => {
 }
 
 export const pullOutKindPerApplication = (application, kind = '') => {
-  const isKind = n => n.kind == kind
+  const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
   if (application && application.related) {
     const appDeployables = R.filter(isKind, application.related)
     return appDeployables

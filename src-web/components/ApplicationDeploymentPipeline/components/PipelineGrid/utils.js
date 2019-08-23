@@ -10,12 +10,11 @@
 import R from 'ramda'
 
 export const kindsToIncludeForDeployments = [
-  'release',
-  'helmrelease',
-  'pod',
-  'replicaset',
-  'deployment',
-  'service'
+  'cluster',
+  'subscription',
+  'channel',
+  'events',
+  'application'
 ]
 
 // A created Mapper to create the row for our application data table
@@ -95,30 +94,6 @@ export const getDataByKind = (list, uid) => {
   return {}
 }
 
-// Given a current deployables data INCLUDING its related resources
-// we want to return all the channels.
-// Channels are not returned inside related resources so we have to
-// insepect each related subscription because it contains the channel
-// ----------------
-// This is no longer being used but keeping it here for now
-// ----------------
-export const getDeployablesChannels = deployableData => {
-  if (deployableData && deployableData.related) {
-    const relatedData = deployableData.related
-    // We want to pull only subscription data
-    const filterToSubscriptions = x => x.kind == 'subscription'
-    const subscriptionData = R.filter(filterToSubscriptions, relatedData)
-    if (subscriptionData[0] && subscriptionData[0].items) {
-      const channels = subscriptionData[0].items.map(sub => {
-        return sub.channel
-      })
-      return channels
-    }
-    return []
-  }
-  return []
-}
-
 // ----------------
 // This is no longer being used but keeping it here for now
 // ----------------
@@ -191,7 +166,7 @@ export const getResourcesStatusPerChannel = (
     const relatedData = deployableData.related
     // We want to pull resources data to check status
     const filterToResources = elem =>
-      kindsToIncludeForDeployments.includes(elem.kind)
+      !kindsToIncludeForDeployments.includes(elem.kind)
     // ResourceData is an array of objects
     const resourceData = R.filter(filterToResources, relatedData)
     // Pass, Fail, InProgress, Pending, Unidentified
@@ -222,7 +197,7 @@ export const getResourcesStatusPerChannel = (
 //returns all objects of kind in the related for the specified item
 //for example pullOutRelatedPerItem(application, 'cluster') returns all clusters for this application
 export const pullOutRelatedPerItem = (item, kind) => {
-  const isKind = n => n.kind == kind
+  const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
   if (item && item.related) {
     return R.filter(isKind, item.related)
   }

@@ -50,12 +50,11 @@ export const getDeployedResourcesChannelChartData = list => {
     // deplChartDataList will have an undefined in the list which will break the code
     // down the line so we want to remove undefined
     const removeUndefined = x => x !== undefined
-    const emptyArray = []
     const removedUndefinedDeployables = R.filter(
       removeUndefined,
       mappedChannels
     )
-    return emptyArray.concat.apply([], removedUndefinedDeployables)
+    return removedUndefinedDeployables
   }
   return []
 }

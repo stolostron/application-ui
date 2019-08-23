@@ -8,7 +8,7 @@
  *******************************************************************************/
 import R from 'ramda'
 import {
-  kindsToIncludeForDeployments,
+  kindsToExcludeForDeployments,
   getResourcesStatusPerChannel
 } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
@@ -56,8 +56,8 @@ export const getNumDeployables = data => {
 
 export const getNumDeployments = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(elem =>
-      kindsToIncludeForDeployments.includes(elem.kind)
+    const filtered = data.related.filter(
+      elem => !kindsToExcludeForDeployments.includes(elem.kind)
     )
     if (filtered.length > 0) {
       return filtered.reduce((acc, cur) => acc + cur['count'], 0)

@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -149,7 +149,13 @@ describe('modal reducer', () => {
         }
       }
     }
-    const expectedValue = {'reqCount': 0, 'reqErrCount': 1, 'reqErrorMsg': 'test', 'reqStatus': 'ERROR', 'test': 'test'}
+    const expectedValue = {
+      reqCount: 0,
+      reqErrCount: 1,
+      reqErrorMsg: 'test',
+      reqStatus: 'ERROR',
+      test: 'test'
+    }
     expect(modal(state, action)).toEqual(expectedValue)
   })
 
@@ -165,7 +171,13 @@ describe('modal reducer', () => {
         }
       }
     }
-    const expectedValue = {'reqCount': 0, 'reqErrCount': 1, 'reqErrorMsg': 'test', 'reqStatus': 'ERROR', 'test': 'test'}
+    const expectedValue = {
+      reqCount: 0,
+      reqErrCount: 1,
+      reqErrorMsg: 'test',
+      reqStatus: 'ERROR',
+      test: 'test'
+    }
     expect(modal(state, action)).toEqual(expectedValue)
   })
 
@@ -175,9 +187,15 @@ describe('modal reducer', () => {
     }
     const action = {
       type: Actions.DEL_RECEIVE_FAILURE,
-      err: [{message: 'test'}]
+      err: [{ message: 'test' }]
     }
-    const expectedValue = {'reqCount': 0, 'reqErrCount': 1, 'reqErrorMsg': 'test', 'reqStatus': 'ERROR', 'test': 'test'}
+    const expectedValue = {
+      reqCount: 0,
+      reqErrCount: 1,
+      reqErrorMsg: 'test',
+      reqStatus: 'ERROR',
+      test: 'test'
+    }
     expect(modal(state, action)).toEqual(expectedValue)
   })
 })

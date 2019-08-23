@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -15,21 +15,25 @@ var log4js = require('log4js'),
     fs = require('fs'),
     helmet = require('helmet')
 
-
-var log4js_config = process.env.LOG4JS_CONFIG ? JSON.parse(process.env.LOG4JS_CONFIG) : undefined
+var log4js_config = process.env.LOG4JS_CONFIG
+  ? JSON.parse(process.env.LOG4JS_CONFIG)
+  : undefined
 log4js.configure(log4js_config || 'config/log4js.json')
 
 logger.info(`[pid ${process.pid}] [env ${process.env.NODE_ENV}] started.`)
 
-const stalker = watchr.open(`${process.cwd()}/config/log4js.json`, changeType => {
-  if (changeType === 'update') {
-    logger.info('Logging configuration updated.  Re-configuring log4js.')
-    log4js.shutdown(err => {
-      if (!err)
-        log4js.configure('config/log4js.json')
-    })
-  }
-}, () => { })
+const stalker = watchr.open(
+  `${process.cwd()}/config/log4js.json`,
+  changeType => {
+    if (changeType === 'update') {
+      logger.info('Logging configuration updated.  Re-configuring log4js.')
+      log4js.shutdown(err => {
+        if (!err) log4js.configure('config/log4js.json')
+      })
+    }
+  },
+  () => {}
+)
 
 var express = require('express'),
     path = require('path'),
@@ -56,18 +60,20 @@ var app = express()
 
 var morgan = require('morgan')
 if (process.env.NODE_ENV === 'production') {
-
-  app.use(helmet({ // in production these headers are set by icp-management-ingress
-    frameguard: false,
-    noSniff: false,
-    xssFilter: false
-  }))
+  app.use(
+    helmet({
+      // in production these headers are set by icp-management-ingress
+      frameguard: false,
+      noSniff: false,
+      xssFilter: false
+    })
+  )
 
   app.use(
     '*',
     morgan('combined', {
-      skip: (req, res) => res.statusCode < 400,
-    }),
+      skip: (req, res) => res.statusCode < 400
+    })
   )
 } else {
   app.use(helmet())
@@ -82,53 +88,73 @@ const csrfMiddleware = csurf({
 })
 
 var proxy = require('http-proxy-middleware')
-app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store')
-  res.setHeader('Pragma', 'no-cache')
-  const accessToken = req.cookies['cfc-access-token-cookie']
-  req.headers.Authorization = `Bearer ${accessToken}`
-  next()
-}, proxy({
-  target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
-  changeOrigin: true,
-  pathRewrite: {
-    [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
+app.use(
+  `${appConfig.get('contextPath')}/graphql`,
+  cookieParser(),
+  csrfMiddleware,
+  (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store')
+    res.setHeader('Pragma', 'no-cache')
+    const accessToken = req.cookies['cfc-access-token-cookie']
+    req.headers.Authorization = `Bearer ${accessToken}`
+    next()
   },
-  secure: false
-}))
-
-app.use(`${appConfig.get('contextPath')}/search/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store')
-  res.setHeader('Pragma', 'no-cache')
-  const accessToken = req.cookies['cfc-access-token-cookie']
-  req.headers.Authorization = `Bearer ${accessToken}`
-  next()
-}, proxy({
-  // TODO - use flag while ironing out the chart changes
-  target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
-  changeOrigin: true,
-  pathRewrite: {
-    [`^${appConfig.get('contextPath')}/search/graphql`]: '/graphql'
-  },
-  secure: false
-}))
-
-if (process.env.NODE_ENV === 'development') {
-  app.use(appConfig.get('platformHeaderContextPath'), cookieParser(), proxy({
-    target: appConfig.get('cfcRouterUrl'),
-    changeOrigin: true,
-    secure: false,
-    ws: true
-  }))
-
-  app.use(`${appConfig.get('contextPath')}/api/proxy`, cookieParser(), proxy({
-    target: appConfig.get('cfcRouterUrl'),
+  proxy({
+    target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
     changeOrigin: true,
     pathRewrite: {
-      [`^${appConfig.get('contextPath')}/api/proxy`]: ''
+      [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
     },
     secure: false
-  }))
+  })
+)
+
+app.use(
+  `${appConfig.get('contextPath')}/search/graphql`,
+  cookieParser(),
+  csrfMiddleware,
+  (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store')
+    res.setHeader('Pragma', 'no-cache')
+    const accessToken = req.cookies['cfc-access-token-cookie']
+    req.headers.Authorization = `Bearer ${accessToken}`
+    next()
+  },
+  proxy({
+    // TODO - use flag while ironing out the chart changes
+    target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
+    changeOrigin: true,
+    pathRewrite: {
+      [`^${appConfig.get('contextPath')}/search/graphql`]: '/graphql'
+    },
+    secure: false
+  })
+)
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(
+    appConfig.get('platformHeaderContextPath'),
+    cookieParser(),
+    proxy({
+      target: appConfig.get('cfcRouterUrl'),
+      changeOrigin: true,
+      secure: false,
+      ws: true
+    })
+  )
+
+  app.use(
+    `${appConfig.get('contextPath')}/api/proxy`,
+    cookieParser(),
+    proxy({
+      target: appConfig.get('cfcRouterUrl'),
+      changeOrigin: true,
+      pathRewrite: {
+        [`^${appConfig.get('contextPath')}/api/proxy`]: ''
+      },
+      secure: false
+    })
+  )
 }
 
 app.engine('dust', consolidate.dust)
@@ -145,7 +171,7 @@ const CONTEXT_PATH = appConfig.get('contextPath'),
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Pragma', 'no-cache')
-  if(!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
+  if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
     return
   }
@@ -158,16 +184,25 @@ app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   req.url = `${req.url}.gz`
   next()
 })
-app.use(CONTEXT_PATH, express.static(STATIC_PATH, {
-  maxAge: process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
-  setHeaders: (res, fp) => res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
-}))
+app.use(
+  CONTEXT_PATH,
+  express.static(STATIC_PATH, {
+    maxAge:
+      process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
+    setHeaders: (res, fp) =>
+      res.setHeader(
+        'Cache-Control',
+        `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`
+      )
+  })
+)
 
+app.get(`${CONTEXT_PATH}/performance-now.js.map`, (req, res) =>
+  res.sendStatus(404)
+)
 
-
-app.get(`${CONTEXT_PATH}/performance-now.js.map`, (req, res) => res.sendStatus(404))
-
-app.use(cookieParser())
+app
+  .use(cookieParser())
   .use(requestLogger)
   .use(bodyParser.json({ limit: '512kb' }))
   .use(bodyParser.urlencoded({ extended: false }))
@@ -181,9 +216,9 @@ app.locals.manifest = require('./public/webpack-assets.json')
 var server
 if (process.env.NODE_ENV === 'development') {
   var https = require('https')
-  var privateKey  = fs.readFileSync('./sslcert/server.key', 'utf8')
+  var privateKey = fs.readFileSync('./sslcert/server.key', 'utf8')
   var certificate = fs.readFileSync('./sslcert/server.crt', 'utf8')
-  var credentials = {key: privateKey, cert: certificate}
+  var credentials = { key: privateKey, cert: certificate }
   server = https.createServer(credentials, app)
 } else {
   // NOTE: In production, SSL is provided by the ICP ingress.
@@ -196,7 +231,11 @@ var port = process.env.PORT || appConfig.get('httpPort')
 // start server
 logger.info('Starting express server.')
 server.listen(port, () => {
-  logger.info(`MCM UI is now running on ${process.env.NODE_ENV === 'development' ? 'https' : 'http'}://localhost:${port}${CONTEXT_PATH}`)
+  logger.info(
+    `MCM UI is now running on ${
+      process.env.NODE_ENV === 'development' ? 'https' : 'http'
+    }://localhost:${port}${CONTEXT_PATH}`
+  )
 })
 
 process.on('SIGTERM', () => {

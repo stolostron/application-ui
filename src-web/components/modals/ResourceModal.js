@@ -1,14 +1,13 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 /* eslint-disable react/prop-types, react/jsx-no-bind */
-
 
 import React from 'react'
 import lodash from 'lodash'
@@ -20,11 +19,9 @@ import msgs from '../../../nls/platform.properties'
 import { toString, saveLoad } from '../../../lib/client/design-helper'
 import YamlEditor from '../common/YamlEditor'
 
-
 resources(() => {
   require('../../../scss/modal.scss')
 })
-
 
 class ResourceModal extends React.PureComponent {
   constructor(props) {
@@ -37,7 +34,8 @@ class ResourceModal extends React.PureComponent {
   }
 
   putResource(resourceType, namespace, name, data, selfLink) {
-    apolloClient.updateResource(resourceType.name, namespace, name, data, selfLink)
+    apolloClient
+      .updateResource(resourceType.name, namespace, name, data, selfLink)
       .then(res => {
         if (res.errors) {
           this.setState({
@@ -51,7 +49,7 @@ class ResourceModal extends React.PureComponent {
   }
 
   handleSubmit = () => {
-    this.setState({loading: true}, () => {
+    this.setState({ loading: true }, () => {
       const resourceType = this.props.resourceType
       let namespace, name, resources
       let selfLink = this.props.data.selfLink
@@ -69,13 +67,13 @@ class ResourceModal extends React.PureComponent {
           }
           this.putResource(resourceType, namespace, name, resource, selfLink)
         })
-      } catch(e) {
+      } catch (e) {
         this.setState(preState => {
-          return {reqErrorMsg: [...preState.reqErrorMsg, e.message]}
+          return { reqErrorMsg: [...preState.reqErrorMsg, e.message] }
         })
       }
     })
-  }
+  };
 
   handleClose = () => {
     const { type } = this.props
@@ -91,7 +89,7 @@ class ResourceModal extends React.PureComponent {
           list: ''
         },
         data: {
-          __typename:'ModalData',
+          __typename: 'ModalData',
           name: '',
           namespace: '',
           clusterName: '',
@@ -100,25 +98,26 @@ class ResourceModal extends React.PureComponent {
         }
       }
     })
-  }
+  };
 
   escapeEditor = e => {
     e.persist()
     const button = document.querySelector('.bx--btn--secondary')
     e.shiftKey && e.ctrlKey && e.which === 81 && button.focus()
-  }
+  };
 
   onChange = value => {
-    this.setState({data: value})
-  }
+    this.setState({ data: value })
+  };
 
   componentWillMount() {
-    const {resourceType, data: { namespace, name, clusterName } } = this.props
-    apolloClient.getResource(resourceType, {namespace, name, clusterName})
+    const { resourceType, data: { namespace, name, clusterName } } = this.props
+    apolloClient
+      .getResource(resourceType, { namespace, name, clusterName })
       .then(response => {
         this.setState({
           data: toString(response.data.items[0]),
-          loading: false,
+          loading: false
         })
       })
   }
@@ -131,11 +130,20 @@ class ResourceModal extends React.PureComponent {
     const { open, label, locale, resourceType } = this.props
     const { data, errors, loading } = this.state
     return (
-      <div id='resource-modal-container' ref={div => this.resourceModal = div} tabIndex='-1' role='region' onKeyDown={this.escapeEditor} aria-label={msgs.get('a11y.editor.escape', locale)}> {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
+      <div
+        id="resource-modal-container"
+        ref={div => (this.resourceModal = div)}
+        tabIndex="-1"
+        role="region"
+        onKeyDown={this.escapeEditor}
+        aria-label={msgs.get('a11y.editor.escape', locale)}
+      >
+        {' '}
+        {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
         {loading && <Loading />}
         <Modal
           id={`resource-modal-${resourceType}`}
-          className='modal'
+          className="modal"
           open={open}
           primaryButtonText={msgs.get(label.primaryBtn, locale)}
           secondaryButtonText={msgs.get('modal.button.cancel', locale)}
@@ -143,12 +151,19 @@ class ResourceModal extends React.PureComponent {
           modalHeading={msgs.get(label.heading, locale)}
           onRequestClose={this.handleClose}
           onRequestSubmit={this.handleSubmit}
-          role='region'
-          aria-label={msgs.get(label.heading, locale)}>
+          role="region"
+          aria-label={msgs.get(label.heading, locale)}
+        >
           <div>
-            {errors !== ''
-              ? <InlineNotification key={`inline-notification-${errors}`} kind='error' title='' subtitle={errors} iconDescription={msgs.get('svg.description.error', locale)} />
-              : null}
+            {errors !== '' ? (
+              <InlineNotification
+                key={`inline-notification-${errors}`}
+                kind="error"
+                title=""
+                subtitle={errors}
+                iconDescription={msgs.get('svg.description.error', locale)}
+              />
+            ) : null}
             <YamlEditor
               width={'50vw'}
               height={'40vh'}

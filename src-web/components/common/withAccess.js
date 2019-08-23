@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -19,25 +19,34 @@ import config from '../../../lib/shared/config'
 const withAccess = (ChildComponent, lowestRole) => {
   class checkAccess extends React.PureComponent {
     static propTypes = {
-      role: PropTypes.string.isRequired,
-    }
+      role: PropTypes.string.isRequired
+    };
 
     render() {
       const { role } = this.props
-      const roleKey = lodash.findKey(ROLES, value => value.toLowerCase() === role.toLowerCase())
-      const lowestRoleKey = lodash.findKey(ROLES, value => value.toLowerCase() === lowestRole.toLowerCase())
-      return Object.keys(ROLES).indexOf(roleKey) >= Object.keys(ROLES).indexOf(lowestRoleKey) ? <ChildComponent {...this.props} /> : <Redirect to={`${config.contextPath}/welcome`} />
+      const roleKey = lodash.findKey(
+        ROLES,
+        value => value.toLowerCase() === role.toLowerCase()
+      )
+      const lowestRoleKey = lodash.findKey(
+        ROLES,
+        value => value.toLowerCase() === lowestRole.toLowerCase()
+      )
+      return Object.keys(ROLES).indexOf(roleKey) >=
+        Object.keys(ROLES).indexOf(lowestRoleKey) ? (
+          <ChildComponent {...this.props} />
+        ) : (
+          <Redirect to={`${config.contextPath}/welcome`} />
+        )
     }
   }
 
-
-  const mapStateToProps = (state) => {
+  const mapStateToProps = state => {
     const role = state.role && state.role.role
     return { role }
   }
 
   return connect(mapStateToProps)(checkAccess)
 }
-
 
 export default withAccess

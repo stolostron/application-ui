@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import * as Actions from '../actions'
@@ -18,13 +18,15 @@ export const resourceFilters = (state = {}, action) => {
         // disable cluster name filtering until server side fixes the issue
         // https://github.ibm.com/IBMPrivateCloud/roadmap/issues/10981
         // clusterNames: action.filters.clusterNames,
-        clusterLabels: action.filters.clusterLabels,
-      },
+        clusterLabels: action.filters.clusterLabels
+      }
     })
   case Actions.RESOURCE_FILTERS_UPDATE: {
-    const selectedFilters = state.selectedFilters ? {...state.selectedFilters} : {}
+    const selectedFilters = state.selectedFilters
+      ? { ...state.selectedFilters }
+      : {}
     selectedFilters[action.resourceName] = action.selectedFilters
-    return {...state, selectedFilters}
+    return { ...state, selectedFilters }
   }
   default:
     return state

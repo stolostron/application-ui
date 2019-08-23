@@ -1,16 +1,19 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import lodash from 'lodash'
 import * as Actions from '../actions'
 import { getBufferedResponse } from '../../lib/client/weave-helper'
-import { getFilterState, saveFilterState } from '../../lib/client/filter-helper'
+import {
+  getFilterState,
+  saveFilterState
+} from '../../lib/client/filter-helper'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 const initialState = {
@@ -18,43 +21,56 @@ const initialState = {
     clusters: [],
     labels: [],
     namespaces: [],
-    types: [],
+    types: []
   },
   activeFilters: {
     namespace: [],
-    type: [{ label: 'deployment'}] // Sets the default filters
+    type: [{ label: 'deployment' }] // Sets the default filters
   },
   diagramFilters: [],
   otherTypeFilters: [],
   links: [],
   nodes: [],
-  status: Actions.REQUEST_STATUS.INCEPTION,
+  status: Actions.REQUEST_STATUS.INCEPTION
 }
 
 //default k8 type filters
-export const defaultTypeFilters = new Set(['internet', 'host', 'service', 'deployment',
-  'daemonset', 'statefulset', 'pod', 'container'])
-
+export const defaultTypeFilters = new Set([
+  'internet',
+  'host',
+  'service',
+  'deployment',
+  'daemonset',
+  'statefulset',
+  'pod',
+  'container'
+])
 
 export const topology = (state = initialState, action) => {
-  if (action.resourceType && action.resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name){
+  if (
+    action.resourceType &&
+    action.resourceType.name === RESOURCE_TYPES.HCM_TOPOLOGY.name
+  ) {
     switch (action.type) {
     case Actions.RESOURCE_REQUEST: {
-      return {...state,
+      return {
+        ...state,
         status: Actions.REQUEST_STATUS.IN_PROGRESS,
         fetchFilters: action.fetchFilters,
         reloading: action.reloading,
-        loaded: false,
+        loaded: false
       }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
-
       // ignore topologies that were fetched with a different set of active filters
       if (!lodash.isEqual(action.fetchFilters, state.activeFilters)) {
-        const {nodes, links, buffer} = getBufferedResponse(state, action)
-        return { ...state,
+        const { nodes, links, buffer } = getBufferedResponse(state, action)
+        return {
+          ...state,
           status: Actions.REQUEST_STATUS.DONE,
-          nodes, links, buffer,
+          nodes,
+          links,
+          buffer,
           activeFilters: action.fetchFilters,
           loaded: true,
           reloading: false
@@ -64,67 +80,84 @@ export const topology = (state = initialState, action) => {
       }
     }
     case Actions.RESOURCE_RECEIVE_FAILURE: {
-      return { ...state, status: Actions.REQUEST_STATUS.ERROR, nodes: action.nodes, links: action.links }
+      return {
+        ...state,
+        status: Actions.REQUEST_STATUS.ERROR,
+        nodes: action.nodes,
+        links: action.links
+      }
     }
     }
   }
 
-  switch (action.type){
-  case '@@INIT':{
+  switch (action.type) {
+  case '@@INIT': {
     return initialState
   }
   case Actions.TOPOLOGY_FILTERS_REQUEST: {
-    return {...state,
-      filtersStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
+    return {
+      ...state,
+      filtersStatus: Actions.REQUEST_STATUS.IN_PROGRESS
     }
   }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_ERROR: {
-    return {...state,
+    return {
+      ...state,
       filtersStatus: Actions.REQUEST_STATUS.ERROR,
-      err: action.err,
+      err: action.err
     }
   }
   case Actions.TOPOLOGY_RESTORE_SAVED_FILTERS: {
-    const {filters: activeFilters, otherTypeFilters} = getFilterState(initialState.activeFilters)
-    return {...state, activeFilters, otherTypeFilters, savingFilters: true}
+    const { filters: activeFilters, otherTypeFilters } = getFilterState(
+      initialState.activeFilters
+    )
+    return { ...state, activeFilters, otherTypeFilters, savingFilters: true }
   }
   case Actions.TOPOLOGY_FILTERS_UPDATE: {
-    const activeFilters = {...state.activeFilters} || {}
+    const activeFilters = { ...state.activeFilters } || {}
     activeFilters[action.filterType] = action.filters
     if (state.savingFilters) {
-      const {namespace, name} = action
-      saveFilterState(namespace, name, {filters:activeFilters, otherTypeFilters: state.otherTypeFilters})
+      const { namespace, name } = action
+      saveFilterState(namespace, name, {
+        filters: activeFilters,
+        otherTypeFilters: state.otherTypeFilters
+      })
     }
-    return {...state, activeFilters}
+    return { ...state, activeFilters }
   }
   case Actions.TOPOLOGY_SET_ACTIVE_FILTERS: {
-    const { activeFilters, reloading=false } = action
-    return {...state, status: Actions.REQUEST_STATUS.INCEPTION, activeFilters, reloading}
-
+    const { activeFilters, reloading = false } = action
+    return {
+      ...state,
+      status: Actions.REQUEST_STATUS.INCEPTION,
+      activeFilters,
+      reloading
+    }
   }
   case Actions.TOPOLOGY_NAME_SEARCH: {
     const { searchName } = action
-    return {...state, searchName }
+    return { ...state, searchName }
   }
   case Actions.TOPOLOGY_FILTERS_RECEIVE_SUCCESS: {
     // The 'clusters' filter is different from other filters.
     // Here we are building the filter options using the cluster labels. When a filter is
     // is selected, we have to use the clusters associated with the label (filterValues).
     const clusterFilters = []
-    action.clusters.forEach(({metadata:c}) => {
+    action.clusters.forEach(({ metadata: c }) => {
       clusterFilters.push({
         label: `name: ${c.name}`, //FIXME: NLS. Labels received from the API aren't translated either.
-        filterValues: [c.name],
+        filterValues: [c.name]
       })
       Object.keys(c.labels).forEach(labelKey => {
-        const existingLabel = clusterFilters.find(l => l.label === `${labelKey}: ${c.labels[labelKey]}`)
-        if(existingLabel) {
+        const existingLabel = clusterFilters.find(
+          l => l.label === `${labelKey}: ${c.labels[labelKey]}`
+        )
+        if (existingLabel) {
           existingLabel.filterValues.push(c.name)
-        }
-        else {
+        } else {
           clusterFilters.push({
             label: `${labelKey}: ${c.labels[labelKey]}`,
-            filterValues: [c.name],
+            filterValues: [c.name]
           })
         }
       })
@@ -132,9 +165,9 @@ export const topology = (state = initialState, action) => {
 
     // consolidate misc types into "other" type
     const otherTypeFilters = []
-    let types =  action.types.map(i => ({label: i }))
-    if (types.length>0) {
-      types = types.filter(({label})=>{
+    let types = action.types.map(i => ({ label: i }))
+    if (types.length > 0) {
+      types = types.filter(({ label }) => {
         if (defaultTypeFilters.has(label)) {
           return true
         } else {
@@ -142,32 +175,43 @@ export const topology = (state = initialState, action) => {
           return false
         }
       })
-      types.push({label:'other'})
+      types.push({ label: 'other' })
     }
 
     const filters = {
       clusters: clusterFilters,
-      labels: action.labels.map(l => ({label: `${l.name}: ${l.value}`, name: l.name, value: l.value })),
-      namespaces: lodash.uniqBy(action.namespaces, 'metadata.name').map(n => ({ label: n.metadata.name})),
-      types,
+      labels: action.labels.map(l => ({
+        label: `${l.name}: ${l.value}`,
+        name: l.name,
+        value: l.value
+      })),
+      namespaces: lodash
+        .uniqBy(action.namespaces, 'metadata.name')
+        .map(n => ({ label: n.metadata.name })),
+      types
     }
-    return {...state,
+    return {
+      ...state,
       availableFilters: filters,
       otherTypeFilters,
-      filtersStatus: Actions.REQUEST_STATUS.DONE,
+      filtersStatus: Actions.REQUEST_STATUS.DONE
     }
   }
   case Actions.DIAGRAM_RESTORE_FILTERS: {
     const { namespace, name, initialDiagramFilters } = action
-    const {filters: diagramFilters} = getFilterState(initialDiagramFilters, namespace, name)
+    const { filters: diagramFilters } = getFilterState(
+      initialDiagramFilters,
+      namespace,
+      name
+    )
     state.diagramFilters = diagramFilters
-    return {...state}
+    return { ...state }
   }
   case Actions.DIAGRAM_SAVE_FILTERS: {
     const { namespace, name, diagramFilters } = action
-    saveFilterState(namespace, name, {filters:diagramFilters})
+    saveFilterState(namespace, name, { filters: diagramFilters })
     state.diagramFilters = diagramFilters
-    return {...state}
+    return { ...state }
   }
   default:
     return { ...state }

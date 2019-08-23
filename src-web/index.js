@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import React from 'react'
 import { hydrate } from 'react-dom'
@@ -23,14 +23,19 @@ import createBrowserHistory from 'history/createBrowserHistory'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-window.SHARED_HISTORY = window.SHARED_HISTORY ? window.SHARED_HISTORY : createBrowserHistory()
+window.SHARED_HISTORY = window.SHARED_HISTORY
+  ? window.SHARED_HISTORY
+  : createBrowserHistory()
 
 const loggerMiddleware = createLogger()
 // Grab the state from a global variable injected into the server-generated HTML
 const preloadedState = window.__PRELOADED_STATE__
 
 const middleware = [thunkMiddleware] // lets us dispatch() functions
-if (!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && config['featureFlags:reduxLogger']) {
+if (
+  !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
+  config['featureFlags:reduxLogger']
+) {
   middleware.push(loggerMiddleware) // middleware that logs actions
 }
 
@@ -38,9 +43,11 @@ if (!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && config['featureFlags:reduxLo
 delete window.__PRELOADED_STATE__
 
 // Create Redux store with initial state
-const store = createStore(combineReducers(reducers), preloadedState, composeEnhancers(
-  applyMiddleware(...middleware)
-))
+const store = createStore(
+  combineReducers(reducers),
+  preloadedState,
+  composeEnhancers(applyMiddleware(...middleware))
+)
 
 hydrate(
   <ApolloProvider client={apolloClient.getClient()}>
@@ -51,6 +58,6 @@ hydrate(
         </ScrollToTop>
       </Router>
     </Provider>
-  </ApolloProvider>
-  , document.getElementById('page')
+  </ApolloProvider>,
+  document.getElementById('page')
 )

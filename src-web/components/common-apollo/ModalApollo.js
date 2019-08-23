@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -20,7 +20,6 @@ let ShareQueryModal
 let SearchGuideModal
 
 class ModalApollo extends React.PureComponent {
-
   getMatchedModal = ({ type, open, ...rest }) => {
     switch (type) {
     case 'modal.actions.share':
@@ -36,35 +35,55 @@ class ModalApollo extends React.PureComponent {
     default:
       return null
     }
-  }
+  };
 
   getSaveAndEditQueryModal = props => {
-    SaveAndEditQueryModal = SaveAndEditQueryModal === undefined ? loadable(() => import(/* webpackChunkName: "save-edit-resource-modal-apollo" */ '../modals/SaveAndEditQueryModal')) : SaveAndEditQueryModal
+    SaveAndEditQueryModal =
+      SaveAndEditQueryModal === undefined
+        ? loadable(() =>
+            import(/* webpackChunkName: "save-edit-resource-modal-apollo" */ '../modals/SaveAndEditQueryModal')
+        )
+        : SaveAndEditQueryModal
     return this.getModal(SaveAndEditQueryModal, props)
-  }
+  };
 
   getDeleteQueryModal = props => {
-    DeleteQueryModal = DeleteQueryModal === undefined ? loadable(() => import(/* webpackChunkName: "remove-resource-modal-apollo" */ '../modals/DeleteQueryModal')) : DeleteQueryModal
+    DeleteQueryModal =
+      DeleteQueryModal === undefined
+        ? loadable(() =>
+            import(/* webpackChunkName: "remove-resource-modal-apollo" */ '../modals/DeleteQueryModal')
+        )
+        : DeleteQueryModal
     return this.getModal(DeleteQueryModal, props)
-  }
+  };
 
   getShareQueryModal = props => {
-    ShareQueryModal = ShareQueryModal === undefined ? loadable(() => import(/* webpackChunkName: "share-resource-modal-apollo" */ '../modals/ShareQueryModal')) : ShareQueryModal
+    ShareQueryModal =
+      ShareQueryModal === undefined
+        ? loadable(() =>
+            import(/* webpackChunkName: "share-resource-modal-apollo" */ '../modals/ShareQueryModal')
+        )
+        : ShareQueryModal
     return this.getModal(ShareQueryModal, props)
-  }
+  };
 
   getSearchGuideModal = props => {
-    SearchGuideModal = SearchGuideModal === undefined ? loadable(() => import(/* webpackChunkName: "info-resource-modal-apollo" */ '../modals/SearchGuideModal')) : SearchGuideModal
+    SearchGuideModal =
+      SearchGuideModal === undefined
+        ? loadable(() =>
+            import(/* webpackChunkName: "info-resource-modal-apollo" */ '../modals/SearchGuideModal')
+        )
+        : SearchGuideModal
     return this.getModal(SearchGuideModal, props)
-  }
+  };
 
-  getModal = (Component, props) => <Component {...props} />
+  getModal = (Component, props) => <Component {...props} />;
 
   render() {
     return (
       <Query query={GET_MODAL_STATE}>
-        {( { data } ) => {
-          if(_.get(data, 'modal.open')) {
+        {({ data }) => {
+          if (_.get(data, 'modal.open')) {
             return this.getMatchedModal(_.get(data, 'modal'))
           } else {
             return null

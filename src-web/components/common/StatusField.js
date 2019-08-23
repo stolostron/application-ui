@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import React from 'react'
@@ -13,9 +13,16 @@ import { Icon } from 'carbon-components-react'
 
 class StatusField extends React.PureComponent {
   static propTypes = {
-    status: PropTypes.oneOf(['ok', 'warning', 'failed', 'critical', 'offline', 'unknown']),
+    status: PropTypes.oneOf([
+      'ok',
+      'warning',
+      'failed',
+      'critical',
+      'offline',
+      'unknown'
+    ]),
     text: PropTypes.string
-  }
+  };
 
   render() {
     let iconName
@@ -36,14 +43,20 @@ class StatusField extends React.PureComponent {
       className = 'critical'
       break
     case 'unknown':
-    default :
+    default:
       className = 'unknown'
       break
     }
     return (
-      <div className='table-status-row'>
-        <div className='table-status-icon'>
-          {iconName && <Icon className={`table-status-icon__${className}`} name={iconName} description='Status Icon' /> }
+      <div className="table-status-row">
+        <div className="table-status-icon">
+          {iconName && (
+            <Icon
+              className={`table-status-icon__${className}`}
+              name={iconName}
+              description="Status Icon"
+            />
+          )}
         </div>
         <p>{this.props.text}</p>
       </div>

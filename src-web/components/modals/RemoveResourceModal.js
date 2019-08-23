@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -14,7 +14,12 @@ import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import { Checkbox, Modal, Loading, Notification } from 'carbon-components-react'
+import {
+  Checkbox,
+  Modal,
+  Loading,
+  Notification
+} from 'carbon-components-react'
 import { canCallAction } from '../../../lib/client/access-helper'
 
 class RemoveResourceModal extends React.Component {
@@ -29,7 +34,7 @@ class RemoveResourceModal extends React.Component {
       selfLink: '',
       errors: undefined,
       loading: true,
-      selected: [],
+      selected: []
     }
   }
 
@@ -39,11 +44,18 @@ class RemoveResourceModal extends React.Component {
       this.getChildResources(data.name, data.namespace, data.clusterName)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
-      canCallAction(kind[kind.length - 2], 'delete', data.namespace, apiGroup).then(response => {
+      canCallAction(
+        kind[kind.length - 2],
+        'delete',
+        data.namespace,
+        apiGroup
+      ).then(response => {
         const allowed = _.get(response, 'data.userAccess.allowed')
         this.setState({
           canRemove: allowed,
-          errors: allowed ? undefined : msgs.get('table.actions.remove.unauthorized', this.context.locale)
+          errors: allowed
+            ? undefined
+            : msgs.get('table.actions.remove.unauthorized', this.context.locale)
         })
       })
       this.setState({
@@ -58,8 +70,10 @@ class RemoveResourceModal extends React.Component {
   getChildResources(name, namespace, cluster) {
     const children = []
     const { resourceType } = this.props
-    resourceType.name === 'HCMApplication' || resourceType.name === 'HCMCompliance'
-      ? apolloClient.getResource(resourceType, {namespace, name, cluster})
+    resourceType.name === 'HCMApplication' ||
+    resourceType.name === 'HCMCompliance'
+      ? apolloClient
+        .getResource(resourceType, { namespace, name, cluster })
         .then(response => {
           const resourceData = response.data.items[0]
           // Create object specifying Application/Compliance resources that can be deleted
@@ -106,13 +120,13 @@ class RemoveResourceModal extends React.Component {
   }
 
   toggleSelected = (i, target) => {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       const currState = prevState.selected
       const index = currState.findIndex(item => item.id === target)
       currState[index].selected = !currState[index].selected
       return currState
     })
-  }
+  };
 
   handleClose() {
     const { type } = this.props
@@ -128,7 +142,7 @@ class RemoveResourceModal extends React.Component {
           list: ''
         },
         data: {
-          __typename:'ModalData',
+          __typename: 'ModalData',
           name: '',
           namespace: '',
           clusterName: '',
@@ -147,7 +161,30 @@ class RemoveResourceModal extends React.Component {
     if (!selfLink || selfLink === '') {
       const { resourceType } = this.props
       if (resourceType.name === 'HCMRelease') {
-        apolloClient.remove({kind: 'release', name, namespace, cluster}).then(res => {
+        apolloClient
+          .remove({ kind: 'release', name, namespace, cluster })
+          .then(res => {
+            if (res.errors) {
+              this.setState({
+                loading: false,
+                errors: res.errors[0].message
+              })
+            } else {
+              this.handleClose()
+            }
+          })
+      } else {
+        this.setState({
+          errors: msgs.get(
+            'modal.errors.querying.resource',
+            this.context.locale
+          )
+        })
+      }
+    } else {
+      apolloClient
+        .remove({ cluster, selfLink, childResources: [] || [] })
+        .then(res => {
           if (res.errors) {
             this.setState({
               loading: false,
@@ -157,22 +194,6 @@ class RemoveResourceModal extends React.Component {
             this.handleClose()
           }
         })
-      } else {
-        this.setState({
-          errors: msgs.get('modal.errors.querying.resource', this.context.locale)
-        })
-      }
-    } else {
-      apolloClient.remove({cluster, selfLink, childResources: [] || []}).then(res => {
-        if (res.errors) {
-          this.setState({
-            loading: false,
-            errors: res.errors[0].message
-          })
-        } else {
-          this.handleClose()
-        }
-      })
     }
   }
 
@@ -180,48 +201,50 @@ class RemoveResourceModal extends React.Component {
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
     case 'modal.remove-hcmcompliance.label':
-      return this.state.selected.length > 0
-        ? <div className='remove-app-modal-content' >
-          <div className='remove-app-modal-content-text' >
+      return this.state.selected.length > 0 ? (
+        <div className="remove-app-modal-content">
+          <div className="remove-app-modal-content-text">
             {msgs.get('modal.remove.application.confirm', [name], locale)}
           </div>
           <div>
-            {this.state.selected.map((child) => {
+            {this.state.selected.map(child => {
               return (
-                <div className='remove-app-modal-content-data' key={child.id} >
+                <div className="remove-app-modal-content-data" key={child.id}>
                   <Checkbox
                     id={child.id}
-                    checked={this.state.selected.some((i) => {return (i.id === child.id && child.selected === true)})}
+                    checked={this.state.selected.some(i => {
+                      return i.id === child.id && child.selected === true
+                    })}
                     onChange={this.toggleSelected}
                     labelText={child.label}
-                    aria-label={child.id} />
+                    aria-label={child.id}
+                  />
                 </div>
-              )}
-            )}
+              )
+            })}
           </div>
         </div>
-        : <p>
-          {msgs.get('modal.remove.confirm', [name], locale)}
-        </p>
+      ) : (
+        <p>{msgs.get('modal.remove.confirm', [name], locale)}</p>
+      )
     default:
-      return (
-        <p>
-          {msgs.get('modal.remove.confirm', [name], locale)}
-        </p>
-      )}
-  }
+      return <p>{msgs.get('modal.remove.confirm', [name], locale)}</p>
+    }
+  };
 
   render() {
     const { label, locale, open } = this.props
     const { canRemove, name, loading, errors } = this.state
-    const bodyLabel = msgs.get(label.label, locale) || msgs.get('modal.remove.resource', locale)
+    const bodyLabel =
+      msgs.get(label.label, locale) ||
+      msgs.get('modal.remove.resource', locale)
     const heading = msgs.get(label.heading, locale)
     return (
       <div>
         {loading && <Loading />}
         <Modal
           danger
-          id='remove-resource-modal'
+          id="remove-resource-modal"
           open={open}
           primaryButtonText={msgs.get(label.primaryBtn, locale)}
           secondaryButtonText={msgs.get('modal.button.cancel', locale)}
@@ -229,16 +252,14 @@ class RemoveResourceModal extends React.Component {
           modalHeading={heading}
           onRequestClose={this.handleClose.bind(this)}
           onRequestSubmit={this.handleSubmit.bind(this)}
-          role='region'
+          role="region"
           aria-label={heading}
-          primaryButtonDisabled={!canRemove} >
+          primaryButtonDisabled={!canRemove}
+        >
           <div>
-            {(errors !== undefined)
-              ? <Notification
-                kind='error'
-                title=''
-                subtitle={errors} />
-              : null}
+            {errors !== undefined ? (
+              <Notification kind="error" title="" subtitle={errors} />
+            ) : null}
           </div>
           {this.modalBody(name, label, locale)}
         </Modal>
@@ -251,10 +272,10 @@ RemoveResourceModal.propTypes = {
   data: PropTypes.object,
   label: PropTypes.shape({
     heading: PropTypes.string,
-    label: PropTypes.string,
+    label: PropTypes.string
   }),
   locale: PropTypes.string,
-  open:  PropTypes.bool,
+  open: PropTypes.bool,
   resourceType: PropTypes.object,
   type: PropTypes.string
 }

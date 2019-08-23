@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -33,22 +33,42 @@ const Modal = ({ type, open, ...rest }) => {
 }
 
 const getLogsModal = props => {
-  LogsModal = LogsModal === undefined ? loadable(() => import(/* webpackChunkName: "logs-modal" */ '../modals/LogsModal')) : LogsModal
+  LogsModal =
+    LogsModal === undefined
+      ? loadable(() =>
+          import(/* webpackChunkName: "logs-modal" */ '../modals/LogsModal')
+      )
+      : LogsModal
   return getModal(LogsModal, props)
 }
 
 const getResourceModal = props => {
-  ResourceModal = ResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "edit-resource-modal-redux" */ '../modals/ResourceModalRedux')) : ResourceModal
+  ResourceModal =
+    ResourceModal === undefined
+      ? loadable(() =>
+          import(/* webpackChunkName: "edit-resource-modal-redux" */ '../modals/ResourceModalRedux')
+      )
+      : ResourceModal
   return getModal(ResourceModal, props)
 }
 
 const getRemoveResourceModal = props => {
-  RemoveResourceModal = RemoveResourceModal === undefined ? loadable(() => import(/* webpackChunkName: "remove-resource-modal" */ '../modals/RemoveResourceModal')) : RemoveResourceModal
+  RemoveResourceModal =
+    RemoveResourceModal === undefined
+      ? loadable(() =>
+          import(/* webpackChunkName: "remove-resource-modal" */ '../modals/RemoveResourceModal')
+      )
+      : RemoveResourceModal
   return getModal(RemoveResourceModal, props)
 }
 
 const getLabelEditingModal = props => {
-  LabelEditingModal = LabelEditingModal === undefined ? loadable(() => import(/* webpackChunkName: "label-editing-modal" */ '../modals/LabelEditingModal')) : LabelEditingModal
+  LabelEditingModal =
+    LabelEditingModal === undefined
+      ? loadable(() =>
+          import(/* webpackChunkName: "label-editing-modal" */ '../modals/LabelEditingModal')
+      )
+      : LabelEditingModal
   return getModal(LabelEditingModal, props)
 }
 

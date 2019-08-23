@@ -1,30 +1,34 @@
 #!/bin/bash
 
 # Licensed Materials - Property of IBM
+# 5737-E67
 # (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
+#
+# US Government Users Restricted Rights - Use, duplication or disclosure 
+# restricted by GSA ADP Schedule Contract with IBM Corp.
 
-YEAR=2018
+YEAR=2019
 
-#LINE1="${COMMENT_PREFIX}Licensed Materials - Property of IBM"
+# LINE1="${COMMENT_PREFIX}Licensed Materials - Property of IBM"
+# LINE2="${COMMENT_PREFIX}(c) Copyright IBM Corporation ${YEAR}. All Rights Reserved."
+# LINE3="${COMMENT_PREFIX}Note to U.S. Government Users Restricted Rights:"
+# LINE4="${COMMENT_PREFIX}Use, duplication or disclosure restricted by GSA ADP Schedule"
+# LINE5="${COMMENT_PREFIX}Contract with IBM Corp."
+# CHECK3=" Note to U.S. Government Users Restricted Rights:"
+# CHECK4=" Use, duplication or disclosure restricted by GSA ADP Schedule"
+# CHECK5=" Contract with IBM Corp."
 CHECK1=" Licensed Materials - Property of IBM"
-#LINE2="${COMMENT_PREFIX}(c) Copyright IBM Corporation ${YEAR}. All Rights Reserved."
-CHECK2=" Copyright IBM Corporation 2018. All Rights Reserved."
-CHECK2a=" Copyright IBM Corporation 2017. All Rights Reserved."
-CHECK2b=" Copyright IBM Corporation 2016, 2018. All Rights Reserved."
-CHECK2c=" Copyright IBM Corporation 2017, 2018. All Rights Reserved."
-CHECK2d=" Copyright IBM Corporation 2019. All Rights Reserved."
-CHECK2e=" Copyright IBM Corporation 2017, 2019. All Rights Reserved."
-CHECK2f=" Copyright IBM Corporation 2016, 2019. All Rights Reserved."
-CHECK2g=" Copyright IBM Corporation 2018, 2019. All Rights Reserved."
-#LINE3="${COMMENT_PREFIX}Note to U.S. Government Users Restricted Rights:"
-CHECK3=" Note to U.S. Government Users Restricted Rights:"
-#LINE4="${COMMENT_PREFIX}Use, duplication or disclosure restricted by GSA ADP Schedule"
-CHECK4=" Use, duplication or disclosure restricted by GSA ADP Schedule"
-#LINE5="${COMMENT_PREFIX}Contract with IBM Corp."
-CHECK5=" Contract with IBM Corp."
+CHECK2=" 5737-E67"
+CHECK3=" Copyright IBM Corporation 2019. All Rights Reserved."
+CHECK3a=" Copyright IBM Corporation 2018. All Rights Reserved."
+CHECK3b=" Copyright IBM Corporation 2017. All Rights Reserved."
+CHECK3c=" Copyright IBM Corporation 2016, 2018. All Rights Reserved."
+CHECK3d=" Copyright IBM Corporation 2016, 2019. All Rights Reserved."
+CHECK3e=" Copyright IBM Corporation 2017, 2018. All Rights Reserved."
+CHECK3f=" Copyright IBM Corporation 2017, 2019. All Rights Reserved."
+CHECK3g=" Copyright IBM Corporation 2018, 2019. All Rights Reserved."
+CHECK4=" US Government Users Restricted Rights - Use, duplication or disclosure"
+CHECK5=" restricted by GSA ADP Schedule Contract with IBM Corp."
 
 #LIC_ARY to scan for
 LIC_ARY=("$CHECK1" "$CHECK2" "$CHECK3" "$CHECK4" "$CHECK5")
@@ -62,23 +66,23 @@ for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./pu
     else
       #Validate the copyright line being checked is present
       if [[ $i == 1
-        && "$HEADER" != *"${CHECK2}"*
-        && "$HEADER" != *"${CHECK2a}"*
-        && "$HEADER" != *"${CHECK2b}"*
-        && "$HEADER" != *"${CHECK2c}"*
-        && "$HEADER" != *"${CHECK2d}"*
-        && "$HEADER" != *"${CHECK2e}"*
-        && "$HEADER" != *"${CHECK2f}"*
-        && "$HEADER" != *"${CHECK2g}"* ]]; then
+        && "$HEADER" != *"${CHECK3}"*
+        && "$HEADER" != *"${CHECK3a}"*
+        && "$HEADER" != *"${CHECK3b}"*
+        && "$HEADER" != *"${CHECK3c}"*
+        && "$HEADER" != *"${CHECK3d}"*
+        && "$HEADER" != *"${CHECK3e}"*
+        && "$HEADER" != *"${CHECK3f}"*
+        && "$HEADER" != *"${CHECK3g}"* ]]; then
         printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break
       fi
-      if [[ "$HEADER" != *"${LIC_ARY[$i]}"* && $i != 1 ]]; then
-        printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
-        ERROR=1
-        break
-      fi
+      # if [[ "$HEADER" != *"${LIC_ARY[$i]}"* && $i != 1 ]]; then
+      #   printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
+      #   ERROR=1
+      #   break
+      # fi
     fi
   done
 done

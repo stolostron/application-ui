@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -29,21 +29,25 @@ router.get('/livenessProbe', (req, res) => {
 })
 
 router.get('/readinessProbe', (req, res) => {
-  const iamPlatformIdentity = iamClient.getPlatformIdentity.bind(iamClient, req)
+  const iamPlatformIdentity = iamClient.getPlatformIdentity.bind(
+    iamClient,
+    req
+  )
   const header = headerClient.checkStatus.bind(headerClient, req)
   const calls = [iamPlatformIdentity, header]
-  async.parallel(
-    calls, (err) => {
-      let statusCode
-      if (err) {
-        logger.error(`GET ${req.path} ${err.message} ${err.statusCode || 500}`)
-        statusCode = err.statusCode
-      } else {
-        logger.debug(req.path)
-        statusCode = res.statusCode
-      }
-      return res.sendStatus(statusCode >= 100 && statusCode < 600 ? statusCode : 500)
-    })
+  async.parallel(calls, err => {
+    let statusCode
+    if (err) {
+      logger.error(`GET ${req.path} ${err.message} ${err.statusCode || 500}`)
+      statusCode = err.statusCode
+    } else {
+      logger.debug(req.path)
+      statusCode = res.statusCode
+    }
+    return res.sendStatus(
+      statusCode >= 100 && statusCode < 600 ? statusCode : 500
+    )
+  })
 })
 
 module.exports = router

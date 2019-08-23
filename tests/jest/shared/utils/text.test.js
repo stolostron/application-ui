@@ -1,13 +1,17 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import { truncateByWordLength, LC, getTranslation } from'../../../../src-web/shared/utils/text'
+import {
+  truncateByWordLength,
+  LC,
+  getTranslation
+} from '../../../../src-web/shared/utils/text'
 
 describe('text truncateByWordLength', () => {
   it('should return text as expected', () => {
@@ -18,7 +22,6 @@ describe('text truncateByWordLength', () => {
     expect(truncateByWordLength('hello world', 20)).toBe('hello world.')
   })
 })
-
 
 describe('text LC', () => {
   it('should return text as expected', () => {
@@ -34,10 +37,8 @@ describe('text LC', () => {
   })
 })
 
-
 describe('text getTranslation', () => {
   it('should return text as expected', () => {
     expect(getTranslation('action', 'US-en')).toBe('Action')
   })
 })
-

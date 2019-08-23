@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -27,21 +27,27 @@ describe('topology reducer with topology name', () => {
       },
       type: Actions.RESOURCE_REQUEST
     }
-    const expectedValue = {'fetchFilters': undefined, 'loaded': false, 'reloading': undefined, 'status': 'IN_PROGRESS', 'test': 'test'}
+    const expectedValue = {
+      fetchFilters: undefined,
+      loaded: false,
+      reloading: undefined,
+      status: 'IN_PROGRESS',
+      test: 'test'
+    }
     expect(topology(state, action)).toEqual(expectedValue)
   })
 
   it('should return a state with DONE status', () => {
     const state = {
       test: 'test',
-      activeFilters: 'noApplication',
+      activeFilters: 'noApplication'
     }
     const action = {
       resourceType: {
         name: RESOURCE_TYPES.HCM_TOPOLOGY.name
       },
       type: Actions.RESOURCE_RECEIVE_SUCCESS,
-      fetchFilters: 'receivedApplication',
+      fetchFilters: 'receivedApplication'
     }
     const expectedValue = {
       links: undefined,
@@ -51,7 +57,12 @@ describe('topology reducer with topology name', () => {
       reloading: false,
       test: 'test',
       activeFilters: 'receivedApplication',
-      buffer: {hadNodes: false, href: 'http://localhost/', links: undefined, nodes: []}
+      buffer: {
+        hadNodes: false,
+        href: 'http://localhost/',
+        links: undefined,
+        nodes: []
+      }
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })
@@ -124,7 +135,7 @@ describe('topology reducer', () => {
               provider: 'IBM',
               purpose: 'test',
               runtime: 'kubernetes'
-            },
+            }
           },
           __typename: 'Cluster'
         }
@@ -132,7 +143,7 @@ describe('topology reducer', () => {
       namespaces: [
         {
           metadata: {
-            name: 'default',
+            name: 'default'
           },
           __typename: 'Namespace'
         }
@@ -186,7 +197,7 @@ describe('topology reducer', () => {
           { label: 'container' },
           { label: 'daemonset' },
           { label: 'statefulset' },
-          { label: 'other' },
+          { label: 'other' }
         ]
       },
       otherTypeFilters: [],

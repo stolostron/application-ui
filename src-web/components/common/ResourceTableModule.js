@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -16,7 +16,10 @@ import { Module, ModuleHeader, ModuleBody } from 'carbon-addons-cloud-react'
 import lodash from 'lodash'
 import { fetchResource } from '../../actions/common'
 import msgs from '../../../nls/platform.properties'
-import { getSingleResourceItem, resourceItemByName } from '../../reducers/common'
+import {
+  getSingleResourceItem,
+  resourceItemByName
+} from '../../reducers/common'
 import ResourceTable from '../../components/common/ResourceTable'
 import TableHelper from '../../util/table-helper'
 
@@ -27,15 +30,18 @@ class ResourceTableModule extends React.Component {
     normalizedKey: PropTypes.string,
     resourceType: PropTypes.object,
     staticResourceData: PropTypes.object,
-    tableResources: PropTypes.array,
-  }
+    tableResources: PropTypes.array
+  };
 
   constructor(props) {
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
     this.handleSort = this.handleSort.bind(this)
     this.formatResourceData = this.formatResourceData.bind(this)
-    this.handleSearch=TableHelper.handleInputValue.bind(this, this.handleSearch)
+    this.handleSearch = TableHelper.handleInputValue.bind(
+      this,
+      this.handleSearch
+    )
     this.state = {
       resourceItems: {},
       resourceIds: [],
@@ -58,7 +64,12 @@ class ResourceTableModule extends React.Component {
   render() {
     const { staticResourceData, definitionsKey, resourceType } = this.props
     const keys = staticResourceData[definitionsKey]
-    const { resourceItems, resourceIds, searchValue, sortDirection } = this.state
+    const {
+      resourceItems,
+      resourceIds,
+      searchValue,
+      sortDirection
+    } = this.state
     return (
       <Module id={`${definitionsKey}-module-id`}>
         <ModuleHeader>{msgs.get(keys.title, this.context.locale)}</ModuleHeader>
@@ -84,7 +95,16 @@ class ResourceTableModule extends React.Component {
     const { normalizedKey } = this.props
     if (inputData) tableResources = inputData
     const { searchValue } = this.state
-    let normalizedItems = tableResources && lodash.keyBy(tableResources, repo => normalizedKey? lodash.get(repo, normalizedKey) + (repo.cluster ? repo.cluster : '') : repo.name)
+    let normalizedItems =
+      tableResources &&
+      lodash.keyBy(
+        tableResources,
+        repo =>
+          normalizedKey
+            ? lodash.get(repo, normalizedKey) +
+              (repo.cluster ? repo.cluster : '')
+            : repo.name
+      )
     let itemIds = normalizedItems && Object.keys(normalizedItems)
     if (searchValue) {
       itemIds = itemIds.filter(repo => repo.includes(searchValue))
@@ -97,7 +117,7 @@ class ResourceTableModule extends React.Component {
     if (!searchValue) {
       return this.setState({ searchValue: '' }, this.formatResourceData)
     }
-    this.setState((prevState) => {
+    this.setState(prevState => {
       let resItems = prevState.resourceItems
       let resIds = prevState.resourceIds
       resIds = resIds.filter(repo => repo.includes(searchValue))
@@ -112,9 +132,14 @@ class ResourceTableModule extends React.Component {
       const resourceKeys = staticResourceData[definitionsKey]
       const { resources, sortDirection } = this.state
       const selectedKey = lodash.get(key, 'target.dataset.key')
-      const sortKey = resourceKeys.tableKeys.find(tableKey => tableKey.resourceKey === selectedKey).resourceKey
+      const sortKey = resourceKeys.tableKeys.find(
+        tableKey => tableKey.resourceKey === selectedKey
+      ).resourceKey
       const sortedRes = lodash.orderBy(resources, [sortKey], [sortDirection])
-      this.setState({ resources: sortedRes, sortDirection: sortDirection === 'asc' ? 'desc' : 'asc' })
+      this.setState({
+        resources: sortedRes,
+        sortDirection: sortDirection === 'asc' ? 'desc' : 'asc'
+      })
     }
   }
 }
@@ -124,8 +149,19 @@ ResourceTableModule.contextTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { resourceType, params: {name, namespace}, staticResourceData, definitionsKey } = ownProps
-  const resourceItem = getSingleResourceItem(state, { storeRoot: resourceType.list, name, resourceType, predicate: resourceItemByName, namespace })
+  const {
+    resourceType,
+    params: { name, namespace },
+    staticResourceData,
+    definitionsKey
+  } = ownProps
+  const resourceItem = getSingleResourceItem(state, {
+    storeRoot: resourceType.list,
+    name,
+    resourceType,
+    predicate: resourceItemByName,
+    namespace
+  })
   const resourceKey = staticResourceData[definitionsKey].resourceKey
   const normalizedKey = staticResourceData[definitionsKey].normalizedKey
   const tableResources = resourceItem[resourceKey]
@@ -136,10 +172,12 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { resourceType, params: {name, namespace} } = ownProps
+  const { resourceType, params: { name, namespace } } = ownProps
   return {
-    fetchResources: () => dispatch(fetchResource(resourceType, namespace, name ))
+    fetchResources: () => dispatch(fetchResource(resourceType, namespace, name))
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResourceTableModule))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ResourceTableModule)
+)

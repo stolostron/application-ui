@@ -1,13 +1,13 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import { callOnEnter } from'../../../../src-web/shared/utils/event'
+import { callOnEnter } from '../../../../src-web/shared/utils/event'
 
 describe('event callOnEnter', () => {
   const fn = jest.fn()
@@ -17,13 +17,12 @@ describe('event callOnEnter', () => {
   })
 
   it('call back should not be executed', () => {
-    callOnEnter(fn)({key: 'Click'})
+    callOnEnter(fn)({ key: 'Click' })
     expect(fn).not.toHaveBeenCalled()
   })
 
   it('call back should be executed', () => {
-    callOnEnter(fn)({key: 'Enter'})
+    callOnEnter(fn)({ key: 'Enter' })
     expect(fn).toHaveBeenCalled()
   })
 })
-

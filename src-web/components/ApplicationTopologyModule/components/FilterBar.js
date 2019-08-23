@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -21,31 +21,32 @@ resources(() => {
 })
 
 class FilterBar extends React.Component {
-
   static propTypes = {
     activeFilters: PropTypes.array,
     availableFilters: PropTypes.array,
     onChange: PropTypes.func,
     tooltipMap: PropTypes.object,
-    typeToShapeMap: PropTypes.object,
-  }
+    typeToShapeMap: PropTypes.object
+  };
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      activeFilters: _.cloneDeep(props.activeFilters||[])
+      activeFilters: _.cloneDeep(props.activeFilters || [])
     }
   }
 
-  handleClick = (label) => {
-    this.setState((prevState) => {
+  handleClick = label => {
+    this.setState(prevState => {
       // change check immediately
       const activeFilters = _.cloneDeep(prevState.activeFilters)
-      const idx = activeFilters.findIndex(({label:active})=>active===label)
-      if (idx!==-1) {
+      const idx = activeFilters.findIndex(
+        ({ label: active }) => active === label
+      )
+      if (idx !== -1) {
         activeFilters.splice(idx, 1)
       } else {
-        activeFilters.push({label})
+        activeFilters.push({ label })
       }
 
       // but give the user the chance to click something else
@@ -59,30 +60,37 @@ class FilterBar extends React.Component {
 
       return { activeFilters }
     })
+  };
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      activeFilters: _.cloneDeep(nextProps.activeFilters || [])
+    })
   }
 
-  componentWillReceiveProps(nextProps){
-    this.setState({ activeFilters: _.cloneDeep(nextProps.activeFilters||[]) })
-  }
-
-  shouldComponentUpdate(nextProps, nextState){
-    return !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
-    !_.isEqual(this.state.activeFilters, nextState.activeFilters) ||
-    !_.isEqual(this.props.tooltipMap, nextProps.tooltipMap)
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
+      !_.isEqual(this.state.activeFilters, nextState.activeFilters) ||
+      !_.isEqual(this.props.tooltipMap, nextProps.tooltipMap)
+    )
   }
 
   render() {
-    const {locale} = this.context
-    const {activeFilters} = this.state
-    const {availableFilters, typeToShapeMap, tooltipMap={} } = this.props
+    const { locale } = this.context
+    const { activeFilters } = this.state
+    const { availableFilters, typeToShapeMap, tooltipMap = {} } = this.props
     return (
-      <div className='filter-bar'>
-        {availableFilters.map(({label}) => {
-          const selected = !!activeFilters.find(({label: active})=> label===active)
+      <div className="filter-bar">
+        {availableFilters.map(({ label }) => {
+          const selected = !!activeFilters.find(
+            ({ label: active }) => label === active
+          )
           const displayName = msgs.get(`filterbar.type.${label}`, locale)
           return (
-            <FilterButton key={label} label={label}
+            <FilterButton
+              key={label}
+              label={label}
               displayName={displayName}
               selected={selected}
               typeToShapeMap={typeToShapeMap}
@@ -103,45 +111,69 @@ class FilterButton extends React.Component {
     label: PropTypes.string,
     selected: PropTypes.bool,
     tooltip: PropTypes.string,
-    typeToShapeMap: PropTypes.object,
-  }
+    typeToShapeMap: PropTypes.object
+  };
 
   handleClick = () => {
     document.activeElement.blur()
     this.props.handleClick(this.props.label)
-  }
+  };
 
-  handleKeyPress = (e) => {
-    if ( e.key === 'Enter') {
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
       this.props.handleClick(this.props.label)
     }
-  }
+  };
 
-  shouldComponentUpdate(nextProps){
-    return this.props.selected !== nextProps.selected ||
-      this.props.tooltip!==nextProps.tooltip
+  shouldComponentUpdate(nextProps) {
+    return (
+      this.props.selected !== nextProps.selected ||
+      this.props.tooltip !== nextProps.tooltip
+    )
   }
   render() {
-    const {displayName, label, tooltip, selected, typeToShapeMap} = this.props
-    const {shape='circle', className='default'} =  typeToShapeMap[label]||{}
+    const {
+      displayName,
+      label,
+      tooltip,
+      selected,
+      typeToShapeMap
+    } = this.props
+    const { shape = 'circle', className = 'default' } =
+      typeToShapeMap[label] || {}
     return (
-      <div className='filter-bar-button-container' key={label} title={tooltip||''}>
-        <div className='filter-bar-button'
-          aria-checked={selected}  tabIndex='0' role={'checkbox'}
-          aria-label={msgs.get(selected ? 'select' : 'unselect', this.context.locale)}
-          onClick={this.handleClick} onKeyPress={this.handleKeyPress} >
+      <div
+        className="filter-bar-button-container"
+        key={label}
+        title={tooltip || ''}
+      >
+        <div
+          className="filter-bar-button"
+          aria-checked={selected}
+          tabIndex="0"
+          role={'checkbox'}
+          aria-label={msgs.get(
+            selected ? 'select' : 'unselect',
+            this.context.locale
+          )}
+          onClick={this.handleClick}
+          onKeyPress={this.handleKeyPress}
+        >
           <svg width="16px" height="16px">
-            <use href={`#diagramShapes_${shape}`} className={`${className} filter-bar-button-icon`}></use>
+            <use
+              href={`#diagramShapes_${shape}`}
+              className={`${className} filter-bar-button-icon`}
+            />
           </svg>
-          <div className='filter-bar-button-label'>
-            {displayName}
-          </div>
+          <div className="filter-bar-button-label">{displayName}</div>
         </div>
-        {selected && <div className='filter-bar-button-checkmark'>
-          <svg width="8px" height="8px">
-            <use href={'#diagramIcons_checkmark'}></use>
-          </svg>
-        </div>}
+        {selected && (
+          <div className="filter-bar-button-checkmark">
+            <svg width="8px" height="8px">
+              <use href={'#diagramIcons_checkmark'} />
+            </svg>
+          </div>
+        )}
       </div>
     )
   }

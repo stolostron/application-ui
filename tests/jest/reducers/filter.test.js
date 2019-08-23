@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -27,7 +27,11 @@ describe('filter reducer', () => {
         clusterLabels: 'test'
       }
     }
-    const expectedValue = {'filters': {'clusterLabels': 'test', 'clusterNames': undefined}, 'status': 'DONE', 'test': 'test'}
+    const expectedValue = {
+      filters: { clusterLabels: 'test', clusterNames: undefined },
+      status: 'DONE',
+      test: 'test'
+    }
     expect(resourceFilters(state, action)).toEqual(expectedValue)
   })
 
@@ -39,9 +43,9 @@ describe('filter reducer', () => {
     const action = {
       type: Actions.RESOURCE_FILTERS_UPDATE,
       resourceName: 'test',
-      selectedFilters:{}
+      selectedFilters: {}
     }
-    const expectedValue = {'selectedFilters': {'test': {}}, 'test': 'test'}
+    const expectedValue = { selectedFilters: { test: {} }, test: 'test' }
     expect(resourceFilters(state, action)).toEqual(expectedValue)
   })
 })

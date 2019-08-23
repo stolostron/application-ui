@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -15,7 +15,6 @@ import _ from 'lodash'
 import msgs from '../../../nls/platform.properties'
 
 class FilterableMultiSelect extends React.Component {
-
   static propTypes = {
     activeFilters: PropTypes.array,
     availableFilters: PropTypes.array,
@@ -24,21 +23,22 @@ class FilterableMultiSelect extends React.Component {
     filterType: PropTypes.string,
     onChange: PropTypes.func,
     title: PropTypes.string
-  }
+  };
   /**
    * The <MultiSelect> component uses a shallow compare when computing which items
    * are selected. This function helps to make sure that the array of selected items
    * reference the objects from the items array for the shallow compare to work.
    */
   getSelectedFilters = (items = [], selected = []) =>
-    items.filter(i => selected.find(f => i.label === f.label))
-
+    items.filter(i => selected.find(f => i.label === f.label));
 
   handleFilter = selection => {
     // if menu is still open don't update until its gone
     // unfortunately MultiSelect.Filterable doesn't have an onClose
-    const menu = this.multiSelectDiv.getElementsByClassName('bx--list-box__menu')
-    if (menu && menu.length>0) {
+    const menu = this.multiSelectDiv.getElementsByClassName(
+      'bx--list-box__menu'
+    )
+    if (menu && menu.length > 0) {
       this.selectedItems = selection.selectedItems
       if (!this.observer) {
         this.observer = new MutationObserver(() => {
@@ -53,11 +53,11 @@ class FilterableMultiSelect extends React.Component {
     } else {
       this.props.onChange(this.props.filterType, selection.selectedItems)
     }
-  }
+  };
 
   sortItems = items => {
     const activeMap = _.keyBy(this.props.activeFilters, 'label')
-    return items.sort(({label:al}, {label:bl})=>{
+    return items.sort(({ label: al }, { label: bl }) => {
       if (activeMap[al] && !activeMap[bl]) {
         return -1
       } else if (!activeMap[al] && activeMap[bl]) {
@@ -65,47 +65,50 @@ class FilterableMultiSelect extends React.Component {
       }
       return al.localeCompare(bl)
     })
-  }
+  };
 
-  componentDidMount () {
+  componentDidMount() {
     this.handleMouseFunc = this.handleMouse.bind(this)
     window.addEventListener('mouseup', this.handleMouseFunc, true)
     this.updateTooltip()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('mouseup', this.handleMouseFunc, true)
   }
 
-  handleMouse (event) {
+  handleMouse(event) {
     // make sure dropdown is closed when clicking outside
     if (this.multiSelectDiv && !this.multiSelectDiv.contains(event.target)) {
       this.multiSelectCmp.handleOnOuterClick()
     }
   }
 
-  updateTooltip () {
+  updateTooltip() {
     if (this.multiSelectCmp) {
       this.multiSelectCmp.inputNode.title = this.tooltip.join('\n')
     }
   }
 
-  shouldComponentUpdate(nextProps){
-    return !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
-    !_.isEqual(this.props.availableFilters, nextProps.availableFilters)
+  shouldComponentUpdate(nextProps) {
+    return (
+      !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||
+      !_.isEqual(this.props.availableFilters, nextProps.availableFilters)
+    )
   }
 
   render() {
     const {
       title,
       availableFilters,
-      activeFilters=[],
+      activeFilters = [],
       fetching,
-      failure} = this.props
+      failure
+    } = this.props
 
     // if an active filter is not an available filter, add it so user can delete it
     const availMap = _.keyBy(availableFilters, 'label')
-    activeFilters.forEach(acf=>{
+    activeFilters.forEach(acf => {
       if (!availMap[acf.label]) {
         availableFilters.push(acf)
       }
@@ -124,19 +127,21 @@ class FilterableMultiSelect extends React.Component {
     // set id to title for testing
     return (
       <div
-        className='multi-select-filter'
+        className="multi-select-filter"
         ref={this.saveMultiSelectDiv}
-        role='region'
+        role="region"
         aria-label={title}
-        id={title}>
-        <div className='multi-select-filter-title'>
-          {title}
-        </div>
+        id={title}
+      >
+        <div className="multi-select-filter-title">{title}</div>
         <MultiSelect.Filterable
           ref={this.saveMultiSelectCmp}
           placeholder={this.tooltip.join(', ')}
           items={availableFilters}
-          initialSelectedItems={this.getSelectedFilters(availableFilters, activeFilters)}
+          initialSelectedItems={this.getSelectedFilters(
+            availableFilters,
+            activeFilters
+          )}
           sortItems={this.sortItems}
           onChange={this.handleFilter}
           disabled={fetching}
@@ -147,11 +152,11 @@ class FilterableMultiSelect extends React.Component {
 
   saveMultiSelectDiv = ref => {
     this.multiSelectDiv = ref
-  }
+  };
 
   saveMultiSelectCmp = ref => {
     this.multiSelectCmp = ref
-  }
+  };
 }
 
 export default FilterableMultiSelect

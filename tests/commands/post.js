@@ -1,19 +1,19 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 const util = require('util')
 const events = require('events')
 
-function post () {}
+function post() {}
 util.inherits(post, events.EventEmitter)
 
-post.prototype.command = function (url, body, auth, cb) {
+post.prototype.command = function(url, body, auth, cb) {
   const self = this
   const request = require('../../lib/server/request')
 
@@ -31,8 +31,7 @@ post.prototype.command = function (url, body, auth, cb) {
   }
 
   request(options, null, [200, 201, 204], (err, res) => {
-    if (err)
-      return cb(err, null)
+    if (err) return cb(err, null)
     cb(err, res.statusCode)
     self.emit('complete')
   })

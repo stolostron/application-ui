@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -404,7 +404,13 @@ class ResourceTable extends React.Component {
   handleActionClick(action, resourceType, item, history) {
     //const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
     if (action === 'table.actions.application.edit') {
-      this.props.getResourceAction(action, item, null, history, this.props.locale)
+      this.props.getResourceAction(
+        action,
+        item,
+        null,
+        history,
+        this.props.locale
+      )
     } else {
       const client = apolloClient.getClient()
       const name = _.get(item, 'name', '')
@@ -421,7 +427,7 @@ class ResourceTable extends React.Component {
             list: resourceType.list
           },
           data: {
-            __typename:'ModalData',
+            __typename: 'ModalData',
             name,
             namespace,
             clusterName: _.get(item, 'cluster', ''),

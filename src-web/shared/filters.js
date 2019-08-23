@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import { createSelector } from 'reselect'
@@ -14,7 +14,7 @@ const pipe = fns => arg => fns.reduce((accum, fn) => fn(accum), arg)
 
 // empty if it is: [], {}, null, undefined.
 // Lodash's isEmpty does not work for this case, because lodash.isEmpty(boolean) === true
-const isMatchValueEmpty = (el) => {
+const isMatchValueEmpty = el => {
   return (
     typeof el !== 'boolean' &&
     (el === undefined || el === null || !el.length || !Object.keys(el).length)
@@ -23,12 +23,12 @@ const isMatchValueEmpty = (el) => {
 
 // create case-insensitive filter function that consumes an array of objects.
 export const createFilter = (matchKey, matchValues) => {
-  return (dataToFilter) => {
+  return dataToFilter => {
     if (isMatchValueEmpty(matchValues)) {
       return dataToFilter
     }
     const matchValueArr = wrapWithArr(matchValues)
-    return dataToFilter.filter((eachObj) => {
+    return dataToFilter.filter(eachObj => {
       // the object could have many keys, but we only care about the one we specified.
       const dataValueArr = wrapWithArr(eachObj[matchKey]) // properties on the object
       // compare arrays and see if there is match.
@@ -48,7 +48,7 @@ export const createFilter = (matchKey, matchValues) => {
  *  e.g.  [createFilter(ages, [14, 16]), createFilter(isAuthorized, true)]
  */
 const createSimpleMatchFilters = (filterMapObj = {}) => {
-  const filters = Object.keys(filterMapObj).map((eachFilterKey) => {
+  const filters = Object.keys(filterMapObj).map(eachFilterKey => {
     return createFilter(eachFilterKey, filterMapObj[eachFilterKey])
   })
   return filters
@@ -64,23 +64,22 @@ export const searchObjArr = (term, arr) => {
 export const multiFilter = (data = [], filterObj, searchStr) => {
   const filteredArr = pipe([
     ...createSimpleMatchFilters(filterObj),
-    (...args) => searchObjArr(searchStr, ...args),
+    (...args) => searchObjArr(searchStr, ...args)
   ])(data)
   return filteredArr
 }
-
 
 // resources mapper for the data that comes with /charts/ call.
 const mapResources = items =>
   items.map(({ Name, RepoName, URLs }) => ({
     name: Name,
     url: URLs && URLs.length && URLs[0],
-    repoName: RepoName,
+    repoName: RepoName
   }))
 
 const mappedItemsSelector = createSelector(
   ({ items }) => items,
-  items => mapResources(items),
+  items => mapResources(items)
 )
 
 // for performance reasons, we only want to run maps and filters when the properties we care about change.
@@ -88,8 +87,8 @@ export const mapAndMultiFilterResoucesSelector = createSelector(
   [mappedItemsSelector, ({ filters }) => filters],
   (items, filters) => {
     const filterObj = {
-      repoName: filters.selectedRepos,
+      repoName: filters.selectedRepos
     }
     return multiFilter(items, filterObj, filters.searchText)
-  },
+  }
 )

@@ -1,42 +1,40 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
 import _ from 'lodash'
 import { FilterResults } from './constants.js'
 
-
 export default class FilterHelper {
-
   constructor() {
     this.lastSearch = ''
     this.lastActiveFilters = null
   }
 
-  filterByName = (cy, collections, searchName='', cbs) => {
+  filterByName = (cy, collections, searchName = '', cbs) => {
     // reset previous search
     this.cy = cy
     let searchNames = []
-    const isSearching = searchName.length>0
-    const isNewSearch = searchName.localeCompare(this.lastSearch)!==0
+    const isSearching = searchName.length > 0
+    const isNewSearch = searchName.localeCompare(this.lastSearch) !== 0
     if (this.lastSearch && isNewSearch) {
-      ['connected', 'unconnected'].forEach(key=>{
-        collections[key].forEach(({elements})=>{
-          elements.forEach(element=>{
+      ['connected', 'unconnected'].forEach(key => {
+        collections[key].forEach(({ elements }) => {
+          elements.forEach(element => {
             const data = element.data()
             let layout
             if (element.isNode()) {
-              ({layout} = data.node)
+              ({ layout } = data.node)
             } else {
-              ({layout} = data.edge)
+              ({ layout } = data.edge)
             }
-            if (!searchName && layout.search===FilterResults.match) {
+            if (!searchName && layout.search === FilterResults.match) {
               layout.search = FilterResults.matched // past tense
             } else {
               layout.search = FilterResults.nosearch
@@ -61,46 +59,58 @@ export default class FilterHelper {
     }
 
     // filter by name
-    let directedPath=false
+    let directedPath = false
     if (isSearching) {
-      this.caseSensitive = searchName.localeCompare(searchName.toLowerCase()) !== 0
+      this.caseSensitive =
+        searchName.localeCompare(searchName.toLowerCase()) !== 0
       if (!this.caseSensitive) {
         searchName = searchName.toLowerCase()
       }
-      ({searchNames, directedPath} = getSearchNames(searchName))
+      ({ searchNames, directedPath } = getSearchNames(searchName))
       if (directedPath) {
-        collections['connected'] = this.findConnectedPath(collections['connected'], searchNames)
-        collections['unconnected'] = this.hideUnconnected(collections['unconnected'])
+        collections['connected'] = this.findConnectedPath(
+          collections['connected'],
+          searchNames
+        )
+        collections['unconnected'] = this.hideUnconnected(
+          collections['unconnected']
+        )
       } else {
-        searchNames = searchNames.filter(s=>!!s)
-        collections['connected'] = this.filterConnected(collections['connected'], searchNames)
-        collections['unconnected'] = this.filterUnconnected(collections['unconnected'], searchNames)
+        searchNames = searchNames.filter(s => !!s)
+        collections['connected'] = this.filterConnected(
+          collections['connected'],
+          searchNames
+        )
+        collections['unconnected'] = this.filterUnconnected(
+          collections['unconnected'],
+          searchNames
+        )
       }
     }
     this.lastSearch = searchName
 
-    return {searchNames, directedPath}
-  }
+    return { searchNames, directedPath }
+  };
 
   findConnectedPath = (connected, searchNames) => {
     return connected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
       const elementMap = {}
-      elements.toArray().forEach(element=>{
-        const {id} = element.data()
+      elements.toArray().forEach(element => {
+        const { id } = element.data()
         elementMap[id] = element
       })
 
       // find matching sources and targets
       let srcs = []
       let tgts = []
-      Object.values(elementMap).forEach(element=>{
+      Object.values(elementMap).forEach(element => {
         if (element.isNode()) {
           const name = this.getName(element)
-          const arr = [0,1]
-          arr.forEach(idx=>{
-            if (searchNames[idx] && name.indexOf(searchNames[idx]) !==-1) {
-              if (idx===0) {
+          const arr = [0, 1]
+          arr.forEach(idx => {
+            if (searchNames[idx] && name.indexOf(searchNames[idx]) !== -1) {
+              if (idx === 0) {
                 srcs.push(element)
               } else {
                 tgts.push(element)
@@ -112,7 +122,7 @@ export default class FilterHelper {
 
       const relatedMap = {}
       const matchingMap = {}
-      if (srcs.length>0 || tgts.length>0) {
+      if (srcs.length > 0 || tgts.length > 0) {
         // if 1st search name is blank, add roots to source
         if (!searchNames[0]) {
           srcs = elements.roots()
@@ -123,17 +133,16 @@ export default class FilterHelper {
         }
 
         // if this collection has both a matching source and target, see if there's a path between them
-        if (srcs.length>0 && tgts.length>0) {
-
+        if (srcs.length > 0 && tgts.length > 0) {
           // use floydWarshall algo from cytoscape to find paths between two nodes
-          const floydWarshall = elements.floydWarshall({directed:true})
-          srcs.forEach(src=>{
-            tgts.forEach(tgt=>{
-              if (src.data().id!==tgt.data().id) {
-                const path = floydWarshall.path(src, tgt)||[]
-                path.forEach((element, idx, arr)=>{
-                  const {id} = element.data()
-                  if (idx===0 || idx===arr.length-1) {
+          const floydWarshall = elements.floydWarshall({ directed: true })
+          srcs.forEach(src => {
+            tgts.forEach(tgt => {
+              if (src.data().id !== tgt.data().id) {
+                const path = floydWarshall.path(src, tgt) || []
+                path.forEach((element, idx, arr) => {
+                  const { id } = element.data()
+                  if (idx === 0 || idx === arr.length - 1) {
                     matchingMap[id] = element
                   } else {
                     relatedMap[id] = element
@@ -144,10 +153,10 @@ export default class FilterHelper {
           })
 
           // are there any paths between?
-          if (Object.keys(matchingMap).length>0) {
+          if (Object.keys(matchingMap).length > 0) {
             // mark srcs and tgts that have a path between them as matches
             for (const id in matchingMap) {
-              const {node: {layout}} = matchingMap[id].data()
+              const { node: { layout } } = matchingMap[id].data()
               layout.search = FilterResults.match
               delete relatedMap[id]
               delete elementMap[id]
@@ -159,11 +168,11 @@ export default class FilterHelper {
               const data = element.data()
               let layout
               if (element.isNode()) {
-                ({layout} = data.node)
+                ({ layout } = data.node)
               } else {
-                ({layout} = data.edge)
+                ({ layout } = data.edge)
               }
-              layout.search = FilterResults.match// FilterResults.related
+              layout.search = FilterResults.match // FilterResults.related
               delete elementMap[id]
             }
           }
@@ -171,51 +180,53 @@ export default class FilterHelper {
       }
 
       // whatever is left in elementMap we hide
-      Object.values(elementMap).forEach(element=>{
+      Object.values(elementMap).forEach(element => {
         const data = element.data()
         let layout
         if (element.isNode()) {
-          ({layout} = data.node)
+          ({ layout } = data.node)
         } else {
-          ({layout} = data.edge)
+          ({ layout } = data.edge)
         }
         layout.search = FilterResults.hidden
       })
 
-      collection.elements = this.cy.add(Object.values(matchingMap).concat(Object.values(relatedMap)))
-      return collection.elements.length>0
+      collection.elements = this.cy.add(
+        Object.values(matchingMap).concat(Object.values(relatedMap))
+      )
+      return collection.elements.length > 0
     })
-  }
+  };
 
-  hideUnconnected = (unconnected) => {
+  hideUnconnected = unconnected => {
     unconnected.forEach(collection => {
-      const {elements} = collection
-      elements.nodes().forEach(element=>{
-        const {node:{layout}} = element.data()
+      const { elements } = collection
+      elements.nodes().forEach(element => {
+        const { node: { layout } } = element.data()
         layout.search = FilterResults.hidden
       })
     })
     return []
-  }
+  };
 
   filterConnected = (connected, searchNames) => {
     return connected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
       const elementMap = {}
-      elements.toArray().forEach(element=>{
-        const {id} = element.data()
+      elements.toArray().forEach(element => {
+        const { id } = element.data()
         elementMap[id] = element
       })
 
       // first find any matching nodes
       const processed = new Set()
-      const matching = Object.values(elementMap).filter(element=>{
+      const matching = Object.values(elementMap).filter(element => {
         if (element.isNode()) {
           const data = element.data()
-          const {id, node:{layout}} = data
+          const { id, node: { layout } } = data
           const name = this.getName(element)
           for (let i = 0; i < searchNames.length; i++) {
-            if (name.indexOf(searchNames[i]) !==-1) {
+            if (name.indexOf(searchNames[i]) !== -1) {
               layout.search = FilterResults.match
               processed.add(id)
               delete elementMap[id]
@@ -228,18 +239,18 @@ export default class FilterHelper {
 
       // then find related nodes and edges
       const related = []
-      matching.forEach(match=>{
+      matching.forEach(match => {
         // use cytoscape to find related nodes and their edges
-        [match.incomers(), match.outgoers()].forEach(collection=>{
-          collection.forEach(element=>{
+        [match.incomers(), match.outgoers()].forEach(collection => {
+          collection.forEach(element => {
             const data = element.data()
-            const {id} = data
+            const { id } = data
             if (!processed.has(id)) {
               let layout
               if (element.isNode()) {
-                ({layout} = data.node)
+                ({ layout } = data.node)
               } else {
-                ({layout} = data.edge)
+                ({ layout } = data.edge)
               }
               layout.search = FilterResults.related
               related.push(element)
@@ -251,33 +262,33 @@ export default class FilterHelper {
       })
 
       // whatever is left in elementMap we hide
-      Object.values(elementMap).forEach(element=>{
+      Object.values(elementMap).forEach(element => {
         const data = element.data()
         let layout
         if (element.isNode()) {
-          ({layout} = data.node)
+          ({ layout } = data.node)
         } else {
-          ({layout} = data.edge)
+          ({ layout } = data.edge)
         }
         layout.search = FilterResults.hidden
       })
 
       collection.elements = this.cy.add(matching.concat(related))
-      return collection.elements.length>0
+      return collection.elements.length > 0
     })
-  }
+  };
 
   filterUnconnected = (unconnected, searchNames) => {
     return unconnected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
 
       // find any matching nodes
-      const matching = elements.nodes().filter(element=>{
+      const matching = elements.nodes().filter(element => {
         const data = element.data()
-        const {node:{layout}} = data
+        const { node: { layout } } = data
         const name = this.getName(element)
         for (let i = 0; i < searchNames.length; i++) {
-          if (name.indexOf(searchNames[i]) !==-1) {
+          if (name.indexOf(searchNames[i]) !== -1) {
             layout.search = FilterResults.match
             return true
           }
@@ -287,29 +298,32 @@ export default class FilterHelper {
       })
 
       collection.elements = matching
-      return collection.elements.length>0
+      return collection.elements.length > 0
     })
-  }
+  };
 
   filterByType = (nodes, links, activeTypes, cbs) => {
-    if (nodes.length>0) {
-      if (this.lastActiveFilters && !_.isEqual(this.lastActiveFilters, activeTypes)) {
+    if (nodes.length > 0) {
+      if (
+        this.lastActiveFilters &&
+        !_.isEqual(this.lastActiveFilters, activeTypes)
+      ) {
         cbs.resetLayout()
       }
-      this.lastActiveFilters=activeTypes
+      this.lastActiveFilters = activeTypes
 
       // hide and remove any nodes without the right filter
       const typeFilterMap = _.keyBy(activeTypes, 'label')
       const nodeMap = _.keyBy(nodes, 'uid')
-      nodes = nodes.filter(node=>{
-        const {type, layout} = node
+      nodes = nodes.filter(node => {
+        const { type, layout } = node
         if (!typeFilterMap[type]) {
           if (layout) {
             layout.search = FilterResults.hidden
           }
           return false
         } else {
-          if (layout && layout.search!==FilterResults.matched) {
+          if (layout && layout.search !== FilterResults.matched) {
             layout.search = FilterResults.nosearch
           }
           return true
@@ -318,10 +332,12 @@ export default class FilterHelper {
 
       // hide any links that now connect to a node that is hidden
       // d3 hides the shape--easier to do then constantly creating an destroying svg elements
-      links.forEach(({source, target, layout})=>{
+      links.forEach(({ source, target, layout }) => {
         if (layout) {
-          if ((nodeMap[source].layout||{}).search === FilterResults.hidden ||
-              (nodeMap[target].layout||{}).search === FilterResults.hidden) {
+          if (
+            (nodeMap[source].layout || {}).search === FilterResults.hidden ||
+            (nodeMap[target].layout || {}).search === FilterResults.hidden
+          ) {
             layout.search = FilterResults.hidden
           } else if (layout.search === FilterResults.hidden) {
             layout.search = FilterResults.nosearch
@@ -330,34 +346,33 @@ export default class FilterHelper {
       })
     }
     return nodes
-  }
+  };
 
-
-  getName = (element) => {
-    const {node} = element.data()
+  getName = element => {
+    const { node } = element.data()
     let name = node.name
     // if not case sensative, make all lower case
     if (!this.caseSensitive) {
       name = name.toLowerCase()
     }
     // if this is a pod, don't match it uid at the end
-    if (node.type==='pod') {
+    if (node.type === 'pod') {
       name = name.split('-')
       name.pop()
       name = name.join('-')
     }
     return name
-  }
+  };
 }
 
-export const getSearchNames = (searchName) => {
+export const getSearchNames = searchName => {
   let directedPath = false
   let searchNames = searchName.split(/(\+|>)+/)
-  if (searchNames.length>1) {
-    directedPath = searchNames[1]==='>'
-    searchNames = searchNames.filter(item=>{
-      return item!=='+' && item!=='>'
+  if (searchNames.length > 1) {
+    directedPath = searchNames[1] === '>'
+    searchNames = searchNames.filter(item => {
+      return item !== '+' && item !== '>'
     })
   }
-  return {searchNames:searchNames.map(s=>s.trim()), directedPath}
+  return { searchNames: searchNames.map(s => s.trim()), directedPath }
 }

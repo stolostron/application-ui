@@ -1,25 +1,25 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import { createFilter, searchObjArr, multiFilter, mapAndMultiFilterResoucesSelector } from'../../../src-web/shared/filters'
+import {
+  createFilter,
+  searchObjArr,
+  multiFilter,
+  mapAndMultiFilterResoucesSelector
+} from '../../../src-web/shared/filters'
 
 describe('createFilter', () => {
-  const items = [
-    {key : 'k1'},
-    {key : 'k2'},
-    {key : 'k3'},
-    {key : 'k4'},
-  ]
+  const items = [{ key: 'k1' }, { key: 'k2' }, { key: 'k3' }, { key: 'k4' }]
   const matchValues = ['k1']
 
   it('should return the item has k1 as the key', () => {
-    expect(createFilter('key', matchValues)(items)).toEqual([{key: 'k1'}])
+    expect(createFilter('key', matchValues)(items)).toEqual([{ key: 'k1' }])
     expect(createFilter('key', matchValues)(items)).toHaveLength(1)
   })
 
@@ -36,7 +36,6 @@ describe('createFilter', () => {
   })
 })
 
-
 describe('searchObjArr', () => {
   it('should return single element', () => {
     expect(searchObjArr('hello', ['hello', 'world'])).toEqual(['hello'])
@@ -47,13 +46,11 @@ describe('searchObjArr', () => {
   })
 })
 
-
 describe('multiFilter', () => {
   it('should return an empty list', () => {
     expect(multiFilter()).toEqual([])
   })
 })
-
 
 describe('mapAndMultiFilterResoucesSelector', () => {
   const item = {
@@ -61,12 +58,12 @@ describe('mapAndMultiFilterResoucesSelector', () => {
       selectedRepos: 'repo',
       searchText: 'search'
     },
-    items : [
+    items: [
       {
-        name : 'name',
+        name: 'name',
         repoName: 'repo',
         url: 'url'
-      },
+      }
     ]
   }
   it('should return an empty list', () => {

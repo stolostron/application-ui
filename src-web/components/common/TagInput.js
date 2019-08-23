@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 import React from 'react'
@@ -28,7 +28,7 @@ const ARRAY_SPLITTER = ';'
 class TagInput extends React.Component {
   constructor(props) {
     super(props)
-    const { tags =[] } = this.props
+    const { tags = [] } = this.props
     this.state = {
       tags,
       modalOpen: false
@@ -60,11 +60,13 @@ class TagInput extends React.Component {
   }
 
   updateSelectedTags(tags) {
-    const { onSelectedFilterChange, availableFilters=[] } = this.props
+    const { onSelectedFilterChange, availableFilters = [] } = this.props
     const suggestions = this.convertObjectToArray(availableFilters)
     tags.forEach((item, index) => {
       if (!item.type) {
-        const suggestion = suggestions.find(element => element.name === item.name)
+        const suggestion = suggestions.find(
+          element => element.name === item.name
+        )
         if (suggestion) tags[index] = suggestion
       }
     })
@@ -81,7 +83,7 @@ class TagInput extends React.Component {
   }
 
   handleAddition(input) {
-    const { availableFilters=[] } = this.props
+    const { availableFilters = [] } = this.props
     const { tags } = this.state
     const suggestions = this.convertObjectToArray(availableFilters)
     if (input && input.name && input.name.includes(ARRAY_SPLITTER)) {
@@ -90,18 +92,23 @@ class TagInput extends React.Component {
       const tagArray = input.name.split(ARRAY_SPLITTER)
       tagArray.forEach(item => {
         const value = item.trim()
-        if (!tags.find(n => n.name === value) && !tempArray.find(n => n.name === value)) {
-          tempArray.push({name: value, id:value})
+        if (
+          !tags.find(n => n.name === value) &&
+          !tempArray.find(n => n.name === value)
+        ) {
+          tempArray.push({ name: value, id: value })
         }
       })
-      if (tempArray.length > 0) this.updateSelectedTags([...tags, ...tempArray])
+      if (tempArray.length > 0)
+        this.updateSelectedTags([...tags, ...tempArray])
     } else {
       if (!input.type) {
         // user can only add a tag which exists in suggestions
         input = suggestions.find(element => element.name === input.name)
       }
       if (!tags.find(n => n.name === input.name)) {
-        if (input && !tags.find(n => n.name === input.name)) this.updateSelectedTags([...tags, input], input)
+        if (input && !tags.find(n => n.name === input.name))
+          this.updateSelectedTags([...tags, input], input)
       }
     }
   }
@@ -131,13 +138,13 @@ class TagInput extends React.Component {
 
   handleModalOpen = () => {
     this.setState({ modalOpen: true })
-  }
+  };
 
   handleModalClose = () => {
     this.setState({ modalOpen: false })
-  }
+  };
 
-  handleModalSubmit = (selections) => {
+  handleModalSubmit = selections => {
     // WIP, waiting for Lise to finalize the design
     const { onSelectedFilterChange } = this.props
     this.setState({
@@ -145,15 +152,15 @@ class TagInput extends React.Component {
       tags: selections
     })
     onSelectedFilterChange && onSelectedFilterChange(selections)
-  }
+  };
 
   render() {
-    const { availableFilters=[], hideModalButton } = this.props
+    const { availableFilters = [], hideModalButton } = this.props
     const { tags } = this.state
     const suggestions = this.convertObjectToArray(availableFilters)
     const haveTagSelected = tags.length > 0 ? 'hasTags' : 'noTag'
     return (
-      <div className='tagInput-filter'>
+      <div className="tagInput-filter">
         <FilterModal
           selected={tags}
           availableFilters={availableFilters}
@@ -161,16 +168,21 @@ class TagInput extends React.Component {
           handleModalClose={this.handleModalClose}
           handleModalSubmit={this.handleModalSubmit}
         />
-        <div className='tagInput-searchIcon'>
+        <div className="tagInput-searchIcon">
           <Icon
-            className='icon--search'
-            name='icon--search'
+            className="icon--search"
+            name="icon--search"
             description={msgs.get('taginput.icon.search', this.context.locale)}
           />
         </div>
-        <div className={`tagInput-comboBox tagInput-comboBox__${haveTagSelected}`}>
+        <div
+          className={`tagInput-comboBox tagInput-comboBox__${haveTagSelected}`}
+        >
           <ReactTags
-            placeholder={msgs.get('placeholder.filterInput.tags', this.context.locale)}
+            placeholder={msgs.get(
+              'placeholder.filterInput.tags',
+              this.context.locale
+            )}
             tags={tags}
             suggestions={suggestions}
             handleDelete={this.handleDelete}
@@ -181,30 +193,37 @@ class TagInput extends React.Component {
             tagComponent={FilterTag}
           />
         </div>
-        <div className='tagInput-cleanButton'>
+        <div className="tagInput-cleanButton">
           <Icon
-            className='icon--close--outline'
-            name='icon--close--outline'
+            className="icon--close--outline"
+            name="icon--close--outline"
             description={msgs.get('taginput.icon.clean', this.context.locale)}
-            onClick={this.handleClearAllClick} />
+            onClick={this.handleClearAllClick}
+          />
         </div>
-        <div className='tagInput-copyButton'>
+        <div className="tagInput-copyButton">
           <CopyToClipboard text={this.onCopyButtonClick()}>
-            <CopyButton className='tagInput-button' />
+            <CopyButton className="tagInput-button" />
           </CopyToClipboard>
         </div>
-        {!hideModalButton &&
-        <div className='tagInput-filterButton'>
-          <button type="button" className="tagInput-button"
-            onClick={this.onFilterButtonClick}>
-            <Icon
-              className='icon--filter'
-              name='icon--filter'
-              description={msgs.get('taginput.icon.filter', this.context.locale)}
-            />
-          </button>
-        </div>
-        }
+        {!hideModalButton && (
+          <div className="tagInput-filterButton">
+            <button
+              type="button"
+              className="tagInput-button"
+              onClick={this.onFilterButtonClick}
+            >
+              <Icon
+                className="icon--filter"
+                name="icon--filter"
+                description={msgs.get(
+                  'taginput.icon.filter',
+                  this.context.locale
+                )}
+              />
+            </button>
+          </div>
+        )}
       </div>
     )
   }
@@ -214,7 +233,7 @@ TagInput.propTypes = {
   availableFilters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   hideModalButton: PropTypes.bool,
   onSelectedFilterChange: PropTypes.func,
-  tags: PropTypes.array,
+  tags: PropTypes.array
 }
 
 export default TagInput

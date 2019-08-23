@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
+ * 5737-E67
  * (c) Copyright IBM Corporation 2017. All Rights Reserved.
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -18,13 +18,14 @@ var express = require('express'),
     cookieUtil = require('../lib/server/cookie-util')
 
 router.get('*', (req, res) => {
-
   authClient.auth(req, (err, response) => {
-
     if (err) {
       if (err.statusCode === 400) {
         var host = req.headers['host']
-        var baseUrl = process.env.NODE_ENV !== 'development' && host ? `https://${host}` : config.get('cfcRouterUrl')
+        var baseUrl =
+          process.env.NODE_ENV !== 'development' && host
+            ? `https://${host}`
+            : config.get('cfcRouterUrl')
         cookieUtil.deleteAuthCookies(res)
         return res.redirect(`${baseUrl}/oidc/logout.jsp?error=noteam`)
       } else {
@@ -33,10 +34,13 @@ router.get('*', (req, res) => {
     }
 
     res.set('Set-Cookie', response.headers['set-cookie'])
-    logger.debug('req.cookies.redirect_uri : '+req.cookies.redirect_uri)
+    logger.debug('req.cookies.redirect_uri : ' + req.cookies.redirect_uri)
     let redirectUrl = req.cookies.redirect_uri || config.get('contextPath')
     res.clearCookie('redirect_uri')
-    redirectUrl = process.env.NODE_ENV === 'development' ? `https://localhost:3000${redirectUrl}` : redirectUrl
+    redirectUrl =
+      process.env.NODE_ENV === 'development'
+        ? `https://localhost:3000${redirectUrl}`
+        : redirectUrl
     var consoleUrl, path
     var redirectParse = url.parse(redirectUrl, true)
     if (redirectParse.pathname) {
@@ -46,13 +50,12 @@ router.get('*', (req, res) => {
       var parsedUrl = url.parse(req.cookies.icpHost, true)
       res.clearCookie('icpHost')
       if (parsedUrl.host) {
-        consoleUrl = parsedUrl.protocol+'//'+parsedUrl.host+path
+        consoleUrl = parsedUrl.protocol + '//' + parsedUrl.host + path
       }
-    }
-    else {
+    } else {
       consoleUrl = redirectUrl
     }
-    logger.debug('Final consoleUrl '+ consoleUrl+'/')
+    logger.debug('Final consoleUrl ' + consoleUrl + '/')
     res.redirect(consoleUrl)
   })
 })

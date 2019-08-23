@@ -11,7 +11,7 @@ import R from 'ramda'
 
 export const kindsToIncludeForDeployments = [
   'cluster',
-  'subscriptoin',
+  'subscription',
   'channel',
   'events',
   'application'

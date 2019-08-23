@@ -171,7 +171,7 @@ describe('getNumDeployables', () => {
 
 describe('getNumDeployments', () => {
   it('should return deployment count', () => {
-    const result = 1
+    const result = 2
     expect(getNumDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
@@ -181,7 +181,7 @@ describe('getNumDeployments', () => {
 
 describe('getNumCompletedDeployments', () => {
   it('should return completed deployment count', () => {
-    const result = 5
+    const result = 4
     expect(getNumCompletedDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {

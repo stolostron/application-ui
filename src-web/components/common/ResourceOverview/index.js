@@ -209,13 +209,18 @@ ResourceOverview.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
   const { HCMApplicationList, secondaryHeader, HCMSubscriptionList } = state
+  // Determine if single view
   const singleAppView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+  // Get the current application given it being a single view
   const currentApp = getCurrentApplication(HCMApplicationList, singleAppView)
+  // Get all the subscriptions for the current Appliction if its single view
   const subscriptionForApplication = pullOutKindPerApplication(
     currentApp,
     'subscription'
   )
+  // Now generate a list of objects that has all the resources of each subscription
+  // per channel
   const channelsWithSubscriptionTiedRelatedData = formatToChannel(
     subscriptionForApplication,
     HCMSubscriptionList

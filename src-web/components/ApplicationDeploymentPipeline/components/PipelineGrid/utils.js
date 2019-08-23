@@ -13,7 +13,8 @@ export const kindsToIncludeForDeployments = [
   'cluster',
   'subscriptoin',
   'channel',
-  'events'
+  'events',
+  'application'
 ]
 
 // A created Mapper to create the row for our application data table

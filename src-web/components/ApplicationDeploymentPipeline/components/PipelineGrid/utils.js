@@ -197,7 +197,7 @@ export const getResourcesStatusPerChannel = (
 //returns all objects of kind in the related for the specified item
 //for example pullOutRelatedPerItem(application, 'cluster') returns all clusters for this application
 export const pullOutRelatedPerItem = (item, kind) => {
-  const isKind = n => n.kind == kind
+  const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
   if (item && item.related) {
     return R.filter(isKind, item.related)
   }

@@ -121,7 +121,7 @@ describe('getAllRelatedForList', () => {
 
 describe('getResourcesStatusPerChannel', () => {
   it('should return status array per channel', () => {
-    const result = [1, 0, 0, 1, 2]
+    const result = [1, 0, 0, 1, 4]
     expect(
       getResourcesStatusPerChannel(realDataSampleWithSubscriptions, 'PICKME')
     ).toEqual(result)

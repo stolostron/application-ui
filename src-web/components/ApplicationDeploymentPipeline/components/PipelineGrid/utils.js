@@ -9,12 +9,17 @@
 
 import R from 'ramda'
 
-export const kindsToIncludeForDeployments = [
+export const kindsToExcludeForDeployments = [
   'cluster',
   'subscription',
   'channel',
   'events',
-  'application'
+  'application',
+  'deployable',
+  'placementbinding',
+  'placementrule',
+  'placementpolicy',
+  'applicationrelationship'
 ]
 
 // A created Mapper to create the row for our application data table
@@ -166,7 +171,7 @@ export const getResourcesStatusPerChannel = (
     const relatedData = deployableData.related
     // We want to pull resources data to check status
     const filterToResources = elem =>
-      !kindsToIncludeForDeployments.includes(elem.kind)
+      !kindsToExcludeForDeployments.includes(elem.kind)
     // ResourceData is an array of objects
     const resourceData = R.filter(filterToResources, relatedData)
     // Pass, Fail, InProgress, Pending, Unidentified
@@ -260,7 +265,6 @@ export const getApplicationLevelStatus = (
   }
   return appStatus
 }
-
 
 // Go through the subscriptions For This Application and determine if one of them
 // exists in the given channel

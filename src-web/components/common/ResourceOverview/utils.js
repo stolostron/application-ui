@@ -157,7 +157,7 @@ const findMatchingResource = (kind, item, appRelations) => {
 // if sepearate applications chose to put a subscription under that channel.
 //
 // -------------------------------------
-// This method is not actually used but its got some good logic we could use later
+// This method is not actually used but its got some good logic we could use later time
 // -------------------------------------
 export const getCommonResources = (channelData, appRelations) => {
   let channelFormat = []

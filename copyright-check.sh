@@ -67,19 +67,19 @@ for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./pu
       #Validate the copyright line being checked is present
       if [[ $i == 1
         && "$HEADER" != *"${CHECK3}"*
-        && "$HEADER" != *"${CHECK3a}"*
-        && "$HEADER" != *"${CHECK3b}"*
-        && "$HEADER" != *"${CHECK3c}"*
-        && "$HEADER" != *"${CHECK3d}"*
-        && "$HEADER" != *"${CHECK3e}"*
-        && "$HEADER" != *"${CHECK3f}"*
-        && "$HEADER" != *"${CHECK3g}"* ]]; then
+        || "$HEADER" != *"${CHECK3a}"*
+        || "$HEADER" != *"${CHECK3b}"*
+        || "$HEADER" != *"${CHECK3c}"*
+        || "$HEADER" != *"${CHECK3d}"*
+        || "$HEADER" != *"${CHECK3e}"*
+        || "$HEADER" != *"${CHECK3f}"*
+        || "$HEADER" != *"${CHECK3g}"* ]]; then
         printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break
       fi
       if [[ "$HEADER" != *"${LIC_ARY[$i]}"* && $i != 1 ]]; then
-        printf "[$i] [${LIC_ARY[$i]}] Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
+        printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break
       fi

@@ -36,6 +36,7 @@ import {
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
+import { showCreate } from '../../../lib/client/access-helper'
 
 /* eslint-disable react/prop-types */
 
@@ -197,7 +198,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       userRole,
       breadcrumbItems
     } = this.props
-    const hasAdminRole = userRole && userRole === 'ClusterAdministrator'
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
@@ -256,7 +256,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           }}
           id="search-1"
         />
-        {hasAdminRole && (
+        {showCreate(userRole) && (
           <span>
             <div className="AddChannelButton">{[modalChannel]}</div>
             <div className="AddSubscriptionButton">{[modalSubscription]}</div>
@@ -282,7 +282,6 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={appDropDownList}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
-          hasAdminRole={hasAdminRole}
           breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal

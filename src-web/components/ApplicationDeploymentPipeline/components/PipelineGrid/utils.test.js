@@ -10,7 +10,6 @@
 import {
   createApplicationRowsLookUp,
   findMatchingSubscription,
-  getDeployablesChannels,
   getResourcesStatusPerChannel,
   getAllRelatedForList
 } from './utils'
@@ -72,24 +71,6 @@ describe('findMatchingSubscription', () => {
   })
   it('should handle undefined object', () => {
     expect(findMatchingSubscription(undefined)).toEqual({})
-  })
-})
-
-describe('getDeployablesChannels', () => {
-  it('should return list of channels', () => {
-    const result = ['chn-gb/gbchn', 'chn-gb/gbchn2', 'chn-gb/gbchn']
-    expect(getDeployablesChannels(realDataSampleWithSubscriptions)).toEqual(
-      result
-    )
-  })
-  it('should return a blank list of channels because of no subscrition', () => {
-    const result = []
-    expect(getDeployablesChannels(realDataSampleWithNOSubscriptions)).toEqual(
-      result
-    )
-  })
-  it('should handle undefined object', () => {
-    expect(getDeployablesChannels(undefined)).toEqual([])
   })
 })
 

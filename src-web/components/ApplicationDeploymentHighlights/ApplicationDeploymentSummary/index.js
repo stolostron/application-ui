@@ -13,7 +13,11 @@ import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import StackedChartCardModule from './components/StackedChartCardModule'
 import LineChartCardModule from './components/LineChartCardModule'
-
+import {
+  getCurrentApplication,
+  formatToChannel
+} from '../../common/ResourceOverview/utils'
+import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 import {
   getChannelChartWidth,
   getDeployedResourcesChartData,
@@ -25,14 +29,44 @@ resources(() => {
 })
 
 const ApplicationDeploymentSummary = withLocale(
-  ({ HCMChannelList, HCMApplicationList, locale }) => {
-    const channelChartData = getDeployedResourcesChannelChartData(
-      HCMChannelList
-    )
+  ({
+    HCMChannelList,
+    HCMApplicationList,
+    HCMSubscriptionList,
+    isSingleAppView,
+    locale
+  }) => {
     const deployedResourcesChartData = getDeployedResourcesChartData(
       HCMApplicationList
     )
-    const chartWidth = getChannelChartWidth(HCMChannelList)
+    // Get the current application given it being a single view
+    const currentApp = getCurrentApplication(
+      HCMApplicationList,
+      isSingleAppView
+    )
+    // Get all the subscriptions for the current Appliction if its single view
+    const subscriptionForApplication = pullOutKindPerApplication(
+      currentApp,
+      'subscription'
+    )
+    // Now generate a list of objects that has all the resources of each subscription
+    // per channel
+    const channelsWithSubscriptionTiedRelatedData = formatToChannel(
+      subscriptionForApplication,
+      HCMSubscriptionList
+    )
+    // If its a single app view show the bar graphs for single application
+    // else show all channellist
+    const channelChartData = getDeployedResourcesChannelChartData(
+      isSingleAppView
+        ? { items: channelsWithSubscriptionTiedRelatedData }
+        : HCMChannelList
+    )
+    const chartWidth = getChannelChartWidth(
+      isSingleAppView
+        ? channelsWithSubscriptionTiedRelatedData
+        : channelChartData
+    )
 
     return (
       <div id="ApplicationDeploymentSummary">

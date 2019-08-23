@@ -25,11 +25,15 @@ import {
   getNumDeployables,
   getNumDeployments,
   getIcamLink,
+  getCurrentApplication,
+  formatToChannel,
   getSearchLinkForOneApplication
 } from './utils'
+import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
+import R from 'ramda'
 
 resources(() => {
   require('./style.scss')
@@ -206,7 +210,24 @@ ResourceOverview.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { HCMChannelList } = state
+  const { HCMApplicationList, secondaryHeader, HCMSubscriptionList } = state
+  // Determine if single view
+  const singleAppView =
+    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+  // Get the current application given it being a single view
+  const currentApp = getCurrentApplication(HCMApplicationList, singleAppView)
+  // Get all the subscriptions for the current Appliction if its single view
+  const subscriptionForApplication = pullOutKindPerApplication(
+    currentApp,
+    'subscription'
+  )
+  // Now generate a list of objects that has all the resources of each subscription
+  // per channel
+  const channelsWithSubscriptionTiedRelatedData = formatToChannel(
+    subscriptionForApplication,
+    HCMSubscriptionList
+  )
+
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
     storeRoot: resourceType.list,
@@ -215,7 +236,10 @@ const mapStateToProps = (state, ownProps) => {
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null
   })
-  return { item, channelList: getChannelsList(HCMChannelList) }
+  return {
+    item,
+    channelList: getChannelsList(channelsWithSubscriptionTiedRelatedData)
+  }
 }
 
 export default withRouter(

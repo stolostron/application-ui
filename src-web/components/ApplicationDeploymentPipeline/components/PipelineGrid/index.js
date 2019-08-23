@@ -45,8 +45,7 @@ const LeftColumnForApplicationNames = (
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
     getSubscriptionResource,
-    breadcrumbItems,
-    hasAdminRole
+    breadcrumbItems
   },
   { locale }
 ) => {
@@ -146,25 +145,23 @@ const LeftColumnForApplicationNames = (
                       >
                         {`${subscriptionName} `}
                       </div>
-                      {hasAdminRole && (
-                        <span>
-                          <div className="yamlTitleSub">
-                            {msgs.get('actions.yaml', locale)}
-                          </div>
-                          <Icon
-                            name="icon--edit"
-                            fill="#6089bf"
-                            description=""
-                            className="subscriptionEditIcon"
-                            onClick={() =>
-                              editResourceClick(
-                                subscription,
-                                getSubscriptionResource
-                              )
-                            }
-                          />
-                        </span>
-                      )}
+                      <span>
+                        <div className="yamlTitleSub">
+                          {msgs.get('actions.yaml', locale)}
+                        </div>
+                        <Icon
+                          name="icon--edit"
+                          fill="#6089bf"
+                          description=""
+                          className="subscriptionEditIcon"
+                          onClick={() =>
+                            editResourceClick(
+                              subscription,
+                              getSubscriptionResource
+                            )
+                          }
+                        />
+                      </span>
                     </div>
                   </Tile>
                 )
@@ -183,8 +180,7 @@ const ChannelColumnGrid = (
     applicationList,
     getChannelResource,
     appDropDownList,
-    bulkSubscriptionList,
-    hasAdminRole
+    bulkSubscriptionList
   },
   locale
 ) => {
@@ -198,23 +194,20 @@ const ChannelColumnGrid = (
             <div key={Math.random()} className="channelColumn">
               <Tile className="channelColumnHeader">
                 <div className="channelNameHeader">
-                  {hasAdminRole && (
-                    <span>
-                      <div className="yamlTitle">
-                        {msgs.get('actions.yaml', locale)}
-                      </div>
-                      <Icon
-                        name="icon--edit"
-                        fill="#6089bf"
-                        description=""
-                        className="channelEditIcon"
-                        onClick={() =>
-                          editResourceClick(channel, getChannelResource)
-                        }
-                      />
-                    </span>
-                  )}
-
+                  <span>
+                    <div className="yamlTitle">
+                      {msgs.get('actions.yaml', locale)}
+                    </div>
+                    <Icon
+                      name="icon--edit"
+                      fill="#6089bf"
+                      description=""
+                      className="channelEditIcon"
+                      onClick={() =>
+                        editResourceClick(channel, getChannelResource)
+                      }
+                    />
+                  </span>
                   <div className="channelNameTitle">{`${channelName}`}</div>
                 </div>
               </Tile>
@@ -264,10 +257,10 @@ const ChannelColumnGrid = (
                       {showStatus ? (
                         <ProgressBar status={appStatus} />
                       ) : (
-                        <Tag type="custom" className="statusTag">
-                          {msgs.get('description.na', locale)}
-                        </Tag>
-                      )}
+                          <Tag type="custom" className="statusTag">
+                            {msgs.get('description.na', locale)}
+                          </Tag>
+                        )}
                     </Tile>
                   </div>
                 )
@@ -305,12 +298,12 @@ const ChannelColumnGrid = (
                               <ProgressBar status={status} />
                             </Tile>
                           ) : (
-                            <Tile className="channelColumnDeployable">
-                              <Tag type="custom" className="statusTag">
-                                {msgs.get('description.na', locale)}
-                              </Tag>
-                            </Tile>
-                          )}
+                              <Tile className="channelColumnDeployable">
+                                <Tag type="custom" className="statusTag">
+                                  {msgs.get('description.na', locale)}
+                                </Tag>
+                              </Tile>
+                            )}
                         </div>
                       )
                     })}

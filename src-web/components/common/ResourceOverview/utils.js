@@ -191,11 +191,10 @@ export const getCommonResources = (channelData, appRelations) => {
 // We then extract the items from the application list and then pull out the application
 // at location 0 which we know because there is only 1 application selected
 // at this time.
-export const getCurrentApplication = (HCMApplicationList, secondaryHeader) => {
-  const applicationView = secondaryHeader.breadcrumbItems.length == 2
+export const getCurrentApplication = (HCMApplicationList, singleAppView) => {
   const currentApplication = R.pathOr([], ['items'])(HCMApplicationList)
   const currentApplicationItemZero =
-    (applicationView &&
+    (singleAppView &&
       (currentApplication.length > 0 && currentApplication[0])) ||
     {}
   return currentApplicationItemZero
@@ -219,7 +218,10 @@ export const formatToChannel = (subscriptionList, bulkSubscription) => {
               `${bulkSubChannel.namespace}/${bulkSubChannel.name}`
           ) {
             channelList = channelList.concat([
-              { name: subscription.channel, related: bulkSub.related }
+              {
+                name: subscription.channel.split('/')[1],
+                related: bulkSub.related
+              }
             ])
           }
         })

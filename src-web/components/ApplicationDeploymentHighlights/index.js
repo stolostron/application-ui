@@ -17,6 +17,7 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
 import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard'
+import R from 'ramda'
 
 /* eslint-disable react/prop-types */
 
@@ -35,11 +36,19 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const { HCMChannelList, HCMApplicationList, HCMSubscriptionList } = state
+  const {
+    HCMChannelList,
+    HCMApplicationList,
+    HCMSubscriptionList,
+    secondaryHeader
+  } = state
+  const singleAppView =
+    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
   return {
     HCMChannelList,
     HCMSubscriptionList,
-    HCMApplicationList
+    HCMApplicationList,
+    isSingleAppView: singleAppView
   }
 }
 
@@ -53,7 +62,8 @@ class ApplicationDeploymentHighlights extends React.Component {
     const {
       HCMChannelList,
       HCMSubscriptionList,
-      HCMApplicationList
+      HCMApplicationList,
+      isSingleAppView
     } = this.props
     const { locale } = this.context
 
@@ -71,6 +81,8 @@ class ApplicationDeploymentHighlights extends React.Component {
         <ApplicationDeploymentSummary
           HCMChannelList={HCMChannelList}
           HCMApplicationList={HCMApplicationList}
+          HCMSubscriptionList={HCMSubscriptionList}
+          isSingleAppView={isSingleAppView}
         />
       </div>
     )

@@ -32,6 +32,7 @@ import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/u
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
+import R from 'ramda'
 
 resources(() => {
   require('./style.scss')
@@ -208,7 +209,9 @@ ResourceOverview.propTypes = {
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
   const { HCMApplicationList, secondaryHeader, HCMSubscriptionList } = state
-  const currentApp = getCurrentApplication(HCMApplicationList, secondaryHeader)
+  const singleAppView =
+    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+  const currentApp = getCurrentApplication(HCMApplicationList, singleAppView)
   const subscriptionForApplication = pullOutKindPerApplication(
     currentApp,
     'subscription'

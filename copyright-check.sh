@@ -74,12 +74,12 @@ for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./pu
         && "$HEADER" != *"${CHECK3e}"*
         && "$HEADER" != *"${CHECK3f}"*
         && "$HEADER" != *"${CHECK3g}"* ]]; then
-        printf "(1) Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
+        printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break
       fi
       if [[ "$HEADER" != *"${LIC_ARY[$i]}"* && $i != 1 ]]; then
-        printf "(2) Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
+        printf "[$i] [${LIC_ARY[$i]}] Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break
       fi

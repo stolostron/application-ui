@@ -25,14 +25,13 @@ import {
   getNumDeployables,
   getNumDeployments,
   getIcamLink,
-  getResourceChannels,
   getCurrentApplication,
-  getCommonResources
+  formatToChannel
 } from './utils'
+import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
-import R from 'ramda'
 
 resources(() => {
   require('./style.scss')
@@ -208,19 +207,16 @@ ResourceOverview.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { HCMChannelList, HCMApplicationList, secondaryHeader } = state
+  const { HCMApplicationList, secondaryHeader, HCMSubscriptionList } = state
   const currentApp = getCurrentApplication(HCMApplicationList, secondaryHeader)
-  const currentChannelsUsedInApp = getResourceChannels(currentApp)
-  const filterOutChannels = chan =>
-    currentChannelsUsedInApp.includes(`${chan.namespace}/${chan.name}`)
-  const channelData = R.filter(filterOutChannels, HCMChannelList.items || [])
-
-  console.log(channelData, currentApp.related)
-  const commonResources = getCommonResources(
-    channelData,
-    currentApp.related || []
+  const subscriptionForApplication = pullOutKindPerApplication(
+    currentApp,
+    'subscription'
   )
-  console.log('COMMON', commonResources)
+  const channelsWithSubscriptionTiedRelatedData = formatToChannel(
+    subscriptionForApplication,
+    HCMSubscriptionList
+  )
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -230,7 +226,10 @@ const mapStateToProps = (state, ownProps) => {
     predicate: resourceItemByName,
     namespace: params.namespace ? decodeURIComponent(params.namespace) : null
   })
-  return { item, channelList: getChannelsList(commonResources) }
+  return {
+    item,
+    channelList: getChannelsList(channelsWithSubscriptionTiedRelatedData)
+  }
 }
 
 export default withRouter(

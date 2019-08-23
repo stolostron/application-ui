@@ -11,14 +11,11 @@ import {
   kindsToIncludeForDeployments,
   getResourcesStatusPerChannel
 } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 
 // Method will take in an object and return back the channels mapped for display purposes
 export const getChannelsList = channels => {
-  if (
-    channels &&
-    channels instanceof Array &&
-    channels.length > 0
-  ) {
+  if (channels && channels instanceof Array && channels.length > 0) {
     const mappedChannels = channels.map(channel => {
       // Will return back status as:
       // [0, 0, 0, 0, 0]
@@ -100,6 +97,9 @@ export const getIcamLink = (activeAccountId, applicationUid) => {
 // we want to return all the channels.
 // Channels are not returned inside related resources so we have to
 // insepect each related subscription because it contains the channel
+// -------------------------------------
+// This method is not actually used but its got some good logic we could use later
+// -------------------------------------
 export const getResourceChannels = resourceData => {
   if (resourceData && resourceData.related) {
     const relatedData = resourceData.related
@@ -131,12 +131,10 @@ const findMatchingResource = (kind, item, appRelations) => {
     const matched = kindItems.map(itemTwo => {
       // If the UIDs match then we found a match
       if (kindTwo == kind && item._uid == itemTwo._uid) {
-        console.log('INSIDE MATCH')
         return { kind: kind, items: [itemTwo] }
       }
     })
     // Filter out the undefined entries
-    console.log('found match', matched)
     const filterOutUndefined = x => x != undefined
     const filteredData = R.filter(filterOutUndefined, matched)
     return filteredData
@@ -144,7 +142,6 @@ const findMatchingResource = (kind, item, appRelations) => {
 
   const filterOutEmpty = x => x.length > 0
   const filteredDataTwo = R.filter(filterOutEmpty, match)
-  console.log('match', filteredDataTwo, match)
   return filteredDataTwo
 }
 
@@ -159,6 +156,9 @@ const findMatchingResource = (kind, item, appRelations) => {
 // that particular channel which includes many different application resources
 // if sepearate applications chose to put a subscription under that channel.
 //
+// -------------------------------------
+// This method is not actually used but its got some good logic we could use later
+// -------------------------------------
 export const getCommonResources = (channelData, appRelations) => {
   let channelFormat = []
   let commonResources = []
@@ -172,7 +172,6 @@ export const getCommonResources = (channelData, appRelations) => {
       kindItems.map(item => {
         const match = findMatchingResource(kind, item, appRelations)
         commonResources = commonResources.concat(match)
-        console.log('commonResources', commonResources)
       })
     })
     // we want to tall up all the related resources for the given channel
@@ -180,11 +179,9 @@ export const getCommonResources = (channelData, appRelations) => {
       { name: channel.name, items: commonResources }
     ])
   })
-  console.log('channelFormat', channelFormat)
   // Filter out entries that are empty
   const filterOutUndefinedName = x => x.name != 'undefined'
   const filteredData = R.filter(filterOutUndefinedName, channelFormat)
-  console.log('channelFormat2', filteredData)
   return filteredData
 }
 
@@ -202,4 +199,30 @@ export const getCurrentApplication = (HCMApplicationList, secondaryHeader) => {
       (currentApplication.length > 0 && currentApplication[0])) ||
     {}
   return currentApplicationItemZero
+}
+
+export const formatToChannel = (subscriptionList, bulkSubscription) => {
+  let channelList = []
+  subscriptionList &&
+    subscriptionList[0] &&
+    subscriptionList[0].items &&
+    subscriptionList[0].items.map(subscription => {
+      bulkSubscription &&
+        bulkSubscription.items &&
+        bulkSubscription.items.map(bulkSub => {
+          const bulkSubChannel =
+            pullOutKindPerApplication(bulkSub, 'channel')[0].items[0] || {}
+          if (
+            subscription.name == bulkSub.name &&
+            subscription.namespace == bulkSub.namespace &&
+            subscription.channel ==
+              `${bulkSubChannel.namespace}/${bulkSubChannel.name}`
+          ) {
+            channelList = channelList.concat([
+              { name: subscription.channel, related: bulkSub.related }
+            ])
+          }
+        })
+    })
+  return channelList
 }

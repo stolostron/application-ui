@@ -15,6 +15,7 @@ export const kindsToIncludeForDeployments = [
   'pod',
   'replicaset',
   'deployment',
+  'deployable',
   'service'
 ]
 

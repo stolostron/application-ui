@@ -117,38 +117,32 @@ const data2 = {
 }
 
 describe('getChannelsList', () => {
-  const channelList = {
-    items: [
-      {
-        metadata: {
-          name: 'name1',
-          pending: 1,
-          inprogress: 2,
-          failed: 3
+  const channelList = [
+    {
+      items: [
+        {
+          metadata: {
+            name: 'name1',
+            pending: 1,
+            inprogress: 2,
+            failed: 3
+          }
+        },
+        {
+          metadata: {
+            name: 'name3',
+            pending: 1,
+            failed: 2
+          }
         }
-      },
-      {
-        metadata: {
-          name: 'name3',
-          pending: 1,
-          failed: 2
-        }
-      }
-    ]
-  }
+      ]
+    }
+  ]
   const channelDud = {
     itteemmss: [{ channel: [{}, {}] }, { deployables: [{}] }]
   }
   it('should return channel list to be displayed in cards on overview tab', () => {
     const result = [
-      {
-        counts: {
-          completed: { total: 0 },
-          inProgress: { total: 0 },
-          failed: { total: 0 }
-        },
-        name: ''
-      },
       {
         counts: {
           completed: { total: 0 },
@@ -177,7 +171,7 @@ describe('getNumDeployables', () => {
 
 describe('getNumDeployments', () => {
   it('should return deployment count', () => {
-    const result = 5
+    const result = 7
     expect(getNumDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
@@ -187,7 +181,7 @@ describe('getNumDeployments', () => {
 
 describe('getNumCompletedDeployments', () => {
   it('should return completed deployment count', () => {
-    const result = 1
+    const result = 3
     expect(getNumCompletedDeployments(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {

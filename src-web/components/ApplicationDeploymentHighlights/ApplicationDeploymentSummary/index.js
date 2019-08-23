@@ -88,11 +88,7 @@ const ApplicationDeploymentSummary = withLocale(
                 {msgs.get('channel.deployments.chart.title', locale)}
               </div>
               <StackedChartCardModule
-                data={
-                  isSingleAppView
-                    ? channelsWithSubscriptionTiedRelatedData
-                    : channelChartData
-                }
+                data={channelChartData}
                 locale={locale}
                 chartWidth={chartWidth}
               />

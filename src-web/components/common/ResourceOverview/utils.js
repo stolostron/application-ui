@@ -202,15 +202,26 @@ export const getCurrentApplication = (HCMApplicationList, singleAppView) => {
 
 export const formatToChannel = (subscriptionList, bulkSubscription) => {
   let channelList = []
-  subscriptionList &&
+  subscriptionList instanceof Array &&
     subscriptionList[0] &&
-    subscriptionList[0].items &&
+    subscriptionList[0].items instanceof Array &&
     subscriptionList[0].items.map(subscription => {
       bulkSubscription &&
-        bulkSubscription.items &&
+        bulkSubscription.items instanceof Array &&
         bulkSubscription.items.map(bulkSub => {
-          const bulkSubChannel =
-            pullOutKindPerApplication(bulkSub, 'channel')[0].items[0] || {}
+          const bulkSubChannelObj = pullOutKindPerApplication(
+            bulkSub,
+            'channel'
+          )
+          let bulkSubChannel = {}
+          if (
+            bulkSubChannelObj instanceof Array &&
+            bulkSubChannelObj[0] &&
+            bulkSubChannelObj[0].items instanceof Array &&
+            bulkSubChannelObj[0].items[0]
+          ) {
+            bulkSubChannel = bulkSubChannelObj[0].items[0]
+          }
           if (
             subscription.name == bulkSub.name &&
             subscription.namespace == bulkSub.namespace &&

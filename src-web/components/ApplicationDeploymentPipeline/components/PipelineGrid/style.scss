@@ -3,7 +3,7 @@
  * 5737-E67
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
+ * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
@@ -109,6 +109,14 @@
     background-color: #f4f7fb;
   }
 
+  .channelGridContainerSingleApp {
+    display: inline-block;
+    position: absolute;
+    overflow: scroll;
+    width: 100%;
+    background-color: #f4f7fb;
+  }
+
   .horizontalScrollRow {
     width: max-content;
   }
@@ -151,6 +159,14 @@
     background-color: white;
     height: 110px;
     padding: 0px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: #d5d9db;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #d5d9db;
+    border-bottom: none;
+    border-top: none;
   }
 
   .DeployableContents {

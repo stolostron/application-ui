@@ -45,14 +45,13 @@ const LeftColumnForApplicationNames = (
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
     getSubscriptionResource,
-    breadcrumbItems
+    oneApplication
   },
   { locale }
 ) => {
   // If there is just one application we want to find the subscription
   // count for that one so that we can display it rather that that total
   // subscription count
-  const oneApplications = breadcrumbItems.length == 2
   const subscriptionsForOneApp = pullOutKindPerApplication(
     applications[0],
     'subscription'
@@ -66,7 +65,7 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${(oneApplications &&
+            {`${(oneApplication &&
               subscriptionsForOneApp &&
               subscriptionsForOneApp[0] &&
               subscriptionsForOneApp[0].count) ||
@@ -124,11 +123,11 @@ const LeftColumnForApplicationNames = (
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {subscriptions.map(subscription => {
-                const subscriptionName =
-                  (subscription && subscription.name) || ''
+                // const subscriptionName =
+                //   (subscription && subscription.name) || ''
                 return (
                   <Tile key={Math.random()} className="deployableTile">
-                    <div className="DeployableContents">
+                    {/*<div className="DeployableContents">
                       <div
                         className="deployableName"
                         onClick={() =>
@@ -162,7 +161,7 @@ const LeftColumnForApplicationNames = (
                           }
                         />
                       </span>
-                    </div>
+                    </div>*/}
                   </Tile>
                 )
               })}
@@ -180,12 +179,16 @@ const ChannelColumnGrid = (
     applicationList,
     getChannelResource,
     appDropDownList,
-    bulkSubscriptionList
+    bulkSubscriptionList,
+    oneApplication
   },
   locale
 ) => {
+  const containerClass =
+    (oneApplication && 'channelGridContainerSingleApp') ||
+    'channelGridContainer'
   return (
-    <div className="channelGridContainer">
+    <div className={containerClass}>
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
         {channelList.map(channel => {
@@ -257,10 +260,10 @@ const ChannelColumnGrid = (
                       {showStatus ? (
                         <ProgressBar status={appStatus} />
                       ) : (
-                          <Tag type="custom" className="statusTag">
-                            {msgs.get('description.na', locale)}
-                          </Tag>
-                        )}
+                        <Tag type="custom" className="statusTag">
+                          {msgs.get('description.na', locale)}
+                        </Tag>
+                      )}
                     </Tile>
                   </div>
                 )
@@ -298,12 +301,12 @@ const ChannelColumnGrid = (
                               <ProgressBar status={status} />
                             </Tile>
                           ) : (
-                              <Tile className="channelColumnDeployable">
-                                <Tag type="custom" className="statusTag">
-                                  {msgs.get('description.na', locale)}
-                                </Tag>
-                              </Tile>
-                            )}
+                            <Tile className="channelColumnDeployable">
+                              <Tag type="custom" className="statusTag">
+                                {msgs.get('description.na', locale)}
+                              </Tag>
+                            </Tile>
+                          )}
                         </div>
                       )
                     })}
@@ -335,24 +338,27 @@ const PipelineGrid = withLocale(
     hasAdminRole,
     breadcrumbItems
   }) => {
+    const oneApplication = breadcrumbItems.length == 2
     return (
       <div id="PipelineGrid">
         <div className="tableGridContainer">
-          <LeftColumnForApplicationNames
-            subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
-            applications={applications}
-            updateAppDropDownList={updateAppDropDownList}
-            appDropDownList={appDropDownList}
-            openSubscriptionModal={openSubscriptionModal}
-            setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
-            setCurrentDeployableSubscriptionData={
-              setCurrentDeployableSubscriptionData
-            }
-            setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
-            getSubscriptionResource={getSubscriptionResource}
-            hasAdminRole={hasAdminRole}
-            breadcrumbItems={breadcrumbItems}
-          />
+          {!oneApplication && (
+            <LeftColumnForApplicationNames
+              subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
+              applications={applications}
+              updateAppDropDownList={updateAppDropDownList}
+              appDropDownList={appDropDownList}
+              openSubscriptionModal={openSubscriptionModal}
+              setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
+              setCurrentDeployableSubscriptionData={
+                setCurrentDeployableSubscriptionData
+              }
+              setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
+              getSubscriptionResource={getSubscriptionResource}
+              hasAdminRole={hasAdminRole}
+              oneApplication={oneApplication}
+            />
+          )}
           <ChannelColumnGrid
             channelList={channels}
             applicationList={applications}
@@ -360,6 +366,7 @@ const PipelineGrid = withLocale(
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
             hasAdminRole={hasAdminRole}
+            oneApplication={oneApplication}
           />
         </div>
       </div>

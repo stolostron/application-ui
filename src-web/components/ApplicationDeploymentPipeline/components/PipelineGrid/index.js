@@ -18,7 +18,8 @@ import {
   getDataByKind,
   getResourcesStatusPerChannel,
   getApplicationLevelStatus,
-  subscriptionPresentInGivenChannel
+  subscriptionPresentInGivenChannel,
+  createSubscriptionRows
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -235,6 +236,7 @@ const ChannelColumnGrid = (
             subscriptionsFetched[0] &&
             subscriptionsFetched[0].items) ||
           []
+        createSubscriptionRows(channelList, subscriptionsForThisApplication)
         const expandRow = appDropDownList.includes(applicationName)
         return (
           <React.Fragment key={Math.random()}>

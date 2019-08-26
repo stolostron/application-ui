@@ -284,3 +284,40 @@ export const subscriptionPresentInGivenChannel = (
     return isItPresent.includes(true)
   }
 }
+
+// This method will create the rows of subscriptions for each application
+// that will fall under the channel columns
+export const createSubscriptionRows = (channelList, subscriptions) => {
+  // The channel list contains the order of the columns
+  // What we are going to do is go through each of the subscriptions for this
+  // current Application and determine which channel column they fall under
+  // if subscription 'A' falls under the second channel we will update the
+  // variable below to be [[], ['A'], [], [], []] with the second index being
+  // the second channel column
+  const columnsUnderAChannel = Array(channelList.length).fill([])
+  for (var i = 0; i < channelList.length; i++) {
+    const columnChannelName = `${channelList[i].namespace}/${
+      channelList[i].name
+    }`
+    subscriptions.map(sub => {
+      const subChannelName = sub.channel
+      // If the channel names match up we want to add that channel to the column
+      if (subChannelName == columnChannelName) {
+        columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
+      }
+    })
+  }
+  return columnsUnderAChannel
+}
+
+// This method takes in a list of lists and returns the longest length possilble
+// inside the list of lists
+export const determineLongestArray = list => {
+  let longestLength = 0
+  list.map(x => {
+    if (x.length > longestLength) {
+      longestLength = x.length
+    }
+  })
+  return longestLength
+}

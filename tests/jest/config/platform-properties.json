@@ -170,7 +170,7 @@
   "description.title.deploymentHighlights": "Resource Highlights",
   "description.title.deploymentHighlightsTerminology": "Learn more about the terminology",
   "description.title.deploymentHighlightsTerminology.channels": "Channels",
-  "description.title.deploymentHighlightsTerminology.channelsSummary": "Channels are used to streamline the resource model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can they be used to target a subset of the clusters.",
+  "description.title.deploymentHighlightsTerminology.channelsSummary": "Channels are used to streamline the resource model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can then be used to target a subset of the clusters.",
   "description.title.deploymentHighlightsTerminology.channelGateConditions": "Channel Gate & Conditions",
   "description.title.deploymentHighlightsTerminology.channelGateConditionsSummary": "Each channel has certain gate conditions that a resource channel has to meet in order to get deployed to such channel. If the resource is missing all the required conditions, it will initially shown as \"pending\" until more resource conditions are added.",
   "description.title.deploymentHighlightsTerminology.deploymentConditions": "Resource Conditions",

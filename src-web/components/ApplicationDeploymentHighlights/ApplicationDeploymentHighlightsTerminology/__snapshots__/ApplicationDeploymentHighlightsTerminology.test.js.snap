@@ -59,7 +59,7 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
               Channels
             </p>
             <p>
-              Channels are used to streamline the resource model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can they be used to target a subset of the clusters.
+              Channels are used to streamline the resource model and to separate cluster access. Deployable within one channel will only access clusters that belong to such channel. Placement rules can then be used to target a subset of the clusters.
             </p>
           </div>
           <div>

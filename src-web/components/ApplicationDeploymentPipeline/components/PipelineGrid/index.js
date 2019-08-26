@@ -25,6 +25,7 @@ import {
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
+import config from '../../../../../lib/shared/config'
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key*/
@@ -360,11 +361,60 @@ const ChannelColumnGrid = (
                   <div key={Math.random()} className="deployableRow">
                     {subRow.map(subCol => {
                       console.log('subCol', subCol)
+                      // Gather the subscription data that contains the matching UID
+                      const thisSubscriptionData = getDataByKind(
+                        bulkSubscriptionList,
+                        subCol._uid
+                      )
+                      // Get status of resources within the subscription specific
+                      // to the channel. We will match the resources that contain
+                      // the same namespace as the channel
+                      // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
+                      const status = getResourcesStatusPerChannel(
+                        thisSubscriptionData
+                      )
+                      // If the object isn't empty name will be defined
+                      const displayStatus = subCol.name
+                      // show no subscriptions Tile
+                      const showNoSubsTile =
+                        subscriptoinsRowFormat.length == 1 &&
+                        displayStatus == undefined
+                      // if there is more than one subscription and subCol.name is undefined
+                      const showBlankFiller =
+                        subscriptoinsRowFormat.length > 1 &&
+                        displayStatus == undefined
                       return (
                         <div key={Math.random()} className="channelColumnDep">
-                          <Tile className="channelColumnDeployable">
-                            {'here'}
-                          </Tile>
+                          {displayStatus && (
+                            <Tile className="channelColumnDeployable">
+                              <ProgressBar status={status} />
+                            </Tile>
+                          )}
+                          {showNoSubsTile && (
+                            <Tile className="channelColumnDeployable">
+                              <img
+                                className="no-sub-icon"
+                                src={`${
+                                  config.contextPath
+                                }/graphics/nothing-moon-copy.svg`}
+                                alt={msgs.get(
+                                  'description.tryAddingSub',
+                                  locale
+                                )}
+                              />
+                              <div className="subDescriptionText">
+                                <div className="noSubTitle">
+                                  {msgs.get('description.noSubs', locale)}
+                                </div>
+                                <div className="noSubDescription">
+                                  {msgs.get('description.tryAddingSub', locale)}
+                                </div>
+                              </div>
+                            </Tile>
+                          )}
+                          {showBlankFiller && (
+                            <Tile className="channelColumnDeployableBlank" />
+                          )}
                         </div>
                       )
                     })}

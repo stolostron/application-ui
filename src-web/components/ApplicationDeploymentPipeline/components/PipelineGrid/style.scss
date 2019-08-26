@@ -33,8 +33,16 @@
     background: white;
     background-color: white;
     color: black;
-    height: 110px;
+    height: 223px;
     position: relative;
+  }
+
+  .channelColumnDeployableBlank {
+    background: #f4f7fa;
+    background-color: #f4f7fa;
+    height: 223px;
+    position: relative;
+    border: none;
   }
 
   .applicationTile {
@@ -45,6 +53,32 @@
     border-style: solid;
     border-width: 1px;
     border-color: #d5d9db;
+  }
+
+  .no-sub-icon {
+    margin-top: 50px;
+    margin-right: 15px;
+    height: 90px;
+    width: 90px;
+    display: inline-block;
+  }
+
+  .subDescriptionText {
+    padding-right: 15px;
+    padding-top: 80px;
+    display: inline-block;
+    font-size: 12px;
+    position: absolute;
+  }
+
+  .noSubTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: black;
+  }
+
+  .noSubDescription {
+    font-size: 12px;
   }
 
   .totalApplications {
@@ -67,13 +101,13 @@
     grid-template-columns: repeat(auto-fit, minmax(432px, 1fr));
     grid-template-rows: auto;
     grid-gap: 20px;
-    padding-top: 1px;
-    padding-right: 5px;
+    padding-top: 21px;
+    padding-right: 21px;
   }
 
   .tileContainerApp {
-    padding-top: 1px;
-    padding-right: 5px;
+    padding-top: 21px;
+    padding-right: 21px;
   }
 
   .applicationEntryName {
@@ -132,17 +166,16 @@
 
   .channelColumn {
     display: inline-grid;
-    width: 350px;
-    padding-right: 5px;
-    padding-top: 1px;
+    width: 418px;
+    padding-right: 21px;
+    padding-top: 21px;
   }
 
   .channelColumnDep {
     display: inline-block;
-    width: 350px;
-    padding-right: 5px;
-    padding-top: 1px;
-    height: 110px;
+    width: 418px;
+    padding-right: 21px;
+    height: 223px;
   }
 
   .statusTag {
@@ -157,7 +190,7 @@
 
   .deployableTile {
     background-color: white;
-    height: 110px;
+    height: 223px;
     padding: 0px;
     border-left-style: solid;
     border-left-width: 1px;
@@ -210,7 +243,7 @@
 
   .deployableRow {
     display: flex;
-    height: 110px;
+    height: 223px;
   }
 
   .channelTitle {

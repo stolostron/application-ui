@@ -63,6 +63,8 @@
   "description.inprogress": "In Progress",
   "description.deployed": "deployed",
   "description.subsInChannel": "Subscriptions in this channel",
+  "description.tryAddingSub": "You don't have any subscriptions for this channel. Try adding one now.",
+  "description.noSubs": "No subscriptions",
   "breadcrumb.viewall": "View All",
   "button.copyButton.feedback": "Copied to clipboard",
   "button.save.query": "Save This Search",

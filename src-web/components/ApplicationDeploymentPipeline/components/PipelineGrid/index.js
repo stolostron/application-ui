@@ -19,7 +19,8 @@ import {
   getResourcesStatusPerChannel,
   getApplicationLevelStatus,
   subscriptionPresentInGivenChannel,
-  createSubscriptionRows
+  createSubscriptionPerChannel,
+  subscriptionsUnderColumnsGrid
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -236,13 +237,23 @@ const ChannelColumnGrid = (
             subscriptionsFetched[0] &&
             subscriptionsFetched[0].items) ||
           []
-        createSubscriptionRows(channelList, subscriptionsForThisApplication)
+        // get the subscriptions that fall under each column
+        // each index is a channel
+        // [[{sub1}], [], [], [{sub2}, {sub3}]]
+        const subscriptionsUnderColumns = createSubscriptionPerChannel(
+          channelList,
+          subscriptionsForThisApplication
+        )
+        const subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
+          subscriptionsUnderColumns
+        )
+
         const expandRow = appDropDownList.includes(applicationName)
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
               {/* This is the where the row totals will go for the applications */}
-              {channelList.map(channel => {
+              {/*channelList.map(channel => {
                 // Given the subscriptionsForThisApplication, the channel,
                 // we will look through match the subscription with the channel
                 // and then tally up all the status under that application to give
@@ -272,6 +283,15 @@ const ChannelColumnGrid = (
                     </Tile>
                   </div>
                 )
+              })*/}
+              {subscriptionsUnderColumns.map(subscriptions => {
+                return (
+                  <div key={Math.random()} className="channelColumn">
+                    <Tile className="channelColumnHeaderApplication">
+                      {subscriptions.length}
+                    </Tile>
+                  </div>
+                )
               })}
             </div>
             <div
@@ -279,8 +299,8 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {subscriptionsForThisApplication.map(subscription => {
-                // // Gather the subscription data that contains the matching UID
+              {/*subscriptionsForThisApplication.map(subscription => {
+                // Gather the subscription data that contains the matching UID
                 const thisSubscriptionData = getDataByKind(
                   bulkSubscriptionList,
                   subscription._uid
@@ -312,6 +332,22 @@ const ChannelColumnGrid = (
                               </Tag>
                             </Tile>
                           )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )
+              })*/}
+              {subscriptoinsRowFormat.map(subRow => {
+                return (
+                  <div key={Math.random()} className="deployableRow">
+                    {subRow.map(subCol => {
+                      console.log('subCol', subCol)
+                      return (
+                        <div key={Math.random()} className="channelColumnDep">
+                          <Tile className="channelColumnDeployable">
+                            {'here'}
+                          </Tile>
                         </div>
                       )
                     })}

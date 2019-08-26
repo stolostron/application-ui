@@ -287,7 +287,7 @@ export const subscriptionPresentInGivenChannel = (
 
 // This method will create the rows of subscriptions for each application
 // that will fall under the channel columns
-export const createSubscriptionRows = (channelList, subscriptions) => {
+export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   // The channel list contains the order of the columns
   // What we are going to do is go through each of the subscriptions for this
   // current Application and determine which channel column they fall under
@@ -312,7 +312,7 @@ export const createSubscriptionRows = (channelList, subscriptions) => {
 
 // This method takes in a list of lists and returns the longest length possilble
 // inside the list of lists
-export const determineLongestArray = list => {
+const determineLongestArray = list => {
   let longestLength = 0
   list.map(x => {
     if (x.length > longestLength) {
@@ -320,4 +320,30 @@ export const determineLongestArray = list => {
     }
   })
   return longestLength
+}
+
+export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
+  const longestList = determineLongestArray(subscriptionsUnderChannel)
+  let subscriptionGrid = []
+  // Go through the channel columns
+  for (var i = 0; i < subscriptionsUnderChannel.length; i++) {
+    // Get the current subscription list for that channel
+    const channelSubscriptionList = subscriptionsUnderChannel[i]
+    let subscriptionList = []
+    // We want to go the length of the longest list because we want to add
+    // blank entires if they dont contain any to create a complete grid
+    for (var x = 0; x < longestList; x++) {
+      // if there is a subscription at this index we want to add it
+      if (channelSubscriptionList[x]) {
+        const currentSubscription = channelSubscriptionList[x]
+        subscriptionList = subscriptionList.concat([currentSubscription])
+      } else {
+        // else add a blank for a table filler
+        subscriptionList = subscriptionList.concat([{}])
+      }
+    }
+    subscriptionGrid = subscriptionGrid.concat([subscriptionList])
+  }
+
+  return R.transpose(subscriptionGrid)
 }

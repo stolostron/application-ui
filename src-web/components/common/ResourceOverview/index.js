@@ -33,6 +33,7 @@ import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/u
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
+import { isAdminRole } from '../../../../lib/client/access-helper'
 import R from 'ramda'
 
 resources(() => {
@@ -52,7 +53,8 @@ const ResourceOverview = withLocale(
     showExpandedTopology,
     incidentCount,
     activeAccountId,
-    applicationUid
+    applicationUid,
+    userRole
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -133,8 +135,10 @@ const ResourceOverview = withLocale(
         count: failedDeployments,
         alert: failedDeployments > 0 ? true : false,
         targetTab: 1
-      },
-      {
+      }
+    ]
+    if (isAdminRole(userRole)) {
+      countsCardData.push({
         msgKey:
           incidentCount > 1
             ? 'dashboard.card.incidents'
@@ -144,8 +148,8 @@ const ResourceOverview = withLocale(
         alert: incidentCount > 0 ? true : false,
         targetTab: 2,
         border: 'left'
-      }
-    ]
+      })
+    }
 
     return (
       <div id="resource-overview" className="overview-content">
@@ -168,7 +172,11 @@ const ResourceOverview = withLocale(
               <CountsCardModule
                 data={countsCardData}
                 title="dashboard.card.deployment.summary.title"
-                link={getIcamLink(activeAccountId, applicationUid)}
+                link={
+                  isAdminRole(userRole)
+                    ? getIcamLink(activeAccountId, applicationUid)
+                    : '#'
+                }
               />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
@@ -210,7 +218,12 @@ ResourceOverview.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { HCMApplicationList, secondaryHeader, HCMSubscriptionList } = state
+  const {
+    HCMApplicationList,
+    secondaryHeader,
+    HCMSubscriptionList,
+    role
+  } = state
   // Determine if single view
   const singleAppView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
@@ -238,6 +251,7 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
+    userRole: role.role,
     channelList: getChannelsList(channelsWithSubscriptionTiedRelatedData)
   }
 }

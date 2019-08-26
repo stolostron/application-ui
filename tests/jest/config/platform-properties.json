@@ -46,6 +46,7 @@
   "description.Modal.versions": "Deployable versions",
   "description.Modal.update": "Rolling update",
   "description.Modal.channel": "Channel",
+  "description.Pipeline.channel": "Channel",
   "description.Modal.deployable": "Deployable",
   "description.Modal.deployableConditions": "Deployable Conditions",
   "description.Modal.conditions": "Conditions",

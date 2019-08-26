@@ -16,8 +16,8 @@
   }
 
   .channelColumnHeader {
-    background: white;
-    color: black;
+    background: #4c4c4c;
+    color: white;
     height: 200px;
     position: relative;
   }
@@ -202,6 +202,12 @@
     height: 110px;
   }
 
+  .channelTitle {
+    font-size: 12px;
+    color: white;
+    font-weight: 700;
+  }
+
   .channelNameHeader {
     font-size: 22px;
     padding-top: 5px;
@@ -209,7 +215,7 @@
   }
 
   .channelEditIcon {
-    fill: black;
+    fill: white;
     margin-left: 20px;
     cursor: pointer;
     float: right;

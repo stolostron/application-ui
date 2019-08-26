@@ -211,6 +211,9 @@ const ChannelColumnGrid = (
                       }
                     />
                   </span>
+                  <div className="channelTitle">
+                    {msgs.get('description.Pipeline.channel', locale)}
+                  </div>
                   <div className="channelNameTitle">{`${channelName}`}</div>
                 </div>
               </Tile>

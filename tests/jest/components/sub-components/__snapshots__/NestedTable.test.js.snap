@@ -71,7 +71,7 @@ ShallowWrapper {
             >
               <p>
                 header
-                  
+                 
               </p>
               <p>
                 (
@@ -168,7 +168,7 @@ ShallowWrapper {
               >
                 <p>
                   header
-                    
+                   
                 </p>
                 <p>
                   (
@@ -263,7 +263,7 @@ ShallowWrapper {
               >
                 <p>
                   header
-                    
+                   
                 </p>
                 <p>
                   (
@@ -293,7 +293,7 @@ ShallowWrapper {
                 >
                   <p>
                     header
-                      
+                     
                   </p>
                   <p>
                     (
@@ -329,7 +329,7 @@ ShallowWrapper {
                   "children": Array [
                     <p>
                       header
-                        
+                       
                     </p>,
                     <p>
                       (
@@ -352,13 +352,13 @@ ShallowWrapper {
                     "props": Object {
                       "children": Array [
                         "header",
-                        "  ",
+                        " ",
                       ],
                     },
                     "ref": null,
                     "rendered": Array [
                       "header",
-                      "  ",
+                      " ",
                     ],
                     "type": "p",
                   },
@@ -776,7 +776,7 @@ ShallowWrapper {
               >
                 <p>
                   header
-                    
+                   
                 </p>
                 <p>
                   (
@@ -873,7 +873,7 @@ ShallowWrapper {
                 >
                   <p>
                     header
-                      
+                     
                   </p>
                   <p>
                     (
@@ -968,7 +968,7 @@ ShallowWrapper {
                 >
                   <p>
                     header
-                      
+                     
                   </p>
                   <p>
                     (
@@ -998,7 +998,7 @@ ShallowWrapper {
                   >
                     <p>
                       header
-                        
+                       
                     </p>
                     <p>
                       (
@@ -1034,7 +1034,7 @@ ShallowWrapper {
                     "children": Array [
                       <p>
                         header
-                          
+                         
                       </p>,
                       <p>
                         (
@@ -1057,13 +1057,13 @@ ShallowWrapper {
                       "props": Object {
                         "children": Array [
                           "header",
-                          "  ",
+                          " ",
                         ],
                       },
                       "ref": null,
                       "rendered": Array [
                         "header",
-                        "  ",
+                        " ",
                       ],
                       "type": "p",
                     },
@@ -1550,7 +1550,7 @@ ShallowWrapper {
             >
               <p>
                 header
-                  
+                 
               </p>
               <p>
                 (
@@ -1647,7 +1647,7 @@ ShallowWrapper {
               >
                 <p>
                   header
-                    
+                   
                 </p>
                 <p>
                   (
@@ -1742,7 +1742,7 @@ ShallowWrapper {
               >
                 <p>
                   header
-                    
+                   
                 </p>
                 <p>
                   (
@@ -1772,7 +1772,7 @@ ShallowWrapper {
                 >
                   <p>
                     header
-                      
+                     
                   </p>
                   <p>
                     (
@@ -1808,7 +1808,7 @@ ShallowWrapper {
                   "children": Array [
                     <p>
                       header
-                        
+                       
                     </p>,
                     <p>
                       (
@@ -1831,13 +1831,13 @@ ShallowWrapper {
                     "props": Object {
                       "children": Array [
                         "header",
-                        "  ",
+                        " ",
                       ],
                     },
                     "ref": null,
                     "rendered": Array [
                       "header",
-                      "  ",
+                      " ",
                     ],
                     "type": "p",
                   },
@@ -2255,7 +2255,7 @@ ShallowWrapper {
               >
                 <p>
                   header
-                    
+                   
                 </p>
                 <p>
                   (
@@ -2352,7 +2352,7 @@ ShallowWrapper {
                 >
                   <p>
                     header
-                      
+                     
                   </p>
                   <p>
                     (
@@ -2447,7 +2447,7 @@ ShallowWrapper {
                 >
                   <p>
                     header
-                      
+                     
                   </p>
                   <p>
                     (
@@ -2477,7 +2477,7 @@ ShallowWrapper {
                   >
                     <p>
                       header
-                        
+                       
                     </p>
                     <p>
                       (
@@ -2513,7 +2513,7 @@ ShallowWrapper {
                     "children": Array [
                       <p>
                         header
-                          
+                         
                       </p>,
                       <p>
                         (
@@ -2536,13 +2536,13 @@ ShallowWrapper {
                       "props": Object {
                         "children": Array [
                           "header",
-                          "  ",
+                          " ",
                         ],
                       },
                       "ref": null,
                       "rendered": Array [
                         "header",
-                        "  ",
+                        " ",
                       ],
                       "type": "p",
                     },

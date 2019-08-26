@@ -13,7 +13,7 @@ import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
 import { Modal } from 'carbon-components-react'
 import R from 'ramda'
-import { getLabelsListClass } from './utils.js'
+import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils.js'
 
 resources(() => {
   require('./style.scss')
@@ -28,14 +28,15 @@ const SubscriptionInfo = withLocale(
 
     let clusterNames = ['N/A']
     let labels = []
-    let deployableNames = []
+    let deployableNames = ['N/A']
     let subName = ''
     let subNamespace = ''
     let label_hover = ''
-    let clusters_hover = ''
-    let deployables_hover = ''
+    // let clusters_hover = ''
+    // let deployables_hover = ''
     let owningClusterName = ''
     let channel = ''
+    // let version = ''
 
     if (notEmptySubscription) {
       // This will match the UID of the subscription with what we have in bulk subscription list
@@ -52,6 +53,7 @@ const SubscriptionInfo = withLocale(
 
       const foundBulkSubscription =
         subscriptionWithRelatedData && !R.isEmpty(subscriptionWithRelatedData)
+
       if (foundBulkSubscription) {
         const related = R.pathOr(
           [{}],
@@ -83,13 +85,13 @@ const SubscriptionInfo = withLocale(
       labels = labels_data.data
       label_hover = labels_data.hover
 
-      const clusters_data = getLabelsListClass(clusterNames)
+      const clusters_data = getCsvListClass(clusterNames)
       clusterNames = clusters_data.data
-      clusters_hover = clusters_data.hover
+      // clusters_hover = clusters_data.hover
 
-      const deployables_data = getLabelsListClass(deployableNames)
+      const deployables_data = getCsvListClass(deployableNames)
       deployableNames = deployables_data.data
-      deployables_hover = deployables_data.hover
+      // deployables_hover = deployables_data.hover
 
       subName =
         subscriptionModalSubscriptionInfo &&
@@ -146,31 +148,46 @@ const SubscriptionInfo = withLocale(
                 )}
               </div>
               <div className="value">
-                {' '}
-                {deployableNames.map(deployable => {
-                  return (
-                    <span
-                      className="labelTag"
-                      key={Math.random()}
-                      title={deployables_hover}
-                    >
-                      {deployable}
-                    </span>
-                  )
-                })}
+                {deployableNames &&
+                  deployableNames.length > 0 &&
+                  deployableNames
+                    .map(deployable => {
+                      return <span key={Math.random()}>{deployable}</span>
+                    })
+                    .reduce((prev, curr) => [prev, ', ', curr])}
               </div>
             </div>
+            <div className="subHeader">
+              <div className="subscriptionInfoHeaderIndented" />
+              <div className="value">
+                <a href={getSearchUrl(subName)} target="_blank">
+                  {msgs.get('description.Modal.viewAllResources', locale)}
+                </a>
+              </div>
+            </div>
+            {
+              // currently there is no version information to display
+              /* <div className="subHeader">
+              <div className="subscriptionInfoHeader">
+                {msgs.get(
+                  'description.title.deployableSubscription.version',
+                  locale
+                )}
+              </div>
+              <div className="value">{version}</div>
+            </div> */
+            }
           </div>
         </div>
         <div className="innerContent">
           <div className="placement">
-            <div>
-              <div className="label">
+            <div className="subHeader">
+              <div className="subscriptionInfoHeader">
                 {msgs.get('description.Modal.placement', locale)}
               </div>
             </div>
-            <div>
-              <div className="label-indented">
+            <div className="subHeader">
+              <div className="subscriptionInfoHeaderIndented">
                 {msgs.get('description.Modal.label', locale)}
               </div>
               <div className="value">
@@ -188,23 +205,26 @@ const SubscriptionInfo = withLocale(
                 })}
               </div>
             </div>
-            <div>
-              <div className="label-indented">
+            <div className="subHeader">
+              <div className="subscriptionInfoHeaderIndented">
                 {msgs.get('description.Modal.clusters', locale)}
               </div>
               <div className="value">
-                {' '}
-                {clusterNames.map(cluster => {
-                  return (
-                    <span
-                      className="labelTag"
-                      key={Math.random()}
-                      title={clusters_hover}
-                    >
-                      {cluster}
-                    </span>
-                  )
-                })}
+                {clusterNames &&
+                  clusterNames.length > 0 &&
+                  clusterNames
+                    .map(cluster => {
+                      return <span key={Math.random()}>{cluster}</span>
+                    })
+                    .reduce((prev, curr) => [prev, ', ', curr])}
+              </div>
+            </div>
+            <div className="subHeader">
+              <div className="subscriptionInfoHeaderIndented" />
+              <div className="value">
+                <a href={getSearchUrl(subName)}>
+                  {msgs.get('description.Modal.viewAllClusters', locale)}
+                </a>
               </div>
             </div>
           </div>

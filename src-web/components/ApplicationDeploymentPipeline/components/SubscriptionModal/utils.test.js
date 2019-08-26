@@ -7,7 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import { getLabelsListClass } from './utils'
+import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils'
 
 describe('getLabelsListClass', () => {
   const list1 = ['a', 'b', 'c', 'd']
@@ -37,5 +37,45 @@ describe('getLabelsListClass', () => {
   })
   it('should handle undefined object for reference', () => {
     expect(getLabelsListClass([])).toEqual({ data: [], hover: '' })
+  })
+})
+
+describe('getCsvListClass', () => {
+  const list1 = ['a', 'b', 'c', 'd']
+  const list2 = ['a', 'b', 'c', 'd', 'e', 'f']
+  const list3 = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+
+  it('should return {data: [a,b,c,d] hover: }', () => {
+    const result = {
+      data: ['a', 'b', 'c', 'd'],
+      hover: ''
+    }
+    expect(getCsvListClass(list1)).toEqual(result)
+  })
+  it('should return {data: [a,b,c,d] hover: }', () => {
+    const result = {
+      data: ['a', 'b', 'c', 'd', 'e', 'f'],
+      hover: ''
+    }
+    expect(getCsvListClass(list2)).toEqual(result)
+  })
+  it('should return {data: [a,b,c,d,e,f...] hover: g}', () => {
+    const result = {
+      data: ['a', 'b', 'c', 'd', 'e', 'f...'],
+      hover: 'g'
+    }
+    expect(getCsvListClass(list3)).toEqual(result)
+  })
+  it('should handle undefined object for reference', () => {
+    expect(getCsvListClass([])).toEqual({ data: [], hover: '' })
+  })
+})
+
+describe('getSearchUrl', () => {
+  it('url with the subscription for search', () => {
+    expect(
+      getSearchUrl('abc') ===
+        '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3Aabc"}'
+    )
   })
 })

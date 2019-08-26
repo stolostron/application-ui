@@ -20,7 +20,8 @@ import {
   getApplicationLevelStatus,
   subscriptionPresentInGivenChannel,
   createSubscriptionPerChannel,
-  subscriptionsUnderColumnsGrid
+  subscriptionsUnderColumnsGrid,
+  getLongestArray
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon, Tag } from 'carbon-components-react'
@@ -47,6 +48,7 @@ const LeftColumnForApplicationNames = (
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
     getSubscriptionResource,
+    channelList,
     oneApplication
   },
   { locale }
@@ -89,20 +91,32 @@ const LeftColumnForApplicationNames = (
             subscriptionsFetched[0] &&
             subscriptionsFetched[0].items) ||
           []
+        // get the subscriptions that fall under each column
+        // each index is a channel
+        // [[{sub1}], [], [], [{sub2}, {sub3}]]
+        const subscriptionsUnderColumns = createSubscriptionPerChannel(
+          channelList,
+          subscriptions
+        )
+        // We need to know the longest subscriptionArray because we want to extend
+        // the drop down for the left most column to that length
+        const longestSubscriptionArray = getLongestArray(
+          subscriptionsUnderColumns
+        )
         const expandRow = appDropDownList.includes(appName)
         return (
           <div key={Math.random()} className="tileContainerApp">
             <Tile
               className="applicationTile"
               onClick={
-                subscriptions.length > 0
+                longestSubscriptionArray.length > 0
                   ? () => updateAppDropDownList(appName)
                   : () => {
                     /* onClick expects a function thus we have placeholder */
                   }
               }
             >
-              {subscriptions.length > 0 && (
+              {longestSubscriptionArray.length > 0 && (
                 <Icon
                   id={`${appName}chevron`}
                   name="icon--chevron--right"
@@ -114,7 +128,7 @@ const LeftColumnForApplicationNames = (
               <div className="ApplicationContents">
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
-                  {`${subscriptions.length} `}
+                  {`${longestSubscriptionArray.length} `}
                   {msgs.get('description.title.subscriptions', locale)}
                 </div>
               </div>
@@ -124,7 +138,7 @@ const LeftColumnForApplicationNames = (
               className="deployablesDisplay"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {subscriptions.map(subscription => {
+              {longestSubscriptionArray.map(subscription => {
                 // const subscriptionName =
                 //   (subscription && subscription.name) || ''
                 return (
@@ -288,7 +302,10 @@ const ChannelColumnGrid = (
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
-                      {subscriptions.length}
+                      <div className="subTotal">{subscriptions.length}</div>
+                      <div className="subTotalDescription">
+                        {msgs.get('description.subsInChannel', locale)}
+                      </div>
                     </Tile>
                   </div>
                 )
@@ -397,6 +414,7 @@ const PipelineGrid = withLocale(
               setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
               getSubscriptionResource={getSubscriptionResource}
               hasAdminRole={hasAdminRole}
+              channelList={channels}
               oneApplication={oneApplication}
             />
           )}

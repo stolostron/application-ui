@@ -62,6 +62,7 @@
   "description.fail": "Fail",
   "description.inprogress": "In Progress",
   "description.deployed": "deployed",
+  "description.subsInChannel": "Subscriptions in this channel",
   "breadcrumb.viewall": "View All",
   "button.copyButton.feedback": "Copied to clipboard",
   "button.save.query": "Save This Search",

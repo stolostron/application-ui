@@ -29,7 +29,7 @@ export default {
   secondaryKey: 'namespace',
   tableKeys: [
     {
-      msgKey: 'table.header.name',
+      msgKey: 'table.header.applicationName',
       resourceKey: 'name',
       transformFunction: createApplicationLink
     },
@@ -48,7 +48,7 @@ export default {
       transformFunction: getNumDeployments
     },
     {
-      msgKey: 'table.header.deployment.completed',
+      msgKey: 'table.header.deployment.completedDeployments',
       resourceKey: 'completedDeployments',
       transformFunction: getNumCompletedDeployments
     },

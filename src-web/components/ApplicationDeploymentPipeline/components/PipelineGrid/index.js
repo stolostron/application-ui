@@ -98,10 +98,13 @@ const LeftColumnForApplicationNames = (
           subscriptionsUnderColumns
         )
         const expandRow = appDropDownList.includes(appName)
+        const applicationTileClass = !expandRow
+          ? 'applicationTile'
+          : 'applicationTile noBottomBorder'
         return (
           <div key={Math.random()} className="tileContainerApp">
             <Tile
-              className="applicationTile"
+              className={applicationTileClass}
               onClick={
                 longestSubscriptionArray.length > 0
                   ? () => updateAppDropDownList(appName)

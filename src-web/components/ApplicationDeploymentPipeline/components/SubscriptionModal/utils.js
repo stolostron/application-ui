@@ -25,3 +25,29 @@ export const getLabelsListClass = list => {
   }
   return { data: list, hover: '' }
 }
+
+export const getCsvListClass = list => {
+  if (list.length > 6) {
+    const placeholder = R.concat(list[5], '...')
+    let result = R.insert(5, placeholder, list)
+    result = R.remove(6, list.length - 5, result)
+    const lastElements = R.slice(6, list.length, list)
+
+    return {
+      data: result,
+      hover: R.join('', lastElements)
+    }
+  }
+  return {
+    data: list,
+    hover: ''
+  }
+}
+
+export const getSearchUrl = subName => {
+  return (
+    '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3A' +
+    subName +
+    '"}'
+  )
+}

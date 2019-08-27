@@ -136,7 +136,26 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                   <div
                     className="value"
                   >
-                     
+                    <span>
+                      N/A
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className="subHeader"
+                >
+                  <div
+                    className="subscriptionInfoHeaderIndented"
+                  />
+                  <div
+                    className="value"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3A\\"}"
+                      target="_blank"
+                    >
+                      View all resources
+                    </a>
                   </div>
                 </div>
               </div>
@@ -147,16 +166,20 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
               <div
                 className="placement"
               >
-                <div>
+                <div
+                  className="subHeader"
+                >
                   <div
-                    className="label"
+                    className="subscriptionInfoHeader"
                   >
                     Placement
                   </div>
                 </div>
-                <div>
+                <div
+                  className="subHeader"
+                >
                   <div
-                    className="label-indented"
+                    className="subscriptionInfoHeaderIndented"
                   >
                     Labels
                   </div>
@@ -166,22 +189,36 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
                      
                   </div>
                 </div>
-                <div>
+                <div
+                  className="subHeader"
+                >
                   <div
-                    className="label-indented"
+                    className="subscriptionInfoHeaderIndented"
                   >
                     Target clusters
                   </div>
                   <div
                     className="value"
                   >
-                     
-                    <span
-                      className="labelTag"
-                      title=""
-                    >
+                    <span>
                       N/A
                     </span>
+                  </div>
+                </div>
+                <div
+                  className="subHeader"
+                >
+                  <div
+                    className="subscriptionInfoHeaderIndented"
+                  />
+                  <div
+                    className="value"
+                  >
+                    <a
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3A\\"}"
+                    >
+                      View all clusters
+                    </a>
                   </div>
                 </div>
               </div>

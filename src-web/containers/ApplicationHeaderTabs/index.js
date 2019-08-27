@@ -20,6 +20,7 @@ import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
 import resources from '../../../lib/shared/resources'
+import { isAdminRole } from '../../../lib/client/access-helper'
 
 resources(() => {
   require('./style.scss')
@@ -44,7 +45,7 @@ export const ApplicationLogs = loadable(() =>
 // This will render the four tabs
 // Overview, Deployments, Incidents, Logs
 const ApplicationHeaderTabs = withLocale(
-  ({ selectedAppTab, showExtraTabs, params, actions, locale }) => {
+  ({ selectedAppTab, showExtraTabs, userRole, params, actions, locale }) => {
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
@@ -85,7 +86,8 @@ const ApplicationHeaderTabs = withLocale(
                 <ApplicationDeploymentPipeline />
               </div>
             </Tab>
-            {showExtraTabs && (
+            {showExtraTabs &&
+              isAdminRole(userRole) && (
               <Tab
                 disabled={false}
                 onClick={() => {}}
@@ -122,10 +124,11 @@ const mapDispatchToProps = dispatch => {
   }
 }
 const mapStateToProps = state => {
-  const { AppOverview } = state
+  const { AppOverview, role } = state
   return {
     selectedAppTab:
-      AppOverview.selectedAppTab == null ? 0 : AppOverview.selectedAppTab
+      AppOverview.selectedAppTab == null ? 0 : AppOverview.selectedAppTab,
+    userRole: role.role
   }
 }
 

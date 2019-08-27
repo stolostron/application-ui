@@ -66,7 +66,8 @@ const LeftColumnForApplicationNames = (
             {`${(oneApplication &&
               subscriptionsForOneApp &&
               subscriptionsForOneApp[0] &&
-              subscriptionsForOneApp[0].count) ||
+              subscriptionsForOneApp[0].items instanceof Array &&
+              subscriptionsForOneApp[0].items.length > 0) ||
               subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>

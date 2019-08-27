@@ -55,7 +55,12 @@ describe('getChannelClustersNb', () => {
     related: [
       {
         kind: 'cluster',
-        count: 3
+        count: 3,
+        items: [
+          { name: 'cluster1' },
+          { name: 'cluster2' },
+          { name: 'cluster3' }
+        ]
       }
     ]
   }

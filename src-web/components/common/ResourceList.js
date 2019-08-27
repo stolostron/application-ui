@@ -30,6 +30,11 @@ import config from '../../../lib/shared/config'
 import TagInput from './TagInput'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { showCreate } from '../../../lib/client/access-helper'
+import resources from '../../../lib/shared/resources'
+
+resources(() => {
+  require('../../../scss/resource-list.scss')
+})
 
 class ResourceList extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
@@ -145,7 +150,7 @@ class ResourceList extends React.Component {
         searchTable(clientSideFilters, false)
       }
       return (
-        <div>
+        <div id="resource-list">
           {mutateStatus === REQUEST_STATUS.ERROR && (
             <Notification
               title=""

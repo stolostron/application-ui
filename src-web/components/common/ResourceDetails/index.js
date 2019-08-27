@@ -43,6 +43,7 @@ const withResource = Component => {
   const mapDispatchToProps = (dispatch, ownProps) => {
     const { resourceType, params } = ownProps
     return {
+      actions: bindActionCreators(Actions, dispatch),
       fetchResource: () =>
         dispatch(fetchResource(resourceType, params.namespace, params.name)),
       fetchIncidents: () =>
@@ -105,10 +106,11 @@ const withResource = Component => {
         }
         this.props.fetchResource()
         this.props.fetchUserInfo()
-        const { params } = this.props
+        const { params, actions } = this.props
         if (params && params.namespace && params.name) {
           this.props.fetchIncidents()
         }
+        actions.updateAppDropDownList(params.name)
       }
 
       componentWillUnmount() {

@@ -20,10 +20,13 @@
   }
 
   .inprogress {
-    max-width: 125px;
-    font-size: 10px;
-    display: inline-block;
-    padding-right: 15%;
+    max-width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .percentagesContainers {
+    display: flex;
   }
 
   .total {
@@ -32,17 +35,12 @@
   }
 
   .pass {
-    max-width: 100px;
-    padding-right: 35%;
-    font-size: 10px;
-    display: inline-block;
+    max-width: 50px;
   }
 
   .fail {
-    max-width: 100px;
-    padding-right: 15%;
-    font-size: 10px;
-    display: inline-block;
+    max-width: 50px;
+    margin-right: 20px;
   }
 
   .percentage {

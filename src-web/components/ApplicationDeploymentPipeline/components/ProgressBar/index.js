@@ -30,30 +30,32 @@ const ProgressBar = withLocale(({ status, locale }) => {
       fail}%, #cccccc ${pass + inprogress + fail}%, #cccccc 100%)`
   return (
     <div id="ProgressBar">
-      <div className="pass">
-        <div className="percentage">{`${Math.round(completed)}%`}</div>
-        <div className="resourceType">
-          <div className="completedSquare" />
-          <div className="textResource">
-            {msgs.get('description.pass', locale)}
+      <div className="percentagesContainers">
+        <div className="pass">
+          <div className="percentage">{`${Math.round(completed)}%`}</div>
+          <div className="resourceType">
+            <div className="completedSquare" />
+            <div className="textResource">
+              {msgs.get('description.pass', locale)}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="inprogress">
-        <div className="percentage">{`${Math.round(inprogress)}%`}</div>
-        <div className="resourceType">
-          <div className="inprogressSquare" />
-          <div className="textResource">
-            {msgs.get('description.inprogress', locale)}
+        <div className="inprogress">
+          <div className="percentage">{`${Math.round(inprogress)}%`}</div>
+          <div className="resourceType">
+            <div className="inprogressSquare" />
+            <div className="textResource">
+              {msgs.get('description.inprogress', locale)}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="fail">
-        <div className="percentage">{`${Math.round(fail)}%`}</div>
-        <div className="resourceType">
-          <div className="failedSquare" />
-          <div className="textResource">
-            {msgs.get('description.fail', locale)}
+        <div className="fail">
+          <div className="percentage">{`${Math.round(fail)}%`}</div>
+          <div className="resourceType">
+            <div className="failedSquare" />
+            <div className="textResource">
+              {msgs.get('description.fail', locale)}
+            </div>
           </div>
         </div>
       </div>

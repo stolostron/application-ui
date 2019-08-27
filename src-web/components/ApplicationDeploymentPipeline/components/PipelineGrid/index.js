@@ -387,7 +387,13 @@ const ChannelColumnGrid = (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
                             <Tile className="channelColumnDeployable">
-                              <ProgressBar status={status} />
+                              <div className="subColHeader">
+                                {msgs.get('description.subscription', locale)}
+                              </div>
+                              <div className="subColName">{subCol.name}</div>
+                              <div className="progressBarContainer">
+                                <ProgressBar status={status} />
+                              </div>
                             </Tile>
                           )}
                           {showNoSubsTile && (

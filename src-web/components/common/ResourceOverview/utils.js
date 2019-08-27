@@ -44,11 +44,10 @@ export const getChannelsList = channels => {
 export const getNumDeployables = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(elem => elem.kind === 'deployable')
-    if (filtered.length > 0) {
-      return filtered.reduce((acc, cur) => acc + cur['count'], 0)
-    } else {
-      return 0
-    }
+    return filtered.reduce(
+      (acc, cur) => acc + (cur.items instanceof Array ? cur.items.length : 0),
+      0
+    )
   } else {
     return 0
   }
@@ -59,11 +58,10 @@ export const getNumDeployments = data => {
     const filtered = data.related.filter(
       elem => !kindsToExcludeForDeployments.includes(elem.kind)
     )
-    if (filtered.length > 0) {
-      return filtered.reduce((acc, cur) => acc + cur['count'], 0)
-    } else {
-      return 0
-    }
+    return filtered.reduce(
+      (acc, cur) => acc + (cur.items instanceof Array ? cur.items.length : 0),
+      0
+    )
   } else {
     return 0
   }

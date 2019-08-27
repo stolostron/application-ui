@@ -69,7 +69,8 @@ const LeftColumnForApplicationNames = (
             {`${(oneApplications &&
               subscriptionsForOneApp &&
               subscriptionsForOneApp[0] &&
-              subscriptionsForOneApp[0].count) ||
+              subscriptionsForOneApp[0].items instanceof Array &&
+              subscriptionsForOneApp[0].items.length > 0) ||
               subscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
@@ -126,22 +127,31 @@ const LeftColumnForApplicationNames = (
               {subscriptions.map(subscription => {
                 const subscriptionName =
                   (subscription && subscription.name) || ''
+                const onClick = () => {
+                  onSubscriptionClick(
+                    openSubscriptionModal,
+                    setSubscriptionModalHeaderInfo,
+                    setCurrentDeployableSubscriptionData,
+                    setCurrentsubscriptionModalData,
+                    subscription,
+                    appName,
+                    subscriptionName
+                  )
+                }
+                const onKeyPress = e => {
+                  if (e.key === 'Enter') {
+                    onClick()
+                  }
+                }
                 return (
                   <Tile key={Math.random()} className="deployableTile">
                     <div className="DeployableContents">
                       <div
                         className="deployableName"
-                        onClick={() =>
-                          onSubscriptionClick(
-                            openSubscriptionModal,
-                            setSubscriptionModalHeaderInfo,
-                            setCurrentDeployableSubscriptionData,
-                            setCurrentsubscriptionModalData,
-                            subscription,
-                            appName,
-                            subscriptionName
-                          )
-                        }
+                        role="button"
+                        onClick={onClick}
+                        onKeyPress={onKeyPress}
+                        tabIndex={0}
                       >
                         {`${subscriptionName} `}
                       </div>
@@ -257,10 +267,10 @@ const ChannelColumnGrid = (
                       {showStatus ? (
                         <ProgressBar status={appStatus} />
                       ) : (
-                          <Tag type="custom" className="statusTag">
-                            {msgs.get('description.na', locale)}
-                          </Tag>
-                        )}
+                        <Tag type="custom" className="statusTag">
+                          {msgs.get('description.na', locale)}
+                        </Tag>
+                      )}
                     </Tile>
                   </div>
                 )
@@ -298,12 +308,12 @@ const ChannelColumnGrid = (
                               <ProgressBar status={status} />
                             </Tile>
                           ) : (
-                              <Tile className="channelColumnDeployable">
-                                <Tag type="custom" className="statusTag">
-                                  {msgs.get('description.na', locale)}
-                                </Tag>
-                              </Tile>
-                            )}
+                            <Tile className="channelColumnDeployable">
+                              <Tag type="custom" className="statusTag">
+                                {msgs.get('description.na', locale)}
+                              </Tag>
+                            </Tile>
+                          )}
                         </div>
                       )
                     })}

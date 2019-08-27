@@ -56,6 +56,7 @@ const CreateChannelModal = () => {
       submitBtnTextKey="actions.add.channel"
       onCreateResource={handleCreateChannelResource}
       resourceDescriptionKey="modal.createresource.channel"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html"
     />
   )
 }
@@ -72,6 +73,7 @@ const CreateSubscriptionModal = () => {
       submitBtnTextKey="actions.add.subscription"
       onCreateResource={handleCreateSubscriptionResource}
       resourceDescriptionKey="modal.createresource.subscription"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html"
     />
   )
 }

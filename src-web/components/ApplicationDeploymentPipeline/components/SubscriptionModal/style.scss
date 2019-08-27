@@ -31,7 +31,7 @@
   }
 
   .innerContent {
-    border-left: #becfda;
+    border-left: #dee6eb;
     border-left-width: 5px;
     border-left-style: solid;
   }
@@ -49,6 +49,12 @@
   .subscriptionInfoHeader {
     display: inline-block;
     width: 150px;
+  }
+
+  .subscriptionInfoHeaderIndented {
+    display: inline-block;
+    width: 130px;
+    margin-left: 20px;
   }
 
   .channelHeader {
@@ -70,6 +76,7 @@
     padding-right: 5px;
     padding-top: 20px;
     padding-bottom: 5px;
+    width: 80px;
   }
 
   .value {
@@ -128,7 +135,7 @@
     margin-right: 10px;
     border-radius: 0.9375rem;
     font-size: 0.75rem;
-    background-color: #dee3e6;
+    background-color: #e0eaf5;
     color: black;
   }
 

@@ -44,11 +44,6 @@ const LeftColumnForApplicationNames = (
     subscriptions,
     updateAppDropDownList,
     appDropDownList,
-    openSubscriptionModal,
-    setSubscriptionModalHeaderInfo,
-    setCurrentDeployableSubscriptionData,
-    setCurrentsubscriptionModalData,
-    getSubscriptionResource,
     channelList,
     oneApplication
   },
@@ -197,7 +192,12 @@ const ChannelColumnGrid = (
     getChannelResource,
     appDropDownList,
     bulkSubscriptionList,
-    oneApplication
+    oneApplication,
+    openSubscriptionModal,
+    setSubscriptionModalHeaderInfo,
+    setCurrentDeployableSubscriptionData,
+    setCurrentsubscriptionModalData,
+    getSubscriptionResource
   },
   locale
 ) => {
@@ -360,7 +360,6 @@ const ChannelColumnGrid = (
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {subRow.map(subCol => {
-                      console.log('subCol', subCol)
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,
@@ -383,10 +382,24 @@ const ChannelColumnGrid = (
                       const showBlankFiller =
                         subscriptoinsRowFormat.length > 1 &&
                         displayStatus == undefined
+                      const subName = subCol.name
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable"
+                              onClick={() =>
+                                onSubscriptionClick(
+                                  openSubscriptionModal,
+                                  setSubscriptionModalHeaderInfo,
+                                  setCurrentDeployableSubscriptionData,
+                                  setCurrentsubscriptionModalData,
+                                  subCol,
+                                  applicationName,
+                                  subName
+                                )
+                              }
+                            >
                               <div className="subColHeader">
                                 {msgs.get('description.subscription', locale)}
                               </div>
@@ -462,13 +475,6 @@ const PipelineGrid = withLocale(
               applications={applications}
               updateAppDropDownList={updateAppDropDownList}
               appDropDownList={appDropDownList}
-              openSubscriptionModal={openSubscriptionModal}
-              setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
-              setCurrentDeployableSubscriptionData={
-                setCurrentDeployableSubscriptionData
-              }
-              setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
-              getSubscriptionResource={getSubscriptionResource}
               hasAdminRole={hasAdminRole}
               channelList={channels}
               oneApplication={oneApplication}
@@ -482,6 +488,13 @@ const PipelineGrid = withLocale(
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
             hasAdminRole={hasAdminRole}
             oneApplication={oneApplication}
+            openSubscriptionModal={openSubscriptionModal}
+            setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
+            setCurrentDeployableSubscriptionData={
+              setCurrentDeployableSubscriptionData
+            }
+            setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
+            getSubscriptionResource={getSubscriptionResource}
           />
         </div>
       </div>

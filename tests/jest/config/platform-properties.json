@@ -602,7 +602,7 @@
   "table.header.deployment.completed": "Completed",
   "table.header.deployment.completedDeployments": "Completed resources",
   "table.header.deployment.failed": "Failed",
-  "table.header.deployment.inProgress": "In Progress",
+  "table.header.deployment.inProgress": "In progress",
   "table.header.deployments": "Resources",
   "table.header.desired": "Desired",
   "table.header.destination": "Destination",

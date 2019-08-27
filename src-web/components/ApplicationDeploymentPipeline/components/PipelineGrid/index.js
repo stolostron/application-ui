@@ -17,11 +17,13 @@ import {
   editResourceClick,
   getDataByKind,
   getResourcesStatusPerChannel,
-  getApplicationLevelStatus,
-  subscriptionPresentInGivenChannel
+  createSubscriptionPerChannel,
+  subscriptionsUnderColumnsGrid,
+  getLongestArray
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
-import { Tile, Icon, Tag } from 'carbon-components-react'
+import { Tile, Icon } from 'carbon-components-react'
+import config from '../../../../../lib/shared/config'
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key*/
@@ -40,19 +42,14 @@ const LeftColumnForApplicationNames = (
     subscriptions,
     updateAppDropDownList,
     appDropDownList,
-    openSubscriptionModal,
-    setSubscriptionModalHeaderInfo,
-    setCurrentDeployableSubscriptionData,
-    setCurrentsubscriptionModalData,
-    getSubscriptionResource,
-    breadcrumbItems
+    channelList,
+    oneApplication
   },
   { locale }
 ) => {
   // If there is just one application we want to find the subscription
   // count for that one so that we can display it rather that that total
   // subscription count
-  const oneApplications = breadcrumbItems.length == 2
   const subscriptionsForOneApp = pullOutKindPerApplication(
     applications[0],
     'subscription'
@@ -66,7 +63,7 @@ const LeftColumnForApplicationNames = (
             {msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
-            {`${(oneApplications &&
+            {`${(oneApplication &&
               subscriptionsForOneApp &&
               subscriptionsForOneApp[0] &&
               subscriptionsForOneApp[0].count) ||
@@ -88,20 +85,35 @@ const LeftColumnForApplicationNames = (
             subscriptionsFetched[0] &&
             subscriptionsFetched[0].items) ||
           []
+        // get the subscriptions that fall under each column
+        // each index is a channel
+        // [[{sub1}], [], [], [{sub2}, {sub3}]]
+        const subscriptionsUnderColumns = createSubscriptionPerChannel(
+          channelList,
+          subscriptions
+        )
+        // We need to know the longest subscriptionArray because we want to extend
+        // the drop down for the left most column to that length
+        const longestSubscriptionArray = getLongestArray(
+          subscriptionsUnderColumns
+        )
         const expandRow = appDropDownList.includes(appName)
+        const applicationTileClass = !expandRow
+          ? 'applicationTile'
+          : 'applicationTile noBottomBorder'
         return (
           <div key={Math.random()} className="tileContainerApp">
             <Tile
-              className="applicationTile"
+              className={applicationTileClass}
               onClick={
-                subscriptions.length > 0
+                longestSubscriptionArray.length > 0
                   ? () => updateAppDropDownList(appName)
                   : () => {
                     /* onClick expects a function thus we have placeholder */
                   }
               }
             >
-              {subscriptions.length > 0 && (
+              {longestSubscriptionArray.length > 0 && (
                 <Icon
                   id={`${appName}chevron`}
                   name="icon--chevron--right"
@@ -113,7 +125,7 @@ const LeftColumnForApplicationNames = (
               <div className="ApplicationContents">
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
-                  {`${subscriptions.length} `}
+                  {`${longestSubscriptionArray.length} `}
                   {msgs.get('description.title.subscriptions', locale)}
                 </div>
               </div>
@@ -123,48 +135,8 @@ const LeftColumnForApplicationNames = (
               className="deployablesDisplay"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {subscriptions.map(subscription => {
-                const subscriptionName =
-                  (subscription && subscription.name) || ''
-                return (
-                  <Tile key={Math.random()} className="deployableTile">
-                    <div className="DeployableContents">
-                      <div
-                        className="deployableName"
-                        onClick={() =>
-                          onSubscriptionClick(
-                            openSubscriptionModal,
-                            setSubscriptionModalHeaderInfo,
-                            setCurrentDeployableSubscriptionData,
-                            setCurrentsubscriptionModalData,
-                            subscription,
-                            appName,
-                            subscriptionName
-                          )
-                        }
-                      >
-                        {`${subscriptionName} `}
-                      </div>
-                      <span>
-                        <div className="yamlTitleSub">
-                          {msgs.get('actions.yaml', locale)}
-                        </div>
-                        <Icon
-                          name="icon--edit"
-                          fill="#6089bf"
-                          description=""
-                          className="subscriptionEditIcon"
-                          onClick={() =>
-                            editResourceClick(
-                              subscription,
-                              getSubscriptionResource
-                            )
-                          }
-                        />
-                      </span>
-                    </div>
-                  </Tile>
-                )
+              {longestSubscriptionArray.map(() => {
+                return <Tile key={Math.random()} className="deployableTile" />
               })}
             </div>
           </div>
@@ -180,12 +152,21 @@ const ChannelColumnGrid = (
     applicationList,
     getChannelResource,
     appDropDownList,
-    bulkSubscriptionList
+    bulkSubscriptionList,
+    oneApplication,
+    openSubscriptionModal,
+    setSubscriptionModalHeaderInfo,
+    setCurrentDeployableSubscriptionData,
+    setCurrentsubscriptionModalData,
+    getSubscriptionResource
   },
   locale
 ) => {
+  const containerClass =
+    (oneApplication && 'channelGridContainerSingleApp') ||
+    'channelGridContainer'
   return (
-    <div className="channelGridContainer">
+    <div className={containerClass}>
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
         {channelList.map(channel => {
@@ -208,6 +189,9 @@ const ChannelColumnGrid = (
                       }
                     />
                   </span>
+                  <div className="channelTitle">
+                    {msgs.get('description.Pipeline.channel', locale)}
+                  </div>
                   <div className="channelNameTitle">{`${channelName}`}</div>
                 </div>
               </Tile>
@@ -229,38 +213,32 @@ const ChannelColumnGrid = (
             subscriptionsFetched[0] &&
             subscriptionsFetched[0].items) ||
           []
+        // get the subscriptions that fall under each column
+        // each index is a channel
+        // [[{sub1}], [], [], [{sub2}, {sub3}]]
+        const subscriptionsUnderColumns = createSubscriptionPerChannel(
+          channelList,
+          subscriptionsForThisApplication
+        )
+        const subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
+          subscriptionsUnderColumns
+        )
+
         const expandRow = appDropDownList.includes(applicationName)
+        // I use this row counter for determining if I should show no subscription
+        // tile or a blank tile
+        let row = 0
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
-              {/* This is the where the row totals will go for the applications */}
-              {channelList.map(channel => {
-                // Given the subscriptionsForThisApplication, the channel,
-                // we will look through match the subscription with the channel
-                // and then tally up all the status under that application to give
-                // the total status that will be displayed at the header level
-                const appStatus = getApplicationLevelStatus(
-                  subscriptionsForThisApplication,
-                  channel,
-                  bulkSubscriptionList
-                )
-                const subscriptionPresentInChannel = subscriptionPresentInGivenChannel(
-                  subscriptionsForThisApplication,
-                  channel
-                )
-                const showStatus =
-                  subscriptionsForThisApplication.length > 0 &&
-                  subscriptionPresentInChannel
+              {subscriptionsUnderColumns.map(subscriptions => {
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
-                      {showStatus ? (
-                        <ProgressBar status={appStatus} />
-                      ) : (
-                          <Tag type="custom" className="statusTag">
-                            {msgs.get('description.na', locale)}
-                          </Tag>
-                        )}
+                      <div className="subTotal">{subscriptions.length}</div>
+                      <div className="subTotalDescription">
+                        {msgs.get('description.subsInChannel', locale)}
+                      </div>
                     </Tile>
                   </div>
                 )
@@ -271,18 +249,15 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {subscriptionsForThisApplication.map(subscription => {
-                // // Gather the subscription data that contains the matching UID
-                const thisSubscriptionData = getDataByKind(
-                  bulkSubscriptionList,
-                  subscription._uid
-                )
+              {subscriptoinsRowFormat.map(subRow => {
+                row = row + 1
                 return (
                   <div key={Math.random()} className="deployableRow">
-                    {channelList.map(channel => {
-                      // Determine if this subscription is present in this channel
-                      const channelMatch = subscription.channel.includes(
-                        channel.name
+                    {subRow.map(subCol => {
+                      // Gather the subscription data that contains the matching UID
+                      const thisSubscriptionData = getDataByKind(
+                        bulkSubscriptionList,
+                        subCol._uid
                       )
                       // Get status of resources within the subscription specific
                       // to the channel. We will match the resources that contain
@@ -291,19 +266,91 @@ const ChannelColumnGrid = (
                       const status = getResourcesStatusPerChannel(
                         thisSubscriptionData
                       )
+                      // If the object isn't empty name will be defined
+                      const displayStatus = subCol.name
+                      // show no subscriptions Tile
+                      const showNoSubsTile =
+                        row == 1 && displayStatus == undefined
+                      // if there is more than one subscription and subCol.name is undefined
+                      const showBlankFiller =
+                        row > 1 && displayStatus == undefined
+                      const subName = subCol.name
+
+                      const onClick = () => {
+                        onSubscriptionClick(
+                          openSubscriptionModal,
+                          setSubscriptionModalHeaderInfo,
+                          setCurrentDeployableSubscriptionData,
+                          setCurrentsubscriptionModalData,
+                          subCol,
+                          applicationName,
+                          subName
+                        )
+                      }
+                      const onKeyPress = e => {
+                        if (e.key === 'Enter') {
+                          onClick()
+                        }
+                      }
+
                       return (
                         <div key={Math.random()} className="channelColumnDep">
-                          {channelMatch ? (
+                          {displayStatus && (
                             <Tile className="channelColumnDeployable">
-                              <ProgressBar status={status} />
+                              <div className="subColHeader">
+                                {msgs.get('description.subscription', locale)}
+                              </div>
+                              <Icon
+                                name="icon--edit"
+                                fill="#6089bf"
+                                description=""
+                                className="subscriptionEditIcon"
+                                onClick={() =>
+                                  editResourceClick(
+                                    subCol,
+                                    getSubscriptionResource
+                                  )
+                                }
+                              />
+                              <div
+                                role="button"
+                                className="hoverCursor"
+                                onClick={onClick}
+                                onKeyPress={onKeyPress}
+                                tabIndex={0}
+                              >
+                                <div className="subColName">{subCol.name}</div>
+                                <div className="progressBarContainer">
+                                  <ProgressBar status={status} />
+                                </div>
+                              </div>
                             </Tile>
-                          ) : (
-                              <Tile className="channelColumnDeployable">
-                                <Tag type="custom" className="statusTag">
-                                  {msgs.get('description.na', locale)}
-                                </Tag>
-                              </Tile>
-                            )}
+                          )}
+                          {showNoSubsTile && (
+                            <Tile className="channelColumnDeployable">
+                              <img
+                                className="no-sub-icon"
+                                src={`${
+                                  config.contextPath
+                                }/graphics/nothing-moon-copy.svg`}
+                                alt={msgs.get(
+                                  'description.tryAddingSub',
+                                  locale
+                                )}
+                              />
+                              <div className="subDescriptionText">
+                                <div className="noSubTitle">
+                                  {msgs.get('description.noSubs', locale)}
+                                </div>
+                                <div className="noSubDescription">
+                                  {msgs.get('description.tryAddingSub', locale)}
+                                </div>
+                              </div>
+                            </Tile>
+                          )}
+                          {showBlankFiller && (
+                            <Tile className="channelColumnDeployableBlank" />
+                          )}
                         </div>
                       )
                     })}
@@ -335,24 +382,21 @@ const PipelineGrid = withLocale(
     hasAdminRole,
     breadcrumbItems
   }) => {
+    const oneApplication = breadcrumbItems.length == 2
     return (
       <div id="PipelineGrid">
         <div className="tableGridContainer">
-          <LeftColumnForApplicationNames
-            subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
-            applications={applications}
-            updateAppDropDownList={updateAppDropDownList}
-            appDropDownList={appDropDownList}
-            openSubscriptionModal={openSubscriptionModal}
-            setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
-            setCurrentDeployableSubscriptionData={
-              setCurrentDeployableSubscriptionData
-            }
-            setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
-            getSubscriptionResource={getSubscriptionResource}
-            hasAdminRole={hasAdminRole}
-            breadcrumbItems={breadcrumbItems}
-          />
+          {!oneApplication && (
+            <LeftColumnForApplicationNames
+              subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
+              applications={applications}
+              updateAppDropDownList={updateAppDropDownList}
+              appDropDownList={appDropDownList}
+              hasAdminRole={hasAdminRole}
+              channelList={channels}
+              oneApplication={oneApplication}
+            />
+          )}
           <ChannelColumnGrid
             channelList={channels}
             applicationList={applications}
@@ -360,6 +404,14 @@ const PipelineGrid = withLocale(
             appDropDownList={appDropDownList}
             bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
             hasAdminRole={hasAdminRole}
+            oneApplication={oneApplication}
+            openSubscriptionModal={openSubscriptionModal}
+            setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
+            setCurrentDeployableSubscriptionData={
+              setCurrentDeployableSubscriptionData
+            }
+            setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
+            getSubscriptionResource={getSubscriptionResource}
           />
         </div>
       </div>

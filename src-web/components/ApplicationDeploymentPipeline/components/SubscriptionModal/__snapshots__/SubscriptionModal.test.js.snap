@@ -64,6 +64,94 @@ exports[`subscriptionModal subscriptionModal renders correctly. 1`] = `
             className="subscriptionInfoClass"
           >
             <div
+              className="progressHeader"
+            >
+              <div
+                className="subscriptionNameHeader"
+              >
+                
+              </div>
+              <div
+                id="ProgressBar"
+              >
+                <div
+                  className="percentagesContainers"
+                >
+                  <div
+                    className="pass"
+                  >
+                    <div
+                      className="percentage"
+                    >
+                      0%
+                    </div>
+                    <div
+                      className="resourceType"
+                    >
+                      <div
+                        className="completedSquare"
+                      />
+                      <div
+                        className="textResource"
+                      >
+                        Resources completed
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="inprogress"
+                  >
+                    <div
+                      className="percentage"
+                    >
+                      0%
+                    </div>
+                    <div
+                      className="resourceType"
+                    >
+                      <div
+                        className="inprogressSquare"
+                      />
+                      <div
+                        className="textResource"
+                      >
+                        Resources in progress
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="fail"
+                  >
+                    <div
+                      className="percentage"
+                    >
+                      0%
+                    </div>
+                    <div
+                      className="resourceType"
+                    >
+                      <div
+                        className="failedSquare"
+                      />
+                      <div
+                        className="textResource"
+                      >
+                        Resources failed
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="progressContainer"
+                  style={
+                    Object {
+                      "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                    }
+                  }
+                />
+              </div>
+            </div>
+            <div
               className="subHeader"
             >
               <div

@@ -27,6 +27,7 @@ const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
 const SET_CURRENT_SUBSCRIPTION_INFO = 'SET_CURRENT_SUBSCRIPTION_INFO'
 const SET_LOADING = 'SET_LOADING'
 const CLOSE_MODALS = 'CLOSE_MODALS'
+const CLEAR_APP_DROPDOWN_LIST = 'CLEAR_APP_DROPDOWN_LIST'
 
 export const initialStateDeployments = {
   displaySubscriptionModal: false,
@@ -86,6 +87,9 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
       return { ...state, appDropDownList: newList }
     }
   }
+  case CLEAR_APP_DROPDOWN_LIST: {
+    return { ...state, appDropDownList: [] }
+  }
   case SET_DEPLOYMENT_SEARCH: {
     return { ...state, deploymentPipelineSearch: action.payload }
   }
@@ -138,6 +142,7 @@ export const openDisplaySubscriptionModal = createAction(
   OPEN_DISPLAY_SUBSCRIPTION_MODAL
 )
 export const updateAppDropDownList = createAction(UPDATE_APP_DROPDOWN_LIST)
+export const clearAppDropDownList = createAction(CLEAR_APP_DROPDOWN_LIST)
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
 const setCurrentSubscriptionInfo = createAction(SET_CURRENT_SUBSCRIPTION_INFO)
 const setLoading = createAction(SET_LOADING)

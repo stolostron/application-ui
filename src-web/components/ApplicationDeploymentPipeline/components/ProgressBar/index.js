@@ -20,37 +20,51 @@ resources(() => {
 const ProgressBar = withLocale(({ status, locale }) => {
   // format [pass, fail, inprogress, pending, unidentifed]
   const percentage = getStatusPercentages(status)
-  const { pass, fail, inprogress, total } = percentage
+  const { pass, completed, fail, inprogress, total } = percentage
   const noneFound = total === 0
   const style =
     (noneFound && 'linear-gradient(to right,  #cccccc 0%, #cccccc 100%)') ||
-    `linear-gradient(to right,  #6ac4ff 0%,#6ac4ff ${pass}%, #53bd61 ${pass}%, #53bd61 ${pass +
-      inprogress}%, #ff0000 ${pass + inprogress}%, #ff0000 ${pass +
+    `linear-gradient(to right,  #007D79 0%,#007D79 ${pass}%, #92EEEE ${pass}%, #92EEEE ${pass +
+      inprogress}%, #E0182D ${pass + inprogress}%, #E0182D ${pass +
       inprogress +
       fail}%, #cccccc ${pass + inprogress + fail}%, #cccccc 100%)`
   return (
     <div id="ProgressBar">
+      <div className="percentagesContainers">
+        <div className="pass">
+          <div className="percentage">{`${Math.round(completed)}%`}</div>
+          <div className="resourceType">
+            <div className="completedSquare" />
+            <div className="textResource">
+              {msgs.get('description.pass', locale)}
+            </div>
+          </div>
+        </div>
+        <div className="inprogress">
+          <div className="percentage">{`${Math.round(inprogress)}%`}</div>
+          <div className="resourceType">
+            <div className="inprogressSquare" />
+            <div className="textResource">
+              {msgs.get('description.inprogress', locale)}
+            </div>
+          </div>
+        </div>
+        <div className="fail">
+          <div className="percentage">{`${Math.round(fail)}%`}</div>
+          <div className="resourceType">
+            <div className="failedSquare" />
+            <div className="textResource">
+              {msgs.get('description.fail', locale)}
+            </div>
+          </div>
+        </div>
+      </div>
       <div
         className="progressContainer"
         style={{
           background: style
         }}
       />
-      <div className="pass">
-        {`${msgs.get('description.pass', locale)}: ${status[0]}`}
-      </div>
-      <div className="fail">
-        {`${msgs.get('description.fail', locale)}: ${status[1]}`}
-      </div>
-      <div className="inprogress">
-        {`${msgs.get('description.inprogress', locale)}: ${status[2]}`}
-      </div>
-      <div className="total">
-        {`${msgs.get('description.total', locale)}: ${total}`}
-      </div>
-      <div className="percentageDeployed">
-        {`${msgs.get('description.deployed', locale)}: ${Math.round(pass)}%`}
-      </div>
     </div>
   )
 })

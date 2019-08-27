@@ -234,6 +234,9 @@ export const getAllRelatedForList = (list, kind) => {
 // we will look through match the subscription with the channel
 // and then tally up all the status under that application to give
 // the total status that will be displayed at the header level
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getApplicationLevelStatus = (
   subscriptionsForThisApplication,
   channel,
@@ -268,6 +271,9 @@ export const getApplicationLevelStatus = (
 
 // Go through the subscriptions For This Application and determine if one of them
 // exists in the given channel
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const subscriptionPresentInGivenChannel = (
   subscriptionsForThisApplication,
   channel
@@ -283,4 +289,79 @@ export const subscriptionPresentInGivenChannel = (
     })
     return isItPresent.includes(true)
   }
+}
+
+// This method will create the rows of subscriptions for each application
+// that will fall under the channel columns
+export const createSubscriptionPerChannel = (channelList, subscriptions) => {
+  // The channel list contains the order of the columns
+  // What we are going to do is go through each of the subscriptions for this
+  // current Application and determine which channel column they fall under
+  // if subscription 'A' falls under the second channel we will update the
+  // variable below to be [[], ['A'], [], [], []] with the second index being
+  // the second channel column
+  const columnsUnderAChannel = Array(channelList.length).fill([])
+  for (var i = 0; i < channelList.length; i++) {
+    const columnChannelName = `${channelList[i].namespace}/${
+      channelList[i].name
+    }`
+    subscriptions.map(sub => {
+      const subChannelName = sub.channel
+      // If the channel names match up we want to add that channel to the column
+      if (subChannelName == columnChannelName) {
+        columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
+      }
+    })
+  }
+  return columnsUnderAChannel
+}
+
+// This method takes in a list of lists and returns the longest length possilble
+// inside the list of lists
+const determineLongestArray = list => {
+  let longestLength = 0
+  list.map(x => {
+    if (x.length > longestLength) {
+      longestLength = x.length
+    }
+  })
+  return longestLength
+}
+
+export const getLongestArray = list => {
+  let longestLength = 0
+  let longestArray = []
+  list.map(x => {
+    if (x.length > longestLength) {
+      longestLength = x.length
+      longestArray = x
+    }
+  })
+  return longestArray
+}
+
+export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
+  const longestList = determineLongestArray(subscriptionsUnderChannel)
+  let subscriptionGrid = []
+  // Go through the channel columns
+  for (var i = 0; i < subscriptionsUnderChannel.length; i++) {
+    // Get the current subscription list for that channel
+    const channelSubscriptionList = subscriptionsUnderChannel[i]
+    let subscriptionList = []
+    // We want to go the length of the longest list because we want to add
+    // blank entires if they dont contain any to create a complete grid
+    for (var x = 0; x < longestList; x++) {
+      // if there is a subscription at this index we want to add it
+      if (channelSubscriptionList[x]) {
+        const currentSubscription = channelSubscriptionList[x]
+        subscriptionList = subscriptionList.concat([currentSubscription])
+      } else {
+        // else add a blank for a table filler
+        subscriptionList = subscriptionList.concat([{}])
+      }
+    }
+    subscriptionGrid = subscriptionGrid.concat([subscriptionList])
+  }
+
+  return R.transpose(subscriptionGrid)
 }

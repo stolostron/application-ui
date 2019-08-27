@@ -110,6 +110,9 @@ const withResource = Component => {
         if (params && params.namespace && params.name) {
           this.props.fetchIncidents()
         }
+        // Clear the list of dropDowns
+        actions.clearAppDropDownList()
+        // Then add it back so only one will be displaying
         actions.updateAppDropDownList(params.name)
       }
 

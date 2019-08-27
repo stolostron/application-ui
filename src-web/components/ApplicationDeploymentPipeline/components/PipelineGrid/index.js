@@ -17,14 +17,12 @@ import {
   editResourceClick,
   getDataByKind,
   getResourcesStatusPerChannel,
-  getApplicationLevelStatus,
-  subscriptionPresentInGivenChannel,
   createSubscriptionPerChannel,
   subscriptionsUnderColumnsGrid,
   getLongestArray
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
-import { Tile, Icon, Tag } from 'carbon-components-react'
+import { Tile, Icon } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 
 /* eslint-disable react/prop-types */
@@ -134,48 +132,8 @@ const LeftColumnForApplicationNames = (
               className="deployablesDisplay"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {longestSubscriptionArray.map(subscription => {
-                // const subscriptionName =
-                //   (subscription && subscription.name) || ''
-                return (
-                  <Tile key={Math.random()} className="deployableTile">
-                    {/*<div className="DeployableContents">
-                      <div
-                        className="deployableName"
-                        onClick={() =>
-                          onSubscriptionClick(
-                            openSubscriptionModal,
-                            setSubscriptionModalHeaderInfo,
-                            setCurrentDeployableSubscriptionData,
-                            setCurrentsubscriptionModalData,
-                            subscription,
-                            appName,
-                            subscriptionName
-                          )
-                        }
-                      >
-                        {`${subscriptionName} `}
-                      </div>
-                      <span>
-                        <div className="yamlTitleSub">
-                          {msgs.get('actions.yaml', locale)}
-                        </div>
-                        <Icon
-                          name="icon--edit"
-                          fill="#6089bf"
-                          description=""
-                          className="subscriptionEditIcon"
-                          onClick={() =>
-                            editResourceClick(
-                              subscription,
-                              getSubscriptionResource
-                            )
-                          }
-                        />
-                      </span>
-                    </div>*/}
-                  </Tile>
-                )
+              {longestSubscriptionArray.map(() => {
+                return <Tile key={Math.random()} className="deployableTile" />
               })}
             </div>
           </div>
@@ -267,38 +225,6 @@ const ChannelColumnGrid = (
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
-              {/* This is the where the row totals will go for the applications */}
-              {/*channelList.map(channel => {
-                // Given the subscriptionsForThisApplication, the channel,
-                // we will look through match the subscription with the channel
-                // and then tally up all the status under that application to give
-                // the total status that will be displayed at the header level
-                const appStatus = getApplicationLevelStatus(
-                  subscriptionsForThisApplication,
-                  channel,
-                  bulkSubscriptionList
-                )
-                const subscriptionPresentInChannel = subscriptionPresentInGivenChannel(
-                  subscriptionsForThisApplication,
-                  channel
-                )
-                const showStatus =
-                  subscriptionsForThisApplication.length > 0 &&
-                  subscriptionPresentInChannel
-                return (
-                  <div key={Math.random()} className="channelColumn">
-                    <Tile className="channelColumnHeaderApplication">
-                      {showStatus ? (
-                        <ProgressBar status={appStatus} />
-                      ) : (
-                        <Tag type="custom" className="statusTag">
-                          {msgs.get('description.na', locale)}
-                        </Tag>
-                      )}
-                    </Tile>
-                  </div>
-                )
-              })*/}
               {subscriptionsUnderColumns.map(subscriptions => {
                 return (
                   <div key={Math.random()} className="channelColumn">
@@ -317,45 +243,6 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {/*subscriptionsForThisApplication.map(subscription => {
-                // Gather the subscription data that contains the matching UID
-                const thisSubscriptionData = getDataByKind(
-                  bulkSubscriptionList,
-                  subscription._uid
-                )
-                return (
-                  <div key={Math.random()} className="deployableRow">
-                    {channelList.map(channel => {
-                      // Determine if this subscription is present in this channel
-                      const channelMatch = subscription.channel.includes(
-                        channel.name
-                      )
-                      // Get status of resources within the subscription specific
-                      // to the channel. We will match the resources that contain
-                      // the same namespace as the channel
-                      // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
-                      const status = getResourcesStatusPerChannel(
-                        thisSubscriptionData
-                      )
-                      return (
-                        <div key={Math.random()} className="channelColumnDep">
-                          {channelMatch ? (
-                            <Tile className="channelColumnDeployable">
-                              <ProgressBar status={status} />
-                            </Tile>
-                          ) : (
-                            <Tile className="channelColumnDeployable">
-                              <Tag type="custom" className="statusTag">
-                                {msgs.get('description.na', locale)}
-                              </Tag>
-                            </Tile>
-                          )}
-                        </div>
-                      )
-                    })}
-                  </div>
-                )
-              })*/}
               {subscriptoinsRowFormat.map(subRow => {
                 return (
                   <div key={Math.random()} className="deployableRow">
@@ -403,6 +290,7 @@ const ChannelColumnGrid = (
                                 }
                               />
                               <div
+                                role="button"
                                 className="hoverCursor"
                                 onClick={() =>
                                   onSubscriptionClick(

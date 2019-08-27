@@ -234,6 +234,9 @@ export const getAllRelatedForList = (list, kind) => {
 // we will look through match the subscription with the channel
 // and then tally up all the status under that application to give
 // the total status that will be displayed at the header level
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getApplicationLevelStatus = (
   subscriptionsForThisApplication,
   channel,
@@ -268,6 +271,9 @@ export const getApplicationLevelStatus = (
 
 // Go through the subscriptions For This Application and determine if one of them
 // exists in the given channel
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const subscriptionPresentInGivenChannel = (
   subscriptionsForThisApplication,
   channel

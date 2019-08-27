@@ -3,7 +3,7 @@
  * 5737-E67
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
+ * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
@@ -15,34 +15,72 @@
     font-size: 0.75rem;
     display: inline-block;
     height: 10px;
-    width: 310px;
+    width: 100%;
+    margin-top: 19px;
   }
 
   .inprogress {
+    max-width: 125px;
     font-size: 10px;
-    display: inline-flex;
+    display: inline-block;
     padding-right: 15%;
   }
 
   .total {
     font-size: 10px;
-    display: inline-flex;
+    display: inline-block;
   }
 
   .pass {
+    max-width: 100px;
+    padding-right: 35%;
+    font-size: 10px;
+    display: inline-block;
+  }
+
+  .fail {
+    max-width: 100px;
     padding-right: 15%;
+    font-size: 10px;
+    display: inline-block;
+  }
+
+  .percentage {
+    padding-bottom: 5px;
+    font-size: 18px;
+    color: #152935;
+  }
+
+  .resourceType {
+    font-weight: 700;
     font-size: 10px;
     display: inline-flex;
   }
 
-  .fail {
-    padding-right: 15%;
-    font-size: 10px;
-    display: inline-flex;
+  .textResource {
+    padding-left: 5px;
   }
 
   .percentageDeployed {
     padding-top: 6px;
     font-size: 13px;
+  }
+
+  .failedSquare {
+    height: 7px;
+    width: 11px;
+    background-color: #e0182d;
+  }
+
+  .completedSquare {
+    height: 7px;
+    width: 13px;
+    background-color: #007d79;
+  }
+
+  .inprogressSquare {
+    height: 7px;
+    width: 13px;
+    background-color: #92eeee;
   }
 }

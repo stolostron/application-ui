@@ -170,7 +170,12 @@
   .subColHeader {
     font-weight: 700;
     font-size: 12px;
+    display: inline-block;
     color: #5a6872;
+  }
+
+  .hoverCursor {
+    cursor: pointer;
   }
 
   .subColName {
@@ -299,8 +304,6 @@
     fill: black;
     display: inline-block;
     float: right;
-    margin-top: 15px;
-    margin-right: 15px;
     cursor: pointer;
   }
 

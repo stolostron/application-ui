@@ -386,26 +386,40 @@ const ChannelColumnGrid = (
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
-                            <Tile
-                              className="channelColumnDeployable"
-                              onClick={() =>
-                                onSubscriptionClick(
-                                  openSubscriptionModal,
-                                  setSubscriptionModalHeaderInfo,
-                                  setCurrentDeployableSubscriptionData,
-                                  setCurrentsubscriptionModalData,
-                                  subCol,
-                                  applicationName,
-                                  subName
-                                )
-                              }
-                            >
+                            <Tile className="channelColumnDeployable">
                               <div className="subColHeader">
                                 {msgs.get('description.subscription', locale)}
                               </div>
-                              <div className="subColName">{subCol.name}</div>
-                              <div className="progressBarContainer">
-                                <ProgressBar status={status} />
+                              <Icon
+                                name="icon--edit"
+                                fill="#6089bf"
+                                description=""
+                                className="subscriptionEditIcon"
+                                onClick={() =>
+                                  editResourceClick(
+                                    subCol,
+                                    getSubscriptionResource
+                                  )
+                                }
+                              />
+                              <div
+                                className="hoverCursor"
+                                onClick={() =>
+                                  onSubscriptionClick(
+                                    openSubscriptionModal,
+                                    setSubscriptionModalHeaderInfo,
+                                    setCurrentDeployableSubscriptionData,
+                                    setCurrentsubscriptionModalData,
+                                    subCol,
+                                    applicationName,
+                                    subName
+                                  )
+                                }
+                              >
+                                <div className="subColName">{subCol.name}</div>
+                                <div className="progressBarContainer">
+                                  <ProgressBar status={status} />
+                                </div>
                               </div>
                             </Tile>
                           )}

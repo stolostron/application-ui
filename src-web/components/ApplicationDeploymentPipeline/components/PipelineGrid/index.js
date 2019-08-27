@@ -275,6 +275,24 @@ const ChannelColumnGrid = (
                       const showBlankFiller =
                         row > 1 && displayStatus == undefined
                       const subName = subCol.name
+
+                      const onClick = () => {
+                        onSubscriptionClick(
+                          openSubscriptionModal,
+                          setSubscriptionModalHeaderInfo,
+                          setCurrentDeployableSubscriptionData,
+                          setCurrentsubscriptionModalData,
+                          subCol,
+                          applicationName,
+                          subName
+                        )
+                      }
+                      const onKeyPress = e => {
+                        if (e.key === 'Enter') {
+                          onClick()
+                        }
+                      }
+
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
@@ -297,17 +315,9 @@ const ChannelColumnGrid = (
                               <div
                                 role="button"
                                 className="hoverCursor"
-                                onClick={() =>
-                                  onSubscriptionClick(
-                                    openSubscriptionModal,
-                                    setSubscriptionModalHeaderInfo,
-                                    setCurrentDeployableSubscriptionData,
-                                    setCurrentsubscriptionModalData,
-                                    subCol,
-                                    applicationName,
-                                    subName
-                                  )
-                                }
+                                onClick={onClick}
+                                onKeyPress={onKeyPress}
+                                tabIndex={0}
                               >
                                 <div className="subColName">{subCol.name}</div>
                                 <div className="progressBarContainer">

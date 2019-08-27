@@ -92,7 +92,6 @@ export const SEARCH_QUERY_COUNT_ONLY = gql`
 export const SEARCH_QUERY_RELATED = gql`
   query searchResult($input: [SearchInput]) {
     searchResult: search(input: $input) {
-      count
       items
       related {
         kind

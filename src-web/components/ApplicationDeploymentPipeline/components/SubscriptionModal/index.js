@@ -13,7 +13,12 @@ import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
 import { Modal } from 'carbon-components-react'
 import R from 'ramda'
+import ProgressBar from '../ProgressBar/index'
 import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils.js'
+import {
+  getResourcesStatusPerChannel,
+  getDataByKind
+} from '../PipelineGrid/utils'
 
 resources(() => {
   require('./style.scss')
@@ -36,20 +41,15 @@ const SubscriptionInfo = withLocale(
     // let deployables_hover = ''
     let owningClusterName = ''
     let channel = ''
+    let status = [0, 0, 0, 0, 0]
     // let version = ''
 
     if (notEmptySubscription) {
-      // This will match the UID of the subscription with what we have in bulk subscription list
-      // which will return you all the related data we need to display.
-      //     const subscriptionWithRelatedData = R.find(
-      //       R.propEq('_uid', subscriptionModalSubscriptionInfo._uid)
-      //     )(bulkSubscriptionList)
-
-      //uid not working at the moment, use name and namespace for now
-      const subscriptionWithRelatedData = R.find(
-        R.propEq('name', subscriptionModalSubscriptionInfo.name) &&
-          R.propEq('namespace', subscriptionModalSubscriptionInfo.namespace)
-      )(bulkSubscriptionList)
+      // Gather the subscription data that contains the matching UID
+      const subscriptionWithRelatedData = getDataByKind(
+        bulkSubscriptionList,
+        subscriptionModalSubscriptionInfo._uid
+      )
 
       const foundBulkSubscription =
         subscriptionWithRelatedData && !R.isEmpty(subscriptionWithRelatedData)
@@ -111,9 +111,20 @@ const SubscriptionInfo = withLocale(
       )
 
       channel = R.pathOr('', ['channel'], subscriptionModalSubscriptionInfo)
+
+      // Get status of resources within the subscription specific
+      // to the channel. We will match the resources that contain
+      // the same namespace as the channel
+      // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
+      status = getResourcesStatusPerChannel(subscriptionWithRelatedData)
     }
+
     return (
       <div className="subscriptionInfoClass">
+        <div className="progressHeader">
+          <div className="subscriptionNameHeader">{subName}</div>
+          <ProgressBar status={status} />
+        </div>
         <div className="subHeader">
           <div className="mainSubscriptionHeader">
             {msgs.get('description.Modal.SubscriptionInfo', locale)}

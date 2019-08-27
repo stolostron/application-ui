@@ -300,6 +300,9 @@ const ChannelColumnGrid = (
                               <div className="subColHeader">
                                 {msgs.get('description.subscription', locale)}
                               </div>
+                              <div className="yamlTitleSub">
+                                {msgs.get('actions.yaml', locale)}
+                              </div>
                               <Icon
                                 name="icon--edit"
                                 fill="#6089bf"

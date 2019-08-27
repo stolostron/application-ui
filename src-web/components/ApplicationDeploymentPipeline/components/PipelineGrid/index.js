@@ -222,6 +222,9 @@ const ChannelColumnGrid = (
         )
 
         const expandRow = appDropDownList.includes(applicationName)
+        // I use this row counter for determining if I should show no subscription
+        // tile or a blank tile
+        let row = 0
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
@@ -244,6 +247,7 @@ const ChannelColumnGrid = (
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {subscriptoinsRowFormat.map(subRow => {
+                row = row + 1
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {subRow.map(subCol => {
@@ -263,12 +267,10 @@ const ChannelColumnGrid = (
                       const displayStatus = subCol.name
                       // show no subscriptions Tile
                       const showNoSubsTile =
-                        subscriptoinsRowFormat.length == 1 &&
-                        displayStatus == undefined
+                        row == 1 && displayStatus == undefined
                       // if there is more than one subscription and subCol.name is undefined
                       const showBlankFiller =
-                        subscriptoinsRowFormat.length > 1 &&
-                        displayStatus == undefined
+                        row > 1 && displayStatus == undefined
                       const subName = subCol.name
                       return (
                         <div key={Math.random()} className="channelColumnDep">

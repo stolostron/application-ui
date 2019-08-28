@@ -17,6 +17,7 @@ import lodash from 'lodash'
 import msgs from '../../../nls/platform.properties'
 import ResourceTable from '../../components/common/ResourceTable'
 import TableHelper from '../../util/table-helper'
+import { PAGE_SIZES } from '../../actions/index'
 
 class ResourceTableModule extends React.Component {
   static propTypes = {
@@ -37,7 +38,10 @@ class ResourceTableModule extends React.Component {
       this,
       this.handleSearch
     )
+    this.changeTablePage = this.changeTablePage.bind(this)
     this.state = {
+      page: 1,
+      pageSize: PAGE_SIZES.DEFAULT,
       resourceItems: {},
       resourceIds: [],
       sortDirection: 'asc',
@@ -70,14 +74,18 @@ class ResourceTableModule extends React.Component {
       searchValue,
       sortDirection
     } = this.state
+    const {
+      resourceItemsOnCurrentPage,
+      resourceIdsOnCurrentPage
+    } = this.getCurrentPage(resourceItems, resourceIds)
     return (resourceItems && Object.keys(resourceItems).length > 0) ||
       searchValue ? (
         <Module id={`${definitionsKey}-module-id`}>
           <ModuleHeader>{msgs.get(keys.title, this.context.locale)}</ModuleHeader>
           <ModuleBody>
             <ResourceTable
-              items={resourceItems || []}
-              itemIds={resourceIds || []}
+              items={resourceItemsOnCurrentPage || []}
+              itemIds={resourceIdsOnCurrentPage || []}
               staticResourceData={keys}
               resourceType={resourceType}
               subResourceType={subResourceType}
@@ -88,10 +96,30 @@ class ResourceTableModule extends React.Component {
               darkSearchBox={true}
               sortDirection={sortDirection}
               tableActions={keys.tableActions}
+              changeTablePage={this.changeTablePage}
             />
           </ModuleBody>
         </Module>
       ) : null
+  }
+
+  changeTablePage({ page, pageSize }) {
+    this.setState({ page, pageSize })
+  }
+
+  getCurrentPage(resourceItems, resourceIds) {
+    const page = this.state.page
+    const pageSize = this.state.pageSize
+    const offset = (page - 1) * pageSize
+    let lastIndex = offset + pageSize
+    lastIndex =
+      lastIndex <= resourceIds.length ? lastIndex : resourceIds.length
+    const resourceIdsOnCurrentPage = resourceIds.slice(offset, lastIndex)
+    const resourceItemsOnCurrentPage = lodash.pick(
+      resourceItems,
+      resourceIdsOnCurrentPage
+    )
+    return { resourceItemsOnCurrentPage, resourceIdsOnCurrentPage }
   }
 
   createNormalizedItems(input, normalizedKey) {

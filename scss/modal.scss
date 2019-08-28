@@ -31,13 +31,6 @@
   .bx--modal-footer {
     margin: 0;
   }
-
-  .help-link {
-    float: right;
-    padding: 15px;
-    font-size: 12px;
-    text-decoration: none;
-  }
 }
 
 .remove-app-modal {
@@ -56,4 +49,11 @@
       padding-bottom: 0.4rem;
     }
   }
+}
+
+.help-link {
+  float: right;
+  padding: 15px;
+  font-size: 12px;
+  text-decoration: none;
 }

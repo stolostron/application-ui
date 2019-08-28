@@ -9,7 +9,6 @@
  *******************************************************************************/
 
 .modal-with-editor {
-
   .bx--modal-container {
     padding: 0;
     margin: 0;
@@ -26,11 +25,18 @@
   }
 
   .bx--modal-content-desc {
-    padding: 1.25rem 3rem 1.25rem 3rem
+    padding: 1.25rem 3rem 1.25rem 3rem;
   }
 
   .bx--modal-footer {
     margin: 0;
+  }
+
+  .help-link {
+    float: right;
+    padding: 15px;
+    font-size: 12px;
+    text-decoration: none;
   }
 }
 

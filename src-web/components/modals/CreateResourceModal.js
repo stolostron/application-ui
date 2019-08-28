@@ -12,7 +12,6 @@ import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import jsYaml from 'js-yaml'
 import {
   Button,
@@ -133,9 +132,11 @@ class CreateResourceModal extends React.PureComponent {
               <br />
 
               {this.props.helpLink && (
-                <Link to={this.props.helpLink}>
-                  {msgs.get('link.help.writing', this.context.locale)}
-                </Link>
+                <span className="help-link">
+                  <a href={this.props.helpLink} target="_blank">
+                    {msgs.get('link.help.writing', this.context.locale)}
+                  </a>
+                </span>
               )}
             </div>
             {this.state.yamlParsingError && (

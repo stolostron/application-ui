@@ -12,7 +12,6 @@ import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-// import { Link } from 'react-router-dom'
 import jsYaml from 'js-yaml'
 import {
   Button,
@@ -40,6 +39,7 @@ const initialState = {
 class CreateResourceModal extends React.PureComponent {
   static propTypes = {
     headingTextKey: PropTypes.string,
+    helpLink: PropTypes.string,
     onCreateResource: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
@@ -130,10 +130,14 @@ class CreateResourceModal extends React.PureComponent {
             <div className="bx--modal-content-desc">
               {msgs.get(this.props.resourceDescriptionKey, this.context.locale)}
               <br />
-              {/* TODO: Zack Layne - Awaiting actual documentation link
-            <Link to={''}>
-              {msgs.get('link.more.info', this.context.locale)}
-            </Link> */}
+
+              {this.props.helpLink && (
+                <span className="help-link">
+                  <a href={this.props.helpLink} target="_blank">
+                    {msgs.get('link.help.writing', this.context.locale)}
+                  </a>
+                </span>
+              )}
             </div>
             {this.state.yamlParsingError && (
               <InlineNotification

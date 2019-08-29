@@ -56,6 +56,7 @@ const CreateChannelModal = () => {
       submitBtnTextKey="actions.add.channel"
       onCreateResource={handleCreateChannelResource}
       resourceDescriptionKey="modal.createresource.channel"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html"
     />
   )
 }
@@ -72,6 +73,7 @@ const CreateSubscriptionModal = () => {
       submitBtnTextKey="actions.add.subscription"
       onCreateResource={handleCreateSubscriptionResource}
       resourceDescriptionKey="modal.createresource.subscription"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html"
     />
   )
 }
@@ -89,6 +91,7 @@ const handleEditResource = (dispatch, resourceType, data) => {
         label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
         heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
       },
+      helpLink: (data && data.helpLink) || '',
       name: (data && data.name) || '',
       namespace: (data && data.namespace) || '',
       data: (data && data.data) || ''
@@ -224,7 +227,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       editResource(RESOURCE_TYPES.HCM_CHANNELS, {
         name: name,
         namespace: namespace,
-        data: data
+        data: data,
+        helpLink:
+          'https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html'
       })
     }
     // This will trigger the edit Subscription Modal because openEditSubscriptionModal
@@ -237,7 +242,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       editResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, {
         name: name,
         namespace: namespace,
-        data: data
+        data: data,
+        helpLink:
+          'https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html'
       })
     }
 

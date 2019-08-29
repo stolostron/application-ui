@@ -112,14 +112,20 @@ class ResourceModal extends React.PureComponent {
   }
 
   render() {
-    const { reqCount, open, label, locale, resourceType } = this.props
+    const {
+      reqCount,
+      open,
+      label,
+      locale,
+      resourceType,
+      helpLink
+    } = this.props
     return (
       <div
         id="resource-modal-container"
         ref={div => (this.resourceModal = div)}
         tabIndex="-1"
         role="region"
-        onKeyDown={this.escapeEditor}
         aria-label={msgs.get('a11y.editor.escape', locale)}
       >
         {' '}
@@ -150,6 +156,15 @@ class ResourceModal extends React.PureComponent {
                   iconDescription={msgs.get('svg.description.error', locale)}
                 />
               ))}
+
+            {helpLink && (
+              <span className="help-link">
+                <a href={helpLink} target="_blank">
+                  {msgs.get('link.help.writing', this.context.locale)}
+                </a>
+              </span>
+            )}
+
             {/*{reqErrorMsg && reqErrorMsg.length > 0 && <InlineNotification key={`inline-notification-${reqErrorMsg}`} kind='error' title='' subtitle={reqErrorMsg} iconDescription={msgs.get('svg.description.error', locale)} />}*/}
             <YamlEditor
               width={'50vw'}

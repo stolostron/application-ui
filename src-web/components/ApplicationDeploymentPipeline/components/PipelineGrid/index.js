@@ -19,7 +19,8 @@ import {
   getResourcesStatusPerChannel,
   createSubscriptionPerChannel,
   subscriptionsUnderColumnsGrid,
-  getLongestArray
+  getLongestArray,
+  getTotalSubscriptions
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon } from 'carbon-components-react'
@@ -98,6 +99,7 @@ const LeftColumnForApplicationNames = (
         const longestSubscriptionArray = getLongestArray(
           subscriptionsUnderColumns
         )
+        const getTotalSubs = getTotalSubscriptions(subscriptionsUnderColumns)
         const expandRow = appDropDownList.includes(appName)
         const applicationTileClass = !expandRow
           ? 'applicationTile'
@@ -126,7 +128,7 @@ const LeftColumnForApplicationNames = (
               <div className="ApplicationContents">
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
-                  {`${longestSubscriptionArray.length} `}
+                  {`${getTotalSubs} `}
                   {msgs.get('description.title.subscriptions', locale)}
                 </div>
               </div>

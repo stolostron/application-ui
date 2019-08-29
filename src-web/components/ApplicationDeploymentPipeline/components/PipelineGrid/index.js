@@ -326,6 +326,10 @@ const ChannelColumnGrid = (
                                 tabIndex={0}
                               >
                                 <div className="subColName">{subCol.name}</div>
+                                <div className="namespaceDesc">{`${msgs.get(
+                                  'description.namespace',
+                                  locale
+                                )}: ${subCol.namespace}`}</div>
                                 <div className="progressBarContainer">
                                   <ProgressBar status={status} />
                                 </div>

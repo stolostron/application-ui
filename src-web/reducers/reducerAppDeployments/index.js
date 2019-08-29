@@ -91,7 +91,10 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
     return { ...state, appDropDownList: [] }
   }
   case SET_DEPLOYMENT_SEARCH: {
-    return { ...state, deploymentPipelineSearch: action.payload }
+    if (action.payload) {
+      return { ...state, deploymentPipelineSearch: action.payload }
+    }
+    return { ...state, deploymentPipelineSearch: '' }
   }
   case SET_CURRENT_CHANNEL_INFO: {
     return {

@@ -40,7 +40,7 @@ resources(() => {
 const LeftColumnForApplicationNames = (
   {
     applications,
-    subscriptions,
+    appSubscriptions, // Subscription total for all the given applictions
     updateAppDropDownList,
     appDropDownList,
     channelList,
@@ -69,7 +69,7 @@ const LeftColumnForApplicationNames = (
               subscriptionsForOneApp[0] &&
               subscriptionsForOneApp[0].items instanceof Array &&
               subscriptionsForOneApp[0].items.length > 0) ||
-              subscriptions.length} `}
+              appSubscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
@@ -375,7 +375,7 @@ const PipelineGrid = withLocale(
   ({
     applications,
     channels,
-    subscriptions,
+    appSubscriptions,
     getChannelResource,
     getSubscriptionResource,
     openSubscriptionModal,
@@ -394,7 +394,7 @@ const PipelineGrid = withLocale(
         <div className="tableGridContainer">
           {!oneApplication && (
             <LeftColumnForApplicationNames
-              subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
+              appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
               applications={applications}
               updateAppDropDownList={updateAppDropDownList}
               appDropDownList={appDropDownList}

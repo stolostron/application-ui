@@ -30,8 +30,8 @@ import { Search, Loading } from 'carbon-components-react'
 import {
   getApplicationsList,
   getChannelsList,
-  getSubscriptionsList,
-  filterApps
+  filterApps,
+  getSubscriptionListGivenApplicationList
 } from './utils'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
@@ -130,7 +130,6 @@ const mapStateToProps = state => {
   const {
     HCMApplicationList,
     HCMChannelList,
-    HCMSubscriptionList,
     AppDeployments,
     secondaryHeader,
     role
@@ -140,6 +139,11 @@ const mapStateToProps = state => {
   const filteredApplications = filterApps(
     HCMApplicationList,
     AppDeployments.deploymentPipelineSearch
+  )
+  const channelsList = getChannelsList(HCMChannelList)
+  const applicationsList = getApplicationsList(filteredApplications)
+  const appSubscriptionsList = getSubscriptionListGivenApplicationList(
+    applicationsList
   )
   return {
     displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
@@ -157,9 +161,9 @@ const mapStateToProps = state => {
     openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
-    applications: getApplicationsList(filteredApplications),
-    channels: getChannelsList(HCMChannelList),
-    subscriptions: getSubscriptionsList(HCMSubscriptionList)
+    applications: applicationsList,
+    channels: channelsList,
+    appSubscriptions: appSubscriptionsList
   }
 }
 
@@ -178,7 +182,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       applications,
       channels,
-      subscriptions,
+      appSubscriptions,
       actions,
       editResource,
       getChannelResource,
@@ -265,7 +269,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         <PipelineGrid
           applications={applications}
           channels={channels}
-          subscriptions={subscriptions}
+          appSubscriptions={appSubscriptions}
           getChannelResource={getChannelResource}
           getSubscriptionResource={getSubscriptionResource}
           openSubscriptionModal={actions.openDisplaySubscriptionModal}

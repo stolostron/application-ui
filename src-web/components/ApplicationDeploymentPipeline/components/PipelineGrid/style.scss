@@ -11,14 +11,14 @@
   .firstTotalTile {
     background: #3c3c3c;
     color: white;
-    height: 200px;
+    height: 171px;
     position: relative;
   }
 
   .channelColumnHeader {
     background: #3c3c3c;
     color: white;
-    height: 200px;
+    height: 171px;
     position: relative;
   }
 
@@ -110,7 +110,7 @@
   .tileContainer {
     padding-top: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(432px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(309px, 1fr));
     grid-template-rows: auto;
     grid-gap: 20px;
     padding-top: 21px;

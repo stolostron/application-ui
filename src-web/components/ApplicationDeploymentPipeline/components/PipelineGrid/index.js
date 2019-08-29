@@ -278,61 +278,71 @@ const ChannelColumnGrid = (
                       const showBlankFiller =
                         row > 1 && displayStatus == undefined
                       const subName = subCol.name
-
-                      const onClick = () => {
-                        onSubscriptionClick(
-                          openSubscriptionModal,
-                          setSubscriptionModalHeaderInfo,
-                          setCurrentDeployableSubscriptionData,
-                          setCurrentsubscriptionModalData,
-                          subCol,
-                          applicationName,
-                          subName
-                        )
+                      const onClickEditResource = () => {
+                        editResourceClick(subCol, getSubscriptionResource)
                       }
-                      const onKeyPress = e => {
+                      const onKeyPressEditResource = e => {
                         if (e.key === 'Enter') {
-                          onClick()
+                          onClickEditResource()
                         }
                       }
-
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
-                            <Tile className="channelColumnDeployable">
+                            <Tile
+                              className="channelColumnDeployable addHover"
+                              onClick={event => {
+                                const eClass = event.target.className
+                                const proceed =
+                                  typeof eClass != 'object' &&
+                                  eClass != 'yamlEditSubContainer' &&
+                                  eClass != 'yamlTitleSub'
+                                if (proceed) {
+                                  onSubscriptionClick(
+                                    openSubscriptionModal,
+                                    setSubscriptionModalHeaderInfo,
+                                    setCurrentDeployableSubscriptionData,
+                                    setCurrentsubscriptionModalData,
+                                    subCol,
+                                    applicationName,
+                                    subName
+                                  )
+                                }
+                              }}
+                            >
                               <div className="subColHeader">
                                 {msgs.get('description.subscription', locale)}
                               </div>
-                              <div className="yamlTitleSub">
-                                {msgs.get('actions.yaml', locale)}
-                              </div>
-                              <Icon
-                                name="icon--edit"
-                                fill="#6089bf"
-                                description=""
-                                className="subscriptionEditIcon"
-                                onClick={() =>
-                                  editResourceClick(
-                                    subCol,
-                                    getSubscriptionResource
-                                  )
-                                }
-                              />
                               <div
-                                role="button"
-                                className="hoverCursor"
-                                onClick={onClick}
-                                onKeyPress={onKeyPress}
+                                className="yamlEditSubContainer"
+                                onClick={onClickEditResource}
+                                onKeyPress={onKeyPressEditResource}
                                 tabIndex={0}
+                                role="button"
                               >
-                                <div className="subColName">{subCol.name}</div>
-                                <div className="namespaceDesc">{`${msgs.get(
-                                  'description.namespace',
-                                  locale
-                                )}: ${subCol.namespace}`}</div>
-                                <div className="progressBarContainer">
-                                  <ProgressBar status={status} />
+                                <div className="yamlTitleSub">
+                                  {msgs.get('actions.yaml', locale)}
                                 </div>
+                                <Icon
+                                  name="icon--edit"
+                                  fill="#6089bf"
+                                  description=""
+                                  className="subscriptionEditIcon"
+                                  onClick={() =>
+                                    editResourceClick(
+                                      subCol,
+                                      getSubscriptionResource
+                                    )
+                                  }
+                                />
+                              </div>
+                              <div className="subColName">{subCol.name}</div>
+                              <div className="namespaceDesc">{`${msgs.get(
+                                'description.namespace',
+                                locale
+                              )}: ${subCol.namespace}`}</div>
+                              <div className="progressBarContainer">
+                                <ProgressBar status={status} />
                               </div>
                             </Tile>
                           )}

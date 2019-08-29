@@ -19,7 +19,8 @@ import {
   getResourcesStatusPerChannel,
   createSubscriptionPerChannel,
   subscriptionsUnderColumnsGrid,
-  getLongestArray
+  getLongestArray,
+  getTotalSubscriptions
 } from './utils'
 import { pullOutKindPerApplication } from '../../utils'
 import { Tile, Icon } from 'carbon-components-react'
@@ -39,7 +40,7 @@ resources(() => {
 const LeftColumnForApplicationNames = (
   {
     applications,
-    subscriptions,
+    appSubscriptions, // Subscription total for all the given applictions
     updateAppDropDownList,
     appDropDownList,
     channelList,
@@ -68,7 +69,7 @@ const LeftColumnForApplicationNames = (
               subscriptionsForOneApp[0] &&
               subscriptionsForOneApp[0].items instanceof Array &&
               subscriptionsForOneApp[0].items.length > 0) ||
-              subscriptions.length} `}
+              appSubscriptions.length} `}
             {msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
@@ -98,6 +99,7 @@ const LeftColumnForApplicationNames = (
         const longestSubscriptionArray = getLongestArray(
           subscriptionsUnderColumns
         )
+        const getTotalSubs = getTotalSubscriptions(subscriptionsUnderColumns)
         const expandRow = appDropDownList.includes(appName)
         const applicationTileClass = !expandRow
           ? 'applicationTile'
@@ -126,7 +128,7 @@ const LeftColumnForApplicationNames = (
               <div className="ApplicationContents">
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
-                  {`${longestSubscriptionArray.length} `}
+                  {`${getTotalSubs} `}
                   {msgs.get('description.title.subscriptions', locale)}
                 </div>
               </div>
@@ -324,6 +326,10 @@ const ChannelColumnGrid = (
                                 tabIndex={0}
                               >
                                 <div className="subColName">{subCol.name}</div>
+                                <div className="namespaceDesc">{`${msgs.get(
+                                  'description.namespace',
+                                  locale
+                                )}: ${subCol.namespace}`}</div>
                                 <div className="progressBarContainer">
                                   <ProgressBar status={status} />
                                 </div>
@@ -373,7 +379,7 @@ const PipelineGrid = withLocale(
   ({
     applications,
     channels,
-    subscriptions,
+    appSubscriptions,
     getChannelResource,
     getSubscriptionResource,
     openSubscriptionModal,
@@ -392,7 +398,7 @@ const PipelineGrid = withLocale(
         <div className="tableGridContainer">
           {!oneApplication && (
             <LeftColumnForApplicationNames
-              subscriptions={subscriptions} // TOTAL subscriptions even if they aren't applied to an application
+              appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
               applications={applications}
               updateAppDropDownList={updateAppDropDownList}
               appDropDownList={appDropDownList}

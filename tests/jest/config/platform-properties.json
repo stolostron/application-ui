@@ -66,6 +66,7 @@
   "description.subscription": "Subscription",
   "description.tryAddingSub": "You don't have any subscriptions for this channel. Try adding one now.",
   "description.noSubs": "No subscriptions",
+  "description.namespace": "Namespace",
   "description.Modal.viewAllResources": "View all resources",
   "description.Modal.viewAllClusters": "View all clusters",
   "breadcrumb.viewall": "View All",

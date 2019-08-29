@@ -20,14 +20,14 @@ resources(() => {
 const ProgressBar = withLocale(({ status, locale }) => {
   // format [pass, fail, inprogress, pending, unidentifed]
   const percentage = getStatusPercentages(status)
-  const { pass, completed, fail, inprogress, total } = percentage
+  const { completed, fail, inprogress, total } = percentage
   const noneFound = total === 0
   const style =
     (noneFound && 'linear-gradient(to right,  #cccccc 0%, #cccccc 100%)') ||
-    `linear-gradient(to right,  #007D79 0%,#007D79 ${pass}%, #92EEEE ${pass}%, #92EEEE ${pass +
-      inprogress}%, #E0182D ${pass + inprogress}%, #E0182D ${pass +
+    `linear-gradient(to right,  #007D79 0%,#007D79 ${completed}%, #92EEEE ${completed}%, #92EEEE ${completed +
+      inprogress}%, #E0182D ${completed + inprogress}%, #E0182D ${completed +
       inprogress +
-      fail}%, #cccccc ${pass + inprogress + fail}%, #cccccc 100%)`
+      fail}%, #cccccc ${completed + inprogress + fail}%, #cccccc 100%)`
   return (
     <div id="ProgressBar">
       <div className="percentagesContainers">

@@ -340,6 +340,14 @@ export const getLongestArray = list => {
   return longestArray
 }
 
+export const getTotalSubscriptions = list => {
+  let totalSubs = 0
+  list.map(x => {
+    totalSubs = totalSubs + x.length
+  })
+  return totalSubs
+}
+
 export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
   const longestList = determineLongestArray(subscriptionsUnderChannel)
   let subscriptionGrid = []

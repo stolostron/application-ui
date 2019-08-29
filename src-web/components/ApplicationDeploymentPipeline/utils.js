@@ -72,6 +72,9 @@ export const getChannelsList = channels => {
 }
 
 // Method will take in an object and return back the subscriptions
+// ----------------
+// This is no longer being used but keeping it here for now
+// ----------------
 export const getSubscriptionsList = subscriptions => {
   if (subscriptions && subscriptions.items) {
     const mappedSubscriptions = subscriptions.items.map(subscription => {
@@ -87,6 +90,43 @@ export const getSubscriptionsList = subscriptions => {
     return mappedSubscriptions
   }
   return []
+}
+
+// This method takes in the application list ... and then goes through and pulls
+// all the subscriptions found in that application list.
+// The reason to do this is because its possible subscriptions can exist that
+// are NOT assigned to any application. So to display an accurate count of
+// subscriptions we need to get it from the applications list.
+export const getSubscriptionListGivenApplicationList = applications => {
+  let subsctiotionList = []
+  const getKind = x => x.kind.toLowerCase() == 'subscription'
+  if (applications) {
+    applications.map(application => {
+      if (application && application.related) {
+        const subscriptionList = R.filter(getKind, application.related)
+        if (
+          subscriptionList &&
+          subscriptionList[0] &&
+          subscriptionList[0].items
+        ) {
+          const mappedSubscriptions = subscriptionList[0].items.map(
+            subscription => {
+              return {
+                name: subscription.name || '',
+                namespace: subscription.namespace || '',
+                creationTimestamp: subscription.created || '',
+                resourceVersion: subscription.packageFilterVersion || '',
+                channel: subscription.channel || '',
+                raw: subscription || {}
+              }
+            }
+          )
+          subsctiotionList = subsctiotionList.concat(mappedSubscriptions)
+        }
+      }
+    })
+  }
+  return subsctiotionList
 }
 
 // This takes in the applications list and searchText and filters down the applications

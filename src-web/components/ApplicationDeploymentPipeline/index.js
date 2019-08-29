@@ -254,25 +254,27 @@ class ApplicationDeploymentPipeline extends React.Component {
         <div className="piplineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}
         </div>
-        <Search
-          className="deploymentPipelineSearch"
-          light
-          name=""
-          defaultValue=""
-          labelText={msgs.get('actions.searchApplications', locale)}
-          closeButtonLabelText=""
-          placeHolderText={msgs.get('actions.searchApplications', locale)}
-          onChange={event => {
-            actions.setDeploymentSearch(event.target.value)
-          }}
-          id="search-1"
-        />
-        {showCreate(userRole) && (
-          <span>
-            <div className="AddChannelButton">{[modalChannel]}</div>
-            <div className="AddSubscriptionButton">{[modalSubscription]}</div>
-          </span>
-        )}
+        <div className="searchAndButtonContainer">
+          <Search
+            className="deploymentPipelineSearch"
+            light
+            name=""
+            defaultValue=""
+            labelText={msgs.get('actions.searchApplications', locale)}
+            closeButtonLabelText=""
+            placeHolderText={msgs.get('actions.searchApplications', locale)}
+            onChange={event => {
+              actions.setDeploymentSearch(event.target.value)
+            }}
+            id="search-1"
+          />
+          {showCreate(userRole) && (
+            <React.Fragment>
+              <div className="AddChannelButton">{[modalChannel]}</div>
+              <div className="AddSubscriptionButton">{[modalSubscription]}</div>
+            </React.Fragment>
+          )}
+        </div>
         <PipelineGrid
           applications={applications}
           channels={channels}

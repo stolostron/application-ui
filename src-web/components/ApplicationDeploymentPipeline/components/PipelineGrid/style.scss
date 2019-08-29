@@ -11,14 +11,14 @@
   .firstTotalTile {
     background: #3c3c3c;
     color: white;
-    height: 200px;
+    height: 171px;
     position: relative;
   }
 
   .channelColumnHeader {
     background: #3c3c3c;
     color: white;
-    height: 200px;
+    height: 171px;
     position: relative;
   }
 
@@ -35,6 +35,18 @@
     color: black;
     height: 223px;
     position: relative;
+  }
+
+  .addHover:hover {
+    background: white;
+    background-color: white;
+    color: black;
+    height: 223px;
+    position: relative;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #4a79b7;
   }
 
   .channelColumnDeployableBlank {
@@ -110,7 +122,7 @@
   .tileContainer {
     padding-top: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(432px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(309px, 1fr));
     grid-template-rows: auto;
     grid-gap: 20px;
     padding-top: 21px;
@@ -151,7 +163,7 @@
     display: inline-block;
     position: absolute;
     overflow: scroll;
-    width: 63%;
+    width: 68.5%;
     background-color: #f4f7fb;
   }
 
@@ -178,10 +190,6 @@
     font-size: 12px;
     display: inline-block;
     color: #5a6872;
-  }
-
-  .hoverCursor {
-    cursor: pointer;
   }
 
   .subColName {
@@ -312,11 +320,31 @@
     float: right;
   }
 
-  .subscriptionEditIcon {
-    fill: black;
+  .yamlEditSubContainer {
     display: inline-block;
-    float: right;
-    cursor: pointer;
+    margin-left: 240px;
+
+    .subscriptionEditIcon {
+      fill: black;
+      display: inline-block;
+      margin-left: 35px;
+      float: right;
+      cursor: pointer;
+    }
+  }
+
+  .yamlEditSubContainer:hover {
+    display: inline-block;
+    margin-left: 240px;
+    color: #4a79b7;
+
+    .subscriptionEditIcon {
+      fill: #4a79b7;
+      display: inline-block;
+      margin-left: 35px;
+      float: right;
+      cursor: pointer;
+    }
   }
 
   .yamlTitle {
@@ -329,7 +357,6 @@
 
   .yamlTitleSub {
     font-size: 12px;
-    padding-left: 240px;
     position: absolute;
     padding-top: 5px;
     display: inline;

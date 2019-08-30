@@ -81,6 +81,7 @@ export const topology = (state = initialState, action) => {
       return {
         ...state,
         status: Actions.REQUEST_STATUS.ERROR,
+        fetchError: action.err,
         nodes: action.nodes,
         links: action.links
       }

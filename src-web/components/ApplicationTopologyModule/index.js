@@ -47,6 +47,7 @@ class ApplicationTopologyModule extends React.Component {
     channels: PropTypes.array,
     clusters: PropTypes.array,
     diagramFilters: PropTypes.array,
+    fetchError: PropTypes.object,
     fetchFilters: PropTypes.object,
     fetchTopology: PropTypes.func,
     getUpdates: PropTypes.func,
@@ -148,7 +149,8 @@ class ApplicationTopologyModule extends React.Component {
       const diagramFilters = _.cloneDeep(nextProps.diagramFilters || [])
 
       // update loading spinner
-      const showSpinner = nextProps.topologyReloading || nextProps.storedVersion
+      const {topologyReloading, storedVersion, fetchError} = nextProps
+      const showSpinner = !fetchError && (topologyReloading || storedVersion)
 
       // update last time refreshed
       const {changingChannel} = prevState
@@ -348,7 +350,7 @@ class ApplicationTopologyModule extends React.Component {
           {topologyLoadError && (
             <InlineNotification
               kind={'error'}
-              title={msgs.get('error.update.resource', this.context.locale)}
+              title={msgs.get('error.load.resource', this.context.locale)}
               iconDescription=""
               subtitle={msgs.get('error.load.topology', this.context.locale)}
               onCloseButtonClick={this.handleTopologyErrorClosed}
@@ -366,7 +368,7 @@ class ApplicationTopologyModule extends React.Component {
               handleNodeSelected={handleNodeSelected}
               selectedNode={selectedNode}
               setViewer={this.setViewer}
-              secondaryLoad={!topologyLoaded}
+              secondaryLoad={!topologyLoaded&&!topologyLoadError}
               statusesLoaded={statusesLoaded}
               staticResourceData={staticResourceData}
               cacheKey={JSON.stringify(fetchFilters)}
@@ -503,41 +505,43 @@ class ApplicationTopologyModule extends React.Component {
     return (
       <div className="channel-controls-container">
         {channels.map((chn, idx) => {
-          const [subscription, channel] = chn.split('//')
-          const [, subName] = subscription.split('/')
-          const [, chnName] = channel.split('/')
-          const classes = classNames({
-            'channel-control': true,
-            selected: idx===selectedIdx,
-          })
-          const handleClick = () => {
-            this.changeTheChannel(chn)
-          }
-          const handleKeyPress = e => {
-            if (e.key === 'Enter') {
+          const splitChn = /(.*)\/(.*)\/\/(.*)\/(.*)/gm.exec(chn)
+          if (splitChn && splitChn.length===5) {
+            const [,subNamespace, subName, chnNamespace, chnName] = splitChn
+            const classes = classNames({
+              'channel-control': true,
+              selected: idx===selectedIdx,
+            })
+            const handleClick = () => {
               this.changeTheChannel(chn)
             }
+            const handleKeyPress = e => {
+              if (e.key === 'Enter') {
+                this.changeTheChannel(chn)
+              }
+            }
+            const tooltip = msgs.get(
+              'application.diagram.channel.tooltip',
+              [`${subNamespace}/${subName}`, `${chnNamespace}/${chnName}`],
+              locale
+            )
+            return (
+              <div
+                className={classes}
+                key={chn}
+                tabIndex="0"
+                role={'button'}
+                aria-label={tooltip}
+                onClick={handleClick}
+                onKeyPress={handleKeyPress}
+              >
+                <div className='channel-control-subscripion' >{subName}</div>
+                <div className='channel-control-channel' >{chnName}</div>
+              </div>
+            )
           }
-          const tooltip = msgs.get(
-            'application.diagram.channel.tooltip',
-            [subscription, channel],
-            locale
-          )
-          return (
-            <div
-              className={classes}
-              key={chn}
-              tabIndex="0"
-              role={'button'}
-              aria-label={tooltip}
-              onClick={handleClick}
-              onKeyPress={handleKeyPress}
-            >
-              <div className='channel-control-subscripion' >{subName}</div>
-              <div className='channel-control-channel' >{chnName}</div>
-            </div>
-          )
-        })}
+        }
+        )}
       </div>
     )
   }
@@ -751,7 +755,7 @@ const mapStateToProps = (state, ownProps) => {
   const { HCMApplicationList } = state
   const item = HCMApplicationList.items[0]
   const { topology } = state
-  const { activeFilters, fetchFilters, diagramFilters = [] } = topology
+  const { activeFilters, fetchFilters, fetchError, diagramFilters = [] } = topology
   let localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
   const fetchApplication =  _.get(topology, 'fetchFilters.application')
   if (fetchApplication) {
@@ -769,6 +773,7 @@ const mapStateToProps = (state, ownProps) => {
     getUpdates: staticResourceData.getUpdates,
     activeFilters,
     fetchFilters,
+    fetchError,
     diagramFilters,
   }
 }

@@ -70,12 +70,6 @@
           .diagramViewerContainer {
             margin-right: 0;
           }
-
-          .bx--inline-notification--error {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-          }
         }
       }
     }
@@ -301,3 +295,10 @@
   }
 }
 
+.bx--inline-notification {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+}

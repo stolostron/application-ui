@@ -17,7 +17,7 @@ export const getStatusPercentages = status => {
   // Get the percentage of completed
   const completed = (status[0] + status[4]) / total * 100
   // Get the percentage of inprogress
-  const inprogress = status[2] / total * 100
+  const inprogress = (status[2] + status[3]) / total * 100
   // Get the percentage of fail
   const fail = status[1] / total * 100
   if (total == 0) {

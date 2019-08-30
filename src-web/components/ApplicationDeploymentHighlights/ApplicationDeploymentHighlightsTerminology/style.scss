@@ -6,7 +6,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure 
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
- 
+
 #ApplicationDeploymentHighlightsTerminology {
   .bx--tile {
     border: 0;
@@ -27,8 +27,17 @@
   }
 
   .bx--tile .deployment-highlights-terminology-header {
-    font-size: 1.2em;
+    color: #5a6872;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 18px;
     margin-bottom: 10px;
+  }
+
+  .bx--tile p {
+    color: #5a6872;
+    font-size: 12px;
+    line-height: 20px;
   }
 
   .bx--accordion__content {

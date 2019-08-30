@@ -17,6 +17,7 @@ RUN mkdir -p /opt/ibm/mcm-application-ui
 WORKDIR /opt/ibm/mcm-application-ui
 
 COPY . /opt/ibm/mcm-application-ui
+ENV BABEL_DISABLE_CACHE=1
 
 EXPOSE 3000
 

@@ -3,7 +3,7 @@
  * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
+ * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
@@ -36,10 +36,15 @@
       height: 400px;
       box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
       background-color: white;
+      position: relative;
 
       .channel-controls-container {
         width: 200px;
         border-right: 1px solid #DFE3E6;
+      }
+
+      .last-update-container {
+        position: absolute;
       }
 
       /* diagram */
@@ -166,6 +171,7 @@
         height: calc(100vh - 225px);
         box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
         background-color: white;
+        position: relative;
 
         .channel-controls-container {
           width: 200px;
@@ -207,14 +213,38 @@
     }
   }
 
+  .last-update-container {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    .bx--loading--small {
+      width: 1rem;
+      height: 1rem;
+      margin: -2px 0;
+    }
+  }
+
   .channel-controls-container {
     display: flex;
     flex-direction: column;
-    font-size: 12px;
     padding-top: 10px;
 
     .channel-control {
-      padding: 10px 30px;
+      padding: 10px 0 10px 30px;
+      position: relative;
+      font-size: 12px;
+
+      &-subscripion {
+      }
+
+      &-channel {
+        font-weight: bold;
+      }
 
       &:hover {
         cursor: pointer;
@@ -222,11 +252,9 @@
       }
 
       &.selected {
-        font-weight: bold;
         border-left: 4px solid blue;
         background-color: #F3F7FB;
       }
-
     }
   }
 
@@ -234,7 +262,7 @@
   /* when view is split, show details view on other side of diagram */
   &.split {
     .topologyDetails {
-      left: 0;
+      left: -200px;
       right: unset;
     }
   }

@@ -24,11 +24,9 @@ import {
   MCM_DESIGN_SPLITTER_SIZE_COOKIE,
   DIAGRAM_QUERY_COOKIE
 } from '../../../lib/shared/constants'
-import { InlineNotification } from 'carbon-components-react'
+import { Loading, InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
-import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import * as Actions from '../../actions'
-import apolloClient from '../../../lib/client/apollo-client'
 import resources from '../../../lib/shared/resources'
 import DiagramViewer from './visualizers/DiagramViewer'
 import { getPollInterval } from './components/RefreshSelect'
@@ -49,11 +47,13 @@ class ApplicationTopologyModule extends React.Component {
     channels: PropTypes.array,
     clusters: PropTypes.array,
     diagramFilters: PropTypes.array,
+    fetchFilters: PropTypes.object,
     fetchTopology: PropTypes.func,
     getUpdates: PropTypes.func,
     links: PropTypes.array,
     nodes: PropTypes.array,
     onDiagramFilterChange: PropTypes.func,
+    params: PropTypes.object,
     parsed: PropTypes.object,
     putResource: PropTypes.func,
     resetFilters: PropTypes.func,
@@ -61,10 +61,10 @@ class ApplicationTopologyModule extends React.Component {
     showExpandedTopology: PropTypes.bool,
     staticResourceData: PropTypes.object,
     statusesLoaded: PropTypes.bool,
+    storedVersion: PropTypes.bool,
     topologyLoadError: PropTypes.bool,
     topologyLoaded: PropTypes.bool,
     topologyReloading: PropTypes.bool,
-    validator: PropTypes.func,
     yaml: PropTypes.string
   };
 
@@ -74,13 +74,14 @@ class ApplicationTopologyModule extends React.Component {
       links: [],
       nodes: [],
       activeChannel: props.activeChannel,
+      showSpinner: false,
+      lastTimeUpdate: undefined,
       currentYaml: props.yaml || '',
       exceptions: [],
       updateMessage: '',
       topologyLoaded: false,
       statusesLoaded: false,
       selectedNode: undefined,
-      firstLoad: false,
       hasUndo: false,
       hasRedo: false
     }
@@ -98,13 +99,16 @@ class ApplicationTopologyModule extends React.Component {
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleToggleSize = this.handleToggleSize.bind(this)
     this.gotoEditorLine = this.gotoEditorLine.bind(this)
-    this.fetchLogs = this.fetchLogs.bind(this)
   }
 
   componentWillMount() {
-    this.props.restoreSavedDiagramFilters()
-    this.props.resetFilters()
-    this.props.fetchTopology(this.props.activeChannel)
+    const {restoreSavedDiagramFilters, resetFilters, params} = this.props
+    restoreSavedDiagramFilters()
+    resetFilters()
+    const name = decodeURIComponent(params.name)
+    const namespace = decodeURIComponent(params.namespace)
+    const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
+    this.props.fetchTopology(hcmappdiagram.getActiveChannel(localStoreKey))
     this.startPolling()
   }
 
@@ -137,30 +141,41 @@ class ApplicationTopologyModule extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
+      const {locale} = this.context
       const links = _.cloneDeep(nextProps.links || [])
       const nodes = _.cloneDeep(nextProps.nodes || [])
       const clusters = _.cloneDeep(nextProps.clusters || [])
       const diagramFilters = _.cloneDeep(nextProps.diagramFilters || [])
 
       // update loading spinner
-      const firstLoad = prevState.firstLoad || nextProps.topologyLoaded
-      const { topologyReloading } = nextProps
-      if (this.updateDiagramRefreshTime) {
-        this.updateDiagramRefreshTime(topologyReloading)
-      }
+      const showSpinner = nextProps.topologyReloading || nextProps.storedVersion
 
-      // update current yaml
-      const currentYaml = prevState.currentYaml || nextProps.yaml
+      // update last time refreshed
+      const {changingChannel} = prevState
+      let lastTimeUpdate = prevState.lastTimeUpdate
+      if (changingChannel || this.props.topologyReloading && !nextProps.topologyReloading ||
+          (!lastTimeUpdate && nextProps.topologyLoaded)) {
+        const time = new Date().toLocaleTimeString(locale)
+        lastTimeUpdate = msgs.get('application.diagram.view.last.time', [time], locale)
+      }
+      let {currentYaml, currentParsed} = prevState
+      if (currentYaml !== nextProps.yaml || changingChannel) {
+        currentYaml = nextProps.yaml
+        const {parsed} = parse(currentYaml, undefined, locale)
+        currentParsed = parsed
+        this.resetEditor(currentYaml)
+      }
 
       return {
         clusters,
         links,
         nodes,
         currentYaml,
+        currentParsed,
         diagramFilters,
-        firstLoad,
-        topologyReloading,
-        isMulticluster: clusters.length > 1,
+        changingChannel: false,
+        showSpinner,
+        lastTimeUpdate,
         topologyLoaded: nextProps.topologyLoaded,
         topologyLoadError: nextProps.topologyLoadError,
         statusesLoaded: nextProps.statusesLoaded
@@ -169,6 +184,11 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.activeChannel!==undefined &&
+        nextState.activeChannel!==undefined &&
+        nextProps.activeChannel !== nextState.activeChannel) {
+      return false
+    }
     return (
       !_.isEqual(
         this.state.nodes.map(n => n.uid),
@@ -181,9 +201,12 @@ class ApplicationTopologyModule extends React.Component {
       !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
       !_.isEqual(this.state.exceptions, nextState.exceptions) ||
       this.state.activeChannel !== nextState.activeChannel ||
+      this.props.storedVersion !== nextProps.storedVersion ||
       !_.isEqual(this.props.channels, nextProps.channels) ||
       this.state.updateMessage !== nextState.updateMessage ||
       this.props.showExpandedTopology !== nextProps.showExpandedTopology ||
+      this.state.showSpinner !== nextState.showSpinner ||
+      this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
       this.props.topologyLoaded !== nextProps.topologyLoaded ||
       this.props.statusesLoaded !== nextProps.statusesLoaded ||
       this.props.yaml.localeCompare(nextProps.yaml) !== 0 ||
@@ -265,9 +288,6 @@ class ApplicationTopologyModule extends React.Component {
   getViewer = () => this.viewer;
   getEditor = () => this.editor;
   setCopyAreaRef = ref => (this.copyArea = ref);
-  setUpdateDiagramRefreshTimeFunc = func => {
-    this.updateDiagramRefreshTime = func
-  };
   handleTopologyErrorClosed = () => this.setState({ topologyLoadError: false });
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
@@ -275,7 +295,8 @@ class ApplicationTopologyModule extends React.Component {
     const {
       staticResourceData,
       onDiagramFilterChange,
-      showExpandedTopology
+      showExpandedTopology,
+      fetchFilters,
     } = this.props
     const { designTypes, topologyTypes, typeToShapeMap } = staticResourceData
     const {
@@ -283,13 +304,10 @@ class ApplicationTopologyModule extends React.Component {
       links,
       diagramFilters,
       selectedNode,
-      isMulticluster,
       topologyLoadError
     } = this.state
     const {
-      firstLoad,
       topologyLoaded,
-      topologyReloading,
       statusesLoaded
     } = this.state
     const {
@@ -338,24 +356,20 @@ class ApplicationTopologyModule extends React.Component {
           )}
           <div className="channel-diagram-container">
             {this.renderChannelControls()}
+            {this.renderLastUpdate()}
             <DiagramViewer
               id={'application'}
               nodes={nodes}
               links={links}
-              isMulticluster={isMulticluster}
               context={this.context}
               showExpandedTopology={showExpandedTopology}
               handleNodeSelected={handleNodeSelected}
               selectedNode={selectedNode}
               setViewer={this.setViewer}
-              secondaryLoad={!topologyLoaded && !firstLoad}
+              secondaryLoad={!topologyLoaded}
               statusesLoaded={statusesLoaded}
-              reloading={topologyReloading}
               staticResourceData={staticResourceData}
-              setUpdateDiagramRefreshTimeFunc={
-                this.setUpdateDiagramRefreshTimeFunc
-              }
-              fetchLogs={this.fetchLogs}
+              cacheKey={JSON.stringify(fetchFilters)}
               activeFilters={{ type: diagramFilters }}
             />
           </div>
@@ -471,16 +485,30 @@ class ApplicationTopologyModule extends React.Component {
     )
   }
 
+  renderLastUpdate() {
+    const { showSpinner, lastTimeUpdate } = this.state
+    return (
+      <div className='last-update-container'>
+        {showSpinner&&<Loading withOverlay={false} small />}
+        <div>{lastTimeUpdate}</div>
+      </div>
+    )
+  }
+
   renderChannelControls() {
     const { locale } = this.context
     const { channels } = this.props
     const { activeChannel } = this.state
+    const selectedIdx = Math.max(0, channels.findIndex(chn=>chn === activeChannel))
     return (
       <div className="channel-controls-container">
-        {channels.map(chn => {
+        {channels.map((chn, idx) => {
+          const [subscription, channel] = chn.split('//')
+          const [, subName] = subscription.split('/')
+          const [, chnName] = channel.split('/')
           const classes = classNames({
             'channel-control': true,
-            selected: chn === activeChannel
+            selected: idx===selectedIdx,
           })
           const handleClick = () => {
             this.changeTheChannel(chn)
@@ -492,7 +520,7 @@ class ApplicationTopologyModule extends React.Component {
           }
           const tooltip = msgs.get(
             'application.diagram.channel.tooltip',
-            [chn],
+            [subscription, channel],
             locale
           )
           return (
@@ -502,14 +530,11 @@ class ApplicationTopologyModule extends React.Component {
               tabIndex="0"
               role={'button'}
               aria-label={tooltip}
-              title={tooltip}
               onClick={handleClick}
               onKeyPress={handleKeyPress}
             >
-              {chn
-                .split('/')
-                .slice(-1)
-                .pop()}
+              <div className='channel-control-subscripion' >{subName}</div>
+              <div className='channel-control-channel' >{chnName}</div>
             </div>
           )
         })}
@@ -518,7 +543,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   changeTheChannel(fetchChannel) {
-    this.setState({ activeChannel: fetchChannel })
+    this.setState({ activeChannel: fetchChannel, changingChannel: true})
     this.props.fetchTopology(fetchChannel)
   }
 
@@ -641,11 +666,10 @@ class ApplicationTopologyModule extends React.Component {
   };
 
   handleParse = () => {
-    const { validator } = this.props
     const { currentYaml } = this.state
     const { parsed: currentParsed, exceptions } = parse(
       currentYaml,
-      validator,
+      undefined,
       this.context.locale
     )
 
@@ -656,14 +680,17 @@ class ApplicationTopologyModule extends React.Component {
     this.setState({ currentParsed, exceptions })
   };
 
-  resetEditor() {
+  resetEditor(yml) {
     const { yaml } = this.props
     this.setState({
-      currentYaml: yaml,
+      currentYaml: yml || yaml,
       exceptions: [],
       hasUndo: false,
       hasRedo: false
     })
+    if (this.editor) {
+      this.editor.scrollToLine(0, true)
+    }
     this.resetUndoManager = true
   }
 
@@ -714,30 +741,6 @@ class ApplicationTopologyModule extends React.Component {
       })
     }
   }
-
-  fetchLogs(resourceType, { name, namespace, clusterName }) {
-    const client = apolloClient.getClient()
-    client.mutate({
-      mutation: UPDATE_ACTION_MODAL,
-      variables: {
-        __typename: 'actionModal',
-        open: true,
-        type: 'table.actions.pod.logs',
-        resourceType: {
-          __typename: 'resourceType',
-          name: resourceType.name,
-          list: resourceType.list
-        },
-        data: {
-          __typename: 'ModalData',
-          name,
-          namespace,
-          clusterName,
-          kind: ''
-        }
-      }
-    })
-  }
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -747,12 +750,13 @@ const mapStateToProps = (state, ownProps) => {
   const staticResourceData = hcmappdiagram.mergeDefinitions(hcmtopology)
   const { HCMApplicationList } = state
   const item = HCMApplicationList.items[0]
-  const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
   const { topology } = state
-  const { activeFilters = {}, diagramFilters = [] } = topology
-  const { application = {} } = activeFilters
-  topology.loaded =
-    application.name === name && application.namespace === namespace
+  const { activeFilters, fetchFilters, diagramFilters = [] } = topology
+  let localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
+  const fetchApplication =  _.get(topology, 'fetchFilters.application')
+  if (fetchApplication) {
+    localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${fetchApplication.namespace}\\${fetchApplication.name}`
+  }
   const diagramElements = staticResourceData.getDiagramElements(
     item,
     topology,
@@ -762,9 +766,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...diagramElements,
     staticResourceData,
-    validator: staticResourceData.validator,
     getUpdates: staticResourceData.getUpdates,
-    diagramFilters
+    activeFilters,
+    fetchFilters,
+    diagramFilters,
   }
 }
 

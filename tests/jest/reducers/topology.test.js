@@ -51,18 +51,12 @@ describe('topology reducer with topology name', () => {
     }
     const expectedValue = {
       links: undefined,
-      nodes: [],
+      nodes: undefined,
       status: 'DONE',
       loaded: true,
       reloading: false,
       test: 'test',
       activeFilters: 'receivedApplication',
-      buffer: {
-        hadNodes: false,
-        href: 'http://localhost/',
-        links: undefined,
-        nodes: []
-      }
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })

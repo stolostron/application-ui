@@ -35,6 +35,20 @@ export const tooltip = d3
       opacity: 0
     }
   })
+  .on('mouseover', () => {
+    tooltip
+      .interrupt()
+      .style('opacity', 1)
+  })
+  .on('mouseleave', () => {
+    tooltip
+      .styles(()=>{
+        return {
+          'display': 'none',
+          'opacity': 0
+        }
+      })
+  })
 
 export default class NodeHelper {
   /**

@@ -92,22 +92,13 @@ class EditorBar extends React.Component {
       { command: 'spacer2', spacer: true }
     ]
     const menuItems = []
-    if (exceptions.length === 0) {
-      editorButtons.push({
-        command: 'update',
-        tooltip: msgs.get('editor.bar.update', locale),
-        icon: 'deploy',
-        disabled: !hasUndo
+    exceptions.forEach(({ text, row }) => {
+      if (text.length > 64) text = text.substr(0, 64) + '...'
+      menuItems.push({
+        text,
+        row
       })
-    } else {
-      exceptions.forEach(({ text, row }) => {
-        if (text.length > 64) text = text.substr(0, 64) + '...'
-        menuItems.push({
-          text,
-          row
-        })
-      })
-    }
+    })
     const searchTitle = msgs.get('search.label', locale)
     return (
       <div className="editor-bar">

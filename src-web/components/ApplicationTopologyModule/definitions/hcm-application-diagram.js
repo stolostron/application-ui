@@ -64,6 +64,7 @@ export default {
   mergeDefinitions,
 
   // nodes, links and yaml
+  getActiveChannel,
   getDiagramElements,
 
   // get description for under node
@@ -106,22 +107,6 @@ function mergeDefinitions(topologyDefs) {
     return topologyDefs.getNodeDescription(node)
   }
 
-  //getNodeDetails: what desciption to put in details view when node is clicked
-  this.getNodeDetails = currentNode => {
-    if (_.get(currentNode, 'specs.isDesign')) {
-      return getDesignNodeDetails(currentNode)
-    }
-    return topologyDefs.getNodeDetails(currentNode)
-  }
-
-  //getNodeDetails: what desciption to put in details view when node is clicked
-  this.getNodeTooltips = (node, locale) => {
-    if (_.get(node, 'specs.isDesign')) {
-      return getDesignNodeTooltips(node, locale)
-    }
-    return topologyDefs.getNodeTooltips(node)
-  }
-
   return defs
 }
 
@@ -155,6 +140,13 @@ const sortKeys = (a, b) => {
     return 1
   }
   return a.localeCompare(b)
+}
+
+function getActiveChannel(localStoreKey) {
+  const storedActiveChannel = getStoredObject(localStoreKey)
+  if (storedActiveChannel) {
+    return storedActiveChannel.activeChannel
+  }
 }
 
 function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
@@ -192,9 +184,11 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
 
     const yaml = yamls.join('---\n')
     saveStoredObject(localStoreKey, {
-      clusters,
       activeChannel,
       channels,
+    })
+    saveStoredObject(`${localStoreKey}-${activeChannel}`, {
+      clusters,
       links,
       nodes,
       yaml
@@ -208,6 +202,7 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
       nodes,
       yaml,
       topologyLoaded: true,
+      storedVersion: false,
       topologyLoadError,
       topologyReloading
     }
@@ -216,27 +211,36 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
   // if not loaded yet, see if there's a stored version
   // with the same diagram filters
   if (!topologyReloading) {
-    const storedElements = getStoredObject(localStoreKey)
-    if (storedElements) {
-      //topology.storedElements=storedElements
-      const {
-        clusters = [],
-        activeChannel,
-        channels = [],
-        links = [],
-        nodes = [],
-        yaml = ''
-      } = storedElements
-      return {
-        clusters,
-        activeChannel,
-        channels,
-        links,
-        nodes,
-        yaml,
-        topologyLoaded: true,
-        topologyLoadError,
-        topologyReloading
+    let channels = []
+    let activeChannel
+    const storedActiveChannel = getStoredObject(localStoreKey)
+    if (storedActiveChannel) {
+      activeChannel = storedActiveChannel.activeChannel
+      channels = storedActiveChannel.channels || []
+    }
+    //console.log('localkey '+localStoreKey+ ' fetch '+ JSON.stringify(_.get(topology, 'fetchFilters.application')))
+    activeChannel = _.get(topology, 'fetchFilters.application.channel', activeChannel)
+    if (activeChannel) {
+      const storedElements = getStoredObject(`${localStoreKey}-${activeChannel}`)
+      if (storedElements) {
+        const {
+          clusters = [],
+          links = [],
+          nodes = [],
+          yaml = ''
+        } = storedElements
+        return {
+          clusters,
+          activeChannel,
+          channels,
+          links,
+          nodes,
+          yaml,
+          topologyLoaded: true,
+          storedVersion: true,
+          topologyLoadError,
+          topologyReloading
+        }
       }
     }
   }
@@ -249,7 +253,7 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
   const yaml = ''
 
   // create application node
-  const { name: an, namespace: ans, deployables } = item
+  const { name: an, namespace: ans } = item
   const appId = `application--${an}`
   nodes.push({
     name: an,
@@ -258,27 +262,6 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
     uid: appId,
     specs: { isDesign: true }
   })
-
-  // create deployables
-  if (deployables) {
-    deployables.forEach(({ name, namespace }, idx) => {
-      const memberId = `member--deployables--${name}--${idx}`
-      nodes.push({
-        name,
-        namespace,
-        type: 'deployable',
-        uid: memberId,
-        specs: { isDesign: true }
-      })
-      links.push({
-        source: appId,
-        target: memberId,
-        label: '',
-        specs: { isDesign: true },
-        uid: appId + memberId
-      })
-    })
-  }
   return {
     clusters,
     channels,
@@ -359,67 +342,64 @@ function updateNodeIcons(nodes) {
   })
 }
 
-function getDesignNodeDetails(currentNode) {
+function getDesignNodeDetails(node) {
   const details = []
   let labels = {}
-  if (currentNode) {
-    switch (currentNode.type) {
+  if (node) {
+    const { name, type, namespace, specs } = node
+    const metadata = _.get(specs, 'raw.metadata', {})
+    const {labels: l = []} = metadata
+    addDetails(details, [
+      { labelKey: 'resource.type', value: type },
+      { labelKey: 'resource.name', value: name },
+      { labelKey: 'resource.namespace', value: namespace },
+    ])
+    labels = l
+    switch (type) {
     case 'application': {
-      const {
-        application: {
-          metadata: {
-            name,
-            namespace,
-            creationTimestamp,
-            resourceVersion,
-            labels: l = []
-          }
-        }
-      } = currentNode
-      addDetails(details, [
-        { labelKey: 'resource.type', value: currentNode.type },
-        { labelKey: 'resource.name', value: name },
-        { labelKey: 'resource.namespace', value: namespace },
-        { labelKey: 'resource.created', value: getAge(creationTimestamp) },
-        { labelKey: 'resource.version', value: resourceVersion }
-      ])
-      labels = l
+      const selector = _.get(specs, 'raw.spec.selector', {})
+      const yaml = jsYaml.safeDump(selector).split('\n')
+      if (yaml.length > 0) {
+        details.push({
+          type: 'label',
+          labelKey: 'resource.selector'
+        })
+        yaml.forEach(value => {
+          const labelDetails = [{ value }]
+          addDetails(details, labelDetails)
+        })
+      }
       break
     }
     case 'subscription': {
-      const {
-        application: {
-          metadata: {
-            name,
-            namespace,
-            creationTimestamp,
-            resourceVersion,
-            labels: l = []
-          }
-        }
-      } = currentNode
-      addDetails(details, [
-        { labelKey: 'resource.type', value: currentNode.type },
-        { labelKey: 'resource.name', value: name },
-        { labelKey: 'resource.namespace', value: namespace },
-        { labelKey: 'resource.created', value: getAge(creationTimestamp) },
-        { labelKey: 'resource.version', value: resourceVersion }
-      ])
-      labels = l
+      const channel = _.get(specs, 'raw.spec.channel')
+      if (channel) {
+        addDetails(details, [
+          { labelKey: 'resource.channel', value: channel },
+        ])
+      }
+      const placement = _.get(specs, 'raw.spec.placement', {})
+      const yaml = jsYaml.safeDump(placement).split('\n')
+      if (yaml.length > 0) {
+        details.push({
+          type: 'label',
+          labelKey: 'resource.placement'
+        })
+        yaml.forEach(value => {
+          const labelDetails = [{ value }]
+          addDetails(details, labelDetails)
+        })
+      }
       break
     }
     case 'rules': {
-      const {
-        name,
-        namespace,
-        member: { $raw: { spec: { clusterLabels, clusterReplicas } } }
-      } = currentNode
-      addDetails(details, [
-        { labelKey: 'resource.type', value: currentNode.type },
-        { labelKey: 'resource.name', value: name },
-        { labelKey: 'resource.namespace', value: namespace },
-        { labelKey: 'resource.replicas', value: clusterReplicas }
-      ])
+      const clusterReplicas = _.get(specs, 'raw.spec.clusterReplicas')
+      if (clusterReplicas) {
+        addDetails(details, [
+          { labelKey: 'resource.replicas', value: clusterReplicas },
+        ])
+      }
+      const clusterLabels = _.get(specs, 'raw.spec.clusterLabels', {})
       const yaml = jsYaml.safeDump(clusterLabels).split('\n')
       if (yaml.length > 0) {
         details.push({
@@ -431,16 +411,6 @@ function getDesignNodeDetails(currentNode) {
           addDetails(details, labelDetails)
         })
       }
-      break
-    }
-    case 'deployable': {
-      const { name, namespace, labels: l } = currentNode
-      addDetails(details, [
-        { labelKey: 'resource.type', value: currentNode.type },
-        { labelKey: 'resource.name', value: name },
-        { labelKey: 'resource.namespace', value: namespace }
-      ])
-      labels = l || []
       break
     }
     }
@@ -463,21 +433,69 @@ function getDesignNodeDetails(currentNode) {
 }
 
 function getDesignNodeTooltips(node, locale) {
+  let href
   const tooltips = []
-  const { name, type, namespace } = node
   const contextPath = config.contextPath.replace(
     new RegExp('/applications'),
     ''
   )
-  let href = `${contextPath}/search?filters={"textsearch":"kind:${type} name:${name}"}`
-  tooltips.push({ name: _.capitalize(_.startCase(type)), value: name, href })
-  if (namespace) {
-    href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
-    tooltips.push({
-      name: msgs.get('resource.namespace', locale),
-      value: namespace,
-      href
-    })
+  const { name, type, namespace, specs } = node
+  const metadata = _.get(specs, 'raw.metadata', {})
+
+  const addNameTooltip = (namespace, name) => {
+    href = `${contextPath}/search?filters={"textsearch":"kind:${type} name:${name}"}`
+    tooltips.push({ name: _.capitalize(_.startCase(type)), value: name, href })
+    if (namespace) {
+      href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
+      tooltips.push({
+        name: msgs.get('resource.namespace', locale),
+        value: namespace,
+        href
+      })
+    }
+  }
+  switch (type) {
+
+  case 'subscription': {
+    addNameTooltip(metadata.namespace, metadata.name)
+    let channel = _.get(specs, 'raw.spec.channel')
+    if (channel) {
+      ([,channel] = channel.split('/'))
+      href = `${contextPath}/search?filters={"textsearch":"kind:channel name:${channel}"}`
+      tooltips.push({
+        name: msgs.get('resource.channel', locale),
+        value: channel,
+        href
+      })
+    }
+  }
+    break
+
+  case 'deployable':
+  case 'rules':
+    addNameTooltip(metadata.namespace, metadata.name)
+    break
+
+  case 'clusters': {
+    if (specs.clusterNames) {
+      let names = specs.clusterNames
+      const length = names.length
+      const andMore = length>4
+      names = andMore ? names.splice(0,4) : names
+      names.forEach(name=>{
+        href = `${contextPath}/search?filters={"textsearch":"cluster:${name}"}`
+        tooltips.push({name:msgs.get('resource.cluster', locale), value:name, href})
+      })
+      if (andMore) {
+        tooltips.push({desc:msgs.get('resource.and.more', [length-4], locale)})
+      }
+    }
+  }
+    break
+
+  default:
+    addNameTooltip(namespace, name)
+    break
   }
   return tooltips
 }
@@ -539,23 +557,28 @@ function getConnectedLayoutOptions({ elements }) {
 
 const positionRow = (idx, row, placedSet, positionMap) => {
   if (row.length) {
+
+    // filter nodes we will place at end
+    const placeLast = []
+    row = row.filter(n=>{
+      const { node: { type } } = n.data()
+      if (type==='rules') {
+        placeLast.push(n)
+        return false
+      }
+      return true
+    })
+
     // place each node in this row
     const width = row.length * NODE_SIZE * 3
     let x = -(width / 2)
     const y = idx * NODE_SIZE * 2.4
     row.forEach(n => {
       placedSet.add(n.id())
-      let pos = { x, y }
+      const pos = { x, y }
       const { node: { type, name } } = n.data()
       let key = type
       switch (type) {
-      case 'rules':
-        pos = positionMap['subscription']
-        pos.x += NODE_SIZE * 3
-        break
-      case 'clusters':
-        pos.x = -(NODE_SIZE * 3) / 2
-        break
       case 'deployment':
         key = `deployment/${name}`
         break
@@ -597,6 +620,15 @@ const positionRow = (idx, row, placedSet, positionMap) => {
       nextRow = [...nextRow, ...outgoers]
     })
 
+    // place these nodes based on other nodes
+    placeLast.forEach(n=>{
+      const { node: { type } } = n.data()
+      if (type==='rules') { // place rules next to subscription
+        const pos = positionMap['subscription']
+        n.position({x: pos.x + NODE_SIZE * 3, y: pos.y})
+      }
+    })
+
     // place next row down
     positionRow(idx + 1, nextRow, placedSet, positionMap)
   }
@@ -635,15 +667,4 @@ function addDetails(details, newDetails) {
       })
     }
   })
-}
-
-function getAge(value) {
-  if (value) {
-    if (value.includes('T')) {
-      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-    } else {
-      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
-    }
-  }
-  return '-'
 }

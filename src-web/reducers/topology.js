@@ -9,7 +9,6 @@
 
 import lodash from 'lodash'
 import * as Actions from '../actions'
-import { getBufferedResponse } from '../../lib/client/weave-helper'
 import {
   getFilterState,
   saveFilterState
@@ -64,13 +63,12 @@ export const topology = (state = initialState, action) => {
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
       // ignore topologies that were fetched with a different set of active filters
       if (!lodash.isEqual(action.fetchFilters, state.activeFilters)) {
-        const { nodes, links, buffer } = getBufferedResponse(state, action)
+        const { links, nodes } = action
         return {
           ...state,
           status: Actions.REQUEST_STATUS.DONE,
           nodes,
           links,
-          buffer,
           activeFilters: action.fetchFilters,
           loaded: true,
           reloading: false

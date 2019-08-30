@@ -123,18 +123,6 @@ ShallowWrapper {
             command="spacer2"
             handleClick={[Function]}
           />,
-          <EditorButton
-            button={
-              Object {
-                "command": "update",
-                "disabled": true,
-                "icon": "deploy",
-                "tooltip": "Update",
-              }
-            }
-            command="update"
-            handleClick={[Function]}
-          />,
         ],
         false,
       ],
@@ -305,24 +293,6 @@ ShallowWrapper {
         "rendered": null,
         "type": [Function],
       },
-      Object {
-        "instance": null,
-        "key": "update",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "update",
-            "disabled": true,
-            "icon": "deploy",
-            "tooltip": "Update",
-          },
-          "command": "update",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
       false,
     ],
     "type": "div",
@@ -430,18 +400,6 @@ ShallowWrapper {
                 }
               }
               command="spacer2"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "update",
-                  "disabled": true,
-                  "icon": "deploy",
-                  "tooltip": "Update",
-                }
-              }
-              command="update"
               handleClick={[Function]}
             />,
           ],
@@ -608,24 +566,6 @@ ShallowWrapper {
               "spacer": true,
             },
             "command": "spacer2",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "update",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "update",
-              "disabled": true,
-              "icon": "deploy",
-              "tooltip": "Update",
-            },
-            "command": "update",
             "handleClick": [Function],
           },
           "ref": null,

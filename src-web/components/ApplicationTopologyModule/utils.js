@@ -96,7 +96,14 @@ export const counterZoom = (scale, scaleMin, scaleMax, valueMin, valueMax) => {
 export const getTooltip = tooltips => {
   return ReactDOMServer.renderToStaticMarkup(
     <React.Fragment>
-      {tooltips.map(({ name, value, href, target = '', rel = '' }) => {
+      {tooltips.map(({ name, value, desc, href, target = '', rel = '' }) => {
+        if (desc) {
+          return (
+            <div key={Math.random()}>
+              <span className="description">{desc}</span>
+            </div>
+          )
+        }
         return (
           <div key={Math.random()}>
             <span className="label">{name}: </span>

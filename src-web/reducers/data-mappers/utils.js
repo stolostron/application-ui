@@ -6,6 +6,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+import R from 'ramda'
 
 export const getRelatedItems = (related, kind) => {
   let result = []
@@ -30,7 +31,15 @@ export const getRelatedItems = (related, kind) => {
     }
     filtered.map(elem => {
       if (elem.items instanceof Array) {
-        result = result.concat(elem.items)
+        if (kind === 'subscription') {
+          //filter out remote cluster subscriptions
+          // identified by the fact that the _hostingSubscription is defined
+          const isHubSubscr = item => !item._hostingSubscription
+          const filteredResult = R.filter(isHubSubscr, elem.items)
+          result = result.concat(filteredResult)
+        } else {
+          result = result.concat(elem.items)
+        }
       }
     })
   }

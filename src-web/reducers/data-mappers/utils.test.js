@@ -680,7 +680,7 @@ describe('getRelatedItems', () => {
     ]
     expect(getRelatedItems(application.related, 'deployable')).toEqual(result)
   })
-  it('should return correct subscription count', () => {
+  it('should return correct hub subscriptions only, the ones that dos not have the hosting-subscription annotation', () => {
     const result = [
       {
         kind: 'subscription',
@@ -695,24 +695,6 @@ describe('getRelatedItems', () => {
         _uid: 'local-cluster/6c563052-bbe3-11e9-82a0-00163e019f14',
         _hubClusterResource: 'true',
         label: 'app=gbapp; chart=gbapp-0.1.0; heritage=Tiller; release=apptest'
-      },
-      {
-        kind: 'subscription',
-        name: 'apptest-gbapp-guestbook',
-        namespace: 'default',
-        selfLink:
-          '/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/apptest-gbapp-guestbook',
-        created: '2019-08-11T03:20:42Z',
-        cluster: 'local-cluster',
-        channel: 'chn-gb/gbchn',
-        _rbac: 'default_null_subscriptions',
-        _uid: 'local-cluster/003b9d4c-bbe7-11e9-82a0-00163e019f14',
-        _hubClusterResource: 'true',
-        _hostingSubscription: 'project-workspace/apptest-gbapp-guestbook',
-        _hostingDeployable:
-          'local-cluster/apptest-gbapp-guestbook-deployable-6gh2v',
-        label:
-          'heritage=Tiller; hosting-deployable-name=apptest-gbapp-guestbook-deployable; release=apptest; app=gbapp; chart=gbapp-0.1.0'
       }
     ]
     expect(getRelatedItems(application.related, 'subscription')).toEqual(

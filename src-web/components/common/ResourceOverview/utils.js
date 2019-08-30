@@ -82,15 +82,6 @@ export const getNumCompletedDeployments = data => {
   return status[0] + status[4]
 }
 
-export const getIcamLink = (activeAccountId, applicationUid) => {
-  if (activeAccountId && applicationUid) {
-    return `/cemui/applications/${encodeURIComponent(
-      applicationUid.split('/').pop()
-    )}?subscriptionId=${encodeURIComponent(activeAccountId)}`
-  }
-  return '#'
-}
-
 // Given a current resource data INCLUDING its related resources
 // we want to return all the channels.
 // Channels are not returned inside related resources so we have to

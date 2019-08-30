@@ -51,3 +51,15 @@ export const getSearchUrl = subName => {
     '"}'
   )
 }
+
+export const getIcamLinkForSubscription = (
+  activeAccountId,
+  subscriptionUid
+) => {
+  if (activeAccountId && subscriptionUid) {
+    return `/cemui/applications/${encodeURIComponent(
+      subscriptionUid.split('/').pop()
+    )}?subscriptionId=${encodeURIComponent(activeAccountId)}`
+  }
+  return '#'
+}

@@ -57,6 +57,7 @@
   "description.Modal.deploymentStatus": "Resource status",
   "description.Modal.deployedAt": "Deployed at",
   "description.Modal.failedAt": "Failed at",
+  "description.Modal.icamLink": "View hub cluster application instance",
   "description.na": "N/A",
   "description.total": "Total",
   "description.pass": "Resources completed",

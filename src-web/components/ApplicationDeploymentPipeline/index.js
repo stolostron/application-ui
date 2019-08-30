@@ -17,6 +17,7 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createResources,
   fetchResources,
+  fetchUserInfo,
   updateModal
 } from '../../actions/common'
 import {
@@ -103,6 +104,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
     fetchSubscriptions: () =>
@@ -133,6 +135,7 @@ const mapStateToProps = state => {
   const {
     HCMApplicationList,
     HCMChannelList,
+    userInfoList,
     AppDeployments,
     secondaryHeader,
     role
@@ -142,6 +145,11 @@ const mapStateToProps = state => {
   const filteredApplications = filterApps(
     HCMApplicationList,
     AppDeployments.deploymentPipelineSearch
+  )
+  const activeAccountId = R.pathOr(
+    '',
+    ['items', 'activeAccountId'],
+    userInfoList
   )
   const channelsList = getChannelsList(HCMChannelList)
   const applicationsList = getApplicationsList(filteredApplications)
@@ -166,15 +174,17 @@ const mapStateToProps = state => {
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     applications: applicationsList,
     channels: channelsList,
-    appSubscriptions: appSubscriptionsList
+    appSubscriptions: appSubscriptionsList,
+    activeAccountId
   }
 }
 
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
-    const { fetchChannels, fetchSubscriptions } = this.props
+    const { fetchChannels, fetchSubscriptions, fetchUserInfo } = this.props
     fetchChannels()
     fetchSubscriptions()
+    fetchUserInfo()
   }
 
   componentDidMount() {}
@@ -203,7 +213,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       appDropDownList,
       bulkSubscriptionList,
       userRole,
-      breadcrumbItems
+      breadcrumbItems,
+      activeAccountId
     } = this.props
     const { locale } = this.context
     const modalChannel = React.cloneElement(CreateChannelModal(), {
@@ -306,6 +317,8 @@ class ApplicationDeploymentPipeline extends React.Component {
           editSubscription={editSubscription}
           subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
           bulkSubscriptionList={bulkSubscriptionList}
+          activeAccountId={activeAccountId}
+          userRole={userRole}
         />
       </div>
     )

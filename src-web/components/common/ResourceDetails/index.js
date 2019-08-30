@@ -13,16 +13,11 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import {
-  getIncidentCount,
-  getActiveAccountId,
-  getApplicationUid
-} from './utils'
+import { getIncidentCount } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
-  fetchIncidents,
-  fetchUserInfo
+  fetchIncidents
 } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -53,21 +48,18 @@ const withResource = Component => {
             params.namespace,
             params.name
           )
-        ),
-      fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO))
+        )
     }
   }
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { CEMIncidentList, HCMApplicationList, userInfoList } = state
+    const { CEMIncidentList } = state
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidentCount: getIncidentCount(CEMIncidentList),
-      activeAccountId: getActiveAccountId(userInfoList),
-      applicationUid: getApplicationUid(HCMApplicationList)
+      incidentCount: getIncidentCount(CEMIncidentList)
     }
   }
 
@@ -75,11 +67,9 @@ const withResource = Component => {
     class extends React.PureComponent {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
-        activeAccountId: PropTypes.string,
-        applicationUid: PropTypes.string,
+        actions: PropTypes.object,
         fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
-        fetchUserInfo: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
           PropTypes.number,
           PropTypes.string
@@ -105,7 +95,6 @@ const withResource = Component => {
           this.setState({ intervalId: intervalId })
         }
         this.props.fetchResource()
-        this.props.fetchUserInfo()
         const { params, actions } = this.props
         if (params && params.namespace && params.name) {
           this.props.fetchIncidents()

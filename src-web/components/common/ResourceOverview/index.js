@@ -24,7 +24,6 @@ import {
   getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getIcamLink,
   getCurrentApplication,
   formatToChannel,
   getSearchLinkForOneApplication
@@ -52,8 +51,6 @@ const ResourceOverview = withLocale(
     showAppDetails,
     showExpandedTopology,
     incidentCount,
-    activeAccountId,
-    applicationUid,
     userRole
   }) => {
     if (!item) {
@@ -172,11 +169,7 @@ const ResourceOverview = withLocale(
               <CountsCardModule
                 data={countsCardData}
                 title="dashboard.card.deployment.summary.title"
-                link={
-                  isAdminRole(userRole)
-                    ? getIcamLink(activeAccountId, applicationUid)
-                    : '#'
-                }
+                link="#"
               />
             </div>
             <div className="overview-content-bottom overview-content-with-padding">

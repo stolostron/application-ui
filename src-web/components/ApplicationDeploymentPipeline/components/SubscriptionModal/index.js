@@ -11,21 +11,33 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { Modal } from 'carbon-components-react'
+import { Modal, Icon } from 'carbon-components-react'
 import R from 'ramda'
 import ProgressBar from '../ProgressBar/index'
-import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils.js'
+import {
+  getLabelsListClass,
+  getCsvListClass,
+  getSearchUrl,
+  getIcamLinkForSubscription
+} from './utils.js'
 import {
   getResourcesStatusPerChannel,
   getDataByKind
 } from '../PipelineGrid/utils'
+import { isAdminRole } from '../../../../../lib/client/access-helper'
 
 resources(() => {
   require('./style.scss')
 })
 
 const SubscriptionInfo = withLocale(
-  ({ subscriptionModalSubscriptionInfo, bulkSubscriptionList, locale }) => {
+  ({
+    subscriptionModalSubscriptionInfo,
+    bulkSubscriptionList,
+    activeAccountId,
+    userRole,
+    locale
+  }) => {
     const notEmptySubscription =
       !R.isEmpty(subscriptionModalSubscriptionInfo) &&
       subscriptionModalSubscriptionInfo &&
@@ -43,6 +55,7 @@ const SubscriptionInfo = withLocale(
     let channel = ''
     let status = [0, 0, 0, 0, 0]
     // let version = ''
+    let icamLink = '#'
 
     if (notEmptySubscription) {
       // Gather the subscription data that contains the matching UID
@@ -117,6 +130,13 @@ const SubscriptionInfo = withLocale(
       // the same namespace as the channel
       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
       status = getResourcesStatusPerChannel(subscriptionWithRelatedData)
+
+      if (isAdminRole(userRole)) {
+        icamLink = getIcamLinkForSubscription(
+          activeAccountId,
+          subscriptionModalSubscriptionInfo._uid
+        )
+      }
     }
 
     return (
@@ -238,6 +258,28 @@ const SubscriptionInfo = withLocale(
                 </a>
               </div>
             </div>
+            {icamLink &&
+              icamLink !== '#' && (
+              <div className="subHeader">
+                <div className="icamLink">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={icamLink}
+                  >
+                    {msgs.get('description.Modal.icamLink', locale)}{' '}
+                    <Icon
+                      style={{ margin: '0 0 0 5px' }}
+                      className="icon--arrow--right"
+                      name="icon--arrow--right"
+                      fill="gray"
+                      width="12px"
+                      height="12px"
+                    />
+                  </a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -253,6 +295,8 @@ const SubscriptionModal = withLocale(
     label,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
+    activeAccountId,
+    userRole,
     locale
   }) => {
     return (
@@ -272,6 +316,8 @@ const SubscriptionModal = withLocale(
                 subscriptionModalSubscriptionInfo
               }
               bulkSubscriptionList={bulkSubscriptionList}
+              activeAccountId={activeAccountId}
+              userRole={userRole}
             />
           </div>
         </Modal>

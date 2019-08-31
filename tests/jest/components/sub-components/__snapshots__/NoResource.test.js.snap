@@ -5,9 +5,9 @@ exports[`NoResource component renders as expected 1`] = `
   className="no-resource"
 >
   <img
-    alt={undefined}
+    alt="Resource icon"
     className="no-resource-icon"
-    src="undefined/graphics/bee.svg"
+    src="undefined/graphics/planets.png"
   />
   <div
     className="no-resource-title"

@@ -13,14 +13,11 @@ import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 
-/* FIXME: Please fix disabled eslint rules when making changes to this file. */
-/* eslint-disable react/prop-types */
-
 const NoResource = ({ title, detail, children }, context) => (
   <div className="no-resource">
     <img
       className="no-resource-icon"
-      src={`${config.contextPath}/graphics/bee.svg`}
+      src={`${config.contextPath}/graphics/planets.png`}
       alt={msgs.get('svg.description.resource', context.locale)}
     />
     <div className="no-resource-title">{title}</div>
@@ -31,6 +28,12 @@ const NoResource = ({ title, detail, children }, context) => (
 
 NoResource.contextTypes = {
   locale: PropTypes.string
+}
+
+NoResource.propTypes = {
+  children: PropTypes.node.isRequired,
+  detail: PropTypes.string,
+  title: PropTypes.string
 }
 
 export default NoResource

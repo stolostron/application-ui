@@ -168,7 +168,8 @@ class IncidentsTab extends React.Component {
         {rowsList.length === 0 && (
           <div className="incidents-tab-no-resource">
             <NoResource
-              title={msgs.get('table.title.noIncidentFound', locale)}
+              title={msgs.get('no-resource.title.incident', locale)}
+              detail={msgs.get('no-resource.detail.incident', locale)}
             />
           </div>
         )}

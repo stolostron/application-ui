@@ -20,23 +20,8 @@ export const getApplicationsList = list => {
 export const pullOutKindPerApplication = (application, kind = '') => {
   const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
   if (application && application.related) {
-    const appRelatedList = R.filter(isKind, application.related)
-    if (
-      kind === 'subscription' &&
-      appRelatedList &&
-      appRelatedList.length === 1
-    ) {
-      if (appRelatedList[0].items && appRelatedList[0].items instanceof Array) {
-        //filter out remote cluster subscriptions
-        // identified by the fact that the _hostingSubscription is defined
-        const isHubSubscr = item => !item._hostingSubscription
-        appRelatedList[0].items = R.filter(
-          isHubSubscr,
-          appRelatedList[0].items
-        )
-      }
-    }
-    return appRelatedList
+    const appDeployables = R.filter(isKind, application.related)
+    return appDeployables
   }
   return []
 }
@@ -126,17 +111,13 @@ export const getSubscriptionListGivenApplicationList = applications => {
         ) {
           const mappedSubscriptions = subscriptionList[0].items.map(
             subscription => {
-              if (!subscription._hostingSubscription) {
-                //filter out remote cluster subscriptions
-                // identified by the fact that the _hostingSubscription is defined
-                return {
-                  name: subscription.name || '',
-                  namespace: subscription.namespace || '',
-                  creationTimestamp: subscription.created || '',
-                  resourceVersion: subscription.packageFilterVersion || '',
-                  channel: subscription.channel || '',
-                  raw: subscription || {}
-                }
+              return {
+                name: subscription.name || '',
+                namespace: subscription.namespace || '',
+                creationTimestamp: subscription.created || '',
+                resourceVersion: subscription.packageFilterVersion || '',
+                channel: subscription.channel || '',
+                raw: subscription || {}
               }
             }
           )
@@ -145,13 +126,7 @@ export const getSubscriptionListGivenApplicationList = applications => {
       }
     })
   }
-  const removeUndefined = x => x !== undefined
-  const emptyArray = []
-  const removedUndefinedSubscriptions = R.filter(
-    removeUndefined,
-    subsctiotionList
-  )
-  return emptyArray.concat.apply([], removedUndefinedSubscriptions)
+  return subsctiotionList
 }
 
 // This takes in the applications list and searchText and filters down the applications

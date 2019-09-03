@@ -69,7 +69,6 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         <Tooltip />
         <Bar
           barSize={30}
-          legendType="circle"
           dataKey="cm"
           stackId="a"
           stroke="#285656"

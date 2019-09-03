@@ -104,7 +104,7 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
           legendType="circle"
           dataKey="percent_completed"
           stackId="a"
-          stroke="00BAB6"
+          stroke="#00BAB6"
           fillOpacity={1}
           fill="url(#colorUv)"
           name={getChartKeyName('percent_completed', locale)}

@@ -7,11 +7,14 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import { getRelatedItems } from './utils'
+import { getRelatedItems, filterRemoteClusterSubscriptions } from './utils'
 
 // @flow
 export const mapSingleApplication = application => {
   if (application && application.items && application.related) {
+    //filter out remote cluster subscriptions
+    filterRemoteClusterSubscriptions(application.related)
+
     const items = application.items[0]
     return [
       {

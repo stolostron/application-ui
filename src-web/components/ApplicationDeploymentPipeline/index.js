@@ -49,13 +49,14 @@ const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 // Create Resource for Channel
-const CreateChannelModal = () => {
+const CreateChannelModal = fetchChannels => {
   return (
     <CreateResourceModal
       key="createChannel"
       headingTextKey="actions.add.channel"
       submitBtnTextKey="actions.add.channel"
       onCreateResource={handleCreateChannelResource}
+      onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html"
     />
@@ -66,13 +67,14 @@ const handleCreateSubscriptionResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, yaml))
 
 // Create Resource for Subscription
-const CreateSubscriptionModal = () => {
+const CreateSubscriptionModal = fetchSubscriptions => {
   return (
     <CreateResourceModal
       key="createSubscription"
       headingTextKey="actions.add.subscription"
       submitBtnTextKey="actions.add.subscription"
       onCreateResource={handleCreateSubscriptionResource}
+      onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html"
     />
@@ -214,15 +216,20 @@ class ApplicationDeploymentPipeline extends React.Component {
       bulkSubscriptionList,
       userRole,
       breadcrumbItems,
-      activeAccountId
+      activeAccountId,
+      fetchSubscriptions,
+      fetchChannels
     } = this.props
     const { locale } = this.context
-    const modalChannel = React.cloneElement(CreateChannelModal(), {
+    const modalChannel = React.cloneElement(CreateChannelModal(fetchChannels), {
       resourceType: RESOURCE_TYPES.HCM_CHANNELS
     })
-    const modalSubscription = React.cloneElement(CreateSubscriptionModal(), {
-      resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
-    })
+    const modalSubscription = React.cloneElement(
+      CreateSubscriptionModal(fetchSubscriptions),
+      {
+        resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
+      }
+    )
     const subscriptionModalHeader =
       subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
     const subscriptionModalLabel =

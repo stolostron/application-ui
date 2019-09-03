@@ -36,6 +36,15 @@ const initialState = {
   createError: null
 }
 
+// A hacky way to delay making the fetch call
+const waitTime = ms => {
+  const start = new Date().getTime()
+  let end = start
+  while (end < start + ms) {
+    end = new Date().getTime()
+  }
+}
+
 class CreateResourceModal extends React.PureComponent {
   static propTypes = {
     headingTextKey: PropTypes.string,
@@ -84,6 +93,7 @@ class CreateResourceModal extends React.PureComponent {
         this.setState(initialState)
         // If there is a on Submit function passed in we want to execute it
         if (this.props.onSubmitFunction) {
+          waitTime(3000)
           this.props.onSubmitFunction()
         }
       }

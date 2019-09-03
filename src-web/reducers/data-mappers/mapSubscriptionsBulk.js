@@ -37,12 +37,11 @@ export const mapBulkSubscriptions = subscriptions => {
       }
     })
     const removeUndefined = x => x !== undefined
-    const emptyArray = []
     const removedUndefinedSubscriptions = R.filter(
       removeUndefined,
       mappedSubscriptions
     )
-    return emptyArray.concat.apply([], removedUndefinedSubscriptions)
+    return removedUndefinedSubscriptions
   }
   return [
     {

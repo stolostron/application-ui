@@ -82,12 +82,12 @@ class CreateResourceModal extends React.PureComponent {
         })
       } else {
         this.setState(initialState)
+        // If there is a on Submit function passed in we want to execute it
+        if (this.props.onSubmitFunction) {
+          this.props.onSubmitFunction()
+        }
       }
     })
-    // If there is a on Submit function passed in we want to execute it
-    if (this.props.onSubmitFunction) {
-      this.props.onSubmitFunction()
-    }
   };
 
   handleEditorChange = yaml => this.setState({ yaml });

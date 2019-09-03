@@ -535,8 +535,8 @@ class ApplicationTopologyModule extends React.Component {
                 onClick={handleClick}
                 onKeyPress={handleKeyPress}
               >
-                <div className='channel-control-subscripion' >{subName}</div>
                 <div className='channel-control-channel' >{chnName}</div>
+                <div className='channel-control-subscripion' >{subName}</div>
               </div>
             )
           }

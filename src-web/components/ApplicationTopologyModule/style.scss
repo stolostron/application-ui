@@ -231,13 +231,17 @@
     .channel-control {
       padding: 10px 0 10px 30px;
       position: relative;
-      font-size: 12px;
+      color: #152935;
+      line-height: 18px;
 
       &-subscripion {
+        font-size: 12px;
+
       }
 
       &-channel {
-        font-weight: bold;
+        font-size: 14px;
+        font-weight: 600;
       }
 
       &:hover {

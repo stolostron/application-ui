@@ -26,6 +26,10 @@ const ApplicationDeploymentHighlightsTerminology = withLocale(({ locale }) => {
             'description.title.deploymentHighlightsTerminology',
             locale
           )}
+          iconDescription={msgs.get(
+            'description.title.deploymentHighlightsTerminology.accordionDescription',
+            locale
+          )}
         >
           <Tile>
             <div>

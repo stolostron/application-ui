@@ -18,7 +18,7 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts'
-import { getChartKeyColor, getChartKeyName, getModuleData } from './utils'
+import { getChartKeyName, getModuleData } from './utils'
 
 const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
   const moduleData = getModuleData(data)
@@ -35,27 +35,19 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           bottom: 20
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <CartesianGrid strokeDasharray="0" vertical={false} />
         <defs>
           <linearGradient id="colorCm" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="25%" stopColor="#014536" stopOpacity={0.8} />
-            <stop
-              offset="75%"
-              stopColor={getChartKeyColor('cm')}
-              stopOpacity={0.6}
-            />
+            <stop offset="0%" stopColor="#285656" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="#479C9D" stopOpacity={0.6} />
           </linearGradient>
           <linearGradient id="colorPr" x1="0" y1="1" x2="0" y2="0">
-            <stop
-              offset="25%"
-              stopColor={getChartKeyColor('pr')}
-              stopOpacity={0.8}
-            />
-            <stop
-              offset="75%"
-              stopColor={getChartKeyColor('pr')}
-              stopOpacity={0.6}
-            />
+            <stop offset="0%" stopColor="#DBFBFB" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="#92EEEE" stopOpacity={0.6} />
+          </linearGradient>
+          <linearGradient id="colorFl" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stopColor="#FF767C" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="#FB4B53" stopOpacity={0.6} />
           </linearGradient>
         </defs>
 
@@ -63,7 +55,7 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           dataKey="name"
           tick={{ fontSize: 10, transform: 'translate(0, 12)' }}
           interval="preserveStartEnd"
-          tickSize={10}
+          tickSize={5}
           tickLine={{ stroke: '#DFE3E6', transform: 'translate(0, 6)' }}
           axisLine={false}
         />
@@ -80,7 +72,7 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           legendType="circle"
           dataKey="cm"
           stackId="a"
-          stroke={getChartKeyColor('cm')}
+          stroke="#285656"
           fillOpacity={1}
           fill="url(#colorCm)"
           name={getChartKeyName('cm', locale)}
@@ -88,7 +80,7 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         <Bar
           dataKey="pr"
           stackId="a"
-          stroke={getChartKeyColor('pr')}
+          stroke="#DBFBFB"
           fillOpacity={1}
           fill="url(#colorPr)"
           name={getChartKeyName('pr', locale)}
@@ -96,7 +88,9 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         <Bar
           dataKey="fl"
           stackId="a"
-          fill={getChartKeyColor('fl')}
+          stroke="#FF767C"
+          fillOpacity={1}
+          fill="url(#colorFl)"
           name={getChartKeyName('fl', locale)}
         />
       </BarChart>

@@ -7,21 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import {
-  getChartKeyColor,
-  getChartKeyName,
-  getModuleData,
-  getMaxStringWidth
-} from './utils'
-
-describe('getChartKeyColor', () => {
-  const value = 'counter'
-
-  it('should return #2de3bb', () => {
-    const result = '#2de3bb'
-    expect(getChartKeyColor(value)).toEqual(result)
-  })
-})
+import { getChartKeyName, getModuleData, getMaxStringWidth } from './utils'
 
 describe('getChartKeyName', () => {
   const value1 = 'test'
@@ -38,21 +24,33 @@ describe('getModuleData', () => {
   const list = [
     {
       name: name1,
-      counter: 1
+      completed: 1,
+      not_completed: 3
     },
     {
       name: name2,
-      counter: 0
+      completed: 1,
+      not_completed: 0
     }
   ]
   const listDummy = []
 
-  it('should return data list of 1', () => {
+  it('should return line chart data', () => {
     const result = {
       chartCardItems: [
         {
-          name: name1,
-          counter: 1
+          completed: 1,
+          name: 'firstName',
+          percent_completed: 0.25,
+          percent_not_completed: 0.75,
+          total: 4
+        },
+        {
+          completed: 1,
+          name: 'secondName',
+          percent_completed: 1,
+          percent_not_completed: 0,
+          total: 1
         }
       ]
     }
@@ -71,11 +69,13 @@ describe('getMaxStringWidth', () => {
   const list = [
     {
       name: name1,
-      counter: 1
+      completed: 1,
+      not_completed: 0
     },
     {
       name: name2,
-      counter: 0
+      completed: 1,
+      not_completed: 1
     }
   ]
   const listDummy = []

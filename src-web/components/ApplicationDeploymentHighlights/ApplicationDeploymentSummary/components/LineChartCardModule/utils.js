@@ -9,30 +9,34 @@
 
 import msgs from '../../../../../../nls/platform.properties'
 
-export const getChartKeyColor = value => {
-  if (value) return '#2de3bb'
-
-  return '#2de3bb'
-}
-
 export const getChartKeyName = (value, locale) => {
   return msgs.get('channel.deploy.status.completed', locale)
 }
 
+export const toPercent = (decimal, fixed = 0) =>
+  `${(decimal * 100).toFixed(fixed)}%`
+
 export const getModuleData = data => {
   const chartCardItems = []
   var nb_items = 0
-
-  data.map(({ name, counter }) => {
+  data.map(({ name, completed, not_completed }) => {
     //show only apps with at least one resource, and no more than 5
-    if (nb_items < 5 && counter != 0) {
+    if (nb_items < 5 && completed != 0) {
       nb_items = nb_items + 1
+      const total = completed + not_completed
+      const percent_completed = total > 0 ? completed / total : 0
+      const percent_not_completed = total > 0 ? not_completed / total : 0
+
       return chartCardItems.push({
         name,
-        counter
+        percent_completed,
+        completed,
+        percent_not_completed,
+        total
       })
     }
   })
+
   return {
     chartCardItems
   }

@@ -93,7 +93,7 @@ class CreateResourceModal extends React.PureComponent {
         this.setState(initialState)
         // If there is a on Submit function passed in we want to execute it
         if (this.props.onSubmitFunction) {
-          waitTime(3000)
+          waitTime(7000)
           this.props.onSubmitFunction()
         }
       }

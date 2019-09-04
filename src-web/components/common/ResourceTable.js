@@ -134,6 +134,10 @@ class ResourceTable extends React.Component {
                   'table.search.labelText',
                   this.context.locale
                 )}
+                placeHolderText={msgs.get(
+                  'table.search.placeHolderText',
+                  this.context.locale
+                )}
               />
               <TableToolbarContent>{actions}</TableToolbarContent>
             </TableToolbar>

@@ -128,7 +128,7 @@ const ApplicationDeploymentHighlightsDashboard = withLocale(
         msgKey: 'dashboard.card.deployable.failed',
         count: summary[1],
         targetLink,
-        alert: true
+        alert: summary[1] > 0 ? true : false
       }
     ]
     return (

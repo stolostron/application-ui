@@ -25,6 +25,8 @@
   }
 
   .bx--modal-content-desc {
+    display: flex;
+    flex-direction: row;
     padding: 1.25rem 3rem 1.25rem 3rem;
   }
 
@@ -51,9 +53,13 @@
   }
 }
 
+.yaml-instructions {
+  width: 70%;
+}
+
 .help-link {
-  float: right;
-  padding: 15px;
+  width: 30%;
+  text-align: right;
   font-size: 12px;
   text-decoration: none;
 }

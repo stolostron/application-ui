@@ -27,19 +27,14 @@ $overview-heat-collapsed: 90px !default;
   }
 
   .title {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #dfe3e6;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 0;
-    color: $color__blue-90;
-    padding: 11px 24px;
-    cursor: move;
-
-    .bx--tag {
-      margin-left: 10px;
-    }
+    height: 18px;
+    color: #152935;
+    font-family: "IBM Plex Sans";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    margin-left: 14px;
+    margin-top: 18px;
   }
 
   .masonry-container {

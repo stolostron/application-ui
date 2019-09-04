@@ -814,5 +814,5 @@
   "channel.deploy.status.completed": "Completed",
   "channel.deploy.status.failed": "Failed",
   "channel.deployments.chart.title": "Resources by channels",
-  "recent.deployments.chart.title": "Recent scheduled resources"
+  "recent.deployments.chart.title": "Scheduled resources by application"
 }

@@ -8,26 +8,7 @@
  *******************************************************************************/
 
 import msgs from '../../../../../../nls/platform.properties'
-import { getChartKeyColor, getChartKeyName, getModuleData } from './utils'
-
-describe('getChartKeyColor', () => {
-  const value1 = 'pr'
-  const value2 = 'fl'
-  const value3 = 'cm'
-
-  it('should return #8cf5de', () => {
-    const result = '#8cf5de'
-    expect(getChartKeyColor(value1)).toEqual(result)
-  })
-  it('should return #ff4969', () => {
-    const result = '#ff4969'
-    expect(getChartKeyColor(value2)).toEqual(result)
-  })
-  it('should return #018c6d', () => {
-    const result = '#018c6d'
-    expect(getChartKeyColor(value3)).toEqual(result)
-  })
-})
+import { getChartKeyName, getModuleData } from './utils'
 
 describe('getChartKeyName', () => {
   const value1 = 'pr'

@@ -64,15 +64,16 @@ export const getDeployedResourcesChartData = list => {
   if (list && list.items) {
     const deplChartDataList = list.items.map(item => {
       // Will return cumulated status
-      let result_counter = 0
       // Given the tall count of pass, fail, inprogress, pending, unidentified
       const status = getResourcesStatusPerChannel(item, false)
 
-      result_counter =
-        status[0] + status[1] + status[2] + status[3] + status[4]
+      const completed_counter = status[0] + status[4]
+      const not_completed = status[1] + status[2] + status[3]
+
       return {
         name: item.name || 'unknown',
-        counter: result_counter
+        completed: completed_counter,
+        not_completed: not_completed
       }
     })
     // The way the above is written, if item && item.related is not true

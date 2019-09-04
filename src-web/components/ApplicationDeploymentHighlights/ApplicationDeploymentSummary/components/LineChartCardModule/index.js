@@ -19,15 +19,40 @@ import {
   ResponsiveContainer
 } from 'recharts'
 import {
-  getChartKeyColor,
   getChartKeyName,
   getModuleData,
-  getMaxStringWidth
+  getMaxStringWidth,
+  toPercent
 } from './utils'
 
 const LineChartCardModule = withLocale(({ data, locale }) => {
   const moduleData = getModuleData(data)
-  const maxString = getMaxStringWidth(data) + 20
+  const maxString = getMaxStringWidth(data) + 40
+  const domain = [0, 1]
+  const ticks = [0, 0.2, 0.4, 0.6, 0.8, 1]
+
+  const renderTooltipContent = line => {
+    const { payload, label } = line
+
+    if (payload && payload.length > 0) {
+      const entry = payload[0]
+      return (
+        <div className="customized-tooltip-content">
+          <p className="total">{`${label}`}</p>
+          <ul className="list">
+            {
+              <li key={'item-0'} style={{ color: entry.color }}>
+                {`${entry.name}: ${entry.payload.completed} / ${
+                  entry.payload.total
+                }`}
+              </li>
+            }
+          </ul>
+        </div>
+      )
+    }
+  }
+
   return (
     <ResponsiveContainer width="95%" height="90%">
       <BarChart
@@ -42,41 +67,57 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
           bottom: 20
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+        <CartesianGrid strokeDasharray="0" vertical={false} />
         <defs>
           <linearGradient id="colorUv" x1="1" y1="0" x2="0" y2="0">
-            <stop
-              offset="5%"
-              stopColor={getChartKeyColor('counter')}
-              stopOpacity={0.9}
-            />
-            <stop
-              offset="95%"
-              stopColor={getChartKeyColor('counter')}
-              stopOpacity={0.6}
-            />
+            <stop offset="0%" stopColor="#00BAB6" stopOpacity={0.9} />
+            <stop offset="100%" stopColor="#47ECEB" stopOpacity={0.6} />
           </linearGradient>
         </defs>
-        <XAxis type="number" axisLine={false} />
+        <defs>
+          <linearGradient id="colorNotCompl" x1="1" y1="0" x2="0" y2="0">
+            <stop offset="5%" stopColor="#F5F7FA" stopOpacity={0.9} />
+            <stop offset="95%" stopColor="#F5F7FA" stopOpacity={0.6} />
+          </linearGradient>
+        </defs>
+        <XAxis
+          type="number"
+          axisLine={false}
+          tickFormatter={toPercent}
+          tickCount={6}
+          domain={domain}
+          ticks={ticks}
+          tick={{ fontSize: 10 }}
+          tickLine={false}
+        />
         <YAxis
           type="category"
           dataKey="name"
-          tick={{ fontSize: 10, transform: 'translate(0, 12)' }}
+          tick={{ fontSize: 10 }}
           interval="preserveStartEnd"
-          tickSize={10}
           axisLine={false}
-          tickLine={{ stroke: '#DFE3E6', transform: 'translate(0, 6)' }}
+          tickLine={false}
         />
-        <Tooltip />
+        <Tooltip content={renderTooltipContent} />
         <Bar
-          barSize={10}
+          barSize={8}
           legendType="circle"
-          dataKey="counter"
+          dataKey="percent_completed"
           stackId="a"
-          stroke={getChartKeyColor('counter')}
+          stroke="#00BAB6"
           fillOpacity={1}
           fill="url(#colorUv)"
-          name={getChartKeyName('counter', locale)}
+          name={getChartKeyName('percent_completed', locale)}
+        />
+        <Bar
+          barSize={8}
+          legendType="circle"
+          dataKey="percent_not_completed"
+          stackId="a"
+          stroke="#F5F7FA"
+          fillOpacity={1}
+          fill="url(#colorNotCompl)"
+          name={getChartKeyName('percent_not_completed', locale)}
         />
       </BarChart>
     </ResponsiveContainer>

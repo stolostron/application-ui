@@ -81,21 +81,12 @@ export const SEARCH_QUERY = gql`
   }
 `
 
-export const SEARCH_QUERY_COUNT_ONLY = gql`
-  query searchCountOnly($input: [SearchInput]) {
-    searchResult: search(input: $input) {
-      count
-    }
-  }
-`
-
 export const SEARCH_QUERY_RELATED = gql`
   query searchResult($input: [SearchInput]) {
     searchResult: search(input: $input) {
       items
       related {
         kind
-        count
         items
       }
     }

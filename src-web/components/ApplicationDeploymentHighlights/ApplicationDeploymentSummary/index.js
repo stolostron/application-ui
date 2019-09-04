@@ -23,6 +23,7 @@ import {
   getDeployedResourcesChartData,
   getDeployedResourcesChannelChartData
 } from './utils'
+import config from '../../../../lib/shared/config'
 
 resources(() => {
   require('./style.scss')
@@ -82,6 +83,28 @@ const ApplicationDeploymentSummary = withLocale(
               />
             </div>
           )}
+          {deployedResourcesChartData.length <= 0 && (
+            <div className="grid-item grid-item-deployable">
+              <div className="title">
+                {msgs.get('recent.deployments.chart.title', locale)}
+              </div>
+              <div>
+                <img
+                  className="no-res-icon"
+                  src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
+                  alt={msgs.get('description.noDeplResDescr', locale)}
+                />
+                <div className="noResDescriptionText">
+                  <div className="noResTitle">
+                    {msgs.get('description.noDeplRes', locale)}
+                  </div>
+                  <div className="noResDescription">
+                    {msgs.get('description.noDeplResDescr', locale)}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {channelChartData.length > 0 && (
             <div className="grid-item">
               <div className="title">
@@ -92,6 +115,28 @@ const ApplicationDeploymentSummary = withLocale(
                 locale={locale}
                 chartWidth={chartWidth}
               />
+            </div>
+          )}
+          {channelChartData.length <= 0 && (
+            <div className="grid-item">
+              <div className="title">
+                {msgs.get('channel.deployments.chart.title', locale)}
+              </div>
+              <div>
+                <img
+                  className="no-res-icon"
+                  src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
+                  alt={msgs.get('description.noChannelsDescr', locale)}
+                />
+                <div className="noResDescriptionText">
+                  <div className="noResTitle">
+                    {msgs.get('description.noChannels', locale)}
+                  </div>
+                  <div className="noResDescription">
+                    {msgs.get('description.noChannelsDescr', locale)}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

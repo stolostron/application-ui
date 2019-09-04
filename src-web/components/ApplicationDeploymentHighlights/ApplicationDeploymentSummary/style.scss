@@ -37,6 +37,34 @@ $overview-heat-collapsed: 90px !default;
     margin-top: 18px;
   }
 
+  .no-res-icon {
+    margin-top: 50px;
+    margin-right: 15px;
+    margin-left: 20px;
+    height: 90px;
+    width: 90px;
+    display: inline-block;
+  }
+
+  .noResDescriptionText {
+    padding-right: 15px;
+    padding-top: 70px;
+    display: inline-block;
+    font-size: 12px;
+    position: absolute;
+  }
+
+  .noResTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: black;
+  }
+
+  .noResDescription {
+    font-size: 12px;
+    padding-top: 10px;
+  }
+
   .masonry-container {
     margin-top: 40px;
     display: inline-flex;
@@ -71,6 +99,7 @@ $overview-heat-collapsed: 90px !default;
     margin-left: 0px;
     min-width: 450px;
     width: 100%;
+    min-height: 250px;
 
     &.replaced {
       animation: appear 400ms ease-in-out;

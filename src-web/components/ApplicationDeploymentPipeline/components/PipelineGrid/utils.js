@@ -9,17 +9,13 @@
 
 import R from 'ramda'
 
-export const kindsToExcludeForDeployments = [
-  'cluster',
-  'subscription',
-  'channel',
-  'events',
-  'application',
-  'deployable',
-  'placementbinding',
-  'placementrule',
-  'placementpolicy',
-  'applicationrelationship'
+export const kindsToIncludeForDeployments = [
+  'deployment',
+  'pod',
+  'statefulset',
+  'daemonset',
+  'service',
+  'release'
 ]
 
 // A created Mapper to create the row for our application data table
@@ -171,7 +167,7 @@ export const getResourcesStatusPerChannel = (
     const relatedData = deployableData.related
     // We want to pull resources data to check status
     const filterToResources = elem =>
-      !kindsToExcludeForDeployments.includes(elem.kind)
+      kindsToIncludeForDeployments.includes(elem.kind)
     // ResourceData is an array of objects
     const resourceData = R.filter(filterToResources, relatedData)
     // Pass, Fail, InProgress, Pending, Unidentified

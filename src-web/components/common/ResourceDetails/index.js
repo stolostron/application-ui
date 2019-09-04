@@ -119,21 +119,37 @@ const withResource = Component => {
       }
 
       reload() {
-        if (this.props.status === REQUEST_STATUS.DONE) {
-          this.setState({ xhrPoll: true })
-          this.props.fetchResource()
-          const { params } = this.props
-          if (params && params.namespace && params.name) {
-            this.props.fetchIncidents()
+        const { status } = this.props
+        let { retry=0, showError=false } = this.state
+        // if there's an error give it 3 more times before we show it
+        if (status===REQUEST_STATUS.ERROR) {
+          if(!showError) {
+            retry++
+            if (retry>3) {
+              showError=true
+            }
           }
+        } else {
+          retry=undefined
+          showError=undefined
+        }
+        this.setState({ xhrPoll: true, retry, showError })
+        this.props.fetchResource()
+        const { params } = this.props
+        if (params && params.namespace && params.name) {
+          this.props.fetchIncidents()
         }
       }
 
       render() {
         const { status, statusCode } = this.props
-        if (status === REQUEST_STATUS.ERROR) {
-          return (
-            <Notification
+        const { showError=false, retry=0 } = this.state
+        if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll && retry===0) {
+          return <Loading withOverlay={false} className="content-spinner" />
+        }
+        return (
+          <React.Fragment>
+            {showError&&<Notification
               title=""
               className="persistent"
               subtitle={msgs.get(
@@ -144,13 +160,10 @@ const withResource = Component => {
                 }.description`,
                 this.context.locale
               )}
-              kind="error"
-            />
-          )
-        } else if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
-          return <Loading withOverlay={false} className="content-spinner" />
-        }
-        return <Component {...this.props} />
+              kind="error" />}
+            <Component {...this.props} />
+          </React.Fragment>
+        )
       }
     }
   )

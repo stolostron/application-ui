@@ -814,5 +814,9 @@
   "channel.deploy.status.completed": "Completed",
   "channel.deploy.status.failed": "Failed",
   "channel.deployments.chart.title": "Resources by channels",
-  "recent.deployments.chart.title": "Scheduled resources by application"
+  "recent.deployments.chart.title": "Scheduled resources by application",
+  "description.noDeplRes": "No deployed resources",
+  "description.noChannels": "No channels",
+  "description.noChannelsDescr": "You don't have any channels the selected applications are subscribed to, or the subscribed channels have no resources deployed for these applications.",
+  "description.noDeplResDescr": "You don't have any resources deployed for the selected applications."
 }

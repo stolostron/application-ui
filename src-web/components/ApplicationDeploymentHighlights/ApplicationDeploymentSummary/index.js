@@ -72,7 +72,7 @@ const ApplicationDeploymentSummary = withLocale(
     return (
       <div id="ApplicationDeploymentSummary">
         <div className="masonry-container">
-          {deployedResourcesChartData.length <= 0 && (
+          {deployedResourcesChartData.length > 0 && (
             <div className="grid-item grid-item-deployable">
               <div className="title">
                 {msgs.get('recent.deployments.chart.title', locale)}
@@ -83,7 +83,7 @@ const ApplicationDeploymentSummary = withLocale(
               />
             </div>
           )}
-          {deployedResourcesChartData.length > 0 && (
+          {deployedResourcesChartData.length <= 0 && (
             <div className="grid-item grid-item-deployable">
               <div className="title">
                 {msgs.get('recent.deployments.chart.title', locale)}
@@ -105,7 +105,7 @@ const ApplicationDeploymentSummary = withLocale(
               </div>
             </div>
           )}
-          {channelChartData.length <= 0 && (
+          {channelChartData.length > 0 && (
             <div className="grid-item">
               <div className="title">
                 {msgs.get('channel.deployments.chart.title', locale)}
@@ -117,7 +117,7 @@ const ApplicationDeploymentSummary = withLocale(
               />
             </div>
           )}
-          {channelChartData.length > 0 && (
+          {channelChartData.length <= 0 && (
             <div className="grid-item">
               <div className="title">
                 {msgs.get('channel.deployments.chart.title', locale)}

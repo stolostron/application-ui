@@ -210,6 +210,7 @@ class ApplicationTopologyModule extends React.Component {
       this.state.showSpinner !== nextState.showSpinner ||
       this.state.lastTimeUpdate !== nextState.lastTimeUpdate ||
       this.props.topologyLoaded !== nextProps.topologyLoaded ||
+      this.state.topologyLoadError !== nextState.topologyLoadError ||
       this.props.statusesLoaded !== nextProps.statusesLoaded ||
       this.props.yaml.localeCompare(nextProps.yaml) !== 0 ||
       this.state.currentYaml.localeCompare(nextState.currentYaml) !== 0 ||

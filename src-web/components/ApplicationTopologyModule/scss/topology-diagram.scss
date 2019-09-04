@@ -17,6 +17,14 @@
 .resourceDiagramControlsContainer {
   position: relative;
 
+  .bx--inline-notification {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2000;
+    background-color: white;
+  }
+
   .diagramViewerDiagram {
     .diagramViewerContainerContainer {
       width: 100%;
@@ -39,14 +47,6 @@
 
       .diagramViewerContainer {
         margin-right: 0;
-      }
-
-      .bx--inline-notification {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 1000;
-        background-color: white;
       }
     }
   }

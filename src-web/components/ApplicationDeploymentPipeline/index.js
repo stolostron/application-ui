@@ -49,7 +49,7 @@ const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 // Create Resource for Channel
-const CreateChannelModal = fetchChannels => {
+const CreateChannelModal = (fetchChannels, locale) => {
   return (
     <CreateResourceModal
       key="createChannel"
@@ -59,6 +59,7 @@ const CreateChannelModal = fetchChannels => {
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html"
+      iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
     />
   )
 }
@@ -67,7 +68,7 @@ const handleCreateSubscriptionResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, yaml))
 
 // Create Resource for Subscription
-const CreateSubscriptionModal = fetchSubscriptions => {
+const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
   return (
     <CreateResourceModal
       key="createSubscription"
@@ -77,6 +78,10 @@ const CreateSubscriptionModal = fetchSubscriptions => {
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html"
+      iconDescription={msgs.get(
+        'actions.add.subscription.iconDescription',
+        locale
+      )}
     />
   )
 }
@@ -221,11 +226,14 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels
     } = this.props
     const { locale } = this.context
-    const modalChannel = React.cloneElement(CreateChannelModal(fetchChannels), {
-      resourceType: RESOURCE_TYPES.HCM_CHANNELS
-    })
+    const modalChannel = React.cloneElement(
+      CreateChannelModal(fetchChannels, locale),
+      {
+        resourceType: RESOURCE_TYPES.HCM_CHANNELS
+      }
+    )
     const modalSubscription = React.cloneElement(
-      CreateSubscriptionModal(fetchSubscriptions),
+      CreateSubscriptionModal(fetchSubscriptions, locale),
       {
         resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
       }

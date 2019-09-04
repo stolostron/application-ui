@@ -49,6 +49,7 @@ class CreateResourceModal extends React.PureComponent {
   static propTypes = {
     headingTextKey: PropTypes.string,
     helpLink: PropTypes.string,
+    iconDescription: PropTypes.string,
     onCreateResource: PropTypes.func,
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
@@ -117,6 +118,7 @@ class CreateResourceModal extends React.PureComponent {
           icon="add--glyph"
           small
           id={msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          iconDescription={this.props.iconDescription}
           key="create-resource"
           onClick={this.handleModalOpen}
         >

@@ -32,7 +32,7 @@ const registerApplicationModal = (
     submitBtnTextKey="actions.create.application"
     onCreateResource={handleCreateResource}
     resourceDescriptionKey="modal.createresource.application"
-    helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_apps.html"
+    helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html"
   />
 )
 

@@ -58,7 +58,7 @@ const CreateChannelModal = (fetchChannels, locale) => {
       onCreateResource={handleCreateChannelResource}
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
     />
   )
@@ -77,7 +77,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
       onCreateResource={handleCreateSubscriptionResource}
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_subscriptions.html"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -255,7 +255,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_channels.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html'
       })
     }
     // This will trigger the edit Subscription Modal because openEditSubscriptionModal
@@ -270,7 +270,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/mcm/applications/managing_subscriptions.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_subscriptions.html'
       })
     }
 

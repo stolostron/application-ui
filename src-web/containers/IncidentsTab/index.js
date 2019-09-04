@@ -151,7 +151,7 @@ class IncidentsTab extends React.Component {
                             >
                               {row.cells.map(cell => (
                                 <TableCell key={cell.id}>
-                                  {mapCell(cell)}
+                                  {mapCell(cell, locale)}
                                 </TableCell>
                               ))}
                             </TableRow>

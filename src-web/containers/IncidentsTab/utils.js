@@ -9,19 +9,24 @@
 
 import React from 'react'
 import moment from 'moment'
+import 'moment/min/locales'
 
-const getAge = value => {
+const getAge = (value, locale) => {
   if (value) {
     if (value.includes('T')) {
-      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+      const momentObj = moment(value, 'YYYY-MM-DDTHH:mm:ssZ')
+      momentObj.locale(locale.toLowerCase())
+      return momentObj.fromNow()
     } else {
-      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+      const momentObj = moment(value, 'YYYY-MM-DD HH:mm:ss')
+      momentObj.locale(locale.toLowerCase())
+      return momentObj.fromNow()
     }
   }
   return '-'
 }
 
-export const mapCell = cell => {
+export const mapCell = (cell, locale) => {
   if (cell.id.endsWith(':id')) {
     const link = `/cemui/incidents/${encodeURIComponent(cell.value)}/details`
     return (
@@ -30,9 +35,9 @@ export const mapCell = cell => {
       </a>
     )
   } else if (cell.id.endsWith(':createdTime')) {
-    return getAge(cell.value)
+    return getAge(cell.value, locale)
   } else if (cell.id.endsWith(':lastChanged')) {
-    return getAge(cell.value)
+    return getAge(cell.value, locale)
   }
   return cell.value
 }

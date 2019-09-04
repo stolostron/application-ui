@@ -19,8 +19,7 @@ export const kindsToExcludeForDeployments = [
   'placementbinding',
   'placementrule',
   'placementpolicy',
-  'applicationrelationship',
-  'secret'
+  'applicationrelationship'
 ]
 
 // A created Mapper to create the row for our application data table

@@ -39,7 +39,10 @@ const countsCardDataSummary = (
   const applications = getNumItems(HCMApplicationList)
   const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
   let channels = getNumItems(HCMChannelList)
-  let subscriptions = getNumItems(HCMSubscriptionList)
+
+  //count only hub subscriptions
+  const isHubSubscr = item => !item._hostingSubscription
+  let subscriptions = getNumItems(HCMSubscriptionList, isHubSubscr)
   if (isSingleApplicationView) {
     const subscriptionsArray = pullOutKindPerApplication(
       getSingleApplicationObject(HCMApplicationList),

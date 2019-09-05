@@ -65,3 +65,19 @@ export const filterRemoteClusterSubscriptions = related => {
   }
   return related
 }
+
+//get all remote cluster subscriptions from the related link
+export const getRemoteClusterSubscriptions = related => {
+  if (related instanceof Array && related.length > 0) {
+    const subscriptionsRel = item => item.kind === 'subscription'
+    const subscr_index = R.findIndex(subscriptionsRel)(related)
+
+    if (subscr_index != -1) {
+      const isNOTHubSubscr = item => item._hostingSubscription
+      if (related[subscr_index]) {
+        return R.filter(isNOTHubSubscr, related[subscr_index].items)
+      }
+    }
+  }
+  return []
+}

@@ -14,26 +14,27 @@ export const mapBulkSubscriptions = subscriptions => {
     const mappedSubscriptions = subscriptions.map(subscription => {
       if (subscription.items && subscription.related) {
         const items = subscription.items[0]
-        if (!items._hostingSubscription) {
-          //filter out remote cluster subscriptions
-          // identified by the fact that the _hostingSubscription is defined
-          return {
-            name: items.name || '',
-            namespace: items.namespace || '',
-            selfLink: items.selfLink || '',
-            _uid: items._uid || '',
-            created: items.created || '',
-            pathname: items.pathname || '',
-            apigroup: items.apigroup || '',
-            cluster: items.cluster || '',
-            kind: items.kind || '',
-            label: items.label || '',
-            type: items.type || '',
-            _hubClusterResource: items._hubClusterResource || '',
-            _rbac: items._rbac || '',
-            related: subscription.related || []
-          }
+        //if (!items._hostingSubscription) {
+        //filter out remote cluster subscriptions
+        // identified by the fact that the _hostingSubscription is defined
+        return {
+          name: items.name || '',
+          namespace: items.namespace || '',
+          selfLink: items.selfLink || '',
+          _uid: items._uid || '',
+          created: items.created || '',
+          pathname: items.pathname || '',
+          apigroup: items.apigroup || '',
+          cluster: items.cluster || '',
+          kind: items.kind || '',
+          label: items.label || '',
+          type: items.type || '',
+          _hubClusterResource: items._hubClusterResource || '',
+          _hostingSubscription: items._hostingSubscription || '',
+          _rbac: items._rbac || '',
+          related: subscription.related || []
         }
+        //}
       }
     })
     const removeUndefined = x => x !== undefined

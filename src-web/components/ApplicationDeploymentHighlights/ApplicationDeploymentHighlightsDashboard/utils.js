@@ -6,7 +6,6 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-import R from 'ramda'
 import {
   getResourcesStatusPerChannel,
   getAllRelatedForList
@@ -37,39 +36,12 @@ export const getNumClusters = (applications, allsubscriptions) => {
   if (allsubscriptions && allsubscriptions.items) {
     const subscriptionsInApp = getAllRelatedForList(
       applications,
-      'subscription'
+      'remoteSubscriptions' // look only at remote cluster subscriptions
     )
 
-    if (subscriptionsInApp && subscriptionsInApp.length > 0) {
-      const subscriptionForSearch = allsubscriptions.items.map(item => {
-        if (item && item.name && item.namespace) {
-          for (var i = 0; i < subscriptionsInApp.length; i++) {
-            const sappitem = subscriptionsInApp[i]
-
-            if (
-              sappitem &&
-              sappitem.name &&
-              sappitem.namespace &&
-              sappitem.name === item.name &&
-              sappitem.namespace === item.namespace
-            )
-              return item
-          }
-        }
-      })
-
-      const removeUndefined = x => x !== undefined
-      const emptyArray = []
-      const removedUndefinedSubscriptions = R.filter(
-        removeUndefined,
-        subscriptionForSearch
-      )
-      const resultList = emptyArray.concat.apply(
-        [],
-        removedUndefinedSubscriptions
-      )
-      return getAllRelatedForList({ items: resultList }, 'cluster').length
-    }
+    if (subscriptionsInApp)
+      //return the number of remote hub subscriptions associated with the applications, they should match the number of clusters
+      return subscriptionsInApp.length
   }
 
   return 0
@@ -100,7 +72,8 @@ export const getChannelsCountFromSubscriptions = arr => {
     arr.map(elem => {
       if (elem && elem.items instanceof Array && elem.items.length > 0) {
         elem.items.map(subelem => {
-          if (subelem.channel) {
+          if (subelem.channel && !subelem._hostingSubscription) {
+            // count only hub subscriptions
             channelSet.add(subelem.channel)
           }
         })

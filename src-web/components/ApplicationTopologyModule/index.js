@@ -52,10 +52,10 @@ class ApplicationTopologyModule extends React.Component {
     fetchError: PropTypes.object,
     fetchFilters: PropTypes.object,
     fetchTopology: PropTypes.func,
-    getUpdates: PropTypes.func,
     links: PropTypes.array,
     nodes: PropTypes.array,
     onDiagramFilterChange: PropTypes.func,
+    originalMap: PropTypes.object,
     params: PropTypes.object,
     parsed: PropTypes.object,
     putResource: PropTypes.func,
@@ -80,6 +80,7 @@ class ApplicationTopologyModule extends React.Component {
       showSpinner: false,
       lastTimeUpdate: undefined,
       currentYaml: props.yaml || '',
+      userChanges: false,
       exceptions: [],
       updateMessage: '',
       topologyLoaded: false,
@@ -162,8 +163,8 @@ class ApplicationTopologyModule extends React.Component {
         const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get('application.diagram.view.last.time', [time], locale)
       }
-      let {currentYaml, currentParsed} = prevState
-      if (changingChannel) {
+      let {currentYaml, currentParsed, userChanges} = prevState
+      if (!userChanges && (currentYaml !== nextProps.yaml || changingChannel)) {
         currentYaml = nextProps.yaml
         const {parsed} = parse(currentYaml, validator, locale)
         currentParsed = parsed
@@ -434,7 +435,7 @@ class ApplicationTopologyModule extends React.Component {
               kind={updateMsgKind}
               title={
                 updateMsgKind === 'error'
-                  ? msgs.get('error.update.resource', this.context.locale)
+                  ? msgs.get('error.updating.resource', this.context.locale)
                   : msgs.get('success.update.resource', this.context.locale)
               }
               iconDescription=""
@@ -550,7 +551,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   changeTheChannel(fetchChannel) {
-    this.setState({ activeChannel: fetchChannel, changingChannel: true})
+    this.setState({ activeChannel: fetchChannel, changingChannel: true, userChanges: false})
     this.props.fetchTopology(fetchChannel)
   }
 
@@ -667,7 +668,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   handleEditorChange = currentYaml => {
-    this.setState({ currentYaml })
+    this.setState({ currentYaml, userChanges:true })
     delete this.resetUndoManager
     this.parseDebounced()
   };
@@ -693,7 +694,8 @@ class ApplicationTopologyModule extends React.Component {
       currentYaml: yml || yaml,
       exceptions: [],
       hasUndo: false,
-      hasRedo: false
+      hasRedo: false,
+      userChanges: false,
     })
     if (this.editor) {
       this.editor.scrollToLine(0, true)
@@ -702,9 +704,10 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   updateResources() {
-    const { getUpdates, parsed } = this.props
+    const { yaml, originalMap } = this.props
+    const { parsed } = parse(yaml)
     const { currentParsed } = this.state
-    const { updates } = getUpdates(parsed, currentParsed)
+    const { updates } = getUpdates(parsed, currentParsed, originalMap)
     if (updates.length > 0) {
       let error = false
       updates.some(({ resourceType, namespace, name, resource, selfLink }) => {
@@ -773,7 +776,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...diagramElements,
     staticResourceData,
-    getUpdates: staticResourceData.getUpdates,
     activeFilters,
     fetchFilters,
     fetchError,

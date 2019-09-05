@@ -163,6 +163,7 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
     const clusters = []
     let activeChannel
     let channels = []
+    const originalMap = {}
     nodes.forEach(node => {
       const { type } = node
       switch (type) {
@@ -175,8 +176,10 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
       const raw = _.get(node, 'specs.raw')
       if (raw) {
         node.specs.row = row
-        removeMeta(raw)
-        const yaml = jsYaml.safeDump(raw, { sortKeys })
+        originalMap[raw.kind] = raw
+        const dumpRaw =  _.cloneDeep(raw)
+        removeMeta(dumpRaw)
+        const yaml = jsYaml.safeDump(dumpRaw, { sortKeys })
         yamls.push(yaml)
         row += yaml.split('\n').length
       }
@@ -201,6 +204,7 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
       links,
       nodes,
       yaml,
+      originalMap,
       topologyLoaded: true,
       storedVersion: false,
       topologyLoadError,

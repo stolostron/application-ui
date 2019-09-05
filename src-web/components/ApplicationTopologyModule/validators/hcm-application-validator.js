@@ -67,7 +67,6 @@ const requiredValues = {
     'metadata':{
       'name':'',
       'namespace':'',
-      'labels':{}
     },
     'spec':{
       'template':{

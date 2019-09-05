@@ -73,11 +73,25 @@ const SubscriptionInfo = withLocale(
           ['related'],
           subscriptionWithRelatedData
         )
-        const clusters = R.find(R.propEq('kind', 'cluster'))(related)
 
-        if (clusters && clusters.items) {
-          clusterNames = clusters.items.map(cluster => {
-            return ' ' + cluster.name || ''
+        //foundBulkSubscription is the main subscription created on the hub
+        //need to get all subscriptions linked to this one; we want the subscriptions created on remote clusters only
+        //they will be identified by the _hostingSubscription ( not null means this is a remote cluster subscription)
+        let remoteSubscriptions = R.find(R.propEq('kind', 'subscription'))(
+          related
+        )
+        if (remoteSubscriptions && remoteSubscriptions.items) {
+          //filter out and return only remote cluster subscriptions
+          const isRemoteSubscr = item => item._hostingSubscription
+          remoteSubscriptions = R.filter(
+            isRemoteSubscr,
+            remoteSubscriptions.items
+          )
+        }
+
+        if (remoteSubscriptions) {
+          clusterNames = remoteSubscriptions.map(rsitem => {
+            return ' ' + rsitem.cluster || ''
           })
         }
 

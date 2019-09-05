@@ -14,6 +14,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { validator } from './validators/hcm-application-validator'
+import { getUpdates } from './deployers/hcm-application-deployer'
 import hcmappdiagram from './definitions/hcm-application-diagram'
 import hcmtopology from './definitions/hcm-topology'
 import { editResource } from '../../actions/common'
@@ -155,15 +157,15 @@ class ApplicationTopologyModule extends React.Component {
       // update last time refreshed
       const {changingChannel} = prevState
       let lastTimeUpdate = prevState.lastTimeUpdate
-      if (changingChannel || this.props.topologyReloading && !nextProps.topologyReloading ||
+      if (changingChannel || (!showSpinner && prevState.showSpinner ) ||
           (!lastTimeUpdate && nextProps.topologyLoaded)) {
         const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get('application.diagram.view.last.time', [time], locale)
       }
       let {currentYaml, currentParsed} = prevState
-      if (currentYaml !== nextProps.yaml || changingChannel) {
+      if (changingChannel) {
         currentYaml = nextProps.yaml
-        const {parsed} = parse(currentYaml, undefined, locale)
+        const {parsed} = parse(currentYaml, validator, locale)
         currentParsed = parsed
         this.resetEditor(currentYaml)
       }
@@ -674,7 +676,7 @@ class ApplicationTopologyModule extends React.Component {
     const { currentYaml } = this.state
     const { parsed: currentParsed, exceptions } = parse(
       currentYaml,
-      undefined,
+      validator,
       this.context.locale
     )
 

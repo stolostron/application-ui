@@ -14,10 +14,8 @@ export const mapBulkSubscriptions = subscriptions => {
     const mappedSubscriptions = subscriptions.map(subscription => {
       if (subscription.items && subscription.related) {
         const items = subscription.items[0]
-        //if (!items._hostingSubscription) {
-        //filter out remote cluster subscriptions
-        // identified by the fact that the _hostingSubscription is defined
-        return {
+
+        const data = {
           name: items.name || '',
           namespace: items.namespace || '',
           selfLink: items.selfLink || '',
@@ -30,11 +28,15 @@ export const mapBulkSubscriptions = subscriptions => {
           label: items.label || '',
           type: items.type || '',
           _hubClusterResource: items._hubClusterResource || '',
-          _hostingSubscription: items._hostingSubscription || '',
           _rbac: items._rbac || '',
           related: subscription.related || []
         }
-        //}
+
+        //show _hostingSubscription
+        if (items._hostingSubscription) {
+          data._hostingSubscription = items._hostingSubscription
+        }
+        return data
       }
     })
     const removeUndefined = x => x !== undefined

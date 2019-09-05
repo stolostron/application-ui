@@ -145,15 +145,19 @@ class CreateResourceModal extends React.PureComponent {
             onRequestClose={this.handleModalCancel}
           >
             <div className="bx--modal-content-desc">
-              {msgs.get(this.props.resourceDescriptionKey, this.context.locale)}
-              <br />
+              <div className="yaml-instructions">
+                {msgs.get(
+                  this.props.resourceDescriptionKey,
+                  this.context.locale
+                )}
+              </div>
 
               {this.props.helpLink && (
-                <span className="help-link">
+                <div className="help-link">
                   <a href={this.props.helpLink} target="_blank">
                     {msgs.get('link.help.writing', this.context.locale)}
                   </a>
-                </span>
+                </div>
               )}
             </div>
             {this.state.yamlParsingError && (

@@ -11,6 +11,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../actions'
 import { Breadcrumb, Tabs, Tab } from 'carbon-components-react'
 import { DetailPageHeader } from 'carbon-addons-cloud-react'
 import resources from '../../lib/shared/resources'
@@ -103,9 +105,21 @@ export class SecondaryHeader extends React.Component {
             className="bx--breadcrumb-item"
             title={decodeURIComponent(breadcrumb.label)}
           >
-            <Link to={breadcrumb.url} className="bx--link">
-              {decodeURIComponent(breadcrumb.label)}
-            </Link>
+            {index === 0 ? (
+              <Link
+                to={breadcrumb.url}
+                className="bx--link"
+                onClick={() => {
+                  this.props.actions.setSelectedAppTab(0)
+                }}
+              >
+                {decodeURIComponent(breadcrumb.label)}
+              </Link>
+            ) : (
+              <Link to={breadcrumb.url} className="bx--link">
+                {decodeURIComponent(breadcrumb.label)}
+              </Link>
+            )}
           </div>
         )
       })
@@ -156,6 +170,12 @@ SecondaryHeader.contextTypes = {
   locale: PropTypes.string
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(Actions, dispatch)
+  }
+}
+
 const mapStateToProps = state => {
   return {
     title: state.secondaryHeader.title,
@@ -166,4 +186,6 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(SecondaryHeader))
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(SecondaryHeader)
+)

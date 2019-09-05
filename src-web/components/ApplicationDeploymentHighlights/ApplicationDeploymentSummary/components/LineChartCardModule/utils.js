@@ -21,7 +21,7 @@ export const getModuleData = data => {
   var nb_items = 0
   data.map(({ name, completed, not_completed }) => {
     //show only apps with at least one resource, and no more than 5
-    if (nb_items < 5 && completed != 0) {
+    if (nb_items < 4 && completed != 0) {
       nb_items = nb_items + 1
       const total = completed + not_completed
       const percent_completed = total > 0 ? completed / total : 0
@@ -36,6 +36,19 @@ export const getModuleData = data => {
       })
     }
   })
+
+  if (chartCardItems.length == 1) {
+    while (chartCardItems.length < 4) {
+      //If there's only 1 resource to show on the graph, show empty bars below
+      chartCardItems.push({
+        completed: 0,
+        name: '',
+        percent_completed: 0,
+        percent_not_completed: 1,
+        total: 1
+      })
+    }
+  }
 
   return {
     chartCardItems

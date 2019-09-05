@@ -46,6 +46,9 @@ export const ApplicationLogs = loadable(() =>
 // Overview, Deployments, Incidents, Logs
 const ApplicationHeaderTabs = withLocale(
   ({ selectedAppTab, showExtraTabs, userRole, params, actions, locale }) => {
+    if (!showExtraTabs && selectedAppTab > 1) {
+      actions.setSelectedAppTab(0)
+    }
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">

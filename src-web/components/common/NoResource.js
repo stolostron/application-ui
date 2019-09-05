@@ -31,7 +31,7 @@ NoResource.contextTypes = {
 }
 
 NoResource.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   detail: PropTypes.string,
   title: PropTypes.string
 }

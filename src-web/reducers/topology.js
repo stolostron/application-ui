@@ -61,20 +61,15 @@ export const topology = (state = initialState, action) => {
       }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
-      // ignore topologies that were fetched with a different set of active filters
-      if (!lodash.isEqual(action.fetchFilters, state.activeFilters)) {
-        const { links, nodes } = action
-        return {
-          ...state,
-          status: Actions.REQUEST_STATUS.DONE,
-          nodes,
-          links,
-          activeFilters: action.fetchFilters,
-          loaded: true,
-          reloading: false
-        }
-      } else {
-        return { ...state }
+      const { links, nodes } = action
+      return {
+        ...state,
+        status: Actions.REQUEST_STATUS.DONE,
+        nodes,
+        links,
+        activeFilters: action.fetchFilters,
+        loaded: true,
+        reloading: false
       }
     }
     case Actions.RESOURCE_RECEIVE_FAILURE: {

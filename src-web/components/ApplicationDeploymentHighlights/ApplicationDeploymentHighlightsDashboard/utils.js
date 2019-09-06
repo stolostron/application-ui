@@ -33,9 +33,6 @@ export const getAllDeployablesStatus = list => {
 }
 
 export const getNumClusters = (applications, allsubscriptions) => {
-  if(applications && applications.length > 0){
-    const eachApplication
-  }
   if (allsubscriptions && allsubscriptions.items) {
     const subscriptionsInApp = getAllRelatedForList(
       applications,

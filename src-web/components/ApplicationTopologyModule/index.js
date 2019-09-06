@@ -14,6 +14,8 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { validator } from './validators/hcm-application-validator'
+import { getUpdates } from './deployers/hcm-application-deployer'
 import hcmappdiagram from './definitions/hcm-application-diagram'
 import hcmtopology from './definitions/hcm-topology'
 import { editResource } from '../../actions/common'
@@ -50,10 +52,10 @@ class ApplicationTopologyModule extends React.Component {
     fetchError: PropTypes.object,
     fetchFilters: PropTypes.object,
     fetchTopology: PropTypes.func,
-    getUpdates: PropTypes.func,
     links: PropTypes.array,
     nodes: PropTypes.array,
     onDiagramFilterChange: PropTypes.func,
+    originalMap: PropTypes.object,
     params: PropTypes.object,
     parsed: PropTypes.object,
     putResource: PropTypes.func,
@@ -78,6 +80,7 @@ class ApplicationTopologyModule extends React.Component {
       showSpinner: false,
       lastTimeUpdate: undefined,
       currentYaml: props.yaml || '',
+      userChanges: false,
       exceptions: [],
       updateMessage: '',
       topologyLoaded: false,
@@ -110,7 +113,7 @@ class ApplicationTopologyModule extends React.Component {
     const namespace = decodeURIComponent(params.namespace)
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     this.props.fetchTopology(hcmappdiagram.getActiveChannel(localStoreKey))
-    this.startPolling()
+    this.startPolling(60*1000) // poll at 60 seconds
   }
 
   componentWillUnmount() {
@@ -155,15 +158,15 @@ class ApplicationTopologyModule extends React.Component {
       // update last time refreshed
       const {changingChannel} = prevState
       let lastTimeUpdate = prevState.lastTimeUpdate
-      if (changingChannel || this.props.topologyReloading && !nextProps.topologyReloading ||
+      if (changingChannel || (!showSpinner && prevState.showSpinner ) ||
           (!lastTimeUpdate && nextProps.topologyLoaded)) {
         const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get('application.diagram.view.last.time', [time], locale)
       }
-      let {currentYaml, currentParsed} = prevState
-      if (currentYaml !== nextProps.yaml || changingChannel) {
+      let {currentYaml, currentParsed, userChanges} = prevState
+      if (!userChanges && (currentYaml !== nextProps.yaml || changingChannel)) {
         currentYaml = nextProps.yaml
-        const {parsed} = parse(currentYaml, undefined, locale)
+        const {parsed} = parse(currentYaml, validator, locale)
         currentParsed = parsed
         this.resetEditor(currentYaml)
       }
@@ -432,7 +435,7 @@ class ApplicationTopologyModule extends React.Component {
               kind={updateMsgKind}
               title={
                 updateMsgKind === 'error'
-                  ? msgs.get('error.update.resource', this.context.locale)
+                  ? msgs.get('error.updating.resource', this.context.locale)
                   : msgs.get('success.update.resource', this.context.locale)
               }
               iconDescription=""
@@ -548,7 +551,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   changeTheChannel(fetchChannel) {
-    this.setState({ activeChannel: fetchChannel, changingChannel: true})
+    this.setState({ activeChannel: fetchChannel, changingChannel: true, userChanges: false})
     this.props.fetchTopology(fetchChannel)
   }
 
@@ -665,7 +668,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   handleEditorChange = currentYaml => {
-    this.setState({ currentYaml })
+    this.setState({ currentYaml, userChanges:true })
     delete this.resetUndoManager
     this.parseDebounced()
   };
@@ -674,7 +677,7 @@ class ApplicationTopologyModule extends React.Component {
     const { currentYaml } = this.state
     const { parsed: currentParsed, exceptions } = parse(
       currentYaml,
-      undefined,
+      validator,
       this.context.locale
     )
 
@@ -691,7 +694,8 @@ class ApplicationTopologyModule extends React.Component {
       currentYaml: yml || yaml,
       exceptions: [],
       hasUndo: false,
-      hasRedo: false
+      hasRedo: false,
+      userChanges: false,
     })
     if (this.editor) {
       this.editor.scrollToLine(0, true)
@@ -700,9 +704,10 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   updateResources() {
-    const { getUpdates, parsed } = this.props
+    const { yaml, originalMap } = this.props
+    const { parsed } = parse(yaml)
     const { currentParsed } = this.state
-    const { updates } = getUpdates(parsed, currentParsed)
+    const { updates } = getUpdates(parsed, currentParsed, originalMap)
     if (updates.length > 0) {
       let error = false
       updates.some(({ resourceType, namespace, name, resource, selfLink }) => {
@@ -771,7 +776,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...diagramElements,
     staticResourceData,
-    getUpdates: staticResourceData.getUpdates,
     activeFilters,
     fetchFilters,
     fetchError,

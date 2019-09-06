@@ -10,27 +10,18 @@
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import _ from 'lodash'
 
-export function getUpdates(previousParsed, currentParsed) {
+export function getUpdates(previousParsed, currentParsed, originalMap) {
   let cantUpdate = false
   const updates = []
   Object.keys(currentParsed).some(key => {
     switch (key) {
-    case 'PlacementPolicy':
-      cantUpdate = getPlacementPolicyUpdates(
-        previousParsed,
+    case 'PlacementRule':
+      cantUpdate = getPlacementRuleUpdates(
+        previousParsed[key],
         currentParsed[key],
+        originalMap[key],
         updates
       )
-      break
-
-    case 'Application':
-    case 'ApplicationRelationship':
-    case 'Deployable':
-    case 'PlacementBinding':
-      break
-
-    default:
-      cantUpdate = true
       break
     }
     return cantUpdate
@@ -38,21 +29,23 @@ export function getUpdates(previousParsed, currentParsed) {
   return { cantUpdate, updates }
 }
 
-function getPlacementPolicyUpdates(
-  { placementPolicies },
+function getPlacementRuleUpdates(
+  previousParsed,
   currentParsed,
+  originalRaw,
   updates
 ) {
   currentParsed.some(({ $raw: currentRaw }, idx) => {
     // assumes current and previous are in same order
-    if (idx < placementPolicies.length) {
-      const { $raw: previousRaw, $org: originalRaw } = placementPolicies[idx]
+    if (idx < previousParsed.length) {
+      const { $raw: previousRaw } = previousParsed[idx]
       if (!_.isEqual(currentRaw, previousRaw)) {
         const name = _.get(currentRaw, 'metadata.name')
         const namespace = _.get(currentRaw, 'metadata.namespace')
         const selfLink = _.get(originalRaw, 'metadata.selfLink')
+        currentRaw.metadata.resourceVersion = _.get(originalRaw, 'metadata.resourceVersion')
         updates.push({
-          resourceType: RESOURCE_TYPES.HCM_PLACEMENT_POLICIES,
+          resourceType: RESOURCE_TYPES.HCM_PLACEMENT_RULES,
           namespace,
           name,
           selfLink,

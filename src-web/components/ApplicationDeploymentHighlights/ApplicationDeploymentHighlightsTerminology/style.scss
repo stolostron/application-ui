@@ -19,7 +19,7 @@
     border-right: 5px solid #dee3e6;
   }
 
-  .bx--tile div {
+  .bx--tile .terminology-item {
     width: 25%;
     padding-left: 1.5em;
     padding-right: 1.5em;
@@ -34,7 +34,7 @@
     margin-bottom: 10px;
   }
 
-  .bx--tile p {
+  .bx--tile .deployment-highlights-terminology-content {
     color: #5a6872;
     font-size: 12px;
     line-height: 20px;
@@ -45,11 +45,30 @@
     padding-right: 0;
 
     .bx--tile {
-      padding: 1.5rem 0.5rem;
+      padding: 1.5rem 0.5rem 0.5rem;
     }
   }
 
   .bx--accordion__title {
     color: #4676b5;
+  }
+
+  .deployment-highlights-terminology-docs {
+    text-align: right;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+  }
+
+  .deployment-highlights-terminology-docs-text {
+    cursor: pointer;
+    display: inline-block;
+    padding: 30px 10px 10px;
+    font-weight: bold;
+    color: #3d70b2;
+  }
+
+  .deployment-highlights-terminology-docs-icon {
+    cursor: pointer;
   }
 }

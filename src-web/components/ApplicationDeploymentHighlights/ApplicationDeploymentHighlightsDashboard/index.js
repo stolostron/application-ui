@@ -89,7 +89,7 @@ const countsCardDataSummary = (
           ? 'dashboard.card.deployment.clusters'
           : 'dashboard.card.deployment.cluster',
       count: clusters,
-      textKey: 'ashboard.card.deployment.clustersInfo',
+      textKey: 'dashboard.card.deployment.clustersInfo',
       targetLink
     }
   ]

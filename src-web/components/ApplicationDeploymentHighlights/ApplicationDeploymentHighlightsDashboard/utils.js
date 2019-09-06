@@ -33,14 +33,48 @@ export const getAllDeployablesStatus = list => {
 }
 
 export const getNumClusters = (applications, allsubscriptions) => {
+  if(applications && applications.length > 0){
+    const eachApplication
+  }
   if (allsubscriptions && allsubscriptions.items) {
     const subscriptionsInApp = getAllRelatedForList(
       applications,
       'subscription'
     )
-    if (subscriptionsInApp) return subscriptionsInApp.length
+
+    if (subscriptionsInApp && subscriptionsInApp.length > 0) {
+      const subscriptionForSearch = allsubscriptions.items.map(item => {
+        if (item && item.name && item.namespace) {
+          for (var i = 0; i < subscriptionsInApp.length; i++) {
+            const sappitem = subscriptionsInApp[i]
+
+            if (
+              sappitem &&
+              sappitem.name &&
+              sappitem.namespace &&
+              sappitem.name === item.name &&
+              sappitem.namespace === item.namespace
+            )
+              return item
+          }
+        }
+      })
+
+      const removeUndefined = x => x !== undefined
+      const emptyArray = []
+      const removedUndefinedSubscriptions = R.filter(
+        removeUndefined,
+        subscriptionForSearch
+      )
+      const resultList = emptyArray.concat.apply(
+        [],
+        removedUndefinedSubscriptions
+      )
+      return getAllRelatedForList({ items: resultList }, 'cluster').length
+    }
   }
-  return 2 //TODO remove this
+
+  return 0
 }
 
 export const getApplicationName = list => {

@@ -36,12 +36,9 @@ export const getNumClusters = (applications, allsubscriptions) => {
   if (allsubscriptions && allsubscriptions.items) {
     const subscriptionsInApp = getAllRelatedForList(
       applications,
-      'remoteSubscriptions' // look only at remote cluster subscriptions
+      'subscription'
     )
-
-    if (subscriptionsInApp)
-      //return the number of remote hub subscriptions associated with the applications, they should match the number of clusters
-      return subscriptionsInApp.length
+    if (subscriptionsInApp) return subscriptionsInApp.length
   }
 
   return 0

@@ -44,7 +44,7 @@ export const getNumClusters = (applications, allsubscriptions) => {
       return subscriptionsInApp.length
   }
 
-  return 0
+  return allsubscriptions ? allsubscriptions.length - 1 : 0
 }
 
 export const getApplicationName = list => {

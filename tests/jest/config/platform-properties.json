@@ -195,7 +195,7 @@
   "description.title.deploymentHighlightsTerminology.deployablesSummary": "Deployables are YAML file templates that wrap the Kubernetes resources to be deployed, such as a Kubernetes resource or Helm release.",
   "description.title.deploymentHighlightsTerminology.deploymentConditions": "Resource Conditions",
   "description.title.deploymentHighlightsTerminology.deploymentConditionsSummary": "Resource conditions can be added manually or automated based on events outcome. When a resource has all the conditions that a channel gate requires, it will then be deployed to such channel.",
-  "description.title.deploymentHighlightsTerminology.docsLink": "Go to docs",
+  "description.title.deploymentHighlightsTerminology.docsLink": "View documentation",
   "description.title.deploymentHighlightsTerminology.placementRules": "Placement Rules",
   "description.title.deploymentHighlightsTerminology.placementRulesSummary": "Placement rules define the target clusters where deployables can be deployed.",
   "description.title.deploymentHighlightsTerminology.subscriptions": "Subscriptions",

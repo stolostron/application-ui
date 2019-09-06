@@ -43,8 +43,7 @@ export const getNumClusters = (applications, allsubscriptions) => {
       //return the number of remote hub subscriptions associated with the applications, they should match the number of clusters
       return subscriptionsInApp.length
   }
-
-  return allsubscriptions ? allsubscriptions.length - 1 : 0
+  return 2 //TODO remove this
 }
 
 export const getApplicationName = list => {

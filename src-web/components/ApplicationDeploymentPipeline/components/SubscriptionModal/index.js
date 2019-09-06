@@ -59,14 +59,24 @@ const SubscriptionInfo = withLocale(
 
     if (notEmptySubscription) {
       // Gather the subscription data that contains the matching UID
-      const subscriptionWithRelatedData = getDataByKind(
+      let subscriptionWithRelatedData = getDataByKind(
         bulkSubscriptionList,
         subscriptionModalSubscriptionInfo._uid
       )
 
+      if (
+        (!subscriptionWithRelatedData ||
+          R.isEmpty(subscriptionWithRelatedData)) &&
+        subscriptionModalSubscriptionInfo.name &&
+        subscriptionModalSubscriptionInfo.namespace
+      ) {
+        subscriptionWithRelatedData = R.find(
+          R.propEq('name', subscriptionModalSubscriptionInfo.name) &&
+            R.propEq('namespace', subscriptionModalSubscriptionInfo.namespace)
+        )(bulkSubscriptionList)
+      }
       const foundBulkSubscription =
         subscriptionWithRelatedData && !R.isEmpty(subscriptionWithRelatedData)
-
       if (foundBulkSubscription) {
         const related = R.pathOr(
           [{}],

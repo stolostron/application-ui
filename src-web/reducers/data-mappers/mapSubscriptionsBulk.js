@@ -27,6 +27,7 @@ export const mapBulkSubscriptions = subscriptions => {
           kind: items.kind || '',
           label: items.label || '',
           type: items.type || '',
+          status: items.status || '',
           _hubClusterResource: items._hubClusterResource || '',
           _rbac: items._rbac || '',
           related: subscription.related || []

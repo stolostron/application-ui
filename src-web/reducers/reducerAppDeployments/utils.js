@@ -48,7 +48,9 @@ export const returnBulkQueryString = (applicationList, kind) => {
   finalList.map(item => {
     if (item.name) {
       combinedQuery.push(
-        convertStringToQuery(`kind:${kind} name:${item.name}`)
+        convertStringToQuery(
+          `kind:${kind} name:${item.name} namespace:${item.namespace}`
+        )
       )
     }
   })

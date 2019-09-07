@@ -33,7 +33,11 @@ export const getAllDeployablesStatus = list => {
   return statusPassFailInProgress
 }
 
-export const getNumClusters = (applications, allsubscriptions) => {
+export const getAllTargetClusters = (applications, allsubscriptions) => {
+  //returns the list of target clusters for hub subscriptions linked to the applications
+
+  let allTargetClusters = []
+
   if (allsubscriptions && allsubscriptions.items) {
     const subscriptionsInApp = getAllRelatedForList(
       applications,
@@ -42,7 +46,7 @@ export const getNumClusters = (applications, allsubscriptions) => {
 
     if (subscriptionsInApp && subscriptionsInApp.length > 0) {
       const subscriptionForSearch = allsubscriptions.items.map(item => {
-        if (item && item.name && item.namespace) {
+        if (item && item.name && item.namespace && !item._hostingSubscription) {
           for (var i = 0; i < subscriptionsInApp.length; i++) {
             const sappitem = subscriptionsInApp[i]
 
@@ -68,11 +72,34 @@ export const getNumClusters = (applications, allsubscriptions) => {
         [],
         removedUndefinedSubscriptions
       )
-      return getAllRelatedForList({ items: resultList }, 'cluster').length
+      //for each subscription, which is a hub subscription since the remote were filtered out, get all related subscriptions
+      //these are remote cluster subscriptions
+      const remoteSubscriptions = getAllRelatedForList(
+        { items: resultList },
+        'subscription'
+      )
+
+      if (remoteSubscriptions && remoteSubscriptions instanceof Array) {
+        const getClusterName = x =>
+          x.cluster &&
+          x._hostingSubscription &&
+          allTargetClusters.push(x.cluster)
+        R.forEach(getClusterName, remoteSubscriptions)
+
+        const strEq = R.eqBy(String)
+        allTargetClusters = R.uniqWith(strEq)(allTargetClusters) //get unique values
+      }
     }
   }
+  return allTargetClusters
+}
 
-  return 0
+export const getNumClusters = (applications, allsubscriptions) => {
+  const allTargetClusters = getAllTargetClusters(
+    applications,
+    allsubscriptions
+  )
+  return allTargetClusters.length
 }
 
 export const getApplicationName = list => {

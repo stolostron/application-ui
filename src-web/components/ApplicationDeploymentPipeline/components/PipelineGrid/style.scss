@@ -125,13 +125,13 @@
     grid-template-columns: repeat(auto-fit, minmax(309px, 1fr));
     grid-template-rows: auto;
     grid-gap: 20px;
-    padding-top: 21px;
-    padding-right: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
   }
 
   .tileContainerApp {
-    padding-top: 21px;
-    padding-right: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
   }
 
   .applicationEntryName {
@@ -220,14 +220,14 @@
   .channelColumn {
     display: inline-grid;
     width: 418px;
-    padding-right: 10px;
-    padding-top: 21px;
+    padding-right: 20px;
+    padding-top: 10px;
   }
 
   .channelColumnDep {
     display: inline-block;
     width: 418px;
-    padding-right: 10px;
+    padding-right: 20px;
     height: 223px;
   }
 

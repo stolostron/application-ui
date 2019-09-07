@@ -135,7 +135,7 @@ class ResourceTable extends React.Component {
                   this.context.locale
                 )}
                 placeHolderText={msgs.get(
-                  'table.search.placeHolderText',
+                  'actions.searchApplications',
                   this.context.locale
                 )}
               />

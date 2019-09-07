@@ -13,31 +13,37 @@ export const mapBulkSubscriptions = subscriptions => {
   if (subscriptions) {
     const mappedSubscriptions = subscriptions.map(subscription => {
       if (subscription.items && subscription.related) {
-        const items = subscription.items[0]
+        //filter out and return only hub subscriptions
+        const isHubSubscr = item => !item._hostingSubscription
+        const hubSubscriptions = R.filter(isHubSubscr, subscription.items)
 
-        const data = {
-          name: items.name || '',
-          namespace: items.namespace || '',
-          selfLink: items.selfLink || '',
-          _uid: items._uid || '',
-          created: items.created || '',
-          pathname: items.pathname || '',
-          apigroup: items.apigroup || '',
-          cluster: items.cluster || '',
-          kind: items.kind || '',
-          label: items.label || '',
-          type: items.type || '',
-          status: items.status || '',
-          _hubClusterResource: items._hubClusterResource || '',
-          _rbac: items._rbac || '',
-          related: subscription.related || []
-        }
+        if (
+          hubSubscriptions &&
+          hubSubscriptions instanceof Array &&
+          hubSubscriptions.length > 0
+        ) {
+          const items = hubSubscriptions[0]
 
-        //show _hostingSubscription
-        if (items._hostingSubscription) {
-          data._hostingSubscription = items._hostingSubscription
+          const data = {
+            name: items.name || '',
+            namespace: items.namespace || '',
+            selfLink: items.selfLink || '',
+            _uid: items._uid || '',
+            created: items.created || '',
+            pathname: items.pathname || '',
+            apigroup: items.apigroup || '',
+            cluster: items.cluster || '',
+            kind: items.kind || '',
+            label: items.label || '',
+            type: items.type || '',
+            status: items.status || '',
+            _hubClusterResource: items._hubClusterResource || '',
+            _rbac: items._rbac || '',
+            related: subscription.related || []
+          }
+
+          return data
         }
-        return data
       }
     })
     const removeUndefined = x => x !== undefined

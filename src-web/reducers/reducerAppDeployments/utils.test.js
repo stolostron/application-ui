@@ -20,21 +20,24 @@ describe('returnBulkQueryString', () => {
       {
         filters: [
           { property: 'kind', values: ['deployable'] },
-          { property: 'name', values: ['gbchn-gbchn-redismasterservice'] }
+          { property: 'name', values: ['gbchn-gbchn-redismasterservice'] },
+          { property: 'namespace', values: ['chn-gb'] }
         ],
         keywords: []
       },
       {
         filters: [
           { property: 'kind', values: ['deployable'] },
-          { property: 'name', values: ['gbchn-gbchn-redismasterservice2'] }
+          { property: 'name', values: ['gbchn-gbchn-redismasterservice2'] },
+          { property: 'namespace', values: ['chn-gb'] }
         ],
         keywords: []
       },
       {
         filters: [
           { property: 'kind', values: ['deployable'] },
-          { property: 'name', values: ['joshDeployable'] }
+          { property: 'name', values: ['joshDeployable'] },
+          { property: 'namespace', values: ['chn-gb'] }
         ],
         keywords: []
       }

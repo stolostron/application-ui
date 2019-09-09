@@ -165,7 +165,7 @@ class CreateResourceModal extends React.PureComponent {
                 kind="error"
                 title={msgs.get('error.parse', this.context.locale)}
                 iconDescription=""
-                subtitle={this.state.yamlParsingError.reason}
+                subtitle={msgs.get('error.parse.reason', this.context.locale)}
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}

@@ -120,18 +120,18 @@ const withResource = Component => {
 
       reload() {
         const { status } = this.props
-        let { retry=0, showError=false } = this.state
+        let { retry = 0, showError = false } = this.state
         // if there's an error give it 3 more times before we show it
-        if (status===REQUEST_STATUS.ERROR) {
-          if(!showError) {
+        if (status === REQUEST_STATUS.ERROR) {
+          if (!showError) {
             retry++
-            if (retry>3) {
-              showError=true
+            if (retry > 3) {
+              showError = true
             }
           }
         } else {
-          retry=undefined
-          showError=undefined
+          retry = undefined
+          showError = undefined
         }
         this.setState({ xhrPoll: true, retry, showError })
         this.props.fetchResource()
@@ -143,24 +143,31 @@ const withResource = Component => {
 
       render() {
         const { status, statusCode } = this.props
-        const { showError=false, retry=0 } = this.state
-        if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll && retry===0) {
+        const { showError = false, retry = 0 } = this.state
+        if (
+          status !== REQUEST_STATUS.DONE &&
+          !this.state.xhrPoll &&
+          retry === 0
+        ) {
           return <Loading withOverlay={false} className="content-spinner" />
         }
         return (
           <React.Fragment>
-            {showError&&<Notification
-              title=""
-              className="persistent"
-              subtitle={msgs.get(
-                `error.${
-                  statusCode === 401 || statusCode === 403
-                    ? 'unauthorized'
-                    : 'default'
-                }.description`,
-                this.context.locale
-              )}
-              kind="error" />}
+            {showError && (
+              <Notification
+                title=""
+                className="persistent"
+                subtitle={msgs.get(
+                  `error.${
+                    statusCode === 401 || statusCode === 403
+                      ? 'unauthorized'
+                      : 'default'
+                  }.description`,
+                  this.context.locale
+                )}
+                kind="error"
+              />
+            )}
             <Component {...this.props} />
           </React.Fragment>
         )
@@ -262,7 +269,7 @@ class ResourceDetails extends React.Component {
               <Icon
                 className="app-info-icon"
                 name="icon--document"
-                fill="blue"
+                fill="#3D70B2"
               />
               {!showAppDetails
                 ? msgs.get('application.information', this.context.locale)
@@ -278,7 +285,7 @@ class ResourceDetails extends React.Component {
               <Icon
                 className="app-dashboard-icon"
                 name="icon--launch"
-                fill="blue"
+                fill="#3D70B2"
               />
               {msgs.get('application.launch.grafana', this.context.locale)}
             </Link>

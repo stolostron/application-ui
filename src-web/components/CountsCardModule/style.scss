@@ -1,16 +1,16 @@
 /*******************************************************************************
- * Licensed Materials - Property of IBM
- * 5737-E67
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
- * restricted by GSA ADP Schedule Contract with IBM Corp.
- *******************************************************************************/
+* Licensed Materials - Property of IBM
+* 5737-E67
+* (c) Copyright IBM Corporation 2019. All Rights Reserved.
+*
+* US Government Users Restricted Rights - Use, duplication or disclosure 
+* restricted by GSA ADP Schedule Contract with IBM Corp.
+*******************************************************************************/
 @import "node_modules/carbon-components/scss/globals/scss/_colors";
 @import "../../../scss/variables";
 
 #CountsCardModuleWithHeaderAndLink {
-  height: 190px;
+  height: 180px;
 
   .card-container-link {
     color: #3d70b2;
@@ -25,7 +25,7 @@
 
   .card-container {
     width: 100%;
-    height: 140px;
+    height: 135px;
     padding: 25px;
   }
 
@@ -41,11 +41,11 @@
 }
 
 #CountsCardModuleWithHeader {
-  height: 190px;
+  height: 180px;
 
   .card-container {
     width: 100%;
-    height: 140px;
+    height: 135px;
     padding: 25px;
   }
 
@@ -89,12 +89,15 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
   .card-container-title {
+    color: #152935;
+    font-family: "IBM Plex Sans";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
     width: 100%;
-    height: 50px;
+    height: 45px;
     display: flex;
-    font-weight: bold;
-    font-size: 0.8em;
-    padding: 20px;
+    padding: 15px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 

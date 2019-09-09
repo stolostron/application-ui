@@ -6,151 +6,47 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure 
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-@import "node_modules/carbon-components/scss/globals/scss/_colors";
-@import "../../../scss/variables";
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import '../../../../scss/variables';
 
-#CountsCardModuleWithHeaderAndLink {
-  height: 190px;
-
-  .card-container-link {
-    color: #3d70b2;
-    display: flex;
-    margin-left: auto;
-    align-self: center;
+#ResourceDetails {
+  .app-info-and-dashboard-links {
+    position: fixed;
+    top: calc(#{$secondary-header-top} + 32px);
+    right: 10%;
+    z-index: 1001;
+    background-color: $color__white;
+    display: inline-block;
   }
 
-  .card-container-link a {
+  .app-info-and-dashboard-links .bx--link {
     text-decoration: none;
-  }
-
-  .card-container {
-    width: 100%;
-    height: 140px;
-    padding: 25px;
-  }
-
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
+    color: #3d70b2;
+    font-family: "IBM Plex Sans";
     font-size: 14px;
     font-weight: 600;
-    line-height: 17px;
-    color: $mcm_color_blue_gray;
-    text-transform: uppercase;
-  }
-}
-
-#CountsCardModuleWithHeader {
-  height: 190px;
-
-  .card-container {
-    width: 100%;
-    height: 140px;
-    padding: 25px;
-  }
-
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
     line-height: 20px;
-    color: $mcm_color_blue_gray;
-    text-transform: uppercase;
-  }
-}
-
-#CountsCardModule {
-  height: 175px;
-
-  .card-container {
-    width: 100%;
-    height: 175px;
-    padding: 25px;
   }
 
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    color: $mcm_color_blue_gray;
-    text-transform: uppercase;
-  }
-}
-
-#CountsCardModuleWithHeaderAndLink,
-#CountsCardModuleWithHeader,
-#CountsCardModule {
-  font-family: "IBM Plex Sans";
-  width: 100%;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-
-  .card-container-title {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    font-weight: bold;
-    font-size: 0.8em;
-    padding: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  .app-info-and-dashboard-links-separator {
+    border-left: 2px solid $color__gray-1;
+    margin: 0 15px 0 15px;
   }
 
-  .card-container-content {
-    display: flex;
-    padding: 0 5%;
-    width: 100%;
-    height: 100%;
-    justify-content: space-between;
-    align-items: center;
+  .app-info-icon {
+    margin: 0 10px 0 0;
+    vertical-align: sub;
   }
 
-  .card-count-type {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    &.hasLeftBorder {
-      border-left: 1px solid $color__gray-1;
-      padding-left: 80px;
-    }
-
-    &.hasRightBorder {
-      border-right: 1px solid $color__gray-1;
-      padding-right: 80px;
-    }
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:hover > .card-type {
-      color: $color__blue-51;
-      text-decoration: underline;
-    }
+  .app-dashboard-icon {
+    margin: 0 10px 0 0;
+    vertical-align: sub;
   }
 
-  .card-count {
-    line-height: 44px;
-    font-size: 34px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    text-align: center;
-    color: $mcm_color_blue_gray;
-
-    &.alert {
-      color: #e0182d;
-    }
-  }
-
-  .card-text {
-    text-align: center;
-    font-size: 12px;
-    font-style: italic;
-    line-height: 20px;
-    color: #4a4a4a;
+  .resource-diagram-title {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    font-weight: 300;
+    padding: 20px 0 20px 0;
   }
 }

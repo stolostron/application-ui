@@ -21,7 +21,11 @@
 
   .app-info-and-dashboard-links .bx--link {
     text-decoration: none;
-    color: $color__navy-gray-6;
+    color: #3D70B2;
+    font-family: "IBM Plex Sans";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
   }
 
   .app-info-and-dashboard-links-separator {

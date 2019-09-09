@@ -90,9 +90,13 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
         .card-name {
-          font-weight: bold;
-          padding: 20px;
-          font-size: 16px;
+          color: #152935;
+          height: 45px;
+          font-family: "IBM Plex Sans";
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 18px;
+          padding: 15px;
         }
 
         .card-count-content {
@@ -115,17 +119,25 @@
             padding: 10px 0;
 
             .card-count {
-              display: flex;
-              height: 48px;
-              line-height: 34px;
-              align-items: flex-end;
-              padding-bottom: 16px;
-              align-items: baseline;
+              color: #5A6872;
+              font-family: "IBM Plex Sans";
+              font-size: 34px;
+              font-weight: 600;
+              line-height: 44px;
+              text-align: center;
 
               .card-count-total {
                 font-size: 34px;
                 padding-right: 3px;
               }
+            }
+            .card-status {
+              color: #5A6872;
+              font-family: "IBM Plex Sans";
+              font-size: 12px;
+              font-weight: 600;
+              line-height: 17px;
+              text-align: center;
             }
           }
         }

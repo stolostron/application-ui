@@ -35,7 +35,7 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           bottom: 20
         }}
       >
-        <CartesianGrid strokeDasharray="0" vertical={false} />
+        <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F5F7FA" />
         <defs>
           <linearGradient id="colorCm" x1="0" y1="1" x2="0" y2="0">
             <stop offset="0%" stopColor="#285656" stopOpacity={0.9} />
@@ -71,7 +71,6 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           barSize={30}
           dataKey="cm"
           stackId="a"
-          stroke="#285656"
           fillOpacity={1}
           fill="url(#colorCm)"
           name={getChartKeyName('cm', locale)}
@@ -79,7 +78,6 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         <Bar
           dataKey="pr"
           stackId="a"
-          stroke="#DBFBFB"
           fillOpacity={1}
           fill="url(#colorPr)"
           name={getChartKeyName('pr', locale)}
@@ -87,7 +85,6 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
         <Bar
           dataKey="fl"
           stackId="a"
-          stroke="#FF767C"
           fillOpacity={1}
           fill="url(#colorFl)"
           name={getChartKeyName('fl', locale)}

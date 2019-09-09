@@ -67,7 +67,7 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
           bottom: 20
         }}
       >
-        <CartesianGrid strokeDasharray="0" vertical={false} />
+        <CartesianGrid strokeDasharray="0" vertical={false} stroke="#F5F7FA" />
         <defs>
           <linearGradient id="colorUv" x1="1" y1="0" x2="0" y2="0">
             <stop offset="0%" stopColor="#00BAB6" stopOpacity={0.9} />
@@ -104,7 +104,6 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
           legendType="circle"
           dataKey="percent_completed"
           stackId="a"
-          stroke="#00BAB6"
           fillOpacity={1}
           fill="url(#colorUv)"
           name={getChartKeyName('percent_completed', locale)}
@@ -114,7 +113,6 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
           legendType="circle"
           dataKey="percent_not_completed"
           stackId="a"
-          stroke="#F5F7FA"
           fillOpacity={1}
           fill="url(#colorNotCompl)"
           name={getChartKeyName('percent_not_completed', locale)}

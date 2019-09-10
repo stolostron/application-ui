@@ -30,17 +30,17 @@ resources(() => {
   require('./style.scss')
 })
 
-const LabelWithOptionalTooltip = (labelText, description) => {
-  if (labelText && labelText.startsWith('+')) {
+const LabelWithOptionalTooltip = text => {
+  if (text && text.labelText && text.labelText.startsWith('+')) {
     return (
       <span className="bx--tag bx--tag--beta">
-        <TooltipDefinition tooltipText={description}>
-          {labelText}
+        <TooltipDefinition tooltipText={text.description}>
+          {text.labelText}
         </TooltipDefinition>
       </span>
     )
   }
-  return <span className="bx--tag bx--tag--beta">{labelText}</span>
+  return <span className="bx--tag bx--tag--beta">{text.labelText}</span>
 }
 
 const SubscriptionInfo = withLocale(

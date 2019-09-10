@@ -290,8 +290,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
-        <div className="piplineHeader">
-          {msgs.get('description.title.deploymentPipeline', locale)}
+        <div className="pipelineHeader">
+          {msgs.get('description.title.deploymentPipeline', locale)}{' '}
+          {channels && <span>({channels.length})</span>}
         </div>
         <div className="searchAndButtonContainer">
           <Search

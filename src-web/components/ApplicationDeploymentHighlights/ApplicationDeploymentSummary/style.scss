@@ -109,4 +109,35 @@ $overview-heat-collapsed: 90px !default;
       visibility: hidden;
     }
   }
+
+  .customized-tooltip-content {
+    font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+    color: #ffffff;
+    background: #3d3d3d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+    min-width: 13rem;
+    max-width: 18rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    letter-spacing: 0.16px;
+    padding: 1rem;
+    border-radius: 0.125rem;
+    z-index: 10000;
+    word-wrap: break-word;
+  }
+
+  .customized-tooltip-content .bx--tooltip__caret {
+    position: absolute;
+    background: #3d3d3d;
+    left: 0;
+    top: -0.25rem;
+    right: 0;
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+    width: 0.6rem;
+    height: 0.6rem;
+    margin: 0 auto;
+    content: '';
+  }
 }

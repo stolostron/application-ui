@@ -38,6 +38,7 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
       const entry = payload[0]
       return (
         <div className="customized-tooltip-content">
+          <span className="bx--tooltip__caret" />
           <p className="total">{`${label}`}</p>
           <ul className="list">
             {

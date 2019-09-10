@@ -20,7 +20,9 @@ import {
 } from './utils'
 import {
   getSearchLinkForOneApplication,
-  getSearchLinkForAllApplications
+  getSearchLinkForAllApplications,
+  getSearchLinkForAllChannels,
+  getSearchLinkForAllSubscriptions
 } from '../../common/ResourceOverview/utils'
 import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 import { getNumItems } from '../../../../lib/client/resource-helper'
@@ -34,7 +36,9 @@ const countsCardDataSummary = (
   HCMChannelList,
   HCMSubscriptionList,
   isSingleApplicationView,
-  targetLink
+  targetLink,
+  targetLinkForSubscriptions,
+  targetLinkForChannels
 ) => {
   const applications = getNumItems(HCMApplicationList)
   const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
@@ -73,7 +77,7 @@ const countsCardDataSummary = (
           ? 'dashboard.card.deployment.channels'
           : 'dashboard.card.deployment.channel',
       count: channels,
-      targetLink
+      targetLink: targetLinkForChannels
     },
     {
       msgKey:
@@ -81,7 +85,7 @@ const countsCardDataSummary = (
           ? 'dashboard.card.deployment.subscriptions'
           : 'dashboard.card.deployment.subscription',
       count: subscriptions,
-      targetLink
+      targetLink: targetLinkForSubscriptions
     },
     {
       msgKey:
@@ -109,12 +113,27 @@ const ApplicationDeploymentHighlightsDashboard = withLocale(
         name: encodeURIComponent(applicationName)
       })
       : getSearchLinkForAllApplications()
+
+    const targetLinkForSubscriptions = isSingleApplicationView
+      ? getSearchLinkForOneApplication({
+        name: encodeURIComponent(applicationName)
+      })
+      : getSearchLinkForAllSubscriptions()
+
+    const targetLinkForChannels = isSingleApplicationView
+      ? getSearchLinkForOneApplication({
+        name: encodeURIComponent(applicationName)
+      })
+      : getSearchLinkForAllChannels()
+
     const countsCardData = countsCardDataSummary(
       HCMApplicationList,
       HCMChannelList,
       HCMSubscriptionList,
       isSingleApplicationView,
-      targetLink
+      targetLink,
+      targetLinkForSubscriptions,
+      targetLinkForChannels
     )
     const summary = getAllDeployablesStatus(HCMApplicationList, false)
     const countsCardDataStatus = [

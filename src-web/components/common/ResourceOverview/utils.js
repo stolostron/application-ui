@@ -241,3 +241,11 @@ export const getSearchLinkForOneApplication = params => {
 export const getSearchLinkForAllApplications = () => {
   return '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}'
 }
+
+export const getSearchLinkForAllSubscriptions = () => {
+  return '/multicloud/search?filters={"textsearch":"kind%3Asubscription"}'
+}
+
+export const getSearchLinkForAllChannels = () => {
+  return '/multicloud/search?filters={"textsearch":"kind%3Achannel"}'
+}

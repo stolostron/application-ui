@@ -23,7 +23,6 @@ import { getChartKeyName, getModuleData } from './utils'
 const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
   const renderTooltipContent = line => {
     const { payload, label } = line
-
     if (payload && payload.length > 0) {
       return (
         <div className="customized-tooltip-content">
@@ -31,7 +30,9 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           <p className="total">{`${label}`}</p>
           <ul className="list">
             {payload.map(entry => (
-              <li key={'item-cm'}>{`${entry.name}: ${entry.value}`}</li>
+              <li key={`item-${entry.dataKey}`}>{`${entry.name}: ${
+                entry.value
+              }`}</li>
             ))}
           </ul>
         </div>

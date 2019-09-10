@@ -161,16 +161,19 @@ const ApplicationDeploymentHighlightsDashboard = withLocale(
         alert: summary[1] > 0 ? true : false
       }
     ]
+
+    const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
+
     return (
       <React.Fragment>
         <div id="ApplicationDeploymentsDashboard">
-          <div className="deployment-summary">
+          <div className={'deployment-summary' + singleAppStyle}>
             <CountsCardModule
               data={countsCardData}
               title="dashboard.card.deployment.summary.title"
             />
           </div>
-          <div className="deployment-status">
+          <div className={'deployment-status' + singleAppStyle}>
             <CountsCardModule
               data={countsCardDataStatus}
               title="dashboard.card.deployment.status.title"

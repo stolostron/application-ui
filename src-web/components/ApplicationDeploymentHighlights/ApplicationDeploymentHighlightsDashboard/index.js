@@ -6,7 +6,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-
+import R from 'ramda'
 import React from '../../../../node_modules/react'
 import CountsCardModule from '../../CountsCardModule'
 import { withLocale } from '../../../providers/LocaleProvider'
@@ -62,6 +62,7 @@ const countsCardDataSummary = (
         : 0
     channels = getChannelsCountFromSubscriptions(subscriptionsArray)
   }
+
   const result = [
     {
       msgKey:
@@ -97,6 +98,12 @@ const countsCardDataSummary = (
       targetLink
     }
   ]
+
+  if (isSingleApplicationView) {
+    // remove the application count from the single application view
+    return R.tail(result)
+  }
+
   return result
 }
 

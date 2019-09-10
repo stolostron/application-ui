@@ -11,7 +11,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { Modal, Icon } from 'carbon-components-react'
+import { Modal, Icon, TooltipDefinition } from 'carbon-components-react'
 import R from 'ramda'
 import ProgressBar from '../ProgressBar/index'
 import {
@@ -29,6 +29,19 @@ import { isAdminRole } from '../../../../../lib/client/access-helper'
 resources(() => {
   require('./style.scss')
 })
+
+const LabelWithOptionalTooltip = (labelText, description) => {
+  if (labelText && labelText.startsWith('+')) {
+    return (
+      <span className="bx--tag bx--tag--beta">
+        <TooltipDefinition tooltipText={description}>
+          {labelText}
+        </TooltipDefinition>
+      </span>
+    )
+  }
+  return <span className="bx--tag bx--tag--beta">{labelText}</span>
+}
 
 const SubscriptionInfo = withLocale(
   ({
@@ -245,20 +258,17 @@ const SubscriptionInfo = withLocale(
               <div className="subscriptionInfoHeaderIndented">
                 {msgs.get('description.Modal.label', locale)}
               </div>
-              <div className="value">
-                {' '}
+              <ul className="labels-list">
                 {labels.map(label => {
                   return (
-                    <span
-                      className="labelTag"
+                    <LabelWithOptionalTooltip
                       key={Math.random()}
-                      title={label_hover}
-                    >
-                      {label}
-                    </span>
+                      labelText={label}
+                      description={label_hover}
+                    />
                   )
                 })}
-              </div>
+              </ul>
             </div>
             <div className="subHeader">
               <div className="subscriptionInfoHeaderIndented">

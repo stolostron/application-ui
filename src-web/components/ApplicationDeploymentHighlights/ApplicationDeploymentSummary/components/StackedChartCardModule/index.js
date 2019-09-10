@@ -21,6 +21,23 @@ import {
 import { getChartKeyName, getModuleData } from './utils'
 
 const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
+  const renderTooltipContent = line => {
+    const { payload, label } = line
+
+    if (payload && payload.length > 0) {
+      return (
+        <div className="customized-tooltip-content">
+          <span className="bx--tooltip__caret" />
+          <p className="total">{`${label}`}</p>
+          <ul className="list">
+            {payload.map(entry => (
+              <li key={'item-cm'}>{`${entry.name}: ${entry.value}`}</li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  }
   const moduleData = getModuleData(data)
   return (
     <ResponsiveContainer width="95%" height="90%">
@@ -66,7 +83,7 @@ const StackedChartCardModule = withLocale(({ data, locale, chartWidth }) => {
           tickCount={4}
           width={43}
         />
-        <Tooltip />
+        <Tooltip content={renderTooltipContent} />
         <Bar
           barSize={30}
           dataKey="cm"

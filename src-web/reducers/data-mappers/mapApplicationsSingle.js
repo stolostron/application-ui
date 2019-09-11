@@ -7,26 +7,11 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import {
-  getRelatedItems,
-  filterRemoteClusterSubscriptions,
-  getRemoteClusterSubscriptions
-} from './utils'
+import { getRelatedItems, filterRemoteClusterSubscriptions } from './utils'
 
 // @flow
 export const mapSingleApplication = application => {
   if (application && application.items && application.related) {
-    //keep remote cluster subscriptions in a separate list
-    //we need that to find the remote clusters an app is deployed onto
-    //there is no other way to get this info if we filter remote subscription
-    const remoteSubscriptionsList = getRemoteClusterSubscriptions(
-      application.related
-    )
-    application.related.push({
-      kind: 'remoteSubscriptions',
-      items: remoteSubscriptionsList
-    })
-
     //now filter out remote cluster subscriptions
     filterRemoteClusterSubscriptions(application.related)
 

@@ -1,0 +1,14 @@
+base_os: ubi7-minimal
+repo1:
+  url: "http://registry.access.redhat.com/ubi7/ubi-minimal"
+  packages: [
+    "bash",
+    "ca-certificates",
+    "which",
+    "vi"
+  ]
+repo2:
+  url: "https://nodejs.org/dist/v8.16.0/node-v8.16.0-linux-x64.tar.gz"
+  packages: [
+    "nodejs"
+  ]

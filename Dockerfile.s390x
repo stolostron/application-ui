@@ -14,6 +14,9 @@ LABEL org.label-schema.vendor="IBM" \
       org.label-schema.schema-version="1.0"
 
 RUN mkdir -p /opt/ibm/mcm-application-ui
+RUN mkdir -p /licenses
+ADD licenses/license.txt /licenses
+ADD licenses/packages.yaml /licenses
 WORKDIR /opt/ibm/mcm-application-ui
 
 COPY . /opt/ibm/mcm-application-ui

@@ -153,13 +153,16 @@ export const fetchResources = resourceType => {
           response.data.searchResult[0].items
         const combinedQuery = []
         itemRes.map(item => {
-          combinedQuery.push(
-            getQueryStringForResource(
-              resourceType.name,
-              item.name,
-              item.namespace
+          //build query only with local resources
+          if (item && !item._hostingSubscription) {
+            combinedQuery.push(
+              getQueryStringForResource(
+                resourceType.name,
+                item.name,
+                item.namespace
+              )
             )
-          )
+          }
         })
         return dispatch(fetchResourcesInBulk(resourceType, combinedQuery))
       })

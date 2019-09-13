@@ -7,6 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
 import React from 'react'
 
 import msgs from '../../../nls/platform.properties'
@@ -17,7 +18,9 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
 import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard'
-import R from 'ramda'
+
+import { getSingleApplicationObject } from './ApplicationDeploymentHighlightsDashboard/utils'
+import { pullOutKindPerApplication } from '../ApplicationDeploymentPipeline/utils'
 
 /* eslint-disable react/prop-types */
 
@@ -67,12 +70,28 @@ class ApplicationDeploymentHighlights extends React.Component {
     } = this.props
     const { locale } = this.context
 
+    let open = false
+    if (isSingleApplicationView) {
+      const subscriptionsArray = pullOutKindPerApplication(
+        getSingleApplicationObject(HCMApplicationList),
+        'subscription'
+      )
+      if (R.isEmpty(subscriptionsArray)) {
+        open = true
+      }
+    } else {
+      // all application view
+      if (R.isEmpty(HCMApplicationList)) {
+        open = true
+      }
+    }
+
     return (
       <div id="DeploymentHighlights">
         <div className="deployment-highlights-header">
           {msgs.get('description.title.deploymentHighlights', locale)}
         </div>
-        <ApplicationDeploymentHighlightsTerminology />
+        <ApplicationDeploymentHighlightsTerminology open={open} />
         <ApplicationDeploymentHighlightsDashboard
           HCMApplicationList={HCMApplicationList}
           HCMChannelList={HCMChannelList}

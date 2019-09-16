@@ -58,8 +58,13 @@
 }
 
 .help-link {
-  width: 30%;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 0px;
   text-align: right;
   font-size: 12px;
-  text-decoration: none;
+
+  a {
+    text-decoration: none;
+  }
 }

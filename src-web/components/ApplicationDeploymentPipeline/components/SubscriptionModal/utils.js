@@ -8,6 +8,7 @@
  *******************************************************************************/
 
 import R from 'ramda'
+import base64 from 'react-native-base64'
 
 //input [a,b,c,d] , output [a,b, 2+, 'c d']
 //input [a,b,c,d, e] , output [a,b, 3+, 'c d e']
@@ -54,12 +55,11 @@ export const getSearchUrl = subName => {
 
 export const getIcamLinkForSubscription = (
   activeAccountId,
-  subscriptionUid
+  namespace, subscriptionName
 ) => {
-  if (activeAccountId && subscriptionUid) {
-    return `/cemui/applications/${encodeURIComponent(
-      subscriptionUid.split('/').pop()
-    )}?subscriptionId=${encodeURIComponent(activeAccountId)}`
+  if (activeAccountId && namespace && subscriptionName) {
+    const hostingSubscriptionStr = base64.encode(`namespace/subscriptionName`)
+    return `/cemui/applications/${hostingSubscriptionStr}?subscriptionId=${encodeURIComponent(activeAccountId)}&name=${subscriptionName}`
   }
   return '#'
 }

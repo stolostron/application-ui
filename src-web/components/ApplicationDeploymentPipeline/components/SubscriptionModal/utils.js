@@ -58,7 +58,7 @@ export const getIcamLinkForSubscription = (
   namespace, subscriptionName
 ) => {
   if (activeAccountId && namespace && subscriptionName) {
-    const hostingSubscriptionStr = base64.encode(`namespace/subscriptionName`)
+    const hostingSubscriptionStr = base64.encode(`${namespace}/${subscriptionName}`)
     return `/cemui/applications/${hostingSubscriptionStr}?subscriptionId=${encodeURIComponent(activeAccountId)}&name=${subscriptionName}`
   }
   return '#'

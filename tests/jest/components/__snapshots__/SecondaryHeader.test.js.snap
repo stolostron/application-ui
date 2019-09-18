@@ -2,7 +2,7 @@
 
 exports[`SecondaryHeader component 1 renders as expected 1`] = `
 <div
-  id="SecondaryHeader"
+  id="ApplicationSecondaryHeader"
 >
   <div
     aria-label="hello world secondary"
@@ -24,7 +24,7 @@ exports[`SecondaryHeader component 1 renders as expected 1`] = `
 
 exports[`SecondaryHeader component 2 renders as expected 1`] = `
 <div
-  id="SecondaryHeader"
+  id="ApplicationSecondaryHeader"
 >
   <div
     aria-label="hello world"
@@ -174,7 +174,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
 
 exports[`SecondaryHeader component 3 renders as expected 1`] = `
 <div
-  id="SecondaryHeader"
+  id="ApplicationSecondaryHeader"
 >
   <div
     aria-label="hello world"

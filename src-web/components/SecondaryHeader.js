@@ -46,7 +46,7 @@ export class SecondaryHeader extends React.Component {
       (breadcrumbItems && breadcrumbItems.length > 0)
     ) {
       return (
-        <div id="SecondaryHeader">
+        <div id="ApplicationSecondaryHeader">
           <div className={`${noTabsClass}`} role="region" aria-label={title}>
             <div className="secondary-header">
               {tabs && tabs.length > 0 ? (
@@ -80,7 +80,7 @@ export class SecondaryHeader extends React.Component {
       )
     } else {
       return (
-        <div id="SecondaryHeader">
+        <div id="ApplicationSecondaryHeader">
           <div
             className="secondary-header-wrapper-min"
             role="region"

@@ -84,6 +84,7 @@
   }
 
   .secondary-header-wrapper-no-tabs {
+    padding: .75rem 5%;
     @extend .secondary-header-wrapper;
     height: $secondary-header-no-tabs-height;
   }

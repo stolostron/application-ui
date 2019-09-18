@@ -10,6 +10,12 @@
 @import 'variables';
 
 #ApplicationSecondaryHeader {
+  top: 3.082rem;
+  width: 100%;
+  height: 5.5rem;
+  max-height: 5.5rem;
+  background-color: #fff;
+
   .secondary-header {
     header {
       .bx--detail-page-header-title {

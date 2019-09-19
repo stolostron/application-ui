@@ -7,6 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
 import msgs from '../../../../../../nls/platform.properties'
 
 export const getChartKeyName = (value, locale) => {
@@ -27,12 +28,21 @@ export const getModuleData = data => {
   data.map(({ name, cm, pr, fl }) => {
     //show only channels with at least one resource
     if (cm != 0 || pr != 0 || fl != 0) {
-      return chartCardItems.push({
-        name,
-        cm,
-        pr,
-        fl
-      })
+      const channel = R.find(R.propEq('name', name))(chartCardItems)
+      if (channel) {
+        //if channel already in the list, add new values
+        channel.pr = channel.pr + pr
+        channel.fl = channel.fl + fl
+        channel.cm = channel.cm + cm
+      } else {
+        //new channel, add it to the list
+        return chartCardItems.push({
+          name,
+          cm,
+          pr,
+          fl
+        })
+      }
     }
   })
   return {

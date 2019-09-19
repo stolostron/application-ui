@@ -305,6 +305,14 @@ export default class NodeHelper {
 
   // update node icons
   updateNodeIcons = () => {
+    // remove all icons
+    this.svg
+      .select('g.nodes')
+      .selectAll('g.node')
+      .selectAll('use.nodeIcon')
+      .data([]).exit().remove()
+
+
     const icons = this.svg
       .select('g.nodes')
       .selectAll('g.node')
@@ -313,8 +321,7 @@ export default class NodeHelper {
         return nodeIcons ? Object.values(nodeIcons) : []
       })
 
-    // remove icons if nodeIcons is gone
-    icons.exit().remove()
+
 
     // add icons
     icons

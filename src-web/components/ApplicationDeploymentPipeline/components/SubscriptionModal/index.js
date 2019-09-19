@@ -171,7 +171,8 @@ const SubscriptionInfo = withLocale(
       if (isAdminRole(userRole)) {
         icamLink = getIcamLinkForSubscription(
           activeAccountId,
-          subscriptionModalSubscriptionInfo._uid
+          subscriptionModalSubscriptionInfo.namespace,
+          subscriptionModalSubscriptionInfo.name
         )
       }
     }

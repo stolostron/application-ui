@@ -42,6 +42,12 @@ describe('getModuleData', () => {
       fl: name1.length * 50
     },
     {
+      name: name1,
+      cm: name1.length * 20,
+      pr: name1.length * 30,
+      fl: name1.length * 50
+    },
+    {
       name: name2,
       cm: name2.length * 20,
       pr: name2.length * 30,
@@ -55,9 +61,9 @@ describe('getModuleData', () => {
       chartCardItems: [
         {
           name: name1,
-          cm: name1.length * 20,
-          pr: name1.length * 30,
-          fl: name1.length * 50
+          cm: name1.length * 40,
+          pr: name1.length * 60,
+          fl: name1.length * 100
         },
         {
           name: name2,

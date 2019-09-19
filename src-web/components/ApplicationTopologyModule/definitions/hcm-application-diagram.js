@@ -164,12 +164,16 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
     let activeChannel
     let channels = []
     const originalMap = {}
+    const podMap = {}
     nodes.forEach(node => {
-      const { type } = node
+      const { type, name } = node
       switch (type) {
       case 'application':
         activeChannel = _.get(node, 'specs.activeChannel')
         channels = _.get(node, 'specs.channels', [])
+        break
+      case 'pod':
+        podMap[name] = node
         break
       }
 
@@ -184,8 +188,31 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
         row += yaml.split('\n').length
       }
     })
-
     const yaml = yamls.join('---\n')
+
+    // associate pods with status
+    topology.pods.forEach(pod=>{
+      // get pod name w/o uid suffix
+      let name = pod.name.replace(
+        /-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/,
+        ''
+      )
+      if (name === pod.name) {
+        const idx = name.lastIndexOf('-')
+        if (idx !== -1) {
+          name = name.substr(0, idx)
+        }
+      }
+      if (podMap[name]) {
+        let podModel = podMap[name].podModel
+        if (!podModel) {
+          podModel = podMap[name].podModel = {}
+        }
+        podModel[pod.name] = pod
+      }
+    })
+
+    // save results
     saveStoredObject(localStoreKey, {
       activeChannel,
       channels,
@@ -203,6 +230,7 @@ function getDiagramElements(item, topology, diagramFilters, localStoreKey) {
       channels,
       links,
       nodes,
+      pods: topology.pods,
       yaml,
       originalMap,
       topologyLoaded: true,
@@ -324,9 +352,37 @@ function getNodeTitle(node, locale) {
 
 function updateNodeIcons(nodes) {
   nodes.forEach(node => {
-    if (node.status) {
-      let statusIcon
-      let tooltips = ''
+    let statusIcon
+    let tooltips = ''
+    if (node.type==='pod') {
+      if (node.podModel) {
+        let anyPending = false
+        let anyFailure = false
+        Object.values(node.podModel).forEach(({status})=>{
+          switch (status.toLowerCase()) {
+          case 'running':
+          case 'succeeded':
+            //
+            break
+          case 'pending':
+            anyPending = true
+            break
+          default:
+            anyFailure = true
+            break
+          }
+        })
+        if (anyFailure) {
+          statusIcon = StatusIcon.error
+        } else if (anyPending) {
+          statusIcon = StatusIcon.pending
+        } else {
+          statusIcon = StatusIcon.success
+        }
+      } else {
+        statusIcon = StatusIcon.warning
+      }
+    } else if (node.status) {
       switch (node.status.toLowerCase()) {
       case 'completed':
         statusIcon = StatusIcon.success
@@ -337,6 +393,8 @@ function updateNodeIcons(nodes) {
         tooltips = [{ name: 'Reason', value: node.reason }]
         break
       }
+    }
+    if (statusIcon) {
       let nodeIcons = node.layout.nodeIcons
       if (!nodeIcons) {
         nodeIcons = node.layout.nodeIcons = {}
@@ -355,8 +413,6 @@ function getDesignNodeDetails(node) {
     const {labels: l = []} = metadata
     addDetails(details, [
       { labelKey: 'resource.type', value: type },
-      { labelKey: 'resource.name', value: name },
-      { labelKey: 'resource.namespace', value: namespace },
     ])
     labels = l
     switch (type) {
@@ -417,6 +473,37 @@ function getDesignNodeDetails(node) {
       }
       break
     }
+    case 'pod': {
+      if (node.podModel) {
+        Object.values(node.podModel).forEach((pod)=>{
+          const {name:n, namespace:ns, cluster, container, created, startedAt, hostIP, podIP, restarts, status} = pod
+          addDetails(details, [
+            { labelKey: 'resource.name', value: n },
+            { labelKey: 'resource.namespace', value: ns },
+            { labelKey: 'resource.status', value: status },
+            { labelKey: 'resource.cluster', value: cluster },
+            { labelKey: 'resource.container', value: container },
+            { labelKey: 'resource.hostip', value: hostIP },
+            { labelKey: 'resource.podip', value: podIP },
+            { labelKey: 'resource.startedAt', value: getAge(startedAt) },
+            { labelKey: 'resource.created', value: getAge(created) },
+            { labelKey: 'resource.restarts', value: restarts },
+          ])
+        })
+      } else {
+        addDetails(details, [
+          { labelKey: 'resource.name', value: name },
+          { labelKey: 'resource.namespace', value: namespace },
+          { labelKey: 'resource.status', value: 'Unknown' },
+        ])
+      }
+      break
+    }
+    default:
+      addDetails(details, [
+        { labelKey: 'resource.name', value: name },
+        { labelKey: 'resource.namespace', value: namespace },
+      ])
     }
   }
 
@@ -435,6 +522,7 @@ function getDesignNodeDetails(node) {
 
   return details
 }
+
 
 function getDesignNodeTooltips(node, locale) {
   let href
@@ -672,3 +760,15 @@ function addDetails(details, newDetails) {
     }
   })
 }
+
+function getAge(value) {
+  if (value) {
+    if (value.includes('T')) {
+      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+    } else {
+      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+    }
+  }
+  return '-'
+}
+

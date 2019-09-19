@@ -15,11 +15,11 @@ const getAge = (value, locale) => {
   if (value) {
     if (value.includes('T')) {
       const momentObj = moment(value, 'YYYY-MM-DDTHH:mm:ssZ')
-      momentObj && momentObj.locale(locale.toLowerCase())
+      momentObj && momentObj.locale(locale && locale.toLowerCase())
       return momentObj && momentObj.fromNow()
     } else {
       const momentObj = moment(value, 'YYYY-MM-DD HH:mm:ss')
-      momentObj && momentObj.locale(locale.toLowerCase())
+      momentObj && momentObj.locale(locale && locale.toLowerCase())
       return momentObj && momentObj.fromNow()
     }
   }

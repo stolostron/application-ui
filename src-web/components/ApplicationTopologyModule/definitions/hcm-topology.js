@@ -11,7 +11,7 @@
 import moment from 'moment'
 import { getWrappedNodeLabel } from '../utils.js'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
-import { NODE_SIZE, PodIcon, StatusIcon } from '../visualizers/constants.js'
+import { NODE_SIZE } from '../visualizers/constants.js'
 import config from '../../../../lib/shared/config'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
@@ -230,43 +230,7 @@ export function getNodeGroups(nodes) {
   return { nodeGroups: groupMap, allNodeMap }
 }
 
-export function updateNodeIcons(nodes) {
-  const addStatusIcon = (node, nodeIcons) => {
-    const { podModel } = node
-    if (podModel) {
-      let statusIcon
-      const tooltips = { name: 'Status', value: podModel.status }
-      switch (podModel.status.toLowerCase()) {
-      case 'running':
-      case 'succeeded':
-        statusIcon = StatusIcon.success
-        break
-      case 'pending':
-        statusIcon = StatusIcon.pending
-        break
-      default:
-        statusIcon = StatusIcon.error
-        break
-      }
-      nodeIcons['status'] = Object.assign(statusIcon, { tooltips })
-    }
-  }
-  nodes.forEach(node => {
-    const nodeIcons = {}
-    const { layout = {} } = node
-    if (layout.hasPods) {
-      const tooltips = layout.pods.map(pod => {
-        addStatusIcon(pod, nodeIcons)
-        return { name: 'Pod', value: pod.name }
-      })
-      nodeIcons['pod'] = Object.assign(PodIcon, { tooltips })
-    } else {
-      addStatusIcon(node, nodeIcons)
-    }
-    if (Object.keys(nodeIcons).length > 0) {
-      layout.nodeIcons = Object.assign(layout.nodeIcons || {}, nodeIcons)
-    }
-  })
+export function updateNodeIcons() {
 }
 
 export function getSectionTitles(isMulticluster, clusters, types, locale) {

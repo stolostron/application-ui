@@ -40,6 +40,7 @@ class DiagramViewer extends React.Component {
     isMulticluster: PropTypes.bool,
     links: PropTypes.array,
     nodes: PropTypes.array,
+    pods: PropTypes.array,
     reloading: PropTypes.bool,
     searchName: PropTypes.string,
     secondaryLoad: PropTypes.bool,
@@ -114,6 +115,10 @@ class DiagramViewer extends React.Component {
       !_.isEqual(
         this.state.links.map(l => l.uid),
         nextState.links.map(l => l.uid)
+      ) ||
+      !_.isEqual(
+        this.props.pods.map(n => `${n._uid}/${n.status}`),
+        nextProps.pods.map(n => `${n._uid}/${n.status}`)
       ) ||
       !_.isEqual(this.state.hiddenLinks, nextState.hiddenLinks) ||
       !_.isEqual(this.props.activeFilters, nextProps.activeFilters) ||

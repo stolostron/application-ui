@@ -26,7 +26,14 @@ resources(() => {
 class ChannelsCardCarousel extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      triggerRefresh: false
+    }
+    this.modifyTriggerRefresh = this.modifyTriggerRefresh.bind(this)
+  }
+
+  modifyTriggerRefresh(trueOrFalse) {
+    this.setState({ triggerRefresh: trueOrFalse })
   }
 
   render() {
@@ -46,12 +53,17 @@ class ChannelsCardCarousel extends React.Component {
           currentPage={carouselIterator}
           channelLength={data.length}
           setIterator={actions.setCarouselIterator}
+          modifyTriggerRefresh={this.modifyTriggerRefresh}
           locale={locale}
         />
         <div className="card-container-container">
-          {dataToDisplay.map(elem => {
-            return <ChannelsCard key={elem.name} data={elem} locale={locale} />
-          })}
+          {this.state.triggerRefresh &&
+            dataToDisplay.map(elem => {
+              return (
+                <ChannelsCard key={elem.name} data={elem} locale={locale} />
+              )
+            })}
+          {!this.state.triggerRefresh && this.modifyTriggerRefresh(true)}
         </div>
       </div>
     )
@@ -64,6 +76,7 @@ const PaginationIterator = ({
   currentPage,
   channelLength,
   setIterator,
+  modifyTriggerRefresh,
   locale
 }) => {
   // this const is used just have something to iterate through
@@ -81,6 +94,7 @@ const PaginationIterator = ({
             name="chevron--left"
             onClick={() => {
               setIterator(currentPage - 1)
+              modifyTriggerRefresh(false)
             }}
           />
         </div>
@@ -91,6 +105,7 @@ const PaginationIterator = ({
             name="chevron--right"
             onClick={() => {
               currentPage + 2 <= totalPages && setIterator(currentPage + 1)
+              modifyTriggerRefresh(false)
             }}
           />
         </div>

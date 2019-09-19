@@ -3,80 +3,89 @@
  * 5737-E67
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
+ * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
 @import 'variables';
 
-.secondary-header {
-  header {
-    .bx--detail-page-header-title {
-      font-size: 1.75rem;
-    }
+#ApplicationSecondaryHeader {
+  top: 3.082rem;
+  width: 100%;
+  height: 5.5rem;
+  max-height: 5.5rem;
+  background-color: #fff;
 
-    .bx--breadcrumb {
-      min-height: 15px;
-    }
-
-    .breadcrumb-item:last-child {
-      &:after {
-        display: none;
-      }
-    }
-
-    .bx--detail-page-header-icon-container,
-    .bx--detail-page-header-status-container {
-      display: none;
-    }
-
-    .bx--detail-page-header-title-container:last-child {
-      margin-bottom: 2.875rem; //TODO: decide what to do when there's no tab. Hack to display the title at same location
-    }
-  }
-
-  &.apollo {
+  .secondary-header {
     header {
       .bx--detail-page-header-title {
-        margin-top: 2.8125rem;
+        font-size: 1.75rem;
       }
+
+      .bx--breadcrumb {
+        min-height: 15px;
+      }
+
+      .breadcrumb-item:last-child {
+        &:after {
+          display: none;
+        }
+      }
+
+      .bx--detail-page-header-icon-container,
+      .bx--detail-page-header-status-container {
+        display: none;
+      }
+
+      .bx--detail-page-header-title-container:last-child {
+        margin-bottom: 2.875rem; //TODO: decide what to do when there's no tab. Hack to display the title at same location
+      }
+    }
+
+    &.apollo {
+      header {
+        .bx--detail-page-header-title {
+          margin-top: 2.8125rem;
+        }
+      }
+    }
+
+    &.simple-header {
+      position: fixed;
+      width: 100%;
+      top: $secondary-header-top;
+      background-color: #fff;
+      height: $secondary-header-min-height;
+      padding: 0.75rem 5% 0;
+    }
+
+    .bx--detail-page-header--with-tabs {
+      top: 3.082rem;
+    }
+
+    .bx--detail-page-header--no-tabs {
+      top: 3.082rem;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
     }
   }
 
-  &.simple-header {
-    position: fixed;
+  .secondary-header-wrapper {
+    position: relative;
     width: 100%;
-    top: $secondary-header-top;
-    background-color: #fff;
+    height: $secondary-header-max-height;
+    z-index: 1000;
+  }
+
+  .secondary-header-wrapper-min {
+    @extend .secondary-header-wrapper;
     height: $secondary-header-min-height;
-    padding: 0.75rem 5% 0;
   }
 
-  .bx--detail-page-header--with-tabs {
-    top: 3.082rem;
+  .secondary-header-wrapper-no-tabs {
+    padding: .75rem 5%;
+    @extend .secondary-header-wrapper;
+    height: $secondary-header-no-tabs-height;
   }
-
-  .bx--detail-page-header--no-tabs {
-    top: 3.082rem;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-  }
-}
-
-.secondary-header-wrapper {
-  position: relative;
-  width: 100%;
-  height: $secondary-header-max-height;
-  z-index: 1000;
-}
-
-.secondary-header-wrapper-min {
-  @extend .secondary-header-wrapper;
-  height: $secondary-header-min-height;
-}
-
-.secondary-header-wrapper-no-tabs {
-  @extend .secondary-header-wrapper;
-  height: $secondary-header-no-tabs-height;
 }

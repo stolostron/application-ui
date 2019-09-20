@@ -236,6 +236,13 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
   }
 }
 
+export const clearIncidents = resourceType => {
+  return dispatch => {
+    // Clear everything before fetching
+    dispatch(receiveResourceSuccess({ items: [] }, resourceType))
+  }
+}
+
 export const fetchIncidents = (resourceType, namespace, name) => {
   return dispatch => {
     dispatch(requestResource(resourceType))

@@ -238,8 +238,6 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
 
 export const fetchIncidents = (resourceType, namespace, name) => {
   return dispatch => {
-    // Clear everything before fetching
-    dispatch(receiveResourceSuccess({ items: [] }, resourceType))
     dispatch(requestResource(resourceType))
     return apolloClient
       .getResource(resourceType, { namespace, name })

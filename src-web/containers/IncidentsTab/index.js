@@ -113,22 +113,12 @@ class IncidentsTab extends React.Component {
 
   render() {
     const { locale } = this.context
-    const { incidents, incidentCount, params } = this.props
+    const { incidents, incidentCount } = this.props
     const rowsList = mapIncidents(incidents)
-    // We want to make sure the current incidents data we have matches the incidents
-    // data in our store. To do so we will compare the summary and description to
-    // see if one of them includes the name of the application selected
-    const currentAppIncidentsData =
-      rowsList &&
-      rowsList[0] &&
-      ((rowsList[0].summary && rowsList[0].summary.includes(params.name)) ||
-        (rowsList[0].description &&
-          rowsList[0].description.includes(params.name)))
     const tableTitle = msgs.get('table.title.incidents', locale)
     return (
       <div id="incidents-tab">
-        {rowsList.length !== 0 &&
-          currentAppIncidentsData && (
+        {rowsList.length !== 0 && (
           <React.Fragment>
             <div className="incidents-tab-table-title">
               {tableTitle} ({incidentCount})
@@ -175,15 +165,14 @@ class IncidentsTab extends React.Component {
             </div>
           </React.Fragment>
         )}
-        {rowsList.length === 0 ||
-          (!currentAppIncidentsData && (
-            <div className="incidents-tab-no-resource">
-              <NoResource
-                title={msgs.get('no-resource.title.incident', locale)}
-                detail={msgs.get('no-resource.detail.incident', locale)}
-              />
-            </div>
-          ))}
+        {rowsList.length === 0 && (
+          <div className="incidents-tab-no-resource">
+            <NoResource
+              title={msgs.get('no-resource.title.incident', locale)}
+              detail={msgs.get('no-resource.detail.incident', locale)}
+            />
+          </div>
+        )}
       </div>
     )
   }

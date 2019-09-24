@@ -137,7 +137,7 @@ class ResourceModal extends React.PureComponent {
           open={open}
           primaryButtonText={msgs.get(label.primaryBtn, locale)}
           secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          modalLabel={msgs.get(label.label, locale)}
+          // modalLabel={msgs.get(label.label, locale)}
           modalHeading={msgs.get(label.heading, locale)}
           onRequestClose={this.handleClose}
           onRequestSubmit={this.handleSubmit}

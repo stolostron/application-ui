@@ -50,16 +50,86 @@ before_install:
 install:
   - make install
 
-before_script:
-  - make image
-  - chmod +x copyright-check.sh
+stages:
+  # - name: Prepare Cache
+  - name: Lint
+  - name: Copyright
+  - name: Unit Tests
+    if: type = pull_request
+  - name: Build
+  - name: Publish
+    # require the branch name to be master
+    if: branch = master AND type = push
 
-script:
-  - make copyright-check
-# - make test
-# - make cicd-log-test
-# - export PREV_COVERAGE_REPORT=$(curl -L -H 'Authorization:token ${GITHUB_TOKEN}' https://raw.github.ibm.com/IBMPrivateCloud/mcm-application-ui/gh-pages/coverage/coverage-summary.json)
-# - node travis-scripts/enforce-coverage.js
+
+jobs:
+  include:
+    # - stage: Prepare Cache
+    #   script: 'sudo rm -rf $TRAVIS_CACHE_DIR/selenium-standalone'
+
+    - stage: Linting
+      script: 'make lint'
+
+    - stage: Copyright
+      script: 'chmod +x copyright-check.sh && make copyright-check'
+
+    - stage: Unit Tests
+      script: 'make jest-test'
+
+    - stage: Build
+      name: x86 MCM-Application-Ui Tests
+      os: linux
+      language: node_js
+      env:
+      - COMMAND=linux-x86 # label
+      - OS=linux TARGET=${TARGET_IP}
+      services:
+      - docker
+      -  if [ $(uname -m) == 'x86_64' ]; then xvfb; else echo 's390x or ppc64le - skipping'; fi
+      script:
+        - make image
+        - make run
+
+    - stage: Build
+      name: RHEL MCM-Application-Ui Tests
+      os: linux
+      language: node_js
+      env:
+      - COMMAND=RHEL # label
+      - OS=rhel7 TARGET=${TARGET_IP}
+      services:
+      - docker
+      script:
+        - test "$OS" = "rhel7" && make tunnel || echo "Not on rhel7 $OS"
+        - make image
+        - make run
+
+    - stage: Build
+      name: "PPC MCM-Application-Ui Tests"
+      os: linux-ppc64le
+      language: node_js
+      env:
+      - COMMAND=ppc64le # label
+      - OS=linux
+      services:
+      - docker
+      script:
+        - make image
+        - make run
+
+    - stage: Build
+      name: "s390x MCM-Application-Ui Tests"
+      os: linux-s390
+      sudo: required
+      language: bash
+      env:
+      - COMMAND=s390x # label only
+      - OS=linux
+      services:
+      - docker
+      script:
+        - make image
+        - make run
 
 after_success:
   - test "$TRAVIS_EVENT_TYPE" = "pull_request" && make push || echo "pushing to scratch"
@@ -71,7 +141,7 @@ after_success:
         export $(cat .to_export_back)
         if [[ "$BUILD_LEADER" == "YES" ]]; then
           if [[ "$BUILD_AGGREGATE_STATUS" == "others_succeeded" ]]; then
-            echo "All jobs succeeded! Creating multi arch image..." 
+            echo "All jobs succeeded! Creating multi arch image..."
             echo ${DOCKER_INTEGRATION_REGISTRY}
             make docker:login DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
             make docker:manifest-tool DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}

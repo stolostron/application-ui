@@ -68,11 +68,8 @@ describe('getDeployedResourcesChartData', () => {
     ]
   }
 
-  it('should return app resource list of 2', () => {
-    const result = [
-      { completed: 1, name: 'appName1', not_completed: 1 },
-      { completed: 0, name: 'appName2', not_completed: 0 }
-    ]
+  it('should return app resource list of 1', () => {
+    const result = [{ completed: 1, name: 'appName1', not_completed: 1 }]
 
     expect(getDeployedResourcesChartData(appList)).toEqual(result)
   })

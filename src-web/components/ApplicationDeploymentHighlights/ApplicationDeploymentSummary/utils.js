@@ -39,11 +39,19 @@ export const getDeployedResourcesChannelChartData = list => {
       statusPassFailInProgress[1] = statusPassFailInProgress[1] + status[1] //fail
       statusPassFailInProgress[2] =
         statusPassFailInProgress[2] + status[2] + status[3] //inprogress and pending
-      return {
-        name: item.name || 'unknown',
-        cm: statusPassFailInProgress[0],
-        fl: statusPassFailInProgress[1],
-        pr: statusPassFailInProgress[2]
+
+      if (
+        statusPassFailInProgress[0] +
+          statusPassFailInProgress[1] +
+          statusPassFailInProgress[2] >
+        0
+      ) {
+        return {
+          name: item.name || 'unknown',
+          cm: statusPassFailInProgress[0],
+          fl: statusPassFailInProgress[1],
+          pr: statusPassFailInProgress[2]
+        }
       }
     })
     // The way the above is written, if item && item.related is not true
@@ -70,10 +78,12 @@ export const getDeployedResourcesChartData = list => {
       const completed_counter = status[0] + status[4]
       const not_completed = status[1] + status[2] + status[3]
 
-      return {
-        name: item.name || 'unknown',
-        completed: completed_counter,
-        not_completed: not_completed
+      if (completed_counter + not_completed > 0) {
+        return {
+          name: item.name || 'unknown',
+          completed: completed_counter,
+          not_completed: not_completed
+        }
       }
     })
     // The way the above is written, if item && item.related is not true

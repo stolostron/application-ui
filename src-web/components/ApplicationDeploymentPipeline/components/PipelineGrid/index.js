@@ -61,7 +61,9 @@ const LeftColumnForApplicationNames = (
         <Tile className="firstTotalTile">
           <div className="totalApplications">
             {`${applications.length} `}
-            {msgs.get('description.title.applications', locale)}
+            {oneApplication || applications.length === 1
+              ? msgs.get('description.title.application', locale)
+              : msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
             {`${(oneApplication &&

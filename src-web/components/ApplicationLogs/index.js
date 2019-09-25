@@ -138,14 +138,16 @@ class ApplicationLogs extends React.Component {
                 {msgs.get('tabs.logs.viewExternal')}
               </a>
             </p>
-            <a href="/kibana" target="_blank">
-              <Icon
-                name="icon--launch"
-                fill="#6089bf"
-                description=""
-                className="viewExternalIcon"
-              />
-            </a>
+            {this.props.serverProps.isKibanaRunning &&
+              <a href="/kibana" target="_blank">
+                <Icon
+                  name="icon--launch"
+                  fill="#6089bf"
+                  description=""
+                  className="viewExternalIcon"
+                />
+              </a>
+            }
           </div>
         </div>
         {currentSelectedContainer && logLoading ? (

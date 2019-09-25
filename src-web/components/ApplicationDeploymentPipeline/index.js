@@ -348,6 +348,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           bulkSubscriptionList={bulkSubscriptionList}
           activeAccountId={activeAccountId}
           userRole={userRole}
+          isCEMRunning={this.props.serverProps.isCEMRunning}
         />
       </div>
     )

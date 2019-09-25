@@ -27,19 +27,18 @@ import {
 
 const LineChartCardModule = withLocale(({ data, locale }) => {
   const moduleData = getModuleData(data)
-  const maxString = getMaxStringWidth(data) + 40
+  const maxString = getMaxStringWidth(data) * 2 + 30
   const domain = [0, 1]
   const ticks = [0, 0.2, 0.4, 0.6, 0.8, 1]
 
   const renderTooltipContent = line => {
-    const { payload, label } = line
-
+    const { payload } = line
     if (payload && payload.length > 0) {
       const entry = payload[0]
       return (
         <div className="customized-tooltip-content">
           <span className="bx--tooltip__caret" />
-          <p className="total">{`${label}`}</p>
+          <p className="total">{`${entry.payload.tooltip_name}`}</p>
           <ul className="list">
             {
               <li key={'item-0'} style={{ color: entry.color }}>
@@ -63,7 +62,7 @@ const LineChartCardModule = withLocale(({ data, locale }) => {
         data={moduleData.chartCardItems}
         margin={{
           top: 40,
-          right: 0,
+          right: 20,
           left: maxString,
           bottom: 20
         }}

@@ -40,18 +40,11 @@ export const getDeployedResourcesChannelChartData = list => {
       statusPassFailInProgress[2] =
         statusPassFailInProgress[2] + status[2] + status[3] //inprogress and pending
 
-      if (
-        statusPassFailInProgress[0] +
-          statusPassFailInProgress[1] +
-          statusPassFailInProgress[2] >
-        0
-      ) {
-        return {
-          name: item.name || 'unknown',
-          cm: statusPassFailInProgress[0],
-          fl: statusPassFailInProgress[1],
-          pr: statusPassFailInProgress[2]
-        }
+      return {
+        name: item.name || 'unknown',
+        cm: statusPassFailInProgress[0],
+        fl: statusPassFailInProgress[1],
+        pr: statusPassFailInProgress[2]
       }
     })
     // The way the above is written, if item && item.related is not true

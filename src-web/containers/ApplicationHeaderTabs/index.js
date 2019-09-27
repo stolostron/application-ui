@@ -45,7 +45,7 @@ export const ApplicationLogs = loadable(() =>
 // This will render the four tabs
 // Overview, Deployments, Incidents, Logs
 const ApplicationHeaderTabs = withLocale(
-  ({ selectedAppTab, showExtraTabs, userRole, params, actions, locale }) => {
+  ({ selectedAppTab, showExtraTabs, userRole, params, actions, locale, serverProps }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
     }
@@ -86,7 +86,7 @@ const ApplicationHeaderTabs = withLocale(
             >
               <div className="page-content-container">
                 <ApplicationDeploymentHighlights />
-                <ApplicationDeploymentPipeline />
+                <ApplicationDeploymentPipeline serverProps={serverProps} />
               </div>
             </Tab>
             {showExtraTabs &&
@@ -110,7 +110,7 @@ const ApplicationHeaderTabs = withLocale(
                 label={msgs.get('description.title.logs', locale)}
               >
                 <div className="page-content-container">
-                  <ApplicationLogs />
+                  <ApplicationLogs serverProps={serverProps}/>
                 </div>
               </Tab>
             )}

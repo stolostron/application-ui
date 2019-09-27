@@ -19,7 +19,6 @@ import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
-import { json } from 'graphlib'
 // import ApplicationHeaderTabs from './ApplicationHeaderTabs';
 // import ApplicationDeployableDetails from './ApplicationDeployableDetails';
 

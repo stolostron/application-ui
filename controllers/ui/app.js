@@ -99,7 +99,6 @@ router.get('*', (req, res) => {
       serverProps.isKibanaRunning = true;
       serverProps.isGrafanaRunning = true;
       serverProps.isCEMRunning = true;
-      console.log('ServerProps passed to client: ', serverProps);
     }
 
     try {

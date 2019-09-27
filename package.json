@@ -25,9 +25,6 @@
     "build-storybook": "build-storybook",
     "precommit": "lint-staged"
   },
-  "browser":{
-    "child_process": false
-  },
   "lint-staged": {
     "*.js": [
       "npm run test:unit -- --bail --findRelatedTests",

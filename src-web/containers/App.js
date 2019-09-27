@@ -68,8 +68,6 @@ class App extends React.Component {
   render() {
     const serverProps = this.getServerProps()
     const { match, location } = this.props
-    console.log('in the app ' + this.props.isKibanaRunning);
-    console.log('in the app serverprops ' + serverProps.isKibanaRunning);
     const showSecondaryHeader =
       location.pathname &&
       !location.pathname.startsWith('/multicloud/welcome') &&

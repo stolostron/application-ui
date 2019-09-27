@@ -132,7 +132,7 @@ class ApplicationLogs extends React.Component {
               selectedItem={currentSelectedContainer}
             />
           </div>
-          {serverProps.isKibanaRunning &&
+          {serverProps && serverProps.isKibanaRunning &&
             <div className="view-external-container">
               <p className="viewExternalIconTitle">
                 <a href="/kibana" target="_blank">

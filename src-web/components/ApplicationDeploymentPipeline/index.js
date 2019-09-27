@@ -213,6 +213,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   render() {
     const {
+      serverProps,
       applications,
       channels,
       appSubscriptions,
@@ -348,7 +349,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           bulkSubscriptionList={bulkSubscriptionList}
           activeAccountId={activeAccountId}
           userRole={userRole}
-          isCEMRunning={this.props.serverProps.isCEMRunning}
+          serverProps={serverProps}
         />
       </div>
     )

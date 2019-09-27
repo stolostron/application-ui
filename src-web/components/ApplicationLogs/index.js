@@ -75,6 +75,7 @@ class ApplicationLogs extends React.Component {
   render() {
     const { locale } = this.context
     const {
+      serverProps,
       actions,
       fetchContainersForPod,
       fetchLogsForContainer,
@@ -85,7 +86,6 @@ class ApplicationLogs extends React.Component {
       currentSelectedContainer,
       logLoading
     } = this.props
-
     const podItems = createPodsList(podData, [])
     const containerItems = createContainersList(containerData, [])
 
@@ -132,23 +132,23 @@ class ApplicationLogs extends React.Component {
               selectedItem={currentSelectedContainer}
             />
           </div>
-          <div className="view-external-container">
-            <p className="viewExternalIconTitle">
-              <a href="/kibana" target="_blank">
-                {msgs.get('tabs.logs.viewExternal')}
-              </a>
-            </p>
-            {this.props.serverProps.isKibanaRunning &&
-              <a href="/kibana" target="_blank">
-                <Icon
-                  name="icon--launch"
-                  fill="#6089bf"
-                  description=""
-                  className="viewExternalIcon"
-                />
-              </a>
-            }
-          </div>
+          {serverProps.isKibanaRunning &&
+            <div className="view-external-container">
+              <p className="viewExternalIconTitle">
+                <a href="/kibana" target="_blank">
+                  {msgs.get('tabs.logs.viewExternal')}
+                </a>
+              </p>
+                <a href="/kibana" target="_blank">
+                  <Icon
+                    name="icon--launch"
+                    fill="#6089bf"
+                    description=""
+                    className="viewExternalIcon"
+                  />
+                </a>
+            </div>
+          }
         </div>
         {currentSelectedContainer && logLoading ? (
           <div className="logs-loading-box">

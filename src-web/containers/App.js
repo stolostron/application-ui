@@ -15,11 +15,11 @@ import PropTypes from 'prop-types'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import resources from '../../lib/shared/resources'
-import serviceDiscovery from '../../lib/server/service-discovery'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
 import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
+import { json } from 'graphlib'
 // import ApplicationHeaderTabs from './ApplicationHeaderTabs';
 // import ApplicationDeployableDetails from './ApplicationDeployableDetails';
 
@@ -68,9 +68,8 @@ class App extends React.Component {
   render() {
     const serverProps = this.getServerProps()
     const { match, location } = this.props
-    this.props.isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
-    this.props.isCEMRunning = serviceDiscovery.serviceEnabled('cem')
-    this.props.isGrafanaRunning = serviceDiscovery.serviceEnabled('monitoring-grafana')
+    console.log('in the app ' + this.props.isKibanaRunning);
+    console.log('in the app serverprops ' + serverProps.isKibanaRunning);
     const showSecondaryHeader =
       location.pathname &&
       !location.pathname.startsWith('/multicloud/welcome') &&
@@ -91,6 +90,7 @@ class App extends React.Component {
               <ApplicationHeaderTabs
                 params={params}
                 showExtraTabs={showExtraTabs}
+                serverProps={this.getServerProps()}
               />
             )}
           />

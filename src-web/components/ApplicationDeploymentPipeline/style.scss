@@ -10,6 +10,10 @@
 #DeploymentPipeline {
   padding-bottom: 20px;
 
+  .bx--tooltip__trigger {
+    font-size: 0.75rem;
+  }
+
   .deploymentPipelineSearch {
     margin-top: 20px;
     display: inline-block;

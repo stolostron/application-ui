@@ -19,7 +19,7 @@ export const toPercent = (decimal, fixed = 0) =>
 export const getModuleData = data => {
   const chartCardItems = []
   var nb_items = 0
-  data.map(({ name, completed, not_completed }) => {
+  data.map(({ name, completed, not_completed, tooltip_name }) => {
     //show only apps with at least one resource, and no more than 5
     if (nb_items < 4 && completed != 0) {
       nb_items = nb_items + 1
@@ -29,6 +29,7 @@ export const getModuleData = data => {
 
       return chartCardItems.push({
         name,
+        tooltip_name,
         percent_completed,
         completed,
         percent_not_completed,
@@ -43,6 +44,7 @@ export const getModuleData = data => {
       chartCardItems.push({
         completed: 0,
         name: '',
+        tooltip_name: '',
         percent_completed: 0,
         percent_not_completed: 1,
         total: 1

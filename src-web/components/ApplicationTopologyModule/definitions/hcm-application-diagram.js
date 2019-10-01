@@ -544,7 +544,12 @@ function getDesignNodeTooltips(node, locale) {
 
   const addNameTooltip = (namespace, name) => {
     href = `${contextPath}/search?filters={"textsearch":"kind:${type} name:${name}"}`
-    tooltips.push({ name: _.capitalize(_.startCase(type)), value: name, href })
+    if (this.diagramOptions.defaultTypes.has(type)) {
+      tooltips.push({ name: msgs.get(`resource.${type}`, locale), value: name, href })
+    } else {
+      tooltips.push({ name: msgs.get('resource.type', locale), value: type })
+      tooltips.push({ name: msgs.get('resource.name', locale), value: name, href })
+    }
     if (namespace) {
       href = `${contextPath}/search?filters={"textsearch":"kind:namespace name:${namespace}"}`
       tooltips.push({

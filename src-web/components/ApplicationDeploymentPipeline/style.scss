@@ -6,47 +6,57 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import '../../../../scss/variables';
 
-#ResourceDetails {
-  .app-info-and-dashboard-links {
-    position: absolute;
-    top: calc(#{$secondary-header-top} + 32px);
-    right: 10%;
-    z-index: 1001;
-    background-color: $color__white;
+#DeploymentPipeline {
+  padding-bottom: 20px;
+
+  .bx--tooltip__trigger {
+    font-size: 0.75rem;
+  }
+
+  .deploymentPipelineSearch {
+    margin-top: 20px;
     display: inline-block;
   }
 
-  .app-info-and-dashboard-links .bx--link {
-    text-decoration: none;
-    color: #3d70b2;
-    font-family: "IBM Plex Sans";
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
+  .searchAndButtonContainer {
+    display: flex;
   }
 
-  .app-info-and-dashboard-links-separator {
-    border-left: 2px solid $color__gray-1;
-    margin: 0 15px 0 15px;
+  .card-container-title {
+    font-weight: 700;
   }
 
-  .app-info-icon {
-    margin: 0 10px 0 0;
-    vertical-align: sub;
+  .pipelineHeader {
+    font-size: 18px;
   }
 
-  .app-dashboard-icon {
-    margin: 0 10px 0 0;
-    vertical-align: sub;
+  .AddChannelButton {
+    padding-left: 20px;
+    display: inline-block;
+    margin-top: 20px;
   }
 
-  .resource-diagram-title {
-    font-size: 1.2rem;
-    line-height: 1.25;
-    font-weight: 300;
-    padding: 20px 0 20px 0;
+  .AddSubscriptionButton {
+    display: inline-block;
+    margin-top: 20px;
+    padding-left: 20px;
+  }
+
+  .addChannelIcon {
+    fill: white;
+    margin-left: 20px;
+  }
+
+  .bx--btn {
+    background-color: #f4f7fb;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #4a79b7;
+    color: #4a79b7;
+  }
+
+  .bx--btn__icon {
+    fill: #4a79b7;
   }
 }

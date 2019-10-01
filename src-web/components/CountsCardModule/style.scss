@@ -10,7 +10,7 @@
 @import "../../../scss/variables";
 
 #CountsCardModuleWithHeaderAndLink {
-  height: 180px;
+  height: 190px;
 
   .card-container-link {
     color: #3d70b2;
@@ -25,38 +25,18 @@
 
   .card-container {
     width: 100%;
-    height: 135px;
-    padding: 25px;
-  }
-
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    color: $mcm_color_blue_gray;
-    text-transform: uppercase;
+    height: 145px;
+    padding: 28px;
   }
 }
 
 #CountsCardModuleWithHeader {
-  height: 180px;
+  height: 190px;
 
   .card-container {
     width: 100%;
-    height: 135px;
-    padding: 25px;
-  }
-
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 20px;
-    color: $mcm_color_blue_gray;
-    text-transform: uppercase;
+    height: 145px;
+    padding: 28px;
   }
 }
 
@@ -66,17 +46,7 @@
   .card-container {
     width: 100%;
     height: 175px;
-    padding: 25px;
-  }
-
-  .card-type {
-    letter-spacing: 1.03px;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
-    color: $mcm_color_blue_gray;
-    text-transform: uppercase;
+    padding: 28px;
   }
 }
 
@@ -111,10 +81,10 @@
   }
 
   .card-count-type {
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 
     &.hasLeftBorder {
       border-left: 1px solid $color__gray-1;
@@ -147,6 +117,16 @@
     &.alert {
       color: #e0182d;
     }
+  }
+
+  .card-type {
+    letter-spacing: 1.03px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 20px;
+    color: $mcm_color_blue_gray;
+    text-transform: uppercase;
   }
 
   .card-text {

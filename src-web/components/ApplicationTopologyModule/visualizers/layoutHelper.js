@@ -800,6 +800,7 @@ export default class LayoutHelper {
       nodes,
       links,
       this.activeFilters.type,
+      this.diagramOptions.defaultTypes,
       {
         resetLayout: () => {
           this.cachedLayouts = {}

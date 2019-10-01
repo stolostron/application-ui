@@ -28,7 +28,7 @@ export default {
     'clusters',
     'deployable'
   ],
-  topologyTypes: ['service', 'deployment', 'pod'],
+  topologyTypes: ['service', 'deployment', 'pod', 'package', 'other'],
 
   typeToShapeMap: {
     application: {
@@ -51,13 +51,31 @@ export default {
     clusters: {
       shape: 'cluster',
       className: 'container'
-    }
+    },
+    service: {
+      shape: 'service',
+      className: 'service'
+    },
+    deployment: {
+      shape: 'deployment',
+      className: 'deployment'
+    },
+    pod: {
+      shape: 'pod',
+      className: 'pod'
+    },
+    'package': {
+      shape: 'chart',
+      className: 'container'
+    },
+
   },
 
   diagramOptions: {
     showLineLabels: true, // show labels on lines
     filterByType: true, //dynamic type filtering
-    showSectionTitles: false // show titles over sections
+    showSectionTitles: false, // show titles over sections
+    defaultTypes: new Set( ['application', 'subscription', 'rules', 'clusters', 'deployable', 'service', 'deployment', 'pod', 'package', 'other']),
   },
 
   // merge table/diagram/topology definitions
@@ -327,26 +345,16 @@ function getDesignNodeDescription(node, locale) {
 }
 
 function getNodeTitle(node, locale) {
-  switch (node.type) {
+  const {type} = node
+  switch (type) {
   case 'application':
     return msgs.get('topology.title.application', locale)
 
-  case 'clusters':
-    return msgs.get('topology.title.clusters', locale)
-
-  case 'chart':
-    return _.get(node, 'work.cluster', '')
-
-  case 'service':
-  case 'deployment':
-  case 'pod':
-    // if we skip the chart for a custom resource def
-    // add cluster name as node title
-    if (node.isCRDDeployment) {
-      return _.get(node, 'clusterName', '')
+  default:
+    if (!this.diagramOptions.defaultTypes.has(type)) {
+      return type
     }
   }
-
   return ''
 }
 
@@ -606,7 +614,7 @@ function getConnectedLayoutOptions({ elements }) {
     .nodes()
     .roots()
     .toArray()
-  positionRow(0, roots, new Set(), {})
+  positionRows(roots)
   if (roots.length === 1) {
     return {
       name: 'preset'
@@ -647,30 +655,114 @@ function getConnectedLayoutOptions({ elements }) {
   }
 }
 
-const positionRow = (idx, row, placedSet, positionMap) => {
+const positionRows = (row) => {
+  const placeLast = []
+  const deployableList = []
+  const positionMap = {}
+  const placedSet = new Set()
+
+  // place rows from top to bottom
+  positionRowsDown(0, 0, row, placedSet, positionMap, deployableList, placeLast)
+
+  // center deployable parents above them
+  const parentMap = {}
+  if (!deployableList.some(deployable=>{
+    const incomers = deployable.incomers().nodes()
+    if (incomers.length===1) {
+      parentMap[incomers[0].id()] = incomers[0]
+      return false
+    }
+    return true
+  })) {
+    Object.values(parentMap).forEach(n=>{
+      // get center of deployables excluding rules
+      const outgoers = n.outgoers().nodes().filter(o=>{
+        const { node: {type} } = o.data()
+        if (type==='rules') {
+          return false
+        }
+        return true
+      })
+      const bb = outgoers.boundingBox()
+      const x = bb.x1 + bb.w/2
+
+      // center cluster and subscription
+      n.point({x})
+      const { node: { type } } = n.data()
+      if (type==='clusters') {
+        const subscriptions = n.incomers().nodes()
+        if (subscriptions.length===1) {
+          subscriptions[0].point({x})
+        }
+      }
+    })
+  }
+
+  // place these nodes based on other nodes
+  placeLast.forEach(n=>{
+    const { node: { type } } = n.data()
+    if (type==='rules') {
+      const subscriptions = n.incomers().nodes()
+      let x, y
+      subscriptions.forEach((subscription, idx)=>{
+        const pos = subscription.point()
+        // place rules next to first subscription that uses it
+        if (idx===0) {
+          void ({x, y} = pos)
+        } else if (pos.x<x) {
+          x = pos.x
+        }
+      })
+      x += NODE_SIZE * 3
+      n.position({x , y})
+    }
+  })
+
+}
+
+const positionRowsDown = (idx, y, row, placedSet, positionMap, deployableList, placeLast, offsetRow=0) => {
   if (row.length) {
 
-    // filter nodes we will place at end
-    const placeLast = []
-    row = row.filter(n=>{
-      const { node: { type } } = n.data()
-      if (type==='rules') {
-        placeLast.push(n)
-        return false
+    // remember deployables to center its parent later
+    row.forEach(n=>{
+      const { node } = n.data()
+      const { type } = node
+      if (type==='deployable') {
+        deployableList.push(n)
       }
-      return true
     })
 
     // place each node in this row
     const width = row.length * NODE_SIZE * 3
-    let x = -(width / 2)
-    const y = idx * NODE_SIZE * 2.4
+
+    // normally center the row
+    let x = -(width / 2) + offsetRow
+    if (row.length===1) {
+      // however if just node under one parent, center under its parent
+      const incommers = row[0].incomers().nodes()
+      if (incommers.length===1) {
+        x = incommers[0].point().x
+      }
+    }
+
+    let hadRule = false
     row.forEach(n => {
       placedSet.add(n.id())
       const pos = { x, y }
-      const { node: { type, name } } = n.data()
+      const { node: { type, name, specs } } = n.data()
       let key = type
       switch (type) {
+      case 'subscription':
+        key = `subscription/${name}`
+        if (hadRule) {
+          x += NODE_SIZE * 3
+          pos.x = x
+        }
+        hadRule = specs.hasRules
+        break
+      case 'clusters':
+        pos.y += NODE_SIZE/2
+        break
       case 'deployment':
         key = `deployment/${name}`
         break
@@ -678,11 +770,17 @@ const positionRow = (idx, row, placedSet, positionMap) => {
         pos.x = positionMap[`deployment/${name}`].x
         key = `pod/${name}`
         break
+      default:
+        if (!exports.default.typeToShapeMap[type]) {
+          pos.y += 30
+        }
+        break
       }
       positionMap[key] = pos
       n.position(pos)
       x += NODE_SIZE * 3
     })
+
 
     // find and sort next row down
     let nextRow = []
@@ -697,13 +795,22 @@ const positionRow = (idx, row, placedSet, positionMap) => {
         .sort((a, b) => {
           a = a.data().node
           b = b.data().node
-          if (a.type === 'deployable' && b.type === 'deployable') {
-            const kinda = kindOrder.indexOf(
+          if (a.type === 'subscription' && b.type === 'subscription') {
+            if (a.specs.isPlaced && !b.specs.isPlaced) {
+              return -1
+            } else if (!a.specs.isPlaced && b.specs.isPlaced) {
+              return 1
+            }
+            return a.name.localeCompare(b.name)
+          } else if (a.type === 'deployable' && b.type === 'deployable') {
+            let kinda = kindOrder.indexOf(
               _.get(a, 'specs.raw.spec.template.kind', 'other').toLowerCase()
             )
-            const kindb = kindOrder.indexOf(
+            let kindb = kindOrder.indexOf(
               _.get(b, 'specs.raw.spec.template.kind', 'other').toLowerCase()
             )
+            if (kinda<0) kinda = 10
+            if (kindb<0) kindb = 10
             return kinda - kindb
           }
           return 0
@@ -711,18 +818,37 @@ const positionRow = (idx, row, placedSet, positionMap) => {
         .toArray()
       nextRow = [...nextRow, ...outgoers]
     })
-
-    // place these nodes based on other nodes
-    placeLast.forEach(n=>{
-      const { node: { type } } = n.data()
-      if (type==='rules') { // place rules next to subscription
-        const pos = positionMap['subscription']
-        n.position({x: pos.x + NODE_SIZE * 3, y: pos.y})
-      }
+    nextRow = _.uniqBy(nextRow, (n)=>{
+      return n.id()
     })
 
+    // don't put clusters and deployables on same row
+    let clusterList = []
+    nextRow = nextRow.filter(n=>{
+      const { node } = n.data()
+      const { type } = node
+      if (type==='rules') {
+        placeLast.push(n)
+        return false
+      } else if (type==='clusters') {
+        clusterList.push(n)
+        return false
+      }
+      return true
+    })
+    if (nextRow.length===0) {
+      nextRow = clusterList
+      clusterList = []
+    }
+    const hybridRow = clusterList.length>0 // deployables and clusters
+
     // place next row down
-    positionRow(idx + 1, nextRow, placedSet, positionMap)
+    y += NODE_SIZE * 2.4
+    positionRowsDown(idx + 1, y, nextRow, placedSet, positionMap, deployableList, placeLast, hybridRow?width/2:0)
+    if (hybridRow) {
+      y += NODE_SIZE * 2.4
+      positionRowsDown(idx + 1, y, clusterList, placedSet, positionMap, deployableList, placeLast)
+    }
   }
 }
 

@@ -521,7 +521,12 @@ class ApplicationTopologyModule extends React.Component {
         {channels.map((chn, idx) => {
           const splitChn = /(.*)\/(.*)\/\/(.*)\/(.*)/gm.exec(chn)
           if (splitChn && splitChn.length===5) {
-            const [,subNamespace, subName, chnNamespace, chnName] = splitChn
+            let [,subNamespace, subName, chnNamespace, chnName] = splitChn
+            if (subName==='__ALL__' && chnName==='__ALL__') {
+              subNamespace = chnNamespace = ''
+              chnName = msgs.get('application.diagram.all.channels', locale)
+              subName = msgs.get('application.diagram.all.subscriptions', locale)
+            }
             const classes = classNames({
               'channel-control': true,
               selected: idx===selectedIdx,

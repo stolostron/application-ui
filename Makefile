@@ -113,7 +113,7 @@ ifneq ($(TRAVIS_BRANCH),development)
 	jsonfile@4.0.0 \
 	redux-mock-store@1.5.1 \
 	jest-tap-reporter@1.9.0
-	npm run test
+	npm run test:unit
 endif
 endif
 endif

@@ -16,7 +16,7 @@
     "lint": "eslint --ext .jsx,.js .",
     "lint:fix": "eslint --ext .jsx,.js --fix .",
     "test:unit": "jest --colors",
-    "test": "jest --silent",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "nightwatch",
     "test:update-snapshot": "jest --updateSnapshot",

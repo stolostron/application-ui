@@ -43,7 +43,7 @@ before_install:
       fi
   - make init
   - source travis-env.sh
-  - make docker-login
+  - make docker-logins
 
 install:
   - make install

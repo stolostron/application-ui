@@ -61,12 +61,13 @@ export const topology = (state = initialState, action) => {
       }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
-      const { links, nodes } = action
+      const { links, nodes, pods } = action
       return {
         ...state,
         status: Actions.REQUEST_STATUS.DONE,
         nodes,
         links,
+        pods,
         activeFilters: action.fetchFilters,
         loaded: true,
         reloading: false

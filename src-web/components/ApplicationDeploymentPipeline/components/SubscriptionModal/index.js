@@ -45,6 +45,7 @@ const LabelWithOptionalTooltip = text => {
 
 const SubscriptionInfo = withLocale(
   ({
+    serverProps,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
     activeAccountId,
@@ -167,11 +168,11 @@ const SubscriptionInfo = withLocale(
       // the same namespace as the channel
       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
       status = getResourcesStatusPerChannel(subscriptionWithRelatedData)
-
-      if (isAdminRole(userRole)) {
+      if (isAdminRole(userRole) && serverProps && serverProps.isCEMRunning) {
         icamLink = getIcamLinkForSubscription(
           activeAccountId,
-          subscriptionModalSubscriptionInfo._uid
+          subscriptionModalSubscriptionInfo.namespace,
+          subscriptionModalSubscriptionInfo.name
         )
       }
     }
@@ -323,6 +324,7 @@ const SubscriptionInfo = withLocale(
 
 const SubscriptionModal = withLocale(
   ({
+    serverProps,
     displayModal,
     closeModal,
     header,
@@ -352,6 +354,7 @@ const SubscriptionModal = withLocale(
               bulkSubscriptionList={bulkSubscriptionList}
               activeAccountId={activeAccountId}
               userRole={userRole}
+              serverProps={serverProps}
             />
           </div>
         </Modal>

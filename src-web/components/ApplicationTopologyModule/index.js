@@ -57,7 +57,7 @@ class ApplicationTopologyModule extends React.Component {
     onDiagramFilterChange: PropTypes.func,
     originalMap: PropTypes.object,
     params: PropTypes.object,
-    parsed: PropTypes.object,
+    pods: PropTypes.array,
     putResource: PropTypes.func,
     resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
@@ -76,6 +76,7 @@ class ApplicationTopologyModule extends React.Component {
     this.state = {
       links: [],
       nodes: [],
+      pods: [],
       activeChannel: props.activeChannel,
       showSpinner: false,
       lastTimeUpdate: undefined,
@@ -148,6 +149,7 @@ class ApplicationTopologyModule extends React.Component {
       const {locale} = this.context
       const links = _.cloneDeep(nextProps.links || [])
       const nodes = _.cloneDeep(nextProps.nodes || [])
+      const pods = _.cloneDeep(nextProps.pods || [])
       const clusters = _.cloneDeep(nextProps.clusters || [])
       const diagramFilters = _.cloneDeep(nextProps.diagramFilters || [])
 
@@ -163,7 +165,8 @@ class ApplicationTopologyModule extends React.Component {
         const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get('application.diagram.view.last.time', [time], locale)
       }
-      let {currentYaml, currentParsed, userChanges} = prevState
+      const {userChanges} = prevState
+      let {currentYaml, currentParsed} = prevState
       if (!userChanges && (currentYaml !== nextProps.yaml || changingChannel)) {
         currentYaml = nextProps.yaml
         const {parsed} = parse(currentYaml, validator, locale)
@@ -175,6 +178,7 @@ class ApplicationTopologyModule extends React.Component {
         clusters,
         links,
         nodes,
+        pods,
         currentYaml,
         currentParsed,
         diagramFilters,
@@ -202,6 +206,10 @@ class ApplicationTopologyModule extends React.Component {
       !_.isEqual(
         this.state.links.map(n => n.uid),
         nextState.links.map(n => n.uid)
+      ) ||
+      !_.isEqual(
+        this.state.pods.map(n => `${n._uid}/${n.status}`),
+        nextState.pods.map(n => `${n._uid}/${n.status}`)
       ) ||
       !_.isEqual(this.state.diagramFilters, nextState.diagramFilters) ||
       !_.isEqual(this.state.exceptions, nextState.exceptions) ||
@@ -308,6 +316,7 @@ class ApplicationTopologyModule extends React.Component {
     const {
       nodes,
       links,
+      pods=[],
       diagramFilters,
       selectedNode,
       topologyLoadError
@@ -367,6 +376,7 @@ class ApplicationTopologyModule extends React.Component {
               id={'application'}
               nodes={nodes}
               links={links}
+              pods={pods}
               context={this.context}
               showExpandedTopology={showExpandedTopology}
               handleNodeSelected={handleNodeSelected}
@@ -511,7 +521,12 @@ class ApplicationTopologyModule extends React.Component {
         {channels.map((chn, idx) => {
           const splitChn = /(.*)\/(.*)\/\/(.*)\/(.*)/gm.exec(chn)
           if (splitChn && splitChn.length===5) {
-            const [,subNamespace, subName, chnNamespace, chnName] = splitChn
+            let [,subNamespace, subName, chnNamespace, chnName] = splitChn
+            if (subName==='__ALL__' && chnName==='__ALL__') {
+              subNamespace = chnNamespace = ''
+              chnName = msgs.get('application.diagram.all.channels', locale)
+              subName = msgs.get('application.diagram.all.subscriptions', locale)
+            }
             const classes = classNames({
               'channel-control': true,
               selected: idx===selectedIdx,

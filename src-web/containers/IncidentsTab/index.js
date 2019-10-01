@@ -15,7 +15,7 @@ import withAccess from '../../components/common/withAccess'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { ROLES, RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { fetchIncidents } from '../../actions/common'
+import { fetchIncidents, clearIncidents } from '../../actions/common'
 import {
   getIncidentCount,
   getIncidentList
@@ -42,6 +42,7 @@ resources(() => {
 
 class IncidentsTab extends React.Component {
   static propTypes = {
+    clearIncidents: PropTypes.func,
     fetchIncidents: PropTypes.func,
     incidentCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     incidents: PropTypes.array,
@@ -97,6 +98,7 @@ class IncidentsTab extends React.Component {
 
   componentWillMount() {
     const { params } = this.props
+    this.props.clearIncidents()
     if (params && params.namespace && params.name) {
       this.props.fetchIncidents()
     }
@@ -188,7 +190,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           params.namespace,
           params.name
         )
-      )
+      ),
+    clearIncidents: () => dispatch(clearIncidents(RESOURCE_TYPES.CEM_INCIDENTS))
   }
 }
 

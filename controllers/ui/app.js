@@ -19,6 +19,7 @@ const ReactDOMServer = require('react-dom/server'),
       config = require('../../config'),
       cookieUtil = require('../../lib/server/cookie-util'),
       appUtil = require('../../lib/server/app-util'),
+      serviceDiscovery = require('../../lib/server/service-discovery'),
       Provider = require('react-redux').Provider,
       router = express.Router({ mergeParams: true }),
       lodash = require('lodash'),
@@ -84,6 +85,21 @@ router.get('*', (req, res) => {
         value.path = `${config.get('contextPath')}/api/proxy${value.path}` //preprend with proxy route
       })
     }
+    logger.info(`is Kibana Running: ${serviceDiscovery.serviceEnabled('kibana')}`)
+    logger.info(`is cem Running: ${serviceDiscovery.serviceEnabled('cem')}`)
+    logger.info(`is Grafana Running: ${serviceDiscovery.serviceEnabled('monitoring-grafana')}`)
+
+    const serverProps = {
+      ...context,
+      isKibanaRunning: serviceDiscovery.serviceEnabled('kibana'),
+      isGrafanaRunning: serviceDiscovery.serviceEnabled('monitoring-grafana'),
+      isCEMRunning: serviceDiscovery.serviceEnabled('cem'),
+    }
+    if (process.env.NODE_ENV === 'development') {
+      serverProps.isKibanaRunning = true;
+      serverProps.isGrafanaRunning = true;
+      serverProps.isCEMRunning = true;
+    }
 
     try {
       res.render(
@@ -100,7 +116,7 @@ router.get('*', (req, res) => {
             ),
             contextPath: config.get('contextPath'),
             state: store.getState(),
-            props: context,
+            props: serverProps,
             header: header,
             propsH: propsH,
             stateH: stateH,

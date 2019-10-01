@@ -24,14 +24,6 @@ addons:
     - openjdk-8-jdk
   chrome: stable
 
-cache:
-  apt: true
-  directories:
-    - "$TRAVIS_CACHE_DIR"
-
-before_cache:
-  - sudo rm -rf $TRAVIS_CACHE_DIR/selenium-standalone
-
 branches:
   only:
     - master
@@ -44,11 +36,22 @@ services:
   - xvfb
 
 before_install:
+  - |
+      if [[ "$TRAVIS_OS_NAME" == "linux-s390" ]]; then
+        chmod +x $TRAVIS_BUILD_DIR/scripts/install-s390x.sh && \
+        bash $TRAVIS_BUILD_DIR/scripts/install-s390x.sh;
+      fi
   - make init
   - source travis-env.sh
+  - make docker-login
 
 install:
   - make install
+
+cache:
+  apt: true
+  directories:
+    - "$TRAVIS_CACHE_DIR"
 
 stages:
   # - name: Prepare Cache

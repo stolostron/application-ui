@@ -225,6 +225,7 @@
   "error.parse": "Parsing error",
   "error.parse.reason": "Unable to parse.",
   "error.create": "Create resource error",
+  "error.create.reason": "Cannot find resource type \"undefined\"",
   "error.no.searchtext": "Specify a search text first",
   "error.load.topology": "Load topology failure",
   "error.load.resource": "Error:",

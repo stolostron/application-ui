@@ -12,8 +12,9 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import SecondaryHeader from '../components/SecondaryHeader'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import resources from '../../lib/shared/resources'
 import client from '../../lib/shared/client'
 import loadable from 'loadable-components'
@@ -39,6 +40,7 @@ resources(() => {
   require('../../scss/common.scss')
 })
 
+/* global analytics: true */
 class App extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
   /* eslint-disable react/prop-types, react/jsx-no-bind */
@@ -62,6 +64,74 @@ class App extends React.Component {
   getServerProps() {
     if (client) return this.serverProps
     return this.props.staticContext
+  }
+
+  componentDidUpdate(prevProps) {
+    const hashedUserId = `IBMid-${this.props.user}`
+    const clusterUrl =
+      typeof window !== 'undefined' ? window.location.host : null
+
+    if (config['featureFlags:enableSegment']) {
+      // segment data collection on every page load
+      if (
+        this.props.history.location.pathname !== prevProps.location.pathname
+      ) {
+        this.segmentTrackEvent(
+          hashedUserId,
+          this.props.history.location.pathname,
+          clusterUrl
+        )
+      }
+    }
+  }
+
+  componentDidMount() {
+    // If segment is enabled then send data to segment
+    // Hash userName, get current page url and cluster url
+    const hashedUserId = `IBMid-${this.props.user}`
+    const currentPage = this.props.location.pathname
+    const clusterUrl =
+      typeof window !== 'undefined' ? window.location.host : null
+
+    if (config['featureFlags:enableSegment']) {
+      // segment data collection on every page load
+      this.segmentDataCollection(hashedUserId, currentPage, clusterUrl)
+      this.segmentTrackEvent(hashedUserId, currentPage, clusterUrl)
+    }
+
+    if (config['featureFlags:enableAppcues']) {
+      this.appcuesDataCollection(this.props.user)
+    }
+  }
+
+  segmentTrackEvent(hashedUserId, currentPage, clusterUrl) {
+    analytics.track('ICP Unicorn Page Load', {
+      userId: hashedUserId,
+      clusterUrl: clusterUrl,
+      pageUrl: currentPage
+    })
+  }
+
+  segmentDataCollection(hashedUserId, currentPage, clusterUrl) {
+    if (
+      typeof hashedUserId != 'undefined' &&
+      typeof currentPage != 'undefined' &&
+      typeof clusterUrl != 'undefined'
+    ) {
+      analytics.identify(hashedUserId, {
+        clusterUrl: clusterUrl,
+        pageUrl: currentPage
+      })
+    }
+  }
+
+  appcuesDataCollection(userId, currentPage, clusterUrl) {
+    if (userId) {
+      window.Appcues.identify(`IBMid-${userId}`, {
+        clusterUrl: clusterUrl,
+        pageUrl: currentPage
+      })
+    }
   }
 
   render() {
@@ -110,8 +180,21 @@ App.childContextTypes = {
   locale: PropTypes.string
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+const Container = Component => withRouter(connect(mapStateToProps)(Component))
+const AppContainer = Container(App)
+
 export default props => (
   <div className="expand-vertically">
-    <Route path={config.contextPath} serverProps={props} component={App} />
+    <Route
+      path={config.contextPath}
+      serverProps={props}
+      render={() => <AppContainer {...props} />}
+    />
   </div>
 )

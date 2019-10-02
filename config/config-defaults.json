@@ -13,7 +13,11 @@
         "fullDashboard": false,
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 15000,
-        "search": true
+        "search": true,
+        "enableSegment": false,
+        "segmentKey": "foo",
+        "enableAppcues" : false,
+        "appcuesScript": "38105.js"
     },
     "PLATFORM_IDENTITY_PROVIDER_URL": "",
     "WLP_CLIENT_ID": "",

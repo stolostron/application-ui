@@ -105,15 +105,15 @@ ifneq ($(OS),rhel7)
 ifneq ($(TRAVIS_BRANCH),development)
 	npm install \
 	del@3.0.0 \
-	enzyme@3.6.0 \
-	enzyme-adapter-react-16@1.5.0 \
+	enzyme@3.7.0 \
+	enzyme-adapter-react-16@1.6.0 \
 	enzyme-to-json@3.3.4 \
 	jest@23.6.0 \
 	react-test-renderer@16.5.0 \
 	jsonfile@4.0.0 \
 	redux-mock-store@1.5.1 \
 	jest-tap-reporter@1.9.0
-	npm run test:unit
+	npm run test
 endif
 endif
 endif

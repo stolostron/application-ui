@@ -113,6 +113,7 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
           >
             <a
               href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/overview.html"
+              rel="noopener noreferrer"
               target="_blank"
             >
               <span

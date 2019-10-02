@@ -18,9 +18,6 @@ const tapReporter = [
 
 const jestConfig = {
   collectCoverage: true,
-  notify: true,
-  noStackTrace: true,
-  verbose: true,
   collectCoverageFrom: [
     'src-web/**/*.{js,jsx}',
     '**/src-web/**/*.{js}',

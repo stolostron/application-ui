@@ -60,6 +60,7 @@ const jestConfig = {
     '^.+\\.js$': 'babel-jest'
   },
   modulePathIgnorePatterns: ['<rootDir>/public/*', '<rootDir>/node_modules/*'],
+  transformIgnorePatterns: ['/node_modules/(?!react-native-base64)'],
   moduleNameMapper: {
     '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
   }

@@ -57,10 +57,12 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
             alt="table-status-icon-critical"
             aria-label="table-status-icon-critical"
             className="dashboard-card-header__icon__critical"
+            fill={undefined}
             fillRule="evenodd"
             height="16"
             name="icon--error--glyph"
             role="img"
+            style={undefined}
             viewBox="0 0 16 16"
             width="16"
           >
@@ -250,10 +252,12 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
             alt="table-status-icon-warning"
             aria-label="table-status-icon-warning"
             className="dashboard-card-header__icon__warning"
+            fill={undefined}
             fillRule="evenodd"
             height="16"
             name="icon--warning--glyph"
             role="img"
+            style={undefined}
             viewBox="0 0 16 16"
             width="16"
           >

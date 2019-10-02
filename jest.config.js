@@ -51,12 +51,10 @@ const jestConfig = {
   //   },
   // },
   testMatch: [
-    '<rootDir>/tests/jest/**/*.test.js?(x)',
-    '<rootDir>/tests/jest/**/**/*.test.js?(x)',
-    '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
-    '**/tests/jest/**/*.test.js',
-    '**/src-web/**/*.test.js',
-    '**/tests/jest/**/*.test.js',
+    // '<rootDir>/tests/jest/**/*.test.js?(x)',
+    // '<rootDir>/tests/jest/**/**/*.test.js?(x)',
+    // '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
+    // '**/tests/jest/**/*.test.js',
     '**/src-web/**/*.test.js'
   ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',

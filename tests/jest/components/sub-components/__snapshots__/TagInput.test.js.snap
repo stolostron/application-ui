@@ -189,8 +189,6 @@ ShallowWrapper {
           className="tagInput-copyButton"
         >
           <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -464,8 +462,6 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -711,8 +707,6 @@ ShallowWrapper {
             className="tagInput-copyButton"
           >
             <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -986,8 +980,6 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -1114,6 +1106,8 @@ ShallowWrapper {
         },
       },
     },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
   },
 }
 `;
@@ -1307,8 +1301,6 @@ ShallowWrapper {
           className="tagInput-copyButton"
         >
           <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -1582,8 +1574,6 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -1829,8 +1819,6 @@ ShallowWrapper {
             className="tagInput-copyButton"
           >
             <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -2104,8 +2092,6 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -2425,8 +2411,6 @@ ShallowWrapper {
           className="tagInput-copyButton"
         >
           <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -2700,8 +2684,6 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -2947,8 +2929,6 @@ ShallowWrapper {
             className="tagInput-copyButton"
           >
             <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -3222,8 +3202,6 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -3350,6 +3328,8 @@ ShallowWrapper {
         },
       },
     },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
   },
 }
 `;
@@ -3543,8 +3523,6 @@ ShallowWrapper {
           className="tagInput-copyButton"
         >
           <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -3818,8 +3796,6 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": <CopyToClipboard
-            onCopy={undefined}
-            options={undefined}
             text="http://localhost/"
           >
             <CopyButton
@@ -4065,8 +4041,6 @@ ShallowWrapper {
             className="tagInput-copyButton"
           >
             <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -4340,8 +4314,6 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": <CopyToClipboard
-              onCopy={undefined}
-              options={undefined}
               text="http://localhost/"
             >
               <CopyButton
@@ -4468,6 +4440,8 @@ ShallowWrapper {
         },
       },
     },
+    "attachTo": undefined,
+    "hydrateIn": undefined,
   },
 }
 `;

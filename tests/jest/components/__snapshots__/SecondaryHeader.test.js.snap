@@ -80,7 +80,7 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
                   }
                 }
               />
-               
+
               <span
                 className="bx--detail-page-header-status-text"
               >
@@ -113,13 +113,9 @@ exports[`SecondaryHeader component 2 renders as expected 1`] = `
               <svg
                 alt="show menu options"
                 aria-label="show menu options"
-                className={undefined}
-                fill={undefined}
                 fillRule="evenodd"
                 height="5"
-                name={undefined}
                 role="img"
-                style={undefined}
                 viewBox="0 0 10 5"
                 width="10"
               >
@@ -230,7 +226,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
                   }
                 }
               />
-               
+
               <span
                 className="bx--detail-page-header-status-text"
               >
@@ -263,13 +259,9 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
               <svg
                 alt="show menu options"
                 aria-label="show menu options"
-                className={undefined}
-                fill={undefined}
                 fillRule="evenodd"
                 height="5"
-                name={undefined}
                 role="img"
-                style={undefined}
                 viewBox="0 0 10 5"
                 width="10"
               >

@@ -39,21 +39,7 @@ const jestConfig = {
     'text-summary'
   ],
   testURL: 'http://localhost/',
-  // coverageThreshold: {
-  //   global: {
-  //     branches: 11,
-  //     functions: 15,
-  //     lines: 14,
-  //     statements: 14,
-  //   },
-  // },
-  testMatch: [
-    // '<rootDir>/tests/jest/**/*.test.js?(x)',
-    // '<rootDir>/tests/jest/**/**/*.test.js?(x)',
-    // '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
-    // '**/tests/jest/**/*.test.js',
-    '**/src-web/**/*.test.js'
-  ],
+  testMatch: ['**/src-web/**/*.test.js'],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   transform: {

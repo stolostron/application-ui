@@ -302,7 +302,7 @@ export default class FilterHelper {
     })
   };
 
-  filterByType = (nodes, links, activeTypes, cbs) => {
+  filterByType = (nodes, links, activeTypes, defaultTypeFilters, cbs) => {
     if (nodes.length > 0) {
       if (
         this.lastActiveFilters &&
@@ -315,9 +315,14 @@ export default class FilterHelper {
       // hide and remove any nodes without the right filter
       const typeFilterMap = _.keyBy(activeTypes, 'label')
       const nodeMap = _.keyBy(nodes, 'uid')
+      const includeOther = !!typeFilterMap['other']
       nodes = nodes.filter(node => {
         const { type, layout } = node
-        if (!typeFilterMap[type]) {
+        let hasType = typeFilterMap[type]
+        if (!hasType && includeOther && !defaultTypeFilters.has(type)) {
+          hasType = true
+        }
+        if (!hasType) {
           if (layout) {
             layout.search = FilterResults.hidden
           }

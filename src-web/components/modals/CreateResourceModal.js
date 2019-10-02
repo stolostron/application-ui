@@ -174,7 +174,7 @@ class CreateResourceModal extends React.PureComponent {
                 kind="error"
                 title={msgs.get('error.create', this.context.locale)}
                 iconDescription=""
-                subtitle={this.state.createError.message}
+                subtitle={msgs.get('error.create.reason', this.context.locale)}
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}

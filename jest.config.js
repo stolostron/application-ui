@@ -18,6 +18,9 @@ const tapReporter = [
 
 const jestConfig = {
   collectCoverage: true,
+  notify: true,
+  noStackTrace: true,
+  verbose: true,
   collectCoverageFrom: [
     'src-web/**/*.{js,jsx}',
     '**/src-web/**/*.{js}',
@@ -52,10 +55,16 @@ const jestConfig = {
     '<rootDir>/tests/jest/**/**/*.test.js?(x)',
     '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
     '**/tests/jest/**/*.test.js',
+    '**/src-web/**/*.test.js',
+    '**/tests/jest/**/*.test.js',
     '**/src-web/**/*.test.js'
   ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
+  transform: {
+    '^.+\\.js$': 'babel-jest'
+  },
+  modulePathIgnorePatterns: ['<rootDir>/public/*', '<rootDir>/node_modules/*'],
   moduleNameMapper: {
     '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
   }

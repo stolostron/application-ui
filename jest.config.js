@@ -61,8 +61,6 @@ const jestConfig = {
   }
 }
 
-jestConfig.reporters = process.env.TRAVIS
-  ? ['default', tapReporter]
-  : ['default']
+jestConfig.reporters = process.env.TRAVIS ? ['default'] : ['default']
 
 module.exports = jestConfig

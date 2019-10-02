@@ -25,12 +25,14 @@ describe('getModuleData', () => {
     {
       name: name1,
       completed: 1,
-      not_completed: 3
+      not_completed: 3,
+      tooltip_name: name1
     },
     {
       name: name2,
       completed: 1,
-      not_completed: 0
+      not_completed: 0,
+      tooltip_name: name2
     }
   ]
   const listDummy = []
@@ -41,6 +43,7 @@ describe('getModuleData', () => {
         {
           completed: 1,
           name: 'firstName',
+          tooltip_name: 'firstName',
           percent_completed: 0.25,
           percent_not_completed: 0.75,
           total: 4
@@ -48,6 +51,7 @@ describe('getModuleData', () => {
         {
           completed: 1,
           name: 'secondName',
+          tooltip_name: 'secondName',
           percent_completed: 1,
           percent_not_completed: 0,
           total: 1
@@ -70,12 +74,14 @@ describe('getMaxStringWidth', () => {
     {
       name: name1,
       completed: 1,
-      not_completed: 0
+      not_completed: 0,
+      tooltip_name: name1
     },
     {
       name: name2,
       completed: 1,
-      not_completed: 1
+      not_completed: 1,
+      tooltip_name: name2
     }
   ]
   const listDummy = []

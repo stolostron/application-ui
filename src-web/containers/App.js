@@ -157,6 +157,7 @@ class App extends React.Component {
               <ApplicationHeaderTabs
                 params={params}
                 showExtraTabs={showExtraTabs}
+                serverProps={this.getServerProps()}
               />
             )}
           />

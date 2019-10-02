@@ -61,7 +61,9 @@ const LeftColumnForApplicationNames = (
         <Tile className="firstTotalTile">
           <div className="totalApplications">
             {`${applications.length} `}
-            {msgs.get('description.title.applications', locale)}
+            {oneApplication || applications.length === 1
+              ? msgs.get('description.title.application', locale)
+              : msgs.get('description.title.applications', locale)}
           </div>
           <div className="totalDeployables">
             {`${(oneApplication &&
@@ -70,7 +72,9 @@ const LeftColumnForApplicationNames = (
               subscriptionsForOneApp[0].items instanceof Array &&
               subscriptionsForOneApp[0].items.length > 0) ||
               appSubscriptions.length} `}
-            {msgs.get('description.title.subscriptions', locale)}
+            {appSubscriptions.length === 1
+              ? msgs.get('description.title.subscription', locale)
+              : msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
       </div>
@@ -129,7 +133,9 @@ const LeftColumnForApplicationNames = (
                 <div className="appName">{`${appName} `}</div>
                 <div className="appDeployables">
                   {`${getTotalSubs} `}
-                  {msgs.get('description.title.subscriptions', locale)}
+                  {getTotalSubs === 1
+                    ? msgs.get('description.title.subscription', locale)
+                    : msgs.get('description.title.subscriptions', locale)}
                 </div>
               </div>
             </Tile>

@@ -20,17 +20,12 @@ describe('getPodsFromApplicationRelated', () => {
   const hasNoPod = { items: [] }
 
   // do some calls here
-  it('should return a pod array of size 2'),
-  () => {
-    const result = [
-      { related: [{ kind: 'pod' }] },
-      { related: [{ kind: 'pod' }] }
-    ]
+  it('should return a pod array of size 2', () => {
+    const result = [{ kind: 'pod' }]
     expect(getPodsFromApplicationRelated(hasPod)).toEqual(result)
-  }
+  })
 
-  it('no pods returned'),
-  () => {
+  it('no pods returned', () => {
     expect(getPodsFromApplicationRelated(hasNoPod)).toEqual([])
-  }
+  })
 })

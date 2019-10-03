@@ -35,11 +35,6 @@ services:
   - xvfb
 
 before_install:
-  - |
-      if [[ "$TRAVIS_OS_NAME" == "linux-s390" ]]; then
-        chmod +x $TRAVIS_BUILD_DIR/scripts/install-s390x.sh && \
-        bash $TRAVIS_BUILD_DIR/scripts/install-s390x.sh;
-      fi
   - make init
   - source travis-env.sh
   - make docker-logins

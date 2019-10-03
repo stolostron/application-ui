@@ -48,8 +48,6 @@ cache:
     - "$TRAVIS_CACHE_DIR"
 
 stages:
-  # - name: Prepare Cache
-  - name: Lint
   - name: Copyright
   - name: Unit Tests
     if: type = pull_request
@@ -61,11 +59,6 @@ stages:
 
 jobs:
   include:
-    # - stage: Prepare Cache
-    #   script: 'sudo rm -rf $TRAVIS_CACHE_DIR/selenium-standalone'
-
-    - stage: Linting
-      script: 'make lint'
 
     - stage: Copyright
       script: 'chmod +x copyright-check.sh && make copyright-check'

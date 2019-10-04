@@ -144,3 +144,86 @@ export const filterApps = (applications, searchText) => {
   }
   return applications
 }
+
+export const createChannelSample =
+  '# This is a sample template for creating channels.\n' +
+  '# For more information, click the "Need help writing this?" link above.\n\n' +
+  'apiVersion: app.ibm.com/v1alpha1\n' +
+  'kind: Channel\n' +
+  'metadata:\n' +
+  '  name:' +
+  '\t#The name of the channel\n' +
+  '  namespace:' +
+  '\t#The namespace for the channel\n' +
+  'spec:\n' +
+  '  sourceNamespaces:' +
+  '\t#Identifies the namespace that the channel controller monitors\n' +
+  '  type:' +
+  '\t#The channel type\n' +
+  '  pathname:' +
+  '\t#Required for HelmRepo and ObjectBucket channels\n' +
+  '  gates:' +
+  '\t#Defines requirements for promoting a deployable within the channel\n' +
+  '    annotations:' +
+  '\t#The annotations for the channel\n' +
+  '  labels:' +
+  '\t#The labels for the channel'
+
+export const createSubscriptionSample =
+  '# This is a sample template for creating subscriptions.\n' +
+  '# For more information, click the "Need help writing this?" link above.\n\n' +
+  'apiVersion: app.ibm.com/v1alpha1\n' +
+  'kind: Subscription\n' +
+  'metadata:\n' +
+  '  name:' +
+  '\t#The name for identifying the subscription\n' +
+  '  namespace:' +
+  '\t#The namespace for the deployable\n' +
+  '  labels:' +
+  '\t#The labels for the subscription\n' +
+  'spec:\n' +
+  '  sourceNamespace:' +
+  '\t#The source namespace where deployables are stored on the Hub cluster\n' +
+  '  source:' +
+  '\t#The path name ("URL") to the Helm repository where deployables are stored\n' +
+  '  channel:' +
+  '\t#The NamespaceName ("Namespace/Name") that defines the channel for the subscription\n' +
+  '  name:' +
+  '\t#The specific name for the target deployable\n' +
+  '  packageFilter:' +
+  '\t#Defines the parameters to use to find target deployables or a subset of a deployables\n' +
+  '    version:' +
+  '\t#The version or versions for the deployable\n' +
+  '    labelSelector:\n' +
+  '      matchLabels:\n' +
+  '        package:\n' +
+  '        component:\n' +
+  '    annotations:' +
+  '\t#The annotations for the deployable\n' +
+  '  packageOverrides:' +
+  '\t#Defines the parameters to override for a deployable and the replacement value to use\n' +
+  '    packageName:' +
+  '\t#The name of the package to override\n' +
+  '    packageOverrides:' +
+  '\t#The configuration of parameters and values to use to override a package\n' +
+  '      path:\n' +
+  '      value:\n' +
+  '  placement:' +
+  '\t#Identifies the subscribing clusters where deployables need to be placed, or the placement rule that defines the clusters\n' +
+  '    clusters:' +
+  '\t#Defines the subscribing clusters\n' +
+  '      name:' +
+  '\t#The name or names of the subscribing clusters\n' +
+  '    placementRef:' +
+  '\t#Defines the placement rule to use for the subscription\n' +
+  '      name:' +
+  '\t#The name of the placement rule\n' +
+  '      kind: PlacementRule\n' +
+  '  overrides:' +
+  '\t#Any parameters and values that need to be overridden\n' +
+  '    clusterName:' +
+  '\t#The name of the cluster or clusters where parameters and values are being overridden\n' +
+  '    clusterOverrides:' +
+  '\t#The configuration of parameters and values to override\n' +
+  '      path:\n' +
+  '      value:'

@@ -54,6 +54,7 @@ class CreateResourceModal extends React.PureComponent {
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
+    sampleContent: PropTypes.string,
     submitBtnTextKey: PropTypes.string
   };
 
@@ -182,7 +183,9 @@ class CreateResourceModal extends React.PureComponent {
               validator={validator}
               onYamlChange={this.handleEditorChange}
               handleParsingError={this.handleParsingError}
-              yaml={this.state.yaml}
+              yaml={
+                this.state.yaml ? this.state.yaml : this.props.sampleContent
+              }
             />
             {this.state.processing && <Loading />}
           </Modal>

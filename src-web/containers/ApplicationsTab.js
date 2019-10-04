@@ -33,6 +33,7 @@ const registerApplicationModal = (
     onCreateResource={handleCreateResource}
     resourceDescriptionKey="modal.createresource.application"
     helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html"
+    sampleContent="create application content"
   />
 )
 

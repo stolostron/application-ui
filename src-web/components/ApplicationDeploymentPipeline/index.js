@@ -60,6 +60,7 @@ const CreateChannelModal = (fetchChannels, locale) => {
       resourceDescriptionKey="modal.createresource.channel"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
+      sampleContent="create channel content"
     />
   )
 }
@@ -82,6 +83,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
+      sampleContent="create subscription content"
     />
   )
 }

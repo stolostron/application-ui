@@ -84,6 +84,7 @@ const YamlEditor = ({
       setOptions={{
         readOnly,
         showLineNumbers: true,
+        newLineMode: 'unix',
         tabSize: 2
       }}
       editorProps={{

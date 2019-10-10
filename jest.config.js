@@ -39,19 +39,30 @@ const jestConfig = {
     'text-summary'
   ],
   testURL: 'http://localhost/',
-  testMatch: ['**/src-web/**/*.test.js'],
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 11,
+  //     functions: 15,
+  //     lines: 14,
+  //     statements: 14,
+  //   },
+  // },
+  testMatch: [
+    '<rootDir>/tests/jest/**/*.test.js?(x)',
+    '<rootDir>/tests/jest/**/**/*.test.js?(x)',
+    '<rootDir>/tests/jest/**/**/**/*.test.js?(x)',
+    '**/tests/jest/**/*.test.js',
+    '**/src-web/**/*.test.js'
+  ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
-  transform: {
-    '^.+\\.js$': 'babel-jest'
-  },
-  modulePathIgnorePatterns: ['<rootDir>/public/*', '<rootDir>/node_modules/*'],
-  transformIgnorePatterns: ['/node_modules/(?!react-native-base64)'],
   moduleNameMapper: {
     '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
   }
 }
 
-jestConfig.reporters = process.env.TRAVIS ? ['default'] : ['default']
+jestConfig.reporters = process.env.TRAVIS
+  ? ['default', tapReporter]
+  : ['default']
 
 module.exports = jestConfig

@@ -2,7 +2,7 @@
 # Licensed Materials - Property of IBM
 # 5737-E67
 # (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
-# US Government Users Restricted Rights - Use, duplication or disclosure
+# US Government Users Restricted Rights - Use, duplication or disclosure 
 # restricted by GSA ADP Schedule Contract with IBM Corp.
 #
 # Contributors:
@@ -54,6 +54,9 @@ endif
 copyright-check:
 	./copyright-check.sh
 
+# lint:
+# 	npm run lint
+
 install:
 	npm install
 
@@ -95,25 +98,38 @@ run:
 	--network mcm-network \
 	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
 
-.PHONY: jest test
-jest-test:
-ifeq ($(ARCH), x86_64)
-ifneq ($(OS),rhel7)
-ifneq ($(TRAVIS_BRANCH),development)
+.PHONY: test
+test:
 	npm install \
 	del@3.0.0 \
 	enzyme@3.7.0 \
 	enzyme-adapter-react-16@1.6.0 \
-	enzyme-to-json@3.3.4 \
-	jest@23.6.0 \
-	react-test-renderer@16.5.0 \
+	jest@22.4.2 \
+	react-test-renderer@16.4.0 \
 	jsonfile@4.0.0 \
 	redux-mock-store@1.5.1 \
-	jest-tap-reporter@1.9.0
-	npm run test
+	jest-tap-reporter@1.9.0 \
+	properties-parser@0.3.1
+ifeq ($(UNIT_TESTS), TRUE)
+	if [ ! -d "test-output" ]; then \
+		mkdir test-output; \
+	fi
+	npm test
 endif
-endif
-endif
+# ifeq ($(SELENIUM_TESTS), TRUE)
+# ifeq ($(OSARCH), linux-amd64)
+# 	docker pull $(IMAGE_REPO)/mcm-ui-api-amd64
+# 	docker run \
+# 	-e NODE_ENV=test \
+# 	-e MOCK=true \
+# 	--name mcm-ui-api \
+# 	--network mcm-network \
+# 	--ip 10.10.0.5 \
+# 	-d -p 127.0.0.1:4000:4000 $(IMAGE_REPO)/mcm-ui-api-amd64
+# 	npm install selenium-standalone@6.16.0 xml2json@0.11.0 nightwatch@0.9.21
+# 	nightwatch
+# endif
+# endif
 
 .PHONY:
 image-dev: build

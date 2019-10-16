@@ -20,19 +20,56 @@ import channelNamespaceSample from 'js-yaml-loader!./channelNamespaceSample.yml'
 
 export const getChannelNamespaceSample = () => {
   const sample =
-    "apiVersion: " + channelNamespaceSample.apiVersion + "\t# " + msgs.get('description.createChannel.apiVersion') + "\n" +
-    "kind: " + channelNamespaceSample.kind + "\t\t\t\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.kind') + "\n" +
-    "metadata: " + "\n" +
-    "\tname: " + channelNamespaceSample.metadata.name + "\t\t\t\t\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.metadata.name') + "\n" +
-    "\tnamespace: " + channelNamespaceSample.metadata.namespace + "\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.metadata.namespace') + "\n" +
-    "spec: " + "\n" +
-    "\tsourceNamespaces: " + "\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.spec.sourceNamespaces') + "\n" +
-    "\t- default" + "\n" +
-    "\ttype: " + channelNamespaceSample.spec.type + "\t\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.spec.type') + "\n" +
-    "\tpathname: " + channelNamespaceSample.spec.pathname + "\t\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.spec.pathname') + "\n" +
-    "\tgates: " + "\t\t\t\t\t\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.spec.gates') + "\n" +
-    "\t\tannotations: " + "\t\t\t\t\t\t\t\t\t# " + msgs.get('description.createChannel.spec.gates.annotations') + "\n" +
-    "\t\t\tdev-ready: " + channelNamespaceSample.spec.gates.annotations["dev-ready"]
+    'apiVersion: ' +
+    channelNamespaceSample.apiVersion +
+    '\t# ' +
+    msgs.get('description.createChannel.apiVersion') +
+    '\n' +
+    'kind: ' +
+    channelNamespaceSample.kind +
+    '\t\t\t\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.kind') +
+    '\n' +
+    'metadata: ' +
+    '\n' +
+    '\tname: ' +
+    channelNamespaceSample.metadata.name +
+    '\t\t\t\t\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.metadata.name') +
+    '\n' +
+    '\tnamespace: ' +
+    channelNamespaceSample.metadata.namespace +
+    '\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.metadata.namespace') +
+    '\n' +
+    'spec: ' +
+    '\n' +
+    '\tsourceNamespaces: ' +
+    '\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.spec.sourceNamespaces') +
+    '\n' +
+    '\t- default' +
+    '\n' +
+    '\ttype: ' +
+    channelNamespaceSample.spec.type +
+    '\t\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.spec.type') +
+    '\n' +
+    '\tpathname: ' +
+    channelNamespaceSample.spec.pathname +
+    '\t\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.spec.pathname') +
+    '\n' +
+    '\tgates: ' +
+    '\t\t\t\t\t\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.spec.gates') +
+    '\n' +
+    '\t\tannotations: ' +
+    '\t\t\t\t\t\t\t\t\t# ' +
+    msgs.get('description.createChannel.spec.gates.annotations') +
+    '\n' +
+    '\t\t\tdev-ready: ' +
+    channelNamespaceSample.spec.gates.annotations['dev-ready']
 
   return sample
 }

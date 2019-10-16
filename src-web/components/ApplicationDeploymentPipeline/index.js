@@ -34,9 +34,7 @@ import {
   filterApps,
   getSubscriptionListGivenApplicationList
 } from './utils'
-import {
-  getChannelNamespaceSample
-} from '../../shared/yamlSamples/index'
+import { getChannelNamespaceSample } from '../../shared/yamlSamples/index'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
@@ -86,7 +84,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent="test here"//{getSubscriptionSample}
+      sampleContent="test here" //{getSubscriptionSample}
     />
   )
 }
@@ -212,9 +210,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {

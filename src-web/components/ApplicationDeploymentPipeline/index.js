@@ -32,10 +32,11 @@ import {
   getApplicationsList,
   getChannelsList,
   filterApps,
-  getSubscriptionListGivenApplicationList,
-  createChannelSample,
-  createSubscriptionSample
+  getSubscriptionListGivenApplicationList
 } from './utils'
+import {
+  getChannelNamespaceSample
+} from '../../shared/yamlSamples/index'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
@@ -62,7 +63,7 @@ const CreateChannelModal = (fetchChannels, locale) => {
       resourceDescriptionKey="modal.createresource.channel"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
-      sampleContent={createChannelSample}
+      sampleContent={getChannelNamespaceSample()}
     />
   )
 }
@@ -85,7 +86,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent={createSubscriptionSample}
+      sampleContent="test here"//{getSubscriptionSample}
     />
   )
 }
@@ -211,9 +212,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {

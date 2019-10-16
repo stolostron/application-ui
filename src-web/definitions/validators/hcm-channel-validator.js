@@ -110,7 +110,6 @@ export function validator(parsed, exceptions, locale) {
   // check to see that all required keys exist
   required.forEach(key => {
     if (!parsed[key]) {
-      //console.log("missing required key: " + key)
       exceptions.push({
         row: 0,
         column: 0,
@@ -119,6 +118,12 @@ export function validator(parsed, exceptions, locale) {
       })
     }
   })
+
+  let namespace = ''
+  let channelNamespace = ''
+  let configMapNamespace = ''
+  let channelNamespaceRow = ''
+  let configMapNamespaceRow = ''
 
   // check through all the parsed keys
   Object.keys(parsed).forEach(key => {
@@ -129,6 +134,7 @@ export function validator(parsed, exceptions, locale) {
       if (!optionalValues[key]) {
         resources.forEach(parse => {
           let row = _.get(parse, '$synced.kind.$r')
+          // console.log('row', row)
           let text = msgs.get('validation.extra.kind', [key], locale)
           if (row === undefined) {
             row = parse.$synced.$r
@@ -148,11 +154,40 @@ export function validator(parsed, exceptions, locale) {
       }
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
-        // console.log("**key**", key)
-        // console.log("**allValues[key]**", allValues[key])
-        // console.log("raw", raw)
-        // console.log("synced", synced)
-        // console.log("\n")
+        // console.log('**key**', key)
+        // console.log('**allValues[key]**', allValues[key])
+        // console.log('raw', raw)
+        // console.log('synced', synced)
+        // console.log('\n')
+
+        // pull out the namespace values after looping through
+        if (
+          raw &&
+          raw.kind == 'Namespace' &&
+          raw.metadata &&
+          raw.metadata.name
+        ) {
+          namespace = raw.metadata.name
+        }
+        if (
+          raw &&
+          raw.kind == 'Channel' &&
+          raw.metadata &&
+          raw.metadata.namespace
+        ) {
+          channelNamespace = raw.metadata.namespace
+          channelNamespaceRow = synced.metadata.$v.namespace.$r
+        }
+        if (
+          raw &&
+          raw.kind == 'ConfigMap' &&
+          raw.metadata &&
+          raw.metadata.namespace
+        ) {
+          configMapNamespace = raw.metadata.namespace
+          configMapNamespaceRow = synced.metadata.$v.namespace.$r
+        }
+
         // there may be more then one format for this resource
         let required = allValues[key]
         if (!Array.isArray(required)) {
@@ -181,6 +216,28 @@ export function validator(parsed, exceptions, locale) {
   })
 
   // logic for handling the namespace check
+  if (namespace) {
+    if (channelNamespace && channelNamespace != namespace) {
+      // error
+
+      exceptions.push({
+        row: channelNamespaceRow,
+        text: 'Namespace not matching',
+        column: 0,
+        type: 'error'
+      })
+    }
+    if (configMapNamespace && configMapNamespace != namespace) {
+      // error
+
+      exceptions.push({
+        row: configMapNamespaceRow,
+        text: 'Namespace not matching',
+        column: 0,
+        type: 'error'
+      })
+    }
+  }
 }
 
 function validatorHelper(

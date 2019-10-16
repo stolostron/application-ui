@@ -11,6 +11,13 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 const requiredValues = {
+  // Namespace: {
+  //   apiVersion: '',
+  //   kind: 'Namespace',
+  //   metadata: {
+  //     name: ''
+  //   },
+  // },
   Channel: {
     apiVersion: '',
     kind: 'Channel',
@@ -30,12 +37,80 @@ const requiredValues = {
       //   }
     }
   }
+  // ConfigMap: {
+  //   apiVersion: '',
+  //   kind: 'ConfigMap',
+  //   metadata: {
+  //     name: '',
+  //     namespace: ''
+  //   },
+  // }
+}
+
+const optionalValues = {
+  Namespace: {
+    apiVersion: '',
+    kind: 'Namespace',
+    metadata: {
+      name: ''
+    }
+  },
+
+  ConfigMap: {
+    apiVersion: '',
+    kind: 'ConfigMap',
+    metadata: {
+      name: '',
+      namespace: ''
+    }
+  }
+}
+
+// probably change this to combine the required+optional
+const allValues = {
+  Namespace: {
+    apiVersion: '',
+    kind: 'Namespace',
+    metadata: {
+      name: ''
+    }
+  },
+  Channel: {
+    apiVersion: '',
+    kind: 'Channel',
+    metadata: {
+      name: '',
+      namespace: ''
+    },
+    spec: {
+      type: 'ObjectBucket|HelmRepo|Namespace',
+      pathname: ''
+      //   'secretRef':{},
+      //   'criteria':{
+      //       'sourceNamespace':'',
+      //       'annotations':{},
+      //       'labelSelector':{},
+      //       'name':''
+      //   }
+    }
+  },
+  ConfigMap: {
+    apiVersion: '',
+    kind: 'ConfigMap',
+    metadata: {
+      name: '',
+      namespace: ''
+    }
+  }
 }
 
 export function validator(parsed, exceptions, locale) {
   const required = Object.keys(requiredValues)
+
+  // check to see that all required keys exist
   required.forEach(key => {
     if (!parsed[key]) {
+      //console.log("missing required key: " + key)
       exceptions.push({
         row: 0,
         column: 0,
@@ -45,36 +120,47 @@ export function validator(parsed, exceptions, locale) {
     }
   })
 
+  // check through all the parsed keys
   Object.keys(parsed).forEach(key => {
     const resources = parsed[key]
-    if (!requiredValues[key]) {
-      resources.forEach(parse => {
-        let row = _.get(parse, '$synced.kind.$r')
-        let text = msgs.get('validation.extra.kind', [key], locale)
-        if (row === undefined) {
-          row = parse.$synced.$r
-          text = msgs.get(
-            'validation.missing.any.kind',
-            [required.join(', ')],
-            locale
-          )
-        }
-        exceptions.push({
-          row,
-          text,
-          column: 0,
-          type: 'error'
+
+    // if it is NOT in either requiredValues nor optionalValues, it's an unknown key
+    if (!requiredValues[key] && !optionalValues[key]) {
+      if (!optionalValues[key]) {
+        resources.forEach(parse => {
+          let row = _.get(parse, '$synced.kind.$r')
+          let text = msgs.get('validation.extra.kind', [key], locale)
+          if (row === undefined) {
+            row = parse.$synced.$r
+            text = msgs.get(
+              'validation.missing.any.kind',
+              [required.join(', ')],
+              locale
+            )
+          }
+          exceptions.push({
+            row,
+            text,
+            column: 0,
+            type: 'error'
+          })
         })
-      })
+      }
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
+        // console.log("**key**", key)
+        // console.log("**allValues[key]**", allValues[key])
+        // console.log("raw", raw)
+        // console.log("synced", synced)
+        // console.log("\n")
         // there may be more then one format for this resource
-        let required = requiredValues[key]
+        let required = allValues[key]
         if (!Array.isArray(required)) {
           required = [required]
         }
         // keep checking until there's no error or no alternatives left
         const alternatives = required.length
+        // some: at least one element
         required.some((requires, idx) => {
           const len = exceptions.length
           const err = validatorHelper(
@@ -86,11 +172,15 @@ export function validator(parsed, exceptions, locale) {
             exceptions,
             locale
           )
+          // the raw is a json, use this to get the namespace name
+          //console.log(key, raw)
           return !err && len === exceptions.length // this alternative had no problems
         })
       })
     }
   })
+
+  // logic for handling the namespace check
 }
 
 function validatorHelper(

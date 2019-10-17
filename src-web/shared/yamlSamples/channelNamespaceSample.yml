@@ -1,13 +1,15 @@
-apiVersion: app.ibm.com/v1alpha1
-kind: Channel
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: qa
-  namespace: ch-qa
-spec:
-  sourceNamespaces:
-  - default
-  type: Namespace
-  pathname: ch-qa
-  gates:
-    annotations:
-      dev-ready: approved
+  name: namespace-name
+---
+apiVersion: app.ibm.com/v1alpha1____createChannel-apiVersion
+kind: Channel_______________________createChannel-kind
+metadata: 
+  name: ____________________________createChannel-metadata-name
+  namespace: namespace-name_________createChannel-metadata-namespace
+spec: 
+  gates: 
+    annotations: ___________________createChannel-spec-gates-annotations
+  sourceNamespaces: ________________createChannel-spec-sourceNamespaces
+  type: Namespace___________________createChannel-spec-type

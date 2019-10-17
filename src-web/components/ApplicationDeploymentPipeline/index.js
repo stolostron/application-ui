@@ -50,7 +50,7 @@ const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 // Create Resource for Channel
-const CreateChannelModal = (fetchChannels, locale) => {
+const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
   return (
     <CreateResourceModal
       key="createChannel"
@@ -61,7 +61,8 @@ const CreateChannelModal = (fetchChannels, locale) => {
       resourceDescriptionKey="modal.createresource.channel"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
-      sampleContent={getChannelNamespaceSample()}
+      sampleTabs={channelTabs}
+      sampleContent={getChannelNamespaceSample(locale)}
     />
   )
 }
@@ -243,8 +244,15 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels
     } = this.props
     const { locale } = this.context
+
+    const channelTabs = {
+      tab1: msgs.get('modal.title.namespace', locale),
+      tab2: msgs.get('modal.title.helmRepo', locale),
+      tab3: msgs.get('modal.title.objectBucket', locale),
+      tab4: msgs.get('modal.title.gitRepo', locale)
+    }
     const modalChannel = React.cloneElement(
-      CreateChannelModal(fetchChannels, locale),
+      CreateChannelModal(fetchChannels, channelTabs, locale),
       {
         resourceType: RESOURCE_TYPES.HCM_CHANNELS
       }

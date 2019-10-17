@@ -19,7 +19,54 @@ const requiredValues = {
       namespace: ''
     },
     spec: {
-      channel: ''
+      channel: '',
+      placement: {
+        placementRef: {
+          group: '',
+          kind: 'PlacementRule',
+          name: ''
+        }
+      }
+    }
+  }
+}
+
+const optionalValues = {
+  PlacementRule: {
+    apiVersion: '',
+    kind: 'PlacementRule',
+    metadata: {
+      name: '',
+      namespace: ''
+    }
+  }
+}
+
+const allValues = {
+  Subscription: {
+    apiVersion: '',
+    kind: 'Subscription',
+    metadata: {
+      name: '',
+      namespace: ''
+    },
+    spec: {
+      channel: '',
+      placement: {
+        placementRef: {
+          group: '',
+          kind: 'PlacementRule',
+          name: ''
+        }
+      }
+    }
+  },
+  PlacementRule: {
+    apiVersion: '',
+    kind: 'PlacementRule',
+    metadata: {
+      name: '',
+      namespace: ''
     }
   }
 }
@@ -37,31 +84,71 @@ export function validator(parsed, exceptions, locale) {
     }
   })
 
+  let subscriptionNamespace = ''
+  let subscriptionPlacementRuleName = ''
+  let placementRuleName = ''
+  let placementRuleNameRow = ''
+  let placementRuleNamespace = ''
+  let placementRuleNamespaceRow = ''
+
   Object.keys(parsed).forEach(key => {
     const resources = parsed[key]
-    if (!requiredValues[key]) {
-      resources.forEach(parse => {
-        let row = _.get(parse, '$synced.kind.$r')
-        let text = msgs.get('validation.extra.kind', [key], locale)
-        if (row === undefined) {
-          row = parse.$synced.$r
-          text = msgs.get(
-            'validation.missing.any.kind',
-            [required.join(', ')],
-            locale
-          )
-        }
-        exceptions.push({
-          row,
-          text,
-          column: 0,
-          type: 'error'
+    // check if all required keys are present
+    if (!requiredValues[key] && !optionalValues[key]) {
+      if (!optionalValues[key]) {
+        resources.forEach(parse => {
+          let row = _.get(parse, '$synced.kind.$r')
+          let text = msgs.get('validation.extra.kind', [key], locale)
+          if (row === undefined) {
+            row = parse.$synced.$r
+            text = msgs.get(
+              'validation.missing.any.kind',
+              [required.join(', ')],
+              locale
+            )
+          }
+          exceptions.push({
+            row,
+            text,
+            column: 0,
+            type: 'error'
+          })
         })
-      })
+      }
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
+        // pull out the namespace values for comparing
+        if (raw && raw.kind == 'Subscription') {
+          // pull out the namespace value
+          if (raw.metadata && raw.metadata.namespace) {
+            subscriptionNamespace = raw.metadata.namespace
+          }
+          // pull out the placement rule name in subscription
+          if (
+            raw.spec &&
+            raw.spec.placement &&
+            raw.spec.placement.placementRef &&
+            raw.spec.placement.placementRef.name
+          ) {
+            subscriptionPlacementRuleName =
+              raw.spec.placement.placementRef.name
+          }
+        }
+        if (raw && raw.kind == 'PlacementRule') {
+          // pull out the namespace value
+          if (raw.metadata && raw.metadata.namespace) {
+            placementRuleNamespace = raw.metadata.namespace
+            placementRuleNamespaceRow = synced.metadata.$v.namespace.$r
+          }
+          // pull out the placement rule name
+          if (raw.metadata && raw.metadata.name) {
+            placementRuleName = raw.metadata.name
+            placementRuleNameRow = synced.metadata.$v.name.$r
+          }
+        }
+
         // there may be more then one format for this resource
-        let required = requiredValues[key]
+        let required = allValues[key]
         if (!Array.isArray(required)) {
           required = [required]
         }
@@ -83,6 +170,44 @@ export function validator(parsed, exceptions, locale) {
       })
     }
   })
+
+  // namespace values must match what is defined (if passed)
+  if (subscriptionNamespace) {
+    if (
+      placementRuleNamespace &&
+      placementRuleNamespace != subscriptionNamespace
+    ) {
+      // error
+      exceptions.push({
+        row: placementRuleNamespaceRow,
+        text: msgs.get(
+          'validation.namespace.mismatch',
+          [subscriptionNamespace],
+          locale
+        ),
+        column: 0,
+        type: 'error'
+      })
+    }
+  }
+  if (subscriptionPlacementRuleName) {
+    if (
+      placementRuleName &&
+      placementRuleName != subscriptionPlacementRuleName
+    ) {
+      // error
+      exceptions.push({
+        row: placementRuleNameRow,
+        text: msgs.get(
+          'validation.placementrule.mismatch',
+          [subscriptionPlacementRuleName],
+          locale
+        ),
+        column: 0,
+        type: 'error'
+      })
+    }
+  }
 }
 
 function validatorHelper(

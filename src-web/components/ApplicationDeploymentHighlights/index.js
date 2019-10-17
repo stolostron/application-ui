@@ -11,7 +11,6 @@ import R from 'ramda'
 import React from 'react'
 
 import msgs from '../../../nls/platform.properties'
-import loadable from 'loadable-components'
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
@@ -23,10 +22,6 @@ import { getSingleApplicationObject } from './ApplicationDeploymentHighlightsDas
 import { pullOutKindPerApplication } from '../ApplicationDeploymentPipeline/utils'
 
 /* eslint-disable react/prop-types */
-
-export const ApplicationDeploymentSummary = loadable(() =>
-  import(/* webpackChunkName: "applicationdeploymentsummary" */ './ApplicationDeploymentSummary')
-)
 
 resources(() => {
   require('./style.scss')
@@ -97,12 +92,6 @@ class ApplicationDeploymentHighlights extends React.Component {
           HCMChannelList={HCMChannelList}
           HCMSubscriptionList={HCMSubscriptionList}
           isSingleApplicationView={isSingleApplicationView}
-        />
-        <ApplicationDeploymentSummary
-          HCMChannelList={HCMChannelList}
-          HCMApplicationList={HCMApplicationList}
-          HCMSubscriptionList={HCMSubscriptionList}
-          isSingleAppView={isSingleApplicationView}
         />
       </div>
     )

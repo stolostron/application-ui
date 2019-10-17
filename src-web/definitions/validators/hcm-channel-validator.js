@@ -11,13 +11,6 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 const requiredValues = {
-  // Namespace: {
-  //   apiVersion: '',
-  //   kind: 'Namespace',
-  //   metadata: {
-  //     name: ''
-  //   },
-  // },
   Channel: {
     apiVersion: '',
     kind: 'Channel',
@@ -28,23 +21,8 @@ const requiredValues = {
     spec: {
       type: 'ObjectBucket|HelmRepo|Namespace',
       pathname: ''
-      //   'secretRef':{},
-      //   'criteria':{
-      //       'sourceNamespace':'',
-      //       'annotations':{},
-      //       'labelSelector':{},
-      //       'name':''
-      //   }
     }
   }
-  // ConfigMap: {
-  //   apiVersion: '',
-  //   kind: 'ConfigMap',
-  //   metadata: {
-  //     name: '',
-  //     namespace: ''
-  //   },
-  // }
 }
 
 const optionalValues = {
@@ -55,7 +33,6 @@ const optionalValues = {
       name: ''
     }
   },
-
   ConfigMap: {
     apiVersion: '',
     kind: 'ConfigMap',
@@ -66,7 +43,6 @@ const optionalValues = {
   }
 }
 
-// probably change this to combine the required+optional
 const allValues = {
   Namespace: {
     apiVersion: '',
@@ -85,13 +61,6 @@ const allValues = {
     spec: {
       type: 'ObjectBucket|HelmRepo|Namespace',
       pathname: ''
-      //   'secretRef':{},
-      //   'criteria':{
-      //       'sourceNamespace':'',
-      //       'annotations':{},
-      //       'labelSelector':{},
-      //       'name':''
-      //   }
     }
   },
   ConfigMap: {
@@ -128,13 +97,11 @@ export function validator(parsed, exceptions, locale) {
   // check through all the parsed keys
   Object.keys(parsed).forEach(key => {
     const resources = parsed[key]
-
     // if it is NOT in either requiredValues nor optionalValues, it's an unknown key
     if (!requiredValues[key] && !optionalValues[key]) {
       if (!optionalValues[key]) {
         resources.forEach(parse => {
           let row = _.get(parse, '$synced.kind.$r')
-          // console.log('row', row)
           let text = msgs.get('validation.extra.kind', [key], locale)
           if (row === undefined) {
             row = parse.$synced.$r
@@ -154,12 +121,6 @@ export function validator(parsed, exceptions, locale) {
       }
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
-        // console.log('**key**', key)
-        // console.log('**allValues[key]**', allValues[key])
-        // console.log('raw', raw)
-        // console.log('synced', synced)
-        // console.log('\n')
-
         // pull out the namespace values after looping through
         if (
           raw &&
@@ -207,32 +168,28 @@ export function validator(parsed, exceptions, locale) {
             exceptions,
             locale
           )
-          // the raw is a json, use this to get the namespace name
-          //console.log(key, raw)
           return !err && len === exceptions.length // this alternative had no problems
         })
       })
     }
   })
 
-  // logic for handling the namespace check
+  // namespace values must match what is defined (if passed)
   if (namespace) {
     if (channelNamespace && channelNamespace != namespace) {
       // error
-
       exceptions.push({
         row: channelNamespaceRow,
-        text: 'Namespace not matching',
+        text: msgs.get('validation.namespace.mismatch', [namespace], locale),
         column: 0,
         type: 'error'
       })
     }
     if (configMapNamespace && configMapNamespace != namespace) {
       // error
-
       exceptions.push({
         row: configMapNamespaceRow,
-        text: 'Namespace not matching',
+        text: msgs.get('validation.namespace.mismatch', [namespace], locale),
         column: 0,
         type: 'error'
       })

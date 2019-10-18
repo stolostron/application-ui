@@ -18,46 +18,14 @@ import CreateResourceModal from '../components/modals/CreateResourceModal'
 import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
+import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationSample.yml'
+import { getApplicationSample } from '../shared/yamlSamples/index'
 
 const handleCreateResource = (dispatch, yaml) =>
   dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
 
 const { locale } = context()
 const tableTitle = msgs.get('table.title.allApplications', locale)
-
-const createApplicationSample =
-  '# This is a sample template for creating subscriptions.\n' +
-  '# For more information, click the "Need help writing this?" link above.\n\n' +
-  'apiVersion: app.k8s.io/v1beta1\n' +
-  'kind: Application\n' +
-  'metadata:\n' +
-  '  name:' +
-  '\t#The name of the application resource\n' +
-  '  namespace:' +
-  '\t#The namespace for the application\n' +
-  '  resourceVersion:' +
-  '\t#The version of the application resource\n' +
-  '  annotations:' +
-  '\t#The annotations for the application\n' +
-  '  labels:' +
-  '\t#The labels for the deployable\n' +
-  '    app:\n' +
-  '    chart:\n' +
-  '    heritage:\n' +
-  '    name:\n' +
-  '    release:\n' +
-  'spec:\n' +
-  '  componentKinds:' +
-  '\t#The list of the kinds of resources to be associated with the application\n' +
-  '  - group:\n' +
-  '    kind:\n' +
-  '  descriptor:\n' +
-  '  selector:\n' +
-  '    matchExpressions:' +
-  '\t#Contains the selectors to use to associate other Kubernetes resources with the application\n' +
-  '    - key:\n' +
-  '      operator:\n' +
-  '      values:'
 
 const registerApplicationModal = (
   <CreateResourceModal
@@ -67,7 +35,7 @@ const registerApplicationModal = (
     onCreateResource={handleCreateResource}
     resourceDescriptionKey="modal.createresource.application"
     helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html"
-    sampleContent={createApplicationSample}
+    sampleContent={[getApplicationSample(applicationSample, locale)]}
   />
 )
 

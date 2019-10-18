@@ -10,7 +10,7 @@
 import YAML from 'yaml'
 import msgs from '../../../nls/platform.properties'
 
-export const getChannelSample = (channelTypeSample, locale) => {
+export const getChannelSample = (channelSample, locale) => {
   const mapObj = {
     'createChannel-apiVersion':
       '# ' + msgs.get('description.createChannel.apiVersion', locale),
@@ -31,13 +31,80 @@ export const getChannelSample = (channelTypeSample, locale) => {
     null: '',
     _: ' '
   }
-
-  var sample = YAML.stringify(channelTypeSample).replace(
+  var sample = YAML.stringify(channelSample).replace(
     /createChannel-apiVersion|createChannel-kind|createChannel-metadata-name|createChannel-metadata-namespace|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
     matched => {
       return mapObj[matched]
     }
   )
+  return sample
+}
 
+export const getSubscriptionSample = (subsciptionSample, locale) => {
+  const mapObj = {
+    'createSubscription-apiVersion':
+      '# ' + msgs.get('description.createSubscription.apiVersion', locale),
+    'createSubscription-kind':
+      '# ' + msgs.get('description.createSubscription.kind', locale),
+    'createSubscription-metadata-name':
+      '# ' + msgs.get('description.createSubscription.metadata.name', locale),
+    'createSubscription-metadata-namespace':
+      '# ' +
+      msgs.get('description.createSubscription.metadata.namespace', locale),
+    'createSubscription-spec-channel':
+      '# ' + msgs.get('description.createSubscription.spec.channel', locale),
+    'createSubscription-spec-placement-placementRef-name':
+      '# ' +
+      msgs.get(
+        'description.createSubscription.spec.placement.placementRef.name',
+        locale
+      ),
+    'createSubscription-spec-placement-placementRef-kind':
+      '# ' +
+      msgs.get(
+        'description.createSubscription.spec.placement.placementRef.kind',
+        locale
+      ),
+    null: '',
+    _: ' '
+  }
+  var sample = YAML.stringify(subsciptionSample).replace(
+    /createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-name|createSubscription-metadata-namespace|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|null|_/gi,
+    matched => {
+      return mapObj[matched]
+    }
+  )
+  return sample
+}
+
+export const getApplicationSample = (applicationSample, locale) => {
+  const mapObj = {
+    'createApplication-apiVersion':
+      '# ' + msgs.get('description.createApplication.apiVersion', locale),
+    'createApplication-kind':
+      '# ' + msgs.get('description.createApplication.kind', locale),
+    'createApplication-metadata-name':
+      '# ' + msgs.get('description.createApplication.metadata.name', locale),
+    'createApplication-metadata-namespace':
+      '# ' +
+      msgs.get('description.createApplication.metadata.namespace', locale),
+    'createApplication-spec-componentKinds':
+      '# ' +
+      msgs.get('description.createApplication.spec.componentKinds', locale),
+    'createApplication-spec-selector-matchExpressions':
+      '# ' +
+      msgs.get(
+        'description.createApplication.spec.selector.matchExpressions',
+        locale
+      ),
+    null: '',
+    _: ' '
+  }
+  var sample = YAML.stringify(applicationSample).replace(
+    /createApplication-apiVersion|createApplication-kind|createApplication-metadata-name|createApplication-metadata-namespace|createApplication-spec-componentKinds|createApplication-spec-selector-matchExpressions|null|_/gi,
+    matched => {
+      return mapObj[matched]
+    }
+  )
   return sample
 }

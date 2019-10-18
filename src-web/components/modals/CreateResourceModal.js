@@ -196,6 +196,7 @@ class CreateResourceModal extends React.PureComponent {
                         disabled={false}
                         onClick={() => {}}
                         onKeyDown={() => {}}
+                        key={tabs[key]}
                         label={tabs[key]}
                       >
                         <YamlEditor

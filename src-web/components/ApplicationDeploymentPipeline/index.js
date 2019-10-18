@@ -37,7 +37,11 @@ import {
 import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml'
 import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml'
 import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml'
-import { getChannelSample } from '../../shared/yamlSamples/index'
+import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml'
+import {
+  getChannelSample,
+  getSubscriptionSample
+} from '../../shared/yamlSamples/index'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
@@ -92,7 +96,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent={[getChannelSample(channelNamespaceSample, locale)]}
+      sampleContent={[getSubscriptionSample(subscriptionSample, locale)]}
     />
   )
 }

@@ -38,7 +38,8 @@ const optionalValues = {
     metadata: {
       name: '',
       namespace: ''
-    }
+    },
+    spec: {}
   }
 }
 
@@ -67,7 +68,8 @@ const allValues = {
     metadata: {
       name: '',
       namespace: ''
-    }
+    },
+    spec: {}
   }
 }
 

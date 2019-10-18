@@ -21,12 +21,14 @@ import {
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
+import { validator } from './validators/hcm-application-validator'
 
 export default {
   defaultSortField: 'name',
   uriKey: 'name',
   primaryKey: 'name',
   secondaryKey: 'namespace',
+  validator,
   tableKeys: [
     {
       msgKey: 'table.header.applicationName',

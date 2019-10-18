@@ -19,7 +19,7 @@ const requiredValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo|Namespace|Github',
+      type: 'ObjectBucket|HelmRepo|Namespace|GitHub',
       pathname: ''
     }
   }

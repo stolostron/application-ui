@@ -1,0 +1,11 @@
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: 
+  namespace: namespace-name
+spec:
+  channel: 
+  placement:
+    placementRef:
+      kind: PlacementRule
+      name: 

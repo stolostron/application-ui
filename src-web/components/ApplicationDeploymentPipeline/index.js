@@ -34,7 +34,10 @@ import {
   filterApps,
   getSubscriptionListGivenApplicationList
 } from './utils'
-import { getChannelNamespaceSample } from '../../shared/yamlSamples/index'
+import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml'
+import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml'
+import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml'
+import { getChannelSample } from '../../shared/yamlSamples/index'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
@@ -62,7 +65,11 @@ const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
       helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
       sampleTabs={channelTabs}
-      sampleContent={getChannelNamespaceSample(locale)}
+      sampleContent={[
+        getChannelSample(channelNamespaceSample, locale),
+        getChannelSample(channelHelmRepoSample, locale),
+        getChannelSample(channelObjectBucketSample, locale)
+      ]}
     />
   )
 }
@@ -85,7 +92,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent="test here" //{getSubscriptionSample}
+      sampleContent={[getChannelSample(channelNamespaceSample, locale)]}
     />
   )
 }

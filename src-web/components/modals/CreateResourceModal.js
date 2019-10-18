@@ -56,7 +56,7 @@ class CreateResourceModal extends React.PureComponent {
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
-    sampleContent: PropTypes.string,
+    sampleContent: PropTypes.array,
     sampleTabs: PropTypes.object,
     submitBtnTextKey: PropTypes.string
   };
@@ -190,7 +190,7 @@ class CreateResourceModal extends React.PureComponent {
             {this.props.sampleTabs ? (
               <div className="yamlSampleTabsContainer">
                 <Tabs className="yamlSampleTabs">
-                  {Object.keys(tabs).map(key => {
+                  {Object.keys(tabs).map((key, i) => {
                     return (
                       <Tab
                         disabled={false}
@@ -202,7 +202,7 @@ class CreateResourceModal extends React.PureComponent {
                           validator={validator}
                           onYamlChange={tabsHandleEditorChange}
                           handleParsingError={tabsHandleParsingError}
-                          yaml={tabsYaml ? tabsYaml : tabsSampleContent}
+                          yaml={tabsYaml ? tabsYaml : tabsSampleContent[i]}
                         />
                       </Tab>
                     )
@@ -214,9 +214,7 @@ class CreateResourceModal extends React.PureComponent {
                 validator={validator}
                 onYamlChange={this.handleEditorChange}
                 handleParsingError={this.handleParsingError}
-                yaml={
-                  this.state.yaml ? this.state.yaml : this.props.sampleContent
-                }
+                yaml={this.state.yaml ? this.state.yaml : tabsSampleContent[0]}
               />
             )}
 

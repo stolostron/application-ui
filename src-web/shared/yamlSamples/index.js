@@ -9,9 +9,8 @@
 
 import YAML from 'yaml'
 import msgs from '../../../nls/platform.properties'
-import channelNamespaceSample from 'js-yaml-loader!./channelNamespaceSample.yml'
 
-export const getChannelNamespaceSample = locale => {
+export const getChannelSample = (channelTypeSample, locale) => {
   const mapObj = {
     'createChannel-apiVersion':
       '# ' + msgs.get('description.createChannel.apiVersion', locale),
@@ -33,7 +32,7 @@ export const getChannelNamespaceSample = locale => {
     _: ' '
   }
 
-  var sample = YAML.stringify(channelNamespaceSample).replace(
+  var sample = YAML.stringify(channelTypeSample).replace(
     /createChannel-apiVersion|createChannel-kind|createChannel-metadata-name|createChannel-metadata-namespace|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
     matched => {
       return mapObj[matched]

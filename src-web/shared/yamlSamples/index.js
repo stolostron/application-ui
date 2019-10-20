@@ -37,6 +37,7 @@ export const getChannelSample = (channelSample, locale) => {
       return mapObj[matched]
     }
   )
+
   return sample
 }
 
@@ -74,6 +75,7 @@ export const getSubscriptionSample = (subsciptionSample, locale) => {
       return mapObj[matched]
     }
   )
+
   return sample
 }
 
@@ -106,5 +108,6 @@ export const getApplicationSample = (applicationSample, locale) => {
       return mapObj[matched]
     }
   )
+
   return sample
 }

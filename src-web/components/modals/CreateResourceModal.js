@@ -17,7 +17,9 @@ import {
   Button,
   InlineNotification,
   Loading,
-  Modal
+  Modal,
+  Tabs,
+  Tab
 } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
@@ -54,6 +56,8 @@ class CreateResourceModal extends React.PureComponent {
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
+    sampleContent: PropTypes.array,
+    sampleTabs: PropTypes.object,
     submitBtnTextKey: PropTypes.string
   };
 
@@ -112,6 +116,11 @@ class CreateResourceModal extends React.PureComponent {
   render() {
     const { resourceType } = this.props
     const { validator } = getResourceDefinitions(resourceType)
+    const tabs = this.props.sampleTabs
+    const tabsSampleContent = this.props.sampleContent
+    const tabsHandleEditorChange = this.handleEditorChange
+    const tabsHandleParsingError = this.handleParsingError
+    const tabsYaml = this.state.yaml
     return (
       <div>
         <Button
@@ -178,12 +187,38 @@ class CreateResourceModal extends React.PureComponent {
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}
-            <YamlEditor
-              validator={validator}
-              onYamlChange={this.handleEditorChange}
-              handleParsingError={this.handleParsingError}
-              yaml={this.state.yaml}
-            />
+            {this.props.sampleTabs ? (
+              <div className="yamlSampleTabsContainer">
+                <Tabs className="yamlSampleTabs">
+                  {Object.keys(tabs).map((key, i) => {
+                    return (
+                      <Tab
+                        disabled={false}
+                        onClick={() => {}}
+                        onKeyDown={() => {}}
+                        key={tabs[key]}
+                        label={tabs[key]}
+                      >
+                        <YamlEditor
+                          validator={validator}
+                          onYamlChange={tabsHandleEditorChange}
+                          handleParsingError={tabsHandleParsingError}
+                          yaml={tabsYaml ? tabsYaml : tabsSampleContent[i]}
+                        />
+                      </Tab>
+                    )
+                  })}
+                </Tabs>
+              </div>
+            ) : (
+              <YamlEditor
+                validator={validator}
+                onYamlChange={this.handleEditorChange}
+                handleParsingError={this.handleParsingError}
+                yaml={this.state.yaml ? this.state.yaml : tabsSampleContent[0]}
+              />
+            )}
+
             {this.state.processing && <Loading />}
           </Modal>
         )}

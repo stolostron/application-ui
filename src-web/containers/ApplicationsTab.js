@@ -18,6 +18,8 @@ import CreateResourceModal from '../components/modals/CreateResourceModal'
 import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
+import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationSample.yml'
+import { getApplicationSample } from '../shared/yamlSamples/index'
 
 const handleCreateResource = (dispatch, yaml) =>
   dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
@@ -33,6 +35,7 @@ const registerApplicationModal = (
     onCreateResource={handleCreateResource}
     resourceDescriptionKey="modal.createresource.application"
     helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html"
+    sampleContent={[getApplicationSample(applicationSample, locale)]}
   />
 )
 

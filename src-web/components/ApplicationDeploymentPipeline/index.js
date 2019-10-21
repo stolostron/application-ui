@@ -34,6 +34,14 @@ import {
   filterApps,
   getSubscriptionListGivenApplicationList
 } from './utils'
+import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml'
+import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml'
+import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml'
+import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml'
+import {
+  getChannelSample,
+  getSubscriptionSample
+} from '../../shared/yamlSamples/index'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
@@ -49,7 +57,7 @@ const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 // Create Resource for Channel
-const CreateChannelModal = (fetchChannels, locale) => {
+const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
   return (
     <CreateResourceModal
       key="createChannel"
@@ -60,6 +68,12 @@ const CreateChannelModal = (fetchChannels, locale) => {
       resourceDescriptionKey="modal.createresource.channel"
       helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
+      sampleTabs={channelTabs}
+      sampleContent={[
+        getChannelSample(channelNamespaceSample, locale),
+        getChannelSample(channelHelmRepoSample, locale),
+        getChannelSample(channelObjectBucketSample, locale)
+      ]}
     />
   )
 }
@@ -82,6 +96,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
+      sampleContent={[getSubscriptionSample(subscriptionSample, locale)]}
     />
   )
 }
@@ -240,8 +255,15 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels
     } = this.props
     const { locale } = this.context
+
+    const channelTabs = {
+      tab1: msgs.get('modal.title.namespace', locale),
+      tab2: msgs.get('modal.title.helmRepo', locale),
+      tab3: msgs.get('modal.title.objectBucket', locale),
+      tab4: msgs.get('modal.title.gitRepo', locale)
+    }
     const modalChannel = React.cloneElement(
-      CreateChannelModal(fetchChannels, locale),
+      CreateChannelModal(fetchChannels, channelTabs, locale),
       {
         resourceType: RESOURCE_TYPES.HCM_CHANNELS
       }

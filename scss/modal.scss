@@ -33,6 +33,14 @@
   .bx--modal-footer {
     margin: 0;
   }
+
+  .yamlSampleTabsContainer {
+    border-top: 1px solid $color__gray-1;
+  }
+
+  .yamlSampleTabs {
+    padding-left: 25px;
+  }
 }
 
 .remove-app-modal {

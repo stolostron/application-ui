@@ -6,7 +6,6 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-
 import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
@@ -15,6 +14,7 @@ import ProgressBar from '../ProgressBar/index'
 import {
   onSubscriptionClick,
   editResourceClick,
+  editPlacementRuleClick,
   getDataByKind,
   getResourcesStatusPerChannel,
   createSubscriptionPerChannel,
@@ -22,7 +22,10 @@ import {
   getLongestArray,
   getTotalSubscriptions
 } from './utils'
-import { pullOutKindPerApplication } from '../../utils'
+import {
+  pullOutKindPerApplication,
+  getPlacementRuleFromBulkSubscription
+} from '../../utils'
 import { Tile, Icon } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 
@@ -167,7 +170,8 @@ const ChannelColumnGrid = (
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
-    getSubscriptionResource
+    getSubscriptionResource,
+    getPlacementRuleResource
   },
   locale
 ) => {
@@ -268,6 +272,10 @@ const ChannelColumnGrid = (
                         bulkSubscriptionList,
                         subCol._uid
                       )
+                      const placementRule = getPlacementRuleFromBulkSubscription(
+                        thisSubscriptionData
+                      )
+
                       // Get status of resources within the subscription specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
@@ -275,6 +283,7 @@ const ChannelColumnGrid = (
                       const status = getResourcesStatusPerChannel(
                         thisSubscriptionData
                       )
+
                       // If the object isn't empty name will be defined
                       const displayStatus = subCol.name
                       // show no subscriptions Tile
@@ -287,11 +296,24 @@ const ChannelColumnGrid = (
                       const onClickEditResource = () => {
                         editResourceClick(subCol, getSubscriptionResource)
                       }
+                      const onClickEditPlacementRule = () => {
+                        editPlacementRuleClick(
+                          placementRule,
+                          getPlacementRuleResource
+                        )
+                      }
+
+                      const onKeyPressEditPlacementRule = e => {
+                        if (e.key === 'Enter') {
+                          onClickEditPlacementRule()
+                        }
+                      }
                       const onKeyPressEditResource = e => {
                         if (e.key === 'Enter') {
                           onClickEditResource()
                         }
                       }
+
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
@@ -302,7 +324,8 @@ const ChannelColumnGrid = (
                                 const proceed =
                                   typeof eClass != 'object' &&
                                   eClass != 'yamlEditSubContainer' &&
-                                  eClass != 'yamlTitleSub'
+                                  eClass != 'yamlTitleSub' &&
+                                  eClass != 'placementRuleDesc'
                                 if (proceed) {
                                   onSubscriptionClick(
                                     openSubscriptionModal,
@@ -347,6 +370,34 @@ const ChannelColumnGrid = (
                                 'description.namespace',
                                 locale
                               )}: ${subCol.namespace}`}</div>
+                              {placementRule &&
+                                placementRule.name && (
+                                <div
+                                  className="placementRuleDesc"
+                                  onClick={onClickEditPlacementRule}
+                                  onKeyPress={onKeyPressEditPlacementRule}
+                                  tabIndex={placementRule._uid}
+                                  role="button"
+                                >
+                                  {`${msgs.get(
+                                    'description.placement.rule',
+                                    locale
+                                  )}: ${placementRule.name} `}
+                                  <Icon
+                                    name="icon--edit"
+                                    fill="#6089bf"
+                                    description=""
+                                    className="placementEditIcon"
+                                    onClick={() =>
+                                      editResourceClick(
+                                        placementRule,
+                                        getPlacementRuleResource
+                                      )
+                                    }
+                                  />
+                                </div>
+                              )}
+
                               <div className="progressBarContainer">
                                 <ProgressBar status={status} />
                               </div>
@@ -398,6 +449,7 @@ const PipelineGrid = withLocale(
     appSubscriptions,
     getChannelResource,
     getSubscriptionResource,
+    getPlacementRuleResource,
     openSubscriptionModal,
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
@@ -438,6 +490,7 @@ const PipelineGrid = withLocale(
             }
             setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
             getSubscriptionResource={getSubscriptionResource}
+            getPlacementRuleResource={getPlacementRuleResource}
           />
         </div>
       </div>

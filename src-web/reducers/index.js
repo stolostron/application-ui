@@ -70,6 +70,10 @@ export const HCMSubscriptionList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
 )
+export const HCMPlacementRuleList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+)
 export const CEMIncidentList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.CEM_INCIDENTS)

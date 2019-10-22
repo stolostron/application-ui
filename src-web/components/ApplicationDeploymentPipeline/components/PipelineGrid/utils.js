@@ -78,6 +78,15 @@ export const editResourceClick = (resource, getResource) => {
   )
 }
 
+export const editPlacementRuleClick = (resource, getResource) => {
+  getResource(
+    resource.selfLink,
+    resource.namespace,
+    resource.name,
+    resource.cluster || resource.data.cluster
+  )
+}
+
 // This method will find the matching subscription the the given channel and
 // return the corresponding subscription from the list
 // ----------------
@@ -140,7 +149,11 @@ const determineStatus = (statusPassFailInProgress, status) => {
   ) {
     // Increment PASS
     statusTotals[0] = statusTotals[0] + 1
-  } else if (status.includes('fail') || status.includes('error') || status.includes('imagepullbackoff')) {
+  } else if (
+    status.includes('fail') ||
+    status.includes('error') ||
+    status.includes('imagepullbackoff')
+  ) {
     statusTotals[1] = statusTotals[1] + 1
   } else if (status.includes('progress')) {
     statusTotals[2] = statusTotals[2] + 1

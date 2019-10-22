@@ -10,6 +10,7 @@
 
 import R from 'ramda'
 import React from 'react'
+import { Icon } from 'carbon-components-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import jsYaml from 'js-yaml'
@@ -164,8 +165,13 @@ class CreateResourceModal extends React.PureComponent {
               {this.props.helpLink && (
                 <div className="help-link">
                   <a href={this.props.helpLink} target="_blank">
-                    {msgs.get('link.help.writing', this.context.locale)}
+                    {msgs.get('link.help.writing', this.context.locale)}&nbsp;
                   </a>
+                  <Icon
+                    className="app-dashboard-icon"
+                    name="icon--launch"
+                    fill="#3D70B2"
+                  />
                 </div>
               )}
             </div>

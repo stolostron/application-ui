@@ -31,17 +31,12 @@
     font-size: 18px;
   }
 
-  .AddChannelButton {
-    padding-left: 20px;
-    display: inline-block;
-    margin-top: 20px;
-  }
+  // .AddResourceButton {
+  //   padding: 20px;
+  //   display: inline-block;
+  //   margin: 20px;
 
-  .AddSubscriptionButton {
-    display: inline-block;
-    margin-top: 20px;
-    padding-left: 20px;
-  }
+  // }
 
   .addChannelIcon {
     fill: white;
@@ -60,4 +55,27 @@
   .bx--btn__icon {
     fill: #4a79b7;
   }
+
+  // overrides for the pipeline buttons
+  .AddResourceButton {
+    padding: 20px;
+    display: inline-block;
+    margin: 20px;
+  }
+
+  .AddResourceButton > * > .bx--btn {
+    text-align: left;
+    width: 200px;
+  }
+
+  .AddResourceButton > * > .bx--btn .bx--btn__icon {
+    float: right;
+  }
+
+  .bx--modal__buttons-container .bx--btn--primary {
+    background-color: #4a79b7;
+    color: #f4f7fb;
+  }
+
+  // dialog override
 }

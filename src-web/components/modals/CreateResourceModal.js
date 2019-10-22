@@ -56,9 +56,9 @@ class CreateResourceModal extends React.PureComponent {
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
+    resourceTypeName: PropTypes.string,
     sampleContent: PropTypes.array,
-    sampleTabs: PropTypes.object,
-    submitBtnTextKey: PropTypes.string
+    sampleTabs: PropTypes.object
   };
 
   state = initialState;
@@ -126,12 +126,12 @@ class CreateResourceModal extends React.PureComponent {
         <Button
           icon="add--glyph"
           small
-          id={msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          id={msgs.get(this.props.resourceTypeName, this.context.locale)}
           iconDescription={this.props.iconDescription}
           key="create-resource"
           onClick={this.handleModalOpen}
         >
-          {msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          {msgs.get(this.props.resourceTypeName, this.context.locale)}
         </Button>
         {this.state.modalOpen && (
           <Modal
@@ -142,7 +142,7 @@ class CreateResourceModal extends React.PureComponent {
               this.context.locale
             )}
             primaryButtonText={msgs.get(
-              this.props.submitBtnTextKey,
+              'modal.button.save',
               this.context.locale
             )}
             primaryButtonDisabled={this.isSubmitDisabled()}

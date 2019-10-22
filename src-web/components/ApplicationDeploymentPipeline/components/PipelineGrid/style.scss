@@ -199,7 +199,7 @@
     font-weight: 700;
   }
 
-  .namespaceDesc {
+  .placementRuleDesc {
     font-size: 12px;
     color: #5a6872;
     border-bottom-style: solid;
@@ -207,6 +207,21 @@
     border-bottom-color: #dfe3e6;
     padding-top: 10px;
     padding-bottom: 20px;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #3d70b2;
+  }
+
+  .placementEditIcon {
+    fill: black;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .namespaceDesc {
+    font-size: 12px;
+    color: #5a6872;
+    padding-top: 10px;
   }
 
   .progressBarContainer {

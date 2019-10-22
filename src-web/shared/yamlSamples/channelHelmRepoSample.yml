@@ -9,7 +9,7 @@ metadata:
   name: ____________________________createChannel-metadata-name
   namespace: namespace-name_________createChannel-metadata-namespace
 spec:
-  pathname: _
+  pathname: null
   configRef:
     name: _
   type: HelmRepo____________________createChannel-spec-type

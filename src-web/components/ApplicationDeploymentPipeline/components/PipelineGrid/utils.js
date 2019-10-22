@@ -78,15 +78,6 @@ export const editResourceClick = (resource, getResource) => {
   )
 }
 
-export const editPlacementRuleClick = (resource, getResource) => {
-  getResource(
-    resource.selfLink,
-    resource.namespace,
-    resource.name,
-    resource.cluster || resource.data.cluster
-  )
-}
-
 // This method will find the matching subscription the the given channel and
 // return the corresponding subscription from the list
 // ----------------

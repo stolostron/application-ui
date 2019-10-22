@@ -14,7 +14,6 @@ import ProgressBar from '../ProgressBar/index'
 import {
   onSubscriptionClick,
   editResourceClick,
-  editPlacementRuleClick,
   getDataByKind,
   getResourcesStatusPerChannel,
   createSubscriptionPerChannel,
@@ -297,7 +296,7 @@ const ChannelColumnGrid = (
                         editResourceClick(subCol, getSubscriptionResource)
                       }
                       const onClickEditPlacementRule = () => {
-                        editPlacementRuleClick(
+                        editResourceClick(
                           placementRule,
                           getPlacementRuleResource
                         )

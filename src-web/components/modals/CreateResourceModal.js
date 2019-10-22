@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import jsYaml from 'js-yaml'
 import {
   Button,
+  Icon,
   InlineNotification,
   Loading,
   Modal,
@@ -165,6 +166,15 @@ class CreateResourceModal extends React.PureComponent {
                 <div className="help-link">
                   <a href={this.props.helpLink} target="_blank">
                     {msgs.get('link.help.writing', this.context.locale)}
+                  </a>
+
+                  <a href={this.props.helpLink} target="_blank">
+                    <Icon
+                      name="icon--launch"
+                      fill="#6089bf"
+                      description=""
+                      className="helpLinkIcon"
+                    />
                   </a>
                 </div>
               )}

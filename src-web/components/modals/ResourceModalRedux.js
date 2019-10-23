@@ -10,6 +10,7 @@
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
 import React from 'react'
+import { Icon } from 'carbon-components-react'
 import lodash from 'lodash'
 import { Modal, Loading, InlineNotification } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
@@ -158,10 +159,15 @@ class ResourceModal extends React.PureComponent {
               ))}
 
             {helpLink && (
-              <span className="help-link">
+              <span className="help-link-edit">
                 <a href={helpLink} target="_blank">
                   {msgs.get('link.help.writing', this.context.locale)}
-                </a>
+                </a>&nbsp;
+                <Icon
+                  className="app-dashboard-icon"
+                  name="icon--launch"
+                  fill="#3D70B2"
+                />
               </span>
             )}
 

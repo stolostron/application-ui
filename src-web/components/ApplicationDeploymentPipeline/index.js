@@ -48,6 +48,7 @@ import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
+import ResourceCardsInformation from './components/ResourceCardsInformation'
 
 /* eslint-disable react/prop-types */
 
@@ -381,8 +382,10 @@ class ApplicationDeploymentPipeline extends React.Component {
         </div>
         <ApplicationDeploymentHighlights />
         <div className="resource-cards-container">
-          <div className="resource-cards-information" />
-          <div className="resource-cards-create-new">
+          <div className="resource-cards-info-container">
+            <ResourceCardsInformation />
+          </div>
+          <div className="resource-cards-create-container">
             {showCreate(userRole) && (
               <React.Fragment>
                 <div className="AddResourceButton">{[modalSubscription]}</div>

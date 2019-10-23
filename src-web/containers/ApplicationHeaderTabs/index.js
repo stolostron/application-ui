@@ -18,7 +18,6 @@ import loadable from 'loadable-components'
 import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
-import ApplicationDeploymentHighlights from '../../components/ApplicationDeploymentHighlights'
 import resources from '../../../lib/shared/resources'
 import { isAdminRole } from '../../../lib/client/access-helper'
 
@@ -45,7 +44,15 @@ export const ApplicationLogs = loadable(() =>
 // This will render the four tabs
 // Overview, Deployments, Incidents, Logs
 const ApplicationHeaderTabs = withLocale(
-  ({ selectedAppTab, showExtraTabs, userRole, params, actions, locale, serverProps }) => {
+  ({
+    selectedAppTab,
+    showExtraTabs,
+    userRole,
+    params,
+    actions,
+    locale,
+    serverProps
+  }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
     }
@@ -85,7 +92,6 @@ const ApplicationHeaderTabs = withLocale(
               label={msgs.get('description.title.deployments', locale)}
             >
               <div className="page-content-container">
-                <ApplicationDeploymentHighlights />
                 <ApplicationDeploymentPipeline serverProps={serverProps} />
               </div>
             </Tab>
@@ -110,7 +116,7 @@ const ApplicationHeaderTabs = withLocale(
                 label={msgs.get('description.title.logs', locale)}
               >
                 <div className="page-content-container">
-                  <ApplicationLogs serverProps={serverProps}/>
+                  <ApplicationLogs serverProps={serverProps} />
                 </div>
               </Tab>
             )}

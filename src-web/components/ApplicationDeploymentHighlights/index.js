@@ -10,7 +10,6 @@
 import R from 'ramda'
 import React from 'react'
 
-import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
@@ -63,7 +62,6 @@ class ApplicationDeploymentHighlights extends React.Component {
       HCMApplicationList,
       isSingleApplicationView
     } = this.props
-    const { locale } = this.context
 
     let open = false
     if (isSingleApplicationView) {
@@ -83,9 +81,6 @@ class ApplicationDeploymentHighlights extends React.Component {
 
     return (
       <div id="DeploymentHighlights">
-        <div className="deployment-highlights-header">
-          {msgs.get('description.title.deploymentHighlights', locale)}
-        </div>
         <ApplicationDeploymentHighlightsTerminology open={open} />
         <ApplicationDeploymentHighlightsDashboard
           HCMApplicationList={HCMApplicationList}

@@ -9,11 +9,13 @@
 
 import {
   getChannelsList,
+  getNumClusters,
   getNumDeployables,
   getNumDeployments,
   getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments,
+  getNumRemoteSubscriptions,
   getResourceChannels
 } from './utils'
 
@@ -94,8 +96,37 @@ const data1 = {
       items: [
         {
           name: 'appdemo'
+        },
+        {
+          name: 'local-cluster'
         }
       ]
+    }
+  ],
+  remoteSubs: [
+    {
+      kind: 'subscription',
+      name: 'appdemo1',
+      status: 'Subscribed'
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo2',
+      status: 'Failed'
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo3',
+      status: null
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo4',
+      status: ''
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo5'
     }
   ]
 }
@@ -159,6 +190,16 @@ describe('getChannelsList', () => {
   })
 })
 
+describe('getNumClusters', () => {
+  it('should return cluster count', () => {
+    const result = 1
+    expect(getNumClusters(data1)).toEqual(result)
+  })
+  it('should return 0 if related is empty', () => {
+    expect(getNumClusters(data2)).toEqual(0)
+  })
+})
+
 describe('getNumDeployables', () => {
   it('should return deployable count', () => {
     const result = 2
@@ -206,6 +247,16 @@ describe('getNumFailedDeployments', () => {
   })
   it('should return 0 if related is empty', () => {
     expect(getNumFailedDeployments(data2)).toEqual(0)
+  })
+})
+
+describe('getNumRemoteSubscriptions', () => {
+  it('should return deployment count', () => {
+    const result = '5 | 1 | 3'
+    expect(getNumRemoteSubscriptions(data1)).toEqual(result)
+  })
+  it('should return 0 if related is empty', () => {
+    expect(getNumRemoteSubscriptions(data2)).toEqual('0 | 0 | 0')
   })
 })
 

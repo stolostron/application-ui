@@ -12,11 +12,9 @@ import { Loading } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
-  getNumDeployables,
-  getNumDeployments,
-  getNumCompletedDeployments,
-  getNumInProgressDeployments,
-  getNumFailedDeployments
+  getNumClusters,
+  getNumPolicyViolations,
+  getNumRemoteSubscriptions
 } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
@@ -40,30 +38,49 @@ export default {
       resourceKey: 'namespace'
     },
     {
-      msgKey: 'table.header.deployables',
-      resourceKey: 'deployables',
-      transformFunction: getNumDeployables
+      msgKey: 'table.header.managedClusters',
+      resourceKey: 'clusters',
+      transformFunction: getNumClusters
     },
     {
-      msgKey: 'table.header.deployments',
-      resourceKey: 'deployments',
-      transformFunction: getNumDeployments
+      msgKey: 'table.header.subscriptions',
+      resourceKey: 'subscriptions',
+      transformFunction: getNumRemoteSubscriptions
     },
     {
-      msgKey: 'table.header.deployment.completedDeployments',
-      resourceKey: 'completedDeployments',
-      transformFunction: getNumCompletedDeployments
+      msgKey: 'table.header.policyViolations',
+      resourceKey: 'violations',
+      transformFunction: getNumPolicyViolations
     },
     {
-      msgKey: 'table.header.deployment.inProgress',
-      resourceKey: 'inProgressDeployments',
-      transformFunction: getNumInProgressDeployments
+      msgKey: 'table.header.incidents',
+      resourceKey: 'incidents'
     },
-    {
-      msgKey: 'table.header.deployment.failed',
-      resourceKey: 'failedDeployments',
-      transformFunction: getNumFailedDeployments
-    },
+    // {
+    //   msgKey: 'table.header.deployables',
+    //   resourceKey: 'deployables',
+    //   transformFunction: getNumDeployables
+    // },
+    // {
+    //   msgKey: 'table.header.deployments',
+    //   resourceKey: 'deployments',
+    //   transformFunction: getNumDeployments
+    // },
+    // {
+    //   msgKey: 'table.header.deployment.completedDeployments',
+    //   resourceKey: 'completedDeployments',
+    //   transformFunction: getNumCompletedDeployments
+    // },
+    // {
+    //   msgKey: 'table.header.deployment.inProgress',
+    //   resourceKey: 'inProgressDeployments',
+    //   transformFunction: getNumInProgressDeployments
+    // },
+    // {
+    //   msgKey: 'table.header.deployment.failed',
+    //   resourceKey: 'failedDeployments',
+    //   transformFunction: getNumFailedDeployments
+    // },
     // {
     //   msgKey: 'table.header.labels',
     //   resourceKey: 'metadata.labels',

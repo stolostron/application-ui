@@ -64,7 +64,7 @@ const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
     <CreateResourceModal
       key="createChannel"
       headingTextKey="actions.add.channel"
-      submitBtnTextKey="actions.add.channel"
+      resourceTypeName="description.channel"
       onCreateResource={handleCreateChannelResource}
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
@@ -89,7 +89,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
     <CreateResourceModal
       key="createSubscription"
       headingTextKey="actions.add.subscription"
-      submitBtnTextKey="actions.add.subscription"
+      resourceTypeName="description.subscription"
       onCreateResource={handleCreateSubscriptionResource}
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
@@ -121,6 +121,29 @@ const handleEditResource = (dispatch, resourceType, data) => {
       namespace: (data && data.namespace) || '',
       data: (data && data.data) || ''
     })
+  )
+}
+
+const handleCreatePlacementRuleResource = (dispatch, yaml) =>
+  dispatch(createResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES, yaml))
+
+// Create Resource for Subscription
+const CreatePlacementRuleModal = (fetchSubscriptions, locale) => {
+  return (
+    <CreateResourceModal
+      key="createPlacementRule"
+      headingTextKey="actions.add.placementRule"
+      resourceTypeName="description.placementRule"
+      onCreateResource={handleCreatePlacementRuleResource}
+      onSubmitFunction={fetchPlacementRuleResource}
+      resourceDescriptionKey="modal.createresource.subscription"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_xxxxx.html"
+      iconDescription={msgs.get(
+        'actions.add.subscription.iconDescription',
+        locale
+      )}
+      sampleContent={[getSubscriptionSample(subscriptionSample, locale)]}
+    />
   )
 }
 
@@ -291,6 +314,13 @@ class ApplicationDeploymentPipeline extends React.Component {
         resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
       }
     )
+    const modalPlacementRule = React.cloneElement(
+      CreatePlacementRuleModal(fetchSubscriptions, locale),
+      {
+        resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
+      }
+    )
+
     const subscriptionModalHeader =
       subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
     const subscriptionModalLabel =
@@ -350,6 +380,14 @@ class ApplicationDeploymentPipeline extends React.Component {
           {channels && <span>({channels.length})</span>}
         </div>
         <ApplicationDeploymentHighlights />
+        {showCreate(userRole) && (
+          <React.Fragment>
+            <div className="AddResourceButton">{[modalSubscription]}</div>
+            <div className="AddResourceButton">{[modalChannel]}</div>
+            <div className="AddResourceButton">{[modalPlacementRule]}</div>
+          </React.Fragment>
+        )}
+
         <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"
@@ -364,12 +402,6 @@ class ApplicationDeploymentPipeline extends React.Component {
             }}
             id="search-1"
           />
-          {showCreate(userRole) && (
-            <React.Fragment>
-              <div className="AddChannelButton">{[modalChannel]}</div>
-              <div className="AddSubscriptionButton">{[modalSubscription]}</div>
-            </React.Fragment>
-          )}
         </div>
         <PipelineGrid
           applications={applications}

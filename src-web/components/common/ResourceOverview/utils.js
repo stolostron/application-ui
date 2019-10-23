@@ -41,6 +41,20 @@ export const getChannelsList = channels => {
   return []
 }
 
+export const getNumClusters = data => {
+  if (data && data.related instanceof Array && data.related.length > 0) {
+    const filtered = data.related.filter(elem => elem.kind === 'cluster')
+    const numClusters = filtered.reduce(
+      (acc, cur) => acc + (cur.items instanceof Array ? cur.items.length : 0),
+      0
+    )
+    // number of clusters - 1 for local-cluster
+    return numClusters > 0 ? numClusters - 1 : 0
+  } else {
+    return 0
+  }
+}
+
 export const getNumDeployables = data => {
   if (data && data.related instanceof Array && data.related.length > 0) {
     const filtered = data.related.filter(elem => elem.kind === 'deployable')
@@ -80,6 +94,31 @@ export const getNumFailedDeployments = data => {
 export const getNumCompletedDeployments = data => {
   const status = getResourcesStatusPerChannel(data, false)
   return status[0] + status[4]
+}
+
+export const getNumPolicyViolations = data => {
+  if (data && data.related instanceof Array && data.related.length > 0) {
+    return 0
+  } else {
+    return 0
+  }
+}
+
+export const getNumRemoteSubscriptions = data => {
+  let total = 0
+  let failed = 0
+  let unknown = 0
+  if (data && data.remoteSubs instanceof Array) {
+    total = data.remoteSubs.length
+    const failedSubs = data.remoteSubs.filter(elem => elem.status === 'Failed')
+    const unknownSubs = data.remoteSubs.filter(
+      elem => typeof elem.status === 'undefined' || !elem.status
+    )
+    failed = failedSubs.length
+    unknown = unknownSubs.length
+  }
+  const finalString = total + ' | ' + failed + ' | ' + unknown
+  return finalString
 }
 
 // Given a current resource data INCLUDING its related resources

@@ -10,12 +10,12 @@
 
 import R from 'ramda'
 import React from 'react'
-import { Icon } from 'carbon-components-react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import jsYaml from 'js-yaml'
 import {
   Button,
+  Icon,
   InlineNotification,
   Loading,
   Modal,
@@ -57,9 +57,9 @@ class CreateResourceModal extends React.PureComponent {
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
+    resourceTypeName: PropTypes.string,
     sampleContent: PropTypes.array,
-    sampleTabs: PropTypes.object,
-    submitBtnTextKey: PropTypes.string
+    sampleTabs: PropTypes.object
   };
 
   state = initialState;
@@ -127,12 +127,12 @@ class CreateResourceModal extends React.PureComponent {
         <Button
           icon="add--glyph"
           small
-          id={msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          id={msgs.get(this.props.resourceTypeName, this.context.locale)}
           iconDescription={this.props.iconDescription}
           key="create-resource"
           onClick={this.handleModalOpen}
         >
-          {msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          {msgs.get(this.props.resourceTypeName, this.context.locale)}
         </Button>
         {this.state.modalOpen && (
           <Modal
@@ -143,7 +143,7 @@ class CreateResourceModal extends React.PureComponent {
               this.context.locale
             )}
             primaryButtonText={msgs.get(
-              this.props.submitBtnTextKey,
+              'modal.button.save',
               this.context.locale
             )}
             primaryButtonDisabled={this.isSubmitDisabled()}
@@ -165,13 +165,17 @@ class CreateResourceModal extends React.PureComponent {
               {this.props.helpLink && (
                 <div className="help-link">
                   <a href={this.props.helpLink} target="_blank">
-                    {msgs.get('link.help.writing', this.context.locale)}&nbsp;
+                    {msgs.get('link.help.writing', this.context.locale)}
                   </a>
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
+
+                  <a href={this.props.helpLink} target="_blank">
+                    <Icon
+                      name="icon--launch"
+                      fill="#6089bf"
+                      description=""
+                      className="helpLinkIcon"
+                    />
+                  </a>
                 </div>
               )}
             </div>

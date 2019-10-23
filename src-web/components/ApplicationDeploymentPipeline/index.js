@@ -47,6 +47,7 @@ import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
+import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 
 /* eslint-disable react/prop-types */
 
@@ -175,6 +176,16 @@ const mapDispatchToProps = dispatch => {
           cluster
         )
       ),
+    getPlacementRuleResource: (selfLink, namespace, name, cluster) =>
+      dispatch(
+        fetchPlacementRuleResource(
+          apolloClient,
+          selfLink,
+          namespace,
+          name,
+          cluster
+        )
+      ),
     closeModal: () => dispatch(closeModals())
   }
 }
@@ -216,8 +227,10 @@ const mapStateToProps = state => {
     HCMChannelList,
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
+    currentPlacementRuleInfo: AppDeployments.currentPlacementRuleInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
     openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
+    openEditPlacementRuleModal: AppDeployments.openEditPlacementRuleModal,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     applications: applicationsList,
@@ -260,15 +273,18 @@ class ApplicationDeploymentPipeline extends React.Component {
       editResource,
       getChannelResource,
       getSubscriptionResource,
+      getPlacementRuleResource,
       editSubscription,
       displaySubscriptionModal,
       subscriptionModalHeaderInfo,
       subscriptionModalSubscriptionInfo,
       currentChannelInfo,
       currentSubscriptionInfo,
+      currentPlacementRuleInfo,
       closeModal,
       openEditChannelModal,
       openEditSubscriptionModal,
+      openEditPlacementRuleModal,
       loading,
       appDropDownList,
       bulkSubscriptionList,
@@ -341,6 +357,21 @@ class ApplicationDeploymentPipeline extends React.Component {
       })
     }
 
+    // This will trigger the edit Placement Rule Modal because openEditPlacementRuleModal
+    // is true AFTER the fetch of the placement rule data has been completed
+    if (openEditPlacementRuleModal) {
+      const data = R.pathOr([], ['data', 'items'], currentPlacementRuleInfo)[0]
+      const name = R.pathOr('', ['metadata', 'name'], data)
+      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
+      closeModal()
+      editResource(RESOURCE_TYPES.HCM_PLACEMENT_RULES, {
+        name: name,
+        namespace: namespace,
+        data: data,
+        helpLink:
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_placement_rules.html'
+      })
+    }
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
@@ -348,7 +379,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}
         </div>
-
+        <ApplicationDeploymentHighlights />
         {showCreate(userRole) && (
           <React.Fragment>
             <div className="AddResourceButton">{[modalSubscription]}</div>
@@ -378,6 +409,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appSubscriptions={appSubscriptions}
           getChannelResource={getChannelResource}
           getSubscriptionResource={getSubscriptionResource}
+          getPlacementRuleResource={getPlacementRuleResource}
           openSubscriptionModal={actions.openDisplaySubscriptionModal}
           setSubscriptionModalHeaderInfo={
             actions.setSubscriptionModalHeaderInfo

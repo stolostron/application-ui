@@ -380,13 +380,18 @@ class ApplicationDeploymentPipeline extends React.Component {
           {channels && <span>({channels.length})</span>}
         </div>
         <ApplicationDeploymentHighlights />
-        {showCreate(userRole) && (
-          <React.Fragment>
-            <div className="AddResourceButton">{[modalSubscription]}</div>
-            <div className="AddResourceButton">{[modalChannel]}</div>
-            <div className="AddResourceButton">{[modalPlacementRule]}</div>
-          </React.Fragment>
-        )}
+        <div className="resource-cards-container">
+          <div className="resource-cards-information" />
+          <div className="resource-cards-create-new">
+            {showCreate(userRole) && (
+              <React.Fragment>
+                <div className="AddResourceButton">{[modalSubscription]}</div>
+                <div className="AddResourceButton">{[modalPlacementRule]}</div>
+                <div className="AddResourceButton">{[modalChannel]}</div>
+              </React.Fragment>
+            )}
+          </div>
+        </div>
 
         <div className="searchAndButtonContainer">
           <Search

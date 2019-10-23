@@ -23,6 +23,7 @@ import {
 import {
   fetchChannelResource,
   fetchSubscriptionResource,
+  fetchPlacementRuleResource,
   closeModals
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
@@ -122,6 +123,9 @@ const handleEditResource = (dispatch, resourceType, data) => {
   )
 }
 
+const handleCreatePlacementRuleResource = (dispatch, yaml) =>
+  dispatch(createResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES, yaml))
+
 // Create Resource for Subscription
 const CreatePlacementRuleModal = (fetchSubscriptions, locale) => {
   return (
@@ -129,10 +133,10 @@ const CreatePlacementRuleModal = (fetchSubscriptions, locale) => {
       key="createPlacementRule"
       headingTextKey="actions.add.placementRule"
       resourceTypeName="description.placementRule"
-      onCreateResource={handleCreateSubscriptionResource}
-      onSubmitFunction={fetchSubscriptions}
+      onCreateResource={handleCreatePlacementRuleResource}
+      onSubmitFunction={fetchPlacementRuleResource}
       resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_subscriptions.html"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_xxxxx.html"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale

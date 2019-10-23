@@ -25,6 +25,7 @@ const SET_SUBSCRIPTION_MODAL_DATA = 'SET_SUBSCRIPTION_MODAL_DATA'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
 const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
 const SET_CURRENT_SUBSCRIPTION_INFO = 'SET_CURRENT_SUBSCRIPTION_INFO'
+const SET_CURRENT_PLACEMENTRULE_INFO = 'SET_CURRENT_PLACEMENTRULE_INFO'
 const SET_LOADING = 'SET_LOADING'
 const CLOSE_MODALS = 'CLOSE_MODALS'
 const CLEAR_APP_DROPDOWN_LIST = 'CLEAR_APP_DROPDOWN_LIST'
@@ -110,6 +111,13 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
       currentSubscriptionInfo: action.payload
     }
   }
+  case SET_CURRENT_PLACEMENTRULE_INFO: {
+    return {
+      ...state,
+      openEditPlacementRuleModal: true,
+      currentPlacementRuleInfo: action.payload
+    }
+  }
   case SET_LOADING: {
     return { ...state, loading: action.payload }
   }
@@ -148,6 +156,9 @@ export const updateAppDropDownList = createAction(UPDATE_APP_DROPDOWN_LIST)
 export const clearAppDropDownList = createAction(CLEAR_APP_DROPDOWN_LIST)
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
 const setCurrentSubscriptionInfo = createAction(SET_CURRENT_SUBSCRIPTION_INFO)
+const setCurrentPlacementRuleInfo = createAction(
+  SET_CURRENT_PLACEMENTRULE_INFO
+)
 const setLoading = createAction(SET_LOADING)
 export const closeModals = createAction(CLOSE_MODALS)
 
@@ -213,6 +224,39 @@ export const fetchSubscriptionResource = (
       .catch(err => {
         dispatch(setLoading(false))
         dispatch(setCurrentSubscriptionInfo(err))
+      })
+  }
+}
+
+// ApolloClient requires CONTEXT so I have to pass it in from a file where it
+// can be defined with context.
+export const fetchPlacementRuleResource = (
+  apolloClient,
+  selfLink,
+  namespace,
+  name,
+  cluster
+) => {
+  return dispatch => {
+    dispatch(setLoading(true))
+    return apolloClient
+      .getResource(
+        { name: 'HCMPlacementRule', list: 'HCMPlacementRuleList' },
+        {
+          selfLink: `${selfLink}`,
+          namespace: `${namespace}`,
+          kind: 'placementrule',
+          name: `${name}`,
+          cluster: `${cluster}`
+        }
+      )
+      .then(response => {
+        dispatch(setLoading(false))
+        return dispatch(setCurrentPlacementRuleInfo(response))
+      })
+      .catch(err => {
+        dispatch(setLoading(false))
+        dispatch(setCurrentPlacementRuleInfo(err))
       })
   }
 }

@@ -47,6 +47,7 @@ import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
+import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 
 /* eslint-disable react/prop-types */
 
@@ -348,6 +349,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}
         </div>
+        <ApplicationDeploymentHighlights />
         <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"

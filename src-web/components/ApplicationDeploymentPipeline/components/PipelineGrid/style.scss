@@ -7,363 +7,78 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-#PipelineGrid {
-  .firstTotalTile {
-    background: #3c3c3c;
-    color: white;
-    height: 171px;
-    position: relative;
-  }
-
-  .channelColumnHeader {
-    background: #3c3c3c;
-    color: white;
-    height: 171px;
-    position: relative;
-  }
-
-  .channelColumnHeaderApplication {
-    background: white;
-    color: black;
-    height: 80px;
-    position: relative;
-  }
-
-  .channelColumnDeployable {
-    background: white;
-    background-color: white;
-    color: black;
-    height: 223px;
-    position: relative;
-  }
-
-  .addHover:hover {
-    background: white;
-    background-color: white;
-    color: black;
-    height: 223px;
-    position: relative;
-    cursor: pointer;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #4a79b7;
-  }
-
-  .channelColumnDeployableBlank {
-    background: #f4f7fa;
-    background-color: #f4f7fa;
-    height: 223px;
-    position: relative;
-    border: none;
-    box-shadow: none;
-  }
-
-  .applicationTile {
-    background: #ffffff;
-    color: black;
-    height: 80px;
-    position: relative;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #d5d9db;
-  }
-
-  .noBottomBorder {
-    border-bottom: none;
-  }
-
-  .appName {
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  .no-sub-icon {
-    margin-top: 50px;
-    margin-right: 15px;
-    margin-left: 20px;
-    height: 90px;
-    width: 90px;
-    display: inline-block;
-  }
-
-  .subDescriptionText {
-    padding-right: 15px;
-    padding-top: 70px;
-    display: inline-block;
-    font-size: 12px;
-    position: absolute;
-  }
-
-  .noSubTitle {
-    font-size: 14px;
-    font-weight: 700;
-    color: black;
-  }
-
-  .noSubDescription {
-    font-size: 12px;
-    padding-top: 10px;
-  }
-
-  .totalApplications {
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 40px;
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  .totalDeployables {
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 15px;
-  }
-
-  .tileContainer {
-    padding-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(309px, 1fr));
-    grid-template-rows: auto;
-    grid-gap: 20px;
-    padding-top: 10px;
-    padding-right: 20px;
-  }
-
-  .tileContainerApp {
-    padding-top: 10px;
-    padding-right: 20px;
-  }
-
-  .applicationEntryName {
-    font-size: 17px;
-    margin-bottom: 25px;
-  }
-
-  .closeRowChevron {
-    display: inline-block;
-    position: absolute;
-  }
-
-  .openRowChevron {
-    display: inline-block;
-    position: absolute;
-    transform: rotate(90deg);
-  }
-
-  .ApplicationContents {
-    display: inline-block;
-    margin-left: 20px;
-  }
-
-  .tableGridContainer {
-    display: inline-block;
-  }
-
-  .channelGridContainer {
-    display: inline-block;
-    position: absolute;
-    overflow: scroll;
-    width: 68.5%;
-    background-color: #f4f7fb;
-  }
-
-  .channelGridContainerSingleApp {
-    display: inline-block;
-    position: absolute;
-    overflow: scroll;
-    width: 86%;
-    background-color: #f4f7fb;
-    margin-bottom: 50px;
-  }
-
-  .horizontalScrollRow {
-    width: max-content;
-  }
-
-  .spaceOutBelow {
-    display: block;
-    padding-bottom: 1px;
-  }
-
-  .subColHeader {
-    font-weight: 700;
-    font-size: 12px;
-    display: inline-block;
-    color: #5a6872;
-  }
-
-  .subColName {
-    padding-top: 10px;
-    font-size: 14px;
-    color: black;
-    font-weight: 700;
-  }
-
-  .namespaceDesc {
-    font-size: 12px;
-    color: #5a6872;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: #dfe3e6;
-    padding-top: 10px;
-    padding-bottom: 20px;
-  }
-
-  .progressBarContainer {
-    padding-top: 20px;
-  }
-
-  .applicationColumnContainer {
-    display: inline-block;
-  }
-
-  .channelColumn {
-    display: inline-grid;
-    width: 418px;
-    padding-right: 20px;
-    padding-top: 10px;
-  }
-
-  .channelColumnDep {
-    display: inline-block;
-    width: 418px;
-    padding-right: 20px;
-    height: 223px;
-  }
-
-  .statusTag {
+#ProgressBar {
+  .progressContainer {
     padding: 0.25em 10px;
     margin-right: 1%;
     border-radius: 0.9375rem;
     font-size: 0.75rem;
-    background-color: #c0e6ff;
-    color: #325c80;
     display: inline-block;
+    height: 10px;
+    width: 100%;
+    margin-top: 10px;
   }
 
-  .deployableTile {
-    background-color: white;
-    height: 223px;
-    padding: 0px;
-    border-left-style: solid;
-    border-left-width: 1px;
-    border-left-color: #d5d9db;
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-right-color: #d5d9db;
-    border-bottom: none;
-    border-top: none;
+  .inprogress {
+    max-width: 50px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .subTotal {
-    padding-bottom: 5px;
-    font-weight: 700;
-  }
-
-  .subTotalDescription {
-    padding-top: 5px;
-    font-weight: 700;
-    color: #6f6f6f;
-    font-size: 12px;
-  }
-
-  .DeployableContents {
-    padding-left: 35px;
-  }
-
-  .appDeployables {
-    padding-top: 10px;
-    font-size: 12px;
-    color: #5a6872;
-  }
-
-  .deployableName {
-    color: #2190ff;
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 14px;
-    padding-left: 5px;
-    padding-bottom: 11%;
-    padding-top: 11%;
-    border-left-style: solid;
-    border-left-width: 4px;
-    border-left-color: #e8f4ff;
-    position: absolute;
-    cursor: pointer;
-  }
-
-  .deployablesDisplay {
-    display: block;
-  }
-
-  .deployableRow {
+  .percentagesContainers {
     display: flex;
-    height: 223px;
   }
 
-  .channelTitle {
-    font-size: 12px;
-    color: white;
+  .total {
+    font-size: 10px;
+    display: inline-block;
+  }
+
+  .pass {
+    max-width: 50px;
+  }
+
+  .fail {
+    max-width: 50px;
+    margin-right: 20px;
+  }
+
+  .percentage {
+    padding-bottom: 5px;
+    font-size: 18px;
+    color: #152935;
+  }
+
+  .resourceType {
     font-weight: 700;
+    font-size: 10px;
+    display: inline-flex;
   }
 
-  .channelNameHeader {
-    font-size: 22px;
-    padding-top: 5px;
-    padding-left: 10px;
+  .textResource {
+    padding-left: 5px;
   }
 
-  .channelEditIcon {
-    fill: white;
-    margin-left: 20px;
-    cursor: pointer;
-    float: right;
+  .percentageDeployed {
+    padding-top: 6px;
+    font-size: 13px;
   }
 
-  .yamlEditSubContainer {
-    display: inline-block;
-    margin-left: 240px;
-
-    .subscriptionEditIcon {
-      fill: black;
-      display: inline-block;
-      margin-left: 35px;
-      float: right;
-      cursor: pointer;
-    }
+  .failedSquare {
+    height: 7px;
+    width: 11px;
+    background-color: #e0182d;
   }
 
-  .yamlEditSubContainer:hover {
-    display: inline-block;
-    margin-left: 240px;
-    color: #4a79b7;
-
-    .subscriptionEditIcon {
-      fill: #4a79b7;
-      display: inline-block;
-      margin-left: 35px;
-      float: right;
-      cursor: pointer;
-    }
+  .completedSquare {
+    height: 7px;
+    width: 13px;
+    background-color: #007d79;
   }
 
-  .yamlTitle {
-    font-size: 12px;
-    padding-left: 300px;
-    position: absolute;
-    padding-top: 2px;
-    display: inline;
-  }
-
-  .yamlTitleSub {
-    font-size: 12px;
-    position: absolute;
-    padding-top: 5px;
-    display: inline;
-  }
-
-  .channelNameTitle {
-    padding-top: 10px;
-    font-weight: 600;
+  .inprogressSquare {
+    height: 7px;
+    width: 13px;
+    background-color: #92eeee;
   }
 }

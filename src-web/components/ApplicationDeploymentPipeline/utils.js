@@ -26,6 +26,25 @@ export const pullOutKindPerApplication = (application, kind = '') => {
   return []
 }
 
+//returns the placement rule for this Hub subscription
+export const getPlacementRuleFromBulkSubscription = subscription => {
+  if (subscription) {
+    const placementRuleList = pullOutKindPerApplication(
+      subscription,
+      'placementrule'
+    )
+    if (
+      placementRuleList &&
+      placementRuleList[0] &&
+      placementRuleList[0].items instanceof Array &&
+      placementRuleList[0].items.length > 0
+    ) {
+      return placementRuleList[0].items[0]
+    }
+  }
+  return undefined
+}
+
 // This method takes in an object and drills down to find the items of applications
 // Within that it will go a step further and find the deployables and merge them together.
 // ----------------

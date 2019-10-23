@@ -10,9 +10,13 @@
 /* eslint-disable react/prop-types, react/jsx-no-bind */
 
 import React from 'react'
-import { Icon } from 'carbon-components-react'
 import lodash from 'lodash'
-import { Modal, Loading, InlineNotification } from 'carbon-components-react'
+import {
+  Icon,
+  Modal,
+  Loading,
+  InlineNotification
+} from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import {
   clearRequestStatus,

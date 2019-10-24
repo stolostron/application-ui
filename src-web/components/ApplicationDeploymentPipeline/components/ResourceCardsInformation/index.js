@@ -100,10 +100,8 @@ const getResourceCardsData = (
       count: subscriptions,
       targetLink: targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKey: [
-        msgs.get('dashboard.card.deployment.failed', locale),
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      ]
+      subtextKeyFirst: msgs.get('dashboard.card.deployment.failed', locale),
+      subtextKeySecond: msgs.get('dashboard.card.deployment.noStatus', locale)
     },
     {
       msgKey:
@@ -120,10 +118,8 @@ const getResourceCardsData = (
             ? msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
             : msgs.get('dashboard.card.deployment.totalSubscription', locale)
         ),
-      subtextKey: [
-        msgs.get('dashboard.card.deployment.failed', locale),
-        msgs.get('dashboard.card.deployment.noStatus', locale)
-      ]
+      subtextKeyFirst: msgs.get('dashboard.card.deployment.failed', locale),
+      subtextKeySecond: msgs.get('dashboard.card.deployment.noStatus', locale)
     },
     {
       msgKey:
@@ -205,18 +201,28 @@ class ResourceCardsInformation extends React.Component {
     return (
       <div className={'resource-cards-info' + singleAppStyle}>
         {Object.keys(resourceCardsData).map(key => {
+          const card = resourceCardsData[key]
           return (
             <div
-              key={resourceCardsData[key]}
+              key={card}
               className="resource-card"
               role="button"
               tabIndex="0"
               onClick={onClick(key)}
               onKeyPress={onKeyPress(key)}
             >
-              <div className="card-count">{resourceCardsData[key].count}</div>
-              <div className="card-type">{resourceCardsData[key].msgKey}</div>
-              <div className="card-text">{resourceCardsData[key].textKey}</div>
+              <div className="card-count">{card.count}</div>
+              <div className="card-type">{card.msgKey}</div>
+              <div className="card-text">{card.textKey}</div>
+              {(card.subtextKeyFirst || card.subtextKeySecond) && (
+                <div className="row-divider" />
+              )}
+              {card.subtextKeyFirst && (
+                <div className="card-text">{card.subtextKeyFirst}</div>
+              )}
+              {card.subtextKeySecond && (
+                <div className="card-text">{card.subtextKeySecond}</div>
+              )}
             </div>
           )
         })}

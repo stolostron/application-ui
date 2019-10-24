@@ -8,13 +8,12 @@
  *******************************************************************************/
 
 import React from 'react'
-import { Loading } from 'carbon-components-react'
+import { Loading, TooltipIcon, Icon } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
   getNumClusters,
-  getNumPolicyViolations,
-  getNumRemoteSubscriptions
+  getNumPolicyViolations
 } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
@@ -45,7 +44,7 @@ export default {
     {
       msgKey: 'table.header.subscriptions',
       resourceKey: 'subscriptions',
-      transformFunction: getNumRemoteSubscriptions
+      transformFunction: getNumRemoteSubs
     },
     {
       msgKey: 'table.header.policyViolations',
@@ -625,6 +624,39 @@ export function getDependencies(item = {}) {
   return '-'
 }
 
+export function getNumRemoteSubs(item = {}, locale) {
+  let total = 0
+  let failed = 0
+  let unknown = 0
+  if (item && item.remoteSubs instanceof Array) {
+    total = item.remoteSubs.length
+    const failedSubs = item.remoteSubs.filter(elem => elem.status === 'Failed')
+    const unknownSubs = item.remoteSubs.filter(
+      elem => typeof elem.status === 'undefined' || !elem.status
+    )
+    failed = failedSubs.length
+    unknown = unknownSubs.length
+  }
+  return (
+    <ul className="labels-list">
+      <LabelWithOptionalTooltip key={Math.random()} labelText={total} />
+      <span>{' | '}</span>
+      <LabelWithOptionalTooltip
+        key={Math.random()}
+        labelText={failed}
+        iconName="icon--warning"
+        description={msgs.get('table.cell.failed', locale)}
+      />
+      <LabelWithOptionalTooltip
+        key={Math.random()}
+        labelText={unknown}
+        iconName="icon--error"
+        description={msgs.get('table.cell.unknown', locale)}
+      />
+    </ul>
+  )
+}
+
 export function getRelationshipSourceDest(item, locale, arg) {
   return arg === 'source' ? (
     <ul>
@@ -656,4 +688,26 @@ export function getSubjects(item) {
     item.subjects &&
     item.subjects.map(subject => `${subject.name}(${subject.kind})`).join(', ')
   )
+}
+
+const LabelWithOptionalTooltip = text => {
+  if (text && text.labelText !== '') {
+    return (
+      <div className="bx--tag">
+        {text.iconName && (
+          <TooltipIcon direction={'top'} tooltipText={text.description}>
+            <Icon
+              style={{ margin: '0 3 0 0px' }}
+              className={text.iconName}
+              name={text.iconName}
+              width="10px"
+              height="10px"
+            />
+          </TooltipIcon>
+        )}
+        <p style={{ fontSize: '14px' }}>{text.labelText}</p>
+      </div>
+    )
+  }
+  return <span className="bx--tag">{'-'}</span>
 }

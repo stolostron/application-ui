@@ -13,6 +13,7 @@ import React from 'react'
 import loadable from 'loadable-components'
 import { GET_ACTION_MODAL_STATE } from '../../apollo-client/queries/StateQueries'
 import { Query } from 'react-apollo'
+import { getIcamLinkForSubscription } from '../common/ResourceDetails/utils'
 
 let RemoveResourceModal
 let LabelEditingModal
@@ -41,6 +42,12 @@ class ActionModalApollo extends React.PureComponent {
             data: data
           })
       )
+    }
+    case 'table.actions.applications.perfmon': {
+      const link = getIcamLinkForSubscription(data._uid, data.clusterName)
+
+      window.open(link, '_blank')
+      return null
     }
     case 'table.actions.applications.remove':
     case 'table.actions.compliance.remove':

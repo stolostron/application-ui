@@ -49,6 +49,10 @@ class ActionModalApollo extends React.PureComponent {
       window.open(link, '_blank')
       return null
     }
+    case 'table.actions.applications.grafana': {
+      window.open(data.dashboard, '_blank')
+      return null
+    }
     case 'table.actions.applications.remove':
     case 'table.actions.compliance.remove':
     case 'table.actions.policy.remove':

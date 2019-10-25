@@ -14,17 +14,11 @@ import resources from '../../../../../lib/shared/resources'
 import { Modal, Icon, TooltipDefinition } from 'carbon-components-react'
 import R from 'ramda'
 import ProgressBar from '../ProgressBar/index'
-import {
-  getLabelsListClass,
-  getCsvListClass,
-  getSearchUrl,
-  getIcamLinkForSubscription
-} from './utils.js'
+import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils.js'
 import {
   getResourcesStatusPerChannel,
   getDataByKind
 } from '../PipelineGrid/utils'
-import { isAdminRole } from '../../../../../lib/client/access-helper'
 
 resources(() => {
   require('./style.scss')
@@ -44,14 +38,7 @@ const LabelWithOptionalTooltip = text => {
 }
 
 const SubscriptionInfo = withLocale(
-  ({
-    serverProps,
-    subscriptionModalSubscriptionInfo,
-    bulkSubscriptionList,
-    activeAccountId,
-    userRole,
-    locale
-  }) => {
+  ({ subscriptionModalSubscriptionInfo, bulkSubscriptionList, locale }) => {
     const notEmptySubscription =
       !R.isEmpty(subscriptionModalSubscriptionInfo) &&
       subscriptionModalSubscriptionInfo &&
@@ -69,7 +56,7 @@ const SubscriptionInfo = withLocale(
     let channel = ''
     let status = [0, 0, 0, 0, 0]
     // let version = ''
-    let icamLink = '#'
+    const icamLink = '#'
 
     if (notEmptySubscription) {
       // Gather the subscription data that contains the matching UID
@@ -168,6 +155,7 @@ const SubscriptionInfo = withLocale(
       // the same namespace as the channel
       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
       status = getResourcesStatusPerChannel(subscriptionWithRelatedData)
+      /*
       if (isAdminRole(userRole) && serverProps && serverProps.isCEMRunning) {
         icamLink = getIcamLinkForSubscription(
           activeAccountId,
@@ -175,6 +163,7 @@ const SubscriptionInfo = withLocale(
           subscriptionModalSubscriptionInfo.name
         )
       }
+      */
     }
 
     return (
@@ -324,15 +313,12 @@ const SubscriptionInfo = withLocale(
 
 const SubscriptionModal = withLocale(
   ({
-    serverProps,
     displayModal,
     closeModal,
     header,
     label,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
-    activeAccountId,
-    userRole,
     locale
   }) => {
     return (
@@ -352,9 +338,6 @@ const SubscriptionModal = withLocale(
                 subscriptionModalSubscriptionInfo
               }
               bulkSubscriptionList={bulkSubscriptionList}
-              activeAccountId={activeAccountId}
-              userRole={userRole}
-              serverProps={serverProps}
             />
           </div>
         </Modal>

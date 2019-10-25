@@ -9,6 +9,7 @@
 
 import {
   getChannelsList,
+  getNumClusters,
   getNumDeployables,
   getNumDeployments,
   getNumCompletedDeployments,
@@ -94,8 +95,37 @@ const data1 = {
       items: [
         {
           name: 'appdemo'
+        },
+        {
+          name: 'local-cluster'
         }
       ]
+    }
+  ],
+  remoteSubs: [
+    {
+      kind: 'subscription',
+      name: 'appdemo1',
+      status: 'Subscribed'
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo2',
+      status: 'Failed'
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo3',
+      status: null
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo4',
+      status: ''
+    },
+    {
+      kind: 'subscription',
+      name: 'appdemo5'
     }
   ]
 }
@@ -156,6 +186,16 @@ describe('getChannelsList', () => {
   })
   it('should return blank array', () => {
     expect(getChannelsList(channelDud)).toEqual([])
+  })
+})
+
+describe('getNumClusters', () => {
+  it('should return cluster count', () => {
+    const result = 1
+    expect(getNumClusters(data1)).toEqual(result)
+  })
+  it('should return 0 if related is empty', () => {
+    expect(getNumClusters(data2)).toEqual(0)
   })
 })
 

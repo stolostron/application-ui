@@ -38,6 +38,7 @@ export const GET_ACTION_MODAL_STATE = gql`
         namespace
         clusterName
         selfLink
+        _uid
         kind
       }
     }

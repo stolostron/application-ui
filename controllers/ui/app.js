@@ -85,22 +85,34 @@ router.get('*', (req, res) => {
         value.path = `${config.get('contextPath')}/api/proxy${value.path}` //preprend with proxy route
       })
     }
-    logger.info(`is Kibana Running: ${serviceDiscovery.serviceEnabled('kibana')}`)
-    logger.info(`is cem Running: ${serviceDiscovery.serviceEnabled('cem')}`)
-    logger.info(`is Grafana Running: ${serviceDiscovery.serviceEnabled('monitoring-grafana')}`)
+
+    const isICAMRunning = serviceDiscovery.serviceEnabled('icam-ui-api')
+    const isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
+    const isCEMRunning = serviceDiscovery.serviceEnabled('cem')
+    const isGrafanaRunning = serviceDiscovery.serviceEnabled(
+      'monitoring-grafana'
+    )
+
+    logger.info(`is Kibana Running: ${isKibanaRunning}`)
+    logger.info(`is cem Running: ${isCEMRunning}`)
+    logger.info(`is Grafana Running: ${isGrafanaRunning}`)
+    logger.info(`is ICAM Running: ${isICAMRunning}`)
 
     const serverProps = {
       ...context,
-      isKibanaRunning: serviceDiscovery.serviceEnabled('kibana'),
-      isGrafanaRunning: serviceDiscovery.serviceEnabled('monitoring-grafana'),
-      isCEMRunning: serviceDiscovery.serviceEnabled('cem'),
+      isKibanaRunning: isKibanaRunning,
+      isGrafanaRunning: isGrafanaRunning,
+      isCEMRunning: isCEMRunning,
+      isICAMRunning: isICAMRunning
     }
+    /*
     if (process.env.NODE_ENV === 'development') {
       serverProps.isKibanaRunning = true;
       serverProps.isGrafanaRunning = true;
       serverProps.isCEMRunning = true;
+      serverProps.isICAMRunning = true;
     }
-
+*/
     try {
       res.render(
         'main',

@@ -287,7 +287,7 @@ class ResourceDetails extends React.Component {
                 name="icon--launch"
                 fill="#3D70B2"
               />
-              {msgs.get('application.launch.grafana', this.context.locale)}
+              {msgs.get('application.launch.perfmon', this.context.locale)}
             </Link>
           </div>
         )}

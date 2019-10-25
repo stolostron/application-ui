@@ -436,6 +436,7 @@ class ResourceTable extends React.Component {
             namespace,
             clusterName: _.get(item, 'cluster', ''),
             selfLink: _.get(item, 'selfLink', ''),
+            _uid: _.get(item, '_uid', ''),
             kind: ''
           }
         }

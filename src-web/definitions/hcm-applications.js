@@ -8,7 +8,7 @@
  *******************************************************************************/
 
 import React from 'react'
-import { Loading, TooltipIcon, Icon } from 'carbon-components-react'
+import { Loading, TooltipIcon } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
@@ -19,6 +19,8 @@ import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
+import '../../graphics/failed-status.svg'
+import '../../graphics/no-status.svg'
 
 export default {
   defaultSortField: 'name',
@@ -641,20 +643,20 @@ export function getNumRemoteSubs(item = {}, locale) {
     unknown = unknownSubs.length
   }
   return (
-    <ul className="labels-list">
+    <ul>
       <LabelWithOptionalTooltip key={Math.random()} labelText={total} />
-      <span>{' | '}</span>
+      {(failed != 0 || unknown != 0) && <span>{' | '}</span>}
       <LabelWithOptionalTooltip
         key={Math.random()}
         labelText={failed}
-        iconName="icon--warning"
+        iconName="#failed-status"
         description={msgs.get('table.cell.failed', locale)}
       />
       <LabelWithOptionalTooltip
         key={Math.random()}
         labelText={unknown}
-        iconName="icon--error"
-        description={msgs.get('table.cell.unknown', locale)}
+        iconName="#no-status"
+        description={msgs.get('table.cell.status.absent', locale)}
       />
     </ul>
   )
@@ -694,23 +696,23 @@ export function getSubjects(item) {
 }
 
 const LabelWithOptionalTooltip = text => {
-  if (text && text.labelText !== '') {
+  if (text && text.labelText) {
     return (
-      <div className="bx--tag">
+      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
         {text.iconName && (
           <TooltipIcon direction={'top'} tooltipText={text.description}>
-            <Icon
-              style={{ margin: '0 3 0 0px' }}
-              className={text.iconName}
-              name={text.iconName}
-              width="10px"
-              height="10px"
-            />
+            <svg style={{ margin: '0 4 0 0px' }} width="10px" height="10px">
+              <use href={text.iconName} />
+            </svg>
           </TooltipIcon>
         )}
-        <p style={{ fontSize: '14px' }}>{text.labelText}</p>
+        <p style={{ fontSize: '14px', paddingRight: '6px' }}>
+          {text.labelText}
+        </p>
       </div>
     )
+  } else if (text && !text.iconName) {
+    return <p style={{ fontSize: '14px' }}>{text.labelText}</p>
   }
-  return <span className="bx--tag">{'-'}</span>
+  return <span />
 }

@@ -23,7 +23,8 @@ const SET_SUBSCRIPTION_MODAL_HEADERS = 'SET_SUBSCRIPTION_MODAL_HEADERS'
 const SET_DEPLOYABLE_SUBSCRIPTION_INFO = 'SET_DEPLOYABLE_SUBSCRIPTION_INFO'
 const SET_SUBSCRIPTION_MODAL_DATA = 'SET_SUBSCRIPTION_MODAL_DATA'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
-const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
+const SET_CURRENT_CHANNEL_INFO = 'SET_APPLICATION_INFO'
+const SET_CURRENT_APPLICATION_INFO = 'SET_CURRENT_APPLICATION_INFO'
 const SET_CURRENT_SUBSCRIPTION_INFO = 'SET_CURRENT_SUBSCRIPTION_INFO'
 const SET_CURRENT_PLACEMENT_RULE_INFO = 'SET_CURRENT_PLACEMENT_RULE_INFO'
 const SET_LOADING = 'SET_LOADING'
@@ -157,6 +158,7 @@ export const openDisplaySubscriptionModal = createAction(
 )
 export const updateAppDropDownList = createAction(UPDATE_APP_DROPDOWN_LIST)
 export const clearAppDropDownList = createAction(CLEAR_APP_DROPDOWN_LIST)
+const setCurrentApplicationInfo = createAction(SET_CURRENT_APPLICATION_INFO)
 const setCurrentChannelInfo = createAction(SET_CURRENT_CHANNEL_INFO)
 const setCurrentSubscriptionInfo = createAction(SET_CURRENT_SUBSCRIPTION_INFO)
 const setCurrentPlacementRuleInfo = createAction(
@@ -164,6 +166,39 @@ const setCurrentPlacementRuleInfo = createAction(
 )
 const setLoading = createAction(SET_LOADING)
 export const closeModals = createAction(CLOSE_MODALS)
+
+// ApolloClient requires CONTEXT so I have to pass it in from a file where it
+// can be defined with context.
+export const fetchApplicationResource = (
+  apolloClient,
+  selfLink,
+  namespace,
+  name,
+  cluster
+) => {
+  return dispatch => {
+    dispatch(setLoading(true))
+    return apolloClient
+      .getResource(
+        { name: 'HCMApplication', list: 'HCMApplicationList' },
+        {
+          selfLink: `${selfLink}`,
+          namespace: `${namespace}`,
+          kind: 'application',
+          name: `${name}`,
+          cluster: `${cluster}`
+        }
+      )
+      .then(response => {
+        dispatch(setLoading(false))
+        return dispatch(setCurrentApplicationInfo(response))
+      })
+      .catch(err => {
+        dispatch(setLoading(false))
+        dispatch(setCurrentApplicationInfo(err))
+      })
+  }
+}
 
 // ApolloClient requires CONTEXT so I have to pass it in from a file where it
 // can be defined with context.

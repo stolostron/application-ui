@@ -30,7 +30,7 @@
   "application.deployables": "Deployable Objects",
   "application.deployments.channels": "Resources by channels",
   "application.information": "App Information",
-  "application.launch.grafana": "Grafana",
+  "application.launch.perfmon": "Performance dashboard",
   "application.overview": "App Overview",
   "application.policy": "policy",
   "application.relationships": "Application Relationships",

@@ -101,7 +101,10 @@ export default {
     //   transformFunction: createDashboardLink
     // }
   ],
-  tableActions: ['table.actions.applications.remove'],
+  tableActions: [
+    'table.actions.applications.perfmon',
+    'table.actions.applications.remove'
+  ],
   detailKeys: {
     title: 'application.details',
     headerRows: ['type', 'detail'],

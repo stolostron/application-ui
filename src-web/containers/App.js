@@ -165,10 +165,7 @@ class App extends React.Component {
         </Switch>
         <Modal locale={serverProps.context.locale} />
         <ModalApollo locale={serverProps.context.locale} />
-        <ActionModalApollo
-          locale={serverProps.context.locale}
-          serverProps={serverProps}
-        />
+        <ActionModalApollo locale={serverProps.context.locale} />
         <input
           type="hidden"
           id="app-access"

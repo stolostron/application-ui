@@ -105,6 +105,7 @@ export default {
   ],
   tableActions: [
     'table.actions.applications.perfmon',
+    'table.actions.applications.grafana',
     'table.actions.applications.remove'
   ],
   detailKeys: {

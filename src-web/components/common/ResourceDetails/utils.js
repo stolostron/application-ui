@@ -23,7 +23,7 @@ export const getIcamLinkForSubscription = (
 }
 */
 
-export const getIcamLinkForSubscription = (appId, clusterName) => {
+export const getPerfmonLinkForApp = (appId, clusterName) => {
   if (appId && clusterName) {
     appId = R.replace(clusterName, '', appId)
     return `/cemui/applications${appId}`

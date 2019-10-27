@@ -17,8 +17,11 @@ import msgs from '../../../../../nls/platform.properties'
 import {
   getNumClusters,
   getApplicationName,
+  getApplicationNamespace,
   getSingleApplicationObject,
-  getChannelsCountFromSubscriptions
+  getChannelsCountFromSubscriptions,
+  getSubscriptionDataOnHub,
+  getSubscriptionDataOnManagedClusters
 } from './utils'
 import {
   getSearchLinkForOneApplication,
@@ -63,6 +66,8 @@ const getResourceCardsData = (
   HCMChannelList,
   HCMSubscriptionList,
   isSingleApplicationView,
+  applicationName,
+  applicationNamespace,
   targetLink,
   targetLinkForSubscriptions,
   targetLinkForChannels,
@@ -90,6 +95,18 @@ const getResourceCardsData = (
         : 0
     channels = getChannelsCountFromSubscriptions(subscriptionsArray)
   }
+  const subscriptionDataOnHub = getSubscriptionDataOnHub(
+    HCMApplicationList,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace
+  )
+  const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClusters(
+    HCMApplicationList,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace
+  )
 
   const result = [
     {
@@ -100,26 +117,41 @@ const getResourceCardsData = (
       count: subscriptions,
       targetLink: targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: msgs.get('dashboard.card.deployment.failed', locale),
-      subtextKeySecond: msgs.get('dashboard.card.deployment.noStatus', locale)
+      subtextKeyFirst: subscriptionDataOnHub.failed.length
+        .toString()
+        .concat(
+          ' ',
+          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        ),
+      subtextKeySecond: subscriptionDataOnHub.noStatus.length
+        .toString()
+        .concat(' ', msgs.get('dashboard.card.deployment.noStatus', locale))
     },
     {
       msgKey:
         clusters > 1
-          ? msgs.get('dashboard.card.deployment.clusters', locale)
-          : msgs.get('dashboard.card.deployment.cluster', locale),
+          ? msgs.get('dashboard.card.deployment.managedClusters', locale)
+          : msgs.get('dashboard.card.deployment.managedCluster', locale),
       count: clusters,
       targetLink,
-      textKey: applications
+      textKey: subscriptionDataOnManagedClusters.total.length
         .toString()
         .concat(
           ' ',
-          applications > 1
+          subscriptionDataOnManagedClusters.total.length > 1 ||
+          subscriptionDataOnManagedClusters.total.length == 0
             ? msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
             : msgs.get('dashboard.card.deployment.totalSubscription', locale)
         ),
-      subtextKeyFirst: msgs.get('dashboard.card.deployment.failed', locale),
-      subtextKeySecond: msgs.get('dashboard.card.deployment.noStatus', locale)
+      subtextKeyFirst: subscriptionDataOnManagedClusters.failed.length
+        .toString()
+        .concat(
+          ' ',
+          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        ),
+      subtextKeySecond: subscriptionDataOnManagedClusters.noStatus.length
+        .toString()
+        .concat(' ', msgs.get('dashboard.card.deployment.noStatus', locale))
     },
     {
       msgKey:
@@ -159,8 +191,9 @@ class ResourceCardsInformation extends React.Component {
     } = this.props
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
-
     const applicationName = getApplicationName(HCMApplicationList)
+    const applicationNamespace = getApplicationNamespace(HCMApplicationList)
+
     const targetLink = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName)
@@ -184,14 +217,18 @@ class ResourceCardsInformation extends React.Component {
       HCMChannelList,
       HCMSubscriptionList,
       isSingleApplicationView,
+      applicationName,
+      applicationNamespace,
       targetLink,
       targetLinkForSubscriptions,
       targetLinkForChannels,
       locale
     )
+
     const onClick = i => {
       window.open(resourceCardsData[i].targetLink, '_blank')
     }
+
     const onKeyPress = (e, i) => {
       if (e.key === 'Enter') {
         onClick(i)
@@ -203,27 +240,32 @@ class ResourceCardsInformation extends React.Component {
         {Object.keys(resourceCardsData).map(key => {
           const card = resourceCardsData[key]
           return (
-            <div
-              key={card}
-              className="resource-card"
-              role="button"
-              tabIndex="0"
-              onClick={onClick(key)}
-              onKeyPress={onKeyPress(key)}
-            >
-              <div className="card-count">{card.count}</div>
-              <div className="card-type">{card.msgKey}</div>
-              <div className="card-text">{card.textKey}</div>
-              {(card.subtextKeyFirst || card.subtextKeySecond) && (
-                <div className="row-divider" />
+            <React.Fragment key={card}>
+              <div
+                key={card}
+                className="single-card"
+                role="button"
+                tabIndex="0"
+                onClick={onClick(key)}
+                onKeyPress={onKeyPress(key)}
+              >
+                <div className="card-count">{card.count}</div>
+                <div className="card-type">{card.msgKey}</div>
+                <div className="card-text">{card.textKey}</div>
+                {(card.subtextKeyFirst || card.subtextKeySecond) && (
+                  <div className="row-divider" />
+                )}
+                {card.subtextKeyFirst && (
+                  <div className="card-text">{card.subtextKeyFirst}</div>
+                )}
+                {card.subtextKeySecond && (
+                  <div className="card-text">{card.subtextKeySecond}</div>
+                )}
+              </div>
+              {key < Object.keys(resourceCardsData).length - 1 && (
+                <div className="column-divider" />
               )}
-              {card.subtextKeyFirst && (
-                <div className="card-text">{card.subtextKeyFirst}</div>
-              )}
-              {card.subtextKeySecond && (
-                <div className="card-text">{card.subtextKeySecond}</div>
-              )}
-            </div>
+            </React.Fragment>
           )
         })}
       </div>

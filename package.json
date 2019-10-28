@@ -88,6 +88,7 @@
     "http-proxy-middleware": "^0.18.0",
     "image2svg-loader": "^0.10.0",
     "js-yaml": "^3.12.0",
+    "js-yaml-loader": "^1.2.2",
     "loadable-components": "^1.4.0",
     "lodash": "^4.17.5",
     "log4js": "^2.5.3",
@@ -111,11 +112,11 @@
     "react-dom": "^16.4.0",
     "react-lazyload": "^2.3.0",
     "react-masonry-component": "^6.2.1",
+    "react-native-base64": "0.0.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-split-pane": "^0.1.84",
     "react-tag-autocomplete": "^5.5.1",
-    "react-native-base64": "0.0.2",
     "recharts": "^1.4.1",
     "recompose": "^0.27.0",
     "redux": "^4.0.0",
@@ -128,7 +129,9 @@
     "svg-react-loader": "^0.4.4",
     "svg-sprite-loader": "^3.2.3",
     "svg.js": "^2.6.5",
-    "watchr": "^4.0.1"
+    "watchr": "^4.0.1",
+    "yaml": "^1.7.2",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@ibma/aat": "^1.5.1",

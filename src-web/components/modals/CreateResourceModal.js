@@ -15,9 +15,12 @@ import { connect } from 'react-redux'
 import jsYaml from 'js-yaml'
 import {
   Button,
+  Icon,
   InlineNotification,
   Loading,
-  Modal
+  Modal,
+  Tabs,
+  Tab
 } from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
@@ -54,7 +57,9 @@ class CreateResourceModal extends React.PureComponent {
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
     resourceType: PropTypes.object,
-    submitBtnTextKey: PropTypes.string
+    resourceTypeName: PropTypes.string,
+    sampleContent: PropTypes.array,
+    sampleTabs: PropTypes.object
   };
 
   state = initialState;
@@ -112,17 +117,22 @@ class CreateResourceModal extends React.PureComponent {
   render() {
     const { resourceType } = this.props
     const { validator } = getResourceDefinitions(resourceType)
+    const tabs = this.props.sampleTabs
+    const tabsSampleContent = this.props.sampleContent
+    const tabsHandleEditorChange = this.handleEditorChange
+    const tabsHandleParsingError = this.handleParsingError
+    const tabsYaml = this.state.yaml
     return (
       <div>
         <Button
           icon="add--glyph"
           small
-          id={msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          id={msgs.get(this.props.resourceTypeName, this.context.locale)}
           iconDescription={this.props.iconDescription}
           key="create-resource"
           onClick={this.handleModalOpen}
         >
-          {msgs.get(this.props.submitBtnTextKey, this.context.locale)}
+          {msgs.get(this.props.resourceTypeName, this.context.locale)}
         </Button>
         {this.state.modalOpen && (
           <Modal
@@ -133,7 +143,7 @@ class CreateResourceModal extends React.PureComponent {
               this.context.locale
             )}
             primaryButtonText={msgs.get(
-              this.props.submitBtnTextKey,
+              'modal.button.save',
               this.context.locale
             )}
             primaryButtonDisabled={this.isSubmitDisabled()}
@@ -157,6 +167,15 @@ class CreateResourceModal extends React.PureComponent {
                   <a href={this.props.helpLink} target="_blank">
                     {msgs.get('link.help.writing', this.context.locale)}
                   </a>
+
+                  <a href={this.props.helpLink} target="_blank">
+                    <Icon
+                      name="icon--launch"
+                      fill="#6089bf"
+                      description=""
+                      className="helpLinkIcon"
+                    />
+                  </a>
                 </div>
               )}
             </div>
@@ -178,12 +197,38 @@ class CreateResourceModal extends React.PureComponent {
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}
-            <YamlEditor
-              validator={validator}
-              onYamlChange={this.handleEditorChange}
-              handleParsingError={this.handleParsingError}
-              yaml={this.state.yaml}
-            />
+            {this.props.sampleTabs ? (
+              <div className="yamlSampleTabsContainer">
+                <Tabs className="yamlSampleTabs">
+                  {Object.keys(tabs).map((key, i) => {
+                    return (
+                      <Tab
+                        disabled={false}
+                        onClick={() => {}}
+                        onKeyDown={() => {}}
+                        key={tabs[key]}
+                        label={tabs[key]}
+                      >
+                        <YamlEditor
+                          validator={validator}
+                          onYamlChange={tabsHandleEditorChange}
+                          handleParsingError={tabsHandleParsingError}
+                          yaml={tabsYaml ? tabsYaml : tabsSampleContent[i]}
+                        />
+                      </Tab>
+                    )
+                  })}
+                </Tabs>
+              </div>
+            ) : (
+              <YamlEditor
+                validator={validator}
+                onYamlChange={this.handleEditorChange}
+                handleParsingError={this.handleParsingError}
+                yaml={this.state.yaml ? this.state.yaml : tabsSampleContent[0]}
+              />
+            )}
+
             {this.state.processing && <Loading />}
           </Modal>
         )}

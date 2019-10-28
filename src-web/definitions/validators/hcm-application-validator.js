@@ -11,70 +11,48 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 const requiredValues = {
-  Subscription: {
+  Application: {
     apiVersion: '',
-    kind: 'Subscription',
+    kind: 'Application',
     metadata: {
       name: '',
       namespace: ''
-    },
-    spec: {
-      channel: '',
-      placement: {
-        placementRef: {
-          group: '',
-          kind: 'PlacementRule',
-          name: ''
-        }
-      }
     }
   }
 }
 
 const optionalValues = {
-  PlacementRule: {
+  Namespace: {
     apiVersion: '',
-    kind: 'PlacementRule',
+    kind: 'Namespace',
     metadata: {
-      name: '',
-      namespace: ''
-    },
-    spec: {}
+      name: ''
+    }
   }
 }
 
 const allValues = {
-  Subscription: {
+  Application: {
     apiVersion: '',
-    kind: 'Subscription',
+    kind: 'Application',
     metadata: {
       name: '',
       namespace: ''
-    },
-    spec: {
-      channel: '',
-      placement: {
-        placementRef: {
-          group: '',
-          kind: 'PlacementRule',
-          name: ''
-        }
-      }
     }
   },
-  PlacementRule: {
+  Namespace: {
     apiVersion: '',
-    kind: 'PlacementRule',
+    kind: 'Namespace',
     metadata: {
-      name: '',
-      namespace: ''
-    },
-    spec: {}
+      name: ''
+    }
   }
 }
 
 export function validator(parsed, exceptions, locale) {
   const required = Object.keys(requiredValues)
+
+  // check to see that all required keys exist
   required.forEach(key => {
     if (!parsed[key]) {
       exceptions.push({
@@ -86,16 +64,14 @@ export function validator(parsed, exceptions, locale) {
     }
   })
 
-  let subscriptionNamespace = ''
-  let subscriptionPlacementRuleName = ''
-  let placementRuleName = ''
-  let placementRuleNameRow = ''
-  let placementRuleNamespace = ''
-  let placementRuleNamespaceRow = ''
+  let namespace = ''
+  let applicationNamespace = ''
+  let applicationNamespaceRow = ''
 
+  // check through all the parsed keys
   Object.keys(parsed).forEach(key => {
     const resources = parsed[key]
-    // check if all required keys are present
+    // if it is NOT in either requiredValues nor optionalValues, it's an unknown key
     if (!requiredValues[key] && !optionalValues[key]) {
       if (!optionalValues[key]) {
         resources.forEach(parse => {
@@ -119,34 +95,23 @@ export function validator(parsed, exceptions, locale) {
       }
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
-        // pull out the namespace values for comparing
-        if (raw && raw.kind == 'Subscription') {
-          // pull out the namespace value
-          if (raw.metadata && raw.metadata.namespace) {
-            subscriptionNamespace = raw.metadata.namespace
-          }
-          // pull out the placement rule name in subscription
-          if (
-            raw.spec &&
-            raw.spec.placement &&
-            raw.spec.placement.placementRef &&
-            raw.spec.placement.placementRef.name
-          ) {
-            subscriptionPlacementRuleName =
-              raw.spec.placement.placementRef.name
-          }
+        //pull out the namespace values after looping through
+        if (
+          raw &&
+          raw.kind == 'Namespace' &&
+          raw.metadata &&
+          raw.metadata.name
+        ) {
+          namespace = raw.metadata.name
         }
-        if (raw && raw.kind == 'PlacementRule') {
-          // pull out the namespace value
-          if (raw.metadata && raw.metadata.namespace) {
-            placementRuleNamespace = raw.metadata.namespace
-            placementRuleNamespaceRow = synced.metadata.$v.namespace.$r
-          }
-          // pull out the placement rule name
-          if (raw.metadata && raw.metadata.name) {
-            placementRuleName = raw.metadata.name
-            placementRuleNameRow = synced.metadata.$v.name.$r
-          }
+        if (
+          raw &&
+          raw.kind == 'Application' &&
+          raw.metadata &&
+          raw.metadata.namespace
+        ) {
+          applicationNamespace = raw.metadata.namespace
+          applicationNamespaceRow = synced.metadata.$v.namespace.$r
         }
 
         // there may be more then one format for this resource
@@ -156,6 +121,7 @@ export function validator(parsed, exceptions, locale) {
         }
         // keep checking until there's no error or no alternatives left
         const alternatives = required.length
+        // some: at least one element
         required.some((requires, idx) => {
           const len = exceptions.length
           const err = validatorHelper(
@@ -173,38 +139,13 @@ export function validator(parsed, exceptions, locale) {
     }
   })
 
-  // namespace values must match what is defined (if passed)
-  if (subscriptionNamespace) {
-    if (
-      placementRuleNamespace &&
-      placementRuleNamespace != subscriptionNamespace
-    ) {
+  //namespace values must match what is defined(if passed)
+  if (namespace) {
+    if (applicationNamespace && applicationNamespace != namespace) {
       // error
       exceptions.push({
-        row: placementRuleNamespaceRow,
-        text: msgs.get(
-          'validation.namespace.mismatch',
-          [subscriptionNamespace],
-          locale
-        ),
-        column: 0,
-        type: 'error'
-      })
-    }
-  }
-  if (subscriptionPlacementRuleName) {
-    if (
-      placementRuleName &&
-      placementRuleName != subscriptionPlacementRuleName
-    ) {
-      // error
-      exceptions.push({
-        row: placementRuleNameRow,
-        text: msgs.get(
-          'validation.placementrule.mismatch',
-          [subscriptionPlacementRuleName],
-          locale
-        ),
+        row: applicationNamespaceRow,
+        text: msgs.get('validation.namespace.mismatch', [namespace], locale),
         column: 0,
         type: 'error'
       })

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: namespace-name
+---
+apiVersion: app.ibm.com/v1alpha1____createChannel-apiVersion
+kind: Channel_______________________createChannel-kind
+metadata: 
+  name: ____________________________createChannel-metadata-name
+  namespace: namespace-name_________createChannel-metadata-namespace
+spec: 
+  gates: 
+    annotations: ___________________createChannel-spec-gates-annotations
+  pathname: null
+  sourceNamespaces: ________________createChannel-spec-sourceNamespaces
+  type: Namespace___________________createChannel-spec-type

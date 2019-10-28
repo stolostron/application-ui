@@ -31,17 +31,12 @@
     font-size: 18px;
   }
 
-  .AddChannelButton {
-    padding-left: 20px;
-    display: inline-block;
-    margin-top: 20px;
-  }
+  // .AddResourceButton {
+  //   padding: 20px;
+  //   display: inline-block;
+  //   margin: 20px;
 
-  .AddSubscriptionButton {
-    display: inline-block;
-    margin-top: 20px;
-    padding-left: 20px;
-  }
+  // }
 
   .addChannelIcon {
     fill: white;
@@ -59,5 +54,50 @@
 
   .bx--btn__icon {
     fill: #4a79b7;
+  }
+
+  // overrides for the pipeline buttons
+  .AddResourceButton {
+    display: inline-block;
+    margin: 5px;
+    width: 95%;
+  }
+
+  .AddResourceButton > * > .bx--btn {
+    text-align: left;
+    width: 100%;
+  }
+
+  .AddResourceButton > * > .bx--btn .bx--btn__icon {
+    float: right;
+  }
+
+  .bx--modal__buttons-container .bx--btn--primary {
+    background-color: #4a79b7;
+    color: #f4f7fb;
+  }
+
+  .resource-cards-container {
+    width: 100%;
+    height: 180px;
+    margin-bottom: 3%;
+  }
+
+  .resource-cards-info-container {
+    width: 73%;
+    height: 100%;
+    float: left;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 15px 25px;
+  }
+
+  .resource-cards-create-container {
+    width: 25%;
+    height: 100%;
+    float: right;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 15px 25px;
   }
 }

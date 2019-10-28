@@ -10,13 +10,12 @@
 import R from 'ramda'
 import React from 'react'
 
-import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
-import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard'
+// import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard'
 
 import { getSingleApplicationObject } from './ApplicationDeploymentHighlightsDashboard/utils'
 import { pullOutKindPerApplication } from '../ApplicationDeploymentPipeline/utils'
@@ -58,12 +57,11 @@ class ApplicationDeploymentHighlights extends React.Component {
 
   render() {
     const {
-      HCMChannelList,
-      HCMSubscriptionList,
+      // HCMChannelList,
+      // HCMSubscriptionList,
       HCMApplicationList,
       isSingleApplicationView
     } = this.props
-    const { locale } = this.context
 
     let open = false
     if (isSingleApplicationView) {
@@ -83,16 +81,13 @@ class ApplicationDeploymentHighlights extends React.Component {
 
     return (
       <div id="DeploymentHighlights">
-        <div className="deployment-highlights-header">
-          {msgs.get('description.title.deploymentHighlights', locale)}
-        </div>
         <ApplicationDeploymentHighlightsTerminology open={open} />
-        <ApplicationDeploymentHighlightsDashboard
+        {/* <ApplicationDeploymentHighlightsDashboard
           HCMApplicationList={HCMApplicationList}
           HCMChannelList={HCMChannelList}
           HCMSubscriptionList={HCMSubscriptionList}
           isSingleApplicationView={isSingleApplicationView}
-        />
+        /> */}
       </div>
     )
   }

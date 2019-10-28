@@ -95,6 +95,7 @@ class LabelEditingModal extends React.Component {
           namespace: '',
           clusterName: '',
           selfLink: '',
+          _uid: '',
           kind: ''
         }
       }

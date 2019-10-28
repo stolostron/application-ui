@@ -11,13 +11,6 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 const requiredValues = {
-  // Namespace: {
-  //   apiVersion: '',
-  //   kind: 'Namespace',
-  //   metadata: {
-  //     name: ''
-  //   },
-  // },
   Channel: {
     apiVersion: '',
     kind: 'Channel',
@@ -26,25 +19,10 @@ const requiredValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo|Namespace',
+      type: 'ObjectBucket|HelmRepo|Namespace|GitHub',
       pathname: ''
-      //   'secretRef':{},
-      //   'criteria':{
-      //       'sourceNamespace':'',
-      //       'annotations':{},
-      //       'labelSelector':{},
-      //       'name':''
-      //   }
     }
   }
-  // ConfigMap: {
-  //   apiVersion: '',
-  //   kind: 'ConfigMap',
-  //   metadata: {
-  //     name: '',
-  //     namespace: ''
-  //   },
-  // }
 }
 
 const optionalValues = {
@@ -55,7 +33,6 @@ const optionalValues = {
       name: ''
     }
   },
-
   ConfigMap: {
     apiVersion: '',
     kind: 'ConfigMap',
@@ -66,7 +43,6 @@ const optionalValues = {
   }
 }
 
-// probably change this to combine the required+optional
 const allValues = {
   Namespace: {
     apiVersion: '',
@@ -83,15 +59,8 @@ const allValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo|Namespace',
+      type: 'ObjectBucket|HelmRepo|Namespace|Github',
       pathname: ''
-      //   'secretRef':{},
-      //   'criteria':{
-      //       'sourceNamespace':'',
-      //       'annotations':{},
-      //       'labelSelector':{},
-      //       'name':''
-      //   }
     }
   },
   ConfigMap: {
@@ -110,7 +79,6 @@ export function validator(parsed, exceptions, locale) {
   // check to see that all required keys exist
   required.forEach(key => {
     if (!parsed[key]) {
-      //console.log("missing required key: " + key)
       exceptions.push({
         row: 0,
         column: 0,
@@ -120,10 +88,15 @@ export function validator(parsed, exceptions, locale) {
     }
   })
 
+  let namespace = ''
+  let channelNamespace = ''
+  let configMapNamespace = ''
+  let channelNamespaceRow = ''
+  let configMapNamespaceRow = ''
+
   // check through all the parsed keys
   Object.keys(parsed).forEach(key => {
     const resources = parsed[key]
-
     // if it is NOT in either requiredValues nor optionalValues, it's an unknown key
     if (!requiredValues[key] && !optionalValues[key]) {
       if (!optionalValues[key]) {
@@ -148,11 +121,34 @@ export function validator(parsed, exceptions, locale) {
       }
     } else {
       resources.forEach(({ $raw: raw, $synced: synced }) => {
-        // console.log("**key**", key)
-        // console.log("**allValues[key]**", allValues[key])
-        // console.log("raw", raw)
-        // console.log("synced", synced)
-        // console.log("\n")
+        // pull out the namespace values after looping through
+        if (
+          raw &&
+          raw.kind == 'Namespace' &&
+          raw.metadata &&
+          raw.metadata.name
+        ) {
+          namespace = raw.metadata.name
+        }
+        if (
+          raw &&
+          raw.kind == 'Channel' &&
+          raw.metadata &&
+          raw.metadata.namespace
+        ) {
+          channelNamespace = raw.metadata.namespace
+          channelNamespaceRow = synced.metadata.$v.namespace.$r
+        }
+        if (
+          raw &&
+          raw.kind == 'ConfigMap' &&
+          raw.metadata &&
+          raw.metadata.namespace
+        ) {
+          configMapNamespace = raw.metadata.namespace
+          configMapNamespaceRow = synced.metadata.$v.namespace.$r
+        }
+
         // there may be more then one format for this resource
         let required = allValues[key]
         if (!Array.isArray(required)) {
@@ -172,15 +168,33 @@ export function validator(parsed, exceptions, locale) {
             exceptions,
             locale
           )
-          // the raw is a json, use this to get the namespace name
-          //console.log(key, raw)
           return !err && len === exceptions.length // this alternative had no problems
         })
       })
     }
   })
 
-  // logic for handling the namespace check
+  // namespace values must match what is defined (if passed)
+  if (namespace) {
+    if (channelNamespace && channelNamespace != namespace) {
+      // error
+      exceptions.push({
+        row: channelNamespaceRow,
+        text: msgs.get('validation.namespace.mismatch', [namespace], locale),
+        column: 0,
+        type: 'error'
+      })
+    }
+    if (configMapNamespace && configMapNamespace != namespace) {
+      // error
+      exceptions.push({
+        row: configMapNamespaceRow,
+        text: msgs.get('validation.namespace.mismatch', [namespace], locale),
+        column: 0,
+        type: 'error'
+      })
+    }
+  }
 }
 
 function validatorHelper(

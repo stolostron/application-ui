@@ -45,6 +45,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: [/\.yml$/, /\.yaml$/],
+        include: path.resolve("data"),
+        loader: "yaml"
+      },
+      {
         // Transpile React JSX to ES5
         test: [/\.jsx$/, /\.js$/],
         exclude: /node_modules|\.scss/,

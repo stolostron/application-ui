@@ -33,6 +33,14 @@
   .bx--modal-footer {
     margin: 0;
   }
+
+  .yamlSampleTabsContainer {
+    border-top: 1px solid $color__gray-1;
+  }
+
+  .yamlSampleTabs {
+    padding-left: 25px;
+  }
 }
 
 .remove-app-modal {
@@ -54,15 +62,33 @@
 }
 
 .yaml-instructions {
-  width: 70%;
+  font-size: 12px;
+  width: 750px;
 }
 
 .help-link {
   display: inline-block;
-  width: 100%;
-  padding: 10px;
-  text-align: right;
+  width: 150px;
   font-size: 12px;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.helpLinkIcon {
+  margin-left: 10px;
+}
+
+.help-link-edit {
+  display: inline-block;
+  width: 100%;
+  text-align: right;
+  vertical-align: top;
+  font-size: 12px;
+  padding-bottom: 1rem;
 
   a {
     text-decoration: none;

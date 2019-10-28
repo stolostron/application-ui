@@ -13,7 +13,6 @@ import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import CountsCardModule from '../../CountsCardModule'
-import ChannelsCardCarousel from '../../ChannelsCardCarousel'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -21,19 +20,14 @@ import {
   resourceItemByName
 } from '../../../reducers/common'
 import {
-  getChannelsList,
   getNumDeployables,
   getNumDeployments,
-  getCurrentApplication,
-  formatToChannel,
   getSearchLinkForOneApplication
 } from './utils'
-import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
-import R from 'ramda'
 
 resources(() => {
   require('./style.scss')
@@ -43,7 +37,6 @@ const ResourceOverview = withLocale(
   ({
     staticResourceData,
     item,
-    channelList,
     params,
     modules,
     resourceType,
@@ -179,9 +172,6 @@ const ResourceOverview = withLocale(
                 actions={actions}
               />
             </div>
-            <div className="overview-content-bottom overview-content-with-padding-except-left">
-              <ChannelsCardCarousel data={channelList} />
-            </div>
           </React.Fragment>
         ) : (
           <div className="overview-content-bottom overview-content-with-padding">
@@ -211,28 +201,7 @@ ResourceOverview.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const {
-    HCMApplicationList,
-    secondaryHeader,
-    HCMSubscriptionList,
-    role
-  } = state
-  // Determine if single view
-  const singleAppView =
-    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
-  // Get the current application given it being a single view
-  const currentApp = getCurrentApplication(HCMApplicationList, singleAppView)
-  // Get all the subscriptions for the current Appliction if its single view
-  const subscriptionForApplication = pullOutKindPerApplication(
-    currentApp,
-    'subscription'
-  )
-  // Now generate a list of objects that has all the resources of each subscription
-  // per channel
-  const channelsWithSubscriptionTiedRelatedData = formatToChannel(
-    subscriptionForApplication,
-    HCMSubscriptionList
-  )
+  const { role } = state
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -244,8 +213,7 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
-    userRole: role.role,
-    channelList: getChannelsList(channelsWithSubscriptionTiedRelatedData)
+    userRole: role.role
   }
 }
 

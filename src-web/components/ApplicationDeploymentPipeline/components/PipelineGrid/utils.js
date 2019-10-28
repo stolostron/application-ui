@@ -140,7 +140,11 @@ const determineStatus = (statusPassFailInProgress, status) => {
   ) {
     // Increment PASS
     statusTotals[0] = statusTotals[0] + 1
-  } else if (status.includes('fail') || status.includes('error') || status.includes('imagepullbackoff')) {
+  } else if (
+    status.includes('fail') ||
+    status.includes('error') ||
+    status.includes('imagepullbackoff')
+  ) {
     statusTotals[1] = statusTotals[1] + 1
   } else if (status.includes('progress')) {
     statusTotals[2] = statusTotals[2] + 1
@@ -226,6 +230,18 @@ export const getAllRelatedForList = (list, kind) => {
     const removedUndefinedRelated = R.filter(removeUndefined, relatedItems)
     //filter duplicate values
     return R.uniq(emptyArray.concat.apply([], removedUndefinedRelated))
+  }
+  return []
+}
+
+export const removeDuplicatesFromList = obj => {
+  if (obj) {
+    var reducedList = []
+    Object.keys(obj).map(key => {
+      reducedList = reducedList.concat(obj[key])
+    })
+    reducedList = R.uniq(reducedList)
+    return reducedList
   }
   return []
 }

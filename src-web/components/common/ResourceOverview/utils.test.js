@@ -15,7 +15,6 @@ import {
   getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments,
-  getNumRemoteSubscriptions,
   getResourceChannels
 } from './utils'
 
@@ -247,16 +246,6 @@ describe('getNumFailedDeployments', () => {
   })
   it('should return 0 if related is empty', () => {
     expect(getNumFailedDeployments(data2)).toEqual(0)
-  })
-})
-
-describe('getNumRemoteSubscriptions', () => {
-  it('should return deployment count', () => {
-    const result = '5 | 1 | 3'
-    expect(getNumRemoteSubscriptions(data1)).toEqual(result)
-  })
-  it('should return 0 if related is empty', () => {
-    expect(getNumRemoteSubscriptions(data2)).toEqual('0 | 0 | 0')
   })
 })
 

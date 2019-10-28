@@ -94,6 +94,7 @@ class ResourceModal extends React.PureComponent {
           namespace: '',
           clusterName: '',
           selfLink: '',
+          _uid: '',
           kind: ''
         }
       }

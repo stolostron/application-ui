@@ -147,6 +147,7 @@ class RemoveResourceModal extends React.Component {
           namespace: '',
           clusterName: '',
           selfLink: '',
+          _uid: '',
           kind: ''
         }
       }
@@ -154,7 +155,7 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
-    const { selected, selfLink, name, namespace, cluster } = this.state
+    const { selfLink, name, namespace, cluster } = this.state
     this.setState({
       loading: true
     })

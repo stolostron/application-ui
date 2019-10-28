@@ -67,9 +67,8 @@ class ResourceTable extends React.Component {
       clustersServicesMap: {}
     }
     this.serviceList = [
-      constants.MCM_CLUSTERS_SERVICES_ACTIONS.MONITORING,
-      constants.MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING,
-      constants.MCM_CLUSTERS_SERVICES_ACTIONS.CEM
+      constants.MCM_CLUSTERS_SERVICES_ACTIONS.ICAM,
+      constants.MCM_CLUSTERS_SERVICES_ACTIONS.GRAFANA
     ]
   }
 
@@ -436,6 +435,7 @@ class ResourceTable extends React.Component {
             namespace,
             clusterName: _.get(item, 'cluster', ''),
             selfLink: _.get(item, 'selfLink', ''),
+            _uid: _.get(item, '_uid', ''),
             kind: ''
           }
         }
@@ -561,9 +561,7 @@ class ResourceTable extends React.Component {
         this.setState(prevState => ({
           clustersServicesMap: {
             ...prevState.clustersServicesMap,
-            [item &&
-            item.metadata &&
-            item.metadata.name]: this.getClusterServices(item)
+            [item && item.cluster]: this.getClusterServices(item)
           }
         }))
       })
@@ -575,9 +573,7 @@ class ResourceTable extends React.Component {
     this.serviceList.map(service => (serviceMap[service.name] = false))
     _.keys(serviceMap).map(serviceName => {
       const query = convertStringToQuery(
-        `kind:service cluster:${item &&
-          item.metadata &&
-          item.metadata.name} name:${serviceName}`
+        `kind:service cluster:${item && item.cluster} name:${serviceName}`
       )
       apolloClient
         .search(SEARCH_QUERY, { input: [query] })
@@ -618,9 +614,7 @@ class ResourceTable extends React.Component {
       ? actions
       : actions.filter(a => a !== 'table.actions.cluster.launch')
     const serviceMap =
-      this.state.clustersServicesMap[
-        item && item.metadata && item.metadata.name
-      ] || {}
+      this.state.clustersServicesMap[item && item.cluster] || {}
     this.serviceList.map(
       service =>
         (actions = serviceMap[service.name]

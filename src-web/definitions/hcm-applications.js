@@ -8,18 +8,19 @@
  *******************************************************************************/
 
 import React from 'react'
-import { Loading } from 'carbon-components-react'
+import { Loading, TooltipIcon } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
   getNumClusters,
-  getNumPolicyViolations,
-  getNumRemoteSubscriptions
+  getNumPolicyViolations
 } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
+//import '../../graphics/failed-status.svg'
+//import '../../graphics/no-status.svg'
 
 export default {
   defaultSortField: 'name',
@@ -45,7 +46,7 @@ export default {
     {
       msgKey: 'table.header.subscriptions',
       resourceKey: 'subscriptions',
-      transformFunction: getNumRemoteSubscriptions
+      transformFunction: getNumRemoteSubs
     },
     {
       msgKey: 'table.header.policyViolations',
@@ -102,7 +103,11 @@ export default {
     //   transformFunction: createDashboardLink
     // }
   ],
-  tableActions: ['table.actions.applications.remove'],
+  tableActions: [
+    'table.actions.applications.perfmon',
+    'table.actions.applications.grafana',
+    'table.actions.applications.remove'
+  ],
   detailKeys: {
     title: 'application.details',
     headerRows: ['type', 'detail'],
@@ -625,6 +630,39 @@ export function getDependencies(item = {}) {
   return '-'
 }
 
+export function getNumRemoteSubs(item = {}, locale) {
+  let total = 0
+  let failed = 0
+  let unknown = 0
+  if (item && item.remoteSubs instanceof Array) {
+    total = item.remoteSubs.length
+    const failedSubs = item.remoteSubs.filter(elem => elem.status === 'Failed')
+    const unknownSubs = item.remoteSubs.filter(
+      elem => typeof elem.status === 'undefined' || !elem.status
+    )
+    failed = failedSubs.length
+    unknown = unknownSubs.length
+  }
+  return (
+    <ul>
+      <LabelWithOptionalTooltip key={Math.random()} labelText={total} />
+      {(failed != 0 || unknown != 0) && <span>{' | '}</span>}
+      <LabelWithOptionalTooltip
+        key={Math.random()}
+        labelText={failed}
+        iconName="#failed-status"
+        description={msgs.get('table.cell.failed', locale)}
+      />
+      <LabelWithOptionalTooltip
+        key={Math.random()}
+        labelText={unknown}
+        iconName="#no-status"
+        description={msgs.get('table.cell.status.absent', locale)}
+      />
+    </ul>
+  )
+}
+
 export function getRelationshipSourceDest(item, locale, arg) {
   return arg === 'source' ? (
     <ul>
@@ -656,4 +694,26 @@ export function getSubjects(item) {
     item.subjects &&
     item.subjects.map(subject => `${subject.name}(${subject.kind})`).join(', ')
   )
+}
+
+const LabelWithOptionalTooltip = text => {
+  if (text && text.labelText) {
+    return (
+      <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+        {text.iconName && (
+          <TooltipIcon direction={'top'} tooltipText={text.description}>
+            <svg style={{ margin: '0 4 0 0px' }} width="10px" height="10px">
+              <use href={text.iconName} />
+            </svg>
+          </TooltipIcon>
+        )}
+        <p style={{ fontSize: '14px', paddingRight: '6px' }}>
+          {text.labelText}
+        </p>
+      </div>
+    )
+  } else if (text && !text.iconName) {
+    return <p style={{ fontSize: '14px' }}>{text.labelText}</p>
+  }
+  return <span />
 }

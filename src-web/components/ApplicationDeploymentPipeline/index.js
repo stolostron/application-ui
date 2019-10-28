@@ -129,7 +129,7 @@ const handleCreatePlacementRuleResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES, yaml))
 
 // Create Resource for Subscription
-const CreatePlacementRuleModal = (fetchSubscriptions, locale) => {
+const CreatePlacementRuleModal = (fetchPlacementRules, locale) => {
   return (
     <CreateResourceModal
       key="createPlacementRule"
@@ -137,8 +137,8 @@ const CreatePlacementRuleModal = (fetchSubscriptions, locale) => {
       resourceTypeName="description.placementRule"
       onCreateResource={handleCreatePlacementRuleResource}
       onSubmitFunction={fetchPlacementRuleResource}
-      resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_xxxxx.html"
+      resourceDescriptionKey="modal.createresource.placementrule"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_placement_rules.html"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -159,6 +159,8 @@ const mapDispatchToProps = dispatch => {
       handleEditResource(dispatch, resourceType, data),
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
+    fetchPlacementRules: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES)),
     editSubscription: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
     //apolloClient requires CONTEXT .. so I have to pass it in here
@@ -246,12 +248,14 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       fetchChannels,
       fetchSubscriptions,
+      fetchPlacementRules,
       fetchUserInfo,
       fetchApplications,
       bulkSubscriptionList
     } = this.props
     fetchChannels()
     fetchSubscriptions()
+    fetchPlacementRules()
     fetchUserInfo()
 
     if (!bulkSubscriptionList || bulkSubscriptionList.length == 0) {
@@ -293,7 +297,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       breadcrumbItems,
       activeAccountId,
       fetchSubscriptions,
-      fetchChannels
+      fetchChannels,
+      fetchPlacementRules
     } = this.props
     const { locale } = this.context
 
@@ -316,9 +321,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       }
     )
     const modalPlacementRule = React.cloneElement(
-      CreatePlacementRuleModal(fetchSubscriptions, locale),
+      CreatePlacementRuleModal(fetchPlacementRules, locale),
       {
-        resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
+        resourceType: RESOURCE_TYPES.HCM_PLACEMENT_RULES
       }
     )
 

@@ -13,7 +13,7 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount } from './utils'
+import { getIncidentCount, getPerfmonLinkForApp } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
@@ -256,6 +256,11 @@ class ResourceDetails extends React.Component {
       actions,
       children
     } = this.props
+
+    const appId = '1'
+    const cluster = '2'
+    const perfmonLink = getPerfmonLinkForApp(appId, cluster)
+
     return (
       <div id="ResourceDetails">
         {!showExpandedTopology && (
@@ -274,6 +279,20 @@ class ResourceDetails extends React.Component {
               {!showAppDetails
                 ? msgs.get('application.information', this.context.locale)
                 : msgs.get('application.overview', this.context.locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
+              href={perfmonLink}
+              aria-disabled={!perfmonLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.launch.icam', this.context.locale)}
             </Link>
             <span className="app-info-and-dashboard-links-separator" />
             <Link

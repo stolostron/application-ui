@@ -7,6 +7,31 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
+
+/*
+
+export const getIcamLinkForSubscription = (
+  activeAccountId,
+  namespace, subscriptionName
+) => {
+  if (activeAccountId && namespace && subscriptionName) {
+    const hostingSubscriptionStr = base64.encode(`${namespace}/${subscriptionName}`)
+    return `/cemui/applications/${hostingSubscriptionStr}?subscriptionId=${encodeURIComponent(activeAccountId)}&name=${subscriptionName}`
+  }
+  return '#'
+}
+*/
+
+export const getPerfmonLinkForApp = (appId, clusterName) => {
+  if (appId && clusterName) {
+    appId = R.replace(clusterName, '', appId)
+    return `/cemui/applications${appId}`
+  }
+
+  return '#'
+}
+
 export const getIncidentList = list => {
   if (list && list.items) {
     return list.items

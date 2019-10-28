@@ -104,23 +104,6 @@ export const getNumPolicyViolations = data => {
   }
 }
 
-export const getNumRemoteSubscriptions = data => {
-  let total = 0
-  let failed = 0
-  let unknown = 0
-  if (data && data.remoteSubs instanceof Array) {
-    total = data.remoteSubs.length
-    const failedSubs = data.remoteSubs.filter(elem => elem.status === 'Failed')
-    const unknownSubs = data.remoteSubs.filter(
-      elem => typeof elem.status === 'undefined' || !elem.status
-    )
-    failed = failedSubs.length
-    unknown = unknownSubs.length
-  }
-  const finalString = total + ' | ' + failed + ' | ' + unknown
-  return finalString
-}
-
 // Given a current resource data INCLUDING its related resources
 // we want to return all the channels.
 // Channels are not returned inside related resources so we have to

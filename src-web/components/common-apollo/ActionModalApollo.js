@@ -43,6 +43,24 @@ class ActionModalApollo extends React.PureComponent {
           })
       )
     }
+    case 'table.actions.applications.edit': {
+      return (
+        open &&
+          this.getResourceModal({
+            open: true,
+            type: 'resource-edit',
+            action: 'put',
+            resourceType,
+            editorMode: 'yaml',
+            label: {
+              primaryBtn: 'modal.button.submit',
+              label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
+              heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
+            },
+            data: data
+          })
+      )
+    }
     case 'table.actions.applications.perfmon': {
       const link = getPerfmonLinkForApp(data._uid, data.clusterName)
 

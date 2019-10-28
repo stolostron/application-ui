@@ -404,48 +404,39 @@ class ResourceTable extends React.Component {
     return userRole !== constants.ROLES.VIEWER
   }
 
-  handleActionClick(action, resourceType, item, history) {
+  handleActionClick(action, resourceType, item) {
     //const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
-    if (action === 'table.actions.application.edit') {
-      this.props.getResourceAction(
-        action,
-        item,
-        null,
-        history,
-        this.props.locale
-      )
-    } else {
-      const client = apolloClient.getClient()
-      const name = _.get(item, 'name', '')
-      const namespace = _.get(item, 'namespace', '')
-      client.mutate({
-        mutation: UPDATE_ACTION_MODAL,
-        variables: {
-          __typename: 'actionModal',
-          open: true,
-          type: action,
-          resourceType: {
-            __typename: 'resourceType',
-            name: resourceType.name,
-            list: resourceType.list
-          },
-          data: {
-            __typename: 'ModalData',
-            name,
-            namespace,
-            clusterName: _.get(item, 'cluster', ''),
-            selfLink: _.get(item, 'selfLink', ''),
-            _uid: _.get(item, '_uid', ''),
-            kind: ''
-          }
+
+    const client = apolloClient.getClient()
+    const name = _.get(item, 'name', '')
+    const namespace = _.get(item, 'namespace', '')
+    client.mutate({
+      mutation: UPDATE_ACTION_MODAL,
+      variables: {
+        __typename: 'actionModal',
+        open: true,
+        type: action,
+        resourceType: {
+          __typename: 'resourceType',
+          name: resourceType.name,
+          list: resourceType.list
+        },
+        data: {
+          __typename: 'ModalData',
+          name,
+          namespace,
+          clusterName: _.get(item, 'cluster', ''),
+          selfLink: _.get(item, 'selfLink', ''),
+          _uid: _.get(item, '_uid', ''),
+          kind: ''
         }
-      })
-    }
+      }
+    })
   }
 
   getRows() {
     const {
-      history,
+      //history,
       tableActions,
       resourceType,
       staticResourceData,
@@ -504,7 +495,7 @@ class ResourceTable extends React.Component {
                     action === 'table.actions.compliance.remove'
                   }
                   onClick={() =>
-                    this.handleActionClick(action, resourceType, item, history)
+                    this.handleActionClick(action, resourceType, item)
                   }
                   key={action}
                   itemText={msgs.get(action, locale)}

@@ -48,6 +48,7 @@ import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
+import ResourceCardsInformation from './components/ResourceCardsInformation'
 
 /* eslint-disable react/prop-types */
 
@@ -263,9 +264,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -385,13 +386,20 @@ class ApplicationDeploymentPipeline extends React.Component {
           {channels && <span>({channels.length})</span>}
         </div>
         <ApplicationDeploymentHighlights />
-        {showCreate(userRole) && (
-          <React.Fragment>
-            <div className="AddResourceButton">{[modalSubscription]}</div>
-            <div className="AddResourceButton">{[modalChannel]}</div>
-            <div className="AddResourceButton">{[modalPlacementRule]}</div>
-          </React.Fragment>
-        )}
+        <div className="resource-cards-container">
+          <div className="resource-cards-info-container">
+            <ResourceCardsInformation />
+          </div>
+          <div className="resource-cards-create-container">
+            {showCreate(userRole) && (
+              <React.Fragment>
+                <div className="AddResourceButton">{[modalSubscription]}</div>
+                <div className="AddResourceButton">{[modalPlacementRule]}</div>
+                <div className="AddResourceButton">{[modalChannel]}</div>
+              </React.Fragment>
+            )}
+          </div>
+        </div>
 
         <div className="searchAndButtonContainer">
           <Search

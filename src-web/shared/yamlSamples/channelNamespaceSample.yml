@@ -11,6 +11,6 @@ metadata:
 spec: 
   gates: 
     annotations: ___________________createChannel-spec-gates-annotations
-  pathname: _
+  pathname: null
   sourceNamespaces: ________________createChannel-spec-sourceNamespaces
   type: Namespace___________________createChannel-spec-type

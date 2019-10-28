@@ -10,6 +10,7 @@ metadata:
  namespace: namespace-name__________createChannel-metadata-namespace
 spec:
  type: ObjectBucket_________________createChannel-spec-type
+ pathname: null
  secretRef:
    name: _
  gates: 

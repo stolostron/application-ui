@@ -234,6 +234,18 @@ export const getAllRelatedForList = (list, kind) => {
   return []
 }
 
+export const removeDuplicatesFromList = obj => {
+  if (obj) {
+    var reducedList = []
+    Object.keys(obj).map(key => {
+      reducedList = reducedList.concat(obj[key])
+    })
+    reducedList = R.uniq(reducedList)
+    return reducedList
+  }
+  return []
+}
+
 // Given the subscriptionsForThisApplication, the channel,
 // we will look through match the subscription with the channel
 // and then tally up all the status under that application to give

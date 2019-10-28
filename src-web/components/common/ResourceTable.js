@@ -556,15 +556,28 @@ class ResourceTable extends React.Component {
 
   componentDidMount() {
     const resources = this.getResources()
+
+    //check services only for one item; it will apply to all, no need to call this on all items
     if (resources && resources.length > 0) {
-      resources.map(item => {
-        this.setState(prevState => ({
-          clustersServicesMap: {
-            ...prevState.clustersServicesMap,
-            [item && item.cluster]: this.getClusterServices(item)
-          }
-        }))
-      })
+      const item = resources[0]
+      this.setState(prevState => ({
+        clustersServicesMap: {
+          ...prevState.clustersServicesMap,
+          [item && item.cluster]: this.getClusterServices(item)
+        }
+      }))
+
+      /*
+      if (resources && resources.length > 0) {
+        resources.map(item => {
+          this.setState(prevState => ({
+            clustersServicesMap: {
+              ...prevState.clustersServicesMap,
+              [item && item.cluster]: this.getClusterServices(item)
+            }
+          }))
+        })
+        */
     }
   }
 

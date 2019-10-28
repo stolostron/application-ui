@@ -9,6 +9,20 @@
 
 import R from 'ramda'
 
+export const getIncidentList = list => {
+  if (list && list.items) {
+    return list.items
+  }
+  return []
+}
+
+export const getIncidentCount = list => {
+  if (list && list.items && Array.isArray(list.items)) {
+    return list.items.length
+  }
+  return '-'
+}
+
 /*
 
 export const getIcamLinkForSubscription = (
@@ -23,7 +37,7 @@ export const getIcamLinkForSubscription = (
 }
 */
 
-export const getPerfmonLinkForApp = (appId, clusterName) => {
+export const getICAMLinkForApp = (appId, clusterName) => {
   if (appId && clusterName) {
     appId = R.replace(clusterName, '', appId)
     return `/cemui/applications${appId}`
@@ -32,16 +46,8 @@ export const getPerfmonLinkForApp = (appId, clusterName) => {
   return '#'
 }
 
-export const getIncidentList = list => {
-  if (list && list.items) {
-    return list.items
-  }
-  return []
-}
+export const isICAMEnabled = clusterName => {
+  if (clusterName) return true
 
-export const getIncidentCount = list => {
-  if (list && list.items && Array.isArray(list.items)) {
-    return list.items.length
-  }
-  return '-'
+  return false
 }

@@ -10,7 +10,7 @@ import R from 'ramda'
 import {
   getResourcesStatusPerChannel,
   getAllRelatedForList,
-  removeDuplicateSubscriptions
+  removeDuplicatesFromList
 } from '../../components/PipelineGrid/utils'
 
 // Method will take in an object and return back the status of related objects
@@ -124,6 +124,65 @@ export const getChannelsCountFromSubscriptions = arr => {
   return channelSet.size
 }
 
+export const getNumPlacementRules = (
+  applications,
+  isSingleApplicationView,
+  applicationName,
+  applicationNamespace
+) => {
+  if (applications && applications.items) {
+    var allPlacementRules = []
+
+    // Single application view
+    if (isSingleApplicationView) {
+      Object.keys(applications.items).map(appIndex => {
+        if (
+          applications.items[appIndex].name === applicationName &&
+          applications.items[appIndex].namespace === applicationNamespace
+        ) {
+          const appData = applications.items[appIndex]
+          if (appData.related) {
+            Object.keys(appData.related).map(kindIndex => {
+              if (appData.related[kindIndex].kind === 'placementrule') {
+                const placementRules = appData.related[kindIndex].items
+                Object.keys(placementRules).map(prIndex => {
+                  const prObj = {
+                    name: placementRules[prIndex].name,
+                    namespace: placementRules[prIndex].namespace
+                  }
+                  allPlacementRules = allPlacementRules.concat(prObj)
+                })
+              }
+            })
+          }
+        }
+      })
+    } else {
+      // Root application view
+      Object.keys(applications.items).map(appIndex => {
+        const appData = applications.items[appIndex]
+        if (appData.related) {
+          Object.keys(appData.related).map(kindIndex => {
+            if (appData.related[kindIndex].kind === 'placementrule') {
+              const placementRules = appData.related[kindIndex].items
+              Object.keys(placementRules).map(prIndex => {
+                const prObj = {
+                  name: placementRules[prIndex].name,
+                  namespace: placementRules[prIndex].namespace
+                }
+                allPlacementRules = allPlacementRules.concat(prObj)
+              })
+            }
+          })
+        }
+      })
+      allPlacementRules = removeDuplicatesFromList(allPlacementRules)
+    }
+    return allPlacementRules.length
+  }
+  return 0
+}
+
 export const getSubscriptionDataOnHub = (
   applications,
   isSingleApplicationView,
@@ -187,7 +246,7 @@ export const getSubscriptionDataOnHub = (
           })
         }
       })
-      allSubscriptions = removeDuplicateSubscriptions(allSubscriptions)
+      allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
       Object.keys(allSubscriptions).map(key => {
         if (allSubscriptions[key].status === '') {
@@ -204,9 +263,9 @@ export const getSubscriptionDataOnHub = (
   }
 
   return {
-    total: allSubscriptions,
-    failed: failedSubscriptions,
-    noStatus: noStatusSubscriptions
+    total: allSubscriptions.length,
+    failed: failedSubscriptions.length,
+    noStatus: noStatusSubscriptions.length
   }
 }
 
@@ -267,7 +326,7 @@ export const getSubscriptionDataOnManagedClusters = (
           })
         }
       })
-      allSubscriptions = removeDuplicateSubscriptions(allSubscriptions)
+      allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
       Object.keys(allSubscriptions).map(key => {
         if (allSubscriptions[key].status === '') {
@@ -284,8 +343,8 @@ export const getSubscriptionDataOnManagedClusters = (
   }
 
   return {
-    total: allSubscriptions,
-    failed: failedSubscriptions,
-    noStatus: noStatusSubscriptions
+    total: allSubscriptions.length,
+    failed: failedSubscriptions.length,
+    noStatus: noStatusSubscriptions.length
   }
 }

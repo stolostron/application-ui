@@ -234,7 +234,7 @@ export const getAllRelatedForList = (list, kind) => {
   return []
 }
 
-export const removeDuplicateSubscriptions = obj => {
+export const removeDuplicatesFromList = obj => {
   if (obj) {
     var reducedList = []
     Object.keys(obj).map(key => {

@@ -20,6 +20,7 @@ import {
   getApplicationNamespace,
   getSingleApplicationObject,
   getChannelsCountFromSubscriptions,
+  getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters
 } from './utils'
@@ -73,7 +74,7 @@ const getResourceCardsData = (
   targetLinkForChannels,
   locale
 ) => {
-  const applications = getNumItems(HCMApplicationList)
+  // const applications = getNumItems(HCMApplicationList)
   const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
   let channels = getNumItems(HCMChannelList)
 
@@ -95,6 +96,13 @@ const getResourceCardsData = (
         : 0
     channels = getChannelsCountFromSubscriptions(subscriptionsArray)
   }
+
+  const placementRules = getNumPlacementRules(
+    HCMApplicationList,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace
+  )
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     HCMApplicationList,
     isSingleApplicationView,
@@ -111,63 +119,62 @@ const getResourceCardsData = (
   const result = [
     {
       msgKey:
-        subscriptions > 1
-          ? msgs.get('dashboard.card.deployment.subscriptions', locale)
-          : msgs.get('dashboard.card.deployment.subscription', locale),
+        subscriptions == 1
+          ? msgs.get('dashboard.card.deployment.subscription', locale)
+          : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptions,
       targetLink: targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: subscriptionDataOnHub.failed.length
+      subtextKeyFirst: subscriptionDataOnHub.failed
         .toString()
         .concat(
           ' ',
           msgs.get('dashboard.card.deployment.failed.lowercase', locale)
         ),
-      subtextKeySecond: subscriptionDataOnHub.noStatus.length
+      subtextKeySecond: subscriptionDataOnHub.noStatus
         .toString()
         .concat(' ', msgs.get('dashboard.card.deployment.noStatus', locale))
     },
     {
       msgKey:
-        clusters > 1
-          ? msgs.get('dashboard.card.deployment.managedClusters', locale)
-          : msgs.get('dashboard.card.deployment.managedCluster', locale),
+        clusters == 1
+          ? msgs.get('dashboard.card.deployment.managedCluster', locale)
+          : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
       targetLink,
-      textKey: subscriptionDataOnManagedClusters.total.length
+      textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
           ' ',
-          subscriptionDataOnManagedClusters.total.length > 1 ||
-          subscriptionDataOnManagedClusters.total.length == 0
-            ? msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-            : msgs.get('dashboard.card.deployment.totalSubscription', locale)
+          subscriptionDataOnManagedClusters.total == 1
+            ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
+            : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
-      subtextKeyFirst: subscriptionDataOnManagedClusters.failed.length
+      subtextKeyFirst: subscriptionDataOnManagedClusters.failed
         .toString()
         .concat(
           ' ',
           msgs.get('dashboard.card.deployment.failed.lowercase', locale)
         ),
-      subtextKeySecond: subscriptionDataOnManagedClusters.noStatus.length
+      subtextKeySecond: subscriptionDataOnManagedClusters.noStatus
         .toString()
         .concat(' ', msgs.get('dashboard.card.deployment.noStatus', locale))
     },
     {
       msgKey:
-        channels > 1
-          ? msgs.get('dashboard.card.deployment.channels', locale)
-          : msgs.get('dashboard.card.deployment.channel', locale),
+        channels == 1
+          ? msgs.get('dashboard.card.deployment.channel', locale)
+          : msgs.get('dashboard.card.deployment.channels', locale),
       count: channels,
       targetLink: targetLinkForChannels,
       textKey: msgs.get('dashboard.card.deployment.total', locale)
     },
     {
       msgKey:
-        applications > 1
-          ? msgs.get('dashboard.card.deployment.placementRules', locale)
-          : msgs.get('dashboard.card.deployment.placementRule', locale),
-      count: 123,
+        placementRules == 1
+          ? msgs.get('dashboard.card.deployment.placementRule', locale)
+          : msgs.get('dashboard.card.deployment.placementRules', locale),
+      count: placementRules,
       targetLink,
       textKey: msgs.get('dashboard.card.deployment.total', locale)
     }
@@ -225,29 +232,31 @@ class ResourceCardsInformation extends React.Component {
       locale
     )
 
-    const onClick = i => {
-      window.open(resourceCardsData[i].targetLink, '_blank')
-    }
+    // const onClick = i => {
+    //     if (resourceCardsData[i].targetLink) {
+    //         window.open(resourceCardsData[i].targetLink, '_blank')
+    //     }
+    // }
 
-    const onKeyPress = (e, i) => {
-      if (e.key === 'Enter') {
-        onClick(i)
-      }
-    }
+    // const onKeyPress = (e, i) => {
+    //     if (e.key === 'Enter') {
+    //         onClick(i)
+    //     }
+    // }
 
     return (
       <div className={'resource-cards-info' + singleAppStyle}>
         {Object.keys(resourceCardsData).map(key => {
           const card = resourceCardsData[key]
           return (
-            <React.Fragment key={card}>
+            <React.Fragment key={key}>
               <div
                 key={card}
                 className="single-card"
                 role="button"
                 tabIndex="0"
-                onClick={onClick(key)}
-                onKeyPress={onKeyPress(key)}
+                // onClick={onClick(key)}
+                // onKeyPress={onKeyPress(key)}
               >
                 <div className="card-count">{card.count}</div>
                 <div className="card-type">{card.msgKey}</div>

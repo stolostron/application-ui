@@ -37,7 +37,7 @@ export const getChannelSample = (channelSample, locale) => {
     sample =
       sample +
       YAML.stringify(channelSample[key]).replace(
-        /createChannel-apiVersion|createChannel-kind|createChannel-metadata-name|createChannel-metadata-namespace|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
+        /createChannel-apiVersion|createChannel-kind|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
         matched => {
           return mapObj[matched]
         }
@@ -84,7 +84,7 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
     sample =
       sample +
       YAML.stringify(subscriptionSample[key]).replace(
-        /createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-name|createSubscription-metadata-namespace|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|null|_/gi,
+        /createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|null|_/gi,
         matched => {
           return mapObj[matched]
         }
@@ -126,7 +126,7 @@ export const getApplicationSample = (applicationSample, locale) => {
     sample =
       sample +
       YAML.stringify(applicationSample[key]).replace(
-        /createApplication-apiVersion|createApplication-kind|createApplication-metadata-name|createApplication-metadata-namespace|createApplication-spec-componentKinds|createApplication-spec-selector-matchExpressions|null|_/gi,
+        /createApplication-apiVersion|createApplication-kind|createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-componentKinds|createApplication-spec-selector-matchExpressions|null|_/gi,
         matched => {
           return mapObj[matched]
         }
@@ -135,6 +135,40 @@ export const getApplicationSample = (applicationSample, locale) => {
       sample = sample + '---\n'
     }
   })
+
+  return sample
+}
+
+export const getPlacementRuleSample = (placementRuleSample, locale) => {
+  const mapObj = {
+    'createPlacementRule-apiVersion':
+      '# ' + msgs.get('description.createPlacementRule.apiVersion', locale),
+    'createPlacementRule-kind':
+      '# ' + msgs.get('description.createPlacementRule.kind', locale),
+    'createPlacementRule-metadata-name':
+      '# ' + msgs.get('description.createPlacementRule.metadata.name', locale),
+    'createPlacementRule-metadata-namespace':
+      '# ' +
+      msgs.get('description.createPlacementRule.metadata.namespace', locale),
+    'createPlacementRule-spec-clusterLabels-matchLabels':
+      '# ' +
+      msgs.get(
+        'description.createPlacementRule.spec.clusterLabels.matchLabels',
+        locale
+      ),
+    'createPlacementRule-spec-clusterReplicas':
+      '# ' +
+      msgs.get('description.createPlacementRule.spec.clusterReplicas', locale),
+    null: '',
+    _: ' '
+  }
+
+  var sample = YAML.stringify(placementRuleSample).replace(
+    /createPlacementRule-apiVersion|createPlacementRule-kind|createPlacementRule-metadata-namespace|createPlacementRule-metadata-name|createPlacementRule-spec-clusterLabels-matchLabels|createPlacementRule-spec-clusterReplicas|null|_/gi,
+    matched => {
+      return mapObj[matched]
+    }
+  )
 
   return sample
 }

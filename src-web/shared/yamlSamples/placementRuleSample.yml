@@ -1,0 +1,9 @@
+apiVersion: app.ibm.com/v1alpha1____createPlacementRule-apiVersion
+kind: PlacementRule_________________createPlacementRule-kind
+metadata:
+  name: ____________________________createPlacementRule-metadata-name
+  namespace: namespace-name_________createPlacementRule-metadata-namespace
+spec:
+  clusterLabels:
+    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels
+  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas

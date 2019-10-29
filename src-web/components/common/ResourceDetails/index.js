@@ -13,7 +13,7 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount, getPerfmonLinkForApp } from './utils'
+import { getIncidentCount, getICAMLinkForApp, isICAMEnabled } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
@@ -253,13 +253,13 @@ class ResourceDetails extends React.Component {
       showAppDetails,
       dashboard,
       showExpandedTopology,
+      _uid,
+      clusterName,
       actions,
       children
     } = this.props
-
-    const appId = '1'
-    const cluster = '2'
-    const perfmonLink = getPerfmonLinkForApp(appId, cluster)
+    const enableICAM = isICAMEnabled(clusterName)
+    const icamLink = getICAMLinkForApp(_uid, clusterName)
 
     return (
       <div id="ResourceDetails">
@@ -282,8 +282,8 @@ class ResourceDetails extends React.Component {
             </Link>
             <span className="app-info-and-dashboard-links-separator" />
             <Link
-              href={perfmonLink}
-              aria-disabled={!perfmonLink}
+              href={icamLink}
+              aria-disabled={!enableICAM}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -381,8 +381,10 @@ ResourceDetails.contextTypes = {
 }
 
 ResourceDetails.propTypes = {
+  _uid: PropTypes.string,
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  clusterName: PropTypes.string,
   dashboard: PropTypes.string,
   launch_links: PropTypes.object,
   location: PropTypes.object,
@@ -410,26 +412,28 @@ const mapStateToProps = (state, ownProps) => {
         visibleResources = ownProps.getVisibleResources(state, {
           storeRoot: typeListName
         })
+
   const items = visibleResources.normalizedItems
   const params = (ownProps.match && ownProps.match.params) || ''
-  const dashboard =
-    (items &&
-      params &&
+
+  const item_key =
+    (params &&
       params.name &&
       params.namespace &&
-      items[
-        decodeURIComponent(params.name) +
-          '-' +
-          decodeURIComponent(params.namespace)
-      ] &&
-      items[
-        decodeURIComponent(params.name) +
-          '-' +
-          decodeURIComponent(params.namespace)
-      ]['dashboard']) ||
-    ''
+      decodeURIComponent(params.name) +
+        '-' +
+        decodeURIComponent(params.namespace)) ||
+    undefined
+
+  const item = (items && item_key && items[item_key]) || undefined
+
+  const dashboard = (item && item['dashboard']) || ''
+  const _uid = (items && item['_uid']) || ''
+  const clusterName = (items && item['cluster']) || ''
   return {
     dashboard,
+    _uid,
+    clusterName,
     showAppDetails: AppOverview.showAppDetails,
     showExpandedTopology: AppOverview.showExpandedTopology
   }

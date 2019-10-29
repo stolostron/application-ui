@@ -104,7 +104,7 @@ export default {
     // }
   ],
   tableActions: [
-    'table.actions.applications.perfmon',
+    'table.actions.applications.icam',
     'table.actions.applications.grafana',
     'table.actions.applications.edit',
     'table.actions.applications.remove'

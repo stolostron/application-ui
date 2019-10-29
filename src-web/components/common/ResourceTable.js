@@ -507,7 +507,17 @@ class ResourceTable extends React.Component {
                     this.handleActionClick(action, resourceType, item, history)
                   }
                   key={action}
-                  itemText={msgs.get(action, locale)}
+                  itemText={
+                    <div className="item-container">
+                      <div className="menu-item">{msgs.get(action, locale)}{(action === 'table.actions.applications.grafana' || action === 'table.actions.applications.icam') &&
+                        <Icon
+                          className="app-dashboard-icon-table"
+                          name="icon--launch"
+                          fill="#3D70B2"
+                        />
+                      }</div>
+                    </div>
+                  }
                 />
               ))}
             </OverflowMenu>

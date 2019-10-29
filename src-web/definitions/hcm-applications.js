@@ -106,6 +106,7 @@ export default {
   tableActions: [
     'table.actions.applications.icam',
     'table.actions.applications.grafana',
+    'table.actions.applications.edit',
     'table.actions.applications.remove'
   ],
   detailKeys: {
@@ -444,7 +445,7 @@ export default {
         transformFunction: getAge
       }
     ],
-    tableActions: ['table.actions.application.edit']
+    tableActions: ['table.actions.applications.edit']
   },
   placementBindingKeys: {
     title: 'application.placement.bindings',

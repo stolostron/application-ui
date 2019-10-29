@@ -11,7 +11,12 @@
 
 import React from 'react'
 import lodash from 'lodash'
-import { Modal, Loading, InlineNotification } from 'carbon-components-react'
+import {
+  Modal,
+  Loading,
+  InlineNotification,
+  Icon
+} from 'carbon-components-react'
 import resources from '../../../lib/shared/resources'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
@@ -144,17 +149,20 @@ class ResourceModal extends React.PureComponent {
         {loading && <Loading />}
         <Modal
           id={`resource-modal-${resourceType}`}
-          className="modal"
+          className="modal-with-editor"
           open={open}
-          primaryButtonText={msgs.get(label.primaryBtn, locale)}
+          primaryButtonText={msgs.get('modal.button.save', locale)}
           secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          modalLabel={msgs.get(label.label, locale)}
           modalHeading={msgs.get(label.heading, locale)}
           onRequestClose={this.handleClose}
           onRequestSubmit={this.handleSubmit}
           role="region"
           aria-label={msgs.get(label.heading, locale)}
         >
+          <div className="bx--modal-content-desc">
+            <div className="yaml-instructions" />
+          </div>
+
           <div>
             {errors !== '' ? (
               <InlineNotification

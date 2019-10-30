@@ -1,16 +1,16 @@
-apiVersion: v1
+apiVersion: v1______________________createSubscription-namespace-resource
 kind: Namespace
 metadata:
-  name: namespace-name
+  name: ____________________________createSubscription-name-resource
 ---
-apiVersion: app.ibm.com/v1alpha1____createSubscription-apiVersion
-kind: Subscription__________________createSubscription-kind
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
 metadata:
   name: ____________________________createSubscription-metadata-name
-  namespace: namespace-name_________createSubscription-metadata-namespace
+  namespace: _______________________createSubscription-metadata-namespace
 spec:
   channel: _________________________createSubscription-spec-channel
   placement: 
     placementRef: 
-      kind: PlacementRule___________createSubscription-spec-placement-placementRef-kind
+      kind: PlacementRule
       name: ________________________createSubscription-spec-placement-placementRef-name

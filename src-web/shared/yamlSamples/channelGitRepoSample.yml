@@ -5,12 +5,9 @@ metadata:
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: Channel
-metadata: 
+metadata:
   name: ____________________________createChannel-metadata-name
   namespace: _______________________createChannel-metadata-namespace
-spec: 
-  gates: 
-    annotations: ___________________createChannel-spec-gates-annotations
+spec:
+  type: Github
   pathname: null
-  sourceNamespaces: ________________createChannel-spec-sourceNamespaces
-  type: Namespace___________________createChannel-spec-type

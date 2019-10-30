@@ -1,13 +1,13 @@
-apiVersion: v1
+apiVersion: v1______________________createChannel-namespace-resource
 kind: Namespace
 metadata:
-  name: namespace-name
+  name: ____________________________createChannel-name-resource
 ---
-apiVersion: app.ibm.com/v1alpha1____createChannel-apiVersion
-kind: Channel_______________________createChannel-kind
+apiVersion: app.ibm.com/v1alpha1
+kind: Channel
 metadata:
  name: _____________________________createChannel-metadata-name
- namespace: namespace-name__________createChannel-metadata-namespace
+ namespace: ________________________createChannel-metadata-namespace
 spec:
  type: ObjectBucket_________________createChannel-spec-type
  pathname: null

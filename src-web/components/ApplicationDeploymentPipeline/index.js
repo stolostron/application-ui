@@ -38,6 +38,7 @@ import {
 import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml'
 import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml'
 import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml'
+import channelGitRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelGitRepoSample.yml'
 import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml'
 import placementRuleSample from 'js-yaml-loader!../../shared/yamlSamples/placementRuleSample.yml'
 import {
@@ -77,7 +78,8 @@ const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
       sampleContent={[
         getChannelSample(channelNamespaceSample, locale),
         getChannelSample(channelHelmRepoSample, locale),
-        getChannelSample(channelObjectBucketSample, locale)
+        getChannelSample(channelObjectBucketSample, locale),
+        getChannelSample(channelGitRepoSample, locale)
       ]}
     />
   )

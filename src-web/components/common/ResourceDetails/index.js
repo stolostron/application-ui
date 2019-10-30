@@ -13,7 +13,7 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount, getICAMLinkForApp, isICAMEnabled } from './utils'
+import { getIncidentCount, getICAMLinkForApp } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
@@ -54,7 +54,7 @@ const withResource = Component => {
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
-      error = state[typeListName].err
+          error = state[typeListName].err
     const { CEMIncidentList } = state
     return {
       status: state[typeListName].status,
@@ -159,9 +159,9 @@ const withResource = Component => {
                 className="persistent"
                 subtitle={msgs.get(
                   `error.${
-                  statusCode === 401 || statusCode === 403
-                    ? 'unauthorized'
-                    : 'default'
+                    statusCode === 401 || statusCode === 403
+                      ? 'unauthorized'
+                      : 'default'
                   }.description`,
                   this.context.locale
                 )}
@@ -195,7 +195,7 @@ class ResourceDetails extends React.Component {
 
   componentWillMount() {
     const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
-      params = match && match.params
+          params = match && match.params
     updateSecondaryHeader(
       params.name,
       getTabs(
@@ -214,7 +214,7 @@ class ResourceDetails extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
-        params = match && match.params
+            params = match && match.params
       updateSecondaryHeader(
         params.name,
         getTabs(
@@ -256,9 +256,10 @@ class ResourceDetails extends React.Component {
       _uid,
       clusterName,
       actions,
-      children
+      children,
+      showICAMAction
     } = this.props
-    const enableICAM = isICAMEnabled(clusterName)
+
     const icamLink = getICAMLinkForApp(_uid, clusterName)
 
     return (
@@ -297,7 +298,7 @@ class ResourceDetails extends React.Component {
             <div className="perfmonAction">
               <Link
                 href={icamLink}
-                aria-disabled={!enableICAM}
+                aria-disabled={!showICAMAction}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -310,7 +311,6 @@ class ResourceDetails extends React.Component {
               </Link>
             </div>
           </div>
-
         )}
         <OverviewTab
           resourceType={resourceType}
@@ -349,10 +349,10 @@ class ResourceDetails extends React.Component {
     const breadcrumbItems = []
     location = location || this.props.location
     const { tabs, match, resourceType } = this.props,
-      { locale } = this.context,
-      urlSegments = location.pathname.replace(/\/$/, '').split('/'),
-      lastSegment = urlSegments[urlSegments.length - 1],
-      currentTab = tabs.find(tab => tab === lastSegment)
+          { locale } = this.context,
+          urlSegments = location.pathname.replace(/\/$/, '').split('/'),
+          lastSegment = urlSegments[urlSegments.length - 1],
+          currentTab = tabs.find(tab => tab === lastSegment)
 
     // The base path, calculated by the current location minus params
     let paramsLength = 0
@@ -395,6 +395,7 @@ ResourceDetails.propTypes = {
   routes: PropTypes.array,
   showAppDetails: PropTypes.bool,
   showExpandedTopology: PropTypes.bool,
+  showICAMAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
   updateSecondaryHeader: PropTypes.func
@@ -411,9 +412,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state, ownProps) => {
   const { AppOverview } = state
   const { list: typeListName } = ownProps.resourceType,
-    visibleResources = ownProps.getVisibleResources(state, {
-      storeRoot: typeListName
-    })
+        visibleResources = ownProps.getVisibleResources(state, {
+          storeRoot: typeListName
+        })
 
   const items = visibleResources.normalizedItems
   const params = (ownProps.match && ownProps.match.params) || ''
@@ -423,8 +424,8 @@ const mapStateToProps = (state, ownProps) => {
       params.name &&
       params.namespace &&
       decodeURIComponent(params.name) +
-      '-' +
-      decodeURIComponent(params.namespace)) ||
+        '-' +
+        decodeURIComponent(params.namespace)) ||
     undefined
 
   const item = (items && item_key && items[item_key]) || undefined
@@ -437,7 +438,8 @@ const mapStateToProps = (state, ownProps) => {
     _uid,
     clusterName,
     showAppDetails: AppOverview.showAppDetails,
-    showExpandedTopology: AppOverview.showExpandedTopology
+    showExpandedTopology: AppOverview.showExpandedTopology,
+    showICAMAction: AppOverview.showICAMAction
   }
 }
 

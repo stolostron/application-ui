@@ -13,12 +13,14 @@ import { createAction } from '../../shared/utils/state'
 const SET_SELECTED_APP_TAB = 'SET_SELECTED_APP_TAB'
 const SET_SHOW_APP_DETAILS = 'SET_SHOW_APP_DETAILS'
 const SET_SHOW_EXANDED_TOPOLOGY = 'SET_SHOW_EXANDED_TOPOLOGY'
+const SET_ENABLE_ICAM_ACTION = 'SET_ENABLE_ICAM_ACTION'
 const SET_CAROUSEL_ITERATOR = 'SET_CAROUSEL_ITERATOR'
 
 export const initialStateOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
   showExpandedTopology: false,
+  showICAMAction: false,
   carouselIterator: 0
 }
 
@@ -32,6 +34,9 @@ export const AppOverview = (state = initialStateOverview, action) => {
   }
   case SET_SHOW_EXANDED_TOPOLOGY: {
     return { ...state, showExpandedTopology: action.payload }
+  }
+  case SET_ENABLE_ICAM_ACTION: {
+    return { ...state, showICAMAction: action.payload }
   }
   case SET_CAROUSEL_ITERATOR: {
     // We want to protect from going below 0
@@ -49,4 +54,5 @@ export default AppOverview
 export const setSelectedAppTab = createAction(SET_SELECTED_APP_TAB)
 export const setShowAppDetails = createAction(SET_SHOW_APP_DETAILS)
 export const setShowExpandedTopology = createAction(SET_SHOW_EXANDED_TOPOLOGY)
+export const setEnableICAMAction = createAction(SET_ENABLE_ICAM_ACTION)
 export const setCarouselIterator = createAction(SET_CAROUSEL_ITERATOR)

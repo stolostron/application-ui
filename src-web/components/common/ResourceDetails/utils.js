@@ -45,9 +45,3 @@ export const getICAMLinkForApp = (appId, clusterName) => {
 
   return '#'
 }
-
-export const isICAMEnabled = clusterName => {
-  if (clusterName) return true
-
-  return false
-}

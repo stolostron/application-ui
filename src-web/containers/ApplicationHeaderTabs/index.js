@@ -56,6 +56,8 @@ const ApplicationHeaderTabs = withLocale(
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
     }
+
+    actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">

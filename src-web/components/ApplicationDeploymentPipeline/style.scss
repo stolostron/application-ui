@@ -6,6 +6,8 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import '../../../scss/variables';
 
 #DeploymentPipeline {
   padding-bottom: 20px;
@@ -99,5 +101,62 @@
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
     padding: 15px 25px;
+  }
+
+  .app-info-and-dashboard-links {
+    position: absolute;
+    top: calc(#{$secondary-header-top} + 32px);
+    right: 10%;
+    z-index: 1001;
+    background-color: $color__white;
+    display: inline-block;
+  }
+
+  .app-info-and-dashboard-links .bx--link {
+    text-decoration: none;
+    color: #3d70b2;
+    font-family: "IBM Plex Sans";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .app-info-and-dashboard-links-separator {
+    border-left: 2px solid $color__gray-1;
+    margin: 0 15px 0 15px;
+  }
+
+  .app-info-icon {
+    margin: 0 10px 0 0;
+    vertical-align: sub;
+  }
+
+  .app-dashboard-icon {
+    margin: 0 10px 0 0;
+    vertical-align: sub;
+  }
+
+  .resource-diagram-title {
+    font-size: 1.2rem;
+    line-height: 1.25;
+    font-weight: 300;
+    padding: 20px 0 20px 0;
+  }
+
+  .perfmonAction {
+    border-width: 2px;
+    border-style: solid;
+    border-color: #4a79b7;
+    color: #3d70b2;
+    width: 180px;
+    height: 32px;
+    padding: 2px 15px 8px 10px;
+    position: absolute;
+    top: calc(2.082rem);
+    right: 0%;
+  }
+
+  .app-dashboard-icon-icam {
+    margin: 0px 10px 0 10px;
   }
 }

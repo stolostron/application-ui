@@ -126,7 +126,7 @@ const getResourceCardsData = (
       targetLink: targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
-        subscriptionDataOnHub.failed > 0
+        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
           ? subscriptionDataOnHub.failed
             .toString()
             .concat(
@@ -135,7 +135,7 @@ const getResourceCardsData = (
             )
           : '',
       subtextKeySecond:
-        subscriptionDataOnHub.noStatus > 0
+        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
           ? subscriptionDataOnHub.noStatus
             .toString()
             .concat(

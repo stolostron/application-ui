@@ -160,7 +160,8 @@ const getResourceCardsData = (
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
       subtextKeyFirst:
-        subscriptionDataOnManagedClusters.failed > 0
+        subscriptionDataOnManagedClusters.failed > 0 ||
+        subscriptionDataOnManagedClusters.noStatus > 0
           ? subscriptionDataOnManagedClusters.failed
             .toString()
             .concat(
@@ -169,6 +170,7 @@ const getResourceCardsData = (
             )
           : '',
       subtextKeySecond:
+        subscriptionDataOnManagedClusters.failed > 0 ||
         subscriptionDataOnManagedClusters.noStatus > 0
           ? subscriptionDataOnManagedClusters.noStatus
             .toString()

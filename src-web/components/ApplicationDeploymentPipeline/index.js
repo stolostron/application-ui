@@ -28,7 +28,7 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading } from 'carbon-components-react'
+import { Search, Loading, Icon, Link } from 'carbon-components-react'
 import {
   getApplicationsList,
   getChannelsList,
@@ -52,6 +52,7 @@ import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCardsInformation from './components/ResourceCardsInformation'
+import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 
 /* eslint-disable react/prop-types */
 
@@ -268,9 +269,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
@@ -305,7 +306,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchPlacementRules
     } = this.props
     const { locale } = this.context
-
     const channelTabs = {
       tab1: msgs.get('modal.title.namespace', locale),
       tab2: msgs.get('modal.title.helmRepo', locale),
@@ -330,6 +330,18 @@ class ApplicationDeploymentPipeline extends React.Component {
         resourceType: RESOURCE_TYPES.HCM_PLACEMENT_RULES
       }
     )
+
+
+    //show perfmon actions only when one app is selected
+    const showPerfmonLinks = breadcrumbItems && breadcrumbItems instanceof Array && breadcrumbItems.length > 0
+
+    let dashboard = ''
+    let icamLink = ''
+    if (applications && applications instanceof Array && applications.length == 1) {
+      const app = applications[0]
+      dashboard = app.dashboard
+      icamLink = getICAMLinkForApp(app._uid, app.cluster)
+    }
 
     const subscriptionModalHeader =
       subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
@@ -385,6 +397,36 @@ class ApplicationDeploymentPipeline extends React.Component {
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
+        {showPerfmonLinks && <div className="app-info-and-dashboard-links">
+          <Link
+            href={dashboard}
+            aria-disabled={!dashboard}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--launch"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.launch.grafana', locale)}
+          </Link>
+          <div className="perfmonAction">
+            <Link
+              href={icamLink}
+              aria-disabled={!(serverProps && serverProps.isICAMRunning)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {msgs.get('application.launch.icam', locale)}
+              <Icon
+                className="app-dashboard-icon-icam"
+                name="icon--launch"
+                fill="#3D70B2"
+              />
+            </Link>
+          </div>
+        </div>}
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}

@@ -1,13 +1,13 @@
-apiVersion: v1
+apiVersion: v1____________________createApplication-namespace-resource
 kind: Namespace
 metadata:
-  name: namespace-name
+  name: __________________________createApplication-name-resource
 ---
-apiVersion: app.k8s.io/v1beta1____createApplication-apiVersion
-kind: Application_________________createApplication-kind
+apiVersion: app.k8s.io/v1beta1
+kind: Application
 metadata:
   name: __________________________createApplication-metadata-name
-  namespace: namespace-name_______createApplication-metadata-namespace
+  namespace: _____________________createApplication-metadata-namespace
 spec:
   componentKinds:
   - group: app.ibm.com
@@ -15,6 +15,6 @@ spec:
   descriptor: {}
   selector:
     matchExpressions:
-    - key:
-      operator: In
-      values:
+      - key: _____________________createApplication-spec-selector-matchExpressions-key
+        operator: In
+        values: __________________createApplication-spec-selector-matchExpressions-key-values

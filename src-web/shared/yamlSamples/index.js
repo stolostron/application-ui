@@ -12,6 +12,10 @@ import msgs from '../../../nls/platform.properties'
 
 export const getChannelSample = (channelSample, locale) => {
   const mapObj = {
+    'createChannel-namespace-resource':
+      '# ' + msgs.get('description.createChannel.namespace.resource', locale),
+    'createChannel-name-resource':
+      '# ' + msgs.get('description.createChannel.name.resource', locale),
     'createChannel-apiVersion':
       '# ' + msgs.get('description.createChannel.apiVersion', locale),
     'createChannel-kind':
@@ -37,7 +41,7 @@ export const getChannelSample = (channelSample, locale) => {
     sample =
       sample +
       YAML.stringify(channelSample[key]).replace(
-        /createChannel-apiVersion|createChannel-kind|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
+        /createChannel-namespace-resource|createChannel-name-resource|createChannel-apiVersion|createChannel-kind|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
         matched => {
           return mapObj[matched]
         }
@@ -52,6 +56,11 @@ export const getChannelSample = (channelSample, locale) => {
 
 export const getSubscriptionSample = (subscriptionSample, locale) => {
   const mapObj = {
+    'createSubscription-namespace-resource':
+      '# ' +
+      msgs.get('description.createSubscription.namespace.resource', locale),
+    'createSubscription-name-resource':
+      '# ' + msgs.get('description.createSubscription.name.resource', locale),
     'createSubscription-apiVersion':
       '# ' + msgs.get('description.createSubscription.apiVersion', locale),
     'createSubscription-kind':
@@ -84,7 +93,7 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
     sample =
       sample +
       YAML.stringify(subscriptionSample[key]).replace(
-        /createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|null|_/gi,
+        /createSubscription-namespace-resource|createSubscription-name-resource|createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|null|_/gi,
         matched => {
           return mapObj[matched]
         }
@@ -99,6 +108,11 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
 
 export const getApplicationSample = (applicationSample, locale) => {
   const mapObj = {
+    'createApplication-namespace-resource':
+      '# ' +
+      msgs.get('description.createApplication.namespace.resource', locale),
+    'createApplication-name-resource':
+      '# ' + msgs.get('description.createApplication.name.resource', locale),
     'createApplication-apiVersion':
       '# ' + msgs.get('description.createApplication.apiVersion', locale),
     'createApplication-kind':
@@ -117,6 +131,18 @@ export const getApplicationSample = (applicationSample, locale) => {
         'description.createApplication.spec.selector.matchExpressions',
         locale
       ),
+    'createApplication-spec-selector-matchExpressions-key':
+      '# ' +
+      msgs.get(
+        'description.createApplication.spec.selector.matchExpressions.key',
+        locale
+      ),
+    'createApplication-spec-selector-matchExpressions-key-values':
+      '# ' +
+      msgs.get(
+        'description.createApplication.spec.selector.matchExpressions.key.values',
+        locale
+      ),
     null: '',
     _: ' '
   }
@@ -126,7 +152,7 @@ export const getApplicationSample = (applicationSample, locale) => {
     sample =
       sample +
       YAML.stringify(applicationSample[key]).replace(
-        /createApplication-apiVersion|createApplication-kind|createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-componentKinds|createApplication-spec-selector-matchExpressions|null|_/gi,
+        /createApplication-namespace-resource|createApplication-name-resource|createApplication-apiVersion|createApplication-kind|createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-componentKinds|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|createApplication-spec-selector-matchExpressions|null|_/gi,
         matched => {
           return mapObj[matched]
         }

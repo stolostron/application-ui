@@ -21,6 +21,7 @@
   }
 
   .bx--modal-content {
+    overflow-y: visible;
     margin-bottom: 0;
   }
 
@@ -68,6 +69,7 @@
 
 .help-link {
   display: inline-block;
+  vertical-align: top;
   width: 150px;
   font-size: 12px;
   padding-left: 1rem;
@@ -83,12 +85,12 @@
 }
 
 .help-link-edit {
-  display: inline-block;
-  width: 100%;
   text-align: right;
   vertical-align: top;
   font-size: 12px;
-  padding-bottom: 1rem;
+  position: relative;
+  top: -3rem;
+  right: 3rem;
 
   a {
     text-decoration: none;

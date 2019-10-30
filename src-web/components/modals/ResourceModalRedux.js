@@ -149,25 +149,22 @@ class ResourceModal extends React.PureComponent {
           role="region"
           aria-label={msgs.get(label.heading, locale)}
         >
-          <div className="bx--modal-content-desc">
-            <div className="yaml-instructions" />
-            {helpLink && (
-              <div className="help-link">
-                <a href={helpLink} target="_blank">
-                  {msgs.get('link.help.writing', this.context.locale)}
-                </a>
+          {helpLink && (
+            <div className="help-link-edit">
+              <a href={helpLink} target="_blank">
+                {msgs.get('link.help.writing', this.context.locale)}
+              </a>
 
-                <a href={helpLink} target="_blank">
-                  <Icon
-                    name="icon--launch"
-                    fill="#6089bf"
-                    description=""
-                    className="helpLinkIcon"
-                  />
-                </a>
-              </div>
-            )}
-          </div>
+              <a href={helpLink} target="_blank">
+                <Icon
+                  name="icon--launch"
+                  fill="#6089bf"
+                  description=""
+                  className="helpLinkIcon"
+                />
+              </a>
+            </div>
+          )}
 
           {this.state.reqErrorMsg &&
             this.state.reqErrorMsg.length > 0 &&

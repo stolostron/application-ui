@@ -11,7 +11,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
-import { Modal, Icon, TooltipDefinition } from 'carbon-components-react'
+import { Modal, TooltipDefinition } from 'carbon-components-react'
 import R from 'ramda'
 import ProgressBar from '../ProgressBar/index'
 import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils.js'
@@ -56,7 +56,6 @@ const SubscriptionInfo = withLocale(
     let channel = ''
     let status = [0, 0, 0, 0, 0]
     // let version = ''
-    const icamLink = '#'
 
     if (notEmptySubscription) {
       // Gather the subscription data that contains the matching UID
@@ -155,15 +154,6 @@ const SubscriptionInfo = withLocale(
       // the same namespace as the channel
       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
       status = getResourcesStatusPerChannel(subscriptionWithRelatedData)
-      /*
-      if (isAdminRole(userRole) && serverProps && serverProps.isCEMRunning) {
-        icamLink = getIcamLinkForSubscription(
-          activeAccountId,
-          subscriptionModalSubscriptionInfo.namespace,
-          subscriptionModalSubscriptionInfo.name
-        )
-      }
-      */
     }
 
     return (
@@ -282,28 +272,6 @@ const SubscriptionInfo = withLocale(
                 </a>
               </div>
             </div>
-            {icamLink &&
-              icamLink !== '#' && (
-              <div className="subHeader">
-                <div className="icamLink">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={icamLink}
-                  >
-                    {msgs.get('description.Modal.icamLink', locale)}{' '}
-                    <Icon
-                      style={{ margin: '0 0 0 5px' }}
-                      className="icon--arrow--right"
-                      name="icon--arrow--right"
-                      fill="gray"
-                      width="12px"
-                      height="12px"
-                    />
-                  </a>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

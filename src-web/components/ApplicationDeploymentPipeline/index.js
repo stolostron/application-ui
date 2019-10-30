@@ -39,9 +39,11 @@ import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/chan
 import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml'
 import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml'
 import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml'
+import placementRuleSample from 'js-yaml-loader!../../shared/yamlSamples/placementRuleSample.yml'
 import {
   getChannelSample,
-  getSubscriptionSample
+  getSubscriptionSample,
+  getPlacementRuleSample
 } from '../../shared/yamlSamples/index'
 import CreateResourceModal from '../modals/CreateResourceModal'
 import apolloClient from '../../../lib/client/apollo-client'
@@ -143,7 +145,7 @@ const CreatePlacementRuleModal = (fetchPlacementRules, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent={[getSubscriptionSample(subscriptionSample, locale)]}
+      sampleContent={[getPlacementRuleSample(placementRuleSample, locale)]}
     />
   )
 }

@@ -13,7 +13,7 @@ import React from 'react'
 import loadable from 'loadable-components'
 import { GET_ACTION_MODAL_STATE } from '../../apollo-client/queries/StateQueries'
 import { Query } from 'react-apollo'
-import { getPerfmonLinkForApp } from '../common/ResourceDetails/utils'
+import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 
 let RemoveResourceModal
 let LabelEditingModal
@@ -43,9 +43,26 @@ class ActionModalApollo extends React.PureComponent {
           })
       )
     }
-    case 'table.actions.applications.perfmon': {
-      const link = getPerfmonLinkForApp(data._uid, data.clusterName)
-
+    case 'table.actions.applications.edit': {
+      return (
+        open &&
+          this.getResourceModal({
+            open: true,
+            type: 'resource-edit',
+            action: 'put',
+            resourceType,
+            editorMode: 'yaml',
+            label: {
+              primaryBtn: 'modal.button.submit',
+              label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
+              heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
+            },
+            data: data
+          })
+      )
+    }
+    case 'table.actions.applications.icam': {
+      const link = getICAMLinkForApp(data._uid, data.clusterName)
       window.open(link, '_blank')
       return null
     }

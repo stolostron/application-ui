@@ -88,21 +88,21 @@ router.get('*', (req, res) => {
 
     const isICAMRunning = serviceDiscovery.serviceEnabled('icam-ui-api')
     const isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
-    const isCEMRunning = serviceDiscovery.serviceEnabled('cem')
-    const isGrafanaRunning = serviceDiscovery.serviceEnabled(
-      'monitoring-grafana'
-    )
+    //const isCEMRunning = serviceDiscovery.serviceEnabled('cem')
+    //const isGrafanaRunning = serviceDiscovery.serviceEnabled(
+    //   'monitoring-grafana'
+    //)
 
     logger.info(`is Kibana Running: ${isKibanaRunning}`)
-    logger.info(`is cem Running: ${isCEMRunning}`)
-    logger.info(`is Grafana Running: ${isGrafanaRunning}`)
+    //logger.info(`is cem Running: ${isCEMRunning}`)
+    //logger.info(`is Grafana Running: ${isGrafanaRunning}`)
     logger.info(`is ICAM Running: ${isICAMRunning}`)
 
     const serverProps = {
       ...context,
       isKibanaRunning: isKibanaRunning,
-      isGrafanaRunning: isGrafanaRunning,
-      isCEMRunning: isCEMRunning,
+      //isGrafanaRunning: isGrafanaRunning,
+      //isCEMRunning: isCEMRunning,
       isICAMRunning: isICAMRunning
     }
     /*

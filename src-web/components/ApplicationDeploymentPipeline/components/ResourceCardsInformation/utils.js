@@ -69,7 +69,13 @@ export const getNumClusters = (applications, allsubscriptions) => {
         [],
         removedUndefinedSubscriptions
       )
-      return getAllRelatedForList({ items: resultList }, 'cluster').length - 1 // Don't count hub cluster, only managed clusters
+      const allRelatedForList =
+        getAllRelatedForList({ items: resultList }, 'cluster').length - 1 // Don't count hub cluster, only managed clusters
+      if (allRelatedForList <= 0) {
+        return 0
+      } else {
+        return allRelatedForList
+      }
     }
   }
 

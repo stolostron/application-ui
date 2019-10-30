@@ -19,8 +19,6 @@ import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
 import { validator } from './validators/hcm-application-validator'
-//import '../../graphics/failed-status.svg'
-//import '../../graphics/no-status.svg'
 
 export default {
   defaultSortField: 'name',
@@ -651,13 +649,13 @@ export function getNumRemoteSubs(item = {}, locale) {
       <LabelWithOptionalTooltip
         key={Math.random()}
         labelText={failed}
-        iconName="#failed-status"
+        iconName="failed-status"
         description={msgs.get('table.cell.failed', locale)}
       />
       <LabelWithOptionalTooltip
         key={Math.random()}
         labelText={unknown}
-        iconName="#no-status"
+        iconName="no-status"
         description={msgs.get('table.cell.status.absent', locale)}
       />
     </ul>
@@ -703,12 +701,16 @@ const LabelWithOptionalTooltip = text => {
       <div style={{ display: 'inline-flex', alignItems: 'center' }}>
         {text.iconName && (
           <TooltipIcon direction={'top'} tooltipText={text.description}>
-            <svg style={{ margin: '0 4 0 0px' }} width="10px" height="10px">
-              <use href={text.iconName} />
-            </svg>
+            <img
+              style={{ marginRight: '4px' }}
+              width="10px"
+              height="10px"
+              src={`${config.contextPath}/graphics/${text.iconName}.svg`}
+              alt={''}
+            />
           </TooltipIcon>
         )}
-        <p style={{ fontSize: '14px', paddingRight: '6px' }}>
+        <p style={{ fontSize: '14px', paddingRight: '8px' }}>
           {text.labelText}
         </p>
       </div>

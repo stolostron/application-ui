@@ -10,7 +10,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading } from 'carbon-components-react'
+import { Loading, Accordion, AccordionItem } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import CountsCardModule from '../../CountsCardModule'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
@@ -28,6 +28,7 @@ import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipelin
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
+import msgs from '../../../../nls/platform.properties'
 
 resources(() => {
   require('./style.scss')
@@ -44,7 +45,8 @@ const ResourceOverview = withLocale(
     showAppDetails,
     showExpandedTopology,
     incidentCount,
-    userRole
+    userRole,
+    locale
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -159,11 +161,15 @@ const ResourceOverview = withLocale(
         ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
-              <CountsCardModule
-                data={countsCardData}
-                title="dashboard.card.deployment.summary.title"
-                link="#"
-              />
+              <div className="overview-content-header">
+                {msgs.get('dashboard.card.deployment.summary.title', locale)}
+              </div>
+              <CountsCardModule data={countsCardData} link="#" />
+              <Accordion className="overview-content-additional-details">
+                <AccordionItem
+                  title={msgs.get('dashboard.additionalDetails', locale)}
+                />
+              </Accordion>
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule

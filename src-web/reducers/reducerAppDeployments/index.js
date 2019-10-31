@@ -42,99 +42,109 @@ export const initialStateDeployments = {
   subscriptionModalData: [],
   deploymentPipelineSearch: '',
   currentChannelInfo: {},
+  currentApplicationInfo: {},
   currentPlacementRuleInfo: {},
   currentSubscriptionInfo: {},
   bulkSubscriptionList: [],
   bulkSubscriptionError: '',
   openEditChannelModal: false,
+  openEditApplicationModal: false,
   openEditSubscriptionModal: false,
   openEditPlacementRuleModal: false,
   loading: false
 }
 export const AppDeployments = (state = initialStateDeployments, action) => {
   switch (action.type) {
-  case OPEN_DISPLAY_SUBSCRIPTION_MODAL: {
-    return { ...state, displaySubscriptionModal: true }
-  }
-  case SET_SUBSCRIPTION_MODAL_HEADERS: {
-    // Verify Contents makes sure the data is coming in properly
-    const verifiedContents = {
-      application: action.payload.application || '',
-      subscription: action.payload.subscription || ''
+    case OPEN_DISPLAY_SUBSCRIPTION_MODAL: {
+      return { ...state, displaySubscriptionModal: true }
     }
-    return { ...state, subscriptionModalHeaderInfo: verifiedContents }
-  }
-  case SET_DEPLOYABLE_SUBSCRIPTION_INFO: {
-    return { ...state, subscriptionModalSubscriptionInfo: action.payload }
-  }
-  case SET_SUBSCRIPTION_MODAL_DATA: {
-    return { ...state, subscriptionModalData: action.payload }
-  }
-  case SET_BULK_SUBSCRIPTION_LIST: {
-    return { ...state, bulkSubscriptionList: action.payload }
-  }
-  case SET_BULK_SUBSCRIPTION_ERROR: {
-    return { ...state, bulkSubscriptionError: action.payload }
-  }
-  case UPDATE_APP_DROPDOWN_LIST: {
-    const containsApp = state.appDropDownList.includes(action.payload)
-    // if it contains the application, remove it
-    if (containsApp) {
-      // Gather all names that are not in the payload to form the new list
-      // This basically removes the payload from the appDeployables
-      const filterRemoveName = name => name !== action.payload
-      const newList = R.filter(filterRemoveName, state.appDropDownList)
-      return { ...state, appDropDownList: newList }
-    } else {
-      // if its not there add it
-      const newList = state.appDropDownList.concat([action.payload])
-      return { ...state, appDropDownList: newList }
+    case SET_SUBSCRIPTION_MODAL_HEADERS: {
+      // Verify Contents makes sure the data is coming in properly
+      const verifiedContents = {
+        application: action.payload.application || '',
+        subscription: action.payload.subscription || ''
+      }
+      return { ...state, subscriptionModalHeaderInfo: verifiedContents }
     }
-  }
-  case CLEAR_APP_DROPDOWN_LIST: {
-    return { ...state, appDropDownList: [] }
-  }
-  case SET_DEPLOYMENT_SEARCH: {
-    if (action.payload) {
-      return { ...state, deploymentPipelineSearch: action.payload }
+    case SET_DEPLOYABLE_SUBSCRIPTION_INFO: {
+      return { ...state, subscriptionModalSubscriptionInfo: action.payload }
     }
-    return { ...state, deploymentPipelineSearch: '' }
-  }
-  case SET_CURRENT_CHANNEL_INFO: {
-    return {
-      ...state,
-      openEditChannelModal: true,
-      currentChannelInfo: action.payload
+    case SET_SUBSCRIPTION_MODAL_DATA: {
+      return { ...state, subscriptionModalData: action.payload }
     }
-  }
-  case SET_CURRENT_SUBSCRIPTION_INFO: {
-    return {
-      ...state,
-      openEditSubscriptionModal: true,
-      currentSubscriptionInfo: action.payload
+    case SET_BULK_SUBSCRIPTION_LIST: {
+      return { ...state, bulkSubscriptionList: action.payload }
     }
-  }
-  case SET_CURRENT_PLACEMENT_RULE_INFO: {
-    return {
-      ...state,
-      openEditPlacementRuleModal: true,
-      currentPlacementRuleInfo: action.payload
+    case SET_BULK_SUBSCRIPTION_ERROR: {
+      return { ...state, bulkSubscriptionError: action.payload }
     }
-  }
-  case SET_LOADING: {
-    return { ...state, loading: action.payload }
-  }
-  case CLOSE_MODALS: {
-    return {
-      ...state,
-      displaySubscriptionModal: false,
-      openEditChannelModal: false,
-      openEditSubscriptionModal: false,
-      openEditPlacementRuleModal: false
+    case UPDATE_APP_DROPDOWN_LIST: {
+      const containsApp = state.appDropDownList.includes(action.payload)
+      // if it contains the application, remove it
+      if (containsApp) {
+        // Gather all names that are not in the payload to form the new list
+        // This basically removes the payload from the appDeployables
+        const filterRemoveName = name => name !== action.payload
+        const newList = R.filter(filterRemoveName, state.appDropDownList)
+        return { ...state, appDropDownList: newList }
+      } else {
+        // if its not there add it
+        const newList = state.appDropDownList.concat([action.payload])
+        return { ...state, appDropDownList: newList }
+      }
     }
-  }
-  default:
-    return state
+    case CLEAR_APP_DROPDOWN_LIST: {
+      return { ...state, appDropDownList: [] }
+    }
+    case SET_DEPLOYMENT_SEARCH: {
+      if (action.payload) {
+        return { ...state, deploymentPipelineSearch: action.payload }
+      }
+      return { ...state, deploymentPipelineSearch: '' }
+    }
+    case SET_CURRENT_CHANNEL_INFO: {
+      return {
+        ...state,
+        openEditChannelModal: true,
+        currentChannelInfo: action.payload
+      }
+    }
+    case SET_CURRENT_APPLICATION_INFO: {
+      return {
+        ...state,
+        openEditApplicationModal: true,
+        currentApplicationInfo: action.payload
+      }
+    }
+    case SET_CURRENT_SUBSCRIPTION_INFO: {
+      return {
+        ...state,
+        openEditSubscriptionModal: true,
+        currentSubscriptionInfo: action.payload
+      }
+    }
+    case SET_CURRENT_PLACEMENT_RULE_INFO: {
+      return {
+        ...state,
+        openEditPlacementRuleModal: true,
+        currentPlacementRuleInfo: action.payload
+      }
+    }
+    case SET_LOADING: {
+      return { ...state, loading: action.payload }
+    }
+    case CLOSE_MODALS: {
+      return {
+        ...state,
+        displaySubscriptionModal: false,
+        openEditChannelModal: false,
+        openEditApplicationModal: false,
+        openEditSubscriptionModal: false,
+        openEditPlacementRuleModal: false
+      }
+    }
+    default:
+      return state
   }
 }
 export default AppDeployments

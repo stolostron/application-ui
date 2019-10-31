@@ -135,6 +135,16 @@ class ResourceModal extends React.PureComponent {
   render() {
     const { open, label, locale, resourceType } = this.props
     const { data, errors, loading } = this.state
+
+    let helpLink = ''
+    if (
+      resourceType &&
+      resourceType.name &&
+      resourceType.name == 'HCMApplication'
+    )
+      helpLink =
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
+
     return (
       <div
         id="resource-modal-container"
@@ -159,9 +169,22 @@ class ResourceModal extends React.PureComponent {
           role="region"
           aria-label={msgs.get(label.heading, locale)}
         >
-          <div className="bx--modal-content-desc">
-            <div className="yaml-instructions" />
-          </div>
+          {helpLink && (
+            <div className="help-link-edit">
+              <a href={helpLink} target="_blank">
+                {msgs.get('link.help.writing', this.context.locale)}
+              </a>
+
+              <a href={helpLink} target="_blank">
+                <Icon
+                  name="icon--launch"
+                  fill="#6089bf"
+                  description=""
+                  className="helpLinkIcon"
+                />
+              </a>
+            </div>
+          )}
 
           <div>
             {errors !== '' ? (
@@ -174,8 +197,6 @@ class ResourceModal extends React.PureComponent {
               />
             ) : null}
             <YamlEditor
-              width={'50vw'}
-              height={'40vh'}
               readOnly={false}
               onYamlChange={this.onChange}
               yaml={data}

@@ -10,7 +10,7 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading, Link, Icon } from 'carbon-components-react'
+import { Loading, Link, Icon, Accordion, AccordionItem } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
@@ -57,6 +57,7 @@ const ResourceOverview = withLocale(
     locale,
     getApplicationResource,
     loading
+
   }) => {
     const modulesRight = []
     const modulesBottom = []
@@ -213,11 +214,15 @@ const ResourceOverview = withLocale(
         ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
-              <CountsCardModule
-                data={countsCardData}
-                title="dashboard.card.deployment.summary.title"
-                link="#"
-              />
+              <div className="overview-content-header">
+                {msgs.get('dashboard.card.deployment.summary.title', locale)}
+              </div>
+              <CountsCardModule data={countsCardData} link="#" />
+              <Accordion className="overview-content-additional-details">
+                <AccordionItem
+                  title={msgs.get('dashboard.additionalDetails', locale)}
+                />
+              </Accordion>
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule

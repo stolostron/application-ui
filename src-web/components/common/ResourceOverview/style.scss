@@ -58,6 +58,25 @@
     }
   }
 
+  .overview-content-header {
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+
+  .overview-content-additional-details {
+    background-color: white;
+
+    .bx--accordion__title {
+      color: #3d70b2;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .bx--accordion__arrow {
+      fill: #3d70b2;
+    }
+  }
+
   .module-spinner {
     position: absolute;
     top: 0;

@@ -29,7 +29,14 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading, Icon, Link } from 'carbon-components-react'
+import {
+  Search,
+  Loading,
+  Icon,
+  Link,
+  Accordion,
+  AccordionItem
+} from 'carbon-components-react'
 import {
   getApplicationsList,
   getChannelsList,
@@ -499,6 +506,19 @@ class ApplicationDeploymentPipeline extends React.Component {
             </div>
           </div>
         )}
+        <div className="resource-list-header">
+          {msgs.get('description.title.resourceList', locale)}{' '}
+          {
+            // *** fill in resource count here similar to: {channels && <span>({channels.length})</span>}
+          }
+        </div>
+        <div className="resource-list-container">
+          <Accordion className="resource-list-table">
+            <AccordionItem
+              title={msgs.get('dashboard.viewFullTable', locale)}
+            />
+          </Accordion>
+        </div>
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}

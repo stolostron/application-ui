@@ -177,7 +177,13 @@ const mapDispatchToProps = dispatch => {
       ),
     getApplicationResource: (selfLink, namespace, name, cluster) =>
       dispatch(
-        fetchApplicationResource(apolloClient, selfLink, namespace, name, cluster)
+        fetchApplicationResource(
+          apolloClient,
+          selfLink,
+          namespace,
+          name,
+          cluster
+        )
       ),
     //apolloClient requires CONTEXT .. so I have to pass it in here
     getSubscriptionResource: (selfLink, namespace, name, cluster) =>
@@ -277,9 +283,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -452,7 +458,6 @@ class ApplicationDeploymentPipeline extends React.Component {
               onClick={() => {
                 //call edit app here
                 editResourceClick(app, getApplicationResource)
-
               }}
             >
               <Icon

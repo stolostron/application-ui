@@ -340,7 +340,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     if (applications && applications instanceof Array && applications.length == 1) {
       const app = applications[0]
       dashboard = app.dashboard
-      icamLink = getICAMLinkForApp(app._uid, app.cluster)
+      
+      if(app && app._uid)
+      	icamLink = getICAMLinkForApp(app._uid, app.cluster)
     }
 
     const subscriptionModalHeader =

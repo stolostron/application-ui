@@ -28,7 +28,14 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading, Icon, Link } from 'carbon-components-react'
+import {
+  Search,
+  Loading,
+  Icon,
+  Link,
+  Accordion,
+  AccordionItem
+} from 'carbon-components-react'
 import {
   getApplicationsList,
   getChannelsList,
@@ -269,9 +276,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -331,13 +338,19 @@ class ApplicationDeploymentPipeline extends React.Component {
       }
     )
 
-
     //show perfmon actions only when one app is selected
-    const showHeaderLinks = breadcrumbItems && breadcrumbItems instanceof Array && breadcrumbItems.length > 0
+    const showHeaderLinks =
+      breadcrumbItems &&
+      breadcrumbItems instanceof Array &&
+      breadcrumbItems.length > 0
 
     let dashboard = ''
     let icamLink = ''
-    if (applications && applications instanceof Array && applications.length == 1) {
+    if (
+      applications &&
+      applications instanceof Array &&
+      applications.length == 1
+    ) {
       const app = applications[0]
       dashboard = app.dashboard
       icamLink = getICAMLinkForApp(app._uid, app.cluster)
@@ -397,65 +410,80 @@ class ApplicationDeploymentPipeline extends React.Component {
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
-        {showHeaderLinks && <div className="app-info-and-dashboard-links">
-          <Link
-            href={dashboard}
-            aria-disabled={!dashboard}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--launch"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.launch.grafana', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            className=""
-            href="#"
-            onClick={() => {
-              //call edit app here
-            }}
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--edit"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.edit.app', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            href="#"
-            onClick={() => {
-              //call delete app here
-            }}
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--delete"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.delete.app', locale)}
-          </Link>
-          <div className="perfmonAction">
+        {showHeaderLinks && (
+          <div className="app-info-and-dashboard-links">
             <Link
-              href={icamLink}
-              aria-disabled={!(serverProps && serverProps.isICAMRunning)}
+              href={dashboard}
+              aria-disabled={!dashboard}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {msgs.get('application.launch.icam', locale)}
               <Icon
-                className="app-dashboard-icon-icam"
+                className="app-dashboard-icon"
                 name="icon--launch"
                 fill="#3D70B2"
               />
+              {msgs.get('application.launch.grafana', locale)}
             </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
+              className=""
+              href="#"
+              onClick={() => {
+                //call edit app here
+              }}
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--edit"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.edit.app', locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
+              href="#"
+              onClick={() => {
+                //call delete app here
+              }}
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--delete"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.delete.app', locale)}
+            </Link>
+            <div className="perfmonAction">
+              <Link
+                href={icamLink}
+                aria-disabled={!(serverProps && serverProps.isICAMRunning)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {msgs.get('application.launch.icam', locale)}
+                <Icon
+                  className="app-dashboard-icon-icam"
+                  name="icon--launch"
+                  fill="#3D70B2"
+                />
+              </Link>
+            </div>
           </div>
-        </div>}
+        )}
+        <div className="resource-list-header">
+          {msgs.get('description.title.resourceList', locale)}{' '}
+          {
+            // *** fill in resource count here similar to: {channels && <span>({channels.length})</span>}
+          }
+        </div>
+        <div className="resource-list-container">
+          <Accordion className="resource-list-table">
+            <AccordionItem
+              title={msgs.get('dashboard.viewFullTable', locale)}
+            />
+          </Accordion>
+        </div>
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}

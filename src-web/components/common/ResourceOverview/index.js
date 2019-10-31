@@ -10,8 +10,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading, Accordion, AccordionItem } from 'carbon-components-react'
+import { Loading, Link, Icon, Accordion, AccordionItem } from 'carbon-components-react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../../actions'
 import CountsCardModule from '../../CountsCardModule'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
@@ -29,6 +31,12 @@ import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
 import msgs from '../../../../nls/platform.properties'
+import {
+  fetchApplicationResource,
+  closeModals
+} from '../../../reducers/reducerAppDeployments'
+import apolloClient from '../../../../lib/client/apollo-client'
+import { editResourceClick } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 
 resources(() => {
   require('./style.scss')
@@ -46,11 +54,11 @@ const ResourceOverview = withLocale(
     showExpandedTopology,
     incidentCount,
     userRole,
-    locale
+    locale,
+    getApplicationResource,
+    loading
+
   }) => {
-    if (!item) {
-      return <Loading withOverlay={false} className="content-spinner" />
-    }
     const modulesRight = []
     const modulesBottom = []
     React.Children.map(modules, module => {
@@ -142,9 +150,54 @@ const ResourceOverview = withLocale(
         border: 'left'
       })
     }
+    const dashboard = (item && item.dashboard) || ''
 
     return (
       <div id="resource-overview" className="overview-content">
+        <div className="app-info-and-dashboard-links">
+          <Link
+            href={dashboard}
+            aria-disabled={!dashboard}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--launch"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.launch.grafana', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            href="#"
+            onClick={() => {
+              editResourceClick(item, getApplicationResource)
+            }}
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--edit"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.edit.app', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            href="#"
+            onClick={() => {
+              //call delete app here
+            }}
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--delete"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.delete.app', locale)}
+          </Link>
+        </div>
+        {(!item || loading) && <Loading withOverlay={true} />}
         {showAppDetails ? (
           <React.Fragment>
             <StructuredListModule
@@ -205,9 +258,26 @@ ResourceOverview.propTypes = {
   staticResourceData: PropTypes.object
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(Actions, dispatch),
+    getApplicationResource: (selfLink, namespace, name, cluster) =>
+      dispatch(
+        fetchApplicationResource(
+          apolloClient,
+          selfLink,
+          namespace,
+          name,
+          cluster
+        )
+      ),
+    closeModal: () => dispatch(closeModals())
+  }
+}
+
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { role } = state
+  const { role, AppDeployments } = state
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -219,10 +289,12 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
-    userRole: role.role
+    userRole: role.role,
+    loading: AppDeployments.loading,
+    openEditApplicationModal: AppDeployments.openEditApplicationModal
   }
 }
 
 export default withRouter(
-  connect(mapStateToProps)(withLocale(ResourceOverview))
+  connect(mapStateToProps, mapDispatchToProps)(withLocale(ResourceOverview))
 )

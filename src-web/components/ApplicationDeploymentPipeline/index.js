@@ -333,7 +333,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
 
     //show perfmon actions only when one app is selected
-    const showPerfmonLinks = breadcrumbItems && breadcrumbItems instanceof Array && breadcrumbItems.length > 0
+    const showHeaderLinks = breadcrumbItems && breadcrumbItems instanceof Array && breadcrumbItems.length > 0
 
     let dashboard = ''
     let icamLink = ''
@@ -397,7 +397,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
-        {showPerfmonLinks && <div className="app-info-and-dashboard-links">
+        {showHeaderLinks && <div className="app-info-and-dashboard-links">
           <Link
             href={dashboard}
             aria-disabled={!dashboard}
@@ -410,6 +410,35 @@ class ApplicationDeploymentPipeline extends React.Component {
               fill="#3D70B2"
             />
             {msgs.get('application.launch.grafana', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            className=""
+            href="#"
+            onClick={() => {
+              //call edit app here
+            }}
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--edit"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.edit.app', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            href="#"
+            onClick={() => {
+              //call delete app here
+            }}
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--delete"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.delete.app', locale)}
           </Link>
           <div className="perfmonAction">
             <Link

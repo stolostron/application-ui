@@ -42,11 +42,13 @@ export const initialStateDeployments = {
   subscriptionModalData: [],
   deploymentPipelineSearch: '',
   currentChannelInfo: {},
+  currentApplicationInfo: {},
   currentPlacementRuleInfo: {},
   currentSubscriptionInfo: {},
   bulkSubscriptionList: [],
   bulkSubscriptionError: '',
   openEditChannelModal: false,
+  openEditApplicationModal: false,
   openEditSubscriptionModal: false,
   openEditPlacementRuleModal: false,
   loading: false
@@ -107,6 +109,13 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
       currentChannelInfo: action.payload
     }
   }
+  case SET_CURRENT_APPLICATION_INFO: {
+    return {
+      ...state,
+      openEditApplicationModal: true,
+      currentApplicationInfo: action.payload
+    }
+  }
   case SET_CURRENT_SUBSCRIPTION_INFO: {
     return {
       ...state,
@@ -129,6 +138,7 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
       ...state,
       displaySubscriptionModal: false,
       openEditChannelModal: false,
+      openEditApplicationModal: false,
       openEditSubscriptionModal: false,
       openEditPlacementRuleModal: false
     }

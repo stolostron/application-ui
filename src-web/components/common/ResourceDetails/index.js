@@ -207,10 +207,6 @@ class ResourceDetails extends React.Component {
     )
   }
 
-  componentWillUnmount() {
-    this.props.actions.setShowAppDetails(false)
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
@@ -250,7 +246,6 @@ class ResourceDetails extends React.Component {
       match,
       resourceType,
       staticResourceData,
-      showAppDetails,
       showExpandedTopology,
       _uid,
       clusterName,
@@ -265,21 +260,6 @@ class ResourceDetails extends React.Component {
       <div id="ResourceDetails">
         {!showExpandedTopology && (
           <div className="app-info-and-dashboard-links">
-            <Link
-              href="#"
-              onClick={() => {
-                actions.setShowAppDetails(!showAppDetails)
-              }}
-            >
-              <Icon
-                className="app-info-icon"
-                name="icon--document"
-                fill="#3D70B2"
-              />
-              {!showAppDetails
-                ? msgs.get('application.information', this.context.locale)
-                : msgs.get('application.overview', this.context.locale)}
-            </Link>
             <div className="perfmonAction">
               <Link
                 href={icamLink}
@@ -303,7 +283,6 @@ class ResourceDetails extends React.Component {
           staticResourceData={staticResourceData}
           actions={actions}
           modules={children}
-          showAppDetails={showAppDetails}
           showExpandedTopology={showExpandedTopology}
         />
       </div>
@@ -377,7 +356,6 @@ ResourceDetails.propTypes = {
   match: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
-  showAppDetails: PropTypes.bool,
   showExpandedTopology: PropTypes.bool,
   showICAMAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
@@ -419,8 +397,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     _uid,
     clusterName,
-    showAppDetails: AppOverview.showAppDetails,
-    showExpandedTopology: AppOverview.showExpandedTopology,
     showICAMAction: AppOverview.showICAMAction
   }
 }

@@ -28,6 +28,7 @@ import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipelin
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
+import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
 
 resources(() => {
   require('./style.scss')
@@ -159,6 +160,10 @@ const ResourceOverview = withLocale(
         ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
+              <div className="overview-cards-info-container">
+                <OverviewCards />
+              </div>
+              <br />
               <CountsCardModule
                 data={countsCardData}
                 title="dashboard.card.deployment.summary.title"

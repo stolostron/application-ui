@@ -11,7 +11,7 @@ import {
   getResourcesStatusPerChannel,
   getAllRelatedForList,
   removeDuplicatesFromList
-} from '../../components/PipelineGrid/utils'
+} from '../PipelineGrid/utils'
 
 // Method will take in an object and return back the status of related objects
 // returns [completed + unidentified, fail, inprogress + pending]
@@ -79,6 +79,13 @@ export const getNumClusters = (applications, allsubscriptions) => {
     }
   }
 
+  return 0
+}
+
+export const getNumIncidents = list => {
+  if (list && list.items && Array.isArray(list.items)) {
+    return list.items.length
+  }
   return 0
 }
 
@@ -352,5 +359,52 @@ export const getSubscriptionDataOnManagedClusters = (
     total: allSubscriptions.length,
     failed: failedSubscriptions.length,
     noStatus: noStatusSubscriptions.length
+  }
+}
+
+export const getPodData = (
+  applications,
+  applicationName,
+  applicationNamespace
+) => {
+  if (applications && applications.items) {
+    var allPods = []
+    var runningPods = []
+    var failedPods = []
+
+    Object.keys(applications.items).map(appIndex => {
+      if (
+        applications.items[appIndex].name === applicationName &&
+        applications.items[appIndex].namespace === applicationNamespace
+      ) {
+        const appData = applications.items[appIndex]
+        if (appData.related) {
+          Object.keys(appData.related).map(kindIndex => {
+            if (appData.related[kindIndex].kind === 'pod') {
+              const pods = appData.related[kindIndex].items
+              Object.keys(pods).map(podIndex => {
+                const podObj = {
+                  name: pods[podIndex].name,
+                  namespace: pods[podIndex].namespace,
+                  status: pods[podIndex].status
+                }
+                allPods = allPods.concat(podObj)
+                if (podObj.status === 'Running') {
+                  runningPods = runningPods.concat(podObj)
+                } else if (podObj.status === 'Failed') {
+                  failedPods = failedPods.concat(podObj)
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  }
+
+  return {
+    total: allPods.length,
+    running: runningPods.length,
+    failed: failedPods.length
   }
 }

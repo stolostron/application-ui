@@ -10,10 +10,10 @@
 import R from 'ramda'
 import React from 'react'
 import { connect } from 'react-redux'
-import resources from '../../../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
-import { fetchResources } from '../../../../actions/common'
-import msgs from '../../../../../nls/platform.properties'
+import resources from '../../../../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
+import { fetchResources } from '../../../../../actions/common'
+import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumClusters,
   getApplicationName,
@@ -23,20 +23,20 @@ import {
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters
-} from './utils'
+} from '../utils'
 import {
   getSearchLinkForOneApplication,
   getSearchLinkForAllApplications,
   getSearchLinkForAllChannels,
   getSearchLinkForAllSubscriptions
-} from '../../../common/ResourceOverview/utils'
-import { pullOutKindPerApplication } from '../../utils'
-import { getNumItems } from '../../../../../lib/client/resource-helper'
+} from '../../../../common/ResourceOverview/utils'
+import { pullOutKindPerApplication } from '../../../utils'
+import { getNumItems } from '../../../../../../lib/client/resource-helper'
 
 /* eslint-disable react/prop-types */
 
 resources(() => {
-  require('./style.scss')
+  require('../style.scss')
 })
 
 const mapDispatchToProps = dispatch => {
@@ -97,12 +97,6 @@ const getResourceCardsData = (
     channels = getChannelsCountFromSubscriptions(subscriptionsArray)
   }
 
-  const placementRules = getNumPlacementRules(
-    HCMApplicationList,
-    isSingleApplicationView,
-    applicationName,
-    applicationNamespace
-  )
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     HCMApplicationList,
     isSingleApplicationView,
@@ -110,6 +104,12 @@ const getResourceCardsData = (
     applicationNamespace
   )
   const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClusters(
+    HCMApplicationList,
+    isSingleApplicationView,
+    applicationName,
+    applicationNamespace
+  )
+  const placementRules = getNumPlacementRules(
     HCMApplicationList,
     isSingleApplicationView,
     applicationName,
@@ -203,7 +203,7 @@ const getResourceCardsData = (
   return result
 }
 
-class ResourceCardsInformation extends React.Component {
+class ResourceCards extends React.Component {
   componentWillMount() {}
   componentDidMount() {}
 
@@ -226,13 +226,11 @@ class ResourceCardsInformation extends React.Component {
         name: encodeURIComponent(applicationName)
       })
       : getSearchLinkForAllApplications()
-
     const targetLinkForSubscriptions = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName)
       })
       : getSearchLinkForAllSubscriptions()
-
     const targetLinkForChannels = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName)
@@ -285,10 +283,10 @@ class ResourceCardsInformation extends React.Component {
                   <div className="row-divider" />
                 )}
                 {card.subtextKeyFirst && (
-                  <div className="card-text">{card.subtextKeyFirst}</div>
+                  <div className="card-subtext">{card.subtextKeyFirst}</div>
                 )}
                 {card.subtextKeySecond && (
-                  <div className="card-text">{card.subtextKeySecond}</div>
+                  <div className="card-subtext">{card.subtextKeySecond}</div>
                 )}
               </div>
               {key < Object.keys(resourceCardsData).length - 1 && (
@@ -302,6 +300,4 @@ class ResourceCardsInformation extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ResourceCardsInformation
-)
+export default connect(mapStateToProps, mapDispatchToProps)(ResourceCards)

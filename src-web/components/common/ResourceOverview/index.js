@@ -10,7 +10,13 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading, Link, Icon, Accordion, AccordionItem } from 'carbon-components-react'
+import {
+  Loading,
+  Link,
+  Icon,
+  Accordion,
+  AccordionItem
+} from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
@@ -50,14 +56,12 @@ const ResourceOverview = withLocale(
     modules,
     resourceType,
     actions,
-    showAppDetails,
     showExpandedTopology,
     incidentCount,
     userRole,
     locale,
     getApplicationResource,
     loading
-
   }) => {
     const modulesRight = []
     const modulesBottom = []
@@ -198,20 +202,7 @@ const ResourceOverview = withLocale(
           </Link>
         </div>
         {(!item || loading) && <Loading withOverlay={true} />}
-        {showAppDetails ? (
-          <React.Fragment>
-            <StructuredListModule
-              title={staticResourceData.detailKeys.title}
-              headerRows={staticResourceData.detailKeys.headerRows}
-              rows={staticResourceData.detailKeys.rows}
-              data={item}
-            />
-            {modulesRight.length > 0 && (
-              <div className="overview-content-right">{modulesRight}</div>
-            )}
-            <div className="overview-content-bottom">{modulesBottom}</div>
-          </React.Fragment>
-        ) : !showExpandedTopology ? (
+        {!showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
               <div className="overview-content-header">
@@ -221,7 +212,24 @@ const ResourceOverview = withLocale(
               <Accordion className="overview-content-additional-details">
                 <AccordionItem
                   title={msgs.get('dashboard.additionalDetails', locale)}
-                />
+                >
+                  <React.Fragment>
+                    <StructuredListModule
+                      title={staticResourceData.detailKeys.title}
+                      headerRows={staticResourceData.detailKeys.headerRows}
+                      rows={staticResourceData.detailKeys.rows}
+                      data={item}
+                    />
+                    {modulesRight.length > 0 && (
+                      <div className="overview-content-right">
+                        {modulesRight}
+                      </div>
+                    )}
+                    <div className="overview-content-bottom">
+                      {modulesBottom}
+                    </div>
+                  </React.Fragment>
+                </AccordionItem>
               </Accordion>
             </div>
             <div className="overview-content-bottom overview-content-with-padding">

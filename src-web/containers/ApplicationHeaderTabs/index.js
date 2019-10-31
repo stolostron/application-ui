@@ -135,10 +135,8 @@ const mapDispatchToProps = dispatch => {
   }
 }
 const mapStateToProps = state => {
-  const { AppOverview, role } = state
+  const { role } = state
   return {
-    selectedAppTab:
-      AppOverview.selectedAppTab == null ? 0 : AppOverview.selectedAppTab,
     userRole: role.role
   }
 }

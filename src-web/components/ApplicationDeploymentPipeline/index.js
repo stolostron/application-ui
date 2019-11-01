@@ -62,10 +62,10 @@ import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
 import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
-import StructuredListModule from '../common/StructuredListModule'
 import getResourceDefinitions from '../../definitions'
-
+import ResourceTableModule from '../common/ResourceTableModuleFromProps'
 /* eslint-disable react/prop-types */
+
 
 resources(() => {
   require('./style.scss')
@@ -380,6 +380,12 @@ class ApplicationDeploymentPipeline extends React.Component {
 
       if (app && app._uid) icamLink = getICAMLinkForApp(app._uid, app.cluster)
     }
+    const appParams = {
+      name: (app && app.name) || '',
+      namespace: (app && app.namespace) || ''
+    }
+    const deploymentsCount =
+      (app && app.deployments && app.deployments.length) || 0
 
     const subscriptionModalHeader =
       subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
@@ -512,45 +518,57 @@ class ApplicationDeploymentPipeline extends React.Component {
             </div>
           </div>
         )}
-        <div className="resource-list-header">
-          {msgs.get('description.title.resourceList', locale)}{' '}
-          {
-            // *** fill in resource count here similar to: {channels && <span>({channels.length})</span>}
-          }
-        </div>
-        <div className="resource-list-container">
-          <Accordion className="resource-list-table">
-            <AccordionItem title={msgs.get('dashboard.viewFullTable', locale)}>
-              <React.Fragment>
-                <StructuredListModule
-                  headerRows={staticResourceData.detailKeys.headerRows}
-                  rows={staticResourceData.detailKeys.rows}
-                  data={app}
-                />
-              </React.Fragment>
-            </AccordionItem>
-          </Accordion>
-        </div>
+        {app &&
+          deploymentsCount > 0 && (
+          <div className="resource-list-header">
+            {msgs.get('description.title.resourceList', locale)}{' '}
+            <span>({deploymentsCount})</span>
+          </div>
+        )}
+        {app &&
+          deploymentsCount > 0 && (
+          <div className="resource-list-container">
+            <Accordion className="resource-list-table">
+              <AccordionItem
+                title={msgs.get('dashboard.viewFullTable', locale)}
+              >
+                <React.Fragment>
+                  <ResourceTableModule
+                    resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+                    staticResourceData={staticResourceData}
+                    definitionsKey="deploymentKeys"
+                    resourceData={app}
+                    params={appParams}
+                  />
+                </React.Fragment>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        )}
+
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}
         </div>
         <ApplicationDeploymentHighlights />
-        <div className="resource-cards-container">
-          <div className="resource-cards-info-container">
-            <ResourceCards />
+        {app && (
+          <div className="resource-cards-container">
+            <div className="resource-cards-info-container">
+              <ResourceCards />
+            </div>
+            <div className="resource-cards-create-container">
+              {showCreate(userRole) && (
+                <React.Fragment>
+                  <div className="AddResourceButton">{[modalSubscription]}</div>
+                  <div className="AddResourceButton">
+                    {[modalPlacementRule]}
+                  </div>
+                  <div className="AddResourceButton">{[modalChannel]}</div>
+                </React.Fragment>
+              )}
+            </div>
           </div>
-          <div className="resource-cards-create-container">
-            {showCreate(userRole) && (
-              <React.Fragment>
-                <div className="AddResourceButton">{[modalSubscription]}</div>
-                <div className="AddResourceButton">{[modalPlacementRule]}</div>
-                <div className="AddResourceButton">{[modalChannel]}</div>
-              </React.Fragment>
-            )}
-          </div>
-        </div>
-
+        )}
         <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"

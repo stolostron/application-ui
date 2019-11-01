@@ -24,11 +24,19 @@ import {
   fetchChannelResource,
   fetchSubscriptionResource,
   fetchPlacementRuleResource,
+  fetchApplicationResource,
   closeModals
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading, Icon, Link } from 'carbon-components-react'
+import {
+  Search,
+  Loading,
+  Icon,
+  Link,
+  Accordion,
+  AccordionItem
+} from 'carbon-components-react'
 import {
   getApplicationsList,
   getChannelsList,
@@ -53,6 +61,9 @@ import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
 import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
+import { editResourceClick } from './components/PipelineGrid/utils'
+import StructuredListModule from '../common/StructuredListModule'
+import getResourceDefinitions from '../../definitions'
 
 /* eslint-disable react/prop-types */
 
@@ -173,6 +184,16 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         fetchChannelResource(apolloClient, selfLink, namespace, name, cluster)
       ),
+    getApplicationResource: (selfLink, namespace, name, cluster) =>
+      dispatch(
+        fetchApplicationResource(
+          apolloClient,
+          selfLink,
+          namespace,
+          name,
+          cluster
+        )
+      ),
     //apolloClient requires CONTEXT .. so I have to pass it in here
     getSubscriptionResource: (selfLink, namespace, name, cluster) =>
       dispatch(
@@ -233,10 +254,12 @@ const mapStateToProps = state => {
     appDropDownList: AppDeployments.appDropDownList || [],
     HCMApplicationList: filteredApplications,
     HCMChannelList,
+    currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
     currentPlacementRuleInfo: AppDeployments.currentPlacementRuleInfo || {},
     openEditChannelModal: AppDeployments.openEditChannelModal,
+    openEditApplicationModal: AppDeployments.openEditApplicationModal,
     openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
     openEditPlacementRuleModal: AppDeployments.openEditPlacementRuleModal,
     loading: AppDeployments.loading,
@@ -282,17 +305,20 @@ class ApplicationDeploymentPipeline extends React.Component {
       actions,
       editResource,
       getChannelResource,
+      getApplicationResource,
       getSubscriptionResource,
       getPlacementRuleResource,
       editSubscription,
       displaySubscriptionModal,
       subscriptionModalHeaderInfo,
       subscriptionModalSubscriptionInfo,
+      currentApplicationInfo,
       currentChannelInfo,
       currentSubscriptionInfo,
       currentPlacementRuleInfo,
       closeModal,
       openEditChannelModal,
+      openEditApplicationModal,
       openEditSubscriptionModal,
       openEditPlacementRuleModal,
       loading,
@@ -331,6 +357,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       }
     )
 
+    const staticResourceData = getResourceDefinitions(
+      RESOURCE_TYPES.HCM_APPLICATIONS
+    )
+
     //show perfmon actions only when one app is selected
     const showHeaderLinks =
       breadcrumbItems &&
@@ -339,14 +369,16 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     let dashboard = ''
     let icamLink = ''
+    let app = undefined
     if (
       applications &&
       applications instanceof Array &&
       applications.length == 1
     ) {
-      const app = applications[0]
+      app = applications[0]
       dashboard = app.dashboard
-      icamLink = getICAMLinkForApp(app._uid, app.cluster)
+
+      if (app && app._uid) icamLink = getICAMLinkForApp(app._uid, app.cluster)
     }
 
     const subscriptionModalHeader =
@@ -367,6 +399,20 @@ class ApplicationDeploymentPipeline extends React.Component {
         data: data,
         helpLink:
           'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html'
+      })
+    }
+
+    if (openEditApplicationModal) {
+      const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
+      const name = R.pathOr('', ['metadata', 'name'], data)
+      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
+      closeModal()
+      editResource(RESOURCE_TYPES.HCM_APPLICATIONS, {
+        name: name,
+        namespace: namespace,
+        data: data,
+        helpLink:
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
       })
     }
     // This will trigger the edit Subscription Modal because openEditSubscriptionModal
@@ -420,10 +466,11 @@ class ApplicationDeploymentPipeline extends React.Component {
             </Link>
             <span className="app-info-and-dashboard-links-separator" />
             <Link
-              className=""
               href="#"
+              aria-disabled={!app}
               onClick={() => {
                 //call edit app here
+                editResourceClick(app, getApplicationResource)
               }}
             >
               <Icon
@@ -436,6 +483,7 @@ class ApplicationDeploymentPipeline extends React.Component {
             <span className="app-info-and-dashboard-links-separator" />
             <Link
               href="#"
+              aria-disabled={!app}
               onClick={() => {
                 //call delete app here
               }}
@@ -464,6 +512,25 @@ class ApplicationDeploymentPipeline extends React.Component {
             </div>
           </div>
         )}
+        <div className="resource-list-header">
+          {msgs.get('description.title.resourceList', locale)}{' '}
+          {
+            // *** fill in resource count here similar to: {channels && <span>({channels.length})</span>}
+          }
+        </div>
+        <div className="resource-list-container">
+          <Accordion className="resource-list-table">
+            <AccordionItem title={msgs.get('dashboard.viewFullTable', locale)}>
+              <React.Fragment>
+                <StructuredListModule
+                  headerRows={staticResourceData.detailKeys.headerRows}
+                  rows={staticResourceData.detailKeys.rows}
+                  data={app}
+                />
+              </React.Fragment>
+            </AccordionItem>
+          </Accordion>
+        </div>
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}

@@ -131,6 +131,8 @@ export const getDataByKindByChannels = (data, channelNamespace = false) => {
 
 // Given the tally count of Pass, Fail, InProgress, Pending, Unidentified
 // and the status. Add to the tally and return it
+// Pass, Fail, InProgress, Pending, Unidentified
+// statusPassFailInProgress = [0, 0, 0, 0, 0]
 const determineStatus = (statusPassFailInProgress, status) => {
   const statusTotals = statusPassFailInProgress
   if (

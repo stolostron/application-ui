@@ -10,10 +10,17 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading } from 'carbon-components-react'
+import {
+  Loading,
+  Link,
+  Icon,
+  Accordion,
+  AccordionItem
+} from 'carbon-components-react'
 import { connect } from 'react-redux'
-import msgs from '../../../../nls/platform.properties'
 // import CountsCardModule from '../../CountsCardModule'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../../actions'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -25,10 +32,19 @@ import {
   getNumDeployments,
   getSearchLinkForOneApplication
 } from './utils'
-import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import {
+  getResourcesStatusPerChannel,
+  editResourceClick
+} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
+import msgs from '../../../../nls/platform.properties'
+import {
+  fetchApplicationResource,
+  closeModals
+} from '../../../reducers/reducerAppDeployments'
+import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
 
 resources(() => {
@@ -43,10 +59,12 @@ const ResourceOverview = withLocale(
     modules,
     resourceType,
     actions,
-    showAppDetails,
     showExpandedTopology,
     incidentCount,
-    userRole
+    userRole,
+    locale,
+    getApplicationResource,
+    loading
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -142,36 +160,76 @@ const ResourceOverview = withLocale(
         border: 'left'
       })
     }
-
+    const dashboard = (item && item.dashboard) || ''
     return (
       <div id="resource-overview" className="overview-content">
-        {showAppDetails ? (
-          <React.Fragment>
-            <StructuredListModule
-              title={staticResourceData.detailKeys.title}
-              headerRows={staticResourceData.detailKeys.headerRows}
-              rows={staticResourceData.detailKeys.rows}
-              data={item}
+        <div className="app-info-and-dashboard-links">
+          <Link
+            href={dashboard}
+            aria-disabled={!dashboard}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--launch"
+              fill="#3D70B2"
             />
-            {modulesRight.length > 0 && (
-              <div className="overview-content-right">{modulesRight}</div>
-            )}
-            <div className="overview-content-bottom">{modulesBottom}</div>
-          </React.Fragment>
-        ) : !showExpandedTopology ? (
+            {msgs.get('application.launch.grafana', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            href="#"
+            onClick={() => {
+              editResourceClick(item, getApplicationResource)
+            }}
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--edit"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.edit.app', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
+          <Link
+            href="#"
+            onClick={() => {
+              //call delete app here
+            }}
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--delete"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.delete.app', locale)}
+          </Link>
+        </div>
+        {(!item || loading) && <Loading withOverlay={true} />}
+        {!showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
-              <div className="overview-content-title">
-                {msgs.get('description.title.deploymentHighlights')}
+              <div className="overview-content-header">
+                {msgs.get('dashboard.card.deployment.summary.title', locale)}
               </div>
               <div className="overview-cards-info-container">
                 <OverviewCards />
               </div>
-              {/* <CountsCardModule
-                data={countsCardData}
-                title="dashboard.card.deployment.summary.title"
-                link="#"
-              /> */}
+              {/* <CountsCardModule data={countsCardData} link="#" /> */}
+              <Accordion className="overview-content-additional-details">
+                <AccordionItem
+                  title={msgs.get('dashboard.additionalDetails', locale)}
+                >
+                  <React.Fragment>
+                    <StructuredListModule
+                      headerRows={staticResourceData.detailKeys.headerRows}
+                      rows={staticResourceData.detailKeys.rows}
+                      data={item}
+                    />
+                  </React.Fragment>
+                </AccordionItem>
+              </Accordion>
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule
@@ -201,15 +259,31 @@ ResourceOverview.contextTypes = {
 
 ResourceOverview.propTypes = {
   item: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  modules: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   params: PropTypes.object,
   resourceType: PropTypes.object,
   staticResourceData: PropTypes.object
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(Actions, dispatch),
+    getApplicationResource: (selfLink, namespace, name, cluster) =>
+      dispatch(
+        fetchApplicationResource(
+          apolloClient,
+          selfLink,
+          namespace,
+          name,
+          cluster
+        )
+      ),
+    closeModal: () => dispatch(closeModals())
+  }
+}
+
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { role } = state
+  const { role, AppDeployments } = state
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -221,10 +295,12 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
-    userRole: role.role
+    userRole: role.role,
+    loading: AppDeployments.loading,
+    openEditApplicationModal: AppDeployments.openEditApplicationModal
   }
 }
 
 export default withRouter(
-  connect(mapStateToProps)(withLocale(ResourceOverview))
+  connect(mapStateToProps, mapDispatchToProps)(withLocale(ResourceOverview))
 )

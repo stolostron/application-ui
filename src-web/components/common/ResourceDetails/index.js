@@ -54,7 +54,7 @@ const withResource = Component => {
 
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
-      error = state[typeListName].err
+          error = state[typeListName].err
     const { CEMIncidentList } = state
     return {
       status: state[typeListName].status,
@@ -159,9 +159,9 @@ const withResource = Component => {
                 className="persistent"
                 subtitle={msgs.get(
                   `error.${
-                  statusCode === 401 || statusCode === 403
-                    ? 'unauthorized'
-                    : 'default'
+                    statusCode === 401 || statusCode === 403
+                      ? 'unauthorized'
+                      : 'default'
                   }.description`,
                   this.context.locale
                 )}
@@ -195,7 +195,7 @@ class ResourceDetails extends React.Component {
 
   componentWillMount() {
     const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
-      params = match && match.params
+          params = match && match.params
     updateSecondaryHeader(
       params.name,
       getTabs(
@@ -207,14 +207,10 @@ class ResourceDetails extends React.Component {
     )
   }
 
-  componentWillUnmount() {
-    this.props.actions.setShowAppDetails(false)
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
-        params = match && match.params
+            params = match && match.params
       updateSecondaryHeader(
         params.name,
         getTabs(
@@ -250,8 +246,6 @@ class ResourceDetails extends React.Component {
       match,
       resourceType,
       staticResourceData,
-      showAppDetails,
-      dashboard,
       showExpandedTopology,
       _uid,
       clusterName,
@@ -266,63 +260,6 @@ class ResourceDetails extends React.Component {
       <div id="ResourceDetails">
         {!showExpandedTopology && (
           <div className="app-info-and-dashboard-links">
-            <Link
-              href="#"
-              onClick={() => {
-                actions.setShowAppDetails(!showAppDetails)
-              }}
-            >
-              <Icon
-                className="app-info-icon"
-                name="icon--document"
-                fill="#3D70B2"
-              />
-              {!showAppDetails
-                ? msgs.get('application.information', this.context.locale)
-                : msgs.get('application.overview', this.context.locale)}
-            </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-            <Link
-              href={dashboard}
-              aria-disabled={!dashboard}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--launch"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.launch.grafana', this.context.locale)}
-            </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-            <Link
-              href="#"
-              onClick={() => {
-                //call edit app here
-              }}
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--edit"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.edit.app', this.context.locale)}
-            </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-            <Link
-              href="#"
-              onClick={() => {
-                //call delete app here
-              }}
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--delete"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.delete.app', this.context.locale)}
-            </Link>
             <div className="perfmonAction">
               <Link
                 href={icamLink}
@@ -346,7 +283,6 @@ class ResourceDetails extends React.Component {
           staticResourceData={staticResourceData}
           actions={actions}
           modules={children}
-          showAppDetails={showAppDetails}
           showExpandedTopology={showExpandedTopology}
         />
       </div>
@@ -377,10 +313,10 @@ class ResourceDetails extends React.Component {
     const breadcrumbItems = []
     location = location || this.props.location
     const { tabs, match, resourceType } = this.props,
-      { locale } = this.context,
-      urlSegments = location.pathname.replace(/\/$/, '').split('/'),
-      lastSegment = urlSegments[urlSegments.length - 1],
-      currentTab = tabs.find(tab => tab === lastSegment)
+          { locale } = this.context,
+          urlSegments = location.pathname.replace(/\/$/, '').split('/'),
+          lastSegment = urlSegments[urlSegments.length - 1],
+          currentTab = tabs.find(tab => tab === lastSegment)
 
     // The base path, calculated by the current location minus params
     let paramsLength = 0
@@ -415,13 +351,11 @@ ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   clusterName: PropTypes.string,
-  dashboard: PropTypes.string,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
-  showAppDetails: PropTypes.bool,
   showExpandedTopology: PropTypes.bool,
   showICAMAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
@@ -440,9 +374,9 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = (state, ownProps) => {
   const { AppOverview } = state
   const { list: typeListName } = ownProps.resourceType,
-    visibleResources = ownProps.getVisibleResources(state, {
-      storeRoot: typeListName
-    })
+        visibleResources = ownProps.getVisibleResources(state, {
+          storeRoot: typeListName
+        })
 
   const items = visibleResources.normalizedItems
   const params = (ownProps.match && ownProps.match.params) || ''
@@ -452,21 +386,17 @@ const mapStateToProps = (state, ownProps) => {
       params.name &&
       params.namespace &&
       decodeURIComponent(params.name) +
-      '-' +
-      decodeURIComponent(params.namespace)) ||
+        '-' +
+        decodeURIComponent(params.namespace)) ||
     undefined
 
   const item = (items && item_key && items[item_key]) || undefined
 
-  const dashboard = (item && item['dashboard']) || ''
   const _uid = (items && item['_uid']) || ''
   const clusterName = (items && item['cluster']) || ''
   return {
-    dashboard,
     _uid,
     clusterName,
-    showAppDetails: AppOverview.showAppDetails,
-    showExpandedTopology: AppOverview.showExpandedTopology,
     showICAMAction: AppOverview.showICAMAction
   }
 }

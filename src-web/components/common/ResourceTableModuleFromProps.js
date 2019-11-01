@@ -12,9 +12,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Module, ModuleHeader, ModuleBody } from 'carbon-addons-cloud-react'
+import { Module, ModuleBody } from 'carbon-addons-cloud-react'
 import lodash from 'lodash'
-import msgs from '../../../nls/platform.properties'
 import ResourceTable from '../../components/common/ResourceTable'
 import TableHelper from '../../util/table-helper'
 import { PAGE_SIZES } from '../../actions/index'
@@ -81,7 +80,6 @@ class ResourceTableModule extends React.Component {
     return (resourceItems && Object.keys(resourceItems).length > 0) ||
       searchValue ? (
         <Module id={`${definitionsKey}-module-id`}>
-          <ModuleHeader>{msgs.get(keys.title, this.context.locale)}</ModuleHeader>
           <ModuleBody>
             <ResourceTable
               items={resourceItemsOnCurrentPage || []}

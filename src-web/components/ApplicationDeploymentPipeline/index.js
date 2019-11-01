@@ -59,7 +59,7 @@ import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
-import ResourceCardsInformation from './components/ResourceCardsInformation'
+import ResourceCards from './components/InfoCards/ResourceCards'
 import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
 import StructuredListModule from '../common/StructuredListModule'
@@ -292,9 +292,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -538,7 +538,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         <ApplicationDeploymentHighlights />
         <div className="resource-cards-container">
           <div className="resource-cards-info-container">
-            <ResourceCardsInformation />
+            <ResourceCards />
           </div>
           <div className="resource-cards-create-container">
             {showCreate(userRole) && (

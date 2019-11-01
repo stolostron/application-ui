@@ -18,9 +18,9 @@ import {
   AccordionItem
 } from 'carbon-components-react'
 import { connect } from 'react-redux'
+// import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
-import CountsCardModule from '../../CountsCardModule'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -32,7 +32,10 @@ import {
   getNumDeployments,
   getSearchLinkForOneApplication
 } from './utils'
-import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import {
+  getResourcesStatusPerChannel,
+  editResourceClick
+} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
@@ -42,7 +45,7 @@ import {
   closeModals
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
-import { editResourceClick } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
 
 resources(() => {
   require('./style.scss')
@@ -210,7 +213,10 @@ const ResourceOverview = withLocale(
               <div className="overview-content-header">
                 {msgs.get('dashboard.card.deployment.summary.title', locale)}
               </div>
-              <CountsCardModule data={countsCardData} link="#" />
+              <div className="overview-cards-info-container">
+                <OverviewCards />
+              </div>
+              {/* <CountsCardModule data={countsCardData} link="#" /> */}
               <Accordion className="overview-content-additional-details">
                 <AccordionItem
                   title={msgs.get('dashboard.additionalDetails', locale)}
@@ -234,14 +240,14 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-            <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule
-                showExpandedTopology={showExpandedTopology}
-                params={params}
-                actions={actions}
-              />
-            </div>
-          )}
+          <div className="overview-content-bottom overview-content-with-padding">
+            <ApplicationTopologyModule
+              showExpandedTopology={showExpandedTopology}
+              params={params}
+              actions={actions}
+            />
+          </div>
+        )}
       </div>
     )
   }

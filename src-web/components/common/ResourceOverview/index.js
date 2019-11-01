@@ -12,7 +12,8 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
-import CountsCardModule from '../../CountsCardModule'
+import msgs from '../../../../nls/platform.properties'
+// import CountsCardModule from '../../CountsCardModule'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -160,15 +161,17 @@ const ResourceOverview = withLocale(
         ) : !showExpandedTopology ? (
           <React.Fragment>
             <div className="overview-content-bottom overview-content-with-padding">
+              <div className="overview-content-title">
+                {msgs.get('description.title.deploymentHighlights')}
+              </div>
               <div className="overview-cards-info-container">
                 <OverviewCards />
               </div>
-              <br />
-              <CountsCardModule
+              {/* <CountsCardModule
                 data={countsCardData}
                 title="dashboard.card.deployment.summary.title"
                 link="#"
-              />
+              /> */}
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule

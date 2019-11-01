@@ -156,7 +156,10 @@ export const getNumPlacementRules = (
           const appData = applications.items[appIndex]
           if (appData.related) {
             Object.keys(appData.related).map(kindIndex => {
-              if (appData.related[kindIndex].kind === 'placementrule') {
+              if (
+                appData.related[kindIndex].kind.toLowerCase() ===
+                'placementrule'
+              ) {
                 const placementRules = appData.related[kindIndex].items
                 Object.keys(placementRules).map(prIndex => {
                   const prObj = {
@@ -176,7 +179,9 @@ export const getNumPlacementRules = (
         const appData = applications.items[appIndex]
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
-            if (appData.related[kindIndex].kind === 'placementrule') {
+            if (
+              appData.related[kindIndex].kind.toLowerCase() === 'placementrule'
+            ) {
               const placementRules = appData.related[kindIndex].items
               Object.keys(placementRules).map(prIndex => {
                 const prObj = {
@@ -217,7 +222,9 @@ export const getSubscriptionDataOnHub = (
           const appData = applications.items[appIndex]
           if (appData.related) {
             Object.keys(appData.related).map(kindIndex => {
-              if (appData.related[kindIndex].kind === 'subscription') {
+              if (
+                appData.related[kindIndex].kind.toLowerCase() === 'subscription'
+              ) {
                 const subscriptions = appData.related[kindIndex].items
                 Object.keys(subscriptions).map(subIndex => {
                   const subObj = {
@@ -230,7 +237,7 @@ export const getSubscriptionDataOnHub = (
                     noStatusSubscriptions = noStatusSubscriptions.concat(
                       subObj
                     )
-                  } else if (subObj.status !== 'Propagated') {
+                  } else if (subObj.status.toLowerCase() !== 'propagated') {
                     failedSubscriptions = failedSubscriptions.concat(subObj)
                   }
                 })
@@ -245,7 +252,9 @@ export const getSubscriptionDataOnHub = (
         const appData = applications.items[appIndex]
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
-            if (appData.related[kindIndex].kind === 'subscription') {
+            if (
+              appData.related[kindIndex].kind.toLowerCase() === 'subscription'
+            ) {
               const subscriptions = appData.related[kindIndex].items
               Object.keys(subscriptions).map(subIndex => {
                 const subObj = {
@@ -266,7 +275,9 @@ export const getSubscriptionDataOnHub = (
           noStatusSubscriptions = noStatusSubscriptions.concat(
             allSubscriptions[key]
           )
-        } else if (allSubscriptions[key].status !== 'Propagated') {
+        } else if (
+          allSubscriptions[key].status.toLowerCase() !== 'propagated'
+        ) {
           failedSubscriptions = failedSubscriptions.concat(
             allSubscriptions[key]
           )
@@ -303,7 +314,10 @@ export const getSubscriptionDataOnManagedClusters = (
           const appData = applications.items[appIndex]
           if (appData.remoteSubs) {
             Object.keys(appData.remoteSubs).map(kindIndex => {
-              if (appData.remoteSubs[kindIndex].kind === 'subscription') {
+              if (
+                appData.remoteSubs[kindIndex].kind.toLowerCase() ===
+                'subscription'
+              ) {
                 const subscriptions = appData.remoteSubs[kindIndex]
                 const subObj = {
                   name: subscriptions.name,
@@ -313,7 +327,7 @@ export const getSubscriptionDataOnManagedClusters = (
                 allSubscriptions = allSubscriptions.concat(subObj)
                 if (subObj.status === '') {
                   noStatusSubscriptions = noStatusSubscriptions.concat(subObj)
-                } else if (subObj.status !== 'Subscribed') {
+                } else if (subObj.status.toLowerCase() !== 'subscribed') {
                   failedSubscriptions = failedSubscriptions.concat(subObj)
                 }
               }
@@ -327,7 +341,10 @@ export const getSubscriptionDataOnManagedClusters = (
         const appData = applications.items[appIndex]
         if (appData.remoteSubs) {
           Object.keys(appData.remoteSubs).map(kindIndex => {
-            if (appData.remoteSubs[kindIndex].kind === 'subscription') {
+            if (
+              appData.remoteSubs[kindIndex].kind.toLowerCase() ===
+              'subscription'
+            ) {
               const subscriptions = appData.remoteSubs[kindIndex]
               const subObj = {
                 name: subscriptions.name,
@@ -346,7 +363,9 @@ export const getSubscriptionDataOnManagedClusters = (
           noStatusSubscriptions = noStatusSubscriptions.concat(
             allSubscriptions[key]
           )
-        } else if (allSubscriptions[key].status !== 'Subscribed') {
+        } else if (
+          allSubscriptions[key].status.toLowerCase() !== 'subscribed'
+        ) {
           failedSubscriptions = failedSubscriptions.concat(
             allSubscriptions[key]
           )
@@ -380,7 +399,7 @@ export const getPodData = (
         const appData = applications.items[appIndex]
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
-            if (appData.related[kindIndex].kind === 'pod') {
+            if (appData.related[kindIndex].kind.toLowerCase() === 'pod') {
               const pods = appData.related[kindIndex].items
               Object.keys(pods).map(podIndex => {
                 const podObj = {
@@ -389,9 +408,17 @@ export const getPodData = (
                   status: pods[podIndex].status
                 }
                 allPods = allPods.concat(podObj)
-                if (podObj.status === 'Running') {
+                if (
+                  podObj.status.toLowerCase() === 'deployed' ||
+                  podObj.status.toLowerCase() === 'pass' ||
+                  podObj.status.toLowerCase() === 'running'
+                ) {
                   runningPods = runningPods.concat(podObj)
-                } else if (podObj.status === 'Failed') {
+                } else if (
+                  podObj.status.toLowerCase() === 'fail' ||
+                  podObj.status.toLowerCase() === 'error' ||
+                  podObj.status.toLowerCase() === 'imagepullbackoff'
+                ) {
                   failedPods = failedPods.concat(podObj)
                 }
               })

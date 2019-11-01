@@ -61,7 +61,7 @@ const mapStateToProps = state => {
   }
 }
 
-const getResourceCardsData = (
+const getOverviewCardsData = (
   HCMApplicationList,
   HCMSubscriptionList,
   CEMIncidentList,
@@ -74,7 +74,7 @@ const getResourceCardsData = (
 ) => {
   // const applications = getNumItems(HCMApplicationList)
   const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
-  const policyViolations = 4
+  const policyViolations = 0
   const incidents = getNumIncidents(CEMIncidentList)
 
   //count only hub subscriptions
@@ -217,7 +217,7 @@ const getResourceCardsData = (
   return result
 }
 
-class ResourceCards extends React.Component {
+class OverviewCards extends React.Component {
   componentWillMount() {}
   componentDidMount() {}
 
@@ -246,7 +246,7 @@ class ResourceCards extends React.Component {
       })
       : getSearchLinkForAllSubscriptions()
 
-    const resourceCardsData = getResourceCardsData(
+    const overviewCardsData = getOverviewCardsData(
       HCMApplicationList,
       HCMSubscriptionList,
       CEMIncidentList,
@@ -259,8 +259,8 @@ class ResourceCards extends React.Component {
     )
 
     // const onClick = i => {
-    //     if (resourceCardsData[i].targetLink) {
-    //         window.open(resourceCardsData[i].targetLink, '_blank')
+    //     if (overviewCardsData[i].targetLink) {
+    //         window.open(overviewCardsData[i].targetLink, '_blank')
     //     }
     // }
 
@@ -271,9 +271,9 @@ class ResourceCards extends React.Component {
     // }
 
     return (
-      <div className={'resource-cards-info' + singleAppStyle}>
-        {Object.keys(resourceCardsData).map(key => {
-          const card = resourceCardsData[key]
+      <div className={'overview-cards-info' + singleAppStyle}>
+        {Object.keys(overviewCardsData).map(key => {
+          const card = overviewCardsData[key]
           return (
             <React.Fragment key={key}>
               <div
@@ -299,7 +299,7 @@ class ResourceCards extends React.Component {
                   <div className="card-subtext">{card.subtextKeySecond}</div>
                 )}
               </div>
-              {key < Object.keys(resourceCardsData).length - 1 && (
+              {key < Object.keys(overviewCardsData).length - 1 && (
                 <div className="column-divider" />
               )}
             </React.Fragment>
@@ -310,4 +310,4 @@ class ResourceCards extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceCards)
+export default connect(mapStateToProps, mapDispatchToProps)(OverviewCards)

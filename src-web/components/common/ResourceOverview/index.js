@@ -46,6 +46,7 @@ import {
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
+import { getICAMLinkForApp } from '../ResourceDetails/utils'
 
 resources(() => {
   require('./style.scss')
@@ -64,34 +65,13 @@ const ResourceOverview = withLocale(
     userRole,
     locale,
     getApplicationResource,
-    loading
+    loading,
+    showICAMAction
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
     }
-    const modulesRight = []
-    const modulesBottom = []
-    React.Children.map(modules, module => {
-      if (module.props.right) {
-        modulesRight.push(
-          React.cloneElement(module, {
-            staticResourceData,
-            resourceType,
-            resourceData: item,
-            params
-          })
-        )
-      } else {
-        modulesBottom.push(
-          React.cloneElement(module, {
-            staticResourceData,
-            resourceType,
-            resourceData: item,
-            params
-          })
-        )
-      }
-    })
+
     const deployables = getNumDeployables(item)
     const deployments = getNumDeployments(item)
     const status = getResourcesStatusPerChannel(item, false)
@@ -161,9 +141,27 @@ const ResourceOverview = withLocale(
       })
     }
     const dashboard = (item && item.dashboard) || ''
+
+    const icamLink = (item && getICAMLinkForApp(item._uid, item.cluster)) || ''
+    const enableICAM = showICAMAction && icamLink
+
     return (
       <div id="resource-overview" className="overview-content">
         <div className="app-info-and-dashboard-links">
+          <Link
+            href={icamLink}
+            aria-disabled={!enableICAM}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--launch"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.launch.icam', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
           <Link
             href={dashboard}
             aria-disabled={!dashboard}
@@ -190,20 +188,6 @@ const ResourceOverview = withLocale(
               fill="#3D70B2"
             />
             {msgs.get('application.edit.app', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            href="#"
-            onClick={() => {
-              //call delete app here
-            }}
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--delete"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.delete.app', locale)}
           </Link>
         </div>
         {(!item || loading) && <Loading withOverlay={true} />}
@@ -240,14 +224,14 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-          <div className="overview-content-bottom overview-content-with-padding">
-            <ApplicationTopologyModule
-              showExpandedTopology={showExpandedTopology}
-              params={params}
-              actions={actions}
-            />
-          </div>
-        )}
+            <div className="overview-content-bottom overview-content-with-padding">
+              <ApplicationTopologyModule
+                showExpandedTopology={showExpandedTopology}
+                params={params}
+                actions={actions}
+              />
+            </div>
+          )}
       </div>
     )
   }

@@ -62,6 +62,8 @@ import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCardsInformation from './components/ResourceCardsInformation'
 import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
+import StructuredListModule from '../common/StructuredListModule'
+import getResourceDefinitions from '../../definitions'
 
 /* eslint-disable react/prop-types */
 
@@ -290,9 +292,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
@@ -353,6 +355,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       {
         resourceType: RESOURCE_TYPES.HCM_PLACEMENT_RULES
       }
+    )
+
+    const staticResourceData = getResourceDefinitions(
+      RESOURCE_TYPES.HCM_APPLICATIONS
     )
 
     //show perfmon actions only when one app is selected
@@ -514,9 +520,15 @@ class ApplicationDeploymentPipeline extends React.Component {
         </div>
         <div className="resource-list-container">
           <Accordion className="resource-list-table">
-            <AccordionItem
-              title={msgs.get('dashboard.viewFullTable', locale)}
-            />
+            <AccordionItem title={msgs.get('dashboard.viewFullTable', locale)}>
+              <React.Fragment>
+                <StructuredListModule
+                  headerRows={staticResourceData.detailKeys.headerRows}
+                  rows={staticResourceData.detailKeys.rows}
+                  data={app}
+                />
+              </React.Fragment>
+            </AccordionItem>
           </Accordion>
         </div>
         <div className="pipelineHeader">

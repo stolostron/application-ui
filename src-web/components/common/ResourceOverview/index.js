@@ -63,6 +63,9 @@ const ResourceOverview = withLocale(
     getApplicationResource,
     loading
   }) => {
+    if (!item) {
+      return <Loading withOverlay={false} className="content-spinner" />
+    }
     const modulesRight = []
     const modulesBottom = []
     React.Children.map(modules, module => {
@@ -155,7 +158,6 @@ const ResourceOverview = withLocale(
       })
     }
     const dashboard = (item && item.dashboard) || ''
-
     return (
       <div id="resource-overview" className="overview-content">
         <div className="app-info-and-dashboard-links">
@@ -215,19 +217,10 @@ const ResourceOverview = withLocale(
                 >
                   <React.Fragment>
                     <StructuredListModule
-                      title={staticResourceData.detailKeys.title}
                       headerRows={staticResourceData.detailKeys.headerRows}
                       rows={staticResourceData.detailKeys.rows}
                       data={item}
                     />
-                    {modulesRight.length > 0 && (
-                      <div className="overview-content-right">
-                        {modulesRight}
-                      </div>
-                    )}
-                    <div className="overview-content-bottom">
-                      {modulesBottom}
-                    </div>
                   </React.Fragment>
                 </AccordionItem>
               </Accordion>
@@ -241,14 +234,14 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-          <div className="overview-content-bottom overview-content-with-padding">
-            <ApplicationTopologyModule
-              showExpandedTopology={showExpandedTopology}
-              params={params}
-              actions={actions}
-            />
-          </div>
-        )}
+            <div className="overview-content-bottom overview-content-with-padding">
+              <ApplicationTopologyModule
+                showExpandedTopology={showExpandedTopology}
+                params={params}
+                actions={actions}
+              />
+            </div>
+          )}
       </div>
     )
   }
@@ -260,7 +253,6 @@ ResourceOverview.contextTypes = {
 
 ResourceOverview.propTypes = {
   item: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
-  modules: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   params: PropTypes.object,
   resourceType: PropTypes.object,
   staticResourceData: PropTypes.object

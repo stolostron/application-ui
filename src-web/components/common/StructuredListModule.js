@@ -17,7 +17,7 @@ import {
   StructuredListCell,
   StructuredListBody
 } from 'carbon-components-react'
-import { Module, ModuleHeader, ModuleBody } from 'carbon-addons-cloud-react'
+import { Module, ModuleBody } from 'carbon-addons-cloud-react'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { transform } from '../../../lib/client/resource-helper'
@@ -27,17 +27,12 @@ resources(() => {
   require('../../../scss/structured-list.scss')
 })
 
-const StructuredListModule = (
-  { title, headerRows, rows, data, url },
-  context
-) => (
+const StructuredListModule = ({ headerRows, rows, data, url }, context) => (
   <Module className="structured-list-module">
-    <ModuleHeader>{msgs.get(title, context.locale)}</ModuleHeader>
     <ModuleBody>
       <StructuredListWrapper
         className="bx--structured-list--condensed"
         role="region"
-        ariaLabel={msgs.get(title, context.locale)}
       >
         <StructuredListHead>
           <StructuredListRow head>
@@ -100,7 +95,6 @@ StructuredListModule.propTypes = {
   data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   headerRows: PropTypes.array,
   rows: PropTypes.array,
-  title: PropTypes.string,
   url: PropTypes.string
 }
 

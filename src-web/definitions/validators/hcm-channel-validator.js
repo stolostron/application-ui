@@ -40,6 +40,14 @@ const optionalValues = {
       name: '',
       namespace: ''
     }
+  },
+  Secret: {
+    apiVersion: '',
+    kind: 'Secret',
+    metadata: {
+      name: '',
+      namespace: ''
+    }
   }
 }
 
@@ -66,6 +74,14 @@ const allValues = {
   ConfigMap: {
     apiVersion: '',
     kind: 'ConfigMap',
+    metadata: {
+      name: '',
+      namespace: ''
+    }
+  },
+  Secret: {
+    apiVersion: '',
+    kind: 'Secret',
     metadata: {
       name: '',
       namespace: ''

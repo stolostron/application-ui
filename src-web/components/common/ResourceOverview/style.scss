@@ -65,11 +65,16 @@
 
   .overview-content-additional-details {
     background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
     .bx--accordion__title {
       color: #3d70b2;
       font-size: 14px;
       font-weight: bold;
+    }
+
+    .bx--accordion__item {
+      border-bottom: none;
     }
 
     .bx--accordion__arrow {

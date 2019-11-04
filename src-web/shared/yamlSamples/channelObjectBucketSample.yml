@@ -1,7 +1,7 @@
-apiVersion: v1______________________createChannel-namespace-resource
+apiVersion: v1______________________createChannel-namespace-apiVersion
 kind: Namespace
 metadata:
-  name: ____________________________createChannel-name-resource
+  name: ____________________________createChannel-namespace-metadata-name
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: Channel
@@ -9,9 +9,9 @@ metadata:
  name: _____________________________createChannel-metadata-name
  namespace: ________________________createChannel-metadata-namespace
 spec:
- type: ObjectBucket_________________createChannel-spec-type
- pathname: null
+ type: ObjectBucket
+ pathname: _________________________createChannel-specObjectBucket-pathname
  secretRef:
-   name: _
+   name: ___________________________createChannel-specObjectBucket-secretRef-name
  gates: 
-   annotations: ____________________createChannel-spec-gates-annotations
+   annotations: ____________________createChannel-specObjectBucket-gate-annotations

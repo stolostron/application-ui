@@ -12,26 +12,66 @@ import msgs from '../../../nls/platform.properties'
 
 export const getChannelSample = (channelSample, locale) => {
   const mapObj = {
-    'createChannel-namespace-resource':
-      '# ' + msgs.get('description.createChannel.namespace.resource', locale),
-    'createChannel-name-resource':
-      '# ' + msgs.get('description.createChannel.name.resource', locale),
-    'createChannel-apiVersion':
-      '# ' + msgs.get('description.createChannel.apiVersion', locale),
-    'createChannel-kind':
-      '# ' + msgs.get('description.createChannel.kind', locale),
+    'createChannel-namespace-apiVersion':
+      '# ' + msgs.get('description.createChannel.namespace.apiVersion', locale),
+    'createChannel-namespace-metadata-name':
+      '# ' +
+      msgs.get('description.createChannel.namespace.metadata.name', locale),
     'createChannel-metadata-name':
       '# ' + msgs.get('description.createChannel.metadata.name', locale),
     'createChannel-metadata-namespace':
       '# ' + msgs.get('description.createChannel.metadata.namespace', locale),
-    'createChannel-spec-gates-annotations':
+    'createChannel-specNamespace-gates-annotations':
       '# ' +
-      msgs.get('description.createChannel.spec.gates.annotations', locale),
-    'createChannel-spec-sourceNamespaces':
+      msgs.get(
+        'description.createChannel.specNamespace.gates.annotations',
+        locale
+      ),
+    'createChannel-specNamespace-pathname':
       '# ' +
-      msgs.get('description.createChannel.spec.sourceNamespaces', locale),
-    'createChannel-spec-type':
-      '# ' + msgs.get('description.createChannel.spec.type', locale),
+      msgs.get('description.createChannel.specNamespace.pathname', locale),
+    'createChannel-specNamespace-sourceNamespaces':
+      '# ' +
+      msgs.get(
+        'description.createChannel.specNamespace.sourceNamespaces',
+        locale
+      ),
+    'createChannel-specHelmRepo-pathname':
+      '# ' +
+      msgs.get('description.createChannel.specHelmRepo.pathname', locale),
+    'createChannel-specHelmRepo-configRef-name':
+      '# ' +
+      msgs.get('description.createChannel.specHelmRepo.configRef.name', locale),
+    'createChannel-specHelmRepo-type':
+      '# ' + msgs.get('description.createChannel.specHelmRepo.type', locale),
+    'createChannel-configMap-apiVersion':
+      '# ' + msgs.get('description.createChannel.configMap.apiVersion', locale),
+    'createChannel-configMap-metadata-name':
+      '# ' +
+      msgs.get('description.createChannel.configMap.metadata.name', locale),
+    'createChannel-configMap-metadata-namespace':
+      '# ' +
+      msgs.get(
+        'description.createChannel.configMap.metadata.namespace',
+        locale
+      ),
+    'createChannel-specObjectBucket-pathname':
+      '# ' +
+      msgs.get('description.createChannel.specObjectBucket.pathname', locale),
+    'createChannel-specObjectBucket-secretRef-name':
+      '# ' +
+      msgs.get(
+        'description.createChannel.specObjectBucket.secretRef.name',
+        locale
+      ),
+    'createChannel-specObjectBucket-gate-annotations':
+      '# ' +
+      msgs.get(
+        'description.createChannel.specObjectBucket.gates.annotations',
+        locale
+      ),
+    'createChannel-specGitRepo-pathname':
+      '# ' + msgs.get('description.createChannel.specGitRepo.pathname', locale),
     null: '',
     _: ' '
   }
@@ -41,7 +81,7 @@ export const getChannelSample = (channelSample, locale) => {
     sample =
       sample +
       YAML.stringify(channelSample[key]).replace(
-        /createChannel-namespace-resource|createChannel-name-resource|createChannel-apiVersion|createChannel-kind|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-spec-gates-annotations|createChannel-spec-sourceNamespaces|createChannel-spec-type|null|_/gi,
+        /createChannel-namespace-apiVersion|createChannel-namespace-metadata-name|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-specNamespace-gates-annotations|createChannel-specNamespace-pathname|createChannel-specNamespace-sourceNamespaces|createChannel-specHelmRepo-pathname|createChannel-specHelmRepo-configRef-name|createChannel-specHelmRepo-type|createChannel-configMap-apiVersion|createChannel-configMap-metadata-namespace|createChannel-configMap-metadata-name|createChannel-specObjectBucket-pathname|createChannel-specObjectBucket-secretRef-name|createChannel-specObjectBucket-gate-annotations|createChannel-specGitRepo-pathname|null|_/gi,
         matched => {
           return mapObj[matched]
         }

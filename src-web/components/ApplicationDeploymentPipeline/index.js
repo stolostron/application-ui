@@ -66,7 +66,6 @@ import getResourceDefinitions from '../../definitions'
 import ResourceTableModule from '../common/ResourceTableModuleFromProps'
 /* eslint-disable react/prop-types */
 
-
 resources(() => {
   require('./style.scss')
 })
@@ -292,9 +291,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
@@ -458,6 +457,20 @@ class ApplicationDeploymentPipeline extends React.Component {
         {showHeaderLinks && (
           <div className="app-info-and-dashboard-links">
             <Link
+              href={icamLink}
+              aria-disabled={!(serverProps && serverProps.isICAMRunning)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.launch.icam', locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
               href={dashboard}
               aria-disabled={!dashboard}
               target="_blank"
@@ -486,65 +499,35 @@ class ApplicationDeploymentPipeline extends React.Component {
               />
               {msgs.get('application.edit.app', locale)}
             </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-            <Link
-              href="#"
-              aria-disabled={!app}
-              onClick={() => {
-                //call delete app here
-              }}
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--delete"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.delete.app', locale)}
-            </Link>
-            <div className="perfmonAction">
-              <Link
-                href={icamLink}
-                aria-disabled={!(serverProps && serverProps.isICAMRunning)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {msgs.get('application.launch.icam', locale)}
-                <Icon
-                  className="app-dashboard-icon-icam"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-              </Link>
+          </div>
+        )}
+        {app &&
+          deploymentsCount > 0 && (
+            <div className="resource-list-header">
+              {msgs.get('description.title.resourceList', locale)}{' '}
+              <span>({deploymentsCount})</span>
             </div>
-          </div>
-        )}
+          )}
         {app &&
           deploymentsCount > 0 && (
-          <div className="resource-list-header">
-            {msgs.get('description.title.resourceList', locale)}{' '}
-            <span>({deploymentsCount})</span>
-          </div>
-        )}
-        {app &&
-          deploymentsCount > 0 && (
-          <div className="resource-list-container">
-            <Accordion className="resource-list-table">
-              <AccordionItem
-                title={msgs.get('dashboard.viewFullTable', locale)}
-              >
-                <React.Fragment>
-                  <ResourceTableModule
-                    resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
-                    staticResourceData={staticResourceData}
-                    definitionsKey="deploymentKeys"
-                    resourceData={app}
-                    params={appParams}
-                  />
-                </React.Fragment>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        )}
+            <div className="resource-list-container">
+              <Accordion className="resource-list-table">
+                <AccordionItem
+                  title={msgs.get('dashboard.viewFullTable', locale)}
+                >
+                  <React.Fragment>
+                    <ResourceTableModule
+                      resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+                      staticResourceData={staticResourceData}
+                      definitionsKey="deploymentKeys"
+                      resourceData={app}
+                      params={appParams}
+                    />
+                  </React.Fragment>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          )}
 
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}

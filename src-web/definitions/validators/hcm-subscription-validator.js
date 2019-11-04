@@ -22,7 +22,6 @@ const requiredValues = {
       channel: '',
       placement: {
         placementRef: {
-          group: '',
           kind: 'PlacementRule',
           name: ''
         }
@@ -55,7 +54,6 @@ const allValues = {
       channel: '',
       placement: {
         placementRef: {
-          group: '',
           kind: 'PlacementRule',
           name: ''
         }

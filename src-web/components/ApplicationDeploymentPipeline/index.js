@@ -291,9 +291,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -503,55 +503,51 @@ class ApplicationDeploymentPipeline extends React.Component {
         )}
         {app &&
           deploymentsCount > 0 && (
-            <div className="resource-list-header">
-              {msgs.get('description.title.resourceList', locale)}{' '}
-              <span>({deploymentsCount})</span>
-            </div>
-          )}
+          <div className="resource-list-header">
+            {msgs.get('description.title.resourceList', locale)}{' '}
+            <span>({deploymentsCount})</span>
+          </div>
+        )}
         {app &&
           deploymentsCount > 0 && (
-            <div className="resource-list-container">
-              <Accordion className="resource-list-table">
-                <AccordionItem
-                  title={msgs.get('dashboard.viewFullTable', locale)}
-                >
-                  <React.Fragment>
-                    <ResourceTableModule
-                      resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
-                      staticResourceData={staticResourceData}
-                      definitionsKey="deploymentKeys"
-                      resourceData={app}
-                      params={appParams}
-                    />
-                  </React.Fragment>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          )}
+          <div className="resource-list-container">
+            <Accordion className="resource-list-table">
+              <AccordionItem
+                title={msgs.get('dashboard.viewFullTable', locale)}
+              >
+                <React.Fragment>
+                  <ResourceTableModule
+                    resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+                    staticResourceData={staticResourceData}
+                    definitionsKey="deploymentKeys"
+                    resourceData={app}
+                    params={appParams}
+                  />
+                </React.Fragment>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        )}
 
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}
         </div>
         <ApplicationDeploymentHighlights />
-        {app && (
-          <div className="resource-cards-container">
-            <div className="resource-cards-info-container">
-              <ResourceCards />
-            </div>
-            <div className="resource-cards-create-container">
-              {showCreate(userRole) && (
-                <React.Fragment>
-                  <div className="AddResourceButton">{[modalSubscription]}</div>
-                  <div className="AddResourceButton">
-                    {[modalPlacementRule]}
-                  </div>
-                  <div className="AddResourceButton">{[modalChannel]}</div>
-                </React.Fragment>
-              )}
-            </div>
+        <div className="resource-cards-container">
+          <div className="resource-cards-info-container">
+            <ResourceCards />
           </div>
-        )}
+          <div className="resource-cards-create-container">
+            {showCreate(userRole) && (
+              <React.Fragment>
+                <div className="AddResourceButton">{[modalSubscription]}</div>
+                <div className="AddResourceButton">{[modalPlacementRule]}</div>
+                <div className="AddResourceButton">{[modalChannel]}</div>
+              </React.Fragment>
+            )}
+          </div>
+        </div>
         <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"

@@ -97,13 +97,35 @@ export const getNumCompletedDeployments = data => {
 }
 
 export const getNumPolicyViolations = data => {
-  if (data && data.related instanceof Array && data.related.length > 0) {
-    return 0
-  } else {
-    return 0
+  //data is a single app object
+  let nb_policies = 0
+  if (data && data.related) {
+    const getKind = x =>
+      x.kind.toLowerCase() == 'mutationpolicy' ||
+      x.kind.toLowerCase() == 'vulnerabilitypolicy'
+    const policies = R.filter(getKind, data.related)
+
+    //get number of items for both type of policies
+    policies.forEach(item => {
+      if (item && item.items && item.items instanceof Array) {
+        nb_policies = nb_policies + item.items.length
+      }
+    })
   }
+  return nb_policies
 }
 
+export const getNumPolicyViolationsForList = appList => {
+  //a list of app objects {items: apps}
+  let nb_policies = 0
+
+  if (appList && appList.items && appList.items instanceof Array) {
+    appList.items.forEach(app => {
+      nb_policies = nb_policies + getNumPolicyViolations(app)
+    })
+  }
+  return nb_policies
+}
 // Given a current resource data INCLUDING its related resources
 // we want to return all the channels.
 // Channels are not returned inside related resources so we have to

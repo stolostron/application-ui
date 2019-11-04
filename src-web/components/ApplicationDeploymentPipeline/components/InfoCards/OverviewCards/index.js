@@ -27,7 +27,8 @@ import {
 import {
   getSearchLinkForOneApplication,
   getSearchLinkForAllApplications,
-  getSearchLinkForAllSubscriptions
+  getSearchLinkForAllSubscriptions,
+  getNumPolicyViolationsForList
 } from '../../../../common/ResourceOverview/utils'
 import { pullOutKindPerApplication } from '../../../utils'
 import { getNumItems } from '../../../../../../lib/client/resource-helper'
@@ -74,7 +75,7 @@ const getOverviewCardsData = (
 ) => {
   // const applications = getNumItems(HCMApplicationList)
   const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
-  const policyViolations = 0
+  const policyViolations = getNumPolicyViolationsForList(HCMApplicationList)
   const incidents = getNumIncidents(CEMIncidentList)
 
   //count only hub subscriptions

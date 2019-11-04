@@ -18,9 +18,9 @@ import {
   AccordionItem
 } from 'carbon-components-react'
 import { connect } from 'react-redux'
+// import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
-import CountsCardModule from '../../CountsCardModule'
 import ApplicationTopologyModule from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
@@ -32,7 +32,10 @@ import {
   getNumDeployments,
   getSearchLinkForOneApplication
 } from './utils'
-import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import {
+  getResourcesStatusPerChannel,
+  editResourceClick
+} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
@@ -42,7 +45,8 @@ import {
   closeModals
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
-import { editResourceClick } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
+import { getICAMLinkForApp } from '../ResourceDetails/utils'
 
 resources(() => {
   require('./style.scss')
@@ -61,34 +65,13 @@ const ResourceOverview = withLocale(
     userRole,
     locale,
     getApplicationResource,
-    loading
+    loading,
+    showICAMAction
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
     }
-    const modulesRight = []
-    const modulesBottom = []
-    React.Children.map(modules, module => {
-      if (module.props.right) {
-        modulesRight.push(
-          React.cloneElement(module, {
-            staticResourceData,
-            resourceType,
-            resourceData: item,
-            params
-          })
-        )
-      } else {
-        modulesBottom.push(
-          React.cloneElement(module, {
-            staticResourceData,
-            resourceType,
-            resourceData: item,
-            params
-          })
-        )
-      }
-    })
+
     const deployables = getNumDeployables(item)
     const deployments = getNumDeployments(item)
     const status = getResourcesStatusPerChannel(item, false)
@@ -158,9 +141,27 @@ const ResourceOverview = withLocale(
       })
     }
     const dashboard = (item && item.dashboard) || ''
+
+    const icamLink = (item && getICAMLinkForApp(item._uid, item.cluster)) || ''
+    const enableICAM = showICAMAction && icamLink
+
     return (
       <div id="resource-overview" className="overview-content">
         <div className="app-info-and-dashboard-links">
+          <Link
+            href={icamLink}
+            aria-disabled={!enableICAM}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon
+              className="app-dashboard-icon"
+              name="icon--launch"
+              fill="#3D70B2"
+            />
+            {msgs.get('application.launch.icam', locale)}
+          </Link>
+          <span className="app-info-and-dashboard-links-separator" />
           <Link
             href={dashboard}
             aria-disabled={!dashboard}
@@ -188,20 +189,6 @@ const ResourceOverview = withLocale(
             />
             {msgs.get('application.edit.app', locale)}
           </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            href="#"
-            onClick={() => {
-              //call delete app here
-            }}
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--delete"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.delete.app', locale)}
-          </Link>
         </div>
         {(!item || loading) && <Loading withOverlay={true} />}
         {!showExpandedTopology ? (
@@ -210,7 +197,10 @@ const ResourceOverview = withLocale(
               <div className="overview-content-header">
                 {msgs.get('dashboard.card.deployment.summary.title', locale)}
               </div>
-              <CountsCardModule data={countsCardData} link="#" />
+              <div className="overview-cards-info-container">
+                <OverviewCards />
+              </div>
+              {/* <CountsCardModule data={countsCardData} link="#" /> */}
               <Accordion className="overview-content-additional-details">
                 <AccordionItem
                   title={msgs.get('dashboard.additionalDetails', locale)}

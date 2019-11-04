@@ -59,12 +59,11 @@ import apolloClient from '../../../lib/client/apollo-client'
 import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
-import ResourceCardsInformation from './components/ResourceCardsInformation'
+import ResourceCards from './components/InfoCards/ResourceCards'
 import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
-import StructuredListModule from '../common/StructuredListModule'
 import getResourceDefinitions from '../../definitions'
-
+import ResourceTableModule from '../common/ResourceTableModuleFromProps'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -292,9 +291,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -380,6 +379,12 @@ class ApplicationDeploymentPipeline extends React.Component {
 
       if (app && app._uid) icamLink = getICAMLinkForApp(app._uid, app.cluster)
     }
+    const appParams = {
+      name: (app && app.name) || '',
+      namespace: (app && app.namespace) || ''
+    }
+    const deploymentsCount =
+      (app && app.deployments && app.deployments.length) || 0
 
     const subscriptionModalHeader =
       subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
@@ -452,6 +457,20 @@ class ApplicationDeploymentPipeline extends React.Component {
         {showHeaderLinks && (
           <div className="app-info-and-dashboard-links">
             <Link
+              href={icamLink}
+              aria-disabled={!(serverProps && serverProps.isICAMRunning)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.launch.icam', locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+            <Link
               href={dashboard}
               aria-disabled={!dashboard}
               target="_blank"
@@ -480,57 +499,36 @@ class ApplicationDeploymentPipeline extends React.Component {
               />
               {msgs.get('application.edit.app', locale)}
             </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-            <Link
-              href="#"
-              aria-disabled={!app}
-              onClick={() => {
-                //call delete app here
-              }}
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--delete"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.delete.app', locale)}
-            </Link>
-            <div className="perfmonAction">
-              <Link
-                href={icamLink}
-                aria-disabled={!(serverProps && serverProps.isICAMRunning)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {msgs.get('application.launch.icam', locale)}
-                <Icon
-                  className="app-dashboard-icon-icam"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-              </Link>
-            </div>
           </div>
         )}
-        <div className="resource-list-header">
-          {msgs.get('description.title.resourceList', locale)}{' '}
-          {
-            // *** fill in resource count here similar to: {channels && <span>({channels.length})</span>}
-          }
-        </div>
-        <div className="resource-list-container">
-          <Accordion className="resource-list-table">
-            <AccordionItem title={msgs.get('dashboard.viewFullTable', locale)}>
-              <React.Fragment>
-                <StructuredListModule
-                  headerRows={staticResourceData.detailKeys.headerRows}
-                  rows={staticResourceData.detailKeys.rows}
-                  data={app}
-                />
-              </React.Fragment>
-            </AccordionItem>
-          </Accordion>
-        </div>
+        {app &&
+          deploymentsCount > 0 && (
+          <div className="resource-list-header">
+            {msgs.get('description.title.resourceList', locale)}{' '}
+            <span>({deploymentsCount})</span>
+          </div>
+        )}
+        {app &&
+          deploymentsCount > 0 && (
+          <div className="resource-list-container">
+            <Accordion className="resource-list-table">
+              <AccordionItem
+                title={msgs.get('dashboard.viewFullTable', locale)}
+              >
+                <React.Fragment>
+                  <ResourceTableModule
+                    resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+                    staticResourceData={staticResourceData}
+                    definitionsKey="deploymentKeys"
+                    resourceData={app}
+                    params={appParams}
+                  />
+                </React.Fragment>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        )}
+
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}
@@ -538,7 +536,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         <ApplicationDeploymentHighlights />
         <div className="resource-cards-container">
           <div className="resource-cards-info-container">
-            <ResourceCardsInformation />
+            <ResourceCards />
           </div>
           <div className="resource-cards-create-container">
             {showCreate(userRole) && (
@@ -550,7 +548,6 @@ class ApplicationDeploymentPipeline extends React.Component {
             )}
           </div>
         </div>
-
         <div className="searchAndButtonContainer">
           <Search
             className="deploymentPipelineSearch"

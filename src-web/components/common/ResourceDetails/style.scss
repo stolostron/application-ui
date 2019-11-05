@@ -55,15 +55,17 @@
     border-style: solid;
     border-color: #4a79b7;
     color: #3d70b2;
-    width: 180px;
+    width: 161px;
     height: 32px;
-    padding: 2px 15px 8px 10px;
+    text-align: center;
+    padding: 3px 10px;
     position: absolute;
     top: calc(2.082rem);
     right: 0%;
   }
 
   .app-dashboard-icon-icam {
-    margin: 0px 10px 0 10px;
+    margin: 0px 0px 0 10px;
+    vertical-align: sub;
   }
 }

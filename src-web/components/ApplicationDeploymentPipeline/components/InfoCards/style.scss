@@ -7,7 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-.resource-cards-info {
+.resource-cards-info, .overview-cards-info {
     display: flex;
     padding: 0 5%;
     height: 100%;
@@ -41,6 +41,13 @@
         text-align: center;
         font-size: 12px;
         font-style: italic;
+        line-height: 20px;
+        color: #4a4a4a;
+    }
+
+    .card-subtext {
+        text-align: center;
+        font-size: 12px;
         line-height: 20px;
         color: #4a4a4a;
     }

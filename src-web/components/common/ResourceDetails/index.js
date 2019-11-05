@@ -13,7 +13,7 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading, Link, Icon } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount, getICAMLinkForApp } from './utils'
+import { getIncidentCount } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
@@ -247,36 +247,13 @@ class ResourceDetails extends React.Component {
       resourceType,
       staticResourceData,
       showExpandedTopology,
-      _uid,
-      clusterName,
       actions,
       children,
       showICAMAction
     } = this.props
 
-    const icamLink = getICAMLinkForApp(_uid, clusterName)
-
     return (
       <div id="ResourceDetails">
-        {!showExpandedTopology && (
-          <div className="app-info-and-dashboard-links">
-            <div className="perfmonAction">
-              <Link
-                href={icamLink}
-                aria-disabled={!showICAMAction}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {msgs.get('application.launch.icam', this.context.locale)}
-                <Icon
-                  className="app-dashboard-icon-icam"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-              </Link>
-            </div>
-          </div>
-        )}
         <OverviewTab
           resourceType={resourceType}
           params={match.params}
@@ -284,6 +261,7 @@ class ResourceDetails extends React.Component {
           actions={actions}
           modules={children}
           showExpandedTopology={showExpandedTopology}
+          showICAMAction={showICAMAction}
         />
       </div>
     )

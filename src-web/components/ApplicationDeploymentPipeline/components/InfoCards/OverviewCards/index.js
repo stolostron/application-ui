@@ -22,7 +22,8 @@ import {
   getSingleApplicationObject,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
-  getPodData
+  getPodData,
+  getPolicyViolationData
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
@@ -109,6 +110,11 @@ const getOverviewCardsData = (
     applicationNamespace
   )
   const podData = getPodData(
+    HCMApplicationList,
+    applicationName,
+    applicationNamespace
+  )
+  const policyViolationData = getPolicyViolationData(
     HCMApplicationList,
     applicationName,
     applicationNamespace
@@ -202,7 +208,19 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.policy.violations', locale),
       count: policyViolations,
       alert: policyViolations > 0 ? true : false,
-      targetLink
+      targetLink,
+      subtextKeyFirst: policyViolationData.VAViolations.toString().concat(
+        ' ',
+        policyViolationData.VAViolations == 1
+          ? msgs.get('dashboard.card.deployment.policy.violation.VA', locale)
+          : msgs.get('dashboard.card.deployment.policy.violations.VA', locale)
+      ),
+      subtextKeySecond: policyViolationData.MAViolations.toString().concat(
+        ' ',
+        policyViolationData.MAViolations == 1
+          ? msgs.get('dashboard.card.deployment.policy.violation.MA', locale)
+          : msgs.get('dashboard.card.deployment.policy.violations.MA', locale)
+      )
     },
     {
       msgKey:

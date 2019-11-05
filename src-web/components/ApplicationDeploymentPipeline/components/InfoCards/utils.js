@@ -207,11 +207,11 @@ export const getSubscriptionDataOnHub = (
   applicationName,
   applicationNamespace
 ) => {
-  if (applications && applications.items) {
-    var allSubscriptions = []
-    var failedSubscriptions = []
-    var noStatusSubscriptions = []
+  var allSubscriptions = []
+  var failedSubscriptions = []
+  var noStatusSubscriptions = []
 
+  if (applications && applications.items) {
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).map(appIndex => {
@@ -299,11 +299,11 @@ export const getSubscriptionDataOnManagedClusters = (
   applicationName,
   applicationNamespace
 ) => {
-  if (applications && applications.items) {
-    var allSubscriptions = []
-    var failedSubscriptions = []
-    var noStatusSubscriptions = []
+  var allSubscriptions = []
+  var failedSubscriptions = []
+  var noStatusSubscriptions = []
 
+  if (applications && applications.items) {
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).map(appIndex => {
@@ -386,11 +386,11 @@ export const getPodData = (
   applicationName,
   applicationNamespace
 ) => {
-  if (applications && applications.items) {
-    var allPods = []
-    var runningPods = []
-    var failedPods = []
+  var allPods = []
+  var runningPods = []
+  var failedPods = []
 
+  if (applications && applications.items) {
     Object.keys(applications.items).map(appIndex => {
       if (
         applications.items[appIndex].name === applicationName &&
@@ -433,5 +433,60 @@ export const getPodData = (
     total: allPods.length,
     running: runningPods.length,
     failed: failedPods.length
+  }
+}
+
+export const getPolicyViolationData = (
+  applications,
+  applicationName,
+  applicationNamespace
+) => {
+  var VAViolations = []
+  var MAViolations = []
+
+  if (applications && applications.items) {
+    Object.keys(applications.items).map(appIndex => {
+      if (
+        applications.items[appIndex].name === applicationName &&
+        applications.items[appIndex].namespace === applicationNamespace
+      ) {
+        const appData = applications.items[appIndex]
+        if (appData.related) {
+          Object.keys(appData.related).map(kindIndex => {
+            if (
+              appData.related[kindIndex].kind.toLowerCase() === 'mutationpolicy'
+            ) {
+              const MAData = appData.related[kindIndex].items
+              Object.keys(MAData).map(MAIndex => {
+                const MAObj = {
+                  name: MAData[MAIndex].name,
+                  namespace: MAData[MAIndex].namespace,
+                  severity: MAData[MAIndex].severity
+                }
+                MAViolations = MAViolations.concat(MAObj)
+              })
+            } else if (
+              appData.related[kindIndex].kind.toLowerCase() ===
+              'vulnerabilitypolicy'
+            ) {
+              const VAData = appData.related[kindIndex].items
+              Object.keys(VAData).map(VAIndex => {
+                const VAObj = {
+                  name: VAData[VAIndex].name,
+                  namespace: VAData[VAIndex].namespace,
+                  severity: VAData[VAIndex].severity
+                }
+                VAViolations = VAViolations.concat(VAObj)
+              })
+            }
+          })
+        }
+      }
+    })
+  }
+
+  return {
+    VAViolations: VAViolations.length,
+    MAViolations: MAViolations.length
   }
 }

@@ -1,7 +1,7 @@
-apiVersion: v1______________________createChannel-namespace-resource
+apiVersion: v1______________________createChannel-namespace-apiVersion
 kind: Namespace
 metadata:
-  name: ____________________________createChannel-name-resource
+  name: ____________________________createChannel-namespace-metadata-name
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: Channel
@@ -9,13 +9,13 @@ metadata:
   name: ____________________________createChannel-metadata-name
   namespace: _______________________createChannel-metadata-namespace
 spec:
-  pathname: null
+  pathname: ________________________createChannel-specHelmRepo-pathname
   configRef:
-    name: _
-  type: HelmRepo____________________createChannel-spec-type
+    name: __________________________createChannel-specHelmRepo-configRef-name
+  type: HelmRepo
 ---
-apiVersion: v1
+apiVersion: v1______________________createChannel-configMap-apiVersion
 kind: ConfigMap
 metadata:
-  name: null
-  namespace: namespace-name
+  name: ____________________________createChannel-configMap-metadata-name
+  namespace: _______________________createChannel-configMap-metadata-namespace

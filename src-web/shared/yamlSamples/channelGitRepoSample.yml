@@ -1,7 +1,7 @@
-apiVersion: v1______________________createChannel-namespace-resource
+apiVersion: v1______________________createChannel-namespace-apiVersion
 kind: Namespace
 metadata:
-  name: ____________________________createChannel-name-resource
+  name: ____________________________createChannel-metadata-name
 ---
 apiVersion: app.ibm.com/v1alpha1
 kind: Channel
@@ -10,4 +10,4 @@ metadata:
   namespace: _______________________createChannel-metadata-namespace
 spec:
   type: Github
-  pathname: null
+  pathname: ________________________createChannel-specGitRepo-pathname

@@ -122,6 +122,7 @@ class CreateResourceModal extends React.PureComponent {
     const tabsHandleEditorChange = this.handleEditorChange
     const tabsHandleParsingError = this.handleParsingError
     const tabsYaml = this.state.yaml
+    const errorMsg = this.state.createError && this.state.createError.message
     return (
       <div>
         <Button
@@ -188,12 +189,16 @@ class CreateResourceModal extends React.PureComponent {
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}
-            {this.state.createError && (
+            {(this.state.createError || errorMsg) && (
               <InlineNotification
                 kind="error"
                 title={msgs.get('error.create', this.context.locale)}
                 iconDescription=""
-                subtitle={msgs.get('error.create.reason', this.context.locale)}
+                // show default msg if errorMsg is not set
+                subtitle={
+                  errorMsg ||
+                  msgs.get('error.create.reason', this.context.locale)
+                }
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}

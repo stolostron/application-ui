@@ -291,7 +291,7 @@ class OverviewCards extends React.Component {
     }
     const handleKeyPress = (e, resource) => {
       if (e.key === 'Enter') {
-        handleClick(resource)
+        handleClick(e, resource)
       }
     }
 

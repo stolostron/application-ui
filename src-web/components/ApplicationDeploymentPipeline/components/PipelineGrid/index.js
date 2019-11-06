@@ -19,7 +19,8 @@ import {
   createSubscriptionPerChannel,
   subscriptionsUnderColumnsGrid,
   getLongestArray,
-  getTotalSubscriptions
+  getTotalSubscriptions,
+  sortChannelsBySubscriptionLength
 } from './utils'
 import {
   pullOutKindPerApplication,
@@ -460,6 +461,8 @@ const PipelineGrid = withLocale(
     breadcrumbItems
   }) => {
     const oneApplication = breadcrumbItems.length == 2
+
+    const sortedChannels = sortChannelsBySubscriptionLength(channels, applications)
     return (
       <div id="PipelineGrid">
         <div className="tableGridContainer">
@@ -470,12 +473,12 @@ const PipelineGrid = withLocale(
               updateAppDropDownList={updateAppDropDownList}
               appDropDownList={appDropDownList}
               hasAdminRole={hasAdminRole}
-              channelList={channels}
+              channelList={sortedChannels}
               oneApplication={oneApplication}
             />
           )}
           <ChannelColumnGrid
-            channelList={channels}
+            channelList={sortedChannels}
             applicationList={applications}
             getChannelResource={getChannelResource}
             appDropDownList={appDropDownList}

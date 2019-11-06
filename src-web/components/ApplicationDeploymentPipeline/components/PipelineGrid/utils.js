@@ -309,6 +309,46 @@ export const subscriptionPresentInGivenChannel = (
   }
 }
 
+//sort the channelList and return a new llist of channels with the channels having subscriptions showing first
+export const sortChannelsBySubscriptionLength = (channelList, applicationList) => {
+  const getSubscriptions = x => x.kind.toLowerCase() == 'subscription'
+  //find subscriptions with ns in the list of applications ns; ignore the rest, they are not going to be displayed
+  const getSubscrForNSIndex = (x, list) => x.namespace && R.findIndex(R.propEq('namespace', x.namespace))(list)
+
+  const getNbOfSubscriptionsForChannel = (x, appList) => {
+    let subscrChSize = 0
+    const relatedCh = x && R.pathOr(undefined, ['data', 'related'], x) || undefined
+
+    if (relatedCh) {
+
+      //check subscription nb and use the namespace if specified
+      const subscriptions = R.filter(getSubscriptions, relatedCh)
+
+      if (subscriptions) {
+        //get nb of subscriptions for that ns only
+        subscriptions.forEach(item => {
+          if (item && item.items && item.items instanceof Array) {
+
+            item.items.forEach(channelSubscription => {
+              if (getSubscrForNSIndex(channelSubscription, appList) >= 0) {
+                subscrChSize = subscrChSize + 1
+              }
+            })
+          }
+        })
+      }
+    }
+    return subscrChSize
+  }
+
+  const sortBy = function (a, b) {
+    return getNbOfSubscriptionsForChannel(b, applicationList) - getNbOfSubscriptionsForChannel(a, applicationList)
+  }; // sort by lenght of subscriptions
+  const channels = R.sort(sortBy, channelList)
+
+  return channels
+
+}
 // This method will create the rows of subscriptions for each application
 // that will fall under the channel columns
 export const createSubscriptionPerChannel = (channelList, subscriptions) => {
@@ -322,7 +362,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   for (var i = 0; i < channelList.length; i++) {
     const columnChannelName = `${channelList[i].namespace}/${
       channelList[i].name
-    }`
+      }`
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column

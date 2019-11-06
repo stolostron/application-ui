@@ -135,7 +135,8 @@ const handleEditResource = (dispatch, resourceType, data) => {
       helpLink: (data && data.helpLink) || '',
       name: (data && data.name) || '',
       namespace: (data && data.namespace) || '',
-      data: (data && data.data) || ''
+      data: (data && data.data) || '',
+      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
     })
   )
 }
@@ -446,6 +447,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       editResource(RESOURCE_TYPES.HCM_PLACEMENT_RULES, {
         name: name,
         namespace: namespace,
+        resourceDescriptionKey: 'modal.editresource.placementrule',
         data: data,
         helpLink:
           'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_placement_rules.html'

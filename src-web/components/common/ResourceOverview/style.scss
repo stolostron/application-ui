@@ -77,6 +77,18 @@
       border-bottom: none;
     }
 
+    .bx--accordion__content {
+      padding: 0;
+    }
+
+    .overview-content, .bx--module {
+      padding: 0 1.5rem;
+    }
+
+    .bx--accordion__item--active > .bx--accordion__content {
+      padding: 1rem 0rem 1.5rem;
+    }
+
     .bx--accordion__arrow {
       fill: #3d70b2;
     }

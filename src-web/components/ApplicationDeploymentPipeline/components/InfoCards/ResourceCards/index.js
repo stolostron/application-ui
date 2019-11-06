@@ -26,9 +26,10 @@ import {
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
-  getSearchLinkForAllApplications,
+  getSearchLinkForAllSubscriptions,
+  getSearchLinkForAllClusters,
   getSearchLinkForAllChannels,
-  getSearchLinkForAllSubscriptions
+  getSearchLinkForAllPlacementRules
 } from '../../../../common/ResourceOverview/utils'
 import { pullOutKindPerApplication } from '../../../utils'
 import { getNumItems } from '../../../../../../lib/client/resource-helper'
@@ -69,9 +70,10 @@ const getResourceCardsData = (
   isSingleApplicationView,
   applicationName,
   applicationNamespace,
-  targetLink,
   targetLinkForSubscriptions,
+  targetLinkForClusters,
   targetLinkForChannels,
+  targetLinkForPlacementRules,
   locale
 ) => {
   // const applications = getNumItems(HCMApplicationList)
@@ -150,7 +152,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
-      targetLink,
+      targetLink: targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -187,7 +189,9 @@ const getResourceCardsData = (
           : msgs.get('dashboard.card.deployment.channels', locale),
       count: channels,
       targetLink: targetLinkForChannels,
-      textKey: msgs.get('dashboard.card.deployment.total', locale)
+      textKey: isSingleApplicationView
+        ? msgs.get('dashboard.card.deployment.used', locale)
+        : msgs.get('dashboard.card.deployment.total', locale)
     },
     {
       msgKey:
@@ -195,8 +199,10 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.placementRule', locale)
           : msgs.get('dashboard.card.deployment.placementRules', locale),
       count: placementRules,
-      targetLink,
-      textKey: msgs.get('dashboard.card.deployment.total', locale)
+      targetLink: targetLinkForPlacementRules,
+      textKey: isSingleApplicationView
+        ? msgs.get('dashboard.card.deployment.used', locale)
+        : msgs.get('dashboard.card.deployment.total', locale)
     }
   ]
 
@@ -221,21 +227,30 @@ class ResourceCards extends React.Component {
     const applicationName = getApplicationName(HCMApplicationList)
     const applicationNamespace = getApplicationNamespace(HCMApplicationList)
 
-    const targetLink = isSingleApplicationView
-      ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName)
-      })
-      : getSearchLinkForAllApplications()
     const targetLinkForSubscriptions = isSingleApplicationView
       ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName)
+        name: encodeURIComponent(applicationName),
+        showRelated: 'subscription'
       })
       : getSearchLinkForAllSubscriptions()
+    const targetLinkForClusters = isSingleApplicationView
+      ? getSearchLinkForOneApplication({
+        name: encodeURIComponent(applicationName),
+        showRelated: 'cluster'
+      })
+      : getSearchLinkForAllClusters()
     const targetLinkForChannels = isSingleApplicationView
       ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName)
+        name: encodeURIComponent(applicationName),
+        showRelated: 'channel'
       })
       : getSearchLinkForAllChannels()
+    const targetLinkForPlacementRules = isSingleApplicationView
+      ? getSearchLinkForOneApplication({
+        name: encodeURIComponent(applicationName),
+        showRelated: 'placementrule'
+      })
+      : getSearchLinkForAllPlacementRules()
 
     const resourceCardsData = getResourceCardsData(
       HCMApplicationList,
@@ -244,23 +259,23 @@ class ResourceCards extends React.Component {
       isSingleApplicationView,
       applicationName,
       applicationNamespace,
-      targetLink,
       targetLinkForSubscriptions,
+      targetLinkForClusters,
       targetLinkForChannels,
+      targetLinkForPlacementRules,
       locale
     )
 
-    // const onClick = i => {
-    //     if (resourceCardsData[i].targetLink) {
-    //         window.open(resourceCardsData[i].targetLink, '_blank')
-    //     }
-    // }
-
-    // const onKeyPress = (e, i) => {
-    //     if (e.key === 'Enter') {
-    //         onClick(i)
-    //     }
-    // }
+    const handleClick = (e, resource) => {
+      if (resource.targetLink) {
+        window.open(resource.targetLink, '_blank')
+      }
+    }
+    const handleKeyPress = (e, resource) => {
+      if (e.key === 'Enter') {
+        handleClick(e, resource)
+      }
+    }
 
     return (
       <div className={'resource-cards-info' + singleAppStyle}>
@@ -270,11 +285,13 @@ class ResourceCards extends React.Component {
             <React.Fragment key={key}>
               <div
                 key={card}
-                className="single-card"
+                className={
+                  card.targetLink ? 'single-card clickable' : 'single-card'
+                }
                 role="button"
                 tabIndex="0"
-                // onClick={onClick(key)}
-                // onKeyPress={onKeyPress(key)}
+                onClick={e => handleClick(e, card)}
+                onKeyPress={e => handleKeyPress(e, card)}
               >
                 <div className="card-count">{card.count}</div>
                 <div className="card-type">{card.msgKey}</div>

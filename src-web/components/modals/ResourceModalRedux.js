@@ -123,7 +123,8 @@ class ResourceModal extends React.PureComponent {
       label,
       locale,
       resourceType,
-      helpLink
+      helpLink,
+      resourceDescriptionKey
     } = this.props
     return (
       <div
@@ -149,6 +150,12 @@ class ResourceModal extends React.PureComponent {
           role="region"
           aria-label={msgs.get(label.heading, locale)}
         >
+          {resourceDescriptionKey && (
+            <div className="yaml-instructions-edit">
+              {msgs.get(resourceDescriptionKey, this.context.locale)}
+            </div>
+          )}
+
           {helpLink && (
             <div className="help-link-edit">
               <a href={helpLink} target="_blank">

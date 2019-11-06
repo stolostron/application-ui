@@ -6,6 +6,8 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'scss/variables';
 
 #PipelineGrid {
   .firstTotalTile {
@@ -58,6 +60,34 @@
     box-shadow: none;
   }
 
+  .emptyChannelState {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 1rem;
+    width: 100%;
+    height: 250px;
+    background: #ffffff;
+    background-color: #ffffff;
+  }
+
+  .emptyChannelStateDiv {
+    width: 20%;
+    height: 232px;
+    background: #ffffff;
+    background-color: #ffffff;
+    vertical-align: middle;
+    margin-right: -50%;
+  }
+
+  .no-res-icon {
+    margin-top: 50px;
+    margin-right: 15px;
+    margin-left: 30%;
+    height: 90px;
+    width: 90px;
+    display: inline-block;
+  }
+
   .applicationTile {
     background: #ffffff;
     color: black;
@@ -86,6 +116,49 @@
     display: inline-block;
   }
 
+  .grid-item-deployable {
+    margin-right: 20px;
+  }
+
+  .grid-item {
+    margin-bottom: $overview-card-margin-bottom;
+    background-color: $color__white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    margin-left: 0px;
+    min-width: 450px;
+    width: 100%;
+    min-height: 250px;
+
+    &.replaced {
+      animation: appear 400ms ease-in-out;
+    }
+
+    .masonry-class.dragging &:hover .grid-menu {
+      visibility: hidden;
+    }
+  }
+
+  .noResDescriptionText {
+    padding-right: 15px;
+    padding-top: 70px;
+    display: inline-block;
+    font-size: 12px;
+    position: absolute;
+    width: 30%;
+  }
+
+  .noResTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: black;
+  }
+
+  .noResDescription {
+    font-size: 12px;
+    padding-top: 10px;
+  }
+
   .subDescriptionText {
     padding-right: 15px;
     padding-top: 70px;
@@ -103,6 +176,26 @@
   .noSubDescription {
     font-size: 12px;
     padding-top: 10px;
+  }
+
+  .deployment-highlights-terminology-docs {
+    text-align: right;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+  }
+
+  .deployment-highlights-terminology-docs-text {
+    cursor: pointer;
+    display: inline-block;
+    padding: 30px 10px 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #3d70b2;
+  }
+
+  .deployment-highlights-terminology-docs-icon {
+    cursor: pointer;
   }
 
   .totalApplications {

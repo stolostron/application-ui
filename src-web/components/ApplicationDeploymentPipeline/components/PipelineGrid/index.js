@@ -443,23 +443,26 @@ const ChannelColumnGrid = (
 }
 
 const PipelineGrid = withLocale(
-  ({
-    applications,
-    channels,
-    appSubscriptions,
-    getChannelResource,
-    getSubscriptionResource,
-    getPlacementRuleResource,
-    openSubscriptionModal,
-    setSubscriptionModalHeaderInfo,
-    setCurrentDeployableSubscriptionData,
-    setCurrentsubscriptionModalData,
-    updateAppDropDownList,
-    appDropDownList,
-    bulkSubscriptionList,
-    hasAdminRole,
-    breadcrumbItems
-  }) => {
+  (
+    {
+      applications,
+      channels,
+      appSubscriptions,
+      getChannelResource,
+      getSubscriptionResource,
+      getPlacementRuleResource,
+      openSubscriptionModal,
+      setSubscriptionModalHeaderInfo,
+      setCurrentDeployableSubscriptionData,
+      setCurrentsubscriptionModalData,
+      updateAppDropDownList,
+      appDropDownList,
+      bulkSubscriptionList,
+      hasAdminRole,
+      breadcrumbItems
+    },
+    locale
+  ) => {
     const oneApplication = breadcrumbItems.length == 2
 
     const sortedChannels = sortChannelsBySubscriptionLength(
@@ -468,8 +471,55 @@ const PipelineGrid = withLocale(
     )
     return (
       <div id="PipelineGrid">
+        {sortedChannels.length == 0 && (
+          <div className="grid-item grid-item-deployable">
+            <img
+              className="no-res-icon"
+              src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
+              alt={msgs.get('description.noDeplResDescr', locale)}
+            />
+            <div className="noResDescriptionText">
+              <div className="noResTitle">
+                {msgs.get('description.noChannels', locale)}
+              </div>
+              <div className="noResDescription">
+                {msgs.get('description.noChannelsDescr', locale)}
+              </div>
+              <div className="deployment-highlights-terminology-docs">
+                <a
+                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/overview.html"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <span className="deployment-highlights-terminology-docs-text">
+                    View documentation
+                  </span>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="deployment-highlights-terminology-docs-icon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--launch"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title />
+                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
+                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
+                    <path d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
         <div className="tableGridContainer">
-          {!oneApplication && (
+          {!oneApplication &&
+            sortedChannels.length > 0 && (
             <LeftColumnForApplicationNames
               appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
               applications={applications}
@@ -480,23 +530,25 @@ const PipelineGrid = withLocale(
               oneApplication={oneApplication}
             />
           )}
-          <ChannelColumnGrid
-            channelList={sortedChannels}
-            applicationList={applications}
-            getChannelResource={getChannelResource}
-            appDropDownList={appDropDownList}
-            bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
-            hasAdminRole={hasAdminRole}
-            oneApplication={oneApplication}
-            openSubscriptionModal={openSubscriptionModal}
-            setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
-            setCurrentDeployableSubscriptionData={
-              setCurrentDeployableSubscriptionData
-            }
-            setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
-            getSubscriptionResource={getSubscriptionResource}
-            getPlacementRuleResource={getPlacementRuleResource}
-          />
+          {sortedChannels.length > 0 && (
+            <ChannelColumnGrid
+              channelList={sortedChannels}
+              applicationList={applications}
+              getChannelResource={getChannelResource}
+              appDropDownList={appDropDownList}
+              bulkSubscriptionList={bulkSubscriptionList} // the bulk subscriptions list that came back only ones found in applications
+              hasAdminRole={hasAdminRole}
+              oneApplication={oneApplication}
+              openSubscriptionModal={openSubscriptionModal}
+              setSubscriptionModalHeaderInfo={setSubscriptionModalHeaderInfo}
+              setCurrentDeployableSubscriptionData={
+                setCurrentDeployableSubscriptionData
+              }
+              setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
+              getSubscriptionResource={getSubscriptionResource}
+              getPlacementRuleResource={getPlacementRuleResource}
+            />
+          )}
         </div>
       </div>
     )

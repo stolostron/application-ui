@@ -548,21 +548,23 @@ class ApplicationDeploymentPipeline extends React.Component {
             )}
           </div>
         </div>
-        <div className="searchAndButtonContainer">
-          <Search
-            className="deploymentPipelineSearch"
-            light
-            name=""
-            defaultValue=""
-            labelText={msgs.get('actions.searchApplications', locale)}
-            closeButtonLabelText=""
-            placeHolderText={msgs.get('actions.searchApplications', locale)}
-            onChange={event => {
-              actions.setDeploymentSearch(event.target.value)
-            }}
-            id="search-1"
-          />
-        </div>
+        {!showHeaderLinks && (
+          <div className="searchAndButtonContainer">
+            <Search
+              className="deploymentPipelineSearch"
+              light
+              name=""
+              defaultValue=""
+              labelText={msgs.get('actions.searchApplications', locale)}
+              closeButtonLabelText=""
+              placeHolderText={msgs.get('actions.searchApplications', locale)}
+              onChange={event => {
+                actions.setDeploymentSearch(event.target.value)
+              }}
+              id="search-1"
+            />
+          </div>
+        )}
         <PipelineGrid
           applications={applications}
           channels={channels}

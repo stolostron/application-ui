@@ -462,7 +462,10 @@ const PipelineGrid = withLocale(
   }) => {
     const oneApplication = breadcrumbItems.length == 2
 
-    const sortedChannels = sortChannelsBySubscriptionLength(channels, applications)
+    const sortedChannels = sortChannelsBySubscriptionLength(
+      channels,
+      applications
+    )
     return (
       <div id="PipelineGrid">
         <div className="tableGridContainer">

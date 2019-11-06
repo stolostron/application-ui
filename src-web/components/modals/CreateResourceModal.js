@@ -36,7 +36,8 @@ const initialState = {
   processing: false,
   yaml: '',
   yamlParsingError: null,
-  createError: null
+  createError: null,
+  dirty: false
 }
 
 // A hacky way to delay making the fetch call
@@ -106,7 +107,9 @@ class CreateResourceModal extends React.PureComponent {
     })
   };
 
-  handleEditorChange = yaml => this.setState({ yaml });
+  handleEditorChange = yaml => {
+    this.setState({ yaml, dirty: true })
+  };
 
   handleParsingError = yamlParsingError => this.setState({ yamlParsingError });
 
@@ -218,7 +221,9 @@ class CreateResourceModal extends React.PureComponent {
                           validator={validator}
                           onYamlChange={tabsHandleEditorChange}
                           handleParsingError={tabsHandleParsingError}
-                          yaml={tabsYaml ? tabsYaml : tabsSampleContent[i]}
+                          yaml={
+                            this.state.dirty ? tabsYaml : tabsSampleContent[i]
+                          }
                         />
                       </Tab>
                     )
@@ -230,7 +235,7 @@ class CreateResourceModal extends React.PureComponent {
                 validator={validator}
                 onYamlChange={this.handleEditorChange}
                 handleParsingError={this.handleParsingError}
-                yaml={this.state.yaml ? this.state.yaml : tabsSampleContent[0]}
+                yaml={this.state.dirty ? this.state.yaml : tabsSampleContent[0]}
               />
             )}
 

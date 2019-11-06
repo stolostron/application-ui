@@ -88,6 +88,7 @@ const ApplicationDeploymentSummary = withLocale(
               <div className="title">
                 {msgs.get('recent.deployments.chart.title', locale)}
               </div>
+              <div />
               <div>
                 <img
                   className="no-res-icon"
@@ -96,10 +97,10 @@ const ApplicationDeploymentSummary = withLocale(
                 />
                 <div className="noResDescriptionText">
                   <div className="noResTitle">
-                    {msgs.get('description.noDeplRes', locale)}
+                    {msgs.get('description.noChannels', locale)}
                   </div>
                   <div className="noResDescription">
-                    {msgs.get('description.noDeplResDescr', locale)}
+                    {msgs.get('description.noChannelsDescr', locale)}
                   </div>
                 </div>
               </div>

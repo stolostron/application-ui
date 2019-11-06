@@ -189,7 +189,9 @@ const getResourceCardsData = (
           : msgs.get('dashboard.card.deployment.channels', locale),
       count: channels,
       targetLink: targetLinkForChannels,
-      textKey: msgs.get('dashboard.card.deployment.total', locale)
+      textKey: isSingleApplicationView
+        ? msgs.get('dashboard.card.deployment.used', locale)
+        : msgs.get('dashboard.card.deployment.total', locale)
     },
     {
       msgKey:
@@ -198,7 +200,9 @@ const getResourceCardsData = (
           : msgs.get('dashboard.card.deployment.placementRules', locale),
       count: placementRules,
       targetLink: targetLinkForPlacementRules,
-      textKey: msgs.get('dashboard.card.deployment.total', locale)
+      textKey: isSingleApplicationView
+        ? msgs.get('dashboard.card.deployment.used', locale)
+        : msgs.get('dashboard.card.deployment.total', locale)
     }
   ]
 

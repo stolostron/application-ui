@@ -163,7 +163,6 @@
   "dashboard.card.deployment.total": "Total",
   "dashboard.card.deployment.totalSubscription": "Total subscription",
   "dashboard.card.deployment.totalSubscriptions": "Total subscriptions",
-  "dashboard.card.deployment.used": "Used",
   "dashboard.card.deployments": "Resources",
   "dashboard.card.cpu": "CPU health",
   "dashboard.card.helmReleases": "Helm releases",

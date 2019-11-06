@@ -14,6 +14,12 @@
     justify-content: space-between;
     align-items: center;
 
+    .clickable {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
     .card-count {
         line-height: 44px;
         font-size: 34px;

@@ -1,116 +1,69 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * 5737-E67
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure
+ * US Government Users Restricted Rights - Use, duplication or disclosure 
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import '../../../scss/variables';
 
-#DeploymentPipeline {
-  padding-bottom: 20px;
+.overview-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -.625rem;
+  margin-right: -.625rem;
 
-  .bx--tooltip__trigger {
-    font-size: 0.75rem;
+  .bx--module {
+    flex: 1 0 50%;
+    max-width: 100%;
+
+    .bx--module__inner {
+      flex: 1 0 50%;
+      position: relative;
+      min-height: 250px;
+      overflow: auto;
+
+      .yaml-editor-button {
+        position: relative;
+        float: right;
+        margin: -2.5rem 0.5rem 0 0;
+
+        button {
+          margin: 0 0.3rem;
+          width: 5.5rem;
+          font-size: 0.7rem;
+        }
+
+        .read-only-button {
+          background-color: $ibm-colors__gray--40;
+        }
+      }
+
+      .bx--module__content {
+        .bx--structured-list-tbody {
+          .bx--structured-list-row {
+            .bx--structured-list-td:nth-child(2) {
+              max-width: 20rem;
+              word-wrap: break-word;
+            }
+          }
+        }
+      }
+
+      .bx--structured-list-th:first-child {
+        min-width: 150px;
+      }
+    }
   }
 
-  .deploymentPipelineSearch {
-    margin-top: 20px;
-    display: inline-block;
-  }
-
-  .searchAndButtonContainer {
-    display: flex;
-  }
-
-  .card-container-title {
-    font-weight: 700;
-  }
-
-  .pipelineHeader,
-  .resource-list-header {
+  .overview-content-header {
     font-size: 18px;
+    margin-bottom: 1rem;
   }
 
-  // .AddResourceButton {
-  //   padding: 20px;
-  //   display: inline-block;
-  //   margin: 20px;
-
-  // }
-
-  .addChannelIcon {
-    fill: white;
-    margin-left: 20px;
-  }
-
-  .bx--btn {
-    background-color: #f4f7fb;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #4a79b7;
-    color: #4a79b7;
-    height: 40px;
-  }
-
-  .bx--btn__icon {
-    fill: #4a79b7;
-  }
-
-  // overrides for the pipeline buttons
-  .AddResourceButton {
-    display: inline-block;
-    margin: 5px;
-    width: 95%;
-  }
-
-  .AddResourceButton > * > .bx--btn {
-    text-align: left;
-    width: 100%;
-  }
-
-  .AddResourceButton > * > .bx--btn .bx--btn__icon {
-    float: right;
-  }
-
-  .bx--modal__buttons-container .bx--btn--primary {
-    background-color: #4a79b7;
-    color: #f4f7fb;
-  }
-
-  .resource-cards-container {
-    width: 100%;
-    height: 180px;
-    margin-bottom: 20px;
-  }
-
-  .resource-cards-info-container {
-    width: 73%;
-    height: 100%;
-    float: left;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
-  }
-
-  .resource-cards-create-container {
-    width: 25%;
-    height: 100%;
-    float: right;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
-  }
-
-  .resource-list-container {
-    width: 100%;
-    margin-top: 1em;
-    margin-bottom: 2em;
-  }
-
-  .resource-list-table {
+  .overview-content-additional-details {
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
@@ -121,7 +74,20 @@
     }
 
     .bx--accordion__item {
-      border: none;
+      border-bottom: none;
+    }
+
+    .bx--accordion__content {
+      padding: 0;
+    }
+
+    .overview-content,
+    .bx--module {
+      padding: 0 1.5rem;
+    }
+
+    .bx--accordion__item--active > .bx--accordion__content {
+      padding: 1rem 0rem 1.5rem;
     }
 
     .bx--accordion__arrow {
@@ -129,62 +95,63 @@
     }
   }
 
-  .app-info-and-dashboard-links {
+  .module-spinner {
     position: absolute;
-    top: calc(#{$secondary-header-top} + 32px);
-    right: 10%;
-    z-index: 1001;
-    background-color: $color__white;
-    display: inline-block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
   }
 
-  .app-info-and-dashboard-links .bx--link {
-    text-decoration: none;
-    color: #3d70b2;
-    font-family: "IBM Plex Sans";
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
+  .overview-cards-info-container {
+    width: 100%;
+    height: 180px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 15px 25px;
   }
 
-  .app-info-and-dashboard-links-separator {
-    border-left: 2px solid $color__gray-1;
-    margin: 0 15px 0 15px;
+  &-right {
+    flex: 1 0 50%;
+    display: flex;
+    flex-direction: column;
+
+    .bx--module {
+      min-height: 25rem;
+    }
+
+    .yamlEditorContainer {
+      height: calc(100% - 3rem);
+    }
   }
 
-  .app-info-icon {
-    margin: 0 10px 0 0;
-    vertical-align: sub;
+  &-bottom {
+    width: 100%;
+    flex: 1 0 100%;
   }
 
-  .app-dashboard-icon {
-    margin: 0 10px 0 0;
-    vertical-align: sub;
+  &-with-padding {
+    padding: 0 10px 30px 10px;
   }
 
-  .resource-diagram-title {
-    font-size: 1.2rem;
-    line-height: 1.25;
-    font-weight: 300;
-    padding: 20px 0 20px 0;
+  &-with-padding-except-left {
+    padding: 0 10px 30px 0;
   }
 
-  .perfmonAction {
-    border-width: 2px;
-    border-style: solid;
-    border-color: #4a79b7;
-    color: #3d70b2;
-    width: 161px;
-    height: 32px;
-    text-align: center;
-    padding: 3px 10px;
-    position: absolute;
-    top: calc(2.082rem);
-    right: 0%;
+  b {
+    font-weight: bold;
   }
 
-  .app-dashboard-icon-icam {
-    margin: 0px 0px 0 10px;
-    vertical-align: sub;
+  li {
+    margin-bottom: .3rem;
+  }
+
+  code {
+    font-size: .6rem;
+  }
+
+  .bx--snippet.bx--snippet--code {
+    margin-bottom: .3rem;
   }
 }

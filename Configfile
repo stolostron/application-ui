@@ -1,35 +1,54 @@
 GIT_REMOTE_URL = $(shell git config --get remote.origin.url)
 DOCKER_SERVER ?=
 DOCKER_USERNAME ?= token
-IMAGE_DESCRIPTION =
-IMAGE_NAME = mcm-application-ui
 IMAGE_REPO ?=
 RELEASE_TAG ?= latest
 HOST ?= 127.0.0.1
 APP_PORT ?= 3000
 CONTAINER_PORT ?= 3000
-ARCH = $(shell uname -m)
 DOCKER_FLAG =
 MAX_IMAGE_SIZE=1000000000
 
+ARCH = $(shell uname -m)
 ifeq ($(ARCH), x86_64)
-	IMAGE_NAME_ARCH = $(IMAGE_NAME)-amd64
+	IMAGE_NAME_ARCH = $(DOCKER_IMAGE)-amd64
 else
-	IMAGE_NAME_ARCH = $(IMAGE_NAME)-$(ARCH)
+	IMAGE_NAME_ARCH = $(DOCKER_IMAGE)-$(ARCH)
 endif
 MANIFEST_VERSION ?= v0.7.0
 DEFAULT_S390X_IMAGE ?= ibmcom/pause-s390x:3.0
 IMAGE_NAME_S390X ?= ${IMAGE_REPO}/${IMAGE_NAME}-s390x:${RELEASE_TAG}
 
+IMAGE_DESCRIPTION ="mcm-application-ui"
+
 #new additions for the UBI image
 #Variables for redhat required labels
-IMAGE_DISPLAY_NAME=MCM Console
-IMAGE_MAINTAINER=ericabr@us.ibm.com
+IMAGE_DISPLAY_NAME=MCM Application Lifecycle UI
+IMAGE_MAINTAINER=popescu@ca.ibm.com
 IMAGE_VENDOR=IBM
 IMAGE_VERSION=latest
 IMAGE_SUMMARY=$(IMAGE_DESCRIPTION)
-IMAGE_OPENSHIFT_TAGS=mcm console
+IMAGE_OPENSHIFT_TAGS=mcm application lifecycle
 
 DOCKER_EDGE_REGISTRY ?= hyc-cloud-private-edge-docker-local.artifactory.swg-devops.com
 DOCKER_SCRATCH_REGISTRY ?= hyc-cloud-private-scratch-docker-local.artifactory.swg-devops.com
 DOCKER_INTEGRATION_REGISTRY ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devops.com
+
+
+# This part of configurations are used by build-harness, DONOT remove them
+DOCKER_REGISTRY ?= hyc-cloud-private-integration-docker-local.artifactory.swg-devops.com
+DOCKER_NAMESPACE ?= ibmcom
+IMAGE_REPO ?= $(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)
+DOCKER_FILE = Dockerfile
+DOCKER_BUILD_OPTS = --build-arg "VCS_REF=$(VCS_REF)" \
+           --build-arg "VCS_URL=$(GIT_REMOTE_URL)" \
+           --build-arg "DOCKER_IMAGE=$(DOCKER_IMAGE)" \
+           --build-arg "IMAGE_NAME=$(IMAGE_NAME_ARCH)" \
+           --build-arg "IMAGE_DESCRIPTION=$(IMAGE_DESCRIPTION)"
+GIT_COMMIT := $(shell git rev-parse --short HEAD)
+VCS_REF := $(if $(WORKING_CHANGES),$(GIT_COMMIT)-$(BUILD_DATE),$(GIT_COMMIT))
+APP_VERSION ?= $(SEMVERSION)
+IMAGE_VERSION ?= $(APP_VERSION)-$(GIT_COMMIT)
+DOCKER_IMAGE = mcm-application-ui
+DOCKER_URI = $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(APP_VERSION)
+# End of the build-harness configurations

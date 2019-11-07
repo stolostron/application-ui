@@ -86,7 +86,9 @@ router.get('*', (req, res) => {
       })
     }
 
-    const isICAMRunning = serviceDiscovery.serviceEnabled('icam-ui-api')
+    const isICAMRunning = serviceDiscovery.serviceEnabled(
+      'ibmcloudappmgmt-amui'
+    )
     const isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
     //const isCEMRunning = serviceDiscovery.serviceEnabled('cem')
     //const isGrafanaRunning = serviceDiscovery.serviceEnabled(

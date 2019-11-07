@@ -36,7 +36,8 @@ const initialState = {
   processing: false,
   yaml: '',
   yamlParsingError: null,
-  createError: null
+  createError: null,
+  dirty: false
 }
 
 // A hacky way to delay making the fetch call
@@ -106,7 +107,9 @@ class CreateResourceModal extends React.PureComponent {
     })
   };
 
-  handleEditorChange = yaml => this.setState({ yaml });
+  handleEditorChange = yaml => {
+    this.setState({ yaml, dirty: true })
+  };
 
   handleParsingError = yamlParsingError => this.setState({ yamlParsingError });
 
@@ -122,6 +125,7 @@ class CreateResourceModal extends React.PureComponent {
     const tabsHandleEditorChange = this.handleEditorChange
     const tabsHandleParsingError = this.handleParsingError
     const tabsYaml = this.state.yaml
+    const errorMsg = this.state.createError && this.state.createError.message
     return (
       <div>
         <Button
@@ -188,12 +192,16 @@ class CreateResourceModal extends React.PureComponent {
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}
-            {this.state.createError && (
+            {(this.state.createError || errorMsg) && (
               <InlineNotification
                 kind="error"
                 title={msgs.get('error.create', this.context.locale)}
                 iconDescription=""
-                subtitle={msgs.get('error.create.reason', this.context.locale)}
+                // show default msg if errorMsg is not set
+                subtitle={
+                  errorMsg ||
+                  msgs.get('error.create.reason', this.context.locale)
+                }
                 onCloseButtonClick={this.handleNotificationClosed}
               />
             )}
@@ -213,7 +221,9 @@ class CreateResourceModal extends React.PureComponent {
                           validator={validator}
                           onYamlChange={tabsHandleEditorChange}
                           handleParsingError={tabsHandleParsingError}
-                          yaml={tabsYaml ? tabsYaml : tabsSampleContent[i]}
+                          yaml={
+                            this.state.dirty ? tabsYaml : tabsSampleContent[i]
+                          }
                         />
                       </Tab>
                     )
@@ -225,7 +235,7 @@ class CreateResourceModal extends React.PureComponent {
                 validator={validator}
                 onYamlChange={this.handleEditorChange}
                 handleParsingError={this.handleParsingError}
-                yaml={this.state.yaml ? this.state.yaml : tabsSampleContent[0]}
+                yaml={this.state.dirty ? this.state.yaml : tabsSampleContent[0]}
               />
             )}
 

@@ -275,9 +275,15 @@ export const formatToChannel = (subscriptionList, bulkSubscription) => {
 
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {
-    return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
-      params.name
-    }"}`
+    if (params.showRelated) {
+      return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
+        params.name
+      }"}&showrelated=${params.showRelated}`
+    } else {
+      return `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${
+        params.name
+      }"}`
+    }
   }
   return ''
 }
@@ -290,6 +296,14 @@ export const getSearchLinkForAllSubscriptions = () => {
   return '/multicloud/search?filters={"textsearch":"kind%3Asubscription"}'
 }
 
+export const getSearchLinkForAllClusters = () => {
+  return '/multicloud/search?filters={"textsearch":"kind%3Acluster"}'
+}
+
 export const getSearchLinkForAllChannels = () => {
   return '/multicloud/search?filters={"textsearch":"kind%3Achannel"}'
+}
+
+export const getSearchLinkForAllPlacementRules = () => {
+  return '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule"}'
 }

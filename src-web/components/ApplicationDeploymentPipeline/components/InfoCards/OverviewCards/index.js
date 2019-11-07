@@ -27,8 +27,6 @@ import {
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
-  getSearchLinkForAllApplications,
-  getSearchLinkForAllSubscriptions,
   getNumPolicyViolationsForList
 } from '../../../../common/ResourceOverview/utils'
 import { pullOutKindPerApplication } from '../../../utils'
@@ -70,8 +68,10 @@ const getOverviewCardsData = (
   isSingleApplicationView,
   applicationName,
   applicationNamespace,
-  targetLink,
   targetLinkForSubscriptions,
+  targetLinkForClusters,
+  targetLinkForPods,
+  targetLinkForPolicyViolations,
   locale
 ) => {
   // const applications = getNumItems(HCMApplicationList)
@@ -154,7 +154,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
-      targetLink,
+      targetLink: targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -190,7 +190,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.pod', locale)
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
-      targetLink,
+      targetLink: targetLinkForPods,
       subtextKeyFirst: podData.running
         .toString()
         .concat(' ', msgs.get('dashboard.card.deployment.running', locale)),
@@ -208,7 +208,7 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.policy.violations', locale),
       count: policyViolations,
       alert: policyViolations > 0 ? true : false,
-      targetLink,
+      targetLink: targetLinkForPolicyViolations,
       subtextKeyFirst: policyViolationData.VAViolations.toString().concat(
         ' ',
         policyViolationData.VAViolations == 1
@@ -228,8 +228,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.incident', locale)
           : msgs.get('dashboard.card.deployment.incidents', locale),
       count: incidents,
-      alert: incidents > 0 ? true : false,
-      targetLink
+      alert: incidents > 0 ? true : false
     }
   ]
 
@@ -254,16 +253,22 @@ class OverviewCards extends React.Component {
     const applicationName = getApplicationName(HCMApplicationList)
     const applicationNamespace = getApplicationNamespace(HCMApplicationList)
 
-    const targetLink = isSingleApplicationView
-      ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName)
-      })
-      : getSearchLinkForAllApplications()
-    const targetLinkForSubscriptions = isSingleApplicationView
-      ? getSearchLinkForOneApplication({
-        name: encodeURIComponent(applicationName)
-      })
-      : getSearchLinkForAllSubscriptions()
+    const targetLinkForSubscriptions = getSearchLinkForOneApplication({
+      name: encodeURIComponent(applicationName),
+      showRelated: 'subscription'
+    })
+    const targetLinkForClusters = getSearchLinkForOneApplication({
+      name: encodeURIComponent(applicationName),
+      showRelated: 'cluster'
+    })
+    const targetLinkForPods = getSearchLinkForOneApplication({
+      name: encodeURIComponent(applicationName),
+      showRelated: 'pod'
+    })
+    const targetLinkForPolicyViolations = getSearchLinkForOneApplication({
+      name: encodeURIComponent(applicationName),
+      showRelated: 'mutationpolicy,vulnerabilitypolicy'
+    })
 
     const overviewCardsData = getOverviewCardsData(
       HCMApplicationList,
@@ -272,22 +277,23 @@ class OverviewCards extends React.Component {
       isSingleApplicationView,
       applicationName,
       applicationNamespace,
-      targetLink,
       targetLinkForSubscriptions,
+      targetLinkForClusters,
+      targetLinkForPods,
+      targetLinkForPolicyViolations,
       locale
     )
 
-    // const onClick = i => {
-    //     if (overviewCardsData[i].targetLink) {
-    //         window.open(overviewCardsData[i].targetLink, '_blank')
-    //     }
-    // }
-
-    // const onKeyPress = (e, i) => {
-    //     if (e.key === 'Enter') {
-    //         onClick(i)
-    //     }
-    // }
+    const handleClick = (e, resource) => {
+      if (resource.targetLink) {
+        window.open(resource.targetLink, '_blank')
+      }
+    }
+    const handleKeyPress = (e, resource) => {
+      if (e.key === 'Enter') {
+        handleClick(e, resource)
+      }
+    }
 
     return (
       <div className={'overview-cards-info' + singleAppStyle}>
@@ -297,11 +303,13 @@ class OverviewCards extends React.Component {
             <React.Fragment key={key}>
               <div
                 key={card}
-                className="single-card"
+                className={
+                  card.targetLink ? 'single-card clickable' : 'single-card'
+                }
                 role="button"
                 tabIndex="0"
-                // onClick={onClick(key)}
-                // onKeyPress={onKeyPress(key)}
+                onClick={e => handleClick(e, card)}
+                onKeyPress={e => handleKeyPress(e, card)}
               >
                 <div className={card.alert ? 'card-count alert' : 'card-count'}>
                   {card.count}

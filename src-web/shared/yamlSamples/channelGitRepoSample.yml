@@ -9,5 +9,5 @@ metadata:
   name: ____________________________createChannel-metadata-name
   namespace: _______________________createChannel-metadata-namespace
 spec:
-  type: Github
+  type: GitHub
   pathname: ________________________createChannel-specGitRepo-pathname

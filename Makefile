@@ -15,6 +15,10 @@ SHELL := /bin/bash
 
 NAMESPACE ?= kube-system
 DOCKER_PASS ?= $(DOCKER_PASSWORD)
+$(eval WORKING_CHANGES := $(shell git status --porcelain))
+$(eval BUILD_DATE := $(shell date +%m/%d@%H:%M:%S))
+$(eval GIT_COMMIT := $(shell git rev-parse --short HEAD))
+$(eval VCS_REF := $(if $(WORKING_CHANGES),$(GIT_COMMIT)-$(BUILD_DATE),$(GIT_COMMIT)))
 DOCKER_BUILD_OPTS= --build-arg "VCS_REF=$(VCS_REF)" \
            --build-arg "VCS_URL=$(GIT_REMOTE_URL)" \
            --build-arg "IMAGE_NAME=$(IMAGE_NAME)" \
@@ -25,6 +29,7 @@ DOCKER_BUILD_OPTS= --build-arg "VCS_REF=$(VCS_REF)" \
 					--build-arg "IMAGE_VENDOR=$(IMAGE_VENDOR)" \
 					--build-arg "IMAGE_VERSION=$(IMAGE_VERSION)" \
 					--build-arg "IMAGE_DESCRIPTION=$(IMAGE_DESCRIPTION)" \
+					--build-arg "IMAGE_RELEASE=$(VCS_REF)" \
 					--build-arg "IMAGE_SUMMARY=$(IMAGE_SUMMARY)" \
 					--build-arg "IMAGE_OPENSHIFT_TAGS=$(IMAGE_OPENSHIFT_TAGS)"
 

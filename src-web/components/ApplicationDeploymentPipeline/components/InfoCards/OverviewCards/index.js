@@ -191,15 +191,24 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
       targetLink: targetLinkForPods,
-      subtextKeyFirst: podData.running
-        .toString()
-        .concat(' ', msgs.get('dashboard.card.deployment.running', locale)),
-      subtextKeySecond: podData.failed
-        .toString()
-        .concat(
-          ' ',
-          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-        )
+      subtextKeyFirst:
+        podData.running > 0 || podData.failed > 0
+          ? podData.running
+            .toString()
+            .concat(
+              ' ',
+              msgs.get('dashboard.card.deployment.running', locale)
+            )
+          : '',
+      subtextKeySecond:
+        podData.running > 0 || podData.failed > 0
+          ? podData.failed
+            .toString()
+            .concat(
+              ' ',
+              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+            )
+          : ''
     },
     {
       msgKey:
@@ -209,18 +218,38 @@ const getOverviewCardsData = (
       count: policyViolations,
       alert: policyViolations > 0 ? true : false,
       targetLink: targetLinkForPolicyViolations,
-      subtextKeyFirst: policyViolationData.VAViolations.toString().concat(
-        ' ',
-        policyViolationData.VAViolations == 1
-          ? msgs.get('dashboard.card.deployment.policy.violation.VA', locale)
-          : msgs.get('dashboard.card.deployment.policy.violations.VA', locale)
-      ),
-      subtextKeySecond: policyViolationData.MAViolations.toString().concat(
-        ' ',
-        policyViolationData.MAViolations == 1
-          ? msgs.get('dashboard.card.deployment.policy.violation.MA', locale)
-          : msgs.get('dashboard.card.deployment.policy.violations.MA', locale)
-      )
+      subtextKeyFirst:
+        policyViolationData.VAViolations > 0 ||
+        policyViolationData.MAViolations > 0
+          ? policyViolationData.VAViolations.toString().concat(
+            ' ',
+            policyViolationData.VAViolations == 1
+              ? msgs.get(
+                'dashboard.card.deployment.policy.violation.VA',
+                locale
+              )
+              : msgs.get(
+                'dashboard.card.deployment.policy.violations.VA',
+                locale
+              )
+          )
+          : '',
+      subtextKeySecond:
+        policyViolationData.VAViolations > 0 ||
+        policyViolationData.MAViolations > 0
+          ? policyViolationData.MAViolations.toString().concat(
+            ' ',
+            policyViolationData.MAViolations == 1
+              ? msgs.get(
+                'dashboard.card.deployment.policy.violation.MA',
+                locale
+              )
+              : msgs.get(
+                'dashboard.card.deployment.policy.violations.MA',
+                locale
+              )
+          )
+          : ''
     },
     {
       msgKey:

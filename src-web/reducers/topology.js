@@ -57,20 +57,41 @@ export const topology = (state = initialState, action) => {
         status: Actions.REQUEST_STATUS.IN_PROGRESS,
         fetchFilters: action.fetchFilters,
         reloading: action.reloading,
-        loaded: false
+        loaded: action.reloading,
       }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
-      const { links, nodes, pods } = action
+      const { links, nodes, willLoadDetails } = action
       return {
         ...state,
         status: Actions.REQUEST_STATUS.DONE,
         nodes,
         links,
-        pods,
         activeFilters: action.fetchFilters,
         loaded: true,
-        reloading: false
+        reloading: false,
+        willLoadDetails
+      }
+    }
+    case Actions.RESOURCE_DETAILS_REQUEST: {
+      return {
+        ...state,
+        detailsStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
+        fetchFilters: action.fetchFilters,
+        detailsReloading: action.reloading,
+        detailsLoaded: action.reloading,
+        willLoadDetails: false,
+      }
+    }
+    case Actions.RESOURCE_DETAILS_RECEIVE_SUCCESS: {
+      const { pods } = action
+      return {
+        ...state,
+        detailsStatus: Actions.REQUEST_STATUS.DONE,
+        pods,
+        activeFilters: action.fetchFilters,
+        detailsLoaded: true,
+        detailsReloading: false
       }
     }
     case Actions.RESOURCE_RECEIVE_FAILURE: {

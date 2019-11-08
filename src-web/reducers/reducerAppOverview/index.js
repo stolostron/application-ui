@@ -33,7 +33,8 @@ export const AppOverview = (state = initialStateOverview, action) => {
     return { ...state, showAppDetails: action.payload }
   }
   case SET_SHOW_EXANDED_TOPOLOGY: {
-    return { ...state, showExpandedTopology: action.payload }
+    const {showExpandedTopology, selectedNodeId} = action.payload
+    return { ...state, showExpandedTopology, selectedNodeId }
   }
   case SET_ENABLE_ICAM_ACTION: {
     return { ...state, showICAMAction: action.payload }

@@ -24,54 +24,11 @@
 
     /* title */
     .diagram-title {
-    background-color: #fff;
+      background-color: #fff;
       font-weight: bold;
       font-size: 14px;
       border-bottom: 1px solid #DFE3E6;
       padding: 15px;
-    }
-
-    .channel-diagram-container {
-      display: flex;
-      height: 400px;
-      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
-      background-color: white;
-      position: relative;
-
-      .channel-controls-container {
-        width: 200px;
-        border-right: 1px solid #DFE3E6;
-      }
-
-      .last-update-container {
-        position: absolute;
-      }
-
-      /* diagram */
-      .diagramViewerDiagram {
-        flex: 1;
-        background-color: #fff;
-        position: relative;
-
-        .diagramViewerContainerContainer {
-          width: 100%;
-          height: 100%;
-          background-color: #fff;
-          position: relative;
-          overflow: hidden;
-
-          .secondaryLoad {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-          }
-
-          .diagramViewerContainer {
-            margin-right: 0;
-          }
-        }
-      }
     }
 
     /* filter bar */
@@ -106,7 +63,7 @@
   /* source editor */
   .resourceEditorContainer {
     width: 100%;
-    height: calc(100vh - 205px);
+    height: calc(100vh - 200px);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -146,8 +103,8 @@
 
   /* when editor is open */
   &.showExpandedTopology {
-    height: calc(100vh - 220px);
-    margin: -30px -8rem -50px -3rem;
+    height: calc(100vh - 200px);
+    margin: -30px -8rem -70px -3rem;
 
     /* when editor is open, diagram and control positions */
     .resourceDiagramControlsContainer {
@@ -159,49 +116,18 @@
         display: none;
       }
 
-      .channel-diagram-container {
-        display: flex;
-        margin-top: 26px;
-        height: calc(100vh - 225px);
+      .topology-container {
         box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
-        background-color: white;
-        position: relative;
-
-        .channel-controls-container {
-          width: 200px;
-          border-right: 1px solid #DFE3E6;
-        }
-
-        /* diagram */
-        .diagramViewerDiagram {
-          flex: 1;
-          height: 100%;
-
-          .diagramViewerContainerContainer {
-            &.scrolled {
-              overflow-y: auto;
-              overflow-x: hidden;
-            }
-          }
-        }
       }
+
 
       /* filter bar */
       .diagram-controls-container {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        background-color: transparent;
-        padding: 0 0 0 10px;
         border: none;
+        background-color: unset;
+        padding: 0 0 6px;
 
         .diagram-type-filter-bar {
-          position: relative;
-          bottom: unset;
-          left: unset;
-        }
-        .diagram-expand-button {
-          display: none;
         }
       }
     }
@@ -224,40 +150,6 @@
     }
   }
 
-  .channel-controls-container {
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-
-    .channel-control {
-      padding: 10px 0 10px 30px;
-      position: relative;
-      color: #152935;
-      line-height: 18px;
-
-      &-subscripion {
-        font-size: 12px;
-
-      }
-
-      &-channel {
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      &:hover {
-        cursor: pointer;
-        background-color: #F3F7FB;
-      }
-
-      &.selected {
-        border-left: 4px solid #3D70B2;
-        background-color: #F3F7FB;
-      }
-    }
-  }
-
-
   /* when view is split, show details view on other side of diagram */
   &.split {
     .topologyDetails {
@@ -268,6 +160,22 @@
 
   .yamlEditorContainer {
     height: calc(100% - 30px);
+
+    .ace-vibrant-ink {
+      .ace_marker-layer {
+        .ace_selection {
+          background: #459cf540;
+        }
+        .ace_selected-word {
+          border: none;
+          background: #459cf548;
+        }
+
+        .ace_active-line {
+          background: #33333370;
+        }
+      }
+    }
   }
 
   .Resizer {
@@ -293,9 +201,5 @@
 
   .Resizer.vertical:hover {
       background: rgba(0, 0, 0, 0.5);
-  }
-
-  .ace-monokai .ace_marker-layer .ace_selection {
-    background-color: #808080
   }
 }

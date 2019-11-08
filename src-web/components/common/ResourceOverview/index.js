@@ -21,7 +21,7 @@ import { connect } from 'react-redux'
 // import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
-import ApplicationTopologyModule from '../../ApplicationTopologyModule'
+import {ApplicationTopologyModule} from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
@@ -60,6 +60,7 @@ const ResourceOverview = withLocale(
     modules,
     resourceType,
     actions,
+    selectedNodeId,
     showExpandedTopology,
     incidentCount,
     userRole,
@@ -224,14 +225,15 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-            <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule
-                showExpandedTopology={showExpandedTopology}
-                params={params}
-                actions={actions}
-              />
-            </div>
-          )}
+          <div className="overview-content-bottom overview-content-with-padding">
+            <ApplicationTopologyModule
+              selectedNodeId={selectedNodeId}
+              showExpandedTopology={showExpandedTopology}
+              params={params}
+              actions={actions}
+            />
+          </div>
+        )}
       </div>
     )
   }

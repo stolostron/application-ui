@@ -246,6 +246,7 @@ class ResourceDetails extends React.Component {
       match,
       resourceType,
       staticResourceData,
+      selectedNodeId,
       showExpandedTopology,
       actions,
       children,
@@ -260,6 +261,7 @@ class ResourceDetails extends React.Component {
           staticResourceData={staticResourceData}
           actions={actions}
           modules={children}
+          selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
           showICAMAction={showICAMAction}
         />
@@ -334,6 +336,7 @@ ResourceDetails.propTypes = {
   match: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
+  selectedNodeId: PropTypes.string,
   showExpandedTopology: PropTypes.bool,
   showICAMAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
@@ -375,6 +378,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     _uid,
     clusterName,
+    selectedNodeId: AppOverview.selectedNodeId,
+    showExpandedTopology: AppOverview.showExpandedTopology,
     showICAMAction: AppOverview.showICAMAction
   }
 }

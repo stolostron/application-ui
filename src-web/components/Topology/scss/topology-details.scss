@@ -1,0 +1,127 @@
+/*******************************************************************************
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
+ *******************************************************************************/
+ @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+
+.topologyDetails {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: $color__white;
+  box-shadow: -1px 0 7px 0 rgba(0,0,0,0.10);
+  z-index: 1001;
+  width: 320px;
+  padding-bottom: 20px;
+
+  .detailsHeader {
+    margin: .5rem 0 0 .5rem;
+    display: flex;
+    align-items: center;
+
+    .detailsIcon{
+      border-top: 0;
+      stroke-width: 3px;
+      fill: $color__white;
+    }
+    .closeIcon {
+      position: absolute;
+      top: .5rem;
+      right: .5rem;
+      fill: $color__navy-gray-6;
+      stroke: $color__navy-gray-6;
+      cursor: pointer;
+    }
+
+    .titleText {
+      margin-left: .5rem;
+      font-size: .875rem;
+      color: $color__blue-90;
+      font-weight: bold;
+    }
+  }
+
+  hr {
+    border: 1px solid $color__navy-gray-8;
+    width: 98%;
+    margin-bottom: 1rem;
+  }
+
+  .sectionContent {
+    margin-left: 1rem;
+
+    &.form {
+      height: 4rem;
+      margin-top: 10px;
+
+      .bx--multi-select {
+        .bx--list-box__menu {
+          max-height: 15rem;
+        }
+
+        &.bx--combo-box input::placeholder {
+          color: $color__navy-gray-6;
+          text-overflow: ellipsis;
+        }
+
+      }
+    }
+
+    &.submit {
+      height: 6rem;
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+    }
+ }
+
+  .label {
+    font-size: .75rem;
+    font-weight: bold;
+    color: $color__blue-90;
+    letter-spacing: 1.27px;
+    line-height: 1rem;
+  }
+
+  .indent {
+    display: inline-block;
+    width: 10px;
+  }
+
+  .value {
+    font-size: .75rem;
+    color: $color__navy-gray-6;
+    word-break: break-all;
+  }
+
+  .link {
+    font-size: .75rem;
+    color: $color__blue-51;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .spacer {
+    height: 1rem;
+  }
+
+  .details-view-container {
+    .details-view-scrollbar {
+      width: 10px;
+      visibility: hidden;
+    }
+  }
+
+  &:hover {
+    .details-view-scrollbar {
+      visibility: visible;
+    }
+  }
+
+}

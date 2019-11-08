@@ -15,6 +15,7 @@ import { parse } from '../../../lib/client/design-helper'
 
 import 'brace/mode/yaml'
 import 'brace/theme/monokai'
+import 'brace/theme/vibrant_ink'
 
 class IsomorphicEditor extends React.Component {
   static propTypes = {
@@ -61,6 +62,7 @@ const YamlEditor = ({
   validator,
   handleParsingError,
   yaml,
+  theme='monokai',
   width = '49.5vw',
   height = '40vh',
   readOnly = false,
@@ -68,7 +70,7 @@ const YamlEditor = ({
 }) => (
   <div className="yamlEditorContainer">
     <IsomorphicEditor
-      theme="monokai"
+      theme={theme}
       mode={'yaml'}
       width={width}
       height={height}
@@ -101,6 +103,7 @@ YamlEditor.propTypes = {
   onYamlChange: PropTypes.func,
   readOnly: PropTypes.bool,
   setEditor: PropTypes.func,
+  theme: PropTypes.string,
   validator: PropTypes.func,
   width: PropTypes.string,
   wrapEnabled: PropTypes.bool,

@@ -1,5 +1,5 @@
-apiVersion: app.ibm.com/v1alpha1____createPlacementRule-apiVersion
-kind: PlacementRule_________________createPlacementRule-kind
+apiVersion: app.ibm.com/v1alpha1
+kind: PlacementRule
 metadata:
   name: ____________________________createPlacementRule-metadata-name
   namespace: _______________________createPlacementRule-metadata-namespace

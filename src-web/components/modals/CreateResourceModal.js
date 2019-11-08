@@ -37,7 +37,8 @@ const initialState = {
   yaml: '',
   yamlParsingError: null,
   createError: null,
-  dirty: false
+  dirty: false,
+  sample: null
 }
 
 // A hacky way to delay making the fetch call
@@ -183,7 +184,8 @@ class CreateResourceModal extends React.PureComponent {
                 </div>
               )}
             </div>
-            {this.state.yamlParsingError && (
+            {this.state.dirty &&
+              this.state.yamlParsingError && (
               <InlineNotification
                 kind="error"
                 title={msgs.get('error.parse', this.context.locale)}
@@ -207,33 +209,43 @@ class CreateResourceModal extends React.PureComponent {
             )}
             {this.props.sampleTabs ? (
               <div className="yamlSampleTabsContainer">
-                <Tabs className="yamlSampleTabs">
+                <Tabs
+                  className={
+                    !this.state.dirty
+                      ? 'yamlSampleTabs'
+                      : 'yamlSampleTabs hidden'
+                  }
+                >
                   {Object.keys(tabs).map((key, i) => {
                     return (
                       <Tab
-                        disabled={false}
-                        onClick={() => {}}
+                        onClick={() => {
+                          this.setState({ sample: tabsSampleContent[i] })
+                        }}
                         onKeyDown={() => {}}
                         key={tabs[key]}
                         label={tabs[key]}
-                      >
-                        <YamlEditor
-                          validator={validator}
-                          onYamlChange={tabsHandleEditorChange}
-                          handleParsingError={tabsHandleParsingError}
-                          yaml={
-                            this.state.dirty ? tabsYaml : tabsSampleContent[i]
-                          }
-                        />
-                      </Tab>
+                      />
                     )
                   })}
                 </Tabs>
+                <YamlEditor
+                  validator={validator}
+                  onYamlChange={tabsHandleEditorChange}
+                  handleParsingError={tabsHandleParsingError}
+                  yaml={
+                    this.state.dirty
+                      ? tabsYaml
+                      : this.state.sample
+                        ? this.state.sample
+                        : tabsSampleContent[0]
+                  }
+                />
               </div>
             ) : (
               <YamlEditor
                 validator={validator}
-                onYamlChange={this.handleEditorChange}
+                onYamlChange={tabsHandleEditorChange}
                 handleParsingError={this.handleParsingError}
                 yaml={this.state.dirty ? this.state.yaml : tabsSampleContent[0]}
               />

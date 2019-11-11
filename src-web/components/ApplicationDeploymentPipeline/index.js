@@ -168,8 +168,6 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    fetchApplications: () =>
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_APPLICATIONS)),
     fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
@@ -278,18 +276,11 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions,
       fetchPlacementRules,
       fetchUserInfo,
-      fetchApplications,
-      bulkSubscriptionList
     } = this.props
     fetchChannels()
     fetchSubscriptions()
     fetchPlacementRules()
     fetchUserInfo()
-
-    if (!bulkSubscriptionList || bulkSubscriptionList.length == 0) {
-      //fetch applications if this call was not yet made
-      fetchApplications()
-    }
   }
 
   componentDidMount() {}

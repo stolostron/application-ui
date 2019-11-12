@@ -168,6 +168,8 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchApplications: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_APPLICATIONS)),
     fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
@@ -221,6 +223,7 @@ const mapStateToProps = state => {
   const {
     HCMApplicationList,
     HCMChannelList,
+    HCMSubscriptionList,
     userInfoList,
     AppDeployments,
     secondaryHeader,
@@ -228,30 +231,24 @@ const mapStateToProps = state => {
   } = state
   // Filter Application List based on search input
   // Currently just filterin on application name
-  const filteredApplications = filterApps(
-    HCMApplicationList,
-    AppDeployments.deploymentPipelineSearch
-  )
+
   const activeAccountId = R.pathOr(
     '',
     ['items', 'activeAccountId'],
     userInfoList
   )
-  const channelsList = getChannelsList(HCMChannelList)
-  const applicationsList = getApplicationsList(filteredApplications)
-  const appSubscriptionsList = getSubscriptionListGivenApplicationList(
-    applicationsList
-  )
+
   return {
     displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
     subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
     subscriptionModalSubscriptionInfo:
       AppDeployments.subscriptionModalSubscriptionInfo,
-    bulkSubscriptionList: AppDeployments.bulkSubscriptionList,
     userRole: role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
-    HCMApplicationList: filteredApplications,
+    HCMApplicationList,
     HCMChannelList,
+    HCMSubscriptionList,
+    AppDeployments,
     currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
@@ -262,9 +259,6 @@ const mapStateToProps = state => {
     openEditPlacementRuleModal: AppDeployments.openEditPlacementRuleModal,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
-    applications: applicationsList,
-    channels: channelsList,
-    appSubscriptions: appSubscriptionsList,
     activeAccountId
   }
 }
@@ -274,30 +268,34 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       fetchChannels,
       fetchSubscriptions,
-      fetchPlacementRules,
       fetchUserInfo,
+      fetchApplications,
+      appSubscriptions,
+      applications
     } = this.props
+
     fetchChannels()
     fetchSubscriptions()
-    fetchPlacementRules()
     fetchUserInfo()
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
       serverProps,
-      applications,
-      channels,
-      appSubscriptions,
+      HCMChannelList,
+      HCMApplicationList,
+      HCMSubscriptionList,
+      AppDeployments,
       actions,
       editResource,
       getChannelResource,
       getApplicationResource,
       getSubscriptionResource,
+      getBulkSubscriptionsForAppList,
       getPlacementRuleResource,
       editSubscription,
       displaySubscriptionModal,
@@ -314,15 +312,29 @@ class ApplicationDeploymentPipeline extends React.Component {
       openEditPlacementRuleModal,
       loading,
       appDropDownList,
-      bulkSubscriptionList,
       userRole,
       breadcrumbItems,
       activeAccountId,
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules
+      
     } = this.props
     const { locale } = this.context
+
+    const filteredApplications = filterApps(
+      HCMApplicationList,
+      AppDeployments.deploymentPipelineSearch
+    )
+    const applications = getApplicationsList(filteredApplications)
+    const appSubscriptions = getSubscriptionListGivenApplicationList(
+      applications
+    )
+
+    const bulkSubscriptionList = HCMSubscriptionList && HCMSubscriptionList.items || [] 
+    
+    const channels = getChannelsList(HCMChannelList)
+
     const channelTabs = {
       tab1: msgs.get('modal.title.namespace', locale),
       tab2: msgs.get('modal.title.helmRepo', locale),

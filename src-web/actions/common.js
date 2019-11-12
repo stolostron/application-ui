@@ -102,40 +102,48 @@ export const mutateResourceFailure = (resourceType, error) => ({
 
 export const getQueryStringForResources = resourcename => {
   switch (resourcename) {
-  case 'HCMChannel':
-    return convertStringToQuery('kind:channel')
-  case 'HCMSubscription':
-    return convertStringToQuery('kind:subscription')
-  case 'HCMApplication':
-    return convertStringToQuery('kind:application')
-  default:
-    return convertStringToQuery('kind:application')
+    case 'HCMChannel':
+      return convertStringToQuery('kind:channel')
+    case 'HCMSubscription':
+      return convertStringToQuery('kind:subscription')
+    case 'HCMApplication':
+      return convertStringToQuery('kind:application')
+    case 'HCMPlacementRule':
+      return convertStringToQuery('kind:placementrule')
+    default:
+      return convertStringToQuery('kind:application')
   }
 }
 
 export const getQueryStringForResource = (resourcename, name, namespace) => {
   switch (resourcename) {
-  case 'HCMChannel':
-    return convertStringToQuery(
-      `kind:channel name:${name} namespace:${namespace}`
-    )
-  case 'HCMSubscription':
-    return convertStringToQuery(
-      `kind:subscription name:${name} namespace:${namespace}`
-    )
-  case 'HCMApplication':
-    return convertStringToQuery(
-      `kind:application name:${name} namespace:${namespace}`
-    )
-  default:
-    return convertStringToQuery(
-      `kind:application name:${name} namespace:${namespace}`
-    )
+    case 'HCMChannel':
+      return convertStringToQuery(
+        `kind:channel name:${name} namespace:${namespace}`
+      )
+    case 'HCMSubscription':
+      return convertStringToQuery(
+        `kind:subscription name:${name} namespace:${namespace}`
+      )
+    case 'HCMApplication':
+      return convertStringToQuery(
+        `kind:application name:${name} namespace:${namespace}`
+      )
+    case 'HCMPlacementRule':
+      return convertStringToQuery(
+        `kind:placementrule name:${name} namespace:${namespace}`
+      )      
+    default:
+      return convertStringToQuery(
+        `kind:application name:${name} namespace:${namespace}`
+      )
   }
 }
 
 export const fetchResources = resourceType => {
   const query = getQueryStringForResources(resourceType.name)
+  console.log('fetchResources', resourceType)
+  console.log('filter', query)
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient

@@ -141,9 +141,8 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
 }
 
 export const fetchResources = resourceType => {
+
   const query = getQueryStringForResources(resourceType.name)
-  console.log('fetchResources', resourceType)
-  console.log('filter', query)
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Licensed Materials - Property of IBM
-# 5737-E67
 # (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
 #
 # US Government Users Restricted Rights - Use, duplication or disclosure 
@@ -18,7 +17,6 @@ YEAR=2019
 # CHECK4=" Use, duplication or disclosure restricted by GSA ADP Schedule"
 # CHECK5=" Contract with IBM Corp."
 CHECK1=" Licensed Materials - Property of IBM"
-CHECK2=" 5737-E67"
 CHECK3=" Copyright IBM Corporation 2019. All Rights Reserved."
 CHECK3a=" Copyright IBM Corporation 2018. All Rights Reserved."
 CHECK3b=" Copyright IBM Corporation 2017. All Rights Reserved."
@@ -31,7 +29,7 @@ CHECK4=" US Government Users Restricted Rights - Use, duplication or disclosure"
 CHECK5=" restricted by GSA ADP Schedule Contract with IBM Corp."
 
 #LIC_ARY to scan for
-LIC_ARY=("$CHECK1" "$CHECK2" "$CHECK3" "$CHECK4" "$CHECK5")
+LIC_ARY=("$CHECK1" "$CHECK3" "$CHECK4" "$CHECK5")
 LIC_ARY_SIZE=${#LIC_ARY[@]}
 
 #Used to signal an exit

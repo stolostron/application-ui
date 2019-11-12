@@ -50,10 +50,10 @@ export default {
       resourceKey: 'violations',
       transformFunction: getNumPolicyViolations
     },
-    {
-      msgKey: 'table.header.incidents',
-      resourceKey: 'incidents'
-    },
+    // {
+    //   msgKey: 'table.header.incidents',
+    //   resourceKey: 'incidents'
+    // },
     // {
     //   msgKey: 'table.header.deployables',
     //   resourceKey: 'deployables',

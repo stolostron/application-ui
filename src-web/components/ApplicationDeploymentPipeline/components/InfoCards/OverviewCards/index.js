@@ -8,10 +8,13 @@
 
 import R from 'ramda'
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import resources from '../../../../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
 import { fetchResources } from '../../../../../actions/common'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../../../../actions'
 import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumClusters,
@@ -39,7 +42,8 @@ resources(() => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 
@@ -256,7 +260,8 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.incident', locale)
           : msgs.get('dashboard.card.deployment.incidents', locale),
       count: incidents,
-      alert: incidents > 0 ? true : false
+      alert: incidents > 0 ? true : false,
+      targetTab: 2
     }
   ]
 
@@ -274,7 +279,8 @@ class OverviewCards extends React.Component {
       HCMSubscriptionList,
       HCMApplicationList,
       CEMIncidentList,
-      isSingleApplicationView
+      isSingleApplicationView,
+      actions
     } = this.props
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
@@ -312,57 +318,77 @@ class OverviewCards extends React.Component {
       locale
     )
 
-    const handleClick = (e, resource) => {
-      if (resource.targetLink) {
-        window.open(resource.targetLink, '_blank')
-      }
-    }
-    const handleKeyPress = (e, resource) => {
-      if (e.key === 'Enter') {
-        handleClick(e, resource)
-      }
-    }
-
     return (
       <div className={'overview-cards-info' + singleAppStyle}>
-        {Object.keys(overviewCardsData).map(key => {
-          const card = overviewCardsData[key]
-          return (
-            <React.Fragment key={key}>
-              <div
-                key={card}
-                className={
-                  card.targetLink ? 'single-card clickable' : 'single-card'
-                }
-                role="button"
-                tabIndex="0"
-                onClick={e => handleClick(e, card)}
-                onKeyPress={e => handleKeyPress(e, card)}
-              >
-                <div className={card.alert ? 'card-count alert' : 'card-count'}>
-                  {card.count}
-                </div>
-                <div className="card-type">{card.msgKey}</div>
-                <div className="card-text">{card.textKey}</div>
-                {(card.subtextKeyFirst || card.subtextKeySecond) && (
-                  <div className="row-divider" />
-                )}
-                {card.subtextKeyFirst && (
-                  <div className="card-subtext">{card.subtextKeyFirst}</div>
-                )}
-                {card.subtextKeySecond && (
-                  <div className="card-subtext">{card.subtextKeySecond}</div>
-                )}
-              </div>
-              {key < Object.keys(overviewCardsData).length - 1 && (
-                <div className="column-divider" />
-              )}
-            </React.Fragment>
-          )
-        })}
+        <InfoCards overviewCardsData={overviewCardsData} actions={actions} />
       </div>
     )
   }
 }
+
+const InfoCards = ({ overviewCardsData, actions }) => {
+  return (
+    <React.Fragment>
+      {Object.keys(overviewCardsData).map(key => {
+        const card = overviewCardsData[key]
+
+        const handleClick = (e, resource) => {
+          if (resource.targetTab != null) {
+            actions.setSelectedAppTab(resource.targetTab)
+          } else if (resource.targetLink) {
+            window.open(resource.targetLink, '_blank')
+          }
+        }
+        const handleKeyPress = (e, resource) => {
+          if (e.key === 'Enter') {
+            handleClick(e, resource)
+          }
+        }
+
+        return (
+          <React.Fragment key={key}>
+            <div
+              key={card}
+              className={
+                card.targetLink || card.targetTab
+                  ? 'single-card clickable'
+                  : 'single-card'
+              }
+              role="button"
+              tabIndex="0"
+              onClick={e => handleClick(e, card)}
+              onKeyPress={e => handleKeyPress(e, card)}
+            >
+              <div className={card.alert ? 'card-count alert' : 'card-count'}>
+                {card.count}
+              </div>
+              <div className="card-type">{card.msgKey}</div>
+              <div className="card-text">{card.textKey}</div>
+              {(card.subtextKeyFirst || card.subtextKeySecond) && (
+                <div className="row-divider" />
+              )}
+              {card.subtextKeyFirst && (
+                <div className="card-subtext">{card.subtextKeyFirst}</div>
+              )}
+              {card.subtextKeySecond && (
+                <div className="card-subtext">{card.subtextKeySecond}</div>
+              )}
+            </div>
+            {key < Object.keys(overviewCardsData).length - 1 && (
+              <div className="column-divider" />
+            )}
+          </React.Fragment>
+        )
+      })}
+    </React.Fragment>
+  )
+}
+
+InfoCards.propTypes = {
+  actions: PropTypes.object,
+  overviewCardsData: PropTypes.array
+}
+
+OverviewCards.propTypes = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverviewCards)

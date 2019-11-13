@@ -1,6 +1,5 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * 5737-E67
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
@@ -51,10 +50,10 @@ export default {
       resourceKey: 'violations',
       transformFunction: getNumPolicyViolations
     },
-    {
-      msgKey: 'table.header.incidents',
-      resourceKey: 'incidents'
-    },
+    // {
+    //   msgKey: 'table.header.incidents',
+    //   resourceKey: 'incidents'
+    // },
     // {
     //   msgKey: 'table.header.deployables',
     //   resourceKey: 'deployables',

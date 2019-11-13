@@ -26,28 +26,28 @@ export const initialStateOverview = {
 
 export const AppOverview = (state = initialStateOverview, action) => {
   switch (action.type) {
-  case SET_SELECTED_APP_TAB: {
-    return { ...state, selectedAppTab: action.payload }
-  }
-  case SET_SHOW_APP_DETAILS: {
-    return { ...state, showAppDetails: action.payload }
-  }
-  case SET_SHOW_EXANDED_TOPOLOGY: {
-    const {showExpandedTopology, selectedNodeId} = action.payload
-    return { ...state, showExpandedTopology, selectedNodeId }
-  }
-  case SET_ENABLE_ICAM_ACTION: {
-    return { ...state, showICAMAction: action.payload }
-  }
-  case SET_CAROUSEL_ITERATOR: {
-    // We want to protect from going below 0
-    if (action.payload < 0) {
-      return { ...state, carouselIterator: 0 }
+    case SET_SELECTED_APP_TAB: {
+      return { ...state, selectedAppTab: action.payload }
     }
-    return { ...state, carouselIterator: action.payload }
-  }
-  default:
-    return state
+    case SET_SHOW_APP_DETAILS: {
+      return { ...state, showAppDetails: action.payload }
+    }
+    case SET_SHOW_EXANDED_TOPOLOGY: {
+      const { showExpandedTopology, selectedNodeId } = action.payload
+      return { ...state, showExpandedTopology, selectedNodeId }
+    }
+    case SET_ENABLE_ICAM_ACTION: {
+      return { ...state, showICAMAction: action.payload }
+    }
+    case SET_CAROUSEL_ITERATOR: {
+      // We want to protect from going below 0
+      if (action.payload < 0) {
+        return { ...state, carouselIterator: 0 }
+      }
+      return { ...state, carouselIterator: action.payload }
+    }
+    default:
+      return state
   }
 }
 export default AppOverview

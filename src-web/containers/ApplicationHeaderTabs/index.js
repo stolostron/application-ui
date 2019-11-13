@@ -64,8 +64,8 @@ const ApplicationHeaderTabs = withLocale(
           <Tabs
             className="some-class"
             selected={selectedAppTab}
-            onClick={() => {}}
-            onKeyDown={() => {}}
+            onClick={() => { }}
+            onKeyDown={() => { }}
             onSelectionChange={id => {
               actions.setSelectedAppTab(id)
               // Show app overview (instead of app information)
@@ -77,8 +77,8 @@ const ApplicationHeaderTabs = withLocale(
           >
             <Tab
               disabled={false}
-              onClick={() => {}}
-              onKeyDown={() => {}}
+              onClick={() => { }}
+              onKeyDown={() => { }}
               label={msgs.get('description.title.overview', locale)}
             >
               <div className="some-content">
@@ -89,8 +89,8 @@ const ApplicationHeaderTabs = withLocale(
             </Tab>
             <Tab
               disabled={false}
-              onClick={() => {}}
-              onKeyDown={() => {}}
+              onClick={() => { }}
+              onKeyDown={() => { }}
               label={msgs.get('description.title.deployments', locale)}
             >
               <div className="page-content-container">
@@ -99,22 +99,22 @@ const ApplicationHeaderTabs = withLocale(
             </Tab>
             {showExtraTabs &&
               isAdminRole(userRole) && (
-              <Tab
-                disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
-                label={msgs.get('description.title.incidents', locale)}
-              >
-                <div className="some-content">
-                  <IncidentsTab params={params} />
-                </div>
-              </Tab>
-            )}
+                <Tab
+                  disabled={false}
+                  onClick={() => { }}
+                  onKeyDown={() => { }}
+                  label={msgs.get('description.title.incidents', locale)}
+                >
+                  <div className="some-content">
+                    <IncidentsTab params={params} />
+                  </div>
+                </Tab>
+              )}
             {showExtraTabs && (
               <Tab
                 disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
+                onClick={() => { }}
+                onKeyDown={() => { }}
                 label={msgs.get('description.title.logs', locale)}
               >
                 <div className="page-content-container">

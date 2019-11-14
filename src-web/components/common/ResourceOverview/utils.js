@@ -292,7 +292,7 @@ export const getSearchLinkForAllApplications = () => {
 }
 
 export const getSearchLinkForAllSubscriptions = () => {
-  return '/multicloud/search?filters={"textsearch":"kind%3Asubscription"}'
+  return '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20status%3APropagated"}'
 }
 
 export const getSearchLinkForAllClusters = () => {

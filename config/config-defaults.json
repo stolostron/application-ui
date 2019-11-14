@@ -5,6 +5,7 @@
     "searchApiUrl":"",
     "cfcRouterUrl": "",
     "platformHeaderContextPath": "/common-nav",
+    "leftNav":"mcm-nav",    
     "feature_searchRelated": false,
     "featureFlags": {
         "dashboardLiveUpdates": true,

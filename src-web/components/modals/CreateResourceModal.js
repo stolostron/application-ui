@@ -84,12 +84,13 @@ class CreateResourceModal extends React.PureComponent {
     this.setState({ yamlParsingError: null, processing: true })
 
     this.props.onCreateResource(resources).then(result => {
-      const errors = R.pathOr(
-        [],
-        ['data', 'createResources', 'errors'],
-        result
+      // errors can be in createApplication and createResources depending on type of resource
+      const errors = R.concat(
+        R.pathOr([], ['data', 'createApplication', 'errors'], result),
+        R.pathOr([], ['data', 'createResources', 'errors'], result)
       )
-      if (errors.length > 0) {
+
+      if (errors && errors.length > 0) {
         this.setState({
           createError: {
             message: errors[0].message

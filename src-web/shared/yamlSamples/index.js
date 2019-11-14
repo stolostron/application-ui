@@ -147,29 +147,11 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
 
 export const getApplicationSample = (applicationSample, locale) => {
   const mapObj = {
-    'createApplication-namespace-resource':
-      '# ' +
-      msgs.get('description.createApplication.namespace.resource', locale),
-    'createApplication-name-resource':
-      '# ' + msgs.get('description.createApplication.name.resource', locale),
-    'createApplication-apiVersion':
-      '# ' + msgs.get('description.createApplication.apiVersion', locale),
-    'createApplication-kind':
-      '# ' + msgs.get('description.createApplication.kind', locale),
     'createApplication-metadata-name':
       '# ' + msgs.get('description.createApplication.metadata.name', locale),
     'createApplication-metadata-namespace':
       '# ' +
       msgs.get('description.createApplication.metadata.namespace', locale),
-    'createApplication-spec-componentKinds':
-      '# ' +
-      msgs.get('description.createApplication.spec.componentKinds', locale),
-    'createApplication-spec-selector-matchExpressions':
-      '# ' +
-      msgs.get(
-        'description.createApplication.spec.selector.matchExpressions',
-        locale
-      ),
     'createApplication-spec-selector-matchExpressions-key':
       '# ' +
       msgs.get(
@@ -186,20 +168,12 @@ export const getApplicationSample = (applicationSample, locale) => {
     _: ' '
   }
 
-  var sample = ''
-  Object.keys(applicationSample).map(key => {
-    sample =
-      sample +
-      YAML.stringify(applicationSample[key]).replace(
-        /createApplication-namespace-resource|createApplication-name-resource|createApplication-apiVersion|createApplication-kind|createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-componentKinds|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|createApplication-spec-selector-matchExpressions|null|_/gi,
-        matched => {
-          return mapObj[matched]
-        }
-      )
-    if (key < Object.keys(applicationSample).length - 1) {
-      sample = sample + '---\n'
+  var sample = YAML.stringify(applicationSample).replace(
+    /createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|null|_/gi,
+    matched => {
+      return mapObj[matched]
     }
-  })
+  )
 
   return sample
 }

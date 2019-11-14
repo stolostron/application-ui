@@ -85,7 +85,6 @@ class ResourceList extends React.Component {
       items,
       itemIds,
       mutateStatus,
-      mutateErrorMsg,
       page,
       pageSize,
       sortDirection,
@@ -150,7 +149,7 @@ class ResourceList extends React.Component {
       }
       return (
         <div id="resource-list">
-          {mutateStatus === REQUEST_STATUS.ERROR && (
+          {/* {mutateStatus === REQUEST_STATUS.ERROR && (
             <Notification
               title=""
               subtitle={
@@ -158,7 +157,7 @@ class ResourceList extends React.Component {
               }
               kind="error"
             />
-          )}
+          )} */}
           {mutateStatus === REQUEST_STATUS.DONE && (
             <Notification
               title=""

@@ -4,7 +4,7 @@
     "hcmUiApiUrl": "",
     "searchApiUrl":"",
     "cfcRouterUrl": "",
-    "platformHeaderContextPath": "/header",
+    "platformHeaderContextPath": "/common-nav",
     "feature_searchRelated": false,
     "featureFlags": {
         "dashboardLiveUpdates": true,

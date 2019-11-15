@@ -101,46 +101,45 @@ export const mutateResourceFailure = (resourceType, error) => ({
 
 export const getQueryStringForResources = resourcename => {
   switch (resourcename) {
-    case 'HCMChannel':
-      return convertStringToQuery('kind:channel')
-    case 'HCMSubscription':
-      return convertStringToQuery('kind:subscription')
-    case 'HCMApplication':
-      return convertStringToQuery('kind:application')
-    case 'HCMPlacementRule':
-      return convertStringToQuery('kind:placementrule')
-    default:
-      return convertStringToQuery('kind:application')
+  case 'HCMChannel':
+    return convertStringToQuery('kind:channel')
+  case 'HCMSubscription':
+    return convertStringToQuery('kind:subscription')
+  case 'HCMApplication':
+    return convertStringToQuery('kind:application')
+  case 'HCMPlacementRule':
+    return convertStringToQuery('kind:placementrule')
+  default:
+    return convertStringToQuery('kind:application')
   }
 }
 
 export const getQueryStringForResource = (resourcename, name, namespace) => {
   switch (resourcename) {
-    case 'HCMChannel':
-      return convertStringToQuery(
-        `kind:channel name:${name} namespace:${namespace}`
-      )
-    case 'HCMSubscription':
-      return convertStringToQuery(
-        `kind:subscription name:${name} namespace:${namespace}`
-      )
-    case 'HCMApplication':
-      return convertStringToQuery(
-        `kind:application name:${name} namespace:${namespace}`
-      )
-    case 'HCMPlacementRule':
-      return convertStringToQuery(
-        `kind:placementrule name:${name} namespace:${namespace}`
-      )      
-    default:
-      return convertStringToQuery(
-        `kind:application name:${name} namespace:${namespace}`
-      )
+  case 'HCMChannel':
+    return convertStringToQuery(
+      `kind:channel name:${name} namespace:${namespace}`
+    )
+  case 'HCMSubscription':
+    return convertStringToQuery(
+      `kind:subscription name:${name} namespace:${namespace}`
+    )
+  case 'HCMApplication':
+    return convertStringToQuery(
+      `kind:application name:${name} namespace:${namespace}`
+    )
+  case 'HCMPlacementRule':
+    return convertStringToQuery(
+      `kind:placementrule name:${name} namespace:${namespace}`
+    )
+  default:
+    return convertStringToQuery(
+      `kind:application name:${name} namespace:${namespace}`
+    )
   }
 }
 
 export const fetchResources = resourceType => {
-
   const query = getQueryStringForResources(resourceType.name)
   return dispatch => {
     dispatch(requestResource(resourceType))
@@ -159,8 +158,12 @@ export const fetchResources = resourceType => {
           response.data.searchResult[0].items
         const combinedQuery = []
         itemRes.map(item => {
-          //build query only with local resources
-          if (item && !item._hostingSubscription) {
+          //build query only with local resources, MCM subscription model has no Propagated subscription, filter those out
+          if (
+            item &&
+            !item._hostingSubscription &&
+            (!item.status || (item.status && item.status != 'Subscribed'))
+          ) {
             combinedQuery.push(
               getQueryStringForResource(
                 resourceType.name,

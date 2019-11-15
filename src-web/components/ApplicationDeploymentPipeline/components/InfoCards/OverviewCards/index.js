@@ -83,7 +83,9 @@ const getOverviewCardsData = (
   const incidents = getNumIncidents(CEMIncidentList)
 
   //count only hub subscriptions
-  const isHubSubscr = item => !item._hostingSubscription
+  const isHubSubscr = item =>
+    !item._hostingSubscription &&
+    (!item.status || (item.status && item.status != 'Subscribed'))
   let subscriptions = getNumItems(HCMSubscriptionList, isHubSubscr)
   if (isSingleApplicationView) {
     const subscriptionsArray = pullOutKindPerApplication(

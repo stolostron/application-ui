@@ -99,7 +99,12 @@ export const getChannelsCountFromSubscriptions = arr => {
     arr.map(elem => {
       if (elem && elem.items instanceof Array && elem.items.length > 0) {
         elem.items.map(subelem => {
-          if (subelem.channel && !subelem._hostingSubscription) {
+          if (
+            subelem.channel &&
+            !subelem._hostingSubscription &&
+            (!subelem.status ||
+              (subelem.status && subelem.status != 'Subscribed'))
+          ) {
             // count only hub subscriptions
             channelSet.add(subelem.channel)
           }

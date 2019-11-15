@@ -4,6 +4,11 @@ ARG VCS_REF
 ARG VCS_URL
 ARG IMAGE_NAME
 ARG IMAGE_DESCRIPTION
+ARG IMAGE_MAINTAINER
+ARG IMAGE_RELEASE
+ARG IMAGE_VENDOR
+ARG IMAGE_VERSION
+ARG IMAGE_SUMMARY
 
 LABEL org.label-schema.vendor="IBM" \
       org.label-schema.name="$IMAGE_NAME" \
@@ -11,7 +16,14 @@ LABEL org.label-schema.vendor="IBM" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url=$VCS_URL \
       org.label-schema.license="Licensed Materials - Property of IBM" \
-      org.label-schema.schema-version="1.0"
+      org.label-schema.schema-version="1.0" \
+      name="$IMAGE_NAME" \
+      maintainer="$IMAGE_MAINTAINER" \
+      vendor="$IMAGE_VENDOR" \
+      version="$IMAGE_VERSION" \
+      release="$IMAGE_RELEASE" \
+      description="$IMAGE_DESCRIPTION" \
+      summary="$IMAGE_SUMMARY"
 
 RUN mkdir -p /opt/ibm/mcm-application-ui
 RUN mkdir -p /licenses

@@ -9,7 +9,7 @@ ARG IMAGE_NAME_ARCH
 ARG IMAGE_MAINTAINER
 ARG IMAGE_VENDOR
 ARG IMAGE_VERSION
-ARG IMAGE_DESCRIPTION
+ARG IMAGE_RELEASE
 ARG IMAGE_SUMMARY
 ARG IMAGE_OPENSHIFT_TAGS
 
@@ -24,7 +24,7 @@ LABEL org.label-schema.vendor="IBM" \
       maintainer="$IMAGE_MAINTAINER" \
       vendor="$IMAGE_VENDOR" \
       version="$IMAGE_VERSION" \
-      release="$VCS_REF" \
+      release="$IMAGE_RELEASE" \
       description="$IMAGE_DESCRIPTION" \
       summary="$IMAGE_SUMMARY" \
       io.k8s.display-name="$IMAGE_DISPLAY_NAME" \

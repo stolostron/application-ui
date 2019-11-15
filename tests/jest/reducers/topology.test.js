@@ -28,7 +28,7 @@ describe('topology reducer with topology name', () => {
     }
     const expectedValue = {
       fetchFilters: undefined,
-      loaded: false,
+      loaded: undefined,
       reloading: undefined,
       status: 'IN_PROGRESS',
       test: 'test'
@@ -55,7 +55,7 @@ describe('topology reducer with topology name', () => {
       loaded: true,
       reloading: false,
       test: 'test',
-      activeFilters: 'receivedApplication',
+      activeFilters: 'receivedApplication'
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })

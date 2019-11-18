@@ -255,7 +255,7 @@
     display: inline-block;
     position: absolute;
     overflow: scroll;
-    width: 68.5%;
+    width: calc(90% - 329px);
     background-color: #f4f7fb;
   }
 
@@ -263,7 +263,7 @@
     display: inline-block;
     position: absolute;
     overflow: scroll;
-    width: 86%;
+    width: 90vw;
     background-color: #f4f7fb;
     margin-bottom: 50px;
   }

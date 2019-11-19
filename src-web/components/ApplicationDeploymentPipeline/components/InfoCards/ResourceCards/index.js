@@ -128,12 +128,15 @@ const getResourceCardsData = (
       count: subscriptions,
       targetLink: targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst: subscriptionDataOnHub.failed
-        .toString()
-        .concat(
-          ' ',
-          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-        ),
+      subtextKeyFirst:
+        subscriptions > 0
+          ? subscriptionDataOnHub.failed
+            .toString()
+            .concat(
+              ' ',
+              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+            )
+          : '',
       subtextKeySecond:
         subscriptionDataOnHub.noStatus > 0
           ? subscriptionDataOnHub.noStatus
@@ -159,12 +162,15 @@ const getResourceCardsData = (
             ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
-      subtextKeyFirst: subscriptionDataOnManagedClusters.failed
-        .toString()
-        .concat(
-          ' ',
-          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-        ),
+      subtextKeyFirst:
+        clusters > 0
+          ? subscriptionDataOnManagedClusters.failed
+            .toString()
+            .concat(
+              ' ',
+              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+            )
+          : '',
       subtextKeySecond:
         subscriptionDataOnManagedClusters.noStatus > 0
           ? subscriptionDataOnManagedClusters.noStatus

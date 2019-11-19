@@ -15,6 +15,7 @@ import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { withLocale } from '../../providers/LocaleProvider'
 import { validator } from './validators/hcm-application-validator'
 import { getUpdates } from './deployers/hcm-application-deployer'
 import hcmappdiagram from './definitions/hcm-application-diagram'
@@ -360,7 +361,7 @@ class ApplicationTopologyModule extends React.Component {
       updateMessage,
       updateMsgKind
     } = this.state
-    const { locale } = this.context
+    const { locale } = this.props
 
     const typeFilterTitle = msgs.get('type', locale)
     const diagramTitle = msgs.get('application.diagram', locale)
@@ -852,5 +853,5 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ApplicationTopologyModule)
+  connect(mapStateToProps, mapDispatchToProps)(withLocale(ApplicationTopologyModule))
 )

@@ -134,17 +134,14 @@ const getOverviewCardsData = (
       count: subscriptions,
       targetLink: targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst:
-        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
-          ? subscriptionDataOnHub.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : '',
+      subtextKeyFirst: subscriptionDataOnHub.failed
+        .toString()
+        .concat(
+          ' ',
+          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        ),
       subtextKeySecond:
-        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
+        subscriptionDataOnHub.noStatus > 0
           ? subscriptionDataOnHub.noStatus
             .toString()
             .concat(
@@ -168,18 +165,13 @@ const getOverviewCardsData = (
             ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
-      subtextKeyFirst:
-        subscriptionDataOnManagedClusters.failed > 0 ||
-        subscriptionDataOnManagedClusters.noStatus > 0
-          ? subscriptionDataOnManagedClusters.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : '',
+      subtextKeyFirst: subscriptionDataOnManagedClusters.failed
+        .toString()
+        .concat(
+          ' ',
+          msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+        ),
       subtextKeySecond:
-        subscriptionDataOnManagedClusters.failed > 0 ||
         subscriptionDataOnManagedClusters.noStatus > 0
           ? subscriptionDataOnManagedClusters.noStatus
             .toString()

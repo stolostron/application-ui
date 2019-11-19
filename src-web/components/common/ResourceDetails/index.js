@@ -70,6 +70,7 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         actions: PropTypes.object,
+        clearIncidents: PropTypes.func,
         fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
@@ -89,7 +90,7 @@ const withResource = Component => {
       }
 
       componentWillMount() {
-        this.props.fetchIncidents()
+        this.props.clearIncidents()
         if (parseInt(config['featureFlags:liveUpdates']) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),

@@ -13,8 +13,7 @@ import { DataTable } from 'carbon-components-react'
 import withAccess from '../../components/common/withAccess'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { ROLES, RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { fetchIncidents, clearIncidents } from '../../actions/common'
+import { ROLES } from '../../../lib/shared/constants'
 import {
   getIncidentCount,
   getIncidentList
@@ -95,23 +94,6 @@ class IncidentsTab extends React.Component {
     ]
   }
 
-  componentWillMount() {
-    const { params } = this.props
-    this.props.clearIncidents()
-    if (params && params.namespace && params.name) {
-      this.props.fetchIncidents()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (!prevProps.params || !prevProps.params.name) {
-      const { params } = this.props
-      if (params && params.namespace && params.name) {
-        this.props.fetchIncidents()
-      }
-    }
-  }
-
   render() {
     const { locale } = this.context
     const { incidents, incidentCount } = this.props
@@ -179,21 +161,6 @@ class IncidentsTab extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-  const { params } = ownProps
-  return {
-    fetchIncidents: () =>
-      dispatch(
-        fetchIncidents(
-          RESOURCE_TYPES.CEM_INCIDENTS,
-          params.namespace,
-          params.name
-        )
-      ),
-    clearIncidents: () => dispatch(clearIncidents(RESOURCE_TYPES.CEM_INCIDENTS))
-  }
-}
-
 const mapStateToProps = state => {
   const { CEMIncidentList } = state
   return {
@@ -203,8 +170,5 @@ const mapStateToProps = state => {
 }
 
 export default withRouter(
-  withAccess(
-    connect(mapStateToProps, mapDispatchToProps)(IncidentsTab),
-    ROLES.VIEWER
-  )
+  withAccess(connect(mapStateToProps)(IncidentsTab), ROLES.VIEWER)
 )

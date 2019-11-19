@@ -9,14 +9,15 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { Notification, Loading, Link, Icon } from 'carbon-components-react'
+import { Notification, Loading } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { getIncidentCount } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
-  fetchIncidents
+  fetchIncidents,
+  clearIncidents
 } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -47,7 +48,9 @@ const withResource = Component => {
             params.namespace,
             params.name
           )
-        )
+        ),
+      clearIncidents: () =>
+        dispatch(clearIncidents(RESOURCE_TYPES.CEM_INCIDENTS))
     }
   }
 
@@ -67,6 +70,7 @@ const withResource = Component => {
       static displayName = 'ResourceDetailsWithResouce';
       static propTypes = {
         actions: PropTypes.object,
+        clearIncidents: PropTypes.func,
         fetchIncidents: PropTypes.func,
         fetchResource: PropTypes.func,
         incidentCount: PropTypes.oneOfType([
@@ -86,6 +90,7 @@ const withResource = Component => {
       }
 
       componentWillMount() {
+        this.props.clearIncidents()
         if (parseInt(config['featureFlags:liveUpdates']) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),
@@ -93,12 +98,8 @@ const withResource = Component => {
           )
           this.setState({ intervalId: intervalId })
         }
-        this.props.fetchResource()
-        const { params, actions } = this.props
-        if (params && params.namespace && params.name) {
-          this.props.fetchIncidents()
-        }
         // Clear the list of dropDowns
+        const { params, actions } = this.props
         actions.clearAppDropDownList()
         // Then add it back so only one will be displaying
         actions.updateAppDropDownList(params.name)
@@ -106,15 +107,6 @@ const withResource = Component => {
 
       componentWillUnmount() {
         clearInterval(this.state.intervalId)
-      }
-
-      componentDidUpdate(prevProps) {
-        if (!prevProps.params || !prevProps.params.name) {
-          const { params } = this.props
-          if (params && params.namespace && params.name) {
-            this.props.fetchIncidents()
-          }
-        }
       }
 
       reload() {
@@ -326,10 +318,8 @@ ResourceDetails.contextTypes = {
 }
 
 ResourceDetails.propTypes = {
-  _uid: PropTypes.string,
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  clusterName: PropTypes.string,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,

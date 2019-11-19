@@ -156,6 +156,7 @@
   .noResDescription {
     font-size: 12px;
     padding-top: 10px;
+    font-style: italic;
   }
 
   .subDescriptionText {
@@ -175,11 +176,10 @@
   .noSubDescription {
     font-size: 12px;
     padding-top: 10px;
+    font-style: italic;
   }
 
   .deployment-highlights-terminology-docs {
-    text-align: right;
-    padding-left: 1em;
     padding-right: 1em;
     width: 100%;
   }
@@ -187,7 +187,7 @@
   .deployment-highlights-terminology-docs-text {
     cursor: pointer;
     display: inline-block;
-    padding: 30px 10px 10px;
+    padding: 20px 10px 10px 0px;
     font-weight: bold;
     font-size: 14px;
     color: #3d70b2;

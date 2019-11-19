@@ -25,7 +25,8 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
   getPodData,
-  getPolicyViolationData
+  getPolicyViolationData,
+  getIncidentData
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
@@ -124,6 +125,7 @@ const getOverviewCardsData = (
     applicationName,
     applicationNamespace
   )
+  const incidentData = getIncidentData(CEMIncidentList)
 
   const result = [
     {
@@ -261,7 +263,31 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.incidents', locale),
       count: incidents,
       alert: incidents > 0 ? true : false,
-      targetTab: 2
+      targetTab: 2,
+      subtextKeyFirst:
+        incidents > 0
+          ? incidentData.priority1
+            .toString()
+            .concat(
+              ' ',
+              msgs.get(
+                'dashboard.card.deployment.incidents.priority1',
+                locale
+              )
+            )
+          : '',
+      subtextKeySecond:
+        incidents > 0
+          ? incidentData.priority2
+            .toString()
+            .concat(
+              ' ',
+              msgs.get(
+                'dashboard.card.deployment.incidents.priority2',
+                locale
+              )
+            )
+          : ''
     }
   ]
 

@@ -5,6 +5,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+import R from 'ramda'
 
 import React from 'react'
 import { withRouter } from 'react-router-dom'
@@ -20,7 +21,7 @@ import { connect } from 'react-redux'
 // import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
-import {ApplicationTopologyModule} from '../../ApplicationTopologyModule'
+import { ApplicationTopologyModule } from '../../ApplicationTopologyModule'
 import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
@@ -56,8 +57,6 @@ const ResourceOverview = withLocale(
     staticResourceData,
     item,
     params,
-    modules,
-    resourceType,
     actions,
     selectedNodeId,
     showExpandedTopology,
@@ -66,7 +65,8 @@ const ResourceOverview = withLocale(
     locale,
     getApplicationResource,
     loading,
-    showICAMAction
+    showICAMAction,
+    activeAccountId
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -142,7 +142,9 @@ const ResourceOverview = withLocale(
     }
     const dashboard = (item && item.dashboard) || ''
 
-    const icamLink = (item && getICAMLinkForApp(item._uid, item.cluster)) || ''
+    const icamLink =
+      (item && getICAMLinkForApp(item._uid, item.cluster, activeAccountId)) ||
+      ''
     const enableICAM = showICAMAction && icamLink
 
     return (
@@ -268,7 +270,13 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { role, AppDeployments } = state
+  const { role, AppDeployments, userInfoList } = state
+
+  const activeAccountId = R.pathOr(
+    '',
+    ['items', 'activeAccountId'],
+    userInfoList
+  )
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -280,6 +288,7 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
+    activeAccountId,
     userRole: role.role,
     loading: AppDeployments.loading,
     openEditApplicationModal: AppDeployments.openEditApplicationModal

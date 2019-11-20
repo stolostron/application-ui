@@ -276,11 +276,21 @@ class ApplicationDeploymentPipeline extends React.Component {
   componentWillUnmount() {}
 
   render() {
+
+    // wait for it
     const {
-      serverProps,
-      HCMChannelList,
       HCMApplicationList,
       HCMSubscriptionList,
+      HCMChannelList,
+    } = this.props
+    if (HCMApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
+        HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
+        HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) {
+      return <Loading withOverlay={false} className="content-spinner" />
+    }
+
+    const {
+      serverProps,
       AppDeployments,
       actions,
       editResource,
@@ -309,6 +319,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules
+
     } = this.props
     const { locale } = this.context
 
@@ -321,8 +332,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications
     )
 
-    const bulkSubscriptionList =
-      (HCMSubscriptionList && HCMSubscriptionList.items) || []
+
+    const bulkSubscriptionList = HCMSubscriptionList && HCMSubscriptionList.items || []
+
 
     const channels = getChannelsList(HCMChannelList)
 

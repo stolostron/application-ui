@@ -57,6 +57,7 @@ export const topology = (state = initialState, action) => {
         fetchFilters: action.fetchFilters,
         reloading: action.reloading,
         loaded: action.reloading,
+        detailsReloading: false,
       }
     }
     case Actions.RESOURCE_RECEIVE_SUCCESS: {
@@ -69,6 +70,7 @@ export const topology = (state = initialState, action) => {
         activeFilters: action.fetchFilters,
         loaded: true,
         reloading: false,
+        detailsLoaded: !willLoadDetails,
         willLoadDetails
       }
     }

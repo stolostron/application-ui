@@ -139,6 +139,8 @@
   "dashboard.card.deployment.failed.lowercase": "failed",
   "dashboard.card.deployment.incident": "Incident",
   "dashboard.card.deployment.incidents": "Incidents",
+  "dashboard.card.deployment.incidents.priority1": "Priority 1",
+  "dashboard.card.deployment.incidents.priority2": "Priority 2",
   "dashboard.card.deployment.inProgress": "In progress",
   "dashboard.card.deployment.managedCluster": "Managed cluster",
   "dashboard.card.deployment.managedClusters": "Managed clusters",

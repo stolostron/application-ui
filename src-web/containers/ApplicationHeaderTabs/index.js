@@ -57,6 +57,42 @@ const ApplicationHeaderTabs = withLocale(
     }
 
     actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
+
+
+    const renderTab = (thisTab) => {
+      if (selectedAppTab === thisTab) {
+        switch (thisTab) {
+        case 0:
+          return (
+            <div className="some-content">
+              <ApplicationsTab
+                secondaryHeaderProps={{ title: 'routes.applications' }}
+              />
+            </div>
+          )
+        case 1:
+          return (
+            <div className="page-content-container">
+              <ApplicationDeploymentPipeline serverProps={serverProps} />
+            </div>
+          )
+        case 2:
+          return (
+            <div className="some-content">
+              <IncidentsTab params={params} />
+            </div>
+          )
+        case 3:
+          return (
+            <div className="page-content-container">
+              <ApplicationLogs serverProps={serverProps} />
+            </div>
+          )
+        }
+      }
+      return null
+    }
+
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
@@ -80,11 +116,7 @@ const ApplicationHeaderTabs = withLocale(
               onKeyDown={() => {}}
               label={msgs.get('description.title.overview', locale)}
             >
-              <div className="some-content">
-                <ApplicationsTab
-                  secondaryHeaderProps={{ title: 'routes.applications' }}
-                />
-              </div>
+              {renderTab(0)}
             </Tab>
             <Tab
               disabled={false}
@@ -92,9 +124,7 @@ const ApplicationHeaderTabs = withLocale(
               onKeyDown={() => {}}
               label={msgs.get('description.title.deployments', locale)}
             >
-              <div className="page-content-container">
-                <ApplicationDeploymentPipeline serverProps={serverProps} />
-              </div>
+              {renderTab(1)}
             </Tab>
             {showExtraTabs &&
               isAdminRole(userRole) && (
@@ -104,9 +134,7 @@ const ApplicationHeaderTabs = withLocale(
                 onKeyDown={() => {}}
                 label={msgs.get('description.title.incidents', locale)}
               >
-                <div className="some-content">
-                  <IncidentsTab params={params} />
-                </div>
+                {renderTab(2)}
               </Tab>
             )}
             {showExtraTabs && (
@@ -116,9 +144,7 @@ const ApplicationHeaderTabs = withLocale(
                 onKeyDown={() => {}}
                 label={msgs.get('description.title.logs', locale)}
               >
-                <div className="page-content-container">
-                  <ApplicationLogs serverProps={serverProps} />
-                </div>
+                {renderTab(3)}
               </Tab>
             )}
           </Tabs>

@@ -103,6 +103,7 @@ const withResource = Component => {
         actions.clearAppDropDownList()
         // Then add it back so only one will be displaying
         actions.updateAppDropDownList(params.name)
+        this.reload()
       }
 
       componentWillUnmount() {

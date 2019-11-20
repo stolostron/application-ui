@@ -71,7 +71,7 @@ function getActiveChannel(localStoreKey) {
   }
 }
 
-function getDiagramElements(item, topology, localStoreKey) {
+function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
   const { status, loaded, reloading, willLoadDetails, detailsLoaded, detailsReloading } = topology
   const topologyReloading =  reloading
   const topologyLoadError = status === Actions.REQUEST_STATUS.ERROR
@@ -192,11 +192,10 @@ function getDiagramElements(item, topology, localStoreKey) {
   const yaml = ''
 
   // create application node
-  const { name: an, namespace: ans } = item
-  const appId = `application--${an}`
+  const appId = `application--${iname}`
   nodes.push({
-    name: an,
-    namespace: ans,
+    name: iname,
+    namespace: inamespace,
     type: 'application',
     uid: appId,
     specs: { isDesign: true }
@@ -204,6 +203,7 @@ function getDiagramElements(item, topology, localStoreKey) {
   return {
     clusters,
     channels,
+    activeChannel: undefined,
     links,
     nodes,
     yaml,

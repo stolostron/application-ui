@@ -94,7 +94,7 @@ class ApplicationTopologyModule extends React.Component {
       links: [],
       nodes: [],
       pods: [],
-      activeChannel: props.activeChannel,
+      activeChannel: undefined,
       showSpinner: false,
       lastTimeUpdate: undefined,
       currentYaml: props.yaml || '',
@@ -129,7 +129,9 @@ class ApplicationTopologyModule extends React.Component {
     const name = decodeURIComponent(params.name)
     const namespace = decodeURIComponent(params.namespace)
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
-    this.props.fetchTopology(hcmappdiagram.getActiveChannel(localStoreKey))
+    const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
+    this.props.fetchTopology(activeChannel)
+    this.setState({activeChannel})
     this.startPolling(60*1000) // poll at 60 seconds
   }
 
@@ -151,6 +153,10 @@ class ApplicationTopologyModule extends React.Component {
   componentWillUnmount() {
     if (this.state) {
       this.stopPolling()
+    }
+    const { actions, showExpandedTopology } = this.props
+    if (actions && showExpandedTopology) {
+      actions.setShowExpandedTopology({showExpandedTopology:false})
     }
   }
 
@@ -801,7 +807,9 @@ const mapStateToProps = (state, ownProps) => {
   const diagramElements = staticResourceData.getDiagramElements(
     item,
     topology,
-    localStoreKey
+    localStoreKey,
+    name,
+    namespace
   )
   return {
     ...diagramElements,

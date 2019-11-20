@@ -264,23 +264,16 @@ const mapStateToProps = state => {
 
 class ApplicationDeploymentPipeline extends React.Component {
   componentWillMount() {
-    const {
-      fetchChannels,
-      fetchSubscriptions,
-      fetchUserInfo,
-      fetchApplications,
-      appSubscriptions,
-      applications
-    } = this.props
+    const { fetchChannels, fetchSubscriptions, fetchUserInfo } = this.props
 
     fetchChannels()
     fetchSubscriptions()
     fetchUserInfo()
   }
 
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
 
@@ -304,7 +297,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       getChannelResource,
       getApplicationResource,
       getSubscriptionResource,
-      getBulkSubscriptionsForAppList,
       getPlacementRuleResource,
       editSubscription,
       displaySubscriptionModal,
@@ -340,7 +332,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications
     )
 
+
     const bulkSubscriptionList = HCMSubscriptionList && HCMSubscriptionList.items || []
+
 
     const channels = getChannelsList(HCMChannelList)
 
@@ -390,7 +384,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       app = applications[0]
       dashboard = app.dashboard
 
-      if (app && app._uid) icamLink = getICAMLinkForApp(app._uid, app.cluster)
+      if (app && app._uid)
+        icamLink = getICAMLinkForApp(app._uid, app.cluster, activeAccountId)
     }
     const appParams = {
       name: (app && app.name) || '',

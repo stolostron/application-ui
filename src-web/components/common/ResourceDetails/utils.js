@@ -36,9 +36,13 @@ export const getIcamLinkForSubscription = (
 }
 */
 
-export const getICAMLinkForApp = (appId, clusterName) => {
+export const getICAMLinkForApp = (appId, clusterName, activeAccountId) => {
   if (appId && clusterName) {
     appId = R.replace(clusterName, '', appId)
+
+    if (activeAccountId)
+      return `/cemui/applications${appId}?subscriptionId=${activeAccountId}`
+
     return `/cemui/applications${appId}`
   }
 

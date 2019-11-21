@@ -199,7 +199,7 @@ exports[`DashboardCard component 1 renders as expected 1`] = `
           href="undefined/pods"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>
@@ -394,7 +394,7 @@ exports[`DashboardCard component 2 renders as expected 1`] = `
           href="undefined/pods"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>
@@ -568,7 +568,7 @@ exports[`DashboardCard component 3 renders as expected 1`] = `
           href="undefined/pods"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>
@@ -732,7 +732,7 @@ exports[`DashboardCard component 4 renders as expected 1`] = `
           href="undefined/pods"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>

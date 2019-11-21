@@ -95,7 +95,7 @@ exports[`UtilizationCard component 1 renders as expected 1`] = `
           href="undefined/clusters"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>
@@ -198,7 +198,7 @@ exports[`UtilizationCard component 2 renders as expected 1`] = `
           href="undefined/clusters"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>
@@ -301,7 +301,7 @@ exports[`UtilizationCard component 3 renders as expected 1`] = `
           href="undefined/clusters"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>
@@ -404,7 +404,7 @@ exports[`UtilizationCard component 4 renders as expected 1`] = `
           href="undefined/clusters"
           onClick={[Function]}
         >
-          View All
+          View all
         </a>
       </div>
     </div>

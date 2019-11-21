@@ -126,7 +126,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptions,
-      targetLink: targetLinkForSubscriptions,
+      targetLink: subscriptions == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
         subscriptions > 0
@@ -153,7 +153,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
-      targetLink: targetLinkForClusters,
+      targetLink: clusters == 0 ? '' : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -187,7 +187,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.channel', locale)
           : msgs.get('dashboard.card.deployment.channels', locale),
       count: channels,
-      targetLink: targetLinkForChannels,
+      targetLink: channels == 0 ? '' : targetLinkForChannels,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)
@@ -198,7 +198,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.placementRule', locale)
           : msgs.get('dashboard.card.deployment.placementRules', locale),
       count: placementRules,
-      targetLink: targetLinkForPlacementRules,
+      targetLink: placementRules == 0 ? '' : targetLinkForPlacementRules,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)

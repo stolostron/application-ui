@@ -134,7 +134,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptions,
-      targetLink: targetLinkForSubscriptions,
+      targetLink: subscriptions == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
         subscriptions > 0
@@ -161,7 +161,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
-      targetLink: targetLinkForClusters,
+      targetLink: clusters == 0 ? '' : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -195,7 +195,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.pod', locale)
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
-      targetLink: targetLinkForPods,
+      targetLink: podData.total == 0 ? '' : targetLinkForPods,
       subtextKeyFirst:
         podData.running > 0 || podData.failed > 0
           ? podData.running
@@ -222,7 +222,7 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.policy.violations', locale),
       count: policyViolations,
       alert: policyViolations > 0 ? true : false,
-      targetLink: targetLinkForPolicyViolations,
+      targetLink: policyViolations == 0 ? '' : targetLinkForPolicyViolations,
       subtextKeyFirst:
         policyViolationData.VAViolations > 0 ||
         policyViolationData.MAViolations > 0

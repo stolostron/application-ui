@@ -263,7 +263,7 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.incidents', locale),
       count: incidents,
       alert: incidents > 0 ? true : false,
-      targetTab: 2,
+      targetTab: incidents == 0 ? null : 2,
       subtextKeyFirst:
         incidents > 0
           ? incidentData.priority1

@@ -64,7 +64,8 @@ if (process.env.NODE_ENV === 'production') {
       // in production these headers are set by icp-management-ingress
       frameguard: false,
       noSniff: false,
-      xssFilter: false
+      xssFilter: false,
+      noCache: true
     })
   )
 
@@ -75,7 +76,7 @@ if (process.env.NODE_ENV === 'production') {
     })
   )
 } else {
-  app.use(helmet())
+  app.use(helmet({ noCache: true }))
   app.use('*', morgan('dev'))
 }
 
@@ -92,8 +93,6 @@ app.use(
   cookieParser(),
   csrfMiddleware,
   (req, res, next) => {
-    res.setHeader('Cache-Control', 'no-store')
-    res.setHeader('Pragma', 'no-cache')
     const accessToken = req.cookies['cfc-access-token-cookie']
     req.headers.Authorization = `Bearer ${accessToken}`
     next()
@@ -113,8 +112,6 @@ app.use(
   cookieParser(),
   csrfMiddleware,
   (req, res, next) => {
-    res.setHeader('Cache-Control', 'no-store')
-    res.setHeader('Pragma', 'no-cache')
     const accessToken = req.cookies['cfc-access-token-cookie']
     req.headers.Authorization = `Bearer ${accessToken}`
     next()
@@ -168,8 +165,6 @@ const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
-  res.setHeader('Cache-Control', 'no-cache')
-  res.setHeader('Pragma', 'no-cache')
   if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
     return
@@ -183,18 +178,7 @@ app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   req.url = `${req.url}.gz`
   next()
 })
-app.use(
-  CONTEXT_PATH,
-  express.static(STATIC_PATH, {
-    maxAge:
-      process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
-    setHeaders: (res, fp) =>
-      res.setHeader(
-        'Cache-Control',
-        `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`
-      )
-  })
-)
+app.use(CONTEXT_PATH, express.static(STATIC_PATH))
 
 app.get(`${CONTEXT_PATH}/performance-now.js.map`, (req, res) =>
   res.sendStatus(404)

@@ -22,28 +22,19 @@ export const getIncidentCount = list => {
   return '-'
 }
 
-/*
-
-export const getIcamLinkForSubscription = (
-  activeAccountId,
-  namespace, subscriptionName
+export const getICAMLinkForApp = (
+  appId,
+  appName,
+  clusterName,
+  activeAccountId
 ) => {
-  if (activeAccountId && namespace && subscriptionName) {
-    const hostingSubscriptionStr = base64.encode(`${namespace}/${subscriptionName}`)
-    return `/cemui/applications/${hostingSubscriptionStr}?subscriptionId=${encodeURIComponent(activeAccountId)}&name=${subscriptionName}`
-  }
-  return '#'
-}
-*/
-
-export const getICAMLinkForApp = (appId, clusterName, activeAccountId) => {
-  if (appId && clusterName) {
+  if (appId && appName && clusterName) {
     appId = R.replace(clusterName, '', appId)
 
     if (activeAccountId)
-      return `/cemui/applications${appId}?subscriptionId=${activeAccountId}`
+      return `/cemui/applications${appId}?name=${appName}&subscriptionId=${activeAccountId}`
 
-    return `/cemui/applications${appId}`
+    return `/cemui/applications${appId}?name=${appName}`
   }
 
   return '#'

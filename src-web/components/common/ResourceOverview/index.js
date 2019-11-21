@@ -143,7 +143,13 @@ const ResourceOverview = withLocale(
     const dashboard = (item && item.dashboard) || ''
 
     const icamLink =
-      (item && getICAMLinkForApp(item._uid, item.cluster, activeAccountId)) ||
+      (item &&
+        getICAMLinkForApp(
+          item._uid,
+          item.name,
+          item.cluster,
+          activeAccountId
+        )) ||
       ''
     const enableICAM = showICAMAction && icamLink
 

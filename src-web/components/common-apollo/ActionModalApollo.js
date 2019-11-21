@@ -65,6 +65,7 @@ class ActionModalApollo extends React.PureComponent {
       const activeAccountId = this.props && this.props.activeAccountId
       const link = getICAMLinkForApp(
         data._uid,
+        data.name,
         data.clusterName,
         activeAccountId
       )

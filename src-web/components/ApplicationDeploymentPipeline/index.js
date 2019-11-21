@@ -276,16 +276,17 @@ class ApplicationDeploymentPipeline extends React.Component {
   componentWillUnmount() {}
 
   render() {
-
     // wait for it
     const {
       HCMApplicationList,
       HCMSubscriptionList,
-      HCMChannelList,
+      HCMChannelList
     } = this.props
-    if (HCMApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
-        HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
-        HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) {
+    if (
+      HCMApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
+      HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
+      HCMChannelList.status !== Actions.REQUEST_STATUS.DONE
+    ) {
       return <Loading withOverlay={false} className="content-spinner" />
     }
 
@@ -319,7 +320,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules
-
     } = this.props
     const { locale } = this.context
 
@@ -332,9 +332,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications
     )
 
-
-    const bulkSubscriptionList = HCMSubscriptionList && HCMSubscriptionList.items || []
-
+    const bulkSubscriptionList =
+      (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
     const channels = getChannelsList(HCMChannelList)
 
@@ -385,7 +384,12 @@ class ApplicationDeploymentPipeline extends React.Component {
       dashboard = app.dashboard
 
       if (app && app._uid)
-        icamLink = getICAMLinkForApp(app._uid, app.cluster, activeAccountId)
+        icamLink = getICAMLinkForApp(
+          app._uid,
+          app.name,
+          app.cluster,
+          activeAccountId
+        )
     }
     const appParams = {
       name: (app && app.name) || '',

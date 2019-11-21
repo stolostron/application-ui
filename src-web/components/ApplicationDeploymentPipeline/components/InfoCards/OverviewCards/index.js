@@ -29,6 +29,7 @@ import {
   getIncidentData
 } from '../utils'
 import {
+  getPoliciesLinkForOneApplication,
   getSearchLinkForOneApplication,
   getNumPolicyViolationsForList
 } from '../../../../common/ResourceOverview/utils'
@@ -325,9 +326,8 @@ class OverviewCards extends React.Component {
       name: encodeURIComponent(applicationName),
       showRelated: 'pod'
     })
-    const targetLinkForPolicyViolations = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      showRelated: 'mutationpolicy,vulnerabilitypolicy'
+    const targetLinkForPolicyViolations = getPoliciesLinkForOneApplication({
+      name: encodeURIComponent(applicationName)
     })
 
     const overviewCardsData = getOverviewCardsData(

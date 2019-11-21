@@ -14,6 +14,7 @@ import {
   getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments,
+  getPoliciesLinkForOneApplication,
   getResourceChannels
 } from './utils'
 
@@ -263,6 +264,17 @@ describe('getResourceChannels', () => {
   })
   it('should handle undefined object', () => {
     expect(getResourceChannels(undefined)).toEqual([])
+  })
+})
+
+describe('getPoliciesLinkForOneApplication', () => {
+  it('should return link to policies for one application', () => {
+    const appName = 'test-app'
+    const result = `/multicloud/policies/all?card=false&filters=%7B"textsearch"%3A%5B"${appName}"%5D%7D&index=2`
+    expect(getPoliciesLinkForOneApplication({ name: appName })).toEqual(result)
+  })
+  it('should return empty string if name param is empty', () => {
+    expect(getPoliciesLinkForOneApplication()).toEqual('')
   })
 })
 

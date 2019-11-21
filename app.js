@@ -92,7 +92,7 @@ app.use(
   cookieParser(),
   csrfMiddleware,
   (req, res, next) => {
-    res.setHeader('Cache-Control', 'no-store')
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
     res.setHeader('Pragma', 'no-cache')
     const accessToken = req.cookies['cfc-access-token-cookie']
     req.headers.Authorization = `Bearer ${accessToken}`
@@ -113,7 +113,7 @@ app.use(
   cookieParser(),
   csrfMiddleware,
   (req, res, next) => {
-    res.setHeader('Cache-Control', 'no-store')
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
     res.setHeader('Pragma', 'no-cache')
     const accessToken = req.cookies['cfc-access-token-cookie']
     req.headers.Authorization = `Bearer ${accessToken}`
@@ -168,7 +168,7 @@ const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
-  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
   res.setHeader('Pragma', 'no-cache')
   if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
@@ -188,11 +188,10 @@ app.use(
   express.static(STATIC_PATH, {
     maxAge:
       process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
-    setHeaders: (res, fp) =>
-      res.setHeader(
-        'Cache-Control',
-        `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`
-      )
+    setHeaders: res => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+      res.setHeader('Pragma', 'no-cache')
+    }
   })
 )
 

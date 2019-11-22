@@ -31,7 +31,8 @@ describe('topology reducer with topology name', () => {
       loaded: undefined,
       reloading: undefined,
       status: 'IN_PROGRESS',
-      test: 'test'
+      test: 'test',
+      detailsReloading: false
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })
@@ -55,7 +56,9 @@ describe('topology reducer with topology name', () => {
       loaded: true,
       reloading: false,
       test: 'test',
-      activeFilters: 'receivedApplication'
+      activeFilters: 'receivedApplication',
+      detailsLoaded: true,
+      willLoadDetails: undefined
     }
     expect(topology(state, action)).toEqual(expectedValue)
   })

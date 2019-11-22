@@ -61,8 +61,8 @@ const YamlEditor = ({
   validator,
   handleParsingError,
   yaml,
-  theme='monokai',
-  width = '49.5vw',
+  theme = 'monokai',
+  width = '100%',
   height = '40vh',
   readOnly = false,
   wrapEnabled = false

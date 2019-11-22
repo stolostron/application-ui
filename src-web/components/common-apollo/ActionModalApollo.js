@@ -9,6 +9,7 @@
 
 import _ from 'lodash'
 import React from 'react'
+import PropTypes from 'prop-types'
 import loadable from 'loadable-components'
 import { GET_ACTION_MODAL_STATE } from '../../apollo-client/queries/StateQueries'
 import { Query } from 'react-apollo'
@@ -61,7 +62,13 @@ class ActionModalApollo extends React.PureComponent {
       )
     }
     case 'table.actions.applications.icam': {
-      const link = getICAMLinkForApp(data._uid, data.clusterName)
+      const activeAccountId = this.props && this.props.activeAccountId
+      const link = getICAMLinkForApp(
+        data._uid,
+        data.name,
+        data.clusterName,
+        activeAccountId
+      )
       window.open(link, '_blank')
       return null
     }
@@ -176,6 +183,14 @@ class ActionModalApollo extends React.PureComponent {
       </Query>
     )
   }
+}
+
+ActionModalApollo.contextTypes = {
+  locale: PropTypes.string
+}
+
+ActionModalApollo.propTypes = {
+  activeAccountId: PropTypes.string
 }
 
 export default ActionModalApollo

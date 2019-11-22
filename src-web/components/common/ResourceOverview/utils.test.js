@@ -14,7 +14,14 @@ import {
   getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments,
-  getResourceChannels
+  getPoliciesLinkForOneApplication,
+  getResourceChannels,
+  getSearchLinkForAllApplications,
+  getSearchLinkForAllChannels,
+  getSearchLinkForAllClusters,
+  getSearchLinkForAllPlacementRules,
+  getSearchLinkForAllSubscriptions,
+  getSearchLinkForOneApplication
 } from './utils'
 
 const data1 = {
@@ -263,6 +270,80 @@ describe('getResourceChannels', () => {
   })
   it('should handle undefined object', () => {
     expect(getResourceChannels(undefined)).toEqual([])
+  })
+})
+
+describe('getPoliciesLinkForOneApplication', () => {
+  it('should return link to policies for one application', () => {
+    const appName = 'test-app'
+    const result = `/multicloud/policies/all?card=false&filters=%7B"textsearch"%3A%5B"${appName}"%5D%7D&index=2`
+    expect(getPoliciesLinkForOneApplication({ name: appName })).toEqual(result)
+  })
+  it('should return empty string if name param is empty', () => {
+    expect(getPoliciesLinkForOneApplication()).toEqual('')
+  })
+})
+
+describe('getSearchLinkForOneApplication', () => {
+  const appName = 'test-app'
+  it('should return general search link for one application', () => {
+    const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}`
+    expect(
+      getSearchLinkForOneApplication({
+        name: appName
+      })
+    ).toEqual(result)
+  })
+  it('should return cluster related search link for one application', () => {
+    const related = 'cluster'
+    const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}&showrelated=${related}`
+    expect(
+      getSearchLinkForOneApplication({
+        name: appName,
+        showRelated: related
+      })
+    ).toEqual(result)
+  })
+  it('should return empty string if name param is empty', () => {
+    expect(getSearchLinkForOneApplication()).toEqual('')
+  })
+})
+
+describe('getSearchLinkForAllApplications', () => {
+  it('should return search link for all application', () => {
+    const result =
+      '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}'
+    expect(getSearchLinkForAllApplications()).toEqual(result)
+  })
+})
+
+describe('getSearchLinkForAllSubscriptions', () => {
+  it('should return search link for all subscriptions', () => {
+    const result =
+      '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20status%3APropagated"}'
+    expect(getSearchLinkForAllSubscriptions()).toEqual(result)
+  })
+})
+
+describe('getSearchLinkForAllClusters', () => {
+  it('should return search link for all clusters', () => {
+    const result = '/multicloud/search?filters={"textsearch":"kind%3Acluster"}'
+    expect(getSearchLinkForAllClusters()).toEqual(result)
+  })
+})
+
+describe('getSearchLinkForAllChannels', () => {
+  it('should return search link for all channels', () => {
+    const result = '/multicloud/search?filters={"textsearch":"kind%3Achannel"}'
+    expect(getSearchLinkForAllChannels()).toEqual(result)
+  })
+})
+
+describe('getSearchLinkForAllPlacementRules', () => {
+  it('should return search link for all placement rules', () => {
+    const result =
+      '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule"}'
+    expect(getSearchLinkForAllPlacementRules()).toEqual(result)
   })
 })
 

@@ -287,12 +287,21 @@ export const getSearchLinkForOneApplication = params => {
   return ''
 }
 
+export const getPoliciesLinkForOneApplication = params => {
+  if (params && params.name) {
+    return `/multicloud/policies/all?card=false&filters=%7B"textsearch"%3A%5B"${
+      params.name
+    }"%5D%7D&index=2`
+  }
+  return ''
+}
+
 export const getSearchLinkForAllApplications = () => {
   return '/multicloud/search?filters={"textsearch":"kind%3Aapplication"}'
 }
 
 export const getSearchLinkForAllSubscriptions = () => {
-  return '/multicloud/search?filters={"textsearch":"kind%3Asubscription"}'
+  return '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20status%3APropagated"}'
 }
 
 export const getSearchLinkForAllClusters = () => {

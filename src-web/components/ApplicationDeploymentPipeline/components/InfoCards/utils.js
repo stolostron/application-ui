@@ -11,6 +11,7 @@ import {
   getAllRelatedForList,
   removeDuplicatesFromList
 } from '../PipelineGrid/utils'
+// import { CEMIncidentList } from '../../../../../lib/client/queries'
 
 // Method will take in an object and return back the status of related objects
 // returns [completed + unidentified, fail, inprogress + pending]
@@ -125,7 +126,12 @@ export const getChannelsCountFromSubscriptions = arr => {
     arr.map(elem => {
       if (elem && elem.items instanceof Array && elem.items.length > 0) {
         elem.items.map(subelem => {
-          if (subelem.channel && !subelem._hostingSubscription) {
+          if (
+            subelem.channel &&
+            !subelem._hostingSubscription &&
+            (!subelem.status ||
+              (subelem.status && subelem.status != 'Subscribed'))
+          ) {
             // count only hub subscriptions
             channelSet.add(subelem.channel)
           }
@@ -487,5 +493,26 @@ export const getPolicyViolationData = (
   return {
     VAViolations: VAViolations.length,
     MAViolations: MAViolations.length
+  }
+}
+
+export const getIncidentData = CEMIncidentList => {
+  var priority1 = []
+  var priority2 = []
+
+  if (CEMIncidentList && CEMIncidentList.items) {
+    Object.keys(CEMIncidentList.items).map(listIndex => {
+      const item = CEMIncidentList.items[listIndex]
+      if (item.priority == 1) {
+        priority1 = priority1.concat(item)
+      } else if (item.priority == 2) {
+        priority2 = priority2.concat(item)
+      }
+    })
+  }
+
+  return {
+    priority1: priority1.length,
+    priority2: priority2.length
   }
 }

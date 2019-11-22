@@ -12,7 +12,7 @@ import ResourceTableModule from '../components/common/ResourceTableModuleFromPro
 import { withRouter } from 'react-router-dom'
 import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
-import { createApplication } from '../actions/applications'
+import { createResources } from '../actions/common'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
 import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
@@ -21,7 +21,7 @@ import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationS
 import { getApplicationSample } from '../shared/yamlSamples/index'
 
 const handleCreateResource = (dispatch, yaml) =>
-  dispatch(createApplication(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
+  dispatch(createResources(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
 
 const { locale } = context()
 const tableTitle = msgs.get('table.title.allApplications', locale)

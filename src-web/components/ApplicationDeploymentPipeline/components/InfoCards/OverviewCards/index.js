@@ -8,10 +8,13 @@
 
 import R from 'ramda'
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import resources from '../../../../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
 import { fetchResources } from '../../../../../actions/common'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../../../../../actions'
 import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumClusters,
@@ -22,9 +25,11 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
   getPodData,
-  getPolicyViolationData
+  getPolicyViolationData,
+  getIncidentData
 } from '../utils'
 import {
+  getPoliciesLinkForOneApplication,
   getSearchLinkForOneApplication,
   getNumPolicyViolationsForList
 } from '../../../../common/ResourceOverview/utils'
@@ -39,7 +44,8 @@ resources(() => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
+    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    actions: bindActionCreators(Actions, dispatch)
   }
 }
 
@@ -79,7 +85,9 @@ const getOverviewCardsData = (
   const incidents = getNumIncidents(CEMIncidentList)
 
   //count only hub subscriptions
-  const isHubSubscr = item => !item._hostingSubscription
+  const isHubSubscr = item =>
+    !item._hostingSubscription &&
+    (!item.status || (item.status && item.status != 'Subscribed'))
   let subscriptions = getNumItems(HCMSubscriptionList, isHubSubscr)
   if (isSingleApplicationView) {
     const subscriptionsArray = pullOutKindPerApplication(
@@ -118,6 +126,7 @@ const getOverviewCardsData = (
     applicationName,
     applicationNamespace
   )
+  const incidentData = getIncidentData(CEMIncidentList)
 
   const result = [
     {
@@ -126,10 +135,10 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptions,
-      targetLink: targetLinkForSubscriptions,
+      targetLink: subscriptions == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
-        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
+        subscriptions > 0
           ? subscriptionDataOnHub.failed
             .toString()
             .concat(
@@ -138,7 +147,7 @@ const getOverviewCardsData = (
             )
           : '',
       subtextKeySecond:
-        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
+        subscriptionDataOnHub.noStatus > 0
           ? subscriptionDataOnHub.noStatus
             .toString()
             .concat(
@@ -153,7 +162,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
-      targetLink: targetLinkForClusters,
+      targetLink: clusters == 0 ? '' : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -163,8 +172,7 @@ const getOverviewCardsData = (
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
       subtextKeyFirst:
-        subscriptionDataOnManagedClusters.failed > 0 ||
-        subscriptionDataOnManagedClusters.noStatus > 0
+        clusters > 0
           ? subscriptionDataOnManagedClusters.failed
             .toString()
             .concat(
@@ -173,7 +181,6 @@ const getOverviewCardsData = (
             )
           : '',
       subtextKeySecond:
-        subscriptionDataOnManagedClusters.failed > 0 ||
         subscriptionDataOnManagedClusters.noStatus > 0
           ? subscriptionDataOnManagedClusters.noStatus
             .toString()
@@ -189,7 +196,7 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.pod', locale)
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
-      targetLink: targetLinkForPods,
+      targetLink: podData.total == 0 ? '' : targetLinkForPods,
       subtextKeyFirst:
         podData.running > 0 || podData.failed > 0
           ? podData.running
@@ -216,7 +223,7 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.policy.violations', locale),
       count: policyViolations,
       alert: policyViolations > 0 ? true : false,
-      targetLink: targetLinkForPolicyViolations,
+      targetLink: policyViolations == 0 ? '' : targetLinkForPolicyViolations,
       subtextKeyFirst:
         policyViolationData.VAViolations > 0 ||
         policyViolationData.MAViolations > 0
@@ -256,7 +263,32 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.incident', locale)
           : msgs.get('dashboard.card.deployment.incidents', locale),
       count: incidents,
-      alert: incidents > 0 ? true : false
+      alert: incidents > 0 ? true : false,
+      targetTab: incidents == 0 ? null : 2,
+      subtextKeyFirst:
+        incidents > 0
+          ? incidentData.priority1
+            .toString()
+            .concat(
+              ' ',
+              msgs.get(
+                'dashboard.card.deployment.incidents.priority1',
+                locale
+              )
+            )
+          : '',
+      subtextKeySecond:
+        incidents > 0
+          ? incidentData.priority2
+            .toString()
+            .concat(
+              ' ',
+              msgs.get(
+                'dashboard.card.deployment.incidents.priority2',
+                locale
+              )
+            )
+          : ''
     }
   ]
 
@@ -274,7 +306,8 @@ class OverviewCards extends React.Component {
       HCMSubscriptionList,
       HCMApplicationList,
       CEMIncidentList,
-      isSingleApplicationView
+      isSingleApplicationView,
+      actions
     } = this.props
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
@@ -293,9 +326,8 @@ class OverviewCards extends React.Component {
       name: encodeURIComponent(applicationName),
       showRelated: 'pod'
     })
-    const targetLinkForPolicyViolations = getSearchLinkForOneApplication({
-      name: encodeURIComponent(applicationName),
-      showRelated: 'mutationpolicy,vulnerabilitypolicy'
+    const targetLinkForPolicyViolations = getPoliciesLinkForOneApplication({
+      name: encodeURIComponent(applicationName)
     })
 
     const overviewCardsData = getOverviewCardsData(
@@ -312,57 +344,77 @@ class OverviewCards extends React.Component {
       locale
     )
 
-    const handleClick = (e, resource) => {
-      if (resource.targetLink) {
-        window.open(resource.targetLink, '_blank')
-      }
-    }
-    const handleKeyPress = (e, resource) => {
-      if (e.key === 'Enter') {
-        handleClick(e, resource)
-      }
-    }
-
     return (
       <div className={'overview-cards-info' + singleAppStyle}>
-        {Object.keys(overviewCardsData).map(key => {
-          const card = overviewCardsData[key]
-          return (
-            <React.Fragment key={key}>
-              <div
-                key={card}
-                className={
-                  card.targetLink ? 'single-card clickable' : 'single-card'
-                }
-                role="button"
-                tabIndex="0"
-                onClick={e => handleClick(e, card)}
-                onKeyPress={e => handleKeyPress(e, card)}
-              >
-                <div className={card.alert ? 'card-count alert' : 'card-count'}>
-                  {card.count}
-                </div>
-                <div className="card-type">{card.msgKey}</div>
-                <div className="card-text">{card.textKey}</div>
-                {(card.subtextKeyFirst || card.subtextKeySecond) && (
-                  <div className="row-divider" />
-                )}
-                {card.subtextKeyFirst && (
-                  <div className="card-subtext">{card.subtextKeyFirst}</div>
-                )}
-                {card.subtextKeySecond && (
-                  <div className="card-subtext">{card.subtextKeySecond}</div>
-                )}
-              </div>
-              {key < Object.keys(overviewCardsData).length - 1 && (
-                <div className="column-divider" />
-              )}
-            </React.Fragment>
-          )
-        })}
+        <InfoCards overviewCardsData={overviewCardsData} actions={actions} />
       </div>
     )
   }
 }
+
+const InfoCards = ({ overviewCardsData, actions }) => {
+  return (
+    <React.Fragment>
+      {Object.keys(overviewCardsData).map(key => {
+        const card = overviewCardsData[key]
+
+        const handleClick = (e, resource) => {
+          if (resource.targetTab != null) {
+            actions.setSelectedAppTab(resource.targetTab)
+          } else if (resource.targetLink) {
+            window.open(resource.targetLink, '_blank')
+          }
+        }
+        const handleKeyPress = (e, resource) => {
+          if (e.key === 'Enter') {
+            handleClick(e, resource)
+          }
+        }
+
+        return (
+          <React.Fragment key={key}>
+            <div
+              key={card}
+              className={
+                card.targetLink || card.targetTab
+                  ? 'single-card clickable'
+                  : 'single-card'
+              }
+              role="button"
+              tabIndex="0"
+              onClick={e => handleClick(e, card)}
+              onKeyPress={e => handleKeyPress(e, card)}
+            >
+              <div className={card.alert ? 'card-count alert' : 'card-count'}>
+                {card.count}
+              </div>
+              <div className="card-type">{card.msgKey}</div>
+              <div className="card-text">{card.textKey}</div>
+              {(card.subtextKeyFirst || card.subtextKeySecond) && (
+                <div className="row-divider" />
+              )}
+              {card.subtextKeyFirst && (
+                <div className="card-subtext">{card.subtextKeyFirst}</div>
+              )}
+              {card.subtextKeySecond && (
+                <div className="card-subtext">{card.subtextKeySecond}</div>
+              )}
+            </div>
+            {key < Object.keys(overviewCardsData).length - 1 && (
+              <div className="column-divider" />
+            )}
+          </React.Fragment>
+        )
+      })}
+    </React.Fragment>
+  )
+}
+
+InfoCards.propTypes = {
+  actions: PropTypes.object,
+  overviewCardsData: PropTypes.array
+}
+
+OverviewCards.propTypes = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(OverviewCards)

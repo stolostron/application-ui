@@ -118,16 +118,7 @@ export const getAllFilters = (mode, typeToShapeMap, isLoaded, nodes, options={},
     activeFilters = Object.assign({}, {type: initialActiveTypes}, activeFilters)
   } else {
     activeFilters = _.cloneDeep(activeFilters)
-    // if no active types specified, initialize with all specified
-    if (!activeFilters.type) {
-      activeFilters.type = availableTypes
-    } else if (knownTypes.length>0) {
-      // knownTypes are all types known when the active types were created
-      // if there's an available type that wasn't known when the active types were created
-      //  make it active now
-      const newAvailableTypes = _.difference(availableTypes, knownTypes)
-      activeFilters.type = _.union(activeFilters.type, newAvailableTypes)
-    }
+    activeFilters.type = availableTypes
   }
   // if an other type it's active status is covered by 'other' type
   if (otherTypeFilters.length>0) {

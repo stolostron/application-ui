@@ -80,7 +80,9 @@ const getResourceCardsData = (
   let channels = getNumItems(HCMChannelList)
 
   //count only hub subscriptions
-  const isHubSubscr = item => !item._hostingSubscription
+  const isHubSubscr = item =>
+    !item._hostingSubscription &&
+    (!item.status || (item.status && item.status != 'Subscribed'))
   let subscriptions = getNumItems(HCMSubscriptionList, isHubSubscr)
   if (isSingleApplicationView) {
     const subscriptionsArray = pullOutKindPerApplication(
@@ -124,10 +126,10 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptions,
-      targetLink: targetLinkForSubscriptions,
+      targetLink: subscriptions == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
-        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
+        subscriptions > 0
           ? subscriptionDataOnHub.failed
             .toString()
             .concat(
@@ -136,7 +138,7 @@ const getResourceCardsData = (
             )
           : '',
       subtextKeySecond:
-        subscriptionDataOnHub.failed > 0 || subscriptionDataOnHub.noStatus > 0
+        subscriptionDataOnHub.noStatus > 0
           ? subscriptionDataOnHub.noStatus
             .toString()
             .concat(
@@ -151,7 +153,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: clusters,
-      targetLink: targetLinkForClusters,
+      targetLink: clusters == 0 ? '' : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -161,8 +163,7 @@ const getResourceCardsData = (
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
       subtextKeyFirst:
-        subscriptionDataOnManagedClusters.failed > 0 ||
-        subscriptionDataOnManagedClusters.noStatus > 0
+        clusters > 0
           ? subscriptionDataOnManagedClusters.failed
             .toString()
             .concat(
@@ -171,7 +172,6 @@ const getResourceCardsData = (
             )
           : '',
       subtextKeySecond:
-        subscriptionDataOnManagedClusters.failed > 0 ||
         subscriptionDataOnManagedClusters.noStatus > 0
           ? subscriptionDataOnManagedClusters.noStatus
             .toString()
@@ -187,7 +187,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.channel', locale)
           : msgs.get('dashboard.card.deployment.channels', locale),
       count: channels,
-      targetLink: targetLinkForChannels,
+      targetLink: channels == 0 ? '' : targetLinkForChannels,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)
@@ -198,7 +198,7 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.placementRule', locale)
           : msgs.get('dashboard.card.deployment.placementRules', locale),
       count: placementRules,
-      targetLink: targetLinkForPlacementRules,
+      targetLink: placementRules == 0 ? '' : targetLinkForPlacementRules,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)

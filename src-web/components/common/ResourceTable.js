@@ -133,7 +133,7 @@ class ResourceTable extends React.Component {
                   this.context.locale
                 )}
                 placeHolderText={msgs.get(
-                  'actions.searchApplications',
+                  'actions.searchResources',
                   this.context.locale
                 )}
               />
@@ -181,9 +181,9 @@ class ResourceTable extends React.Component {
                           <button
                             title={msgs.get(
                               `svg.description.${
-                                !sortColumn || sortDirection === 'desc'
-                                  ? 'asc'
-                                  : 'desc'
+                              !sortColumn || sortDirection === 'desc'
+                                ? 'asc'
+                                : 'desc'
                               }`,
                               this.context.locale
                             )}
@@ -192,11 +192,11 @@ class ResourceTable extends React.Component {
                               sortDirection === 'asc'
                                 ? ' bx--table-sort-v2--ascending'
                                 : ''
-                            }${
+                              }${
                               sortColumn === header.key
                                 ? ' bx--table-sort-v2--active'
                                 : ''
-                            }`}
+                              }`}
                             data-key={header.key}
                             data-default-key={
                               staticResourceData.defaultSortField
@@ -210,9 +210,9 @@ class ResourceTable extends React.Component {
                               name="caret--down"
                               description={msgs.get(
                                 `svg.description.${
-                                  !sortColumn || sortDirection === 'desc'
-                                    ? 'asc'
-                                    : 'desc'
+                                !sortColumn || sortDirection === 'desc'
+                                  ? 'asc'
+                                  : 'desc'
                                 }`,
                                 this.context.locale
                               )}
@@ -249,9 +249,9 @@ class ResourceTable extends React.Component {
                                     items[row.id].subItems.length === 0)),
                               className:
                                 expandableTable &&
-                                ((items[row.id] && !items[row.id].subItems) ||
-                                  (items[row.id] &&
-                                    items[row.id].subItems.length === 0))
+                                  ((items[row.id] && !items[row.id].subItems) ||
+                                    (items[row.id] &&
+                                      items[row.id].subItems.length === 0))
                                   ? 'row-not-expanded'
                                   : ''
                             })}
@@ -503,12 +503,12 @@ class ResourceTable extends React.Component {
                         {msgs.get(action, locale)}
                         {(action === 'table.actions.applications.grafana' ||
                           action === 'table.actions.applications.icam') && (
-                          <Icon
-                            className="app-dashboard-icon-table"
-                            name="icon--launch"
-                            fill="#3D70B2"
-                          />
-                        )}
+                            <Icon
+                              className="app-dashboard-icon-table"
+                              name="icon--launch"
+                              fill="#3D70B2"
+                            />
+                          )}
                       </div>
                     </div>
                   }
@@ -523,8 +523,8 @@ class ResourceTable extends React.Component {
               {transform(item, key, locale)}
             </Link>
           ) : (
-            transform(item, key, locale)
-          )
+              transform(item, key, locale)
+            )
         })
         return row
       })

@@ -33,7 +33,9 @@ export const getRelatedItems = (related, kind) => {
         if (kind === 'subscription') {
           //filter out remote cluster subscriptions
           // identified by the fact that the _hostingSubscription is defined
-          const isHubSubscr = item => !item._hostingSubscription
+          const isHubSubscr = item =>
+            !item._hostingSubscription &&
+            (!item.status || (item.status && item.status != 'Subscribed'))
           const filteredResult = R.filter(isHubSubscr, elem.items)
           result = result.concat(filteredResult)
         } else {
@@ -52,7 +54,9 @@ export const filterRemoteClusterSubscriptions = related => {
     const subscr_index = R.findIndex(subscriptionsRel)(related)
 
     if (subscr_index != -1) {
-      const isHubSubscr = item => !item._hostingSubscription
+      const isHubSubscr = item =>
+        !item._hostingSubscription &&
+        (!item.status || (item.status && item.status != 'Subscribed'))
       //replace subscriptions with a new list
       //where remote cluster subscriptions were removed
       if (related[subscr_index]) {

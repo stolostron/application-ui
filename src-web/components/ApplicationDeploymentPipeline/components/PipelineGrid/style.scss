@@ -125,6 +125,7 @@
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     position: relative;
     margin-left: 0px;
+    margin-top: 10px;
     min-width: 450px;
     width: 100%;
     min-height: 250px;
@@ -156,6 +157,7 @@
   .noResDescription {
     font-size: 12px;
     padding-top: 10px;
+    font-style: italic;
   }
 
   .subDescriptionText {
@@ -175,11 +177,10 @@
   .noSubDescription {
     font-size: 12px;
     padding-top: 10px;
+    font-style: italic;
   }
 
   .deployment-highlights-terminology-docs {
-    text-align: right;
-    padding-left: 1em;
     padding-right: 1em;
     width: 100%;
   }
@@ -187,7 +188,7 @@
   .deployment-highlights-terminology-docs-text {
     cursor: pointer;
     display: inline-block;
-    padding: 30px 10px 10px;
+    padding: 20px 10px 10px 0px;
     font-weight: bold;
     font-size: 14px;
     color: #3d70b2;
@@ -255,7 +256,7 @@
     display: inline-block;
     position: absolute;
     overflow: scroll;
-    width: 68.5%;
+    width: calc(90% - 329px);
     background-color: #f4f7fb;
   }
 
@@ -263,7 +264,7 @@
     display: inline-block;
     position: absolute;
     overflow: scroll;
-    width: 86%;
+    width: 90vw;
     background-color: #f4f7fb;
     margin-bottom: 50px;
   }
@@ -305,8 +306,11 @@
   }
 
   .placementEditIcon {
-    fill: black;
+    fill: #3d70b2;
     display: inline-block;
+    width: 7%;
+    vertical-align: bottom;
+    padding-left: 5px;
     cursor: pointer;
   }
 

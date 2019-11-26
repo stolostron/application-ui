@@ -91,14 +91,15 @@ export const fetchTopology = (vars, fetchFilters, reloading) => {
           }
 
           // if there's a cluster, also fetch details
-          let clusterNames
+          let clusterNames=[]
           if (topology.resources.findIndex(({type})=>{return type==='pod'})!==-1) {
-            const clusterIdx = topology.resources.findIndex(({type})=>{return type==='cluster'})
-            if (clusterIdx!==-1) {
-              clusterNames = lodash.get(topology, `resources[${clusterIdx}].specs.clusterNames`)
-            }
+            topology.resources.forEach(res=>{
+              if (res.type==='cluster') {
+                clusterNames = [...clusterNames, ...lodash.get(res, 'specs.clusterNames', [])]
+              }
+            })
           }
-          const loadDetails = !!clusterNames
+          const loadDetails = clusterNames.length>0
           dispatch(receiveTopologySuccess(topology, resourceType, fetchFilters, loadDetails))
           if (loadDetails) {
             dispatch(requestResourceDetails(resourceType, fetchFilters, reloading))

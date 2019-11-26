@@ -12,6 +12,7 @@ import cytoscape from 'cytoscape'
 import cycola from 'cytoscape-cola'
 import {getWrappedNodeLabel, getHashCode} from '../../utils/diagram-helpers'
 import {layoutEdges, setDraggedLineData} from './linkHelper'
+import {getNodeGroups} from '../defaults/grouping'
 import FilterHelper from './filterHelper'
 import { NODE_SIZE } from '../constants.js'
 import _ from 'lodash'
@@ -60,7 +61,8 @@ export default class LayoutHelper {
     }
 
     // for each cluster, group into collections
-    const groups = this.getNodeGroups(nodes, this.activeFilters, this.diagramOptions)
+    const groups = this.getNodeGroups ? this.getNodeGroups(nodes, this.activeFilters, this.diagramOptions) :
+      getNodeGroups('', nodes)
 
     // make sure shape type order can work from this
     this.shapeTypeOrder = _.union(this.shapeTypeOrder, Object.keys(groups.nodeGroups))
@@ -923,7 +925,7 @@ export default class LayoutHelper {
         title.y = currentY + dyCell - NODE_SIZE*2
         layoutBBox.y1 = Math.min(layoutBBox.y1||title.y, title.y)
       } else {
-        layoutBBox.y1 = -40
+        layoutBBox.y1 = layoutBBox.y1||-40
       }
 
       // set all node positions

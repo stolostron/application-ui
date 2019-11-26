@@ -8,12 +8,13 @@
  *******************************************************************************/
 'use strict'
 import { StatusIcon, PodIcon } from '../constants.js'
+import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 
 const HOURS = 1000 * 60 * 60
 
 
-export const updateNodeStatus = (nodes) => {
+export const updateNodeStatus = (nodes, locale) => {
 
   // collect statistics
   const sizes = []
@@ -53,7 +54,7 @@ export const updateNodeStatus = (nodes) => {
           clusterStatus.hasFailure = true
           clusterStatus.isDisabled = true
           clusterStatus.isOffline = true
-          clusterStatus.status = 'offline'
+          clusterStatus.status = msgs.get('cluster.status.offline', locale)
         }
         _.set(node, 'specs.clusterStatus', clusterStatus)
 
@@ -221,6 +222,19 @@ export const updateNodeIcons = (nodes) => {
       }
       break
     }
+
+    // get deplyable status
+    if (!nodeIcons['status']) {
+      const deployStatuses = _.get(node, 'specs.deployStatuses')
+      if (deployStatuses && deployStatuses.length>0) {
+        let statusIcon = StatusIcon.success
+        if (deployStatuses.some(({phase})=>phase==='Failed')) {
+          statusIcon = StatusIcon.error
+        }
+        nodeIcons['status'] = Object.assign({}, statusIcon)
+      }
+    }
+
     layout.nodeIcons = Object.assign(layout.nodeIcons||{}, nodeIcons)
     layout.nodeStatus = nodeStatus // description under label
     layout.isDisabled = disabled   // show node grayed out

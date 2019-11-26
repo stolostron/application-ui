@@ -31,7 +31,7 @@ const TypeFilters = {
   },
 }
 
-export const getAllFilters = (mode, typeToShapeMap, isLoaded, nodes, options={}, activeFilters, knownTypes, locale ) => {
+export const getAllFilters = (mode, typeToShapeMap, isLoaded, nodes, options={}, activeFilters, knownTypes, userIsFiltering, locale ) => {
   const availableFilters = {}
   let otherTypeFilters = []
 
@@ -118,7 +118,9 @@ export const getAllFilters = (mode, typeToShapeMap, isLoaded, nodes, options={},
     activeFilters = Object.assign({}, {type: initialActiveTypes}, activeFilters)
   } else {
     activeFilters = _.cloneDeep(activeFilters)
-    activeFilters.type = availableTypes
+    if (!userIsFiltering) {
+      activeFilters.type = availableTypes
+    }
   }
   // if an other type it's active status is covered by 'other' type
   if (otherTypeFilters.length>0) {
@@ -149,7 +151,7 @@ export const getAvailableFilters = (mode, nodes, options, activeFilters, locale 
 }
 
 //search filters also show related nodes, like searching on name
-export const getSearchFilter = (mode, filters) => {
+export const getSearchFilter = (mode, filters={}) => {
   const ret = {filters:{}, search:undefined}
   const searchTypes = _.get(TypeFilters, '${mode}.searchTypes', new Set())
   Object.entries(filters).forEach(([type, value])=>{
@@ -435,7 +437,7 @@ export const filterNodes = (mode, nodes, activeFilters, availableFilters) => {
     return filterPolicyNodes(nodes, activeFilters, availableFilters)
 
   default:
-    return defaultFilterNodes(nodes, activeFilters, availableFilters)
+    return nodes
   }
 }
 
@@ -550,14 +552,5 @@ const filterPolicyNodes = (nodes, activeFilters) => {
       hasK8type = k8type.size === 0 || k8type.has(labels.vendor)
     }
     return (hasType && hasProviders && hasPurpose && hasRegion && hasK8type)
-  })
-}
-
-const defaultFilterNodes = (nodes, activeFilters) => {
-  const { type } = activeFilters
-  const typeSet = new Set(type)
-  return nodes.filter(node=>{
-    const {type} = node
-    return typeSet.has(type)
   })
 }

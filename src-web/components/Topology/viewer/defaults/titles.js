@@ -11,11 +11,11 @@
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
 
-export const getNodeTitle = (node) => {
+export const getNodeTitle = (node, locale) => {
   const {type} = node
   switch (type) {
   case 'policy':
-    return 'policy'
+    return msgs.get('topology.title.policy', locale)
 
   default:
     return _.get(node, 'specs.title', '')

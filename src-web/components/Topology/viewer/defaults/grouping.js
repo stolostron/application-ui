@@ -11,7 +11,7 @@
 import {getWrappedNodeLabel} from '../../utils/diagram-helpers'
 import _ from 'lodash'
 
-export const getNodeGroups = (mode, nodes=[], activeFilters, diagramOptions) => {
+export const getNodeGroups = (mode, nodes=[], activeFilters, diagramOptions={}) => {
   switch (mode) {
   case 'cluster':
     return getClusterNodeGroups(nodes)

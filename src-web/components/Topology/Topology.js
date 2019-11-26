@@ -112,15 +112,16 @@ class Topology extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
       let { timestamp } = prevState
+      const { userIsFiltering } = prevState
       const { nodes, fetchControl={} } = nextProps
       const { isLoaded=true, isReloading=false } = fetchControl
       if (!_.isEqual(nodes, this.props.nodes) && !isReloading) {
         timestamp = new Date().toString()
       }
-      this.staticResourceData.updateNodeStatus(nodes)
+      this.staticResourceData.updateNodeStatus(nodes, this.props.locale)
       const {availableFilters, activeFilters, otherTypeFilters} =
         this.staticResourceData.getAllFilters(isLoaded, nodes, this.props.options,
-          prevState.activeFilters, this.knownTypes, this.props.locale)
+          prevState.activeFilters, this.knownTypes, userIsFiltering, this.props.locale)
       return {
         isLoaded, timestamp, availableFilters, activeFilters, otherTypeFilters
       }
@@ -299,7 +300,7 @@ class Topology extends React.Component {
       const availableFilters = Object.assign({}, prevState.availableFilters,
         this.staticResourceData.getAvailableFilters(nodes, options, activeFilters, locale))
 
-      return {activeFilters, availableFilters}
+      return {activeFilters, availableFilters, userIsFiltering:true}
     })
   }
 

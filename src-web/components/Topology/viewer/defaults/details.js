@@ -56,6 +56,21 @@ export const getNodeDetails = (node) => {
     }
       break
 
+    case 'placement': {
+      const { placements=[] } = specs
+      details.push({
+        type: 'label',
+        labelKey: 'resource.placement'
+      })
+      placements.forEach(placement=>{
+        details.push({
+          type: 'snippet',
+          value: placement
+        })
+      })
+    }
+      break
+
     case 'deployment': {
       addK8Details(node, details)
       const { hasPods, pods } = layout
@@ -96,7 +111,7 @@ export const getNodeDetails = (node) => {
       break
 
     case 'policy': {
-      const {policy: { metadata: {name, namespace, creationTimestamp, annotations }, remediation}} = specs
+      const {policy: { metadata: {name, namespace, creationTimestamp, annotations }, remediation, spec}} = specs
       addDetails(details, [
         {labelKey: 'resource.name', value: name},
         {labelKey: 'resource.namespace', value: namespace},
@@ -131,12 +146,59 @@ export const getNodeDetails = (node) => {
           break
         }
       })
+      const addTemplates = (key) => {
+        const templates = spec[key]
+        if (templates) {
+          details.push({
+            type: 'label',
+            labelKey: `resource.${key.replace('-', '.')}`
+          })
+          templates.forEach(template=>{
+            addDetails(details, [{value: _.get(template, 'objectDefinition.kind', '-' ), indent:true}])
+          })
+        }
+      }
+      addTemplates('object-templates')
+      addTemplates('role-templates')
+      addTemplates('policy-templates')
       break
     }
 
     default:
       addK8Details(node, details)
       break
+    }
+
+    // deployable status
+    const deployStatuses = _.get(node, 'specs.deployStatuses')
+    if (deployStatuses) {
+      deployStatuses.forEach(({lastUpdateTime, phase, reason, resourceStatus})=>{
+        details.push({
+          type: 'label',
+          labelKey: 'resource.status',
+          value: phase,
+        })
+        if (reason) {
+          details.push({
+            type: 'label',
+            labelKey: 'resource.reason',
+            value: reason,
+          })
+        }
+        details.push({
+          type: 'label',
+          labelKey: 'resource.status.last.updated',
+          value: getAge(lastUpdateTime),
+        })
+        details.push({
+          type: 'label',
+          labelKey: 'resource.resource.status'
+        })
+        details.push({
+          type: 'snippet',
+          value: resourceStatus
+        })
+      })
     }
 
     // labels
@@ -167,9 +229,9 @@ function addK8Details(node, details, podOnly, index) {
       {labelKey: 'resource.type',
         value: ltype||type},
       {labelKey: 'resource.cluster',
-        value: clusterName},
+        value: clusterName?clusterName:undefined},
       {labelKey: 'resource.namespace',
-        value: namespace},
+        value: namespace?namespace:undefined},
     ]
     addDetails(details, mainDetails)
   } else {

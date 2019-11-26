@@ -9,6 +9,7 @@
 'use strict'
 
 import { FilterResults } from '../constants.js'
+import { getSearchFilter, filterNodes } from '../defaults/filtering'
 import _ from 'lodash'
 
 export default class FilterHelper {
@@ -21,7 +22,7 @@ export default class FilterHelper {
 
   filterElements = (nodes, links, activeFilters, availableFilters, cbs) => {
     if (nodes.length>0) {
-      const {filters} = this.staticResourceData.getSearchFilter(activeFilters)
+      const {filters} = (this.staticResourceData.getSearchFilter||getSearchFilter)(activeFilters)
       if (this.lastFilters && !_.isEqual(this.lastFilters, filters)) {
         cbs.resetLayout()
       }
@@ -29,7 +30,9 @@ export default class FilterHelper {
       const nodeMap = _.keyBy(nodes, 'uid')
 
       // hide and remove any nodes without the right filter
-      nodes = this.staticResourceData.filterNodes(nodes, filters, availableFilters, FilterResults)
+      nodes = this.staticResourceData.filterNodes ?
+        this.staticResourceData.filterNodes(nodes, filters, availableFilters, FilterResults) :
+        filterNodes('', nodes)
 
       // d3 hides the shape--easier to do then constantly creating and destroying svg elements
       links.forEach(({source, target, layout})=>{
@@ -62,7 +65,7 @@ export default class FilterHelper {
     // reset previous search
     this.cy = cy
     let searchNames = []
-    const {search: searchFilter} = this.staticResourceData.getSearchFilter(activeFilters)
+    const {search: searchFilter} = (this.staticResourceData.getSearchFilter||getSearchFilter)(activeFilters)
     const isSearching = searchName.length>0 || !!searchFilter
     const wasSearching = this.lastSearch.searchName || !!this.lastSearch.searchFilter
     const isNewSearch = !_.isEqual(this.lastSearch, {searchName, searchFilter})

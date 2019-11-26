@@ -12,6 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { Icon, NumberInput, MultiSelect, Button } from 'carbon-components-react'
+import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
 import msgs from '../../../../nls/platform.properties'
 
@@ -101,6 +102,8 @@ class DetailsView extends React.Component {
       return this.renderSelector(detail, locale)
     case 'submit':
       return this.renderSubmit(detail, locale)
+    case 'snippet':
+      return this.renderSnippet(detail, locale)
     default:
       return this.renderLabel(detail, locale)
     }
@@ -116,6 +119,17 @@ class DetailsView extends React.Component {
         {(labelKey||labelValue) && <span className='label'>{label}: </span>}
         {indent&&<span className='indent' />}
         <span className='value'>{value}</span>
+      </div>
+    )
+  }
+
+  renderSnippet({value}) {
+    const yaml = jsYaml.safeDump(value).split('\n')
+    return (
+      <div className='sectionContent snippet'>
+        {yaml.map(line=>{
+          return (<code key={Math.random()}>{line}</code>)
+        })}
       </div>
     )
   }

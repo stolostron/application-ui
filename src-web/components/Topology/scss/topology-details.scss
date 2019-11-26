@@ -54,6 +54,17 @@
   .sectionContent {
     margin-left: 1rem;
 
+    &.snippet {
+      font-family: monospace;
+      color: $color__navy-gray-6;
+
+      code {
+        white-space: pre-wrap;
+        display: block;
+        font-size: 12px;
+      }
+    }
+
     &.form {
       height: 4rem;
       margin-top: 10px;

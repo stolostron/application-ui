@@ -12,11 +12,12 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading } from 'carbon-components-react'
 import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
-import { getIncidentCount } from './utils'
+import { getIncidentCount, getNamespaceAccountId } from './utils'
 import {
   updateSecondaryHeader,
   fetchResource,
   fetchIncidents,
+  fetchNamespace,
   clearIncidents
 } from '../../../actions/common'
 import PropTypes from 'prop-types'
@@ -135,6 +136,7 @@ const withResource = Component => {
 
       render() {
         const { status, statusCode } = this.props
+
         const { showError = false, retry = 0 } = this.state
         if (
           status !== REQUEST_STATUS.DONE &&
@@ -199,10 +201,19 @@ class ResourceDetails extends React.Component {
     )
   }
 
+  componentDidMount() {
+    const { match } = this.props
+    const params = match && match.params
+    if (params && params.namespace) {
+      this.props.fetchNamespace(params.namespace)
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       const { updateSecondaryHeader, tabs, launch_links, match } = this.props,
             params = match && match.params
+
       updateSecondaryHeader(
         params.name,
         getTabs(
@@ -242,7 +253,8 @@ class ResourceDetails extends React.Component {
       showExpandedTopology,
       actions,
       children,
-      showICAMAction
+      showICAMAction,
+      namespaceAccountId
     } = this.props
 
     return (
@@ -256,6 +268,7 @@ class ResourceDetails extends React.Component {
           selectedNodeId={selectedNodeId}
           showExpandedTopology={showExpandedTopology}
           showICAMAction={showICAMAction}
+          namespaceAccountId={namespaceAccountId}
         />
       </div>
     )
@@ -321,9 +334,11 @@ ResourceDetails.contextTypes = {
 ResourceDetails.propTypes = {
   actions: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  fetchNamespace: PropTypes.func,
   launch_links: PropTypes.object,
   location: PropTypes.object,
   match: PropTypes.object,
+  namespaceAccountId: PropTypes.string,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
@@ -337,13 +352,15 @@ ResourceDetails.propTypes = {
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
+    fetchNamespace: namespace =>
+      dispatch(fetchNamespace(RESOURCE_TYPES.HCM_NAMESPACES, namespace)),
     updateSecondaryHeader: (title, tabs, breadcrumbItems, links) =>
       dispatch(updateSecondaryHeader(title, tabs, breadcrumbItems, links))
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { AppOverview } = state
+  const { AppOverview, HCMNamespaceList } = state
   const { list: typeListName } = ownProps.resourceType,
         visibleResources = ownProps.getVisibleResources(state, {
           storeRoot: typeListName
@@ -362,12 +379,12 @@ const mapStateToProps = (state, ownProps) => {
     undefined
 
   const item = (items && item_key && items[item_key]) || undefined
-
   const _uid = (items && item['_uid']) || ''
   const clusterName = (items && item['cluster']) || ''
   return {
     _uid,
     clusterName,
+    namespaceAccountId: getNamespaceAccountId(HCMNamespaceList),
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
     showICAMAction: AppOverview.showICAMAction

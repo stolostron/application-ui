@@ -62,12 +62,12 @@ class ActionModalApollo extends React.PureComponent {
       )
     }
     case 'table.actions.applications.icam': {
-      const activeAccountId = this.props && this.props.activeAccountId
+      //the account id is stored under the kind attribute
       const link = getICAMLinkForApp(
         data._uid,
         data.name,
         data.clusterName,
-        activeAccountId
+        data.kind
       )
       window.open(link, '_blank')
       return null

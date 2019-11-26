@@ -274,6 +274,28 @@ export const fetchIncidents = (resourceType, namespace, name) => {
   }
 }
 
+export const fetchNamespace = (resourceType, namespace) => {
+  return dispatch => {
+    dispatch(requestResource(resourceType))
+    return apolloClient
+      .getResource(resourceType, { namespace })
+      .then(response => {
+        if (response.errors) {
+          return dispatch(
+            receiveResourceError(response.errors[0], resourceType)
+          )
+        }
+        return dispatch(
+          receiveResourceSuccess(
+            { items: lodash.cloneDeep(response.data.items) },
+            resourceType
+          )
+        )
+      })
+      .catch(err => dispatch(receiveResourceError(err, resourceType)))
+  }
+}
+
 export const fetchUserInfo = resourceType => {
   return dispatch => {
     dispatch(requestResource(resourceType))

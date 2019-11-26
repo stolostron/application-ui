@@ -59,7 +59,10 @@ import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
-import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
+import {
+  getICAMLinkForApp,
+  getNamespaceAccountId
+} from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
 import getResourceDefinitions from '../../definitions'
 import ResourceTableModule from '../common/ResourceTableModuleFromProps'
@@ -223,19 +226,13 @@ const mapStateToProps = state => {
     HCMApplicationList,
     HCMChannelList,
     HCMSubscriptionList,
-    userInfoList,
+    HCMNamespaceList,
     AppDeployments,
     secondaryHeader,
     role
   } = state
   // Filter Application List based on search input
   // Currently just filterin on application name
-
-  const activeAccountId = R.pathOr(
-    '',
-    ['items', 'activeAccountId'],
-    userInfoList
-  )
 
   return {
     displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
@@ -258,7 +255,7 @@ const mapStateToProps = state => {
     openEditPlacementRuleModal: AppDeployments.openEditPlacementRuleModal,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
-    activeAccountId
+    namespaceAccountId: getNamespaceAccountId(HCMNamespaceList)
   }
 }
 
@@ -316,7 +313,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       appDropDownList,
       userRole,
       breadcrumbItems,
-      activeAccountId,
+      namespaceAccountId,
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules
@@ -383,12 +380,12 @@ class ApplicationDeploymentPipeline extends React.Component {
       app = applications[0]
       dashboard = app.dashboard
 
-      if (app && app._uid)
+      if (app && app._uid && namespaceAccountId)
         icamLink = getICAMLinkForApp(
           app._uid,
           app.name,
           app.cluster,
-          activeAccountId
+          namespaceAccountId
         )
     }
     const appParams = {
@@ -610,7 +607,6 @@ class ApplicationDeploymentPipeline extends React.Component {
           editSubscription={editSubscription}
           subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
           bulkSubscriptionList={bulkSubscriptionList}
-          activeAccountId={activeAccountId}
           userRole={userRole}
           serverProps={serverProps}
         />

@@ -9,6 +9,7 @@
 
 /* NOTE: These eslint exceptions are added to help keep this file consistent with platform-ui. */
 /* eslint-disable react/prop-types, react/jsx-no-bind */
+import R from 'ramda'
 
 import _ from 'lodash'
 import React from 'react'
@@ -37,6 +38,9 @@ import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 //import clustersDef from '../../definitions/hcm-clusters'
 import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../../lib/client/search-helper'
+import { fetchNamespace } from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { getNamespaceAccountId } from './ResourceDetails/utils'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -181,9 +185,9 @@ class ResourceTable extends React.Component {
                           <button
                             title={msgs.get(
                               `svg.description.${
-                              !sortColumn || sortDirection === 'desc'
-                                ? 'asc'
-                                : 'desc'
+                                !sortColumn || sortDirection === 'desc'
+                                  ? 'asc'
+                                  : 'desc'
                               }`,
                               this.context.locale
                             )}
@@ -192,11 +196,11 @@ class ResourceTable extends React.Component {
                               sortDirection === 'asc'
                                 ? ' bx--table-sort-v2--ascending'
                                 : ''
-                              }${
+                            }${
                               sortColumn === header.key
                                 ? ' bx--table-sort-v2--active'
                                 : ''
-                              }`}
+                            }`}
                             data-key={header.key}
                             data-default-key={
                               staticResourceData.defaultSortField
@@ -210,9 +214,9 @@ class ResourceTable extends React.Component {
                               name="caret--down"
                               description={msgs.get(
                                 `svg.description.${
-                                !sortColumn || sortDirection === 'desc'
-                                  ? 'asc'
-                                  : 'desc'
+                                  !sortColumn || sortDirection === 'desc'
+                                    ? 'asc'
+                                    : 'desc'
                                 }`,
                                 this.context.locale
                               )}
@@ -249,9 +253,9 @@ class ResourceTable extends React.Component {
                                     items[row.id].subItems.length === 0)),
                               className:
                                 expandableTable &&
-                                  ((items[row.id] && !items[row.id].subItems) ||
-                                    (items[row.id] &&
-                                      items[row.id].subItems.length === 0))
+                                ((items[row.id] && !items[row.id].subItems) ||
+                                  (items[row.id] &&
+                                    items[row.id].subItems.length === 0))
                                   ? 'row-not-expanded'
                                   : ''
                             })}
@@ -427,7 +431,7 @@ class ResourceTable extends React.Component {
           clusterName: _.get(item, 'cluster', ''),
           selfLink: _.get(item, 'selfLink', ''),
           _uid: _.get(item, '_uid', ''),
-          kind: ''
+          kind: _.get(item, 'kind', '')
         }
       }
     })
@@ -440,8 +444,10 @@ class ResourceTable extends React.Component {
       resourceType,
       staticResourceData,
       match,
-      userRole
+      userRole,
+      HCMNamespaceList
     } = this.props
+
     const { locale } = this.context
     const { normalizedKey } = staticResourceData
     const resources = this.getResources()
@@ -493,9 +499,20 @@ class ResourceTable extends React.Component {
                     action === 'table.actions.applications.remove' ||
                     action === 'table.actions.compliance.remove'
                   }
-                  onClick={() =>
+                  onClick={() => {
+                    if (
+                      action === 'table.actions.applications.icam' &&
+                      item &&
+                      item.namespace
+                    ) {
+                      //pass namespace account ID, will be used to open ICAM link
+                      item.kind = getNamespaceAccountId(
+                        HCMNamespaceList,
+                        item.namespace
+                      )
+                    }
                     this.handleActionClick(action, resourceType, item)
-                  }
+                  }}
                   key={action}
                   itemText={
                     <div className="item-container">
@@ -503,12 +520,12 @@ class ResourceTable extends React.Component {
                         {msgs.get(action, locale)}
                         {(action === 'table.actions.applications.grafana' ||
                           action === 'table.actions.applications.icam') && (
-                            <Icon
-                              className="app-dashboard-icon-table"
-                              name="icon--launch"
-                              fill="#3D70B2"
-                            />
-                          )}
+                          <Icon
+                            className="app-dashboard-icon-table"
+                            name="icon--launch"
+                            fill="#3D70B2"
+                          />
+                        )}
                       </div>
                     </div>
                   }
@@ -523,8 +540,8 @@ class ResourceTable extends React.Component {
               {transform(item, key, locale)}
             </Link>
           ) : (
-              transform(item, key, locale)
-            )
+            transform(item, key, locale)
+          )
         })
         return row
       })
@@ -563,6 +580,21 @@ class ResourceTable extends React.Component {
 
     //check services only for one item; it will apply to all, no need to call this on all items
     if (resources && resources.length > 0) {
+      //select all namespaces from resources, uniquely
+      const namespaces = R.uniq(R.project(['namespace'], resources))
+
+      if (namespaces) {
+        let namespaceNames = ''
+
+        namespaces.map(ns => {
+          namespaceNames = R.concat(
+            namespaceNames,
+            namespaceNames.length > 0 ? ',' + ns.namespace : ns.namespace
+          )
+        })
+        this.props.fetchNamespace(namespaceNames)
+      }
+
       const item = resources[0]
       this.setState(prevState => ({
         clustersServicesMap: {
@@ -643,19 +675,23 @@ class ResourceTable extends React.Component {
 }
 
 ResourceTable.contextTypes = {
+  fetchNamespace: PropTypes.func,
   locale: PropTypes.string
 }
 
 const mapStateToProps = state => {
   const navRoutes = state.nav && state.nav.navItems
   const userRole = state.role.role
+  const HCMNamespaceList = state.HCMNamespaceList
 
-  return { navRoutes, userRole }
+  return { navRoutes, userRole, HCMNamespaceList }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const resourceType = ownProps.subResourceType || ownProps.resourceType
   return {
+    fetchNamespace: namespace =>
+      dispatch(fetchNamespace(RESOURCE_TYPES.HCM_NAMESPACES, namespace)),
     getResourceAction: (action, resource, hasService, history, locale) =>
       resourceActions(
         action,

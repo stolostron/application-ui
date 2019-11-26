@@ -65,6 +65,7 @@ export const HCMChannelList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_CHANNELS)
 )
+
 export const HCMSubscriptionList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
@@ -76,6 +77,10 @@ export const HCMPlacementRuleList = createResourceReducer(
 export const CEMIncidentList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.CEM_INCIDENTS)
+)
+export const HCMNamespaceList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.HCM_NAMESPACES)
 )
 export const userInfoList = createResourceReducer(
   resourceReducerFunction,

@@ -5,8 +5,6 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-import R from 'ramda'
-
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -66,7 +64,7 @@ const ResourceOverview = withLocale(
     getApplicationResource,
     loading,
     showICAMAction,
-    activeAccountId
+    namespaceAccountId
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
@@ -144,14 +142,15 @@ const ResourceOverview = withLocale(
 
     const icamLink =
       (item &&
+        namespaceAccountId &&
         getICAMLinkForApp(
           item._uid,
           item.name,
           item.cluster,
-          activeAccountId
+          namespaceAccountId
         )) ||
       ''
-    const enableICAM = showICAMAction && icamLink
+    const enableICAM = namespaceAccountId && showICAMAction && icamLink
 
     return (
       <div id="resource-overview" className="overview-content">
@@ -276,13 +275,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = (state, ownProps) => {
   const { resourceType, params } = ownProps
-  const { role, AppDeployments, userInfoList } = state
-
-  const activeAccountId = R.pathOr(
-    '',
-    ['items', 'activeAccountId'],
-    userInfoList
-  )
+  const { role, AppDeployments } = state
 
   const name = decodeURIComponent(params.name)
   const item = getSingleResourceItem(state, {
@@ -294,7 +287,6 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
-    activeAccountId,
     userRole: role.role,
     loading: AppDeployments.loading,
     openEditApplicationModal: AppDeployments.openEditApplicationModal

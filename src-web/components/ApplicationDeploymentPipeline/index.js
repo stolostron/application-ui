@@ -42,12 +42,12 @@ import {
   filterApps,
   getSubscriptionListGivenApplicationList
 } from './utils'
-import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml'
-import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml'
-import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml'
-import channelGitRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelGitRepoSample.yml'
-import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml'
-import placementRuleSample from 'js-yaml-loader!../../shared/yamlSamples/placementRuleSample.yml'
+import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml' // eslint-disable-line import/no-unresolved
+import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml' // eslint-disable-line import/no-unresolved
+import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml' // eslint-disable-line import/no-unresolved
+import channelGitRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelGitRepoSample.yml' // eslint-disable-line import/no-unresolved
+import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml' // eslint-disable-line import/no-unresolved
+import placementRuleSample from 'js-yaml-loader!../../shared/yamlSamples/placementRuleSample.yml' // eslint-disable-line import/no-unresolved
 import {
   getChannelSample,
   getSubscriptionSample,

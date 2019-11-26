@@ -14,6 +14,7 @@ import {
   getNumCompletedDeployments,
   getNumInProgressDeployments,
   getNumFailedDeployments,
+  getNumPolicyViolations,
   getPoliciesLinkForOneApplication,
   getResourceChannels,
   getSearchLinkForAllApplications,
@@ -104,6 +105,41 @@ const data1 = {
         },
         {
           name: 'local-cluster'
+        }
+      ]
+    },
+    {
+      kind: 'vulnerabilitypolicy',
+      items: [
+        {
+          kind: 'vulnerabilitypolicy',
+          name: 'policy-vulnerabilitypolicy-example',
+          vulnerableResources: 2
+        },
+        {
+          kind: 'vulnerabilitypolicy',
+          name: 'va-policy-release-check',
+          vulnerableResources: 2
+        },
+        {
+          kind: 'vulnerabilitypolicy',
+          name: 'policy-f8-example',
+          vulnerableResources: 2
+        }
+      ]
+    },
+    {
+      kind: 'mutationpolicy',
+      items: [
+        {
+          kind: 'mutationpolicy',
+          name: 'policy-mutationpolicy-example',
+          vulnerableResources: 2
+        },
+        {
+          kind: 'mutationpolicy',
+          name: 'va-policy-release-check',
+          vulnerableResources: 2
         }
       ]
     }
@@ -270,6 +306,18 @@ describe('getResourceChannels', () => {
   })
   it('should handle undefined object', () => {
     expect(getResourceChannels(undefined)).toEqual([])
+  })
+})
+
+describe('getNumPolicyViolations', () => {
+  it('should return policy violations count', () => {
+    expect(getNumPolicyViolations(data1)).toEqual(5)
+  })
+  it('should return zero for no violations', () => {
+    expect(getNumPolicyViolations(data2)).toEqual(0)
+  })
+  it('should handle undefined object', () => {
+    expect(getNumPolicyViolations(undefined)).toEqual(0)
   })
 })
 

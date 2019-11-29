@@ -5,6 +5,7 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -30,6 +31,7 @@ import {
   getNumDeployments,
   getSearchLinkForOneApplication
 } from './utils'
+import { updateModal } from '../../../actions/common'
 import {
   getResourcesStatusPerChannel,
   editResourceClick
@@ -45,10 +47,33 @@ import {
 import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
 import { getICAMLinkForApp } from '../ResourceDetails/utils'
+import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 
 resources(() => {
   require('./style.scss')
 })
+
+const handleEditResource = (dispatch, resourceType, data) => {
+  return dispatch(
+    updateModal({
+      open: true,
+      type: 'resource-edit',
+      action: 'put',
+      resourceType,
+      editorMode: 'yaml',
+      label: {
+        primaryBtn: 'modal.button.submit',
+        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
+        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
+      },
+      helpLink: (data && data.helpLink) || '',
+      name: (data && data.name) || '',
+      namespace: (data && data.namespace) || '',
+      data: (data && data.data) || '',
+      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
+    })
+  )
+}
 
 const ResourceOverview = withLocale(
   ({
@@ -64,10 +89,28 @@ const ResourceOverview = withLocale(
     getApplicationResource,
     loading,
     showICAMAction,
-    namespaceAccountId
+    namespaceAccountId,
+    openEditApplicationModal,
+    currentApplicationInfo,
+    closeModal,
+    editResource
   }) => {
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
+    }
+
+    if (openEditApplicationModal) {
+      const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
+      const name = R.pathOr('', ['metadata', 'name'], data)
+      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
+      closeModal()
+      editResource(RESOURCE_TYPES.HCM_APPLICATIONS, {
+        name: name,
+        namespace: namespace,
+        data: data,
+        helpLink:
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
+      })
     }
 
     const deployables = getNumDeployables(item)
@@ -269,6 +312,8 @@ const mapDispatchToProps = dispatch => {
           cluster
         )
       ),
+    editResource: (resourceType, data) =>
+      handleEditResource(dispatch, resourceType, data),
     closeModal: () => dispatch(closeModals())
   }
 }
@@ -289,6 +334,7 @@ const mapStateToProps = (state, ownProps) => {
     item,
     userRole: role.role,
     loading: AppDeployments.loading,
+    currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     openEditApplicationModal: AppDeployments.openEditApplicationModal
   }
 }

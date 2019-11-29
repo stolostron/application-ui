@@ -45,6 +45,8 @@ resources(() => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchSubscriptions: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     actions: bindActionCreators(Actions, dispatch)
   }
 }
@@ -198,7 +200,7 @@ const getOverviewCardsData = (
       count: podData.total,
       targetLink: podData.total == 0 ? '' : targetLinkForPods,
       subtextKeyFirst:
-        podData.running > 0 || podData.failed > 0
+        podData.total > 0
           ? podData.running
             .toString()
             .concat(
@@ -207,7 +209,7 @@ const getOverviewCardsData = (
             )
           : '',
       subtextKeySecond:
-        podData.running > 0 || podData.failed > 0
+        podData.total > 0
           ? podData.failed
             .toString()
             .concat(
@@ -225,8 +227,7 @@ const getOverviewCardsData = (
       alert: policyViolations > 0 ? true : false,
       targetLink: policyViolations == 0 ? '' : targetLinkForPolicyViolations,
       subtextKeyFirst:
-        policyViolationData.VAViolations > 0 ||
-        policyViolationData.MAViolations > 0
+        policyViolations > 0
           ? policyViolationData.VAViolations.toString().concat(
             ' ',
             policyViolationData.VAViolations == 1
@@ -241,8 +242,7 @@ const getOverviewCardsData = (
           )
           : '',
       subtextKeySecond:
-        policyViolationData.VAViolations > 0 ||
-        policyViolationData.MAViolations > 0
+        policyViolations > 0
           ? policyViolationData.MAViolations.toString().concat(
             ' ',
             policyViolationData.MAViolations == 1
@@ -296,7 +296,10 @@ const getOverviewCardsData = (
 }
 
 class OverviewCards extends React.Component {
-  componentWillMount() {}
+  componentWillMount() {
+    const { fetchSubscriptions } = this.props
+    fetchSubscriptions()
+  }
   componentDidMount() {}
 
   componentWillUnmount() {}

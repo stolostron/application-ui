@@ -45,6 +45,8 @@ resources(() => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
+    fetchSubscriptions: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     actions: bindActionCreators(Actions, dispatch)
   }
 }
@@ -296,7 +298,10 @@ const getOverviewCardsData = (
 }
 
 class OverviewCards extends React.Component {
-  componentWillMount() {}
+  componentWillMount() {
+    const { fetchSubscriptions } = this.props
+    fetchSubscriptions()
+  }
   componentDidMount() {}
 
   componentWillUnmount() {}

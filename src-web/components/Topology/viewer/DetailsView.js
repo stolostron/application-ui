@@ -124,6 +124,7 @@ class DetailsView extends React.Component {
   }
 
   renderSnippet({value}) {
+    if (value) {
     const yaml = jsYaml.safeDump(value).split('\n')
     return (
       <div className='sectionContent snippet'>
@@ -132,6 +133,8 @@ class DetailsView extends React.Component {
         })}
       </div>
     )
+  }
+    return null
   }
 
   renderLink({value, indent}) {

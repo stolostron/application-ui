@@ -269,18 +269,18 @@ class ApplicationTopologyModule extends React.Component {
 
   handleSplitterDefault = () => {
     const cookie = localStorage.getItem(`${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`)
-    let size = 1000
-    if (cookie) {
-      size = parseInt(cookie)
-    } else {
-      const page = document.getElementById('page')
-      if (page) {
-        size = page.getBoundingClientRect().width * 2 / 3
-        localStorage.setItem(`${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`, size)
+    let size = cookie ? parseInt(cookie) : 1000
+    const page = document.getElementById('page')
+    if (page) {
+      const width = page.getBoundingClientRect().width
+      if (!cookie) {
+        size = width * 2 / 3
+      } else if (size > (width*9/10)) {
+        size = width * 9 / 10
       }
     }
     return size
-  };
+  }
 
   handleSplitterChange = size => {
     localStorage.setItem(`${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`, size)

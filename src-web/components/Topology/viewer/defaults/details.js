@@ -18,7 +18,8 @@ export const getNodeDetails = (node) => {
     let { labels=[] } = node
     switch (type) {
     case 'cluster': {
-      const { cluster: {metadata={}, capacity, usage, clusterip, status }, violations=[]} = specs
+      const { cluster={}, violations=[]} = specs
+      const { metadata={}, capacity={}, usage={}, clusterip, status } = cluster
       const { name, namespace, creationTimestamp } = metadata
       void ({ labels } = metadata)
       const { nodes, cpu:cc, memory:cm, storage:cs } = capacity
@@ -185,6 +186,7 @@ export const getNodeDetails = (node) => {
             value: reason,
           })
         }
+        if (resourceStatus) {
         details.push({
           type: 'label',
           labelKey: 'resource.status.last.updated',
@@ -198,6 +200,7 @@ export const getNodeDetails = (node) => {
           type: 'snippet',
           value: resourceStatus
         })
+        }
       })
     }
 
@@ -315,6 +318,7 @@ const addDetails = (details, dets) => {
   })
 }
 export const inflateKubeValue = value => {
+  if (value) {
   const match = value.match(/\D/g)
   if (match) {
     // if value has suffix
@@ -326,6 +330,8 @@ export const inflateKubeValue = value => {
     return val * num
   }
   return parseFloat(value)
+}
+  return ''
 }
 
 function factorize(prefixes, unit, type) {

@@ -26,15 +26,7 @@ describe('topology reducer with topology name', () => {
       },
       type: Actions.RESOURCE_REQUEST
     }
-    const expectedValue = {
-      fetchFilters: undefined,
-      loaded: undefined,
-      reloading: undefined,
-      status: 'IN_PROGRESS',
-      test: 'test',
-      detailsReloading: false
-    }
-    expect(topology(state, action)).toEqual(expectedValue)
+    expect(topology(state, action)).toMatchSnapshot()
   })
 
   it('should return a state with DONE status', () => {
@@ -49,18 +41,7 @@ describe('topology reducer with topology name', () => {
       type: Actions.RESOURCE_RECEIVE_SUCCESS,
       fetchFilters: 'receivedApplication'
     }
-    const expectedValue = {
-      links: undefined,
-      nodes: undefined,
-      status: 'DONE',
-      loaded: true,
-      reloading: false,
-      test: 'test',
-      activeFilters: 'receivedApplication',
-      detailsLoaded: true,
-      willLoadDetails: undefined
-    }
-    expect(topology(state, action)).toEqual(expectedValue)
+    expect(topology(state, action)).toMatchSnapshot()
   })
 
   it('should return a state with ERROR status', () => {
@@ -73,13 +54,7 @@ describe('topology reducer with topology name', () => {
       },
       type: Actions.RESOURCE_RECEIVE_FAILURE
     }
-    const expectedValue = {
-      links: undefined,
-      nodes: undefined,
-      status: 'ERROR',
-      test: 'test'
-    }
-    expect(topology(state, action)).toEqual(expectedValue)
+    expect(topology(state, action)).toMatchSnapshot()
   })
 })
 
@@ -94,8 +69,7 @@ describe('topology reducer', () => {
       },
       type: Actions.TOPOLOGY_FILTERS_REQUEST
     }
-    const expectedValue = { filtersStatus: 'IN_PROGRESS', test: 'test' }
-    expect(topology(state, action)).toEqual(expectedValue)
+     expect(topology(state, action)).toMatchSnapshot()
   })
 
   it('should return a state without status', () => {
@@ -108,8 +82,7 @@ describe('topology reducer', () => {
       },
       type: Actions.REQUEST_STATUS.ERROR
     }
-    const expectedValue = { test: 'test' }
-    expect(topology(state, action)).toEqual(expectedValue)
+    expect(topology(state, action)).toMatchSnapshot()
   })
 
   it('should return a state with ERROR status', () => {
@@ -166,41 +139,7 @@ describe('topology reducer', () => {
         'statefulset'
       ]
     }
-    const expectedValue = {
-      availableFilters: {
-        clusters: [
-          { filterValues: ['myminikube'], label: 'name: myminikube' },
-          { filterValues: ['myminikube'], label: 'clusterip: 9.42.23.217' },
-          { filterValues: ['myminikube'], label: 'location: toronto' },
-          { filterValues: ['myminikube'], label: 'provider: IBM' },
-          { filterValues: ['myminikube'], label: 'purpose: test' },
-          { filterValues: ['myminikube'], label: 'runtime: kubernetes' }
-        ],
-        labels: [
-          { label: 'app: loyalty-level', name: 'app', value: 'loyalty-level' },
-          {
-            label: 'solution: stock-trader',
-            name: 'solution',
-            value: 'stock-trader'
-          }
-        ],
-        namespaces: [{ label: 'default' }],
-        types: [
-          { label: 'deployment' },
-          { label: 'host' },
-          { label: 'service' },
-          { label: 'pod' },
-          { label: 'container' },
-          { label: 'daemonset' },
-          { label: 'statefulset' },
-          { label: 'other' }
-        ]
-      },
-      otherTypeFilters: [],
-      filtersStatus: 'DONE',
-      test: 'test'
-    }
-    expect(topology(state, action)).toEqual(expectedValue)
+    expect(topology(state, action)).toMatchSnapshot()
   })
 
   it('should return a state without status', () => {
@@ -213,10 +152,6 @@ describe('topology reducer', () => {
       },
       type: Actions.TOPOLOGY_FILTERS_UPDATE
     }
-    const expectedValue = {
-      activeFilters: { undefined: undefined },
-      test: 'test'
-    }
-    expect(topology(state, action)).toEqual(expectedValue)
+    expect(topology(state, action)).toMatchSnapshot()
   })
 })

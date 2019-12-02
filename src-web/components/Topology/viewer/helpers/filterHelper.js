@@ -31,8 +31,8 @@ export default class FilterHelper {
 
       // hide and remove any nodes without the right filter
       nodes = this.staticResourceData.filterNodes ?
-        this.staticResourceData.filterNodes(nodes, filters, availableFilters, FilterResults) :
-        filterNodes('', nodes)
+          this.staticResourceData.filterNodes(nodes, filters, availableFilters, FilterResults) :
+          filterNodes('', nodes)
 
       // d3 hides the shape--easier to do then constantly creating and destroying svg elements
       links.forEach(({source, target, layout})=>{

@@ -62,7 +62,7 @@ export default class LayoutHelper {
 
     // for each cluster, group into collections
     const groups = this.getNodeGroups ? this.getNodeGroups(nodes, this.activeFilters, this.diagramOptions) :
-      getNodeGroups('', nodes)
+            getNodeGroups('', nodes)
 
     // make sure shape type order can work from this
     this.shapeTypeOrder = _.union(this.shapeTypeOrder, Object.keys(groups.nodeGroups))

@@ -4,8 +4,10 @@ exports[`DiagramViewer 3 components renders as expected 1`] = `
 <div
   className="diagramViewerDiagram"
 >
+  
   <div
     className="diagramViewerContainerContainer"
+    id="diagram-viewer-container-container"
   >
     <div
       aria-label="zoom"
@@ -23,9 +25,28 @@ exports[`DiagramViewer 3 components renders as expected 1`] = `
         id="topologySvgId"
       />
     </div>
+    <div
+      className="layoutLoadingContainer"
+    >
+      <div
+        aria-live="assertive"
+        className="bx--loading"
+      >
+        <svg
+          className="bx--loading__svg"
+          viewBox="-75 -75 150 150"
+        >
+          <circle
+            cx="0"
+            cy="0"
+            r="37.5"
+          />
+        </svg>
+      </div>
+    </div>
   </div>
   <div
-    className="topology-controls"
+    className="diagram-controls"
   >
     <div
       className="zoom-buttons"
@@ -92,6 +113,7 @@ exports[`DiagramViewer no components renders as expected 1`] = `
 >
   <div
     className="diagramViewerContainerContainer"
+    id="diagram-viewer-container-container"
   >
     <div
       aria-label="zoom"
@@ -109,9 +131,28 @@ exports[`DiagramViewer no components renders as expected 1`] = `
         id="topologySvgId"
       />
     </div>
+    <div
+      className="layoutLoadingContainer"
+    >
+      <div
+        aria-live="assertive"
+        className="bx--loading"
+      >
+        <svg
+          className="bx--loading__svg"
+          viewBox="-75 -75 150 150"
+        >
+          <circle
+            cx="0"
+            cy="0"
+            r="37.5"
+          />
+        </svg>
+      </div>
+    </div>
   </div>
   <div
-    className="topology-controls"
+    className="diagram-controls"
   >
     <div
       className="zoom-buttons"

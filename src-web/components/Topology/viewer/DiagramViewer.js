@@ -371,7 +371,7 @@ class DiagramViewer extends React.Component {
 
       // whether it was used or not, turn it off
       if (this.layoutLoadingRef) {
-      this.layoutLoadingRef.style.visibility='hidden'
+        this.layoutLoadingRef.style.visibility='hidden'
       }
 
     })

@@ -10,7 +10,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 
-import DiagramViewer from '../../../src-web/components/ApplicationTopologyModule/visualizers/DiagramViewer'
+import DiagramViewer from '../../../src-web/components/Topology/viewer/DiagramViewer'
 
 describe('DiagramViewer no components', () => {
   const mockData = {

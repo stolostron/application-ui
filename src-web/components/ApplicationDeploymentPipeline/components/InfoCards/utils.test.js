@@ -44,6 +44,40 @@ import {
 // getChannelsCountFromSubscriptions
 
 // getNumPlacementRules
+describe('getNumPlacementRules', () => {
+  it('has subscription data', () => {
+    const placementRuleCount = getNumPlacementRules(
+      placementRuleSampleData,
+      true,
+      'app1',
+      'default'
+    )
+
+    expect(placementRuleCount).toEqual(6)
+  })
+
+  it('has subscription data - non-single app view', () => {
+    const placementRuleCount = getNumPlacementRules(
+      placementRuleSampleData,
+      false,
+      'app1',
+      'default'
+    )
+
+    expect(placementRuleCount).toEqual(6)
+  })
+
+  it('no subscription data', () => {
+    const placementRuleCount = getNumPlacementRules(
+      emptyData,
+      true,
+      'app1',
+      'default'
+    )
+
+    expect(placementRuleCount).toEqual(0)
+  })
+})
 
 // getSubscriptionDataOnHub
 describe('getSubscriptionDataOnHub', () => {
@@ -190,6 +224,28 @@ describe('getIncidentData', () => {
 
 const emptyData = {
   items: []
+}
+
+const placementRuleSampleData = {
+  items: [
+    {
+      name: 'app1',
+      namespace: 'default',
+      related: [
+        {
+          kind: 'placementrule',
+          items: [
+            { name: 'pr1', namespace: 'default' },
+            { name: 'pr2', namespace: 'default' },
+            { name: 'pr3', namespace: 'default' },
+            { name: 'pr4', namespace: 'default' },
+            { name: 'pr5', namespace: 'default' },
+            { name: 'pr6', namespace: 'default' }
+          ]
+        }
+      ]
+    }
+  ]
 }
 
 const subscriptionPropagatedSampleData = {

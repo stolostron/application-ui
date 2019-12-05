@@ -48,6 +48,36 @@ import {
 // getSubscriptionDataOnHub
 
 // getSubscriptionDataOnManagedClusters
+describe('getSubscriptionDataOnManagedClusters', () => {
+    it('has subscription data', () => {
+        const subscriptionData = getSubscriptionDataOnManagedClusters(subscriptionDataOnManagedClusters, true, 'app1', 'default')
+
+        expect(subscriptionData.total).toEqual(4)
+        expect(subscriptionData.failed).toEqual(1)
+        expect(subscriptionData.noStatus).toEqual(2)
+    }
+    )
+
+    it('has subscription data - non-single app view', () => {
+        const subscriptionData = getSubscriptionDataOnManagedClusters(subscriptionDataOnManagedClusters, false, 'app1', 'default')
+
+        expect(subscriptionData.total).toEqual(4)
+        expect(subscriptionData.failed).toEqual(1)
+        expect(subscriptionData.noStatus).toEqual(2)
+    }
+    )
+
+    it('no subscription data', () => {
+        const subscriptionData = getSubscriptionDataOnManagedClusters(emptyData, true, 'app1', 'default')
+
+        expect(subscriptionData.total).toEqual(0)
+        expect(subscriptionData.failed).toEqual(0)
+        expect(subscriptionData.noStatus).toEqual(0)
+    }
+    )
+
+
+})
 
 // getPodData
 describe('getPodData', () => {
@@ -115,7 +145,25 @@ describe('getIncidentData', () => {
     })
 })
 
-const emptyData = { items: [] }
+const emptyData = {
+    items: []
+}
+
+const subscriptionDataOnManagedClusters = {
+    items: [
+
+        {
+            name: 'app1',
+            namespace: 'default',
+            remoteSubs: [
+                { kind: 'subscription', name: 'sub1', namespace: 'default', status: '' },
+                { kind: 'subscription', name: 'sub2', namespace: 'default', status: '' },
+                { kind: 'subscription', name: 'sub3', namespace: 'default', status: 'subscribed' },
+                { kind: 'subscription', name: 'sub3', namespace: 'default', status: '123' }
+            ]
+        }
+    ]
+}
 
 // total: 9, running: 4, failed: 5
 const podSampleData = {

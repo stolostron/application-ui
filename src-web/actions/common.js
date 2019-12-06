@@ -151,11 +151,16 @@ export const fetchResources = resourceType => {
             receiveResourceError(response.errors[0], resourceType)
           )
         }
-        const itemRes =
+        let itemRes =
           response &&
           response.data &&
           response.data.searchResult[0] &&
           response.data.searchResult[0].items
+        if (resourceType.name == 'HCMChannel') {
+          //filter out remote cluster channels
+          itemRes = itemRes.filter(elem => elem._hubClusterResource)
+        }
+
         const combinedQuery = []
         itemRes.map(item => {
           //build query only with local resources, MCM subscription model has no Propagated subscription, filter those out

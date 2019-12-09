@@ -50,55 +50,11 @@ export default {
       resourceKey: 'violations',
       transformFunction: getNumPolicyViolations
     },
-    // {
-    //   msgKey: 'table.header.incidents',
-    //   resourceKey: 'incidents'
-    // },
-    // {
-    //   msgKey: 'table.header.deployables',
-    //   resourceKey: 'deployables',
-    //   transformFunction: getNumDeployables
-    // },
-    // {
-    //   msgKey: 'table.header.deployments',
-    //   resourceKey: 'deployments',
-    //   transformFunction: getNumDeployments
-    // },
-    // {
-    //   msgKey: 'table.header.deployment.completedDeployments',
-    //   resourceKey: 'completedDeployments',
-    //   transformFunction: getNumCompletedDeployments
-    // },
-    // {
-    //   msgKey: 'table.header.deployment.inProgress',
-    //   resourceKey: 'inProgressDeployments',
-    //   transformFunction: getNumInProgressDeployments
-    // },
-    // {
-    //   msgKey: 'table.header.deployment.failed',
-    //   resourceKey: 'failedDeployments',
-    //   transformFunction: getNumFailedDeployments
-    // },
-    // {
-    //   msgKey: 'table.header.labels',
-    //   resourceKey: 'metadata.labels',
-    //   transformFunction: getLabelsToString,
-    // },
     {
       msgKey: 'table.header.created',
       resourceKey: 'created',
       transformFunction: getAge
     }
-    // {
-    //   msgKey: 'table.header.status',
-    //   resourceKey: 'metadata.status',
-    //   transformFunction: getStatus,
-    // },
-    // {
-    //   msgKey: 'table.header.dashboard',
-    //   resourceKey: 'dashboard',
-    //   transformFunction: createDashboardLink
-    // }
   ],
   tableActions: [
     'table.actions.applications.icam',

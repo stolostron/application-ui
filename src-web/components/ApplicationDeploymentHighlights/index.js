@@ -14,9 +14,8 @@ import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { fetchResources } from '../../actions/common'
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
-// import ApplicationDeploymentHighlightsDashboard from './ApplicationDeploymentHighlightsDashboard'
 
-import { getSingleApplicationObject } from './ApplicationDeploymentHighlightsDashboard/utils'
+import { getSingleApplicationObject } from '../ApplicationDeploymentPipeline/components/InfoCards/utils'
 import { pullOutKindPerApplication } from '../ApplicationDeploymentPipeline/utils'
 
 /* eslint-disable react/prop-types */
@@ -81,12 +80,6 @@ class ApplicationDeploymentHighlights extends React.Component {
     return (
       <div id="DeploymentHighlights">
         <ApplicationDeploymentHighlightsTerminology open={open} />
-        {/* <ApplicationDeploymentHighlightsDashboard
-          HCMApplicationList={HCMApplicationList}
-          HCMChannelList={HCMChannelList}
-          HCMSubscriptionList={HCMSubscriptionList}
-          isSingleApplicationView={isSingleApplicationView}
-        /> */}
       </div>
     )
   }

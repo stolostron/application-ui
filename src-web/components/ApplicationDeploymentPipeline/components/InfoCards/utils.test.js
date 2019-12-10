@@ -22,24 +22,73 @@ import {
     getIncidentData
 } from './utils'
 
-// getNumIncidents
+//getAllDeployablesStatus
+describe('getAllDeployablesStatus', () => { })
 
-// describe('getNumIncidents', () => {
 
-//     it('abc', () => {
-//         const num = getNumClusters(sampleApplicationData, sampleSubscriptionData)
-//         console.log("numClusters", num)
-//         expect(true).toEqual(true)
+//getNumClusters
+describe('getNumClusters', () => {
+    it('has application and subscription object', () => {
+        // pass in appsWithSubscription and list of subscriptions
+        const num = getNumClusters(appWithSubscriptionSampleData, subscriptionsSampleData)
+        expect(num).toEqual(1)
+    })
+    it('empty list', () => {
+        const num = getNumClusters(emptyData, subscriptionSubscribedSampleData)
+        expect(num).toEqual(0) // empty string returned
+    })
+})
 
-//     })
-
-// })
+describe('getNumIncidents', () => {
+    it('has application object', () => {
+        const num = getNumIncidents(placementRuleSampleData)
+        expect(num).toEqual(1)
+    })
+    it('empty list', () => {
+        const num = getNumIncidents(emptyData)
+        expect(num).toEqual(0) // empty string returned
+    })
+})
 
 //getApplicationName
+describe('getApplicationName', () => {
+    it('has application object', () => {
+        const name = getApplicationName(placementRuleSampleData)
+        expect(name).toEqual('app1')
+    })
+    it('empty list', () => {
+        const name = getApplicationName(emptyData)
+        expect(name).toHaveLength(0) // empty string returned
+    })
+})
 
 // getApplicationNamespace
+describe('getApplicationNamespace', () => {
+    it('has application object', () => {
+        const namespace = getApplicationNamespace(placementRuleSampleData)
+        expect(namespace).toEqual('default')
+    })
+    it('empty list', () => {
+        const namespace = getApplicationNamespace(emptyData)
+        expect(namespace).toHaveLength(0) // empty string returned
+    })
+})
 
 // getSingleApplicationObject
+describe('getSingleApplicationObject', () => {
+
+    it('has application object', () => {
+        const firstAppObject = getSingleApplicationObject(placementRuleSampleData)
+        // check if it equals the first one in the list
+        expect(firstAppObject.name).toEqual('app1')
+        expect(firstAppObject.namespace).toEqual('default')
+    })
+    it('empty list', () => {
+        const firstAppObject = getSingleApplicationObject(emptyData)
+        expect(firstAppObject).toHaveLength(0) // empty string returned
+    })
+
+})
 
 // getChannelsCountFromSubscriptions
 describe('getChannelsCountFromSubscriptions', () => {
@@ -238,6 +287,12 @@ describe('getIncidentData', () => {
 const emptyData = {
     items: []
 }
+
+
+const appWithSubscriptionSampleData = {}
+
+const subscriptionsSampleData = {}
+
 
 const subscriptionChannelSampleData = [{
     items: [

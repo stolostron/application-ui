@@ -154,6 +154,7 @@ export const getNumPlacementRules = (
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).map(appIndex => {
+        // Get number of placement rules for the current application opened
         if (
           applications.items[appIndex].name === applicationName &&
           applications.items[appIndex].namespace === applicationNamespace
@@ -181,6 +182,7 @@ export const getNumPlacementRules = (
     } else {
       // Root application view
       Object.keys(applications.items).map(appIndex => {
+        // Get number of placement rules for all applications
         const appData = applications.items[appIndex]
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
@@ -199,6 +201,7 @@ export const getNumPlacementRules = (
           })
         }
       })
+      // Remove duplicate placement rules (that were found in more than one app)
       allPlacementRules = removeDuplicatesFromList(allPlacementRules)
     }
     return allPlacementRules.length
@@ -220,6 +223,7 @@ export const getSubscriptionDataOnHub = (
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).map(appIndex => {
+        // Get number of subscriptions for the current application opened
         if (
           applications.items[appIndex].name === applicationName &&
           applications.items[appIndex].namespace === applicationNamespace
@@ -254,6 +258,7 @@ export const getSubscriptionDataOnHub = (
     } else {
       // Root application view
       Object.keys(applications.items).map(appIndex => {
+        // Get number of subscriptions for all applications
         const appData = applications.items[appIndex]
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
@@ -273,6 +278,7 @@ export const getSubscriptionDataOnHub = (
           })
         }
       })
+      // Remove duplicate subscriptions (that were found in more than one app)
       allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
       Object.keys(allSubscriptions).map(key => {
@@ -312,6 +318,7 @@ export const getSubscriptionDataOnManagedClusters = (
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).map(appIndex => {
+        // Get number of managed cluster subs for the current application opened
         if (
           applications.items[appIndex].name === applicationName &&
           applications.items[appIndex].namespace === applicationNamespace
@@ -343,6 +350,7 @@ export const getSubscriptionDataOnManagedClusters = (
     } else {
       // Root application view
       Object.keys(applications.items).map(appIndex => {
+        // Get number of managed cluster subs for all applications
         const appData = applications.items[appIndex]
         if (appData.remoteSubs) {
           Object.keys(appData.remoteSubs).map(kindIndex => {
@@ -361,6 +369,7 @@ export const getSubscriptionDataOnManagedClusters = (
           })
         }
       })
+      // Remove duplicate managed cluster subs (that were found in more than one app)
       allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
       Object.keys(allSubscriptions).map(key => {
@@ -391,12 +400,13 @@ export const getPodData = (
   applicationName,
   applicationNamespace
 ) => {
-  var allPods = []
-  var runningPods = []
-  var failedPods = []
+  var allPods = 0
+  var runningPods = 0
+  var failedPods = 0
 
   if (applications && applications.items) {
     Object.keys(applications.items).map(appIndex => {
+      // Get pod data for the current application opened
       if (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
@@ -407,24 +417,19 @@ export const getPodData = (
             if (appData.related[kindIndex].kind.toLowerCase() === 'pod') {
               const pods = appData.related[kindIndex].items
               Object.keys(pods).map(podIndex => {
-                const podObj = {
-                  name: pods[podIndex].name,
-                  namespace: pods[podIndex].namespace,
-                  status: pods[podIndex].status
-                }
-                allPods = allPods.concat(podObj)
+                allPods++
                 if (
-                  podObj.status.toLowerCase() === 'deployed' ||
-                  podObj.status.toLowerCase() === 'pass' ||
-                  podObj.status.toLowerCase() === 'running'
+                  pods[podIndex].status.toLowerCase() === 'deployed' ||
+                  pods[podIndex].status.toLowerCase() === 'pass' ||
+                  pods[podIndex].status.toLowerCase() === 'running'
                 ) {
-                  runningPods = runningPods.concat(podObj)
+                  runningPods++
                 } else if (
-                  podObj.status.toLowerCase() === 'fail' ||
-                  podObj.status.toLowerCase() === 'error' ||
-                  podObj.status.toLowerCase() === 'imagepullbackoff'
+                  pods[podIndex].status.toLowerCase() === 'fail' ||
+                  pods[podIndex].status.toLowerCase() === 'error' ||
+                  pods[podIndex].status.toLowerCase() === 'imagepullbackoff'
                 ) {
-                  failedPods = failedPods.concat(podObj)
+                  failedPods++
                 }
               })
             }
@@ -435,9 +440,9 @@ export const getPodData = (
   }
 
   return {
-    total: allPods.length,
-    running: runningPods.length,
-    failed: failedPods.length
+    total: allPods,
+    running: runningPods,
+    failed: failedPods
   }
 }
 
@@ -446,11 +451,12 @@ export const getPolicyViolationData = (
   applicationName,
   applicationNamespace
 ) => {
-  var VAViolations = []
-  var MAViolations = []
+  var VAViolations = 0
+  var MAViolations = 0
 
   if (applications && applications.items) {
     Object.keys(applications.items).map(appIndex => {
+      // Get policy violation data for the current application opened
       if (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
@@ -461,28 +467,13 @@ export const getPolicyViolationData = (
             if (
               appData.related[kindIndex].kind.toLowerCase() === 'mutationpolicy'
             ) {
-              const MAData = appData.related[kindIndex].items
-              Object.keys(MAData).map(MAIndex => {
-                const MAObj = {
-                  name: MAData[MAIndex].name,
-                  namespace: MAData[MAIndex].namespace,
-                  severity: MAData[MAIndex].severity
-                }
-                MAViolations = MAViolations.concat(MAObj)
-              })
-            } else if (
+              MAViolations = appData.related[kindIndex].items.length
+            }
+            if (
               appData.related[kindIndex].kind.toLowerCase() ===
               'vulnerabilitypolicy'
             ) {
-              const VAData = appData.related[kindIndex].items
-              Object.keys(VAData).map(VAIndex => {
-                const VAObj = {
-                  name: VAData[VAIndex].name,
-                  namespace: VAData[VAIndex].namespace,
-                  severity: VAData[VAIndex].severity
-                }
-                VAViolations = VAViolations.concat(VAObj)
-              })
+              VAViolations = appData.related[kindIndex].items.length
             }
           })
         }
@@ -491,28 +482,29 @@ export const getPolicyViolationData = (
   }
 
   return {
-    VAViolations: VAViolations.length,
-    MAViolations: MAViolations.length
+    VAViolations: VAViolations,
+    MAViolations: MAViolations
   }
 }
 
 export const getIncidentData = CEMIncidentList => {
-  var priority1 = []
-  var priority2 = []
+  var priority1 = 0
+  var priority2 = 0
 
+  // Get incidents data for the current application opened
   if (CEMIncidentList && CEMIncidentList.items) {
     Object.keys(CEMIncidentList.items).map(listIndex => {
       const item = CEMIncidentList.items[listIndex]
       if (item.priority == 1) {
-        priority1 = priority1.concat(item)
+        priority1++
       } else if (item.priority == 2) {
-        priority2 = priority2.concat(item)
+        priority2++
       }
     })
   }
 
   return {
-    priority1: priority1.length,
-    priority2: priority2.length
+    priority1: priority1,
+    priority2: priority2
   }
 }

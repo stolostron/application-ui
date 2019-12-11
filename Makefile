@@ -143,8 +143,8 @@ image-dev: build
 push:
 	$(eval DOCKER_REGISTRY = $(DOCKER_SCRATCH_REGISTRY))
 	make docker:login DOCKER_REGISTRY=$(DOCKER_REGISTRY)
-	make docker:tag-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY)
-	make docker:push-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY)
+	make docker:tag-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY) DOCKER_TAG=$(GIT_COMMIT)
+	make docker:push-arch DOCKER_REGISTRY=$(DOCKER_REGISTRY) DOCKER_TAG=$(GIT_COMMIT)
 
 .PHONY: release
 release:

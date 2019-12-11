@@ -19,9 +19,7 @@ import { getTabs } from '../../../lib/client/resource-helper'
 import Page from '../common/Page'
 import _ from 'lodash'
 
-// import OverviewTab from './OverviewTab'
 import YAMLTab from './YAMLTab'
-// import EventsTab from './EventsTab'
 import LogsTab from './LogsTab'
 
 resources(() => {
@@ -37,9 +35,6 @@ const ResourceDetailsPage = props => (
           path={props.basePath}
           render={() => <YAMLTab {...props} />}
         />
-        {/* <Route exact path={props.basePath} render={() => <OverviewTab {...this.props} />} />
-        <Route path={`${props.basePath}/yaml`} render={() => <YAMLTab {...this.props} />} />
-        <Route path={`${props.basePath}/events`} render={() => <EventsTab {...this.props} />} /> */}
         <Route
           path={`${props.basePath}/logs`}
           render={() => <LogsTab {...props} />}

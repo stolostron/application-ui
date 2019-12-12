@@ -6,7 +6,12 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import { getBreadCrumbs } from './utils'
+import {
+  getBreadCrumbs,
+  getSubscriptions,
+  getChannels,
+  getDeployableDetails
+} from './utils'
 
 describe('getBreadCrumbs', () => {
   const deployableParams = {
@@ -42,3 +47,65 @@ describe('getBreadCrumbs', () => {
     expect(getBreadCrumbs(undefined)).toEqual(result)
   })
 })
+
+describe('getSubscriptions', () => {
+  it('has subscriptions', () => {
+    const subscriptions = getSubscriptions(subscriptionSearchResult)
+    expect(subscriptions[0].name).toEqual('item1')
+    expect(subscriptions[1].name).toEqual('item2')
+  })
+  it('no deployablsubscriptionsDetails', () => {
+    const subscriptions = getSubscriptions({})
+    expect(subscriptions).toHaveLength(0)
+  })
+})
+
+describe('getChannels', () => {
+  const subscriptions = [{ channel: 'aaa/bbb' }]
+
+  const channelSample = { items: [{ name: 'bbb', namespace: 'aaa' }] }
+
+  it('has channels', () => {
+    const channels = getChannels(channelSample, subscriptions)
+
+    expect(channels[0].name).toEqual('bbb')
+    expect(channels[0].namespace).toEqual('aaa')
+  })
+
+  it('has no channels/subscriptions', () => {
+    const channels = getChannels({}, {})
+    expect(channels).toHaveLength(0)
+  })
+})
+
+describe('getDeployableDetails', () => {
+  it('has deployableDetails', () => {
+    const deployableDetails = getDeployableDetails(subscriptionSearchResult)
+    expect(deployableDetails.related[0].name).toEqual('sub1')
+  })
+  it('no deployableDetails', () => {
+    const deployableDetails = getDeployableDetails({})
+    expect(deployableDetails).toHaveLength(0)
+  })
+})
+
+const subscriptionSearchResult = {
+  data: {
+    searchResult: [
+      {
+        related: [
+          {
+            kind: 'subscription',
+            name: 'sub1',
+            items: [{ name: 'item1' }]
+          },
+          {
+            kind: 'subscription',
+            name: 'sub2',
+            items: [{ name: 'item2' }]
+          }
+        ]
+      }
+    ]
+  }
+}

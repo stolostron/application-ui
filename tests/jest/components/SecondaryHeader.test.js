@@ -38,12 +38,12 @@ describe('SecondaryHeader component 2', () => {
 describe('SecondaryHeader component 3', () => {
   const tabs = [
     {
-      id: 'logs-tab',
+      id: 'logs-tab1',
       label: 'tabs.dashboard.application',
       url: '/multicloud/dashboard'
     },
     {
-      id: 'logs-tab',
+      id: 'logs-tab2',
       label: 'tabs.dashboard',
       url: '/hello'
     }
@@ -54,12 +54,7 @@ describe('SecondaryHeader component 3', () => {
   it('renders as expected', () => {
     const component = renderer.create(
       //eslint-disable-next-line
-      <SecondaryHeader
-        title="hello world"
-        role="Viewer"
-        tabs={tabs}
-        location={location}
-      />
+      <SecondaryHeader title="hello world" tabs={tabs} location={location} />
     )
     expect(component.toJSON()).toMatchSnapshot()
   })

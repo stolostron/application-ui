@@ -287,7 +287,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
             >
               <li
                 className="bx--tabs__nav-item"
-                id="logs-tab"
+                id="logs-tab1"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 role="presentation"
@@ -306,7 +306,7 @@ exports[`SecondaryHeader component 3 renders as expected 1`] = `
               </li>
               <li
                 className="bx--tabs__nav-item bx--tabs__nav-item--selected"
-                id="logs-tab"
+                id="logs-tab2"
                 onClick={[Function]}
                 onKeyDown={[Function]}
                 role="presentation"

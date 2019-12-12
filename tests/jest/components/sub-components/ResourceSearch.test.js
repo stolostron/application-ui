@@ -23,7 +23,7 @@ describe('NoResource component', () => {
         handleSearch="handleSearch"
         searchLabel="true"
         searchPlaceholder="searchPlaceholder"
-        renderSmallSearch="renderSmallSearch"
+        renderSmallSearch={true}
         searchValue="value"
       >
         <div className="child">Test</div>

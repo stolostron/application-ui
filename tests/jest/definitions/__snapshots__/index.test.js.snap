@@ -1,11 +1,440 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`definitions/index tests should return the default search field of node 1`] = `undefined`;
+exports[`definitions/index tests should return the default search field of node 1`] = `"name"`;
 
-exports[`definitions/index tests should return the default sort field of node 1`] = `undefined`;
+exports[`definitions/index tests should return the default sort field of node 1`] = `"name"`;
 
 exports[`definitions/index tests should return the link of node as /domain/host 1`] = `"/domain/host"`;
 
 exports[`definitions/index tests should return the link of node as /namespace/name 1`] = `"/namespace/name"`;
 
-exports[`definitions/index tests should return the resource data for specified resource 1`] = `undefined`;
+exports[`definitions/index tests should return the resource data for specified resource 1`] = `
+Object {
+  "applicationRelationshipKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "applicationRelationships",
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "source",
+        "msgKey": "table.header.source",
+        "resourceKey": "source",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "destination",
+        "msgKey": "table.header.destination",
+        "resourceKey": "destination",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "type",
+        "msgKey": "table.header.type",
+        "resourceKey": "type",
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.relationships",
+  },
+  "defaultSortField": "name",
+  "deployableKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "deployables",
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "cluster",
+        "msgKey": "table.header.cluster",
+        "resourceKey": "cluster",
+      },
+      Object {
+        "key": "apigroup",
+        "msgKey": "table.header.apiGroups",
+        "resourceKey": "apigroup",
+      },
+      Object {
+        "key": "status",
+        "msgKey": "table.header.status",
+        "resourceKey": "status",
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.deployables",
+  },
+  "deploymentKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "deployments",
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "cluster",
+        "msgKey": "table.header.cluster",
+        "resourceKey": "cluster",
+      },
+      Object {
+        "key": "apigroup",
+        "msgKey": "table.header.apiGroups",
+        "resourceKey": "apigroup",
+      },
+      Object {
+        "key": "status",
+        "msgKey": "table.header.status",
+        "resourceKey": "status",
+      },
+      Object {
+        "key": "kind",
+        "msgKey": "table.header.kind",
+        "resourceKey": "kind",
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "updated",
+        "msgKey": "table.header.updated",
+        "resourceKey": "updated",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.works",
+  },
+  "detailKeys": Object {
+    "headerRows": Array [
+      "type",
+      "detail",
+    ],
+    "rows": Array [
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.name",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "name",
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.namespace",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "namespace",
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.created",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "created",
+            "transformFunction": [Function],
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.labels",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "label",
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.selector",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "selector",
+            "transformFunction": [Function],
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.annotations",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "annotations",
+            "transformFunction": [Function],
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.resource.version",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "resourceVersion",
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.self.link",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "selfLink",
+          },
+        ],
+      },
+      Object {
+        "cells": Array [
+          Object {
+            "resourceKey": "description.title.uid",
+            "type": "i18n",
+          },
+          Object {
+            "resourceKey": "_uid",
+          },
+        ],
+      },
+    ],
+    "title": "application.details",
+  },
+  "placementBindingKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "placementBindings",
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "placementpolicy",
+        "msgKey": "table.header.placementpolicy",
+        "resourceKey": "placementRef.name",
+      },
+      Object {
+        "key": "subjects",
+        "msgKey": "table.header.subjects",
+        "resourceKey": "subjects",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.placement.bindings",
+  },
+  "placementPolicyKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "placementPolicies",
+    "tableActions": Array [
+      "table.actions.applications.edit",
+    ],
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "replicas",
+        "msgKey": "table.header.replicas",
+        "resourceKey": "clusterReplicas",
+      },
+      Object {
+        "key": "clusterSelector",
+        "msgKey": "table.header.cluster.selector",
+        "resourceKey": "clusterLabels",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "resourceSelector",
+        "msgKey": "table.header.resource.selector",
+        "resourceKey": "resourceSelector",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "decisions",
+        "msgKey": "table.header.decisions",
+        "resourceKey": "status",
+        "transformFunction": [Function],
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.placement.policies",
+  },
+  "placementRuleKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "placementRules",
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.placement.rules",
+  },
+  "primaryKey": "name",
+  "secondaryKey": "namespace",
+  "subscriptionKeys": Object {
+    "defaultSortField": "name",
+    "normalizedKey": "name",
+    "resourceKey": "subscriptions",
+    "tableKeys": Array [
+      Object {
+        "key": "name",
+        "msgKey": "table.header.name",
+        "resourceKey": "name",
+      },
+      Object {
+        "key": "namespace",
+        "msgKey": "table.header.namespace",
+        "resourceKey": "namespace",
+      },
+      Object {
+        "key": "cluster",
+        "msgKey": "table.header.cluster",
+        "resourceKey": "cluster",
+      },
+      Object {
+        "key": "channel",
+        "msgKey": "table.header.channel",
+        "resourceKey": "channel",
+      },
+      Object {
+        "key": "timestamp",
+        "msgKey": "table.header.created",
+        "resourceKey": "created",
+        "transformFunction": [Function],
+      },
+    ],
+    "title": "application.subscriptions",
+  },
+  "tableActions": Array [
+    "table.actions.applications.icam",
+    "table.actions.applications.grafana",
+    "table.actions.applications.edit",
+    "table.actions.applications.remove",
+  ],
+  "tableKeys": Array [
+    Object {
+      "msgKey": "table.header.applicationName",
+      "resourceKey": "name",
+      "transformFunction": [Function],
+    },
+    Object {
+      "msgKey": "table.header.namespace",
+      "resourceKey": "namespace",
+    },
+    Object {
+      "msgKey": "table.header.managedClusters",
+      "resourceKey": "clusters",
+      "transformFunction": [Function],
+    },
+    Object {
+      "msgKey": "table.header.subscriptions",
+      "resourceKey": "subscriptions",
+      "transformFunction": [Function],
+    },
+    Object {
+      "msgKey": "table.header.policyViolations",
+      "resourceKey": "violations",
+      "transformFunction": [Function],
+    },
+    Object {
+      "msgKey": "table.header.created",
+      "resourceKey": "created",
+      "transformFunction": [Function],
+    },
+  ],
+  "uriKey": "name",
+  "validator": [Function],
+}
+`;

@@ -21,8 +21,8 @@ import getResourceData, {
 describe('definitions/index tests', () => {
   it('should return the resource data for specified resource', () => {
     const item = {
-      list: 'HCMClusterList',
-      name: 'HCMCluster'
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
     }
     expect(getResourceData(item)).toMatchSnapshot()
   })
@@ -53,16 +53,16 @@ describe('definitions/index tests', () => {
 
   it('should return the default search field of node', () => {
     const item = {
-      list: 'HCMClusterList',
-      name: 'HCMCluster'
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
     }
     expect(getDefaultSearchField(item)).toMatchSnapshot()
   })
 
   it('should return the default sort field of node', () => {
     const item = {
-      list: 'HCMClusterList',
-      name: 'HCMCluster'
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
     }
     expect(getDefaultSortField(item)).toMatchSnapshot()
   })

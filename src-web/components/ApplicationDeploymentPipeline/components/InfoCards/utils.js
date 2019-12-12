@@ -160,6 +160,7 @@ export const getNumPlacementRules = (
           applications.items[appIndex].namespace === applicationNamespace
         ) {
           const appData = applications.items[appIndex]
+          // Placement rule data found in "related" object
           if (appData.related) {
             Object.keys(appData.related).map(kindIndex => {
               if (
@@ -181,9 +182,10 @@ export const getNumPlacementRules = (
       })
     } else {
       // Root application view
+      // Get number of placement rules for all applications
       Object.keys(applications.items).map(appIndex => {
-        // Get number of placement rules for all applications
         const appData = applications.items[appIndex]
+        // Placement rule data found in "related" object
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
             if (
@@ -229,6 +231,7 @@ export const getSubscriptionDataOnHub = (
           applications.items[appIndex].namespace === applicationNamespace
         ) {
           const appData = applications.items[appIndex]
+          // Hub subscription data found in "related" object
           if (appData.related) {
             Object.keys(appData.related).map(kindIndex => {
               if (
@@ -241,7 +244,9 @@ export const getSubscriptionDataOnHub = (
                     namespace: subscriptions[subIndex].namespace,
                     status: subscriptions[subIndex].status
                   }
+                  // Add each item to "all subscriptions" list
                   allSubscriptions = allSubscriptions.concat(subObj)
+                  // Populate "no status" and "failed" lists based on the subscription's status
                   if (subObj.status === '') {
                     noStatusSubscriptions = noStatusSubscriptions.concat(
                       subObj
@@ -257,9 +262,10 @@ export const getSubscriptionDataOnHub = (
       })
     } else {
       // Root application view
+      // Get number of subscriptions for all applications
       Object.keys(applications.items).map(appIndex => {
-        // Get number of subscriptions for all applications
         const appData = applications.items[appIndex]
+        // Hub subscription data found in "related" object
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
             if (
@@ -281,6 +287,7 @@ export const getSubscriptionDataOnHub = (
       // Remove duplicate subscriptions (that were found in more than one app)
       allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
+      // Populate "no status" and "failed" lists using the new non-duplicate subscriptions list
       Object.keys(allSubscriptions).map(key => {
         if (allSubscriptions[key].status === '') {
           noStatusSubscriptions = noStatusSubscriptions.concat(
@@ -324,6 +331,7 @@ export const getSubscriptionDataOnManagedClusters = (
           applications.items[appIndex].namespace === applicationNamespace
         ) {
           const appData = applications.items[appIndex]
+          // Managed cluster subscription data found in "remoteSubs" object
           if (appData.remoteSubs) {
             Object.keys(appData.remoteSubs).map(kindIndex => {
               if (
@@ -336,7 +344,9 @@ export const getSubscriptionDataOnManagedClusters = (
                   namespace: subscriptions.namespace,
                   status: subscriptions.status
                 }
+                // Add each item to "all subscriptions" list
                 allSubscriptions = allSubscriptions.concat(subObj)
+                // Populate "no status" and "failed" lists based on the subscription's status
                 if (subObj.status === '') {
                   noStatusSubscriptions = noStatusSubscriptions.concat(subObj)
                 } else if (subObj.status.toLowerCase() !== 'subscribed') {
@@ -349,9 +359,10 @@ export const getSubscriptionDataOnManagedClusters = (
       })
     } else {
       // Root application view
+      // Get number of managed cluster subs for all applications
       Object.keys(applications.items).map(appIndex => {
-        // Get number of managed cluster subs for all applications
         const appData = applications.items[appIndex]
+        // Managed cluster subscription data found in "remoteSubs" object
         if (appData.remoteSubs) {
           Object.keys(appData.remoteSubs).map(kindIndex => {
             if (
@@ -372,6 +383,7 @@ export const getSubscriptionDataOnManagedClusters = (
       // Remove duplicate managed cluster subs (that were found in more than one app)
       allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
+      // Populate "no status" and "failed" lists using the new non-duplicate subscriptions list
       Object.keys(allSubscriptions).map(key => {
         if (allSubscriptions[key].status === '') {
           noStatusSubscriptions = noStatusSubscriptions.concat(
@@ -412,22 +424,24 @@ export const getPodData = (
         applications.items[appIndex].namespace === applicationNamespace
       ) {
         const appData = applications.items[appIndex]
+        // Pod data found in "related" object
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
             if (appData.related[kindIndex].kind.toLowerCase() === 'pod') {
               const pods = appData.related[kindIndex].items
               Object.keys(pods).map(podIndex => {
+                const podStatus = pods[podIndex].status
                 allPods++
                 if (
-                  pods[podIndex].status.toLowerCase() === 'deployed' ||
-                  pods[podIndex].status.toLowerCase() === 'pass' ||
-                  pods[podIndex].status.toLowerCase() === 'running'
+                  podStatus.toLowerCase() === 'deployed' ||
+                  podStatus.toLowerCase() === 'pass' ||
+                  podStatus.toLowerCase() === 'running'
                 ) {
                   runningPods++
                 } else if (
-                  pods[podIndex].status.toLowerCase() === 'fail' ||
-                  pods[podIndex].status.toLowerCase() === 'error' ||
-                  pods[podIndex].status.toLowerCase() === 'imagepullbackoff'
+                  podStatus.toLowerCase() === 'fail' ||
+                  podStatus.toLowerCase() === 'error' ||
+                  podStatus.toLowerCase() === 'imagepullbackoff'
                 ) {
                   failedPods++
                 }
@@ -462,6 +476,7 @@ export const getPolicyViolationData = (
         applications.items[appIndex].namespace === applicationNamespace
       ) {
         const appData = applications.items[appIndex]
+        // Policy violation data found in "related" object
         if (appData.related) {
           Object.keys(appData.related).map(kindIndex => {
             if (

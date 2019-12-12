@@ -156,8 +156,12 @@ export const fetchResources = resourceType => {
           response.data &&
           response.data.searchResult[0] &&
           response.data.searchResult[0].items
-        if (resourceType.name == 'HCMChannel') {
-          //filter out remote cluster channels
+        if (
+          resourceType.name == 'HCMChannel' ||
+          resourceType.name == 'HCMSubscription'
+        ) {
+          //filter out remote cluster channels or subscriptions; here we only want hub resources
+          //remote cluster resources will be linked as related to these hub objects
           itemRes = itemRes.filter(elem => elem._hubClusterResource)
         }
 

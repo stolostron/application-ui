@@ -477,7 +477,7 @@ const podSampleData = {
               namespace: 'default'
             },
             {
-              status: 'error',
+              status: 'CreateContainerConfigError',
               name: 'p8',
               namespace: 'default'
             },

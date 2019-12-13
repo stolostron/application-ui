@@ -439,8 +439,8 @@ export const getPodData = (
                 ) {
                   runningPods++
                 } else if (
-                  podStatus.toLowerCase() === 'fail' ||
-                  podStatus.toLowerCase() === 'error' ||
+                  podStatus.toLowerCase().includes('fail') ||
+                  podStatus.toLowerCase().includes('error') ||
                   podStatus.toLowerCase() === 'imagepullbackoff'
                 ) {
                   failedPods++

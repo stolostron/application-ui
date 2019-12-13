@@ -67,8 +67,7 @@ class RemoveResourceModal extends React.Component {
   getChildResources(name, namespace, cluster) {
     const children = []
     const { resourceType } = this.props
-    resourceType.name === 'HCMApplication' ||
-    resourceType.name === 'HCMCompliance'
+    resourceType.name === 'HCMApplication'
       ? apolloClient
         .getResource(resourceType, { namespace, name, cluster })
         .then(response => {
@@ -179,7 +178,6 @@ class RemoveResourceModal extends React.Component {
   modalBody = (name, label, locale) => {
     switch (label.label) {
     case 'modal.remove-hcmapplication.label':
-    case 'modal.remove-hcmcompliance.label':
       return this.state.selected.length > 0 ? (
         <div className="remove-app-modal-content">
           <div className="remove-app-modal-content-text">

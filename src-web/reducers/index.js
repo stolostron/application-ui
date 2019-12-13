@@ -36,7 +36,6 @@ export { logs } from './logs'
 export { AppDeployments } from './reducerAppDeployments'
 export { AppLogs } from './reducerAppLogs'
 export { AppOverview } from './reducerAppOverview'
-export { DeployablesReducer } from './reducerDeployables'
 
 function predicate(resourceType, action) {
   if (lodash.isEqual(resourceType, action.resourceType)) return true

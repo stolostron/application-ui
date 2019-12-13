@@ -35,7 +35,6 @@ import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-//import clustersDef from '../../definitions/hcm-clusters'
 import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../../lib/client/search-helper'
 import { fetchNamespace } from '../../actions/common'
@@ -592,6 +591,7 @@ class ResourceTable extends React.Component {
       }
 
       const item = resources[0]
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState(prevState => ({
         clustersServicesMap: {
           ...prevState.clustersServicesMap,

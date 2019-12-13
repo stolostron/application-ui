@@ -9,12 +9,7 @@
 
 import { updateModal } from '../../actions/common'
 
-export const resourceActions = (
-  action,
-  dispatch,
-  resourceType,
-  data
-) => {
+export const resourceActions = (action, dispatch, resourceType, data) => {
   switch (action) {
   case 'table.actions.application.edit':
   case 'table.actions.edit': {

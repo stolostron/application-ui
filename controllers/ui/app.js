@@ -89,28 +89,18 @@ router.get('*', (req, res) => {
       'ibmcloudappmgmt-amui'
     )
     const isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
-    //const isCEMRunning = serviceDiscovery.serviceEnabled('cem')
-    //const isGrafanaRunning = serviceDiscovery.serviceEnabled(
-    //   'monitoring-grafana'
-    //)
 
     logger.info(`is Kibana Running: ${isKibanaRunning}`)
-    //logger.info(`is cem Running: ${isCEMRunning}`)
-    //logger.info(`is Grafana Running: ${isGrafanaRunning}`)
     logger.info(`is ICAM Running: ${isICAMRunning}`)
 
     const serverProps = {
       ...context,
       isKibanaRunning: isKibanaRunning,
-      //isGrafanaRunning: isGrafanaRunning,
-      //isCEMRunning: isCEMRunning,
       isICAMRunning: isICAMRunning
     }
     /*
     if (process.env.NODE_ENV === 'development') {
       serverProps.isKibanaRunning = true;
-      serverProps.isGrafanaRunning = true;
-      serverProps.isCEMRunning = true;
       serverProps.isICAMRunning = true;
     }
 */

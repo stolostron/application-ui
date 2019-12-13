@@ -8,17 +8,8 @@
 'use strict'
 
 import { updateModal } from '../../actions/common'
-import config from '../../../lib/shared/config'
-import { MCM_CLUSTERS_SERVICES_ACTIONS } from '../../../lib/shared/constants'
 
-export const resourceActions = (
-  action,
-  dispatch,
-  resourceType,
-  data,
-  hasService,
-  history
-) => {
+export const resourceActions = (action, dispatch, resourceType, data) => {
   switch (action) {
   case 'table.actions.application.edit':
   case 'table.actions.edit': {
@@ -39,8 +30,6 @@ export const resourceActions = (
     )
   }
   case 'table.actions.applications.remove':
-  case 'table.actions.compliance.remove':
-  case 'table.actions.policy.remove':
   case 'table.actions.remove': {
     return dispatch(
       updateModal({
@@ -59,22 +48,6 @@ export const resourceActions = (
         }
       })
     )
-  }
-  case 'table.actions.cluster.view.nodes': {
-    history.push(
-      `${config.contextPath}/nodes?filters={"cluster":["${
-        data.metadata.name
-      }"]}`
-    )
-    return
-  }
-  case 'table.actions.cluster.view.pods': {
-    history.push(
-      `${config.contextPath}/pods?filters={"cluster":["${
-        data.metadata.name
-      }"]}`
-    )
-    return
   }
   case 'table.actions.cluster.edit.labels': {
     const _data = { ...data }
@@ -102,30 +75,7 @@ export const resourceActions = (
       updateModal({ open: true, type: 'view-logs', resourceType, data })
     )
   }
-  case 'table.actions.cluster.launch': {
-    window.open(`${data.consoleURL}/console?useNav=platform-ui`, '_blank')
-    return
-  }
-  case MCM_CLUSTERS_SERVICES_ACTIONS.LOGGING.action: {
-    window.open(`${data.consoleURL}/kibana`, '_blank')
-    return
-  }
-  case MCM_CLUSTERS_SERVICES_ACTIONS.MONITORING.action: {
-    window.open(`${data.consoleURL}/grafana`, '_blank')
-    return
-  }
-  case MCM_CLUSTERS_SERVICES_ACTIONS.CEM.action: {
-    window.location.replace(`${data.consoleURL}/cemui/launch`)
-    return
-  }
-  case 'table.actions.cluster.search': {
-    history.push(
-      `${config.contextPath}/search?filters={"textsearch":"cluster:${
-        data.metadata.name
-      }"}`
-    )
-    return
-  }
+
   default:
   }
 }

@@ -35,7 +35,6 @@ import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-//import clustersDef from '../../definitions/hcm-clusters'
 import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../../lib/client/search-helper'
 import { fetchNamespace } from '../../actions/common'
@@ -408,8 +407,6 @@ class ResourceTable extends React.Component {
   }
 
   handleActionClick(action, resourceType, item) {
-    //const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
-
     const client = apolloClient.getClient()
     const name = _.get(item, 'name', '')
     const namespace = _.get(item, 'namespace', '')
@@ -475,7 +472,7 @@ class ResourceTable extends React.Component {
           ? filterTableAction(menuActions, userRole)
           : null
         const availableActions =
-          filteredActions && this.getAvaiableActions(filteredActions, item)
+          filteredActions && this.getAvailableActions(filteredActions, item)
 
         if (
           filteredActions &&
@@ -495,9 +492,7 @@ class ResourceTable extends React.Component {
                   data-table-action={action}
                   isDelete={
                     action === 'table.actions.remove' ||
-                    action === 'table.actions.policy.remove' ||
-                    action === 'table.actions.applications.remove' ||
-                    action === 'table.actions.compliance.remove'
+                    action === 'table.actions.applications.remove'
                   }
                   onClick={() => {
                     if (
@@ -596,6 +591,7 @@ class ResourceTable extends React.Component {
       }
 
       const item = resources[0]
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState(prevState => ({
         clustersServicesMap: {
           ...prevState.clustersServicesMap,
@@ -658,10 +654,7 @@ class ResourceTable extends React.Component {
     )
   }
 
-  getAvaiableActions(actions, item) {
-    actions = item.consoleURL
-      ? actions
-      : actions.filter(a => a !== 'table.actions.cluster.launch')
+  getAvailableActions(actions, item) {
     const serviceMap =
       this.state.clustersServicesMap[item && item.cluster] || {}
     this.serviceList.map(

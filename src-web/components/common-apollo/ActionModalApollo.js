@@ -77,8 +77,6 @@ class ActionModalApollo extends React.PureComponent {
       return null
     }
     case 'table.actions.applications.remove':
-    case 'table.actions.compliance.remove':
-    case 'table.actions.policy.remove':
     case 'table.actions.remove': {
       return (
         open &&

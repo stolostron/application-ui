@@ -15,7 +15,6 @@ import hcmapplications from './hcm-applications'
 import hcmchannels from './hcm-channel'
 import hcmsubscriptions from './hcm-subscription'
 import hcmplacementrules from './hcm-placementrule'
-//import hcmclusters from './hcm-clusters'
 import cemincidents from './cem-incidents'
 
 const resourceData = {

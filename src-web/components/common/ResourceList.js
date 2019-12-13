@@ -27,7 +27,6 @@ import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 import TagInput from './TagInput'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { showCreate } from '../../../lib/client/access-helper'
 import resources from '../../../lib/shared/resources'
 
@@ -206,16 +205,6 @@ class ResourceList extends React.Component {
       )
     }
 
-    if (resourceType.name === RESOURCE_TYPES.HCM_CLUSTERS.name) {
-      return (
-        <NoResource
-          title={msgs.get('no-cluster.title', [resourceName], locale)}
-          detail={msgs.get('no-cluster.detail', [resourceName], locale)}
-        >
-          {actions}
-        </NoResource>
-      )
-    }
     const resourceName = msgs.get(
       'no-resource.' + resourceType.name.toLowerCase(),
       locale

@@ -440,7 +440,6 @@
   "no-resource.hcmcluster": "Clusters",
   "no-resource.hcmnamespace": "Namespaces",
   "no-resource.hcmpod": "Pods",
-  "no-resource.hcmrepository": "HelmRepositories",
   "no-resource.hcmapplication": "Applications",
   "no-resource.cemincident": "Incidents",
   "no-resource.cemincidentlist": "Incidents",

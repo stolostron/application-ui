@@ -44,30 +44,6 @@ export const getPlacementRuleFromBulkSubscription = subscription => {
   return undefined
 }
 
-// This method takes in an object and drills down to find the items of applications
-// Within that it will go a step further and find the deployables and merge them together.
-// ----------------
-// This is no longer being used but keeping it here for now
-// ----------------
-export const getDeployablesList = list => {
-  if (list && list.items) {
-    const deployables = list.items.map(application => {
-      const deployablesList = pullOutKindPerApplication(
-        application,
-        'deployable'
-      )
-      if (deployablesList.length > 0) {
-        return deployablesList
-      }
-    })
-    const removeUndefined = x => x !== undefined
-    const emptyArray = []
-    const removedUndefinedDeployables = R.filter(removeUndefined, deployables)
-    return emptyArray.concat.apply([], removedUndefinedDeployables)
-  }
-  return []
-}
-
 // Method will take in an object and return back the channels mapped
 export const getChannelsList = channels => {
   if (channels && channels.items) {

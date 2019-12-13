@@ -8,8 +8,10 @@
 
 import {
   getApplicationsList,
-  getDeployablesList,
   getSubscriptionsList,
+  getSubscriptionListGivenApplicationList,
+  getChannelsList,
+  getPlacementRuleFromBulkSubscription,
   filterApps
 } from './utils'
 
@@ -22,25 +24,6 @@ describe('getApplicationsList', () => {
   })
   it('should return blank array', () => {
     expect(getApplicationsList(applicationDud)).toEqual([])
-  })
-})
-
-describe('getDeployablesList', () => {
-  const applicationList = {
-    items: [
-      { deployables: [{ hi: 'hi' }, { hii: 'hii' }] },
-      { deployables: [{ hiii: 'hiii' }] }
-    ]
-  }
-  const applicationDud = {
-    itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }]
-  }
-  it('should return deployable list of 3', () => {
-    // const result = [{ hi: 'hi' }, { hii: 'hii' }, { hiii: 'hiii' }]
-    expect(getDeployablesList(applicationList)).toEqual([])
-  })
-  it('should return blank array', () => {
-    expect(getDeployablesList(applicationDud)).toEqual([])
   })
 })
 
@@ -257,3 +240,92 @@ describe('filterApps', () => {
     expect(filterApps(applicationDud)).toEqual(applicationDud)
   })
 })
+
+describe('getSubscriptionListGivenApplicationList', () => {
+  it('return subscriptions', () => {
+    const subscriptionList = getSubscriptionListGivenApplicationList(
+      subscriptionInApplicationSample
+    )
+
+    expect(subscriptionList[0].name).toEqual('sub1')
+    expect(subscriptionList[1].name).toEqual('sub2')
+    expect(subscriptionList[2].name).toEqual('sub3')
+  })
+  it('no subscriptions', () => {
+    const subscriptionList = getSubscriptionListGivenApplicationList([])
+    expect(subscriptionList).toHaveLength(0)
+  })
+})
+
+describe('getChannelsList', () => {
+  it('return list of channels', () => {
+    const channels = getChannelsList(channelsSample)
+    expect(channels[0].name).toEqual('channel1')
+    expect(channels[1].name).toEqual('channel2')
+    expect(channels[2].name).toEqual('channel3')
+  })
+
+  it('no channels', () => {
+    const channels = getChannelsList({})
+    expect(channels).toHaveLength(0)
+  })
+})
+
+describe('getPlacementRuleFromBulkSubscription', () => {
+  it('has placement rule', () => {
+    const placementRules = getPlacementRuleFromBulkSubscription(
+      placementRuleSampleData
+    )
+
+    expect(placementRules.name).toEqual('pr1')
+    expect(placementRules.namespace).toEqual('default')
+  })
+
+  it('no placement rule', () => {
+    const placementRules = getPlacementRuleFromBulkSubscription({})
+    expect(placementRules).toBeUndefined
+  })
+})
+
+const subscriptionInApplicationSample = [
+  {
+    name: 'app1',
+    namespace: 'default',
+    related: [
+      {
+        kind: 'subscription',
+        items: [
+          { name: 'sub1', namespace: 'default', status: 'propagated' },
+          { name: 'sub2', namespace: 'default', status: '' },
+          { name: 'sub3', namespace: 'default', status: 'propagated' }
+        ]
+      }
+    ]
+  }
+]
+
+const channelsSample = {
+  items: [
+    { name: 'channel1', namespace: 'default' },
+    { name: 'channel2', namespace: 'default' },
+    { name: 'channel3', namespace: 'default' }
+  ]
+}
+
+const placementRuleSampleData = {
+  name: 'app1',
+  namespace: 'default',
+  related: [
+    {
+      kind: 'placementrule',
+      items: [
+        { name: 'pr1', namespace: 'default' },
+        { name: 'pr2', namespace: 'default' },
+        { name: 'pr3', namespace: 'default' },
+        { name: 'pr4', namespace: 'default' },
+        { name: 'pr5', namespace: 'default' },
+        { name: 'pr6', namespace: 'default' }
+      ]
+    }
+  ]
+}

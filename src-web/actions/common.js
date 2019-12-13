@@ -530,31 +530,3 @@ export const createResource = (resourceType, variables) => {
       .catch(err => dispatch(receivePostError(err, resourceType)))
   }
 }
-
-export const createPolicy = (resourceType, resourceJson) => {
-  return dispatch => {
-    dispatch(mutateResource(resourceType))
-    return apolloClient.createPolicy(resourceJson).then(result => {
-      if (result.errors && result.errors.length > 0) {
-        dispatch(mutateResourceFailure(resourceType, result.errors[0]))
-      } else {
-        dispatch(mutateResourceSuccess(resourceType))
-      }
-      return result
-    })
-  }
-}
-
-export const createCompliance = (resourceType, resourceJson) => {
-  return dispatch => {
-    dispatch(mutateResource(resourceType))
-    return apolloClient.createCompliance(resourceJson).then(result => {
-      if (result.errors && result.errors.length > 0) {
-        dispatch(mutateResourceFailure(resourceType, result.errors[0]))
-      } else {
-        dispatch(mutateResourceSuccess(resourceType))
-      }
-      return result
-    })
-  }
-}

@@ -27,30 +27,6 @@ describe('definitions/index tests', () => {
     expect(getResourceData(item)).toMatchSnapshot()
   })
 
-  // it('should return the primary key of node', () => {
-  //   const item = {
-  //     list: 'HCMClusterList',
-  //     name: 'HCMCluster'
-  //   }
-  //   expect(getPrimaryKey(item)).toMatchSnapshot()
-  // })
-  //
-  // it('should return the secondary key', () => {
-  //   const item = {
-  //     list: 'HCMClusterList',
-  //     name: 'HCMCluster'
-  //   }
-  //   expect(getSecondaryKey(item)).toMatchSnapshot()
-  // })
-  //
-  // it('should return the URI key', () => {
-  //   const item = {
-  //     list: 'HCMClusterList',
-  //     name: 'HCMCluster'
-  //   }
-  //   expect(getURIKey(item)).toMatchSnapshot()
-  // })
-
   it('should return the default search field of node', () => {
     const item = {
       list: 'HCMApplicationList',
@@ -66,14 +42,6 @@ describe('definitions/index tests', () => {
     }
     expect(getDefaultSortField(item)).toMatchSnapshot()
   })
-
-  // it('should return the table keys', () => {
-  //   const item = {
-  //     list: 'HCMClusterList',
-  //     name: 'HCMCluster'
-  //   }
-  //   expect(getTableKeys(item)).toMatchSnapshot()
-  // })
 
   it('should return the link of node as /namespace/name', () => {
     const link = true

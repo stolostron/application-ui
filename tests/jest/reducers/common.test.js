@@ -261,24 +261,7 @@ describe('resourceReducerFunction', () => {
     }
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue)
   })
-  // it('should return a state for resource modify action', () => {
-  //   const state = {
-  //     test: 'test',
-  //     items: ['test']
-  //   }
-  //   const action = {
-  //     type: 'RESOURCE_MODIFY',
-  //     resourceType:{
-  //       list: 'HCMClusterList',
-  //       name: 'HCMCluster'
-  //     }
-  //   }
-  //   const expectedValue = {
-  //     test: 'test',
-  //     items: [undefined]
-  //   }
-  //   expect(resourceReducerFunction(state, action)).toEqual(expectedValue)
-  // })
+
   it('should return a state for resource delete action', () => {
     const state = {
       test: 'test',

@@ -394,8 +394,6 @@
   "modal.edit-hcmsubscription.heading": "Edit subscription",
   "modal.edit-hcmsubscription.label": "Edit subscription",
   "modal.edit-hcmplacementrule.heading": "Edit placement rule",
-  "modal.edit-hcmplacementpolicy.heading": "Edit placement policy",
-  "modal.edit-hcmplacementpolicy.label": "Edit placement policy",
   "modal.edit.resource.header": "Save changes",
   "modal.edit.resource.confirmation": "If you save changes to a resource, it might affect running applications that are using that resource.",
   "modal.errors.querying.resource": "An unexpected error occurred while retrieving the requested resource. This resource might no longer exist.",

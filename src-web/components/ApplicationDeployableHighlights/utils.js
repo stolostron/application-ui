@@ -53,16 +53,12 @@ export const getDeployableSummary = item => {
   ]
 }
 
-// return the incidents for the deployable
-export const getDeployableIncidents = item => {
-  const countsCardDataIncidents = [
+export const getDeployableIncidents = () => {
+  return [
     {
       msgKey: 'dashboard.card.deployable.incidents',
       count: 0,
       alert: true
     }
   ]
-  if (item) return countsCardDataIncidents
-
-  return countsCardDataIncidents
 }

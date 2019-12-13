@@ -28,7 +28,6 @@ class RemoveResourceModal extends React.Component {
     this.state = {
       canRemove: false,
       name: '',
-      namespace: '',
       cluster: '',
       selfLink: '',
       errors: undefined,
@@ -59,7 +58,6 @@ class RemoveResourceModal extends React.Component {
       })
       this.setState({
         name: data.name,
-        namespace: data.namespace,
         cluster: data.clusterName,
         selfLink: data.selfLink
       })
@@ -154,33 +152,14 @@ class RemoveResourceModal extends React.Component {
   }
 
   handleSubmit() {
-    const { selfLink, name, namespace, cluster } = this.state
+    const { selfLink, cluster } = this.state
     this.setState({
       loading: true
     })
     if (!selfLink || selfLink === '') {
-      const { resourceType } = this.props
-      if (resourceType.name === 'HCMRelease') {
-        apolloClient
-          .remove({ kind: 'release', name, namespace, cluster })
-          .then(res => {
-            if (res.errors) {
-              this.setState({
-                loading: false,
-                errors: res.errors[0].message
-              })
-            } else {
-              this.handleClose()
-            }
-          })
-      } else {
-        this.setState({
-          errors: msgs.get(
-            'modal.errors.querying.resource',
-            this.context.locale
-          )
-        })
-      }
+      this.setState({
+        errors: msgs.get('modal.errors.querying.resource', this.context.locale)
+      })
     } else {
       apolloClient
         .remove({ cluster, selfLink, childResources: [] || [] })

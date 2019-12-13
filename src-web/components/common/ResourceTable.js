@@ -408,8 +408,6 @@ class ResourceTable extends React.Component {
   }
 
   handleActionClick(action, resourceType, item) {
-    //const resourceActionsList = clustersDef.tableActions.filter(a => a !== 'table.actions.cluster.edit.labels')
-
     const client = apolloClient.getClient()
     const name = _.get(item, 'name', '')
     const namespace = _.get(item, 'namespace', '')
@@ -475,7 +473,7 @@ class ResourceTable extends React.Component {
           ? filterTableAction(menuActions, userRole)
           : null
         const availableActions =
-          filteredActions && this.getAvaiableActions(filteredActions, item)
+          filteredActions && this.getAvailableActions(filteredActions, item)
 
         if (
           filteredActions &&
@@ -495,9 +493,7 @@ class ResourceTable extends React.Component {
                   data-table-action={action}
                   isDelete={
                     action === 'table.actions.remove' ||
-                    action === 'table.actions.policy.remove' ||
-                    action === 'table.actions.applications.remove' ||
-                    action === 'table.actions.compliance.remove'
+                    action === 'table.actions.applications.remove'
                   }
                   onClick={() => {
                     if (
@@ -658,10 +654,7 @@ class ResourceTable extends React.Component {
     )
   }
 
-  getAvaiableActions(actions, item) {
-    actions = item.consoleURL
-      ? actions
-      : actions.filter(a => a !== 'table.actions.cluster.launch')
+  getAvailableActions(actions, item) {
     const serviceMap =
       this.state.clustersServicesMap[item && item.cluster] || {}
     this.serviceList.map(

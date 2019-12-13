@@ -45,30 +45,7 @@ export default {
       msgKey: 'table.header.events',
       resourceKey: 'eventSummary.events'
     }
-    // {
-    //   msgKey: 'table.header.labels',
-    //   resourceKey: 'metadata.labels',
-    //   transformFunction: getLabelsToString,
-    // },
-    // {
-    //   msgKey: 'table.header.status',
-    //   resourceKey: 'metadata.status',
-    //   transformFunction: getStatus,
-    // },
   ],
   tableActions: [],
   detailKeys: []
 }
-
-// export function createIncidentLink({ id = '' }, locale) {
-//   const link = `${config.cfcRouterUrl}/cemui/incidents/${id}/resolution`;
-//   if (id !== null && id !== '') {
-//     return (
-//       <a target="_blank" rel="noopener noreferrer" href={link}>
-//         {id}
-//       </a>
-//     );
-//   }
-
-//   return '-';
-// }

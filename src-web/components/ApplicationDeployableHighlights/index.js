@@ -20,7 +20,7 @@ resources(() => {
 const ApplicationDeployableHighlights = withLocale(
   ({ deployableDetails, locale }) => {
     const countsCardDataGeneralInfo = getDeployableSummary(deployableDetails)
-    const countsCardDataIncidents = getDeployableIncidents(deployableDetails)
+    const countsCardDataIncidents = getDeployableIncidents()
     return (
       <React.Fragment>
         <div id="ApplicationDeployableHighlights">

@@ -6,7 +6,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import { getDeployableSummary } from './utils'
+import { getDeployableSummary, getDeployableIncidents } from './utils'
 
 describe('getDeployableSummary', () => {
   const deplList = {
@@ -123,4 +123,10 @@ describe('getDeployableSummary', () => {
     ]
     expect(getDeployableSummary(deplListDummy)).toEqual(result)
   })
+})
+
+describe('getDeployableIncidents', () => {
+  const result = getDeployableIncidents()
+  expect(result[0].msgKey).toEqual('dashboard.card.deployable.incidents')
+  expect(result[0].count).toEqual(0)
 })

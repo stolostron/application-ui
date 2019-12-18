@@ -85,9 +85,7 @@ router.get('*', (req, res) => {
       })
     }
 
-    const isICAMRunning = serviceDiscovery.serviceEnabled(
-      'ibmcloudappmgmt-amui'
-    )
+    const isICAMRunning = serviceDiscovery.serviceEnabled('amui')
     const isKibanaRunning = serviceDiscovery.serviceEnabled('kibana')
 
     logger.info(`is Kibana Running: ${isKibanaRunning}`)

@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountsCardModule CountsCardModule renders correctly. (empty params) 1`] = `
+<div
+  id="CountsCardModule"
+>
+  <div
+    className="card-container"
+  >
+    <div
+      className="card-container-content"
+    />
+  </div>
+</div>
+`;
+
+exports[`CountsCardModule CountsCardModule renders correctly. (no title, no link) 1`] = `
+<div
+  id="CountsCardModule"
+>
+  <div
+    className="card-container"
+  >
+    <div
+      className="card-container-content"
+    >
+      <div
+        className="card-count-type hasRightBorder"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          6
+        </div>
+        <div
+          className="card-type"
+        >
+          Deployables
+        </div>
+        <div
+          className="card-text"
+        >
+          Per instance
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          38
+        </div>
+        <div
+          className="card-type"
+        >
+          Resources
+        </div>
+        <div
+          className="card-text"
+        >
+          Total
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          24
+        </div>
+        <div
+          className="card-type"
+        >
+          Completed
+        </div>
+        <div
+          className="card-text"
+        >
+          Resources
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          10
+        </div>
+        <div
+          className="card-type"
+        >
+          In progress
+        </div>
+        <div
+          className="card-text"
+        >
+          Resources
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count alert"
+        >
+          4
+        </div>
+        <div
+          className="card-type"
+        >
+          Failed
+        </div>
+        <div
+          className="card-text"
+        >
+          Resources
+        </div>
+      </div>
+      <div
+        className="card-count-type hasLeftBorder"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count alert"
+        >
+          2
+        </div>
+        <div
+          className="card-type"
+        >
+          Incidents
+        </div>
+        <div
+          className="card-text"
+        >
+          Total
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CountsCardModule CountsCardModule renders correctly. 1`] = `
+<div
+  id="CountsCardModuleWithHeaderAndLink"
+>
+  <span
+    className="card-container-title"
+  >
+    <span
+      className="card-container-link"
+    >
+      <a
+        href="https://www.ibm.com"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        View hub cluster application instance
+         
+        <svg
+          alt="Provide a description that will be used as the title"
+          aria-label="Provide a description that will be used as the title"
+          className="icon--arrow--right"
+          fill="gray"
+          fillRule="evenodd"
+          height="12px"
+          name="icon--arrow--right"
+          role="img"
+          style={
+            Object {
+              "margin": "0 0 0 5px",
+            }
+          }
+          viewBox="0 0 16 14"
+          width="12px"
+        >
+          <title>
+            Provide a description that will be used as the title
+          </title>
+          <path
+            d="M11.95 5.997L7.86 2.092 9.233.639l6.763 6.356-6.763 6.366L7.86 11.91l4.092-3.912H-.003v-2h11.952z"
+          />
+        </svg>
+      </a>
+    </span>
+  </span>
+  <div
+    className="card-container"
+  >
+    <div
+      className="card-container-content"
+    >
+      <div
+        className="card-count-type hasRightBorder"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          6
+        </div>
+        <div
+          className="card-type"
+        >
+          Deployables
+        </div>
+        <div
+          className="card-text"
+        >
+          Per instance
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          38
+        </div>
+        <div
+          className="card-type"
+        >
+          Resources
+        </div>
+        <div
+          className="card-text"
+        >
+          Total
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          24
+        </div>
+        <div
+          className="card-type"
+        >
+          Completed
+        </div>
+        <div
+          className="card-text"
+        >
+          Resources
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count"
+        >
+          10
+        </div>
+        <div
+          className="card-type"
+        >
+          In progress
+        </div>
+        <div
+          className="card-text"
+        >
+          Resources
+        </div>
+      </div>
+      <div
+        className="card-count-type"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count alert"
+        >
+          4
+        </div>
+        <div
+          className="card-type"
+        >
+          Failed
+        </div>
+        <div
+          className="card-text"
+        >
+          Resources
+        </div>
+      </div>
+      <div
+        className="card-count-type hasLeftBorder"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        <div
+          className="card-count alert"
+        >
+          2
+        </div>
+        <div
+          className="card-type"
+        >
+          Incidents
+        </div>
+        <div
+          className="card-text"
+        >
+          Total
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

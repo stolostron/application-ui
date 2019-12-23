@@ -26,19 +26,21 @@ class CountsCardModule extends React.Component {
     const { locale } = this.context
     const { data } = this.props
     const countCardItems = []
-    data.map(
-      ({ msgKey, count, textKey, border, alert, targetTab, targetLink }) => {
-        countCardItems.push({
-          count,
-          type: msgs.get(msgKey, locale),
-          text: (textKey && msgs.get(textKey, locale)) || '',
-          border: border || '',
-          alert: alert || false,
-          targetTab,
-          targetLink
-        })
-      }
-    )
+
+    data &&
+      data.map(
+        ({ msgKey, count, textKey, border, alert, targetTab, targetLink }) => {
+          countCardItems.push({
+            count,
+            type: msgs.get(msgKey, locale),
+            text: (textKey && msgs.get(textKey, locale)) || '',
+            border: border || '',
+            alert: alert || false,
+            targetTab,
+            targetLink
+          })
+        }
+      )
     return {
       countCardItems
     }

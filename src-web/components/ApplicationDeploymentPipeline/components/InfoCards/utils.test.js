@@ -23,8 +23,8 @@ import {
 
 //getNumClusters
 describe('getNumClusters', () => {
-  it('has application and subscription object', () => {
-    // pass in appsWithSubscription and list of subscriptions
+  it('has application object', () => {
+    // pass in appsWithSubscription
     const num = getNumClusters(appWithSubscriptionSampleData)
     expect(num).toEqual(1)
   })
@@ -292,6 +292,13 @@ const appWithSubscriptionSampleData = {
             { name: 'sub1', namespace: 'default' },
             { name: 'sub2', namespace: 'default' },
             { name: 'sub3', namespace: 'default' }
+          ]
+        },
+        {
+          kind: 'cluster',
+          items: [
+            { name: 'cls1', namespace: 'cls1-ns' },
+            { name: 'local', namespace: 'local-ns' }
           ]
         }
       ]

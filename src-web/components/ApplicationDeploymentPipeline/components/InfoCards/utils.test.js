@@ -25,14 +25,11 @@ import {
 describe('getNumClusters', () => {
   it('has application and subscription object', () => {
     // pass in appsWithSubscription and list of subscriptions
-    const num = getNumClusters(
-      appWithSubscriptionSampleData,
-      subscriptionsSampleData
-    )
+    const num = getNumClusters(appWithSubscriptionSampleData)
     expect(num).toEqual(1)
   })
   it('empty list', () => {
-    const num = getNumClusters(emptyData, subscriptionSubscribedSampleData)
+    const num = getNumClusters(emptyData)
     expect(num).toEqual(0) // empty string returned
   })
 })
@@ -299,26 +296,6 @@ const appWithSubscriptionSampleData = {
         }
       ]
     }
-  ]
-}
-
-const subscriptionsSampleData = {
-  items: [
-    {
-      name: 'sub1',
-      namespace: 'default',
-      related: [
-        {
-          kind: 'cluster',
-          items: [
-            { name: 'c1', namespace: 'default' },
-            { name: 'c2', namespace: 'default' }
-          ]
-        }
-      ]
-    },
-    { name: 'sub2', namespace: 'default', related: [{ kind: 'cluster' }] },
-    { name: 'sub3', namespace: 'default' }
   ]
 }
 

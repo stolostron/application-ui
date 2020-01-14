@@ -11,7 +11,7 @@ import { Loading, TooltipIcon } from 'carbon-components-react'
 import lodash from 'lodash'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
 import {
-  getNumClusters,
+  getNumClustersForApp,
   getNumPolicyViolations
 } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
@@ -38,7 +38,7 @@ export default {
     {
       msgKey: 'table.header.managedClusters',
       resourceKey: 'clusters',
-      transformFunction: getNumClusters
+      transformFunction: getNumClustersForApp
     },
     {
       msgKey: 'table.header.subscriptions',

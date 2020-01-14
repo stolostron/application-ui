@@ -10,6 +10,8 @@ import {
   kindsToExcludeForDeployments,
   getResourcesStatusPerChannel
 } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import { getNumClusters } from '../../ApplicationDeploymentPipeline/components/InfoCards/utils'
+
 import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 
 // Method will take in an object and return back the channels mapped for display purposes
@@ -40,18 +42,10 @@ export const getChannelsList = channels => {
   return []
 }
 
-export const getNumClusters = data => {
-  if (data && data.related instanceof Array && data.related.length > 0) {
-    const filtered = data.related.filter(elem => elem.kind === 'cluster')
-    const numClusters = filtered.reduce(
-      (acc, cur) => acc + (cur.items instanceof Array ? cur.items.length : 0),
-      0
-    )
-    // number of clusters - 1 for local-cluster
-    return numClusters > 0 ? numClusters - 1 : 0
-  } else {
-    return 0
-  }
+export const getNumClustersForApp = data => {
+  if (data) return getNumClusters({ items: [data] })
+
+  return 0
 }
 
 export const getNumDeployables = data => {

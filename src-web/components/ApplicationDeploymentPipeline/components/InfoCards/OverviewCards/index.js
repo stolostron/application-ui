@@ -81,8 +81,7 @@ const getOverviewCardsData = (
   targetLinkForPolicyViolations,
   locale
 ) => {
-  // const applications = getNumItems(HCMApplicationList)
-  const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
+  const clusters = getNumClusters(HCMApplicationList)
   const policyViolations = getNumPolicyViolationsForList(HCMApplicationList)
   const incidents = getNumIncidents(CEMIncidentList)
 

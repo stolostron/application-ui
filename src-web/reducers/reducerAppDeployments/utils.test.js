@@ -22,7 +22,8 @@ describe('returnBulkQueryString', () => {
           { property: 'name', values: ['gbchn-gbchn-redismasterservice'] },
           { property: 'namespace', values: ['chn-gb'] }
         ],
-        keywords: []
+        keywords: [],
+        relatedKinds: []
       },
       {
         filters: [
@@ -30,7 +31,8 @@ describe('returnBulkQueryString', () => {
           { property: 'name', values: ['gbchn-gbchn-redismasterservice2'] },
           { property: 'namespace', values: ['chn-gb'] }
         ],
-        keywords: []
+        keywords: [],
+        relatedKinds: []
       },
       {
         filters: [
@@ -38,7 +40,8 @@ describe('returnBulkQueryString', () => {
           { property: 'name', values: ['joshDeployable'] },
           { property: 'namespace', values: ['chn-gb'] }
         ],
-        keywords: []
+        keywords: [],
+        relatedKinds: []
       }
     ]
     expect(

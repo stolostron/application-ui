@@ -38,14 +38,15 @@ const jestConfig = {
     'text-summary'
   ],
   testURL: 'http://localhost/',
-  // coverageThreshold: {
-  //   global: {
-  //     branches: 11,
-  //     functions: 15,
-  //     lines: 14,
-  //     statements: 14,
-  //   },
-  // },
+  coverageThreshold: {
+    // TODO - increase threshold once repo is finalized
+    global: {
+      branches: 15,
+      functions: 20,
+      lines: 20,
+      statements: 20
+    }
+  },
   testMatch: [
     '<rootDir>/tests/jest/**/*.test.js?(x)',
     '<rootDir>/tests/jest/**/**/*.test.js?(x)',

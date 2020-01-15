@@ -9,12 +9,10 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
     onBlur={[Function]}
     onClick={[Function]}
     onKeyDown={[Function]}
-    onTransitionEnd={undefined}
     role="presentation"
     tabIndex={-1}
   >
     <div
-      aria-label={undefined}
       className="bx--modal-container"
       role="dialog"
     >
@@ -40,12 +38,9 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
             alt="close the modal"
             aria-label="close the modal"
             className="bx--modal-close__icon"
-            fill={undefined}
             fillRule="evenodd"
             height="10"
-            name={undefined}
             role="img"
-            style={undefined}
             viewBox="0 0 10 10"
             width="10"
           >
@@ -397,12 +392,10 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
     onBlur={[Function]}
     onClick={[Function]}
     onKeyDown={[Function]}
-    onTransitionEnd={undefined}
     role="presentation"
     tabIndex={-1}
   >
     <div
-      aria-label={undefined}
       className="bx--modal-container"
       role="dialog"
     >
@@ -424,12 +417,9 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
             alt="close the modal"
             aria-label="close the modal"
             className="bx--modal-close__icon"
-            fill={undefined}
             fillRule="evenodd"
             height="10"
-            name={undefined}
             role="img"
-            style={undefined}
             viewBox="0 0 10 10"
             width="10"
           >

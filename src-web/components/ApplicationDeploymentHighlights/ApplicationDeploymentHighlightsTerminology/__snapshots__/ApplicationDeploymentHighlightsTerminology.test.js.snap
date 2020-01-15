@@ -24,12 +24,9 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
           alt="Expand and collapse"
           aria-label="Expand and collapse"
           className="bx--accordion__arrow"
-          fill={undefined}
           fillRule="evenodd"
           height="12"
-          name={undefined}
           role={null}
-          style={undefined}
           viewBox="0 0 7 12"
           width="7"
         >
@@ -130,7 +127,6 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
                 height="16"
                 name="icon--launch"
                 role="img"
-                style={undefined}
                 viewBox="0 0 16 16"
                 width="16"
               >

@@ -10,12 +10,9 @@ exports[`NoResource component renders as expected 1`] = `
     alt="true"
     aria-label="true"
     className="bx--search-magnifier"
-    fill={undefined}
     fillRule="evenodd"
     height="16"
-    name={undefined}
     role="img"
-    style={undefined}
     viewBox="0 0 16 16"
     width="16"
   >
@@ -43,7 +40,6 @@ exports[`NoResource component renders as expected 1`] = `
     value="value"
   />
   <button
-    aria-label={undefined}
     className="bx--search-close"
     onClick={[Function]}
     type="button"
@@ -51,13 +47,9 @@ exports[`NoResource component renders as expected 1`] = `
     <svg
       alt="Provide a description that will be used as the title"
       aria-label="Provide a description that will be used as the title"
-      className={undefined}
-      fill={undefined}
       fillRule="evenodd"
       height="16"
-      name={undefined}
       role="img"
-      style={undefined}
       viewBox="0 0 16 16"
       width="16"
     >

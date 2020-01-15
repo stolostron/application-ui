@@ -12,42 +12,37 @@ describe('getLabelsListClass', () => {
   const input1 = ['a', 'b', 'c', 'd']
   const input2 = ['a', 'b', 'c', 'd', 'e']
 
-  const output1 = ['a', 'b', '2+', 'c d']
-  const output2 = ['a', 'b', '3+', 'c d e']
+  const output1 = { data: ['a', 'b', '+2'], hover: 'cd' }
+  const output2 = { data: ['a', 'b', '+3'], hover: 'cde' }
 
-  it('test case 1'),
-  () => {
+  it('test case 1', () => {
     expect(getLabelsListClass(input1)).toEqual(output1)
-  }
+  })
 
-  it('test case 2'),
-  () => {
+  it('test case 2', () => {
     expect(getLabelsListClass(input2)).toEqual(output2)
-  }
+  })
 })
 
 describe('getCsvListClass', () => {
   const input1 = ['a', 'b', 'c']
-  const input2 = ['a', 'b', 'c', 'd', 'e', 'f']
-  const output1 = ['a', 'b', 'c']
-  const output2 = ['a', 'b', 'c', 'd', 'e', '...']
-  it('csv list length of 3'),
-  () => {
+  const input2 = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+  const output1 = { data: ['a', 'b', 'c'], hover: '' }
+  const output2 = { data: ['a', 'b', 'c', 'd', 'e', 'f...'], hover: 'g' }
+  it('csv list length of 3', () => {
     // should have no changes
     expect(getCsvListClass(input1)).toEqual(output1)
-  }
-  it('csv list length of 6'),
-  () => {
+  })
+  it('csv list length of 7', () => {
     // returns first 5 and ...
     expect(getCsvListClass(input2)).toEqual(output2)
-  }
+  })
 })
 
 describe('getSearchUrl', () => {
-  it('pass value for search url'),
-  () => {
+  it('pass value for search url', () => {
     expect(getSearchUrl('abcdef')).toEqual(
-      '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3A'
+      '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3Aabcdef"}'
     )
-  }
+  })
 })

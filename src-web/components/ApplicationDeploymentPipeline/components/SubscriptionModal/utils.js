@@ -8,8 +8,8 @@
 
 import R from 'ramda'
 
-//input [a,b,c,d] , output [a,b, 2+, 'c d']
-//input [a,b,c,d, e] , output [a,b, 3+, 'c d e']
+//input ['a', 'b', 'c', 'd'] , output {"data": ["a", "b", "+2"], "hover": "cd"}
+//input ['a', 'b', 'c', 'd', 'e'] , output {"data": ["a", "b", "+3"], "hover": "cde"}
 export const getLabelsListClass = list => {
   if (list.length > 2) {
     const placeholder = R.concat('+', list.length - 2)
@@ -25,6 +25,8 @@ export const getLabelsListClass = list => {
   return { data: list, hover: '' }
 }
 
+//input ['a', 'b', 'c'] , output {"data": ["a", "b", "c"], "hover": ""}
+//input ['a', 'b', 'c', 'd', 'e', 'f', 'g'] , output {"data": ["a", "b", "c", "d", "e", "f..."], "hover": "g"}
 export const getCsvListClass = list => {
   if (list.length > 6) {
     const placeholder = R.concat(list[5], '...')

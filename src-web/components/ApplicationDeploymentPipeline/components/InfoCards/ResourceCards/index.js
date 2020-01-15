@@ -75,8 +75,7 @@ const getResourceCardsData = (
   targetLinkForPlacementRules,
   locale
 ) => {
-  // const applications = getNumItems(HCMApplicationList)
-  const clusters = getNumClusters(HCMApplicationList, HCMSubscriptionList)
+  const clusters = getNumClusters(HCMApplicationList)
   let channels = getNumItems(HCMChannelList)
 
   //count only hub subscriptions

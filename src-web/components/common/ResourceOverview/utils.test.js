@@ -8,7 +8,7 @@
 
 import {
   getChannelsList,
-  getNumClusters,
+  getNumClustersForApp,
   getNumDeployables,
   getNumDeployments,
   getNumCompletedDeployments,
@@ -231,13 +231,13 @@ describe('getChannelsList', () => {
   })
 })
 
-describe('getNumClusters', () => {
+describe('getNumClustersForApp', () => {
   it('should return cluster count', () => {
     const result = 1
-    expect(getNumClusters(data1)).toEqual(result)
+    expect(getNumClustersForApp(data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
-    expect(getNumClusters(data2)).toEqual(0)
+    expect(getNumClustersForApp(data2)).toEqual(0)
   })
 })
 

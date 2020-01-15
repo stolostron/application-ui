@@ -5,7 +5,6 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-import R from 'ramda'
 import {
   getResourcesStatusPerChannel,
   getAllRelatedForList,
@@ -34,52 +33,11 @@ export const getAllDeployablesStatus = list => {
   return statusPassFailInProgress
 }
 
-export const getNumClusters = (applications, allsubscriptions) => {
-  if (allsubscriptions && allsubscriptions.items) {
-    const subscriptionsInApp = getAllRelatedForList(
-      applications,
-      'subscription'
-    )
+export const getNumClusters = applications => {
+  //use application clusters related objects
+  const clusters = getAllRelatedForList(applications, 'cluster')
 
-    if (subscriptionsInApp && subscriptionsInApp.length > 0) {
-      const subscriptionForSearch = allsubscriptions.items.map(item => {
-        if (item && item.name && item.namespace) {
-          for (var i = 0; i < subscriptionsInApp.length; i++) {
-            const sappitem = subscriptionsInApp[i]
-
-            if (
-              sappitem &&
-              sappitem.name &&
-              sappitem.namespace &&
-              sappitem.name === item.name &&
-              sappitem.namespace === item.namespace
-            )
-              return item
-          }
-        }
-      })
-
-      const removeUndefined = x => x !== undefined
-      const emptyArray = []
-      const removedUndefinedSubscriptions = R.filter(
-        removeUndefined,
-        subscriptionForSearch
-      )
-      const resultList = emptyArray.concat.apply(
-        [],
-        removedUndefinedSubscriptions
-      )
-      const allRelatedForList =
-        getAllRelatedForList({ items: resultList }, 'cluster').length - 1 // Don't count hub cluster, only managed clusters
-      if (allRelatedForList <= 0) {
-        return 0
-      } else {
-        return allRelatedForList
-      }
-    }
-  }
-
-  return 0
+  return clusters.length > 0 ? clusters.length - 1 : 0
 }
 
 export const getNumIncidents = list => {

@@ -77,6 +77,8 @@ const getResourceCardsData = (
 ) => {
   const clusters = getNumClusters(HCMApplicationList)
   let channels = getNumItems(HCMChannelList)
+  console.log(HCMApplicationList)
+  console.log(HCMSubscriptionList)
 
   //count only hub subscriptions
   const isHubSubscr = item =>
@@ -90,10 +92,10 @@ const getResourceCardsData = (
     )
     subscriptions =
       subscriptionsArray &&
-      subscriptionsArray.length > 0 &&
-      subscriptionsArray[0] &&
-      subscriptionsArray[0].items &&
-      subscriptionsArray[0].items instanceof Array
+        subscriptionsArray.length > 0 &&
+        subscriptionsArray[0] &&
+        subscriptionsArray[0].items &&
+        subscriptionsArray[0].items instanceof Array
         ? subscriptionsArray[0].items.length
         : 0
     channels = getChannelsCountFromSubscriptions(subscriptionsArray)
@@ -112,9 +114,8 @@ const getResourceCardsData = (
     applicationNamespace
   )
   const placementRules = getNumPlacementRules(
-    HCMApplicationList,
+    HCMSubscriptionList,
     isSingleApplicationView,
-    applicationName,
     applicationNamespace
   )
 
@@ -208,10 +209,10 @@ const getResourceCardsData = (
 }
 
 class ResourceCards extends React.Component {
-  componentWillMount() {}
-  componentDidMount() {}
+  componentWillMount() { }
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {

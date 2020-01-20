@@ -101,35 +101,34 @@ export const getChannelsCountFromSubscriptions = arr => {
 }
 
 export const getNumPlacementRules = (
-  applications,
+  subscriptions,
   isSingleApplicationView,
-  applicationName,
-  applicationNamespace
+  subscriptionNamespace
 ) => {
-  if (applications && applications.items) {
+  console.log("namespace", subscriptionNamespace)
+
+  if (subscriptions && subscriptions.items) {
     var allPlacementRules = []
 
     // Single application view
     if (isSingleApplicationView) {
-      Object.keys(applications.items).map(appIndex => {
+      Object.keys(subscriptions.items).map(subIndex => {
         // Get number of placement rules for the current application opened
         if (
-          applications.items[appIndex].name === applicationName &&
-          applications.items[appIndex].namespace === applicationNamespace
+          subscriptions.items[subIndex].namespace === subscriptionNamespace
         ) {
-          const appData = applications.items[appIndex]
+          const subData = subscriptions.items[subIndex]
           // Placement rule data found in "related" object
-          if (appData.related) {
-            Object.keys(appData.related).map(kindIndex => {
+          if (subData.related) {
+            Object.keys(subData.related).map(kindIndex => {
               if (
-                appData.related[kindIndex].kind.toLowerCase() ===
+                subData.related[kindIndex].kind.toLowerCase() ===
                 'placementrule'
               ) {
-                const placementRules = appData.related[kindIndex].items
+                const placementRules = subData.related[kindIndex].items
                 Object.keys(placementRules).map(prIndex => {
                   const prObj = {
-                    name: placementRules[prIndex].name,
-                    namespace: placementRules[prIndex].namespace
+                    name: placementRules[prIndex].name
                   }
                   allPlacementRules = allPlacementRules.concat(prObj)
                 })
@@ -141,19 +140,18 @@ export const getNumPlacementRules = (
     } else {
       // Root application view
       // Get number of placement rules for all applications
-      Object.keys(applications.items).map(appIndex => {
-        const appData = applications.items[appIndex]
+      Object.keys(subscriptions.items).map(subIndex => {
+        const subData = subscriptions.items[subIndex]
         // Placement rule data found in "related" object
-        if (appData.related) {
-          Object.keys(appData.related).map(kindIndex => {
+        if (subData.related) {
+          Object.keys(subData.related).map(kindIndex => {
             if (
-              appData.related[kindIndex].kind.toLowerCase() === 'placementrule'
+              subData.related[kindIndex].kind.toLowerCase() === 'placementrule'
             ) {
-              const placementRules = appData.related[kindIndex].items
+              const placementRules = subData.related[kindIndex].items
               Object.keys(placementRules).map(prIndex => {
                 const prObj = {
-                  name: placementRules[prIndex].name,
-                  namespace: placementRules[prIndex].namespace
+                  name: placementRules[prIndex].name
                 }
                 allPlacementRules = allPlacementRules.concat(prObj)
               })
@@ -198,8 +196,6 @@ export const getSubscriptionDataOnHub = (
                 const subscriptions = appData.related[kindIndex].items
                 Object.keys(subscriptions).map(subIndex => {
                   const subObj = {
-                    name: subscriptions[subIndex].name,
-                    namespace: subscriptions[subIndex].namespace,
                     status: subscriptions[subIndex].status
                   }
                   // Add each item to "all subscriptions" list
@@ -232,8 +228,6 @@ export const getSubscriptionDataOnHub = (
               const subscriptions = appData.related[kindIndex].items
               Object.keys(subscriptions).map(subIndex => {
                 const subObj = {
-                  name: subscriptions[subIndex].name,
-                  namespace: subscriptions[subIndex].namespace,
                   status: subscriptions[subIndex].status
                 }
                 allSubscriptions = allSubscriptions.concat(subObj)
@@ -298,8 +292,6 @@ export const getSubscriptionDataOnManagedClusters = (
               ) {
                 const subscriptions = appData.remoteSubs[kindIndex]
                 const subObj = {
-                  name: subscriptions.name,
-                  namespace: subscriptions.namespace,
                   status: subscriptions.status
                 }
                 // Add each item to "all subscriptions" list
@@ -329,8 +321,6 @@ export const getSubscriptionDataOnManagedClusters = (
             ) {
               const subscriptions = appData.remoteSubs[kindIndex]
               const subObj = {
-                name: subscriptions.name,
-                namespace: subscriptions.namespace,
                 status: subscriptions.status
               }
               allSubscriptions = allSubscriptions.concat(subObj)

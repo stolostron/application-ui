@@ -77,8 +77,6 @@ const getResourceCardsData = (
 ) => {
   const clusters = getNumClusters(HCMApplicationList)
   let channels = getNumItems(HCMChannelList)
-  console.log(HCMApplicationList)
-  console.log(HCMSubscriptionList)
 
   //count only hub subscriptions
   const isHubSubscr = item =>

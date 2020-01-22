@@ -239,12 +239,7 @@ export const getAllRelatedForList = (list, kind) => {
 
 export const removeDuplicatesFromList = obj => {
   if (obj) {
-    var reducedList = []
-    Object.keys(obj).map(key => {
-      reducedList = reducedList.concat(obj[key])
-    })
-    reducedList = R.uniq(reducedList)
-    return reducedList
+    return R.uniq(obj)
   }
   return []
 }
@@ -345,7 +340,7 @@ export const sortChannelsBySubscriptionLength = (
     return subscrChSize
   }
 
-  const sortBy = function(a, b) {
+  const sortBy = function (a, b) {
     return (
       getNbOfSubscriptionsForChannel(b, applicationList) -
       getNbOfSubscriptionsForChannel(a, applicationList)
@@ -368,7 +363,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   for (var i = 0; i < channelList.length; i++) {
     const columnChannelName = `${channelList[i].namespace}/${
       channelList[i].name
-    }`
+      }`
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column

@@ -103,7 +103,6 @@ describe('getNumPlacementRules', () => {
     const placementRuleCount = getNumPlacementRules(
       placementRuleSampleData,
       true,
-      'app1',
       'default'
     )
 
@@ -114,7 +113,6 @@ describe('getNumPlacementRules', () => {
     const placementRuleCount = getNumPlacementRules(
       placementRuleSampleData,
       false,
-      'app1',
       'default'
     )
 
@@ -125,7 +123,6 @@ describe('getNumPlacementRules', () => {
     const placementRuleCount = getNumPlacementRules(
       emptyData,
       true,
-      'app1',
       'default'
     )
 
@@ -143,7 +140,6 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
-    expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
     expect(subscriptionData.noStatus).toEqual(1)
   })
@@ -156,7 +152,6 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
-    expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
     expect(subscriptionData.noStatus).toEqual(1)
   })
@@ -169,7 +164,6 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
-    expect(subscriptionData.total).toEqual(0)
     expect(subscriptionData.failed).toEqual(0)
     expect(subscriptionData.noStatus).toEqual(0)
   })

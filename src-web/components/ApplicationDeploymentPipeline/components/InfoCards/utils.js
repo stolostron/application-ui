@@ -101,38 +101,30 @@ export const getChannelsCountFromSubscriptions = arr => {
 }
 
 export const getNumPlacementRules = (
-  applications,
+  subscriptions,
   isSingleApplicationView,
-  applicationName,
-  applicationNamespace
+  subscriptionNamespace
 ) => {
-  if (applications && applications.items) {
+  if (subscriptions && subscriptions.items) {
     var allPlacementRules = []
+    var placementRulesCount = 0
 
     // Single application view
     if (isSingleApplicationView) {
-      Object.keys(applications.items).map(appIndex => {
+      Object.keys(subscriptions.items).map(subIndex => {
         // Get number of placement rules for the current application opened
         if (
-          applications.items[appIndex].name === applicationName &&
-          applications.items[appIndex].namespace === applicationNamespace
+          subscriptions.items[subIndex].namespace === subscriptionNamespace
         ) {
-          const appData = applications.items[appIndex]
+          const subData = subscriptions.items[subIndex]
           // Placement rule data found in "related" object
-          if (appData.related) {
-            Object.keys(appData.related).map(kindIndex => {
+          if (subData.related) {
+            Object.keys(subData.related).map(kindIndex => {
               if (
-                appData.related[kindIndex].kind.toLowerCase() ===
+                subData.related[kindIndex].kind.toLowerCase() ===
                 'placementrule'
               ) {
-                const placementRules = appData.related[kindIndex].items
-                Object.keys(placementRules).map(prIndex => {
-                  const prObj = {
-                    name: placementRules[prIndex].name,
-                    namespace: placementRules[prIndex].namespace
-                  }
-                  allPlacementRules = allPlacementRules.concat(prObj)
-                })
+                placementRulesCount += subData.related[kindIndex].items.length
               }
             })
           }
@@ -141,15 +133,15 @@ export const getNumPlacementRules = (
     } else {
       // Root application view
       // Get number of placement rules for all applications
-      Object.keys(applications.items).map(appIndex => {
-        const appData = applications.items[appIndex]
+      Object.keys(subscriptions.items).map(subIndex => {
+        const subData = subscriptions.items[subIndex]
         // Placement rule data found in "related" object
-        if (appData.related) {
-          Object.keys(appData.related).map(kindIndex => {
+        if (subData.related) {
+          Object.keys(subData.related).map(kindIndex => {
             if (
-              appData.related[kindIndex].kind.toLowerCase() === 'placementrule'
+              subData.related[kindIndex].kind.toLowerCase() === 'placementrule'
             ) {
-              const placementRules = appData.related[kindIndex].items
+              const placementRules = subData.related[kindIndex].items
               Object.keys(placementRules).map(prIndex => {
                 const prObj = {
                   name: placementRules[prIndex].name,
@@ -163,8 +155,9 @@ export const getNumPlacementRules = (
       })
       // Remove duplicate placement rules (that were found in more than one app)
       allPlacementRules = removeDuplicatesFromList(allPlacementRules)
+      placementRulesCount = allPlacementRules.length
     }
-    return allPlacementRules.length
+    return placementRulesCount
   }
   return 0
 }
@@ -176,8 +169,8 @@ export const getSubscriptionDataOnHub = (
   applicationNamespace
 ) => {
   var allSubscriptions = []
-  var failedSubscriptions = []
-  var noStatusSubscriptions = []
+  var failedSubsCount = 0
+  var noStatusSubsCount = 0
 
   if (applications && applications.items) {
     // Single application view
@@ -197,20 +190,11 @@ export const getSubscriptionDataOnHub = (
               ) {
                 const subscriptions = appData.related[kindIndex].items
                 Object.keys(subscriptions).map(subIndex => {
-                  const subObj = {
-                    name: subscriptions[subIndex].name,
-                    namespace: subscriptions[subIndex].namespace,
-                    status: subscriptions[subIndex].status
-                  }
-                  // Add each item to "all subscriptions" list
-                  allSubscriptions = allSubscriptions.concat(subObj)
-                  // Populate "no status" and "failed" lists based on the subscription's status
-                  if (subObj.status === '') {
-                    noStatusSubscriptions = noStatusSubscriptions.concat(
-                      subObj
-                    )
-                  } else if (subObj.status.toLowerCase() !== 'propagated') {
-                    failedSubscriptions = failedSubscriptions.concat(subObj)
+                  // Increment "no status" and "failed" counts based on the subscription's status
+                  if (subscriptions[subIndex].status === '') {
+                    noStatusSubsCount++
+                  } else if (subscriptions[subIndex].status.toLowerCase() !== 'propagated') {
+                    failedSubsCount++
                   }
                 })
               }
@@ -245,27 +229,22 @@ export const getSubscriptionDataOnHub = (
       // Remove duplicate subscriptions (that were found in more than one app)
       allSubscriptions = removeDuplicatesFromList(allSubscriptions)
 
-      // Populate "no status" and "failed" lists using the new non-duplicate subscriptions list
+      // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
       Object.keys(allSubscriptions).map(key => {
         if (allSubscriptions[key].status === '') {
-          noStatusSubscriptions = noStatusSubscriptions.concat(
-            allSubscriptions[key]
-          )
+          noStatusSubsCount++
         } else if (
           allSubscriptions[key].status.toLowerCase() !== 'propagated'
         ) {
-          failedSubscriptions = failedSubscriptions.concat(
-            allSubscriptions[key]
-          )
+          failedSubsCount++
         }
       })
     }
   }
 
   return {
-    total: allSubscriptions.length,
-    failed: failedSubscriptions.length,
-    noStatus: noStatusSubscriptions.length
+    failed: failedSubsCount,
+    noStatus: noStatusSubsCount
   }
 }
 
@@ -276,8 +255,8 @@ export const getSubscriptionDataOnManagedClusters = (
   applicationNamespace
 ) => {
   var allSubscriptions = []
-  var failedSubscriptions = []
-  var noStatusSubscriptions = []
+  var failedSubsCount = 0
+  var noStatusSubsCount = 0
 
   if (applications && applications.items) {
     // Single application view
@@ -292,25 +271,13 @@ export const getSubscriptionDataOnManagedClusters = (
           // Managed cluster subscription data found in "remoteSubs" object
           if (appData.remoteSubs) {
             Object.keys(appData.remoteSubs).map(kindIndex => {
-              if (
-                appData.remoteSubs[kindIndex].kind.toLowerCase() ===
-                'subscription'
-              ) {
-                const subscriptions = appData.remoteSubs[kindIndex]
-                const subObj = {
-                  name: subscriptions.name,
-                  namespace: subscriptions.namespace,
-                  status: subscriptions.status
-                }
-                // Add each item to "all subscriptions" list
-                allSubscriptions = allSubscriptions.concat(subObj)
-                // Populate "no status" and "failed" lists based on the subscription's status
-                if (subObj.status === '') {
-                  noStatusSubscriptions = noStatusSubscriptions.concat(subObj)
-                } else if (subObj.status.toLowerCase() !== 'subscribed') {
-                  failedSubscriptions = failedSubscriptions.concat(subObj)
-                }
+              const sub = appData.remoteSubs[kindIndex]
+              const subObj = {
+                name: sub.name,
+                namespace: sub.namespace,
+                status: sub.status
               }
+              allSubscriptions = allSubscriptions.concat(subObj)
             })
           }
         }
@@ -323,45 +290,38 @@ export const getSubscriptionDataOnManagedClusters = (
         // Managed cluster subscription data found in "remoteSubs" object
         if (appData.remoteSubs) {
           Object.keys(appData.remoteSubs).map(kindIndex => {
-            if (
-              appData.remoteSubs[kindIndex].kind.toLowerCase() ===
-              'subscription'
-            ) {
-              const subscriptions = appData.remoteSubs[kindIndex]
-              const subObj = {
-                name: subscriptions.name,
-                namespace: subscriptions.namespace,
-                status: subscriptions.status
-              }
-              allSubscriptions = allSubscriptions.concat(subObj)
+            const sub = appData.remoteSubs[kindIndex]
+            const subObj = {
+              name: sub.name,
+              namespace: sub.namespace,
+              status: sub.status
             }
+            allSubscriptions = allSubscriptions.concat(subObj)
           })
         }
       })
-      // Remove duplicate managed cluster subs (that were found in more than one app)
-      allSubscriptions = removeDuplicatesFromList(allSubscriptions)
-
-      // Populate "no status" and "failed" lists using the new non-duplicate subscriptions list
-      Object.keys(allSubscriptions).map(key => {
-        if (allSubscriptions[key].status === '') {
-          noStatusSubscriptions = noStatusSubscriptions.concat(
-            allSubscriptions[key]
-          )
-        } else if (
-          allSubscriptions[key].status.toLowerCase() !== 'subscribed'
-        ) {
-          failedSubscriptions = failedSubscriptions.concat(
-            allSubscriptions[key]
-          )
-        }
-      })
     }
+
+    // Remove duplicate managed cluster subs (that were found in more than one app)
+    allSubscriptions = removeDuplicatesFromList(allSubscriptions)
+
+    // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
+    Object.keys(allSubscriptions).map(key => {
+      if (allSubscriptions[key].status === '') {
+        noStatusSubsCount++
+      } else if (
+        allSubscriptions[key].status.toLowerCase() !== 'subscribed'
+      ) {
+        failedSubsCount++
+      }
+    })
+
   }
 
   return {
     total: allSubscriptions.length,
-    failed: failedSubscriptions.length,
-    noStatus: noStatusSubscriptions.length
+    failed: failedSubsCount,
+    noStatus: noStatusSubsCount
   }
 }
 

@@ -49,6 +49,6 @@ export const getSearchUrl = subName => {
   return (
     '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3A' +
     subName +
-    '"}'
+    '"}&showrelated=cluster'
   )
 }

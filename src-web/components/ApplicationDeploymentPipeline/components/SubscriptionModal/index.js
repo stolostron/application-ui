@@ -266,7 +266,7 @@ const SubscriptionInfo = withLocale(
             <div className="subHeader">
               <div className="subscriptionInfoHeaderIndented" />
               <div className="value">
-                <a href={getSearchUrl(subName)}>
+                <a href={getSearchUrl(subName)} target="_blank">
                   {msgs.get('description.Modal.viewAllClusters', locale)}
                 </a>
               </div>

@@ -45,7 +45,15 @@ export const getCsvListClass = list => {
   }
 }
 
-export const getSearchUrl = subName => {
+export const getSearchUrlDeployable = subName => {
+  return (
+    '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3A' +
+    subName +
+    '"}&showrelated=deployable'
+  )
+}
+
+export const getSearchUrlCluster = subName => {
   return (
     '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3A' +
     subName +

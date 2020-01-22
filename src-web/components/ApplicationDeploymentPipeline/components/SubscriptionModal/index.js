@@ -13,7 +13,12 @@ import resources from '../../../../../lib/shared/resources'
 import { Modal, TooltipDefinition } from 'carbon-components-react'
 import R from 'ramda'
 import ProgressBar from '../ProgressBar/index'
-import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils.js'
+import {
+  getLabelsListClass,
+  getCsvListClass,
+  getSearchUrlDeployable,
+  getSearchUrlCluster
+} from './utils.js'
 import {
   getResourcesStatusPerChannel,
   getDataByKind
@@ -207,7 +212,7 @@ const SubscriptionInfo = withLocale(
             <div className="subHeader">
               <div className="subscriptionInfoHeaderIndented" />
               <div className="value">
-                <a href={getSearchUrl(subName)} target="_blank">
+                <a href={getSearchUrlDeployable(subName)} target="_blank">
                   {msgs.get('description.Modal.viewAllResources', locale)}
                 </a>
               </div>
@@ -266,7 +271,7 @@ const SubscriptionInfo = withLocale(
             <div className="subHeader">
               <div className="subscriptionInfoHeaderIndented" />
               <div className="value">
-                <a href={getSearchUrl(subName)} target="_blank">
+                <a href={getSearchUrlCluster(subName)} target="_blank">
                   {msgs.get('description.Modal.viewAllClusters', locale)}
                 </a>
               </div>

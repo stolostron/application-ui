@@ -97,10 +97,10 @@ const getOverviewCardsData = (
     )
     subscriptions =
       subscriptionsArray &&
-      subscriptionsArray.length > 0 &&
-      subscriptionsArray[0] &&
-      subscriptionsArray[0].items &&
-      subscriptionsArray[0].items instanceof Array
+        subscriptionsArray.length > 0 &&
+        subscriptionsArray[0] &&
+        subscriptionsArray[0].items &&
+        subscriptionsArray[0].items instanceof Array
         ? subscriptionsArray[0].items.length
         : 0
   }
@@ -299,9 +299,9 @@ class OverviewCards extends React.Component {
     const { fetchSubscriptions } = this.props
     fetchSubscriptions()
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {

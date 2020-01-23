@@ -238,7 +238,7 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
                     className="value"
                   >
                     <a
-                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3Arbac-test-app-gbapp-guestbook\\"}"
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3Arbac-test-app-gbapp-guestbook\\"}&showrelated=deployable"
                       target="_blank"
                     >
                       View all resources
@@ -338,7 +338,8 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
                     className="value"
                   >
                     <a
-                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3Arbac-test-app-gbapp-guestbook\\"}"
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3Arbac-test-app-gbapp-guestbook\\"}&showrelated=cluster"
+                      target="_blank"
                     >
                       View all clusters
                     </a>
@@ -617,7 +618,7 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
                     className="value"
                   >
                     <a
-                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3A\\"}"
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3A\\"}&showrelated=deployable"
                       target="_blank"
                     >
                       View all resources
@@ -679,7 +680,8 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
                     className="value"
                   >
                     <a
-                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3A\\"}"
+                      href="/multicloud/search?filters={\\"textsearch\\":\\"kind%3Asubscription%20name%3A\\"}&showrelated=cluster"
+                      target="_blank"
                     >
                       View all clusters
                     </a>

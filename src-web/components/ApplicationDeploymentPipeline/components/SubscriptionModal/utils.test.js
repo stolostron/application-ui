@@ -6,7 +6,12 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import { getLabelsListClass, getCsvListClass, getSearchUrl } from './utils'
+import {
+  getLabelsListClass,
+  getCsvListClass,
+  getSearchUrlDeployable,
+  getSearchUrlCluster
+} from './utils'
 
 describe('getLabelsListClass', () => {
   const input1 = ['a', 'b', 'c', 'd']
@@ -39,10 +44,18 @@ describe('getCsvListClass', () => {
   })
 })
 
-describe('getSearchUrl', () => {
+describe('getSearchUrlDeployable', () => {
   it('pass value for search url', () => {
-    expect(getSearchUrl('abcdef')).toEqual(
-      '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3Aabcdef"}'
+    expect(getSearchUrlDeployable('abcdef')).toEqual(
+      '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3Aabcdef"}&showrelated=deployable'
+    )
+  })
+})
+
+describe('getSearchUrlCluster', () => {
+  it('pass value for search url', () => {
+    expect(getSearchUrlCluster('abcdef')).toEqual(
+      '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3Aabcdef"}&showrelated=cluster'
     )
   })
 })

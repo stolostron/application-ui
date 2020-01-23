@@ -17,7 +17,8 @@ import {
   createResources,
   fetchResources,
   fetchUserInfo,
-  updateModal
+  updateModal,
+  fetchResource
 } from '../../actions/common'
 import {
   fetchChannelResource,
@@ -66,6 +67,7 @@ import {
 import { editResourceClick } from './components/PipelineGrid/utils'
 import getResourceDefinitions from '../../definitions'
 import ResourceTableModule from '../common/ResourceTableModuleFromProps'
+import config from '../../../lib/shared/config'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -217,7 +219,9 @@ const mapDispatchToProps = dispatch => {
           cluster
         )
       ),
-    closeModal: () => dispatch(closeModals())
+    closeModal: () => dispatch(closeModals()),
+    fetchSingleApplication: (resourceType, namespace, name) =>
+      dispatch(fetchResource(resourceType, namespace, name))
   }
 }
 
@@ -260,17 +264,79 @@ const mapStateToProps = state => {
 }
 
 class ApplicationDeploymentPipeline extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      xhrPoll: false
+    }
+  }
+
   componentWillMount() {
     const { fetchChannels, fetchSubscriptions, fetchUserInfo } = this.props
 
     fetchChannels()
     fetchSubscriptions()
     fetchUserInfo()
+
+    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+      var intervalId = setInterval(
+        this.reload.bind(this),
+        config['featureFlags:liveUpdatesPollInterval']
+      )
+      this.setState({ intervalId: intervalId })
+    }
   }
 
   componentDidMount() {}
 
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId)
+  }
+
+  reload() {
+    const {
+      HCMApplicationList,
+      HCMSubscriptionList,
+      HCMChannelList,
+      breadcrumbItems,
+      fetchSingleApplication,
+      fetchApplications,
+      fetchSubscriptions,
+      fetchChannels,
+      openEditChannelModal,
+      openEditApplicationModal,
+      openEditSubscriptionModal,
+      openEditPlacementRuleModal
+    } = this.props
+    // only reload data if there are nothing being fetched and no modals are open
+    if (
+      HCMApplicationList.status === Actions.REQUEST_STATUS.DONE &&
+      HCMSubscriptionList.status === Actions.REQUEST_STATUS.DONE &&
+      HCMChannelList.status === Actions.REQUEST_STATUS.DONE &&
+      !openEditChannelModal &&
+      !openEditApplicationModal &&
+      !openEditSubscriptionModal &&
+      !openEditPlacementRuleModal
+    ) {
+      this.setState({ xhrPoll: true })
+      const isSingleApplicationView = breadcrumbItems.length == 2
+      if (isSingleApplicationView) {
+        // only reload a single application
+        const singleApp = HCMApplicationList.items[0]
+        fetchSingleApplication(
+          RESOURCE_TYPES.HCM_APPLICATIONS,
+          singleApp.namespace,
+          singleApp.name
+        )
+        fetchChannels()
+      } else {
+        // reload all the applications
+        fetchApplications()
+        fetchSubscriptions()
+        fetchChannels()
+      }
+    }
+  }
 
   render() {
     // wait for it
@@ -280,9 +346,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       HCMChannelList
     } = this.props
     if (
-      HCMApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
-      HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
-      HCMChannelList.status !== Actions.REQUEST_STATUS.DONE
+      (HCMApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
+        HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
+        HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
+      !this.state.xhrPoll
     ) {
       return <Loading withOverlay={false} className="content-spinner" />
     }

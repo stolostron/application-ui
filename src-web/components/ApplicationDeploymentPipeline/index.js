@@ -285,7 +285,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       )
       this.setState({ intervalId: intervalId })
     }
-    //this.reload()
   }
 
   componentDidMount() {}

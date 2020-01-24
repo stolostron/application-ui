@@ -38,7 +38,6 @@ import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../../lib/client/search-helper'
 import { fetchNamespace } from '../../actions/common'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import { getNamespaceAccountId } from './ResourceDetails/utils'
 
 resources(() => {
@@ -486,46 +485,48 @@ class ResourceTable extends React.Component {
               iconDescription={msgs.get('svg.description.overflowMenu', locale)}
               ariaLabel="Overflow-menu"
             >
-              {filteredActions.map(action => (
-                <OverflowMenuItem
-                  disabled={!availableActions.includes(action)}
-                  data-table-action={action}
-                  isDelete={
-                    action === 'table.actions.remove' ||
-                    action === 'table.actions.applications.remove'
-                  }
-                  onClick={() => {
-                    if (
-                      action === 'table.actions.applications.icam' &&
-                      item &&
-                      item.namespace
-                    ) {
-                      //pass namespace account ID, will be used to open ICAM link
-                      item.kind = getNamespaceAccountId(
-                        HCMNamespaceList,
-                        item.namespace
-                      )
-                    }
-                    this.handleActionClick(action, resourceType, item)
-                  }}
-                  key={action}
-                  itemText={
-                    <div className="item-container">
-                      <div className="menu-item">
-                        {msgs.get(action, locale)}
-                        {(action === 'table.actions.applications.grafana' ||
-                          action === 'table.actions.applications.icam') && (
-                          <Icon
-                            className="app-dashboard-icon-table"
-                            name="icon--launch"
-                            fill="#3D70B2"
-                          />
-                        )}
-                      </div>
-                    </div>
-                  }
-                />
-              ))}
+              {filteredActions.map(
+                action =>
+                  availableActions.includes(action) && (
+                    <OverflowMenuItem
+                      data-table-action={action}
+                      isDelete={
+                        action === 'table.actions.remove' ||
+                        action === 'table.actions.applications.remove'
+                      }
+                      onClick={() => {
+                        if (
+                          action === 'table.actions.applications.icam' &&
+                          item &&
+                          item.namespace
+                        ) {
+                          //pass namespace account ID, will be used to open ICAM link
+                          item.kind = getNamespaceAccountId(
+                            HCMNamespaceList,
+                            item.namespace
+                          )
+                        }
+                        this.handleActionClick(action, resourceType, item)
+                      }}
+                      key={action}
+                      itemText={
+                        <div className="item-container">
+                          <div className="menu-item">
+                            {msgs.get(action, locale)}
+                            {(action === 'table.actions.applications.grafana' ||
+                              action === 'table.actions.applications.icam') && (
+                              <Icon
+                                className="app-dashboard-icon-table"
+                                name="icon--launch"
+                                fill="#3D70B2"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      }
+                    />
+                  )
+              )}
             </OverflowMenu>
           )
         }
@@ -684,7 +685,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const resourceType = ownProps.subResourceType || ownProps.resourceType
   return {
     fetchNamespace: namespace =>
-      dispatch(fetchNamespace(RESOURCE_TYPES.HCM_NAMESPACES, namespace)),
+      dispatch(
+        fetchNamespace(constants.RESOURCE_TYPES.HCM_NAMESPACES, namespace)
+      ),
     getResourceAction: (action, resource, hasService, history, locale) =>
       resourceActions(
         action,

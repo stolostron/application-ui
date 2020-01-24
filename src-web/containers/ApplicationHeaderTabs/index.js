@@ -57,9 +57,9 @@ const ApplicationHeaderTabs = withLocale(
     }
 
     actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
+    actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
 
-
-    const renderTab = (thisTab) => {
+    const renderTab = thisTab => {
       if (selectedAppTab === thisTab) {
         switch (thisTab) {
         case 0:

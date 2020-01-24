@@ -90,6 +90,7 @@ const ResourceOverview = withLocale(
     loading,
     showICAMAction,
     namespaceAccountId,
+    showGrafanaAction,
     openEditApplicationModal,
     currentApplicationInfo,
     closeModal,
@@ -182,7 +183,7 @@ const ResourceOverview = withLocale(
       })
     }
     const dashboard = (item && item.dashboard) || ''
-
+    const enableGrafana = showGrafanaAction
     const icamLink =
       (item &&
         namespaceAccountId &&
@@ -198,34 +199,37 @@ const ResourceOverview = withLocale(
     return (
       <div id="resource-overview" className="overview-content">
         <div className="app-info-and-dashboard-links">
-          <Link
-            href={icamLink}
-            aria-disabled={!enableICAM}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--launch"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.launch.icam', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            href={dashboard}
-            aria-disabled={!dashboard}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--launch"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.launch.grafana', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
+          {enableICAM && (
+            <span>
+              <Link href={icamLink} target="_blank" rel="noopener noreferrer">
+                <Icon
+                  className="app-dashboard-icon"
+                  name="icon--launch"
+                  fill="#3D70B2"
+                />
+                {msgs.get('application.launch.icam', locale)}
+              </Link>
+              <span className="app-info-and-dashboard-links-separator" />
+            </span>
+          )}
+          {enableGrafana && (
+            <span>
+              <Link
+                href={dashboard}
+                aria-disabled={!dashboard}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon
+                  className="app-dashboard-icon"
+                  name="icon--launch"
+                  fill="#3D70B2"
+                />
+                {msgs.get('application.launch.grafana', locale)}
+              </Link>
+              <span className="app-info-and-dashboard-links-separator" />
+            </span>
+          )}
           <Link
             href="#"
             onClick={() => {

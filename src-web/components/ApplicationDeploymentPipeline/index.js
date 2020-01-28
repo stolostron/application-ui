@@ -87,7 +87,7 @@ const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
       onCreateResource={handleCreateChannelResource}
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
       sampleTabs={channelTabs}
       sampleContent={[
@@ -113,7 +113,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
       onCreateResource={handleCreateSubscriptionResource}
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_subscriptions.html"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -158,7 +158,7 @@ const CreatePlacementRuleModal = (fetchPlacementRules, locale) => {
       onCreateResource={handleCreatePlacementRuleResource}
       onSubmitFunction={fetchPlacementRuleResource}
       resourceDescriptionKey="modal.createresource.placementrule"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_placement_rules.html"
+      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -287,7 +287,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
@@ -479,7 +479,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_channels.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
       })
     }
 
@@ -493,7 +493,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
       })
     }
     // This will trigger the edit Subscription Modal because openEditSubscriptionModal
@@ -508,7 +508,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_subscriptions.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
       })
     }
 
@@ -525,7 +525,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         resourceDescriptionKey: 'modal.editresource.placementrule',
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_placement_rules.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
       })
     }
     return (
@@ -535,41 +535,41 @@ class ApplicationDeploymentPipeline extends React.Component {
           <div className="app-info-and-dashboard-links">
             {serverProps &&
               serverProps.isICAMRunning && (
-              <span>
-                <Link
-                  href={icamLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
-                  {msgs.get('application.launch.icam', locale)}
-                </Link>
-                <span className="app-info-and-dashboard-links-separator" />
-              </span>
-            )}
+                <span>
+                  <Link
+                    href={icamLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon
+                      className="app-dashboard-icon"
+                      name="icon--launch"
+                      fill="#3D70B2"
+                    />
+                    {msgs.get('application.launch.icam', locale)}
+                  </Link>
+                  <span className="app-info-and-dashboard-links-separator" />
+                </span>
+              )}
             {serverProps &&
               serverProps.isGrafanaRunning && (
-              <span>
-                <Link
-                  href={dashboard}
-                  aria-disabled={!dashboard}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
-                  {msgs.get('application.launch.grafana', locale)}
-                </Link>
-                <span className="app-info-and-dashboard-links-separator" />
-              </span>
-            )}
+                <span>
+                  <Link
+                    href={dashboard}
+                    aria-disabled={!dashboard}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon
+                      className="app-dashboard-icon"
+                      name="icon--launch"
+                      fill="#3D70B2"
+                    />
+                    {msgs.get('application.launch.grafana', locale)}
+                  </Link>
+                  <span className="app-info-and-dashboard-links-separator" />
+                </span>
+              )}
             <Link
               href="#"
               aria-disabled={!app}
@@ -589,31 +589,31 @@ class ApplicationDeploymentPipeline extends React.Component {
         )}
         {app &&
           deploymentsCount > 0 && (
-          <div className="resource-list-header">
-            {msgs.get('description.title.resourceList', locale)}{' '}
-            <span>({deploymentsCount})</span>
-          </div>
-        )}
+            <div className="resource-list-header">
+              {msgs.get('description.title.resourceList', locale)}{' '}
+              <span>({deploymentsCount})</span>
+            </div>
+          )}
         {app &&
           deploymentsCount > 0 && (
-          <div className="resource-list-container">
-            <Accordion className="resource-list-table">
-              <AccordionItem
-                title={msgs.get('dashboard.viewFullTable', locale)}
-              >
-                <React.Fragment>
-                  <ResourceTableModule
-                    resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
-                    staticResourceData={staticResourceData}
-                    definitionsKey="deploymentKeys"
-                    resourceData={app}
-                    params={appParams}
-                  />
-                </React.Fragment>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        )}
+            <div className="resource-list-container">
+              <Accordion className="resource-list-table">
+                <AccordionItem
+                  title={msgs.get('dashboard.viewFullTable', locale)}
+                >
+                  <React.Fragment>
+                    <ResourceTableModule
+                      resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
+                      staticResourceData={staticResourceData}
+                      definitionsKey="deploymentKeys"
+                      resourceData={app}
+                      params={appParams}
+                    />
+                  </React.Fragment>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          )}
 
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}

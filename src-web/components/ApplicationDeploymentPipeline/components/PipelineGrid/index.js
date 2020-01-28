@@ -371,31 +371,31 @@ const ChannelColumnGrid = (
                               )}: ${subCol.namespace}`}</div>
                               {placementRule &&
                                 placementRule.name && (
-                                <div
-                                  className="placementRuleDesc"
-                                  onClick={onClickEditPlacementRule}
-                                  onKeyPress={onKeyPressEditPlacementRule}
-                                  tabIndex={placementRule._uid}
-                                  role="button"
-                                >
-                                  {`${msgs.get(
-                                    'description.placement.rule',
-                                    locale
-                                  )}: ${placementRule.name} `}
-                                  <Icon
-                                    name="icon--edit"
-                                    fill="#6089bf"
-                                    description=""
-                                    className="placementEditIcon"
-                                    onClick={() =>
-                                      editResourceClick(
-                                        placementRule,
-                                        getPlacementRuleResource
-                                      )
-                                    }
-                                  />
-                                </div>
-                              )}
+                                  <div
+                                    className="placementRuleDesc"
+                                    onClick={onClickEditPlacementRule}
+                                    onKeyPress={onKeyPressEditPlacementRule}
+                                    tabIndex={placementRule._uid}
+                                    role="button"
+                                  >
+                                    {`${msgs.get(
+                                      'description.placement.rule',
+                                      locale
+                                    )}: ${placementRule.name} `}
+                                    <Icon
+                                      name="icon--edit"
+                                      fill="#6089bf"
+                                      description=""
+                                      className="placementEditIcon"
+                                      onClick={() =>
+                                        editResourceClick(
+                                          placementRule,
+                                          getPlacementRuleResource
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                )}
 
                               <div className="progressBarContainer">
                                 <ProgressBar status={status} />
@@ -408,7 +408,7 @@ const ChannelColumnGrid = (
                                 className="no-sub-icon"
                                 src={`${
                                   config.contextPath
-                                }/graphics/nothing-moon-copy.svg`}
+                                  }/graphics/nothing-moon-copy.svg`}
                                 alt={msgs.get(
                                   'description.tryAddingSub',
                                   locale
@@ -486,7 +486,7 @@ const PipelineGrid = withLocale(
               </div>
               <div className="deployment-highlights-terminology-docs">
                 <a
-                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/overview.html"
+                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -519,16 +519,16 @@ const PipelineGrid = withLocale(
         <div className="tableGridContainer">
           {!oneApplication &&
             sortedChannels.length > 0 && (
-            <LeftColumnForApplicationNames
-              appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
-              applications={applications}
-              updateAppDropDownList={updateAppDropDownList}
-              appDropDownList={appDropDownList}
-              hasAdminRole={hasAdminRole}
-              channelList={sortedChannels}
-              oneApplication={oneApplication}
-            />
-          )}
+              <LeftColumnForApplicationNames
+                appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
+                applications={applications}
+                updateAppDropDownList={updateAppDropDownList}
+                appDropDownList={appDropDownList}
+                hasAdminRole={hasAdminRole}
+                channelList={sortedChannels}
+                oneApplication={oneApplication}
+              />
+            )}
           {sortedChannels.length > 0 && (
             <ChannelColumnGrid
               channelList={sortedChannels}

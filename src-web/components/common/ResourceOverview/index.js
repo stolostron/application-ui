@@ -110,7 +110,7 @@ const ResourceOverview = withLocale(
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
       })
     }
 
@@ -278,15 +278,15 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-          <div className="overview-content-bottom overview-content-with-padding">
-            <ApplicationTopologyModule
-              selectedNodeId={selectedNodeId}
-              showExpandedTopology={showExpandedTopology}
-              params={params}
-              actions={actions}
-            />
-          </div>
-        )}
+            <div className="overview-content-bottom overview-content-with-padding">
+              <ApplicationTopologyModule
+                selectedNodeId={selectedNodeId}
+                showExpandedTopology={showExpandedTopology}
+                params={params}
+                actions={actions}
+              />
+            </div>
+          )}
       </div>
     )
   }

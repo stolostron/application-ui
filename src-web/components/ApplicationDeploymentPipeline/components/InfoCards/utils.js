@@ -107,7 +107,6 @@ export const getNumPlacementRules = (
 ) => {
   if (subscriptions && subscriptions.items) {
     var allPlacementRules = []
-    var placementRulesCount = 0
 
     // Single application view
     if (isSingleApplicationView) {
@@ -124,7 +123,14 @@ export const getNumPlacementRules = (
                 subData.related[kindIndex].kind.toLowerCase() ===
                 'placementrule'
               ) {
-                placementRulesCount += subData.related[kindIndex].items.length
+                const placementRules = subData.related[kindIndex].items
+                Object.keys(placementRules).map(prIndex => {
+                  const prObj = {
+                    name: placementRules[prIndex].name,
+                    namespace: placementRules[prIndex].namespace
+                  }
+                  allPlacementRules = allPlacementRules.concat(prObj)
+                })
               }
             })
           }
@@ -153,11 +159,12 @@ export const getNumPlacementRules = (
           })
         }
       })
-      // Remove duplicate placement rules (that were found in more than one app)
-      allPlacementRules = removeDuplicatesFromList(allPlacementRules)
-      placementRulesCount = allPlacementRules.length
     }
-    return placementRulesCount
+
+    // Remove duplicate placement rules (that were found in more than one app)
+    allPlacementRules = removeDuplicatesFromList(allPlacementRules)
+
+    return allPlacementRules.length
   }
   return 0
 }

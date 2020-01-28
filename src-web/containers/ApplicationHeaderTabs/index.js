@@ -82,12 +82,6 @@ const ApplicationHeaderTabs = withLocale(
               <IncidentsTab params={params} />
             </div>
           )
-        case 3:
-          return (
-            <div className="page-content-container">
-              <ApplicationLogs serverProps={serverProps} />
-            </div>
-          )
         }
       }
       return null

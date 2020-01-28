@@ -137,16 +137,6 @@ const ApplicationHeaderTabs = withLocale(
                 {renderTab(2)}
               </Tab>
             )}
-            {showExtraTabs && (
-              <Tab
-                disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
-                label={msgs.get('description.title.logs', locale)}
-              >
-                {renderTab(3)}
-              </Tab>
-            )}
           </Tabs>
         </div>
       </div>

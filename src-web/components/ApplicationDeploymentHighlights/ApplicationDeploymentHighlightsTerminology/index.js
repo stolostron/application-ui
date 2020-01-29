@@ -17,10 +17,10 @@ resources(() => {
 })
 
 export default class ApplicationDeploymentHighlightsTerminology extends React.Component {
-  componentWillMount() {}
-  componentDidMount() {}
+  componentWillMount() { }
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const { open } = this.props
@@ -99,7 +99,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
               </div>
               <div className="deployment-highlights-terminology-docs">
                 <a
-                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/overview.html"
+                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

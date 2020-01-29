@@ -82,12 +82,6 @@ const ApplicationHeaderTabs = withLocale(
               <IncidentsTab params={params} />
             </div>
           )
-        case 3:
-          return (
-            <div className="page-content-container">
-              <ApplicationLogs serverProps={serverProps} />
-            </div>
-          )
         }
       }
       return null
@@ -135,16 +129,6 @@ const ApplicationHeaderTabs = withLocale(
                 label={msgs.get('description.title.incidents', locale)}
               >
                 {renderTab(2)}
-              </Tab>
-            )}
-            {showExtraTabs && (
-              <Tab
-                disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
-                label={msgs.get('description.title.logs', locale)}
-              >
-                {renderTab(3)}
               </Tab>
             )}
           </Tabs>

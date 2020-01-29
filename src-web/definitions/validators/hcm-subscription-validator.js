@@ -38,6 +38,18 @@ const optionalValues = {
       namespace: ''
     },
     spec: {}
+  },
+  Namespace: {
+    apiVersion: '',
+    kind: 'Namespace',
+    metadata: {
+      name: ''
+    }
+  },
+  Subscription: {
+    timeWindow: {
+      type: ''
+    }
   }
 }
 
@@ -57,6 +69,9 @@ const allValues = {
           name: ''
         }
       }
+    },
+    timeWindow: {
+      type: ''
     }
   },
   PlacementRule: {
@@ -67,6 +82,13 @@ const allValues = {
       namespace: ''
     },
     spec: {}
+  },
+  Namespace: {
+    apiVersion: '',
+    kind: 'Namespace',
+    metadata: {
+      name: ''
+    }
   }
 }
 

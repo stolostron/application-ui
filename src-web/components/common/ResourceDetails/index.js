@@ -57,11 +57,12 @@ const withResource = Component => {
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { CEMIncidentList } = state
+    const { AppOverview, CEMIncidentList } = state
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidentCount: getIncidentCount(CEMIncidentList)
+      incidentCount: getIncidentCount(CEMIncidentList),
+      showCEMAction: AppOverview.showCEMAction
     }
   }
 
@@ -78,6 +79,7 @@ const withResource = Component => {
           PropTypes.string
         ]),
         params: PropTypes.object,
+        showCEMAction: PropTypes.bool,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -128,7 +130,8 @@ const withResource = Component => {
         this.setState({ xhrPoll: true, retry, showError })
         this.props.fetchResource()
         const { params } = this.props
-        if (params && params.namespace && params.name) {
+        const { showCEMAction } = this.props
+        if (params && params.namespace && params.name && showCEMAction) {
           this.props.fetchIncidents()
         }
       }

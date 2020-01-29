@@ -58,6 +58,8 @@ const ApplicationHeaderTabs = withLocale(
 
     actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
     actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
+    const showIncidentsTab = serverProps && serverProps.isCEMRunning
+    actions.setEnableCEMAction(showIncidentsTab)
 
     const renderTab = thisTab => {
       if (selectedAppTab === thisTab) {
@@ -121,6 +123,7 @@ const ApplicationHeaderTabs = withLocale(
               {renderTab(1)}
             </Tab>
             {showExtraTabs &&
+              showIncidentsTab &&
               isAdminRole(userRole) && (
               <Tab
                 disabled={false}

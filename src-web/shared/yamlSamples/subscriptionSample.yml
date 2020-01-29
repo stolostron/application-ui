@@ -14,3 +14,8 @@ spec:
     placementRef: 
       kind: PlacementRule
       name: ________________________createSubscription-spec-placement-placementRef-name
+timeWindow: 
+  type: '"active"'
+  location: '"America/Toronto"'
+  weekdays: ________________________createSubscription-timeWindow-weekdays
+  hours: ___________________________createSubscription-timeWindow-hours

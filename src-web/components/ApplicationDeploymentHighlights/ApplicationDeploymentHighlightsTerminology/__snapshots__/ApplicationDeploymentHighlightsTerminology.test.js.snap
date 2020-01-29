@@ -109,7 +109,7 @@ exports[`ApplicationDeploymentHighlights ApplicationDeploymentHighlights renders
             className="deployment-highlights-terminology-docs"
           >
             <a
-              href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/overview.html"
+              href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
               rel="noopener noreferrer"
               target="_blank"
             >

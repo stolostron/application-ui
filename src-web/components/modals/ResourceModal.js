@@ -142,7 +142,7 @@ class ResourceModal extends React.PureComponent {
       resourceType.name == 'HCMApplication'
     )
       helpLink =
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
 
     return (
       <div

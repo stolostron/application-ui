@@ -10,7 +10,6 @@
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading } from 'carbon-components-react'
-import { REQUEST_STATUS } from '../../../actions/index'
 import { getTabs } from '../../../../lib/client/resource-helper'
 import { getIncidentCount, getNamespaceAccountId } from './utils'
 import {
@@ -58,11 +57,12 @@ const withResource = Component => {
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { CEMIncidentList } = state
+    const { AppOverview, CEMIncidentList } = state
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
-      incidentCount: getIncidentCount(CEMIncidentList)
+      incidentCount: getIncidentCount(CEMIncidentList),
+      showCEMAction: AppOverview.showCEMAction
     }
   }
 
@@ -79,6 +79,7 @@ const withResource = Component => {
           PropTypes.string
         ]),
         params: PropTypes.object,
+        showCEMAction: PropTypes.bool,
         status: PropTypes.string,
         statusCode: PropTypes.object
       };
@@ -115,7 +116,7 @@ const withResource = Component => {
         const { status } = this.props
         let { retry = 0, showError = false } = this.state
         // if there's an error give it 3 more times before we show it
-        if (status === REQUEST_STATUS.ERROR) {
+        if (status === Actions.REQUEST_STATUS.ERROR) {
           if (!showError) {
             retry++
             if (retry > 3) {
@@ -129,7 +130,8 @@ const withResource = Component => {
         this.setState({ xhrPoll: true, retry, showError })
         this.props.fetchResource()
         const { params } = this.props
-        if (params && params.namespace && params.name) {
+        const { showCEMAction } = this.props
+        if (params && params.namespace && params.name && showCEMAction) {
           this.props.fetchIncidents()
         }
       }
@@ -139,7 +141,7 @@ const withResource = Component => {
 
         const { showError = false, retry = 0 } = this.state
         if (
-          status !== REQUEST_STATUS.DONE &&
+          status !== Actions.REQUEST_STATUS.DONE &&
           !this.state.xhrPoll &&
           retry === 0
         ) {
@@ -254,7 +256,8 @@ class ResourceDetails extends React.Component {
       actions,
       children,
       showICAMAction,
-      namespaceAccountId
+      namespaceAccountId,
+      showGrafanaAction
     } = this.props
 
     return (
@@ -269,6 +272,7 @@ class ResourceDetails extends React.Component {
           showExpandedTopology={showExpandedTopology}
           showICAMAction={showICAMAction}
           namespaceAccountId={namespaceAccountId}
+          showGrafanaAction={showGrafanaAction}
         />
       </div>
     )
@@ -343,6 +347,7 @@ ResourceDetails.propTypes = {
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
   showExpandedTopology: PropTypes.bool,
+  showGrafanaAction: PropTypes.bool,
   showICAMAction: PropTypes.bool,
   staticResourceData: PropTypes.object,
   tabs: PropTypes.array,
@@ -387,7 +392,8 @@ const mapStateToProps = (state, ownProps) => {
     namespaceAccountId: getNamespaceAccountId(HCMNamespaceList),
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
-    showICAMAction: AppOverview.showICAMAction
+    showICAMAction: AppOverview.showICAMAction,
+    showGrafanaAction: AppOverview.showGrafanaAction
   }
 }
 

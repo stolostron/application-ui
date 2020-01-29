@@ -57,9 +57,11 @@ const ApplicationHeaderTabs = withLocale(
     }
 
     actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
+    actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
+    const showIncidentsTab = serverProps && serverProps.isCEMRunning
+    actions.setEnableCEMAction(showIncidentsTab)
 
-
-    const renderTab = (thisTab) => {
+    const renderTab = thisTab => {
       if (selectedAppTab === thisTab) {
         switch (thisTab) {
         case 0:
@@ -80,12 +82,6 @@ const ApplicationHeaderTabs = withLocale(
           return (
             <div className="some-content">
               <IncidentsTab params={params} />
-            </div>
-          )
-        case 3:
-          return (
-            <div className="page-content-container">
-              <ApplicationLogs serverProps={serverProps} />
             </div>
           )
         }
@@ -127,6 +123,7 @@ const ApplicationHeaderTabs = withLocale(
               {renderTab(1)}
             </Tab>
             {showExtraTabs &&
+              showIncidentsTab &&
               isAdminRole(userRole) && (
               <Tab
                 disabled={false}
@@ -135,16 +132,6 @@ const ApplicationHeaderTabs = withLocale(
                 label={msgs.get('description.title.incidents', locale)}
               >
                 {renderTab(2)}
-              </Tab>
-            )}
-            {showExtraTabs && (
-              <Tab
-                disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
-                label={msgs.get('description.title.logs', locale)}
-              >
-                {renderTab(3)}
               </Tab>
             )}
           </Tabs>

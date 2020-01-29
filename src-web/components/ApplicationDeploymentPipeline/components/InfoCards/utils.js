@@ -107,15 +107,12 @@ export const getNumPlacementRules = (
 ) => {
   if (subscriptions && subscriptions.items) {
     var allPlacementRules = []
-    var placementRulesCount = 0
 
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(subscriptions.items).map(subIndex => {
         // Get number of placement rules for the current application opened
-        if (
-          subscriptions.items[subIndex].namespace === subscriptionNamespace
-        ) {
+        if (subscriptions.items[subIndex].namespace === subscriptionNamespace) {
           const subData = subscriptions.items[subIndex]
           // Placement rule data found in "related" object
           if (subData.related) {
@@ -124,7 +121,14 @@ export const getNumPlacementRules = (
                 subData.related[kindIndex].kind.toLowerCase() ===
                 'placementrule'
               ) {
-                placementRulesCount += subData.related[kindIndex].items.length
+                const placementRules = subData.related[kindIndex].items
+                Object.keys(placementRules).map(prIndex => {
+                  const prObj = {
+                    name: placementRules[prIndex].name,
+                    namespace: placementRules[prIndex].namespace
+                  }
+                  allPlacementRules = allPlacementRules.concat(prObj)
+                })
               }
             })
           }
@@ -153,11 +157,12 @@ export const getNumPlacementRules = (
           })
         }
       })
-      // Remove duplicate placement rules (that were found in more than one app)
-      allPlacementRules = removeDuplicatesFromList(allPlacementRules)
-      placementRulesCount = allPlacementRules.length
     }
-    return placementRulesCount
+
+    // Remove duplicate placement rules (that were found in more than one app)
+    allPlacementRules = removeDuplicatesFromList(allPlacementRules)
+
+    return allPlacementRules.length
   }
   return 0
 }
@@ -191,9 +196,15 @@ export const getSubscriptionDataOnHub = (
                 const subscriptions = appData.related[kindIndex].items
                 Object.keys(subscriptions).map(subIndex => {
                   // Increment "no status" and "failed" counts based on the subscription's status
-                  if (subscriptions[subIndex].status === '') {
+                  if (
+                    subscriptions[subIndex].status === undefined ||
+                    subscriptions[subIndex].status === ''
+                  ) {
                     noStatusSubsCount++
-                  } else if (subscriptions[subIndex].status.toLowerCase() !== 'propagated') {
+                  } else if (
+                    subscriptions[subIndex].status.toLowerCase() !==
+                    'propagated'
+                  ) {
                     failedSubsCount++
                   }
                 })
@@ -231,7 +242,10 @@ export const getSubscriptionDataOnHub = (
 
       // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
       Object.keys(allSubscriptions).map(key => {
-        if (allSubscriptions[key].status === '') {
+        if (
+          allSubscriptions[key].status === undefined ||
+          allSubscriptions[key].status === ''
+        ) {
           noStatusSubsCount++
         } else if (
           allSubscriptions[key].status.toLowerCase() !== 'propagated'
@@ -307,15 +321,15 @@ export const getSubscriptionDataOnManagedClusters = (
 
     // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
     Object.keys(allSubscriptions).map(key => {
-      if (allSubscriptions[key].status === '') {
-        noStatusSubsCount++
-      } else if (
-        allSubscriptions[key].status.toLowerCase() !== 'subscribed'
+      if (
+        allSubscriptions[key].status === undefined ||
+        allSubscriptions[key].status === ''
       ) {
+        noStatusSubsCount++
+      } else if (allSubscriptions[key].status.toLowerCase() !== 'subscribed') {
         failedSubsCount++
       }
     })
-
   }
 
   return {

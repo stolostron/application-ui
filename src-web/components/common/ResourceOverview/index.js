@@ -9,13 +9,7 @@ import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {
-  Loading,
-  Link,
-  Icon,
-  Accordion,
-  AccordionItem
-} from 'carbon-components-react'
+import { Loading, Link, Icon } from 'carbon-components-react'
 import { connect } from 'react-redux'
 // import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
@@ -90,6 +84,7 @@ const ResourceOverview = withLocale(
     loading,
     showICAMAction,
     namespaceAccountId,
+    showGrafanaAction,
     openEditApplicationModal,
     currentApplicationInfo,
     closeModal,
@@ -109,7 +104,7 @@ const ResourceOverview = withLocale(
         namespace: namespace,
         data: data,
         helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.1.0/mcm/applications/managing_apps.html'
+          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
       })
     }
 
@@ -182,7 +177,7 @@ const ResourceOverview = withLocale(
       })
     }
     const dashboard = (item && item.dashboard) || ''
-
+    const enableGrafana = showGrafanaAction
     const icamLink =
       (item &&
         namespaceAccountId &&
@@ -198,34 +193,37 @@ const ResourceOverview = withLocale(
     return (
       <div id="resource-overview" className="overview-content">
         <div className="app-info-and-dashboard-links">
-          <Link
-            href={icamLink}
-            aria-disabled={!enableICAM}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--launch"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.launch.icam', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
-          <Link
-            href={dashboard}
-            aria-disabled={!dashboard}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--launch"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.launch.grafana', locale)}
-          </Link>
-          <span className="app-info-and-dashboard-links-separator" />
+          {enableICAM && (
+            <span>
+              <Link href={icamLink} target="_blank" rel="noopener noreferrer">
+                <Icon
+                  className="app-dashboard-icon"
+                  name="icon--launch"
+                  fill="#3D70B2"
+                />
+                {msgs.get('application.launch.icam', locale)}
+              </Link>
+              <span className="app-info-and-dashboard-links-separator" />
+            </span>
+          )}
+          {enableGrafana && (
+            <span>
+              <Link
+                href={dashboard}
+                aria-disabled={!dashboard}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon
+                  className="app-dashboard-icon"
+                  name="icon--launch"
+                  fill="#3D70B2"
+                />
+                {msgs.get('application.launch.grafana', locale)}
+              </Link>
+              <span className="app-info-and-dashboard-links-separator" />
+            </span>
+          )}
           <Link
             href="#"
             onClick={() => {
@@ -251,19 +249,6 @@ const ResourceOverview = withLocale(
                 <OverviewCards />
               </div>
               {/* <CountsCardModule data={countsCardData} link="#" /> */}
-              <Accordion className="overview-content-additional-details">
-                <AccordionItem
-                  title={msgs.get('dashboard.additionalDetails', locale)}
-                >
-                  <React.Fragment>
-                    <StructuredListModule
-                      headerRows={staticResourceData.detailKeys.headerRows}
-                      rows={staticResourceData.detailKeys.rows}
-                      data={item}
-                    />
-                  </React.Fragment>
-                </AccordionItem>
-              </Accordion>
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule
@@ -283,6 +268,17 @@ const ResourceOverview = withLocale(
             />
           </div>
         )}
+        <div className="overview-content-bottom overview-content-with-padding ">
+          <div className="overview-content-additional-details">
+            <React.Fragment>
+              <StructuredListModule
+                headerRows={staticResourceData.detailKeys.headerRows}
+                rows={staticResourceData.detailKeys.rows}
+                data={item}
+              />
+            </React.Fragment>
+          </div>
+        </div>
       </div>
     )
   }

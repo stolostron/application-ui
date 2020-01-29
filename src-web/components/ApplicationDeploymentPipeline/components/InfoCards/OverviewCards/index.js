@@ -56,15 +56,18 @@ const mapStateToProps = state => {
     HCMApplicationList,
     HCMSubscriptionList,
     CEMIncidentList,
-    secondaryHeader
+    secondaryHeader,
+    AppOverview
   } = state
   const isSingleApplicationView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+  const enableCEM = AppOverview.showCEMAction
   return {
     HCMSubscriptionList,
     HCMApplicationList,
     CEMIncidentList,
-    isSingleApplicationView
+    isSingleApplicationView,
+    enableCEM
   }
 }
 
@@ -73,6 +76,7 @@ const getOverviewCardsData = (
   HCMSubscriptionList,
   CEMIncidentList,
   isSingleApplicationView,
+  enableCEM,
   applicationName,
   applicationNamespace,
   targetLinkForSubscriptions,
@@ -97,10 +101,10 @@ const getOverviewCardsData = (
     )
     subscriptions =
       subscriptionsArray &&
-        subscriptionsArray.length > 0 &&
-        subscriptionsArray[0] &&
-        subscriptionsArray[0].items &&
-        subscriptionsArray[0].items instanceof Array
+      subscriptionsArray.length > 0 &&
+      subscriptionsArray[0] &&
+      subscriptionsArray[0].items &&
+      subscriptionsArray[0].items instanceof Array
         ? subscriptionsArray[0].items.length
         : 0
   }
@@ -255,8 +259,11 @@ const getOverviewCardsData = (
               )
           )
           : ''
-    },
-    {
+    }
+  ]
+
+  if (enableCEM) {
+    result.push({
       msgKey:
         incidents == 1
           ? msgs.get('dashboard.card.deployment.incident', locale)
@@ -288,8 +295,8 @@ const getOverviewCardsData = (
               )
             )
           : ''
-    }
-  ]
+    })
+  }
 
   return result
 }
@@ -299,9 +306,9 @@ class OverviewCards extends React.Component {
     const { fetchSubscriptions } = this.props
     fetchSubscriptions()
   }
-  componentDidMount() { }
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -309,6 +316,7 @@ class OverviewCards extends React.Component {
       HCMApplicationList,
       CEMIncidentList,
       isSingleApplicationView,
+      enableCEM,
       actions
     } = this.props
     const { locale } = this.context
@@ -337,6 +345,7 @@ class OverviewCards extends React.Component {
       HCMSubscriptionList,
       CEMIncidentList,
       isSingleApplicationView,
+      enableCEM,
       applicationName,
       applicationNamespace,
       targetLinkForSubscriptions,

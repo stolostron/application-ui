@@ -123,8 +123,15 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
         'description.createSubscription.spec.placement.placementRef.kind',
         locale
       ),
+    'createSubscription-timeWindow-weekdays':
+      '# ' +
+      msgs.get('description.createSubscription.timeWindow.weekdays', locale),
+    'createSubscription-timeWindow-hours':
+      '# ' +
+      msgs.get('description.createSubscription.timeWindow.hours', locale),
     null: '',
-    _: ' '
+    _: ' ',
+    '\'': ''
   }
 
   var sample = ''
@@ -132,7 +139,7 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
     sample =
       sample +
       YAML.stringify(subscriptionSample[key]).replace(
-        /createSubscription-namespace-resource|createSubscription-name-resource|createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|null|_/gi,
+        /createSubscription-namespace-resource|createSubscription-name-resource|createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|createSubscription-timeWindow-weekdays|createSubscription-timeWindow-hours|null|_|'/gi,
         matched => {
           return mapObj[matched]
         }

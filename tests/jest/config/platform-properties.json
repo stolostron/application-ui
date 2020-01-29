@@ -292,6 +292,7 @@
   "description.title.applications": "applications",
   "description.title.application": "application",
   "description.title.deployables": "deployables",
+  "description.title.standaloneSubscriptions": "Standalone subscriptions",
   "description.title.subscriptions": "subscriptions",
   "description.title.subscription": "subscription",
   "description.title.selectPod": "Select pod",

@@ -375,6 +375,53 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   return columnsUnderAChannel
 }
 
+export const createStandaloneSubscriptionPerChannel = (channelList, subscriptions) => {
+  const columnsUnderAChannel = Array(channelList.length).fill([])
+  for (var i = 0; i < channelList.length; i++) {
+    // const columnChannelName = `${channelList[i].namespace}/${
+    //   channelList[i].name
+    //   }`
+
+    // const channelItems = channelList[i].data && channelList[i].data.related && channelList[i].data.related.items
+
+    subscriptions.map(sub => {
+      //const subChannelName = sub.uid
+      // If the channel names match up we want to add that channel to the column
+      console.log(channelList[i].data.related)
+      if (channelList[i].data && channelList[i].data.related && channelList[i].data.related) {
+
+        channelList[i].data.related.forEach(channelSub => {
+
+
+          if (channelSub.items) {
+            channelSub.items.forEach(item => {
+              if (sub._uid == item._uid) {
+                columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
+                console.log(i, columnsUnderAChannel[i])
+                console.log("TRUEEEEE!")
+              }
+            })
+
+          }
+
+
+        })
+
+
+        // R.contains({ _uid: sub._uid }, channelList[i].data.related)) {
+        //   // if (sub.uid == channelList[i].data.related.items) {
+        // columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
+        console.log("FALSE1!!!!")
+      }
+      else {
+        console.log("FALSE2!!!!")
+      }
+      // console.log(columnChannelName, sub._uid)
+    })
+  }
+  return columnsUnderAChannel
+}
+
 // This method takes in a list of lists and returns the longest length possilble
 // inside the list of lists
 const determineLongestArray = list => {
@@ -431,4 +478,9 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
   }
 
   return R.transpose(subscriptionGrid)
+}
+
+export const getStandaloneSubscriptions = subscriptions => {
+  return R.filter(n => n.label == "", subscriptions)
+  //return R.filter(n => R.isEmpty(n.related), subscriptions)
 }

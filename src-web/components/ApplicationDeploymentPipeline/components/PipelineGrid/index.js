@@ -356,9 +356,6 @@ const ChannelColumnGrid = (
 
           console.log("subscriptoinsRowFormat", subscriptoinsRowFormat)
         }
-
-        console.log("here1")
-
         const expandRow = appDropDownList.includes(applicationName)
         // I use this row counter for determining if I should show no subscription
         // tile or a blank tile
@@ -369,8 +366,7 @@ const ChannelColumnGrid = (
 
         return (
           <React.Fragment key={Math.random()}>
-            {
-              console.log("here2")}
+
             <div className="horizontalScrollRow">
               {subscriptionsUnderColumns.map(subscriptions => {
                 return (
@@ -385,13 +381,13 @@ const ChannelColumnGrid = (
                 )
               })}
             </div>
+
             <div
               id={`${applicationName}deployableRows`}
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {
-                console.log("here3")}
+
               {subscriptoinsRowFormat.map(subRow => {
                 row = row + 1
                 return (
@@ -413,9 +409,7 @@ const ChannelColumnGrid = (
                       const status = getResourcesStatusPerChannel(
                         thisSubscriptionData
                       )
-                      {
-                        console.log("here4")
-                      }
+
                       // If the object isn't empty name will be defined
                       const displayStatus = subCol.name
                       // show no subscriptions Tile
@@ -446,7 +440,6 @@ const ChannelColumnGrid = (
                         }
                       }
 
-                      console.log("here5")
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
@@ -536,8 +529,7 @@ const ChannelColumnGrid = (
                               </div>
                             </Tile>
                           )}
-                          {
-                            console.log("here6")}
+
                           {showNoSubsTile && (
                             <Tile className="channelColumnDeployable">
                               <img

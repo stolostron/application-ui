@@ -9,13 +9,7 @@ import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {
-  Loading,
-  Link,
-  Icon,
-  Accordion,
-  AccordionItem
-} from 'carbon-components-react'
+import { Loading, Link, Icon } from 'carbon-components-react'
 import { connect } from 'react-redux'
 // import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
@@ -255,19 +249,6 @@ const ResourceOverview = withLocale(
                 <OverviewCards />
               </div>
               {/* <CountsCardModule data={countsCardData} link="#" /> */}
-              <Accordion className="overview-content-additional-details">
-                <AccordionItem
-                  title={msgs.get('dashboard.additionalDetails', locale)}
-                >
-                  <React.Fragment>
-                    <StructuredListModule
-                      headerRows={staticResourceData.detailKeys.headerRows}
-                      rows={staticResourceData.detailKeys.rows}
-                      data={item}
-                    />
-                  </React.Fragment>
-                </AccordionItem>
-              </Accordion>
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule
@@ -287,6 +268,17 @@ const ResourceOverview = withLocale(
               />
             </div>
           )}
+        <div className="overview-content-bottom overview-content-with-padding ">
+          <div className="overview-content-additional-details">
+            <React.Fragment>
+              <StructuredListModule
+                headerRows={staticResourceData.detailKeys.headerRows}
+                rows={staticResourceData.detailKeys.rows}
+                data={item}
+              />
+            </React.Fragment>
+          </div>
+        </div>
       </div>
     )
   }

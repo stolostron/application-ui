@@ -569,6 +569,7 @@
   "resource.service": "Service",
   "resource.subscription": "Subscription",
   "resource.container.logs": "Container logs",
+  "resource.clustername": "Cluster",
   "resource.version": "Version",
   "resource.url": "URL",
   "resource.hostip": "Host IP",

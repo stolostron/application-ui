@@ -442,8 +442,6 @@ class ApplicationDeploymentPipeline extends React.Component {
           namespaceAccountId
         )
     }
-    const deploymentsCount =
-      (app && app.deployments && app.deployments.length) || 0
 
     const subscriptionModalHeader =
       subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
@@ -568,13 +566,6 @@ class ApplicationDeploymentPipeline extends React.Component {
               />
               {msgs.get('application.edit.app', locale)}
             </Link>
-          </div>
-        )}
-        {app &&
-          deploymentsCount > 0 && (
-          <div className="resource-list-header">
-            {msgs.get('description.title.resourceList', locale)}{' '}
-            <span>({deploymentsCount})</span>
           </div>
         )}
         <div className="pipelineHeader">

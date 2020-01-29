@@ -9,7 +9,6 @@
 
 /* NOTE: These eslint exceptions are added to help keep this file consistent with platform-ui. */
 /* eslint-disable react/prop-types, react/jsx-no-bind */
-import R from 'ramda'
 
 import _ from 'lodash'
 import React from 'react'
@@ -35,10 +34,6 @@ import constants from '../../../lib/shared/constants'
 import { filterTableAction } from '../../../lib/client/access-helper'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
-import { SEARCH_QUERY } from '../../apollo-client/queries/SearchQueries'
-import { convertStringToQuery } from '../../../lib/client/search-helper'
-import { fetchNamespace } from '../../actions/common'
-import { getNamespaceAccountId } from './ResourceDetails/utils'
 
 resources(() => {
   require('../../../scss/table.scss')
@@ -62,17 +57,6 @@ const {
 } = DataTable
 
 class ResourceTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      clustersServicesMap: {}
-    }
-    this.serviceList = [
-      constants.MCM_CLUSTERS_SERVICES_ACTIONS.ICAM,
-      constants.MCM_CLUSTERS_SERVICES_ACTIONS.GRAFANA
-    ]
-  }
-
   render() {
     const {
       staticResourceData,
@@ -435,13 +419,11 @@ class ResourceTable extends React.Component {
 
   getRows() {
     const {
-      //history,
       tableActions,
       resourceType,
       staticResourceData,
       match,
-      userRole,
-      HCMNamespaceList
+      userRole
     } = this.props
 
     const { locale } = this.context
@@ -470,8 +452,6 @@ class ResourceTable extends React.Component {
         const filteredActions = menuActions
           ? filterTableAction(menuActions, userRole)
           : null
-        const availableActions =
-          filteredActions && this.getAvailableActions(filteredActions, item)
 
         if (
           filteredActions &&
@@ -485,48 +465,26 @@ class ResourceTable extends React.Component {
               iconDescription={msgs.get('svg.description.overflowMenu', locale)}
               ariaLabel="Overflow-menu"
             >
-              {filteredActions.map(
-                action =>
-                  availableActions.includes(action) && (
-                    <OverflowMenuItem
-                      data-table-action={action}
-                      isDelete={
-                        action === 'table.actions.remove' ||
-                        action === 'table.actions.applications.remove'
-                      }
-                      onClick={() => {
-                        if (
-                          action === 'table.actions.applications.icam' &&
-                          item &&
-                          item.namespace
-                        ) {
-                          //pass namespace account ID, will be used to open ICAM link
-                          item.kind = getNamespaceAccountId(
-                            HCMNamespaceList,
-                            item.namespace
-                          )
-                        }
-                        this.handleActionClick(action, resourceType, item)
-                      }}
-                      key={action}
-                      itemText={
-                        <div className="item-container">
-                          <div className="menu-item">
-                            {msgs.get(action, locale)}
-                            {(action === 'table.actions.applications.grafana' ||
-                              action === 'table.actions.applications.icam') && (
-                              <Icon
-                                className="app-dashboard-icon-table"
-                                name="icon--launch"
-                                fill="#3D70B2"
-                              />
-                            )}
-                          </div>
-                        </div>
-                      }
-                    />
-                  )
-              )}
+              {filteredActions.map(action => (
+                <OverflowMenuItem
+                  data-table-action={action}
+                  isDelete={
+                    action === 'table.actions.remove' ||
+                    action === 'table.actions.applications.remove'
+                  }
+                  onClick={() => {
+                    this.handleActionClick(action, resourceType, item)
+                  }}
+                  key={action}
+                  itemText={
+                    <div className="item-container">
+                      <div className="menu-item">
+                        {msgs.get(action, locale)}
+                      </div>
+                    </div>
+                  }
+                />
+              ))}
             </OverflowMenu>
           )
         }
@@ -571,72 +529,6 @@ class ResourceTable extends React.Component {
     return indeterminateStatus
   }
 
-  componentDidMount() {
-    const resources = this.getResources()
-
-    //check services only for one item; it will apply to all, no need to call this on all items
-    if (resources && resources.length > 0) {
-      //select all namespaces from resources, uniquely
-      const namespaces = R.uniq(R.project(['namespace'], resources))
-
-      if (namespaces) {
-        let namespaceNames = ''
-
-        namespaces.map(ns => {
-          namespaceNames = R.concat(
-            namespaceNames,
-            namespaceNames.length > 0 ? ',' + ns.namespace : ns.namespace
-          )
-        })
-        this.props.fetchNamespace(namespaceNames)
-      }
-
-      const item = resources[0]
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState(prevState => ({
-        clustersServicesMap: {
-          ...prevState.clustersServicesMap,
-          [item && item.cluster]: this.getClusterServices(item)
-        }
-      }))
-
-      /*
-      if (resources && resources.length > 0) {
-        resources.map(item => {
-          this.setState(prevState => ({
-            clustersServicesMap: {
-              ...prevState.clustersServicesMap,
-              [item && item.cluster]: this.getClusterServices(item)
-            }
-          }))
-        })
-        */
-    }
-  }
-
-  getClusterServices(item) {
-    const serviceMap = {}
-    this.serviceList.map(service => (serviceMap[service.name] = false))
-    _.keys(serviceMap).map(serviceName => {
-      const query = convertStringToQuery(
-        `kind:service cluster:${item && item.cluster} name:${serviceName}`
-      )
-      apolloClient
-        .search(SEARCH_QUERY, { input: [query] })
-        .then(response => {
-          if (response.errors) {
-            return serviceMap
-          }
-          const s = response.data.searchResult && response.data.searchResult[0]
-          if (s.items.length && s.items.length !== 0) {
-            serviceMap[serviceName] = true
-          }
-        })
-        .catch(err => (err, serviceMap))
-    })
-    return serviceMap
-  }
-
   getResources() {
     const { items, itemIds, staticResourceData } = this.props
     const { normalizedKey } = staticResourceData
@@ -654,40 +546,22 @@ class ResourceTable extends React.Component {
       )
     )
   }
-
-  getAvailableActions(actions, item) {
-    const serviceMap =
-      this.state.clustersServicesMap[item && item.cluster] || {}
-    this.serviceList.map(
-      service =>
-        (actions = serviceMap[service.name]
-          ? actions
-          : actions.filter(a => a !== service.action))
-    )
-    return actions
-  }
 }
 
 ResourceTable.contextTypes = {
-  fetchNamespace: PropTypes.func,
   locale: PropTypes.string
 }
 
 const mapStateToProps = state => {
   const navRoutes = state.nav && state.nav.navItems
   const userRole = state.role.role
-  const HCMNamespaceList = state.HCMNamespaceList
 
-  return { navRoutes, userRole, HCMNamespaceList }
+  return { navRoutes, userRole }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   const resourceType = ownProps.subResourceType || ownProps.resourceType
   return {
-    fetchNamespace: namespace =>
-      dispatch(
-        fetchNamespace(constants.RESOURCE_TYPES.HCM_NAMESPACES, namespace)
-      ),
     getResourceAction: (action, resource, hasService, history, locale) =>
       resourceActions(
         action,

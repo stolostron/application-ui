@@ -398,8 +398,6 @@ Object {
     "title": "application.subscriptions",
   },
   "tableActions": Array [
-    "table.actions.applications.icam",
-    "table.actions.applications.grafana",
     "table.actions.applications.edit",
     "table.actions.applications.remove",
   ],

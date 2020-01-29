@@ -29,14 +29,7 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import {
-  Search,
-  Loading,
-  Icon,
-  Link,
-  Accordion,
-  AccordionItem
-} from 'carbon-components-react'
+import { Search, Loading, Icon, Link } from 'carbon-components-react'
 import {
   getApplicationsList,
   getChannelsList,
@@ -65,8 +58,6 @@ import {
   getNamespaceAccountId
 } from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
-import getResourceDefinitions from '../../definitions'
-import ResourceTableModule from '../common/ResourceTableModuleFromProps'
 import config from '../../../lib/shared/config'
 /* eslint-disable react/prop-types */
 
@@ -426,10 +417,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       }
     )
 
-    const staticResourceData = getResourceDefinitions(
-      RESOURCE_TYPES.HCM_APPLICATIONS
-    )
-
     //show perfmon actions only when one app is selected
     const showHeaderLinks =
       breadcrumbItems &&
@@ -454,10 +441,6 @@ class ApplicationDeploymentPipeline extends React.Component {
           app.cluster,
           namespaceAccountId
         )
-    }
-    const appParams = {
-      name: (app && app.name) || '',
-      namespace: (app && app.namespace) || ''
     }
     const deploymentsCount =
       (app && app.deployments && app.deployments.length) || 0
@@ -594,27 +577,6 @@ class ApplicationDeploymentPipeline extends React.Component {
             <span>({deploymentsCount})</span>
           </div>
         )}
-        {app &&
-          deploymentsCount > 0 && (
-          <div className="resource-list-container">
-            <Accordion className="resource-list-table">
-              <AccordionItem
-                title={msgs.get('dashboard.viewFullTable', locale)}
-              >
-                <React.Fragment>
-                  <ResourceTableModule
-                    resourceType={RESOURCE_TYPES.HCM_APPLICATIONS}
-                    staticResourceData={staticResourceData}
-                    definitionsKey="deploymentKeys"
-                    resourceData={app}
-                    params={appParams}
-                  />
-                </React.Fragment>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        )}
-
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
           {channels && <span>({channels.length})</span>}

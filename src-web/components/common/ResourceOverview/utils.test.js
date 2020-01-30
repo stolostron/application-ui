@@ -25,6 +25,17 @@ import {
   getSearchLinkForOneApplication
 } from './utils'
 
+const query_data1 = {
+  name: 'appdemo-gbapp',
+  namespace: 'ibmcom',
+  remoteClustersCount: 3
+}
+
+const query_data2 = {
+  name: 'appdemo-gbapp',
+  namespace: 'ibmcom'
+}
+
 const data1 = {
   name: 'appdemo-gbapp',
   namespace: 'ibmcom',
@@ -233,11 +244,11 @@ describe('getChannelsList', () => {
 
 describe('getNumClustersForApp', () => {
   it('should return cluster count', () => {
-    const result = 1
-    expect(getNumClustersForApp(data1)).toEqual(result)
+    const result = 3
+    expect(getNumClustersForApp(query_data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
-    expect(getNumClustersForApp(data2)).toEqual(0)
+    expect(getNumClustersForApp(query_data2)).toEqual(0)
   })
 })
 

@@ -17,7 +17,7 @@ import CreateResourceModal from '../components/modals/CreateResourceModal'
 import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
-import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationSample.yml'
+import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationSample.yml' // eslint-disable-line import/no-unresolved
 import { getApplicationSample } from '../shared/yamlSamples/index'
 
 const handleCreateResource = (dispatch, yaml) =>
@@ -41,7 +41,7 @@ const registerApplicationModal = (
 export default withRouter(
   withAccess(
     typedResourcePageWithListAndDetails(
-      RESOURCE_TYPES.HCM_APPLICATIONS,
+      RESOURCE_TYPES.QUERY_APPLICATIONS,
       [],
       [registerApplicationModal],
       [],

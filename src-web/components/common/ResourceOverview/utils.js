@@ -10,7 +10,6 @@ import {
   kindsToExcludeForDeployments,
   getResourcesStatusPerChannel
 } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
-import { getNumClusters } from '../../ApplicationDeploymentPipeline/components/InfoCards/utils'
 
 import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 
@@ -43,7 +42,7 @@ export const getChannelsList = channels => {
 }
 
 export const getNumClustersForApp = data => {
-  if (data) return getNumClusters({ items: [data] })
+  if (data) return data.remoteClustersCount || 0
 
   return 0
 }

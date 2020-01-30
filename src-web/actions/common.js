@@ -21,6 +21,8 @@ import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsB
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 import { fetchBulkSubscriptionList } from '../reducers/reducerAppDeployments'
 
+import { ApplicationsList } from '../../lib/client/queries'
+
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
   page,
@@ -140,6 +142,31 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
 }
 
 export const fetchResources = resourceType => {
+  if (resourceType.name == 'QueryApplications') {
+    //use Query api to get the data, instead of the generic searchResource
+    return dispatch => {
+      apolloClient
+        .getSearchClient()
+        .query({
+          query: ApplicationsList
+        })
+        .then(result => {
+          if (result.data && result.data.applications) {
+            //console.log('QueryApp', result.data.applications)
+            return dispatch(
+              receiveResourceSuccess(
+                { items: result.data.applications },
+                resourceType
+              )
+            )
+          }
+          if (result.error) {
+            //console.log('QueryApp ERROR', result)
+            return dispatch(receiveResourceError(result.error, resourceType))
+          }
+        })
+    }
+  }
   const query = getQueryStringForResources(resourceType.name)
   return dispatch => {
     dispatch(requestResource(resourceType))

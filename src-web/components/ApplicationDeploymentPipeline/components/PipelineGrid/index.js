@@ -61,73 +61,85 @@ const LeftColumnForApplicationNames = (
     applications[0],
     'subscription'
   )
-
-  const standaloneSubCount = bulkSubscriptionList.length - appSubscriptions.length
+  // get subscriptions that have no apps
+  const standaloneSubscriptions = getStandaloneSubscriptions(
+    bulkSubscriptionList
+  )
+  const standaloneSubCount = standaloneSubscriptions.length
 
   let standaloneTile
-  if (standaloneSubCount > 0) {
-    // applications = R.prepend({ name: 'standalone applications' }, applications)
 
-    // get subscriptions that have no apps
+  // special logic for the standalone subscription case
+  if (standaloneSubCount > 0) {
+    const subscriptionsUnderColumns = createStandaloneSubscriptionPerChannel(
+      channelList,
+      standaloneSubscriptions
+    )
+    // We need to know the longest subscriptionArray because we want to extend
+    // the drop down for the left most column to that length
+    const longestStandaloneSubscriptionArray = getLongestArray(
+      subscriptionsUnderColumns
+    )
+
     const expandRow = appDropDownList.includes('standalone')
-    console.log("standalone expandRow", expandRow)
     const applicationTileClass = !expandRow
       ? 'applicationTile'
       : 'applicationTile noBottomBorder'
 
-    standaloneTile = <div key={Math.random()} className="tileContainerApp">
-      <Tile className={applicationTileClass}
+    // compute standalone Tile for Left Column
+    standaloneTile = (
+      <div key={Math.random()} className="tileContainerApp">
+        <Tile
+          className={applicationTileClass}
+          onClick={
+            standaloneSubCount > 0
+              ? () => {
+                updateAppDropDownList('standalone')
+              }
+              : () => {
+                /* onClick expects a function thus we have placeholder */
+              }
+          }
+        >
+          {standaloneSubCount > 0 && (
+            <Icon
+              id={'standalonechevron'}
+              name="icon--chevron--right"
+              fill="#6089bf"
+              description=""
+              className={expandRow ? 'openRowChevron' : 'closeRowChevron'}
+            />
+          )}
 
-        onClick={
-          standaloneSubCount > 0
-            ? () => { updateAppDropDownList('standalone'); console.log("clicked tile 1"); }
-            : () => {
-              console.log("clicked tile 2")
-              /* onClick expects a function thus we have placeholder */
-            }
-        }
-
-      >
-        {standaloneSubCount > 0 && (
-          <Icon
-            id={`standalonechevron`}
-            name="icon--chevron--right"
-            fill="#6089bf"
-            description=""
-            className={expandRow ? 'openRowChevron' : 'closeRowChevron'}
-          />
-        )}
-
-        <div className="ApplicationContents">
-          <div className="appName">{msgs.get('description.title.standaloneSubscriptions', locale)}</div>
-          <div className="appDeployables">
-            {`${standaloneSubCount} `}
-            {standaloneSubCount === 1
-              ? msgs.get('description.title.subscription', locale)
-              : msgs.get('description.title.subscriptions', locale)}
+          <div className="ApplicationContents">
+            <div className="appName">
+              {msgs.get('description.title.standaloneSubscriptions', locale)}
+            </div>
+            <div className="appDeployables">
+              {`${standaloneSubCount} `}
+              {standaloneSubCount === 1
+                ? msgs.get('description.title.subscription', locale)
+                : msgs.get('description.title.subscriptions', locale)}
+            </div>
           </div>
+        </Tile>
+        <div
+          id="standalone"
+          className="deployablesDisplay"
+          style={expandRow ? { display: 'block' } : { display: 'none' }}
+        >
+          {longestStandaloneSubscriptionArray.map(() => {
+            return <Tile key={Math.random()} className="deployableTile" />
+          })}
         </div>
-      </Tile>
-      <div
-        id='standalone'
-        className="deployablesDisplay"
-        style={expandRow ? { display: 'block' } : { display: 'none' }}
-      >
-        {/* {longestSubscriptionArray.map(() => {
-          return <Tile key={Math.random()} className="deployableTile" />
-        })} */}
       </div>
-    </div >
-
-
+    )
   }
-
 
   return (
     <div className="applicationColumnContainer">
       <div className="tileContainer">
         <Tile className="firstTotalTile">
-
           <div className="totalApplications">
             {`${applications.length} `}
             {oneApplication || applications.length === 1
@@ -140,14 +152,13 @@ const LeftColumnForApplicationNames = (
               subscriptionsForOneApp[0] &&
               subscriptionsForOneApp[0].items instanceof Array &&
               subscriptionsForOneApp[0].items.length > 0) ||
-              appSubscriptions.length} `}
+              appSubscriptions.length + standaloneSubCount} `}
             {appSubscriptions.length === 1
               ? msgs.get('description.title.subscription', locale)
               : msgs.get('description.title.subscriptions', locale)}
           </div>
         </Tile>
       </div>
-
 
       {standaloneSubCount > 0 && standaloneTile}
 
@@ -181,7 +192,7 @@ const LeftColumnForApplicationNames = (
         const applicationTileClass = !expandRow
           ? 'applicationTile'
           : 'applicationTile noBottomBorder'
-        console.log("inside left column 1")
+
         return (
           <div key={Math.random()} className="tileContainerApp">
             <Tile
@@ -222,10 +233,10 @@ const LeftColumnForApplicationNames = (
                 return <Tile key={Math.random()} className="deployableTile" />
               })}
             </div>
-          </div >
+          </div>
         )
       })}
-    </div >
+    </div>
   )
 }
 
@@ -250,25 +261,12 @@ const ChannelColumnGrid = (
     (oneApplication && 'channelGridContainerSingleApp') ||
     'channelGridContainer'
 
-
-  applicationList = R.prepend({ name: 'standalone' }, applicationList)
-  // check the bulk subscription list for any subscriptions that don't have an app
-  console.log("**bulkSubscriptionList", bulkSubscriptionList)
-  console.log("**applicationList", applicationList)
-  console.log("**channelList", channelList)
-
-
-  // get all the known uids from applications
-
-  // create a new list of subscriptions called 'standalone' remove all the known uids and use this list
-  let standaloneSubscriptions = getStandaloneSubscriptions(bulkSubscriptionList)
-
-  console.log("standaloneSubscriptions", standaloneSubscriptions)
-
-  // check to see which channels have standalone subscriptions  
-
-
-
+  let standaloneSubscriptions
+  if (!oneApplication) {
+    // add dummy "standalone" application
+    applicationList = R.prepend({ name: 'standalone' }, applicationList)
+    standaloneSubscriptions = getStandaloneSubscriptions(bulkSubscriptionList)
+  }
 
   return (
     <div className={containerClass}>
@@ -312,26 +310,22 @@ const ChannelColumnGrid = (
         let subscriptionsUnderColumns
         let subscriptoinsRowFormat
 
-        if (applicationName == "standalone") {
+        if (applicationName == 'standalone') {
           subscriptionsUnderColumns = createStandaloneSubscriptionPerChannel(
             channelList,
             standaloneSubscriptions
           )
-          console.log("*****STANDALONE channelList", channelList)
-          console.log("*****STANDALONE subscriptionsUnderColumns", subscriptionsUnderColumns)
+
           subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
             subscriptionsUnderColumns
           )
-          console.log("*****STANDALONE subscriptoinsRowFormat", subscriptoinsRowFormat)
-
-        }
-        else {
+        } else {
           // Given the application pull out its object of kind subscription
           const subscriptionsFetched = pullOutKindPerApplication(
             application,
             'subscription'
           )
-          console.log("subscriptionsFetched " + applicationName, subscriptionsFetched)
+
           // Pull up the subscription data from the nested object
           const subscriptionsForThisApplication =
             (subscriptionsFetched &&
@@ -339,7 +333,6 @@ const ChannelColumnGrid = (
               subscriptionsFetched[0].items) ||
             []
 
-          console.log("^^^subscriptionsForThisApplication", subscriptionsForThisApplication)
           // get the subscriptions that fall under each column
           // each index is a channel
           // [[{sub1}], [], [], [{sub2}, {sub3}]]
@@ -348,25 +341,17 @@ const ChannelColumnGrid = (
             subscriptionsForThisApplication
           )
 
-          console.log("subscriptionsUnderColumns", subscriptionsUnderColumns)
-
           subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
             subscriptionsUnderColumns
           )
-
-          console.log("subscriptoinsRowFormat", subscriptoinsRowFormat)
         }
         const expandRow = appDropDownList.includes(applicationName)
         // I use this row counter for determining if I should show no subscription
         // tile or a blank tile
         let row = 0
 
-        //console.log("bulkSubscriptionList", bulkSubscriptionList)
-
-
         return (
           <React.Fragment key={Math.random()}>
-
             <div className="horizontalScrollRow">
               {subscriptionsUnderColumns.map(subscriptions => {
                 return (
@@ -387,7 +372,6 @@ const ChannelColumnGrid = (
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-
               {subscriptoinsRowFormat.map(subRow => {
                 row = row + 1
                 return (
@@ -498,31 +482,31 @@ const ChannelColumnGrid = (
                               )}: ${subCol.namespace}`}</div>
                               {placementRule &&
                                 placementRule.name && (
-                                  <div
-                                    className="placementRuleDesc"
-                                    onClick={onClickEditPlacementRule}
-                                    onKeyPress={onKeyPressEditPlacementRule}
-                                    tabIndex={placementRule._uid}
-                                    role="button"
-                                  >
-                                    {`${msgs.get(
-                                      'description.placement.rule',
-                                      locale
-                                    )}: ${placementRule.name} `}
-                                    <Icon
-                                      name="icon--edit"
-                                      fill="#6089bf"
-                                      description=""
-                                      className="placementEditIcon"
-                                      onClick={() =>
-                                        editResourceClick(
-                                          placementRule,
-                                          getPlacementRuleResource
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                )}
+                                <div
+                                  className="placementRuleDesc"
+                                  onClick={onClickEditPlacementRule}
+                                  onKeyPress={onKeyPressEditPlacementRule}
+                                  tabIndex={placementRule._uid}
+                                  role="button"
+                                >
+                                  {`${msgs.get(
+                                    'description.placement.rule',
+                                    locale
+                                  )}: ${placementRule.name} `}
+                                  <Icon
+                                    name="icon--edit"
+                                    fill="#6089bf"
+                                    description=""
+                                    className="placementEditIcon"
+                                    onClick={() =>
+                                      editResourceClick(
+                                        placementRule,
+                                        getPlacementRuleResource
+                                      )
+                                    }
+                                  />
+                                </div>
+                              )}
 
                               <div className="progressBarContainer">
                                 <ProgressBar status={status} />
@@ -536,7 +520,7 @@ const ChannelColumnGrid = (
                                 className="no-sub-icon"
                                 src={`${
                                   config.contextPath
-                                  }/graphics/nothing-moon-copy.svg`}
+                                }/graphics/nothing-moon-copy.svg`}
                                 alt={msgs.get(
                                   'description.tryAddingSub',
                                   locale
@@ -596,6 +580,9 @@ const PipelineGrid = withLocale(
       channels,
       applications
     )
+
+    // do the logic to calculate the "standalone" subscriptions
+
     return (
       <div id="PipelineGrid">
         {sortedChannels.length == 0 && (
@@ -647,17 +634,17 @@ const PipelineGrid = withLocale(
         <div className="tableGridContainer">
           {!oneApplication &&
             sortedChannels.length > 0 && (
-              <LeftColumnForApplicationNames
-                appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
-                applications={applications}
-                updateAppDropDownList={updateAppDropDownList}
-                appDropDownList={appDropDownList}
-                hasAdminRole={hasAdminRole}
-                channelList={sortedChannels}
-                oneApplication={oneApplication}
-                bulkSubscriptionList={bulkSubscriptionList}
-              />
-            )}
+            <LeftColumnForApplicationNames
+              appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
+              applications={applications}
+              updateAppDropDownList={updateAppDropDownList}
+              appDropDownList={appDropDownList}
+              hasAdminRole={hasAdminRole}
+              channelList={sortedChannels}
+              oneApplication={oneApplication}
+              bulkSubscriptionList={bulkSubscriptionList}
+            />
+          )}
           {sortedChannels.length > 0 && (
             <ChannelColumnGrid
               channelList={sortedChannels}

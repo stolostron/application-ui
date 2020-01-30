@@ -340,7 +340,7 @@ export const sortChannelsBySubscriptionLength = (
     return subscrChSize
   }
 
-  const sortBy = function (a, b) {
+  const sortBy = function(a, b) {
     return (
       getNbOfSubscriptionsForChannel(b, applicationList) -
       getNbOfSubscriptionsForChannel(a, applicationList)
@@ -363,7 +363,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   for (var i = 0; i < channelList.length; i++) {
     const columnChannelName = `${channelList[i].namespace}/${
       channelList[i].name
-      }`
+    }`
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column
@@ -375,48 +375,34 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   return columnsUnderAChannel
 }
 
-export const createStandaloneSubscriptionPerChannel = (channelList, subscriptions) => {
+// similar to createSubscriptionPerChannel but with custom logic for standalone subscriptions
+// identify the subscription based on the uid
+export const createStandaloneSubscriptionPerChannel = (
+  channelList,
+  subscriptions
+) => {
   const columnsUnderAChannel = Array(channelList.length).fill([])
   for (var i = 0; i < channelList.length; i++) {
-    // const columnChannelName = `${channelList[i].namespace}/${
-    //   channelList[i].name
-    //   }`
-
-    // const channelItems = channelList[i].data && channelList[i].data.related && channelList[i].data.related.items
-
     subscriptions.map(sub => {
-      //const subChannelName = sub.uid
-      // If the channel names match up we want to add that channel to the column
-      console.log(channelList[i].data.related)
-      if (channelList[i].data && channelList[i].data.related && channelList[i].data.related) {
-
+      if (
+        channelList[i].data &&
+        channelList[i].data.related &&
+        channelList[i].data.related
+      ) {
         channelList[i].data.related.forEach(channelSub => {
-
-
           if (channelSub.items) {
             channelSub.items.forEach(item => {
+              // if channel value is not set for standalone, fill it in
               if (sub._uid == item._uid) {
+                if (!sub.channel && sub.namespace && sub.name) {
+                  sub.channel = sub.namespace + '/' + sub.name
+                }
                 columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
-                console.log(i, columnsUnderAChannel[i])
-                console.log("TRUEEEEE!")
               }
             })
-
           }
-
-
         })
-
-
-        // R.contains({ _uid: sub._uid }, channelList[i].data.related)) {
-        //   // if (sub.uid == channelList[i].data.related.items) {
-        // columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
-        console.log("FALSE1!!!!")
       }
-      else {
-        console.log("FALSE2!!!!")
-      }
-      // console.log(columnChannelName, sub._uid)
     })
   }
   return columnsUnderAChannel
@@ -481,6 +467,5 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
 }
 
 export const getStandaloneSubscriptions = subscriptions => {
-  return R.filter(n => n.label == "", subscriptions)
-  //return R.filter(n => R.isEmpty(n.related), subscriptions)
+  return R.filter(n => R.isEmpty(n.related), subscriptions)
 }

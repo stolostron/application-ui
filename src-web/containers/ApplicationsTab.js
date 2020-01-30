@@ -41,7 +41,6 @@ const registerApplicationModal = (
 export default withRouter(
   withAccess(
     typedResourcePageWithListAndDetails(
-      //RESOURCE_TYPES.HCM_APPLICATIONS,
       RESOURCE_TYPES.QUERY_APPLICATIONS,
       [],
       [registerApplicationModal],

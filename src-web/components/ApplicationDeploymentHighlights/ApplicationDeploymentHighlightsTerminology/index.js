@@ -17,10 +17,10 @@ resources(() => {
 })
 
 export default class ApplicationDeploymentHighlightsTerminology extends React.Component {
-  componentWillMount() { }
-  componentDidMount() { }
+  componentWillMount() {}
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const { open } = this.props

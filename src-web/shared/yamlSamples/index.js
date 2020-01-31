@@ -124,12 +124,14 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
         locale
       ),
     'createSubscription-timeWindow-weekdays':
-      '# ' + msgs.get('description.createSubscription.timeWindow.weekdays', locale),
+      '# ' +
+      msgs.get('description.createSubscription.timeWindow.weekdays', locale),
     'createSubscription-timeWindow-hours':
-      '# ' + msgs.get('description.createSubscription.timeWindow.hours', locale),
+      '# ' +
+      msgs.get('description.createSubscription.timeWindow.hours', locale),
     null: '',
     _: ' ',
-    "'": ''
+    '\'': ''
   }
 
   var sample = ''

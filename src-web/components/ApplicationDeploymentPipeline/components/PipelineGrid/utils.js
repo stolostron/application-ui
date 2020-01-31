@@ -340,7 +340,7 @@ export const sortChannelsBySubscriptionLength = (
     return subscrChSize
   }
 
-  const sortBy = function (a, b) {
+  const sortBy = function(a, b) {
     return (
       getNbOfSubscriptionsForChannel(b, applicationList) -
       getNbOfSubscriptionsForChannel(a, applicationList)
@@ -363,12 +363,45 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   for (var i = 0; i < channelList.length; i++) {
     const columnChannelName = `${channelList[i].namespace}/${
       channelList[i].name
-      }`
+    }`
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column
       if (subChannelName == columnChannelName) {
         columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
+      }
+    })
+  }
+  return columnsUnderAChannel
+}
+
+// similar to createSubscriptionPerChannel but with custom logic for standalone subscriptions
+// identify the subscription based on the uid
+export const createStandaloneSubscriptionPerChannel = (
+  channelList,
+  subscriptions
+) => {
+  const columnsUnderAChannel = Array(channelList.length).fill([])
+  for (var i = 0; i < channelList.length; i++) {
+    subscriptions.map(sub => {
+      if (
+        channelList[i].data &&
+        channelList[i].data.related &&
+        channelList[i].data.related
+      ) {
+        channelList[i].data.related.forEach(channelSub => {
+          if (channelSub.items) {
+            channelSub.items.forEach(item => {
+              // if channel value is not set for standalone, fill it in
+              if (sub._uid == item._uid) {
+                if (!sub.channel && sub.namespace && sub.name) {
+                  sub.channel = sub.namespace + '/' + sub.name
+                }
+                columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
+              }
+            })
+          }
+        })
       }
     })
   }
@@ -431,4 +464,8 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
   }
 
   return R.transpose(subscriptionGrid)
+}
+
+export const getStandaloneSubscriptions = subscriptions => {
+  return R.filter(n => R.isEmpty(n.related), subscriptions)
 }

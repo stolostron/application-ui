@@ -27,7 +27,7 @@ import {
   pullOutKindPerApplication,
   getPlacementRuleFromBulkSubscription
 } from '../../utils'
-import { Tile, Icon } from 'carbon-components-react'
+import { Tile, Icon, Tooltip } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import R from 'ramda'
 
@@ -114,6 +114,15 @@ const LeftColumnForApplicationNames = (
           <div className="ApplicationContents">
             <div className="appName">
               {msgs.get('description.title.standaloneSubscriptions', locale)}
+
+              <Tooltip triggerText="" iconName="info">
+                <span>
+                  {msgs.get(
+                    'description.title.standaloneSubscriptionsTooltip',
+                    locale
+                  )}
+                </span>
+              </Tooltip>
             </div>
             <div className="appDeployables">
               {`${standaloneSubCount} `}

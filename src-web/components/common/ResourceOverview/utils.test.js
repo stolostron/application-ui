@@ -26,9 +26,33 @@ import {
 } from './utils'
 
 const query_data1 = {
-  name: 'appdemo-gbapp',
-  namespace: 'ibmcom',
-  remoteClustersCount: 3
+  name: 'val',
+  namespace: 'default',
+  _uid: 'local-cluster/e04141c7-4377-11ea-a84e-00000a100f99',
+  dashboard:
+    'localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default',
+  created: '2020-01-30T15:47:53Z',
+  remoteSubs: 'Subscribed=4',
+  pods: 'Running=1',
+  remoteCls: 4,
+  hubSubscriptions: [
+    {
+      _uid: 'local-cluster/66426f24-3bd3-11ea-a488-00000a100f99',
+      status: 'Propagated',
+      channel: 'dev1/dev1'
+    },
+    {
+      _uid: 'local-cluster/bdced01f-3bd4-11ea-a488-00000a100f99',
+      status: null,
+      channel: 'dev1/dev1'
+    },
+    {
+      _uid: 'local-cluster/b218636d-3d5e-11ea-8ed1-00000a100f99',
+      status: 'Propagated',
+      channel: 'default/mortgage-channel'
+    }
+  ],
+  policies: []
 }
 
 const query_data2 = {
@@ -244,7 +268,7 @@ describe('getChannelsList', () => {
 
 describe('getNumClustersForApp', () => {
   it('should return cluster count', () => {
-    const result = 3
+    const result = 4
     expect(getNumClustersForApp(query_data1)).toEqual(result)
   })
   it('should return 0 if related is empty', () => {
@@ -322,10 +346,10 @@ describe('getResourceChannels', () => {
 
 describe('getNumPolicyViolations', () => {
   it('should return policy violations count', () => {
-    expect(getNumPolicyViolations(data1)).toEqual(5)
+    expect(getNumPolicyViolations(query_data1)).toEqual(0)
   })
   it('should return zero for no violations', () => {
-    expect(getNumPolicyViolations(data2)).toEqual(0)
+    expect(getNumPolicyViolations(query_data1)).toEqual(0)
   })
   it('should handle undefined object', () => {
     expect(getNumPolicyViolations(undefined)).toEqual(0)

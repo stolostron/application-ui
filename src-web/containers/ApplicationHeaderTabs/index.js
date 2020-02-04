@@ -52,10 +52,7 @@ const ApplicationHeaderTabs = withLocale(
       actions.setSelectedAppTab(0)
     }
 
-    actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
-    actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
     const showIncidentsTab = serverProps && serverProps.isCEMRunning
-    actions.setEnableCEMAction(showIncidentsTab)
 
     const renderTab = thisTab => {
       if (selectedAppTab === thisTab) {

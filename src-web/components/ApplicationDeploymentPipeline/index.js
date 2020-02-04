@@ -163,8 +163,11 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    fetchApplications: () =>
+    fetchHCMApplications: () =>
+      //this should be removed once we move to using  only QUERY_APPLICATIONS
       dispatch(fetchResources(RESOURCE_TYPES.HCM_APPLICATIONS)),
+    fetchApplications: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
@@ -224,6 +227,7 @@ const mapStateToProps = state => {
     HCMNamespaceList,
     AppDeployments,
     secondaryHeader,
+    QueryApplicationList,
     role
   } = state
   // Filter Application List based on search input
@@ -240,6 +244,7 @@ const mapStateToProps = state => {
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
+    QueryApplicationList,
     currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
@@ -263,8 +268,14 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchChannels, fetchSubscriptions, fetchUserInfo } = this.props
+    const {
+      fetchChannels,
+      fetchSubscriptions,
+      fetchUserInfo,
+      fetchApplications
+    } = this.props
 
+    fetchApplications()
     fetchChannels()
     fetchSubscriptions()
     fetchUserInfo()
@@ -288,10 +299,12 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMApplicationList,
       HCMSubscriptionList,
+      QueryApplicationList,
       HCMChannelList,
       breadcrumbItems,
       fetchSingleApplication,
       fetchApplications,
+      fetchHCMApplications,
       fetchSubscriptions,
       fetchChannels,
       openEditChannelModal,
@@ -301,6 +314,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
     // only reload data if there are nothing being fetched and no modals are open
     if (
+      QueryApplicationList.status === Actions.REQUEST_STATUS.DONE &&
       HCMApplicationList.status === Actions.REQUEST_STATUS.DONE &&
       HCMSubscriptionList.status === Actions.REQUEST_STATUS.DONE &&
       HCMChannelList.status === Actions.REQUEST_STATUS.DONE &&
@@ -323,6 +337,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       } else {
         // reload all the applications
         fetchApplications()
+        fetchHCMApplications()
         fetchSubscriptions()
         fetchChannels()
       }
@@ -334,10 +349,11 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMApplicationList,
       HCMSubscriptionList,
-      HCMChannelList
+      HCMChannelList,
+      QueryApplicationList
     } = this.props
     if (
-      (HCMApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
+      (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
         HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
         HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&
       !this.state.xhrPoll
@@ -377,6 +393,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchPlacementRules
     } = this.props
     const { locale } = this.context
+    //console.log('QueryApplicationList', QueryApplicationList)
+    //console.log('HCMApplicationList', HCMApplicationList)
+    //console.log('HCMSubscriptionList', HCMSubscriptionList)
+    //console.log('HCMChannelList', HCMChannelList)
 
     const filteredApplications = filterApps(
       HCMApplicationList,

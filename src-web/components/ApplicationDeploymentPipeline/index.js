@@ -268,8 +268,14 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchChannels, fetchSubscriptions, fetchUserInfo } = this.props
+    const {
+      fetchChannels,
+      fetchSubscriptions,
+      fetchUserInfo,
+      fetchApplications
+    } = this.props
 
+    fetchApplications()
     fetchChannels()
     fetchSubscriptions()
     fetchUserInfo()

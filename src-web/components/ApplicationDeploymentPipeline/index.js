@@ -165,7 +165,7 @@ const mapDispatchToProps = dispatch => {
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
     fetchHCMApplications: () =>
       //this should be removed once we move to using  only QUERY_APPLICATIONS
-      dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
+      dispatch(fetchResources(RESOURCE_TYPES.HCM_APPLICATIONS)),
     fetchApplications: () =>
       dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),

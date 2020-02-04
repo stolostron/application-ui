@@ -207,7 +207,8 @@ class ResourceDetails extends React.Component {
     const { match } = this.props
     const params = match && match.params
     if (params && params.namespace) {
-      this.props.fetchNamespace(params.namespace)
+      if (this.props.showICAMAction && this.props.showICAMAction == true)
+        this.props.fetchNamespace(params.namespace)
     }
   }
 

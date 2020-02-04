@@ -42,7 +42,7 @@ export const getChannelsList = channels => {
 }
 
 export const getNumClustersForApp = data => {
-  if (data) return data.remoteClustersCount || 0
+  if (data) return data.remoteCls || 0
 
   return 0
 }
@@ -90,21 +90,9 @@ export const getNumCompletedDeployments = data => {
 
 export const getNumPolicyViolations = data => {
   //data is a single app object
-  let nb_policies = 0
-  if (data && data.related) {
-    const getKind = x =>
-      x.kind.toLowerCase() == 'mutationpolicy' ||
-      x.kind.toLowerCase() == 'vulnerabilitypolicy'
-    const policies = R.filter(getKind, data.related)
+  if (data && data.policies) return data.policies.length
 
-    //get number of items for both type of policies
-    policies.forEach(item => {
-      if (item && item.items && item.items instanceof Array) {
-        nb_policies = nb_policies + item.items.length
-      }
-    })
-  }
-  return nb_policies
+  return 0
 }
 
 export const getNumPolicyViolationsForList = appList => {

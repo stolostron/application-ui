@@ -67,7 +67,7 @@ const allValues = {
     },
     spec: {
       type: 'ObjectBucket|HelmRepo|Namespace|GitHub',
-      pathname: ''
+      pathname: '' // pathname by default will be required field
     }
   },
   ConfigMap: {
@@ -135,6 +135,10 @@ export function validator(parsed, exceptions, locale) {
         })
       }
     } else {
+      // there may be more then one format for this resource
+      // assign the required values
+      let required = allValues[key]
+
       resources.forEach(({ $raw: raw, $synced: synced }) => {
         // pull out the namespace values after looping through
         if (
@@ -154,6 +158,15 @@ export function validator(parsed, exceptions, locale) {
           channelNamespace = raw.metadata.namespace
           channelNamespaceRow = synced.metadata.$v.namespace.$r
         }
+
+        // pull out the spec / type
+        if (raw && raw.kind && raw.kind == 'Channel') {
+          // for Channel if it is type Namespace, remove pathname to make field optional
+          if (raw.spec && raw.spec.type && raw.spec.type == 'Namespace')
+            delete required.spec.pathname
+          else required.spec.pathname = ''
+        }
+
         if (
           raw &&
           raw.kind == 'ConfigMap' &&
@@ -164,11 +177,11 @@ export function validator(parsed, exceptions, locale) {
           configMapNamespaceRow = synced.metadata.$v.namespace.$r
         }
 
-        // there may be more then one format for this resource
-        let required = allValues[key]
+        // convert required into an array
         if (!Array.isArray(required)) {
           required = [required]
         }
+
         // keep checking until there's no error or no alternatives left
         const alternatives = required.length
         // some: at least one element

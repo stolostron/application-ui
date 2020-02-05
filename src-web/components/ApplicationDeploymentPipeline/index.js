@@ -302,7 +302,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       QueryApplicationList,
       HCMChannelList,
       breadcrumbItems,
-      fetchSingleApplication,
       fetchApplications,
       fetchHCMApplications,
       fetchSubscriptions,
@@ -325,22 +324,13 @@ class ApplicationDeploymentPipeline extends React.Component {
     ) {
       this.setState({ xhrPoll: true })
       const isSingleApplicationView = breadcrumbItems.length == 2
-      if (isSingleApplicationView) {
-        // only reload a single application
-        const singleApp = HCMApplicationList.items[0]
-        fetchSingleApplication(
-          RESOURCE_TYPES.HCM_APPLICATIONS,
-          singleApp.namespace,
-          singleApp.name
-        )
-        fetchChannels()
-      } else {
+      if (!isSingleApplicationView) {
         // reload all the applications
         fetchApplications()
         fetchHCMApplications()
         fetchSubscriptions()
-        fetchChannels()
       }
+      fetchChannels()
     }
   }
 
@@ -393,10 +383,15 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchPlacementRules
     } = this.props
     const { locale } = this.context
-    //console.log('QueryApplicationList', QueryApplicationList)
-    //console.log('HCMApplicationList', HCMApplicationList)
-    //console.log('HCMSubscriptionList', HCMSubscriptionList)
-    //console.log('HCMChannelList', HCMChannelList)
+
+    let selectedAppName = ''
+    let selectedAppNS = ''
+    const isSingleApplicationView = breadcrumbItems.length == 2
+    if (isSingleApplicationView) {
+      const urlArray = R.split('/', breadcrumbItems[1].url)
+      selectedAppName = urlArray[urlArray.length - 1]
+      selectedAppNS = urlArray[urlArray.length - 2]
+    }
 
     const filteredApplications = filterApps(
       HCMApplicationList,
@@ -595,7 +590,11 @@ class ApplicationDeploymentPipeline extends React.Component {
         <ApplicationDeploymentHighlights />
         <div className="resource-cards-container">
           <div className="resource-cards-info-container">
-            <ResourceCards />
+            <ResourceCards
+              selectedAppName={selectedAppName}
+              selectedAppNS={selectedAppNS}
+              isSingleApplicationView={isSingleApplicationView}
+            />
           </div>
           <div className="resource-cards-create-container">
             {showCreate(userRole) && (

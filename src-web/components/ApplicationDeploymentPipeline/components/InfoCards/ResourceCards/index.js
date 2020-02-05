@@ -6,7 +6,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda'
 import React from 'react'
 import { connect } from 'react-redux'
 import resources from '../../../../../../lib/shared/resources'
@@ -15,8 +14,6 @@ import { fetchResources } from '../../../../../actions/common'
 import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumClusters,
-  getApplicationName,
-  getApplicationNamespace,
   getSingleApplicationObject,
   getChannelsCountFromSubscriptions,
   getNumPlacementRules,
@@ -50,15 +47,13 @@ const mapStateToProps = state => {
     HCMChannelList,
     HCMApplicationList,
     HCMSubscriptionList,
-    secondaryHeader
+    QueryApplicationList
   } = state
-  const isSingleApplicationView =
-    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
   return {
     HCMChannelList,
     HCMSubscriptionList,
     HCMApplicationList,
-    isSingleApplicationView
+    QueryApplicationList
   }
 }
 
@@ -67,6 +62,7 @@ const getResourceCardsData = (
   HCMChannelList,
   HCMSubscriptionList,
   isSingleApplicationView,
+  QueryApplicationList,
   applicationName,
   applicationNamespace,
   targetLinkForSubscriptions,
@@ -90,10 +86,10 @@ const getResourceCardsData = (
     )
     subscriptions =
       subscriptionsArray &&
-        subscriptionsArray.length > 0 &&
-        subscriptionsArray[0] &&
-        subscriptionsArray[0].items &&
-        subscriptionsArray[0].items instanceof Array
+      subscriptionsArray.length > 0 &&
+      subscriptionsArray[0] &&
+      subscriptionsArray[0].items &&
+      subscriptionsArray[0].items instanceof Array
         ? subscriptionsArray[0].items.length
         : 0
     channels = getChannelsCountFromSubscriptions(subscriptionsArray)
@@ -207,22 +203,28 @@ const getResourceCardsData = (
 }
 
 class ResourceCards extends React.Component {
-  componentWillMount() { }
-  componentDidMount() { }
+  componentWillMount() {}
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
       HCMChannelList,
       HCMSubscriptionList,
       HCMApplicationList,
-      isSingleApplicationView
+      QueryApplicationList,
+      isSingleApplicationView,
+      selectedAppName,
+      selectedAppNS
     } = this.props
+    //console.log('ResourceCards props ', this.props)
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
-    const applicationName = getApplicationName(HCMApplicationList)
-    const applicationNamespace = getApplicationNamespace(HCMApplicationList)
+    const applicationName = selectedAppName
+    const applicationNamespace = selectedAppNS
+    //const applicationName = getApplicationName(HCMApplicationList)
+    //const applicationNamespace = getApplicationNamespace(HCMApplicationList)
 
     const targetLinkForSubscriptions = isSingleApplicationView
       ? getSearchLinkForOneApplication({
@@ -253,6 +255,7 @@ class ResourceCards extends React.Component {
       HCMApplicationList,
       HCMChannelList,
       HCMSubscriptionList,
+      QueryApplicationList,
       isSingleApplicationView,
       applicationName,
       applicationNamespace,

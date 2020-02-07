@@ -17,7 +17,6 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
   getPodData,
-  getPolicyViolationData,
   getIncidentData
 } from './utils'
 
@@ -230,28 +229,28 @@ describe('getPodData', () => {
 })
 
 // getPolicyViolationData
-describe('getPolicyViolationData', () => {
-  it('has policy violation data', () => {
-    const policyViolationData = getPolicyViolationData(
-      policyViolationSampleData,
-      'app1',
-      'default'
-    )
+// describe('getPolicyViolationData', () => {
+//   it('has policy violation data', () => {
+//     const policyViolationData = getPolicyViolationData(
+//       policyViolationSampleData,
+//       'app1',
+//       'default'
+//     )
 
-    expect(policyViolationData.VAViolations).toEqual(3)
-    expect(policyViolationData.MAViolations).toEqual(1)
-  })
-  it('no policy violation data', () => {
-    const policyViolationData = getPolicyViolationData(
-      emptyData,
-      'app1',
-      'default'
-    )
+//     expect(policyViolationData.VAViolations).toEqual(3)
+//     expect(policyViolationData.MAViolations).toEqual(1)
+//   })
+//   it('no policy violation data', () => {
+//     const policyViolationData = getPolicyViolationData(
+//       emptyData,
+//       'app1',
+//       'default'
+//     )
 
-    expect(policyViolationData.VAViolations).toEqual(0)
-    expect(policyViolationData.MAViolations).toEqual(0)
-  })
-})
+//     expect(policyViolationData.VAViolations).toEqual(0)
+//     expect(policyViolationData.MAViolations).toEqual(0)
+//   })
+// })
 
 // getIncidentData
 describe('getIncidentData', () => {
@@ -481,43 +480,43 @@ const incidents = {
   ]
 }
 
-const policyViolationSampleData = {
-  items: [
-    {
-      name: 'app1',
-      namespace: 'default',
-      related: [
-        {
-          kind: 'vulnerabilitypolicy',
-          items: [
-            {
-              severity: 'low',
-              name: 'vp1',
-              namespace: 'default'
-            },
-            {
-              severity: 'medium',
-              name: 'vp2',
-              namespace: 'default'
-            },
-            {
-              severity: 'low',
-              name: 'vp3',
-              namespace: 'default'
-            }
-          ]
-        },
-        {
-          kind: 'mutationpolicy',
-          items: [
-            {
-              severity: 'high',
-              name: 'vp4',
-              namespace: 'default'
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
+// const policyViolationSampleData = {
+//   items: [
+//     {
+//       name: 'app1',
+//       namespace: 'default',
+//       related: [
+//         {
+//           kind: 'vulnerabilitypolicy',
+//           items: [
+//             {
+//               severity: 'low',
+//               name: 'vp1',
+//               namespace: 'default'
+//             },
+//             {
+//               severity: 'medium',
+//               name: 'vp2',
+//               namespace: 'default'
+//             },
+//             {
+//               severity: 'low',
+//               name: 'vp3',
+//               namespace: 'default'
+//             }
+//           ]
+//         },
+//         {
+//           kind: 'mutationpolicy',
+//           items: [
+//             {
+//               severity: 'high',
+//               name: 'vp4',
+//               namespace: 'default'
+//             }
+//           ]
+//         }
+//       ]
+//     }
+//   ]
+// }

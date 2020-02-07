@@ -72,8 +72,6 @@ const getResourceCardsData = (
   locale
 ) => {
   const clusters = getNumClusters(HCMApplicationList)
-  console.log("HCMAppList", HCMApplicationList)
-  console.log("QueryApplicationList", QueryApplicationList)
 
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     QueryApplicationList,

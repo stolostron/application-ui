@@ -25,13 +25,10 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
   getPodData,
-  getPolicyViolationData,
   getIncidentData
 } from '../utils'
 import {
-  getPoliciesLinkForOneApplication,
-  getSearchLinkForOneApplication,
-  getNumPolicyViolationsForList
+  getSearchLinkForOneApplication
 } from '../../../../common/ResourceOverview/utils'
 import { pullOutKindPerApplication } from '../../../utils'
 import { getNumItems } from '../../../../../../lib/client/resource-helper'
@@ -82,11 +79,9 @@ const getOverviewCardsData = (
   targetLinkForSubscriptions,
   targetLinkForClusters,
   targetLinkForPods,
-  targetLinkForPolicyViolations,
   locale
 ) => {
   const clusters = getNumClusters(HCMApplicationList)
-  const policyViolations = getNumPolicyViolationsForList(HCMApplicationList)
   const incidents = getNumIncidents(CEMIncidentList)
 
   //count only hub subscriptions
@@ -101,10 +96,10 @@ const getOverviewCardsData = (
     )
     subscriptions =
       subscriptionsArray &&
-      subscriptionsArray.length > 0 &&
-      subscriptionsArray[0] &&
-      subscriptionsArray[0].items &&
-      subscriptionsArray[0].items instanceof Array
+        subscriptionsArray.length > 0 &&
+        subscriptionsArray[0] &&
+        subscriptionsArray[0].items &&
+        subscriptionsArray[0].items instanceof Array
         ? subscriptionsArray[0].items.length
         : 0
   }
@@ -122,11 +117,6 @@ const getOverviewCardsData = (
     applicationNamespace
   )
   const podData = getPodData(
-    HCMApplicationList,
-    applicationName,
-    applicationNamespace
-  )
-  const policyViolationData = getPolicyViolationData(
     HCMApplicationList,
     applicationName,
     applicationNamespace
@@ -220,45 +210,6 @@ const getOverviewCardsData = (
               msgs.get('dashboard.card.deployment.failed.lowercase', locale)
             )
           : ''
-    },
-    {
-      msgKey:
-        policyViolations == 1
-          ? msgs.get('dashboard.card.deployment.policy.violation', locale)
-          : msgs.get('dashboard.card.deployment.policy.violations', locale),
-      count: policyViolations,
-      alert: policyViolations > 0 ? true : false,
-      targetLink: policyViolations == 0 ? '' : targetLinkForPolicyViolations,
-      subtextKeyFirst:
-        policyViolations > 0
-          ? policyViolationData.VAViolations.toString().concat(
-            ' ',
-            policyViolationData.VAViolations == 1
-              ? msgs.get(
-                'dashboard.card.deployment.policy.violation.VA',
-                locale
-              )
-              : msgs.get(
-                'dashboard.card.deployment.policy.violations.VA',
-                locale
-              )
-          )
-          : '',
-      subtextKeySecond:
-        policyViolations > 0
-          ? policyViolationData.MAViolations.toString().concat(
-            ' ',
-            policyViolationData.MAViolations == 1
-              ? msgs.get(
-                'dashboard.card.deployment.policy.violation.MA',
-                locale
-              )
-              : msgs.get(
-                'dashboard.card.deployment.policy.violations.MA',
-                locale
-              )
-          )
-          : ''
     }
   ]
 
@@ -306,9 +257,9 @@ class OverviewCards extends React.Component {
     const { fetchSubscriptions } = this.props
     fetchSubscriptions()
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {
@@ -336,9 +287,6 @@ class OverviewCards extends React.Component {
       name: encodeURIComponent(applicationName),
       showRelated: 'pod'
     })
-    const targetLinkForPolicyViolations = getPoliciesLinkForOneApplication({
-      name: encodeURIComponent(applicationName)
-    })
 
     const overviewCardsData = getOverviewCardsData(
       HCMApplicationList,
@@ -351,7 +299,6 @@ class OverviewCards extends React.Component {
       targetLinkForSubscriptions,
       targetLinkForClusters,
       targetLinkForPods,
-      targetLinkForPolicyViolations,
       locale
     )
 

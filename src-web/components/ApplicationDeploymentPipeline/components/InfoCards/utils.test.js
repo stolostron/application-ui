@@ -17,7 +17,6 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
   getPodData,
-  getPolicyViolationData,
   getIncidentData
 } from './utils'
 
@@ -141,7 +140,7 @@ describe('getSubscriptionDataOnHub', () => {
     )
 
     expect(subscriptionData.failed).toEqual(1)
-    expect(subscriptionData.noStatus).toEqual(1)
+    expect(subscriptionData.noStatus).toEqual(2)
   })
 
   it('has subscription data - non-single app view', () => {
@@ -153,7 +152,7 @@ describe('getSubscriptionDataOnHub', () => {
     )
 
     expect(subscriptionData.failed).toEqual(1)
-    expect(subscriptionData.noStatus).toEqual(1)
+    expect(subscriptionData.noStatus).toEqual(2)
   })
 
   it('no subscription data', () => {
@@ -230,28 +229,28 @@ describe('getPodData', () => {
 })
 
 // getPolicyViolationData
-describe('getPolicyViolationData', () => {
-  it('has policy violation data', () => {
-    const policyViolationData = getPolicyViolationData(
-      policyViolationSampleData,
-      'app1',
-      'default'
-    )
+// describe('getPolicyViolationData', () => {
+//   it('has policy violation data', () => {
+//     const policyViolationData = getPolicyViolationData(
+//       policyViolationSampleData,
+//       'app1',
+//       'default'
+//     )
 
-    expect(policyViolationData.VAViolations).toEqual(3)
-    expect(policyViolationData.MAViolations).toEqual(1)
-  })
-  it('no policy violation data', () => {
-    const policyViolationData = getPolicyViolationData(
-      emptyData,
-      'app1',
-      'default'
-    )
+//     expect(policyViolationData.VAViolations).toEqual(3)
+//     expect(policyViolationData.MAViolations).toEqual(1)
+//   })
+//   it('no policy violation data', () => {
+//     const policyViolationData = getPolicyViolationData(
+//       emptyData,
+//       'app1',
+//       'default'
+//     )
 
-    expect(policyViolationData.VAViolations).toEqual(0)
-    expect(policyViolationData.MAViolations).toEqual(0)
-  })
-})
+//     expect(policyViolationData.VAViolations).toEqual(0)
+//     expect(policyViolationData.MAViolations).toEqual(0)
+//   })
+// })
 
 // getIncidentData
 describe('getIncidentData', () => {
@@ -358,17 +357,32 @@ const subscriptionPropagatedSampleData = {
     {
       name: 'app1',
       namespace: 'default',
-      related: [
+      hubSubscriptions: [
         {
-          kind: 'subscription',
-          items: [
-            { name: 'sub1', namespace: 'default', status: 'propagated' },
-            { name: 'sub2', namespace: 'default', status: '' },
-            { name: 'sub3', namespace: 'default', status: 'propagated' },
-            { name: 'sub4', namespace: 'default', status: 'propagated' },
-            { name: 'sub4', namespace: 'default', status: '123' }
-          ]
-        }
+          channel: 'fake-channel',
+          status: 'Propagated',
+          _uid: 'fake-uid-1'
+        },
+        {
+          channel: 'fake-channel',
+          status: 'Propagated',
+          _uid: 'fake-uid-2'
+        },
+        {
+          channel: 'fake-channel-2',
+          status: 'unknown',
+          _uid: 'fake-uid-3'
+        },
+        {
+          channel: 'fake-channel-2',
+          status: undefined,
+          _uid: 'fake-uid-4'
+        },
+        {
+          channel: 'fake-channel',
+          status: null,
+          _uid: 'fake-uid-1'
+        },
       ]
     }
   ]
@@ -481,43 +495,43 @@ const incidents = {
   ]
 }
 
-const policyViolationSampleData = {
-  items: [
-    {
-      name: 'app1',
-      namespace: 'default',
-      related: [
-        {
-          kind: 'vulnerabilitypolicy',
-          items: [
-            {
-              severity: 'low',
-              name: 'vp1',
-              namespace: 'default'
-            },
-            {
-              severity: 'medium',
-              name: 'vp2',
-              namespace: 'default'
-            },
-            {
-              severity: 'low',
-              name: 'vp3',
-              namespace: 'default'
-            }
-          ]
-        },
-        {
-          kind: 'mutationpolicy',
-          items: [
-            {
-              severity: 'high',
-              name: 'vp4',
-              namespace: 'default'
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
+// const policyViolationSampleData = {
+//   items: [
+//     {
+//       name: 'app1',
+//       namespace: 'default',
+//       related: [
+//         {
+//           kind: 'vulnerabilitypolicy',
+//           items: [
+//             {
+//               severity: 'low',
+//               name: 'vp1',
+//               namespace: 'default'
+//             },
+//             {
+//               severity: 'medium',
+//               name: 'vp2',
+//               namespace: 'default'
+//             },
+//             {
+//               severity: 'low',
+//               name: 'vp3',
+//               namespace: 'default'
+//             }
+//           ]
+//         },
+//         {
+//           kind: 'mutationpolicy',
+//           items: [
+//             {
+//               severity: 'high',
+//               name: 'vp4',
+//               namespace: 'default'
+//             }
+//           ]
+//         }
+//       ]
+//     }
+//   ]
+// }

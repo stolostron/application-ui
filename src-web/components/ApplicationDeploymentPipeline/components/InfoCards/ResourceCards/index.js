@@ -72,31 +72,11 @@ const getResourceCardsData = (
   locale
 ) => {
   const clusters = getNumClusters(HCMApplicationList)
-  let channels = getNumItems(HCMChannelList)
-
-  //count only hub subscriptions
-  const isHubSubscr = item =>
-    !item._hostingSubscription &&
-    (!item.status || (item.status && item.status != 'Subscribed'))
-  let subscriptions = getNumItems(HCMSubscriptionList, isHubSubscr)
-  if (isSingleApplicationView) {
-    const subscriptionsArray = pullOutKindPerApplication(
-      getSingleApplicationObject(HCMApplicationList),
-      'subscription'
-    )
-    subscriptions =
-      subscriptionsArray &&
-      subscriptionsArray.length > 0 &&
-      subscriptionsArray[0] &&
-      subscriptionsArray[0].items &&
-      subscriptionsArray[0].items instanceof Array
-        ? subscriptionsArray[0].items.length
-        : 0
-    channels = getChannelsCountFromSubscriptions(subscriptionsArray)
-  }
+  console.log("HCMAppList", HCMApplicationList)
+  console.log("QueryApplicationList", QueryApplicationList)
 
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
-    HCMApplicationList,
+    QueryApplicationList,
     isSingleApplicationView,
     applicationName,
     applicationNamespace
@@ -116,14 +96,14 @@ const getResourceCardsData = (
   const result = [
     {
       msgKey:
-        subscriptions == 1
+        subscriptionDataOnHub.total == 1
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
-      count: subscriptions,
-      targetLink: subscriptions == 0 ? '' : targetLinkForSubscriptions,
+      count: subscriptionDataOnHub.total,
+      targetLink: subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
-        subscriptions > 0
+        subscriptionDataOnHub.total > 0
           ? subscriptionDataOnHub.failed
             .toString()
             .concat(
@@ -177,11 +157,11 @@ const getResourceCardsData = (
     },
     {
       msgKey:
-        channels == 1
+        subscriptionDataOnHub.channels == 1
           ? msgs.get('dashboard.card.deployment.channel', locale)
           : msgs.get('dashboard.card.deployment.channels', locale),
-      count: channels,
-      targetLink: channels == 0 ? '' : targetLinkForChannels,
+      count: subscriptionDataOnHub.channels,
+      targetLink: subscriptionDataOnHub.channels == 0 ? '' : targetLinkForChannels,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)
@@ -203,10 +183,10 @@ const getResourceCardsData = (
 }
 
 class ResourceCards extends React.Component {
-  componentWillMount() {}
-  componentDidMount() {}
+  componentWillMount() { }
+  componentDidMount() { }
 
-  componentWillUnmount() {}
+  componentWillUnmount() { }
 
   render() {
     const {

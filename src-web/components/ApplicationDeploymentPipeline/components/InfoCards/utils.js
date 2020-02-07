@@ -5,10 +5,11 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+import R from 'ramda'
+
 import {
   getResourcesStatusPerChannel,
-  getAllRelatedForList,
-  removeDuplicatesFromList
+  getAllRelatedForList
 } from '../PipelineGrid/utils'
 // import { CEMIncidentList } from '../../../../../lib/client/queries'
 
@@ -113,15 +114,15 @@ export const getNumPlacementRules = (
       Object.keys(subscriptions.items).map(subIndex => {
         // Get number of placement rules for the current application opened
         if (subscriptions.items[subIndex].namespace === subscriptionNamespace) {
-          const subData = subscriptions.items[subIndex]
           // Placement rule data found in "related" object
-          if (subData.related) {
-            Object.keys(subData.related).map(kindIndex => {
+          if (subscriptions.items[subIndex].related) {
+            const subData = subscriptions.items[subIndex].related
+            Object.keys(subData).map(kindIndex => {
               if (
-                subData.related[kindIndex].kind.toLowerCase() ===
+                subData[kindIndex].kind.toLowerCase() ===
                 'placementrule'
               ) {
-                const placementRules = subData.related[kindIndex].items
+                const placementRules = subData[kindIndex].items
                 Object.keys(placementRules).map(prIndex => {
                   const prObj = {
                     name: placementRules[prIndex].name,
@@ -138,14 +139,14 @@ export const getNumPlacementRules = (
       // Root application view
       // Get number of placement rules for all applications
       Object.keys(subscriptions.items).map(subIndex => {
-        const subData = subscriptions.items[subIndex]
         // Placement rule data found in "related" object
-        if (subData.related) {
-          Object.keys(subData.related).map(kindIndex => {
+        if (subscriptions.items[subIndex].related) {
+          const subData = subscriptions.items[subIndex].related
+          Object.keys(subData).map(kindIndex => {
             if (
-              subData.related[kindIndex].kind.toLowerCase() === 'placementrule'
+              subData[kindIndex].kind.toLowerCase() === 'placementrule'
             ) {
-              const placementRules = subData.related[kindIndex].items
+              const placementRules = subData[kindIndex].items
               Object.keys(placementRules).map(prIndex => {
                 const prObj = {
                   name: placementRules[prIndex].name,
@@ -160,7 +161,7 @@ export const getNumPlacementRules = (
     }
 
     // Remove duplicate placement rules (that were found in more than one app)
-    allPlacementRules = removeDuplicatesFromList(allPlacementRules)
+    allPlacementRules = R.uniq(allPlacementRules)
 
     return allPlacementRules.length
   }
@@ -176,75 +177,59 @@ export const getSubscriptionDataOnHub = (
   var allSubscriptions = []
   var failedSubsCount = 0
   var noStatusSubsCount = 0
+  var allChannels = []
 
   if (applications && applications.items) {
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).map(appIndex => {
-        // Get number of subscriptions for the current application opened
+        // Get subscription data for the current application opened
         if (
           applications.items[appIndex].name === applicationName &&
-          applications.items[appIndex].namespace === applicationNamespace
+          applications.items[appIndex].namespace === applicationNamespace &&
+          applications.items[appIndex].hubSubscriptions != undefined
         ) {
-          const appData = applications.items[appIndex]
-          // Hub subscription data found in "related" object
-          if (appData.related) {
-            Object.keys(appData.related).map(kindIndex => {
-              if (
-                appData.related[kindIndex].kind.toLowerCase() === 'subscription'
-              ) {
-                const subscriptions = appData.related[kindIndex].items
-                Object.keys(subscriptions).map(subIndex => {
-                  // Increment "no status" and "failed" counts based on the subscription's status
-                  if (
-                    subscriptions[subIndex].status === undefined ||
-                    subscriptions[subIndex].status === ''
-                  ) {
-                    noStatusSubsCount++
-                  } else if (
-                    subscriptions[subIndex].status.toLowerCase() !==
-                    'propagated'
-                  ) {
-                    failedSubsCount++
-                  }
-                })
-              }
-            })
-          }
+          const subData = applications.items[appIndex].hubSubscriptions
+          Object.keys(subData).map(subIndex => {
+            const subObj = {
+              status: subData[subIndex].status,
+              id: subData[subIndex]._uid
+            }
+            allSubscriptions = allSubscriptions.concat(subObj)
+            allChannels = allChannels.concat(subData[subIndex].channel)
+          })
+          return
         }
       })
     } else {
       // Root application view
-      // Get number of subscriptions for all applications
+      // Get subscription data for all applications
       Object.keys(applications.items).map(appIndex => {
-        const appData = applications.items[appIndex]
-        // Hub subscription data found in "related" object
-        if (appData.related) {
-          Object.keys(appData.related).map(kindIndex => {
-            if (
-              appData.related[kindIndex].kind.toLowerCase() === 'subscription'
-            ) {
-              const subscriptions = appData.related[kindIndex].items
-              Object.keys(subscriptions).map(subIndex => {
-                const subObj = {
-                  name: subscriptions[subIndex].name,
-                  namespace: subscriptions[subIndex].namespace,
-                  status: subscriptions[subIndex].status
-                }
-                allSubscriptions = allSubscriptions.concat(subObj)
-              })
+        if (applications.items[appIndex].hubSubscriptions != undefined) {
+          const subData = applications.items[appIndex].hubSubscriptions
+          Object.keys(subData).map(subIndex => {
+            const subObj = {
+              status: subData[subIndex].status,
+              id: subData[subIndex]._uid
             }
+            allSubscriptions = allSubscriptions.concat(subObj)
+            allChannels = allChannels.concat(subData[subIndex].channel)
           })
         }
       })
-      // Remove duplicate subscriptions (that were found in more than one app)
-      allSubscriptions = removeDuplicatesFromList(allSubscriptions)
+    }
 
-      // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
+    allChannels = R.uniq(allChannels)
+
+    if (allSubscriptions.length > 0) {
+      // Remove duplicate subscriptions (that were found in more than one app)
+      allSubscriptions = R.uniq(allSubscriptions)
+
+      // Increment "no status" and "failed" counts using the new non-duplicated subscriptions list
       Object.keys(allSubscriptions).map(key => {
         if (
-          allSubscriptions[key].status === undefined ||
-          allSubscriptions[key].status === ''
+          allSubscriptions[key].status == undefined ||
+          allSubscriptions[key].status == ''
         ) {
           noStatusSubsCount++
         } else if (
@@ -254,11 +239,14 @@ export const getSubscriptionDataOnHub = (
         }
       })
     }
+
   }
 
   return {
+    total: allSubscriptions.length,
     failed: failedSubsCount,
-    noStatus: noStatusSubsCount
+    noStatus: noStatusSubsCount,
+    channels: allChannels.length
   }
 }
 
@@ -281,11 +269,11 @@ export const getSubscriptionDataOnManagedClusters = (
           applications.items[appIndex].name === applicationName &&
           applications.items[appIndex].namespace === applicationNamespace
         ) {
-          const appData = applications.items[appIndex]
           // Managed cluster subscription data found in "remoteSubs" object
-          if (appData.remoteSubs) {
-            Object.keys(appData.remoteSubs).map(kindIndex => {
-              const sub = appData.remoteSubs[kindIndex]
+          if (applications.items[appIndex].remoteSubs) {
+            const appData = applications.items[appIndex].remoteSubs
+            Object.keys(appData).map(kindIndex => {
+              const sub = appData[kindIndex]
               const subObj = {
                 name: sub.name,
                 namespace: sub.namespace,
@@ -300,11 +288,11 @@ export const getSubscriptionDataOnManagedClusters = (
       // Root application view
       // Get number of managed cluster subs for all applications
       Object.keys(applications.items).map(appIndex => {
-        const appData = applications.items[appIndex]
         // Managed cluster subscription data found in "remoteSubs" object
-        if (appData.remoteSubs) {
-          Object.keys(appData.remoteSubs).map(kindIndex => {
-            const sub = appData.remoteSubs[kindIndex]
+        if (applications.items[appIndex].remoteSubs) {
+          const appData = applications.items[appIndex].remoteSubs
+          Object.keys(appData).map(kindIndex => {
+            const sub = appData[kindIndex]
             const subObj = {
               name: sub.name,
               namespace: sub.namespace,
@@ -317,13 +305,13 @@ export const getSubscriptionDataOnManagedClusters = (
     }
 
     // Remove duplicate managed cluster subs (that were found in more than one app)
-    allSubscriptions = removeDuplicatesFromList(allSubscriptions)
+    allSubscriptions = R.uniq(allSubscriptions)
 
     // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
     Object.keys(allSubscriptions).map(key => {
       if (
-        allSubscriptions[key].status === undefined ||
-        allSubscriptions[key].status === ''
+        allSubscriptions[key].status == undefined ||
+        allSubscriptions[key].status == ''
       ) {
         noStatusSubsCount++
       } else if (allSubscriptions[key].status.toLowerCase() !== 'subscribed') {
@@ -389,48 +377,6 @@ export const getPodData = (
     total: allPods,
     running: runningPods,
     failed: failedPods
-  }
-}
-
-export const getPolicyViolationData = (
-  applications,
-  applicationName,
-  applicationNamespace
-) => {
-  var VAViolations = 0
-  var MAViolations = 0
-
-  if (applications && applications.items) {
-    Object.keys(applications.items).map(appIndex => {
-      // Get policy violation data for the current application opened
-      if (
-        applications.items[appIndex].name === applicationName &&
-        applications.items[appIndex].namespace === applicationNamespace
-      ) {
-        const appData = applications.items[appIndex]
-        // Policy violation data found in "related" object
-        if (appData.related) {
-          Object.keys(appData.related).map(kindIndex => {
-            if (
-              appData.related[kindIndex].kind.toLowerCase() === 'mutationpolicy'
-            ) {
-              MAViolations = appData.related[kindIndex].items.length
-            }
-            if (
-              appData.related[kindIndex].kind.toLowerCase() ===
-              'vulnerabilitypolicy'
-            ) {
-              VAViolations = appData.related[kindIndex].items.length
-            }
-          })
-        }
-      }
-    })
-  }
-
-  return {
-    VAViolations: VAViolations,
-    MAViolations: MAViolations
   }
 }
 

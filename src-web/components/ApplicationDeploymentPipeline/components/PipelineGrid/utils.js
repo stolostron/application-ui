@@ -237,13 +237,6 @@ export const getAllRelatedForList = (list, kind) => {
   return []
 }
 
-export const removeDuplicatesFromList = obj => {
-  if (obj) {
-    return R.uniq(obj)
-  }
-  return []
-}
-
 // Given the subscriptionsForThisApplication, the channel,
 // we will look through match the subscription with the channel
 // and then tally up all the status under that application to give
@@ -340,7 +333,7 @@ export const sortChannelsBySubscriptionLength = (
     return subscrChSize
   }
 
-  const sortBy = function(a, b) {
+  const sortBy = function (a, b) {
     return (
       getNbOfSubscriptionsForChannel(b, applicationList) -
       getNbOfSubscriptionsForChannel(a, applicationList)
@@ -363,7 +356,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
   for (var i = 0; i < channelList.length; i++) {
     const columnChannelName = `${channelList[i].namespace}/${
       channelList[i].name
-    }`
+      }`
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column

@@ -140,7 +140,7 @@ describe('getSubscriptionDataOnHub', () => {
     )
 
     expect(subscriptionData.failed).toEqual(1)
-    expect(subscriptionData.noStatus).toEqual(1)
+    expect(subscriptionData.noStatus).toEqual(2)
   })
 
   it('has subscription data - non-single app view', () => {
@@ -152,7 +152,7 @@ describe('getSubscriptionDataOnHub', () => {
     )
 
     expect(subscriptionData.failed).toEqual(1)
-    expect(subscriptionData.noStatus).toEqual(1)
+    expect(subscriptionData.noStatus).toEqual(2)
   })
 
   it('no subscription data', () => {
@@ -357,17 +357,32 @@ const subscriptionPropagatedSampleData = {
     {
       name: 'app1',
       namespace: 'default',
-      related: [
+      hubSubscriptions: [
         {
-          kind: 'subscription',
-          items: [
-            { name: 'sub1', namespace: 'default', status: 'propagated' },
-            { name: 'sub2', namespace: 'default', status: '' },
-            { name: 'sub3', namespace: 'default', status: 'propagated' },
-            { name: 'sub4', namespace: 'default', status: 'propagated' },
-            { name: 'sub4', namespace: 'default', status: '123' }
-          ]
-        }
+          channel: 'fake-channel',
+          status: 'Propagated',
+          _uid: 'fake-uid-1'
+        },
+        {
+          channel: 'fake-channel',
+          status: 'Propagated',
+          _uid: 'fake-uid-2'
+        },
+        {
+          channel: 'fake-channel-2',
+          status: 'unknown',
+          _uid: 'fake-uid-3'
+        },
+        {
+          channel: 'fake-channel-2',
+          status: undefined,
+          _uid: 'fake-uid-4'
+        },
+        {
+          channel: 'fake-channel',
+          status: null,
+          _uid: 'fake-uid-1'
+        },
       ]
     }
   ]

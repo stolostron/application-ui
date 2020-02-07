@@ -14,8 +14,6 @@ import { fetchResources } from '../../../../../actions/common'
 import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumClusters,
-  getSingleApplicationObject,
-  getChannelsCountFromSubscriptions,
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters
@@ -27,8 +25,6 @@ import {
   getSearchLinkForAllChannels,
   getSearchLinkForAllPlacementRules
 } from '../../../../common/ResourceOverview/utils'
-import { pullOutKindPerApplication } from '../../../utils'
-import { getNumItems } from '../../../../../../lib/client/resource-helper'
 
 /* eslint-disable react/prop-types */
 
@@ -44,13 +40,11 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   const {
-    HCMChannelList,
     HCMApplicationList,
     HCMSubscriptionList,
     QueryApplicationList
   } = state
   return {
-    HCMChannelList,
     HCMSubscriptionList,
     HCMApplicationList,
     QueryApplicationList
@@ -59,7 +53,6 @@ const mapStateToProps = state => {
 
 const getResourceCardsData = (
   HCMApplicationList,
-  HCMChannelList,
   HCMSubscriptionList,
   QueryApplicationList,
   isSingleApplicationView,
@@ -188,7 +181,6 @@ class ResourceCards extends React.Component {
 
   render() {
     const {
-      HCMChannelList,
       HCMSubscriptionList,
       HCMApplicationList,
       QueryApplicationList,
@@ -196,13 +188,10 @@ class ResourceCards extends React.Component {
       selectedAppName,
       selectedAppNS
     } = this.props
-    //console.log('ResourceCards props ', this.props)
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
     const applicationName = selectedAppName
     const applicationNamespace = selectedAppNS
-    //const applicationName = getApplicationName(HCMApplicationList)
-    //const applicationNamespace = getApplicationNamespace(HCMApplicationList)
 
     const targetLinkForSubscriptions = isSingleApplicationView
       ? getSearchLinkForOneApplication({
@@ -231,7 +220,6 @@ class ResourceCards extends React.Component {
 
     const resourceCardsData = getResourceCardsData(
       HCMApplicationList,
-      HCMChannelList,
       HCMSubscriptionList,
       QueryApplicationList,
       isSingleApplicationView,

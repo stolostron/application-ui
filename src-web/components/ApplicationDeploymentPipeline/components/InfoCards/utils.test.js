@@ -152,7 +152,7 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
-    expect(subscriptionData.total).toEqual(5)
+    expect(subscriptionData.total).toEqual(0)
     expect(subscriptionData.failed).toEqual(0)
     expect(subscriptionData.noStatus).toEqual(0)
     expect(subscriptionData.channels).toEqual(0)

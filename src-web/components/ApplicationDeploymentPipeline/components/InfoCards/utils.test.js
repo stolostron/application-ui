@@ -127,7 +127,7 @@ describe('getSubscriptionDataOnHub', () => {
     expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
     expect(subscriptionData.noStatus).toEqual(2)
-    expect(subscriptionData.channel).toEqual(2)
+    expect(subscriptionData.channels).toEqual(2)
   })
 
   it('has subscription data - non-single app view', () => {
@@ -141,7 +141,7 @@ describe('getSubscriptionDataOnHub', () => {
     expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
     expect(subscriptionData.noStatus).toEqual(2)
-    expect(subscriptionData.channel).toEqual(2)
+    expect(subscriptionData.channels).toEqual(2)
   })
 
   it('no subscription data', () => {
@@ -155,7 +155,7 @@ describe('getSubscriptionDataOnHub', () => {
     expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(0)
     expect(subscriptionData.noStatus).toEqual(0)
-    expect(subscriptionData.channel).toEqual(0)
+    expect(subscriptionData.channels).toEqual(0)
   })
 })
 

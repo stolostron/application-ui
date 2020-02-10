@@ -59,6 +59,12 @@ export const QueryApplicationList = createResourceReducer(
   predicate.bind(null, RESOURCE_TYPES.QUERY_APPLICATIONS)
 )
 
+// the exported function name must match the resourceType value
+export const GlobalApplicationDataList = createResourceReducer(
+  resourceReducerFunction,
+  predicate.bind(null, RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)
+)
+
 export const HCMPodList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_PODS)

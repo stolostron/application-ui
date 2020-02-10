@@ -32,9 +32,19 @@ const query_data1 = {
   dashboard:
     'localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default',
   created: '2020-01-30T15:47:53Z',
-  remoteSubs: 'Subscribed=4',
-  pods: 'Running=1',
-  remoteCls: 4,
+  remoteSubscriptionStatusCount: {
+    subscribed: 4,
+    failed: 5,
+    null: 3
+  },
+  podStatusCount: {
+    Running: 4,
+    Error: 5,
+    ImagePullBackOff: 3,
+    ContainerCreating: 6,
+    Ready: 8
+  },
+  clusterCount: 4,
   hubSubscriptions: [
     {
       _uid: 'local-cluster/66426f24-3bd3-11ea-a488-00000a100f99',
@@ -51,8 +61,7 @@ const query_data1 = {
       status: 'Propagated',
       channel: 'default/mortgage-channel'
     }
-  ],
-  policies: []
+  ]
 }
 
 const query_data2 = {

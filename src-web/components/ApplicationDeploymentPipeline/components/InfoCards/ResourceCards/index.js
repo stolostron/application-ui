@@ -13,7 +13,6 @@ import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
 import { fetchResources } from '../../../../../actions/common'
 import msgs from '../../../../../../nls/platform.properties'
 import {
-  getNumClusters,
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters
@@ -55,6 +54,7 @@ const getResourceCardsData = (
   HCMApplicationList,
   HCMSubscriptionList,
   QueryApplicationList,
+  globalAppData,
   isSingleApplicationView,
   applicationName,
   applicationNamespace,
@@ -64,7 +64,12 @@ const getResourceCardsData = (
   targetLinkForPlacementRules,
   locale
 ) => {
-  const clusters = getNumClusters(HCMApplicationList)
+  const clusters =
+    (globalAppData &&
+      globalAppData.items &&
+      globalAppData.items[0] &&
+      globalAppData.items[0].clusterCount) ||
+    0
 
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     QueryApplicationList,
@@ -91,7 +96,8 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptionDataOnHub.total,
-      targetLink: subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
+      targetLink:
+        subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
         subscriptionDataOnHub.total > 0
@@ -152,7 +158,8 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.channel', locale)
           : msgs.get('dashboard.card.deployment.channels', locale),
       count: subscriptionDataOnHub.channels,
-      targetLink: subscriptionDataOnHub.channels == 0 ? '' : targetLinkForChannels,
+      targetLink:
+        subscriptionDataOnHub.channels == 0 ? '' : targetLinkForChannels,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)
@@ -174,10 +181,10 @@ const getResourceCardsData = (
 }
 
 class ResourceCards extends React.Component {
-  componentWillMount() { }
-  componentDidMount() { }
+  componentWillMount() {}
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {
@@ -186,7 +193,8 @@ class ResourceCards extends React.Component {
       QueryApplicationList,
       isSingleApplicationView,
       selectedAppName,
-      selectedAppNS
+      selectedAppNS,
+      globalAppData
     } = this.props
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
@@ -222,6 +230,7 @@ class ResourceCards extends React.Component {
       HCMApplicationList,
       HCMSubscriptionList,
       QueryApplicationList,
+      globalAppData,
       isSingleApplicationView,
       applicationName,
       applicationNamespace,

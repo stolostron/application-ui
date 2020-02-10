@@ -291,6 +291,7 @@ const SubscriptionModal = withLocale(
     label,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
+    //applications,
     locale
   }) => {
     return (

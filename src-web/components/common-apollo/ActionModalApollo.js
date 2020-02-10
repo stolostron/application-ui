@@ -26,16 +26,6 @@ class ActionModalApollo extends React.PureComponent {
     // remove the typename field
     if (resourceType.name == RESOURCE_TYPES.QUERY_APPLICATIONS.name) {
       resourceType = RESOURCE_TYPES.HCM_APPLICATIONS //use hcm app to edit, delete selection
-
-      //TODO: take this out once search returns selfLink in new query
-      if (data.selfLink == '') {
-        const selfLink =
-          '/apis/app.k8s.io/v1beta1/namespaces/' +
-          data.namespace +
-          '/applications/' +
-          data.name
-        data.selfLink = selfLink
-      }
     }
     resourceType = { name: resourceType.name, list: resourceType.list }
 

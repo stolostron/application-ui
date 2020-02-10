@@ -52,6 +52,7 @@ install:
 
 before_script:
   - make image
+  - make run
   - chmod +x copyright-check.sh
 
 script:

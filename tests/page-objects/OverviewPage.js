@@ -23,7 +23,7 @@ module.exports = {
  */
 
 function verifyPageLoaded() {
-  this.expect.element('@headerTitle').to.be.present
   this.expect.element('@spinner').to.be.present
   this.waitForElementNotPresent('@spinner')
+  this.expect.element('@headerTitle').to.be.present
 }

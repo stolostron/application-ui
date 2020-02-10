@@ -1,6 +1,6 @@
 {
     "contextPath": "/multicloud/applications",
-    "httpPort": 3001,
+    "httpPort": 3000,
     "hcmUiApiUrl": "",
     "searchApiUrl":"",
     "cfcRouterUrl": "",
@@ -33,6 +33,6 @@
      ]},
     "tests": {
         "user": "admin",
-        "password": "AHippopotamusPlaysHopscotchWithAnElephant"
+        "password": "all-ansible-aardvarks-advance-appropriately"
      }
 }

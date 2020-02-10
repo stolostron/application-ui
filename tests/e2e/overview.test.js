@@ -7,18 +7,18 @@
  *******************************************************************************/
 
 const config = require('../../config')
-const a11yScan = require('../utils/accessibilityScan')
+// const a11yScan = require('../utils/accessibilityScan')
 let page
 
 module.exports = {
-  '@disabled': true,
+  '@disabled': false,
 
   before: function(browser) {
     const loginPage = browser.page.LoginPage()
     loginPage.navigate()
     loginPage.authenticate()
 
-    const url = `${browser.launch_url}${config.get('contextPath')}/overview`
+    const url = `${browser.launch_url}${config.get('contextPath')}`
     page = browser.page.OverviewPage()
     page.navigate(url)
   },
@@ -27,9 +27,9 @@ module.exports = {
     page.verifyPageLoaded()
   },
 
-  'Overview: Run Accessibility Scan': browser => {
-    a11yScan.runAccessibilityScan(browser, 'overview')
-  },
+  // 'Overview: Run Accessibility Scan': browser => {
+  //   a11yScan.runAccessibilityScan(browser, 'overview')
+  // },
 
   after: function(browser, done) {
     setTimeout(() => {

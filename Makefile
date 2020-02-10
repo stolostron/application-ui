@@ -100,7 +100,7 @@ run:
 	-e searchApiUrl=https://10.10.0.6:4010/searchapi \
 	--name mcm-application-ui \
 	--network mcm-network \
-	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(IMAGE_REPO)/$(IMAGE_NAME_ARCH):$(IMAGE_VERSION)
+	-d -p $(HOST):$(APP_PORT):$(CONTAINER_PORT) $(DOCKER_IMAGE):$(DOCKER_BUILD_TAG)
 
 .PHONY: test
 test:
@@ -120,20 +120,28 @@ ifeq ($(UNIT_TESTS), TRUE)
 	fi
 	npm test
 endif
-# ifeq ($(SELENIUM_TESTS), TRUE)
-# ifeq ($(OSARCH), linux-amd64)
-# 	docker pull $(IMAGE_REPO)/mcm-ui-api-amd64
-# 	docker run \
-# 	-e NODE_ENV=test \
-# 	-e MOCK=true \
-# 	--name mcm-ui-api \
-# 	--network mcm-network \
-# 	--ip 10.10.0.5 \
-# 	-d -p 127.0.0.1:4000:4000 $(IMAGE_REPO)/mcm-ui-api-amd64
-# 	npm install selenium-standalone@6.16.0 xml2json@0.11.0 nightwatch@0.9.21
-# 	nightwatch
-# endif
-# endif
+ifeq ($(SELENIUM_TESTS), TRUE)
+ifeq ($(OSARCH), linux-amd64)
+	docker pull $(IMAGE_REPO)/mcm-ui-api-amd64
+	docker run \
+	-e NODE_ENV=test \
+	-e MOCK=true \
+	--name mcm-ui-api \
+	--network mcm-network \
+	--ip 10.10.0.5 \
+	-d -p 127.0.0.1:4000:4000 $(IMAGE_REPO)/mcm-ui-api-amd64
+	docker pull $(IMAGE_REPO)/search-api-amd64
+	docker run \
+	-e NODE_ENV=test \
+	-e MOCK=true \
+	--name search-api \
+	--network mcm-network \
+	--ip 10.10.0.6 \
+	-d -p 127.0.0.1:4010:4010 $(IMAGE_REPO)/search-api-amd64
+	npm install selenium-standalone@6.16.0 xml2json@0.11.0 nightwatch@0.9.21
+	nightwatch
+endif
+endif
 
 .PHONY:
 image-dev: build

@@ -79,28 +79,6 @@ export const getSingleApplicationObject = list => {
   return ''
 }
 
-export const getChannelsCountFromSubscriptions = arr => {
-  const channelSet = new Set()
-  if (arr instanceof Array && arr.length > 0) {
-    arr.map(elem => {
-      if (elem && elem.items instanceof Array && elem.items.length > 0) {
-        elem.items.map(subelem => {
-          if (
-            subelem.channel &&
-            !subelem._hostingSubscription &&
-            (!subelem.status ||
-              (subelem.status && subelem.status != 'Subscribed'))
-          ) {
-            // count only hub subscriptions
-            channelSet.add(subelem.channel)
-          }
-        })
-      }
-    })
-  }
-  return channelSet.size
-}
-
 export const getNumPlacementRules = (
   subscriptions,
   isSingleApplicationView,

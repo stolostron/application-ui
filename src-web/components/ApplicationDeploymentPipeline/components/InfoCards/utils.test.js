@@ -12,7 +12,6 @@ import {
   getApplicationName,
   getApplicationNamespace,
   getSingleApplicationObject,
-  getChannelsCountFromSubscriptions,
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClusters,
@@ -20,7 +19,7 @@ import {
   getIncidentData
 } from './utils'
 
-//getNumClusters
+// getNumClusters
 describe('getNumClusters', () => {
   it('has application object', () => {
     // pass in appsWithSubscription
@@ -44,7 +43,7 @@ describe('getNumIncidents', () => {
   })
 })
 
-//getApplicationName
+// getApplicationName
 describe('getApplicationName', () => {
   it('has application object', () => {
     const name = getApplicationName(placementRuleSampleData)
@@ -82,20 +81,6 @@ describe('getSingleApplicationObject', () => {
   })
 })
 
-// getChannelsCountFromSubscriptions
-describe('getChannelsCountFromSubscriptions', () => {
-  it('has subscription channels', () => {
-    const count = getChannelsCountFromSubscriptions(
-      subscriptionChannelSampleData
-    )
-    expect(count).toEqual(2)
-  })
-
-  it('empty subscription list', () => {
-    const count = getChannelsCountFromSubscriptions(emptyData)
-    expect(count).toEqual(0)
-  })
-})
 // getNumPlacementRules
 describe('getNumPlacementRules', () => {
   it('has subscription data', () => {
@@ -139,8 +124,10 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
+    expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
     expect(subscriptionData.noStatus).toEqual(2)
+    expect(subscriptionData.channels).toEqual(2)
   })
 
   it('has subscription data - non-single app view', () => {
@@ -151,8 +138,10 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
+    expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
     expect(subscriptionData.noStatus).toEqual(2)
+    expect(subscriptionData.channels).toEqual(2)
   })
 
   it('no subscription data', () => {
@@ -163,8 +152,10 @@ describe('getSubscriptionDataOnHub', () => {
       'default'
     )
 
+    expect(subscriptionData.total).toEqual(0)
     expect(subscriptionData.failed).toEqual(0)
     expect(subscriptionData.noStatus).toEqual(0)
+    expect(subscriptionData.channels).toEqual(0)
   })
 })
 
@@ -228,30 +219,6 @@ describe('getPodData', () => {
   })
 })
 
-// getPolicyViolationData
-// describe('getPolicyViolationData', () => {
-//   it('has policy violation data', () => {
-//     const policyViolationData = getPolicyViolationData(
-//       policyViolationSampleData,
-//       'app1',
-//       'default'
-//     )
-
-//     expect(policyViolationData.VAViolations).toEqual(3)
-//     expect(policyViolationData.MAViolations).toEqual(1)
-//   })
-//   it('no policy violation data', () => {
-//     const policyViolationData = getPolicyViolationData(
-//       emptyData,
-//       'app1',
-//       'default'
-//     )
-
-//     expect(policyViolationData.VAViolations).toEqual(0)
-//     expect(policyViolationData.MAViolations).toEqual(0)
-//   })
-// })
-
 // getIncidentData
 describe('getIncidentData', () => {
   it('get incidents from list', () => {
@@ -298,37 +265,6 @@ const appWithSubscriptionSampleData = {
     }
   ]
 }
-
-const subscriptionChannelSampleData = [
-  {
-    items: [
-      {
-        name: 'app1',
-        namespace: 'default',
-        channel: 'abc',
-        status: ''
-      },
-      {
-        name: 'app1',
-        namespace: 'default',
-        channel: 'abc',
-        status: '123'
-      },
-      {
-        name: 'app1',
-        namespace: 'default',
-        channel: 'abc',
-        status: '456'
-      },
-      {
-        name: 'app1',
-        namespace: 'default',
-        channel: 'Subscribed',
-        status: ''
-      }
-    ]
-  }
-]
 
 const placementRuleSampleData = {
   items: [
@@ -381,7 +317,7 @@ const subscriptionPropagatedSampleData = {
         {
           channel: 'fake-channel',
           status: null,
-          _uid: 'fake-uid-1'
+          _uid: 'fake-uid-5'
         },
       ]
     }
@@ -494,44 +430,3 @@ const incidents = {
     { priority: 1 }
   ]
 }
-
-// const policyViolationSampleData = {
-//   items: [
-//     {
-//       name: 'app1',
-//       namespace: 'default',
-//       related: [
-//         {
-//           kind: 'vulnerabilitypolicy',
-//           items: [
-//             {
-//               severity: 'low',
-//               name: 'vp1',
-//               namespace: 'default'
-//             },
-//             {
-//               severity: 'medium',
-//               name: 'vp2',
-//               namespace: 'default'
-//             },
-//             {
-//               severity: 'low',
-//               name: 'vp3',
-//               namespace: 'default'
-//             }
-//           ]
-//         },
-//         {
-//           kind: 'mutationpolicy',
-//           items: [
-//             {
-//               severity: 'high',
-//               name: 'vp4',
-//               namespace: 'default'
-//             }
-//           ]
-//         }
-//       ]
-//     }
-//   ]
-// }

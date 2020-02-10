@@ -16,6 +16,7 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   createResources,
   fetchResources,
+  fetchGlobalAppsData,
   fetchUserInfo,
   updateModal,
   fetchResource
@@ -168,6 +169,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchResources(RESOURCE_TYPES.HCM_APPLICATIONS)),
     fetchApplications: () =>
       dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
+    fetchApplicationsGlobalData: () =>
+      dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
     fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
@@ -272,13 +275,17 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels,
       fetchSubscriptions,
       fetchUserInfo,
-      fetchApplications
+      fetchApplications,
+      fetchApplicationsGlobalData,
+      fetchHCMApplications
     } = this.props
 
     fetchApplications()
     fetchChannels()
     fetchSubscriptions()
     fetchUserInfo()
+    fetchApplicationsGlobalData()
+    fetchHCMApplications()
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -303,6 +310,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       HCMChannelList,
       breadcrumbItems,
       fetchApplications,
+      fetchApplicationsGlobalData,
       fetchHCMApplications,
       fetchSubscriptions,
       fetchChannels,
@@ -311,6 +319,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       openEditSubscriptionModal,
       openEditPlacementRuleModal
     } = this.props
+
     // only reload data if there are nothing being fetched and no modals are open
     if (
       QueryApplicationList.status === Actions.REQUEST_STATUS.DONE &&
@@ -327,6 +336,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       if (!isSingleApplicationView) {
         // reload all the applications
         fetchApplications()
+        fetchApplicationsGlobalData()
         fetchHCMApplications()
         fetchSubscriptions()
       }
@@ -341,7 +351,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       HCMSubscriptionList,
       HCMChannelList,
       QueryApplicationList
+      //GlobalApplicationDataList
     } = this.props
+
     if (
       (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
         HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
@@ -392,7 +404,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       selectedAppName = urlArray[urlArray.length - 1]
       selectedAppNS = urlArray[urlArray.length - 2]
     }
-
     const filteredApplications = filterApps(
       HCMApplicationList,
       AppDeployments.deploymentPipelineSearch

@@ -42,7 +42,7 @@ export const getChannelsList = channels => {
 }
 
 export const getNumClustersForApp = data => {
-  if (data) return data.remoteCls || 0
+  if (data) return data.clusterCount || 0
 
   return 0
 }

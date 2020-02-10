@@ -5,14 +5,11 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-
+import R from 'ramda'
 import React from 'react'
 import { TooltipIcon } from 'carbon-components-react'
 import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
-import {
-  getNumClustersForApp,
-  getNumPolicyViolations
-} from '../components/common/ResourceOverview/utils'
+import { getNumClustersForApp } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
 import config from '../../lib/shared/config'
@@ -43,11 +40,6 @@ export default {
       msgKey: 'table.header.subscriptions',
       resourceKey: 'subscriptions',
       transformFunction: getNumRemoteSubs
-    },
-    {
-      msgKey: 'table.header.policyViolations',
-      resourceKey: 'violations',
-      transformFunction: getNumPolicyViolations
     },
     {
       msgKey: 'table.header.created',
@@ -182,27 +174,28 @@ export function getNumRemoteSubs(item = {}, locale) {
   let total = 0
   let failed = 0
   let unknown = 0
-  if (item && item.remoteSubs instanceof Array) {
-    total = item.remoteSubs.length
-    const failedSubs = item.remoteSubs.filter(elem => elem.status === 'Failed')
-    const unknownSubs = item.remoteSubs.filter(
-      elem => typeof elem.status === 'undefined' || !elem.status
-    )
-    failed = failedSubs.length
-    unknown = unknownSubs.length
+  let subscribed = 0
+
+  if (item) {
+    failed = R.path(['remoteSubscriptionStatusCount', 'failed'], item) || 0
+    unknown = R.path(['remoteSubscriptionStatusCount', 'null'], item) || 0
+    subscribed =
+      R.path(['remoteSubscriptionStatusCount', 'subscribed'], item) || 0
+
+    total = failed + unknown + subscribed
   }
   return (
     <ul>
-      <LabelWithOptionalTooltip key={Math.random()} labelText={total} />
+      <LabelWithOptionalTooltip key="1" labelText={total} />
       {(failed != 0 || unknown != 0) && <span>{' | '}</span>}
       <LabelWithOptionalTooltip
-        key={Math.random()}
+        key="2"
         labelText={failed}
         iconName="failed-status"
         description={msgs.get('table.cell.failed', locale)}
       />
       <LabelWithOptionalTooltip
-        key={Math.random()}
+        key="3"
         labelText={unknown}
         iconName="no-status"
         description={msgs.get('table.cell.status.absent', locale)}
@@ -211,7 +204,7 @@ export function getNumRemoteSubs(item = {}, locale) {
   )
 }
 
-const LabelWithOptionalTooltip = text => {
+export const LabelWithOptionalTooltip = text => {
   if (text && text.labelText) {
     return (
       <div style={{ display: 'inline-flex', alignItems: 'center' }}>

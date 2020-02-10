@@ -7,12 +7,12 @@
  *******************************************************************************/
 
 import getResourceData, {
-//getPrimaryKey,
-//getSecondaryKey,
-//getURIKey,
+  getPrimaryKey,
+  getSecondaryKey,
+  getURIKey,
   getDefaultSearchField,
   getDefaultSortField,
-  //getTableKeys,
+  getTableKeys,
   getLink
 } from '../../../src-web/definitions/index'
 
@@ -25,6 +25,38 @@ describe('definitions/index tests', () => {
       name: 'HCMApplication'
     }
     expect(getResourceData(item)).toMatchSnapshot()
+  })
+
+  it('should return the primary key of node', () => {
+    const item = {
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
+    }
+    expect(getPrimaryKey(item)).toMatchSnapshot()
+  })
+
+  it('should return the secondary key of node', () => {
+    const item = {
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
+    }
+    expect(getSecondaryKey(item)).toMatchSnapshot()
+  })
+
+  it('should return the uri key of node', () => {
+    const item = {
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
+    }
+    expect(getURIKey(item)).toMatchSnapshot()
+  })
+
+  it('should return the table keys for this node', () => {
+    const item = {
+      list: 'HCMApplicationList',
+      name: 'HCMApplication'
+    }
+    expect(getTableKeys(item)).toMatchSnapshot()
   })
 
   it('should return the default search field of node', () => {

@@ -21,7 +21,10 @@ import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsB
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 import { fetchBulkSubscriptionList } from '../reducers/reducerAppDeployments'
 
-import { ApplicationsList } from '../../lib/client/queries'
+import {
+  ApplicationsList,
+  GlobalApplicationsData
+} from '../../lib/client/queries'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -138,6 +141,29 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
     return convertStringToQuery(
       `kind:application name:${name} namespace:${namespace}`
     )
+  }
+}
+
+export const fetchGlobalAppsData = resourceType => {
+  return dispatch => {
+    apolloClient
+      .getSearchClient()
+      .query({
+        query: GlobalApplicationsData
+      })
+      .then(result => {
+        if (result.data && result.data.globalAppData) {
+          return dispatch(
+            receiveResourceSuccess(
+              { items: result.data.globalAppData },
+              resourceType
+            )
+          )
+        }
+        if (result.error) {
+          return dispatch(receiveResourceError(result.error, resourceType))
+        }
+      })
   }
 }
 

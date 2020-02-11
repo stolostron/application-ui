@@ -231,6 +231,7 @@ const mapStateToProps = state => {
     AppDeployments,
     secondaryHeader,
     QueryApplicationList,
+    GlobalApplicationDataList,
     role
   } = state
   // Filter Application List based on search input
@@ -248,6 +249,7 @@ const mapStateToProps = state => {
     HCMSubscriptionList,
     AppDeployments,
     QueryApplicationList,
+    GlobalApplicationDataList,
     currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     currentChannelInfo: AppDeployments.currentChannelInfo || {},
     currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
@@ -350,8 +352,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       HCMApplicationList,
       HCMSubscriptionList,
       HCMChannelList,
-      QueryApplicationList
-      //GlobalApplicationDataList
+      QueryApplicationList,
+      GlobalApplicationDataList
     } = this.props
 
     if (
@@ -605,6 +607,7 @@ class ApplicationDeploymentPipeline extends React.Component {
               selectedAppName={selectedAppName}
               selectedAppNS={selectedAppNS}
               isSingleApplicationView={isSingleApplicationView}
+              globalAppData={GlobalApplicationDataList}
             />
           </div>
           <div className="resource-cards-create-container">
@@ -666,8 +669,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           editSubscription={editSubscription}
           subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
           bulkSubscriptionList={bulkSubscriptionList}
-          userRole={userRole}
-          serverProps={serverProps}
+          applications={QueryApplicationList}
         />
       </div>
     )

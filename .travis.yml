@@ -24,101 +24,27 @@ stages:
 before_script:
   - make init
         
-matrix:
+jobs:
   include:
-    - os: linux
-      env: OSARCH=rhel7 TARGET=${TARGET_IP}
-      dist: trusty
-    - os: linux-ppc64le
-      env: OSARCH=linux-ppc64le
-      dist: trusty
-    - os: linux
-      env: OSARCH=linux-amd64
-      dist: trusty
-    - os: linux-s390
-      env: OSARCH=linux-s390
-      dist: trusty
-addons:
-  packages:
-    - openjdk-8-jdk
-  chrome: stable
-
-cache:
-  apt: true
-  directories:
-    - "$TRAVIS_CACHE_DIR"
-
-before_cache:
-  - sudo rm -rf $TRAVIS_CACHE_DIR/selenium-standalone
-
-branches:
-  only:
-    - master
-    - /^[0-9]+\..*$/
-    - /^v[0-9]+\..*$/
-    - /^release-[0-9]+\..*$/
-
-services:
-  - docker
-  - xvfb
-
-before_install:
-  - make init
-  - source travis-env.sh
-
-install:
-  - make install
-
-before_script:
-  - make image
-  - make run
-  - chmod +x copyright-check.sh
-
-script:
-  - make copyright-check
-  - make test
-
-after_success:
-  - test "$TRAVIS_EVENT_TYPE" = "pull_request" && make push || echo "pushing to scratch"
-  - test "$TRAVIS_EVENT_TYPE" != "pull_request" && make release || echo "success"
-  - |
-      if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
-        curl -Lo travis_after_all.py https://raw.github.com/dmakhno/travis_after_all/master/travis_after_all.py
-        python travis_after_all.py https://travis.ibm.com/api
-        export $(cat .to_export_back)
-        if [[ "$BUILD_LEADER" == "YES" ]]; then
-          if [[ "$BUILD_AGGREGATE_STATUS" == "others_succeeded" ]]; then
-            echo "All jobs succeeded! Creating multi arch image..." 
-            echo ${DOCKER_INTEGRATION_REGISTRY}
-            make docker:login DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
-            make docker:manifest-tool DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
-            make docker:multi-arch DOCKER_REGISTRY=${DOCKER_INTEGRATION_REGISTRY}
-          else
-            echo "Some jobs failed" && exit 1
-          fi
-        fi
-      fi
-
-after_failure:
-  - |
-      if [ -d "test-output" ]; then
-        echo "Some jobs failed"
-      fi
-#        sudo apt-get install -y expect
-#        mkdir selenium-test && mkdir selenium-test/$TRAVIS_JOB_NUMBER && cp -R test-output/e2e selenium-test/$TRAVIS_JOB_NUMBER
-#        expect upload-selenium.sh
-#        echo Selenium test failed! Result available at http://9.42.81.137:81/$TRAVIS_JOB_NUMBER/e2e/
-#      fi
-
-# deploy:
-#   provider: pages
-#   skip-cleanup: true
-#   github-token: $GITHUB_TOKEN
-#   local-dir: test-output
-#   github-url: github.ibm.com
-#   on:
-#     branch: master
-#
-
-notifications:
-  slack: ibm-cloudplatform:L8wJzwiKzLuYBmdQIEF1QQDt
+    - stage: build
+      name: "Build the image"
+      script:
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
+        - make component/build
+        - make component/push
+    - stage: unit-test
+      name: "Build and run unit tests"
+      script:
+        - make component/test/unit
+    - stage: test-e2e
+      name: "Run e2e tests"
+      if: type = pull_request
+      script:
+        - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
+        - make component/pull
+        - make component/test/e2e
+    - stage: publish
+      name: "Publish the image to quay with an official version/sha tag and publish entry to integration pipeline stage"
+      if: type = push AND branch =~ /^release-[0-9]+\..*$/
+      script:
+        - make pipeline-manifest/update PIPELINE_MANIFEST_COMPONENT_SHA256=${TRAVIS_COMMIT} PIPELINE_MANIFEST_COMPONENT_REPO=${TRAVIS_REPO_SLUG} PIPELINE_MANIFEST_BRANCH=${TRAVIS_BRANCH}

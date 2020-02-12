@@ -10,5 +10,11 @@ coverage
 jestTestLogs.tap
 config/config-development.json
 test-output
+test/coverage
+test/out
 storybook-static
 build-harness-bootstrap
+build-harness
+
+# Files
+.build-harness

@@ -21,8 +21,6 @@ stages:
   - test-e2e
   - publish
   
-before_script:
-  - make init
 
 jobs:
   include:

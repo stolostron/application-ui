@@ -4,12 +4,22 @@
 			"type": "console",
 			"layout": {
 				"type": "pattern",
-				"pattern": "[%d] [%p] [mcm-ui] [%c] %m"
+				"pattern": "[%d] [%p] [mcm-application-ui] [%c] %m"
 			}
 		}
 	},
 	"categories": {
-		"default": { "appenders": ["console"], "level": "info" },
-		"request": { "appenders": ["console"], "level": "error" }
+		"default": {
+			"appenders": [
+				"console"
+			],
+			"level": "info"
+		},
+		"request": {
+			"appenders": [
+				"console"
+			],
+			"level": "error"
+		}
 	}
 }

@@ -1,5 +1,5 @@
-# mcm-application-ui[![Build Status](https://travis.ibm.com/IBMPrivateCloud/mcm-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis.ibm.com/IBMPrivateCloud/mcm-application-ui)
-The UI micro-service for IBM Hybrid Cloud Manager.
+# mcm-application-ui[![Build Status](https://travis-ci.com/open-cluster-management/mcm-application-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis-ci.com/open-cluster-management/mcm-application-ui)
+The UI service for Application Lifecycle
 
 ## Design
 
@@ -21,8 +21,7 @@ The UI Platform is developed as an isomorphic react application.  The following 
 ## Build
 
 <pre>
-export ARTIFACTORY_PWD=xxx && npm install
-You can get the value of ARTIFACTORY_PWD from: https://ibm.ent.box.com/notes/287638278960
+npm install
    npm run build
 or npm run build:watch
 or npm run build:production
@@ -34,11 +33,11 @@ or npm run build:production
 
 > 1. SSH into your existing cluster (`make ssh`)
 > 2. Install `jq` if not already installed (`sudo apt-get install jq -y`)
-> 3. Run the `setup-dev.sh` script in `platform-ui`: `curl https://raw.github.ibm.com/IBMPrivateCloud/platform-ui/master/setup-dev.sh?token=<token> | sudo bash`
->    or copy the script from `https://github.ibm.com/IBMPrivateCloud/platform-ui/blob/master/setup-dev.sh` then execute it
+> 3. Run the `setup-dev.sh` script in `platform-ui`: `curl https://github.com/open-cluster-management/platform-ui/master/setup-dev.sh?token=<token> | sudo bash`
+>    or copy the script from `https://github.com/open-cluster-management/platform-ui/blob/master/setup-dev.sh` then execute it
 > 4. Copy the environment variables printed at the end of the script and proceed to step 2.
 
-2. Run mcm-ui-api locally following the instructions in the readme.md file from https://github.ibm.com/IBMPrivateCloud/mcm-ui-api to get grahql calls working
+2. Run mcm-ui-api locally following the instructions in the readme.md file from https://github.com/open-cluster-management/mcm-ui-api to get grahql calls working
 
 3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
@@ -46,11 +45,7 @@ hcmUiApiUrl=https://localhost:4000/hcmuiapi (mcm-ui-api service running locally)
 searchApiUrl=https://localhost:4010/searchapi (search service running locally)
 cfcRouterUrl
 PLATFORM_IDENTITY_PROVIDER_URL
-WLP_CLIENT_SECRET
-WLP_CLIENT_ID
 WLP_REDIRECT_URL=https://localhost:3000/auth/liberty/callback
-ARTIFACTORY_USER - mcmdev@us.ibm.com
-ARTIFACTORY_PWD - Artifactory API KEY, base64 encoded. You can get this value for functional id mcmdev@us.ibm.com from: https://ibm.ent.box.com/notes/287638278960
 </pre>
 
 4. Start the server for production

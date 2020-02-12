@@ -23,7 +23,9 @@ stages:
   
 before_script:
   - make init
-        
+  - make run
+  - chmod +x copyright-check.sh
+
 jobs:
   include:
     - stage: build
@@ -31,6 +33,8 @@ jobs:
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - make component/build
+        - make copyright-check
+        - make component/test/unit
         - make component/push
     - stage: unit-test
       name: "Build and run unit tests"

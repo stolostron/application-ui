@@ -37,9 +37,9 @@ ENV BABEL_DISABLE_CACHE=1 \
     USER_UID=1001
 
 RUN mkdir -p /opt/app-root/src/mcm-application-ui
-RUN mkdir -p /licenses
-ADD licenses/license.txt /licenses
-ADD licenses/packages.yaml /licenses
+RUN mkdir -p /opt/app-root/licenses
+ADD licenses/license.txt /opt/app-root/licenses
+ADD licenses/packages.yaml /opt/app-root/licenses
 WORKDIR /opt/app-root/src/mcm-application-ui
 
 COPY . /opt/app-root/src/mcm-application-ui

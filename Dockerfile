@@ -36,13 +36,13 @@ ENV BABEL_DISABLE_CACHE=1 \
     NODE_ENV=production \
     USER_UID=1001
 
-RUN mkdir -p /opt/ibm/mcm-application-ui
+RUN mkdir -p /opt/app-root/src/mcm-application-ui
 RUN mkdir -p /licenses
 ADD licenses/license.txt /licenses
 ADD licenses/packages.yaml /licenses
-WORKDIR /opt/ibm/mcm-application-ui
+WORKDIR /opt/app-root/src/mcm-application-ui
 
-COPY . /opt/ibm/mcm-application-ui
+COPY . /opt/app-root/src/mcm-application-ui
 
 EXPOSE 3000
 

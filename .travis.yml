@@ -23,8 +23,6 @@ stages:
   
 before_script:
   - make init
-  - chmod +x copyright-check.sh
-  - make copyright-check
 
 jobs:
   include:

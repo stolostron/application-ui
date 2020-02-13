@@ -7,8 +7,7 @@
  *******************************************************************************/
 'use strict'
 
-var constants = require('lib/shared/constants'),
-  log4js = require('log4js'),
+var log4js = require('log4js'),
   logger = log4js.getLogger('server'),
   watchr = require('watchr'),
   mime = require('mime-types'),
@@ -92,7 +91,7 @@ var proxy = require('http-proxy-middleware')
 app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store')
   res.setHeader('Pragma', 'no-cache')
-  const accessToken = req.cookies[constants.ACM_ACCESS_COOKIE]
+  const accessToken = req.cookies['acm-access-token-cookie']
   req.headers.Authorization = `Bearer ${accessToken}`
   next()
 }, proxy({
@@ -108,7 +107,7 @@ app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddlewar
 app.use(`${appConfig.get('contextPath')}/search/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store')
   res.setHeader('Pragma', 'no-cache')
-  const accessToken = req.cookies[constants.ACM_ACCESS_COOKIE]
+  const accessToken = req.cookies['acm-access-token-cookie']
   req.headers.Authorization = `Bearer ${accessToken}`
   next()
 }, proxy({

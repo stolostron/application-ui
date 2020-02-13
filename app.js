@@ -7,7 +7,7 @@
  *******************************************************************************/
 'use strict'
 
-var constants = require('../shared/constants'),
+var constants = require('lib/shared/constants'),
   log4js = require('log4js'),
   logger = log4js.getLogger('server'),
   watchr = require('watchr'),

@@ -4,6 +4,7 @@
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
     "cfcRouterUrl": "",
+    "headerRouteUrl": "",
     "headerContextPath": "/multicloud/header",
     "leftNav": "multicluster-hub-nav",
     "feature_searchRelated": false,

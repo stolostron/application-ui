@@ -8,11 +8,11 @@
 'use strict'
 
 var log4js = require('log4js'),
-    logger = log4js.getLogger('server'),
-    watchr = require('watchr'),
-    mime = require('mime-types'),
-    fs = require('fs'),
-    helmet = require('helmet')
+  logger = log4js.getLogger('server'),
+  watchr = require('watchr'),
+  mime = require('mime-types'),
+  fs = require('fs'),
+  helmet = require('helmet')
 
 var log4js_config = process.env.LOG4JS_CONFIG
   ? JSON.parse(process.env.LOG4JS_CONFIG)
@@ -31,13 +31,13 @@ const stalker = watchr.open(
       })
     }
   },
-  () => {}
+  () => { }
 )
 
 var express = require('express'),
-    path = require('path'),
-    appConfig = require('./config'),
-    appUtil = require('./lib/server/app-util')
+  path = require('path'),
+  appConfig = require('./config'),
+  appUtil = require('./lib/server/app-util')
 
 //early initialization
 require('node-i18n-util')
@@ -46,10 +46,10 @@ process.env.BABEL_ENV = 'server'
 require('babel-register')
 
 var bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),
-    csurf = require('csurf'),
-    requestLogger = require('./middleware/request-logger'),
-    controllers = require('./controllers')
+  cookieParser = require('cookie-parser'),
+  csurf = require('csurf'),
+  requestLogger = require('./middleware/request-logger'),
+  controllers = require('./controllers')
 
 var consolidate = require('consolidate')
 
@@ -88,48 +88,48 @@ const csrfMiddleware = csurf({
 })
 
 var proxy = require('http-proxy-middleware')
-app.use(
-  `${appConfig.get('contextPath')}/graphql`,
-  cookieParser(),
-  csrfMiddleware,
-  (req, res, next) => {
-    const accessToken = req.cookies['cfc-access-token-cookie']
-    req.headers.Authorization = `Bearer ${accessToken}`
-    next()
+app.use(`${appConfig.get('contextPath')}/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('Pragma', 'no-cache')
+  const accessToken = req.cookies['acm-access-token-cookie']
+  req.headers.Authorization = `Bearer ${accessToken}`
+  next()
+}, proxy({
+  target: appConfig.get('grcUiApiUrl') || 'https://localhost:4000/hcmuiapi',
+  changeOrigin: true,
+  pathRewrite: {
+    [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
   },
-  proxy({
-    target: appConfig.get('hcmUiApiUrl') || 'https://localhost:4000/hcmuiapi',
-    changeOrigin: true,
-    pathRewrite: {
-      [`^${appConfig.get('contextPath')}/graphql`]: '/graphql'
-    },
-    secure: false
-  })
-)
+  secure: false
+}))
 
-app.use(
-  `${appConfig.get('contextPath')}/search/graphql`,
-  cookieParser(),
-  csrfMiddleware,
-  (req, res, next) => {
-    const accessToken = req.cookies['cfc-access-token-cookie']
-    req.headers.Authorization = `Bearer ${accessToken}`
-    next()
+
+app.use(`${appConfig.get('contextPath')}/search/graphql`, cookieParser(), csrfMiddleware, (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store')
+  res.setHeader('Pragma', 'no-cache')
+  const accessToken = req.cookies['acm-access-token-cookie']
+  req.headers.Authorization = `Bearer ${accessToken}`
+  next()
+}, proxy({
+  target: appConfig.get('grcUiApiUrl') || 'https://localhost:4010/searchapi',
+  changeOrigin: true,
+  pathRewrite: {
+    [`^${appConfig.get('contextPath')}/search/graphql`]: '/graphql'
   },
-  proxy({
-    // TODO - use flag while ironing out the chart changes
-    target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
-    changeOrigin: true,
-    pathRewrite: {
-      [`^${appConfig.get('contextPath')}/search/graphql`]: '/graphql'
-    },
-    secure: false
-  })
-)
+  secure: false
+}))
+
+app.use(appConfig.get('headerContextPath'), cookieParser(), proxy({
+  target: appConfig.get('headerRouteUrl'),
+  changeOrigin: true,
+  secure: false,
+  ws: true
+}))
+
 
 if (process.env.NODE_ENV === 'development') {
   app.use(
-    appConfig.get('platformHeaderContextPath'),
+    appConfig.get('headerContextPath'),
     cookieParser(),
     proxy({
       target: appConfig.get('cfcRouterUrl'),
@@ -153,6 +153,7 @@ if (process.env.NODE_ENV === 'development') {
   )
 }
 
+
 app.engine('dust', consolidate.dust)
 app.set('env', 'production')
 app.set('views', __dirname + '/views')
@@ -162,7 +163,7 @@ app.set('view cache', true)
 appUtil.app(app)
 
 const CONTEXT_PATH = appConfig.get('contextPath'),
-      STATIC_PATH = path.join(__dirname, 'public')
+  STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
@@ -178,7 +179,14 @@ app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   req.url = `${req.url}.gz`
   next()
 })
-app.use(CONTEXT_PATH, express.static(STATIC_PATH))
+app.use(CONTEXT_PATH, express.static(STATIC_PATH, {
+  maxAge: process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
+  setHeaders: (res, fp) => {
+    // set cahce control to 30min, expect for nls
+    res.setHeader('Cache-Control', `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`)
+    res.setHeader('X-Content-Type-Options', 'nosniff')
+  }
+}))
 
 app.get(`${CONTEXT_PATH}/performance-now.js.map`, (req, res) =>
   res.sendStatus(404)
@@ -216,7 +224,7 @@ logger.info('Starting express server.')
 server.listen(port, () => {
   logger.info(
     `MCM UI is now running on ${
-      process.env.NODE_ENV === 'development' ? 'https' : 'http'
+    process.env.NODE_ENV === 'development' ? 'https' : 'http'
     }://localhost:${port}${CONTEXT_PATH}`
   )
 })

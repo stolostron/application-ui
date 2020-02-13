@@ -2,14 +2,14 @@
     "contextPath": "/multicloud/applications",
     "httpPort": 3001,
     "hcmUiApiUrl": "",
-    "searchApiUrl":"",
+    "searchApiUrl": "",
     "cfcRouterUrl": "",
-    "platformHeaderContextPath": "/common-nav",
-    "leftNav":"mcm-nav",    
+    "headerContextPath": "/multicloud/header",
+    "leftNav": "multicluster-hub-nav",
     "feature_searchRelated": false,
     "featureFlags": {
         "dashboardLiveUpdates": true,
-        "dashboardRefreshInterval" : 20000,
+        "dashboardRefreshInterval": 20000,
         "filters": false,
         "fullDashboard": false,
         "liveUpdates": 2,
@@ -17,22 +17,50 @@
         "search": true,
         "enableSegment": false,
         "segmentKey": "foo",
-        "enableAppcues" : false,
+        "enableAppcues": false,
         "appcuesScript": "38105.js"
     },
-    "PLATFORM_IDENTITY_PROVIDER_URL": "",
-    "WLP_CLIENT_ID": "",
-    "WLP_CLIENT_SECRET": "",
-    "WLP_REDIRECT_URL": "https://localhost:3000/auth/liberty/callback",
+    "OAUTH2_CLIENT_ID": "",
+    "OAUTH2_CLIENT_SECRET": "",
+    "OAUTH2_REDIRECT_URL": "https://localhost:3000/auth/liberty/callback",
     "overview": {
         "providers": [
-          {"title": "AWS", "includes":[{"cloud": "aws"}]},
-          {"title": "Azure", "includes":[{"cloud": "azure"}]},
-          {"title": "Google", "includes":[{"cloud": "google"}]},
-          {"title": "IBM", "includes":[{"cloud": "ibm"}]}
-     ]},
+            {
+                "title": "AWS",
+                "includes": [
+                    {
+                        "cloud": "aws"
+                    }
+                ]
+            },
+            {
+                "title": "Azure",
+                "includes": [
+                    {
+                        "cloud": "azure"
+                    }
+                ]
+            },
+            {
+                "title": "Google",
+                "includes": [
+                    {
+                        "cloud": "google"
+                    }
+                ]
+            },
+            {
+                "title": "IBM",
+                "includes": [
+                    {
+                        "cloud": "ibm"
+                    }
+                ]
+            }
+        ]
+    },
     "tests": {
         "user": "admin",
         "password": "all-ansible-aardvarks-advance-appropriately"
-     }
+    }
 }

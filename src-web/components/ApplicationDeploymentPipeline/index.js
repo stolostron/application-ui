@@ -35,6 +35,7 @@ import {
   getApplicationsList,
   getChannelsList,
   filterApps,
+  getSubscriptionsList,
   getSubscriptionListGivenApplicationList
 } from './utils'
 import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml' // eslint-disable-line import/no-unresolved
@@ -356,6 +357,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       GlobalApplicationDataList
     } = this.props
 
+    //console.log("QueryApplicationList", QueryApplicationList)
+
     if (
       (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
         HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
@@ -406,14 +409,47 @@ class ApplicationDeploymentPipeline extends React.Component {
       selectedAppName = urlArray[urlArray.length - 1]
       selectedAppNS = urlArray[urlArray.length - 2]
     }
+
     const filteredApplications = filterApps(
+      QueryApplicationList,
+      AppDeployments.deploymentPipelineSearch
+    )
+    const filteredApplicationsOld = filterApps(
       HCMApplicationList,
       AppDeployments.deploymentPipelineSearch
     )
+
     const applications = getApplicationsList(filteredApplications)
-    const appSubscriptions = getSubscriptionListGivenApplicationList(
-      applications
+    const applicationsOld = getApplicationsList(filteredApplicationsOld)
+
+    //console.log("applications", JSON.stringify(applications))
+
+    let appSubscriptions = []
+    applications.map(application => {
+      //console.log("application.hubSubscriptions", application.hubSubscriptions)
+      //console.log()
+      appSubscriptions = R.concat(
+        appSubscriptions,
+        application.hubSubscriptions
+      )
+    })
+
+    appSubscriptions = HCMSubscriptionList.items
+    //console.log("appSubscriptions", appSubscriptions)
+
+    //console.log("appSubscriptions-test", HCMSubscriptionList.items)
+
+    //console.log("**********")
+
+    const appSubscriptionsOld = getSubscriptionListGivenApplicationList(
+      applicationsOld
     )
+
+    // const appSubscriptions = getSubscriptionsList(HCMSubscriptionList)
+
+    // console.log("appSubscriptions", JSON.stringify(appSubscriptions))
+    // console.log("appSubscriptionsOld", JSON.stringify(appSubscriptionsOld))
+    // console.log("HCMSubscriptionList", JSON.stringify(HCMSubscriptionList))
 
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []

@@ -42,6 +42,8 @@ resources(() => {
 
 // This component displays all the LEFT column applications in the table.
 // It displays all the applications names and their number of deployables.
+
+// *** left column only needs subscription count per app (logic can be simplified significantly)
 const LeftColumnForApplicationNames = (
   {
     applications,
@@ -65,6 +67,7 @@ const LeftColumnForApplicationNames = (
   const standaloneSubscriptions = getStandaloneSubscriptions(
     bulkSubscriptionList
   )
+
   const standaloneSubCount = standaloneSubscriptions.length
 
   let standaloneTile
@@ -174,16 +177,24 @@ const LeftColumnForApplicationNames = (
       {applications.map(application => {
         const appName = application.name
         // Get the subscriptions given the application object
-        const subscriptionsFetched = pullOutKindPerApplication(
-          application,
-          'subscription'
+
+        console.log(
+          appName + '  sub length',
+          application.hubSubscriptions.length
         )
+
+        // const subscriptionsFetched = pullOutKindPerApplication(
+        //   application,
+        //   'subscription'
+        // )
+
+        const subscriptionsFetched = application.hubSubscriptions
+
         // Pull the data up to the top
-        const subscriptions =
-          (subscriptionsFetched &&
-            subscriptionsFetched[0] &&
-            subscriptionsFetched[0].items) ||
-          []
+        const subscriptions = subscriptionsFetched || []
+
+        // console.log("subscriptionsFetched", subscriptionsFetched)
+
         // get the subscriptions that fall under each column
         // each index is a channel
         // [[{sub1}], [], [], [{sub2}, {sub3}]]
@@ -191,12 +202,15 @@ const LeftColumnForApplicationNames = (
           channelList,
           subscriptions
         )
+
+        // console.log("subscriptionsUnderColumns", subscriptionsUnderColumns)
+
         // We need to know the longest subscriptionArray because we want to extend
         // the drop down for the left most column to that length
         const longestSubscriptionArray = getLongestArray(
           subscriptionsUnderColumns
         )
-        const getTotalSubs = getTotalSubscriptions(subscriptionsUnderColumns)
+        const getTotalSubs = application.hubSubscriptions.length //getTotalSubscriptions(subscriptionsUnderColumns)
         const expandRow = appDropDownList.includes(appName)
         const applicationTileClass = !expandRow
           ? 'applicationTile'
@@ -273,8 +287,12 @@ const ChannelColumnGrid = (
   let standaloneSubscriptions
   if (!oneApplication) {
     // add dummy "standalone" application
-    applicationList = R.prepend({ name: 'standalone' }, applicationList)
+
     standaloneSubscriptions = getStandaloneSubscriptions(bulkSubscriptionList)
+    // console.log("standaloneSubscriptions", standaloneSubscriptions)
+
+    if (standaloneSubscriptions && standaloneSubscriptions.length > 0)
+      applicationList = R.prepend({ name: 'standalone' }, applicationList)
   }
 
   return (
@@ -330,17 +348,20 @@ const ChannelColumnGrid = (
           )
         } else {
           // Given the application pull out its object of kind subscription
-          const subscriptionsFetched = pullOutKindPerApplication(
-            application,
-            'subscription'
-          )
+          const subscriptionsFetched = application.hubSubscriptions
+          // const subscriptionsFetched = pullOutKindPerApplication(
+          //   application,
+          //   'subscription'
+          // )
+          console.log('subscriptionsFetched', subscriptionsFetched)
 
           // Pull up the subscription data from the nested object
-          const subscriptionsForThisApplication =
-            (subscriptionsFetched &&
-              subscriptionsFetched[0] &&
-              subscriptionsFetched[0].items) ||
-            []
+          const subscriptionsForThisApplication = subscriptionsFetched || []
+
+          console.log(
+            'subscriptionsForThisApplication',
+            subscriptionsForThisApplication
+          )
 
           // get the subscriptions that fall under each column
           // each index is a channel
@@ -349,6 +370,8 @@ const ChannelColumnGrid = (
             channelList,
             subscriptionsForThisApplication
           )
+
+          console.log('subscriptionsUnderColumns', subscriptionsUnderColumns)
 
           subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
             subscriptionsUnderColumns
@@ -383,9 +406,12 @@ const ChannelColumnGrid = (
             >
               {subscriptoinsRowFormat.map(subRow => {
                 row = row + 1
+
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {subRow.map(subCol => {
+                      console.log('**subCol', subCol)
+
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,
@@ -394,24 +420,34 @@ const ChannelColumnGrid = (
                       const placementRule = getPlacementRuleFromBulkSubscription(
                         thisSubscriptionData
                       )
+                      console.log(
+                        'placementRule - ' + applicationName,
+                        placementRule
+                      )
+                      console.log(
+                        'thisSubscriptionData - ' + applicationName,
+                        thisSubscriptionData
+                      )
 
                       // Get status of resources within the subscription specific
                       // to the channel. We will match the resources that contain
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
+
+                      // ** this will probably fail right now
                       const status = getResourcesStatusPerChannel(
                         thisSubscriptionData
                       )
 
                       // If the object isn't empty name will be defined
-                      const displayStatus = subCol.name
+                      const displayStatus = subCol._uid
                       // show no subscriptions Tile
                       const showNoSubsTile =
                         row == 1 && displayStatus == undefined
                       // if there is more than one subscription and subCol.name is undefined
                       const showBlankFiller =
                         row > 1 && displayStatus == undefined
-                      const subName = subCol.name
+                      const subName = thisSubscriptionData.name
                       const onClickEditResource = () => {
                         editResourceClick(subCol, getSubscriptionResource)
                       }
@@ -451,7 +487,7 @@ const ChannelColumnGrid = (
                                     setSubscriptionModalHeaderInfo,
                                     setCurrentDeployableSubscriptionData,
                                     setCurrentsubscriptionModalData,
-                                    subCol,
+                                    thisSubscriptionData,
                                     applicationName,
                                     subName
                                   )
@@ -478,17 +514,19 @@ const ChannelColumnGrid = (
                                   className="subscriptionEditIcon"
                                   onClick={() =>
                                     editResourceClick(
-                                      subCol,
+                                      thisSubscriptionData,
                                       getSubscriptionResource
                                     )
                                   }
                                 />
                               </div>
-                              <div className="subColName">{subCol.name}</div>
+                              <div className="subColName">
+                                {thisSubscriptionData.name}
+                              </div>
                               <div className="namespaceDesc">{`${msgs.get(
                                 'description.namespace',
                                 locale
-                              )}: ${subCol.namespace}`}</div>
+                              )}: ${thisSubscriptionData.namespace}`}</div>
                               {placementRule &&
                                 placementRule.name && (
                                 <div

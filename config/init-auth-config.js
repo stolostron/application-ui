@@ -1,7 +1,7 @@
 var oauthserver = require('./oauthserver')
-var config  = require('./auth-config')
+var config = require('./auth-config')
 
-module.exports.initialize = (cb) => {
+module.exports.initialize = cb => {
   oauthserver.info((err, authserverinfo) => {
     if (err) {
       return cb(err)
@@ -9,6 +9,6 @@ module.exports.initialize = (cb) => {
     config.ocp.oauth2_tokenpath = authserverinfo.token_endpoint
     config.ocp.oauth2_authorizepath = authserverinfo.authorization_endpoint
 
-    return cb(null,config)
+    return cb(null, config)
   })
 }

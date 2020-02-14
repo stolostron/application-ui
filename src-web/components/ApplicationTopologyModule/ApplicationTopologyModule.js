@@ -34,7 +34,7 @@ import '../../../graphics/diagramIcons.svg'
 import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
-import {getPollInterval} from '../Topology/viewer/RefreshTimeSelect'
+import { getPollInterval } from '../Topology/viewer/RefreshTimeSelect'
 import EditorBar from './components/EditorBar'
 import YamlEditor from '../common/YamlEditor'
 import config from '../../../lib/shared/config'
@@ -48,7 +48,7 @@ resources(() => {
 // set up Topology component
 const portals = {
   //refreshTimeSelectorPortal: 'refresh-time-selector-portal-id',
-  typeFilterBar: 'type-filter-bar-portal-id',
+  typeFilterBar: 'type-filter-bar-portal-id'
   //searchTextbox: 'search-textbox-portal-id',
 }
 
@@ -56,7 +56,7 @@ const options = {
   filtering: 'application',
   layout: 'application',
   showLineLabels: true, // show labels on lines
-  showGroupTitles: false, // show titles over sections
+  showGroupTitles: false // show titles over sections
 }
 
 class ApplicationTopologyModule extends React.Component {
@@ -71,6 +71,7 @@ class ApplicationTopologyModule extends React.Component {
     fetchError: PropTypes.object,
     fetchTopology: PropTypes.func,
     links: PropTypes.array,
+    locale: PropTypes.string,
     nodes: PropTypes.array,
     originalMap: PropTypes.object,
     params: PropTypes.object,
@@ -98,7 +99,7 @@ class ApplicationTopologyModule extends React.Component {
       showSpinner: false,
       lastTimeUpdate: undefined,
       currentYaml: props.yaml || '',
-      userChanges: false,
+      userChanges: false /* eslint-disable-line react/no-unused-state */,
       exceptions: [],
       updateMessage: '',
       topologyLoaded: false,
@@ -123,7 +124,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   componentWillMount() {
-    const {restoreSavedDiagramFilters, resetFilters, params} = this.props
+    const { restoreSavedDiagramFilters, resetFilters, params } = this.props
     restoreSavedDiagramFilters()
     resetFilters()
     const name = decodeURIComponent(params.name)
@@ -131,14 +132,14 @@ class ApplicationTopologyModule extends React.Component {
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
     this.props.fetchTopology(activeChannel)
-    this.setState({activeChannel})
-    this.startPolling(60*1000) // poll at 60 seconds
+    this.setState({ activeChannel })
+    this.startPolling(60 * 1000) // poll at 60 seconds
   }
 
   componentDidMount() {
-    const {selectedNodeId, nodes} = this.props
+    const { selectedNodeId, nodes } = this.props
     if (selectedNodeId) {
-      const node = nodes.find(({id})=>id === selectedNodeId)
+      const node = nodes.find(({ id }) => id === selectedNodeId)
       if (node) {
         this.selectNode(node)
       }
@@ -147,7 +148,7 @@ class ApplicationTopologyModule extends React.Component {
 
   selectNode(node) {
     this.handeNodeSelected(node)
-    this.setState({selectedNode:node})
+    this.setState({ selectedNode: node })
   }
 
   componentWillUnmount() {
@@ -156,7 +157,7 @@ class ApplicationTopologyModule extends React.Component {
     }
     const { actions, showExpandedTopology } = this.props
     if (actions && showExpandedTopology) {
-      actions.setShowExpandedTopology({showExpandedTopology:false})
+      actions.setShowExpandedTopology({ showExpandedTopology: false })
     }
   }
 
@@ -183,7 +184,7 @@ class ApplicationTopologyModule extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
-      const {locale} = this.context
+      const { locale } = this.context
       const links = _.cloneDeep(nextProps.links || [])
       const nodes = _.cloneDeep(nextProps.nodes || [])
       const pods = _.cloneDeep(nextProps.pods || [])
@@ -191,22 +192,42 @@ class ApplicationTopologyModule extends React.Component {
       const diagramFilters = _.cloneDeep(nextProps.diagramFilters || [])
 
       // update loading spinner
-      const {topologyReloading, willLoadDetails, detailsLoaded, detailsReloading, storedVersion, fetchError} = nextProps
-      const showSpinner = !fetchError && (topologyReloading || willLoadDetails || !detailsLoaded || detailsReloading || storedVersion)
+      const {
+        topologyReloading,
+        willLoadDetails,
+        detailsLoaded,
+        detailsReloading,
+        storedVersion,
+        fetchError
+      } = nextProps
+      const showSpinner =
+        !fetchError &&
+        (topologyReloading ||
+          willLoadDetails ||
+          !detailsLoaded ||
+          detailsReloading ||
+          storedVersion)
 
       // update last time refreshed
-      const {changingChannel} = prevState
+      const { changingChannel } = prevState
       let lastTimeUpdate = prevState.lastTimeUpdate
-      if (changingChannel || (!showSpinner && prevState.showSpinner ) ||
-          (!lastTimeUpdate && nextProps.topologyLoaded)) {
+      if (
+        changingChannel ||
+        (!showSpinner && prevState.showSpinner) ||
+        (!lastTimeUpdate && nextProps.topologyLoaded)
+      ) {
         const time = new Date().toLocaleTimeString(locale)
-        lastTimeUpdate = msgs.get('application.diagram.view.last.time', [time], locale)
+        lastTimeUpdate = msgs.get(
+          'application.diagram.view.last.time',
+          [time],
+          locale
+        )
       }
-      const {userChanges} = prevState
-      let {currentYaml, currentParsed} = prevState
+      const { userChanges } = prevState
+      let { currentYaml, currentParsed } = prevState
       if (!userChanges && (currentYaml !== nextProps.yaml || changingChannel)) {
         currentYaml = nextProps.yaml
-        const {parsed} = parse(currentYaml, validator, locale)
+        const { parsed } = parse(currentYaml, validator, locale)
         currentParsed = parsed
         this.resetEditor(currentYaml)
       }
@@ -223,15 +244,17 @@ class ApplicationTopologyModule extends React.Component {
         showSpinner,
         lastTimeUpdate,
         topologyLoaded: nextProps.topologyLoaded,
-        topologyLoadError: nextProps.topologyLoadError,
+        topologyLoadError: nextProps.topologyLoadError
       }
     })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.activeChannel!==undefined &&
-        nextState.activeChannel!==undefined &&
-        nextProps.activeChannel !== nextState.activeChannel) {
+    if (
+      nextProps.activeChannel !== undefined &&
+      nextState.activeChannel !== undefined &&
+      nextProps.activeChannel !== nextState.activeChannel
+    ) {
       return false
     }
     return (
@@ -275,12 +298,12 @@ class ApplicationTopologyModule extends React.Component {
       const width = page.getBoundingClientRect().width
       if (!cookie) {
         size = width * 2 / 3
-      } else if (size > (width*9/10)) {
+      } else if (size > width * 9 / 10) {
         size = width * 9 / 10
       }
     }
     return size
-  }
+  };
 
   handleSplitterChange = size => {
     localStorage.setItem(`${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`, size)
@@ -343,22 +366,15 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const {
-      showExpandedTopology,
-      channels,
-    } = this.props
+    const { showExpandedTopology, channels } = this.props
     const {
       nodes,
       links,
       selectedNode,
       topologyLoadError,
-      activeChannel,
+      activeChannel
     } = this.state
-    const {
-      topologyLoaded,
-      showSpinner,
-      changingChannel,
-    } = this.state
+    const { topologyLoaded, showSpinner, changingChannel } = this.state
     const {
       currentYaml,
       hasUndo,
@@ -390,7 +406,7 @@ class ApplicationTopologyModule extends React.Component {
         isLoaded: topologyLoaded,
         isFailed: topologyLoadError,
         isReloading: showSpinner,
-        refetch: this.refetch,
+        refetch: this.refetch
       }
       const channelControl = {
         allChannels: channels,
@@ -400,7 +416,7 @@ class ApplicationTopologyModule extends React.Component {
       }
       const selectionControl = {
         selectedNode,
-        handleNodeSelected,
+        handleNodeSelected
       }
       options.scrollOnScroll = !showExpandedTopology
       return (
@@ -412,10 +428,14 @@ class ApplicationTopologyModule extends React.Component {
           selectionControl={selectionControl}
           showLogs={this.showLogs.bind(this)}
           fetchControl={fetchControl}
-          channelControl = {channelControl}
-          searchUrl = {config.contextPath.replace(new RegExp('/applications$'), '/search')}
+          channelControl={channelControl}
+          searchUrl={config.contextPath.replace(
+            new RegExp('/applications$'),
+            '/search'
+          )}
           locale={locale}
-        />)
+        />
+      )
     }
 
     const renderDiagramView = () => {
@@ -435,21 +455,19 @@ class ApplicationTopologyModule extends React.Component {
             <React.Fragment>
               <div className="diagram-controls-container">
                 <div
-                  className='diagram-type-filter-bar'
-                  id='type-filter-bar-portal-id'
+                  className="diagram-type-filter-bar"
+                  id="type-filter-bar-portal-id"
                 />
               </div>
-              <div className='topology-container'>
-                {renderTopology()}
-              </div>
+              <div className="topology-container">{renderTopology()}</div>
             </React.Fragment>
           ) : (
             <React.Fragment>
               {renderTopology()}
               <div className="diagram-controls-container">
                 <div
-                  className='diagram-type-filter-bar'
-                  id='type-filter-bar-portal-id'
+                  className="diagram-type-filter-bar"
+                  id="type-filter-bar-portal-id"
                 />
                 <div
                   className="diagram-expand-button"
@@ -553,13 +571,16 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   changeTheChannel(fetchChannel) {
-    this.setState({changingChannel: true, activeChannel: fetchChannel})
+    this.setState({ changingChannel: true, activeChannel: fetchChannel })
     this.props.fetchTopology(fetchChannel)
   }
 
   handleToggleSize() {
     const { actions, showExpandedTopology } = this.props
-    actions.setShowExpandedTopology({showExpandedTopology:!showExpandedTopology, selectedNodeId: undefined})
+    actions.setShowExpandedTopology({
+      showExpandedTopology: !showExpandedTopology,
+      selectedNodeId: undefined
+    })
   }
 
   // user clicked a node in diagram
@@ -567,7 +588,10 @@ class ApplicationTopologyModule extends React.Component {
     if (_.get(node, 'specs.isDesign')) {
       const { actions, showExpandedTopology } = this.props
       if (!showExpandedTopology) {
-        actions.setShowExpandedTopology({showExpandedTopology:true, selectedNodeId: node.id})
+        actions.setShowExpandedTopology({
+          showExpandedTopology: true,
+          selectedNodeId: node.id
+        })
       } else {
         this.setState(() => {
           this.selectTextLine(node)
@@ -580,7 +604,7 @@ class ApplicationTopologyModule extends React.Component {
     }
   }
 
-  showLogs = ({name, namespace, clusterName, containerName, containers}) => {
+  showLogs = ({ name, namespace, clusterName, containerName, containers }) => {
     const client = apolloClient.getClient()
     const resourceType = RESOURCE_TYPES.HCM_PODS
     client.mutate({
@@ -595,7 +619,7 @@ class ApplicationTopologyModule extends React.Component {
           list: resourceType.list
         },
         data: {
-          __typename:'ModalData',
+          __typename: 'ModalData',
           name,
           namespace,
           clusterName,
@@ -605,12 +629,15 @@ class ApplicationTopologyModule extends React.Component {
         }
       }
     })
-  }
+  };
 
   closeTextView = () => {
     delete this.editor
     const { actions } = this.props
-    actions.setShowExpandedTopology({showExpandedTopology:false, selectedNodeId: undefined})
+    actions.setShowExpandedTopology({
+      showExpandedTopology: false,
+      selectedNodeId: undefined
+    })
   };
 
   // select text editor line associated with selected node/link
@@ -705,7 +732,11 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   handleEditorChange = currentYaml => {
-    this.setState({ currentYaml, userChanges:true })
+    this.setState({
+      currentYaml,
+      /* eslint-disable-next-line react/no-unused-state */
+      userChanges: true
+    })
     delete this.resetUndoManager
     this.parseDebounced()
   };
@@ -732,7 +763,7 @@ class ApplicationTopologyModule extends React.Component {
       exceptions: [],
       hasUndo: false,
       hasRedo: false,
-      userChanges: false,
+      userChanges: false /* eslint-disable-line react/no-unused-state */
     })
     if (this.editor) {
       this.editor.scrollToLine(0, true)
@@ -798,11 +829,18 @@ const mapStateToProps = (state, ownProps) => {
   const { HCMApplicationList } = state
   const item = HCMApplicationList.items[0]
   const { topology } = state
-  const { activeFilters, fetchFilters, fetchError, diagramFilters = [] } = topology
+  const {
+    activeFilters,
+    fetchFilters,
+    fetchError,
+    diagramFilters = []
+  } = topology
   let localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
-  const fetchApplication =  _.get(topology, 'fetchFilters.application')
+  const fetchApplication = _.get(topology, 'fetchFilters.application')
   if (fetchApplication) {
-    localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${fetchApplication.namespace}\\${fetchApplication.name}`
+    localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${fetchApplication.namespace}\\${
+      fetchApplication.name
+    }`
   }
   const diagramElements = staticResourceData.getDiagramElements(
     item,
@@ -817,7 +855,7 @@ const mapStateToProps = (state, ownProps) => {
     activeFilters,
     fetchFilters,
     fetchError,
-    diagramFilters,
+    diagramFilters
   }
 }
 
@@ -861,5 +899,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(withLocale(ApplicationTopologyModule))
+  connect(mapStateToProps, mapDispatchToProps)(
+    withLocale(ApplicationTopologyModule)
+  )
 )

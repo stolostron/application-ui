@@ -17,21 +17,16 @@ import { bindActionCreators } from 'redux'
 import * as Actions from '../../../../../actions'
 import msgs from '../../../../../../nls/platform.properties'
 import {
-  getNumClusters,
   getNumIncidents,
-  getApplicationName,
-  getApplicationNamespace,
-  getSingleApplicationObject,
   getSubscriptionDataOnHub,
-  getSubscriptionDataOnManagedClusters,
+  getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  getIncidentData
+  getIncidentsData
 } from '../utils'
 import {
   getSearchLinkForOneApplication
 } from '../../../../common/ResourceOverview/utils'
-import { pullOutKindPerApplication } from '../../../utils'
-import { getNumItems } from '../../../../../../lib/client/resource-helper'
+import config from '../../../../../../lib/shared/config'
 
 /* eslint-disable react/prop-types */
 
@@ -41,17 +36,15 @@ resources(() => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    fetchSubscriptions: () =>
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
+    fetchApplications: () =>
+      dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     actions: bindActionCreators(Actions, dispatch)
   }
 }
 
 const mapStateToProps = state => {
   const {
-    HCMApplicationList,
-    HCMSubscriptionList,
+    QueryApplicationList,
     CEMIncidentList,
     secondaryHeader,
     AppOverview
@@ -60,8 +53,7 @@ const mapStateToProps = state => {
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
   const enableCEM = AppOverview.showCEMAction
   return {
-    HCMSubscriptionList,
-    HCMApplicationList,
+    QueryApplicationList,
     CEMIncidentList,
     isSingleApplicationView,
     enableCEM
@@ -69,8 +61,7 @@ const mapStateToProps = state => {
 }
 
 const getOverviewCardsData = (
-  HCMApplicationList,
-  HCMSubscriptionList,
+  QueryApplicationList,
   CEMIncidentList,
   isSingleApplicationView,
   enableCEM,
@@ -81,59 +72,36 @@ const getOverviewCardsData = (
   targetLinkForPods,
   locale
 ) => {
-  const clusters = getNumClusters(HCMApplicationList)
-  const incidents = getNumIncidents(CEMIncidentList)
-
-  //count only hub subscriptions
-  const isHubSubscr = item =>
-    !item._hostingSubscription &&
-    (!item.status || (item.status && item.status != 'Subscribed'))
-  let subscriptions = getNumItems(HCMSubscriptionList, isHubSubscr)
-  if (isSingleApplicationView) {
-    const subscriptionsArray = pullOutKindPerApplication(
-      getSingleApplicationObject(HCMApplicationList),
-      'subscription'
-    )
-    subscriptions =
-      subscriptionsArray &&
-        subscriptionsArray.length > 0 &&
-        subscriptionsArray[0] &&
-        subscriptionsArray[0].items &&
-        subscriptionsArray[0].items instanceof Array
-        ? subscriptionsArray[0].items.length
-        : 0
-  }
-
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
-    HCMApplicationList,
+    QueryApplicationList,
     isSingleApplicationView,
     applicationName,
     applicationNamespace
   )
-  const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClusters(
-    HCMApplicationList,
-    isSingleApplicationView,
+  var subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
+    QueryApplicationList,
     applicationName,
     applicationNamespace
   )
   const podData = getPodData(
-    HCMApplicationList,
+    QueryApplicationList,
     applicationName,
     applicationNamespace
   )
-  const incidentData = getIncidentData(CEMIncidentList)
+  const incidents = getNumIncidents(CEMIncidentList)
+  const incidentsData = getIncidentsData(CEMIncidentList)
 
   const result = [
     {
       msgKey:
-        subscriptions == 1
+        subscriptionDataOnHub.total == 1
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
-      count: subscriptions,
-      targetLink: subscriptions == 0 ? '' : targetLinkForSubscriptions,
+      count: subscriptionDataOnHub.total,
+      targetLink: subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
-        subscriptions > 0
+        subscriptionDataOnHub.total > 0
           ? subscriptionDataOnHub.failed
             .toString()
             .concat(
@@ -153,11 +121,11 @@ const getOverviewCardsData = (
     },
     {
       msgKey:
-        clusters == 1
+        subscriptionDataOnManagedClusters.clusters == 1
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
-      count: clusters,
-      targetLink: clusters == 0 ? '' : targetLinkForClusters,
+      count: subscriptionDataOnManagedClusters.clusters,
+      targetLink: subscriptionDataOnManagedClusters.clusters == 0 ? '' : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -167,7 +135,7 @@ const getOverviewCardsData = (
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
       subtextKeyFirst:
-        clusters > 0
+        subscriptionDataOnManagedClusters.clusters > 0
           ? subscriptionDataOnManagedClusters.failed
             .toString()
             .concat(
@@ -224,7 +192,7 @@ const getOverviewCardsData = (
       targetTab: incidents == 0 ? null : 2,
       subtextKeyFirst:
         incidents > 0
-          ? incidentData.priority1
+          ? incidentsData.priority1
             .toString()
             .concat(
               ' ',
@@ -236,7 +204,7 @@ const getOverviewCardsData = (
           : '',
       subtextKeySecond:
         incidents > 0
-          ? incidentData.priority2
+          ? incidentsData.priority2
             .toString()
             .concat(
               ' ',
@@ -254,26 +222,42 @@ const getOverviewCardsData = (
 
 class OverviewCards extends React.Component {
   componentWillMount() {
-    const { fetchSubscriptions } = this.props
-    fetchSubscriptions()
+    const { fetchApplications } = this.props
+    fetchApplications()
+
+    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+      var intervalId = setInterval(
+        this.reload.bind(this),
+        config['featureFlags:liveUpdatesPollInterval']
+      )
+      this.setState({ intervalId: intervalId })
+    }
   }
   componentDidMount() { }
 
-  componentWillUnmount() { }
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId)
+  }
+
+  reload() {
+    const { fetchApplications } = this.props
+    fetchApplications()
+  }
 
   render() {
     const {
-      HCMSubscriptionList,
-      HCMApplicationList,
+      QueryApplicationList,
       CEMIncidentList,
       isSingleApplicationView,
       enableCEM,
-      actions
+      actions,
+      selectedAppName,
+      selectedAppNS
     } = this.props
     const { locale } = this.context
     const singleAppStyle = isSingleApplicationView ? ' single-app' : ''
-    const applicationName = getApplicationName(HCMApplicationList)
-    const applicationNamespace = getApplicationNamespace(HCMApplicationList)
+    const applicationName = selectedAppName
+    const applicationNamespace = selectedAppNS
 
     const targetLinkForSubscriptions = getSearchLinkForOneApplication({
       name: encodeURIComponent(applicationName),
@@ -289,8 +273,7 @@ class OverviewCards extends React.Component {
     })
 
     const overviewCardsData = getOverviewCardsData(
-      HCMApplicationList,
-      HCMSubscriptionList,
+      QueryApplicationList,
       CEMIncidentList,
       isSingleApplicationView,
       enableCEM,

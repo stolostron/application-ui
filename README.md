@@ -41,11 +41,18 @@ or npm run build:production
 
 3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
-hcmUiApiUrl=https://localhost:4000/hcmuiapi (mcm-ui-api service running locally)
-searchApiUrl=https://localhost:4010/searchapi (search service running locally)
-cfcRouterUrl
-PLATFORM_IDENTITY_PROVIDER_URL
-WLP_REDIRECT_URL=https://localhost:3000/auth/liberty/callback
+export OAUTH2_CLIENT_ID=
+export OAUTH2_CLIENT_SECRET=
+export OAUTH2_REDIRECT_URL=
+
+#for local testing, from ocp login token
+export API_SERVER_URL=
+export SERVICEACCT_TOKEN=
+export NODE_ENV=development
+
+#serach and mcm-ui-api
+export searchApiUrl=<searchAPIRouteEndpoint>/searchapi/graphql
+export hcmUiApiUrl=<searchAPIRouteEndpoint>/hcmuiapi
 </pre>
 
 4. Start the server for production
@@ -58,11 +65,6 @@ npm run start:production
 npm run build:watch
 npm run start
 </pre>
-
-6. In Google Chrome, log into the platform via `https://MYCLUSTERIP/console` (MYCLUSTERIP is generally the same as cfcRouterUrl from your env variables).
- - Open Chrome's developer tools, then click on the "Application" tab.
- - Expand "Cookies" in the left sidebar, then click on "MYCLUSTERIP".
- - In the cookies table, double-click on the "Domain" entry of each cookie with the prefix `cfc-`, then overwrite by typing 'localhost' + enter.
 
 7. Open a browser to `https://localhost:3001/multicloud/applications`, and you should already be logged in.
 

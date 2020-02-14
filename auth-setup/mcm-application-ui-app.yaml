@@ -88,5 +88,5 @@ items:
     name: mcm-application-ui-app
   grantMethod: auto
   redirectURIs:
-  - https://localhost:3000/auth/liberty/callback
+  - https://localhost:3001/auth/callback
   secret: mcm-application-ui-app-test-secret

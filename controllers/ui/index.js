@@ -6,8 +6,8 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-import 'babel-polyfill'
 
+require('babel-polyfill')
 var express = require('express'),
     router = express.Router(),
     log4js = require('log4js'),

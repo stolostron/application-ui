@@ -246,7 +246,10 @@ const ResourceOverview = withLocale(
                 {msgs.get('dashboard.card.deployment.summary.title', locale)}
               </div>
               <div className="overview-cards-info-container">
-                <OverviewCards />
+                <OverviewCards
+                  selectedAppName={params.name}
+                  selectedAppNS={params.namespace}
+                />
               </div>
               {/* <CountsCardModule data={countsCardData} link="#" /> */}
             </div>
@@ -259,15 +262,15 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-          <div className="overview-content-bottom overview-content-with-padding">
-            <ApplicationTopologyModule
-              selectedNodeId={selectedNodeId}
-              showExpandedTopology={showExpandedTopology}
-              params={params}
-              actions={actions}
-            />
-          </div>
-        )}
+            <div className="overview-content-bottom overview-content-with-padding">
+              <ApplicationTopologyModule
+                selectedNodeId={selectedNodeId}
+                showExpandedTopology={showExpandedTopology}
+                params={params}
+                actions={actions}
+              />
+            </div>
+          )}
         <div className="overview-content-bottom overview-content-with-padding ">
           <div className="overview-content-additional-details">
             <React.Fragment>

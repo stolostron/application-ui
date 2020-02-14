@@ -145,7 +145,7 @@ class ResourceModal extends React.PureComponent {
         'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
 
     return (
-      <div
+      <div /* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions*/
         id="resource-modal-container"
         ref={div => (this.resourceModal = div)}
         tabIndex="-1"

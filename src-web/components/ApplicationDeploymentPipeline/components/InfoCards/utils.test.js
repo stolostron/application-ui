@@ -104,11 +104,7 @@ describe('getNumPlacementRules', () => {
   })
 
   it('no subscription data', () => {
-    const placementRuleCount = getNumPlacementRules(
-      emptyData,
-      true,
-      'default'
-    )
+    const placementRuleCount = getNumPlacementRules(emptyData, true, 'default')
 
     expect(placementRuleCount).toEqual(0)
   })
@@ -318,7 +314,7 @@ const subscriptionPropagatedSampleData = {
           channel: 'fake-channel',
           status: null,
           _uid: 'fake-uid-5'
-        },
+        }
       ]
     }
   ]

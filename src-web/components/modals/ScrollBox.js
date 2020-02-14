@@ -29,7 +29,7 @@ class ScrollBox extends React.PureComponent {
         ref={div => {
           this.scrollBox = div
         }}
-        tabIndex="0"
+        tabIndex="0" /* eslint-disable-line jsx-a11y/no-noninteractive-tabindex*/
       >
         <pre>
           {content ? content : msgs.get('search.notfound', this.context.locale)}

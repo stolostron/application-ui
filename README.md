@@ -51,8 +51,8 @@ export SERVICEACCT_TOKEN=
 export NODE_ENV=development
 
 #serach and mcm-ui-api
-export searchApiUrl=<searchAPIRouteEndpoint>/searchapi/graphql
-export hcmUiApiUrl=<searchAPIRouteEndpoint>/hcmuiapi
+export searchApiUrl=`<searchAPIRouteEndpoint>/searchapi/graphql`
+export hcmUiApiUrl=`<searchAPIRouteEndpoint>/hcmuiapi`
 </pre>
 
 4. Start the server for production
@@ -90,9 +90,9 @@ The full list of npm scripts are described below.
 | Command                          | Description                                                                                                                      |
 |----------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | `npm start`                      | Starts the application with NODE_ENV='development'                                                                               |
-| `npm test:unit`                  | Runs jest tests                                                                                                                  |
-| `npm test:update-snapshot`       | Updates snapshots for jest tests. This command should only be used if you have made changes to a component that requires an updated snapshot artifact for a test case.|
-| `npm test:e2e`                   | Runs nightwatch e2e tests                                                                                                        |
+| `npm run test:unit`                  | Runs jest tests                                                                                                                  |
+| `npm run test:update-snapshot`       | Updates snapshots for jest tests. This command should only be used if you have made changes to a component that requires an updated snapshot artifact for a test case.|
+| `npm run test:e2e`                   | Runs nightwatch e2e tests                                                                                                        |
 | `npm run start:production`       | Starts the application with NODE_ENV='production'                                                                                |
 | `npm run clean`                  | Deletes the generated files from public folder.                                                                                  |
 | `npm run build`                  | Does a FULL development build.  (caching disabled and dev source maps)                                                           |

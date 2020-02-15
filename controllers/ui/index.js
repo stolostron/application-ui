@@ -89,13 +89,7 @@ configjs.initialize((err, config) => {
   })
 })
 
-router.use(
-  session({
-    secret: `${baseconfig.ocp.oauth2_clientsecret}`,
-    saveUninitialized: true,
-    resave: true
-  })
-)
+router.use(session({ secret: `${baseconfig.ocp.oauth2_clientsecret}` }))
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(passport.initialize())
 router.use(passport.session())

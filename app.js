@@ -130,7 +130,6 @@ app.use(
   })
 )
 
-//('APP CONFIG !!!!', appConfig)
 app.use(
   appConfig.get('headerContextPath'),
   cookieParser(),
@@ -138,7 +137,8 @@ app.use(
     target: appConfig.get('headerRouteUrl'),
     changeOrigin: true,
     secure: false,
-    ws: true
+    ws: true,
+    saveUninitialized: false
   })
 )
 

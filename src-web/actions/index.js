@@ -12,7 +12,6 @@
  */
 
 export * from '../reducers/reducerAppDeployments'
-export * from '../reducers/reducerAppLogs'
 export * from '../reducers/reducerAppOverview'
 
 export const CLEAR_REQUEST_STATUS = 'CLEAR_REQUEST_STATUS'

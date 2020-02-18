@@ -11,8 +11,8 @@ const renderer = require('react-test-renderer')
 const ApplicationDeploymentHighlightsTerminology = require('../ApplicationDeploymentHighlightsTerminology')
   .default
 
-describe('ApplicationDeploymentHighlights', () => {
-  it('ApplicationDeploymentHighlights renders correctly.', () => {
+describe('ApplicationDeploymentHighlightsTerminology', () => {
+  it('ApplicationDeploymentHighlightsTerminology renders correctly.', () => {
     const tree = renderer
       .create(<ApplicationDeploymentHighlightsTerminology />)
       .toJSON()

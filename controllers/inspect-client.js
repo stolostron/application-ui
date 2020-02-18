@@ -8,20 +8,22 @@ module.exports.inspect = (req, token, cb) => {
   const serviceaccounttoken = config.ocp.serviceaccount_token
 
   const options = {
-    url: `${config.ocp.apiserver_url}/apis/authentication.k8s.io/v1/tokenreviews`,
+    url: `${
+      config.ocp.apiserver_url
+    }/apis/authentication.k8s.io/v1/tokenreviews`,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${serviceaccounttoken}`,
+      Authorization: `Bearer ${serviceaccounttoken}`
     },
     json: true,
     body: {
       apiVersion: 'authentication.k8s.io/v1',
       kind: 'TokenReview',
       spec: {
-        token,
-      },
-    },
+        token
+      }
+    }
   }
 
   // retrieving user info through token review api

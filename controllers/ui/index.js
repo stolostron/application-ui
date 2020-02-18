@@ -6,7 +6,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-
+/* eslint-disable import/no-unresolved */
 require('babel-polyfill')
 var express = require('express'),
   router = express.Router(),

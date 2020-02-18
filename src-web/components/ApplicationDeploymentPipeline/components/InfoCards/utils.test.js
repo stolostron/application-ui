@@ -222,7 +222,7 @@ const emptyData = {
   items: []
 }
 
-const appWithSubscriptionSampleData = {
+/*const appWithSubscriptionSampleData = {
   items: [
     {
       name: 'app1',
@@ -246,7 +246,7 @@ const appWithSubscriptionSampleData = {
       ]
     }
   ]
-}
+}*/
 
 const placementRuleSampleData = {
   items: [
@@ -312,19 +312,17 @@ const subscriptionSubscribedSampleDataSingleApp = {
       clusterCount: 2,
       name: 'app1',
       namespace: 'default',
-      remoteSubscriptionStatusCount:
-      {
+      remoteSubscriptionStatusCount: {
         Subscribed: 3,
         Failed: 1,
-        null: 1,
+        null: 1
       }
     },
     {
       clusterCount: 3,
       name: 'app2',
       namespace: 'default',
-      remoteSubscriptionStatusCount:
-      {
+      remoteSubscriptionStatusCount: {
         Subscribed: 5
       }
     }
@@ -332,11 +330,9 @@ const subscriptionSubscribedSampleDataSingleApp = {
 }
 
 const subscriptionSubscribedSampleDataRootApp = {
-  items:
-  {
+  items: {
     clusterCount: 2,
-    remoteSubscriptionStatusCount:
-    {
+    remoteSubscriptionStatusCount: {
       Subscribed: 7,
       Failed: 2,
       null: 3
@@ -350,8 +346,7 @@ const podSampleData = {
     {
       name: 'app1',
       namespace: 'default',
-      podStatusCount:
-      {
+      podStatusCount: {
         Running: 2,
         Pass: 1,
         Deployed: 1,

@@ -7,31 +7,11 @@
  *******************************************************************************/
 
 const config = require('../../config')
-const fs = require('fs')
-const path = require('path')
 
-const date = new Date()
-const day = date
-  .getDate()
-  .toString()
-  .padStart(2, 0)
-const hours = date
-  .getHours()
-  .toString()
-  .padStart(2, 0)
-const minutes = date
-  .getMinutes()
-  .toString()
-  .padStart(2, 0)
-const seconds = date
-  .getSeconds()
-  .toString()
-  .padStart(2, 0)
-const appName = `selenium-players_${day}_${hours}_${minutes}_${seconds}`
 let appsPage
 
 module.exports = {
-  '@disabled': true,
+  '@disabled': false,
 
   before(browser) {
     const loginPage = browser.page.LoginPage()
@@ -56,53 +36,38 @@ module.exports = {
     appsPage.closeAppRegistrationModal()
   },
 
-  'Applications: Register new application template': browser => {
-    let templateYaml = fs.readFileSync(
-      path.join(__dirname, '..', 'resources', 'players_case1_template.yaml'),
-      'utf8'
-    )
-    templateYaml = templateYaml.replace('{{application-name}}', appName)
+  'Applications: Resources tab': () => {
+    appsPage.verifyResourcesTab()
+    appsPage.verifyTerminology()
+    appsPage.verifySearch()
+    appsPage.verifyResourceCards()
+  },
 
-    appsPage.openAppRegistrationModal()
+  'Applications: New Subscription - yaml validation': browser => {
+    appsPage.openNewSubModal()
     appsPage.verifyModalOpened()
-    appsPage.enterTextInYamlEditor(browser, templateYaml)
-    appsPage.submitRegisterAppModal()
-    appsPage.verifyModalSubmitted()
+    appsPage.enterTextInYamlEditor(browser, 'BadYaml:\nThis is bad Yaml')
+    appsPage.submitNewResourceModal()
+    appsPage.verifyYamlValidationError(browser)
+    appsPage.closeNewResourceModal()
   },
 
-  'Applications: Register new application instance': browser => {
-    let instanceYaml = fs.readFileSync(
-      path.join(__dirname, '..', 'resources', 'players_instance.yaml'),
-      'utf8'
-    )
-    instanceYaml = instanceYaml.replace('{{application-name}}', appName)
-
-    appsPage.openAppRegistrationModal()
-    appsPage.enterTextInYamlEditor(browser, instanceYaml)
-    appsPage.submitRegisterAppModal()
-    appsPage.verifyModalSubmitted()
-    appsPage.verifyResourceIsPresent(appName)
+  'Applications: New PlacementRule - yaml validation': browser => {
+    appsPage.openNewPlacementRuleModal()
+    appsPage.verifyModalOpened()
+    appsPage.enterTextInYamlEditor(browser, 'BadYaml:\nThis is bad Yaml')
+    appsPage.submitNewResourceModal()
+    appsPage.verifyYamlValidationError(browser)
+    appsPage.closeNewResourceModal()
   },
 
-  'Applications: Deploy an application': () => {
-    appsPage.findResource(appName)
-    appsPage.deployApplication(appName)
-    appsPage.verifyAppDeployed(appName)
-  },
-
-  'Applications: Generate dashboard': () => {
-    appsPage.generateDashboardLink(appName)
-    appsPage.verifyDashboardLink(appName)
-  },
-
-  'Applications: Remove the deployment': () => {
-    appsPage.removeDeployment(appName)
-    appsPage.verifyDeploymentRemoved(appName)
-  },
-
-  'Applications: Delete the application': () => {
-    appsPage.deleteApplication(appName)
-    appsPage.verifyResourceNotPresent(appName)
+  'Applications: New Channel - yaml validation': browser => {
+    appsPage.openNewChannelModal()
+    appsPage.verifyModalOpened()
+    appsPage.enterTextInYamlEditor(browser, 'BadYaml:\nThis is bad Yaml')
+    appsPage.submitNewResourceModal()
+    appsPage.verifyYamlValidationError(browser)
+    appsPage.closeNewResourceModal()
   },
 
   after(browser, done) {

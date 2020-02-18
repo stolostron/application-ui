@@ -177,10 +177,10 @@ export function getNumRemoteSubs(item = {}, locale) {
   let subscribed = 0
 
   if (item) {
-    failed = R.path(['remoteSubscriptionStatusCount', 'failed'], item) || 0
+    failed = R.path(['remoteSubscriptionStatusCount', 'Failed'], item) || 0
     unknown = R.path(['remoteSubscriptionStatusCount', 'null'], item) || 0
     subscribed =
-      R.path(['remoteSubscriptionStatusCount', 'subscribed'], item) || 0
+      R.path(['remoteSubscriptionStatusCount', 'Subscribed'], item) || 0
 
     total = failed + unknown + subscribed
   }

@@ -246,7 +246,10 @@ const ResourceOverview = withLocale(
                 {msgs.get('dashboard.card.deployment.summary.title', locale)}
               </div>
               <div className="overview-cards-info-container">
-                <OverviewCards />
+                <OverviewCards
+                  selectedAppName={params.name}
+                  selectedAppNS={params.namespace}
+                />
               </div>
               {/* <CountsCardModule data={countsCardData} link="#" /> */}
             </div>

@@ -7,10 +7,7 @@
  *******************************************************************************/
 import R from 'ramda'
 
-import {
-  getResourcesStatusPerChannel,
-  getAllRelatedForList
-} from '../PipelineGrid/utils'
+import { getResourcesStatusPerChannel } from '../PipelineGrid/utils'
 // import { CEMIncidentList } from '../../../../../lib/client/queries'
 
 // Method will take in an object and return back the status of related objects
@@ -34,42 +31,11 @@ export const getAllDeployablesStatus = list => {
   return statusPassFailInProgress
 }
 
-export const getNumClusters = applications => {
-  //use application clusters related objects
-  const clusters = getAllRelatedForList(applications, 'cluster')
-
-  return clusters.length > 0 ? clusters.length - 1 : 0
-}
-
 export const getNumIncidents = list => {
   if (list && list.items && Array.isArray(list.items)) {
     return list.items.length
   }
   return 0
-}
-
-export const getApplicationName = list => {
-  if (
-    list &&
-    list.items instanceof Array &&
-    list.items.length > 0 &&
-    list.items[0].name
-  ) {
-    return list.items[0].name
-  }
-  return ''
-}
-
-export const getApplicationNamespace = list => {
-  if (
-    list &&
-    list.items instanceof Array &&
-    list.items.length > 0 &&
-    list.items[0].namespace
-  ) {
-    return list.items[0].namespace
-  }
-  return ''
 }
 
 export const getSingleApplicationObject = list => {
@@ -96,10 +62,7 @@ export const getNumPlacementRules = (
           if (subscriptions.items[subIndex].related) {
             const subData = subscriptions.items[subIndex].related
             Object.keys(subData).map(kindIndex => {
-              if (
-                subData[kindIndex].kind.toLowerCase() ===
-                'placementrule'
-              ) {
+              if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
                 const placementRules = subData[kindIndex].items
                 Object.keys(placementRules).map(prIndex => {
                   const prObj = {
@@ -121,9 +84,7 @@ export const getNumPlacementRules = (
         if (subscriptions.items[subIndex].related) {
           const subData = subscriptions.items[subIndex].related
           Object.keys(subData).map(kindIndex => {
-            if (
-              subData[kindIndex].kind.toLowerCase() === 'placementrule'
-            ) {
+            if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
               const placementRules = subData[kindIndex].items
               Object.keys(placementRules).map(prIndex => {
                 const prObj = {
@@ -197,7 +158,10 @@ export const getSubscriptionDataOnHub = (
       })
     }
 
-    allChannels = R.uniq(allChannels)
+    if (allChannels.length > 0) {
+      // Remove duplicate channels (that were found in more than one app)
+      allChannels = R.uniq(allChannels)
+    }
 
     if (allSubscriptions.length > 0) {
       // Remove duplicate subscriptions (that were found in more than one app)
@@ -217,7 +181,6 @@ export const getSubscriptionDataOnHub = (
         }
       })
     }
-
   }
 
   return {
@@ -228,78 +191,73 @@ export const getSubscriptionDataOnHub = (
   }
 }
 
-export const getSubscriptionDataOnManagedClusters = (
+export const getSubscriptionDataOnManagedClustersSingle = (
   applications,
-  isSingleApplicationView,
   applicationName,
   applicationNamespace
 ) => {
-  var allSubscriptions = []
+  var managedClusterCount = 0
+  var allSubscriptions = 0
   var failedSubsCount = 0
   var noStatusSubsCount = 0
 
   if (applications && applications.items) {
-    // Single application view
-    if (isSingleApplicationView) {
-      Object.keys(applications.items).map(appIndex => {
-        // Get number of managed cluster subs for the current application opened
-        if (
-          applications.items[appIndex].name === applicationName &&
-          applications.items[appIndex].namespace === applicationNamespace
-        ) {
-          // Managed cluster subscription data found in "remoteSubs" object
-          if (applications.items[appIndex].remoteSubs) {
-            const appData = applications.items[appIndex].remoteSubs
-            Object.keys(appData).map(kindIndex => {
-              const sub = appData[kindIndex]
-              const subObj = {
-                name: sub.name,
-                namespace: sub.namespace,
-                status: sub.status
-              }
-              allSubscriptions = allSubscriptions.concat(subObj)
-            })
-          }
-        }
-      })
-    } else {
-      // Root application view
-      // Get number of managed cluster subs for all applications
-      Object.keys(applications.items).map(appIndex => {
-        // Managed cluster subscription data found in "remoteSubs" object
-        if (applications.items[appIndex].remoteSubs) {
-          const appData = applications.items[appIndex].remoteSubs
-          Object.keys(appData).map(kindIndex => {
-            const sub = appData[kindIndex]
-            const subObj = {
-              name: sub.name,
-              namespace: sub.namespace,
-              status: sub.status
-            }
-            allSubscriptions = allSubscriptions.concat(subObj)
-          })
-        }
-      })
-    }
-
-    // Remove duplicate managed cluster subs (that were found in more than one app)
-    allSubscriptions = R.uniq(allSubscriptions)
-
-    // Increment "no status" and "failed" counts using the new non-duplicate subscriptions list
-    Object.keys(allSubscriptions).map(key => {
+    Object.keys(applications.items).map(appIndex => {
+      // Get subscription data for the current application opened
       if (
-        allSubscriptions[key].status == undefined ||
-        allSubscriptions[key].status == ''
+        applications.items[appIndex].name === applicationName &&
+        applications.items[appIndex].namespace === applicationNamespace
       ) {
-        noStatusSubsCount++
-      } else if (allSubscriptions[key].status.toLowerCase() !== 'subscribed') {
-        failedSubsCount++
+        applications.items[appIndex].clusterCount != undefined &&
+          (managedClusterCount = applications.items[appIndex].clusterCount)
+        // Increment counts if the data exists
+        if (
+          applications.items[appIndex].remoteSubscriptionStatusCount !=
+          undefined
+        ) {
+          const subData =
+            applications.items[appIndex].remoteSubscriptionStatusCount
+          subData.Failed != undefined && (failedSubsCount = subData.Failed)
+          subData.null != undefined && (noStatusSubsCount = subData.null)
+          allSubscriptions = failedSubsCount + noStatusSubsCount
+          subData.Subscribed != undefined &&
+            (allSubscriptions += subData.Subscribed)
+        }
       }
     })
   }
 
   return {
-    total: allSubscriptions.length,
+    clusters: managedClusterCount,
+    total: allSubscriptions,
+    failed: failedSubsCount,
+    noStatus: noStatusSubsCount
+  }
+}
+
+export const getSubscriptionDataOnManagedClustersRoot = applications => {
+  var managedClusterCount = 0
+  var allSubscriptions = 0
+  var failedSubsCount = 0
+  var noStatusSubsCount = 0
+
+  if (applications && applications.items) {
+    applications.items.clusterCount != undefined &&
+      (managedClusterCount = applications.items.clusterCount)
+    // Increment counts if the data exists
+    if (applications.items.remoteSubscriptionStatusCount != undefined) {
+      const subData = applications.items.remoteSubscriptionStatusCount
+      subData.Failed != undefined && (failedSubsCount = subData.Failed)
+      subData.null != undefined && (noStatusSubsCount = subData.null)
+      allSubscriptions = failedSubsCount + noStatusSubsCount
+      subData.Subscribed != undefined &&
+        (allSubscriptions += subData.Subscribed)
+    }
+  }
+
+  return {
+    clusters: managedClusterCount,
+    total: allSubscriptions,
     failed: failedSubsCount,
     noStatus: noStatusSubsCount
   }
@@ -321,31 +279,31 @@ export const getPodData = (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
       ) {
-        const appData = applications.items[appIndex]
-        // Pod data found in "related" object
-        if (appData.related) {
-          Object.keys(appData.related).map(kindIndex => {
-            if (appData.related[kindIndex].kind.toLowerCase() === 'pod') {
-              const pods = appData.related[kindIndex].items
-              Object.keys(pods).map(podIndex => {
-                const podStatus = pods[podIndex].status
-                allPods++
-                if (
-                  podStatus.toLowerCase() === 'deployed' ||
-                  podStatus.toLowerCase() === 'pass' ||
-                  podStatus.toLowerCase() === 'running'
-                ) {
-                  runningPods++
-                } else if (
-                  podStatus.toLowerCase().includes('fail') ||
-                  podStatus.toLowerCase().includes('error') ||
-                  podStatus.toLowerCase() === 'imagepullbackoff'
-                ) {
-                  failedPods++
-                }
-              })
+        // Increment counts if the data exists
+        if (applications.items[appIndex].podStatusCount != undefined) {
+          const podData = applications.items[appIndex].podStatusCount
+          const podStatuses = Object.keys(podData)
+          podStatuses.forEach(status => {
+            if (
+              status.toLowerCase() === 'running' ||
+              status.toLowerCase() === 'pass' ||
+              status.toLowerCase() === 'deployed'
+            ) {
+              runningPods += podData[status]
+            } else if (
+              status.toLowerCase().includes('fail') ||
+              status.toLowerCase().includes('error') ||
+              status.toLowerCase() === 'imagepullbackoff'
+            ) {
+              failedPods += podData[status]
+            } else if (
+              status.toLowerCase() === 'containercreating' ||
+              status.toLowerCase() === 'ready'
+            ) {
+              allPods += podData[status]
             }
           })
+          allPods += runningPods + failedPods
         }
       }
     })
@@ -358,7 +316,7 @@ export const getPodData = (
   }
 }
 
-export const getIncidentData = CEMIncidentList => {
+export const getIncidentsData = CEMIncidentList => {
   var priority1 = 0
   var priority2 = 0
 

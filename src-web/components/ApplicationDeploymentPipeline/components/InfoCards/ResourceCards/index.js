@@ -15,7 +15,8 @@ import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumPlacementRules,
   getSubscriptionDataOnHub,
-  getSubscriptionDataOnManagedClusters
+  getSubscriptionDataOnManagedClustersSingle,
+  getSubscriptionDataOnManagedClustersRoot
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
@@ -38,20 +39,14 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const {
-    HCMApplicationList,
-    HCMSubscriptionList,
-    QueryApplicationList
-  } = state
+  const { HCMSubscriptionList, QueryApplicationList } = state
   return {
     HCMSubscriptionList,
-    HCMApplicationList,
     QueryApplicationList
   }
 }
 
 const getResourceCardsData = (
-  HCMApplicationList,
   HCMSubscriptionList,
   QueryApplicationList,
   globalAppData,
@@ -64,25 +59,26 @@ const getResourceCardsData = (
   targetLinkForPlacementRules,
   locale
 ) => {
-  const clusters =
-    (globalAppData &&
-      globalAppData.items &&
-      globalAppData.items[0] &&
-      globalAppData.items[0].clusterCount) ||
-    0
-
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     QueryApplicationList,
     isSingleApplicationView,
     applicationName,
     applicationNamespace
   )
-  const subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClusters(
-    HCMApplicationList,
-    isSingleApplicationView,
-    applicationName,
-    applicationNamespace
-  )
+
+  let subscriptionDataOnManagedClusters
+  if (isSingleApplicationView) {
+    subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
+      QueryApplicationList,
+      applicationName,
+      applicationNamespace
+    )
+  } else {
+    subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersRoot(
+      globalAppData
+    )
+  }
+
   const placementRules = getNumPlacementRules(
     HCMSubscriptionList,
     isSingleApplicationView,
@@ -120,11 +116,14 @@ const getResourceCardsData = (
     },
     {
       msgKey:
-        clusters == 1
+        subscriptionDataOnManagedClusters.clusters == 1
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
-      count: clusters,
-      targetLink: clusters == 0 ? '' : targetLinkForClusters,
+      count: subscriptionDataOnManagedClusters.clusters,
+      targetLink:
+        subscriptionDataOnManagedClusters.clusters == 0
+          ? ''
+          : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -134,7 +133,7 @@ const getResourceCardsData = (
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
       subtextKeyFirst:
-        clusters > 0
+        subscriptionDataOnManagedClusters.clusters > 0
           ? subscriptionDataOnManagedClusters.failed
             .toString()
             .concat(
@@ -189,7 +188,6 @@ class ResourceCards extends React.Component {
   render() {
     const {
       HCMSubscriptionList,
-      HCMApplicationList,
       QueryApplicationList,
       isSingleApplicationView,
       selectedAppName,
@@ -227,7 +225,6 @@ class ResourceCards extends React.Component {
       : getSearchLinkForAllPlacementRules()
 
     const resourceCardsData = getResourceCardsData(
-      HCMApplicationList,
       HCMSubscriptionList,
       QueryApplicationList,
       globalAppData,

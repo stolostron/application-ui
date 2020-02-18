@@ -33,8 +33,8 @@ const query_data1 = {
     'localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default',
   created: '2020-01-30T15:47:53Z',
   remoteSubscriptionStatusCount: {
-    subscribed: 4,
-    failed: 5,
+    Subscribed: 4,
+    Failed: 5,
     null: 3
   },
   podStatusCount: {

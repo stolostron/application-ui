@@ -7,30 +7,15 @@
  *******************************************************************************/
 
 import {
-  getNumClusters,
   getNumIncidents,
-  getApplicationName,
-  getApplicationNamespace,
   getSingleApplicationObject,
   getNumPlacementRules,
   getSubscriptionDataOnHub,
-  getSubscriptionDataOnManagedClusters,
+  getSubscriptionDataOnManagedClustersSingle,
+  getSubscriptionDataOnManagedClustersRoot,
   getPodData,
-  getIncidentData
+  getIncidentsData
 } from './utils'
-
-// getNumClusters
-describe('getNumClusters', () => {
-  it('has application object', () => {
-    // pass in appsWithSubscription
-    const num = getNumClusters(appWithSubscriptionSampleData)
-    expect(num).toEqual(1)
-  })
-  it('empty list', () => {
-    const num = getNumClusters(emptyData)
-    expect(num).toEqual(0) // empty string returned
-  })
-})
 
 describe('getNumIncidents', () => {
   it('has application object', () => {
@@ -40,30 +25,6 @@ describe('getNumIncidents', () => {
   it('empty list', () => {
     const num = getNumIncidents(emptyData)
     expect(num).toEqual(0) // empty string returned
-  })
-})
-
-// getApplicationName
-describe('getApplicationName', () => {
-  it('has application object', () => {
-    const name = getApplicationName(placementRuleSampleData)
-    expect(name).toEqual('app1')
-  })
-  it('empty list', () => {
-    const name = getApplicationName(emptyData)
-    expect(name).toHaveLength(0) // empty string returned
-  })
-})
-
-// getApplicationNamespace
-describe('getApplicationNamespace', () => {
-  it('has application object', () => {
-    const namespace = getApplicationNamespace(placementRuleSampleData)
-    expect(namespace).toEqual('default')
-  })
-  it('empty list', () => {
-    const namespace = getApplicationNamespace(emptyData)
-    expect(namespace).toHaveLength(0) // empty string returned
   })
 })
 
@@ -104,11 +65,7 @@ describe('getNumPlacementRules', () => {
   })
 
   it('no subscription data', () => {
-    const placementRuleCount = getNumPlacementRules(
-      emptyData,
-      true,
-      'default'
-    )
+    const placementRuleCount = getNumPlacementRules(emptyData, true, 'default')
 
     expect(placementRuleCount).toEqual(0)
   })
@@ -159,42 +116,67 @@ describe('getSubscriptionDataOnHub', () => {
   })
 })
 
-// getSubscriptionDataOnManagedClusters
-describe('getSubscriptionDataOnManagedClusters', () => {
+// getSubscriptionDataOnManagedClustersSingle
+describe('getSubscriptionDataOnManagedClustersSingle', () => {
   it('has subscription data', () => {
-    const subscriptionData = getSubscriptionDataOnManagedClusters(
-      subscriptionSubscribedSampleData,
-      true,
+    const subscriptionData = getSubscriptionDataOnManagedClustersSingle(
+      subscriptionSubscribedSampleDataSingleApp,
       'app1',
       'default'
     )
 
-    expect(subscriptionData.total).toEqual(4)
+    expect(subscriptionData.clusters).toEqual(2)
+    expect(subscriptionData.total).toEqual(5)
     expect(subscriptionData.failed).toEqual(1)
-    expect(subscriptionData.noStatus).toEqual(2)
+    expect(subscriptionData.noStatus).toEqual(1)
   })
 
-  it('has subscription data - non-single app view', () => {
-    const subscriptionData = getSubscriptionDataOnManagedClusters(
-      subscriptionSubscribedSampleData,
-      false,
-      'app1',
+  it('has subscription data', () => {
+    const subscriptionData = getSubscriptionDataOnManagedClustersSingle(
+      subscriptionSubscribedSampleDataSingleApp,
+      'app2',
       'default'
     )
 
-    expect(subscriptionData.total).toEqual(4)
-    expect(subscriptionData.failed).toEqual(1)
-    expect(subscriptionData.noStatus).toEqual(2)
+    expect(subscriptionData.clusters).toEqual(3)
+    expect(subscriptionData.total).toEqual(5)
+    expect(subscriptionData.failed).toEqual(0)
+    expect(subscriptionData.noStatus).toEqual(0)
   })
 
   it('no subscription data', () => {
-    const subscriptionData = getSubscriptionDataOnManagedClusters(
+    const subscriptionData = getSubscriptionDataOnManagedClustersSingle(
       emptyData,
-      true,
       'app1',
       'default'
     )
 
+    expect(subscriptionData.clusters).toEqual(0)
+    expect(subscriptionData.total).toEqual(0)
+    expect(subscriptionData.failed).toEqual(0)
+    expect(subscriptionData.noStatus).toEqual(0)
+  })
+})
+
+// getSubscriptionDataOnManagedClustersRoot
+describe('getSubscriptionDataOnManagedClustersRoot', () => {
+  it('has subscription data', () => {
+    const subscriptionData = getSubscriptionDataOnManagedClustersRoot(
+      subscriptionSubscribedSampleDataRootApp
+    )
+
+    expect(subscriptionData.clusters).toEqual(2)
+    expect(subscriptionData.total).toEqual(12)
+    expect(subscriptionData.failed).toEqual(2)
+    expect(subscriptionData.noStatus).toEqual(3)
+  })
+
+  it('no subscription data', () => {
+    const subscriptionData = getSubscriptionDataOnManagedClustersRoot(
+      emptyData
+    )
+
+    expect(subscriptionData.clusters).toEqual(0)
     expect(subscriptionData.total).toEqual(0)
     expect(subscriptionData.failed).toEqual(0)
     expect(subscriptionData.noStatus).toEqual(0)
@@ -206,7 +188,7 @@ describe('getPodData', () => {
   it('has pod data', () => {
     const podData = getPodData(podSampleData, 'app1', 'default')
 
-    expect(podData.total).toEqual(9)
+    expect(podData.total).toEqual(12)
     expect(podData.running).toEqual(4)
     expect(podData.failed).toEqual(5)
   })
@@ -219,17 +201,17 @@ describe('getPodData', () => {
   })
 })
 
-// getIncidentData
-describe('getIncidentData', () => {
+// getIncidentsData
+describe('getIncidentsData', () => {
   it('get incidents from list', () => {
-    const incidentData = getIncidentData(incidents)
+    const incidentData = getIncidentsData(incidents)
 
     expect(incidentData.priority1).toEqual(3)
     expect(incidentData.priority2).toEqual(2)
   })
 
   it('empty incident list', () => {
-    const incidentData = getIncidentData(emptyData)
+    const incidentData = getIncidentsData(emptyData)
 
     expect(incidentData.priority1).toEqual(0)
     expect(incidentData.priority2).toEqual(0)
@@ -240,7 +222,7 @@ const emptyData = {
   items: []
 }
 
-const appWithSubscriptionSampleData = {
+/*const appWithSubscriptionSampleData = {
   items: [
     {
       name: 'app1',
@@ -264,7 +246,7 @@ const appWithSubscriptionSampleData = {
       ]
     }
   ]
-}
+}*/
 
 const placementRuleSampleData = {
   items: [
@@ -318,105 +300,62 @@ const subscriptionPropagatedSampleData = {
           channel: 'fake-channel',
           status: null,
           _uid: 'fake-uid-5'
-        },
-      ]
-    }
-  ]
-}
-
-const subscriptionSubscribedSampleData = {
-  items: [
-    {
-      name: 'app1',
-      namespace: 'default',
-      remoteSubs: [
-        {
-          kind: 'subscription',
-          name: 'sub1',
-          namespace: 'default',
-          status: ''
-        },
-        {
-          kind: 'subscription',
-          name: 'sub2',
-          namespace: 'default',
-          status: ''
-        },
-        {
-          kind: 'subscription',
-          name: 'sub3',
-          namespace: 'default',
-          status: 'subscribed'
-        },
-        {
-          kind: 'subscription',
-          name: 'sub3',
-          namespace: 'default',
-          status: '123'
         }
       ]
     }
   ]
 }
 
-// total: 9, running: 4, failed: 5
+const subscriptionSubscribedSampleDataSingleApp = {
+  items: [
+    {
+      clusterCount: 2,
+      name: 'app1',
+      namespace: 'default',
+      remoteSubscriptionStatusCount: {
+        Subscribed: 3,
+        Failed: 1,
+        null: 1
+      }
+    },
+    {
+      clusterCount: 3,
+      name: 'app2',
+      namespace: 'default',
+      remoteSubscriptionStatusCount: {
+        Subscribed: 5
+      }
+    }
+  ]
+}
+
+const subscriptionSubscribedSampleDataRootApp = {
+  items: {
+    clusterCount: 2,
+    remoteSubscriptionStatusCount: {
+      Subscribed: 7,
+      Failed: 2,
+      null: 3
+    }
+  }
+}
+
+// total: 12, running: 4, failed: 5
 const podSampleData = {
   items: [
     {
       name: 'app1',
       namespace: 'default',
-      related: [
-        {
-          kind: 'pod',
-          items: [
-            {
-              status: 'deployed',
-              name: 'p1',
-              namespace: 'default'
-            },
-            {
-              status: 'deployed',
-              name: 'p2',
-              namespace: 'default'
-            },
-            {
-              status: 'pass',
-              name: 'p3',
-              namespace: 'default'
-            },
-            {
-              status: 'running',
-              name: 'p4',
-              namespace: 'default'
-            },
-            {
-              status: 'fail',
-              name: 'p5',
-              namespace: 'default'
-            },
-            {
-              status: 'fail',
-              name: 'p6',
-              namespace: 'default'
-            },
-            {
-              status: 'error',
-              name: 'p7',
-              namespace: 'default'
-            },
-            {
-              status: 'CreateContainerConfigError',
-              name: 'p8',
-              namespace: 'default'
-            },
-            {
-              status: 'imagepullbackoff',
-              name: 'p9',
-              namespace: 'default'
-            }
-          ]
-        }
-      ]
+      podStatusCount: {
+        Running: 2,
+        Pass: 1,
+        Deployed: 1,
+        Failed: 2,
+        Error: 2,
+        ImagePullBackoff: 1,
+        ContainerCreating: 1,
+        Ready: 2
+      }
     }
   ]
 }

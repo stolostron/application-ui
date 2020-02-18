@@ -1,0 +1,1033 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
+<div
+  id="PipelineGrid"
+>
+  <div
+    className="tableGridContainer"
+  >
+    <div
+      className="applicationColumnContainer"
+    >
+      <div
+        className="tileContainer"
+      >
+        <div
+          className="bx--tile firstTotalTile"
+        >
+          <div
+            className="totalApplications"
+          >
+            6 
+            applications
+          </div>
+          <div
+            className="totalDeployables"
+          >
+            NaN 
+            subscriptions
+          </div>
+        </div>
+      </div>
+      <div
+        className="tileContainerApp"
+      >
+        <div
+          className="bx--tile applicationTile"
+          onClick={[Function]}
+        >
+          <div
+            className="ApplicationContents"
+          >
+            <div
+              className="appName"
+            >
+              jorge-test 
+            </div>
+            <div
+              className="appDeployables"
+            >
+              0 
+              subscriptions
+            </div>
+          </div>
+        </div>
+        <div
+          className="deployablesDisplay"
+          id="jorge-test"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+      </div>
+      <div
+        className="tileContainerApp"
+      >
+        <div
+          className="bx--tile applicationTile"
+          onClick={[Function]}
+        >
+          <div
+            className="ApplicationContents"
+          >
+            <div
+              className="appName"
+            >
+              jorge-test-2 
+            </div>
+            <div
+              className="appDeployables"
+            >
+              0 
+              subscriptions
+            </div>
+          </div>
+        </div>
+        <div
+          className="deployablesDisplay"
+          id="jorge-test-2"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+      </div>
+      <div
+        className="tileContainerApp"
+      >
+        <div
+          className="bx--tile applicationTile"
+          onClick={[Function]}
+        >
+          <div
+            className="ApplicationContents"
+          >
+            <div
+              className="appName"
+            >
+              nginx-app 
+            </div>
+            <div
+              className="appDeployables"
+            >
+              0 
+              subscriptions
+            </div>
+          </div>
+        </div>
+        <div
+          className="deployablesDisplay"
+          id="nginx-app"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+      </div>
+      <div
+        className="tileContainerApp"
+      >
+        <div
+          className="bx--tile applicationTile"
+          onClick={[Function]}
+        >
+          <div
+            className="ApplicationContents"
+          >
+            <div
+              className="appName"
+            >
+              samplebook-gbapp 
+            </div>
+            <div
+              className="appDeployables"
+            >
+              0 
+              subscriptions
+            </div>
+          </div>
+        </div>
+        <div
+          className="deployablesDisplay"
+          id="samplebook-gbapp"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+      </div>
+      <div
+        className="tileContainerApp"
+      >
+        <div
+          className="bx--tile applicationTile"
+          onClick={[Function]}
+        >
+          <div
+            className="ApplicationContents"
+          >
+            <div
+              className="appName"
+            >
+              stocktrader-app 
+            </div>
+            <div
+              className="appDeployables"
+            >
+              0 
+              subscriptions
+            </div>
+          </div>
+        </div>
+        <div
+          className="deployablesDisplay"
+          id="stocktrader-app"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+      </div>
+      <div
+        className="tileContainerApp"
+      >
+        <div
+          className="bx--tile applicationTile"
+          onClick={[Function]}
+        >
+          <div
+            className="ApplicationContents"
+          >
+            <div
+              className="appName"
+            >
+              subscribed-guestbook-application 
+            </div>
+            <div
+              className="appDeployables"
+            >
+              0 
+              subscriptions
+            </div>
+          </div>
+        </div>
+        <div
+          className="deployablesDisplay"
+          id="subscribed-guestbook-application"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        />
+      </div>
+    </div>
+    <div
+      className="channelGridContainer"
+    >
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeader"
+          >
+            <div
+              className="channelNameHeader"
+            >
+              <span>
+                <div
+                  className="yamlTitle"
+                >
+                  YAML
+                </div>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="channelEditIcon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--edit"
+                  onClick={[Function]}
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                  />
+                </svg>
+              </span>
+              <div
+                className="channelTitle"
+              >
+                Channel
+              </div>
+              <div
+                className="channelNameTitle"
+              >
+                stocktrader-ns
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeader"
+          >
+            <div
+              className="channelNameHeader"
+            >
+              <span>
+                <div
+                  className="yamlTitle"
+                >
+                  YAML
+                </div>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="channelEditIcon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--edit"
+                  onClick={[Function]}
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                  />
+                </svg>
+              </span>
+              <div
+                className="channelTitle"
+              >
+                Channel
+              </div>
+              <div
+                className="channelNameTitle"
+              >
+                guestbook
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeader"
+          >
+            <div
+              className="channelNameHeader"
+            >
+              <span>
+                <div
+                  className="yamlTitle"
+                >
+                  YAML
+                </div>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="channelEditIcon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--edit"
+                  onClick={[Function]}
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                  />
+                </svg>
+              </span>
+              <div
+                className="channelTitle"
+              >
+                Channel
+              </div>
+              <div
+                className="channelNameTitle"
+              >
+                hub-local-helm-repo
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeader"
+          >
+            <div
+              className="channelNameHeader"
+            >
+              <span>
+                <div
+                  className="yamlTitle"
+                >
+                  YAML
+                </div>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="channelEditIcon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--edit"
+                  onClick={[Function]}
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                  />
+                </svg>
+              </span>
+              <div
+                className="channelTitle"
+              >
+                Channel
+              </div>
+              <div
+                className="channelNameTitle"
+              >
+                ibm-developer-edition-charts
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="standalonedeployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="jorge-testdeployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="jorge-test-2deployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="nginx-appdeployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="samplebook-gbappdeployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="stocktrader-appdeployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+      <div
+        className="horizontalScrollRow"
+      >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="horizontalScrollRow spaceOutBelow"
+        id="subscribed-guestbook-applicationdeployableRows"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

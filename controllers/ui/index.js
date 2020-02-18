@@ -9,17 +9,18 @@
 /* eslint-disable import/no-unresolved */
 require('babel-polyfill')
 var express = require('express'),
-    router = express.Router(),
-    log4js = require('log4js'),
-    logger = log4js.getLogger('server'),
-    session = require('express-session'),
-    bodyParser = require('body-parser'),
-    configjs = require('../../config/init-auth-config.js'),
-    baseconfig = require('../../config/auth-config'),
-    app = require('./app'),
-    passport = require('passport'),
-    OAuth2Strategy = require('passport-oauth2'),
-    inspectClient = require('../inspect-client')
+  router = express.Router(),
+  log4js = require('log4js'),
+  logger = log4js.getLogger('server'),
+  session = require('express-session'),
+  bodyParser = require('body-parser'),
+  configjs = require('../../config/init-auth-config.js'),
+  baseconfig = require('../../config/auth-config'),
+  app = require('./app'),
+  passport = require('passport'),
+  OAuth2Strategy = require('passport-oauth2'),
+  inspectClient = require('../inspect-client')
+inspect = require('security-middleware')
 
 var log4js_config = process.env.LOG4JS_CONFIG
   ? JSON.parse(process.env.LOG4JS_CONFIG)
@@ -34,7 +35,7 @@ configjs.initialize((err, config) => {
   const options = {
     url: `${
       baseconfig.ocp.apiserver_url
-    }/apis/authentication.k8s.io/v1/tokenreviews`,
+      }/apis/authentication.k8s.io/v1/tokenreviews`,
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',

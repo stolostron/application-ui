@@ -41,9 +41,10 @@ or npm run build:production
 
 3. The folloing environment variables need to be set. [shared dev env](https://ibm.ent.box.com/notes/291748731101)
 <pre>
+headerUrl
 export OAUTH2_CLIENT_ID=
 export OAUTH2_CLIENT_SECRET=
-export OAUTH2_REDIRECT_URL=
+export OAUTH2_REDIRECT_URL=https://localhost:3000/multicloud/applications/auth/callback
 
 #for local testing, from ocp login token
 export API_SERVER_URL=

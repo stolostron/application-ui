@@ -39,10 +39,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const {
-    HCMSubscriptionList,
-    QueryApplicationList
-  } = state
+  const { HCMSubscriptionList, QueryApplicationList } = state
   return {
     HCMSubscriptionList,
     QueryApplicationList
@@ -69,14 +66,15 @@ const getResourceCardsData = (
     applicationNamespace
   )
 
+  let subscriptionDataOnManagedClusters
   if (isSingleApplicationView) {
-    var subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
+    subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
       QueryApplicationList,
       applicationName,
       applicationNamespace
     )
   } else {
-    var subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersRoot(
+    subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersRoot(
       globalAppData
     )
   }
@@ -122,7 +120,10 @@ const getResourceCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: subscriptionDataOnManagedClusters.clusters,
-      targetLink: subscriptionDataOnManagedClusters.clusters == 0 ? '' : targetLinkForClusters,
+      targetLink:
+        subscriptionDataOnManagedClusters.clusters == 0
+          ? ''
+          : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -179,10 +180,10 @@ const getResourceCardsData = (
 }
 
 class ResourceCards extends React.Component {
-  componentWillMount() { }
-  componentDidMount() { }
+  componentWillMount() {}
+  componentDidMount() {}
 
-  componentWillUnmount() { }
+  componentWillUnmount() {}
 
   render() {
     const {

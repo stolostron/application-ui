@@ -116,7 +116,7 @@ class ApplicationTopologyModule extends React.Component {
     this.startPolling = this.startPolling.bind(this)
     this.stopPolling = this.stopPolling.bind(this)
     this.refetch = this.refetch.bind(this)
-    this.handeNodeSelected = this.handleNodeSelected.bind(this)
+    this.handleNodeSelected = this.handleNodeSelected.bind(this)
     this.handleEditorCommand = this.handleEditorCommand.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleToggleSize = this.handleToggleSize.bind(this)
@@ -147,7 +147,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   selectNode(node) {
-    this.handeNodeSelected(node)
+    this.handleNodeSelected(node)
     this.setState({ selectedNode: node })
   }
 

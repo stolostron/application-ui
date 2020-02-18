@@ -23,9 +23,7 @@ import {
   getPodData,
   getIncidentsData
 } from '../utils'
-import {
-  getSearchLinkForOneApplication
-} from '../../../../common/ResourceOverview/utils'
+import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
 import config from '../../../../../../lib/shared/config'
 
 /* eslint-disable react/prop-types */
@@ -98,7 +96,8 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptionDataOnHub.total,
-      targetLink: subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
+      targetLink:
+        subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
         subscriptionDataOnHub.total > 0
@@ -125,7 +124,10 @@ const getOverviewCardsData = (
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: subscriptionDataOnManagedClusters.clusters,
-      targetLink: subscriptionDataOnManagedClusters.clusters == 0 ? '' : targetLinkForClusters,
+      targetLink:
+        subscriptionDataOnManagedClusters.clusters == 0
+          ? ''
+          : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
@@ -233,7 +235,7 @@ class OverviewCards extends React.Component {
       this.setState({ intervalId: intervalId })
     }
   }
-  componentDidMount() { }
+  componentDidMount() {}
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)

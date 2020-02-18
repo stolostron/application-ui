@@ -7,9 +7,7 @@
  *******************************************************************************/
 import R from 'ramda'
 
-import {
-  getResourcesStatusPerChannel
-} from '../PipelineGrid/utils'
+import { getResourcesStatusPerChannel } from '../PipelineGrid/utils'
 // import { CEMIncidentList } from '../../../../../lib/client/queries'
 
 // Method will take in an object and return back the status of related objects
@@ -64,10 +62,7 @@ export const getNumPlacementRules = (
           if (subscriptions.items[subIndex].related) {
             const subData = subscriptions.items[subIndex].related
             Object.keys(subData).map(kindIndex => {
-              if (
-                subData[kindIndex].kind.toLowerCase() ===
-                'placementrule'
-              ) {
+              if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
                 const placementRules = subData[kindIndex].items
                 Object.keys(placementRules).map(prIndex => {
                   const prObj = {
@@ -89,9 +84,7 @@ export const getNumPlacementRules = (
         if (subscriptions.items[subIndex].related) {
           const subData = subscriptions.items[subIndex].related
           Object.keys(subData).map(kindIndex => {
-            if (
-              subData[kindIndex].kind.toLowerCase() === 'placementrule'
-            ) {
+            if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
               const placementRules = subData[kindIndex].items
               Object.keys(placementRules).map(prIndex => {
                 const prObj = {
@@ -188,7 +181,6 @@ export const getSubscriptionDataOnHub = (
         }
       })
     }
-
   }
 
   return {
@@ -216,14 +208,20 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
       ) {
-        applications.items[appIndex].clusterCount != undefined && (managedClusterCount = applications.items[appIndex].clusterCount)
+        applications.items[appIndex].clusterCount != undefined &&
+          (managedClusterCount = applications.items[appIndex].clusterCount)
         // Increment counts if the data exists
-        if (applications.items[appIndex].remoteSubscriptionStatusCount != undefined) {
-          const subData = applications.items[appIndex].remoteSubscriptionStatusCount
+        if (
+          applications.items[appIndex].remoteSubscriptionStatusCount !=
+          undefined
+        ) {
+          const subData =
+            applications.items[appIndex].remoteSubscriptionStatusCount
           subData.Failed != undefined && (failedSubsCount = subData.Failed)
           subData.null != undefined && (noStatusSubsCount = subData.null)
           allSubscriptions = failedSubsCount + noStatusSubsCount
-          subData.Subscribed != undefined && (allSubscriptions += subData.Subscribed)
+          subData.Subscribed != undefined &&
+            (allSubscriptions += subData.Subscribed)
         }
       }
     })
@@ -237,23 +235,23 @@ export const getSubscriptionDataOnManagedClustersSingle = (
   }
 }
 
-export const getSubscriptionDataOnManagedClustersRoot = (
-  applications
-) => {
+export const getSubscriptionDataOnManagedClustersRoot = applications => {
   var managedClusterCount = 0
   var allSubscriptions = 0
   var failedSubsCount = 0
   var noStatusSubsCount = 0
 
   if (applications && applications.items) {
-    applications.items.clusterCount != undefined && (managedClusterCount = applications.items.clusterCount)
+    applications.items.clusterCount != undefined &&
+      (managedClusterCount = applications.items.clusterCount)
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount != undefined) {
       const subData = applications.items.remoteSubscriptionStatusCount
       subData.Failed != undefined && (failedSubsCount = subData.Failed)
       subData.null != undefined && (noStatusSubsCount = subData.null)
       allSubscriptions = failedSubsCount + noStatusSubsCount
-      subData.Subscribed != undefined && (allSubscriptions += subData.Subscribed)
+      subData.Subscribed != undefined &&
+        (allSubscriptions += subData.Subscribed)
     }
   }
 
@@ -285,7 +283,7 @@ export const getPodData = (
         if (applications.items[appIndex].podStatusCount != undefined) {
           const podData = applications.items[appIndex].podStatusCount
           const podStatuses = Object.keys(podData)
-          podStatuses.forEach(function (status) {
+          podStatuses.forEach(status => {
             if (
               status.toLowerCase() === 'running' ||
               status.toLowerCase() === 'pass' ||

@@ -18,7 +18,6 @@ import {
   createSubscriptionPerChannel,
   subscriptionsUnderColumnsGrid,
   getLongestArray,
-  getTotalSubscriptions,
   sortChannelsBySubscriptionLength,
   getStandaloneSubscriptions,
   createStandaloneSubscriptionPerChannel
@@ -178,22 +177,10 @@ const LeftColumnForApplicationNames = (
         const appName = application.name
         // Get the subscriptions given the application object
 
-        console.log(
-          appName + '  sub length',
-          application.hubSubscriptions.length
-        )
-
-        // const subscriptionsFetched = pullOutKindPerApplication(
-        //   application,
-        //   'subscription'
-        // )
-
         const subscriptionsFetched = application.hubSubscriptions
 
         // Pull the data up to the top
         const subscriptions = subscriptionsFetched || []
-
-        // console.log("subscriptionsFetched", subscriptionsFetched)
 
         // get the subscriptions that fall under each column
         // each index is a channel
@@ -202,8 +189,6 @@ const LeftColumnForApplicationNames = (
           channelList,
           subscriptions
         )
-
-        // console.log("subscriptionsUnderColumns", subscriptionsUnderColumns)
 
         // We need to know the longest subscriptionArray because we want to extend
         // the drop down for the left most column to that length
@@ -289,8 +274,8 @@ const ChannelColumnGrid = (
     // add dummy "standalone" application
 
     standaloneSubscriptions = getStandaloneSubscriptions(bulkSubscriptionList)
-    // console.log("standaloneSubscriptions", standaloneSubscriptions)
 
+    // add standalone ONLY if it exists
     if (standaloneSubscriptions && standaloneSubscriptions.length > 0)
       applicationList = R.prepend({ name: 'standalone' }, applicationList)
   }
@@ -349,19 +334,9 @@ const ChannelColumnGrid = (
         } else {
           // Given the application pull out its object of kind subscription
           const subscriptionsFetched = application.hubSubscriptions
-          // const subscriptionsFetched = pullOutKindPerApplication(
-          //   application,
-          //   'subscription'
-          // )
-          console.log('subscriptionsFetched', subscriptionsFetched)
 
           // Pull up the subscription data from the nested object
           const subscriptionsForThisApplication = subscriptionsFetched || []
-
-          console.log(
-            'subscriptionsForThisApplication',
-            subscriptionsForThisApplication
-          )
 
           // get the subscriptions that fall under each column
           // each index is a channel
@@ -370,8 +345,6 @@ const ChannelColumnGrid = (
             channelList,
             subscriptionsForThisApplication
           )
-
-          console.log('subscriptionsUnderColumns', subscriptionsUnderColumns)
 
           subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
             subscriptionsUnderColumns
@@ -410,22 +383,12 @@ const ChannelColumnGrid = (
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {subRow.map(subCol => {
-                      console.log('**subCol', subCol)
-
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,
                         subCol._uid
                       )
                       const placementRule = getPlacementRuleFromBulkSubscription(
-                        thisSubscriptionData
-                      )
-                      console.log(
-                        'placementRule - ' + applicationName,
-                        placementRule
-                      )
-                      console.log(
-                        'thisSubscriptionData - ' + applicationName,
                         thisSubscriptionData
                       )
 

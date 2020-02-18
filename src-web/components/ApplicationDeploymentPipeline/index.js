@@ -31,13 +31,7 @@ import {
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
 import { Search, Loading, Icon, Link } from 'carbon-components-react'
-import {
-  getApplicationsList,
-  getChannelsList,
-  filterApps,
-  getSubscriptionsList,
-  getSubscriptionListGivenApplicationList
-} from './utils'
+import { getApplicationsList, getChannelsList, filterApps } from './utils'
 import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml' // eslint-disable-line import/no-unresolved
 import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml' // eslint-disable-line import/no-unresolved
 import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml' // eslint-disable-line import/no-unresolved
@@ -165,9 +159,6 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
     fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS)),
-    fetchHCMApplications: () =>
-      //this should be removed once we move to using  only QUERY_APPLICATIONS
-      dispatch(fetchResources(RESOURCE_TYPES.HCM_APPLICATIONS)),
     fetchApplications: () =>
       dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     fetchApplicationsGlobalData: () =>
@@ -225,7 +216,6 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   const {
-    HCMApplicationList,
     HCMChannelList,
     HCMSubscriptionList,
     HCMNamespaceList,
@@ -245,7 +235,6 @@ const mapStateToProps = state => {
       AppDeployments.subscriptionModalSubscriptionInfo,
     userRole: role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
-    HCMApplicationList,
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
@@ -279,8 +268,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions,
       fetchUserInfo,
       fetchApplications,
-      fetchApplicationsGlobalData,
-      fetchHCMApplications
+      fetchApplicationsGlobalData
     } = this.props
 
     fetchApplications()
@@ -288,7 +276,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchSubscriptions()
     fetchUserInfo()
     fetchApplicationsGlobalData()
-    fetchHCMApplications()
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -307,14 +294,12 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   reload() {
     const {
-      HCMApplicationList,
       HCMSubscriptionList,
       QueryApplicationList,
       HCMChannelList,
       breadcrumbItems,
       fetchApplications,
       fetchApplicationsGlobalData,
-      fetchHCMApplications,
       fetchSubscriptions,
       fetchChannels,
       openEditChannelModal,
@@ -326,7 +311,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     // only reload data if there are nothing being fetched and no modals are open
     if (
       QueryApplicationList.status === Actions.REQUEST_STATUS.DONE &&
-      HCMApplicationList.status === Actions.REQUEST_STATUS.DONE &&
       HCMSubscriptionList.status === Actions.REQUEST_STATUS.DONE &&
       HCMChannelList.status === Actions.REQUEST_STATUS.DONE &&
       !openEditChannelModal &&
@@ -340,7 +324,6 @@ class ApplicationDeploymentPipeline extends React.Component {
         // reload all the applications
         fetchApplications()
         fetchApplicationsGlobalData()
-        fetchHCMApplications()
         fetchSubscriptions()
       }
       fetchChannels()
@@ -350,14 +333,11 @@ class ApplicationDeploymentPipeline extends React.Component {
   render() {
     // wait for it
     const {
-      HCMApplicationList,
       HCMSubscriptionList,
       HCMChannelList,
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
-
-    //console.log("QueryApplicationList", QueryApplicationList)
 
     if (
       (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
@@ -404,52 +384,25 @@ class ApplicationDeploymentPipeline extends React.Component {
     let selectedAppName = ''
     let selectedAppNS = ''
     const isSingleApplicationView = breadcrumbItems.length == 2
+
+    let filteredApplications = ''
     if (isSingleApplicationView) {
       const urlArray = R.split('/', breadcrumbItems[1].url)
       selectedAppName = urlArray[urlArray.length - 1]
       selectedAppNS = urlArray[urlArray.length - 2]
+
+      // if there is only a single application, filter the list with the selectedAppName
+      filteredApplications = filterApps(QueryApplicationList, selectedAppName)
+    } else {
+      // multi app view
+      filteredApplications = filterApps(
+        QueryApplicationList,
+        AppDeployments.deploymentPipelineSearch
+      )
     }
 
-    const filteredApplications = filterApps(
-      QueryApplicationList,
-      AppDeployments.deploymentPipelineSearch
-    )
-    const filteredApplicationsOld = filterApps(
-      HCMApplicationList,
-      AppDeployments.deploymentPipelineSearch
-    )
-
     const applications = getApplicationsList(filteredApplications)
-    const applicationsOld = getApplicationsList(filteredApplicationsOld)
-
-    //console.log("applications", JSON.stringify(applications))
-
-    let appSubscriptions = []
-    applications.map(application => {
-      //console.log("application.hubSubscriptions", application.hubSubscriptions)
-      //console.log()
-      appSubscriptions = R.concat(
-        appSubscriptions,
-        application.hubSubscriptions
-      )
-    })
-
-    appSubscriptions = HCMSubscriptionList.items
-    //console.log("appSubscriptions", appSubscriptions)
-
-    //console.log("appSubscriptions-test", HCMSubscriptionList.items)
-
-    //console.log("**********")
-
-    const appSubscriptionsOld = getSubscriptionListGivenApplicationList(
-      applicationsOld
-    )
-
-    // const appSubscriptions = getSubscriptionsList(HCMSubscriptionList)
-
-    // console.log("appSubscriptions", JSON.stringify(appSubscriptions))
-    // console.log("appSubscriptionsOld", JSON.stringify(appSubscriptionsOld))
-    // console.log("HCMSubscriptionList", JSON.stringify(HCMSubscriptionList))
+    const appSubscriptions = HCMSubscriptionList.items
 
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []

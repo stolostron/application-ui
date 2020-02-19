@@ -38,9 +38,11 @@ items:
   metadata:
     name: mcm-application-ui-app
   spec:
+    host: application-ui-app-default.apps.straits.os.fyre.ibm.com
     to:
       kind: Service
       name: mcm-application-ui-app
+      weight: 100
 
 # Service
 - apiVersion: v1
@@ -88,5 +90,5 @@ items:
     name: mcm-application-ui-app
   grantMethod: auto
   redirectURIs:
-  - https://localhost:3001/auth/callback
+  - https://localhost:3001/multicloud/applications/auth/callback
   secret: mcm-application-ui-app-test-secret

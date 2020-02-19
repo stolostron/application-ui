@@ -38,7 +38,7 @@ items:
   metadata:
     name: mcm-application-ui-app
   spec:
-    host: application-ui-app-default.apps.straits.os.fyre.ibm.com
+    host: application-ui-app-default.apps.cktestenv4.os.fyre.ibm.com
     to:
       kind: Service
       name: mcm-application-ui-app
@@ -77,7 +77,7 @@ items:
         serviceAccountName: mcm-application-ui-app
         containers:
           - name: mcm-application-ui-app
-            image: quay.io/open-cluster-management/mcm-application-ui:3.5.0
+            image: quay.io/open-cluster-management/mcm-application-ui:3.5.0-0f53dcbf876704a9d57a922ae6ef353f975a0685
             imagePullPolicy: Always
             ports:
             - containerPort: 3001

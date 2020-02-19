@@ -184,12 +184,10 @@ if (process.env.NODE_ENV === 'development') {
   )
 
   app.use(
-    `${appConfig.get('contextPath')}/api/proxy${appConfig.get(
-      'headerContextPath'
-    )}`,
+    `${appConfig.get('contextPath')}/api/proxy`,
     cookieParser(),
     proxy({
-      target: appConfig.get('headerContextPath'),
+      target: appConfig.get('headerUrl'),
       changeOrigin: true,
       pathRewrite: {
         [`^${appConfig.get('contextPath')}/api/proxy`]: ''

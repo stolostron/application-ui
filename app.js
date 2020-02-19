@@ -8,11 +8,11 @@
 'use strict'
 
 var log4js = require('log4js'),
-  logger = log4js.getLogger('server'),
-  watchr = require('watchr'),
-  mime = require('mime-types'),
-  fs = require('fs'),
-  helmet = require('helmet')
+    logger = log4js.getLogger('server'),
+    watchr = require('watchr'),
+    mime = require('mime-types'),
+    fs = require('fs'),
+    helmet = require('helmet')
 
 var log4js_config = process.env.LOG4JS_CONFIG
   ? JSON.parse(process.env.LOG4JS_CONFIG)
@@ -31,13 +31,13 @@ const stalker = watchr.open(
       })
     }
   },
-  () => { }
+  () => {}
 )
 
 var express = require('express'),
-  path = require('path'),
-  appConfig = require('./config'),
-  appUtil = require('./lib/server/app-util')
+    path = require('path'),
+    appConfig = require('./config'),
+    appUtil = require('./lib/server/app-util')
 
 //early initialization
 require('node-i18n-util')
@@ -46,18 +46,43 @@ process.env.BABEL_ENV = 'server'
 require('babel-register')
 
 var bodyParser = require('body-parser'),
-  cookieParser = require('cookie-parser'),
-  csurf = require('csurf'),
-  requestLogger = require('./middleware/request-logger'),
-  controllers = require('./controllers')
+    cookieParser = require('cookie-parser'),
+    csurf = require('csurf'),
+    requestLogger = require('./middleware/request-logger'),
+    controllers = require('./controllers')
 
 var consolidate = require('consolidate')
 
 require('./lib/shared/dust-helpers')
 
 var app = express()
-
 var morgan = require('morgan')
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ['\'none\''],
+      fontSrc: ['\'self\''],
+      scriptSrc: [
+        '\'unsafe-inline\'',
+        '\'self\'',
+        'blob:',
+        'cdn.segment.com',
+        'fast.appcues.com'
+      ],
+      connectSrc: [
+        '\'self\'',
+        'https://api.segment.io',
+        'wss://api.appcues.net',
+        'https://notify.bugsnag.com'
+      ],
+      imgSrc: ['*', 'data:'],
+      frameSrc: ['\'self\'', 'https://my.appcues.com'],
+      styleSrc: ['\'unsafe-inline\'', '\'self\'', 'https://fast.appcues.com']
+    }
+  })
+)
+
 if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
@@ -98,8 +123,7 @@ app.use(
     const accessToken = req.cookies['acm-access-token-cookie']
     if (req.headers.authorization)
       req.headers.authorization = `Bearer ${accessToken}`
-    else
-      req.headers.Authorization = `Bearer ${accessToken}`
+    else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
   proxy({
@@ -122,8 +146,7 @@ app.use(
     const accessToken = req.cookies['acm-access-token-cookie']
     if (req.headers.authorization)
       req.headers.authorization = `Bearer ${accessToken}`
-    else
-      req.headers.Authorization = `Bearer ${accessToken}`
+    else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
   proxy({
@@ -149,21 +172,31 @@ app.use(
 )
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(appConfig.get('headerContextPath'), cookieParser(), proxy({
-    target: appConfig.get('headerContextPath'),
-    changeOrigin: true,
-    secure: false,
-    ws: true
-  }))
+  app.use(
+    appConfig.get('headerContextPath'),
+    cookieParser(),
+    proxy({
+      target: appConfig.get('headerContextPath'),
+      changeOrigin: true,
+      secure: false,
+      ws: true
+    })
+  )
 
-  app.use(`${appConfig.get('contextPath')}/api/proxy${appConfig.get('headerContextPath')}`, cookieParser(), proxy({
-    target: appConfig.get('headerContextPath'),
-    changeOrigin: true,
-    pathRewrite: {
-      [`^${appConfig.get('contextPath')}/api/proxy`]: ''
-    },
-    secure: false
-  }))
+  app.use(
+    `${appConfig.get('contextPath')}/api/proxy${appConfig.get(
+      'headerContextPath'
+    )}`,
+    cookieParser(),
+    proxy({
+      target: appConfig.get('headerContextPath'),
+      changeOrigin: true,
+      pathRewrite: {
+        [`^${appConfig.get('contextPath')}/api/proxy`]: ''
+      },
+      secure: false
+    })
+  )
 }
 
 app.engine('dust', consolidate.dust)
@@ -175,7 +208,7 @@ app.set('view cache', true)
 appUtil.app(app)
 
 const CONTEXT_PATH = appConfig.get('contextPath'),
-  STATIC_PATH = path.join(__dirname, 'public')
+      STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
@@ -243,7 +276,7 @@ logger.info('Starting express server.')
 server.listen(port, () => {
   logger.info(
     `Application Lifecycle is now running on ${
-    process.env.NODE_ENV === 'development' ? 'https' : 'http'
+      process.env.NODE_ENV === 'development' ? 'https' : 'http'
     }://localhost:${port}${CONTEXT_PATH}`
   )
 })

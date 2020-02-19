@@ -43,7 +43,7 @@ or npm run build:production
 <pre>
 export OAUTH2_CLIENT_ID=
 export OAUTH2_CLIENT_SECRET=
-export OAUTH2_REDIRECT_URL=
+export OAUTH2_REDIRECT_URL=https://localhost:3001/multicloud/applications/auth/callback
 
 #for local testing, from ocp login token
 export API_SERVER_URL=

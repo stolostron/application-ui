@@ -3,7 +3,7 @@
     "httpPort": 3001,
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
-    "headerUrl": "http://console-header:3000",
+    "headerUrl": "http://console-header:3001",
     "headerContextPath": "/multicloud/header",
     "leftNav": "console-header-nav",
     "feature_searchRelated": false,
@@ -22,7 +22,7 @@
     },
     "OAUTH2_CLIENT_ID": "",
     "OAUTH2_CLIENT_SECRET": "",
-    "OAUTH2_REDIRECT_URL": "https://localhost:3001/multicloud/applications/auth/callback",
+    "OAUTH2_REDIRECT_URL": "",
     "tests": {
         "user": "admin",
         "password": "all-ansible-aardvarks-advance-appropriately"

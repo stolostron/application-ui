@@ -3,10 +3,9 @@
     "httpPort": 3001,
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
-    "cfcRouterUrl": "",
-    "headerRouteUrl": "",
+    "headerUrl": "http://console-header:3001",
     "headerContextPath": "/multicloud/header",
-    "leftNav": "multicluster-hub-nav",
+    "leftNav": "console-header-nav",
     "feature_searchRelated": false,
     "featureFlags": {
         "dashboardLiveUpdates": true,
@@ -23,43 +22,7 @@
     },
     "OAUTH2_CLIENT_ID": "",
     "OAUTH2_CLIENT_SECRET": "",
-    "OAUTH2_REDIRECT_URL": "https://localhost:3000/auth/liberty/callback",
-    "overview": {
-        "providers": [
-            {
-                "title": "AWS",
-                "includes": [
-                    {
-                        "cloud": "aws"
-                    }
-                ]
-            },
-            {
-                "title": "Azure",
-                "includes": [
-                    {
-                        "cloud": "azure"
-                    }
-                ]
-            },
-            {
-                "title": "Google",
-                "includes": [
-                    {
-                        "cloud": "google"
-                    }
-                ]
-            },
-            {
-                "title": "IBM",
-                "includes": [
-                    {
-                        "cloud": "ibm"
-                    }
-                ]
-            }
-        ]
-    },
+    "OAUTH2_REDIRECT_URL": "https://localhost:3001/multicloud/applications/auth/callback",
     "tests": {
         "user": "admin",
         "password": "all-ansible-aardvarks-advance-appropriately"

@@ -27,4 +27,4 @@ DOCKER_BUILD_OPTS=--build-arg "VCS_REF=$(SEMVERSION)" \
 	--build-arg "IMAGE_OPENSHIFT_TAGS=$(IMAGE_OPENSHIFT_TAGS)"
 
 NODE_ENV ?=development
-cfcRouterUrl ?=https://localhost:8443
+headerUrl ?=https://localhost:8443

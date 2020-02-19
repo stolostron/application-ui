@@ -388,6 +388,9 @@ const ChannelColumnGrid = (
                         bulkSubscriptionList,
                         subCol._uid
                       )
+                      // assigning channel value to the object displayed in modal
+                      thisSubscriptionData.channel = subCol.channel
+
                       const placementRule = getPlacementRuleFromBulkSubscription(
                         thisSubscriptionData
                       )

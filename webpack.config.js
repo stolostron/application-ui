@@ -32,7 +32,6 @@ module.exports = {
   devtool: PRODUCTION ? "source-map" : "cheap-module-source-map",
   stats: { children: false },
   entry: {
-    common: ["./scss/common.scss"],
     main: ["babel-polyfill", "./src-web/index.js"]
   },
 
@@ -97,6 +96,14 @@ module.exports = {
       {
         test: /\.(png|jpg)$/,
         use: ["svg-sprite-loader?symbolId=icon-[name]", "image2svg-loader"]
+      },
+      {
+        test: [/\.handlebars$/, /\.hbs$/],
+        loader: "handlebars-loader"
+      },
+      {
+        test: /\.yaml$/,
+        loader: "js-yaml-loader"
       }
     ],
     noParse: [
@@ -178,7 +185,11 @@ module.exports = {
       }
     })
   ],
-
+  resolve: {
+    alias: {
+      handlebars: "handlebars/dist/handlebars.min.js"
+    }
+  },
   resolveLoader: {
     modules: [
       path.join(__dirname, "node_modules"),

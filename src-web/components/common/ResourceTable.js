@@ -554,7 +554,7 @@ ResourceTable.contextTypes = {
 
 const mapStateToProps = state => {
   const navRoutes = state.nav && state.nav.navItems
-  const userRole = state.role.role
+  const userRole = state.role && state.role.role
 
   return { navRoutes, userRole }
 }

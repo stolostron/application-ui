@@ -27,9 +27,7 @@ const ReactDOMServer = require('react-dom/server'),
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
 
-logger.debug('HERE!!!')
 let App, Login, role, reducers, uiConfig //laziy initialize to reduce startup time seen on k8s
-//router.get('/logout', securityMW.logout)
 router.get('/logout', (req, res) => {
   var LOGOUT_API = '/v1/auth/logout'
   var callbackUrl = req.headers['host']

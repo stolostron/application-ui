@@ -142,7 +142,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   const { role, AppOverview } = state
   return {
-    userRole: role.role,
+    userRole: role && role.role,
     selectedAppTab: AppOverview.selectedAppTab
   }
 }

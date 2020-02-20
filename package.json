@@ -2,7 +2,7 @@
   "name": "mcm-application-ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development node app.js",
     "start:production": "cross-env NODE_ENV=production node app.js",
@@ -97,7 +97,7 @@
     "js-yaml-loader": "^1.2.2",
     "loadable-components": "^1.4.0",
     "lodash": "^4.17.5",
-    "log4js": "^2.5.3",
+    "log4js": "^2.11.0",
     "mime-types": "^2.1.18",
     "minimist": "^1.2.0",
     "moment": "^2.22.1",

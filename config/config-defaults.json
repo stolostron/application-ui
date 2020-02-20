@@ -3,7 +3,7 @@
     "httpPort": 3001,
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
-    "headerUrl": "http://console-header:3001",
+    "headerUrl": "http://console-header:3000",
     "headerContextPath": "/multicloud/header",
     "leftNav": "console-header-nav",
     "feature_searchRelated": false,

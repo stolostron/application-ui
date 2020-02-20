@@ -1,0 +1,469 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploymentHighlights renders correctly with an app selected. 1`] = `
+<div
+  id="DeploymentHighlights"
+>
+  <div
+    id="ApplicationDeploymentHighlightsTerminology"
+  >
+    <ul
+      className="bx--accordion"
+    >
+      <li
+        className="bx--accordion__item"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        open={false}
+        role="presentation"
+      >
+        <button
+          aria-expanded={false}
+          className="bx--accordion__heading"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            alt="Expand and collapse"
+            aria-label="Expand and collapse"
+            className="bx--accordion__arrow"
+            fillRule="evenodd"
+            height="12"
+            role={null}
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Expand and collapse
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+          <div
+            className="bx--accordion__title"
+          >
+            Learn more about the terminology
+          </div>
+        </button>
+        <div
+          className="bx--accordion__content"
+        >
+          <div
+            className="bx--tile"
+          >
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Subscriptions
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Subscriptions identify deployables within channels by using annotations, labels and versions. Then, the subscription places the deployables (template or referenced Helm chart) on the subscribed target clusters.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Placement rules
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Placement rules define the target clusters where subscriptions are delivered.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Deployables
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Deployables are Kubernetes resources that contain templates that wrap other Kubernetes resources to be deployed. They are also used to represent Helm charts.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Channels
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as a namespace, object store, or Helm repository. Channels use deployable resources to represent stored Kubernetes resources and Helm charts.
+              </p>
+            </div>
+            <div
+              className="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  className="deployment-highlights-terminology-docs-text"
+                >
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="deployment-highlights-terminology-docs-icon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighlights with no app renders correctly. 1`] = `
+<div
+  id="DeploymentHighlights"
+>
+  <div
+    id="ApplicationDeploymentHighlightsTerminology"
+  >
+    <ul
+      className="bx--accordion"
+    >
+      <li
+        className="bx--accordion__item--active bx--accordion__item"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        open={true}
+        role="presentation"
+      >
+        <button
+          aria-expanded={true}
+          className="bx--accordion__heading"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            alt="Expand and collapse"
+            aria-label="Expand and collapse"
+            className="bx--accordion__arrow"
+            fillRule="evenodd"
+            height="12"
+            role={null}
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Expand and collapse
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+          <div
+            className="bx--accordion__title"
+          >
+            Learn more about the terminology
+          </div>
+        </button>
+        <div
+          className="bx--accordion__content"
+        >
+          <div
+            className="bx--tile"
+          >
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Subscriptions
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Subscriptions identify deployables within channels by using annotations, labels and versions. Then, the subscription places the deployables (template or referenced Helm chart) on the subscribed target clusters.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Placement rules
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Placement rules define the target clusters where subscriptions are delivered.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Deployables
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Deployables are Kubernetes resources that contain templates that wrap other Kubernetes resources to be deployed. They are also used to represent Helm charts.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Channels
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as a namespace, object store, or Helm repository. Channels use deployable resources to represent stored Kubernetes resources and Helm charts.
+              </p>
+            </div>
+            <div
+              className="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  className="deployment-highlights-terminology-docs-text"
+                >
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="deployment-highlights-terminology-docs-icon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`ApplicationDeploymentHighlights with single app selection ApplicationDeploymentHighlights renders correctly when single app is selected. 1`] = `
+<div
+  id="DeploymentHighlights"
+>
+  <div
+    id="ApplicationDeploymentHighlightsTerminology"
+  >
+    <ul
+      className="bx--accordion"
+    >
+      <li
+        className="bx--accordion__item"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        open={false}
+        role="presentation"
+      >
+        <button
+          aria-expanded={false}
+          className="bx--accordion__heading"
+          onClick={[Function]}
+          type="button"
+        >
+          <svg
+            alt="Expand and collapse"
+            aria-label="Expand and collapse"
+            className="bx--accordion__arrow"
+            fillRule="evenodd"
+            height="12"
+            role={null}
+            viewBox="0 0 7 12"
+            width="7"
+          >
+            <title>
+              Expand and collapse
+            </title>
+            <path
+              d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+            />
+          </svg>
+          <div
+            className="bx--accordion__title"
+          >
+            Learn more about the terminology
+          </div>
+        </button>
+        <div
+          className="bx--accordion__content"
+        >
+          <div
+            className="bx--tile"
+          >
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Subscriptions
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Subscriptions identify deployables within channels by using annotations, labels and versions. Then, the subscription places the deployables (template or referenced Helm chart) on the subscribed target clusters.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Placement rules
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Placement rules define the target clusters where subscriptions are delivered.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Deployables
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Deployables are Kubernetes resources that contain templates that wrap other Kubernetes resources to be deployed. They are also used to represent Helm charts.
+              </p>
+            </div>
+            <div
+              className="terminology-item"
+            >
+              <p
+                className="deployment-highlights-terminology-header"
+              >
+                Channels
+              </p>
+              <p
+                className="deployment-highlights-terminology-content"
+              >
+                Channels point to repositories where Kubernetes resources are stored, such as a namespace, object store, or Helm repository. Channels use deployable resources to represent stored Kubernetes resources and Helm charts.
+              </p>
+            </div>
+            <div
+              className="deployment-highlights-terminology-docs"
+            >
+              <a
+                href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span
+                  className="deployment-highlights-terminology-docs-text"
+                >
+                  View documentation
+                </span>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="deployment-highlights-terminology-docs-icon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--launch"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                  />
+                  <path
+                    d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

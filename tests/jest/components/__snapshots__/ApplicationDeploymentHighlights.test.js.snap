@@ -312,7 +312,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
 </div>
 `;
 
-exports[`ApplicationDeploymentHighlights with single app selection ApplicationDeploymentHighlights renders correctly when single app is selected. 1`] = `
+exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploymentHighlights renders correctly when no app is selected. 1`] = `
 <div
   id="DeploymentHighlights"
 >

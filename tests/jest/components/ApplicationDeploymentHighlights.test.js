@@ -152,7 +152,7 @@ describe("ApplicationDeploymentHighlights with no app", () => {
   });
 });
 
-describe("ApplicationDeploymentHighlights with single app selection", () => {
+describe("ApplicationDeploymentHighlights with no app selection", () => {
   const mockStore = configureStore([]);
   let store;
   // values from the mocked store
@@ -162,7 +162,7 @@ describe("ApplicationDeploymentHighlights with single app selection", () => {
       secondaryHeader: { breadcrumbItems: undefined }
     });
   });
-  it("ApplicationDeploymentHighlights renders correctly when single app is selected.", () => {
+  it("ApplicationDeploymentHighlights renders correctly when no app is selected.", () => {
     const tree = renderer
       .create(
         <Provider store={store}>

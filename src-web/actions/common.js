@@ -187,9 +187,12 @@ export const fetchResources = resourceType => {
             )
           }
           if (result.error) {
-            //console.log('QueryApp ERROR', result)
             return dispatch(receiveResourceError(result.error, resourceType))
           }
+        })
+        .catch(error => {
+          // catch graph connection error
+          return dispatch(receiveResourceError(error, resourceType))
         })
     }
   }

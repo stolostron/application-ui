@@ -242,7 +242,7 @@ const mapStateToProps = state => {
     subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
     subscriptionModalSubscriptionInfo:
       AppDeployments.subscriptionModalSubscriptionInfo,
-    userRole: role.role,
+    userRole: role && role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
     HCMApplicationList,
     HCMChannelList,

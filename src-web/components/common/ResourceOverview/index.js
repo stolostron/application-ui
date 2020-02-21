@@ -331,7 +331,7 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
-    userRole: role.role,
+    userRole: role && role.role,
     loading: AppDeployments.loading,
     currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     openEditApplicationModal: AppDeployments.openEditApplicationModal

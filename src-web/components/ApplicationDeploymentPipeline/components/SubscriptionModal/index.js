@@ -55,13 +55,8 @@ const SubscriptionInfo = withLocale(
     // let deployables_hover = ''
     let owningClusterName = ''
     let channel = ''
-    const status = subscriptionModalSubscriptionInfo.applicationStatus || [
-      0,
-      0,
-      0,
-      0,
-      0
-    ]
+    const status = (subscriptionModalSubscriptionInfo &&
+      subscriptionModalSubscriptionInfo.applicationStatus) || [0, 0, 0, 0, 0]
     // let version = ''
 
     if (notEmptySubscription) {

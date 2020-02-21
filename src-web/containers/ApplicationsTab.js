@@ -10,11 +10,10 @@
 import React from 'react'
 import ResourceTableModule from '../components/common/ResourceTableModuleFromProps'
 import { withRouter } from 'react-router-dom'
-import { RESOURCE_TYPES, ROLES } from '../../lib/shared/constants'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageWithListAndDetails } from '../components/common/ResourcePage'
 import { createResources } from '../actions/common'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
-import withAccess from '../components/common/withAccess'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
 import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationSample.yml' // eslint-disable-line import/no-unresolved
@@ -39,22 +38,14 @@ const registerApplicationModal = (
 )
 
 export default withRouter(
-  withAccess(
-    typedResourcePageWithListAndDetails(
-      RESOURCE_TYPES.QUERY_APPLICATIONS,
-      //RESOURCE_TYPES.HCM_APPLICATIONS,
-      [],
-      [registerApplicationModal],
-      [],
-      [
-        <ResourceTableModule
-          key="deployments"
-          definitionsKey="deploymentKeys"
-        />
-      ],
-      tableTitle,
-      'All applications'
-    ),
-    ROLES.VIEWER
+  typedResourcePageWithListAndDetails(
+    RESOURCE_TYPES.QUERY_APPLICATIONS,
+    //RESOURCE_TYPES.HCM_APPLICATIONS,
+    [],
+    [registerApplicationModal],
+    [],
+    [<ResourceTableModule key="deployments" definitionsKey="deploymentKeys" />],
+    tableTitle,
+    'All applications'
   )
 )

@@ -5,16 +5,17 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
+"use strict";
 
-import { configure } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import "cross-fetch/polyfill";
 
-configure({ adapter: new Adapter() })
+configure({ adapter: new Adapter() });
 
-jest.mock('../../../nls/platform.properties', () => ({
+jest.mock("../../../nls/platform.properties", () => ({
   get: jest.fn(key => {
-    const msgs = require('./platform-properties.json')
-    return msgs[key]
+    const msgs = require("./platform-properties.json");
+    return msgs[key];
   })
-}))
+}));

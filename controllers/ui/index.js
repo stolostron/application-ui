@@ -6,16 +6,17 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
-
 var express = require('express'),
-    router = express.Router()
-
-var inspect = require('@icp/security-middleware')
+    router = express.Router(),
+    inspect = require('security-middleware')
 
 //controllers
-var app = require('./app')
+var app = require('./app'),
+    tokenController = require('./token'),
+    serviceDiscovery = require('./serviceDiscovery')
 
-// router.use(csrf) TODO: Revisit csrf
-router.all(['/', '/*'], inspect.ui, app)
+router.all('/token', tokenController)
+router.all('/servicediscovery/*', serviceDiscovery)
+router.all(['/', '/*'], inspect.ui(), app)
 
 module.exports = router

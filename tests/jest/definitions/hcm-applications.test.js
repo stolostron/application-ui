@@ -10,15 +10,15 @@ import {
   getNumRemoteSubs,
   createApplicationLink,
   LabelWithOptionalTooltip
-} from '../../../src-web/definitions/hcm-applications'
+} from "../../../src-web/definitions/hcm-applications";
 
 const query_data1 = {
-  name: 'val',
-  namespace: 'default',
-  _uid: 'local-cluster/e04141c7-4377-11ea-a84e-00000a100f99',
+  name: "val",
+  namespace: "default",
+  _uid: "local-cluster/e04141c7-4377-11ea-a84e-00000a100f99",
   dashboard:
-    'localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default',
-  created: '2020-01-30T15:47:53Z',
+    "localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default",
+  created: "2020-01-30T15:47:53Z",
   remoteSubscriptionStatusCount: {
     Subscribed: 4,
     Failed: 5,
@@ -34,34 +34,34 @@ const query_data1 = {
   clusterCount: 4,
   hubSubscriptions: [
     {
-      _uid: 'local-cluster/66426f24-3bd3-11ea-a488-00000a100f99',
-      status: 'Propagated',
-      channel: 'dev1/dev1'
+      _uid: "local-cluster/66426f24-3bd3-11ea-a488-00000a100f99",
+      status: "Propagated",
+      channel: "dev1/dev1"
     },
     {
-      _uid: 'local-cluster/bdced01f-3bd4-11ea-a488-00000a100f99',
+      _uid: "local-cluster/bdced01f-3bd4-11ea-a488-00000a100f99",
       status: null,
-      channel: 'dev1/dev1'
+      channel: "dev1/dev1"
     },
     {
-      _uid: 'local-cluster/b218636d-3d5e-11ea-8ed1-00000a100f99',
-      status: 'Propagated',
-      channel: 'default/mortgage-channel'
+      _uid: "local-cluster/b218636d-3d5e-11ea-8ed1-00000a100f99",
+      status: "Propagated",
+      channel: "default/mortgage-channel"
     }
   ]
-}
+};
 
 const query_data2 = {
-  name: 'val',
-  namespace: 'default',
-  _uid: 'local-cluster/e04141c7-4377-11ea-a84e-00000a100f99',
+  name: "val",
+  namespace: "default",
+  _uid: "local-cluster/e04141c7-4377-11ea-a84e-00000a100f99",
   dashboard:
-    'localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default',
-  created: '2020-01-30T15:47:53Z',
+    "localhost/grafana/dashboard/db/val-dashboard-via-federated-prometheus?namespace=default",
+  created: "2020-01-30T15:47:53Z",
   remoteSubscriptionStatusCount: {
     Subscribed: 4
   }
-}
+};
 
 const result1 = {
   _owner: null,
@@ -72,7 +72,7 @@ const result1 = {
       {
         _owner: null,
         _store: {},
-        key: '1',
+        key: "1",
         props: { labelText: 12 },
         ref: null
       },
@@ -80,17 +80,17 @@ const result1 = {
         _owner: null,
         _store: {},
         key: null,
-        props: { children: ' | ' },
+        props: { children: " | " },
         ref: null,
-        type: 'span'
+        type: "span"
       },
       {
         _owner: null,
         _store: {},
-        key: '2',
+        key: "2",
         props: {
-          description: 'Failed',
-          iconName: 'failed-status',
+          description: "Failed",
+          iconName: "failed-status",
           labelText: 5
         },
         ref: null
@@ -98,10 +98,10 @@ const result1 = {
       {
         _owner: null,
         _store: {},
-        key: '3',
+        key: "3",
         props: {
-          description: 'No status',
-          iconName: 'no-status',
+          description: "No status",
+          iconName: "no-status",
           labelText: 3
         },
         ref: null
@@ -109,8 +109,8 @@ const result1 = {
     ]
   },
   ref: null,
-  type: 'ul'
-}
+  type: "ul"
+};
 const result2 = {
   _owner: null,
   _store: {},
@@ -120,7 +120,7 @@ const result2 = {
       {
         _owner: null,
         _store: {},
-        key: '1',
+        key: "1",
         props: { labelText: 4 },
         ref: null
       },
@@ -128,10 +128,10 @@ const result2 = {
       {
         _owner: null,
         _store: {},
-        key: '2',
+        key: "2",
         props: {
-          description: 'Failed',
-          iconName: 'failed-status',
+          description: "Failed",
+          iconName: "failed-status",
           labelText: 0
         },
         ref: null
@@ -139,10 +139,10 @@ const result2 = {
       {
         _owner: null,
         _store: {},
-        key: '3',
+        key: "3",
         props: {
-          description: 'No status',
-          iconName: 'no-status',
+          description: "No status",
+          iconName: "no-status",
           labelText: 0
         },
         ref: null
@@ -150,8 +150,8 @@ const result2 = {
     ]
   },
   ref: null,
-  type: 'ul'
-}
+  type: "ul"
+};
 const noItem = {
   _owner: null,
   _store: {},
@@ -161,7 +161,7 @@ const noItem = {
       {
         _owner: null,
         _store: {},
-        key: '1',
+        key: "1",
         props: { labelText: 0 },
         ref: null
       },
@@ -169,10 +169,10 @@ const noItem = {
       {
         _owner: null,
         _store: {},
-        key: '2',
+        key: "2",
         props: {
-          description: 'Failed',
-          iconName: 'failed-status',
+          description: "Failed",
+          iconName: "failed-status",
           labelText: 0
         },
         ref: null
@@ -180,10 +180,10 @@ const noItem = {
       {
         _owner: null,
         _store: {},
-        key: '3',
+        key: "3",
         props: {
-          description: 'No status',
-          iconName: 'no-status',
+          description: "No status",
+          iconName: "no-status",
           labelText: 0
         },
         ref: null
@@ -191,47 +191,47 @@ const noItem = {
     ]
   },
   ref: null,
-  type: 'ul'
-}
+  type: "ul"
+};
 
-describe('getNumRemoteSubs', () => {
-  it('should return remote subscriptions count', () => {
+describe("getNumRemoteSubs", () => {
+  it("should return remote subscriptions count", () => {
     expect(JSON.parse(JSON.stringify(getNumRemoteSubs(query_data1)))).toEqual(
       result1
-    )
-  })
-  it('should return 4 subscribed, no errors', () => {
+    );
+  });
+  it("should return 4 subscribed, no errors", () => {
     expect(JSON.parse(JSON.stringify(getNumRemoteSubs(query_data2)))).toEqual(
       result2
-    )
-  })
-  it('should return no data', () => {
-    expect(JSON.parse(JSON.stringify(getNumRemoteSubs()))).toEqual(noItem)
-  })
-})
+    );
+  });
+  it("should return no data", () => {
+    expect(JSON.parse(JSON.stringify(getNumRemoteSubs()))).toEqual(noItem);
+  });
+});
 
-describe('createApplicationLink', () => {
-  it('should return the app link ', () => {
+describe("createApplicationLink", () => {
+  it("should return the app link ", () => {
     const result = {
       _owner: null,
       _store: {},
       key: null,
-      props: { children: 'val', replace: false, to: 'undefined/default/val' },
+      props: { children: "val", replace: false, to: "undefined/default/val" },
       ref: null
-    }
+    };
     expect(
       JSON.parse(JSON.stringify(createApplicationLink(query_data1)))
-    ).toEqual(result)
-  })
-})
+    ).toEqual(result);
+  });
+});
 
-describe('LabelWithOptionalTooltip', () => {
-  it('show failed tooltip ', () => {
+describe("LabelWithOptionalTooltip", () => {
+  it("show failed tooltip ", () => {
     const props = {
-      description: 'Failed',
-      iconName: 'failed-status',
+      description: "Failed",
+      iconName: "failed-status",
       labelText: 10
-    }
+    };
     const result = {
       _owner: null,
       _store: {},
@@ -248,17 +248,17 @@ describe('LabelWithOptionalTooltip', () => {
                 _store: {},
                 key: null,
                 props: {
-                  alt: '',
-                  height: '10px',
-                  src: 'undefined/graphics/failed-status.svg',
-                  style: { marginRight: '4px' },
-                  width: '10px'
+                  alt: "",
+                  height: "10px",
+                  src: "undefined/graphics/failed-status.svg",
+                  style: { marginRight: "4px" },
+                  width: "10px"
                 },
                 ref: null,
-                type: 'img'
+                type: "img"
               },
-              direction: 'top',
-              tooltipText: 'Failed'
+              direction: "top",
+              tooltipText: "Failed"
             },
             ref: null
           },
@@ -268,23 +268,23 @@ describe('LabelWithOptionalTooltip', () => {
             key: null,
             props: {
               children: 10,
-              style: { fontSize: '14px', paddingRight: '8px' }
+              style: { fontSize: "14px", paddingRight: "8px" }
             },
             ref: null,
-            type: 'p'
+            type: "p"
           }
         ],
-        style: { alignItems: 'center', display: 'inline-flex' }
+        style: { alignItems: "center", display: "inline-flex" }
       },
       ref: null,
-      type: 'div'
-    }
+      type: "div"
+    };
     expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
       result
-    )
-  })
-  it('show failed tooltip, with label, no icon', () => {
-    const props = { description: 'Failed', labelText: 10 }
+    );
+  });
+  it("show failed tooltip, with label, no icon", () => {
+    const props = { description: "Failed", labelText: 10 };
     const result = {
       _owner: null,
       _store: {},
@@ -298,61 +298,61 @@ describe('LabelWithOptionalTooltip', () => {
             key: null,
             props: {
               children: 10,
-              style: { fontSize: '14px', paddingRight: '8px' }
+              style: { fontSize: "14px", paddingRight: "8px" }
             },
             ref: null,
-            type: 'p'
+            type: "p"
           }
         ],
-        style: { alignItems: 'center', display: 'inline-flex' }
+        style: { alignItems: "center", display: "inline-flex" }
       },
       ref: null,
-      type: 'div'
-    }
+      type: "div"
+    };
     expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
       result
-    )
-  })
-  it('show no text and no icon, label ', () => {
-    const props = { description: 'Failed' }
+    );
+  });
+  it("show no text and no icon, label ", () => {
+    const props = { description: "Failed" };
     const result = {
       _owner: null,
       _store: {},
       key: null,
-      props: { style: { fontSize: '14px' } },
+      props: { style: { fontSize: "14px" } },
       ref: null,
-      type: 'p'
-    }
+      type: "p"
+    };
     expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
       result
-    )
-  })
-  it('show no text and icon ', () => {
-    const props = { description: 'Failed', iconName: 'failed-status' }
+    );
+  });
+  it("show no text and icon ", () => {
+    const props = { description: "Failed", iconName: "failed-status" };
     const result = {
       _owner: null,
       _store: {},
       key: null,
       props: {},
       ref: null,
-      type: 'span'
-    }
+      type: "span"
+    };
     expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
       result
-    )
-  })
-  it('show no description ', () => {
-    const props = {}
+    );
+  });
+  it("show no description ", () => {
+    const props = {};
     const result = {
       _owner: null,
       _store: {},
       key: null,
-      props: { style: { fontSize: '14px' } },
+      props: { style: { fontSize: "14px" } },
       ref: null,
-      type: 'p'
-    }
+      type: "p"
+    };
     expect(JSON.parse(JSON.stringify(LabelWithOptionalTooltip(props)))).toEqual(
       result
-    )
-  })
-})
+    );
+  });
+});

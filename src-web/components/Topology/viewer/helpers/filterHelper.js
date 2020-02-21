@@ -13,34 +13,42 @@ import { getSearchFilter, filterNodes } from '../defaults/filtering'
 import _ from 'lodash'
 
 export default class FilterHelper {
-
   constructor(staticResourceData) {
     this.lastFilters = null
-    this.lastSearch = {searchName:'', searchFilter:undefined}
+    this.lastSearch = { searchName: '', searchFilter: undefined }
     this.staticResourceData = staticResourceData
   }
 
   filterElements = (nodes, links, activeFilters, availableFilters, cbs) => {
-    if (nodes.length>0) {
-      const {filters} = (this.staticResourceData.getSearchFilter||getSearchFilter)(activeFilters)
+    if (nodes.length > 0) {
+      const { filters } = (this.staticResourceData.getSearchFilter ||
+        getSearchFilter)(activeFilters)
       if (this.lastFilters && !_.isEqual(this.lastFilters, filters)) {
         cbs.resetLayout()
       }
-      this.lastFilters=filters
+      this.lastFilters = filters
       const nodeMap = _.keyBy(nodes, 'uid')
 
       // hide and remove any nodes without the right filter
-      nodes = this.staticResourceData.filterNodes ?
-          this.staticResourceData.filterNodes(nodes, filters, availableFilters, FilterResults) :
-          filterNodes('', nodes)
+      nodes = this.staticResourceData.filterNodes
+        ? this.staticResourceData.filterNodes(
+          nodes,
+          filters,
+          availableFilters,
+          FilterResults
+        )
+        : filterNodes('', nodes)
 
       // d3 hides the shape--easier to do then constantly creating and destroying svg elements
-      links.forEach(({source, target, layout})=>{
+      links.forEach(({ source, target, layout }) => {
         const sourceSearch = _.get(nodeMap[source], 'layout.search')
         const targetSearch = _.get(nodeMap[target], 'layout.search')
         if (layout) {
           // hide any links that now connect to a node that is hidden
-          if (sourceSearch === FilterResults.hidden || targetSearch === FilterResults.hidden) {
+          if (
+            sourceSearch === FilterResults.hidden ||
+            targetSearch === FilterResults.hidden
+          ) {
             layout.search = FilterResults.hidden
           } else if (layout.search === FilterResults.hidden) {
             layout.search = FilterResults.nosearch
@@ -49,38 +57,50 @@ export default class FilterHelper {
 
         // show any nodes that have a visible link
         if (!layout || layout.search !== FilterResults.hidden) {
-          if (sourceSearch===FilterResults.hidden) {
+          if (sourceSearch === FilterResults.hidden) {
             nodeMap[source].layout.search = FilterResults.nosearch
           }
-          if (targetSearch===FilterResults.hidden) {
+          if (targetSearch === FilterResults.hidden) {
             nodeMap[target].layout.search = FilterResults.nosearch
           }
         }
       })
     }
     return nodes
-  }
+  };
 
-  searchElements = (cy, collections, searchName='', activeFilters, numNodes, cbs) => {
+  searchElements = (
+    cy,
+    collections,
+    searchName = '',
+    activeFilters,
+    numNodes,
+    cbs
+  ) => {
     // reset previous search
     this.cy = cy
     let searchNames = []
-    const {search: searchFilter} = (this.staticResourceData.getSearchFilter||getSearchFilter)(activeFilters)
-    const isSearching = searchName.length>0 || !!searchFilter
-    const wasSearching = this.lastSearch.searchName || !!this.lastSearch.searchFilter
-    const isNewSearch = !_.isEqual(this.lastSearch, {searchName, searchFilter})
+    const { search: searchFilter } = (this.staticResourceData.getSearchFilter ||
+      getSearchFilter)(activeFilters)
+    const isSearching = searchName.length > 0 || !!searchFilter
+    const wasSearching =
+      this.lastSearch.searchName || !!this.lastSearch.searchFilter
+    const isNewSearch = !_.isEqual(this.lastSearch, {
+      searchName,
+      searchFilter
+    })
     if (wasSearching && isNewSearch) {
-      ['connected', 'unconnected'].forEach(key=>{
-        collections[key].forEach(({elements})=>{
-          elements.forEach(element=>{
+      ['connected', 'unconnected'].forEach(key => {
+        collections[key].forEach(({ elements }) => {
+          elements.forEach(element => {
             const data = element.data()
             let layout
             if (element.isNode()) {
-              ({layout} = data.node)
+              ({ layout } = data.node)
             } else {
-              ({layout} = data.edge)
+              ({ layout } = data.edge)
             }
-            if (!searchName && layout.search===FilterResults.match) {
+            if (!searchName && layout.search === FilterResults.match) {
               layout.search = FilterResults.matched // past tense
             } else {
               layout.search = FilterResults.nosearch
@@ -105,48 +125,62 @@ export default class FilterHelper {
     }
 
     // filter by name
-    let directedPath=false
+    let directedPath = false
     if (isSearching) {
-      this.caseSensitive = searchName.localeCompare(searchName.toLowerCase()) !== 0
+      this.caseSensitive =
+        searchName.localeCompare(searchName.toLowerCase()) !== 0
       if (!this.caseSensitive) {
         searchName = searchName.toLowerCase()
       }
-      ({searchNames, directedPath} = getSearchNames(searchName))
+      ({ searchNames, directedPath } = getSearchNames(searchName))
       if (directedPath) {
-        collections['connected'] = this.findConnectedPath(collections['connected'], searchNames)
-        collections['unconnected'] = this.hideUnconnected(collections['unconnected'])
+        collections['connected'] = this.findConnectedPath(
+          collections['connected'],
+          searchNames
+        )
+        collections['unconnected'] = this.hideUnconnected(
+          collections['unconnected']
+        )
       } else {
-        searchNames = searchNames.filter(s=>!!s)
-        collections['connected'] = this.filterConnected(collections['connected'], searchNames, searchFilter)
-        collections['unconnected'] = this.filterUnconnected(collections['unconnected'], searchNames, searchFilter)
+        searchNames = searchNames.filter(s => !!s)
+        collections['connected'] = this.filterConnected(
+          collections['connected'],
+          searchNames,
+          searchFilter
+        )
+        collections['unconnected'] = this.filterUnconnected(
+          collections['unconnected'],
+          searchNames,
+          searchFilter
+        )
       }
     } else {
       this.showUnconnected(collections['unconnected'])
     }
-    this.lastSearch = {searchName, searchFilter}
+    this.lastSearch = { searchName, searchFilter }
 
-    return {searchNames, directedPath}
-  }
+    return { searchNames, directedPath }
+  };
 
   findConnectedPath = (connected, searchNames) => {
     return connected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
       const elementMap = {}
-      elements.toArray().forEach(element=>{
-        const {id} = element.data()
+      elements.toArray().forEach(element => {
+        const { id } = element.data()
         elementMap[id] = element
       })
 
       // find matching sources and targets
       let srcs = []
       let tgts = []
-      Object.values(elementMap).forEach(element=>{
+      Object.values(elementMap).forEach(element => {
         if (element.isNode()) {
           const name = this.getName(element)
-          const arr = [0,1]
-          arr.forEach(idx=>{
-            if (searchNames[idx] && name.indexOf(searchNames[idx]) !==-1) {
-              if (idx===0) {
+          const arr = [0, 1]
+          arr.forEach(idx => {
+            if (searchNames[idx] && name.indexOf(searchNames[idx]) !== -1) {
+              if (idx === 0) {
                 srcs.push(element)
               } else {
                 tgts.push(element)
@@ -158,7 +192,7 @@ export default class FilterHelper {
 
       const relatedMap = {}
       const matchingMap = {}
-      if (srcs.length>0 || tgts.length>0) {
+      if (srcs.length > 0 || tgts.length > 0) {
         // if 1st search name is blank, add roots to source
         if (!searchNames[0]) {
           srcs = elements.roots()
@@ -169,17 +203,16 @@ export default class FilterHelper {
         }
 
         // if this collection has both a matching source and target, see if there's a path between them
-        if (srcs.length>0 && tgts.length>0) {
-
+        if (srcs.length > 0 && tgts.length > 0) {
           // use floydWarshall algo from cytoscape to find paths between two nodes
-          const floydWarshall = elements.floydWarshall({directed:true})
-          srcs.forEach(src=>{
-            tgts.forEach(tgt=>{
-              if (src.data().id!==tgt.data().id) {
-                const path = floydWarshall.path(src, tgt)||[]
-                path.forEach((element, idx, arr)=>{
-                  const {id} = element.data()
-                  if (idx===0 || idx===arr.length-1) {
+          const floydWarshall = elements.floydWarshall({ directed: true })
+          srcs.forEach(src => {
+            tgts.forEach(tgt => {
+              if (src.data().id !== tgt.data().id) {
+                const path = floydWarshall.path(src, tgt) || []
+                path.forEach((element, idx, arr) => {
+                  const { id } = element.data()
+                  if (idx === 0 || idx === arr.length - 1) {
                     matchingMap[id] = element
                   } else {
                     relatedMap[id] = element
@@ -190,10 +223,10 @@ export default class FilterHelper {
           })
 
           // are there any paths between?
-          if (Object.keys(matchingMap).length>0) {
+          if (Object.keys(matchingMap).length > 0) {
             // mark srcs and tgts that have a path between them as matches
             for (const id in matchingMap) {
-              const {node: {layout}} = matchingMap[id].data()
+              const { node: { layout } } = matchingMap[id].data()
               layout.search = FilterResults.match
               delete relatedMap[id]
               delete elementMap[id]
@@ -205,11 +238,11 @@ export default class FilterHelper {
               const data = element.data()
               let layout
               if (element.isNode()) {
-                ({layout} = data.node)
+                ({ layout } = data.node)
               } else {
-                ({layout} = data.edge)
+                ({ layout } = data.edge)
               }
-              layout.search = FilterResults.match// FilterResults.related
+              layout.search = FilterResults.match // FilterResults.related
               delete elementMap[id]
             }
           }
@@ -217,58 +250,60 @@ export default class FilterHelper {
       }
 
       // whatever is left in elementMap we hide
-      Object.values(elementMap).forEach(element=>{
+      Object.values(elementMap).forEach(element => {
         const data = element.data()
         let layout
         if (element.isNode()) {
-          ({layout} = data.node)
+          ({ layout } = data.node)
         } else {
-          ({layout} = data.edge)
+          ({ layout } = data.edge)
         }
         layout.search = FilterResults.hidden
       })
 
-      collection.elements = this.cy.add(Object.values(matchingMap).concat(Object.values(relatedMap)))
-      return collection.elements.length>0
+      collection.elements = this.cy.add(
+        Object.values(matchingMap).concat(Object.values(relatedMap))
+      )
+      return collection.elements.length > 0
     })
-  }
+  };
 
-  hideUnconnected = (unconnected) => {
+  hideUnconnected = unconnected => {
     unconnected.forEach(collection => {
-      const {elements} = collection
-      elements.nodes().forEach(element=>{
-        const {node:{layout}} = element.data()
+      const { elements } = collection
+      elements.nodes().forEach(element => {
+        const { node: { layout } } = element.data()
         layout.search = FilterResults.hidden
       })
     })
     return []
-  }
+  };
 
-  showUnconnected = (unconnected) => {
+  showUnconnected = unconnected => {
     unconnected.forEach(collection => {
-      const {elements} = collection
-      elements.nodes().forEach(element=>{
-        const {node:{layout}} = element.data()
+      const { elements } = collection
+      elements.nodes().forEach(element => {
+        const { node: { layout } } = element.data()
         layout.search = FilterResults.nosearch
       })
     })
-  }
+  };
 
   filterConnected = (connected, searchNames, searchFilter) => {
     return connected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
       const elementMap = {}
-      elements.toArray().forEach(element=>{
-        const {id} = element.data()
+      elements.toArray().forEach(element => {
+        const { id } = element.data()
         elementMap[id] = element
       })
 
       // first find any matching nodes
       const processed = new Set()
-      const matching = Object.values(elementMap).filter(element=>{
+      const matching = Object.values(elementMap).filter(element => {
         if (element.isNode()) {
           const data = element.data()
-          const {id, node:{layout}} = data
+          const { id, node: { layout } } = data
           if (this.isMatchFound(element, searchNames, searchFilter)) {
             layout.search = FilterResults.match
             processed.add(id)
@@ -281,18 +316,18 @@ export default class FilterHelper {
 
       // then find related nodes and edges
       const related = []
-      matching.forEach(match=>{
+      matching.forEach(match => {
         // use cytoscape to find related nodes and their edges
-        [match.incomers(), match.outgoers()].forEach(collection=>{
-          collection.forEach(element=>{
+        [match.incomers(), match.outgoers()].forEach(collection => {
+          collection.forEach(element => {
             const data = element.data()
-            const {id} = data
+            const { id } = data
             if (!processed.has(id)) {
               let layout
               if (element.isNode()) {
-                ({layout} = data.node)
+                ({ layout } = data.node)
               } else {
-                ({layout} = data.edge)
+                ({ layout } = data.edge)
               }
               layout.search = FilterResults.related
               related.push(element)
@@ -304,30 +339,30 @@ export default class FilterHelper {
       })
 
       // whatever is left in elementMap we hide
-      Object.values(elementMap).forEach(element=>{
+      Object.values(elementMap).forEach(element => {
         const data = element.data()
         let layout
         if (element.isNode()) {
-          ({layout} = data.node)
+          ({ layout } = data.node)
         } else {
-          ({layout} = data.edge)
+          ({ layout } = data.edge)
         }
         layout.search = FilterResults.hidden
       })
 
       collection.elements = this.cy.add(matching.concat(related))
-      return collection.elements.length>0
+      return collection.elements.length > 0
     })
-  }
+  };
 
   filterUnconnected = (unconnected, searchNames, searchFilter) => {
     return unconnected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
 
       // find any matching nodes
-      const matching = elements.nodes().filter(element=>{
+      const matching = elements.nodes().filter(element => {
         const data = element.data()
-        const {node:{layout}} = data
+        const { node: { layout } } = data
         if (this.isMatchFound(element, searchNames, searchFilter)) {
           layout.search = FilterResults.match
           return true
@@ -337,19 +372,19 @@ export default class FilterHelper {
         }
       })
       collection.elements = matching
-      return collection.elements.length>0
+      return collection.elements.length > 0
     })
-  }
+  };
 
   // filter all nodes that don't have a pulse animation
-  filterStaticNodes = (unconnected) => {
+  filterStaticNodes = unconnected => {
     return unconnected.filter(collection => {
-      const {elements} = collection
+      const { elements } = collection
 
       // find any interesting pods
-      const matching = elements.nodes().filter(element=>{
+      const matching = elements.nodes().filter(element => {
         const data = element.data()
-        const {node: {layout, specs}} = data
+        const { node: { layout, specs } } = data
         const pulse = specs && specs.pulse
         if (!pulse) {
           layout.search = FilterResults.hidden
@@ -358,72 +393,82 @@ export default class FilterHelper {
       })
 
       collection.elements = matching
-      return collection.elements.length>0
+      return collection.elements.length > 0
     })
-  }
+  };
 
   isMatchFound = (element, searchNames, searchFilter) => {
     // searching by filter
     if (searchFilter) {
-      const {podStatuses, labels} = searchFilter
-      const {node} = element.data()
+      const { podStatuses, labels } = searchFilter
+      const { node } = element.data()
 
       // searching by pod status
-      if (podStatuses && podStatuses.size>0) {
-        const {hasPending, hasFailure, hasRestarts, isRecent} = _.get(node, 'specs.podStatus', {})
-        if (!((podStatuses.has('failed') && hasFailure) ||
+      if (podStatuses && podStatuses.size > 0) {
+        const { hasPending, hasFailure, hasRestarts, isRecent } = _.get(
+          node,
+          'specs.podStatus',
+          {}
+        )
+        if (
+          !(
+            (podStatuses.has('failed') && hasFailure) ||
             (podStatuses.has('pending') && hasPending) ||
             (podStatuses.has('restarts') && hasRestarts) ||
-            (podStatuses.has('recent') && isRecent))) {
+            (podStatuses.has('recent') && isRecent)
+          )
+        ) {
           return false
         }
       }
 
       // searching by labels
-      if (labels && labels.size>0) {
-        if((node.labels||[]).findIndex(({name, value})=>{
-          return labels.has(`${name}: ${value}`)
-        })===-1) {
+      if (labels && labels.size > 0) {
+        if (
+          (node.labels || []).findIndex(({ name, value }) => {
+            return labels.has(`${name}: ${value}`)
+          }) === -1
+        ) {
           return false
         }
       }
     }
 
     // searching by name
-    if (searchNames.length>0) {
+    if (searchNames.length > 0) {
       const name = this.getName(element)
-      return searchNames.some(sn=>{
-        return name.indexOf(sn)!==-1
+      return searchNames.some(sn => {
+        return name.indexOf(sn) !== -1
       })
     }
     return true
-  }
+  };
 
-  getName = (element) => {
-    const {node} = element.data()
+  getName = element => {
+    const { node } = element.data()
     let name = node.name
     // if not case sensative, make all lower case
     if (!this.caseSensitive) {
       name = name.toLowerCase()
     }
     // if this is a pod, don't match it uid at the end
-    if (node.type==='pod') {
+    if (node.type === 'pod') {
       name = name.split('-')
       name.pop()
       name = name.join('-')
     }
     return name
-  }
+  };
 }
 
-export const getSearchNames = (searchName) => {
+export const getSearchNames = searchName => {
   let directedPath = false
   let searchNames = searchName.split(/(\+|>)+/)
-  if (searchNames.length>1) {
-    directedPath = searchNames[1]==='>'
-    searchNames = searchNames.filter(item=>{
-      return item!=='+' && item!=='>'
+  if (searchNames.length > 1) {
+    directedPath = searchNames[1] === '>'
+    searchNames = searchNames.filter(item => {
+      return item !== '+' && item !== '>'
     })
   }
-  return {searchNames:searchNames.map(s=>s.trim()), directedPath}
+  return { searchNames: searchNames.map(s => s.trim()), directedPath }
 }

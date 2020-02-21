@@ -10,10 +10,8 @@ import React from 'react'
 
 import PropTypes from 'prop-types'
 import { DataTable } from 'carbon-components-react'
-import withAccess from '../../components/common/withAccess'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { ROLES } from '../../../lib/shared/constants'
 import {
   getIncidentCount,
   getIncidentList
@@ -169,6 +167,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default withRouter(
-  withAccess(connect(mapStateToProps)(IncidentsTab), ROLES.VIEWER)
-)
+export default withRouter(connect(mapStateToProps)(IncidentsTab))

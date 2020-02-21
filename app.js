@@ -56,8 +56,33 @@ var consolidate = require('consolidate')
 require('./lib/shared/dust-helpers')
 
 var app = express()
-
 var morgan = require('morgan')
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ['\'none\''],
+      fontSrc: ['\'self\''],
+      scriptSrc: [
+        '\'unsafe-inline\'',
+        '\'self\'',
+        'blob:',
+        'cdn.segment.com',
+        'fast.appcues.com'
+      ],
+      connectSrc: [
+        '\'self\'',
+        'https://api.segment.io',
+        'wss://api.appcues.net',
+        'https://notify.bugsnag.com'
+      ],
+      imgSrc: ['*', 'data:'],
+      frameSrc: ['\'self\'', 'https://my.appcues.com'],
+      styleSrc: ['\'unsafe-inline\'', '\'self\'', 'https://fast.appcues.com']
+    }
+  })
+)
+
 if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
@@ -93,8 +118,12 @@ app.use(
   cookieParser(),
   csrfMiddleware,
   (req, res, next) => {
-    const accessToken = req.cookies['cfc-access-token-cookie']
-    req.headers.Authorization = `Bearer ${accessToken}`
+    res.setHeader('Cache-Control', 'no-store')
+    res.setHeader('Pragma', 'no-cache')
+    const accessToken = req.cookies['acm-access-token-cookie']
+    if (req.headers.authorization)
+      req.headers.authorization = `Bearer ${accessToken}`
+    else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
   proxy({
@@ -112,12 +141,15 @@ app.use(
   cookieParser(),
   csrfMiddleware,
   (req, res, next) => {
-    const accessToken = req.cookies['cfc-access-token-cookie']
-    req.headers.Authorization = `Bearer ${accessToken}`
+    res.setHeader('Cache-Control', 'no-store')
+    res.setHeader('Pragma', 'no-cache')
+    const accessToken = req.cookies['acm-access-token-cookie']
+    if (req.headers.authorization)
+      req.headers.authorization = `Bearer ${accessToken}`
+    else req.headers.Authorization = `Bearer ${accessToken}`
     next()
   },
   proxy({
-    // TODO - use flag while ironing out the chart changes
     target: appConfig.get('searchApiUrl') || 'https://localhost:4010/searchapi',
     changeOrigin: true,
     pathRewrite: {
@@ -127,12 +159,24 @@ app.use(
   })
 )
 
+app.use(
+  appConfig.get('headerContextPath'),
+  cookieParser(),
+  proxy({
+    target: appConfig.get('headerUrl'),
+    changeOrigin: true,
+    secure: false,
+    ws: true,
+    saveUninitialized: false
+  })
+)
+
 if (process.env.NODE_ENV === 'development') {
   app.use(
-    appConfig.get('platformHeaderContextPath'),
+    appConfig.get('headerContextPath'),
     cookieParser(),
     proxy({
-      target: appConfig.get('cfcRouterUrl'),
+      target: appConfig.get('headerContextPath'),
       changeOrigin: true,
       secure: false,
       ws: true
@@ -143,7 +187,7 @@ if (process.env.NODE_ENV === 'development') {
     `${appConfig.get('contextPath')}/api/proxy`,
     cookieParser(),
     proxy({
-      target: appConfig.get('cfcRouterUrl'),
+      target: appConfig.get('headerUrl'),
       changeOrigin: true,
       pathRewrite: {
         [`^${appConfig.get('contextPath')}/api/proxy`]: ''
@@ -178,7 +222,21 @@ app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
   req.url = `${req.url}.gz`
   next()
 })
-app.use(CONTEXT_PATH, express.static(STATIC_PATH))
+app.use(
+  CONTEXT_PATH,
+  express.static(STATIC_PATH, {
+    maxAge:
+      process.env.NODE_ENV === 'development' ? 0 : 1000 * 60 * 60 * 24 * 365,
+    setHeaders: (res, fp) => {
+      // set cahce control to 30min, expect for nls
+      res.setHeader(
+        'Cache-Control',
+        `max-age=${fp.startsWith(`${STATIC_PATH}/nls`) ? 0 : 60 * 60 * 12}`
+      )
+      res.setHeader('X-Content-Type-Options', 'nosniff')
+    }
+  })
+)
 
 app.get(`${CONTEXT_PATH}/performance-now.js.map`, (req, res) =>
   res.sendStatus(404)
@@ -215,7 +273,7 @@ var port = process.env.PORT || appConfig.get('httpPort')
 logger.info('Starting express server.')
 server.listen(port, () => {
   logger.info(
-    `MCM UI is now running on ${
+    `Application Lifecycle is now running on ${
       process.env.NODE_ENV === 'development' ? 'https' : 'http'
     }://localhost:${port}${CONTEXT_PATH}`
   )

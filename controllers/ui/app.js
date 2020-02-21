@@ -13,12 +13,12 @@ const ReactDOMServer = require('react-dom/server'),
       React = require('react'),
       express = require('express'),
       StaticRouter = require('react-router-dom').StaticRouter,
+      serviceDiscovery = require('../../lib/server/service-discovery'),
       context = require('../../lib/shared/context'),
       msgs = require('../../nls/platform.properties'),
       config = require('../../config'),
       cookieUtil = require('../../lib/server/cookie-util'),
       appUtil = require('../../lib/server/app-util'),
-      serviceDiscovery = require('../../lib/server/service-discovery'),
       Provider = require('react-redux').Provider,
       router = express.Router({ mergeParams: true }),
       lodash = require('lodash'),
@@ -36,7 +36,7 @@ router.get('/logout', (req, res) => {
   var redirectUrl =
     process.env.NODE_ENV !== 'development' && callbackUrl
       ? `https://${callbackUrl}${LOGOUT_API}`
-      : `${config.get('cfcRouterUrl')}${LOGOUT_API}`
+      : `${config.get('headerUrl')}${LOGOUT_API}`
   logger.debug('Final logout url:' + redirectUrl)
   return res.send({ redirectUrl })
 })
@@ -77,7 +77,9 @@ router.get('*', (req, res) => {
     )
 
     role = role === undefined ? require('../../src-web/actions/role') : role
-    store.dispatch(role.roleReceiveSuccess(stateH.role.role))
+    if (stateH.role) {
+      store.dispatch(role.roleReceiveSuccess(stateH.role.role))
+    }
 
     if (process.env.NODE_ENV === 'development') {
       lodash.forOwn(filesH, value => {

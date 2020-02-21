@@ -262,15 +262,15 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-            <div className="overview-content-bottom overview-content-with-padding">
-              <ApplicationTopologyModule
-                selectedNodeId={selectedNodeId}
-                showExpandedTopology={showExpandedTopology}
-                params={params}
-                actions={actions}
-              />
-            </div>
-          )}
+          <div className="overview-content-bottom overview-content-with-padding">
+            <ApplicationTopologyModule
+              selectedNodeId={selectedNodeId}
+              showExpandedTopology={showExpandedTopology}
+              params={params}
+              actions={actions}
+            />
+          </div>
+        )}
         <div className="overview-content-bottom overview-content-with-padding ">
           <div className="overview-content-additional-details">
             <React.Fragment>
@@ -331,7 +331,7 @@ const mapStateToProps = (state, ownProps) => {
   })
   return {
     item,
-    userRole: role.role,
+    userRole: role && role.role,
     loading: AppDeployments.loading,
     currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
     openEditApplicationModal: AppDeployments.openEditApplicationModal

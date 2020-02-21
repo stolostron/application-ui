@@ -14,7 +14,6 @@ import {
   onSubscriptionClick,
   editResourceClick,
   getDataByKind,
-  getResourcesStatusPerChannel,
   createSubscriptionPerChannel,
   subscriptionsUnderColumnsGrid,
   getLongestArray,
@@ -26,6 +25,7 @@ import {
   pullOutKindPerApplication,
   getPlacementRuleFromBulkSubscription
 } from '../../utils'
+import { getPodData } from '../../../ApplicationDeploymentPipeline/components/InfoCards/utils'
 import { Tile, Icon, Tooltip } from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import R from 'ramda'
@@ -400,10 +400,20 @@ const ChannelColumnGrid = (
                       // the same namespace as the channel
                       // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
 
-                      // ** this will probably fail right now
-                      const status = getResourcesStatusPerChannel(
-                        thisSubscriptionData
+                      // wrap with "items" so that it can be used in getPodData
+                      const podData = getPodData(
+                        { items: applicationList },
+                        application.name,
+                        application.namespace
                       )
+
+                      const status = [
+                        podData.completed,
+                        podData.failed,
+                        podData.inProgress,
+                        0,
+                        0
+                      ]
 
                       // If the object isn't empty name will be defined
                       const displayStatus = subCol._uid
@@ -455,7 +465,8 @@ const ChannelColumnGrid = (
                                     setCurrentsubscriptionModalData,
                                     thisSubscriptionData,
                                     applicationName,
-                                    subName
+                                    subName,
+                                    status
                                   )
                                 }
                               }}

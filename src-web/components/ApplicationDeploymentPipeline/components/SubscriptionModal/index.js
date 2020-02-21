@@ -19,10 +19,7 @@ import {
   getSearchUrlDeployable,
   getSearchUrlCluster
 } from './utils.js'
-import {
-  getResourcesStatusPerChannel,
-  getDataByKind
-} from '../PipelineGrid/utils'
+import { getDataByKind } from '../PipelineGrid/utils'
 
 resources(() => {
   require('./style.scss')
@@ -58,7 +55,13 @@ const SubscriptionInfo = withLocale(
     // let deployables_hover = ''
     let owningClusterName = ''
     let channel = ''
-    let status = [0, 0, 0, 0, 0]
+    const status = subscriptionModalSubscriptionInfo.applicationStatus || [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
     // let version = ''
 
     if (notEmptySubscription) {
@@ -152,12 +155,6 @@ const SubscriptionInfo = withLocale(
       )
 
       channel = R.pathOr('', ['channel'], subscriptionModalSubscriptionInfo)
-
-      // Get status of resources within the subscription specific
-      // to the channel. We will match the resources that contain
-      // the same namespace as the channel
-      // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
-      status = getResourcesStatusPerChannel(subscriptionWithRelatedData)
     }
 
     return (
@@ -291,7 +288,6 @@ const SubscriptionModal = withLocale(
     label,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
-    //applications,
     locale
   }) => {
     return (

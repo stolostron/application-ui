@@ -56,12 +56,14 @@ export const onSubscriptionClick = (
   setCurrentSubscriptionModalData,
   subscription,
   applicationName,
-  subscriptionName
+  subscriptionName,
+  applicationStatus
 ) => {
   const headerInfo = {
     application: applicationName,
     deployable: subscriptionName
   }
+  subscription.applicationStatus = applicationStatus
   setSubscriptionModalHeaderInfo(headerInfo)
   setCurrentDeployableSubscriptionData(subscription)
   setCurrentSubscriptionModalData(subscription)

@@ -272,6 +272,9 @@ export const getPodData = (
   var runningPods = 0
   var failedPods = 0
 
+  var completedPods = 0
+  var inProgressPods = 0
+
   if (applications && applications.items) {
     Object.keys(applications.items).map(appIndex => {
       // Get pod data for the current application opened
@@ -290,16 +293,26 @@ export const getPodData = (
               status.toLowerCase() === 'deployed'
             ) {
               runningPods += podData[status]
+
+              // increment for inprogress
+              if (status.toLowerCase() === 'running') {
+                inProgressPods += podData[status]
+              }
+
+              // increment for deployed
+              if (
+                status.toLowerCase() === 'pass' ||
+                status.toLowerCase() === 'deployed'
+              ) {
+                completedPods += podData[status]
+              }
             } else if (
               status.toLowerCase().includes('fail') ||
               status.toLowerCase().includes('error') ||
-              status.toLowerCase() === 'imagepullbackoff'
+              status.toLowerCase().includes('backoff')
             ) {
               failedPods += podData[status]
-            } else if (
-              status.toLowerCase() === 'containercreating' ||
-              status.toLowerCase() === 'ready'
-            ) {
+            } else {
               allPods += podData[status]
             }
           })
@@ -312,7 +325,9 @@ export const getPodData = (
   return {
     total: allPods,
     running: runningPods,
-    failed: failedPods
+    failed: failedPods,
+    inProgress: inProgressPods,
+    completed: completedPods
   }
 }
 

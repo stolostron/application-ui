@@ -48,31 +48,44 @@ export class SecondaryHeader extends React.Component {
         <div id="ApplicationSecondaryHeader">
           <div className={`${noTabsClass}`} role="region" aria-label={title}>
             <div className="secondary-header">
-              {tabs && tabs.length > 0 ? (
-                <DetailPageHeader
-                  hasTabs={true}
-                  title={decodeURIComponent(title)}
-                  aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-                >
-                  <Breadcrumb>
-                    {breadcrumbItems && this.renderBreadCrumb()}
-                  </Breadcrumb>
-                  <Tabs
-                    selected={this.getSelectedTab() || 0}
-                    aria-label={`${title} ${msgs.get('tabs.label', locale)}`}
-                  >
-                    {this.renderTabs()}
-                  </Tabs>
-                </DetailPageHeader>
-              ) : (
-                <DetailPageHeader
-                  hasTabs={false}
-                  title={decodeURIComponent(title)}
-                  aria-label={`${title} ${msgs.get('secondaryHeader', locale)}`}
-                >
-                  <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
-                </DetailPageHeader>
-              )}
+              <header aria-label={`Heading: ${title}`}>
+                <div className="bx--detail-page-header-content">
+                  {tabs && tabs.length > 0 ? (
+                    <DetailPageHeader
+                      hasTabs={true}
+                      title={decodeURIComponent(title)}
+                      aria-label={`${title} ${msgs.get(
+                        'secondaryHeader',
+                        locale
+                      )}`}
+                    >
+                      <Breadcrumb>
+                        {breadcrumbItems && this.renderBreadCrumb()}
+                      </Breadcrumb>
+                      <Tabs
+                        selected={this.getSelectedTab() || 0}
+                        aria-label={`${title} ${msgs.get(
+                          'tabs.label',
+                          locale
+                        )}`}
+                      >
+                        {this.renderTabs()}
+                      </Tabs>
+                    </DetailPageHeader>
+                  ) : (
+                    <DetailPageHeader
+                      hasTabs={false}
+                      title={decodeURIComponent(title)}
+                      aria-label={`${title} ${msgs.get(
+                        'secondaryHeader',
+                        locale
+                      )}`}
+                    >
+                      <Breadcrumb>{this.renderBreadCrumb()}</Breadcrumb>
+                    </DetailPageHeader>
+                  )}
+                </div>
+              </header>
             </div>
           </div>
         </div>

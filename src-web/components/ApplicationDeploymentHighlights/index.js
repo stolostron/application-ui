@@ -11,12 +11,7 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import resources from '../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
-import { fetchResources } from '../../actions/common'
 import ApplicationDeploymentHighlightsTerminology from './ApplicationDeploymentHighlightsTerminology'
-
-import { getSingleApplicationObject } from '../ApplicationDeploymentPipeline/components/InfoCards/utils'
-import { pullOutKindPerApplication } from '../ApplicationDeploymentPipeline/utils'
 
 /* eslint-disable react/prop-types */
 
@@ -24,26 +19,11 @@ resources(() => {
   require('./style.scss')
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
-  }
-}
-
 const mapStateToProps = state => {
-  const {
-    HCMChannelList,
-    HCMApplicationList,
-    HCMSubscriptionList,
-    secondaryHeader
-  } = state
-  const isSingleApplicationView =
-    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+  const { QueryApplicationList, secondaryHeader } = state
   return {
-    HCMChannelList,
-    HCMSubscriptionList,
-    HCMApplicationList,
-    isSingleApplicationView
+    QueryApplicationList,
+    secondaryHeader
   }
 }
 
@@ -54,26 +34,30 @@ class ApplicationDeploymentHighlights extends React.Component {
   componentWillUnmount() {}
 
   render() {
-    const {
-      // HCMChannelList,
-      // HCMSubscriptionList,
-      HCMApplicationList,
-      isSingleApplicationView
-    } = this.props
+    const { QueryApplicationList, secondaryHeader } = this.props
 
-    let open = false
-    if (isSingleApplicationView) {
-      const subscriptionsArray = pullOutKindPerApplication(
-        getSingleApplicationObject(HCMApplicationList),
-        'subscription'
-      )
-      if (R.isEmpty(subscriptionsArray)) {
-        open = true
-      }
-    } else {
-      // all application view
-      if (R.isEmpty(HCMApplicationList)) {
-        open = true
+    const applications = R.pathOr([], ['items'])(QueryApplicationList)
+    let open = applications.length == 0
+    if (applications.length > 0) {
+      const isSingleApplicationView =
+        R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+      let selectedAppName = ''
+      let selectedAppNS = ''
+
+      if (isSingleApplicationView) {
+        const urlArray = R.split('/', secondaryHeader.breadcrumbItems[1].url)
+        selectedAppName = urlArray[urlArray.length - 1]
+        selectedAppNS = urlArray[urlArray.length - 2]
+
+        const apps = R.find(
+          R.propEq('name', selectedAppName) &&
+            R.propEq('namespace', selectedAppNS)
+        )(applications) //filter by name, ns
+        open = !(
+          apps &&
+          apps.hubSubscriptions &&
+          apps.hubSubscriptions.length > 0
+        )
       }
     }
 
@@ -85,6 +69,4 @@ class ApplicationDeploymentHighlights extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  ApplicationDeploymentHighlights
-)
+export default connect(mapStateToProps)(ApplicationDeploymentHighlights)

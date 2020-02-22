@@ -30,7 +30,13 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading, Icon, Link } from 'carbon-components-react'
+import {
+  Search,
+  Loading,
+  Notification,
+  Icon,
+  Link
+} from 'carbon-components-react'
 import { getApplicationsList, getChannelsList, filterApps } from './utils'
 import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml' // eslint-disable-line import/no-unresolved
 import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml' // eslint-disable-line import/no-unresolved
@@ -233,7 +239,7 @@ const mapStateToProps = state => {
     subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
     subscriptionModalSubscriptionInfo:
       AppDeployments.subscriptionModalSubscriptionInfo,
-    userRole: role.role,
+    userRole: role && role.role,
     appDropDownList: AppDeployments.appDropDownList || [],
     HCMChannelList,
     HCMSubscriptionList,
@@ -340,6 +346,19 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
 
     if (
+      QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
+      HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||
+      HCMChannelList.status === Actions.REQUEST_STATUS.ERROR
+    ) {
+      return (
+        <Notification
+          title=""
+          className="overview-notification"
+          kind="error"
+          subtitle={msgs.get('overview.error.default', locale)}
+        />
+      )
+    } else if (
       (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE ||
         HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE ||
         HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) &&

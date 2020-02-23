@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`YamlEditor renders as expected 1`] = `
+<div
+  className="yamlEditorContainer"
+>
+  <div
+    id="brace-editor"
+    style={
+      Object {
+        "height": "41vh",
+        "width": "50vw",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`YamlEditor renders as expected 2`] = `
+<div
+  className="yamlEditorContainer"
+>
+  <div
+    id="brace-editor"
+    style={
+      Object {
+        "height": "40vh",
+        "width": "100%",
+      }
+    }
+  />
+</div>
+`;

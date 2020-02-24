@@ -1,5 +1,5 @@
 VCS_URL ?=$(shell git config --get remote.origin.url)
-IMAGE_NAME =mcm-application-ui
+IMAGE_NAME =application-ui
 IMAGE_DISPLAY_NAME =Application Lifecycle UI
 ARCH = $(shell uname -m)
 ifeq ($(ARCH), x86_64)

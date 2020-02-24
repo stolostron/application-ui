@@ -1,5 +1,5 @@
 {
-  "name": "mcm-application-ui",
+  "name": "application-ui",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -43,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:open-cluster-management/mcm-application-ui.git"
+    "url": "git@github.com:open-cluster-management/application-ui.git"
   },
   "author": "",
   "license": "SEE LICENSE IN LICENSE",

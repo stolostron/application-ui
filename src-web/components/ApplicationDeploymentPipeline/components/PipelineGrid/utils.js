@@ -77,7 +77,9 @@ export const editResourceClick = (resource, getResource) => {
     resource.selfLink,
     resource.namespace,
     resource.name,
-    resource.cluster || resource.data.cluster
+    resource.cluster ||
+      (resource.data && resource.data.cluster) ||
+      'local-cluster'
   )
 }
 

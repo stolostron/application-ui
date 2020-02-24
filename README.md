@@ -1,4 +1,4 @@
-# mcm-application-ui[![Build Status](https://travis-ci.com/open-cluster-management/mcm-application-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis-ci.com/open-cluster-management/mcm-application-ui)
+# application-ui[![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=FQtRyxd2oucrshZSEEqZ&branch=master)](https://travis-ci.com/open-cluster-management/application-ui)
 The UI service for Application Lifecycle
 
 ## Design

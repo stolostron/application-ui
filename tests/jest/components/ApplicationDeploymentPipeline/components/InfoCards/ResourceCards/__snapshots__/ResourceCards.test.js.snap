@@ -1,8 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResourceCards ResourceCards renders correctly. 1`] = `
+exports[`ResourceCards ResourceCards renders correctly in root app view. 1`] = `
 <div
   className="resource-cards-info"
+>
+  <div
+    className="single-card"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <div
+      className="card-count"
+    >
+      0
+    </div>
+    <div
+      className="card-type"
+    >
+      Subscriptions
+    </div>
+    <div
+      className="card-text"
+    >
+      On hub cluster
+    </div>
+    
+    
+    
+  </div>
+  <div
+    className="column-divider"
+  />
+  <div
+    className="single-card clickable"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <div
+      className="card-count"
+    >
+      2
+    </div>
+    <div
+      className="card-type"
+    >
+      Managed clusters
+    </div>
+    <div
+      className="card-text"
+    >
+      6 Total subscriptions
+    </div>
+    <div
+      className="row-divider"
+    />
+    <div
+      className="card-subtext"
+    >
+      2 failed
+    </div>
+    <div
+      className="card-subtext"
+    >
+      1 no status
+    </div>
+  </div>
+  <div
+    className="column-divider"
+  />
+  <div
+    className="single-card"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <div
+      className="card-count"
+    >
+      0
+    </div>
+    <div
+      className="card-type"
+    >
+      Channels
+    </div>
+    <div
+      className="card-text"
+    >
+      Total
+    </div>
+  </div>
+  <div
+    className="column-divider"
+  />
+  <div
+    className="single-card"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <div
+      className="card-count"
+    >
+      0
+    </div>
+    <div
+      className="card-type"
+    >
+      Placement rules
+    </div>
+    <div
+      className="card-text"
+    >
+      Total
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ResourceCards ResourceCards renders correctly in single app view. 1`] = `
+<div
+  className="resource-cards-info single-app"
 >
   <div
     className="single-card"
@@ -82,7 +206,7 @@ exports[`ResourceCards ResourceCards renders correctly. 1`] = `
     <div
       className="card-text"
     >
-      Total
+      In use
     </div>
   </div>
   <div
@@ -108,7 +232,7 @@ exports[`ResourceCards ResourceCards renders correctly. 1`] = `
     <div
       className="card-text"
     >
-      Total
+      In use
     </div>
   </div>
 </div>

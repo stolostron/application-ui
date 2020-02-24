@@ -1,1 +1,1 @@
-kubectl apply -f ./auth-setup/mcm-application-ui-app.yaml -n default --validate=false
+kubectl apply -f ./auth-setup/application-ui-app.yaml -n default --validate=false

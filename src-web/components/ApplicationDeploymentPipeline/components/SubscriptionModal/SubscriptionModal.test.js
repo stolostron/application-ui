@@ -196,15 +196,19 @@ describe('subscriptionModal', () => {
       items: [
         {
           clusterCount: 1,
-          hubSubscriptions: {
-            _uid: 'local-cluster/xyz123'
-          }
+          hubSubscriptions: [
+            {
+              _uid: 'local-cluster/xyz123'
+            }
+          ]
         },
         {
           clusterCount: 2,
-          hubSubscriptions: {
-            _uid: 'local-cluster/abc123'
-          }
+          hubSubscriptions: [
+            {
+              _uid: 'local-cluster/abc123'
+            }
+          ]
         }
       ]
     }

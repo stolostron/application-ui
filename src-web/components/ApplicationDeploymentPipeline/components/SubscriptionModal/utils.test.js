@@ -10,7 +10,8 @@ import {
   getLabelsListClass,
   getCsvListClass,
   getSearchUrlDeployable,
-  getSearchUrlCluster
+  getSearchUrlCluster,
+  getClusterCountForSub
 } from './utils'
 
 describe('getLabelsListClass', () => {
@@ -57,5 +58,39 @@ describe('getSearchUrlCluster', () => {
     expect(getSearchUrlCluster('abcdef')).toEqual(
       '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20name%3Aabcdef"}&showrelated=cluster'
     )
+  })
+})
+
+describe('getClusterCountForSub', () => {
+  const id_1 = 'local-cluster/xyz123'
+  const id_2 = 'local-cluster/abc123'
+  const data = {
+    items: [
+      {
+        clusterCount: 1,
+        hubSubscriptions: [
+          {
+            _uid: 'local-cluster/xyz123'
+          }
+        ]
+      },
+      {
+        clusterCount: 2,
+        hubSubscriptions: [
+          {
+            _uid: 'local-cluster/abc123'
+          }
+        ]
+      }
+    ]
+  }
+  it('finds 1 cluster', () => {
+    expect(getClusterCountForSub(id_1, data)).toEqual(1)
+  })
+  it('finds 2 clusters', () => {
+    expect(getClusterCountForSub(id_2, data)).toEqual(2)
+  })
+  it('finds 0 clusters', () => {
+    expect(getClusterCountForSub('', data)).toEqual(0)
   })
 })

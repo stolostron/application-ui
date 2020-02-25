@@ -323,9 +323,7 @@ exports[`subscriptionModal subscriptionModal with bulkSubscriptionList renders c
                   <div
                     className="value"
                   >
-                    <span>
-                      N/A
-                    </span>
+                    0
                   </div>
                 </div>
                 <div
@@ -665,9 +663,7 @@ exports[`subscriptionModal subscriptionModal with empty subscription list render
                   <div
                     className="value"
                   >
-                    <span>
-                      N/A
-                    </span>
+                    0
                   </div>
                 </div>
                 <div

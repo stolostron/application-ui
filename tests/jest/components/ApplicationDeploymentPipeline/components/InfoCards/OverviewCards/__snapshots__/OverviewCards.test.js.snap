@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`OverviewCards OverviewCards renders correctly. 1`] = `
+exports[`OverviewCards OverviewCards renders correctly with data. 1`] = `
 <div
   className="overview-cards-info"
 >

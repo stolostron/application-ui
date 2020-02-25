@@ -222,32 +222,6 @@ const emptyData = {
   items: []
 }
 
-/*const appWithSubscriptionSampleData = {
-  items: [
-    {
-      name: 'app1',
-      namespace: 'default',
-      related: [
-        {
-          kind: 'subscription',
-          items: [
-            { name: 'sub1', namespace: 'default' },
-            { name: 'sub2', namespace: 'default' },
-            { name: 'sub3', namespace: 'default' }
-          ]
-        },
-        {
-          kind: 'cluster',
-          items: [
-            { name: 'cls1', namespace: 'cls1-ns' },
-            { name: 'local', namespace: 'local-ns' }
-          ]
-        }
-      ]
-    }
-  ]
-}*/
-
 const placementRuleSampleData = {
   items: [
     {

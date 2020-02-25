@@ -9,8 +9,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import resources from '../../../../../../lib/shared/resources'
-import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
-import { fetchResources } from '../../../../../actions/common'
 import msgs from '../../../../../../nls/platform.properties'
 import {
   getNumPlacementRules,
@@ -31,12 +29,6 @@ import {
 resources(() => {
   require('../style.scss')
 })
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchChannels: () => dispatch(fetchResources(RESOURCE_TYPES.HCM_CHANNELS))
-  }
-}
 
 const mapStateToProps = state => {
   const { HCMSubscriptionList, QueryApplicationList } = state
@@ -289,4 +281,4 @@ class ResourceCards extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceCards)
+export default connect(mapStateToProps)(ResourceCards)

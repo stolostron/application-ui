@@ -1,6 +1,6 @@
-kubectl delete deployment mcm-application-ui-app -n default
-kubectl delete service mcm-application-ui-app -n default
-kubectl delete route mcm-application-ui-app -n default
-kubectl delete serviceaccount mcm-application-ui-app -n default
-kubectl delete clusterrole mcm-application-ui-app -n default
-kubectl delete clusterrolebinding mcm-application-ui-app -n default
+kubectl delete deployment application-ui-app -n default
+kubectl delete service application-ui-app -n default
+kubectl delete route application-ui-app -n default
+kubectl delete serviceaccount application-ui-app -n default
+kubectl delete clusterrole application-ui-app -n default
+kubectl delete clusterrolebinding application-ui-app -n default

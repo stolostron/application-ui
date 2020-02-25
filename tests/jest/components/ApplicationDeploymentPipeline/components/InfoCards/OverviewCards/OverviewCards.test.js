@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -28,11 +28,11 @@ const store = createStore(
 );
 
 describe("OverviewCards", () => {
-  it("OverviewCards renders correctly.", () => {
+  it("OverviewCards renders correctly with data.", () => {
     const tree = renderer
       .create(
         <Provider store={store}>
-          <OverviewCards />
+          <OverviewCards selectedAppName="app1" selectedAppNS="default" />
         </Provider>
       )
       .toJSON();

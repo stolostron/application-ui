@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -28,14 +28,48 @@ const store = createStore(
 );
 
 describe("ResourceCards", () => {
-  it("ResourceCards renders correctly.", () => {
+  it("ResourceCards renders correctly in root app view.", () => {
     const tree = renderer
       .create(
         <Provider store={store}>
-          <ResourceCards />
+          <ResourceCards
+            selectedAppName="app1"
+            selectedAppNS="default"
+            isSingleApplicationView={false}
+            globalAppData={globalAppData}
+          />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("ResourceCards renders correctly in single app view.", () => {
+    const tree = renderer
+      .create(
+        <Provider store={store}>
+          <ResourceCards
+            selectedAppName="app1"
+            selectedAppNS="default"
+            isSingleApplicationView={true}
+            globalAppData={globalAppData}
+          />
         </Provider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
+
+const globalAppData = {
+  items: {
+    channelsCount: 1,
+    clusterCount: 2,
+    hubSubscriptionCount: 3,
+    remoteSubscriptionStatusCount: {
+      Subscribed: 3,
+      Failed: 2,
+      null: 1
+    }
+  }
+};

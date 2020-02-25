@@ -60,3 +60,26 @@ export const getSearchUrlCluster = subName => {
     '"}&showrelated=cluster'
   )
 }
+
+export const getClusterCountForSub = (uid, applications) => {
+  var numClusters = 0
+
+  if (applications && applications.items) {
+    Object.keys(applications.items).map(appIndex => {
+      if (applications.items[appIndex].hubSubscriptions != undefined) {
+        const subData = applications.items[appIndex].hubSubscriptions
+        Object.keys(subData).map(subIndex => {
+          if (
+            subData[subIndex]._uid != undefined &&
+            subData[subIndex]._uid === uid &&
+            applications.items[appIndex].clusterCount != undefined
+          ) {
+            numClusters += applications.items[appIndex].clusterCount
+          }
+        })
+      }
+    })
+  }
+
+  return numClusters
+}

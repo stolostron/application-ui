@@ -323,6 +323,13 @@ const InfoCards = ({ overviewCardsData, actions }) => {
                   ? 'single-card clickable'
                   : 'single-card'
               }
+              id={
+                overviewCardsData.length == 3
+                  ? 'card-cem-disabled'
+                  : '' || overviewCardsData.length == 4
+                    ? 'card-cem-enabled'
+                    : ''
+              }
               role="button"
               tabIndex="0"
               onClick={e => handleClick(e, card)}

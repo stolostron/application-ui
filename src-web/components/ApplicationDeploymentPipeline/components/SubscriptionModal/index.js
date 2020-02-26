@@ -17,7 +17,8 @@ import {
   getLabelsListClass,
   getCsvListClass,
   getSearchUrlDeployable,
-  getSearchUrlCluster
+  getSearchUrlCluster,
+  getClusterCountForSub
 } from './utils.js'
 import { getDataByKind } from '../PipelineGrid/utils'
 
@@ -39,13 +40,18 @@ const LabelWithOptionalTooltip = text => {
 }
 
 const SubscriptionInfo = withLocale(
-  ({ subscriptionModalSubscriptionInfo, bulkSubscriptionList, locale }) => {
+  ({
+    subscriptionModalSubscriptionInfo,
+    bulkSubscriptionList,
+    applications,
+    locale
+  }) => {
     const notEmptySubscription =
       !R.isEmpty(subscriptionModalSubscriptionInfo) &&
       subscriptionModalSubscriptionInfo &&
       subscriptionModalSubscriptionInfo.namespace
 
-    let clusterNames = ['N/A']
+    let numClusters = 0
     let labels = []
     let deployableNames = ['N/A']
     let subName = ''
@@ -101,12 +107,6 @@ const SubscriptionInfo = withLocale(
           )
         }
 
-        if (remoteSubscriptions) {
-          clusterNames = remoteSubscriptions.map(rsitem => {
-            return ' ' + rsitem.cluster || ''
-          })
-        }
-
         const deployables = R.find(R.propEq('kind', 'deployable'))(related)
         if (deployables && deployables.items) {
           deployableNames = deployables.items.map(deployable => {
@@ -123,10 +123,6 @@ const SubscriptionInfo = withLocale(
       const labels_data = getLabelsListClass(labels)
       labels = labels_data.data
       label_hover = labels_data.hover
-
-      const clusters_data = getCsvListClass(clusterNames)
-      clusterNames = clusters_data.data
-      // clusters_hover = clusters_data.hover
 
       const deployables_data = getCsvListClass(deployableNames)
       deployableNames = deployables_data.data
@@ -150,6 +146,13 @@ const SubscriptionInfo = withLocale(
       )
 
       channel = R.pathOr('', ['channel'], subscriptionModalSubscriptionInfo)
+
+      if (subscriptionModalSubscriptionInfo._uid != undefined) {
+        numClusters = getClusterCountForSub(
+          subscriptionModalSubscriptionInfo._uid,
+          applications
+        )
+      }
     }
 
     return (
@@ -250,15 +253,7 @@ const SubscriptionInfo = withLocale(
               <div className="subscriptionInfoHeaderIndented">
                 {msgs.get('description.Modal.clusters', locale)}
               </div>
-              <div className="value">
-                {clusterNames &&
-                  clusterNames.length > 0 &&
-                  clusterNames
-                    .map(cluster => {
-                      return <span key={Math.random()}>{cluster}</span>
-                    })
-                    .reduce((prev, curr) => [prev, ', ', curr])}
-              </div>
+              <div className="value">{numClusters}</div>
             </div>
             <div className="subHeader">
               <div className="subscriptionInfoHeaderIndented" />
@@ -283,6 +278,7 @@ const SubscriptionModal = withLocale(
     label,
     subscriptionModalSubscriptionInfo,
     bulkSubscriptionList,
+    applications,
     locale
   }) => {
     return (
@@ -302,6 +298,7 @@ const SubscriptionModal = withLocale(
                 subscriptionModalSubscriptionInfo
               }
               bulkSubscriptionList={bulkSubscriptionList}
+              applications={applications}
             />
           </div>
         </Modal>

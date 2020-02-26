@@ -4,7 +4,7 @@
 			"type": "console",
 			"layout": {
 				"type": "pattern",
-				"pattern": "[%d] [%p] [mcm-application-ui] [%c] %m"
+				"pattern": "[%d] [%p] [application-ui] [%c] %m"
 			}
 		}
 	},

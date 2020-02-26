@@ -192,6 +192,26 @@ describe('subscriptionModal', () => {
         ]
       }
     ]
+    const QueryApplicationList = {
+      items: [
+        {
+          clusterCount: 1,
+          hubSubscriptions: [
+            {
+              _uid: 'local-cluster/xyz123'
+            }
+          ]
+        },
+        {
+          clusterCount: 2,
+          hubSubscriptions: [
+            {
+              _uid: 'local-cluster/abc123'
+            }
+          ]
+        }
+      ]
+    }
 
     const tree = renderer
       .create(
@@ -200,6 +220,7 @@ describe('subscriptionModal', () => {
           subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
           open={true}
           bulkSubscriptionList={bulkSubscriptionList}
+          applications={QueryApplicationList}
         />
       )
       .toJSON()

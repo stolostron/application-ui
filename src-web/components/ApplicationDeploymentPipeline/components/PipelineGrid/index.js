@@ -408,7 +408,7 @@ const ChannelColumnGrid = (
                       )
 
                       const status = [
-                        podData.completed,
+                        podData.running,
                         podData.failed,
                         podData.inProgress,
                         0,

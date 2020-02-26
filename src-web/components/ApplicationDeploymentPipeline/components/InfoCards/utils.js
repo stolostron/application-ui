@@ -271,8 +271,6 @@ export const getPodData = (
   var allPods = 0
   var runningPods = 0
   var failedPods = 0
-
-  var completedPods = 0
   var inProgressPods = 0
 
   if (applications && applications.items) {
@@ -293,19 +291,11 @@ export const getPodData = (
               status.toLowerCase() === 'deployed'
             ) {
               runningPods += podData[status]
-
-              // increment for inprogress
-              if (status.toLowerCase() === 'running') {
-                inProgressPods += podData[status]
-              }
-
-              // increment for deployed
-              if (
-                status.toLowerCase() === 'pass' ||
-                status.toLowerCase() === 'deployed'
-              ) {
-                completedPods += podData[status]
-              }
+            } else if (
+              status.toLowerCase() === 'pending' ||
+              status.toLowerCase().includes('progress')
+            ) {
+              inProgressPods += podData[status]
             } else if (
               status.toLowerCase().includes('fail') ||
               status.toLowerCase().includes('error') ||
@@ -316,7 +306,7 @@ export const getPodData = (
               allPods += podData[status]
             }
           })
-          allPods += runningPods + failedPods
+          allPods += runningPods + failedPods + inProgressPods
         }
       }
     })
@@ -326,8 +316,7 @@ export const getPodData = (
     total: allPods,
     running: runningPods,
     failed: failedPods,
-    inProgress: inProgressPods,
-    completed: completedPods
+    inProgress: inProgressPods
   }
 }
 

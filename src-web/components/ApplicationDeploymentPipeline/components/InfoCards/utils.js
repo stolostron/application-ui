@@ -291,8 +291,7 @@ export const getPodData = (
               status.toLowerCase() === 'deployed'
             ) {
               runningPods += podData[status]
-            }
-            if (
+            } else if (
               status.toLowerCase() === 'pending' ||
               status.toLowerCase().includes('progress')
             ) {

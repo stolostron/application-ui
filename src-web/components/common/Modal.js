@@ -12,14 +12,11 @@ import { connect } from 'react-redux'
 import loadable from 'loadable-components'
 
 let RemoveResourceModal
-let LabelEditingModal
 let ResourceModal
 let LogsModal
 
 const Modal = ({ type, open, ...rest }) => {
   switch (type) {
-  case 'label-editing':
-    return open && getLabelEditingModal({ type, open, ...rest })
   case 'resource-remove':
     return open && getRemoveResourceModal({ type, open, ...rest })
   case 'resource-edit':
@@ -59,16 +56,6 @@ const getRemoveResourceModal = props => {
       )
       : RemoveResourceModal
   return getModal(RemoveResourceModal, props)
-}
-
-const getLabelEditingModal = props => {
-  LabelEditingModal =
-    LabelEditingModal === undefined
-      ? loadable(() =>
-          import(/* webpackChunkName: "label-editing-modal" */ '../modals/LabelEditingModal')
-      )
-      : LabelEditingModal
-  return getModal(LabelEditingModal, props)
 }
 
 const getModal = (Component, props) => <Component {...props} />

@@ -16,13 +16,17 @@ import { createResources } from '../actions/common'
 import CreateResourceModal from '../components/modals/CreateResourceModal'
 import msgs from '../../nls/platform.properties'
 import context from '../../lib/shared/context'
-import applicationSample from 'js-yaml-loader!../shared/yamlSamples/applicationSample.yml' // eslint-disable-line import/no-unresolved
 import { getApplicationSample } from '../shared/yamlSamples/index'
 
 const handleCreateResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_APPLICATIONS, yaml))
 
-const { locale } = context()
+let locale = 'en-US'
+try {
+  locale = context()
+} catch (e) {
+  locale = 'en-US'
+}
 const tableTitle = msgs.get('table.title.allApplications', locale)
 
 const registerApplicationModal = (
@@ -33,14 +37,13 @@ const registerApplicationModal = (
     onCreateResource={handleCreateResource}
     resourceDescriptionKey="modal.createresource.application"
     helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
-    sampleContent={[getApplicationSample(applicationSample, locale)]}
+    sampleContent={[getApplicationSample(locale)]}
   />
 )
 
 export default withRouter(
   typedResourcePageWithListAndDetails(
     RESOURCE_TYPES.QUERY_APPLICATIONS,
-    //RESOURCE_TYPES.HCM_APPLICATIONS,
     [],
     [registerApplicationModal],
     [],

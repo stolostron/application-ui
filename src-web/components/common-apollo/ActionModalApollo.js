@@ -17,7 +17,6 @@ import { getICAMLinkForApp } from '../common/ResourceDetails/utils'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 let RemoveResourceModal
-let LabelEditingModal
 let ResourceModal
 let LogsModal
 
@@ -98,23 +97,6 @@ class ActionModalApollo extends React.PureComponent {
           })
       )
     }
-    case 'table.actions.cluster.edit.labels': {
-      return (
-        open &&
-          this.getLabelEditingModal({
-            open: true,
-            type: 'label-editing',
-            action: 'put',
-            resourceType,
-            label: {
-              primaryBtn: 'modal.button.submit',
-              label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-              heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-            },
-            data: data
-          })
-      )
-    }
     case 'table.actions.pod.logs': {
       return (
         open &&
@@ -159,16 +141,6 @@ class ActionModalApollo extends React.PureComponent {
         )
         : RemoveResourceModal
     return this.getModal(RemoveResourceModal, props)
-  };
-
-  getLabelEditingModal = props => {
-    LabelEditingModal =
-      LabelEditingModal === undefined
-        ? loadable(() =>
-            import(/* webpackChunkName: "label-editing-modal" */ '../modals/LabelEditingModal')
-        )
-        : LabelEditingModal
-    return this.getModal(LabelEditingModal, props)
   };
 
   getModal = (Component, props) => <Component {...props} />;

@@ -10,7 +10,7 @@ import React from 'react'
 import moment from 'moment'
 import 'moment/min/locales'
 
-const getAge = (value, locale) => {
+export const getAge = (value, locale) => {
   if (value) {
     if (value.includes('T')) {
       const momentObj = moment(value, 'YYYY-MM-DDTHH:mm:ssZ')

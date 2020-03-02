@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationsTab ApplicationsTab renders correctly. 1`] = `
+<div
+  className="page-content-container"
+  role="main"
+>
+  <div>
+    <div
+      aria-live="assertive"
+      className="bx--loading content-spinner"
+    >
+      <svg
+        className="bx--loading__svg"
+        viewBox="-75 -75 150 150"
+      >
+        <circle
+          cx="0"
+          cy="0"
+          r="37.5"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

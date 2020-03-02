@@ -38,12 +38,6 @@ import {
   Link
 } from 'carbon-components-react'
 import { getApplicationsList, getChannelsList, filterApps } from './utils'
-import channelNamespaceSample from 'js-yaml-loader!../../shared/yamlSamples/channelNamespaceSample.yml' // eslint-disable-line import/no-unresolved
-import channelHelmRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelHelmRepoSample.yml' // eslint-disable-line import/no-unresolved
-import channelObjectBucketSample from 'js-yaml-loader!../../shared/yamlSamples/channelObjectBucketSample.yml' // eslint-disable-line import/no-unresolved
-import channelGitRepoSample from 'js-yaml-loader!../../shared/yamlSamples/channelGitRepoSample.yml' // eslint-disable-line import/no-unresolved
-import subscriptionSample from 'js-yaml-loader!../../shared/yamlSamples/subscriptionSample.yml' // eslint-disable-line import/no-unresolved
-import placementRuleSample from 'js-yaml-loader!../../shared/yamlSamples/placementRuleSample.yml' // eslint-disable-line import/no-unresolved
 import {
   getChannelSample,
   getSubscriptionSample,
@@ -84,10 +78,10 @@ const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
       sampleTabs={channelTabs}
       sampleContent={[
-        getChannelSample(channelNamespaceSample, locale),
-        getChannelSample(channelHelmRepoSample, locale),
-        getChannelSample(channelObjectBucketSample, locale),
-        getChannelSample(channelGitRepoSample, locale)
+        getChannelSample('Namespace', locale),
+        getChannelSample('HelmRepo', locale),
+        getChannelSample('ObjectBucket', locale),
+        getChannelSample('GitRepo', locale)
       ]}
     />
   )
@@ -111,7 +105,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent={[getSubscriptionSample(subscriptionSample, locale)]}
+      sampleContent={[getSubscriptionSample(locale)]}
     />
   )
 }
@@ -156,7 +150,7 @@ const CreatePlacementRuleModal = (fetchPlacementRules, locale) => {
         'actions.add.subscription.iconDescription',
         locale
       )}
-      sampleContent={[getPlacementRuleSample(placementRuleSample, locale)]}
+      sampleContent={[getPlacementRuleSample(locale)]}
     />
   )
 }

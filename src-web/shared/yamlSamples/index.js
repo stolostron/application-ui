@@ -5,11 +5,38 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-
-import YAML from 'yaml'
 import msgs from '../../../nls/platform.properties'
 
-export const getChannelSample = (channelSample, locale) => {
+export const applicationSample =
+  'apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: __________________________createApplication-metadata-name\n  namespace: _____________________createApplication-metadata-namespace\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values'
+export const channelNamespaceSample =
+  'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-namespace-metadata-name\n---\napiVersion: app.ibm.com/v1alpha1\nkind: Channel\nmetadata:\n  name: ____________________________createChannel-metadata-name\n  namespace: _______________________createChannel-metadata-namespace\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace'
+export const channelHelmRepoSample =
+  'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-namespace-metadata-name\n---\napiVersion: app.ibm.com/v1alpha1\nkind: Channel\nmetadata:\n  name: ____________________________createChannel-metadata-name\n  namespace: _______________________createChannel-metadata-namespace\nspec:\n  pathname: ________________________createChannel-specHelmRepo-pathname\n  configRef:\n    name: __________________________createChannel-specHelmRepo-configRef-name\n  type: HelmRepo\n---\napiVersion: v1______________________createChannel-configMap-apiVersion\nkind: ConfigMap\nmetadata:\n  name: ____________________________createChannel-configMap-metadata-name\n  namespace: _______________________createChannel-configMap-metadata-namespace'
+export const channelObjectBucketSample =
+  'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-namespace-metadata-name\n---\napiVersion: app.ibm.com/v1alpha1\nkind: Channel\nmetadata:\n name: _____________________________createChannel-metadata-name\n namespace: ________________________createChannel-metadata-namespace\nspec:\n type: ObjectBucket\n pathname: _________________________createChannel-specObjectBucket-pathname\n secretRef:\n   name: ___________________________createChannel-specObjectBucket-secretRef-name\n gates:\n   annotations: ____________________createChannel-specObjectBucket-gate-annotations'
+export const channelGitRepoSample =
+  'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-metadata-name\n---\napiVersion: app.ibm.com/v1alpha1\nkind: Channel\nmetadata:\n  name: ____________________________createChannel-metadata-name\n  namespace: _______________________createChannel-metadata-namespace\nspec:\n  type: GitHub\n  pathname: ________________________createChannel-specGitRepo-pathname'
+export const subscriptionSample =
+  'apiVersion: v1______________________createSubscription-namespace-resource\nkind: Namespace\nmetadata:\n  name: ____________________________createSubscription-name-resource\n---\napiVersion: app.ibm.com/v1alpha1\nkind: Subscription\nmetadata:\n  name: ____________________________createSubscription-metadata-name\n  namespace: _______________________createSubscription-metadata-namespace\nspec:\n  channel: _________________________createSubscription-spec-channel\n  placement: \n    placementRef: \n      kind: PlacementRule\n      name: ________________________createSubscription-spec-placement-placementRef-name\ntimeWindow: \n  type: \'"active"\'\n  location: \'"America/Toronto"\'\n  weekdays: ________________________createSubscription-timeWindow-weekdays\n  hours: ___________________________createSubscription-timeWindow-hours'
+export const placementRuleSample =
+  'apiVersion: app.ibm.com/v1alpha1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas'
+
+export const getChannelSampleByType = channelSampleType => {
+  let channelSample = ''
+  if (channelSampleType === 'Namespace') channelSample = channelNamespaceSample
+  else if (channelSampleType === 'HelmRepo')
+    channelSample = channelHelmRepoSample
+  else if (channelSampleType === 'ObjectBucket')
+    channelSample = channelObjectBucketSample
+  else if (channelSampleType === 'GitRepo')
+    channelSample = channelGitRepoSample
+
+  return channelSample
+}
+
+export const getChannelSample = (channelSampleType, locale) => {
+  const channelSample = getChannelSampleByType(channelSampleType)
   const mapObj = {
     'createChannel-namespace-apiVersion':
       '# ' + msgs.get('description.createChannel.namespace.apiVersion', locale),
@@ -75,25 +102,17 @@ export const getChannelSample = (channelSample, locale) => {
     _: ' '
   }
 
-  var sample = ''
-  Object.keys(channelSample).map(key => {
-    sample =
-      sample +
-      YAML.stringify(channelSample[key]).replace(
-        /createChannel-namespace-apiVersion|createChannel-namespace-metadata-name|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-specNamespace-gates-annotations|createChannel-specNamespace-pathname|createChannel-specNamespace-sourceNamespaces|createChannel-specHelmRepo-pathname|createChannel-specHelmRepo-configRef-name|createChannel-specHelmRepo-type|createChannel-configMap-apiVersion|createChannel-configMap-metadata-namespace|createChannel-configMap-metadata-name|createChannel-specObjectBucket-pathname|createChannel-specObjectBucket-secretRef-name|createChannel-specObjectBucket-gate-annotations|createChannel-specGitRepo-pathname|null|_/gi,
-        matched => {
-          return mapObj[matched]
-        }
-      )
-    if (key < Object.keys(channelSample).length - 1) {
-      sample = sample + '---\n'
+  var sample = channelSample.replace(
+    /createChannel-namespace-apiVersion|createChannel-namespace-metadata-name|createChannel-metadata-namespace|createChannel-metadata-name|createChannel-specNamespace-gates-annotations|createChannel-specNamespace-pathname|createChannel-specNamespace-sourceNamespaces|createChannel-specHelmRepo-pathname|createChannel-specHelmRepo-configRef-name|createChannel-specHelmRepo-type|createChannel-configMap-apiVersion|createChannel-configMap-metadata-namespace|createChannel-configMap-metadata-name|createChannel-specObjectBucket-pathname|createChannel-specObjectBucket-secretRef-name|createChannel-specObjectBucket-gate-annotations|createChannel-specGitRepo-pathname|null|_/gi,
+    matched => {
+      return mapObj[matched]
     }
-  })
+  )
 
   return sample
 }
 
-export const getSubscriptionSample = (subscriptionSample, locale) => {
+export const getSubscriptionSample = locale => {
   const mapObj = {
     'createSubscription-namespace-resource':
       '# ' +
@@ -134,25 +153,17 @@ export const getSubscriptionSample = (subscriptionSample, locale) => {
     '\'': ''
   }
 
-  var sample = ''
-  Object.keys(subscriptionSample).map(key => {
-    sample =
-      sample +
-      YAML.stringify(subscriptionSample[key]).replace(
-        /createSubscription-namespace-resource|createSubscription-name-resource|createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|createSubscription-timeWindow-weekdays|createSubscription-timeWindow-hours|null|_|'/gi,
-        matched => {
-          return mapObj[matched]
-        }
-      )
-    if (key < Object.keys(subscriptionSample).length - 1) {
-      sample = sample + '---\n'
+  var sample = subscriptionSample.replace(
+    /createSubscription-namespace-resource|createSubscription-name-resource|createSubscription-apiVersion|createSubscription-kind|createSubscription-metadata-namespace|createSubscription-metadata-name|createSubscription-spec-channel|createSubscription-spec-placement-placementRef-name|createSubscription-spec-placement-placementRef-kind|createSubscription-timeWindow-weekdays|createSubscription-timeWindow-hours|null|_|'/gi,
+    matched => {
+      return mapObj[matched]
     }
-  })
+  )
 
   return sample
 }
 
-export const getApplicationSample = (applicationSample, locale) => {
+export const getApplicationSample = locale => {
   const mapObj = {
     'createApplication-metadata-name':
       '# ' + msgs.get('description.createApplication.metadata.name', locale),
@@ -175,7 +186,7 @@ export const getApplicationSample = (applicationSample, locale) => {
     _: ' '
   }
 
-  var sample = YAML.stringify(applicationSample).replace(
+  var sample = applicationSample.replace(
     /createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|null|_/gi,
     matched => {
       return mapObj[matched]
@@ -185,7 +196,7 @@ export const getApplicationSample = (applicationSample, locale) => {
   return sample
 }
 
-export const getPlacementRuleSample = (placementRuleSample, locale) => {
+export const getPlacementRuleSample = locale => {
   const mapObj = {
     'createPlacementRule-apiVersion':
       '# ' + msgs.get('description.createPlacementRule.apiVersion', locale),
@@ -208,8 +219,7 @@ export const getPlacementRuleSample = (placementRuleSample, locale) => {
     null: '',
     _: ' '
   }
-
-  var sample = YAML.stringify(placementRuleSample).replace(
+  var sample = placementRuleSample.replace(
     /createPlacementRule-apiVersion|createPlacementRule-kind|createPlacementRule-metadata-namespace|createPlacementRule-metadata-name|createPlacementRule-spec-clusterLabels-matchLabels|createPlacementRule-spec-clusterReplicas|null|_/gi,
     matched => {
       return mapObj[matched]

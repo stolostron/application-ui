@@ -1,0 +1,15 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name:                           # Required. The name of the application resource to create.
+  namespace:                      # Required. The namespace resource to use for the application.
+spec:
+  componentKinds:
+  - group: app.ibm.com
+    kind: Subscription
+  descriptor: {}
+  selector:
+    matchExpressions:
+      - key:                      # Required. The Kubernetes label key that a resource needs to match.
+        operator: In
+        values:                   # Required. The Kubernetes label values that a resource needs to match.

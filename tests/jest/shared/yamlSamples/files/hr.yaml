@@ -1,0 +1,21 @@
+apiVersion: v1                      # Optional. Remove the fields for creating the channel namespace resource when the required namespace resource already exists.
+kind: Namespace
+metadata:
+  name:                             # Required. The name of the channel namespace resource to create.
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Channel
+metadata:
+  name:                             # Required. The name of the channel namespace resource to create.
+  namespace:                        # Required. The namespace resource to use for the channel.
+spec:
+  pathname:                         # Required. The URL path for the Helm repository.
+  configRef:
+    name:                           # Optional. The name of the ConfigMap to use for controlling the acceptance of untrusted certificates.
+  type: HelmRepo
+---
+apiVersion: v1                      # Optional. Remove the fields for creating the ConfigMap resource when the required ConfigMap resource already exists.
+kind: ConfigMap
+metadata:
+  name:                             # Required. The name of the ConfigMap to create.
+  namespace:                        # Required. The namespace resource to use for the ConfigMap. The namespace must be the same namespace that is used for the channel that uses the ConfigMap.

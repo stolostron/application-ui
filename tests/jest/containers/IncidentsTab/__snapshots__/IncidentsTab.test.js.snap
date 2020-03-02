@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IncidentsTab IncidentsTab renders correctly. 1`] = `
+<div
+  id="incidents-tab"
+>
+  <div
+    className="incidents-tab-no-resource"
+  >
+    <div
+      className="no-resource"
+    >
+      <img
+        alt="Resource icon"
+        className="no-resource-icon"
+        src="undefined/graphics/planets.png"
+      />
+      <div
+        className="no-resource-title"
+      >
+        No incidents found.
+      </div>
+      <div
+        className="no-resource-detail"
+      >
+        Your application does not have any incidents.
+      </div>
+    </div>
+  </div>
+</div>
+`;

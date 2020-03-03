@@ -127,7 +127,8 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
     )
   case 'HCMSubscription':
     return convertStringToQuery(
-      `kind:subscription name:${name} namespace:${namespace}`
+      //get only hub subscriptions
+      `kind:subscription name:${name} namespace:${namespace} cluster:local-cluster`
     )
   case 'HCMApplication':
     return convertStringToQuery(

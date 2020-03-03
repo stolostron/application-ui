@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -18,8 +19,7 @@ import {
   fetchResources,
   fetchGlobalAppsData,
   fetchUserInfo,
-  updateModal,
-  fetchResource
+  updateModal
 } from '../../actions/common'
 import {
   fetchChannelResource,
@@ -208,9 +208,7 @@ const mapDispatchToProps = dispatch => {
           cluster
         )
       ),
-    closeModal: () => dispatch(closeModals()),
-    fetchSingleApplication: (resourceType, namespace, name) =>
-      dispatch(fetchResource(resourceType, namespace, name))
+    closeModal: () => dispatch(closeModals())
   }
 }
 

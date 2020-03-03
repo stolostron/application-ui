@@ -15,13 +15,12 @@ import * as Actions from '../../../actions'
 import _ from 'lodash'
 
 export default {
-
   // merge table/diagram/topology definitions
   mergeDefinitions,
 
   // nodes, links and yaml
   getActiveChannel,
-  getDiagramElements,
+  getDiagramElements
 }
 
 // merge table/diagram/topology definitions
@@ -71,9 +70,16 @@ function getActiveChannel(localStoreKey) {
   }
 }
 
-function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
-  const { status, loaded, reloading, willLoadDetails, detailsLoaded, detailsReloading } = topology
-  const topologyReloading =  reloading
+function getDiagramElements(topology, localStoreKey, iname, inamespace) {
+  const {
+    status,
+    loaded,
+    reloading,
+    willLoadDetails,
+    detailsLoaded,
+    detailsReloading
+  } = topology
+  const topologyReloading = reloading
   const topologyLoadError = status === Actions.REQUEST_STATUS.ERROR
   if (loaded && !topologyLoadError) {
     // topology from api will have raw k8 objects, pods status
@@ -91,7 +97,11 @@ function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
       const { type, name } = node
       switch (type) {
       case 'application':
-        activeChannel = _.get(node, 'specs.activeChannel', '__ALL__/__ALL__//__ALL__/__ALL__')
+        activeChannel = _.get(
+          node,
+          'specs.activeChannel',
+          '__ALL__/__ALL__//__ALL__/__ALL__'
+        )
         channels = _.get(node, 'specs.channels', [])
         break
       case 'pod':
@@ -103,7 +113,7 @@ function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
       if (raw) {
         node.specs.row = row
         originalMap[raw.kind] = raw
-        const dumpRaw =  _.cloneDeep(raw)
+        const dumpRaw = _.cloneDeep(raw)
         removeMeta(dumpRaw)
         const yaml = jsYaml.safeDump(dumpRaw, { sortKeys })
         yamls.push(yaml)
@@ -115,7 +125,7 @@ function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
     // save results
     saveStoredObject(localStoreKey, {
       activeChannel,
-      channels,
+      channels
     })
     saveStoredObject(`${localStoreKey}-${activeChannel}`, {
       clusters,
@@ -143,7 +153,7 @@ function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
       topologyReloading,
       willLoadDetails,
       detailsLoaded,
-      detailsReloading,
+      detailsReloading
     }
   }
 
@@ -158,9 +168,15 @@ function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
       channels = storedActiveChannel.channels || []
     }
     //console.log('localkey '+localStoreKey+ ' fetch '+ JSON.stringify(_.get(topology, 'fetchFilters.application')))
-    activeChannel = _.get(topology, 'fetchFilters.application.channel', activeChannel)
+    activeChannel = _.get(
+      topology,
+      'fetchFilters.application.channel',
+      activeChannel
+    )
     if (activeChannel) {
-      const storedElements = getStoredObject(`${localStoreKey}-${activeChannel}`)
+      const storedElements = getStoredObject(
+        `${localStoreKey}-${activeChannel}`
+      )
       if (storedElements) {
         const {
           clusters = [],
@@ -213,7 +229,13 @@ function getDiagramElements(item, topology, localStoreKey, iname, inamespace) {
   }
 }
 
-function addDiagramDetails(topology, nodes, podMap, activeChannel, localStoreKey) {
+function addDiagramDetails(
+  topology,
+  nodes,
+  podMap,
+  activeChannel,
+  localStoreKey
+) {
   const { status, detailsLoaded, detailsReloading } = topology
   // get extra details from topology or from localstore
   let pods = []
@@ -221,27 +243,26 @@ function addDiagramDetails(topology, nodes, podMap, activeChannel, localStoreKey
     pods = topology.pods
     // save in local store
     saveStoredObject(`${localStoreKey}-${activeChannel}-details`, {
-      pods,
+      pods
     })
   } else if (!detailsReloading) {
-  // if not loaded yet, see if there's a stored version
-  // with the same diagram filters
-    const storedElements = getStoredObject(`${localStoreKey}-${activeChannel}-details`)
+    // if not loaded yet, see if there's a stored version
+    // with the same diagram filters
+    const storedElements = getStoredObject(
+      `${localStoreKey}-${activeChannel}-details`
+    )
     if (storedElements) {
-      ({pods=[]} = storedElements)
+      ({ pods = [] } = storedElements)
     }
   }
 
   // associate pods with status
   if (pods) {
-    pods.forEach(pod=>{
-      const {name:pname} = pod
+    pods.forEach(pod => {
+      const { name: pname } = pod
       if (pname) {
         // get pod name w/o uid suffix
-        let name = pname.replace(
-          /-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/,
-          ''
-        )
+        let name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
         if (name === pname) {
           const idx = name.lastIndexOf('-')
           if (idx !== -1) {
@@ -257,4 +278,3 @@ function addDiagramDetails(topology, nodes, podMap, activeChannel, localStoreKey
     })
   }
 }
-

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -15,11 +16,9 @@ import {
   SEARCH_QUERY_RELATED
 } from '../apollo-client/queries/SearchQueries'
 import { convertStringToQuery } from '../../lib/client/search-helper'
-import { mapBulkApplications } from '../reducers/data-mappers/mapApplicationsBulk'
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
-import { fetchBulkSubscriptionList } from '../reducers/reducerAppDeployments'
 
 import {
   ApplicationsList,
@@ -127,7 +126,8 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
     )
   case 'HCMSubscription':
     return convertStringToQuery(
-      `kind:subscription name:${name} namespace:${namespace}`
+      //get only hub subscriptions
+      `kind:subscription name:${name} namespace:${namespace} cluster:local-cluster`
     )
   case 'HCMApplication':
     return convertStringToQuery(
@@ -290,9 +290,6 @@ export const fetchResourcesInBulk = (resourceType, bulkquery) => {
         let result = false
         if (resourceType.name === 'HCMChannel') {
           result = mapBulkChannels(dataClone)
-        } else if (resourceType.name === 'HCMApplication') {
-          result = mapBulkApplications(dataClone)
-          dispatch(fetchBulkSubscriptionList(apolloClient, result))
         } else if (resourceType.name === 'HCMSubscription') {
           result = mapBulkSubscriptions(dataClone)
         } else if (resourceType.name === 'CEMIncidentList') {

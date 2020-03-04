@@ -198,21 +198,6 @@ export const getCommonResources = (channelData, appRelations) => {
   return filteredData
 }
 
-// We want to get the current Application if there is only ONE application.
-// We check the secondaryHeader to see if there are two breadcrumbs which would
-// mean that the user has selected one application to look into.
-// We then extract the items from the application list and then pull out the application
-// at location 0 which we know because there is only 1 application selected
-// at this time.
-export const getCurrentApplication = (HCMApplicationList, singleAppView) => {
-  const currentApplication = R.pathOr([], ['items'])(HCMApplicationList)
-  const currentApplicationItemZero =
-    (singleAppView &&
-      (currentApplication.length > 0 && currentApplication[0])) ||
-    {}
-  return currentApplicationItemZero
-}
-
 export const formatToChannel = (subscriptionList, bulkSubscription) => {
   let channelList = []
   subscriptionList instanceof Array &&

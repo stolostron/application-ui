@@ -826,8 +826,6 @@ const mapStateToProps = (state, ownProps) => {
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
   const staticResourceData = hcmappdiagram.mergeDefinitions(hcmtopology)
-  const { HCMApplicationList } = state
-  const item = HCMApplicationList.items[0]
   const { topology } = state
   const {
     activeFilters,
@@ -843,7 +841,6 @@ const mapStateToProps = (state, ownProps) => {
     }`
   }
   const diagramElements = staticResourceData.getDiagramElements(
-    item,
     topology,
     localStoreKey,
     name,

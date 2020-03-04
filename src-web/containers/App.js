@@ -8,8 +8,6 @@
 
 // seems to be an issue with this rule and redux
 /* eslint-disable import/no-named-as-default, react/display-name */
-import R from 'ramda'
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -140,7 +138,7 @@ class App extends React.Component {
 
   render() {
     const serverProps = this.getServerProps()
-    const { match, location, activeAccountId } = this.props
+    const { match, location, namespaceAccountId } = this.props
     const showSecondaryHeader =
       location.pathname &&
       !location.pathname.startsWith('/multicloud/welcome') &&
@@ -171,7 +169,7 @@ class App extends React.Component {
         <ModalApollo locale={serverProps.context.locale} />
         <ActionModalApollo
           locale={serverProps.context.locale}
-          activeAccountId={activeAccountId}
+          namespaceAccountId={namespaceAccountId}
         />
         <input
           type="hidden"
@@ -195,16 +193,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-  const userInfoList = state.userInfoList
-
-  const activeAccountId = R.pathOr(
-    '',
-    ['items', 'activeAccountId'],
-    userInfoList
-  )
   return {
-    user: state.user,
-    activeAccountId: activeAccountId
+    user: state.user
   }
 }
 

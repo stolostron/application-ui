@@ -89,10 +89,6 @@ export const HCMNamespaceList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_NAMESPACES)
 )
-export const userInfoList = createResourceReducer(
-  resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.USER_INFO)
-)
 
 export { topology } from './topology'
 export { resourceFilters } from './filter'

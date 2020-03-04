@@ -18,7 +18,6 @@ import {
   createResources,
   fetchResources,
   fetchGlobalAppsData,
-  fetchUserInfo,
   updateModal
 } from '../../actions/common'
 import {
@@ -163,7 +162,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     fetchApplicationsGlobalData: () =>
       dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
-    fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
     fetchSubscriptions: () =>
@@ -264,7 +262,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       fetchChannels,
       fetchSubscriptions,
-      fetchUserInfo,
       fetchApplications,
       fetchApplicationsGlobalData
     } = this.props
@@ -272,7 +269,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchApplications()
     fetchChannels()
     fetchSubscriptions()
-    fetchUserInfo()
     fetchApplicationsGlobalData()
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {

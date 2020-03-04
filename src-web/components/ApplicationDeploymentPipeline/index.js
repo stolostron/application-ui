@@ -263,13 +263,20 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels,
       fetchSubscriptions,
       fetchApplications,
-      fetchApplicationsGlobalData
+      fetchApplicationsGlobalData,
+      QueryApplicationList,
+      HCMChannelList,
+      HCMSubscriptionList,
+      GlobalApplicationDataList
     } = this.props
 
-    fetchApplications()
-    fetchChannels()
-    fetchSubscriptions()
-    fetchApplicationsGlobalData()
+    if (QueryApplicationList.status != Actions.REQUEST_STATUS.DONE)
+      fetchApplications()
+    if (HCMChannelList.status != Actions.REQUEST_STATUS.DONE) fetchChannels()
+    if (HCMSubscriptionList.status != Actions.REQUEST_STATUS.DONE)
+      fetchSubscriptions()
+    if (GlobalApplicationDataList.status != Actions.REQUEST_STATUS.DONE)
+      fetchApplicationsGlobalData()
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -332,7 +339,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
-
     if (
       QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
       HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||

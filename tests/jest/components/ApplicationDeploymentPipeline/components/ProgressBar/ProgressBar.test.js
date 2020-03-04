@@ -6,19 +6,16 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-// import { BrowserRouter as Router } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import store from '../../../src-web/index';
-//
-const React = require('react')
-const renderer = require('react-test-renderer')
-const ProgressBar = require('../ProgressBar').default
+const React = require("react");
+const renderer = require("react-test-renderer");
+const ProgressBar = require("../../../../../../src-web/components/ApplicationDeploymentPipeline/components/ProgressBar")
+  .default;
 
-describe('ProgressBar', () => {
-  it('ProgressBar renders correctly.', () => {
+describe("ProgressBar", () => {
+  it("ProgressBar renders correctly.", () => {
     const tree = renderer
       .create(<ProgressBar status={[1, 2, 3, 4, 5]} />)
-      .toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

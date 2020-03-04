@@ -18,7 +18,6 @@ import {
   createResources,
   fetchResources,
   fetchGlobalAppsData,
-  fetchUserInfo,
   updateModal
 } from '../../actions/common'
 import {
@@ -163,7 +162,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchResources(RESOURCE_TYPES.QUERY_APPLICATIONS)),
     fetchApplicationsGlobalData: () =>
       dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
-    fetchUserInfo: () => dispatch(fetchUserInfo(RESOURCE_TYPES.USER_INFO)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, resourceType, data),
     fetchSubscriptions: () =>
@@ -264,16 +262,21 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       fetchChannels,
       fetchSubscriptions,
-      fetchUserInfo,
       fetchApplications,
-      fetchApplicationsGlobalData
+      fetchApplicationsGlobalData,
+      QueryApplicationList,
+      HCMChannelList,
+      HCMSubscriptionList,
+      GlobalApplicationDataList
     } = this.props
 
-    fetchApplications()
-    fetchChannels()
-    fetchSubscriptions()
-    fetchUserInfo()
-    fetchApplicationsGlobalData()
+    if (QueryApplicationList.status != Actions.REQUEST_STATUS.DONE)
+      fetchApplications()
+    if (HCMChannelList.status != Actions.REQUEST_STATUS.DONE) fetchChannels()
+    if (HCMSubscriptionList.status != Actions.REQUEST_STATUS.DONE)
+      fetchSubscriptions()
+    if (GlobalApplicationDataList.status != Actions.REQUEST_STATUS.DONE)
+      fetchApplicationsGlobalData()
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -336,7 +339,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
-
     if (
       QueryApplicationList.status === Actions.REQUEST_STATUS.ERROR ||
       HCMSubscriptionList.status === Actions.REQUEST_STATUS.ERROR ||

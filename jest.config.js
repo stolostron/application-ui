@@ -41,10 +41,10 @@ const jestConfig = {
   coverageThreshold: {
     // TODO - increase threshold once repo is finalized
     global: {
-      branches: 15,
-      functions: 20,
-      lines: 20,
-      statements: 20
+      branches: 25,
+      functions: 30,
+      lines: 30,
+      statements: 30
     }
   },
   testMatch: [

@@ -26,7 +26,18 @@ const jestConfig = {
     '!**/src-web/pages/routes/*',
     '!**/node_modules/**',
     '!**/vendor/**',
-    '!**/tmp/**'
+    '!**/tmp/**',
+    '!**/src-web/components/Topology/viewer/ChannelControl.js',
+    '!**/src-web/components/Topology/viewer/RefreshTimeSelect.js',
+    '!**/src-web/components/Topology/viewer/ResourceFilterModule.js',
+    '!**/src-web/components/Topology/viewer/SearchName.js',
+    '!**/src-web/components/Topology/viewer/TypeFilterBar.js',
+    '!**/src-web/components/Topology/viewer/defaults/index.js',
+    '!**/src-web/components/Topology/viewer/defaults/shapes.js',
+    '!**/src-web/components/Topology/viewer/defaults/titles.js',
+    '!**/src-web/components/Topology/viewer/constants.js',
+    '!**/src-web/components/Topology/index.js',
+    '!**/src-web/components/ApplicationTopologyModule/index.js'
   ],
   coverageDirectory: './test-output/coverage',
   coverageReporters: [

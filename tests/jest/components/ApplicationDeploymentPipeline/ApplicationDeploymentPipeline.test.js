@@ -20,7 +20,7 @@ import {
   serverProps,
   reduxStoreAllAppsPipelineNoChannels,
   reduxStoreAppPipelineNoChannels
-} from "./TestingData";
+} from "../TestingData";
 
 const mockStore = configureMockStore();
 const storeApp = mockStore(reduxStoreAppPipeline);

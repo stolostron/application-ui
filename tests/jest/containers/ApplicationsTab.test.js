@@ -18,6 +18,49 @@ import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
+import configureMockStore from "redux-mock-store";
+
+import {
+  reduxStoreAppPipeline,
+  reduxStoreAllAppsPipeline,
+  serverProps
+} from "../components/TestingData";
+
+const mockStore = configureMockStore();
+const storeApp = mockStore(reduxStoreAppPipeline);
+const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
+
+const secondaryHeaderProps = {
+  title: "routes.applications",
+  tabs: [],
+  resourceFilters: []
+};
+
+const resourceType = {
+  name: "QueryApplications",
+  list: "QueryApplicationList"
+};
+
+describe("ApplicationsTab", () => {
+  it("ApplicationsTab renders correctly with data on single app.", () => {
+    const tree = renderer
+      .create(
+        <BrowserRouter>
+          <Provider store={storeApp}>
+            <ApplicationsTab
+              serverProps={serverProps}
+              secondaryHeaderProps={secondaryHeaderProps}
+              resourceType={resourceType}
+              status="DONE"
+            />
+          </Provider>
+        </BrowserRouter>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});
+/*
 const preloadedState = window.__PRELOADED_STATE__;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunkMiddleware];
@@ -44,3 +87,4 @@ describe("ApplicationsTab", () => {
     expect(tree).toMatchSnapshot();
   });
 });
+*/

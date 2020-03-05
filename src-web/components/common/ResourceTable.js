@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -80,14 +81,15 @@ class ResourceTable extends React.Component {
       onSelectAll,
       onSelectSubItem,
       tableTitle,
-      tableName
+      tableName,
+      locale
     } = this.props
     return [
       <DataTable
         key="data-table"
         rows={this.getRows()}
         headers={this.getHeaders()}
-        translateWithId={translateWithId.bind(null, this.context.locale)}
+        translateWithId={translateWithId.bind(null, locale)}
         render={({ rows, headers, getRowProps }) => (
           <TableContainer
             id={`${staticResourceData.resourceKey &&
@@ -114,14 +116,8 @@ class ResourceTable extends React.Component {
                 id={`${staticResourceData.resourceKey &&
                   staticResourceData.resourceKey}-search`}
                 light={!darkSearchBox}
-                labelText={msgs.get(
-                  'table.search.labelText',
-                  this.context.locale
-                )}
-                placeHolderText={msgs.get(
-                  'actions.searchResources',
-                  this.context.locale
-                )}
+                labelText={msgs.get('table.search.labelText', locale)}
+                placeHolderText={msgs.get('actions.searchResources', locale)}
               />
               <TableToolbarContent>{actions}</TableToolbarContent>
             </TableToolbar>
@@ -155,7 +151,7 @@ class ResourceTable extends React.Component {
                           ).length === itemIds.length
                             ? 'unselect'
                             : 'select',
-                          this.context.locale
+                          locale
                         )}
                       />
                     </th>
@@ -171,7 +167,7 @@ class ResourceTable extends React.Component {
                                   ? 'asc'
                                   : 'desc'
                               }`,
-                              this.context.locale
+                              locale
                             )}
                             onClick={handleSort}
                             className={`bx--table-sort-v2${
@@ -200,7 +196,7 @@ class ResourceTable extends React.Component {
                                     ? 'asc'
                                     : 'desc'
                                 }`,
-                                this.context.locale
+                                locale
                               )}
                             />
                           </button>
@@ -267,7 +263,7 @@ class ResourceTable extends React.Component {
                                     items[row.id] && items[row.id].selected
                                       ? 'unselect'
                                       : 'select',
-                                    this.context.locale
+                                    locale
                                   )}
                                 />
                               </TableCell>
@@ -337,26 +333,15 @@ class ResourceTable extends React.Component {
         page={page}
         disabled={pageSize >= totalFilteredItems}
         isLastPage={pageSize >= totalFilteredItems}
-        itemsPerPageText={msgs.get(
-          'pagination.itemsPerPage',
-          this.context.locale
-        )}
+        itemsPerPageText={msgs.get('pagination.itemsPerPage', locale)}
         pageRangeText={(current, total) =>
-          msgs.get(
-            'pagination.pageRange',
-            [current, total],
-            this.context.locale
-          )
+          msgs.get('pagination.pageRange', [current, total], locale)
         }
         itemRangeText={(min, max, total) =>
-          `${msgs.get(
-            'pagination.itemRange',
-            [min, max],
-            this.context.locale
-          )} ${msgs.get(
+          `${msgs.get('pagination.itemRange', [min, max], locale)} ${msgs.get(
             'pagination.itemRangeDescription',
             [total],
-            this.context.locale
+            locale
           )}`
         }
         pageInputDisabled={pageSize >= totalFilteredItems}
@@ -365,8 +350,14 @@ class ResourceTable extends React.Component {
   }
 
   getHeaders() {
-    const { locale } = this.context
-    const { staticResourceData, tableActions, items, itemIds } = this.props
+    //const { locale } = this.context
+    const {
+      staticResourceData,
+      tableActions,
+      items,
+      itemIds,
+      locale
+    } = this.props
     let headers = staticResourceData.tableKeys.filter(tableKey => {
       return tableKey.disabled
         ? typeof tableKey.disabled === 'function'
@@ -423,10 +414,11 @@ class ResourceTable extends React.Component {
       resourceType,
       staticResourceData,
       match,
-      userRole
+      userRole,
+      locale
     } = this.props
 
-    const { locale } = this.context
+    //const { locale } = this.context
     const { normalizedKey } = staticResourceData
     const resources = this.getResources()
     if (resources && resources.length > 0) {

@@ -20,7 +20,7 @@ const applications = {
       name: "mortgage-app",
       namespace: "default",
       dashboard:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+        "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
         Subscribed: 1
@@ -44,7 +44,7 @@ const applications = {
       name: "samplebook-gbapp",
       namespace: "sample",
       dashboard:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+        "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
         Subscribed: 1

@@ -1926,7 +1926,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       <a
         aria-disabled={false}
         className="bx--link"
-        href="https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default"
+        href="https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -2847,7 +2847,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       <a
         aria-disabled={false}
         className="bx--link"
-        href="https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default"
+        href="https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default"
         rel="noopener noreferrer"
         target="_blank"
       >

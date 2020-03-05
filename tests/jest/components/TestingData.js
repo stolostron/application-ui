@@ -22,7 +22,7 @@ export const QueryApplicationList = {
       name: "mortgage-app",
       namespace: "default",
       dashboard:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+        "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
         Subscribed: 1
@@ -46,7 +46,7 @@ export const QueryApplicationList = {
       name: "samplebook-gbapp",
       namespace: "sample",
       dashboard:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+        "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
         Subscribed: 1
@@ -165,8 +165,7 @@ export const HCMChannelList = {
       _rbac: "default_app.ibm.com_channels",
       _hubClusterResource: "true",
       _uid: "local-cluster/87f95c96-52b8-11ea-bf05-00000a102d26",
-      pathname:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:8443/helm-repo/charts",
+      pathname: "https://localhost:8443/helm-repo/charts",
       type: "HelmRepo",
       related: [
         {
@@ -395,6 +394,10 @@ export const reduxStoreAppPipeline = {
 export const reduxStoreAllAppsPipeline = {
   AppDeployments: {
     displaySubscriptionModal: false
+  },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
   },
   secondaryHeader: secondaryHeaderAllApps,
   namespaceAccountId: namespaceAccountId,

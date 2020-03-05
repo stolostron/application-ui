@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -91,7 +92,9 @@ class EditorBar extends React.Component {
       { command: 'spacer2', spacer: true }
     ]
     const menuItems = []
-    if (exceptions.filter(exception=>exception.type==='error').length === 0) {
+    if (
+      exceptions.filter(exception => exception.type === 'error').length === 0
+    ) {
       editorButtons.push({
         command: 'update',
         tooltip: msgs.get('editor.bar.update', locale),
@@ -136,8 +139,14 @@ class EditorBar extends React.Component {
             />
           )
         })}
-        {exceptions.filter(exception=>exception.type==='error').length > 0 && (
-          <OverflowMenu floatingMenu flipped renderIcon={this.renderErrorIcon}>
+        {exceptions &&
+          exceptions.filter(exception => exception.type === 'error').length >
+            0 && (
+            <OverflowMenu
+            floatingMenu
+            flipped
+            renderIcon={this.renderErrorIcon}
+          >
             {menuItems.map(({ text, row }) => {
               const gotoEditorLine = this.gotoEditorLine.bind(this, row)
               return (

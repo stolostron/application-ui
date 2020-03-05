@@ -46,7 +46,7 @@ class ResourceList extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, title } = this.props
+    const { updateSecondaryHeader, tabs, title, status } = this.props
     updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -55,8 +55,11 @@ class ResourceList extends React.Component {
       )
       this.setState({ intervalId: intervalId })
     }
-    const { fetchResources, selectedFilters = [] } = this.props
-    fetchResources(selectedFilters)
+
+    if (!status || status !== REQUEST_STATUS.DONE) {
+      const { fetchResources, selectedFilters = [] } = this.props
+      fetchResources(selectedFilters)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -106,7 +109,13 @@ class ResourceList extends React.Component {
       tableTitle,
       tableName
     } = this.props
-    const { locale } = this.context
+
+    let locale = 'en-US'
+    try {
+      locale = this.context()
+    } catch (e) {
+      locale = 'en-US'
+    }
 
     if (status === REQUEST_STATUS.ERROR && !this.state.xhrPoll) {
       if (err && err.data && err.data.Code === 1) {
@@ -200,6 +209,7 @@ class ResourceList extends React.Component {
             tableActions={staticResourceData.tableActions}
             tableTitle={tableTitle}
             tableName={tableName}
+            locale={locale}
           />
         </div>
       )

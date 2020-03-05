@@ -380,6 +380,10 @@ export const reduxStoreAppPipeline = {
   AppDeployments: {
     displaySubscriptionModal: false
   },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
   secondaryHeader: secondaryHeader,
   namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,

@@ -23,7 +23,7 @@ const handleCreateResource = (dispatch, yaml) =>
 
 let locale = 'en-US'
 try {
-  locale = context()
+  locale = context().locale
 } catch (e) {
   locale = 'en-US'
 }

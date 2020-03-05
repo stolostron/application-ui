@@ -51,6 +51,13 @@ function getFromState(state, root, attribute) {
   return storeRoot[attribute]
 }
 
+let globalContext = { locale: 'en-US' }
+try {
+  globalContext = JSON.parse(document.getElementById('context').textContent)
+} catch (e) {
+  globalContext = { locale: 'en-US' }
+}
+
 export const INITIAL_STATE = {
   items: [],
   itemsPerPage: Actions.PAGE_SIZES.DEFAULT,
@@ -167,9 +174,7 @@ const makeGetTransformedItemsSelector = resourceType => {
     const resourceData = getResourceDefinitions(resourceType)
     return items.map(item => {
       const customData = {}
-      const context = JSON.parse(
-        document.getElementById('context').textContent
-      )
+
       resourceData.tableKeys.forEach(key => {
         if (
           key.transformFunction &&
@@ -177,7 +182,7 @@ const makeGetTransformedItemsSelector = resourceType => {
         ) {
           customData[
             key.resourceKey.replace('custom.', '')
-          ] = key.transformFunction(item, context.locale)
+          ] = key.transformFunction(item, globalContext.locale)
         }
       })
       item.custom = customData

@@ -27,7 +27,7 @@ const ReactDOMServer = require('react-dom/server'),
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
 
-let App, Login, role, reducers, uiConfig //laziy initialize to reduce startup time seen on k8s
+let App, Login, role, reducers //laziy initialize to reduce startup time seen on k8s
 router.get('/logout', (req, res) => {
   var LOGOUT_API = '/v1/auth/logout'
   var callbackUrl = req.headers['host']
@@ -36,7 +36,7 @@ router.get('/logout', (req, res) => {
   var redirectUrl =
     process.env.NODE_ENV !== 'development' && callbackUrl
       ? `https://${callbackUrl}${LOGOUT_API}`
-      : `${config.get('headerUrl')}${LOGOUT_API}`
+      : `${config.get('cfcRouterUrl')}${LOGOUT_API}`
   logger.debug('Final logout url:' + redirectUrl)
   return res.send({ redirectUrl })
 })
@@ -68,13 +68,11 @@ router.get('*', (req, res) => {
       state: stateH,
       files: filesH
     } = headerRes
-    uiConfig =
-      uiConfig === undefined
-        ? require('../../src-web/actions/uiconfig')
-        : uiConfig
-    store.dispatch(
-      uiConfig.uiConfigReceiveSucess(stateH.uiconfig.uiConfiguration)
-    )
+
+    if (!header || !propsH || !stateH || !filesH) {
+      logger.err(headerRes.body)
+      return res.status(500).send(headerRes.body)
+    }
 
     role = role === undefined ? require('../../src-web/actions/role') : role
     if (stateH.role) {

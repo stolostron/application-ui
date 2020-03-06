@@ -20,7 +20,8 @@ export default {
 
   // nodes, links and yaml
   getActiveChannel,
-  getDiagramElements
+  getDiagramElements,
+  addDiagramDetails
 }
 
 // merge table/diagram/topology definitions

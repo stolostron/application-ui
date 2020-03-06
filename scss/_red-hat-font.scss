@@ -1,254 +1,52 @@
-/*******************************************************************************
- * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
- *******************************************************************************/
+//----------------------
+// Red Hat Font Mixin
+//----------------------
 
-
-@import 'node_modules/carbon-components/scss/globals/scss/styles';
-@import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'node_modules/carbon-components/scss/globals/scss/_helper-mixins';
-@import 'header-carbon-v9-migration';
-@import 'variables';
-@import '_red-hat-font';
-
-@include redhat-font-face;
-
-html,
-body,
-div,
-span,
-applet,
-object,
-iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  font-family: RedHatText;
+@mixin redhat-font-face {
+  @include printRedHatFont(400, "Regular", $familyName: "RedHatText");
+  @include printRedHatFont(700, "Medium", $familyName: "RedHatText");
 }
 
-.bx--link,
-.bx--label,
-.bx--search-input,
-.bx--overflow-menu-options__btn,
-.bx--pagination__text,
-.bx--text-input,
-.bx--tooltip--icon__top::before,
-.bx--tooltip--icon__top::after,
-.bx--tooltip--icon__bottom::before,
-.bx--tooltip--icon__bottom::after {
-  font-family: RedHatText;
-}
+@mixin printRedHatFont($weightValue: 400, $weightName: normal, $familyName: "RedHatText", $style: "normal",) {
+  $filePath: $font-path + "/RedHatText/" + $familyName + "-" + $weightName;
 
-html {
-  height: 100%;
-}
-
-body {
-  min-height: 100%;
-  height: 100%;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  .bx--data-table-v2--zebra tbody tr:nth-child(2n) {
-    background-color: $color__white;
-  }
-
-  .bx--tooltip--shown {
-    font-size: .875rem;
+  @font-face {
+    font-family: $familyName;
+    src: url('#{$filePath}.eot'); /* IE9 Compat Modes */
+    src: url('#{$filePath}.eot?#iefix') format('embedded-opentype'), url('#{$filePath}.woff') format('woff'); /* Modern Browsers */
+    //url('#{$filePath}.otf') format('OpenType'), /* Safari, Android, iOS */
+    //url('#{$filePath}.svg#RedHatDisplay-#{$weightName}') format('svg'); /* Legacy iOS */
+    font-style: #{$style};
+    font-weight: $weightValue;
+    text-rendering: optimizeLegibility;
   }
 }
 
-.page-content-container {
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 5% 3.375rem;
+//----------------------
+// Red Hat Font Usage
+//----------------------
 
-  .bx--select--inline {
-    svg.bx--select__arrow {
-      position: absolute;
-    }
-  }
-}
+// No compiler? No problem! Paste this file into sassmeister.com
 
-.content-spinner {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+// If you would like to load the font from static.redhat.com, use this variable 
+// $fontLocation: "/"; 
+// and set the $relative argument to false when you call the mixin
 
-.resource-list-filter {
-  margin-top: -1.5rem;
-  padding-bottom: 3rem;
-}
+//----------------------
+// Include the Red Hat Display font 
+//---------------------- 
+// @include printRedHatFont(300, "Regular", $familyName: "RedHatDisplay"); 
+// @include printRedHatFont(400, "Medium", $familyName: "RedHatDisplay");
+// @include printRedHatFont(700, "Bold", $familyName: "RedHatDisplay");
 
-.bx--loading-overlay {
-  z-index: 10000; // need higher z-index with modals open
-}
+//----------------------
+// Include the Red Hat Text font 
+//----------------------
+// @include printRedHatFont(400, "Regular", $familyName: "RedHatText");
+// @include printRedHatFont(700, "Medium", $familyName: "RedHatText");
 
-.expand-vertically {
-  height: 100%;
-}
-
-.nested-expandable-row {
-  display: flex;
-  flex-direction: column;
-
-  .nested-expandable-row-header {
-    font-weight: bold;
-    color: $color__blue-50;
-  }
-
-  .nested-expandable-row-content {
-    margin-top: -2rem;
-  }
-}
-
-.no-resource {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 32.375rem;
-  height: 25.6875rem;
-  color: $color__blue-90;
-  padding: 1.25rem 2.5rem;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  margin: 3rem auto 1rem auto;
-
-  .button-group {
-    display: flex;
-
-    .buttons {
-      margin: 0 1rem;
-
-      button:hover {
-        .doc-link {
-          color: white;
-        }
-      }
-
-      .doc-link {
-        text-decoration: none;
-      }
-    }
-  }
-
-  .no-resource-icon {
-    width: 22.5rem;
-    height: 12.5rem;
-  }
-
-  .no-resource-title {
-    font-weight: 500;
-    margin-bottom: 0.5625rem;
-    font-size: 1.8125rem;
-    text-align: center;
-    color: $grc_color_blue;
-  }
-
-  .no-resource-detail {
-    font-weight: 300;
-    font-size: 1rem;
-    margin-bottom: 1.3125rem;
-    text-align: center;
-    line-height: 1.2;
-    color: $color__navy-gray-6;
-
-    > a {
-      font-weight: 700;
-      margin-right: 0.3125rem;
-      font-size: .875rem;
-    }
-  }
-}
-
-.yamlEditorContainer {
-  #brace-editor {
-    min-width: 25rem;
-    min-height: 25rem;
-  }
-  font-family: monospace;
-
-  div > * {
-    font-family: monospace;
-  }
-}
+// Example Usage
+// h2 {
+//   font-family: "RedHatDisplay";
+//   font-weight: 700;
+// }

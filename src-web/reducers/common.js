@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -145,9 +146,6 @@ const makeGetFilteredItemsSelector = resourceType => {
       if (lodash.isEmpty(search)) return true
 
       const tableKeys = ResourceDefinitions.getTableKeys(resourceType)
-      const context = JSON.parse(
-        document.getElementById('context').textContent
-      )
 
       if (search.includes('},')) {
         // special case like status={healthy}, labels={cloud=IBM}
@@ -157,13 +155,15 @@ const makeGetFilteredItemsSelector = resourceType => {
           .toLowerCase()
           .split('},')
         searchFields.forEach(searchField => {
-          if (searchTableCellHelper(searchField, tableKeys, item, context)) {
+          if (
+            searchTableCellHelper(searchField, tableKeys, item, globalContext)
+          ) {
             found = true
           }
         })
         return found
       } else {
-        return searchTableCellHelper(search, tableKeys, item, context)
+        return searchTableCellHelper(search, tableKeys, item, globalContext)
       }
     })
   )

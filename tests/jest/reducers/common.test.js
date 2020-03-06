@@ -7,14 +7,19 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-/*
-For a given input, a selector should always produce the same output.
- */
 import {
   secondaryHeader,
   resourceReducerFunction,
+  getItems,
+  getItemsPerPage,
+  getPage,
+  getSearch,
+  getSortColumn,
+  getSortDirection,
   INITIAL_STATE
 } from "../../../src-web/reducers/common";
+
+import { QueryApplicationList } from "../components/TestingData";
 
 describe("secondaryHeader creation", () => {
   it("should return a default state", () => {
@@ -288,5 +293,59 @@ describe("resourceReducerFunction", () => {
       test: "test"
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+});
+
+const state = { QueryApplicationList: QueryApplicationList };
+const props = {
+  storeRoot: "QueryApplicationList"
+};
+
+describe("getItems", () => {
+  it("should return getItems for resource type", () => {
+    const expectedValue = QueryApplicationList.items;
+    expect(getItems(state, props, "items")).toEqual(expectedValue);
+  });
+});
+
+describe("getItemsPerPage", () => {
+  it("should return getItemsPerPage for resource type", () => {
+    const expectedValue = 20;
+    expect(getItemsPerPage(state, props, "itemsPerPage")).toEqual(
+      expectedValue
+    );
+  });
+});
+
+describe("getPage", () => {
+  it("should return getPage for resource type", () => {
+    const expectedValue = 1;
+    expect(getPage(state, props, "page")).toEqual(expectedValue);
+  });
+});
+
+describe("getSearch", () => {
+  it("should return getSearch for resource type", () => {
+    const expectedValue = "aa";
+
+    expect(getSearch(state, props, "search")).toEqual(expectedValue);
+  });
+});
+
+describe("getSortColumn", () => {
+  it("should return getSortColumn for resource type", () => {
+    const expectedValue = "name";
+
+    expect(getSortColumn(state, props, "sortColumn")).toEqual(expectedValue);
+  });
+});
+
+describe("getSortDirection", () => {
+  it("should return getSortDirection for resource type", () => {
+    const expectedValue = "asc";
+
+    expect(getSortDirection(state, props, "sortDirection")).toEqual(
+      expectedValue
+    );
   });
 });

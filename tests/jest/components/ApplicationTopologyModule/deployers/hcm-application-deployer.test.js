@@ -29,8 +29,8 @@ spec:
   clusterReplicas: 2
 status:
   decisions:
-  - clusterName: feng
-    clusterNamespace: feng-ns
+  - clusterName: localcluster
+    clusterNamespace: localcluster-ns
 `;
 
 const curParsed = `
@@ -56,8 +56,8 @@ spec:
   clusterReplicas: 3
 status:
   decisions:
-  - clusterName: feng
-    clusterNamespace: feng-ns
+  - clusterName: localcluster
+    clusterNamespace: localcluster-ns
 `;
 
 const origRaw = `
@@ -83,8 +83,8 @@ spec:
   clusterReplicas: 2
 status:
   decisions:
-  - clusterName: feng
-    clusterNamespace: feng-ns
+  - clusterName: localcluster
+    clusterNamespace: localcluster-ns
 `;
 describe("hcm-application-deployer one resource", () => {
   const expected = {
@@ -123,8 +123,8 @@ describe("hcm-application-deployer one resource", () => {
           status: {
             decisions: [
               {
-                clusterName: "feng",
-                clusterNamespace: "feng-ns"
+                clusterName: "localcluster",
+                clusterNamespace: "localcluster-ns"
               }
             ]
           }

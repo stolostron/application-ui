@@ -68,7 +68,7 @@ const mockDetails = {
         data: {
           name: "mortgage-app-deploy-5578f5675b-krqs8",
           namespace: "default",
-          clusterName: "feng",
+          clusterName: "localcluster",
           containerName: "mortgage-app-mortgage",
           containers: [
             {
@@ -84,7 +84,7 @@ const mockDetails = {
       type: "label",
       labelKey: "resource.clustername",
       labelValue: undefined,
-      value: "feng",
+      value: "localcluster",
       indent: undefined
     },
     {
@@ -266,9 +266,9 @@ const mockLaidoutNodes = {
       }
     },
     {
-      id: "member--clusters--feng",
-      uid: "member--clusters--feng",
-      name: "feng",
+      id: "member--clusters--localcluster",
+      uid: "member--clusters--localcluster",
+      name: "localcluster",
       cluster: null,
       clusterName: null,
       type: "cluster",
@@ -309,7 +309,7 @@ const mockLaidoutNodes = {
             }
           }
         ],
-        clusterNames: ["feng"],
+        clusterNames: ["localcluster"],
         clusterStatus: {
           isOffline: false,
           hasViolations: false,
@@ -324,10 +324,10 @@ const mockLaidoutNodes = {
       labels: null,
       __typename: "Resource",
       layout: {
-        uid: "member--clusters--feng",
+        uid: "member--clusters--localcluster",
         type: "cluster",
-        label: "feng",
-        compactLabel: "feng",
+        label: "localcluster",
+        compactLabel: "localcluster",
         nodeIcons: {
           status: {
             icon: "success",
@@ -344,9 +344,9 @@ const mockLaidoutNodes = {
         tooltips: [
           {
             name: "Cluster",
-            value: "feng",
+            value: "localcluster",
             href:
-              "/multicloud/search?filters={'textsearch':'kind:cluster name:feng'}"
+              "/multicloud/search?filters={'textsearch':'kind:cluster name:localcluster'}"
           }
         ],
         x: 76.5,
@@ -356,9 +356,9 @@ const mockLaidoutNodes = {
     },
     {
       id:
-        "member--deployable--member--clusters--feng--default--mortgage-app-deployable",
+        "member--deployable--member--clusters--localcluster--default--mortgage-app-deployable",
       uid:
-        "member--deployable--member--clusters--feng--default--mortgage-app-deployable",
+        "member--deployable--member--clusters--localcluster--default--mortgage-app-deployable",
       name: "mortgage-app-deployable",
       cluster: null,
       clusterName: null,
@@ -370,7 +370,7 @@ const mockLaidoutNodes = {
       __typename: "Resource",
       layout: {
         uid:
-          "member--deployable--member--clusters--feng--default--mortgage-app-deployable",
+          "member--deployable--member--clusters--localcluster--default--mortgage-app-deployable",
         type: "deployable",
         label: "mortgage-app-↵deployable",
         compactLabel: "mortgage-app-↵deployable",
@@ -400,9 +400,9 @@ const mockLaidoutNodes = {
     },
     {
       id:
-        "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+        "member--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
       uid:
-        "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+        "member--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
       name: "mortgage-app-deploy",
       cluster: null,
       clusterName: null,
@@ -420,7 +420,7 @@ const mockLaidoutNodes = {
       __typename: "Resource",
       layout: {
         uid:
-          "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+          "member--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
         type: "deployment",
         label: "mortgage-app-↵deploy",
         compactLabel: "mortgage-app-↵deploy",
@@ -452,9 +452,9 @@ const mockLaidoutNodes = {
     },
     {
       id:
-        "member--pod--member--deployable--member--clusters--feng--default--mortgage-app-deployable--mortgage-app-deploy",
+        "member--pod--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--mortgage-app-deploy",
       uid:
-        "member--pod--member--deployable--member--clusters--feng--default--mortgage-app-deployable--mortgage-app-deploy",
+        "member--pod--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--mortgage-app-deploy",
       name: "mortgage-app-deploy",
       cluster: null,
       clusterName: null,
@@ -468,7 +468,7 @@ const mockLaidoutNodes = {
             status: "Running",
             cluster: {
               metadata: {
-                name: "feng"
+                name: "localcluster"
               }
             },
             containers: [
@@ -497,7 +497,7 @@ const mockLaidoutNodes = {
       __typename: "Resource",
       layout: {
         uid:
-          "member--pod--member--deployable--member--clusters--feng--default--mortgage-app-deployable--mortgage-app-deploy",
+          "member--pod--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--mortgage-app-deploy",
         type: "pod",
         label: "mortgage-app-↵deploy",
         compactLabel: "mortgage-app-↵deploy",
@@ -529,9 +529,9 @@ const mockLaidoutNodes = {
     },
     {
       id:
-        "member--deployable--member--clusters--feng--default--mortgage-app-svc",
+        "member--deployable--member--clusters--localcluster--default--mortgage-app-svc",
       uid:
-        "member--deployable--member--clusters--feng--default--mortgage-app-svc",
+        "member--deployable--member--clusters--localcluster--default--mortgage-app-svc",
       name: "mortgage-app-svc",
       cluster: null,
       clusterName: null,
@@ -543,7 +543,7 @@ const mockLaidoutNodes = {
       __typename: "Resource",
       layout: {
         uid:
-          "member--deployable--member--clusters--feng--default--mortgage-app-svc",
+          "member--deployable--member--clusters--localcluster--default--mortgage-app-svc",
         type: "deployable",
         label: "mortgage-app-↵svc",
         compactLabel: "mortgage-app-↵svc",
@@ -573,9 +573,9 @@ const mockLaidoutNodes = {
     },
     {
       id:
-        "member--member--deployable--member--clusters--feng--default--mortgage-app-svc--service--mortgage-app-svc",
+        "member--member--deployable--member--clusters--localcluster--default--mortgage-app-svc--service--mortgage-app-svc",
       uid:
-        "member--member--deployable--member--clusters--feng--default--mortgage-app-svc--service--mortgage-app-svc",
+        "member--member--deployable--member--clusters--localcluster--default--mortgage-app-svc--service--mortgage-app-svc",
       name: "mortgage-app-svc",
       cluster: null,
       clusterName: null,
@@ -587,7 +587,7 @@ const mockLaidoutNodes = {
       __typename: "Resource",
       layout: {
         uid:
-          "member--member--deployable--member--clusters--feng--default--mortgage-app-svc--service--mortgage-app-svc",
+          "member--member--deployable--member--clusters--localcluster--default--mortgage-app-svc--service--mortgage-app-svc",
         type: "service",
         label: "mortgage-app-↵svc",
         compactLabel: "mortgage-app-↵svc",
@@ -680,7 +680,7 @@ const mockData = {
     getNodeDetails: mockNodeDetails
   },
   selectedNodeId:
-    "member--pod--member--deployable--member--clusters--feng--default--mortgage-app-deployable--mortgage-app-deploy",
+    "member--pod--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--mortgage-app-deploy",
   showLogs: jest.fn()
 };
 

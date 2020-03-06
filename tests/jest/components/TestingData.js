@@ -19,8 +19,109 @@ export const resourceType = {
   list: "QueryApplicationList"
 };
 
+export const appNormalizedItems = {
+  items: [
+    "mortgage-app-default",
+    "samplebook-gbapp-sample",
+    "stocktrader-app-stock-trader",
+    "subscribed-guestbook-application-kube-system"
+  ],
+  totalResults: 4,
+  totalPages: 1,
+  normalizedItems: {
+    "mortgage-app-default": {
+      _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
+      name: "mortgage-app",
+      namespace: "default",
+      dashboard:
+        "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+      clusterCount: 1,
+      remoteSubscriptionStatusCount: {
+        Subscribed: 1
+      },
+      podStatusCount: {
+        Running: 1
+      },
+      hubSubscriptions: [
+        {
+          _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
+          status: "Propagated",
+          channel: "default/mortgage-channel",
+          __typename: "Subscription"
+        }
+      ],
+      created: "2020-02-18T23:57:04Z",
+      __typename: "Application"
+    },
+    "samplebook-gbapp-sample": {
+      _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+      name: "samplebook-gbapp",
+      namespace: "sample",
+      dashboard:
+        "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+      clusterCount: 1,
+      remoteSubscriptionStatusCount: {
+        Subscribed: 1
+      },
+      podStatusCount: {
+        Running: 3
+      },
+      hubSubscriptions: [
+        {
+          _uid: "local-cluster/42d9ec27-52b9-11ea-bf05-00000a102d26",
+          status: "Propagated",
+          channel: "gbook-ch/guestbook",
+          __typename: "Subscription"
+        }
+      ],
+      created: "2020-02-19T01:43:43Z",
+      __typename: "Application"
+    },
+    "stocktrader-app-stock-trader": {
+      _uid: "local-cluster/8f4799db-4cf4-11ea-a229-00000a102d26",
+      name: "stocktrader-app",
+      namespace: "stock-trader",
+      dashboard: null,
+      clusterCount: 0,
+      remoteSubscriptionStatusCount: {},
+      podStatusCount: {},
+      hubSubscriptions: [],
+      created: "2020-02-11T17:33:04Z",
+      __typename: "Application"
+    },
+    "subscribed-guestbook-application-kube-system": {
+      _uid: "local-cluster/e77e69a7-4d25-11ea-a229-00000a102d26",
+      name: "subscribed-guestbook-application",
+      namespace: "kube-system",
+      dashboard: null,
+      clusterCount: 2,
+      remoteSubscriptionStatusCount: {
+        Failed: 1,
+        Subscribed: 1
+      },
+      podStatusCount: {
+        Running: 3
+      },
+      hubSubscriptions: [
+        {
+          _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",
+          status: "Propagated",
+          channel: "default/hub-local-helm-repo",
+          __typename: "Subscription"
+        }
+      ],
+      created: "2020-02-11T23:26:18Z",
+      __typename: "Application"
+    }
+  }
+};
 export const QueryApplicationList = {
   status: "DONE",
+  itemsPerPage: 20,
+  page: 1,
+  search: "aa",
+  sortDirection: "asc",
+  sortColumn: "name",
   items: [
     {
       _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",

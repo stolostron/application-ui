@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -41,16 +42,6 @@ const WrappedResourceDetails = props => (
   </ResourceDetails>
 )
 
-const ResourcePageWithList = props => (
-  <Switch>
-    <Route
-      exact
-      path={props.match.url}
-      render={() => <WrappedResourceList {...props} />}
-    />
-  </Switch>
-)
-
 const ResourcePageWithListAndDetails = props => (
   <Switch>
     <Route
@@ -64,32 +55,6 @@ const ResourcePageWithListAndDetails = props => (
     />
   </Switch>
 )
-
-const typedResourcePageWithList = (resourceType, detailsTabs, buttons) => {
-  const staticResourceData = getResourceDefinitions(resourceType)
-  const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType)
-
-  return class ResourcePage extends React.PureComponent {
-    constructor(props) {
-      super(props)
-    }
-
-    render() {
-      return (
-        <Page>
-          <ResourcePageWithList
-            {...this.props}
-            detailsTabs={detailsTabs}
-            resourceType={resourceType}
-            staticResourceData={staticResourceData}
-            getVisibleResources={getVisibleResources}
-            buttons={buttons}
-          />
-        </Page>
-      )
-    }
-  }
-}
 
 const typedResourcePageWithListAndDetails = (
   resourceType,
@@ -130,4 +95,4 @@ const typedResourcePageWithListAndDetails = (
   }
 }
 
-export { typedResourcePageWithList, typedResourcePageWithListAndDetails }
+export { typedResourcePageWithListAndDetails }

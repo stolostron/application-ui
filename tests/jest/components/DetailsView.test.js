@@ -275,8 +275,8 @@ const mockLaidoutNodes = {
       specs: {
         cluster: {
           status: "ok",
-          clusterip: "api.fengmcm.os.fyre.ibm.com",
-          consoleURL: "https://icp-console.apps.fengmcm.os.fyre.ibm.com:443",
+          clusterip: "localhost",
+          consoleURL: "https://localhost:443",
           capacity: {
             cpu: "28",
             memory: "104463Mi",
@@ -293,8 +293,8 @@ const mockLaidoutNodes = {
         clusters: [
           {
             status: "ok",
-            clusterip: "api.fengmcm.os.fyre.ibm.com",
-            consoleURL: "https://icp-console.apps.fengmcm.os.fyre.ibm.com:443",
+            clusterip: "localhost",
+            consoleURL: "https://localhost:443",
             capacity: {
               cpu: "28",
               memory: "104463Mi",
@@ -340,7 +340,7 @@ const mockLaidoutNodes = {
         nodeStatus: undefined,
         isDisabled: false,
         title: "",
-        description: "api.fengmcm.os.fyre.ibm.com",
+        description: "localhost",
         tooltips: [
           {
             name: "Cluster",

@@ -429,10 +429,14 @@ class ApplicationTopologyModule extends React.Component {
           showLogs={this.showLogs.bind(this)}
           fetchControl={fetchControl}
           channelControl={channelControl}
-          searchUrl={config.contextPath.replace(
-            new RegExp('/applications$'),
-            '/search'
-          )}
+          searchUrl={
+            config.contextPath
+              ? config.contextPath.replace(
+                new RegExp('/applications$'),
+                '/search'
+              )
+              : ''
+          }
           locale={locale}
         />
       )

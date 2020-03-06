@@ -92,23 +92,25 @@ class EditorBar extends React.Component {
       { command: 'spacer2', spacer: true }
     ]
     const menuItems = []
-    if (
-      exceptions.filter(exception => exception.type === 'error').length === 0
-    ) {
-      editorButtons.push({
-        command: 'update',
-        tooltip: msgs.get('editor.bar.update', locale),
-        icon: 'deploy',
-        disabled: !hasUndo
-      })
-    } else {
-      exceptions.forEach(({ text, row }) => {
-        if (text.length > 64) text = text.substr(0, 64) + '...'
-        menuItems.push({
-          text,
-          row
+    if (exceptions) {
+      if (
+        exceptions.filter(exception => exception.type === 'error').length === 0
+      ) {
+        editorButtons.push({
+          command: 'update',
+          tooltip: msgs.get('editor.bar.update', locale),
+          icon: 'deploy',
+          disabled: !hasUndo
         })
-      })
+      } else {
+        exceptions.forEach(({ text, row }) => {
+          if (text.length > 64) text = text.substr(0, 64) + '...'
+          menuItems.push({
+            text,
+            row
+          })
+        })
+      }
     }
     const searchTitle = msgs.get('search.label', locale)
     return (
@@ -141,34 +143,34 @@ class EditorBar extends React.Component {
         })}
         {exceptions &&
           exceptions.filter(exception => exception.type === 'error').length >
-            0 && (
+          0 && (
             <OverflowMenu
-            floatingMenu
-            flipped
-            renderIcon={this.renderErrorIcon}
-          >
-            {menuItems.map(({ text, row }) => {
-              const gotoEditorLine = this.gotoEditorLine.bind(this, row)
-              return (
-                <OverflowMenuItem
-                  key={text}
-                  className="editor-error-button-item"
-                  itemText={
-                    <div className="item-container">
-                      <div className="item-icon">
-                        <svg width="12px" height="12px">
-                          <use href={'#diagramIcons_failure'} />
-                        </svg>
+              floatingMenu
+              flipped
+              renderIcon={this.renderErrorIcon}
+            >
+              {menuItems.map(({ text, row }) => {
+                const gotoEditorLine = this.gotoEditorLine.bind(this, row)
+                return (
+                  <OverflowMenuItem
+                    key={text}
+                    className="editor-error-button-item"
+                    itemText={
+                      <div className="item-container">
+                        <div className="item-icon">
+                          <svg width="12px" height="12px">
+                            <use href={'#diagramIcons_failure'} />
+                          </svg>
+                        </div>
+                        <div>{text}</div>
                       </div>
-                      <div>{text}</div>
-                    </div>
-                  }
-                  onClick={gotoEditorLine}
-                />
-              )
-            })}
-          </OverflowMenu>
-        )}
+                    }
+                    onClick={gotoEditorLine}
+                  />
+                )
+              })}
+            </OverflowMenu>
+          )}
       </div>
     )
   }

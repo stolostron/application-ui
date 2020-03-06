@@ -1,77 +1,74 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-'use strict'
+"use strict";
 
-/*
-For a given input, a selector should always produce the same output.
- */
+import { user, loggedIn } from "../../../src-web/reducers/user";
+import * as Actions from "../../../src-web/actions";
 
-import { user, loggedIn } from '../../../src-web/reducers/user'
-import * as Actions from '../../../src-web/actions'
-
-describe('User reducer', () => {
-  describe('#user', () => {
-    it('should return the initial state', () => {
-      expect(user(undefined, {})).toEqual(null)
-    })
-    it('should handle USER_LOGIN_RECEIVE_SUCCESS', () => {
+describe("User reducer", () => {
+  describe("#user", () => {
+    it("should return the initial state", () => {
+      expect(user(undefined, {})).toEqual(null);
+    });
+    it("should handle USER_LOGIN_RECEIVE_SUCCESS", () => {
       const action = {
         type: Actions.USER_LOGIN_RECEIVE_SUCCESS,
-        user: 'admin'
-      }
-      expect(user({}, action)).toEqual(action.user)
-    })
-    it('should handle USER_LOGOUT_RECEIVE_SUCCESS', () => {
+        user: "admin"
+      };
+      expect(user({}, action)).toEqual(action.user);
+    });
+    it("should handle USER_LOGOUT_RECEIVE_SUCCESS", () => {
       const action = {
         type: Actions.USER_LOGOUT_RECEIVE_SUCCESS
-      }
-      expect(user({}, action)).toEqual(null)
-    })
-  })
+      };
+      expect(user({}, action)).toEqual(null);
+    });
+  });
 
-  describe('#loggedIn', () => {
-    const initialState = Actions.USER_LOGIN_STATUS.LOGGED_OUT
-    it('should return the initial state', () => {
-      expect(loggedIn(initialState, {})).toEqual(initialState)
-    })
-    it('should return the default state', () => {
+  describe("#loggedIn", () => {
+    const initialState = Actions.USER_LOGIN_STATUS.LOGGED_OUT;
+    it("should return the initial state", () => {
+      expect(loggedIn(initialState, {})).toEqual(initialState);
+    });
+    it("should return the default state", () => {
       const action = {
-        type: 'FOOBAR_ACTION'
-      }
-      expect(loggedIn(undefined, action)).toEqual(initialState)
-    })
-    it('should handle USER_LOGOUT_REQUEST', () => {
+        type: "FOOBAR_ACTION"
+      };
+      expect(loggedIn(undefined, action)).toEqual(initialState);
+    });
+    it("should handle USER_LOGOUT_REQUEST", () => {
       const action = {
         type: Actions.USER_LOGOUT_REQUEST,
         loggedIn: Actions.REQUEST_STATUS.IN_PROGRESS
-      }
-      expect(loggedIn(initialState, action)).toEqual(action.loggedIn)
-    })
-    it('should handle USER_LOGIN_RECEIVE_SUCCESS', () => {
+      };
+      expect(loggedIn(initialState, action)).toEqual(action.loggedIn);
+    });
+    it("should handle USER_LOGIN_RECEIVE_SUCCESS", () => {
       const action = {
         type: Actions.USER_LOGIN_RECEIVE_SUCCESS,
         loggedIn: Actions.USER_LOGIN_STATUS.LOGGED_IN
-      }
-      expect(loggedIn(initialState, action)).toEqual(action.loggedIn)
-    })
-    it('should handle USER_LOGOUT_RECEIVE_FAILURE', () => {
+      };
+      expect(loggedIn(initialState, action)).toEqual(action.loggedIn);
+    });
+    it("should handle USER_LOGOUT_RECEIVE_FAILURE", () => {
       const action = {
         type: Actions.USER_LOGOUT_RECEIVE_FAILURE,
         loggedIn: Actions.USER_LOGIN_STATUS.LOGGED_IN
-      }
-      expect(loggedIn(initialState, action)).toEqual(action.loggedIn)
-    })
-    it('should handle USER_LOGOUT_RECEIVE_SUCCESS', () => {
+      };
+      expect(loggedIn(initialState, action)).toEqual(action.loggedIn);
+    });
+    it("should handle USER_LOGOUT_RECEIVE_SUCCESS", () => {
       const action = {
         type: Actions.USER_LOGOUT_RECEIVE_SUCCESS,
         loggedIn: Actions.USER_LOGIN_STATUS.LOGGED_OUT
-      }
-      expect(loggedIn(initialState, action)).toEqual(action.loggedIn)
-    })
-  })
-})
+      };
+      expect(loggedIn(initialState, action)).toEqual(action.loggedIn);
+    });
+  });
+});

@@ -8,5 +8,4 @@
 
 export * from './text'
 export * from './array'
-export * from './hoc'
 export * from './event'

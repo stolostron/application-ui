@@ -3,9 +3,8 @@
     "httpPort": 3001,
     "hcmUiApiUrl": "",
     "searchApiUrl": "",
-    "headerUrl": "http://console-header:3000",
+    "headerUrl": "https://management-ingress",
     "headerContextPath": "/multicloud/header",
-    "leftNav": "console-header-nav",
     "feature_searchRelated": false,
     "featureFlags": {
         "dashboardLiveUpdates": true,

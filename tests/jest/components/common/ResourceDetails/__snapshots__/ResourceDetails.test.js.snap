@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResourceDetails ResourceDetails renders correctly 1`] = `
+exports[`ResourceDetails ResourceDetails renders correctly with data on single app. 1`] = `
 <div
   id="ResourceDetails"
 >

@@ -92,7 +92,7 @@ const withResource = Component => {
       }
 
       componentWillMount() {
-        this.props.clearIncidents()
+        if (this.props.showCEMAction) this.props.clearIncidents()
         if (parseInt(config['featureFlags:liveUpdates']) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),
@@ -128,7 +128,7 @@ const withResource = Component => {
           showError = undefined
         }
         this.setState({ xhrPoll: true, retry, showError })
-        this.props.fetchResource()
+        if (status !== Actions.REQUEST_STATUS.DONE) this.props.fetchResource()
         const { params } = this.props
         const { showCEMAction } = this.props
         if (params && params.namespace && params.name && showCEMAction) {
@@ -260,7 +260,6 @@ class ResourceDetails extends React.Component {
       namespaceAccountId,
       showGrafanaAction
     } = this.props
-
     return (
       <div id="ResourceDetails">
         <OverviewTab
@@ -373,7 +372,9 @@ const mapStateToProps = (state, ownProps) => {
         })
 
   const items = visibleResources.normalizedItems
-  const params = (ownProps.match && ownProps.match.params) || ''
+  let params = {}
+  if (ownProps.params) params = ownProps.params
+  else params = (ownProps.match && ownProps.match.params) || {}
 
   const item_key =
     (params &&
@@ -383,10 +384,9 @@ const mapStateToProps = (state, ownProps) => {
         '-' +
         decodeURIComponent(params.namespace)) ||
     undefined
-
   const item = (items && item_key && items[item_key]) || undefined
-  const _uid = (items && item['_uid']) || ''
-  const clusterName = (items && item['cluster']) || ''
+  const _uid = (item && item['_uid']) || ''
+  const clusterName = (item && item['cluster']) || ''
   return {
     _uid,
     clusterName,

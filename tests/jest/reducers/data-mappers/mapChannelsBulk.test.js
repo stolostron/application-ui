@@ -76,8 +76,7 @@ describe("data-mappers testing for mapChannelsBulk", () => {
             _rbac: "default_app.ibm.com_channels",
             _hubClusterResource: "true",
             _uid: "local-cluster/87f95c96-52b8-11ea-bf05-00000a102d26",
-            pathname:
-              "https://icp-console.apps.appmgmt.os.fyre.ibm.com:8443/helm-repo/charts",
+            pathname: "https://localhost:8443/helm-repo/charts",
             type: "HelmRepo"
           }
         ],
@@ -217,8 +216,7 @@ describe("data-mappers testing for mapChannelsBulk", () => {
         label: "",
         name: "hub-local-helm-repo",
         namespace: "default",
-        pathname:
-          "https://icp-console.apps.appmgmt.os.fyre.ibm.com:8443/helm-repo/charts",
+        pathname: "https://localhost:8443/helm-repo/charts",
         related: [
           {
             __typename: "SearchRelatedResult",

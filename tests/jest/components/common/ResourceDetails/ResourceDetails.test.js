@@ -1,43 +1,70 @@
 /*******************************************************************************
- * Licensed Materials - Property of Red Hat
- * Copyright (c) 2020 Red Hat, Inc.
+ * Licensed Materials - Property of IBM
+ * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
+ *
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 const React = require("../../../../../node_modules/react");
 
 import ResourceDetails from "../../../../../src-web/components/common/ResourceDetails";
-import { makeGetVisibleTableItemsSelector } from "../../../../../src-web/reducers/common";
 
 import renderer from "react-test-renderer";
-import * as reducers from "../../../../../src-web/reducers";
-
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
+import configureMockStore from "redux-mock-store";
 import { BrowserRouter } from "react-router-dom";
 
-const preloadedState = window.__PRELOADED_STATE__;
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = [thunkMiddleware];
+import {
+  reduxStoreAppPipeline,
+  resourceType,
+  staticResourceDataApp,
+  HCMApplication
+} from "../../../components/TestingData";
 
-const store = createStore(
-  combineReducers(reducers),
-  preloadedState,
-  composeEnhancers(applyMiddleware(...middleware))
-);
+const mockStore = configureMockStore();
+const storeApp = mockStore(reduxStoreAppPipeline);
+
+const getVisibleResourcesFn = (state, store) => {
+  const items = {
+    normalizedItems: {
+      "samplebook-gbapp-sample": HCMApplication
+    }
+  };
+  return items;
+};
+
+const mockData = {
+  getVisibleResources: getVisibleResourcesFn,
+  location: {
+    pathname: "/multicloud/applications/sample/samplebook-gbapp"
+  },
+  match: {
+    path: "/multicloud/applications/:namespace/:name?",
+    url: "/multicloud/applications/sample/samplebook-gbapp",
+    params: {
+      name: "samplebook-gbapp",
+      namespace: "sample"
+    }
+  }
+};
 
 describe("ResourceDetails", () => {
-  it("ResourceDetails renders correctly", () => {
+  it("ResourceDetails renders correctly with data on single app.", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
-          <Provider store={store}>
+          <Provider store={storeApp}>
             <ResourceDetails
+              loading={false}
+              location={mockData.location}
+              tabs={[]}
+              routes={[]}
+              params={mockData.match.params}
+              getVisibleResources={mockData.getVisibleResources}
               resourceType={resourceType}
-              staticResourceData={staticResourceData}
-              tabs={detailsTabs}
-              routes={routes}
-              getVisibleResources={getVisibleResources}
+              staticResourceData={staticResourceDataApp}
             />
           </Provider>
         </BrowserRouter>
@@ -46,47 +73,3 @@ describe("ResourceDetails", () => {
     expect(tree).toMatchSnapshot();
   });
 });
-
-const resourceType = {
-  name: "QueryApplications",
-  list: "QueryApplicationList"
-};
-
-const staticResourceData = {
-  defaultSortField: "name",
-  detailKeys: {
-    title: "application.details",
-    headerRows: ["type", "detail"],
-    rows: [
-      {
-        cells: [
-          { resourceKey: "description.title.name", type: "i18n" },
-          { resourceKey: "name" }
-        ]
-      },
-      {
-        cells: [
-          { resourceKey: "description.title.namespace", type: "i18n" },
-          { resourceKey: "namespace" }
-        ]
-      }
-    ]
-  },
-  primaryKey: "name",
-  secondaryKey: "namespace",
-  tableActions: [
-    "table.actions.applications.edit",
-    "table.actions.applications.remove"
-  ],
-  tableKeys: [
-    { msgKey: "table.header.applicationName", resourceKey: "name" },
-    { msgKey: "table.header.namespace", resourceKey: "namespace" }
-  ],
-  uriKey: "name"
-};
-
-const detailsTabs = [];
-
-const routes = [];
-
-const getVisibleResources = makeGetVisibleTableItemsSelector(resourceType);

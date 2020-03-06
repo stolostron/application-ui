@@ -14,6 +14,11 @@ export const serverProps = {
   isGrafanaRunning: true
 };
 
+export const resourceType = {
+  name: "QueryApplications",
+  list: "QueryApplicationList"
+};
+
 export const QueryApplicationList = {
   status: "DONE",
   items: [
@@ -22,7 +27,7 @@ export const QueryApplicationList = {
       name: "mortgage-app",
       namespace: "default",
       dashboard:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+        "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
         Subscribed: 1
@@ -46,7 +51,7 @@ export const QueryApplicationList = {
       name: "samplebook-gbapp",
       namespace: "sample",
       dashboard:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+        "https://localhost:443/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
         Subscribed: 1
@@ -165,8 +170,7 @@ export const HCMChannelList = {
       _rbac: "default_app.ibm.com_channels",
       _hubClusterResource: "true",
       _uid: "local-cluster/87f95c96-52b8-11ea-bf05-00000a102d26",
-      pathname:
-        "https://icp-console.apps.appmgmt.os.fyre.ibm.com:8443/helm-repo/charts",
+      pathname: "https://localhost:8443/helm-repo/charts",
       type: "HelmRepo",
       related: [
         {
@@ -244,6 +248,23 @@ export const HCMChannelList = {
 export const HCMChannelListEmpty = {
   status: "DONE",
   items: []
+};
+
+export const HCMApplication = {
+  name: "samplebook-gbapp",
+  namespace: "sample",
+  dashboard:
+    "localhost/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+  selfLink:
+    "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbapp",
+  _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+  created: "2020-02-19T01:43:43Z",
+  apigroup: "app.k8s.io",
+  cluster: "local-cluster",
+  kind: "application",
+  label: "app=gbapp; chart=gbapp-0.1.0; heritage=Tiller; release=samplebook",
+  _hubClusterResource: "true",
+  _rbac: "sample_app.k8s.io_applications"
 };
 
 export const HCMSubscriptionList = {
@@ -363,6 +384,16 @@ export const GlobalApplicationDataList = {
   }
 };
 
+export const AppOverview = {
+  selectedAppTab: 0,
+  showAppDetails: false,
+  showExpandedTopology: false,
+  showICAMAction: true,
+  showGrafanaAction: true,
+  showCEMAction: false,
+  selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
+};
+
 export const namespaceAccountId = "id-mycluster-account";
 
 export const secondaryHeader = {
@@ -389,19 +420,25 @@ export const reduxStoreAppPipeline = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverview
 };
 
 export const reduxStoreAllAppsPipeline = {
   AppDeployments: {
     displaySubscriptionModal: false
   },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
   secondaryHeader: secondaryHeaderAllApps,
   namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
-  GlobalApplicationDataList: GlobalApplicationDataList
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverview
 };
 
 export const reduxStoreAllAppsPipelineNoChannels = {
@@ -426,4 +463,301 @@ export const reduxStoreAppPipelineNoChannels = {
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
   GlobalApplicationDataList: GlobalApplicationDataList
+};
+
+export const staticResourceData = {
+  defaultSortField: "name",
+  uriKey: "name",
+  primaryKey: "name",
+  secondaryKey: "namespace",
+  applicationName: {
+    resourceKey: "items",
+    title: "table.header.applicationName",
+    defaultSortField: "name",
+    normalizedKey: "name",
+
+    defaultSortField: "name",
+    uriKey: "name",
+    primaryKey: "name",
+    secondaryKey: "namespace",
+    tableKeys: [
+      {
+        msgKey: "table.header.applicationName",
+        resourceKey: "name"
+      },
+      {
+        msgKey: "table.header.namespace",
+        resourceKey: "namespace"
+      },
+      {
+        msgKey: "table.header.managedClusters",
+        resourceKey: "clusters"
+      },
+      {
+        msgKey: "table.header.subscriptions",
+        resourceKey: "subscriptions"
+      },
+      {
+        msgKey: "table.header.created",
+        resourceKey: "created"
+      }
+    ],
+    tableActions: [
+      "table.actions.applications.edit",
+      "table.actions.applications.remove"
+    ],
+    detailKeys: {
+      title: "application.details",
+      headerRows: ["type", "detail"],
+      rows: [
+        {
+          cells: [
+            {
+              resourceKey: "description.title.name",
+              type: "i18n"
+            },
+            {
+              resourceKey: "name"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.namespace",
+              type: "i18n"
+            },
+            {
+              resourceKey: "namespace"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.created",
+              type: "i18n"
+            },
+            {
+              resourceKey: "created"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.labels",
+              type: "i18n"
+            },
+            {
+              resourceKey: "label"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.selector",
+              type: "i18n"
+            },
+            {
+              resourceKey: "selector"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.annotations",
+              type: "i18n"
+            },
+            {
+              resourceKey: "annotations"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.resource.version",
+              type: "i18n"
+            },
+            {
+              resourceKey: "resourceVersion"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.self.link",
+              type: "i18n"
+            },
+            {
+              resourceKey: "selfLink"
+            }
+          ]
+        },
+        {
+          cells: [
+            {
+              resourceKey: "description.title.uid",
+              type: "i18n"
+            },
+            {
+              resourceKey: "_uid"
+            }
+          ]
+        }
+      ]
+    }
+  }
+};
+
+export const staticResourceDataApp = {
+  defaultSortField: "name",
+  uriKey: "name",
+  primaryKey: "name",
+  secondaryKey: "namespace",
+
+  resourceKey: "items",
+  title: "table.header.applicationName",
+  defaultSortField: "name",
+  normalizedKey: "name",
+
+  defaultSortField: "name",
+  uriKey: "name",
+  primaryKey: "name",
+  secondaryKey: "namespace",
+  tableKeys: [
+    {
+      msgKey: "table.header.applicationName",
+      resourceKey: "name"
+    },
+    {
+      msgKey: "table.header.namespace",
+      resourceKey: "namespace"
+    },
+    {
+      msgKey: "table.header.managedClusters",
+      resourceKey: "clusters"
+    },
+    {
+      msgKey: "table.header.subscriptions",
+      resourceKey: "subscriptions"
+    },
+    {
+      msgKey: "table.header.created",
+      resourceKey: "created"
+    }
+  ],
+  tableActions: [
+    "table.actions.applications.edit",
+    "table.actions.applications.remove"
+  ],
+  detailKeys: {
+    title: "application.details",
+    headerRows: ["type", "detail"],
+    rows: [
+      {
+        cells: [
+          {
+            resourceKey: "description.title.name",
+            type: "i18n"
+          },
+          {
+            resourceKey: "name"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.namespace",
+            type: "i18n"
+          },
+          {
+            resourceKey: "namespace"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.created",
+            type: "i18n"
+          },
+          {
+            resourceKey: "created"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.labels",
+            type: "i18n"
+          },
+          {
+            resourceKey: "label"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.selector",
+            type: "i18n"
+          },
+          {
+            resourceKey: "selector"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.annotations",
+            type: "i18n"
+          },
+          {
+            resourceKey: "annotations"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.resource.version",
+            type: "i18n"
+          },
+          {
+            resourceKey: "resourceVersion"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.self.link",
+            type: "i18n"
+          },
+          {
+            resourceKey: "selfLink"
+          }
+        ]
+      },
+      {
+        cells: [
+          {
+            resourceKey: "description.title.uid",
+            type: "i18n"
+          },
+          {
+            resourceKey: "_uid"
+          }
+        ]
+      }
+    ]
+  }
 };

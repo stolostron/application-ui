@@ -1,0 +1,390 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DetailsView 1 pod details render as expected 1`] = `
+<section
+  className="topologyDetails pod"
+>
+  <h3
+    className="detailsHeader"
+  >
+    <svg
+      height="48px"
+      viewBox="0 0 48 48"
+      width="48px"
+    >
+      <use
+        className="pod detailsIcon"
+        href="#diagramShapes_pod"
+      />
+    </svg>
+    <span
+      className="titleText"
+    >
+      mortgage-app-deploy
+    </span>
+    <svg
+      alt="Close topology details view"
+      aria-label="Close topology details view"
+      className="closeIcon"
+      fillRule="evenodd"
+      height="10"
+      name="icon--close"
+      onClick={[MockFunction]}
+      role="img"
+      viewBox="0 0 10 10"
+      width="10"
+    >
+      <title>
+        Close topology details view
+      </title>
+      <path
+        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+      />
+    </svg>
+  </h3>
+  <hr />
+  <div
+    className="details-view-container"
+    style={
+      Object {
+        "height": 500.25,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 310,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "left": 0,
+          "marginBottom": -17,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Type
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          pod
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Container logs
+          : 
+        </span>
+        <span
+          className="value"
+        />
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <div
+          className="link"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          mortgage-app-mortgage
+        </div>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Cluster
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          localcluster
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Host IP
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          10.16.44.146
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Pod IP
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          10.254.12.220
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Created
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          5 days ago
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Status
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          Running
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Restarts
+          : 
+        </span>
+        <span
+          className="value"
+        >
+          1
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <div
+          className="spacer"
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        className="details-view-scrollbar"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;
+
+exports[`DetailsView no components renders as expected 1`] = `
+<section
+  className="topologyDetails default"
+>
+  <h3
+    className="detailsHeader"
+  >
+    <svg
+      height="48px"
+      viewBox="0 0 48 48"
+      width="48px"
+    >
+      <use
+        className="default detailsIcon"
+        href="#diagramShapes_circle"
+      />
+    </svg>
+    <span
+      className="titleText"
+    />
+    <svg
+      alt="Close topology details view"
+      aria-label="Close topology details view"
+      className="closeIcon"
+      fillRule="evenodd"
+      height="10"
+      name="icon--close"
+      onClick={[MockFunction]}
+      role="img"
+      viewBox="0 0 10 10"
+      width="10"
+    >
+      <title>
+        Close topology details view
+      </title>
+      <path
+        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+      />
+    </svg>
+  </h3>
+  <hr />
+  <div
+    className="details-view-container"
+    style={
+      Object {
+        "height": NaN,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 310,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "left": 0,
+          "marginBottom": -17,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        className="details-view-scrollbar"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;

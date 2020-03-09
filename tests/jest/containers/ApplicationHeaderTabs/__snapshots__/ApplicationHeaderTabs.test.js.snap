@@ -7,6 +7,20 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
   <div
     className="whiteSpacer"
   >
+    <div
+      className="tech-preview-tag"
+    >
+      <span>
+        Technology Preview
+      </span>
+    </div>
+    <div
+      className="tech-preview-msg"
+    >
+      <span>
+        These features are not fully supported, may not be functionally complete, and are not intended for production use.
+      </span>
+    </div>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}

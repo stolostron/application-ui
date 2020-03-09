@@ -14,8 +14,56 @@
     padding-right: 5%;
   }
 
+  .some-class {
+    z-index: 1;
+  }
+
   .page-content-container {
     padding-right: 0px;
     padding-left: 0px;
+  }
+
+  .tech-preview-tag {
+    background-color: #d93f00;
+    width: 125px;
+    height: 26px;
+    line-height: 23px;
+    border-radius: 3px;
+    text-align: center;
+    position: absolute;
+    cursor: pointer;
+    right: 5%;
+    z-index: 10;
+  }
+
+  .tech-preview-tag > span {
+    color: white;
+    font-size: 12px;
+    vertical-align: middle;
+    z-index: 1;
+  }
+
+  .tech-preview-msg {
+    background-color: #393939;
+    width: 256px;
+    line-height: 20px;
+    border-radius: 3px;
+    margin-top: 40px;
+    padding: 16px;
+    visibility: hidden;
+    position: absolute;
+    cursor: default;
+    right: 5%;
+    z-index: 10;
+  }
+
+  .tech-preview-msg > span {
+    color: white;
+    font-size: 14px;
+    z-index: 1;
+  }
+
+  .tech-preview-tag:hover + .tech-preview-msg {
+    visibility: visible;
   }
 }

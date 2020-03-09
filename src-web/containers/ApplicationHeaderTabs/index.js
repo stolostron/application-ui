@@ -85,6 +85,12 @@ const ApplicationHeaderTabs = withLocale(
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
+          <div className="tech-preview-tag">
+            <span>{msgs.get('tech.preview.tag')}</span>
+          </div>
+          <div className="tech-preview-msg">
+            <span>{msgs.get('tech.preview.msg')}</span>
+          </div>
           <Tabs
             className="some-class"
             selected={selectedAppTab}

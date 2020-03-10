@@ -13,12 +13,12 @@ const ReactDOMServer = require('react-dom/server'),
       React = require('react'),
       express = require('express'),
       StaticRouter = require('react-router-dom').StaticRouter,
-      serviceDiscovery = require('../../lib/server/service-discovery'),
       context = require('../../lib/shared/context'),
       msgs = require('../../nls/platform.properties'),
       config = require('../../config'),
       cookieUtil = require('../../lib/server/cookie-util'),
       appUtil = require('../../lib/server/app-util'),
+      serviceDiscovery = require('../../lib/server/service-discovery'),
       Provider = require('react-redux').Provider,
       router = express.Router({ mergeParams: true }),
       lodash = require('lodash'),
@@ -27,7 +27,7 @@ const ReactDOMServer = require('react-dom/server'),
 var log4js = require('log4js'),
     logger = log4js.getLogger('app')
 
-let App, Login, role, reducers //laziy initialize to reduce startup time seen on k8s
+let App, Login, role, reducers, uiConfig //laziy initialize to reduce startup time seen on k8s
 router.get('/logout', (req, res) => {
   var LOGOUT_API = '/v1/auth/logout'
   var callbackUrl = req.headers['host']
@@ -68,16 +68,16 @@ router.get('*', (req, res) => {
       state: stateH,
       files: filesH
     } = headerRes
-
-    if (!header || !propsH || !stateH || !filesH) {
-      logger.err(headerRes.body)
-      return res.status(500).send(headerRes.body)
-    }
+    uiConfig =
+      uiConfig === undefined
+        ? require('../../src-web/actions/uiconfig')
+        : uiConfig
+    store.dispatch(
+      uiConfig.uiConfigReceiveSucess(stateH.uiconfig.uiConfiguration)
+    )
 
     role = role === undefined ? require('../../src-web/actions/role') : role
-    if (stateH.role) {
-      store.dispatch(role.roleReceiveSuccess(stateH.role.role))
-    }
+    store.dispatch(role.roleReceiveSuccess(stateH.role.role))
 
     if (process.env.NODE_ENV === 'development') {
       lodash.forOwn(filesH, value => {

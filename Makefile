@@ -18,6 +18,9 @@ default::
 install:
 	npm install
 
+copyright-check:
+	./build/copyright-check.sh
+	
 lint:
 	npm run lint
 

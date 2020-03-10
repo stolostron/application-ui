@@ -163,6 +163,13 @@ export const fetchGlobalAppsData = resourceType => {
         if (result.error) {
           return dispatch(receiveResourceError(result.error, resourceType))
         }
+        if (result.errors) {
+          return dispatch(receiveResourceError(result.errors[0], resourceType))
+        }
+      })
+      .catch(error => {
+        // catch graph connection error
+        return dispatch(receiveResourceError(error, resourceType))
       })
   }
 }
@@ -178,7 +185,6 @@ export const fetchResources = resourceType => {
         })
         .then(result => {
           if (result.data && result.data.applications) {
-            //console.log('QueryApp', result.data.applications)
             return dispatch(
               receiveResourceSuccess(
                 { items: result.data.applications },
@@ -188,6 +194,11 @@ export const fetchResources = resourceType => {
           }
           if (result.error) {
             return dispatch(receiveResourceError(result.error, resourceType))
+          }
+          if (result.errors) {
+            return dispatch(
+              receiveResourceError(result.errors[0], resourceType)
+            )
           }
         })
         .catch(error => {

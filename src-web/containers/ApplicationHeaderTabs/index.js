@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import loadable from 'loadable-components'
-import { Tabs, Tab } from 'carbon-components-react'
+import { Tabs, Tab, TooltipDefinition } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
@@ -85,12 +85,11 @@ const ApplicationHeaderTabs = withLocale(
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
-          <div className="tech-preview-tag">
-            <span>{msgs.get('tech.preview.tag')}</span>
-          </div>
-          <div className="tech-preview-msg">
-            <span>{msgs.get('tech.preview.msg')}</span>
-          </div>
+          <span className="tech-preview-tag">
+            <TooltipDefinition tooltipText={msgs.get('tech.preview.msg')}>
+              {msgs.get('tech.preview.tag')}
+            </TooltipDefinition>
+          </span>
           <Tabs
             className="some-class"
             selected={selectedAppTab}

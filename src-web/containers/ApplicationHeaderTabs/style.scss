@@ -27,43 +27,42 @@
     background-color: #d93f00;
     width: 125px;
     height: 26px;
-    line-height: 23px;
+    line-height: 22px;
     border-radius: 3px;
     text-align: center;
     position: absolute;
-    cursor: pointer;
     right: 5%;
     z-index: 10;
-  }
 
-  .tech-preview-tag > span {
-    color: white;
-    font-size: 12px;
-    vertical-align: middle;
-    z-index: 1;
-  }
+    .bx--tooltip__trigger {
+      font-family: RedHatText;
+      font-size: 12px;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
 
-  .tech-preview-msg {
-    background-color: #393939;
-    width: 256px;
-    line-height: 20px;
-    border-radius: 3px;
-    margin-top: 40px;
-    padding: 16px;
-    visibility: hidden;
-    position: absolute;
-    cursor: default;
-    right: 5%;
-    z-index: 10;
-  }
+    #definition-tooltip-1 {
+      background-color: #393939;
+      width: 256px;
+      max-width: none;
+      border-radius: 3px;
+      margin-top: 18px;
+      padding: 12px;
+      right: 0;
+      z-index: 10;
+    }
 
-  .tech-preview-msg > span {
-    color: white;
-    font-size: 14px;
-    z-index: 1;
-  }
+    .bx--tooltip__caret {
+      background-color: #393939;
+      margin-left: 0;
+      left: 228px;
+    }
 
-  .tech-preview-tag:hover + .tech-preview-msg {
-    visibility: visible;
+    #definition-tooltip-1 > p {
+      font-family: RedHatText;
+      font-size: 14px;
+      text-align: left;
+    }
   }
 }

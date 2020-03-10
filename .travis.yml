@@ -42,7 +42,8 @@ jobs:
         # Bootstrap the build harness, pull test image, and run unit tests.  
         - | 
           make 
-          make component/pull 
+          make component/pull
+          chmod +x copyright-check.sh 
           make copyright-check
           make component/test/unit
     - stage: test-e2e

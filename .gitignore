@@ -2,7 +2,6 @@
 .idea
 *.log
 .DS_Store
-node_modules
 public
 dll
 test-reports

@@ -1,0 +1,48 @@
+//-----------------------------
+// Time Picker
+//-----------------------------
+
+@import '../../globals/scss/vars';
+@import '../../globals/scss/colors';
+@import '../../globals/scss/spacing';
+@import '../../globals/scss/typography';
+@import '../../globals/scss/css--reset';
+@import '../../globals/scss/import-once';
+
+@include exports('time-picker') {
+  .#{$prefix}--time-picker {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .#{$prefix}--time-picker .#{$prefix}--select-input {
+    padding-right: $spacing-xl;
+  }
+
+  .#{$prefix}--time-picker .#{$prefix}--select__arrow {
+    right: 0.875rem;
+  }
+
+  .#{$prefix}--time-picker__input-field {
+    @include reset;
+    @include font-family;
+    @include typescale('zeta');
+    display: flex;
+    align-items: center;
+    background-color: $field-01;
+    border: 1px solid transparent;
+    width: 4.875rem;
+    color: $text-01;
+    height: rem(40px);
+    padding: 0 $spacing-md;
+
+    &:focus {
+      @include focus-outline('border');
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -39,9 +39,9 @@ jobs:
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - chmod +x copyright-check.sh 
+        - make copyright-check
         - | 
           make 
-          make copyright-check
           make component/pull         
           make component/test/unit
     - stage: test-e2e

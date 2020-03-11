@@ -40,7 +40,7 @@ ERROR=0
 
 echo "##### Copyright check #####"
 #Loop through all files. Ignore .FILENAME types
-for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./public/*" ! -path "./sslcert/*" ! -path "./node_modules/*" ! -path "./coverage/*"`; do
+for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./build-harness-extensions/*" ! -path "./public/*" ! -path "./sslcert/*" ! -path "./node_modules/*" ! -path "./coverage/*"`; do
   if [ ! -f "$f" ] || [ "$f" = "./copyright-check.sh" ]; then
     continue
   fi

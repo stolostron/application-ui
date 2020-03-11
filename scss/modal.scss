@@ -70,12 +70,14 @@
   font-weight: 600;
   height: 36px;
   width: 80%;
-  padding-left: 2%;
-  padding-top: 2%;
+  // padding-left: 2%;
+  // padding-top: 2%;
+  margin: 1.25rem 3rem 1.25rem 3rem; //remove when docs are ready
 }
 
 .help-link {
-  display: inline-block;
+  display: none; //remove when docs are ready
+  // display: inline-block;
   vertical-align: top;
   width: 150px;
   font-size: 12px;
@@ -92,6 +94,7 @@
 }
 
 .help-link-edit {
+  display: none; //remove when docs are ready
   text-align: right;
   vertical-align: top;
   font-size: 12px;

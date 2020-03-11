@@ -18,6 +18,10 @@ default::
 install:
 	npm install
 
+.PHONY: copyright-check
+copyright-check:
+	./copyright-check.sh
+	
 lint:
 	npm run lint
 

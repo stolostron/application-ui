@@ -39,8 +39,11 @@ jobs:
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - chmod +x copyright-check.sh 
-        - make copyright-check        
-        - make component/test/unit
+        - | 
+          make 
+          make copyright-check
+          make component/pull         
+          make component/test/unit
     - stage: test-e2e
       name: "Deploy the image to a cluster and run e2e tests"
       if: type = pull_request

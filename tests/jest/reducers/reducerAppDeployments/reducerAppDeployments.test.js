@@ -8,22 +8,22 @@
 
 import reducerAppDeployments, {
   initialStateDeployments
-} from '../reducerAppDeployments'
+} from "../../../../src-web/reducers/reducerAppDeployments";
 
 // const SET_SUBSCRIPTION_MODAL_HEADERS = 'SET_SUBSCRIPTION_MODAL_HEADERS'
 
-describe('AppDeployments reducer', () => {
-  it('handles OPEN_DISPLAY_SUBSCRIPTION_MODAL', () => {
+describe("AppDeployments reducer", () => {
+  it("handles OPEN_DISPLAY_SUBSCRIPTION_MODAL", () => {
     expect(
       reducerAppDeployments(initialStateDeployments, {
-        type: 'OPEN_DISPLAY_SUBSCRIPTION_MODAL'
+        type: "OPEN_DISPLAY_SUBSCRIPTION_MODAL"
       })
     ).toEqual({
       ...initialStateDeployments,
       displaySubscriptionModal: true
-    })
-  })
-  it('handles CLOSE_MODALS', () => {
+    });
+  });
+  it("handles CLOSE_MODALS", () => {
     expect(
       reducerAppDeployments(
         {
@@ -31,110 +31,110 @@ describe('AppDeployments reducer', () => {
           displaySubscriptionModal: true
         },
         {
-          type: 'CLOSE_MODALS'
+          type: "CLOSE_MODALS"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       currentSubscriptionInfo: {},
       displaySubscriptionModal: false
-    })
-  })
-  it('handles SET_DEPLOYMENT_SEARCH', () => {
-    const payload = 'legendofthedragoon'
+    });
+  });
+  it("handles SET_DEPLOYMENT_SEARCH", () => {
+    const payload = "legendofthedragoon";
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
-          deploymentPipelineSearch: ''
+          deploymentPipelineSearch: ""
         },
         {
           payload,
-          type: 'SET_DEPLOYMENT_SEARCH'
+          type: "SET_DEPLOYMENT_SEARCH"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       deploymentPipelineSearch: payload
-    })
-  })
-  it('handles SET_SUBSCRIPTION_MODAL_HEADERS', () => {
+    });
+  });
+  it("handles SET_SUBSCRIPTION_MODAL_HEADERS", () => {
     const payload = {
-      application: 'dart',
-      subscription: 'feld'
-    }
+      application: "dart",
+      subscription: "feld"
+    };
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
           subscriptionModalHeaderInfo: {
-            application: '',
-            subscription: ''
+            application: "",
+            subscription: ""
           }
         },
         {
           payload,
-          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
+          type: "SET_SUBSCRIPTION_MODAL_HEADERS"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       subscriptionModalHeaderInfo: payload
-    })
-  })
-  it('handles SET_SUBSCRIPTION_MODAL_HEADERS undefined', () => {
+    });
+  });
+  it("handles SET_SUBSCRIPTION_MODAL_HEADERS undefined", () => {
     const payload = {
-      applicationnnnn: 'dart',
-      deployablesssss: 'feld'
-    }
+      applicationnnnn: "dart",
+      deployablesssss: "feld"
+    };
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
           subscriptionModalHeaderInfo: {
-            application: '',
-            subscription: ''
+            application: "",
+            subscription: ""
           }
         },
         {
           payload,
-          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
+          type: "SET_SUBSCRIPTION_MODAL_HEADERS"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       subscriptionModalHeaderInfo: {
-        application: '',
-        subscription: ''
+        application: "",
+        subscription: ""
       }
-    })
-  })
-  it('handles SET_SUBSCRIPTION_MODAL_HEADERS undefined 2', () => {
-    const payload = ''
+    });
+  });
+  it("handles SET_SUBSCRIPTION_MODAL_HEADERS undefined 2", () => {
+    const payload = "";
     expect(
       reducerAppDeployments(
         {
           ...initialStateDeployments,
           subscriptionModalHeaderInfo: {
-            application: 'shanna',
-            subscription: 'lavitz'
+            application: "shanna",
+            subscription: "lavitz"
           }
         },
         {
           payload,
-          type: 'SET_SUBSCRIPTION_MODAL_HEADERS'
+          type: "SET_SUBSCRIPTION_MODAL_HEADERS"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       subscriptionModalHeaderInfo: {
-        application: '',
-        subscription: ''
+        application: "",
+        subscription: ""
       }
-    })
-  })
-  it('handles SET_LOADING', () => {
-    const payload = false
+    });
+  });
+  it("handles SET_LOADING", () => {
+    const payload = false;
     expect(
       reducerAppDeployments(
         {
@@ -143,16 +143,16 @@ describe('AppDeployments reducer', () => {
         },
         {
           payload,
-          type: 'SET_LOADING'
+          type: "SET_LOADING"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       loading: false
-    })
-  })
-  it('handles SET_LOADING', () => {
-    const payload = true
+    });
+  });
+  it("handles SET_LOADING", () => {
+    const payload = true;
     expect(
       reducerAppDeployments(
         {
@@ -161,12 +161,12 @@ describe('AppDeployments reducer', () => {
         },
         {
           payload,
-          type: 'SET_LOADING'
+          type: "SET_LOADING"
         }
       )
     ).toEqual({
       ...initialStateDeployments,
       loading: true
-    })
-  })
-})
+    });
+  });
+});

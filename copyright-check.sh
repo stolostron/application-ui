@@ -25,6 +25,8 @@ CHECK3d=" Copyright IBM Corporation 2016, 2019. All Rights Reserved."
 CHECK3e=" Copyright IBM Corporation 2017, 2018. All Rights Reserved."
 CHECK3f=" Copyright IBM Corporation 2017, 2019. All Rights Reserved."
 CHECK3g=" Copyright IBM Corporation 2018, 2019. All Rights Reserved."
+CHECK3h=" Copyright IBM Corporation 2020. All Rights Reserved."
+CHECK3i=" Copyright (c) 2020 Red Hat, Inc"
 CHECK4=" US Government Users Restricted Rights - Use, duplication or disclosure"
 CHECK5=" restricted by GSA ADP Schedule Contract with IBM Corp."
 
@@ -71,7 +73,9 @@ for f in `find . -type f ! -iname ".*" ! -path "./build-harness/*" ! -path "./pu
         && "$HEADER" != *"${CHECK3d}"*
         && "$HEADER" != *"${CHECK3e}"*
         && "$HEADER" != *"${CHECK3f}"*
-        && "$HEADER" != *"${CHECK3g}"* ]]; then
+        && "$HEADER" != *"${CHECK3g}"*
+        && "$HEADER" != *"${CHECK3h}"*
+        && "$HEADER" != *"${CHECK3i}"* ]]; then
         printf "Missing copyright\n  >>Could not find [${LIC_ARY[$i]}] in the file $f\n"
         ERROR=1
         break

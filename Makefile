@@ -36,3 +36,11 @@ unit-test:
 		mkdir test-output; \
 	fi
 	npm test
+
+.PHONY: install-oc
+install-oc:
+	@bash ./build/install-oc.sh
+.PHONY: login-oc
+login-oc:
+	@bash ./build/login-oc.sh
+

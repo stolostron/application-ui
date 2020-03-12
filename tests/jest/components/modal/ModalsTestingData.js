@@ -2145,4 +2145,4 @@ export const resourceModalData = {
   __typename: "Application"
 };
 export const resourceModalYAML =
-  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: samplebook-gbapp\n  namespace: sample\n  generation: 2\n  labels:\n    app: gbapp\n    chart: gbapp-0.1.0\n    heritage: Tiller\n    release: samplebook\n  resourceVersion: '6277488'\nspec:\n  componentKinds:\n    - group: app.ibm.com\n      kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: release\n        operator: In\n        values:\n          - samplebook\nstatus: {}";
+  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: samplebook-gbapp\n  namespace: sample\n  generation: 2\n  labels:\n    app: gbapp\n    chart: gbapp-0.1.0\n    heritage: Tiller\n    release: samplebook\n  resourceVersion: '6277488'\nspec:\n  componentKinds:\n    - group: apps.open-cluster-management.io\n      kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: release\n        operator: In\n        values:\n          - samplebook\nstatus: {}";

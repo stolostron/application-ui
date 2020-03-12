@@ -1,3 +1,10 @@
+# Licensed Materials - Property of IBM
+# (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+# Copyright (c) 2020 Red Hat, Inc
+# Note to U.S. Government Users Restricted Rights:
+# Use, duplication or disclosure restricted by GSA ADP Schedule
+# Contract with IBM Corp.
+
 if [ -z ${K8S_CLUSTER_MASTER_IP} ] || [ -z ${K8S_CLUSTER_USER} ] || [ -z ${K8S_CLUSTER_PASSWORD} ] ; then
     echo 'Error: Missing Env Vars. Please set K8S_CLUSTER_MASTER_IP, K8S_CLUSTER_USER, K8S_CLUSTER_PASSWORD.'
     exit 1

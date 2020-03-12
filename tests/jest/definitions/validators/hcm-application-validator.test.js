@@ -6,25 +6,25 @@ import { parse } from "../../../../lib/client/design-helper";
 import { validator } from "../../../../src-web/definitions/validators/hcm-application-validator";
 
 const validSample =
-  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: n1\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: n1\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 const noAPIVersionSample =
-  "kind: Application\nmetadata:\n  name: n1\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "kind: Application\nmetadata:\n  name: n1\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 const noApplicationKindSample =
-  "apiVersion: app.k8s.io/v1beta1\nmetadata:\n  namespace: _____________________createApplication-metadata-namespace\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "apiVersion: app.k8s.io/v1beta1\nmetadata:\n  namespace: _____________________createApplication-metadata-namespace\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 const noNameKeySample =
-  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 const noNamespaceKeySample =
-  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: n1\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: n1\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 const noRequiredValuesSample =
-  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name:\n  namespace:\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name:\n  namespace:\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 const unknownKeySample =
-  "bbbb \napiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: n1\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: app.ibm.com\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
+  "bbbb \napiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: n1\n  namespace: ns1\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values";
 
 describe("validator testing for hcm-application", () => {
   it("validation failure without API version", () => {

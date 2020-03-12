@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name:                             # Required. The name of the channel namespace resource to create.
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
  name:                              # Required. The name of the channel namespace resource to create.

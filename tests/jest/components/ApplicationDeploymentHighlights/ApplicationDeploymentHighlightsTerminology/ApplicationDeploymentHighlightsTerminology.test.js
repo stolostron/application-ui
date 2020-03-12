@@ -6,16 +6,16 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-const React = require('react')
-const renderer = require('react-test-renderer')
-const ApplicationDeploymentHighlightsTerminology = require('../ApplicationDeploymentHighlightsTerminology')
-  .default
+const React = require("react");
+const renderer = require("react-test-renderer");
+const ApplicationDeploymentHighlightsTerminology = require("../../../../../src-web/components/ApplicationDeploymentHighlights/ApplicationDeploymentHighlightsTerminology")
+  .default;
 
-describe('ApplicationDeploymentHighlightsTerminology', () => {
-  it('ApplicationDeploymentHighlightsTerminology renders correctly.', () => {
+describe("ApplicationDeploymentHighlightsTerminology", () => {
+  it("ApplicationDeploymentHighlightsTerminology renders correctly.", () => {
     const tree = renderer
       .create(<ApplicationDeploymentHighlightsTerminology />)
-      .toJSON()
-    expect(tree).toMatchSnapshot()
-  })
-})
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});

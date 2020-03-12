@@ -1,24 +1,20 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure
- * restricted by GSA ADP Schedule Contract with IBM Corp.
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
  *******************************************************************************/
 
-const config = require('../../config')
+const config = require("../../config");
 
 module.exports = {
   url: function() {
-    return `${this.api.launchUrl}${config.get('contextPath')}`
+    return `${this.api.launchUrl}${config.get("contextPath")}`;
   },
   elements: {
-    username: '#username',
-    password: '#password',
-    submit: 'button[name="loginButton"]',
-    error: '.bx--inline-notification--error',
-    header: '.app-header',
-    loginPage: '.login-container'
+    header: ".app-header"
   },
   commands: [
     {
@@ -30,39 +26,89 @@ module.exports = {
       waitForLoginPageLoad
     }
   ]
-}
+};
 
-//helper for other pages to use for authentication in before() their suit
+// Detect if we are OCP login (default) or ICP login for backwards compatibility (temp)
 function authenticate(user, password) {
-  this.waitForLoginPageLoad()
-  this.inputUsername(user)
-  this.inputPassword(password)
-  this.submit()
-  this.waitForLoginSuccess()
+  let loginPage = "html.login-pf";
+  let userNameField = "#inputUsername";
+  let passwordField = "#inputPassword";
+  let submitBtn = 'button[type="submit"]';
+  this.api.element("css selector", loginPage, res => {
+    if (res.value !== 0) {
+      // OCP
+      console.log("Logging into OCP");
+    } else {
+      // ICP
+      console.log("Logging into ICP");
+      loginPage = ".login-container";
+      userNameField = "#username";
+      passwordField = "#password";
+      submitBtn = 'button[name="loginButton"]';
+    }
+    this.waitForLoginPageLoad(loginPage);
+    this.waitForElementPresent(userNameField);
+    this.inputUsername(user, userNameField);
+    this.inputPassword(password, passwordField);
+    this.submit(submitBtn);
+    this.waitForLoginSuccess(loginPage);
+  });
 }
 
-function inputUsername(user) {
-  this.waitForElementVisible('@username').setValue(
-    '@username',
-    user || config.get('tests:user')
-  )
+function inputUsername(user, userNameField) {
+  this.waitForElementPresent(userNameField).setValue(
+    userNameField,
+    user || process.env.K8S_CLUSTER_USER
+  );
 }
 
-function inputPassword(password) {
-  this.waitForElementVisible('@password').setValue(
-    '@password',
-    password || config.get('tests:password')
-  )
+function inputPassword(password, passwordField) {
+  this.waitForElementPresent(passwordField).setValue(
+    passwordField,
+    password || process.env.K8S_CLUSTER_PASSWORD
+  );
 }
 
-function submit() {
-  this.waitForElementVisible('@submit').click('@submit')
+function submit(submitBtn) {
+  this.waitForElementPresent(submitBtn).press(submitBtn);
 }
 
 function waitForLoginSuccess() {
-  this.waitForElementVisible('@header', 20000)
+  this.waitForElementPresent("@header", 20000);
 }
 
-function waitForLoginPageLoad() {
-  this.waitForElementPresent('@loginPage')
+function waitForLoginPageLoad(loginPage) {
+  // const { browserName } = this.api.options.desiredCapabilities
+  // if (browserName === 'firefox') {
+  //   this.api.element('css selector', '#errorPageContainer', res => {
+  //     if (res.status !== -1) {
+  //       this.waitForElementPresent('#advancedButton').press('#advancedButton')
+  //       this.waitForElementPresent('#exceptionDialogButton').click('#exceptionDialogButton')
+  //       this.waitForElementNotPresent('#errorPageContainer')
+  //     }
+  //   })
+  // }
+
+  // if (browserName === 'chrome') {
+  //   this.api.element('css selector', '.ssl', res => {
+  //     if (res.status !== -1) {
+  //       this.waitForElementPresent('#details-button').press('#details-button')
+  //       this.waitForElementPresent('#proceed-link').click('#proceed-link')
+  //       this.waitForElementNotPresent('#body.ssl')
+  //     }
+  //   })
+  // }
+
+  // if (browserName === 'safari') {
+  //   this.api.element('css selector', '#alert', res => {
+  //     if (res.status !== -1) {
+  //       this.waitForElementPresent('#detailsButton').press('#detailsButton')
+  //       this.waitForElementPresent('#detailsText p:last-child a:last-child').press('#detailsText p:last-child a:last-child')
+  //       this.acceptAlert() // this is causing issues
+  //       this.waitForElementNotPresent('#alert')
+  //     }
+  //   })
+  // }
+
+  this.waitForElementPresent(loginPage, 20000);
 }

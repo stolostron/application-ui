@@ -145,31 +145,31 @@ class EditorBar extends React.Component {
           exceptions.filter(exception => exception.type === 'error').length >
             0 && (
             <OverflowMenu
-            floatingMenu
-            flipped
-            renderIcon={this.renderErrorIcon}
-          >
-            {menuItems.map(({ text, row }) => {
-              const gotoEditorLine = this.gotoEditorLine.bind(this, row)
-              return (
-                <OverflowMenuItem
-                  key={text}
-                  className="editor-error-button-item"
-                  itemText={
-                    <div className="item-container">
-                      <div className="item-icon">
-                        <svg width="12px" height="12px">
-                          <use href={'#diagramIcons_failure'} />
-                        </svg>
+              floatingMenu
+              flipped
+              renderIcon={this.renderErrorIcon}
+            >
+              {menuItems.map(({ text, row }) => {
+                const gotoEditorLine = this.gotoEditorLine.bind(this, row)
+                return (
+                  <OverflowMenuItem
+                    key={text}
+                    className="editor-error-button-item"
+                    itemText={
+                      <div className="item-container">
+                        <div className="item-icon">
+                          <svg width="12px" height="12px">
+                            <use href={'#diagramIcons_failure'} />
+                          </svg>
+                        </div>
+                        <div>{text}</div>
                       </div>
-                      <div>{text}</div>
-                    </div>
-                  }
-                  onClick={gotoEditorLine}
-                />
-              )
-            })}
-          </OverflowMenu>
+                    }
+                    onClick={gotoEditorLine}
+                  />
+                )
+              })}
+            </OverflowMenu>
         )}
       </div>
     )

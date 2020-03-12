@@ -28,8 +28,14 @@ lint:
 prune:
 	npm prune --production
 
-build-prod:
+.PHONY: build
+build:
 	npm run build:production
+
+.PHONY: image
+image:: build lint prune
+	make docker/info
+	make docker/build
 
 unit-test:
 	if [ ! -d "test-output" ]; then \

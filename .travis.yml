@@ -10,6 +10,7 @@ branches:
     - /^release-[0-9]+\..*$/
 
 addons:
+  chrome: stable  
   sonarcloud:
     organization: "open-cluster-management"
     token:

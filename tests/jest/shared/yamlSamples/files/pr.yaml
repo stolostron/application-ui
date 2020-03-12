@@ -1,4 +1,4 @@
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name:                             # Required. The name for identifying the placement rule.

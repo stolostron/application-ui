@@ -15,7 +15,7 @@ metadata:
     app: mortgage-app-mortgage
 spec:
   componentKinds:
-  - group: app.ibm.com
+  - group: apps.open-cluster-management.io
     kind: Subscription
   descriptor: {}
   selector:
@@ -25,7 +25,7 @@ spec:
       values:
       - mortgage-app
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: mortgage-app-subscription
@@ -39,7 +39,7 @@ spec:
       kind: PlacementRule
       name: mortgage-app-placement
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: mortgage-app-placement
@@ -52,7 +52,7 @@ spec:
       environment: Dev
   clusterReplicas: 2
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   name: mortgage-app-deployable
@@ -71,7 +71,7 @@ spec:
         matchLabels:
           app: mortgage-app-mortgage
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Service
 metadata:
   name: mortgage-app-svc
@@ -94,7 +94,7 @@ spec:
     matchLabels:
       app: mcm-application-ui-app
 `;
-const missingKind = `apiVersion: app.ibm.com/v1alpha1
+const missingKind = `apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: mortgage-app-subscription
@@ -108,7 +108,7 @@ spec:
       kind: PlacementRule
       name: mortgage-app-placement
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: mortgage-app-placement
@@ -121,7 +121,7 @@ spec:
       environment: Dev
   clusterReplicas: 2
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   name: mortgage-app-deployable
@@ -140,7 +140,7 @@ spec:
         matchLabels:
           app: mortgage-app-mortgage
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Service
 metadata:
   name: mortgage-app-svc
@@ -163,7 +163,7 @@ metadata:
     app: mortgage-app-mortgage
 spec:
   componentKinds:
-  - group: app.ibm.com
+  - group: apps.open-cluster-management.io
     kind: Subscription
   descriptor: {}
   selector:
@@ -173,7 +173,7 @@ spec:
       values:
       - mortgage-app
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: mortgage-app-subscription
@@ -187,7 +187,7 @@ spec:
       kind: PlacementRule
       name: mortgage-app-placement
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: mortgage-app-placement
@@ -200,7 +200,7 @@ spec:
       environment: Dev
   clusterReplicas: 2
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   name: mortgage-app-deployable
@@ -219,7 +219,7 @@ spec:
         matchLabels:
           app: mortgage-app-mortgage
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Service
 metadata:
   name: mortgage-app-svc
@@ -243,7 +243,7 @@ metadata:
     app: mortgage-app-mortgage
 spec:
   componentKinds:
-  - group: app.ibm.com
+  - group: apps.open-cluster-management.io
     kind: Subscription
   descriptor: {}
   selector:
@@ -253,7 +253,7 @@ spec:
       values:
       - mortgage-app
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: mortgage-app-subscription
@@ -267,7 +267,7 @@ spec:
       kind: PlacementRule
       name: mortgage-app-placement
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: PlacementRule
 metadata:
   name: mortgage-app-placement
@@ -280,7 +280,7 @@ spec:
       environment: Dev
   clusterReplicas: 2
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Deployable
 metadata:
   name: mortgage-app-deployable
@@ -299,7 +299,7 @@ spec:
         matchLabels:
           app: mortgage-app-mortgage
 ---
-apiVersion: app.ibm.com/v1alpha1
+apiVersion: apps.open-cluster-management.io/v1
 kind: Service
 metadata:
   name: mortgage-app-svc

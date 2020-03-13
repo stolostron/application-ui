@@ -13,14 +13,14 @@ let appsPage;
 module.exports = {
   "@disabled": false,
 
-  before(browser) {
+  before: function(browser) {
     const loginPage = browser.page.LoginPage();
     loginPage.navigate();
     loginPage.authenticate();
 
     const url = `${browser.launch_url}${config.get("contextPath")}`;
-    appsPage = browser.page.ApplicationsPage();
-    appsPage.navigate(url);
+    page = browser.page.OverviewPage();
+    page.navigate(url);
   },
 
   "Applications: Load page": () => {

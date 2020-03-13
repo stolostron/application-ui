@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Loading, Link, Icon } from 'carbon-components-react'
 import { connect } from 'react-redux'
-// import CountsCardModule from '../../CountsCardModule'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
 import { ApplicationTopologyModule } from '../../ApplicationTopologyModule'
@@ -251,7 +250,6 @@ const ResourceOverview = withLocale(
                   selectedAppNS={params.namespace}
                 />
               </div>
-              {/* <CountsCardModule data={countsCardData} link="#" /> */}
             </div>
             <div className="overview-content-bottom overview-content-with-padding">
               <ApplicationTopologyModule

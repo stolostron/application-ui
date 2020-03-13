@@ -42,7 +42,7 @@
       cursor: pointer;
     }
 
-    #definition-tooltip-1 {
+    .bx--tooltip--definition__bottom {
       background-color: #393939;
       width: 256px;
       max-width: none;
@@ -59,7 +59,7 @@
       left: 228px;
     }
 
-    #definition-tooltip-1 > p {
+    .bx--tooltip--definition__bottom > p {
       font-family: RedHatText;
       font-size: 14px;
       text-align: left;

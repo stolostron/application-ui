@@ -19,8 +19,8 @@ module.exports = {
     loginPage.authenticate();
 
     const url = `${browser.launch_url}${config.get("contextPath")}`;
-    page = browser.page.OverviewPage();
-    page.navigate(url);
+    appsPage = browser.page.ApplicationsPage();
+    appsPage.navigate(url);
   },
 
   "Applications: Load page": () => {
@@ -38,6 +38,7 @@ module.exports = {
 
   "Applications: Resources tab": () => {
     appsPage.verifyResourcesTab();
+    appsPage.verifyTechPreview();
     appsPage.verifyTerminology();
     appsPage.verifySearch();
     appsPage.verifyResourceCards();

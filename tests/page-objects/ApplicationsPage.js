@@ -50,7 +50,10 @@ module.exports = {
     newSubBtn: 'button[id="Subscription"]',
     newPlacementRuleBtn: 'button[id="Placement Rule"]',
     newChannelBtn: 'button[id="Channel"]',
-    newResourceModal: ".bx--modal.bx--modal-tall.is-visible.modal-with-editor"
+    newResourceModal: ".bx--modal.bx--modal-tall.is-visible.modal-with-editor",
+    techPreviewTag: ".tech-preview-tag",
+    techPreviewBtn: ".bx--tooltip__trigger",
+    techPreviewTooltip: ".bx--tooltip--definition__bottom"
   },
   commands: [
     {
@@ -81,7 +84,8 @@ module.exports = {
       submitNewResourceModal,
       closeNewResourceModal,
       openNewPlacementRuleModal,
-      openNewChannelModal
+      openNewChannelModal,
+      verifyTechPreview
     }
   ]
 };
@@ -105,8 +109,6 @@ function closeAppRegistrationModal() {
 function enterTextInYamlEditor(browser, yaml) {
   this.waitForElementPresent("@newResourceModal");
   this.click("@aceEditorTextInput");
-
-  browser.clearValue("div[class=ace_content");
 
   const keystrokes = [];
   yaml.split(/\r?\n/).forEach(line => {
@@ -205,6 +207,14 @@ function verifyResourcesTab() {
   this.expect.element("@overviewTab").to.be.present;
   this.click("@overviewTab");
   this.waitForElementNotPresent("@spinner");
+}
+
+function verifyTechPreview() {
+  this.expect.element("@techPreviewTag").to.be.present;
+  this.expect.element("@techPreviewBtn").to.be.present;
+  this.click("@techPreviewBtn");
+  this.expect.element("@techPreviewTooltip").to.be.present;
+  this.click("@techPreviewBtn");
 }
 
 function verifyTerminology() {

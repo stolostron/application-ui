@@ -8,22 +8,21 @@
 
 module.exports = {
   elements: {
-    headerTitle: '.bx--detail-page-header-title',
-    spinner: '.content-spinner'
+    headerTitle: ".bx--detail-page-header-title",
+    spinner: ".content-spinner"
   },
   commands: [
     {
       verifyPageLoaded
     }
   ]
-}
+};
 
 /**
  * Verifications
  */
 
 function verifyPageLoaded() {
-  this.expect.element('@spinner').to.be.present
-  this.waitForElementNotPresent('@spinner')
-  this.expect.element('@headerTitle').to.be.present
+  this.waitForElementNotPresent("@spinner");
+  this.expect.element("@headerTitle").to.be.present;
 }

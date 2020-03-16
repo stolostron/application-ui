@@ -23,9 +23,6 @@ import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 import * as Actions from '../actions'
 
-export const ModalApollo = loadable(() =>
-  import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo')
-)
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
 )
@@ -168,7 +165,6 @@ class App extends React.Component {
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
-        <ModalApollo locale={serverProps.context.locale} />
         <ActionModalApollo
           locale={serverProps.context.locale}
           activeAccountId={activeAccountId}

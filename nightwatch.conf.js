@@ -20,7 +20,14 @@ module.exports = (settings => {
   if (argv.env === "phantom" || argv.env === "local")
     settings.selenium.start_process = true;
 
-  var defaultUrl = `https://localhost:${config.get("httpPort")}`;
+  if (process.env.TEST_LOCAL) {
+    var defaultUrl = `https://localhost:${config.get("httpPort")}`;
+  } else {
+    var defaultUrl = process.env.RHACM4K8;
+  }
+
+  console.log("DEFAULT URL IS: ", defaultUrl); // eslint-disable-line no-console
+
   settings.test_settings.default.launch_url = defaultUrl;
   settings.selenium.server_path += fs.readdirSync(
     "node_modules/selenium-standalone/.selenium/selenium-server/"

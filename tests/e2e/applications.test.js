@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -13,7 +14,7 @@ let appsPage;
 module.exports = {
   "@disabled": false,
 
-  before(browser) {
+  before: function(browser) {
     const loginPage = browser.page.LoginPage();
     loginPage.navigate();
     loginPage.authenticate();
@@ -38,6 +39,7 @@ module.exports = {
 
   "Applications: Resources tab": () => {
     appsPage.verifyResourcesTab();
+    appsPage.verifyTechPreview();
     appsPage.verifyTerminology();
     appsPage.verifySearch();
     appsPage.verifyResourceCards();

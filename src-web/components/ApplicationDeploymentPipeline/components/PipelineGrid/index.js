@@ -369,18 +369,17 @@ const ChannelColumnGrid = (
               {subscriptionsUnderColumns.map((subscriptions, i) => {
                 if (hideDefaultCol && i == defaultColIndex) {
                   return
-                } else {
-                  return (
-                    <div key={Math.random()} className="channelColumn">
-                      <Tile className="channelColumnHeaderApplication">
-                        <div className="subTotal">{subscriptions.length}</div>
-                        <div className="subTotalDescription">
-                          {msgs.get('description.subsInChannel', locale)}
-                        </div>
-                      </Tile>
-                    </div>
-                  )
                 }
+                return (
+                  <div key={Math.random()} className="channelColumn">
+                    <Tile className="channelColumnHeaderApplication">
+                      <div className="subTotal">{subscriptions.length}</div>
+                      <div className="subTotalDescription">
+                        {msgs.get('description.subsInChannel', locale)}
+                      </div>
+                    </Tile>
+                  </div>
+                )
               })}
             </div>
 
@@ -394,7 +393,11 @@ const ChannelColumnGrid = (
 
                 return (
                   <div key={Math.random()} className="deployableRow">
-                    {subRow.map(subCol => {
+                    {subRow.map((subCol, i) => {
+                      if (hideDefaultCol && i == defaultColIndex) {
+                        return
+                      }
+
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,

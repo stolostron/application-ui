@@ -1,10 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
 const config = require("../../config");
@@ -28,7 +28,7 @@ module.exports = {
   ]
 };
 
-// Detect if we are OCP login (default) or ICP login for backwards compatibility (temp)
+// Helper for other pages to use for authentication in before() their suit
 function authenticate(user, password) {
   let loginPage = "html.login-pf";
   let ocpLoginLink = "a[href*='ocp']";

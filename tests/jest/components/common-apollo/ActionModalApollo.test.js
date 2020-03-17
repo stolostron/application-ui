@@ -68,16 +68,16 @@ const mocks = {
       }
     }
   },
-  editLabelMock: {
+  editAppMock: {
     request: { query: GET_ACTION_MODAL_STATE },
     result: {
       data: {
         actionModal: {
           open: true,
-          type: "table.actions.cluster.edit.labels",
+          type: "table.actions.applications.edit",
           resourceType: {
-            name: "HCMPod",
-            list: "HCMPodList"
+            name: "HCMApplication",
+            list: "HCMApplicationList"
           },
           data: {
             _uid: "icp-mongodb-0",
@@ -85,7 +85,53 @@ const mocks = {
             namespace: "kube-system",
             clusterName: "local-cluster",
             selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
-            kind: "pods"
+            kind: "applications"
+          }
+        }
+      }
+    }
+  },
+  editAppICAMMock: {
+    request: { query: GET_ACTION_MODAL_STATE },
+    result: {
+      data: {
+        actionModal: {
+          open: true,
+          type: "table.actions.applications.icam",
+          resourceType: {
+            name: "HCMApplication",
+            list: "HCMApplicationList"
+          },
+          data: {
+            _uid: "icp-mongodb-0",
+            name: "icp-mongodb-0",
+            namespace: "kube-system",
+            clusterName: "local-cluster",
+            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+            kind: "applications"
+          }
+        }
+      }
+    }
+  },
+  editAppGrafanaMock: {
+    request: { query: GET_ACTION_MODAL_STATE },
+    result: {
+      data: {
+        actionModal: {
+          open: true,
+          type: "table.actions.applications.grafana",
+          resourceType: {
+            name: "HCMApplication",
+            list: "HCMApplicationList"
+          },
+          data: {
+            _uid: "icp-mongodb-0",
+            name: "icp-mongodb-0",
+            namespace: "kube-system",
+            clusterName: "local-cluster",
+            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+            kind: "applications"
           }
         }
       }
@@ -121,6 +167,53 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.remove",
+          resourceType: {
+            name: "HCMApplication",
+            list: "HCMApplicationList"
+          },
+          data: {
+            _uid: "icp-mongodb-0",
+            name: "icp-mongodb-0",
+            namespace: "kube-system",
+            clusterName: "local-cluster",
+            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+            kind: "applications"
+          }
+        }
+      }
+    }
+  },
+  removeAppMock: {
+    request: { query: GET_ACTION_MODAL_STATE },
+    result: {
+      data: {
+        actionModal: {
+          open: true,
+          type: "table.actions.applications.remove",
+          resourceType: {
+            name: "HCMApplication",
+            list: "HCMApplicationList"
+          },
+          data: {
+            _uid: "icp-mongodb-0",
+            name: "icp-mongodb-0",
+            namespace: "kube-system",
+            clusterName: "local-cluster",
+            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+            kind: "applications"
+          }
+        }
+      }
+    }
+  },
+
+  icamMock: {
+    request: { query: GET_ACTION_MODAL_STATE },
+    result: {
+      data: {
+        actionModal: {
+          open: true,
+          type: "table.actions.applications.icam",
           resourceType: {
             name: "HCMPod",
             list: "HCMPodList"
@@ -162,9 +255,33 @@ describe("ActionModalApollo Testing", () => {
     ).toMatchSnapshot();
   });
 
-  it("Changes Apollo Client Cache For Edit Labels Modal", async () => {
+  it("Changes Apollo Client Cache For Edit App Modal", async () => {
     const component = renderer.create(
-      <MockedProvider mocks={[mocks.editLabelMock]} addTypename={false}>
+      <MockedProvider mocks={[mocks.editAppMock]} addTypename={false}>
+        <ActionModalApollo locale={"en-US"} />
+      </MockedProvider>
+    );
+    await delay(0);
+    expect(
+      component.getInstance().state.client.cache.data.data
+    ).toMatchSnapshot();
+  });
+
+  it("Changes Apollo Client Cache For Edit App ICAM Modal", async () => {
+    const component = renderer.create(
+      <MockedProvider mocks={[mocks.editAppICAMMock]} addTypename={false}>
+        <ActionModalApollo locale={"en-US"} />
+      </MockedProvider>
+    );
+    await delay(0);
+    expect(
+      component.getInstance().state.client.cache.data.data
+    ).toMatchSnapshot();
+  });
+
+  it("Changes Apollo Client Cache For Edit App Grafana Modal", async () => {
+    const component = renderer.create(
+      <MockedProvider mocks={[mocks.editAppGrafanaMock]} addTypename={false}>
         <ActionModalApollo locale={"en-US"} />
       </MockedProvider>
     );
@@ -189,6 +306,18 @@ describe("ActionModalApollo Testing", () => {
   it("Changes Apollo Client Cache For Remove Resource Modal", async () => {
     const component = renderer.create(
       <MockedProvider mocks={[mocks.removeMock]} addTypename={false}>
+        <ActionModalApollo locale={"en-US"} />
+      </MockedProvider>
+    );
+    await delay(0);
+    expect(
+      component.getInstance().state.client.cache.data.data
+    ).toMatchSnapshot();
+  });
+
+  it("Changes Apollo Client Cache For Remove App Resource Modal", async () => {
+    const component = renderer.create(
+      <MockedProvider mocks={[mocks.removeAppMock]} addTypename={false}>
         <ActionModalApollo locale={"en-US"} />
       </MockedProvider>
     );

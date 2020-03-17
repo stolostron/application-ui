@@ -7,6 +7,7 @@
  *******************************************************************************/
 'use strict'
 
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import msgs from '../../../nls/platform.properties'
@@ -18,6 +19,7 @@ import {
   Loading,
   Notification
 } from 'carbon-components-react'
+import { canCallAction } from '../../../lib/client/access-helper'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
@@ -37,16 +39,80 @@ class RemoveResourceModal extends React.Component {
   componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
-      const allowed = true
+      this.getChildResources(data.name, data.namespace, data.clusterName)
+      const kind = data.selfLink.split('/')
+      const apiGroup = kind[1] === 'apis' ? kind[2] : ''
+      canCallAction(
+        kind[kind.length - 2],
+        'delete',
+        data.namespace,
+        apiGroup
+      ).then(response => {
+        const allowed = _.get(response, 'data.userAccess.allowed')
+        this.setState({
+          canRemove: allowed,
+          errors: allowed
+            ? undefined
+            : msgs.get('table.actions.remove.unauthorized', this.context.locale)
+        })
+      })
       this.setState({
-        loading: false,
-        canRemove: allowed,
         name: data.name,
         cluster: data.clusterName,
-        selfLink: data.selfLink,
-        selected: data.selected || []
+        selfLink: data.selfLink
       })
     }
+  }
+
+  getChildResources(name, namespace, cluster) {
+    const children = []
+    const { resourceType } = this.props
+    resourceType.name === 'HCMApplication'
+      ? apolloClient
+        .getResource(resourceType, { namespace, name, cluster })
+        .then(response => {
+          const resourceData = response.data.items[0]
+          // Create object specifying Application/Compliance resources that can be deleted
+          _.map(resourceData.deployables, (curr, idx) => {
+            children.push({
+              id: idx + '-deployable-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [Deployable]',
+              selected: true
+            })
+          })
+          _.map(resourceData.placementBindings, (curr, idx) => {
+            children.push({
+              id: idx + '-placementBinding-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [PlacementBinding]',
+              selected: true
+            })
+          })
+          _.map(resourceData.placementPolicies, (curr, idx) => {
+            children.push({
+              id: idx + '-placementPolicy-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [PlacementPolicy]',
+              selected: true
+            })
+          })
+          _.map(resourceData.applicationRelationships, (curr, idx) => {
+            children.push({
+              id: idx + '-appRelationship-' + curr.metadata.name,
+              selfLink: curr.metadata.selfLink,
+              label: curr.metadata.name + ' [ApplicationRelationship]',
+              selected: true
+            })
+          })
+          this.setState({
+            selected: children,
+            loading: false
+          })
+        })
+      : this.setState({
+        loading: false
+      })
   }
 
   toggleSelected = (i, target) => {
@@ -187,6 +253,7 @@ RemoveResourceModal.propTypes = {
   }),
   locale: PropTypes.string,
   open: PropTypes.bool,
+  resourceType: PropTypes.object,
   type: PropTypes.string
 }
 

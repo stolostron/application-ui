@@ -198,9 +198,6 @@ function verifyModalOpened() {
 function verifyPageContent() {
   this.expect.element("@headerTitle").to.be.present;
   this.expect.element("@registerAppBtn").to.be.present;
-  this.expect.element("@searchInput").to.be.present;
-  this.expect.element("@searchIcon").to.be.present;
-  this.expect.element("@pagination").to.be.present;
 }
 
 function verifyResourcesTab() {

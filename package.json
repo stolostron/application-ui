@@ -18,7 +18,7 @@
     "test:unit": "jest --colors",
     "test": "jest --silent",
     "test:watch": "jest --watch",
-    "test:e2e": "nightwatch",
+    "test:e2e": "nightwatch ./tests/e2e -e chrome",
     "test:update-snapshot": "jest --updateSnapshot",
     "test:install-selenium": "selenium-standalone install --version=3.141.5 --drivers.chrome.version=2.36",
     "storybook": "start-storybook -p 6006 -s ./public,./node_modules/carbon-components/css",

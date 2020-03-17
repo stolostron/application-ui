@@ -36,7 +36,9 @@
         "chromeOptions": {
           "args": [
             "--no-sandbox",
-            "--disable-gpu"
+            "--disable-gpu",
+            "window-size=1280,900",
+            "ignore-certificate-errors"
           ]
         }
       },

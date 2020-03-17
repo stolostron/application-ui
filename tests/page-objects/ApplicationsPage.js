@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -50,7 +51,10 @@ module.exports = {
     newSubBtn: 'button[id="Subscription"]',
     newPlacementRuleBtn: 'button[id="Placement Rule"]',
     newChannelBtn: 'button[id="Channel"]',
-    newResourceModal: ".bx--modal.bx--modal-tall.is-visible.modal-with-editor"
+    newResourceModal: ".bx--modal.bx--modal-tall.is-visible.modal-with-editor",
+    techPreviewTag: ".tech-preview-tag",
+    techPreviewBtn: ".bx--tooltip__trigger",
+    techPreviewTooltip: ".bx--tooltip--definition__bottom"
   },
   commands: [
     {
@@ -81,7 +85,8 @@ module.exports = {
       submitNewResourceModal,
       closeNewResourceModal,
       openNewPlacementRuleModal,
-      openNewChannelModal
+      openNewChannelModal,
+      verifyTechPreview
     }
   ]
 };
@@ -105,8 +110,6 @@ function closeAppRegistrationModal() {
 function enterTextInYamlEditor(browser, yaml) {
   this.waitForElementPresent("@newResourceModal");
   this.click("@aceEditorTextInput");
-
-  browser.clearValue("div[class=ace_content");
 
   const keystrokes = [];
   yaml.split(/\r?\n/).forEach(line => {
@@ -196,15 +199,20 @@ function verifyModalOpened() {
 function verifyPageContent() {
   this.expect.element("@headerTitle").to.be.present;
   this.expect.element("@registerAppBtn").to.be.present;
-  this.expect.element("@searchInput").to.be.present;
-  this.expect.element("@searchIcon").to.be.present;
-  this.expect.element("@pagination").to.be.present;
 }
 
 function verifyResourcesTab() {
   this.expect.element("@overviewTab").to.be.present;
   this.click("@overviewTab");
   this.waitForElementNotPresent("@spinner");
+}
+
+function verifyTechPreview() {
+  this.expect.element("@techPreviewTag").to.be.present;
+  this.expect.element("@techPreviewBtn").to.be.present;
+  this.click("@techPreviewBtn");
+  this.expect.element("@techPreviewTooltip").to.be.present;
+  this.click("@techPreviewBtn");
 }
 
 function verifyTerminology() {

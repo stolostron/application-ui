@@ -19,3 +19,4 @@ test-report.xml
 tests/jest/config/platform-properties.json 
 # Files
 .build-harness
+.build-harness-bootstrap

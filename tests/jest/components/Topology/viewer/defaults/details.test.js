@@ -4,7 +4,7 @@
 "use strict";
 
 import { getNodeDetails } from "../../../../../../src-web/components/Topology/viewer/defaults/details";
-import { memo } from "react";
+import moment from "moment";
 
 const locale = "en-US";
 
@@ -401,7 +401,7 @@ describe("getNodeDetails helm node", () => {
         metadata: {
           name: "policy1",
           namespace: "default",
-          creationTimestamp: "2020-03-11T17:16:44Z",
+          creationTimestamp: `${moment().format()}`,
           annotations: {
             "policy.mcm.ibm.com/categories": "1,2,3,4,5",
             "policy.mcm.ibm.com/controls": "1,2,3,4,5",
@@ -450,7 +450,7 @@ describe("getNodeDetails helm node", () => {
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
-      value: "6 days ago"
+      value: "a few seconds ago"
     },
     {
       indent: undefined,

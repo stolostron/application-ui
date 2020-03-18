@@ -28,6 +28,25 @@ describe("PipelineGrid", () => {
   const breadcrumbItems = "a/b/sample-ns/sample-app";
   const applications = [
     {
+      _uid: "local-cluster/e1023975-59c1-11ea-beb3-00000a100f0f",
+      name: "default-chart",
+      namespace: "default",
+      dashboard: null,
+      clusterCount: 0,
+      remoteSubscriptionStatusCount: {},
+      podStatusCount: {},
+      hubSubscriptions: [
+        {
+          _uid: "local-cluster/dab2af61-59c1-11ea-beb3-00000a100f0f",
+          status: "Propagated",
+          channel: "default/charts-v1",
+          __typename: "Subscription"
+        }
+      ],
+      created: "2020-03-17T15:52:44Z",
+      __typename: "Application"
+    },
+    {
       _uid: "local-cluster/ea63866d-1bb4-11ea-8ede-00000a100f0f",
       name: "jorge-test",
       namespace: "default",
@@ -130,6 +149,22 @@ describe("PipelineGrid", () => {
     }
   ];
   const channels = [
+    {
+      kind: "channel",
+      name: "charts-v1",
+      namespace: "default",
+      selfLink:
+        "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/charts-v1",
+      _hubClusterResource: "true",
+      _rbac: "default_app.ibm.com_channels",
+      _uid: "local-cluster/67356e9c-55c0-11ea-beb3-00000a100f0f",
+      cluster: "local-cluster",
+      created: "2020-03-17T15:00:10Z",
+      apigroup: "app.ibm.com",
+      apiversion: "v1alpha1",
+      type: "Namespace",
+      pathname: "default"
+    },
     {
       kind: "channel",
       name: "stocktrader-ns",

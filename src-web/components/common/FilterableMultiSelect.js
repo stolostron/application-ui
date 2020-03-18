@@ -84,7 +84,11 @@ class FilterableMultiSelect extends React.Component {
   }
 
   updateTooltip() {
-    if (this.multiSelectCmp) {
+    if (
+      this.multiSelectCmp &&
+      this.multiSelectCmp.inputNode &&
+      this.multiSelectCmp.inputNode.title
+    ) {
       this.multiSelectCmp.inputNode.title = this.tooltip.join('\n')
     }
   }

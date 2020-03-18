@@ -464,5 +464,16 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
 }
 
 export const getStandaloneSubscriptions = subscriptions => {
-  return R.filter(n => R.isEmpty(n.related), subscriptions)
+  // subscription has to have a channel set
+  subscriptions = R.filter(n => n.channel, subscriptions)
+
+  // if related field exists, it must not be an app
+  subscriptions = R.filter(
+    n =>
+      n.related &&
+      (R.isEmpty(n.related) || !R.find(R.propEq('kind', 'app'))(n.related)),
+    subscriptions
+  )
+
+  return subscriptions
 }

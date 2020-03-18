@@ -31,6 +31,7 @@ export const mapBulkSubscriptions = subscriptions => {
             selfLink: items.selfLink || '',
             _uid: items._uid || '',
             created: items.created || '',
+            channel: items.channel || '',
             pathname: items.pathname || '',
             apigroup: items.apigroup || '',
             cluster: items.cluster || '',

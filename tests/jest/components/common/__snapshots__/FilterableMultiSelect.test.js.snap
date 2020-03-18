@@ -1,0 +1,366 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterableMultiSelect renders correctly 1`] = `
+<div
+  aria-label="app1"
+  className="multi-select-filter"
+  id="app1"
+  role="region"
+>
+  <div
+    className="multi-select-filter-title"
+  >
+    app1
+  </div>
+  <div
+    aria-label="Choose an item"
+    className="bx--multi-select bx--combo-box bx--list-box"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="listbox"
+    tabIndex="0"
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup={true}
+      aria-label="open menu"
+      className="bx--list-box__field"
+      data-toggle={true}
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex="0"
+      type="button"
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-expanded={false}
+        autoComplete="off"
+        className="bx--text-input"
+        disabled={false}
+        id="downshift-0-input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder="all"
+        role="combobox"
+        value=""
+      />
+      
+      <div
+        className="bx--list-box__menu-icon"
+      >
+        <svg
+          alt="Open menu"
+          aria-label="Open menu"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            Open menu
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FilterableMultiSelect renders correctly 2`] = `
+<div
+  aria-label="app1"
+  className="multi-select-filter"
+  id="app1"
+  role="region"
+>
+  <div
+    className="multi-select-filter-title"
+  >
+    app1
+  </div>
+  <div
+    aria-label="Choose an item"
+    className="bx--multi-select bx--combo-box bx--list-box"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="listbox"
+    tabIndex="0"
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup={true}
+      aria-label="open menu"
+      className="bx--list-box__field"
+      data-toggle={true}
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex="0"
+      type="button"
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-expanded={false}
+        autoComplete="off"
+        className="bx--text-input"
+        disabled={false}
+        id="downshift-1-input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder="all"
+        role="combobox"
+        value=""
+      />
+      
+      <div
+        className="bx--list-box__menu-icon"
+      >
+        <svg
+          alt="Open menu"
+          aria-label="Open menu"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            Open menu
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FilterableMultiSelect renders correctly 3`] = `
+<div
+  aria-label="app1"
+  className="multi-select-filter"
+  id="app1"
+  role="region"
+>
+  <div
+    className="multi-select-filter-title"
+  >
+    app1
+  </div>
+  <div
+    aria-label="Choose an item"
+    className="bx--multi-select bx--combo-box bx--list-box bx--list-box--disabled"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="listbox"
+    tabIndex="0"
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup={true}
+      aria-label="open menu"
+      className="bx--list-box__field"
+      data-toggle={true}
+      disabled={true}
+      role="button"
+      tabIndex="0"
+      type="button"
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-expanded={false}
+        autoComplete="off"
+        className="bx--text-input"
+        disabled={true}
+        id="downshift-2-input"
+        placeholder="Loading..."
+        role="combobox"
+        value=""
+      />
+      
+      <div
+        className="bx--list-box__menu-icon"
+      >
+        <svg
+          alt="Open menu"
+          aria-label="Open menu"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            Open menu
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FilterableMultiSelect renders correctly 4`] = `
+<div
+  aria-label="app1"
+  className="multi-select-filter"
+  id="app1"
+  role="region"
+>
+  <div
+    className="multi-select-filter-title"
+  >
+    app1
+  </div>
+  <div
+    aria-label="Choose an item"
+    className="bx--multi-select bx--combo-box bx--list-box"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="listbox"
+    tabIndex="0"
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup={true}
+      aria-label="open menu"
+      className="bx--list-box__field"
+      data-toggle={true}
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex="0"
+      type="button"
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-expanded={false}
+        autoComplete="off"
+        className="bx--text-input"
+        disabled={false}
+        id="downshift-3-input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Failed to load."
+        role="combobox"
+        value=""
+      />
+      
+      <div
+        className="bx--list-box__menu-icon"
+      >
+        <svg
+          alt="Open menu"
+          aria-label="Open menu"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            Open menu
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FilterableMultiSelect renders correctly 5`] = `
+<div
+  className="multi-select-filter"
+  role="region"
+>
+  <div
+    className="multi-select-filter-title"
+  />
+  <div
+    aria-label="Choose an item"
+    className="bx--multi-select bx--combo-box bx--list-box"
+    onClick={[Function]}
+    onKeyDown={[Function]}
+    role="listbox"
+    tabIndex="0"
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup={true}
+      aria-label="open menu"
+      className="bx--list-box__field"
+      data-toggle={true}
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="button"
+      tabIndex="0"
+      type="button"
+    >
+      <input
+        aria-activedescendant={null}
+        aria-autocomplete="list"
+        aria-expanded={false}
+        autoComplete="off"
+        className="bx--text-input"
+        disabled={false}
+        id="downshift-4-input"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onKeyDown={[Function]}
+        placeholder="all"
+        role="combobox"
+        value=""
+      />
+      
+      <div
+        className="bx--list-box__menu-icon"
+      >
+        <svg
+          alt="Open menu"
+          aria-label="Open menu"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            Open menu
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+`;

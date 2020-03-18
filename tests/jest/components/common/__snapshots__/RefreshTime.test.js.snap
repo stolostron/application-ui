@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RefreshTime component renders as expected 1`] = `
+<div
+  className="refresh-time-container"
+>
+  <div>
+    Invalid date
+  </div>
+</div>
+`;
+
+exports[`RefreshTime component renders as expected 2`] = `
+<div
+  className="refresh-time-container"
+>
+  <div
+    aria-live="assertive"
+    className="bx--loading bx--loading--small"
+  >
+    <svg
+      className="bx--loading__svg"
+      viewBox="-75 -75 150 150"
+    >
+      <circle
+        cx="0"
+        cy="0"
+        r="37.5"
+      />
+    </svg>
+  </div>
+  <div>
+    Invalid date
+  </div>
+</div>
+`;

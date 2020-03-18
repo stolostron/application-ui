@@ -175,14 +175,14 @@ class ResourceList extends React.Component {
           )}
           {config['featureFlags:filters'] &&
             resourceType.filter && (
-            <div className="resource-list-filter">
-              <TagInput
-                tags={selectedFilters}
-                availableFilters={resourceFilters}
-                onSelectedFilterChange={onSelectedFilterChange}
-                updateBrowserURL={updateBrowserURL}
-              />
-            </div>
+              <div className="resource-list-filter">
+                <TagInput
+                  tags={selectedFilters}
+                  availableFilters={resourceFilters}
+                  onSelectedFilterChange={onSelectedFilterChange}
+                  updateBrowserURL={updateBrowserURL}
+                />
+              </div>
           )}
           <ResourceTable
             actions={actions}

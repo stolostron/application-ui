@@ -2102,6 +2102,12 @@ export const resourceModalLabels = {
   heading: "modal.remove-hcmapplication.heading"
 };
 
+export const resourceModalReduxLabels = {
+  pprimaryBtn: "modal.edit-hcmapplication.heading",
+  label: "modal.edit-hcmapplication.label",
+  heading: "modal.edit-hcmapplication.heading"
+};
+
 export const availableFilters = {
   standards: {
     name: "Standards",

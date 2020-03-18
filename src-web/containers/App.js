@@ -41,11 +41,14 @@ class App extends React.Component {
 
   constructor(props) {
     super(props)
-
     if (client) {
-      this.serverProps = JSON.parse(
-        document.getElementById('propshcm').textContent
-      )
+      try {
+        this.serverProps = JSON.parse(
+          document.getElementById('propshcm').textContent
+        )
+      } catch (e) {
+        this.serverProps = undefined
+      }
     }
   }
 
@@ -56,7 +59,8 @@ class App extends React.Component {
   }
 
   getServerProps() {
-    if (client) return this.serverProps
+    if (client && this.serverProps) return this.serverProps
+    if (this.props.serverProps) return this.props.serverProps
     return this.props.staticContext
   }
 

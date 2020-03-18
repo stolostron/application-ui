@@ -1420,7 +1420,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   <div
                     aria-expanded={false}
                     aria-haspopup="true"
-                    id="__carbon-tooltip-trigger_3k5h8s75hnt"
+                    id="__carbon-tooltip-trigger_qnv9phx15bn"
                     onBlur={[Function]}
                     onClick={[Function]}
                     onFocus={[Function]}
@@ -1475,7 +1475,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             />
           </div>
         </div>
-         
       </div>
       <div
         className="channelGridContainer"

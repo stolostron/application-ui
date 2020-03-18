@@ -30,7 +30,6 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
           </div>
         </div>
       </div>
-       
       <div
         className="tileContainerApp"
       >

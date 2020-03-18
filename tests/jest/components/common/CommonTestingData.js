@@ -4097,39 +4097,6 @@ export const staticResourceDataPolicyOverview = {
         key: "compliant"
       }
     ]
-  },
-  policyPolicyTemplates: {
-    title: "table.header.policyTemplates",
-    defaultSortField: "name",
-    normalizedKey: "name",
-    resourceKey: "policyTemplates",
-    tableKeys: [
-      {
-        msgKey: "table.header.name",
-        resourceKey: "name",
-        key: "name"
-      },
-      {
-        msgKey: "description.title.api.version",
-        resourceKey: "apiVersion",
-        key: "apiVersion"
-      },
-      {
-        msgKey: "table.header.kind",
-        resourceKey: "kind",
-        key: "kind"
-      },
-      {
-        msgKey: "description.title.last.transition",
-        resourceKey: "lastTransition",
-        key: "lastTransition"
-      },
-      {
-        msgKey: "table.header.compliant",
-        resourceKey: "compliant",
-        key: "compliant"
-      }
-    ]
   }
 };
 

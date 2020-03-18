@@ -450,7 +450,7 @@ describe("getNodeDetails helm node", () => {
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
-      value: "6 days ago"
+      value: "7 days ago"
     },
     {
       indent: undefined,

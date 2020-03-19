@@ -48,7 +48,6 @@ jobs:
           make security/scans          
     - stage: unit-test
       name: "Build and run unit tests"
-      if: type = pull_request
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - chmod +x copyright-check.sh 

@@ -280,38 +280,46 @@ const ChannelColumnGrid = (
       applicationList = R.prepend({ name: 'standalone' }, applicationList)
   }
 
+  let hideDefaultCol = false
+  let defaultColIndex = -1
+
   return (
     <div className={containerClass}>
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
-        {channelList.map(channel => {
+        {channelList.map((channel, i) => {
           const channelName = channel.name
-          return (
-            <div key={Math.random()} className="channelColumn">
-              <Tile className="channelColumnHeader">
-                <div className="channelNameHeader">
-                  <span>
-                    <div className="yamlTitle">
-                      {msgs.get('actions.yaml', locale)}
+          if (channelName == 'charts-v1') {
+            hideDefaultCol = true
+            defaultColIndex = i
+          } else {
+            return (
+              <div key={Math.random()} className="channelColumn">
+                <Tile className="channelColumnHeader">
+                  <div className="channelNameHeader">
+                    <span>
+                      <div className="yamlTitle">
+                        {msgs.get('actions.yaml', locale)}
+                      </div>
+                      <Icon
+                        name="icon--edit"
+                        fill="#6089bf"
+                        description=""
+                        className="channelEditIcon"
+                        onClick={() =>
+                          editResourceClick(channel, getChannelResource)
+                        }
+                      />
+                    </span>
+                    <div className="channelTitle">
+                      {msgs.get('description.Pipeline.channel', locale)}
                     </div>
-                    <Icon
-                      name="icon--edit"
-                      fill="#6089bf"
-                      description=""
-                      className="channelEditIcon"
-                      onClick={() =>
-                        editResourceClick(channel, getChannelResource)
-                      }
-                    />
-                  </span>
-                  <div className="channelTitle">
-                    {msgs.get('description.Pipeline.channel', locale)}
+                    <div className="channelNameTitle">{`${channelName}`}</div>
                   </div>
-                  <div className="channelNameTitle">{`${channelName}`}</div>
-                </div>
-              </Tile>
-            </div>
-          )
+                </Tile>
+              </div>
+            )
+          }
         })}
       </div>
 
@@ -358,7 +366,10 @@ const ChannelColumnGrid = (
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
-              {subscriptionsUnderColumns.map(subscriptions => {
+              {subscriptionsUnderColumns.map((subscriptions, i) => {
+                if (hideDefaultCol && i == defaultColIndex) {
+                  return
+                }
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
@@ -382,7 +393,11 @@ const ChannelColumnGrid = (
 
                 return (
                   <div key={Math.random()} className="deployableRow">
-                    {subRow.map(subCol => {
+                    {subRow.map((subCol, i) => {
+                      if (hideDefaultCol && i == defaultColIndex) {
+                        return
+                      }
+
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,
@@ -506,30 +521,30 @@ const ChannelColumnGrid = (
                               )}: ${thisSubscriptionData.namespace}`}</div>
                               {placementRule &&
                                 placementRule.name && (
-                                <div
-                                  className="placementRuleDesc"
-                                  onClick={onClickEditPlacementRule}
-                                  onKeyPress={onKeyPressEditPlacementRule}
-                                  tabIndex={placementRule._uid}
-                                  role="button"
-                                >
-                                  {`${msgs.get(
-                                    'description.placement.rule',
-                                    locale
-                                  )}: ${placementRule.name} `}
-                                  <Icon
-                                    name="icon--edit"
-                                    fill="#6089bf"
-                                    description=""
-                                    className="placementEditIcon"
-                                    onClick={() =>
-                                      editResourceClick(
-                                        placementRule,
-                                        getPlacementRuleResource
-                                      )
-                                    }
-                                  />
-                                </div>
+                                  <div
+                                    className="placementRuleDesc"
+                                    onClick={onClickEditPlacementRule}
+                                    onKeyPress={onKeyPressEditPlacementRule}
+                                    tabIndex={placementRule._uid}
+                                    role="button"
+                                  >
+                                    {`${msgs.get(
+                                      'description.placement.rule',
+                                      locale
+                                    )}: ${placementRule.name} `}
+                                    <Icon
+                                      name="icon--edit"
+                                      fill="#6089bf"
+                                      description=""
+                                      className="placementEditIcon"
+                                      onClick={() =>
+                                        editResourceClick(
+                                          placementRule,
+                                          getPlacementRuleResource
+                                        )
+                                      }
+                                    />
+                                  </div>
                               )}
 
                               <div className="progressBarContainer">
@@ -658,16 +673,16 @@ const PipelineGrid = withLocale(
         <div className="tableGridContainer">
           {!oneApplication &&
             sortedChannels.length > 0 && (
-            <LeftColumnForApplicationNames
-              appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
-              applications={applications}
-              updateAppDropDownList={updateAppDropDownList}
-              appDropDownList={appDropDownList}
-              hasAdminRole={hasAdminRole}
-              channelList={sortedChannels}
-              oneApplication={oneApplication}
-              bulkSubscriptionList={bulkSubscriptionList}
-            />
+              <LeftColumnForApplicationNames
+                appSubscriptions={appSubscriptions} // Subscription total for all the given applictions
+                applications={applications}
+                updateAppDropDownList={updateAppDropDownList}
+                appDropDownList={appDropDownList}
+                hasAdminRole={hasAdminRole}
+                channelList={sortedChannels}
+                oneApplication={oneApplication}
+                bulkSubscriptionList={bulkSubscriptionList}
+              />
           )}
           {sortedChannels.length > 0 && (
             <ChannelColumnGrid

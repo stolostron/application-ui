@@ -1,24 +1,20 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-const config = require('../../config')
+const config = require("../../config");
 
 module.exports = {
   url: function() {
-    return `${this.api.launchUrl}${config.get('contextPath')}`
+    return `${this.api.launchUrl}${config.get("contextPath")}`;
   },
   elements: {
-    username: '#username',
-    password: '#password',
-    submit: 'button[name="loginButton"]',
-    error: '.bx--inline-notification--error',
-    header: '.app-header',
-    loginPage: '.login-container'
+    header: ".app-header"
   },
   commands: [
     {
@@ -30,39 +26,47 @@ module.exports = {
       waitForLoginPageLoad
     }
   ]
-}
+};
 
-//helper for other pages to use for authentication in before() their suit
+// Helper for other pages to use for authentication in before() their suit
 function authenticate(user, password) {
-  this.waitForLoginPageLoad()
-  this.inputUsername(user)
-  this.inputPassword(password)
-  this.submit()
-  this.waitForLoginSuccess()
+  let loginPage = "html.login-pf";
+  let ocpLoginLink = "a[href*='ocp']";
+  let userNameField = "#inputUsername";
+  let passwordField = "#inputPassword";
+  let submitBtn = 'button[type="submit"]';
+  this.waitForLoginPageLoad(loginPage);
+  this.waitForElementPresent(ocpLoginLink);
+  this.click(ocpLoginLink);
+  this.waitForElementPresent(userNameField);
+  this.inputUsername(user, userNameField);
+  this.inputPassword(password, passwordField);
+  this.submit(submitBtn);
+  this.waitForLoginSuccess(loginPage);
 }
 
-function inputUsername(user) {
-  this.waitForElementVisible('@username').setValue(
-    '@username',
-    user || config.get('tests:user')
-  )
+function inputUsername(user, userNameField) {
+  this.waitForElementPresent(userNameField).setValue(
+    userNameField,
+    user || process.env.K8S_CLUSTER_USER
+  );
 }
 
-function inputPassword(password) {
-  this.waitForElementVisible('@password').setValue(
-    '@password',
-    password || config.get('tests:password')
-  )
+function inputPassword(password, passwordField) {
+  this.waitForElementPresent(passwordField).setValue(
+    passwordField,
+    password || process.env.K8S_CLUSTER_PASSWORD
+  );
 }
 
-function submit() {
-  this.waitForElementVisible('@submit').click('@submit')
+function submit(submitBtn) {
+  this.waitForElementPresent(submitBtn).click(submitBtn);
 }
 
 function waitForLoginSuccess() {
-  this.waitForElementVisible('@header', 20000)
+  this.waitForElementPresent("@header", 20000);
 }
 
-function waitForLoginPageLoad() {
-  this.waitForElementPresent('@loginPage')
+function waitForLoginPageLoad(loginPage) {
+  this.waitForElementPresent(loginPage, 20000);
 }

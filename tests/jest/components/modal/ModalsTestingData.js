@@ -2090,11 +2090,24 @@ export const resourceType = {
   list: "HCMSecurityFindingsList"
 };
 
-export const resourceModalLabels = {
-  primaryBtn: "modal.button.submit",
-  label: "modal.edit-hcmpolicypolicy.label",
-  heading: "modal.edit-hcmpolicypolicy.heading"
+export const resourceModalLabelsDummy = {
+  pprimaryBtn: "modal.remove-hcmpolicy.heading",
+  label: "modal.remove-hcmpolicy.label",
+  heading: "modal.remove-hcmpolicy.heading"
 };
+
+export const resourceModalLabels = {
+  pprimaryBtn: "modal.remove-hcmapplication.heading",
+  label: "modal.remove-hcmapplication.label",
+  heading: "modal.remove-hcmapplication.heading"
+};
+
+export const resourceModalReduxLabels = {
+  pprimaryBtn: "modal.edit-hcmapplication.heading",
+  label: "modal.edit-hcmapplication.label",
+  heading: "modal.edit-hcmapplication.heading"
+};
+
 export const availableFilters = {
   standards: {
     name: "Standards",
@@ -2144,5 +2157,23 @@ export const resourceModalData = {
   created: "2019-12-11T01:24:02Z",
   __typename: "Application"
 };
+
+export const resourceModalDataDel2 = {
+  kind: "HCMApplication",
+  _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+  selfLink:
+    "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+  name: "samplebook-gbap",
+  namespace: "sample",
+  dashboard: null,
+  clusterCount: 0,
+  remoteSubscriptionStatusCount: {},
+  podStatusCount: {},
+  hubSubscriptions: [],
+  created: "2019-12-11T01:24:02Z",
+  __typename: "Application",
+  selected: [{ id: "1" }, { id: 2 }]
+};
+
 export const resourceModalYAML =
   "apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: samplebook-gbapp\n  namespace: sample\n  generation: 2\n  labels:\n    app: gbapp\n    chart: gbapp-0.1.0\n    heritage: Tiller\n    release: samplebook\n  resourceVersion: '6277488'\nspec:\n  componentKinds:\n    - group: apps.open-cluster-management.io\n      kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: release\n        operator: In\n        values:\n          - samplebook\nstatus: {}";

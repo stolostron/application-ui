@@ -4,9 +4,6 @@
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
- *
- * Copyright (c) 2020 Red Hat, Inc.
- *
  *******************************************************************************/
 import R from 'ramda'
 
@@ -14,7 +11,7 @@ import R from 'ramda'
 export const mapBulkSubscriptions = subscriptions => {
   if (subscriptions) {
     const mappedSubscriptions = subscriptions.map(subscription => {
-      if (subscription.items && subscription.related) {
+      if (subscription.items) {
         //filter out and return only hub subscriptions
         const isHubSubscr = item =>
           !item._hostingSubscription &&
@@ -24,31 +21,31 @@ export const mapBulkSubscriptions = subscriptions => {
         if (
           hubSubscriptions &&
           hubSubscriptions instanceof Array &&
-          hubSubscriptions.length > 0 &&
-          hubSubscriptions[0].channel
+          hubSubscriptions.length > 0
         ) {
           const items = hubSubscriptions[0]
+          if (items.channel) {
+            const data = {
+              name: items.name || '',
+              namespace: items.namespace || '',
+              selfLink: items.selfLink || '',
+              _uid: items._uid || '',
+              created: items.created || '',
+              pathname: items.pathname || '',
+              apigroup: items.apigroup || '',
+              cluster: items.cluster || '',
+              channel: items.channel || '',
+              kind: items.kind || '',
+              label: items.label || '',
+              type: items.type || '',
+              status: items.status || '',
+              _hubClusterResource: items._hubClusterResource || '',
+              _rbac: items._rbac || '',
+              related: subscription.related || []
+            }
 
-          const data = {
-            name: items.name || '',
-            namespace: items.namespace || '',
-            selfLink: items.selfLink || '',
-            _uid: items._uid || '',
-            created: items.created || '',
-            channel: items.channel || '',
-            pathname: items.pathname || '',
-            apigroup: items.apigroup || '',
-            cluster: items.cluster || '',
-            kind: items.kind || '',
-            label: items.label || '',
-            type: items.type || '',
-            status: items.status || '',
-            _hubClusterResource: items._hubClusterResource || '',
-            _rbac: items._rbac || '',
-            related: subscription.related || []
+            return data
           }
-
-          return data
         }
       }
     })

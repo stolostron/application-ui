@@ -4,6 +4,9 @@
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
+ *
+ * Copyright (c) 2020 Red Hat, Inc.
+ *
  *******************************************************************************/
 
 import R from 'ramda'
@@ -464,14 +467,11 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
 }
 
 export const getStandaloneSubscriptions = subscriptions => {
-  // subscription has to have a channel set
-  subscriptions = R.filter(n => n.channel, subscriptions)
-
   // if related field exists, it must not be an app
   subscriptions = R.filter(
     n =>
-      n.related &&
-      (R.isEmpty(n.related) || !R.find(R.propEq('kind', 'app'))(n.related)),
+      R.isEmpty(n.related) ||
+      !R.find(R.propEq('kind', 'application'))(n.related),
     subscriptions
   )
 

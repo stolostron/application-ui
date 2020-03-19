@@ -4,6 +4,9 @@
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
+ *
+ * Copyright (c) 2020 Red Hat, Inc.
+ *
  *******************************************************************************/
 import R from 'ramda'
 
@@ -21,7 +24,8 @@ export const mapBulkSubscriptions = subscriptions => {
         if (
           hubSubscriptions &&
           hubSubscriptions instanceof Array &&
-          hubSubscriptions.length > 0
+          hubSubscriptions.length > 0 &&
+          hubSubscriptions[0].channel
         ) {
           const items = hubSubscriptions[0]
 

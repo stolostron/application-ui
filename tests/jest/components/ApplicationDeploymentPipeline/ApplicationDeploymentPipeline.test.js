@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -27,6 +28,11 @@ const storeApp = mockStore(reduxStoreAppPipeline);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 const storeAllAppsNoChannels = mockStore(reduxStoreAllAppsPipelineNoChannels);
 const storeAppNoChannels = mockStore(reduxStoreAppPipelineNoChannels);
+
+// mock the Math.random() value
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
 
 describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationDeploymentPipeline renders correctly with data on single app.", () => {

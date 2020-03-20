@@ -270,14 +270,18 @@ class ApplicationDeploymentPipeline extends React.Component {
       GlobalApplicationDataList
     } = this.props
 
-    if (QueryApplicationList.status != Actions.REQUEST_STATUS.DONE)
+    if (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE) {
       fetchApplications()
-    if (HCMChannelList.status != Actions.REQUEST_STATUS.DONE) fetchChannels()
-    if (HCMSubscriptionList.status != Actions.REQUEST_STATUS.DONE)
+    }
+    if (HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) {
+      fetchChannels()
+    }
+    if (HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE) {
       fetchSubscriptions()
-    if (GlobalApplicationDataList.status != Actions.REQUEST_STATUS.DONE)
+    }
+    if (GlobalApplicationDataList.status !== Actions.REQUEST_STATUS.DONE) {
       fetchApplicationsGlobalData()
-
+    }
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
         this.reload.bind(this),
@@ -320,7 +324,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       !openEditPlacementRuleModal
     ) {
       this.setState({ xhrPoll: true })
-      const isSingleApplicationView = breadcrumbItems.length == 2
+      const isSingleApplicationView = breadcrumbItems.length === 2
       if (!isSingleApplicationView) {
         // reload all the applications
         fetchApplications()
@@ -396,7 +400,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     let selectedAppName = ''
     let selectedAppNS = ''
-    const isSingleApplicationView = breadcrumbItems.length == 2
+    const isSingleApplicationView = breadcrumbItems.length === 2
 
     let filteredApplications = ''
     if (isSingleApplicationView) {
@@ -459,18 +463,19 @@ class ApplicationDeploymentPipeline extends React.Component {
     if (
       applications &&
       applications instanceof Array &&
-      applications.length == 1
+      applications.length === 1
     ) {
       app = applications[0]
       dashboard = app.dashboard
 
-      if (app && app._uid && namespaceAccountId)
+      if (app && app._uid && namespaceAccountId) {
         icamLink = getICAMLinkForApp(
           app._uid,
           app.name,
           app.cluster,
           namespaceAccountId
         )
+      }
     }
 
     const subscriptionModalHeader =

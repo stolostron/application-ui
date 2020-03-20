@@ -276,8 +276,9 @@ const ChannelColumnGrid = (
     standaloneSubscriptions = getStandaloneSubscriptions(bulkSubscriptionList)
 
     // add standalone ONLY if it exists
-    if (standaloneSubscriptions && standaloneSubscriptions.length > 0)
+    if (standaloneSubscriptions && standaloneSubscriptions.length > 0) {
       applicationList = R.prepend({ name: 'standalone' }, applicationList)
+    }
   }
 
   return (
@@ -323,7 +324,7 @@ const ChannelColumnGrid = (
         let subscriptionsUnderColumns
         let subscriptoinsRowFormat
 
-        if (applicationName == 'standalone') {
+        if (applicationName === 'standalone') {
           subscriptionsUnderColumns = createStandaloneSubscriptionPerChannel(
             channelList,
             standaloneSubscriptions
@@ -420,10 +421,10 @@ const ChannelColumnGrid = (
                       const displayStatus = subCol._uid
                       // show no subscriptions Tile
                       const showNoSubsTile =
-                        row == 1 && displayStatus == undefined
+                        row === 1 && displayStatus === undefined
                       // if there is more than one subscription and subCol.name is undefined
                       const showBlankFiller =
-                        row > 1 && displayStatus == undefined
+                        row > 1 && displayStatus === undefined
                       const subName = thisSubscriptionData.name
                       const onClickEditResource = () => {
                         editResourceClick(subCol, getSubscriptionResource)
@@ -455,9 +456,9 @@ const ChannelColumnGrid = (
                                 const eClass = event.target.className
                                 const proceed =
                                   typeof eClass != 'object' &&
-                                  eClass != 'yamlEditSubContainer' &&
-                                  eClass != 'yamlTitleSub' &&
-                                  eClass != 'placementRuleDesc'
+                                  eClass !== 'yamlEditSubContainer' &&
+                                  eClass !== 'yamlTitleSub' &&
+                                  eClass !== 'placementRuleDesc'
                                 if (proceed) {
                                   onSubscriptionClick(
                                     openSubscriptionModal,
@@ -599,7 +600,7 @@ const PipelineGrid = withLocale(
     },
     locale
   ) => {
-    const oneApplication = breadcrumbItems.length == 2
+    const oneApplication = breadcrumbItems.length === 2
 
     const sortedChannels = sortChannelsBySubscriptionLength(
       channels,
@@ -610,7 +611,7 @@ const PipelineGrid = withLocale(
 
     return (
       <div id="PipelineGrid">
-        {sortedChannels.length == 0 && (
+        {sortedChannels.length === 0 && (
           <div className="grid-item grid-item-deployable">
             <img
               className="no-res-icon"

@@ -68,6 +68,14 @@ const LeftColumnForApplicationNames = (
   )
 
   const standaloneSubCount = standaloneSubscriptions.length
+  const subCountLabelSingle = msgs.get(
+    'description.title.subscription',
+    locale
+  )
+  const subCountLabelMulti = msgs.get(
+    'description.title.subscriptions',
+    locale
+  )
 
   let standaloneTile
 
@@ -129,8 +137,8 @@ const LeftColumnForApplicationNames = (
             <div className="appDeployables">
               {`${standaloneSubCount} `}
               {standaloneSubCount === 1
-                ? msgs.get('description.title.subscription', locale)
-                : msgs.get('description.title.subscriptions', locale)}
+                ? subCountLabelSingle
+                : subCountLabelMulti}
             </div>
           </div>
         </Tile>
@@ -165,8 +173,8 @@ const LeftColumnForApplicationNames = (
               subscriptionsForOneApp[0].items.length > 0) ||
               appSubscriptions.length + standaloneSubCount} `}
             {appSubscriptions.length === 1
-              ? msgs.get('description.title.subscription', locale)
-              : msgs.get('description.title.subscriptions', locale)}
+              ? subCountLabelSingle
+              : subCountLabelMulti}
           </div>
         </Tile>
       </div>
@@ -227,8 +235,8 @@ const LeftColumnForApplicationNames = (
                 <div className="appDeployables">
                   {`${getTotalSubs} `}
                   {getTotalSubs === 1
-                    ? msgs.get('description.title.subscription', locale)
-                    : msgs.get('description.title.subscriptions', locale)}
+                    ? subCountLabelSingle
+                    : subCountLabelMulti}
                 </div>
               </div>
             </Tile>

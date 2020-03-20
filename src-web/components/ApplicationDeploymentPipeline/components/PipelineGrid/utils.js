@@ -110,7 +110,7 @@ export const getResourcesStatusPerChannel = (
         // under the same channel. BUT the !channelNamespace is there for if we decide
         // to pass in false we can still execute this method from other locations to
         // still get the status from other resources no matter the channel namespace
-        if (item.namespace == channelNamespace || !channelNamespace) {
+        if (item.namespace === channelNamespace || !channelNamespace) {
           const status = (item.status || '').toLowerCase()
           statusPassFailInProgress = determineStatus(
             statusPassFailInProgress,
@@ -129,7 +129,7 @@ export const sortChannelsBySubscriptionLength = (
   channelList,
   applicationList
 ) => {
-  const getSubscriptions = x => x.kind.toLowerCase() == 'subscription'
+  const getSubscriptions = x => x.kind.toLowerCase() === 'subscription'
   //find subscriptions with ns in the list of applications ns; ignore the rest, they are not going to be displayed
   const getSubscrForNSIndex = (x, list) =>
     x.namespace && R.findIndex(R.propEq('namespace', x.namespace))(list)
@@ -186,7 +186,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column
-      if (subChannelName == columnChannelName) {
+      if (subChannelName === columnChannelName) {
         columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
       }
     })
@@ -212,7 +212,7 @@ export const createStandaloneSubscriptionPerChannel = (
           if (channelSub.items) {
             channelSub.items.forEach(item => {
               // if channel value is not set for standalone, fill it in
-              if (sub._uid == item._uid) {
+              if (sub._uid === item._uid) {
                 if (!sub.channel && sub.namespace && sub.name) {
                   sub.channel = sub.namespace + '/' + sub.name
                 }

@@ -9,6 +9,12 @@ branches:
     - master
     - /^release-[0-9]+\..*$/
 
+addons:
+  sonarcloud:
+    organization: "open-cluster-management"
+    token:
+      secure: "DIRJBk/UF3HgixDQwyIfUcxbm3SxZ3U4ESyJIUmkgGUFNNMF9ST0OdK3ULIVT4n/EnDkzuB99gXyORdU022c1lGZoIqsuSJ6ZSIP50nIK10upRtsOTijtQVNC2I9Hea/QgjReWmB7Fvel+cK5gg/ixEy1+6IfabKJIq4yXluPXR3YsqQkFbDtJ69mYBLxS95SfWIwVmVqsMuvZJswMVYSnWjJ0PK7BAlK2R+4yOiZRv2OEOgny+jJE18i9byBRjQCA3nw3rC72IUHBwj3QyAiPHe+Grx2K3plA/8bpXRsQ55M1NtUx33W1L03w9NBBxrIj8lM0XYy1aR5cPNmQ9483Tc+RJO5Uw3QqEay7CoZW5YXv3TMsvX+8jXhdDKBmwljaMjOinq2rsclsKoy+8RvcS1IqZ2QH6VxPHWYo3+t4F8ogVWIMpwA2elHCq7O+Q8um2/CFh9g7p7D2zxWI8lRltCit4aDmnu/khzqV/JtCXVLgjrcQaQ5d3bXNLSZctimTnZXYdwNk/HxG11yM0sfOntmPbi4tZgpHrzSM5CtHqcaMiKikq5DPoLyf0OU+2Btc/GYmsbAmDyQPENzdrWnhpysP7qJzJOUgORufyHlFEv+ZitghXw/PQ6ygONj2BjEmIdXmwgEL3UqVdjMnwOeHMX4dwLENaQrJKChBulyH8="
+    
 env:
   global:
     # Required
@@ -26,6 +32,8 @@ stages:
   - test-e2e
   - publish
   
+before_script:
+  - make init  
 
 jobs:
   include:
@@ -40,15 +48,16 @@ jobs:
           make security/scans          
     - stage: unit-test
       name: "Build and run unit tests"
-      if: type = pull_request
       script:
-        # Set the image tag differently for PRs
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        # Bootstrap the build harness, pull test image, and run unit tests.  
+        - chmod +x copyright-check.sh 
+        - make copyright-check
+        - make sonar/js/jest-init
         - | 
           make 
-          make component/pull 
+          make component/pull         
           make component/test/unit
+        - make sonar/js  
     - stage: test-e2e
       name: "Deploy the image to a cluster and run e2e tests"
       if: type = pull_request

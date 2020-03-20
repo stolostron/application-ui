@@ -39,7 +39,7 @@ class ScrollBox extends React.PureComponent {
   }
 
   scrollToBottom() {
-    this.scrollBox.scrollTop = this.scrollBox.scrollHeight
+    if (this.scrollBox) this.scrollBox.scrollTop = this.scrollBox.scrollHeight
   }
 }
 

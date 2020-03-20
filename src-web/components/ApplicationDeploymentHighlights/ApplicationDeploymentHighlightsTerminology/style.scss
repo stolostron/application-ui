@@ -61,7 +61,8 @@
 
   .deployment-highlights-terminology-docs-text {
     cursor: pointer;
-    display: inline-block;
+    display: none; //remove when docs are ready
+    // display: inline-block;
     padding: 30px 10px 10px;
     font-weight: bold;
     font-size: 14px;
@@ -69,6 +70,7 @@
   }
 
   .deployment-highlights-terminology-docs-icon {
+    visibility: hidden; //remove when docs are ready
     cursor: pointer;
   }
 }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ActionModalApollo Testing Changes Apollo Client Cache For Edit Labels Modal 1`] = `
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Edit App Grafana Modal 1`] = `
 Object {
   "$ROOT_QUERY.actionModal": Object {
     "data": Object {
@@ -16,19 +16,101 @@ Object {
       "type": "id",
       "typename": undefined,
     },
-    "type": "table.actions.cluster.edit.labels",
+    "type": "table.actions.applications.grafana",
   },
   "$ROOT_QUERY.actionModal.data": Object {
     "_uid": "icp-mongodb-0",
     "clusterName": "local-cluster",
-    "kind": "pods",
+    "kind": "applications",
     "name": "icp-mongodb-0",
     "namespace": "kube-system",
     "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
   },
   "$ROOT_QUERY.actionModal.resourceType": Object {
-    "list": "HCMPodList",
-    "name": "HCMPod",
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": undefined,
+    },
+  },
+}
+`;
+
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Edit App ICAM Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.applications.icam",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "applications",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": undefined,
+    },
+  },
+}
+`;
+
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Edit App Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.applications.edit",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "applications",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
   },
   "ROOT_QUERY": Object {
     "actionModal": Object {
@@ -123,6 +205,47 @@ Object {
 }
 `;
 
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Remove App Resource Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.applications.remove",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "applications",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": undefined,
+    },
+  },
+}
+`;
+
 exports[`ActionModalApollo Testing Changes Apollo Client Cache For Remove Resource Modal 1`] = `
 Object {
   "$ROOT_QUERY.actionModal": Object {
@@ -144,14 +267,14 @@ Object {
   "$ROOT_QUERY.actionModal.data": Object {
     "_uid": "icp-mongodb-0",
     "clusterName": "local-cluster",
-    "kind": "pods",
+    "kind": "applications",
     "name": "icp-mongodb-0",
     "namespace": "kube-system",
     "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
   },
   "$ROOT_QUERY.actionModal.resourceType": Object {
-    "list": "HCMPodList",
-    "name": "HCMPod",
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
   },
   "ROOT_QUERY": Object {
     "actionModal": Object {

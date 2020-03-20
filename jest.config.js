@@ -48,6 +48,7 @@ const jestConfig = {
     'text',
     'text-summary'
   ],
+  testResultsProcessor: 'jest-sonar-reporter',
   testURL: 'http://localhost/',
   coverageThreshold: {
     // TODO - increase threshold once repo is finalized

@@ -11,7 +11,11 @@ export const serverProps = {
   isKibanaRunning: true,
   isICAMRunning: true,
   isCEMRunning: true,
-  isGrafanaRunning: true
+  isGrafanaRunning: true,
+  context: {
+    locale: "en-US"
+  },
+  xsrfToken: "test"
 };
 
 export const resourceType = {

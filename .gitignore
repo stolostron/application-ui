@@ -25,4 +25,4 @@ build-harness-extensions
 # override build harness vendoring
 !vbh/.build-harness-vendorized
 !vbh/build-harness
-!vbh/build-harness-extensions 
+!vbh/build-harness-extensions

@@ -4,6 +4,12 @@
 
 import { getStandaloneSubscriptions } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/components/PipelineGrid/utils";
 
+import {
+  subscriptions,
+  resultSubscriptionsWithChannel,
+  resultNoApps
+} from "../../../../components/ReducersTestingData";
+
 // filter out subscriptions that have an app
 describe("getStandaloneSubscriptions", () => {
   // subscriptions empty
@@ -36,6 +42,7 @@ describe("getStandaloneSubscriptions", () => {
     { related: [] }
   ];
 
+  // basic test cases
   it("subscriptions empty", () => {
     expect(getStandaloneSubscriptions(subEmpty)).toEqual([]);
   });
@@ -57,5 +64,16 @@ describe("getStandaloneSubscriptions", () => {
     expect(getStandaloneSubscriptions(subRelatedMixed)).toEqual(
       subRelatedMixedResult
     );
+  });
+
+  // test cases with sample data
+  it("subscription sample data with channel", () => {
+    expect(getStandaloneSubscriptions(resultSubscriptionsWithChannel)).toEqual(
+      resultSubscriptionsWithChannel
+    );
+  });
+
+  it("subscription sample data with no apps", () => {
+    expect(getStandaloneSubscriptions(resultNoApps)).toEqual(resultNoApps);
   });
 });

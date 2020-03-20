@@ -94,7 +94,7 @@ npm run test:e2e
 #### Live Cluster
 
 1. Export the following environment variables:
-    - RHACM4K8 (e.g. `https://multicloud-console.apps.sunny-wombat.dev06.red-chesterfield.com`)
+    - RHACM4K8 (e.g. `https://multicloud-console.apps.${OCM_URL}`)
     - K8S_CLUSTER_USER (`login username`)
     - K8S_CLUSTER_PASSWORD (`login password`)
 2. In the root directory, run `npm run test:e2e`.

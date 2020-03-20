@@ -546,40 +546,40 @@ class ApplicationDeploymentPipeline extends React.Component {
           <div className="app-info-and-dashboard-links">
             {serverProps &&
               serverProps.isICAMRunning && (
-              <span>
-                <Link
-                  href={icamLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
-                  {msgs.get('application.launch.icam', locale)}
-                </Link>
-                <span className="app-info-and-dashboard-links-separator" />
-              </span>
+                <span>
+                  <Link
+                    href={icamLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon
+                      className="app-dashboard-icon"
+                      name="icon--launch"
+                      fill="#3D70B2"
+                    />
+                    {msgs.get('application.launch.icam', locale)}
+                  </Link>
+                  <span className="app-info-and-dashboard-links-separator" />
+                </span>
             )}
             {serverProps &&
               serverProps.isGrafanaRunning && (
-              <span>
-                <Link
-                  href={dashboard}
-                  aria-disabled={!dashboard}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
-                  {msgs.get('application.launch.grafana', locale)}
-                </Link>
-                <span className="app-info-and-dashboard-links-separator" />
-              </span>
+                <span>
+                  <Link
+                    href={dashboard}
+                    aria-disabled={!dashboard}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon
+                      className="app-dashboard-icon"
+                      name="icon--launch"
+                      fill="#3D70B2"
+                    />
+                    {msgs.get('application.launch.grafana', locale)}
+                  </Link>
+                  <span className="app-info-and-dashboard-links-separator" />
+                </span>
             )}
             <Link
               href="#"

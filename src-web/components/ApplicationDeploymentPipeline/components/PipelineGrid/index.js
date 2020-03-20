@@ -280,46 +280,39 @@ const ChannelColumnGrid = (
       applicationList = R.prepend({ name: 'standalone' }, applicationList)
   }
 
-  let hideDefaultCol = false
-  let defaultColIndex = -1
-
   return (
     <div className={containerClass}>
       <div className="horizontalScrollRow">
         {/* This is the where the channel header information will go */}
-        {channelList.map((channel, i) => {
+        {channelList.map(channel => {
           const channelName = channel.name
-          if (channelName == 'charts-v1') {
-            hideDefaultCol = true
-            defaultColIndex = i
-          } else {
-            return (
-              <div key={Math.random()} className="channelColumn">
-                <Tile className="channelColumnHeader">
-                  <div className="channelNameHeader">
-                    <span>
-                      <div className="yamlTitle">
-                        {msgs.get('actions.yaml', locale)}
-                      </div>
-                      <Icon
-                        name="icon--edit"
-                        fill="#6089bf"
-                        description=""
-                        className="channelEditIcon"
-                        onClick={() =>
-                          editResourceClick(channel, getChannelResource)
-                        }
-                      />
-                    </span>
-                    <div className="channelTitle">
-                      {msgs.get('description.Pipeline.channel', locale)}
+
+          return (
+            <div key={Math.random()} className="channelColumn">
+              <Tile className="channelColumnHeader">
+                <div className="channelNameHeader">
+                  <span>
+                    <div className="yamlTitle">
+                      {msgs.get('actions.yaml', locale)}
                     </div>
-                    <div className="channelNameTitle">{`${channelName}`}</div>
+                    <Icon
+                      name="icon--edit"
+                      fill="#6089bf"
+                      description=""
+                      className="channelEditIcon"
+                      onClick={() =>
+                        editResourceClick(channel, getChannelResource)
+                      }
+                    />
+                  </span>
+                  <div className="channelTitle">
+                    {msgs.get('description.Pipeline.channel', locale)}
                   </div>
-                </Tile>
-              </div>
-            )
-          }
+                  <div className="channelNameTitle">{`${channelName}`}</div>
+                </div>
+              </Tile>
+            </div>
+          )
         })}
       </div>
 
@@ -366,10 +359,7 @@ const ChannelColumnGrid = (
         return (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
-              {subscriptionsUnderColumns.map((subscriptions, i) => {
-                if (hideDefaultCol && i == defaultColIndex) {
-                  return
-                }
+              {subscriptionsUnderColumns.map(subscriptions => {
                 return (
                   <div key={Math.random()} className="channelColumn">
                     <Tile className="channelColumnHeaderApplication">
@@ -393,11 +383,7 @@ const ChannelColumnGrid = (
 
                 return (
                   <div key={Math.random()} className="deployableRow">
-                    {subRow.map((subCol, i) => {
-                      if (hideDefaultCol && i == defaultColIndex) {
-                        return
-                      }
-
+                    {subRow.map(subCol => {
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,

@@ -9,8 +9,17 @@
 // @flow
 export const mapBulkChannels = channels => {
   if (channels) {
-    const mappedChannels = channels.map(channel => {
-      if (channel.items && channel.related) {
+    const mappedChannels = channels
+      .filter((channel) => {
+        if (channel.items && channel.related) {
+          const items = channel.items[0]
+          if (items.name === 'charts-v1') {
+            return false
+          }
+          return true
+        }
+      })
+      .map(channel => {
         const items = channel.items[0]
         return {
           name: items.name || '',
@@ -28,8 +37,8 @@ export const mapBulkChannels = channels => {
           _rbac: items._rbac || '',
           related: channel.related || []
         }
-      }
-    })
+      })
+
     return mappedChannels || [{}]
   }
   return [

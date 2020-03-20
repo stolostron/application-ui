@@ -54,6 +54,7 @@ import {
 } from '../common/ResourceDetails/utils'
 import { editResourceClick } from './components/PipelineGrid/utils'
 import config from '../../../lib/shared/config'
+import { handleEditResource } from '../common/ResourceOverview/utils'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -109,28 +110,6 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
   )
 }
 
-const handleEditResource = (dispatch, resourceType, data) => {
-  return dispatch(
-    updateModal({
-      open: true,
-      type: 'resource-edit',
-      action: 'put',
-      resourceType,
-      editorMode: 'yaml',
-      label: {
-        primaryBtn: 'modal.button.submit',
-        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-      },
-      helpLink: (data && data.helpLink) || '',
-      name: (data && data.name) || '',
-      namespace: (data && data.namespace) || '',
-      data: (data && data.data) || '',
-      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
-    })
-  )
-}
-
 const handleCreatePlacementRuleResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES, yaml))
 
@@ -163,13 +142,13 @@ const mapDispatchToProps = dispatch => {
     fetchApplicationsGlobalData: () =>
       dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
     editResource: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
+      handleEditResource(dispatch, updateModal, resourceType, data),
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     fetchPlacementRules: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES)),
     editSubscription: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
+      handleEditResource(dispatch, updateModal, resourceType, data),
     //apolloClient requires CONTEXT .. so I have to pass it in here
     getChannelResource: (selfLink, namespace, name, cluster) =>
       dispatch(
@@ -459,7 +438,7 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     let dashboard = ''
     let icamLink = ''
-    let app = undefined
+    let app = null
     if (
       applications &&
       applications instanceof Array &&

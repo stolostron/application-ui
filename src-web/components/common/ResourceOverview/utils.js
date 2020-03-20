@@ -13,6 +13,33 @@ import {
 
 import { pullOutKindPerApplication } from '../../ApplicationDeploymentPipeline/utils'
 
+export const handleEditResource = (
+  dispatch,
+  updateModal,
+  resourceType,
+  data
+) => {
+  return dispatch(
+    updateModal({
+      open: true,
+      type: 'resource-edit',
+      action: 'put',
+      resourceType,
+      editorMode: 'yaml',
+      label: {
+        primaryBtn: 'modal.button.submit',
+        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
+        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
+      },
+      helpLink: (data && data.helpLink) || '',
+      name: (data && data.name) || '',
+      namespace: (data && data.namespace) || '',
+      data: (data && data.data) || '',
+      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
+    })
+  )
+}
+
 // Method will take in an object and return back the channels mapped for display purposes
 export const getChannelsList = channels => {
   if (channels && channels instanceof Array && channels.length > 0) {

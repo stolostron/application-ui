@@ -22,9 +22,9 @@ import {
 import {
   getNumDeployables,
   getNumDeployments,
-  getSearchLinkForOneApplication
+  getSearchLinkForOneApplication,
+  handleEditResource
 } from './utils'
-import { updateModal } from '../../../actions/common'
 import {
   getResourcesStatusPerChannel,
   editResourceClick
@@ -41,32 +41,11 @@ import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
 import { getICAMLinkForApp } from '../ResourceDetails/utils'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import { updateModal } from '../../../actions/common'
 
 resources(() => {
   require('./style.scss')
 })
-
-const handleEditResource = (dispatch, resourceType, data) => {
-  return dispatch(
-    updateModal({
-      open: true,
-      type: 'resource-edit',
-      action: 'put',
-      resourceType,
-      editorMode: 'yaml',
-      label: {
-        primaryBtn: 'modal.button.submit',
-        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-      },
-      helpLink: (data && data.helpLink) || '',
-      name: (data && data.name) || '',
-      namespace: (data && data.namespace) || '',
-      data: (data && data.data) || '',
-      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
-    })
-  )
-}
 
 const ResourceOverview = withLocale(
   ({
@@ -310,7 +289,7 @@ const mapDispatchToProps = dispatch => {
         )
       ),
     editResource: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
+      handleEditResource(dispatch, updateModal, resourceType, data),
     closeModal: () => dispatch(closeModals())
   }
 }

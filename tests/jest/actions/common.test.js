@@ -252,7 +252,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: ["placementrule", "deployable"]
+      relatedKinds: ["placementrule", "deployable", "application"]
     };
 
     expect(actions.getQueryStringForResources("HCMSubscription")).toEqual(
@@ -365,7 +365,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: ["placementrule", "deployable"]
+      relatedKinds: ["placementrule", "deployable", "application"]
     };
 
     expect(

@@ -288,7 +288,7 @@ const ChannelColumnGrid = (
         {/* This is the where the channel header information will go */}
         {channelList.map((channel, i) => {
           const channelName = channel.name
-          if (channelName == 'charts-v1') {
+          if (channelName === 'charts-v1') {
             hideDefaultCol = true
             defaultColIndex = i
           } else {
@@ -329,7 +329,7 @@ const ChannelColumnGrid = (
         let subscriptionsUnderColumns
         let subscriptoinsRowFormat
 
-        if (applicationName == 'standalone') {
+        if (applicationName === 'standalone') {
           subscriptionsUnderColumns = createStandaloneSubscriptionPerChannel(
             channelList,
             standaloneSubscriptions
@@ -366,7 +366,7 @@ const ChannelColumnGrid = (
           <React.Fragment key={Math.random()}>
             <div className="horizontalScrollRow">
               {subscriptionsUnderColumns.map((subscriptions, i) => {
-                if (hideDefaultCol && i == defaultColIndex) {
+                if (hideDefaultCol && i === defaultColIndex) {
                   return
                 }
                 return (
@@ -393,7 +393,7 @@ const ChannelColumnGrid = (
                 return (
                   <div key={Math.random()} className="deployableRow">
                     {subRow.map((subCol, i) => {
-                      if (hideDefaultCol && i == defaultColIndex) {
+                      if (hideDefaultCol && i === defaultColIndex) {
                         return
                       }
 
@@ -433,10 +433,10 @@ const ChannelColumnGrid = (
                       const displayStatus = subCol._uid
                       // show no subscriptions Tile
                       const showNoSubsTile =
-                        row == 1 && displayStatus == undefined
+                        row == 1 && displayStatus === undefined
                       // if there is more than one subscription and subCol.name is undefined
                       const showBlankFiller =
-                        row > 1 && displayStatus == undefined
+                        row > 1 && displayStatus === undefined
                       const subName = thisSubscriptionData.name
                       const onClickEditResource = () => {
                         editResourceClick(subCol, getSubscriptionResource)
@@ -467,10 +467,10 @@ const ChannelColumnGrid = (
                               onClick={event => {
                                 const eClass = event.target.className
                                 const proceed =
-                                  typeof eClass != 'object' &&
-                                  eClass != 'yamlEditSubContainer' &&
-                                  eClass != 'yamlTitleSub' &&
-                                  eClass != 'placementRuleDesc'
+                                  typeof eClass !== 'object' &&
+                                  eClass !== 'yamlEditSubContainer' &&
+                                  eClass !== 'yamlTitleSub' &&
+                                  eClass !== 'placementRuleDesc'
                                 if (proceed) {
                                   const headerInfo = {
                                     application: applicationName,
@@ -615,7 +615,7 @@ const PipelineGrid = withLocale(
     },
     locale
   ) => {
-    const oneApplication = breadcrumbItems.length == 2
+    const oneApplication = (breadcrumbItems.length = 2)
 
     const sortedChannels = sortChannelsBySubscriptionLength(
       channels,

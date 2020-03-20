@@ -10,7 +10,7 @@
 export const mapBulkChannels = channels => {
   if (channels) {
     const mappedChannels = channels
-      .filter((channel) => {
+      .filter(channel => {
         if (channel.items && channel.related) {
           const items = channel.items[0]
           if (items.name === 'charts-v1') {
@@ -18,6 +18,7 @@ export const mapBulkChannels = channels => {
           }
           return true
         }
+        return false
       })
       .map(channel => {
         const items = channel.items[0]

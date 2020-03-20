@@ -615,7 +615,7 @@ const PipelineGrid = withLocale(
     },
     locale
   ) => {
-    const oneApplication = (breadcrumbItems.length = 2)
+    const oneApplication = breadcrumbItems.length === 2
 
     const sortedChannels = sortChannelsBySubscriptionLength(
       channels,

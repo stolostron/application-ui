@@ -11,7 +11,6 @@ import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
 import ProgressBar from '../ProgressBar/index'
 import {
-  onSubscriptionClick,
   editResourceClick,
   getDataByKind,
   createSubscriptionPerChannel,
@@ -473,16 +472,19 @@ const ChannelColumnGrid = (
                                   eClass != 'yamlTitleSub' &&
                                   eClass != 'placementRuleDesc'
                                 if (proceed) {
-                                  onSubscriptionClick(
-                                    openSubscriptionModal,
-                                    setSubscriptionModalHeaderInfo,
-                                    setCurrentDeployableSubscriptionData,
-                                    setCurrentsubscriptionModalData,
-                                    thisSubscriptionData,
-                                    applicationName,
-                                    subName,
-                                    status
+                                  const headerInfo = {
+                                    application: applicationName,
+                                    deployable: subName
+                                  }
+                                  thisSubscriptionData.applicationStatus = status
+                                  setSubscriptionModalHeaderInfo(headerInfo)
+                                  setCurrentDeployableSubscriptionData(
+                                    thisSubscriptionData
                                   )
+                                  setCurrentsubscriptionModalData(
+                                    thisSubscriptionData
+                                  )
+                                  openSubscriptionModal()
                                 }
                               }}
                             >

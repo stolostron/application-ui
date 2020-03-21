@@ -72,6 +72,9 @@ const ResourceOverview = withLocale(
       return <Loading withOverlay={false} className="content-spinner" />
     }
 
+    const deloymentLabel = 'dashboard.card.deployment'
+    const deloymentsLabel = 'dashboard.card.deployments'
+
     if (openEditApplicationModal) {
       const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
       const name = R.pathOr('', ['metadata', 'name'], data)
@@ -104,38 +107,26 @@ const ResourceOverview = withLocale(
         border: 'right'
       },
       {
-        msgKey:
-          deployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        msgKey: deployments > 1 ? deloymentsLabel : deloymentLabel,
         textKey: 'dashboard.card.total',
         count: deployments,
         targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.completed',
-        textKey:
-          completedDeployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        textKey: completedDeployments > 1 ? deloymentsLabel : deloymentLabel,
         count: completedDeployments,
         targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.inProgress',
-        textKey:
-          inProgressDeployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        textKey: inProgressDeployments > 1 ? deloymentsLabel : deloymentLabel,
         count: inProgressDeployments,
         targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.failed',
-        textKey:
-          failedDeployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        textKey: failedDeployments > 1 ? deloymentsLabel : deloymentLabel,
         count: failedDeployments,
         alert: failedDeployments > 0 ? true : false,
         targetTab: 1

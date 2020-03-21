@@ -256,23 +256,200 @@ const LeftColumnForApplicationNames = (
   )
 }
 
-const ChannelColumnGrid = (
+//show channel header columns
+const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
+  return (
+    <div className="horizontalScrollRow">
+      {/* This is the where the channel header information will go */}
+      {channelList.map(channel => {
+        const channelName = channel.name
+
+        return (
+          <div key={Math.random()} className="channelColumn">
+            <Tile className="channelColumnHeader">
+              <div className="channelNameHeader">
+                <span>
+                  <div className="yamlTitle">
+                    {msgs.get('actions.yaml', locale)}
+                  </div>
+                  <Icon
+                    name="icon--edit"
+                    fill="#6089bf"
+                    description=""
+                    className="channelEditIcon"
+                    onClick={() =>
+                      editResourceClick(channel, getChannelResource)
+                    }
+                  />
+                </span>
+                <div className="channelTitle">
+                  {msgs.get('description.Pipeline.channel', locale)}
+                </div>
+                <div className="channelNameTitle">{`${channelName}`}</div>
+              </div>
+            </Tile>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+//show how many subscriptions under a channel, for a specific application
+const NbOfSubscriptionsTile = ({ subscriptionsUnderColumns }, locale) => {
+  return (
+    <div className="horizontalScrollRow">
+      {subscriptionsUnderColumns.map(subscriptions => {
+        return (
+          <div key={Math.random()} className="channelColumn">
+            <Tile className="channelColumnHeaderApplication">
+              <div className="subTotal">{subscriptions.length}</div>
+              <div className="subTotalDescription">
+                {msgs.get('description.subsInChannel', locale)}
+              </div>
+            </Tile>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+const EmptySubscriptionTile = locale => {
+  return (
+    <Tile className="channelColumnDeployable">
+      <img
+        className="no-sub-icon"
+        src={`${config.contextPath}/graphics/nothing-moon-copy.svg`}
+        alt={msgs.get('description.tryAddingSub', locale)}
+      />
+      <div className="subDescriptionText">
+        <div className="noSubTitle">
+          {msgs.get('description.noSubs', locale)}
+        </div>
+        <div className="noSubDescription">
+          {msgs.get('description.tryAddingSub', locale)}
+        </div>
+      </div>
+    </Tile>
+  )
+}
+
+const SubscriptionTile = (
   {
-    channelList,
-    applicationList,
-    getChannelResource,
-    appDropDownList,
-    bulkSubscriptionList,
-    oneApplication,
     openSubscriptionModal,
     setSubscriptionModalHeaderInfo,
     setCurrentDeployableSubscriptionData,
     setCurrentsubscriptionModalData,
+    thisSubscriptionData,
+    applicationName,
+    subName,
+    status,
+    placementRule,
+    onClickEditResource,
+    onKeyPressEditResource,
+    onClickEditPlacementRule,
+    onKeyPressEditPlacementRule,
     getSubscriptionResource,
     getPlacementRuleResource
   },
   locale
 ) => {
+  return (
+    <Tile
+      className="channelColumnDeployable addHover"
+      onClick={event => {
+        const eClass = event.target.className
+        const proceed =
+          typeof eClass != 'object' &&
+          eClass !== 'yamlEditSubContainer' &&
+          eClass !== 'yamlTitleSub' &&
+          eClass !== 'placementRuleDesc'
+        if (proceed) {
+          onSubscriptionClick(
+            openSubscriptionModal,
+            setSubscriptionModalHeaderInfo,
+            setCurrentDeployableSubscriptionData,
+            setCurrentsubscriptionModalData,
+            thisSubscriptionData,
+            applicationName,
+            subName,
+            status
+          )
+        }
+      }}
+    >
+      <div className="subColHeader">
+        {msgs.get('description.subscription', locale)}
+      </div>
+      <div
+        className="yamlEditSubContainer"
+        onClick={onClickEditResource}
+        onKeyPress={onKeyPressEditResource}
+        tabIndex={0}
+        role="button"
+      >
+        <div className="yamlTitleSub">{msgs.get('actions.yaml', locale)}</div>
+        <Icon
+          name="icon--edit"
+          fill="#6089bf"
+          description=""
+          className="subscriptionEditIcon"
+          onClick={() =>
+            editResourceClick(thisSubscriptionData, getSubscriptionResource)
+          }
+        />
+      </div>
+      <div className="subColName">{thisSubscriptionData.name}</div>
+      <div className="namespaceDesc">{`${msgs.get(
+        'description.namespace',
+        locale
+      )}: ${thisSubscriptionData.namespace}`}</div>
+      {placementRule &&
+        placementRule.name && (
+          <div
+            className="placementRuleDesc"
+            onClick={onClickEditPlacementRule}
+            onKeyPress={onKeyPressEditPlacementRule}
+            tabIndex={placementRule._uid}
+            role="button"
+          >
+            {`${msgs.get('description.placement.rule', locale)}: ${
+              placementRule.name
+            } `}
+            <Icon
+              name="icon--edit"
+              fill="#6089bf"
+              description=""
+              className="placementEditIcon"
+              onClick={() =>
+                editResourceClick(placementRule, getPlacementRuleResource)
+              }
+            />
+          </div>
+      )}
+
+      <div className="progressBarContainer">
+        <ProgressBar status={status} />
+      </div>
+    </Tile>
+  )
+}
+
+const ChannelColumnGrid = ({
+  channelList,
+  applicationList,
+  getChannelResource,
+  appDropDownList,
+  bulkSubscriptionList,
+  oneApplication,
+  openSubscriptionModal,
+  setSubscriptionModalHeaderInfo,
+  setCurrentDeployableSubscriptionData,
+  setCurrentsubscriptionModalData,
+  getSubscriptionResource,
+  getPlacementRuleResource
+}) => {
   const containerClass =
     (oneApplication && 'channelGridContainerSingleApp') ||
     'channelGridContainer'
@@ -291,46 +468,17 @@ const ChannelColumnGrid = (
 
   return (
     <div className={containerClass}>
-      <div className="horizontalScrollRow">
-        {/* This is the where the channel header information will go */}
-        {channelList.map(channel => {
-          const channelName = channel.name
+      <ChannelColumnsHeader
+        channelList={channelList}
+        getChannelResource={getChannelResource}
+      />
 
-          return (
-            <div key={Math.random()} className="channelColumn">
-              <Tile className="channelColumnHeader">
-                <div className="channelNameHeader">
-                  <span>
-                    <div className="yamlTitle">
-                      {msgs.get('actions.yaml', locale)}
-                    </div>
-                    <Icon
-                      name="icon--edit"
-                      fill="#6089bf"
-                      description=""
-                      className="channelEditIcon"
-                      onClick={() =>
-                        editResourceClick(channel, getChannelResource)
-                      }
-                    />
-                  </span>
-                  <div className="channelTitle">
-                    {msgs.get('description.Pipeline.channel', locale)}
-                  </div>
-                  <div className="channelNameTitle">{`${channelName}`}</div>
-                </div>
-              </Tile>
-            </div>
-          )
-        })}
-      </div>
-
-      {/* All the applicaion totals and the subscription information is found here */}
+      {/* All the application totals and the subscription information is found here */}
       {applicationList.map(application => {
         const applicationName = application.name || ''
 
         let subscriptionsUnderColumns
-        let subscriptoinsRowFormat
+        let subscriptionsRowFormat
 
         if (applicationName === 'standalone') {
           subscriptionsUnderColumns = createStandaloneSubscriptionPerChannel(
@@ -338,7 +486,7 @@ const ChannelColumnGrid = (
             standaloneSubscriptions
           )
 
-          subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
+          subscriptionsRowFormat = subscriptionsUnderColumnsGrid(
             subscriptionsUnderColumns
           )
         } else {
@@ -356,7 +504,7 @@ const ChannelColumnGrid = (
             subscriptionsForThisApplication
           )
 
-          subscriptoinsRowFormat = subscriptionsUnderColumnsGrid(
+          subscriptionsRowFormat = subscriptionsUnderColumnsGrid(
             subscriptionsUnderColumns
           )
         }
@@ -367,27 +515,16 @@ const ChannelColumnGrid = (
 
         return (
           <React.Fragment key={Math.random()}>
-            <div className="horizontalScrollRow">
-              {subscriptionsUnderColumns.map(subscriptions => {
-                return (
-                  <div key={Math.random()} className="channelColumn">
-                    <Tile className="channelColumnHeaderApplication">
-                      <div className="subTotal">{subscriptions.length}</div>
-                      <div className="subTotalDescription">
-                        {msgs.get('description.subsInChannel', locale)}
-                      </div>
-                    </Tile>
-                  </div>
-                )
-              })}
-            </div>
+            <NbOfSubscriptionsTile
+              subscriptionsUnderColumns={subscriptionsUnderColumns}
+            />
 
             <div
               id={`${applicationName}deployableRows`}
               className="horizontalScrollRow spaceOutBelow"
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
-              {subscriptoinsRowFormat.map(subRow => {
+              {subscriptionsRowFormat.map(subRow => {
                 row = row + 1
 
                 return (
@@ -458,118 +595,37 @@ const ChannelColumnGrid = (
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
-                            <Tile
-                              className="channelColumnDeployable addHover"
-                              onClick={event => {
-                                const eClass = event.target.className
-                                const proceed =
-                                  typeof eClass != 'object' &&
-                                  eClass !== 'yamlEditSubContainer' &&
-                                  eClass !== 'yamlTitleSub' &&
-                                  eClass !== 'placementRuleDesc'
-                                if (proceed) {
-                                  onSubscriptionClick(
-                                    openSubscriptionModal,
-                                    setSubscriptionModalHeaderInfo,
-                                    setCurrentDeployableSubscriptionData,
-                                    setCurrentsubscriptionModalData,
-                                    thisSubscriptionData,
-                                    applicationName,
-                                    subName,
-                                    status
-                                  )
-                                }
-                              }}
-                            >
-                              <div className="subColHeader">
-                                {msgs.get('description.subscription', locale)}
-                              </div>
-                              <div
-                                className="yamlEditSubContainer"
-                                onClick={onClickEditResource}
-                                onKeyPress={onKeyPressEditResource}
-                                tabIndex={0}
-                                role="button"
-                              >
-                                <div className="yamlTitleSub">
-                                  {msgs.get('actions.yaml', locale)}
-                                </div>
-                                <Icon
-                                  name="icon--edit"
-                                  fill="#6089bf"
-                                  description=""
-                                  className="subscriptionEditIcon"
-                                  onClick={() =>
-                                    editResourceClick(
-                                      thisSubscriptionData,
-                                      getSubscriptionResource
-                                    )
-                                  }
-                                />
-                              </div>
-                              <div className="subColName">
-                                {thisSubscriptionData.name}
-                              </div>
-                              <div className="namespaceDesc">{`${msgs.get(
-                                'description.namespace',
-                                locale
-                              )}: ${thisSubscriptionData.namespace}`}</div>
-                              {placementRule &&
-                                placementRule.name && (
-                                  <div
-                                    className="placementRuleDesc"
-                                    onClick={onClickEditPlacementRule}
-                                    onKeyPress={onKeyPressEditPlacementRule}
-                                    tabIndex={placementRule._uid}
-                                    role="button"
-                                  >
-                                    {`${msgs.get(
-                                      'description.placement.rule',
-                                      locale
-                                    )}: ${placementRule.name} `}
-                                    <Icon
-                                      name="icon--edit"
-                                      fill="#6089bf"
-                                      description=""
-                                      className="placementEditIcon"
-                                      onClick={() =>
-                                        editResourceClick(
-                                          placementRule,
-                                          getPlacementRuleResource
-                                        )
-                                      }
-                                    />
-                                  </div>
-                              )}
-
-                              <div className="progressBarContainer">
-                                <ProgressBar status={status} />
-                              </div>
-                            </Tile>
+                            <SubscriptionTile
+                              openSubscriptionModal={openSubscriptionModal}
+                              setSubscriptionModalHeaderInfo={
+                                setSubscriptionModalHeaderInfo
+                              }
+                              setCurrentDeployableSubscriptionData={
+                                setCurrentDeployableSubscriptionData
+                              }
+                              setCurrentsubscriptionModalData={
+                                setCurrentsubscriptionModalData
+                              }
+                              thisSubscriptionData={thisSubscriptionData}
+                              applicationName={applicationName}
+                              subName={subName}
+                              status={status}
+                              placementRule={placementRule}
+                              onClickEditResource={onClickEditResource}
+                              onKeyPressEditResource={onKeyPressEditResource}
+                              onClickEditPlacementRule={
+                                onClickEditPlacementRule
+                              }
+                              onKeyPressEditPlacementRule={
+                                onKeyPressEditPlacementRule
+                              }
+                              getSubscriptionResource={getSubscriptionResource}
+                              getPlacementRuleResource={
+                                getPlacementRuleResource
+                              }
+                            />
                           )}
-
-                          {showNoSubsTile && (
-                            <Tile className="channelColumnDeployable">
-                              <img
-                                className="no-sub-icon"
-                                src={`${
-                                  config.contextPath
-                                }/graphics/nothing-moon-copy.svg`}
-                                alt={msgs.get(
-                                  'description.tryAddingSub',
-                                  locale
-                                )}
-                              />
-                              <div className="subDescriptionText">
-                                <div className="noSubTitle">
-                                  {msgs.get('description.noSubs', locale)}
-                                </div>
-                                <div className="noSubDescription">
-                                  {msgs.get('description.tryAddingSub', locale)}
-                                </div>
-                              </div>
-                            </Tile>
-                          )}
+                          {showNoSubsTile && <EmptySubscriptionTile />}
                           {showBlankFiller && (
                             <Tile className="channelColumnDeployableBlank" />
                           )}

@@ -65,7 +65,14 @@ const handleCreateChannelResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
 
 // Create Resource for Channel
-const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
+const CreateChannelModal = (fetchChannels, locale) => {
+  const channelTabs = {
+    tab1: msgs.get('modal.title.namespace', locale),
+    tab2: msgs.get('modal.title.helmRepo', locale),
+    tab3: msgs.get('modal.title.objectBucket', locale),
+    tab4: msgs.get('modal.title.gitRepo', locale)
+  }
+
   return (
     <CreateResourceModal
       key="createChannel"
@@ -114,7 +121,7 @@ const handleCreatePlacementRuleResource = (dispatch, yaml) =>
   dispatch(createResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES, yaml))
 
 // Create Resource for Subscription
-const CreatePlacementRuleModal = (fetchPlacementRules, locale) => {
+const CreatePlacementRuleModal = (fetchPlacementRuleResource, locale) => {
   return (
     <CreateResourceModal
       key="createPlacementRule"
@@ -227,6 +234,89 @@ const mapStateToProps = state => {
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     namespaceAccountId: getNamespaceAccountId(HCMNamespaceList)
   }
+}
+
+const HeaderActions = (
+  { serverProps, getApplicationResource, app, namespaceAccountId },
+  locale
+) => {
+  const dashboard = (app && app.dashboard) || ''
+  let icamLink = ''
+  if (app && app._uid && namespaceAccountId) {
+    icamLink = getICAMLinkForApp(
+      app._uid,
+      app.name,
+      app.cluster,
+      namespaceAccountId
+    )
+  }
+  return (
+    <div className="app-info-and-dashboard-links">
+      {serverProps &&
+        serverProps.isICAMRunning && (
+          <span>
+            <Link href={icamLink} target="_blank" rel="noopener noreferrer">
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.launch.icam', locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+          </span>
+      )}
+      {serverProps &&
+        serverProps.isGrafanaRunning && (
+          <span>
+            <Link
+              href={dashboard}
+              aria-disabled={!dashboard}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon
+                className="app-dashboard-icon"
+                name="icon--launch"
+                fill="#3D70B2"
+              />
+              {msgs.get('application.launch.grafana', locale)}
+            </Link>
+            <span className="app-info-and-dashboard-links-separator" />
+          </span>
+      )}
+      <Link
+        href="#"
+        aria-disabled={!app}
+        onClick={() => {
+          //call edit app here
+          editResourceClick(app, getApplicationResource)
+        }}
+      >
+        <Icon className="app-dashboard-icon" name="icon--edit" fill="#3D70B2" />
+        {msgs.get('application.edit.app', locale)}
+      </Link>
+    </div>
+  )
+}
+
+const showEditModalByType = (
+  closeModal,
+  editResource,
+  resourceType,
+  dataInfo,
+  link
+) => {
+  const data = R.pathOr([], ['data', 'items'], dataInfo)[0]
+  const name = R.pathOr('', ['metadata', 'name'], data)
+  const namespace = R.pathOr('', ['metadata', 'namespace'], data)
+  closeModal()
+  editResource(resourceType, {
+    name: name,
+    namespace: namespace,
+    data: data,
+    helpLink: link
+  })
 }
 
 class ApplicationDeploymentPipeline extends React.Component {
@@ -361,7 +451,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       currentChannelInfo,
       currentSubscriptionInfo,
       currentPlacementRuleInfo,
-      closeModal,
       openEditChannelModal,
       openEditApplicationModal,
       openEditSubscriptionModal,
@@ -373,7 +462,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       namespaceAccountId,
       fetchSubscriptions,
       fetchChannels,
-      fetchPlacementRules
+      fetchPlacementRules,
+      closeModal
     } = this.props
     const { locale } = this.context
 
@@ -405,14 +495,8 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     const channels = getChannelsList(HCMChannelList)
 
-    const channelTabs = {
-      tab1: msgs.get('modal.title.namespace', locale),
-      tab2: msgs.get('modal.title.helmRepo', locale),
-      tab3: msgs.get('modal.title.objectBucket', locale),
-      tab4: msgs.get('modal.title.gitRepo', locale)
-    }
     const modalChannel = React.cloneElement(
-      CreateChannelModal(fetchChannels, channelTabs, locale),
+      CreateChannelModal(fetchChannels, locale),
       {
         resourceType: RESOURCE_TYPES.HCM_CHANNELS
       }
@@ -436,8 +520,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       breadcrumbItems instanceof Array &&
       breadcrumbItems.length > 0
 
-    let dashboard = ''
-    let icamLink = ''
     let app = null
     if (
       applications &&
@@ -445,16 +527,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications.length === 1
     ) {
       app = applications[0]
-      dashboard = app.dashboard
-
-      if (app && app._uid && namespaceAccountId) {
-        icamLink = getICAMLinkForApp(
-          app._uid,
-          app.name,
-          app.cluster,
-          namespaceAccountId
-        )
-      }
     }
 
     const subscriptionModalHeader =
@@ -465,122 +537,48 @@ class ApplicationDeploymentPipeline extends React.Component {
     // This will trigger the edit Channel Modal because openEditChannelModal
     // is true AFTER the fetch of the channel data has been completed
     if (openEditChannelModal) {
-      const data = R.pathOr([], ['data', 'items'], currentChannelInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_CHANNELS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
-      })
-    }
-
-    if (openEditApplicationModal) {
-      const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_APPLICATIONS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
-      })
-    }
-    // This will trigger the edit Subscription Modal because openEditSubscriptionModal
-    // is true AFTER the fetch of the subscription data has been completed
-    if (openEditSubscriptionModal) {
-      const data = R.pathOr([], ['data', 'items'], currentSubscriptionInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
-      })
-    }
-
-    // This will trigger the edit Placement Rule Modal because openEditPlacementRuleModal
-    // is true AFTER the fetch of the placement rule data has been completed
-    if (openEditPlacementRuleModal) {
-      const data = R.pathOr([], ['data', 'items'], currentPlacementRuleInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_PLACEMENT_RULES, {
-        name: name,
-        namespace: namespace,
-        resourceDescriptionKey: 'modal.editresource.placementrule',
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
-      })
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_CHANNELS,
+        currentChannelInfo,
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
+      )
+    } else if (openEditApplicationModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_APPLICATIONS,
+        currentApplicationInfo,
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
+      )
+    } else if (openEditSubscriptionModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+        currentSubscriptionInfo,
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
+      )
+    } else if (openEditPlacementRuleModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_PLACEMENT_RULES,
+        currentPlacementRuleInfo,
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
+      )
     }
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
         {showHeaderLinks && (
-          <div className="app-info-and-dashboard-links">
-            {serverProps &&
-              serverProps.isICAMRunning && (
-                <span>
-                  <Link
-                    href={icamLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Icon
-                      className="app-dashboard-icon"
-                      name="icon--launch"
-                      fill="#3D70B2"
-                    />
-                    {msgs.get('application.launch.icam', locale)}
-                  </Link>
-                  <span className="app-info-and-dashboard-links-separator" />
-                </span>
-            )}
-            {serverProps &&
-              serverProps.isGrafanaRunning && (
-                <span>
-                  <Link
-                    href={dashboard}
-                    aria-disabled={!dashboard}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Icon
-                      className="app-dashboard-icon"
-                      name="icon--launch"
-                      fill="#3D70B2"
-                    />
-                    {msgs.get('application.launch.grafana', locale)}
-                  </Link>
-                  <span className="app-info-and-dashboard-links-separator" />
-                </span>
-            )}
-            <Link
-              href="#"
-              aria-disabled={!app}
-              onClick={() => {
-                //call edit app here
-                editResourceClick(app, getApplicationResource)
-              }}
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--edit"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.edit.app', locale)}
-            </Link>
-          </div>
+          <HeaderActions
+            serverProps={serverProps}
+            getApplicationResource={getApplicationResource}
+            app={app}
+            namespaceAccountId={namespaceAccountId}
+          />
         )}
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}

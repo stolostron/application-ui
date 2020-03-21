@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -9,7 +10,7 @@ import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading, Link, Icon } from 'carbon-components-react'
+import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
@@ -23,12 +24,10 @@ import {
   getNumDeployables,
   getNumDeployments,
   getSearchLinkForOneApplication,
-  handleEditResource
+  handleEditResource,
+  HeaderActions
 } from './utils'
-import {
-  getResourcesStatusPerChannel,
-  editResourceClick
-} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
@@ -39,7 +38,6 @@ import {
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
-import { getICAMLinkForApp } from '../ResourceDetails/utils'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import { updateModal } from '../../../actions/common'
 
@@ -145,68 +143,19 @@ const ResourceOverview = withLocale(
         border: 'left'
       })
     }
-    const dashboard = (item && item.dashboard) || ''
-    const enableGrafana = showGrafanaAction
-    const icamLink =
-      (item &&
-        namespaceAccountId &&
-        getICAMLinkForApp(
-          item._uid,
-          item.name,
-          item.cluster,
-          namespaceAccountId
-        )) ||
-      ''
-    const enableICAM = namespaceAccountId && showICAMAction && icamLink
+    const serverProps = {
+      isICAMRunning: showICAMAction,
+      isGrafanaRunning: showGrafanaAction
+    }
 
     return (
       <div id="resource-overview" className="overview-content">
-        <div className="app-info-and-dashboard-links">
-          {enableICAM && (
-            <span>
-              <Link href={icamLink} target="_blank" rel="noopener noreferrer">
-                <Icon
-                  className="app-dashboard-icon"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-                {msgs.get('application.launch.icam', locale)}
-              </Link>
-              <span className="app-info-and-dashboard-links-separator" />
-            </span>
-          )}
-          {enableGrafana && (
-            <span>
-              <Link
-                href={dashboard}
-                aria-disabled={!dashboard}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon
-                  className="app-dashboard-icon"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-                {msgs.get('application.launch.grafana', locale)}
-              </Link>
-              <span className="app-info-and-dashboard-links-separator" />
-            </span>
-          )}
-          <Link
-            href="#"
-            onClick={() => {
-              editResourceClick(item, getApplicationResource)
-            }}
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--edit"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.edit.app', locale)}
-          </Link>
-        </div>
+        <HeaderActions
+          serverProps={serverProps}
+          getApplicationResource={getApplicationResource}
+          app={item}
+          namespaceAccountId={namespaceAccountId}
+        />
         {(!item || loading) && <Loading withOverlay={true} />}
         {!showExpandedTopology ? (
           <React.Fragment>

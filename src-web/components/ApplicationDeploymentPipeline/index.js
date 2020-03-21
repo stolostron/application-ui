@@ -29,13 +29,7 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import {
-  Search,
-  Loading,
-  Notification,
-  Icon,
-  Link
-} from 'carbon-components-react'
+import { Search, Loading, Notification } from 'carbon-components-react'
 import { getApplicationsList, getChannelsList, filterApps } from './utils'
 import {
   getChannelSample,
@@ -48,13 +42,13 @@ import R from 'ramda'
 import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
-import {
-  getICAMLinkForApp,
-  getNamespaceAccountId
-} from '../common/ResourceDetails/utils'
-import { editResourceClick } from './components/PipelineGrid/utils'
+import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import config from '../../../lib/shared/config'
-import { handleEditResource } from '../common/ResourceOverview/utils'
+import {
+  handleEditResource,
+  HeaderActions,
+  showEditModalByType
+} from '../common/ResourceOverview/utils'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -234,89 +228,6 @@ const mapStateToProps = state => {
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
     namespaceAccountId: getNamespaceAccountId(HCMNamespaceList)
   }
-}
-
-const HeaderActions = (
-  { serverProps, getApplicationResource, app, namespaceAccountId },
-  locale
-) => {
-  const dashboard = (app && app.dashboard) || ''
-  let icamLink = ''
-  if (app && app._uid && namespaceAccountId) {
-    icamLink = getICAMLinkForApp(
-      app._uid,
-      app.name,
-      app.cluster,
-      namespaceAccountId
-    )
-  }
-  return (
-    <div className="app-info-and-dashboard-links">
-      {serverProps &&
-        serverProps.isICAMRunning && (
-          <span>
-            <Link href={icamLink} target="_blank" rel="noopener noreferrer">
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--launch"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.launch.icam', locale)}
-            </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-          </span>
-      )}
-      {serverProps &&
-        serverProps.isGrafanaRunning && (
-          <span>
-            <Link
-              href={dashboard}
-              aria-disabled={!dashboard}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--launch"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.launch.grafana', locale)}
-            </Link>
-            <span className="app-info-and-dashboard-links-separator" />
-          </span>
-      )}
-      <Link
-        href="#"
-        aria-disabled={!app}
-        onClick={() => {
-          //call edit app here
-          editResourceClick(app, getApplicationResource)
-        }}
-      >
-        <Icon className="app-dashboard-icon" name="icon--edit" fill="#3D70B2" />
-        {msgs.get('application.edit.app', locale)}
-      </Link>
-    </div>
-  )
-}
-
-const showEditModalByType = (
-  closeModal,
-  editResource,
-  resourceType,
-  dataInfo,
-  link
-) => {
-  const data = R.pathOr([], ['data', 'items'], dataInfo)[0]
-  const name = R.pathOr('', ['metadata', 'name'], data)
-  const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-  closeModal()
-  editResource(resourceType, {
-    name: name,
-    namespace: namespace,
-    data: data,
-    helpLink: link
-  })
 }
 
 class ApplicationDeploymentPipeline extends React.Component {

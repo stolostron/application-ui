@@ -9,7 +9,6 @@
 import {
   getApplicationsList,
   getSubscriptionsList,
-  getSubscriptionListGivenApplicationList,
   getChannelsList,
   getPlacementRuleFromBulkSubscription,
   filterApps
@@ -238,22 +237,6 @@ describe("filterApps", () => {
   });
   it("should return what was inputed", () => {
     expect(filterApps(applicationDud)).toEqual(applicationDud);
-  });
-});
-
-describe("getSubscriptionListGivenApplicationList", () => {
-  it("return subscriptions", () => {
-    const subscriptionList = getSubscriptionListGivenApplicationList(
-      subscriptionInApplicationSample
-    );
-
-    expect(subscriptionList[0].name).toEqual("sub1");
-    expect(subscriptionList[1].name).toEqual("sub2");
-    expect(subscriptionList[2].name).toEqual("sub3");
-  });
-  it("no subscriptions", () => {
-    const subscriptionList = getSubscriptionListGivenApplicationList([]);
-    expect(subscriptionList).toHaveLength(0);
   });
 });
 

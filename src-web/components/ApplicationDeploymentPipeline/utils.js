@@ -42,10 +42,9 @@ export const getApplicationsForSelection = (
 }
 
 export const pullOutKindPerApplication = (application, kind = '') => {
-  const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
+  const isKind = n => n.kind.toLowerCase() === kind.toLowerCase()
   if (application && application.related) {
-    const appDeployables = R.filter(isKind, application.related)
-    return appDeployables
+    return R.filter(isKind, application.related)
   }
   return []
 }
@@ -72,7 +71,7 @@ export const getPlacementRuleFromBulkSubscription = subscription => {
 // Method will take in an object and return back the channels mapped
 export const getChannelsList = channels => {
   if (channels && channels.items) {
-    const mappedChannels = channels.items.map(channel => {
+    return channels.items.map(channel => {
       return {
         id: channel.name || '',
         name: channel.name || '',
@@ -85,7 +84,6 @@ export const getChannelsList = channels => {
         data: channel
       }
     })
-    return mappedChannels
   }
   return []
 }
@@ -96,7 +94,7 @@ export const getChannelsList = channels => {
 // ----------------
 export const getSubscriptionsList = subscriptions => {
   if (subscriptions && subscriptions.items) {
-    const mappedSubscriptions = subscriptions.items.map(subscription => {
+    return subscriptions.items.map(subscription => {
       return {
         name: subscription.name || '',
         namespace: subscription.namespace || '',
@@ -106,46 +104,8 @@ export const getSubscriptionsList = subscriptions => {
         raw: subscription || {}
       }
     })
-    return mappedSubscriptions
   }
   return []
-}
-
-// This method takes in the application list ... and then goes through and pulls
-// all the subscriptions found in that application list.
-// The reason to do this is because its possible subscriptions can exist that
-// are NOT assigned to any application. So to display an accurate count of
-// subscriptions we need to get it from the applications list.
-export const getSubscriptionListGivenApplicationList = applications => {
-  let subsctiotionList = []
-  const getKind = x => x.kind.toLowerCase() == 'subscription'
-  if (applications) {
-    applications.map(application => {
-      if (application && application.related) {
-        const subscriptionList = R.filter(getKind, application.related)
-        if (
-          subscriptionList &&
-          subscriptionList[0] &&
-          subscriptionList[0].items
-        ) {
-          const mappedSubscriptions = subscriptionList[0].items.map(
-            subscription => {
-              return {
-                name: subscription.name || '',
-                namespace: subscription.namespace || '',
-                creationTimestamp: subscription.created || '',
-                resourceVersion: subscription.packageFilterVersion || '',
-                channel: subscription.channel || '',
-                raw: subscription || {}
-              }
-            }
-          )
-          subsctiotionList = subsctiotionList.concat(mappedSubscriptions)
-        }
-      }
-    })
-  }
-  return subsctiotionList
 }
 
 // This takes in the applications list and searchText and filters down the applications

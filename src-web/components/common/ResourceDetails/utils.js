@@ -28,7 +28,7 @@ export const getIncidentCount = list => {
 //return namespace account id
 export const getNamespaceAccountId = (list, itemName) => {
   if (list && list.items && Array.isArray(list.items)) {
-    let nsObject = undefined
+    let nsObject = null
 
     if (itemName) {
       const ns = R.pathEq(['metadata', 'name'], itemName)
@@ -68,9 +68,9 @@ export const getICAMLinkForApp = (
   if (appId && appName && clusterName) {
     appId = R.replace(clusterName, '', appId)
 
-    if (activeAccountId)
+    if (activeAccountId) {
       return `/cemui/applications${appId}?name=${appName}&subscriptionId=${activeAccountId}`
-
+    }
     return `/cemui/applications${appId}?name=${appName}`
   }
 

@@ -33,7 +33,6 @@ export const getNamespaceAccountId = (list, itemName) => {
     if (itemName) {
       const ns = R.pathEq(['metadata', 'name'], itemName)
       const nsObjectList = R.filter(ns, list.items)
-
       if (nsObjectList.length > 0) {
         nsObject = nsObjectList[0]
       }

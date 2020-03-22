@@ -489,6 +489,56 @@ export const GlobalApplicationDataList = {
   }
 };
 
+export const HCMNamespaceList = {
+  status: "DONE",
+  items: [
+    {
+      metadata: {
+        annotations: {
+          "kubectl.kubernetes.io/last-applied-configuration":
+            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
+          "openshift.io/sa.scc.mcs": "s0:c24,c19",
+          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
+          "openshift.io/sa.scc.uid-range": "1000590000/10000",
+          accountID: "111111"
+        },
+        name: "default",
+        __typename: "Metadata"
+      },
+      __typename: "ApplicationNamespace"
+    },
+    {
+      metadata: {
+        annotations: {
+          "kubectl.kubernetes.io/last-applied-configuration":
+            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
+          "openshift.io/sa.scc.mcs": "s0:c24,c19",
+          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
+          "openshift.io/sa.scc.uid-range": "1000590000/10000",
+          accountID: "111111"
+        },
+        name: "rbac-test",
+        __typename: "Metadata"
+      },
+      __typename: "ApplicationNamespace"
+    },
+    {
+      metadata: {
+        annotations: {
+          "kubectl.kubernetes.io/last-applied-configuration":
+            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
+          "openshift.io/sa.scc.mcs": "s0:c24,c19",
+          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
+          "openshift.io/sa.scc.uid-range": "1000590000/10000"
+        },
+        name: "ns-sub-1",
+        __typename: "Metadata"
+      },
+      __typename: "ApplicationNamespace"
+    }
+  ]
+};
+
 export const AppOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
@@ -526,7 +576,8 @@ export const reduxStoreAppPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   GlobalApplicationDataList: GlobalApplicationDataList,
-  AppOverview: AppOverview
+  AppOverview: AppOverview,
+  HCMNamespaceList: HCMNamespaceList
 };
 
 export const reduxStoreAllAppsPipeline = {

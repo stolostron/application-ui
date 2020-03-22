@@ -24,8 +24,7 @@ import {
   getNumDeployables,
   getNumDeployments,
   getSearchLinkForOneApplication,
-  handleEditResource,
-  HeaderActions
+  handleEditResource
 } from './utils'
 import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
@@ -40,6 +39,7 @@ import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import { updateModal } from '../../../actions/common'
+import HeaderActions from '../../common/HeaderActions'
 
 resources(() => {
   require('./style.scss')

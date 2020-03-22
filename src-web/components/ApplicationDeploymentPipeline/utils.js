@@ -16,6 +16,31 @@ export const getApplicationsList = list => {
   return []
 }
 
+export const getApplicationsForSelection = (
+  list,
+  breadcrumbItems,
+  AppDeployments
+) => {
+  let selectedAppName = ''
+  const isSingleApplicationView = breadcrumbItems.length === 2
+
+  let filteredApplications = ''
+  if (isSingleApplicationView) {
+    const urlArray = R.split('/', breadcrumbItems[1].url)
+    selectedAppName = urlArray[urlArray.length - 1]
+
+    // if there is only a single application, filter the list with the selectedAppName
+    filteredApplications = filterApps(list, selectedAppName)
+  } else {
+    // multi app view
+    filteredApplications = filterApps(
+      list,
+      AppDeployments.deploymentPipelineSearch
+    )
+  }
+  return getApplicationsList(filteredApplications)
+}
+
 export const pullOutKindPerApplication = (application, kind = '') => {
   const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
   if (application && application.related) {

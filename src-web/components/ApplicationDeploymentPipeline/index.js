@@ -29,18 +29,17 @@ import {
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
 import { Search, Loading, Notification } from 'carbon-components-react'
-import { getApplicationsList, getChannelsList, filterApps } from './utils'
+import { getChannelsList, getApplicationsForSelection } from './utils'
 import apolloClient from '../../../lib/client/apollo-client'
-import R from 'ramda'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
 import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import config from '../../../lib/shared/config'
 import {
   handleEditResource,
-  HeaderActions,
   showEditModalByType
 } from '../common/ResourceOverview/utils'
+import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 /* eslint-disable react/prop-types */
 
@@ -119,28 +118,15 @@ const mapStateToProps = state => {
   // Currently just filterin on application name
 
   return {
-    displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
-    subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
-    subscriptionModalSubscriptionInfo:
-      AppDeployments.subscriptionModalSubscriptionInfo,
     userRole: role && role.role,
-    appDropDownList: AppDeployments.appDropDownList || [],
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
     QueryApplicationList,
     GlobalApplicationDataList,
-    currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
-    currentChannelInfo: AppDeployments.currentChannelInfo || {},
-    currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
-    currentPlacementRuleInfo: AppDeployments.currentPlacementRuleInfo || {},
-    openEditChannelModal: AppDeployments.openEditChannelModal,
-    openEditApplicationModal: AppDeployments.openEditApplicationModal,
-    openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
-    openEditPlacementRuleModal: AppDeployments.openEditPlacementRuleModal,
+    HCMNamespaceList,
     loading: AppDeployments.loading,
-    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
-    namespaceAccountId: getNamespaceAccountId(HCMNamespaceList)
+    breadcrumbItems: secondaryHeader.breadcrumbItems || []
   }
 }
 
@@ -201,10 +187,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchApplicationsGlobalData,
       fetchSubscriptions,
       fetchChannels,
-      openEditChannelModal,
-      openEditApplicationModal,
-      openEditSubscriptionModal,
-      openEditPlacementRuleModal
+      AppDeployments
     } = this.props
 
     // only reload data if there are nothing being fetched and no modals are open
@@ -212,10 +195,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       QueryApplicationList.status === Actions.REQUEST_STATUS.DONE &&
       HCMSubscriptionList.status === Actions.REQUEST_STATUS.DONE &&
       HCMChannelList.status === Actions.REQUEST_STATUS.DONE &&
-      !openEditChannelModal &&
-      !openEditApplicationModal &&
-      !openEditSubscriptionModal &&
-      !openEditPlacementRuleModal
+      !AppDeployments.openEditChannelModal &&
+      !AppDeployments.openEditApplicationModal &&
+      !AppDeployments.openEditSubscriptionModal &&
+      !AppDeployments.openEditPlacementRuleModal
     ) {
       this.setState({ xhrPoll: true })
       const isSingleApplicationView = breadcrumbItems.length === 2
@@ -234,6 +217,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMSubscriptionList,
       HCMChannelList,
+      HCMNamespaceList,
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
@@ -269,22 +253,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       getSubscriptionResource,
       getPlacementRuleResource,
       editSubscription,
-      displaySubscriptionModal,
-      subscriptionModalHeaderInfo,
-      subscriptionModalSubscriptionInfo,
-      currentApplicationInfo,
-      currentChannelInfo,
-      currentSubscriptionInfo,
-      currentPlacementRuleInfo,
-      openEditChannelModal,
-      openEditApplicationModal,
-      openEditSubscriptionModal,
-      openEditPlacementRuleModal,
       loading,
-      appDropDownList,
       userRole,
       breadcrumbItems,
-      namespaceAccountId,
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules,
@@ -292,40 +263,21 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
     const { locale } = this.context
 
-    let selectedAppName = ''
-    let selectedAppNS = ''
-    const isSingleApplicationView = breadcrumbItems.length === 2
-
-    let filteredApplications = ''
-    if (isSingleApplicationView) {
-      const urlArray = R.split('/', breadcrumbItems[1].url)
-      selectedAppName = urlArray[urlArray.length - 1]
-      selectedAppNS = urlArray[urlArray.length - 2]
-
-      // if there is only a single application, filter the list with the selectedAppName
-      filteredApplications = filterApps(QueryApplicationList, selectedAppName)
-    } else {
-      // multi app view
-      filteredApplications = filterApps(
-        QueryApplicationList,
-        AppDeployments.deploymentPipelineSearch
-      )
-    }
-
-    const applications = getApplicationsList(filteredApplications)
-    const appSubscriptions = HCMSubscriptionList.items
+    const applications = getApplicationsForSelection(
+      QueryApplicationList,
+      breadcrumbItems,
+      AppDeployments
+    )
 
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
     const channels = getChannelsList(HCMChannelList)
 
-    //show perfmon actions only when one app is selected
-    const showHeaderLinks =
-      breadcrumbItems &&
-      breadcrumbItems instanceof Array &&
-      breadcrumbItems.length > 0
-
+    const isSingleApplicationView =
+      breadcrumbItems && breadcrumbItems.length === 2
+    let selectedAppName = ''
+    let selectedAppNS = ''
     let app = null
     if (
       applications &&
@@ -333,57 +285,64 @@ class ApplicationDeploymentPipeline extends React.Component {
       applications.length === 1
     ) {
       app = applications[0]
+      selectedAppNS = app.namespace
+      selectedAppName = app.name
     }
 
     const subscriptionModalHeader =
-      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
+      AppDeployments.subscriptionModalHeaderInfo &&
+      AppDeployments.subscriptionModalHeaderInfo.deployable
     const subscriptionModalLabel =
-      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.application
+      AppDeployments.subscriptionModalHeaderInfo &&
+      AppDeployments.subscriptionModalHeaderInfo.application
 
     // This will trigger the edit Channel Modal because openEditChannelModal
     // is true AFTER the fetch of the channel data has been completed
-    if (openEditChannelModal) {
+    if (AppDeployments.openEditChannelModal) {
       showEditModalByType(
         closeModal,
         editResource,
         RESOURCE_TYPES.HCM_CHANNELS,
-        currentChannelInfo,
+        AppDeployments.currentChannelInfo || {},
         'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
       )
-    } else if (openEditApplicationModal) {
+    } else if (AppDeployments.openEditApplicationModal) {
       showEditModalByType(
         closeModal,
         editResource,
         RESOURCE_TYPES.HCM_APPLICATIONS,
-        currentApplicationInfo,
+        AppDeployments.currentApplicationInfo || {},
         'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
       )
-    } else if (openEditSubscriptionModal) {
+    } else if (AppDeployments.openEditSubscriptionModal) {
       showEditModalByType(
         closeModal,
         editResource,
         RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
-        currentSubscriptionInfo,
+        AppDeployments.currentSubscriptionInfo || {},
         'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
       )
-    } else if (openEditPlacementRuleModal) {
+    } else if (AppDeployments.openEditPlacementRuleModal) {
       showEditModalByType(
         closeModal,
         editResource,
         RESOURCE_TYPES.HCM_PLACEMENT_RULES,
-        currentPlacementRuleInfo,
+        AppDeployments.currentPlacementRuleInfo || {},
         'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
       )
     }
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
-        {showHeaderLinks && (
+        {isSingleApplicationView && (
           <HeaderActions
             serverProps={serverProps}
             getApplicationResource={getApplicationResource}
             app={app}
-            namespaceAccountId={namespaceAccountId}
+            namespaceAccountId={getNamespaceAccountId(
+              HCMNamespaceList,
+              selectedAppNS
+            )}
           />
         )}
         <div className="pipelineHeader">
@@ -407,7 +366,7 @@ class ApplicationDeploymentPipeline extends React.Component {
             userRole={userRole}
           />
         </div>
-        {!showHeaderLinks && (
+        {!isSingleApplicationView && (
           <div className="searchAndButtonContainer">
             <Search
               className="deploymentPipelineSearch"
@@ -427,7 +386,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         <PipelineGrid
           applications={applications}
           channels={channels}
-          appSubscriptions={appSubscriptions}
+          appSubscriptions={HCMSubscriptionList.items}
           getChannelResource={getChannelResource}
           getSubscriptionResource={getSubscriptionResource}
           getPlacementRuleResource={getPlacementRuleResource}
@@ -442,18 +401,20 @@ class ApplicationDeploymentPipeline extends React.Component {
             actions.setCurrentsubscriptionModalData
           }
           updateAppDropDownList={actions.updateAppDropDownList}
-          appDropDownList={appDropDownList}
+          appDropDownList={AppDeployments.appDropDownList || []}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
           breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal
-          displayModal={displaySubscriptionModal}
+          displayModal={AppDeployments.displaySubscriptionModal}
           closeModal={actions.closeModals}
           header={subscriptionModalHeader}
           label={subscriptionModalLabel}
           editSubscription={editSubscription}
-          subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
+          subscriptionModalSubscriptionInfo={
+            AppDeployments.subscriptionModalSubscriptionInfo
+          }
           bulkSubscriptionList={bulkSubscriptionList}
           applications={QueryApplicationList}
         />

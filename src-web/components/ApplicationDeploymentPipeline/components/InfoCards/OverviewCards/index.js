@@ -224,8 +224,11 @@ const getOverviewCardsData = (
 
 class OverviewCards extends React.Component {
   componentWillMount() {
-    const { fetchApplications } = this.props
-    fetchApplications()
+    const { fetchApplications, QueryApplicationList } = this.props
+
+    if (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE) {
+      fetchApplications()
+    }
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(

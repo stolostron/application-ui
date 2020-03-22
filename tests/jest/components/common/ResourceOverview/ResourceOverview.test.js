@@ -15,6 +15,25 @@ import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
+import configureMockStore from "redux-mock-store";
+
+import {
+  reduxStoreAppPipeline,
+  staticResourceDataApp
+} from "../../../components/TestingData";
+
+const mockStore = configureMockStore();
+reduxStoreAppPipeline.AppDeployments.openEditApplicationModal = true;
+reduxStoreAppPipeline.topology = {
+  activeFilters: {
+    application: {
+      name: "samplebook-gbapp",
+      namespace: "sample"
+    }
+  }
+};
+const storeApp = mockStore(reduxStoreAppPipeline);
+
 const preloadedState = window.__PRELOADED_STATE__;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunkMiddleware];
@@ -26,15 +45,20 @@ const store = createStore(
 );
 
 describe("ResourceOverview", () => {
-  it("ResourceOverview renders spinner", () => {
+  it("ResourceOverview renders ", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
-          <Provider store={store}>
+          <Provider store={storeApp}>
             <ResourceOverview
               resourceType={resourceType}
               params={params}
-              role={role}
+              userRole={role}
+              staticResourceData={staticResourceDataApp}
+              showExpandedTopology={false}
+              showICAMAction={true}
+              namespaceAccountId={111}
+              match={match}
             />
           </Provider>
         </BrowserRouter>
@@ -43,7 +67,7 @@ describe("ResourceOverview", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("ResourceOverview renders correctly with empty params", () => {
+  it("ResourceOverview renders spinner", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
@@ -66,9 +90,15 @@ const resourceType = {
   list: "QueryApplicationList"
 };
 
+const match = {
+  path: "/multicloud/applications/sample/samplebook-gbapp",
+  url: "/multicloud/applications/sample/samplebook-gbapp",
+  isExact: true
+};
+
 const params = {
-  name: "app1",
-  namespace: "default"
+  name: "samplebook-gbapp",
+  namespace: "sample"
 };
 
 const emptyParams = {

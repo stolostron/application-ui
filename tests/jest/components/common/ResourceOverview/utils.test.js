@@ -21,8 +21,12 @@ import {
   getSearchLinkForAllClusters,
   getSearchLinkForAllPlacementRules,
   getSearchLinkForAllSubscriptions,
-  getSearchLinkForOneApplication
+  getSearchLinkForOneApplication,
+  showEditModalByType
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
+import { RESOURCE_TYPES } from "../../../../../lib/shared/constants";
+import { channelObjectForEdit } from "../../../components/TestingData";
+import { editResource } from "../../../../../src-web/actions/common";
 
 const query_data1 = {
   name: "val",
@@ -231,6 +235,17 @@ const data2 = {
   related: []
 };
 
+const closeModal = jest.fn();
+//const editResource = editResource
+/*
+describe("showEditModalByType", () => {
+  it("should return channel edit", () => {
+    const result = 4;
+    expect(showEditModalByType(closeModal, editResource
+      , RESOURCE_TYPES.HCM_CHANNELS, channelObjectForEdit, 'link')).toEqual(result);
+  });
+});
+*/
 describe("getNumClustersForApp", () => {
   it("should return cluster count", () => {
     const result = 4;
@@ -238,6 +253,10 @@ describe("getNumClustersForApp", () => {
   });
   it("should return 0 if related is empty", () => {
     expect(getNumClustersForApp(query_data2)).toEqual(0);
+  });
+
+  it("should return 0 if no data", () => {
+    expect(getNumClustersForApp(null)).toEqual(0);
   });
 });
 
@@ -292,8 +311,9 @@ describe("getNumFailedDeployments", () => {
 });
 
 describe("getNumPolicyViolations", () => {
-  it("should return policy violations count", () => {
-    expect(getNumPolicyViolations(query_data1)).toEqual(0);
+  const policies = { policies: [{ name: "aa" }] };
+  it("should return policy violations count 1", () => {
+    expect(getNumPolicyViolations(policies)).toEqual(1);
   });
   it("should return zero for no violations", () => {
     expect(getNumPolicyViolations(query_data1)).toEqual(0);

@@ -539,6 +539,123 @@ export const HCMNamespaceList = {
   ]
 };
 
+export const channelObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "channel",
+          name: "mortgage-channel",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/mortgage-channel",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        },
+        type: "Namespace"
+      }
+    ]
+  }
+};
+
+export const subscriptionObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "subscription",
+          name: "mortgage-channel-subscr",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        }
+      }
+    ]
+  }
+};
+
+export const appObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "application",
+          name: "mortgage-channel-subscr",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        }
+      }
+    ]
+  }
+};
+
+export const prObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "placementrule",
+          name: "mortgage-channel-subscr",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        }
+      }
+    ]
+  }
+};
+
 export const AppOverview = {
   selectedAppTab: 0,
   showAppDetails: false,

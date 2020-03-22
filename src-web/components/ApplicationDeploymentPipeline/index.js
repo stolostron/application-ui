@@ -150,7 +150,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       GlobalApplicationDataList
     } = this.props
 
-    if (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE) {
+    if (
+      QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE &&
+      QueryApplicationList.status !== Actions.REQUEST_STATUS.ERROR
+    ) {
       fetchApplications()
     }
     if (HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) {

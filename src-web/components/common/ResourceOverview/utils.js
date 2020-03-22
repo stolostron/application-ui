@@ -116,18 +116,6 @@ export const getNumPolicyViolations = data => {
   return 0
 }
 
-export const getNumPolicyViolationsForList = appList => {
-  //a list of app objects {items: apps}
-  let nbPolicies = 0
-
-  if (appList && appList.items && appList.items instanceof Array) {
-    appList.items.forEach(app => {
-      nbPolicies = nbPolicies + getNumPolicyViolations(app)
-    })
-  }
-  return nbPolicies
-}
-
 export const getSearchLinkForOneApplication = params => {
   if (params && params.name) {
     if (params.showRelated) {

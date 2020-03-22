@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResourceOverview ResourceOverview renders correctly 1`] = `
+exports[`ResourceOverview ResourceOverview renders correctly with empty params 1`] = `
 <div
   aria-live="assertive"
   className="bx--loading content-spinner"
@@ -18,7 +18,7 @@ exports[`ResourceOverview ResourceOverview renders correctly 1`] = `
 </div>
 `;
 
-exports[`ResourceOverview ResourceOverview renders correctly with empty params 1`] = `
+exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
 <div
   aria-live="assertive"
   className="bx--loading content-spinner"

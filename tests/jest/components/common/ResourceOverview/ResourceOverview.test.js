@@ -26,7 +26,7 @@ const store = createStore(
 );
 
 describe("ResourceOverview", () => {
-  it("ResourceOverview renders correctly", () => {
+  it("ResourceOverview renders spinner", () => {
     const tree = renderer
       .create(
         <BrowserRouter>

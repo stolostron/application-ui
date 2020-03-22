@@ -372,9 +372,46 @@ export const HCMApplication = {
   _rbac: "sample_app.k8s.io_applications"
 };
 
+export const HCMChannel = {
+  name: "samplebook-gbapp",
+  namespace: "sample",
+  dashboard:
+    "localhost/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+  selfLink:
+    "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbapp",
+  _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+  created: "2020-02-19T01:43:43Z",
+  apigroup: "app.k8s.io",
+  cluster: "local-cluster",
+  kind: "channel",
+  label: "app=gbapp; chart=gbapp-0.1.0; heritage=Tiller; release=samplebook",
+  _hubClusterResource: "true",
+  _rbac: "sample_app.k8s.io_applications"
+};
+
 export const HCMSubscriptionList = {
   status: "DONE",
   items: [
+    {
+      kind: "subscription",
+      name: "orphan",
+      namespace: "default",
+      status: "Propagated",
+      selfLink:
+        "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-app-subscription",
+      created: "2020-02-18T23:57:04Z",
+      cluster: "local-cluster",
+      channel: "default/mortgage-channel",
+      apigroup: "app.ibm.com",
+      apiversion: "v1alpha1",
+      _rbac: "default_app.ibm.com_subscriptions",
+      _hubClusterResource: "true",
+      _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
+      packageFilterVersion: ">=1.x",
+      label:
+        "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+      related: []
+    },
     {
       kind: "subscription",
       name: "mortgage-app-subscription",

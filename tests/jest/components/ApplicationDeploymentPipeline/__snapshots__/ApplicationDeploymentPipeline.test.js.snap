@@ -1374,9 +1374,105 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              2 
+              4 
               subscriptions
             </div>
+          </div>
+        </div>
+        <div
+          className="tileContainerApp"
+        >
+          <div
+            className="bx--tile applicationTile"
+            onClick={[Function]}
+          >
+            <svg
+              alt=""
+              aria-label=""
+              className="closeRowChevron"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="12"
+              id="standalonechevron"
+              name="icon--chevron--right"
+              role="img"
+              viewBox="0 0 7 12"
+              width="7"
+            >
+              <title>
+                
+              </title>
+              <path
+                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+              />
+            </svg>
+            <div
+              className="ApplicationContents"
+            >
+              <div
+                className="appName"
+              >
+                Standalone subscriptions
+                <div
+                  className="bx--tooltip__trigger"
+                >
+                  
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup="true"
+                    id="__carbon-tooltip-trigger_b6vxk0ouuqp"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="tooltip"
+                      aria-label="tooltip"
+                      fillRule="evenodd"
+                      height="24"
+                      name="info"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <title>
+                        
+                      </title>
+                      <path
+                        d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+                      />
+                      <path
+                        d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="appDeployables"
+              >
+                1 
+                subscription
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployablesDisplay"
+            id="standalone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+          >
+            <div
+              className="bx--tile deployableTile"
+            />
           </div>
         </div>
       </div>
@@ -1529,6 +1625,272 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   className="channelNameTitle"
                 >
                   guestbook
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow"
+        >
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                1
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow spaceOutBelow"
+          id="standalonedeployableRows"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="deployableRow"
+          >
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable addHover"
+                onClick={[Function]}
+              >
+                <div
+                  className="subColHeader"
+                >
+                  Subscription
+                </div>
+                <div
+                  className="yamlEditSubContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div
+                    className="yamlTitleSub"
+                  >
+                    YAML
+                  </div>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="subscriptionEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    onClick={[Function]}
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className="subColName"
+                >
+                  orphan
+                </div>
+                <div
+                  className="namespaceDesc"
+                >
+                  Namespace: default
+                </div>
+                <div
+                  className="progressBarContainer"
+                >
+                  <div
+                    id="ProgressBar"
+                  >
+                    <div
+                      className="percentagesContainers"
+                    >
+                      <div
+                        className="pass"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="completedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources completed
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="inprogress"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="inprogressSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources in progress
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="fail"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="failedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources failed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="progressContainer"
+                      style={
+                        Object {
+                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
                 </div>
               </div>
             </div>
@@ -3293,9 +3655,105 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              2 
+              4 
               subscriptions
             </div>
+          </div>
+        </div>
+        <div
+          className="tileContainerApp"
+        >
+          <div
+            className="bx--tile applicationTile"
+            onClick={[Function]}
+          >
+            <svg
+              alt=""
+              aria-label=""
+              className="closeRowChevron"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="12"
+              id="standalonechevron"
+              name="icon--chevron--right"
+              role="img"
+              viewBox="0 0 7 12"
+              width="7"
+            >
+              <title>
+                
+              </title>
+              <path
+                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+              />
+            </svg>
+            <div
+              className="ApplicationContents"
+            >
+              <div
+                className="appName"
+              >
+                Standalone subscriptions
+                <div
+                  className="bx--tooltip__trigger"
+                >
+                  
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup="true"
+                    id="__carbon-tooltip-trigger_tio063ezy5r"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="tooltip"
+                      aria-label="tooltip"
+                      fillRule="evenodd"
+                      height="24"
+                      name="info"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <title>
+                        
+                      </title>
+                      <path
+                        d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+                      />
+                      <path
+                        d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="appDeployables"
+              >
+                1 
+                subscription
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployablesDisplay"
+            id="standalone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+          >
+            <div
+              className="bx--tile deployableTile"
+            />
           </div>
         </div>
       </div>
@@ -3448,6 +3906,272 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   className="channelNameTitle"
                 >
                   guestbook
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow"
+        >
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                1
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow spaceOutBelow"
+          id="standalonedeployableRows"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="deployableRow"
+          >
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable addHover"
+                onClick={[Function]}
+              >
+                <div
+                  className="subColHeader"
+                >
+                  Subscription
+                </div>
+                <div
+                  className="yamlEditSubContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div
+                    className="yamlTitleSub"
+                  >
+                    YAML
+                  </div>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="subscriptionEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    onClick={[Function]}
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className="subColName"
+                >
+                  orphan
+                </div>
+                <div
+                  className="namespaceDesc"
+                >
+                  Namespace: default
+                </div>
+                <div
+                  className="progressBarContainer"
+                >
+                  <div
+                    id="ProgressBar"
+                  >
+                    <div
+                      className="percentagesContainers"
+                    >
+                      <div
+                        className="pass"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="completedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources completed
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="inprogress"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="inprogressSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources in progress
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="fail"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="failedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources failed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="progressContainer"
+                      style={
+                        Object {
+                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
                 </div>
               </div>
             </div>
@@ -4291,9 +5015,105 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              2 
+              4 
               subscriptions
             </div>
+          </div>
+        </div>
+        <div
+          className="tileContainerApp"
+        >
+          <div
+            className="bx--tile applicationTile"
+            onClick={[Function]}
+          >
+            <svg
+              alt=""
+              aria-label=""
+              className="closeRowChevron"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="12"
+              id="standalonechevron"
+              name="icon--chevron--right"
+              role="img"
+              viewBox="0 0 7 12"
+              width="7"
+            >
+              <title>
+                
+              </title>
+              <path
+                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+              />
+            </svg>
+            <div
+              className="ApplicationContents"
+            >
+              <div
+                className="appName"
+              >
+                Standalone subscriptions
+                <div
+                  className="bx--tooltip__trigger"
+                >
+                  
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup="true"
+                    id="__carbon-tooltip-trigger_qd8l6d2pa2s"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="tooltip"
+                      aria-label="tooltip"
+                      fillRule="evenodd"
+                      height="24"
+                      name="info"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <title>
+                        
+                      </title>
+                      <path
+                        d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+                      />
+                      <path
+                        d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="appDeployables"
+              >
+                1 
+                subscription
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployablesDisplay"
+            id="standalone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+          >
+            <div
+              className="bx--tile deployableTile"
+            />
           </div>
         </div>
       </div>
@@ -4446,6 +5266,272 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   className="channelNameTitle"
                 >
                   guestbook
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow"
+        >
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                1
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow spaceOutBelow"
+          id="standalonedeployableRows"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="deployableRow"
+          >
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable addHover"
+                onClick={[Function]}
+              >
+                <div
+                  className="subColHeader"
+                >
+                  Subscription
+                </div>
+                <div
+                  className="yamlEditSubContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div
+                    className="yamlTitleSub"
+                  >
+                    YAML
+                  </div>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="subscriptionEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    onClick={[Function]}
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className="subColName"
+                >
+                  orphan
+                </div>
+                <div
+                  className="namespaceDesc"
+                >
+                  Namespace: default
+                </div>
+                <div
+                  className="progressBarContainer"
+                >
+                  <div
+                    id="ProgressBar"
+                  >
+                    <div
+                      className="percentagesContainers"
+                    >
+                      <div
+                        className="pass"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="completedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources completed
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="inprogress"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="inprogressSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources in progress
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="fail"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="failedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources failed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="progressContainer"
+                      style={
+                        Object {
+                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
                 </div>
               </div>
             </div>
@@ -5289,9 +6375,105 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              2 
+              4 
               subscriptions
             </div>
+          </div>
+        </div>
+        <div
+          className="tileContainerApp"
+        >
+          <div
+            className="bx--tile applicationTile"
+            onClick={[Function]}
+          >
+            <svg
+              alt=""
+              aria-label=""
+              className="closeRowChevron"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="12"
+              id="standalonechevron"
+              name="icon--chevron--right"
+              role="img"
+              viewBox="0 0 7 12"
+              width="7"
+            >
+              <title>
+                
+              </title>
+              <path
+                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+              />
+            </svg>
+            <div
+              className="ApplicationContents"
+            >
+              <div
+                className="appName"
+              >
+                Standalone subscriptions
+                <div
+                  className="bx--tooltip__trigger"
+                >
+                  
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup="true"
+                    id="__carbon-tooltip-trigger_ddeg5h19kob"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="tooltip"
+                      aria-label="tooltip"
+                      fillRule="evenodd"
+                      height="24"
+                      name="info"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <title>
+                        
+                      </title>
+                      <path
+                        d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+                      />
+                      <path
+                        d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="appDeployables"
+              >
+                1 
+                subscription
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployablesDisplay"
+            id="standalone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+          >
+            <div
+              className="bx--tile deployableTile"
+            />
           </div>
         </div>
       </div>
@@ -5444,6 +6626,272 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   className="channelNameTitle"
                 >
                   guestbook
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow"
+        >
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                1
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow spaceOutBelow"
+          id="standalonedeployableRows"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="deployableRow"
+          >
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable addHover"
+                onClick={[Function]}
+              >
+                <div
+                  className="subColHeader"
+                >
+                  Subscription
+                </div>
+                <div
+                  className="yamlEditSubContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div
+                    className="yamlTitleSub"
+                  >
+                    YAML
+                  </div>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="subscriptionEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    onClick={[Function]}
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className="subColName"
+                >
+                  orphan
+                </div>
+                <div
+                  className="namespaceDesc"
+                >
+                  Namespace: default
+                </div>
+                <div
+                  className="progressBarContainer"
+                >
+                  <div
+                    id="ProgressBar"
+                  >
+                    <div
+                      className="percentagesContainers"
+                    >
+                      <div
+                        className="pass"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="completedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources completed
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="inprogress"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="inprogressSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources in progress
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="fail"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="failedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources failed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="progressContainer"
+                      style={
+                        Object {
+                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
                 </div>
               </div>
             </div>
@@ -6287,9 +7735,105 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              2 
+              4 
               subscriptions
             </div>
+          </div>
+        </div>
+        <div
+          className="tileContainerApp"
+        >
+          <div
+            className="bx--tile applicationTile"
+            onClick={[Function]}
+          >
+            <svg
+              alt=""
+              aria-label=""
+              className="closeRowChevron"
+              fill="#6089bf"
+              fillRule="evenodd"
+              height="12"
+              id="standalonechevron"
+              name="icon--chevron--right"
+              role="img"
+              viewBox="0 0 7 12"
+              width="7"
+            >
+              <title>
+                
+              </title>
+              <path
+                d="M5.569 5.994L0 .726.687 0l6.336 5.994-6.335 6.002L0 11.27z"
+              />
+            </svg>
+            <div
+              className="ApplicationContents"
+            >
+              <div
+                className="appName"
+              >
+                Standalone subscriptions
+                <div
+                  className="bx--tooltip__trigger"
+                >
+                  
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup="true"
+                    id="__carbon-tooltip-trigger_wx9g1xt5nd"
+                    onBlur={[Function]}
+                    onClick={[Function]}
+                    onFocus={[Function]}
+                    onKeyDown={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="tooltip"
+                      aria-label="tooltip"
+                      fillRule="evenodd"
+                      height="24"
+                      name="info"
+                      role="img"
+                      viewBox="0 0 24 24"
+                      width="24"
+                    >
+                      <title>
+                        
+                      </title>
+                      <path
+                        d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zm0-2C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0z"
+                      />
+                      <path
+                        d="M14 10H9v2h2v4H9v2h7v-2h-2zM11 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="appDeployables"
+              >
+                1 
+                subscription
+              </div>
+            </div>
+          </div>
+          <div
+            className="deployablesDisplay"
+            id="standalone"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+          >
+            <div
+              className="bx--tile deployableTile"
+            />
           </div>
         </div>
       </div>
@@ -6442,6 +7986,272 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                   className="channelNameTitle"
                 >
                   guestbook
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow"
+        >
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                1
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumn"
+          >
+            <div
+              className="bx--tile channelColumnHeaderApplication"
+            >
+              <div
+                className="subTotal"
+              >
+                0
+              </div>
+              <div
+                className="subTotalDescription"
+              >
+                Subscriptions in this channel
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="horizontalScrollRow spaceOutBelow"
+          id="standalonedeployableRows"
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+        >
+          <div
+            className="deployableRow"
+          >
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable addHover"
+                onClick={[Function]}
+              >
+                <div
+                  className="subColHeader"
+                >
+                  Subscription
+                </div>
+                <div
+                  className="yamlEditSubContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <div
+                    className="yamlTitleSub"
+                  >
+                    YAML
+                  </div>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="subscriptionEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    onClick={[Function]}
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  className="subColName"
+                >
+                  orphan
+                </div>
+                <div
+                  className="namespaceDesc"
+                >
+                  Namespace: default
+                </div>
+                <div
+                  className="progressBarContainer"
+                >
+                  <div
+                    id="ProgressBar"
+                  >
+                    <div
+                      className="percentagesContainers"
+                    >
+                      <div
+                        className="pass"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="completedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources completed
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="inprogress"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="inprogressSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources in progress
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="fail"
+                      >
+                        <div
+                          className="percentage"
+                        >
+                          0%
+                        </div>
+                        <div
+                          className="resourceType"
+                        >
+                          <div
+                            className="failedSquare"
+                          />
+                          <div
+                            className="textResource"
+                          >
+                            Resources failed
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="progressContainer"
+                      style={
+                        Object {
+                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                        }
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="channelColumnDep"
+            >
+              <div
+                className="bx--tile channelColumnDeployable"
+              >
+                <img
+                  alt="You don't have any subscriptions for this channel."
+                  className="no-sub-icon"
+                  src="undefined/graphics/nothing-moon-copy.svg"
+                />
+                <div
+                  className="subDescriptionText"
+                >
+                  <div
+                    className="noSubTitle"
+                  >
+                    No subscriptions
+                  </div>
+                  <div
+                    className="noSubDescription"
+                  >
+                    You don't have any subscriptions for this channel.
+                  </div>
                 </div>
               </div>
             </div>
@@ -7581,7 +9391,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <div
                   className="subColName"
                 >
-                  mortgage-app-subscription
+                  orphan
                 </div>
                 <div
                   className="namespaceDesc"

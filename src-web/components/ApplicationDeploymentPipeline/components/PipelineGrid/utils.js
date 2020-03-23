@@ -26,6 +26,30 @@ export const kindsToExcludeForDeployments = [
   'mutationpolicy'
 ]
 
+// This contains all the actions that will be done when subscrition name under application
+// Opens the modal and sets the header information and subscription information
+// for that subscription clicked
+export const onSubscriptionClick = (
+  openSubscriptionModal,
+  setSubscriptionModalHeaderInfo,
+  setCurrentDeployableSubscriptionData,
+  setCurrentSubscriptionModalData,
+  subscription,
+  applicationName,
+  subscriptionName,
+  applicationStatus
+) => {
+  const headerInfo = {
+    application: applicationName,
+    deployable: subscriptionName
+  }
+  subscription.applicationStatus = applicationStatus
+  setSubscriptionModalHeaderInfo(headerInfo)
+  setCurrentDeployableSubscriptionData(subscription)
+  setCurrentSubscriptionModalData(subscription)
+  openSubscriptionModal()
+}
+
 // When we click on the edit Channel or edit subscription, we need to make a
 // fetch to get the channel yaml. We also want to open up the edit channel modal
 export const editResourceClick = (resource, getResource) => {

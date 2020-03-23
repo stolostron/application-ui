@@ -13,7 +13,7 @@ describe("convertStringToQuery", () => {
     const expectedOutput = {
       keywords: [],
       filters: [{ property: "kind", values: ["application"] }],
-      relatedKinds: ["placementRule"]
+      relatedKinds: ["placementrule"]
     };
     const output = convertStringToQuery(input);
     expect(output).toEqual(expectedOutput);
@@ -34,7 +34,7 @@ describe("convertStringToQuery", () => {
     const input = "kind:subscription";
     const expectedOutput = {
       keywords: [],
-      filters: [{ property: "kind", values: ["application"] }],
+      filters: [{ property: "kind", values: ["subscription"] }],
       relatedKinds: ["placementrule", "deployable", "application"]
     };
     const output = convertStringToQuery(input);

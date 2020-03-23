@@ -393,3 +393,22 @@ export const resultNoApps = [
     type: ""
   }
 ];
+
+export const resultEmpty = [
+  {
+    name: "",
+    namespace: "",
+    selfLink: "",
+    _uid: "",
+    created: "",
+    pathname: "",
+    apigroup: "",
+    cluster: "",
+    kind: "",
+    label: "",
+    type: "",
+    _hubClusterResource: "",
+    _rbac: "",
+    related: []
+  }
+];

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- *
+ * (c) Copyright 2020 Red Hat, Inc.
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
@@ -37,7 +37,11 @@ const jestConfig = {
     '!**/src-web/components/Topology/viewer/defaults/titles.js',
     '!**/src-web/components/Topology/viewer/constants.js',
     '!**/src-web/components/Topology/index.js',
-    '!**/src-web/components/ApplicationTopologyModule/index.js'
+    '!**/src-web/components/ApplicationTopologyModule/index.js',
+    '!**/src-web/components/Topology/viewer/layouts/policy.js',
+    '!**/src-web/components/Topology/viewer/layouts/application.js',
+    '!**/src-web/components/Topology/viewer/layouts/auto.js',
+    '!**/src-web/components/Topology/viewer/layouts/index.js'
   ],
   coverageDirectory: './test-output/coverage',
   coverageReporters: [

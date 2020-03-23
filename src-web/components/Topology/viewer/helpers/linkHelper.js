@@ -10,14 +10,15 @@
 
 import * as d3 from 'd3'
 import 'd3-selection-multi'
-import {select} from 'd3-selection'
-import {counterZoom} from '../../utils/diagram-helpers'
+import { select } from 'd3-selection'
+import { counterZoom } from '../../utils/diagram-helpers'
 import { FilterResults, NODE_RADIUS } from '../constants.js'
 import _ from 'lodash'
 
-const lineFunction = d3.line()
-  .x(d=>d.x)
-  .y(d=>d.y)
+const lineFunction = d3
+  .line()
+  .x(d => d.x)
+  .y(d => d.y)
   .curve(d3.curveBundle)
 
 export default class LinkHelper {
@@ -37,13 +38,12 @@ export default class LinkHelper {
   /**
    * Adds/removes links from diagram.
    */
-  updateDiagramLinks = (currentZoom) => {
-
+  updateDiagramLinks = currentZoom => {
     // show only links between two nodes
     // if nodes have been consolidated, a link might not be drawn
-    const filteredLinks = this.links.filter((link)=>{
-      let {source, target} = link
-      const {layout} = link
+    const filteredLinks = this.links.filter(link => {
+      let { source, target } = link
+      const { layout } = link
       if (layout) {
         source = layout.source.uid
         target = layout.target.uid
@@ -55,7 +55,8 @@ export default class LinkHelper {
     // creates enter and exit arrays
     // if already exists, updates its __data__ with data
     // based on creating a map '$l.uid'
-    const links = this.svg.select('g.links')
+    const links = this.svg
+      .select('g.links')
       .selectAll('g.link')
       .data(filteredLinks, l => {
         return l.uid
@@ -66,220 +67,244 @@ export default class LinkHelper {
     links.exit().remove()
 
     // add link for any new data (in enter array)
-    links.enter().append('g')
+    links
+      .enter()
+      .append('g')
       .attrs({
-        'class': 'link',
-        'transform': currentZoom
+        class: 'link',
+        transform: currentZoom
       })
       .append('path')
-      .attrs((d) => {
-        const {uid, layout} = d
+      .attrs(d => {
+        const { uid, layout } = d
         return {
           id: `link-${uid}`,
           ...getLinkMarkers(layout)
         }
       })
 
-
     // update labels
     if (this.diagramOptions.showLineLabels) {
-      const labels = this.svg.select('g.links')
+      const labels = this.svg
+        .select('g.links')
         .selectAll('g.label')
         .data(filteredLinks, l => {
           return l.uid
         })
-        .enter().append('g')
+        .enter()
+        .append('g')
         .attrs({
-          'class': 'label',
-          'transform': currentZoom
+          class: 'label',
+          transform: currentZoom
         })
 
-      labels.append('text')
+      labels
+        .append('text')
         .attr('class', 'linkText')
         .append('textPath')
-        .attrs(({uid}) => {
+        .attrs(({ uid }) => {
           return {
             'xlink:href': `#link-${uid}`
           }
         })
         .styles({
-          'text-anchor': 'middle',
+          'text-anchor': 'middle'
         })
-        .text((d) => { return d.label })
+        .text(d => {
+          return d.label
+        })
     }
-  }
+  };
 
   moveLinks = (transition, currentZoom) => {
     // don't move looped dragged links
-    let links = this.svg.select('g.links').selectAll('g.link').filter(({layout:{source:{dragged}}})=>{
-      return !dragged
-    })
+    let links = this.svg
+      .select('g.links')
+      .selectAll('g.link')
+      .filter(({ layout: { source: { dragged } } }) => {
+        return !dragged
+      })
       .attr('transform', currentZoom)
 
-    const isHidden = (layout) =>{
-      let {search=FilterResults.nosearch} = layout
-      const {isLoop, source} = layout
+    const isHidden = layout => {
+      let { search = FilterResults.nosearch } = layout
+      const { isLoop, source } = layout
       if (isLoop) {
-        ({search=FilterResults.nosearch} = source)
+        ({ search = FilterResults.nosearch } = source)
       }
-      return (search===FilterResults.hidden)
+      return search === FilterResults.hidden
     }
     // if name search only show related links
-    links
-      .style('visibility', ({layout})=>{
-        return isHidden(layout) ? 'hidden' : 'visible'
-      })
+    links.style('visibility', ({ layout }) => {
+      return isHidden(layout) ? 'hidden' : 'visible'
+    })
 
     // if name search only set paths of related links
-    links = links.filter(({layout})=>{
+    links = links.filter(({ layout }) => {
       return !isHidden(layout)
     })
 
     // set link path then back it away from node
     // so that end markers just touch the shape
-    links.selectAll('path')
-      .filter(({layout: {linePath, lineData}})=>{
+    links
+      .selectAll('path')
+      .filter(({ layout: { linePath, lineData } }) => {
         return !linePath && !!lineData
       })
-      .attr('d', ({layout}) => {
+      .attr('d', ({ layout }) => {
         layout.linePath = lineFunction(layout.lineData)
         return layout.linePath
       })
-    links.selectAll('path')
-      .filter(({layout: {lineData}})=>{
+    links
+      .selectAll('path')
+      .filter(({ layout: { lineData } }) => {
         return !!lineData
       })
-      .attrs(({layout},i,ns) => {
-        const {x, y} = layout.transform ? layout.transform : {x:0, y:0}
+      .attrs(({ layout }, i, ns) => {
+        const { x, y } = layout.transform ? layout.transform : { x: 0, y: 0 }
         return {
-          'd': getBackedOffPath(ns[i], layout, this.typeToShapeMap),
-          'transform': `translate(${x}, ${y})`
+          d: getBackedOffPath(ns[i], layout, this.typeToShapeMap),
+          transform: `translate(${x}, ${y})`
         }
       })
 
-    links
-      .styles(({layout}) => {
-        // set opacity to 0 if new path
-        // we will transition it back when in new position
-        const {linePath, lastPath} = layout
-        const opacity = (!lastPath || linePath!==lastPath) ? 0.1 : 1.0
-        layout.lastPath = linePath
-        return {
-          'opacity': opacity
-        }
-      })
+    links.styles(({ layout }) => {
+      // set opacity to 0 if new path
+      // we will transition it back when in new position
+      const { linePath, lastPath } = layout
+      const opacity = !lastPath || linePath !== lastPath ? 0.1 : 1.0
+      layout.lastPath = linePath
+      return {
+        opacity: opacity
+      }
+    })
 
-    links
-      .transition(transition)
-      .style('opacity': 1.0)
+    links.transition(transition)
 
     // move line labels
     if (this.diagramOptions.showLineLabels) {
-      let labels = this.svg.select('g.links').selectAll('g.label')
+      let labels = this.svg
+        .select('g.links')
+        .selectAll('g.label')
         .attr('transform', currentZoom)
 
+      labels.style(
+        'visibility',
+        ({ layout: { search = FilterResults.nosearch } }) => {
+          return search === FilterResults.hidden ? 'hidden' : 'visible'
+        }
+      )
+
+      labels = labels.filter(
+        ({ layout: { search = FilterResults.nosearch } }) => {
+          return search !== FilterResults.hidden
+        }
+      )
+
       labels
-        .style('visibility', ({layout: {search=FilterResults.nosearch}})=>{
-          return (search===FilterResults.hidden) ? 'hidden' : 'visible'
-        })
-
-      labels = labels.filter(({layout: {search=FilterResults.nosearch}})=>{
-        return (search!==FilterResults.hidden)
-      })
-
-      labels.selectAll('text')
+        .selectAll('text')
         .selectAll('textPath')
-        .text(({layout={}, label}) => {
-          return !label ? '' : (layout.isParallel ? '< both >' :
-            (layout.isLoop ? label :
-              (layout.isSwapped ? `< ${label}` : `${label} >`)))
+        .text(({ layout = {}, label }) => {
+          return !label
+            ? ''
+            : layout.isParallel
+              ? '< both >'
+              : layout.isLoop
+                ? label
+                : layout.isSwapped ? `< ${label}` : `${label} >`
         })
         .attrs(() => {
           return {
-            'startOffset': '50%'
+            startOffset: '50%'
           }
         })
-        .style('opacity', ({layout: {source: {search=FilterResults.nosearch}}}) => {
-          return search===FilterResults.hidden ? 0.0 : 1.0
-        })
+        .style(
+          'opacity',
+          ({ layout: { source: { search = FilterResults.nosearch } } }) => {
+            return search === FilterResults.hidden ? 0.0 : 1.0
+          }
+        )
     }
-  }
+  };
 }
 
 export const dragLinks = (svg, d, typeToShapeMap) => {
-  svg.select('g.links').selectAll('g.link').each((l,i,ns)=>{
-    if (l.layout.source.uid === d.layout.uid || l.layout.target.uid === d.layout.uid) {
-      const link = d3.select(ns[i])
-      const path = link.selectAll('path')
-      const layout = l.layout
+  svg
+    .select('g.links')
+    .selectAll('g.link')
+    .each((l, i, ns) => {
+      if (
+        l.layout.source.uid === d.layout.uid ||
+        l.layout.target.uid === d.layout.uid
+      ) {
+        const link = d3.select(ns[i])
+        const path = link.selectAll('path')
+        const layout = l.layout
 
-      if (!layout.undragged) {
-        layout.undragged = {
-          linePath: layout.linePath,
+        if (!layout.undragged) {
+          layout.undragged = {
+            linePath: layout.linePath
+          }
         }
-      }
 
-      // set node position
-      const {isLoop} = layout
-      const {source, target} = layout
-      if (isLoop) {
-        source.x = target.x = d.layout.x
-        source.y = target.y = d.layout.y
-      } else if (source.uid === d.layout.uid) {
-        source.x = d.layout.x
-        source.y = d.layout.y
-      } else {
-        target.x = d.layout.x
-        target.y = d.layout.y
-      }
-
-      // flip line so that line label isn't upside down :(
-      // which way does the arrow/label go
-      layout.isSwapped = !isLoop && source.x > target.x
-      path.attrs(() => {
-        return {
-          ...getLinkMarkers(layout)
+        // set node position
+        const { isLoop } = layout
+        const { source, target } = layout
+        if (isLoop) {
+          source.x = target.x = d.layout.x
+          source.y = target.y = d.layout.y
+        } else if (source.uid === d.layout.uid) {
+          source.x = d.layout.x
+          source.y = d.layout.y
+        } else {
+          target.x = d.layout.x
+          target.y = d.layout.y
         }
-      })
 
-      // update path
-      setDraggedLineData(layout)
-      path.attr('d', () => {
-        return lineFunction(layout.lineData)
-      })
-      path.attr('d', ({layout},i,ns) => {
-        return getBackedOffPath(ns[i], layout, typeToShapeMap)
-      })
-    }
-  })
+        // flip line so that line label isn't upside down :(
+        // which way does the arrow/label go
+        layout.isSwapped = !isLoop && source.x > target.x
+        path.attrs(() => {
+          return {
+            ...getLinkMarkers(layout)
+          }
+        })
+
+        // update path
+        setDraggedLineData(layout)
+        path.attr('d', () => {
+          return lineFunction(layout.lineData)
+        })
+        path.attr('d', ({ layout }, i, ns) => {
+          return getBackedOffPath(ns[i], layout, typeToShapeMap)
+        })
+      }
+    })
 }
 
-export const setDraggedLineData = (layout) => {
+export const setDraggedLineData = layout => {
   // calculate new lineData
-  const {isLoop, isSwapped} = layout
-  let {source, target} = layout
+  const { isLoop, isSwapped } = layout
+  let { source, target } = layout
   if (isSwapped) {
     [target, source] = [source, target]
   }
-  const {x: sx, y: sy} = source
-  const {x: tx, y: ty} = target
+  const { x: sx, y: sy } = source
+  const { x: tx, y: ty } = target
   if (isLoop) {
     // path moved
     layout.lineData = getLoopLineData(sx, sy)
   } else {
     // else straighten out line
-    layout.lineData = [
-      {x: sx, y: sy},
-      {x: tx, y: ty}
-    ]
+    layout.lineData = [{ x: sx, y: sy }, { x: tx, y: ty }]
   }
 
   // path was originally created from the node position without transform applied
   // transform was then applied to the path after it was created
   // therefore to counteract that original transform we need to subtract it now
   // because we're now using the actual mouse position of the node
-  const {x: xx, y: yy} = layout.transform ? layout.transform : {x:0, y:0}
-  layout.lineData.forEach(pt=>{
+  const { x: xx, y: yy } = layout.transform ? layout.transform : { x: 0, y: 0 }
+  layout.lineData.forEach(pt => {
     pt.x -= xx
     pt.y -= yy
   })
@@ -288,18 +313,27 @@ export const setDraggedLineData = (layout) => {
 }
 
 export const getBackedOffPath = (svgPath, layout, typeToShapeMap) => {
-  const {lineData, backedOff, source, target} = layout
-  let {linePath} = layout
+  const { lineData, backedOff, source, target } = layout
+  let { linePath } = layout
   if (!backedOff) {
-    const {isMajorHub:isMajorSrcHub, isMinorHub:isMinorSrcHub, type:srcType} = source
-    const {isMajorHub:isMajorTgtHub, isMinorHub:isMinorTgtHub, type:tgtType} = target
-    const srcRadius = (typeToShapeMap[srcType]||{}).nodeRadius || NODE_RADIUS
-    const tgtRadius = (typeToShapeMap[tgtType]||{}).nodeRadius || NODE_RADIUS
-    const srcBackoff = isMajorSrcHub ? 18 : (isMinorSrcHub ? 15 : 0)
-    const tgtBackoff = isMajorTgtHub ? 18 : (isMinorTgtHub ? 15 : 5)
-    lineData[0] = svgPath.getPointAtLength(srcRadius+srcBackoff)
-    lineData[lineData.length-1] =
-       svgPath.getPointAtLength(svgPath.getTotalLength()-tgtRadius-tgtBackoff)
+    const {
+      isMajorHub: isMajorSrcHub,
+      isMinorHub: isMinorSrcHub,
+      type: srcType
+    } = source
+    const {
+      isMajorHub: isMajorTgtHub,
+      isMinorHub: isMinorTgtHub,
+      type: tgtType
+    } = target
+    const srcRadius = (typeToShapeMap[srcType] || {}).nodeRadius || NODE_RADIUS
+    const tgtRadius = (typeToShapeMap[tgtType] || {}).nodeRadius || NODE_RADIUS
+    const srcBackoff = isMajorSrcHub ? 18 : isMinorSrcHub ? 15 : 0
+    const tgtBackoff = isMajorTgtHub ? 18 : isMinorTgtHub ? 15 : 5
+    lineData[0] = svgPath.getPointAtLength(srcRadius + srcBackoff)
+    lineData[lineData.length - 1] = svgPath.getPointAtLength(
+      svgPath.getTotalLength() - tgtRadius - tgtBackoff
+    )
     linePath = layout.linePath = lineFunction(layout.lineData)
     layout.backedOff = true
   }
@@ -307,14 +341,22 @@ export const getBackedOffPath = (svgPath, layout, typeToShapeMap) => {
 }
 
 // do parallel, avoidance, self link layouts
-export const layoutEdges = (newLayout, nodes, cyEdges, edges, showLineLabels, selfLinks, adapter) => {
+export const layoutEdges = (
+  newLayout,
+  nodes,
+  cyEdges,
+  edges,
+  showLineLabels,
+  selfLinks,
+  adapter
+) => {
   const laidoutEdges = []
   let nodeMap = null
-  if (cyEdges.length>0) {
+  if (cyEdges.length > 0) {
     let preparedColaRouting = false
     nodeMap = _.keyBy(nodes, 'layout.uid')
-    cyEdges.forEach(edge=>{
-      const {edge: {layout, uid}} = edge.data()
+    cyEdges.forEach(edge => {
+      const { edge: { layout, uid } } = edge.data()
 
       // set path data on new edges
       // avoidance -- curve around nodes -- we use webcola's line router
@@ -323,44 +365,45 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, showLineLabels, se
         layout.lineData = []
         delete layout.linePath
         delete layout.backedOff
-        let {source: {uid: sid}, target: {uid: tid}} = layout
+        let { source: { uid: sid }, target: { uid: tid } } = layout
         const colaEdge = edge.scratch().cola
         if (nodeMap[sid] && nodeMap[tid]) {
-
           // flip line so that line label isn't upside down :(
           if (showLineLabels) {
-            layout.isSwapped = nodeMap[sid].position.x > nodeMap[tid].position.x
+            layout.isSwapped =
+              nodeMap[sid].position.x > nodeMap[tid].position.x
             if (layout.isSwapped) {
               [tid, sid] = [sid, tid]
               if (colaEdge) {
-                [colaEdge.target, colaEdge.source] = [colaEdge.source, colaEdge.target]
+                [colaEdge.target, colaEdge.source] = [
+                  colaEdge.source,
+                  colaEdge.target
+                ]
               }
             }
           }
 
-          const {position: {x:x1, y:y1}} = nodeMap[sid]
-          const {position: {x:x2, y:y2}} = nodeMap[tid]
+          const { position: { x: x1, y: y1 } } = nodeMap[sid]
+          const { position: { x: x2, y: y2 } } = nodeMap[tid]
 
           // if cola layout and a line is long, route the line around the nodes
-          if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS*6) {
-
+          if (adapter && Math.hypot(x2 - x1, y2 - y1) > NODE_RADIUS * 6) {
             if (!preparedColaRouting) {
               adapter.prepareEdgeRouting(20)
               // nodes need inner bounds
-              adapter.nodes().forEach(node=>{
+              adapter.nodes().forEach(node => {
                 node.innerBounds = node.bounds.inflate(-20)
               })
               preparedColaRouting = true
             }
             layout.lineData = adapter.routeEdge(colaEdge, 0)
-
           } else {
             // else do nothing--just a straight line
           }
 
           // add endpoints
-          layout.lineData.unshift({x:x1, y:y1})
-          layout.lineData.push({x:x2, y:y2})
+          layout.lineData.unshift({ x: x1, y: y1 })
+          layout.lineData.push({ x: x2, y: y2 })
         }
       }
 
@@ -372,10 +415,10 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, showLineLabels, se
 
     // parallel -- two line between same nodes--we just put "both" as the label on the line
     // mark edges that are parellel so we offset them when drawing
-    edges.forEach(({source, target})=>{
-      edges.forEach(other=>{
-        const {source:tgt, target:src, layout} = other
-        if (source===src && target===tgt) {
+    edges.forEach(({ source, target }) => {
+      edges.forEach(other => {
+        const { source: tgt, target: src, layout } = other
+        if (source === src && target === tgt) {
           layout.isParallel = true
         }
       })
@@ -385,21 +428,21 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, showLineLabels, se
   // add self-links
   if (nodes.length) {
     nodeMap = nodeMap || _.keyBy(nodes, 'layout.uid')
-    nodes.forEach(({layout: {selfLink}})=>{
+    nodes.forEach(({ layout: { selfLink } }) => {
       if (selfLink) {
-        const {nodeLayout, link: {uid}} = selfLink
+        const { nodeLayout, link: { uid } } = selfLink
         let link = selfLinks[uid]
         if (!link) {
           link = selfLinks[uid] = selfLink.link
         }
-        let {layout={}} = link
+        let { layout = {} } = link
         if (!layout.lineData || newLayout) {
           const node = nodeMap[nodeLayout.uid]
-          const {position: {x, y}} = node
+          const { position: { x, y } } = node
           // loops-- curve back to itself
           delete layout.linePath
           delete layout.backedOff
-          const lineData = getLoopLineData(x,y)
+          const lineData = getLoopLineData(x, y)
           layout = link.layout = Object.assign(layout, {
             source: nodeLayout,
             target: nodeLayout,
@@ -418,34 +461,39 @@ export const layoutEdges = (newLayout, nodes, cyEdges, edges, showLineLabels, se
   return laidoutEdges
 }
 
-
-export const getLoopLineData = (x,y) => {
+export const getLoopLineData = (x, y) => {
   return [
-    {x:x+1, y:y},
-    {x:x-90, y:y+20},
-    {x:x-20, y:y-90},
-    {x:x-1, y:y},
+    { x: x + 1, y: y },
+    { x: x - 90, y: y + 20 },
+    { x: x - 20, y: y - 90 },
+    { x: x - 1, y: y }
   ]
 }
 
-
 //interrupt any transition and make sure it has its final value
-export const interruptLinks = (svg) => {
-  svg.select('g.links').selectAll('g.link').interrupt().call((selection)=>{
-    selection.each((d,i,ns) => {
-      d3.select(ns[i]).style('opacity', 1.0)
+export const interruptLinks = svg => {
+  svg
+    .select('g.links')
+    .selectAll('g.link')
+    .interrupt()
+    .call(selection => {
+      selection.each((d, i, ns) => {
+        d3.select(ns[i]).style('opacity', 1.0)
+      })
     })
-  })
 }
 
 export const counterZoomLinks = (svg, currentZoom, showLineLabels) => {
   if (svg) {
     const opacity = counterZoom(currentZoom.k, 0.35, 0.85, 0.5, 0.85)
-    svg.select('g.links').selectAll('g.link')
-      .each(({layout}, i, ns)=>{
-        const {target:{search}} = layout
+    svg
+      .select('g.links')
+      .selectAll('g.link')
+      .each(({ layout }, i, ns) => {
+        const { target: { search } } = layout
         const link = d3.select(ns[i])
-        link.selectAll('path')
+        link
+          .selectAll('path')
           .attrs(() => {
             return getLinkMarkers(layout, search)
           })
@@ -454,24 +502,29 @@ export const counterZoomLinks = (svg, currentZoom, showLineLabels) => {
           })
       })
 
-      // move line labels
+    // move line labels
     if (showLineLabels) {
       const fontSize = counterZoom(currentZoom.k, 0.2, 0.85, 10, 20)
       const labels = svg.select('g.links').selectAll('g.label')
-      labels
-        .selectAll('text.linkText')
-        .style('font-size', fontSize+'px')
+      labels.selectAll('text.linkText').style('font-size', fontSize + 'px')
     }
   }
 }
 
-export const getLinkMarkers = ({isSwapped}, search=FilterResults.nosearch) => {
+export const getLinkMarkers = (
+  { isSwapped },
+  search = FilterResults.nosearch
+) => {
   let beg = 'url(#squarehead)'
 
   // if in search mode, use a faded arrow when pointing to a faded related shape
   // if path was reversed (to keep the textpath on top of the line) swap markers
-  const isFaded = !(search===FilterResults.nosearch || search===FilterResults.match)
-  let end = `url(#${isSwapped?'reversed':''}arrowhead${isFaded?'faded':''})`
+  const isFaded = !(
+    search === FilterResults.nosearch || search === FilterResults.match
+  )
+  let end = `url(#${isSwapped ? 'reversed' : ''}arrowhead${
+    isFaded ? 'faded' : ''
+  })`
   if (isSwapped) {
     [beg, end] = [end, beg]
   }
@@ -481,12 +534,9 @@ export const getLinkMarkers = ({isSwapped}, search=FilterResults.nosearch) => {
   }
 }
 
-export const defineLinkMarkers = (svg) => {
-
-  const defineArrowheadMarker = (defs, id, className, reversed) =>{
-    select(defs
-      .append('marker')
-      .node())
+export const defineLinkMarkers = svg => {
+  const defineArrowheadMarker = (defs, id, className, reversed) => {
+    select(defs.append('marker').node())
       .attrs({
         id,
         refX: 2,
@@ -502,10 +552,8 @@ export const defineLinkMarkers = (svg) => {
       .attr('class', className)
   }
 
-  const defineSquareheadMarker = (defs, id, className) =>{
-    select(defs
-      .append('marker')
-      .node())
+  const defineSquareheadMarker = (defs, id, className) => {
+    select(defs.append('marker').node())
       .attrs({
         id: 'squarehead',
         refX: 4,
@@ -530,7 +578,11 @@ export const defineLinkMarkers = (svg) => {
   defineArrowheadMarker(defs, 'arrowhead', 'arrowDecorator')
   defineArrowheadMarker(defs, 'arrowheadfaded', 'arrowDecorator faded')
   defineArrowheadMarker(defs, 'reversedarrowhead', 'arrowDecorator', true)
-  defineArrowheadMarker(defs, 'reversedarrowheadfaded', 'arrowDecorator faded', true)
+  defineArrowheadMarker(
+    defs,
+    'reversedarrowheadfaded',
+    'arrowDecorator faded',
+    true
+  )
   defineSquareheadMarker(defs, 'squarehead', 'squareDecorator')
 }
-

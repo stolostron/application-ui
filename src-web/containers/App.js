@@ -23,9 +23,6 @@ import config from '../../lib/shared/config'
 import Modal from '../components/common/Modal'
 import * as Actions from '../actions'
 
-export const ModalApollo = loadable(() =>
-  import(/* webpackChunkName: "modalApollo" */ '../components/common-apollo/ModalApollo')
-)
 export const ActionModalApollo = loadable(() =>
   import(/* webpackChunkName: "actionModalApollo" */ '../components/common-apollo/ActionModalApollo')
 )
@@ -44,11 +41,14 @@ class App extends React.Component {
 
   constructor(props) {
     super(props)
-
     if (client) {
-      this.serverProps = JSON.parse(
-        document.getElementById('propshcm').textContent
-      )
+      try {
+        this.serverProps = JSON.parse(
+          document.getElementById('propshcm').textContent
+        )
+      } catch (e) {
+        this.serverProps = undefined
+      }
     }
   }
 
@@ -59,7 +59,8 @@ class App extends React.Component {
   }
 
   getServerProps() {
-    if (client) return this.serverProps
+    if (client && this.serverProps) return this.serverProps
+    if (this.props.serverProps) return this.props.serverProps
     return this.props.staticContext
   }
 
@@ -168,7 +169,6 @@ class App extends React.Component {
           <Redirect to={`${config.contextPath}/welcome`} />
         </Switch>
         <Modal locale={serverProps.context.locale} />
-        <ModalApollo locale={serverProps.context.locale} />
         <ActionModalApollo
           locale={serverProps.context.locale}
           activeAccountId={activeAccountId}

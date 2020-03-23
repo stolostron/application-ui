@@ -83,6 +83,31 @@ npm run test:unit
 npm run test:e2e
 </pre>
 
+## How to run Nightwatch tests
+
+#### Prerequisites:
+
+- Install dependencies:  `npm install`
+
+---
+
+#### Live Cluster
+
+1. Export the following environment variables:
+    - RHACM4K8 (e.g. `https://multicloud-console.apps.${OCM_URL}`)
+    - K8S_CLUSTER_USER (`login username`)
+    - K8S_CLUSTER_PASSWORD (`login password`)
+2. In the root directory, run `npm run test:e2e`.
+
+#### Local Environment
+
+1. Export the following environment variables:
+    - TEST_LOCAL=true
+    - K8S_CLUSTER_USER (`login username`)
+    - K8S_CLUSTER_PASSWORD (`login password`)
+2. Start the application-ui locally by pointing to a live cluster
+3. In the root directory, run `npm run test:e2e`.
+
 ## NPM Commands
 
 The full list of npm scripts are described below.

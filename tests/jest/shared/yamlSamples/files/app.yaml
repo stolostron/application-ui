@@ -5,7 +5,7 @@ metadata:
   namespace:                      # Required. The namespace resource to use for the application.
 spec:
   componentKinds:
-  - group: app.ibm.com
+  - group: apps.open-cluster-management.io
     kind: Subscription
   descriptor: {}
   selector:

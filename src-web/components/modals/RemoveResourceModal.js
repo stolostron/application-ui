@@ -195,7 +195,7 @@ class RemoveResourceModal extends React.Component {
                     onChange={this.toggleSelected}
                     labelText={child.label}
                     aria-label={child.id}
-                  />
+                    />
                 </div>
               )
             })}

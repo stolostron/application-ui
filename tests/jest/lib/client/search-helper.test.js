@@ -9,7 +9,14 @@ import {
 
 describe("convertStringToQuery", () => {
   it("empty string", () => {
-    console.log(convertStringToQuery(""));
+    const input = "kind:application";
+    const expectedOutput = {
+      keywords: [],
+      filters: { property: "kind", values: ["application"] },
+      relatedKinds: ["subscription", "pod", "cluster"]
+    };
+    const output = convertStringToQuery(input);
+    expect(output).toEqual(expectedOutput);
   });
 });
 

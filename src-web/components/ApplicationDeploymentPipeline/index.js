@@ -15,7 +15,6 @@ import * as Actions from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
-  createResources,
   fetchResources,
   fetchGlobalAppsData,
   updateModal
@@ -29,130 +28,24 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import {
-  Search,
-  Loading,
-  Notification,
-  Icon,
-  Link
-} from 'carbon-components-react'
-import { getApplicationsList, getChannelsList, filterApps } from './utils'
-import {
-  getChannelSample,
-  getSubscriptionSample,
-  getPlacementRuleSample
-} from '../../shared/yamlSamples/index'
-import CreateResourceModal from '../modals/CreateResourceModal'
+import { Search, Loading, Notification } from 'carbon-components-react'
+import { getChannelsList, getApplicationsForSelection } from './utils'
 import apolloClient from '../../../lib/client/apollo-client'
-import R from 'ramda'
-import { showCreate } from '../../../lib/client/access-helper'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
-import {
-  getICAMLinkForApp,
-  getNamespaceAccountId
-} from '../common/ResourceDetails/utils'
-import { editResourceClick } from './components/PipelineGrid/utils'
+import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import config from '../../../lib/shared/config'
+import {
+  handleEditResource,
+  showEditModalByType
+} from '../common/ResourceOverview/utils'
+import HeaderActions from '../common/HeaderActions'
+import CreateResourceActions from './components/CreateResourceActions'
 /* eslint-disable react/prop-types */
 
 resources(() => {
   require('./style.scss')
 })
-
-const handleCreateChannelResource = (dispatch, yaml) =>
-  dispatch(createResources(RESOURCE_TYPES.HCM_CHANNELS, yaml))
-
-// Create Resource for Channel
-const CreateChannelModal = (fetchChannels, channelTabs, locale) => {
-  return (
-    <CreateResourceModal
-      key="createChannel"
-      headingTextKey="actions.add.channel"
-      resourceTypeName="description.channel"
-      onCreateResource={handleCreateChannelResource}
-      onSubmitFunction={fetchChannels}
-      resourceDescriptionKey="modal.createresource.channel"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html"
-      iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
-      sampleTabs={channelTabs}
-      sampleContent={[
-        getChannelSample('Namespace', locale),
-        getChannelSample('HelmRepo', locale),
-        getChannelSample('ObjectBucket', locale),
-        getChannelSample('GitRepo', locale)
-      ]}
-    />
-  )
-}
-
-const handleCreateSubscriptionResource = (dispatch, yaml) =>
-  dispatch(createResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, yaml))
-
-// Create Resource for Subscription
-const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
-  return (
-    <CreateResourceModal
-      key="createSubscription"
-      headingTextKey="actions.add.subscription"
-      resourceTypeName="description.subscription"
-      onCreateResource={handleCreateSubscriptionResource}
-      onSubmitFunction={fetchSubscriptions}
-      resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html"
-      iconDescription={msgs.get(
-        'actions.add.subscription.iconDescription',
-        locale
-      )}
-      sampleContent={[getSubscriptionSample(locale)]}
-    />
-  )
-}
-
-const handleEditResource = (dispatch, resourceType, data) => {
-  return dispatch(
-    updateModal({
-      open: true,
-      type: 'resource-edit',
-      action: 'put',
-      resourceType,
-      editorMode: 'yaml',
-      label: {
-        primaryBtn: 'modal.button.submit',
-        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-      },
-      helpLink: (data && data.helpLink) || '',
-      name: (data && data.name) || '',
-      namespace: (data && data.namespace) || '',
-      data: (data && data.data) || '',
-      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
-    })
-  )
-}
-
-const handleCreatePlacementRuleResource = (dispatch, yaml) =>
-  dispatch(createResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES, yaml))
-
-// Create Resource for Subscription
-const CreatePlacementRuleModal = (fetchPlacementRules, locale) => {
-  return (
-    <CreateResourceModal
-      key="createPlacementRule"
-      headingTextKey="actions.add.placementRule"
-      resourceTypeName="description.placementRule"
-      onCreateResource={handleCreatePlacementRuleResource}
-      onSubmitFunction={fetchPlacementRuleResource}
-      resourceDescriptionKey="modal.createresource.placementrule"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html"
-      iconDescription={msgs.get(
-        'actions.add.subscription.iconDescription',
-        locale
-      )}
-      sampleContent={[getPlacementRuleSample(locale)]}
-    />
-  )
-}
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -163,13 +56,13 @@ const mapDispatchToProps = dispatch => {
     fetchApplicationsGlobalData: () =>
       dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
     editResource: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
+      handleEditResource(dispatch, updateModal, resourceType, data),
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     fetchPlacementRules: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_PLACEMENT_RULES)),
     editSubscription: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
+      handleEditResource(dispatch, updateModal, resourceType, data),
     //apolloClient requires CONTEXT .. so I have to pass it in here
     getChannelResource: (selfLink, namespace, name, cluster) =>
       dispatch(
@@ -225,28 +118,15 @@ const mapStateToProps = state => {
   // Currently just filterin on application name
 
   return {
-    displaySubscriptionModal: AppDeployments.displaySubscriptionModal,
-    subscriptionModalHeaderInfo: AppDeployments.subscriptionModalHeaderInfo,
-    subscriptionModalSubscriptionInfo:
-      AppDeployments.subscriptionModalSubscriptionInfo,
     userRole: role && role.role,
-    appDropDownList: AppDeployments.appDropDownList || [],
     HCMChannelList,
     HCMSubscriptionList,
     AppDeployments,
     QueryApplicationList,
     GlobalApplicationDataList,
-    currentApplicationInfo: AppDeployments.currentApplicationInfo || {},
-    currentChannelInfo: AppDeployments.currentChannelInfo || {},
-    currentSubscriptionInfo: AppDeployments.currentSubscriptionInfo || {},
-    currentPlacementRuleInfo: AppDeployments.currentPlacementRuleInfo || {},
-    openEditChannelModal: AppDeployments.openEditChannelModal,
-    openEditApplicationModal: AppDeployments.openEditApplicationModal,
-    openEditSubscriptionModal: AppDeployments.openEditSubscriptionModal,
-    openEditPlacementRuleModal: AppDeployments.openEditPlacementRuleModal,
+    HCMNamespaceList,
     loading: AppDeployments.loading,
-    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
-    namespaceAccountId: getNamespaceAccountId(HCMNamespaceList)
+    breadcrumbItems: secondaryHeader.breadcrumbItems || []
   }
 }
 
@@ -270,14 +150,21 @@ class ApplicationDeploymentPipeline extends React.Component {
       GlobalApplicationDataList
     } = this.props
 
-    if (QueryApplicationList.status != Actions.REQUEST_STATUS.DONE)
+    if (
+      QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE &&
+      QueryApplicationList.status !== Actions.REQUEST_STATUS.ERROR
+    ) {
       fetchApplications()
-    if (HCMChannelList.status != Actions.REQUEST_STATUS.DONE) fetchChannels()
-    if (HCMSubscriptionList.status != Actions.REQUEST_STATUS.DONE)
+    }
+    if (HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) {
+      fetchChannels()
+    }
+    if (HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE) {
       fetchSubscriptions()
-    if (GlobalApplicationDataList.status != Actions.REQUEST_STATUS.DONE)
+    }
+    if (GlobalApplicationDataList.status !== Actions.REQUEST_STATUS.DONE) {
       fetchApplicationsGlobalData()
-
+    }
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
         this.reload.bind(this),
@@ -303,10 +190,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchApplicationsGlobalData,
       fetchSubscriptions,
       fetchChannels,
-      openEditChannelModal,
-      openEditApplicationModal,
-      openEditSubscriptionModal,
-      openEditPlacementRuleModal
+      AppDeployments
     } = this.props
 
     // only reload data if there are nothing being fetched and no modals are open
@@ -314,13 +198,13 @@ class ApplicationDeploymentPipeline extends React.Component {
       QueryApplicationList.status === Actions.REQUEST_STATUS.DONE &&
       HCMSubscriptionList.status === Actions.REQUEST_STATUS.DONE &&
       HCMChannelList.status === Actions.REQUEST_STATUS.DONE &&
-      !openEditChannelModal &&
-      !openEditApplicationModal &&
-      !openEditSubscriptionModal &&
-      !openEditPlacementRuleModal
+      !AppDeployments.openEditChannelModal &&
+      !AppDeployments.openEditApplicationModal &&
+      !AppDeployments.openEditSubscriptionModal &&
+      !AppDeployments.openEditPlacementRuleModal
     ) {
       this.setState({ xhrPoll: true })
-      const isSingleApplicationView = breadcrumbItems.length == 2
+      const isSingleApplicationView = breadcrumbItems.length === 2
       if (!isSingleApplicationView) {
         // reload all the applications
         fetchApplications()
@@ -336,6 +220,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     const {
       HCMSubscriptionList,
       HCMChannelList,
+      HCMNamespaceList,
       QueryApplicationList,
       GlobalApplicationDataList
     } = this.props
@@ -371,232 +256,97 @@ class ApplicationDeploymentPipeline extends React.Component {
       getSubscriptionResource,
       getPlacementRuleResource,
       editSubscription,
-      displaySubscriptionModal,
-      subscriptionModalHeaderInfo,
-      subscriptionModalSubscriptionInfo,
-      currentApplicationInfo,
-      currentChannelInfo,
-      currentSubscriptionInfo,
-      currentPlacementRuleInfo,
-      closeModal,
-      openEditChannelModal,
-      openEditApplicationModal,
-      openEditSubscriptionModal,
-      openEditPlacementRuleModal,
       loading,
-      appDropDownList,
       userRole,
       breadcrumbItems,
-      namespaceAccountId,
       fetchSubscriptions,
       fetchChannels,
-      fetchPlacementRules
+      fetchPlacementRules,
+      closeModal
     } = this.props
     const { locale } = this.context
 
-    let selectedAppName = ''
-    let selectedAppNS = ''
-    const isSingleApplicationView = breadcrumbItems.length == 2
-
-    let filteredApplications = ''
-    if (isSingleApplicationView) {
-      const urlArray = R.split('/', breadcrumbItems[1].url)
-      selectedAppName = urlArray[urlArray.length - 1]
-      selectedAppNS = urlArray[urlArray.length - 2]
-
-      // if there is only a single application, filter the list with the selectedAppName
-      filteredApplications = filterApps(QueryApplicationList, selectedAppName)
-    } else {
-      // multi app view
-      filteredApplications = filterApps(
-        QueryApplicationList,
-        AppDeployments.deploymentPipelineSearch
-      )
-    }
-
-    const applications = getApplicationsList(filteredApplications)
-    const appSubscriptions = HCMSubscriptionList.items
+    const applications = getApplicationsForSelection(
+      QueryApplicationList,
+      breadcrumbItems,
+      AppDeployments
+    )
 
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
     const channels = getChannelsList(HCMChannelList)
 
-    const channelTabs = {
-      tab1: msgs.get('modal.title.namespace', locale),
-      tab2: msgs.get('modal.title.helmRepo', locale),
-      tab3: msgs.get('modal.title.objectBucket', locale),
-      tab4: msgs.get('modal.title.gitRepo', locale)
-    }
-    const modalChannel = React.cloneElement(
-      CreateChannelModal(fetchChannels, channelTabs, locale),
-      {
-        resourceType: RESOURCE_TYPES.HCM_CHANNELS
-      }
-    )
-    const modalSubscription = React.cloneElement(
-      CreateSubscriptionModal(fetchSubscriptions, locale),
-      {
-        resourceType: RESOURCE_TYPES.HCM_SUBSCRIPTIONS
-      }
-    )
-    const modalPlacementRule = React.cloneElement(
-      CreatePlacementRuleModal(fetchPlacementRules, locale),
-      {
-        resourceType: RESOURCE_TYPES.HCM_PLACEMENT_RULES
-      }
-    )
-
-    //show perfmon actions only when one app is selected
-    const showHeaderLinks =
-      breadcrumbItems &&
-      breadcrumbItems instanceof Array &&
-      breadcrumbItems.length > 0
-
-    let dashboard = ''
-    let icamLink = ''
-    let app = undefined
+    const isSingleApplicationView =
+      breadcrumbItems && breadcrumbItems.length === 2
+    let selectedAppName = ''
+    let selectedAppNS = ''
+    let app = null
     if (
       applications &&
       applications instanceof Array &&
-      applications.length == 1
+      applications.length === 1
     ) {
       app = applications[0]
-      dashboard = app.dashboard
-
-      if (app && app._uid && namespaceAccountId)
-        icamLink = getICAMLinkForApp(
-          app._uid,
-          app.name,
-          app.cluster,
-          namespaceAccountId
-        )
+      selectedAppNS = app.namespace
+      selectedAppName = app.name
     }
 
     const subscriptionModalHeader =
-      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.deployable
+      AppDeployments.subscriptionModalHeaderInfo &&
+      AppDeployments.subscriptionModalHeaderInfo.deployable
     const subscriptionModalLabel =
-      subscriptionModalHeaderInfo && subscriptionModalHeaderInfo.application
+      AppDeployments.subscriptionModalHeaderInfo &&
+      AppDeployments.subscriptionModalHeaderInfo.application
 
     // This will trigger the edit Channel Modal because openEditChannelModal
     // is true AFTER the fetch of the channel data has been completed
-    if (openEditChannelModal) {
-      const data = R.pathOr([], ['data', 'items'], currentChannelInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_CHANNELS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
-      })
-    }
-
-    if (openEditApplicationModal) {
-      const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_APPLICATIONS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
-      })
-    }
-    // This will trigger the edit Subscription Modal because openEditSubscriptionModal
-    // is true AFTER the fetch of the subscription data has been completed
-    if (openEditSubscriptionModal) {
-      const data = R.pathOr([], ['data', 'items'], currentSubscriptionInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, {
-        name: name,
-        namespace: namespace,
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
-      })
-    }
-
-    // This will trigger the edit Placement Rule Modal because openEditPlacementRuleModal
-    // is true AFTER the fetch of the placement rule data has been completed
-    if (openEditPlacementRuleModal) {
-      const data = R.pathOr([], ['data', 'items'], currentPlacementRuleInfo)[0]
-      const name = R.pathOr('', ['metadata', 'name'], data)
-      const namespace = R.pathOr('', ['metadata', 'namespace'], data)
-      closeModal()
-      editResource(RESOURCE_TYPES.HCM_PLACEMENT_RULES, {
-        name: name,
-        namespace: namespace,
-        resourceDescriptionKey: 'modal.editresource.placementrule',
-        data: data,
-        helpLink:
-          'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
-      })
+    if (AppDeployments.openEditChannelModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_CHANNELS,
+        AppDeployments.currentChannelInfo || {},
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
+      )
+    } else if (AppDeployments.openEditApplicationModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_APPLICATIONS,
+        AppDeployments.currentApplicationInfo || {},
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
+      )
+    } else if (AppDeployments.openEditSubscriptionModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
+        AppDeployments.currentSubscriptionInfo || {},
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
+      )
+    } else if (AppDeployments.openEditPlacementRuleModal) {
+      showEditModalByType(
+        closeModal,
+        editResource,
+        RESOURCE_TYPES.HCM_PLACEMENT_RULES,
+        AppDeployments.currentPlacementRuleInfo || {},
+        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
+      )
     }
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
-        {showHeaderLinks && (
-          <div className="app-info-and-dashboard-links">
-            {serverProps &&
-              serverProps.isICAMRunning && (
-              <span>
-                <Link
-                  href={icamLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
-                  {msgs.get('application.launch.icam', locale)}
-                </Link>
-                <span className="app-info-and-dashboard-links-separator" />
-              </span>
+        {isSingleApplicationView && (
+          <HeaderActions
+            serverProps={serverProps}
+            getApplicationResource={getApplicationResource}
+            app={app}
+            namespaceAccountId={getNamespaceAccountId(
+              HCMNamespaceList,
+              selectedAppNS
             )}
-            {serverProps &&
-              serverProps.isGrafanaRunning && (
-              <span>
-                <Link
-                  href={dashboard}
-                  aria-disabled={!dashboard}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon
-                    className="app-dashboard-icon"
-                    name="icon--launch"
-                    fill="#3D70B2"
-                  />
-                  {msgs.get('application.launch.grafana', locale)}
-                </Link>
-                <span className="app-info-and-dashboard-links-separator" />
-              </span>
-            )}
-            <Link
-              href="#"
-              aria-disabled={!app}
-              onClick={() => {
-                //call edit app here
-                editResourceClick(app, getApplicationResource)
-              }}
-            >
-              <Icon
-                className="app-dashboard-icon"
-                name="icon--edit"
-                fill="#3D70B2"
-              />
-              {msgs.get('application.edit.app', locale)}
-            </Link>
-          </div>
+          />
         )}
         <div className="pipelineHeader">
           {msgs.get('description.title.deploymentPipeline', locale)}{' '}
@@ -612,17 +362,14 @@ class ApplicationDeploymentPipeline extends React.Component {
               globalAppData={GlobalApplicationDataList}
             />
           </div>
-          <div className="resource-cards-create-container">
-            {showCreate(userRole) && (
-              <React.Fragment>
-                <div className="AddResourceButton">{[modalSubscription]}</div>
-                <div className="AddResourceButton">{[modalPlacementRule]}</div>
-                <div className="AddResourceButton">{[modalChannel]}</div>
-              </React.Fragment>
-            )}
-          </div>
+          <CreateResourceActions
+            fetchChannels={fetchChannels}
+            fetchSubscriptions={fetchSubscriptions}
+            fetchPlacementRules={fetchPlacementRules}
+            userRole={userRole}
+          />
         </div>
-        {!showHeaderLinks && (
+        {!isSingleApplicationView && (
           <div className="searchAndButtonContainer">
             <Search
               className="deploymentPipelineSearch"
@@ -642,7 +389,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         <PipelineGrid
           applications={applications}
           channels={channels}
-          appSubscriptions={appSubscriptions}
+          appSubscriptions={HCMSubscriptionList.items}
           getChannelResource={getChannelResource}
           getSubscriptionResource={getSubscriptionResource}
           getPlacementRuleResource={getPlacementRuleResource}
@@ -657,19 +404,20 @@ class ApplicationDeploymentPipeline extends React.Component {
             actions.setCurrentsubscriptionModalData
           }
           updateAppDropDownList={actions.updateAppDropDownList}
-          appDropDownList={appDropDownList}
+          appDropDownList={AppDeployments.appDropDownList || []}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
           breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal
-          displayModal={displaySubscriptionModal}
+          displayModal={AppDeployments.displaySubscriptionModal}
           closeModal={actions.closeModals}
           header={subscriptionModalHeader}
           label={subscriptionModalLabel}
-          modalSubscription={modalSubscription}
           editSubscription={editSubscription}
-          subscriptionModalSubscriptionInfo={subscriptionModalSubscriptionInfo}
+          subscriptionModalSubscriptionInfo={
+            AppDeployments.subscriptionModalSubscriptionInfo
+          }
           bulkSubscriptionList={bulkSubscriptionList}
           applications={QueryApplicationList}
         />

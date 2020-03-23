@@ -8,7 +8,6 @@
  *******************************************************************************/
 
 import {
-  getChannelsList,
   getNumClustersForApp,
   getNumDeployables,
   getNumDeployments,
@@ -17,14 +16,17 @@ import {
   getNumFailedDeployments,
   getNumPolicyViolations,
   getPoliciesLinkForOneApplication,
-  getResourceChannels,
   getSearchLinkForAllApplications,
   getSearchLinkForAllChannels,
   getSearchLinkForAllClusters,
   getSearchLinkForAllPlacementRules,
   getSearchLinkForAllSubscriptions,
-  getSearchLinkForOneApplication
+  getSearchLinkForOneApplication,
+  showEditModalByType
 } from "../../../../../src-web/components/common/ResourceOverview/utils";
+import { RESOURCE_TYPES } from "../../../../../lib/shared/constants";
+import { channelObjectForEdit } from "../../../components/TestingData";
+import { editResource } from "../../../../../src-web/actions/common";
 
 const query_data1 = {
   name: "val",
@@ -233,49 +235,17 @@ const data2 = {
   related: []
 };
 
-describe("getChannelsList", () => {
-  const channelList = [
-    {
-      items: [
-        {
-          metadata: {
-            name: "name1",
-            pending: 1,
-            inprogress: 2,
-            failed: 3
-          }
-        },
-        {
-          metadata: {
-            name: "name3",
-            pending: 1,
-            failed: 2
-          }
-        }
-      ]
-    }
-  ];
-  const channelDud = {
-    itteemmss: [{ channel: [{}, {}] }, { deployables: [{}] }]
-  };
-  it("should return channel list to be displayed in cards on overview tab", () => {
-    const result = [
-      {
-        counts: {
-          completed: { total: 0 },
-          inProgress: { total: 0 },
-          failed: { total: 0 }
-        },
-        name: ""
-      }
-    ];
-    expect(getChannelsList(channelList)).toEqual(result);
-  });
-  it("should return blank array", () => {
-    expect(getChannelsList(channelDud)).toEqual([]);
+const closeModal = jest.fn();
+//const editResource = editResource
+/*
+describe("showEditModalByType", () => {
+  it("should return channel edit", () => {
+    const result = 4;
+    expect(showEditModalByType(closeModal, editResource
+      , RESOURCE_TYPES.HCM_CHANNELS, channelObjectForEdit, 'link')).toEqual(result);
   });
 });
-
+*/
 describe("getNumClustersForApp", () => {
   it("should return cluster count", () => {
     const result = 4;
@@ -283,6 +253,10 @@ describe("getNumClustersForApp", () => {
   });
   it("should return 0 if related is empty", () => {
     expect(getNumClustersForApp(query_data2)).toEqual(0);
+  });
+
+  it("should return 0 if no data", () => {
+    expect(getNumClustersForApp(null)).toEqual(0);
   });
 });
 
@@ -336,27 +310,10 @@ describe("getNumFailedDeployments", () => {
   });
 });
 
-describe("getResourceChannels", () => {
-  it("should return list of channels", () => {
-    const result = ["chn-gb/gbchn", "chn-gb/gbchn2", "chn-gb/gbchn"];
-    expect(getResourceChannels(realDataSampleWithSubscriptions)).toEqual(
-      result
-    );
-  });
-  it("should return a blank list of channels because of no subscrition", () => {
-    const result = [];
-    expect(getResourceChannels(realDataSampleWithNOSubscriptions)).toEqual(
-      result
-    );
-  });
-  it("should handle undefined object", () => {
-    expect(getResourceChannels(undefined)).toEqual([]);
-  });
-});
-
 describe("getNumPolicyViolations", () => {
-  it("should return policy violations count", () => {
-    expect(getNumPolicyViolations(query_data1)).toEqual(0);
+  const policies = { policies: [{ name: "aa" }] };
+  it("should return policy violations count 1", () => {
+    expect(getNumPolicyViolations(policies)).toEqual(1);
   });
   it("should return zero for no violations", () => {
     expect(getNumPolicyViolations(query_data1)).toEqual(0);

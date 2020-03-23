@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -9,7 +10,7 @@ import R from 'ramda'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Loading, Link, Icon } from 'carbon-components-react'
+import { Loading } from 'carbon-components-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
@@ -22,13 +23,10 @@ import {
 import {
   getNumDeployables,
   getNumDeployments,
-  getSearchLinkForOneApplication
+  getSearchLinkForOneApplication,
+  handleEditResource
 } from './utils'
-import { updateModal } from '../../../actions/common'
-import {
-  getResourcesStatusPerChannel,
-  editResourceClick
-} from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import { getResourcesStatusPerChannel } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
 import { withLocale } from '../../../providers/LocaleProvider'
 import resources from '../../../../lib/shared/resources'
 import { isAdminRole } from '../../../../lib/client/access-helper'
@@ -39,34 +37,13 @@ import {
 } from '../../../reducers/reducerAppDeployments'
 import apolloClient from '../../../../lib/client/apollo-client'
 import OverviewCards from '../../ApplicationDeploymentPipeline/components/InfoCards/OverviewCards'
-import { getICAMLinkForApp } from '../ResourceDetails/utils'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
+import { updateModal } from '../../../actions/common'
+import HeaderActions from '../../common/HeaderActions'
 
 resources(() => {
   require('./style.scss')
 })
-
-const handleEditResource = (dispatch, resourceType, data) => {
-  return dispatch(
-    updateModal({
-      open: true,
-      type: 'resource-edit',
-      action: 'put',
-      resourceType,
-      editorMode: 'yaml',
-      label: {
-        primaryBtn: 'modal.button.submit',
-        label: `modal.edit-${resourceType.name.toLowerCase()}.label`,
-        heading: `modal.edit-${resourceType.name.toLowerCase()}.heading`
-      },
-      helpLink: (data && data.helpLink) || '',
-      name: (data && data.name) || '',
-      namespace: (data && data.namespace) || '',
-      data: (data && data.data) || '',
-      resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
-    })
-  )
-}
 
 const ResourceOverview = withLocale(
   ({
@@ -92,6 +69,9 @@ const ResourceOverview = withLocale(
     if (!item) {
       return <Loading withOverlay={false} className="content-spinner" />
     }
+
+    const deploymentLabel = 'dashboard.card.deployment'
+    const deploymentsLabel = 'dashboard.card.deployments'
 
     if (openEditApplicationModal) {
       const data = R.pathOr([], ['data', 'items'], currentApplicationInfo)[0]
@@ -125,38 +105,26 @@ const ResourceOverview = withLocale(
         border: 'right'
       },
       {
-        msgKey:
-          deployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        msgKey: deployments > 1 ? deploymentsLabel : deploymentLabel,
         textKey: 'dashboard.card.total',
         count: deployments,
         targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.completed',
-        textKey:
-          completedDeployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        textKey: completedDeployments > 1 ? deploymentsLabel : deploymentLabel,
         count: completedDeployments,
         targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.inProgress',
-        textKey:
-          inProgressDeployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        textKey: inProgressDeployments > 1 ? deploymentsLabel : deploymentLabel,
         count: inProgressDeployments,
         targetTab: 1
       },
       {
         msgKey: 'dashboard.card.deployment.failed',
-        textKey:
-          failedDeployments > 1
-            ? 'dashboard.card.deployments'
-            : 'dashboard.card.deployment',
+        textKey: failedDeployments > 1 ? deploymentsLabel : deploymentLabel,
         count: failedDeployments,
         alert: failedDeployments > 0 ? true : false,
         targetTab: 1
@@ -175,68 +143,19 @@ const ResourceOverview = withLocale(
         border: 'left'
       })
     }
-    const dashboard = (item && item.dashboard) || ''
-    const enableGrafana = showGrafanaAction
-    const icamLink =
-      (item &&
-        namespaceAccountId &&
-        getICAMLinkForApp(
-          item._uid,
-          item.name,
-          item.cluster,
-          namespaceAccountId
-        )) ||
-      ''
-    const enableICAM = namespaceAccountId && showICAMAction && icamLink
+    const serverProps = {
+      isICAMRunning: showICAMAction,
+      isGrafanaRunning: showGrafanaAction
+    }
 
     return (
       <div id="resource-overview" className="overview-content">
-        <div className="app-info-and-dashboard-links">
-          {enableICAM && (
-            <span>
-              <Link href={icamLink} target="_blank" rel="noopener noreferrer">
-                <Icon
-                  className="app-dashboard-icon"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-                {msgs.get('application.launch.icam', locale)}
-              </Link>
-              <span className="app-info-and-dashboard-links-separator" />
-            </span>
-          )}
-          {enableGrafana && (
-            <span>
-              <Link
-                href={dashboard}
-                aria-disabled={!dashboard}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon
-                  className="app-dashboard-icon"
-                  name="icon--launch"
-                  fill="#3D70B2"
-                />
-                {msgs.get('application.launch.grafana', locale)}
-              </Link>
-              <span className="app-info-and-dashboard-links-separator" />
-            </span>
-          )}
-          <Link
-            href="#"
-            onClick={() => {
-              editResourceClick(item, getApplicationResource)
-            }}
-          >
-            <Icon
-              className="app-dashboard-icon"
-              name="icon--edit"
-              fill="#3D70B2"
-            />
-            {msgs.get('application.edit.app', locale)}
-          </Link>
-        </div>
+        <HeaderActions
+          serverProps={serverProps}
+          getApplicationResource={getApplicationResource}
+          app={item}
+          namespaceAccountId={namespaceAccountId}
+        />
         {(!item || loading) && <Loading withOverlay={true} />}
         {!showExpandedTopology ? (
           <React.Fragment>
@@ -310,7 +229,7 @@ const mapDispatchToProps = dispatch => {
         )
       ),
     editResource: (resourceType, data) =>
-      handleEditResource(dispatch, resourceType, data),
+      handleEditResource(dispatch, updateModal, resourceType, data),
     closeModal: () => dispatch(closeModals())
   }
 }

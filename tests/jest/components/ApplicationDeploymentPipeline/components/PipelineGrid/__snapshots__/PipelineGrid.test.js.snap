@@ -432,6 +432,55 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               <div
                 className="channelNameTitle"
               >
+                charts-v1
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeader"
+          >
+            <div
+              className="channelNameHeader"
+            >
+              <span>
+                <div
+                  className="yamlTitle"
+                >
+                  YAML
+                </div>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="channelEditIcon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--edit"
+                  onClick={[Function]}
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                  />
+                </svg>
+              </span>
+              <div
+                className="channelTitle"
+              >
+                Channel
+              </div>
+              <div
+                className="channelNameTitle"
+              >
                 stocktrader-ns
               </div>
             </div>
@@ -597,6 +646,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             <div
               className="subTotal"
             >
+              1
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
               0
             </div>
             <div
@@ -673,6 +740,144 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
         <div
           className="deployableRow"
         >
+          <div
+            className="channelColumnDep"
+          >
+            <div
+              className="bx--tile channelColumnDeployable addHover"
+              onClick={[Function]}
+            >
+              <div
+                className="subColHeader"
+              >
+                Subscription
+              </div>
+              <div
+                className="yamlEditSubContainer"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex={0}
+              >
+                <div
+                  className="yamlTitleSub"
+                >
+                  YAML
+                </div>
+                <svg
+                  alt=""
+                  aria-label=""
+                  className="subscriptionEditIcon"
+                  fill="#6089bf"
+                  fillRule="evenodd"
+                  height="16"
+                  name="icon--edit"
+                  onClick={[Function]}
+                  role="img"
+                  viewBox="0 0 16 16"
+                  width="16"
+                >
+                  <title>
+                    
+                  </title>
+                  <path
+                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                  />
+                </svg>
+              </div>
+              <div
+                className="subColName"
+              />
+              <div
+                className="namespaceDesc"
+              >
+                Namespace: undefined
+              </div>
+              <div
+                className="progressBarContainer"
+              >
+                <div
+                  id="ProgressBar"
+                >
+                  <div
+                    className="percentagesContainers"
+                  >
+                    <div
+                      className="pass"
+                    >
+                      <div
+                        className="percentage"
+                      >
+                        0%
+                      </div>
+                      <div
+                        className="resourceType"
+                      >
+                        <div
+                          className="completedSquare"
+                        />
+                        <div
+                          className="textResource"
+                        >
+                          Resources completed
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="inprogress"
+                    >
+                      <div
+                        className="percentage"
+                      >
+                        0%
+                      </div>
+                      <div
+                        className="resourceType"
+                      >
+                        <div
+                          className="inprogressSquare"
+                        />
+                        <div
+                          className="textResource"
+                        >
+                          Resources in progress
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="fail"
+                    >
+                      <div
+                        className="percentage"
+                      >
+                        0%
+                      </div>
+                      <div
+                        className="resourceType"
+                      >
+                        <div
+                          className="failedSquare"
+                        />
+                        <div
+                          className="textResource"
+                        >
+                          Resources failed
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="progressContainer"
+                    style={
+                      Object {
+                        "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             className="channelColumnDep"
           >
@@ -786,6 +991,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
       <div
         className="horizontalScrollRow"
       >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
         <div
           className="channelColumn"
         >
@@ -943,6 +1166,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             </div>
           </div>
         </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
       </div>
       <div
         className="horizontalScrollRow spaceOutBelow"
@@ -956,6 +1197,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
       <div
         className="horizontalScrollRow"
       >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
         <div
           className="channelColumn"
         >
@@ -1126,6 +1385,33 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             className="channelColumnDep"
           >
             <div
+              className="bx--tile channelColumnDeployable"
+            >
+              <img
+                alt="You don't have any subscriptions for this channel."
+                className="no-sub-icon"
+                src="undefined/graphics/nothing-moon-copy.svg"
+              />
+              <div
+                className="subDescriptionText"
+              >
+                <div
+                  className="noSubTitle"
+                >
+                  No subscriptions
+                </div>
+                <div
+                  className="noSubDescription"
+                >
+                  You don't have any subscriptions for this channel.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumnDep"
+          >
+            <div
               className="bx--tile channelColumnDeployable addHover"
               onClick={[Function]}
             >
@@ -1265,6 +1551,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
       <div
         className="horizontalScrollRow"
       >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
         <div
           className="channelColumn"
         >
@@ -1381,6 +1685,33 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             className="channelColumnDep"
           >
             <div
+              className="bx--tile channelColumnDeployable"
+            >
+              <img
+                alt="You don't have any subscriptions for this channel."
+                className="no-sub-icon"
+                src="undefined/graphics/nothing-moon-copy.svg"
+              />
+              <div
+                className="subDescriptionText"
+              >
+                <div
+                  className="noSubTitle"
+                >
+                  No subscriptions
+                </div>
+                <div
+                  className="noSubDescription"
+                >
+                  You don't have any subscriptions for this channel.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumnDep"
+          >
+            <div
               className="bx--tile channelColumnDeployable addHover"
               onClick={[Function]}
             >
@@ -1574,6 +1905,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
       <div
         className="horizontalScrollRow"
       >
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
         <div
           className="channelColumn"
         >
@@ -1663,6 +2012,33 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             className="channelColumnDep"
           >
             <div
+              className="bx--tile channelColumnDeployable"
+            >
+              <img
+                alt="You don't have any subscriptions for this channel."
+                className="no-sub-icon"
+                src="undefined/graphics/nothing-moon-copy.svg"
+              />
+              <div
+                className="subDescriptionText"
+              >
+                <div
+                  className="noSubTitle"
+                >
+                  No subscriptions
+                </div>
+                <div
+                  className="noSubDescription"
+                >
+                  You don't have any subscriptions for this channel.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="channelColumnDep"
+          >
+            <div
               className="bx--tile channelColumnDeployable addHover"
               onClick={[Function]}
             >
@@ -1928,6 +2304,24 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
             <div
               className="subTotal"
             >
+              0
+            </div>
+            <div
+              className="subTotalDescription"
+            >
+              Subscriptions in this channel
+            </div>
+          </div>
+        </div>
+        <div
+          className="channelColumn"
+        >
+          <div
+            className="bx--tile channelColumnHeaderApplication"
+          >
+            <div
+              className="subTotal"
+            >
               1
             </div>
             <div
@@ -1968,6 +2362,33 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
         <div
           className="deployableRow"
         >
+          <div
+            className="channelColumnDep"
+          >
+            <div
+              className="bx--tile channelColumnDeployable"
+            >
+              <img
+                alt="You don't have any subscriptions for this channel."
+                className="no-sub-icon"
+                src="undefined/graphics/nothing-moon-copy.svg"
+              />
+              <div
+                className="subDescriptionText"
+              >
+                <div
+                  className="noSubTitle"
+                >
+                  No subscriptions
+                </div>
+                <div
+                  className="noSubDescription"
+                >
+                  You don't have any subscriptions for this channel.
+                </div>
+              </div>
+            </div>
+          </div>
           <div
             className="channelColumnDep"
           >

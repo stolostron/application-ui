@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -131,7 +132,9 @@ class ApplicationTopologyModule extends React.Component {
     const namespace = decodeURIComponent(params.namespace)
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
-    this.props.fetchTopology(activeChannel)
+    if (activeChannel) {
+      this.props.fetchTopology(activeChannel)
+    }
     this.setState({ activeChannel })
     this.startPolling(60 * 1000) // poll at 60 seconds
   }

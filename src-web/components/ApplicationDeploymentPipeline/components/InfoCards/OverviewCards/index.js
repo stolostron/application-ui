@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -224,8 +225,11 @@ const getOverviewCardsData = (
 
 class OverviewCards extends React.Component {
   componentWillMount() {
-    const { fetchApplications } = this.props
-    fetchApplications()
+    const { fetchApplications, QueryApplicationList } = this.props
+
+    if (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE) {
+      fetchApplications()
+    }
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(

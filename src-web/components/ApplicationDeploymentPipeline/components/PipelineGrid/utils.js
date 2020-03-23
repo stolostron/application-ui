@@ -165,9 +165,7 @@ export const sortChannelsBySubscriptionLength = (
       getNbOfSubscriptionsForChannel(a, applicationList)
     )
   } // sort by lenght of subscriptions
-  const channels = R.sort(sortBy, channelList)
-
-  return channels
+  return R.sort(sortBy, channelList)
 }
 // This method will create the rows of subscriptions for each application
 // that will fall under the channel columns
@@ -214,7 +212,7 @@ export const createStandaloneSubscriptionPerChannel = (
               // if channel value is not set for standalone, fill it in
               if (sub._uid === item._uid) {
                 if (!sub.channel && sub.namespace && sub.name) {
-                  sub.channel = sub.namespace + '/' + sub.name
+                  sub.channel = `${sub.namespace}/${sub.name}`
                 }
                 columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
               }

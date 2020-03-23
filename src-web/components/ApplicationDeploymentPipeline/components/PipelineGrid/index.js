@@ -275,8 +275,9 @@ const ChannelColumnGrid = (
     standaloneSubscriptions = getStandaloneSubscriptions(bulkSubscriptionList)
 
     // add standalone ONLY if it exists
-    if (standaloneSubscriptions && standaloneSubscriptions.length > 0)
+    if (standaloneSubscriptions && standaloneSubscriptions.length > 0) {
       applicationList = R.prepend({ name: 'standalone' }, applicationList)
+    }
   }
 
   let hideDefaultCol = false
@@ -433,7 +434,7 @@ const ChannelColumnGrid = (
                       const displayStatus = subCol._uid
                       // show no subscriptions Tile
                       const showNoSubsTile =
-                        row == 1 && displayStatus === undefined
+                        row === 1 && displayStatus === undefined
                       // if there is more than one subscription and subCol.name is undefined
                       const showBlankFiller =
                         row > 1 && displayStatus === undefined
@@ -626,7 +627,7 @@ const PipelineGrid = withLocale(
 
     return (
       <div id="PipelineGrid">
-        {sortedChannels.length == 0 && (
+        {sortedChannels.length === 0 && (
           <div className="grid-item grid-item-deployable">
             <img
               className="no-res-icon"

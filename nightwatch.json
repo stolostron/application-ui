@@ -37,7 +37,7 @@
           "args": [
             "--no-sandbox",
             "--disable-gpu",
-            "window-size=1280,900",
+            "window-size=1280,950",
             "ignore-certificate-errors"
           ]
         }
@@ -53,7 +53,7 @@
       "desiredCapabilities": {
         "browserName": "chrome",
         "chromeOptions": {
-          "args" : ["window-size=1024,768"]
+          "args" : ["window-size=1280,950"]
         }
       }
     },

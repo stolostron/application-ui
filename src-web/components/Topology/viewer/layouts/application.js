@@ -195,7 +195,7 @@ const positionRowsDown = (
       case 'pod':
         deploymentPos =
             positionMap[`deployment/${name}-${getClusterName(id)}`]
-        if (deploymentPos != undefined) {
+        if (deploymentPos !== undefined) {
           pos.x = deploymentPos.x
         }
         key = `pod/${name}`

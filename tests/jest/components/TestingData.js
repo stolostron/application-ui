@@ -136,7 +136,9 @@ export const QueryApplicationList = {
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
-        Subscribed: 1
+        Subscribed: 1,
+        null: 3,
+        Failed: 6
       },
       podStatusCount: {
         Running: 1
@@ -209,6 +211,15 @@ export const QueryApplicationList = {
           __typename: "Subscription"
         }
       ],
+      created: "2020-02-11T23:26:18Z",
+      __typename: "Application"
+    },
+    {
+      _uid: "local-cluster/e77e69a7-4d25-11ea-a229-00000a100",
+      name: "app-no-channel",
+      namespace: "default",
+      dashboard: null,
+      clusterCount: 0,
       created: "2020-02-11T23:26:18Z",
       __typename: "Application"
     }
@@ -577,6 +588,20 @@ export const HCMNamespaceList = {
   ]
 };
 
+export const CEMIncidentList = {
+  status: "DONE",
+  items: [
+    {
+      name: "P1",
+      priority: "1"
+    },
+    {
+      name: "P2",
+      priority: "1"
+    }
+  ]
+};
+
 export const channelObjectForEdit = {
   data: {
     items: [
@@ -704,6 +729,16 @@ export const AppOverview = {
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 
+export const AppOverviewWithCEM = {
+  selectedAppTab: 0,
+  showAppDetails: false,
+  showExpandedTopology: false,
+  showICAMAction: true,
+  showGrafanaAction: true,
+  showCEMAction: true,
+  selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
+};
+
 export const namespaceAccountId = "id-mycluster-account";
 
 export const secondaryHeader = {
@@ -733,6 +768,25 @@ export const reduxStoreAppPipeline = {
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview,
   HCMNamespaceList: HCMNamespaceList
+};
+
+export const reduxStoreAppPipelineWithCEM = {
+  AppDeployments: {
+    displaySubscriptionModal: false
+  },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
+  secondaryHeader: secondaryHeader,
+  namespaceAccountId: namespaceAccountId,
+  QueryApplicationList: QueryApplicationList,
+  HCMChannelList: HCMChannelList,
+  HCMSubscriptionList: HCMSubscriptionList,
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverviewWithCEM,
+  HCMNamespaceList: HCMNamespaceList,
+  CEMIncidentList: CEMIncidentList
 };
 
 export const reduxStoreAllAppsPipeline = {

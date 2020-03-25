@@ -242,10 +242,11 @@ class ResourceCards extends React.Component {
       <div className={'resource-cards-info' + singleAppStyle}>
         {Object.keys(resourceCardsData).map(key => {
           const card = resourceCardsData[key]
+          const id = key + '_resourceCardsData'
           return (
             <React.Fragment key={key}>
               <div
-                id={key + '_resourceCardsData'}
+                id={id}
                 key={card}
                 className={
                   card.targetLink ? 'single-card clickable' : 'single-card'

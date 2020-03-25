@@ -304,7 +304,6 @@ const InfoCards = ({ overviewCardsData, actions }) => {
     <React.Fragment>
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
-
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)

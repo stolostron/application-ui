@@ -176,6 +176,7 @@ const positionRowsDown = (
       const pos = { x, y }
       const { node: { type, name, specs, id } } = n.data()
       let key = type
+      let deploymentPos
       switch (type) {
       case 'subscription':
         key = `subscription/${name}`
@@ -192,7 +193,11 @@ const positionRowsDown = (
         key = `deployment/${name}-${getClusterName(id)}`
         break
       case 'pod':
-        pos.x = positionMap[`deployment/${name}-${getClusterName(id)}`].x
+        deploymentPos =
+            positionMap[`deployment/${name}-${getClusterName(id)}`]
+        if (!(deploymentPos == undefined)) {
+          pos.x = deploymentPos.x
+        }
         key = `pod/${name}`
         break
       default:

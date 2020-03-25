@@ -588,6 +588,20 @@ export const HCMNamespaceList = {
   ]
 };
 
+export const CEMIncidentList = {
+  status: "DONE",
+  items: [
+    {
+      name: "P1",
+      priority: "1"
+    },
+    {
+      name: "P2",
+      priority: "1"
+    }
+  ]
+};
+
 export const channelObjectForEdit = {
   data: {
     items: [
@@ -715,6 +729,16 @@ export const AppOverview = {
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 
+export const AppOverviewWithCEM = {
+  selectedAppTab: 0,
+  showAppDetails: false,
+  showExpandedTopology: false,
+  showICAMAction: true,
+  showGrafanaAction: true,
+  showCEMAction: true,
+  selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
+};
+
 export const namespaceAccountId = "id-mycluster-account";
 
 export const secondaryHeader = {
@@ -744,6 +768,25 @@ export const reduxStoreAppPipeline = {
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview,
   HCMNamespaceList: HCMNamespaceList
+};
+
+export const reduxStoreAppPipelineWithCEM = {
+  AppDeployments: {
+    displaySubscriptionModal: false
+  },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
+  secondaryHeader: secondaryHeader,
+  namespaceAccountId: namespaceAccountId,
+  QueryApplicationList: QueryApplicationList,
+  HCMChannelList: HCMChannelList,
+  HCMSubscriptionList: HCMSubscriptionList,
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverviewWithCEM,
+  HCMNamespaceList: HCMNamespaceList,
+  CEMIncidentList: CEMIncidentList
 };
 
 export const reduxStoreAllAppsPipeline = {

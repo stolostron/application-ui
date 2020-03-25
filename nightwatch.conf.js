@@ -8,17 +8,17 @@
 var fs = require("fs"),
   config = require("./config");
 
-const argv = require("minimist")(process.argv.slice(2));
+// const argv = require("minimist")(process.argv.slice(2));
 
 module.exports = (settings => {
-  if (!fs.existsSync("node_modules/selenium-standalone/.selenium")) {
-    console.log("Selenium server not installed.  Installing..."); // eslint-disable-line no-console
-    const execSync = require("child_process").execSync;
-    execSync("npm run test:install-selenium", { stdio: [0, 1, 2] });
-  }
+  // if (!fs.existsSync("node_modules/selenium-standalone/.selenium")) {
+  //   console.log("Selenium server not installed.  Installing..."); // eslint-disable-line no-console
+  //   const execSync = require("child_process").execSync;
+  //   execSync("npm run test:install-selenium", { stdio: [0, 1, 2] });
+  // }
 
-  if (argv.env === "phantom" || argv.env === "local")
-    settings.selenium.start_process = true;
+  // if (argv.env === "phantom" || argv.env === "local")
+  //   settings.selenium.start_process = true;
 
   if (process.env.TEST_LOCAL) {
     var defaultUrl = `https://localhost:${config.get("httpPort")}`;
@@ -29,8 +29,8 @@ module.exports = (settings => {
   console.log("DEFAULT URL IS: ", defaultUrl); // eslint-disable-line no-console
 
   settings.test_settings.default.launch_url = defaultUrl;
-  settings.selenium.server_path += fs.readdirSync(
-    "node_modules/selenium-standalone/.selenium/selenium-server/"
-  );
+  // settings.selenium.server_path += fs.readdirSync(
+  //   "node_modules/selenium-standalone/.selenium/selenium-server/"
+  // );
   return settings;
 })(require("./nightwatch.json"));

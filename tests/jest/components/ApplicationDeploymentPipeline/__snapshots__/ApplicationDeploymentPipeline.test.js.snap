@@ -179,6 +179,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -214,6 +215,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -249,6 +251,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -275,6 +278,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -1058,6 +1062,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -1093,6 +1098,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -1128,6 +1134,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -1154,6 +1161,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -2829,6 +2837,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -2864,6 +2873,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -2882,7 +2892,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-text"
           >
-            1 Total subscription
+            10 Total subscriptions
           </div>
           <div
             className="row-divider"
@@ -2890,15 +2900,20 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-subtext"
           >
-            0 failed
+            6 failed
           </div>
-          
+          <div
+            className="card-subtext"
+          >
+            3 no status
+          </div>
         </div>
         <div
           className="column-divider"
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -2925,6 +2940,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -3642,6 +3658,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -3677,6 +3694,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -3712,6 +3730,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -3738,6 +3757,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -5305,6 +5325,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -5340,6 +5361,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -5375,6 +5397,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -5401,6 +5424,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -6968,6 +6992,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -7003,6 +7028,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -7038,6 +7064,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -7064,6 +7091,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -8631,6 +8659,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -8666,6 +8695,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -8701,6 +8731,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -8727,6 +8758,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -10402,6 +10434,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       >
         <div
           className="single-card clickable"
+          id="0_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -10437,6 +10470,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card clickable"
+          id="1_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -10455,7 +10489,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-text"
           >
-            1 Total subscription
+            10 Total subscriptions
           </div>
           <div
             className="row-divider"
@@ -10463,15 +10497,20 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-subtext"
           >
-            0 failed
+            6 failed
           </div>
-          
+          <div
+            className="card-subtext"
+          >
+            3 no status
+          </div>
         </div>
         <div
           className="column-divider"
         />
         <div
           className="single-card clickable"
+          id="2_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"
@@ -10498,6 +10537,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         />
         <div
           className="single-card"
+          id="3_resourceCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"

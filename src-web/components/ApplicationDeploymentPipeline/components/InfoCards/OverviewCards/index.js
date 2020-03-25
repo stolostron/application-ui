@@ -219,7 +219,6 @@ const getOverviewCardsData = (
           : ''
     })
   }
-
   return result
 }
 
@@ -304,7 +303,7 @@ const InfoCards = ({ overviewCardsData, actions }) => {
     <React.Fragment>
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
-
+        const id = `${key}_overviewCardsData`
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)
@@ -321,18 +320,12 @@ const InfoCards = ({ overviewCardsData, actions }) => {
         return (
           <React.Fragment key={key}>
             <div
+              id={id}
               key={card}
               className={
                 card.targetLink || card.targetTab
                   ? 'single-card clickable'
                   : 'single-card'
-              }
-              id={
-                overviewCardsData.length == 3
-                  ? 'card-cem-disabled'
-                  : '' || overviewCardsData.length == 4
-                    ? 'card-cem-enabled'
-                    : ''
               }
               role="button"
               tabIndex="0"

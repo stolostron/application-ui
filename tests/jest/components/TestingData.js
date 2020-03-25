@@ -136,7 +136,9 @@ export const QueryApplicationList = {
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
-        Subscribed: 1
+        Subscribed: 1,
+        null: 3,
+        Failed: 6
       },
       podStatusCount: {
         Running: 1
@@ -209,6 +211,15 @@ export const QueryApplicationList = {
           __typename: "Subscription"
         }
       ],
+      created: "2020-02-11T23:26:18Z",
+      __typename: "Application"
+    },
+    {
+      _uid: "local-cluster/e77e69a7-4d25-11ea-a229-00000a100",
+      name: "app-no-channel",
+      namespace: "default",
+      dashboard: null,
+      clusterCount: 0,
       created: "2020-02-11T23:26:18Z",
       __typename: "Application"
     }

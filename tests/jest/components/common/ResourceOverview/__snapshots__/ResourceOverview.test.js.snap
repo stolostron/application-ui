@@ -89,7 +89,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
         className="overview-cards-info single-app"
       >
         <div
-          className="single-card clickable"
+          className="single-card clickable card-cem-disabled"
           id="0_overviewCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -125,7 +125,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
           className="column-divider"
         />
         <div
-          className="single-card clickable"
+          className="single-card clickable card-cem-disabled"
           id="1_overviewCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -161,7 +161,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
           className="column-divider"
         />
         <div
-          className="single-card clickable"
+          className="single-card clickable card-cem-disabled"
           id="2_overviewCardsData"
           onClick={[Function]}
           onKeyPress={[Function]}

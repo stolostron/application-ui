@@ -14,6 +14,7 @@ export const mapBulkChannels = channels => {
       .filter(channel => {
         if (channel.items && channel.related) {
           const items = channel.items[0]
+          // revert when charts-v1 tag exists
           if (items.name === 'charts-v1') {
             return false
           }

@@ -28,25 +28,6 @@ describe("PipelineGrid", () => {
   const breadcrumbItems = "a/b/sample-ns/sample-app";
   const applications = [
     {
-      _uid: "local-cluster/e1023975-59c1-11ea-beb3-00000a100f0f",
-      name: "default-chart",
-      namespace: "default",
-      dashboard: null,
-      clusterCount: 0,
-      remoteSubscriptionStatusCount: {},
-      podStatusCount: {},
-      hubSubscriptions: [
-        {
-          _uid: "local-cluster/dab2af61-59c1-11ea-beb3-00000a100f0f",
-          status: "Propagated",
-          channel: "default/charts-v1",
-          __typename: "Subscription"
-        }
-      ],
-      created: "2020-03-17T15:52:44Z",
-      __typename: "Application"
-    },
-    {
       _uid: "local-cluster/ea63866d-1bb4-11ea-8ede-00000a100f0f",
       name: "jorge-test",
       namespace: "default",

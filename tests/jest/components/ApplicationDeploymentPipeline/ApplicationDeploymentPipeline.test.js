@@ -11,6 +11,7 @@ const React = require("../../../../node_modules/react");
 
 import ApplicationDeploymentPipeline from "../../../../src-web/components/ApplicationDeploymentPipeline";
 
+import { mount } from "enzyme";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import * as reducers from "../../../../src-web/reducers";
@@ -43,6 +44,17 @@ mockMath.random = () => 0.5;
 global.Math = mockMath;
 
 describe("ApplicationDeploymentPipeline", () => {
+  it("ApplicationsTab renders correctly with data on single app, create channel error", () => {
+    const wrapper = mount(
+      <Provider store={storeAllApps}>
+        <ApplicationDeploymentPipeline serverProps={serverProps} />
+      </Provider>
+    );
+    wrapper
+      .find(".bx--btn--primary")
+      .find({ id: "Channel" })
+      .simulate("click");
+  });
   it("ApplicationDeploymentPipeline renders spinner.", () => {
     const preloadedState = window.__PRELOADED_STATE__;
     const composeEnhancers =

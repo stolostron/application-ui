@@ -204,7 +204,9 @@ const LeftColumnForApplicationNames = (
         const longestSubscriptionArray = getLongestArray(
           subscriptionsUnderColumns
         )
+
         const getTotalSubs = application.hubSubscriptions.length //getTotalSubscriptions(subscriptionsUnderColumns)
+
         const expandRow = appDropDownList.includes(appName)
         const applicationTileClass = !expandRow
           ? 'applicationTile'
@@ -565,6 +567,7 @@ const ChannelColumnGrid = ({
 
                       // If the object isn't empty name will be defined
                       const displayStatus = subCol._uid
+
                       // show no subscriptions Tile
                       const showNoSubsTile =
                         row === 1 && displayStatus === undefined

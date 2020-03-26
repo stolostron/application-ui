@@ -11,6 +11,7 @@ const React = require("../../../node_modules/react");
 
 import ApplicationsTab from "../../../src-web/containers/ApplicationsTab";
 
+import { mount } from "enzyme";
 import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
@@ -39,6 +40,22 @@ const resourceType = {
 };
 
 describe("ApplicationsTab", () => {
+  it("ApplicationsTab renders correctly with data on single app, create app action", () => {
+    const wrapper = mount(
+      <BrowserRouter>
+        <Provider store={storeAllApps}>
+          <ApplicationsTab
+            serverProps={serverProps}
+            secondaryHeaderProps={secondaryHeaderProps}
+            resourceType={resourceType}
+            status="DONE"
+          />
+        </Provider>
+      </BrowserRouter>
+    );
+    wrapper.find(".bx--btn--primary").simulate("click");
+  });
+
   it("ApplicationsTab renders correctly with data on single app.", () => {
     const tree = renderer
       .create(

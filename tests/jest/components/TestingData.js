@@ -786,7 +786,10 @@ export const reduxStoreAppPipelineWithCEM = {
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   HCMNamespaceList: HCMNamespaceList,
-  CEMIncidentList: CEMIncidentList
+  CEMIncidentList: CEMIncidentList,
+  role: {
+    role: "ClusterAdministrator"
+  }
 };
 
 export const reduxStoreAllAppsPipeline = {

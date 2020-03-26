@@ -130,12 +130,15 @@ export const getSubscriptionDataOnHub = (
         ) {
           const subData = applications.items[appIndex].hubSubscriptions
           Object.keys(subData).map(subIndex => {
-            const subObj = {
-              status: subData[subIndex].status,
-              id: subData[subIndex]._uid
+            // revert when charts-v1 tag exists
+            if (((subData[subIndex].channel).split('/'))[1] !== 'predev-ch') {
+              const subObj = {
+                status: subData[subIndex].status,
+                id: subData[subIndex]._uid
+              }
+              allSubscriptions = allSubscriptions.concat(subObj)
+              allChannels = allChannels.concat(subData[subIndex].channel)
             }
-            allSubscriptions = allSubscriptions.concat(subObj)
-            allChannels = allChannels.concat(subData[subIndex].channel)
           })
           return
         }
@@ -147,12 +150,15 @@ export const getSubscriptionDataOnHub = (
         if (applications.items[appIndex].hubSubscriptions != undefined) {
           const subData = applications.items[appIndex].hubSubscriptions
           Object.keys(subData).map(subIndex => {
-            const subObj = {
-              status: subData[subIndex].status,
-              id: subData[subIndex]._uid
+            // revert when charts-v1 tag exists
+            if (((subData[subIndex].channel).split('/'))[1] !== 'predev-ch') {
+              const subObj = {
+                status: subData[subIndex].status,
+                id: subData[subIndex]._uid
+              }
+              allSubscriptions = allSubscriptions.concat(subObj)
+              allChannels = allChannels.concat(subData[subIndex].channel)
             }
-            allSubscriptions = allSubscriptions.concat(subObj)
-            allChannels = allChannels.concat(subData[subIndex].channel)
           })
         }
       })

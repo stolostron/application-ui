@@ -238,7 +238,7 @@ class OverviewCards extends React.Component {
       this.setState({ intervalId: intervalId })
     }
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
@@ -304,6 +304,10 @@ const InfoCards = ({ overviewCardsData, actions }) => {
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
         const id = `${key}_overviewCardsData`
+        var cemStatus = 'card-cem-disabled'
+        if (overviewCardsData.length === 4) {
+          cemStatus = 'card-cem-enabled'
+        }
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)
@@ -324,8 +328,8 @@ const InfoCards = ({ overviewCardsData, actions }) => {
               key={card}
               className={
                 card.targetLink || card.targetTab
-                  ? 'single-card clickable'
-                  : 'single-card'
+                  ? `single-card clickable ${cemStatus}`
+                  : `single-card ${cemStatus}`
               }
               role="button"
               tabIndex="0"

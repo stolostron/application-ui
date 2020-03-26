@@ -132,9 +132,7 @@ class ApplicationTopologyModule extends React.Component {
     const namespace = decodeURIComponent(params.namespace)
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
-    if (activeChannel) {
-      this.props.fetchTopology(activeChannel)
-    }
+    this.props.fetchTopology(activeChannel)
     this.setState({ activeChannel })
     this.startPolling(60 * 1000) // poll at 60 seconds
   }

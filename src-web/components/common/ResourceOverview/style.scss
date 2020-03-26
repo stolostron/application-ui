@@ -129,6 +129,12 @@
     flex: 1 0 100%;
   }
 
+  &-space-filler {
+    width: 100%;
+    display: inline-block;
+    min-height: 65px;
+  }
+
   &-with-padding {
     padding: 0 10px 30px 10px;
   }

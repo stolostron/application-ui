@@ -179,14 +179,17 @@ const ResourceOverview = withLocale(
             </div>
           </React.Fragment>
         ) : (
-          <div className="overview-content-bottom overview-content-with-padding">
-            <ApplicationTopologyModule
-              selectedNodeId={selectedNodeId}
-              showExpandedTopology={showExpandedTopology}
-              params={params}
-              actions={actions}
-            />
-          </div>
+          <React.Fragment>
+            <div className="overview-content-bottom overview-content-with-padding">
+              <ApplicationTopologyModule
+                selectedNodeId={selectedNodeId}
+                showExpandedTopology={showExpandedTopology}
+                params={params}
+                actions={actions}
+              />
+            </div>
+            <div className="overview-content-space-filler" />
+          </React.Fragment>
         )}
         <div className="overview-content-bottom overview-content-with-padding ">
           <div className="overview-content-additional-details">

@@ -7,11 +7,11 @@
  *******************************************************************************/
 import R from 'ramda'
 
-const isDataShown = (channel) => {
+const isDataShown = channel => {
   if (channel) {
     const splitChannel = channel.split('/')
     // revert when charts-v1 tag exists
-    if (splitChannel[1] === 'predev-ch') {
+    if (splitChannel.length === 2 && splitChannel[1] === 'charts-v1') {
       return false // don't show if it's charts-v1 channel
     }
   }

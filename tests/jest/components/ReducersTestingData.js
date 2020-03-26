@@ -13,6 +13,27 @@ export const subscriptions = {
       items: [
         {
           kind: "subscription",
+          name: "cert-manager-sub",
+          namespace: "ocm",
+          status: "Subscribed",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/ocm/subscriptions/cert-manager-sub/",
+          cluster: "local-cluster",
+          created: "2020-03-23T14:33:35Z",
+          channel: "ocm/charts-v1",
+          _hubClusterResource: "true",
+          _rbac: "ocm_apps.open-cluster-management.io_subscriptions",
+          _uid: "local-cluster/997f0f30-b5a1-4a6c-825d-c9f167204fc3",
+          apiversion: "v1",
+          apigroup: "apps.open-cluster-management.io",
+          package: "cert-manager"
+        }
+      ]
+    },
+    {
+      items: [
+        {
+          kind: "subscription",
           name: "multicluster-operators-subscription",
           namespace: "openshift-operators",
           selfLink:

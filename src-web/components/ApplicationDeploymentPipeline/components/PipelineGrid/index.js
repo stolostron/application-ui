@@ -205,16 +205,7 @@ const LeftColumnForApplicationNames = (
           subscriptionsUnderColumns
         )
 
-        // revert when charts-v1 tag exists
-        // const getTotalSubs = application.hubSubscriptions.length //getTotalSubscriptions(subscriptionsUnderColumns)
-
-        var getTotalSubs = 0
-        Object.keys(application.hubSubscriptions).map(i => {
-          const splitChannel = application.hubSubscriptions[i].channel.split('/')
-          if (splitChannel[1] !== 'predev-ch') {
-            getTotalSubs++
-          }
-        })
+        const getTotalSubs = application.hubSubscriptions.length //getTotalSubscriptions(subscriptionsUnderColumns)
 
         const expandRow = appDropDownList.includes(appName)
         const applicationTileClass = !expandRow
@@ -312,21 +303,10 @@ const NbOfSubscriptionsTile = ({ subscriptionsUnderColumns }, locale) => {
   return (
     <div className="horizontalScrollRow">
       {subscriptionsUnderColumns.map(subscriptions => {
-
-        // revert when charts-v1 tag exists
-        // var numSubs = subscriptions.length
-        var numSubs = 0
-        Object.keys(subscriptions).map(i => {
-          const splitChannel = subscriptions[i].channel.split('/')
-          if (splitChannel[1] !== 'predev-ch') {
-            numSubs++
-          }
-        })
-
         return (
           <div key={Math.random()} className="channelColumn">
             <Tile className="channelColumnHeaderApplication">
-              <div className="subTotal">{numSubs}</div>
+              <div className="subTotal">{subscriptions.length}</div>
               <div className="subTotalDescription">
                 {msgs.get('description.subsInChannel', locale)}
               </div>
@@ -439,7 +419,7 @@ const SubscriptionTile = (
           >
             {`${msgs.get('description.placement.rule', locale)}: ${
               placementRule.name
-              } `}
+            } `}
             <Icon
               name="icon--edit"
               fill="#6089bf"
@@ -450,7 +430,7 @@ const SubscriptionTile = (
               }
             />
           </div>
-        )}
+      )}
 
       <div className="progressBarContainer">
         <ProgressBar status={status} />
@@ -585,12 +565,8 @@ const ChannelColumnGrid = ({
                         0
                       ]
 
-                      // revert when charts-v1 tag exists
                       // If the object isn't empty name will be defined
-                      var displayStatus = undefined
-                      if (subCol && subCol.channel && ((subCol.channel).split('/'))[1] !== 'predev-ch') {
-                        displayStatus = subCol._uid
-                      }
+                      const displayStatus = subCol._uid
 
                       // show no subscriptions Tile
                       const showNoSubsTile =
@@ -762,7 +738,7 @@ const PipelineGrid = withLocale(
                 oneApplication={oneApplication}
                 bulkSubscriptionList={bulkSubscriptionList}
               />
-            )}
+          )}
           {sortedChannels.length > 0 && (
             <ChannelColumnGrid
               channelList={sortedChannels}

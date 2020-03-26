@@ -10,29 +10,78 @@ const React = require("../../../../node_modules/react");
 
 import ApplicationHeaderTabs from "../../../../src-web/containers/ApplicationHeaderTabs";
 
+import { mount } from "enzyme";
 import renderer from "react-test-renderer";
-import * as reducers from "../../../../src-web/reducers";
-
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
 
-const preloadedState = window.__PRELOADED_STATE__;
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = [thunkMiddleware];
+import configureMockStore from "redux-mock-store";
 
-const store = createStore(
-  combineReducers(reducers),
-  preloadedState,
-  composeEnhancers(applyMiddleware(...middleware))
-);
+import {
+  reduxStoreAppPipelineWithCEM,
+  serverProps
+} from "../../components/TestingData";
+
+const mockStore = configureMockStore();
 
 describe("ApplicationHeaderTabs", () => {
+  it("has functioning onclick, one app", () => {
+    const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
+
+    const component = mount(
+      <Provider store={storeApp}>
+        <ApplicationHeaderTabs
+          showExtraTabs={false}
+          serverProps={serverProps}
+        />
+      </Provider>
+    );
+  });
+
   it("ApplicationHeaderTabs renders correctly.", () => {
+    reduxStoreAppPipelineWithCEM.AppOverview.selectedAppTab = 2;
+    const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
+
     const tree = renderer
       .create(
-        <Provider store={store}>
-          <ApplicationHeaderTabs />
+        <Provider store={storeApp}>
+          <ApplicationHeaderTabs
+            showExtraTabs={false}
+            serverProps={serverProps}
+          />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationHeaderTabs renders correctly.", () => {
+    reduxStoreAppPipelineWithCEM.AppOverview.selectedAppTab = 1;
+    const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
+
+    const tree = renderer
+      .create(
+        <Provider store={storeApp}>
+          <ApplicationHeaderTabs
+            showExtraTabs={true}
+            serverProps={serverProps}
+          />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationHeaderTabs renders correctly.", () => {
+    reduxStoreAppPipelineWithCEM.AppOverview.selectedAppTab = 2;
+    const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
+
+    const tree = renderer
+      .create(
+        <Provider store={storeApp}>
+          <ApplicationHeaderTabs
+            showExtraTabs={true}
+            serverProps={serverProps}
+          />
         </Provider>
       )
       .toJSON();

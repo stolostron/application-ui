@@ -15,14 +15,11 @@ import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
-import configureMockStore from "redux-mock-store";
-
 import {
   reduxStoreAppPipeline,
   staticResourceDataApp
 } from "../../../components/TestingData";
 
-const mockStore = configureMockStore();
 reduxStoreAppPipeline.AppDeployments.openEditApplicationModal = true;
 reduxStoreAppPipeline.topology = {
   activeFilters: {
@@ -32,15 +29,13 @@ reduxStoreAppPipeline.topology = {
     }
   }
 };
-const storeApp = mockStore(reduxStoreAppPipeline);
 
-const preloadedState = window.__PRELOADED_STATE__;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunkMiddleware];
 
 const store = createStore(
   combineReducers(reducers),
-  preloadedState,
+  reduxStoreAppPipeline,
   composeEnhancers(applyMiddleware(...middleware))
 );
 
@@ -49,7 +44,7 @@ describe("ResourceOverview", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
-          <Provider store={storeApp}>
+          <Provider store={store}>
             <ResourceOverview
               resourceType={resourceType}
               params={params}

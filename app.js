@@ -58,31 +58,6 @@ require('./lib/shared/dust-helpers')
 var app = express()
 var morgan = require('morgan')
 
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ['\'none\''],
-      fontSrc: ['\'self\''],
-      scriptSrc: [
-        '\'unsafe-inline\'',
-        '\'self\'',
-        'blob:',
-        'cdn.segment.com',
-        'fast.appcues.com'
-      ],
-      connectSrc: [
-        '\'self\'',
-        'https://api.segment.io',
-        'wss://api.appcues.net',
-        'https://notify.bugsnag.com'
-      ],
-      imgSrc: ['*', 'data:'],
-      frameSrc: ['\'self\'', 'https://my.appcues.com'],
-      styleSrc: ['\'unsafe-inline\'', '\'self\'', 'https://fast.appcues.com']
-    }
-  })
-)
-
 if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({

@@ -229,6 +229,8 @@ const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Pragma', 'no-cache')
   if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
     return

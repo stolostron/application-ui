@@ -25,9 +25,19 @@ export const getLabelsListClass = list => {
   return { data: list, hover: '' }
 }
 
-//input ['a', 'b', 'c'] , output {"data": ["a", "b", "c"], "hover": ""}
-//input ['a', 'b', 'c', 'd', 'e', 'f', 'g'] , output {"data": ["a", "b", "c", "d", "e", "f..."], "hover": "g"}
-export const getCsvListClass = list => {
+//input related from an HCMSubscription
+export const getCsvListClass = related => {
+  let list = []
+
+  if (related) {
+    const deployables = R.find(R.propEq('kind', 'deployable'))(related)
+    if (deployables && deployables.items) {
+      list = deployables.items.map(deployable => {
+        return ` ${deployable.name}`
+      })
+    }
+  }
+
   if (list.length > 6) {
     const placeholder = R.concat(list[5], '...')
     let result = R.insert(5, placeholder, list)

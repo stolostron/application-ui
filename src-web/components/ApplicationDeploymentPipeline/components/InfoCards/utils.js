@@ -48,7 +48,8 @@ export const getSingleApplicationObject = list => {
 export const getNumPlacementRules = (
   subscriptions,
   isSingleApplicationView,
-  subscriptionNamespace
+  applicationName,
+  applicationNamespace
 ) => {
   if (subscriptions && subscriptions.items) {
     var allPlacementRules = []
@@ -57,10 +58,19 @@ export const getNumPlacementRules = (
     if (isSingleApplicationView) {
       Object.keys(subscriptions.items).map(subIndex => {
         // Get number of placement rules for the current application opened
-        if (subscriptions.items[subIndex].namespace === subscriptionNamespace) {
+        if (
+          subscriptions.items[subIndex].namespace === applicationNamespace &&
+          subscriptions.items[subIndex].related
+        ) {
           // Placement rule data found in "related" object
-          if (subscriptions.items[subIndex].related) {
-            const subData = subscriptions.items[subIndex].related
+          const subData = subscriptions.items[subIndex].related
+
+          // Check that the data's app name matches with the selected app name
+          const isCurrentApp = subData.find(data => {
+            return data.items[0].name === applicationName
+          })
+
+          if (isCurrentApp) {
             Object.keys(subData).map(kindIndex => {
               if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
                 const placementRules = subData[kindIndex].items
@@ -74,6 +84,7 @@ export const getNumPlacementRules = (
               }
             })
           }
+          return
         }
       })
     } else {
@@ -94,8 +105,10 @@ export const getNumPlacementRules = (
                 allPlacementRules = allPlacementRules.concat(prObj)
               })
             }
+            return
           })
         }
+        return
       })
     }
 
@@ -126,7 +139,7 @@ export const getSubscriptionDataOnHub = (
         if (
           applications.items[appIndex].name === applicationName &&
           applications.items[appIndex].namespace === applicationNamespace &&
-          applications.items[appIndex].hubSubscriptions != undefined
+          applications.items[appIndex].hubSubscriptions
         ) {
           const subData = applications.items[appIndex].hubSubscriptions
           Object.keys(subData).map(subIndex => {
@@ -144,7 +157,7 @@ export const getSubscriptionDataOnHub = (
       // Root application view
       // Get subscription data for all applications
       Object.keys(applications.items).map(appIndex => {
-        if (applications.items[appIndex].hubSubscriptions != undefined) {
+        if (applications.items[appIndex].hubSubscriptions) {
           const subData = applications.items[appIndex].hubSubscriptions
           Object.keys(subData).map(subIndex => {
             const subObj = {
@@ -211,10 +224,7 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         applications.items[appIndex].clusterCount != undefined &&
           (managedClusterCount = applications.items[appIndex].clusterCount)
         // Increment counts if the data exists
-        if (
-          applications.items[appIndex].remoteSubscriptionStatusCount !=
-          undefined
-        ) {
+        if (applications.items[appIndex].remoteSubscriptionStatusCount) {
           const subData =
             applications.items[appIndex].remoteSubscriptionStatusCount
           subData.Failed != undefined && (failedSubsCount = subData.Failed)
@@ -245,7 +255,7 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
     applications.items.clusterCount != undefined &&
       (managedClusterCount = applications.items.clusterCount)
     // Increment counts if the data exists
-    if (applications.items.remoteSubscriptionStatusCount != undefined) {
+    if (applications.items.remoteSubscriptionStatusCount) {
       const subData = applications.items.remoteSubscriptionStatusCount
       subData.Failed != undefined && (failedSubsCount = subData.Failed)
       subData.null != undefined && (noStatusSubsCount = subData.null)
@@ -278,36 +288,35 @@ export const getPodData = (
       // Get pod data for the current application opened
       if (
         applications.items[appIndex].name === applicationName &&
-        applications.items[appIndex].namespace === applicationNamespace
+        applications.items[appIndex].namespace === applicationNamespace &&
+        applications.items[appIndex].podStatusCount
       ) {
         // Increment counts if the data exists
-        if (applications.items[appIndex].podStatusCount != undefined) {
-          const podData = applications.items[appIndex].podStatusCount
-          const podStatuses = Object.keys(podData)
-          podStatuses.forEach(status => {
-            if (
-              status.toLowerCase() === 'running' ||
-              status.toLowerCase() === 'pass' ||
-              status.toLowerCase() === 'deployed'
-            ) {
-              runningPods += podData[status]
-            } else if (
-              status.toLowerCase() === 'pending' ||
-              status.toLowerCase().includes('progress')
-            ) {
-              inProgressPods += podData[status]
-            } else if (
-              status.toLowerCase().includes('fail') ||
-              status.toLowerCase().includes('error') ||
-              status.toLowerCase().includes('backoff')
-            ) {
-              failedPods += podData[status]
-            } else {
-              allPods += podData[status]
-            }
-          })
-          allPods += runningPods + failedPods + inProgressPods
-        }
+        const podData = applications.items[appIndex].podStatusCount
+        const podStatuses = Object.keys(podData)
+        podStatuses.forEach(status => {
+          if (
+            status.toLowerCase() === 'running' ||
+            status.toLowerCase() === 'pass' ||
+            status.toLowerCase() === 'deployed'
+          ) {
+            runningPods += podData[status]
+          } else if (
+            status.toLowerCase() === 'pending' ||
+            status.toLowerCase().includes('progress')
+          ) {
+            inProgressPods += podData[status]
+          } else if (
+            status.toLowerCase().includes('fail') ||
+            status.toLowerCase().includes('error') ||
+            status.toLowerCase().includes('backoff')
+          ) {
+            failedPods += podData[status]
+          } else {
+            allPods += podData[status]
+          }
+        })
+        allPods += runningPods + failedPods + inProgressPods
       }
     })
   }

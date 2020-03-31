@@ -72,6 +72,7 @@ const getResourceCardsData = (
   const placementRules = getNumPlacementRules(
     HCMSubscriptionList,
     isSingleApplicationView,
+    applicationName,
     applicationNamespace
   )
 

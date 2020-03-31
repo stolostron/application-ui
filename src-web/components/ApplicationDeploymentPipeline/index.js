@@ -147,7 +147,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       serverProps
     } = this.props
 
-    if (serverProps && serverProps.jestTest) return //don't fetch resources on jest test
+    if (serverProps && serverProps.jestTest) {
+      return //don't fetch resources on jest test
+    }
 
     fetchApplications()
     fetchChannels()

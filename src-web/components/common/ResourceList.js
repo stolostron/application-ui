@@ -56,7 +56,9 @@ class ResourceList extends React.Component {
       this.setState({ intervalId: intervalId })
     }
 
-    if (serverProps && serverProps.jestTest) return //don't fetch resources on jest test
+    if (serverProps && serverProps.jestTest) {
+      return //don't fetch resources on jest test
+    }
 
     const { fetchResources, selectedFilters = [] } = this.props
     fetchResources(selectedFilters)

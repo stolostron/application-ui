@@ -868,7 +868,11 @@ export const secondaryHeaderAllApps = {
 
 export const reduxStoreAppPipeline = {
   AppDeployments: {
-    displaySubscriptionModal: false
+    displaySubscriptionModal: false,
+    subscriptionModalHeaderInfo: {
+      application: "app",
+      deployable: "depp"
+    }
   },
   resourceFilters: {
     filters: {},

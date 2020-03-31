@@ -84,7 +84,6 @@ export const getNumPlacementRules = (
               }
             })
           }
-          return
         }
       })
     } else {
@@ -105,10 +104,8 @@ export const getNumPlacementRules = (
                 allPlacementRules = allPlacementRules.concat(prObj)
               })
             }
-            return
           })
         }
-        return
       })
     }
 

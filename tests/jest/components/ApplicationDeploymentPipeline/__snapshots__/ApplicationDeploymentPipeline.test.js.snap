@@ -188,7 +188,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-count"
           >
-            3
+            2
           </div>
           <div
             className="card-type"
@@ -1071,7 +1071,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-count"
           >
-            3
+            2
           </div>
           <div
             className="card-type"
@@ -1382,7 +1382,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              6 
+              5 
               subscriptions
             </div>
           </div>
@@ -1464,7 +1464,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="appDeployables"
               >
-                3 
+                2 
                 subscriptions
               </div>
             </div>
@@ -1477,14 +1477,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 "display": "none",
               }
             }
-          >
-            <div
-              className="bx--tile deployableTile"
-            />
-            <div
-              className="bx--tile deployableTile"
-            />
-          </div>
+          />
         </div>
       </div>
       <div
@@ -1653,7 +1646,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                2
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -1671,7 +1664,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                1
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -1707,506 +1700,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               "display": "none",
             }
           }
-        >
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  guestbook-subscription
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: kube-system
-                </div>
-                <div
-                  className="placementRuleDesc"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-                >
-                  Placement Rule: guestbook-placementrule 
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="placementEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-          </div>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -3667,7 +3161,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-count"
           >
-            3
+            2
           </div>
           <div
             className="card-type"
@@ -3978,7 +3472,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              6 
+              5 
               subscriptions
             </div>
           </div>
@@ -4060,7 +3554,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="appDeployables"
               >
-                3 
+                2 
                 subscriptions
               </div>
             </div>
@@ -4073,14 +3567,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 "display": "none",
               }
             }
-          >
-            <div
-              className="bx--tile deployableTile"
-            />
-            <div
-              className="bx--tile deployableTile"
-            />
-          </div>
+          />
         </div>
       </div>
       <div
@@ -4249,7 +3736,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                2
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -4267,7 +3754,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                1
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -4303,506 +3790,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               "display": "none",
             }
           }
-        >
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  guestbook-subscription
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: kube-system
-                </div>
-                <div
-                  className="placementRuleDesc"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-                >
-                  Placement Rule: guestbook-placementrule 
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="placementEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-          </div>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -5334,7 +4322,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-count"
           >
-            3
+            2
           </div>
           <div
             className="card-type"
@@ -5645,7 +4633,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              6 
+              5 
               subscriptions
             </div>
           </div>
@@ -5727,7 +4715,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="appDeployables"
               >
-                3 
+                2 
                 subscriptions
               </div>
             </div>
@@ -5740,14 +4728,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 "display": "none",
               }
             }
-          >
-            <div
-              className="bx--tile deployableTile"
-            />
-            <div
-              className="bx--tile deployableTile"
-            />
-          </div>
+          />
         </div>
       </div>
       <div
@@ -5916,7 +4897,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                2
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -5934,7 +4915,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                1
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -5970,506 +4951,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               "display": "none",
             }
           }
-        >
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  guestbook-subscription
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: kube-system
-                </div>
-                <div
-                  className="placementRuleDesc"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-                >
-                  Placement Rule: guestbook-placementrule 
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="placementEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-          </div>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -7001,7 +5483,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-count"
           >
-            3
+            2
           </div>
           <div
             className="card-type"
@@ -7312,7 +5794,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              6 
+              5 
               subscriptions
             </div>
           </div>
@@ -7394,7 +5876,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="appDeployables"
               >
-                3 
+                2 
                 subscriptions
               </div>
             </div>
@@ -7407,14 +5889,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 "display": "none",
               }
             }
-          >
-            <div
-              className="bx--tile deployableTile"
-            />
-            <div
-              className="bx--tile deployableTile"
-            />
-          </div>
+          />
         </div>
       </div>
       <div
@@ -7583,7 +6058,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                2
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -7601,7 +6076,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                1
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -7637,506 +6112,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               "display": "none",
             }
           }
-        >
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  guestbook-subscription
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: kube-system
-                </div>
-                <div
-                  className="placementRuleDesc"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-                >
-                  Placement Rule: guestbook-placementrule 
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="placementEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-          </div>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -8668,7 +6644,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
           <div
             className="card-count"
           >
-            3
+            2
           </div>
           <div
             className="card-type"
@@ -8979,7 +6955,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              6 
+              5 
               subscriptions
             </div>
           </div>
@@ -9061,7 +7037,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="appDeployables"
               >
-                3 
+                2 
                 subscriptions
               </div>
             </div>
@@ -9074,14 +7050,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 "display": "none",
               }
             }
-          >
-            <div
-              className="bx--tile deployableTile"
-            />
-            <div
-              className="bx--tile deployableTile"
-            />
-          </div>
+          />
         </div>
       </div>
       <div
@@ -9250,7 +7219,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                2
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -9268,7 +7237,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="subTotal"
               >
-                1
+                0
               </div>
               <div
                 className="subTotalDescription"
@@ -9304,506 +7273,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               "display": "none",
             }
           }
-        >
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  guestbook-subscription
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: kube-system
-                </div>
-                <div
-                  className="placementRuleDesc"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-                >
-                  Placement Rule: guestbook-placementrule 
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="placementEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="deployableRow"
-          >
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
-              >
-                <div
-                  className="subColHeader"
-                >
-                  Subscription
-                </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="subColName"
-                >
-                  orphan
-                </div>
-                <div
-                  className="namespaceDesc"
-                >
-                  Namespace: default
-                </div>
-                <div
-                  className="progressBarContainer"
-                >
-                  <div
-                    id="ProgressBar"
-                  >
-                    <div
-                      className="percentagesContainers"
-                    >
-                      <div
-                        className="pass"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="completedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources completed
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="inprogress"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="inprogressSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources in progress
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        className="fail"
-                      >
-                        <div
-                          className="percentage"
-                        >
-                          0%
-                        </div>
-                        <div
-                          className="resourceType"
-                        >
-                          <div
-                            className="failedSquare"
-                          />
-                          <div
-                            className="textResource"
-                          >
-                            Resources failed
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="progressContainer"
-                      style={
-                        Object {
-                          "background": "linear-gradient(to right,  #cccccc 0%, #cccccc 100%)",
-                        }
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployableBlank"
-              />
-            </div>
-          </div>
-        </div>
+        />
       </div>
     </div>
   </div>
@@ -10946,7 +8416,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <div
                   className="subColName"
                 >
-                  orphan
+                  mortgage-app-subscription
                 </div>
                 <div
                   className="namespaceDesc"

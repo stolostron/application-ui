@@ -57,32 +57,17 @@ const SubscriptionInfo = withLocale(
     let subName = ''
     let subNamespace = ''
     let label_hover = ''
-    // let clusters_hover = ''
-    // let deployables_hover = ''
     let owningClusterName = ''
     let channel = ''
     const status = (subscriptionModalSubscriptionInfo &&
       subscriptionModalSubscriptionInfo.applicationStatus) || [0, 0, 0, 0, 0]
-    // let version = ''
 
     if (notEmptySubscription) {
       // Gather the subscription data that contains the matching UID
-      let subscriptionWithRelatedData = getDataByKind(
+      const subscriptionWithRelatedData = getDataByKind(
         bulkSubscriptionList,
         subscriptionModalSubscriptionInfo._uid
       )
-
-      if (
-        (!subscriptionWithRelatedData ||
-          R.isEmpty(subscriptionWithRelatedData)) &&
-        subscriptionModalSubscriptionInfo.name &&
-        subscriptionModalSubscriptionInfo.namespace
-      ) {
-        subscriptionWithRelatedData = R.find(
-          R.propEq('name', subscriptionModalSubscriptionInfo.name) &&
-            R.propEq('namespace', subscriptionModalSubscriptionInfo.namespace)
-        )(bulkSubscriptionList)
-      }
       const foundBulkSubscription =
         subscriptionWithRelatedData && !R.isEmpty(subscriptionWithRelatedData)
       if (foundBulkSubscription) {
@@ -92,29 +77,8 @@ const SubscriptionInfo = withLocale(
           subscriptionWithRelatedData
         )
 
-        //foundBulkSubscription is the main subscription created on the hub
-        //need to get all subscriptions linked to this one; we want the subscriptions created on remote clusters only
-        //they will be identified by the _hostingSubscription ( not null means this is a remote cluster subscription)
-        let remoteSubscriptions = R.find(R.propEq('kind', 'subscription'))(
-          related
-        )
-        if (remoteSubscriptions && remoteSubscriptions.items) {
-          //filter out and return only remote cluster subscriptions
-          const isRemoteSubscr = item => item._hostingSubscription
-          remoteSubscriptions = R.filter(
-            isRemoteSubscr,
-            remoteSubscriptions.items
-          )
-        }
-
-        const deployables = R.find(R.propEq('kind', 'deployable'))(related)
-        if (deployables && deployables.items) {
-          deployableNames = deployables.items.map(deployable => {
-            return ' ' + deployable.name || ''
-          })
-        }
+        deployableNames = getCsvListClass(related).data
       }
-
       labels = R.split(
         ';',
         R.pathOr('N/A', ['label'], subscriptionModalSubscriptionInfo)
@@ -124,20 +88,8 @@ const SubscriptionInfo = withLocale(
       labels = labels_data.data
       label_hover = labels_data.hover
 
-      const deployables_data = getCsvListClass(deployableNames)
-      deployableNames = deployables_data.data
-      // deployables_hover = deployables_data.hover
-
-      subName =
-        subscriptionModalSubscriptionInfo &&
-        subscriptionModalSubscriptionInfo.name
-          ? subscriptionModalSubscriptionInfo.name
-          : ''
-      subNamespace =
-        subscriptionModalSubscriptionInfo &&
-        subscriptionModalSubscriptionInfo.namespace
-          ? subscriptionModalSubscriptionInfo.namespace
-          : ''
+      subName = subscriptionModalSubscriptionInfo.name
+      subNamespace = subscriptionModalSubscriptionInfo.namespace
 
       owningClusterName = R.pathOr(
         '',

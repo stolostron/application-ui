@@ -8585,11 +8585,15 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
         <div
           className="bx--modal-header"
         >
-          
+          <h4
+            className="bx--modal-header__label"
+          >
+            app
+          </h4>
           <h2
             className="bx--modal-header__heading"
           >
-            
+            depp
           </h2>
           <button
             className="bx--modal-close"

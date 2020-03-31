@@ -13,6 +13,7 @@ export const serverProps = {
   isICAMRunning: true,
   isCEMRunning: true,
   isGrafanaRunning: true,
+  jestTest: true,
   context: {
     locale: "en-US"
   },
@@ -867,7 +868,11 @@ export const secondaryHeaderAllApps = {
 
 export const reduxStoreAppPipeline = {
   AppDeployments: {
-    displaySubscriptionModal: false
+    displaySubscriptionModal: false,
+    subscriptionModalHeaderInfo: {
+      application: "app",
+      deployable: "depp"
+    }
   },
   resourceFilters: {
     filters: {},

@@ -23,7 +23,8 @@ import configureMockStore from "redux-mock-store";
 
 import {
   reduxStoreAppPipelineWithCEM,
-  CEMIncidentList
+  CEMIncidentList,
+  serverProps
 } from "../../../../TestingData";
 
 const mockStore = configureMockStore();
@@ -47,6 +48,7 @@ describe("OverviewCards", () => {
           selectedAppName="mortgage-app"
           selectedAppNS="default"
           CEMIncidentList={CEMIncidentList}
+          serverProps={serverProps}
         />
       </Provider>
     );

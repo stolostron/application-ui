@@ -167,6 +167,7 @@ const ResourceOverview = withLocale(
                 <OverviewCards
                   selectedAppName={params.name}
                   selectedAppNS={params.namespace}
+                  serverProps={serverProps}
                 />
               </div>
             </div>

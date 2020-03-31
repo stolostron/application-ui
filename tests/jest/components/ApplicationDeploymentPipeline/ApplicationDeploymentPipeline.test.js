@@ -54,6 +54,20 @@ describe("ApplicationDeploymentPipeline", () => {
       .find(".bx--btn--primary")
       .find({ id: "Channel" })
       .simulate("click");
+
+    wrapper
+      .find(".bx--btn--primary")
+      .find({ id: "Subscription" })
+      .simulate("click");
+
+    wrapper
+      .find(".bx--btn--primary")
+      .find({ id: "Placement Rule" })
+      .simulate("click");
+
+    wrapper.find(".bx--search-input").simulate("change");
+
+    wrapper.find(".bx--search-close").simulate("change");
   });
   it("ApplicationDeploymentPipeline renders spinner.", () => {
     const preloadedState = window.__PRELOADED_STATE__;

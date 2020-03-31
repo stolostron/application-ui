@@ -205,7 +205,7 @@ const LeftColumnForApplicationNames = (
           subscriptionsUnderColumns
         )
 
-        const getTotalSubs = application.hubSubscriptions.length //getTotalSubscriptions(subscriptionsUnderColumns)
+        const getTotalSubs = application.hubSubscriptions.length
 
         const expandRow = appDropDownList.includes(appName)
         const applicationTileClass = !expandRow

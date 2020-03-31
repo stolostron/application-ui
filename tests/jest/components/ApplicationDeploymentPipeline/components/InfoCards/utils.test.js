@@ -48,6 +48,7 @@ describe("getNumPlacementRules", () => {
     const placementRuleCount = getNumPlacementRules(
       placementRuleSampleData,
       true,
+      "app1",
       "default"
     );
 
@@ -58,6 +59,7 @@ describe("getNumPlacementRules", () => {
     const placementRuleCount = getNumPlacementRules(
       placementRuleSampleData,
       false,
+      "app1",
       "default"
     );
 
@@ -65,7 +67,12 @@ describe("getNumPlacementRules", () => {
   });
 
   it("no subscription data", () => {
-    const placementRuleCount = getNumPlacementRules(emptyData, true, "default");
+    const placementRuleCount = getNumPlacementRules(
+      emptyData,
+      true,
+      "app1",
+      "default"
+    );
 
     expect(placementRuleCount).toEqual(0);
   });
@@ -228,6 +235,14 @@ const placementRuleSampleData = {
       name: "app1",
       namespace: "default",
       related: [
+        {
+          kind: "application",
+          items: [
+            {
+              name: "app1"
+            }
+          ]
+        },
         {
           kind: "placementrule",
           items: [

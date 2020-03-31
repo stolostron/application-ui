@@ -15,18 +15,32 @@ import thunkMiddleware from "redux-thunk";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
-const preloadedState = window.__PRELOADED_STATE__;
+import {
+  reduxStoreAppPipeline,
+  staticResourceDataApp
+} from "../../../components/TestingData";
+
+reduxStoreAppPipeline.AppDeployments.openEditApplicationModal = true;
+reduxStoreAppPipeline.topology = {
+  activeFilters: {
+    application: {
+      name: "samplebook-gbapp",
+      namespace: "sample"
+    }
+  }
+};
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunkMiddleware];
 
 const store = createStore(
   combineReducers(reducers),
-  preloadedState,
+  reduxStoreAppPipeline,
   composeEnhancers(applyMiddleware(...middleware))
 );
 
 describe("ResourceOverview", () => {
-  it("ResourceOverview renders correctly", () => {
+  it("ResourceOverview renders ", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
@@ -34,7 +48,12 @@ describe("ResourceOverview", () => {
             <ResourceOverview
               resourceType={resourceType}
               params={params}
-              role={role}
+              userRole={role}
+              staticResourceData={staticResourceDataApp}
+              showExpandedTopology={false}
+              showICAMAction={true}
+              namespaceAccountId={111}
+              match={match}
             />
           </Provider>
         </BrowserRouter>
@@ -43,7 +62,7 @@ describe("ResourceOverview", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("ResourceOverview renders correctly with empty params", () => {
+  it("ResourceOverview renders spinner", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
@@ -66,9 +85,15 @@ const resourceType = {
   list: "QueryApplicationList"
 };
 
+const match = {
+  path: "/multicloud/applications/sample/samplebook-gbapp",
+  url: "/multicloud/applications/sample/samplebook-gbapp",
+  isExact: true
+};
+
 const params = {
-  name: "app1",
-  namespace: "default"
+  name: "samplebook-gbapp",
+  namespace: "sample"
 };
 
 const emptyParams = {

@@ -4,6 +4,9 @@
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
+ *
+ * Copyright (c) 2020 Red Hat, Inc.
+ *
  *******************************************************************************/
 
 import R from 'ramda'
@@ -22,29 +25,6 @@ export const kindsToExcludeForDeployments = [
   'vulnerabilitypolicy',
   'mutationpolicy'
 ]
-
-// A created Mapper to create the row for our application data table
-const mapApplicationLookUp = application => {
-  const { name, namespace, related } = application
-  const idRef = name || 'default'
-  return {
-    [idRef]: {
-      id: name || '',
-      name: name || '',
-      namespace: namespace || '',
-      deployables: related || []
-    }
-  }
-}
-
-// Method will take in an object of applications and return back a mapped version
-// for the DataTable that will contain more data that we will use to look up and
-// reference given the ID
-export const createApplicationRowsLookUp = list => {
-  const mappedApps =
-    (list && list.map(item => mapApplicationLookUp(item))) || {}
-  return R.mergeAll(mappedApps)
-}
 
 // This contains all the actions that will be done when subscrition name under application
 // Opens the modal and sets the header information and subscription information
@@ -83,18 +63,6 @@ export const editResourceClick = (resource, getResource) => {
   )
 }
 
-// This method will find the matching subscription the the given channel and
-// return the corresponding subscription from the list
-// ----------------
-// This is no longer being used but keeping it here for now
-// ----------------
-export const findMatchingSubscription = (subscriptionList, channelName) => {
-  const subscription =
-    subscriptionList &&
-    R.find(R.propEq('channel', channelName))(subscriptionList)
-  return (subscription && subscription.raw) || {}
-}
-
 // Use tested Ramda to pull out uid
 export const getDataByKind = (list, uid) => {
   if (list) {
@@ -102,36 +70,6 @@ export const getDataByKind = (list, uid) => {
     return result || {}
   }
   return {}
-}
-
-// ----------------
-// This is no longer being used but keeping it here for now
-// ----------------
-export const getDataByKindByChannels = (data, channelNamespace = false) => {
-  if (data && data.related) {
-    const relatedData = data.related
-
-    const dataUnderChannel = relatedData.map(resource => {
-      // Items is a list of that speecific resource kind
-      const items = resource.items
-      const data = items.map(item => {
-        // This statement checks to see if the channels namespace matches the
-        // current resources namespace because if they match then we know it falls
-        // under the same channel. BUT the !channelNamespace is there for if we decide
-        // to pass in false we can still execute this method from other locations to
-        // still get the status from other resources no matter the channel namespace
-        if (item.namespace == channelNamespace || !channelNamespace) {
-          return item
-        }
-      })
-      const filterOutUndefined = x => x != undefined
-      const cleanData = R.filter(filterOutUndefined, data)
-      return cleanData
-    })
-    const filterOutEmpty = x => x.length > 0
-    const finalData = R.filter(filterOutEmpty, dataUnderChannel)
-    return finalData
-  }
 }
 
 // Given the tally count of Pass, Fail, InProgress, Pending, Unidentified
@@ -196,7 +134,7 @@ export const getResourcesStatusPerChannel = (
         // under the same channel. BUT the !channelNamespace is there for if we decide
         // to pass in false we can still execute this method from other locations to
         // still get the status from other resources no matter the channel namespace
-        if (item.namespace == channelNamespace || !channelNamespace) {
+        if (item.namespace === channelNamespace || !channelNamespace) {
           const status = (item.status || '').toLowerCase()
           statusPassFailInProgress = determineStatus(
             statusPassFailInProgress,
@@ -210,104 +148,12 @@ export const getResourcesStatusPerChannel = (
   return [0, 0, 0, 0, 0]
 }
 
-//returns all objects of kind in the related for the specified item
-//for example pullOutRelatedPerItem(application, 'cluster') returns all clusters for this application
-export const pullOutRelatedPerItem = (item, kind) => {
-  const isKind = n => n.kind.toLowerCase() == kind.toLowerCase()
-  if (item && item.related) {
-    return R.filter(isKind, item.related)
-  }
-  return []
-}
-
-//returns all objects of kind in the related for the specified list
-//for example getAllRelatedForList(HCMApplicationList, 'cluster') returns all clusters for the applications list
-//it removes the duplicates so if a cluster is part of 2 app related list, it shows up only once in the resulted array
-//the list should be in the HCMApplicationList format ( { items : [{related:items}] }
-export const getAllRelatedForList = (list, kind) => {
-  if (list && list.items) {
-    const relatedItems = list.items.map(item => {
-      const resultRelatedForItem = pullOutRelatedPerItem(item, kind)
-      if (resultRelatedForItem.length > 0 && resultRelatedForItem[0].items) {
-        return resultRelatedForItem[0].items
-      }
-    })
-    const removeUndefined = x => x !== undefined
-    const emptyArray = []
-    const removedUndefinedRelated = R.filter(removeUndefined, relatedItems)
-    //filter duplicate values
-    return R.uniq(emptyArray.concat.apply([], removedUndefinedRelated))
-  }
-  return []
-}
-
-// Given the subscriptionsForThisApplication, the channel,
-// we will look through match the subscription with the channel
-// and then tally up all the status under that application to give
-// the total status that will be displayed at the header level
-// ----------------
-// This is no longer being used but keeping it here for now
-// ----------------
-export const getApplicationLevelStatus = (
-  subscriptionsForThisApplication,
-  channel,
-  bulkSubscriptionList
-) => {
-  // Pass, Fail, In Progress, Pending, unidentifed
-  let appStatus = [0, 0, 0, 0, 0]
-  {
-    subscriptionsForThisApplication.map(subscription => {
-      // Determine if this subscription is present in this channel
-      const channelMatch = subscription.channel.includes(channel.name)
-      if (channelMatch) {
-        // Gather the subscription data that contains the matching UID
-        const currSubscriptionData = getDataByKind(
-          bulkSubscriptionList,
-          subscription._uid
-        )
-        const status = getResourcesStatusPerChannel(currSubscriptionData)
-        const newStatus = [
-          appStatus[0] + status[0],
-          appStatus[1] + status[1],
-          appStatus[2] + status[2],
-          appStatus[3] + status[3],
-          appStatus[4] + status[4]
-        ]
-        appStatus = newStatus
-      }
-    })
-  }
-  return appStatus
-}
-
-// Go through the subscriptions For This Application and determine if one of them
-// exists in the given channel
-// ----------------
-// This is no longer being used but keeping it here for now
-// ----------------
-export const subscriptionPresentInGivenChannel = (
-  subscriptionsForThisApplication,
-  channel
-) => {
-  {
-    const isItPresent = subscriptionsForThisApplication.map(subscription => {
-      // Determine if this subscription is present in this channel
-      const channelMatch = subscription.channel.includes(channel.name)
-      if (channelMatch) {
-        return true
-      }
-      return false
-    })
-    return isItPresent.includes(true)
-  }
-}
-
 //sort the channelList and return a new llist of channels with the channels having subscriptions showing first
 export const sortChannelsBySubscriptionLength = (
   channelList,
   applicationList
 ) => {
-  const getSubscriptions = x => x.kind.toLowerCase() == 'subscription'
+  const getSubscriptions = x => x.kind.toLowerCase() === 'subscription'
   //find subscriptions with ns in the list of applications ns; ignore the rest, they are not going to be displayed
   const getSubscrForNSIndex = (x, list) =>
     x.namespace && R.findIndex(R.propEq('namespace', x.namespace))(list)
@@ -343,9 +189,7 @@ export const sortChannelsBySubscriptionLength = (
       getNbOfSubscriptionsForChannel(a, applicationList)
     )
   } // sort by lenght of subscriptions
-  const channels = R.sort(sortBy, channelList)
-
-  return channels
+  return R.sort(sortBy, channelList)
 }
 // This method will create the rows of subscriptions for each application
 // that will fall under the channel columns
@@ -364,7 +208,7 @@ export const createSubscriptionPerChannel = (channelList, subscriptions) => {
     subscriptions.map(sub => {
       const subChannelName = sub.channel
       // If the channel names match up we want to add that channel to the column
-      if (subChannelName == columnChannelName) {
+      if (subChannelName === columnChannelName) {
         columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
       }
     })
@@ -390,9 +234,9 @@ export const createStandaloneSubscriptionPerChannel = (
           if (channelSub.items) {
             channelSub.items.forEach(item => {
               // if channel value is not set for standalone, fill it in
-              if (sub._uid == item._uid) {
+              if (sub._uid === item._uid) {
                 if (!sub.channel && sub.namespace && sub.name) {
-                  sub.channel = sub.namespace + '/' + sub.name
+                  sub.channel = `${sub.namespace}/${sub.name}`
                 }
                 columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
               }
@@ -464,5 +308,13 @@ export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {
 }
 
 export const getStandaloneSubscriptions = subscriptions => {
-  return R.filter(n => R.isEmpty(n.related), subscriptions)
+  // if related field exists, it must not be an app
+  subscriptions = R.filter(
+    n =>
+      R.isEmpty(n.related) ||
+      !R.find(R.propEq('kind', 'application'))(n.related),
+    subscriptions
+  )
+
+  return subscriptions
 }

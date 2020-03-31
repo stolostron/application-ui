@@ -58,31 +58,6 @@ require('./lib/shared/dust-helpers')
 var app = express()
 var morgan = require('morgan')
 
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ['\'none\''],
-      fontSrc: ['\'self\''],
-      scriptSrc: [
-        '\'unsafe-inline\'',
-        '\'self\'',
-        'blob:',
-        'cdn.segment.com',
-        'fast.appcues.com'
-      ],
-      connectSrc: [
-        '\'self\'',
-        'https://api.segment.io',
-        'wss://api.appcues.net',
-        'https://notify.bugsnag.com'
-      ],
-      imgSrc: ['*', 'data:'],
-      frameSrc: ['\'self\'', 'https://my.appcues.com'],
-      styleSrc: ['\'unsafe-inline\'', '\'self\'', 'https://fast.appcues.com']
-    }
-  })
-)
-
 if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
@@ -229,6 +204,8 @@ const CONTEXT_PATH = appConfig.get('contextPath'),
       STATIC_PATH = path.join(__dirname, 'public')
 
 app.use(cookieParser(), csrfMiddleware, (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Pragma', 'no-cache')
   if (!req.path.endsWith('.js') && !req.path.endsWith('.css')) {
     next()
     return

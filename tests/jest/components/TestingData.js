@@ -1,6 +1,7 @@
 /** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -128,14 +129,16 @@ export const QueryApplicationList = {
   sortColumn: "name",
   items: [
     {
-      _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
+      _uid: "local-cluster/96218695-3798-4dac-b3d3-179fb86b6715",
       name: "mortgage-app",
       namespace: "default",
       dashboard:
         "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
       clusterCount: 1,
       remoteSubscriptionStatusCount: {
-        Subscribed: 1
+        Subscribed: 1,
+        null: 3,
+        Failed: 6
       },
       podStatusCount: {
         Running: 1
@@ -166,7 +169,7 @@ export const QueryApplicationList = {
       },
       hubSubscriptions: [
         {
-          _uid: "local-cluster/42d9ec27-52b9-11ea-bf05-00000a102d26",
+          _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
           status: "Propagated",
           channel: "gbook-ch/guestbook",
           __typename: "Subscription"
@@ -202,12 +205,21 @@ export const QueryApplicationList = {
       },
       hubSubscriptions: [
         {
-          _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",
+          _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
           status: "Propagated",
           channel: "default/hub-local-helm-repo",
           __typename: "Subscription"
         }
       ],
+      created: "2020-02-11T23:26:18Z",
+      __typename: "Application"
+    },
+    {
+      _uid: "local-cluster/e77e69a7-4d25-11ea-a229-00000a100",
+      name: "app-no-channel",
+      namespace: "default",
+      dashboard: null,
+      clusterCount: 0,
       created: "2020-02-11T23:26:18Z",
       __typename: "Application"
     }
@@ -372,9 +384,46 @@ export const HCMApplication = {
   _rbac: "sample_app.k8s.io_applications"
 };
 
+export const HCMChannel = {
+  name: "samplebook-gbapp",
+  namespace: "sample",
+  dashboard:
+    "localhost/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+  selfLink:
+    "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbapp",
+  _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+  created: "2020-02-19T01:43:43Z",
+  apigroup: "app.k8s.io",
+  cluster: "local-cluster",
+  kind: "channel",
+  label: "app=gbapp; chart=gbapp-0.1.0; heritage=Tiller; release=samplebook",
+  _hubClusterResource: "true",
+  _rbac: "sample_app.k8s.io_applications"
+};
+
 export const HCMSubscriptionList = {
   status: "DONE",
   items: [
+    {
+      kind: "subscription",
+      name: "orphan",
+      namespace: "default",
+      status: "Propagated",
+      selfLink:
+        "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-app-subscription",
+      created: "2020-02-18T23:57:04Z",
+      cluster: "local-cluster",
+      channel: "default/mortgage-channel",
+      apigroup: "app.ibm.com",
+      apiversion: "v1alpha1",
+      _rbac: "default_app.ibm.com_subscriptions",
+      _hubClusterResource: "true",
+      _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+      packageFilterVersion: ">=1.x",
+      label:
+        "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+      related: []
+    },
     {
       kind: "subscription",
       name: "mortgage-app-subscription",
@@ -395,6 +444,29 @@ export const HCMSubscriptionList = {
         "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
       related: [
         {
+          kind: "application",
+          items: [
+            {
+              kind: "application",
+              name: "samplebook-gbapp",
+              namespace: "sample",
+              dashboard:
+                "localhost/grafana/dashboard/db/samplebook-gbapp-dashboard-via-federated-prometheus?namespace=sample",
+              selfLink:
+                "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbapp",
+              _uid: "local-cluster/96218695-3798-4dac-b3d3-179fb86b6715",
+              created: "2020-02-19T01:43:43Z",
+              apigroup: "app.k8s.io",
+              cluster: "local-cluster",
+              kind: "application",
+              label:
+                "app=gbapp; chart=gbapp-0.1.0; heritage=Tiller; release=samplebook",
+              _hubClusterResource: "true",
+              _rbac: "sample_app.k8s.io_applications"
+            }
+          ]
+        },
+        {
           kind: "deployable",
           items: [
             {
@@ -410,7 +482,97 @@ export const HCMSubscriptionList = {
               apiversion: "v1alpha1",
               _rbac: "default_app.ibm.com_deployables",
               _hubClusterResource: "true",
-              _uid: "local-cluster/5cf2709a-52aa-11ea-bf05-00000a102d26"
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
+            },
+            {
+              kind: "deployable",
+              name: "mortgage-app-subscription-deployable2",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/deployables/mortgage-app-subscription-deployable",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_deployables",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
+            },
+            {
+              kind: "deployable",
+              name: "mortgage-app-subscription-deployable3",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/deployables/mortgage-app-subscription-deployable",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_deployables",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
+            },
+            {
+              kind: "deployable",
+              name: "mortgage-app-subscription-deployable4",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/deployables/mortgage-app-subscription-deployable",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_deployables",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
+            },
+            {
+              kind: "deployable",
+              name: "mortgage-app-subscription-deployable5",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/deployables/mortgage-app-subscription-deployable",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_deployables",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
+            },
+            {
+              kind: "deployable",
+              name: "mortgage-app-subscription-deployable6",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/deployables/mortgage-app-subscription-deployable",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_deployables",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
+            },
+            {
+              kind: "deployable",
+              name: "mortgage-app-subscription-deployable7",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/deployables/mortgage-app-subscription-deployable",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_deployables",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e2a1af5a-1830-46d3-ac8d-b481ecf6726b"
             }
           ]
         }
@@ -430,7 +592,7 @@ export const HCMSubscriptionList = {
       apiversion: "v1alpha1",
       _rbac: "kube-system_app.ibm.com_subscriptions",
       _hubClusterResource: "true",
-      _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26",
+      _uid: "local-cluster/98dce449-52b8-11ea-bf05-00000a102d26gbook",
       package: "gbapp",
       packageFilterVersion: "0.1.0",
       label: "app=subscribed-guestbook-application",
@@ -489,6 +651,187 @@ export const GlobalApplicationDataList = {
   }
 };
 
+export const HCMNamespaceList = {
+  status: "DONE",
+  items: [
+    {
+      metadata: {
+        annotations: {
+          "kubectl.kubernetes.io/last-applied-configuration":
+            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
+          "openshift.io/sa.scc.mcs": "s0:c24,c19",
+          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
+          "openshift.io/sa.scc.uid-range": "1000590000/10000",
+          accountID: "111111"
+        },
+        name: "default",
+        __typename: "Metadata"
+      },
+      __typename: "ApplicationNamespace"
+    },
+    {
+      metadata: {
+        annotations: {
+          "kubectl.kubernetes.io/last-applied-configuration":
+            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
+          "openshift.io/sa.scc.mcs": "s0:c24,c19",
+          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
+          "openshift.io/sa.scc.uid-range": "1000590000/10000",
+          accountID: "111111"
+        },
+        name: "rbac-test",
+        __typename: "Metadata"
+      },
+      __typename: "ApplicationNamespace"
+    },
+    {
+      metadata: {
+        annotations: {
+          "kubectl.kubernetes.io/last-applied-configuration":
+            '{"apiVersion":"v1","kind":"Namespace","metadata":{"annotations":{},"name":"ns-sub-1"}}\n',
+          "openshift.io/sa.scc.mcs": "s0:c24,c19",
+          "openshift.io/sa.scc.supplemental-groups": "1000590000/10000",
+          "openshift.io/sa.scc.uid-range": "1000590000/10000"
+        },
+        name: "ns-sub-1",
+        __typename: "Metadata"
+      },
+      __typename: "ApplicationNamespace"
+    }
+  ]
+};
+
+export const CEMIncidentList = {
+  status: "DONE",
+  items: [
+    {
+      name: "P1",
+      priority: "1"
+    },
+    {
+      name: "P2",
+      priority: "1"
+    }
+  ]
+};
+
+export const channelObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "channel",
+          name: "mortgage-channel",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/mortgage-channel",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        },
+        type: "Namespace"
+      }
+    ]
+  }
+};
+
+export const subscriptionObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "subscription",
+          name: "mortgage-channel-subscr",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        }
+      }
+    ]
+  }
+};
+
+export const appObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "application",
+          name: "mortgage-channel-subscr",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        }
+      }
+    ]
+  }
+};
+
+export const prObjectForEdit = {
+  data: {
+    items: [
+      {
+        metadata: {
+          resourceVersion: "1487949",
+          creationTimestamp: "2020-03-18T20:06:46Z",
+          kind: "placementrule",
+          name: "mortgage-channel-subscr",
+          namespace: "default",
+          selfLink:
+            "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-subscr",
+          created: "2020-02-18T23:56:15Z",
+          cluster: "local-cluster",
+          apigroup: "app.ibm.com",
+          apiversion: "v1alpha1",
+          _rbac: "default_app.ibm.com_channels",
+          _hubClusterResource: "true",
+          uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+          pathname: "default",
+          labels: {
+            app: "mortgage-channel-mortgage"
+          }
+        }
+      }
+    ]
+  }
+};
+
 export const AppOverview = {
   selectedAppTab: 0,
   showAppDetails: false,
@@ -496,6 +839,16 @@ export const AppOverview = {
   showICAMAction: true,
   showGrafanaAction: true,
   showCEMAction: false,
+  selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
+};
+
+export const AppOverviewWithCEM = {
+  selectedAppTab: 0,
+  showAppDetails: false,
+  showExpandedTopology: false,
+  showICAMAction: true,
+  showGrafanaAction: true,
+  showCEMAction: true,
   selectedNodeId: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26"
 };
 
@@ -526,7 +879,30 @@ export const reduxStoreAppPipeline = {
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   GlobalApplicationDataList: GlobalApplicationDataList,
-  AppOverview: AppOverview
+  AppOverview: AppOverview,
+  HCMNamespaceList: HCMNamespaceList
+};
+
+export const reduxStoreAppPipelineWithCEM = {
+  AppDeployments: {
+    displaySubscriptionModal: false
+  },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
+  secondaryHeader: secondaryHeader,
+  namespaceAccountId: namespaceAccountId,
+  QueryApplicationList: QueryApplicationList,
+  HCMChannelList: HCMChannelList,
+  HCMSubscriptionList: HCMSubscriptionList,
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverviewWithCEM,
+  HCMNamespaceList: HCMNamespaceList,
+  CEMIncidentList: CEMIncidentList,
+  role: {
+    role: "ClusterAdministrator"
+  }
 };
 
 export const reduxStoreAllAppsPipeline = {

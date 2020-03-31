@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -218,14 +219,16 @@ const getOverviewCardsData = (
           : ''
     })
   }
-
   return result
 }
 
 class OverviewCards extends React.Component {
   componentWillMount() {
-    const { fetchApplications } = this.props
-    fetchApplications()
+    const { fetchApplications, QueryApplicationList } = this.props
+
+    if (QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE) {
+      fetchApplications()
+    }
 
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -235,7 +238,7 @@ class OverviewCards extends React.Component {
       this.setState({ intervalId: intervalId })
     }
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
@@ -300,7 +303,11 @@ const InfoCards = ({ overviewCardsData, actions }) => {
     <React.Fragment>
       {Object.keys(overviewCardsData).map(key => {
         const card = overviewCardsData[key]
-
+        const id = `${key}_overviewCardsData`
+        var cemStatus = 'card-cem-disabled'
+        if (overviewCardsData.length === 4) {
+          cemStatus = 'card-cem-enabled'
+        }
         const handleClick = (e, resource) => {
           if (resource.targetTab != null) {
             actions.setSelectedAppTab(resource.targetTab)
@@ -317,18 +324,12 @@ const InfoCards = ({ overviewCardsData, actions }) => {
         return (
           <React.Fragment key={key}>
             <div
+              id={id}
               key={card}
               className={
                 card.targetLink || card.targetTab
-                  ? 'single-card clickable'
-                  : 'single-card'
-              }
-              id={
-                overviewCardsData.length == 3
-                  ? 'card-cem-disabled'
-                  : '' || overviewCardsData.length == 4
-                    ? 'card-cem-enabled'
-                    : ''
+                  ? `single-card clickable ${cemStatus}`
+                  : `single-card ${cemStatus}`
               }
               role="button"
               tabIndex="0"

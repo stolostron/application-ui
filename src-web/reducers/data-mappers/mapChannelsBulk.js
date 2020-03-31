@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -9,8 +10,19 @@
 // @flow
 export const mapBulkChannels = channels => {
   if (channels) {
-    const mappedChannels = channels.map(channel => {
-      if (channel.items && channel.related) {
+    const mappedChannels = channels
+      .filter(channel => {
+        if (channel.items && channel.related) {
+          const items = channel.items[0]
+          // revert when charts-v1 tag exists
+          if (items.name === 'charts-v1') {
+            return false
+          }
+          return true
+        }
+        return false
+      })
+      .map(channel => {
         const items = channel.items[0]
         return {
           name: items.name || '',
@@ -28,8 +40,8 @@ export const mapBulkChannels = channels => {
           _rbac: items._rbac || '',
           related: channel.related || []
         }
-      }
-    })
+      })
+
     return mappedChannels || [{}]
   }
   return [

@@ -593,6 +593,8 @@
   "resource.memory": "Memory",
   "resource.storage": "Storage",
   "resource.violations": "Violations",
+  "resource.persistent_volume": "Persistent Volume",
+  "resource.persistent_volume_claim": "Persistent Volume Claim",
   "routes.admin": "Admin",
   "routes.applications": "Applications",
   "routes.incidents": "Incidents",

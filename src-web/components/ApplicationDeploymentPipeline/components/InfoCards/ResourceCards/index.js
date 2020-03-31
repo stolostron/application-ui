@@ -57,7 +57,6 @@ const getResourceCardsData = (
     applicationName,
     applicationNamespace
   )
-
   let subscriptionDataOnManagedClusters
   if (isSingleApplicationView) {
     subscriptionDataOnManagedClusters = getSubscriptionDataOnManagedClustersSingle(
@@ -70,10 +69,10 @@ const getResourceCardsData = (
       globalAppData
     )
   }
-
   const placementRules = getNumPlacementRules(
     HCMSubscriptionList,
     isSingleApplicationView,
+    applicationName,
     applicationNamespace
   )
 
@@ -240,14 +239,15 @@ class ResourceCards extends React.Component {
         handleClick(e, resource)
       }
     }
-
     return (
       <div className={'resource-cards-info' + singleAppStyle}>
         {Object.keys(resourceCardsData).map(key => {
           const card = resourceCardsData[key]
+          const id = `${key}_resourceCardsData`
           return (
             <React.Fragment key={key}>
               <div
+                id={id}
                 key={card}
                 className={
                   card.targetLink ? 'single-card clickable' : 'single-card'

@@ -14,7 +14,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
         className="bx--tooltip--definition"
       >
         <button
-          aria-describedby="definition-tooltip-1"
+          aria-describedby="definition-tooltip-2"
           className="bx--tooltip__trigger"
         >
           Technology Preview
@@ -22,7 +22,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
         <div
           aria-label="These features are not fully supported, may not be functionally complete, and are not intended for production use."
           className="bx--tooltip--definition__bottom"
-          id="definition-tooltip-1"
+          id="definition-tooltip-2"
           role="tooltip"
         >
           <span
@@ -39,7 +39,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
       onClick={[Function]}
       onKeyDown={[Function]}
       role="navigation"
-      selected={0}
+      selected={2}
       tabcontentclassname="tab-content"
     >
       <div
@@ -56,7 +56,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
           onClick={[Function]}
           tabIndex={-1}
         >
-          Overview
+          
         </a>
         <svg
           alt="show menu options"
@@ -80,16 +80,16 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
         role="tablist"
       >
         <li
-          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+          className="bx--tabs__nav-item"
           disabled={false}
           onClick={[Function]}
           onKeyDown={[Function]}
           role="presentation"
-          selected={true}
+          selected={false}
           tabIndex={-1}
         >
           <a
-            aria-selected={true}
+            aria-selected={false}
             className="bx--tabs__nav-link"
             href="#"
             role="tab"
@@ -120,6 +120,336 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
       </ul>
     </nav>
     <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
+<div
+  id="applicationheadertabs"
+>
+  <div
+    className="whiteSpacer"
+  >
+    <span
+      className="tech-preview-tag"
+    >
+      <div
+        className="bx--tooltip--definition"
+      >
+        <button
+          aria-describedby="definition-tooltip-3"
+          className="bx--tooltip__trigger"
+        >
+          Technology Preview
+        </button>
+        <div
+          aria-label="These features are not fully supported, may not be functionally complete, and are not intended for production use."
+          className="bx--tooltip--definition__bottom"
+          id="definition-tooltip-3"
+          role="tooltip"
+        >
+          <span
+            className="bx--tooltip__caret"
+          />
+          <p>
+            These features are not fully supported, may not be functionally complete, and are not intended for production use.
+          </p>
+        </div>
+      </div>
+    </span>
+    <nav
+      className="bx--tabs some-class"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="navigation"
+      selected={1}
+      tabcontentclassname="tab-content"
+    >
+      <div
+        aria-label="listbox"
+        className="bx--tabs-trigger"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="listbox"
+        tabIndex={0}
+      >
+        <a
+          className="bx--tabs-trigger-text"
+          href="#"
+          onClick={[Function]}
+          tabIndex={-1}
+        >
+          Resources
+        </a>
+        <svg
+          alt="show menu options"
+          aria-label="show menu options"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            show menu options
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+      <ul
+        className="bx--tabs__nav bx--tabs__nav--hidden"
+        role="tablist"
+      >
+        <li
+          className="bx--tabs__nav-item"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={false}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={false}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Overview
+          </a>
+        </li>
+        <li
+          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={true}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={true}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Resources
+          </a>
+        </li>
+        <li
+          className="bx--tabs__nav-item"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={false}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={false}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Incidents
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
+    <div
+      aria-hidden={false}
+      className="tab-content"
+      hidden={false}
+      selected={true}
+    >
+      <div
+        className="page-content-container"
+      />
+    </div>
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
+  </div>
+</div>
+`;
+
+exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
+<div
+  id="applicationheadertabs"
+>
+  <div
+    className="whiteSpacer"
+  >
+    <span
+      className="tech-preview-tag"
+    >
+      <div
+        className="bx--tooltip--definition"
+      >
+        <button
+          aria-describedby="definition-tooltip-4"
+          className="bx--tooltip__trigger"
+        >
+          Technology Preview
+        </button>
+        <div
+          aria-label="These features are not fully supported, may not be functionally complete, and are not intended for production use."
+          className="bx--tooltip--definition__bottom"
+          id="definition-tooltip-4"
+          role="tooltip"
+        >
+          <span
+            className="bx--tooltip__caret"
+          />
+          <p>
+            These features are not fully supported, may not be functionally complete, and are not intended for production use.
+          </p>
+        </div>
+      </div>
+    </span>
+    <nav
+      className="bx--tabs some-class"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="navigation"
+      selected={2}
+      tabcontentclassname="tab-content"
+    >
+      <div
+        aria-label="listbox"
+        className="bx--tabs-trigger"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="listbox"
+        tabIndex={0}
+      >
+        <a
+          className="bx--tabs-trigger-text"
+          href="#"
+          onClick={[Function]}
+          tabIndex={-1}
+        >
+          Incidents
+        </a>
+        <svg
+          alt="show menu options"
+          aria-label="show menu options"
+          fillRule="evenodd"
+          height="5"
+          role="img"
+          viewBox="0 0 10 5"
+          width="10"
+        >
+          <title>
+            show menu options
+          </title>
+          <path
+            d="M0 0l5 4.998L10 0z"
+          />
+        </svg>
+      </div>
+      <ul
+        className="bx--tabs__nav bx--tabs__nav--hidden"
+        role="tablist"
+      >
+        <li
+          className="bx--tabs__nav-item"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={false}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={false}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Overview
+          </a>
+        </li>
+        <li
+          className="bx--tabs__nav-item"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={false}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={false}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Resources
+          </a>
+        </li>
+        <li
+          className="bx--tabs__nav-item bx--tabs__nav-item--selected"
+          disabled={false}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="presentation"
+          selected={true}
+          tabIndex={-1}
+        >
+          <a
+            aria-selected={true}
+            className="bx--tabs__nav-link"
+            href="#"
+            role="tab"
+            tabIndex={0}
+          >
+            Incidents
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
+    <div
       aria-hidden={false}
       className="tab-content"
       hidden={false}
@@ -129,12 +459,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
         className="some-content"
       />
     </div>
-    <div
-      aria-hidden={true}
-      className="tab-content"
-      hidden={true}
-      selected={false}
-    />
   </div>
 </div>
 `;

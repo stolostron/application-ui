@@ -1,24 +1,660 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResourceOverview ResourceOverview renders correctly 1`] = `
+exports[`ResourceOverview ResourceOverview renders  1`] = `
 <div
-  aria-live="assertive"
-  className="bx--loading content-spinner"
+  className="overview-content"
+  id="resource-overview"
 >
-  <svg
-    className="bx--loading__svg"
-    viewBox="-75 -75 150 150"
+  <div
+    className="app-info-and-dashboard-links"
   >
-    <circle
-      cx="0"
-      cy="0"
-      r="37.5"
-    />
-  </svg>
+    <span>
+      <a
+        className="bx--link"
+        href="#"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <svg
+          alt="Provide a description that will be used as the title"
+          aria-label="Provide a description that will be used as the title"
+          className="app-dashboard-icon"
+          fill="#3D70B2"
+          fillRule="evenodd"
+          height="16"
+          name="icon--launch"
+          role="img"
+          viewBox="0 0 16 16"
+          width="16"
+        >
+          <title>
+            Provide a description that will be used as the title
+          </title>
+          <path
+            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+          />
+          <path
+            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+          />
+          <path
+            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+          />
+        </svg>
+        App monitoring
+      </a>
+      <span
+        className="app-info-and-dashboard-links-separator"
+      />
+    </span>
+    <a
+      aria-disabled={false}
+      className="bx--link"
+      href="#"
+      onClick={[Function]}
+    >
+      <svg
+        alt="Provide a description that will be used as the title"
+        aria-label="Provide a description that will be used as the title"
+        className="app-dashboard-icon"
+        fill="#3D70B2"
+        fillRule="evenodd"
+        height="16"
+        name="icon--edit"
+        role="img"
+        viewBox="0 0 16 16"
+        width="16"
+      >
+        <title>
+          Provide a description that will be used as the title
+        </title>
+        <path
+          d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+        />
+      </svg>
+      Edit app
+    </a>
+  </div>
+  <div
+    className="overview-content-bottom overview-content-with-padding"
+  >
+    <div
+      className="overview-content-header"
+    >
+      Resource highlights
+    </div>
+    <div
+      className="overview-cards-info-container"
+    >
+      <div
+        className="overview-cards-info single-app"
+      >
+        <div
+          className="single-card clickable card-cem-disabled"
+          id="0_overviewCardsData"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="card-count"
+          >
+            1
+          </div>
+          <div
+            className="card-type"
+          >
+            Subscription
+          </div>
+          <div
+            className="card-text"
+          >
+            On hub cluster
+          </div>
+          <div
+            className="row-divider"
+          />
+          <div
+            className="card-subtext"
+          >
+            0 failed
+          </div>
+          
+        </div>
+        <div
+          className="column-divider"
+        />
+        <div
+          className="single-card clickable card-cem-disabled"
+          id="1_overviewCardsData"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="card-count"
+          >
+            1
+          </div>
+          <div
+            className="card-type"
+          >
+            Managed cluster
+          </div>
+          <div
+            className="card-text"
+          >
+            1 Total subscription
+          </div>
+          <div
+            className="row-divider"
+          />
+          <div
+            className="card-subtext"
+          >
+            0 failed
+          </div>
+          
+        </div>
+        <div
+          className="column-divider"
+        />
+        <div
+          className="single-card clickable card-cem-disabled"
+          id="2_overviewCardsData"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          <div
+            className="card-count"
+          >
+            3
+          </div>
+          <div
+            className="card-type"
+          >
+            Pods
+          </div>
+          <div
+            className="card-text"
+          />
+          <div
+            className="row-divider"
+          />
+          <div
+            className="card-subtext"
+          >
+            3 running
+          </div>
+          <div
+            className="card-subtext"
+          >
+            0 failed
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="overview-content-bottom overview-content-with-padding"
+  >
+    <div
+      className="resourceDiagramSourceContainer"
+    >
+      <div
+        className="resourceDiagramControlsContainer"
+      >
+        <div
+          className="diagram-title"
+        >
+          Resource topology
+        </div>
+        <div
+          className="topologyDiagramContainer"
+        >
+          <div
+            className="channel-controls-container"
+            style={
+              Object {
+                "height": 0,
+                "overflow": "hidden",
+                "position": "relative",
+                "width": 260,
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "WebkitOverflowScrolling": "touch",
+                  "bottom": 0,
+                  "left": 0,
+                  "marginBottom": -17,
+                  "marginRight": 0,
+                  "overflow": "scroll",
+                  "position": "absolute",
+                  "right": 0,
+                  "top": 0,
+                }
+              }
+            >
+              <div
+                className="channel-controls-container"
+              />
+            </div>
+            <div
+              style={
+                Object {
+                  "borderRadius": 3,
+                  "bottom": 2,
+                  "display": "none",
+                  "height": 6,
+                  "left": 2,
+                  "position": "absolute",
+                  "right": 2,
+                }
+              }
+            >
+              <div />
+            </div>
+            <div
+              style={
+                Object {
+                  "borderRadius": 3,
+                  "bottom": 2,
+                  "display": "none",
+                  "position": "absolute",
+                  "right": 2,
+                  "top": 2,
+                  "width": 6,
+                }
+              }
+            >
+              <div
+                className="channel-controls-scrollbar"
+                style={
+                  Object {
+                    "backgroundColor": "rgba(0,0,0,.2)",
+                    "borderRadius": "inherit",
+                    "cursor": "pointer",
+                    "display": "block",
+                    "position": "relative",
+                    "width": "100%",
+                  }
+                }
+              />
+            </div>
+          </div>
+          <div
+            className="diagramViewerDiagram"
+          >
+            <div
+              className="diagramViewerContainerContainer"
+              id="diagram-viewer-container-container"
+            >
+              <div
+                aria-label="zoom"
+                className="diagramViewerContainer"
+                role="region"
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              >
+                <svg
+                  className="topologyDiagram"
+                  id="topologySvgId"
+                />
+              </div>
+              <div
+                className="secondaryLoad"
+              >
+                <div
+                  aria-live="assertive"
+                  className="bx--loading"
+                >
+                  <svg
+                    className="bx--loading__svg"
+                    viewBox="-75 -75 150 150"
+                  >
+                    <circle
+                      cx="0"
+                      cy="0"
+                      r="37.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                className="layoutLoadingContainer"
+              >
+                <div
+                  aria-live="assertive"
+                  className="bx--loading"
+                >
+                  <svg
+                    className="bx--loading__svg"
+                    viewBox="-75 -75 150 150"
+                  >
+                    <circle
+                      cx="0"
+                      cy="0"
+                      r="37.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div
+              className="diagram-controls"
+            >
+              <div
+                className="zoom-buttons"
+              >
+                <div
+                  aria-label="Zoom to fit"
+                  className="zoom-target-button"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                  title="Zoom to fit"
+                >
+                  <svg
+                    className="icon"
+                  >
+                    <use
+                      href="#diagramIcons_zoomTarget"
+                    />
+                  </svg>
+                </div>
+                <div
+                  aria-label="Zoom in"
+                  className="zoom-in-button"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                  title="Zoom in"
+                >
+                  <svg
+                    className="icon"
+                  >
+                    <use
+                      href="#diagramIcons_zoomIn"
+                    />
+                  </svg>
+                </div>
+                <div
+                  aria-label="Zoom out"
+                  className="zoom-out-button"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                  title="Zoom out"
+                >
+                  <svg
+                    className="icon"
+                  >
+                    <use
+                      href="#diagramIcons_zoomOut"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="diagram-controls-container"
+        >
+          <div
+            className="diagram-type-filter-bar"
+            id="type-filter-bar-portal-id"
+          />
+          <div
+            aria-label="Edit topology"
+            className="diagram-expand-button"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+            title="Edit topology"
+          >
+            <svg
+              className="icon"
+            >
+              <use
+                href="#diagramIcons_launch"
+              />
+            </svg>
+            Edit topology
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="overview-content-bottom overview-content-with-padding "
+  >
+    <div
+      className="overview-content-additional-details"
+    >
+      <div
+        className="bx--module bx--module--double structured-list-module"
+      >
+        <div
+          className="bx--module__inner"
+        >
+          <div
+            className="bx--module__content"
+          >
+            <section
+              aria-label="Structured list section"
+              className="bx--structured-list bx--structured-list--condensed"
+              role="region"
+            >
+              <div
+                className="bx--structured-list-thead"
+              >
+                <div
+                  className="bx--structured-list-row bx--structured-list-row--header-row"
+                >
+                  <div
+                    className="bx--structured-list-th"
+                  >
+                    Type
+                  </div>
+                  <div
+                    className="bx--structured-list-th"
+                  >
+                    Detail
+                  </div>
+                </div>
+              </div>
+              <div
+                className="bx--structured-list-tbody"
+                onKeyDown={[Function]}
+              >
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Name
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      samplebook-gbapp
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Namespace
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      sample
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Created
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      2020-02-19T01:43:43Z
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Labels
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      -
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Selector
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      -
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Annotations
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      -
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Resource version
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      -
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      Self link
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      -
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="bx--structured-list-row"
+                >
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      UID
+                    </div>
+                  </div>
+                  <div
+                    className="bx--structured-list-td"
+                  >
+                    <div>
+                      local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`ResourceOverview ResourceOverview renders correctly with empty params 1`] = `
+exports[`ResourceOverview ResourceOverview renders spinner 1`] = `
 <div
   aria-live="assertive"
   className="bx--loading content-spinner"

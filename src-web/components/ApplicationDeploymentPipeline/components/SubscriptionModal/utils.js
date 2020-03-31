@@ -33,7 +33,7 @@ export const getCsvListClass = related => {
     const deployables = R.find(R.propEq('kind', 'deployable'))(related)
     if (deployables && deployables.items) {
       list = deployables.items.map(deployable => {
-        return ' ' + deployable.name
+        return ` ${deployable.name}`
       })
     }
   }
@@ -86,10 +86,8 @@ export const getClusterCountForSub = (uid, applications) => {
           ) {
             numClusters += applications.items[appIndex].clusterCount
           }
-          return
         })
       }
-      return
     })
   }
 

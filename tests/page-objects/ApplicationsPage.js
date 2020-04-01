@@ -85,8 +85,7 @@ module.exports = {
       submitNewResourceModal,
       closeNewResourceModal,
       openNewPlacementRuleModal,
-      openNewChannelModal,
-      verifyTechPreview
+      openNewChannelModal
     }
   ]
 };
@@ -205,14 +204,6 @@ function verifyResourcesTab() {
   this.expect.element("@overviewTab").to.be.present;
   this.click("@overviewTab");
   this.waitForElementNotPresent("@spinner");
-}
-
-function verifyTechPreview() {
-  this.expect.element("@techPreviewTag").to.be.present;
-  this.expect.element("@techPreviewBtn").to.be.present;
-  this.click("@techPreviewBtn");
-  this.expect.element("@techPreviewTooltip").to.be.present;
-  this.click("@techPreviewBtn");
 }
 
 function verifyTerminology() {

@@ -226,13 +226,13 @@
         }
       }
       .search-query-result-number {
-        font-family: 'ibm-plex-sans';
+        font-family: 'Red Hat Text Regular';
         font-style: normal;
         font-weight: 300;
         color: $mcm_search_icp_bright_blue;
         font-size: 2rem;
         &__suggested {
-          font-family: 'ibm-plex-sans';
+          font-family: 'Red Hat Text Regular';
           font-style: normal;
           font-weight: 300;
           color: $mcm_search_suggested;

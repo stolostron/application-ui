@@ -258,6 +258,38 @@ describe("getNodeTooltips rules", () => {
   });
 });
 
+describe("getNodeTooltips cluster", () => {
+  const clusterNode = {
+    name: "foonode",
+    namspace: "foo",
+    type: "cluster",
+    specs: {
+      cluster: {
+        consoleURL: "https://localhost"
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+      name: "Cluster",
+      value: "foonode"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "foonode-console"
+    }
+  ];
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
 describe("getNodeTooltips default", () => {
   const defaultNode = {
     name: "defaultnode",

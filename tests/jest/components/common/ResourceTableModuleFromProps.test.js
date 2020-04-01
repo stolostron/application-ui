@@ -58,15 +58,13 @@ describe("ResourceTableModuleFromProps", () => {
         </Provider>
       </BrowserRouter>
     );
-    /*
-    wrapper
-      .find(".bx--search-input")
-      .simulate("change");
+
+    wrapper.find(".bx--search-input").simulate("change");
 
     wrapper
       .find(".bx--table-sort-v2")
-      .find(".bx--table-sort-v2--ascending").at(0)
+      .find(".bx--table-sort-v2--ascending")
+      .at(0)
       .simulate("click");
-*/
   });
 });

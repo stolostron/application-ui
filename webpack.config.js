@@ -174,15 +174,15 @@ module.exports = {
           { source: "fonts", destination: "public/fonts" }
         ]
       }
-    }),
-    new VersionFile({
-      output: "./public/version.txt",
-      package: "./package.json",
-      template: "./version.ejs",
-      data: {
-        date: new Date(),
-        revision: new GitRevisionPlugin().commithash()
-      }
+    // }),
+    // new VersionFile({
+    //   output: "./public/version.txt",
+    //   package: "./package.json",
+    //   template: "./version.ejs",
+    //   data: {
+    //     date: new Date(),
+    //     revision: new GitRevisionPlugin().commithash()
+    //   }
     })
   ],
   resolve: {

@@ -533,6 +533,7 @@ class ApplicationTopologyModule extends React.Component {
             setContainerEditor={this.setContainerEditor}
             setEditor={this.setEditor}
             wrapEnabled={true}
+            readOnly={true}
             theme={'vibrant_ink'}
             onYamlChange={this.handleEditorChange}
             yaml={currentYaml}

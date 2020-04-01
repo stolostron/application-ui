@@ -648,6 +648,7 @@ class ApplicationTopologyModule extends React.Component {
   // select text editor line associated with selected node/link
   selectTextLine(node) {
     if (this.editor) {
+      this.editor.clearSelection()
       node = node || this.selectedNode
       if (node) {
         const row = _.get(node, 'specs.row', 0)
@@ -671,7 +672,7 @@ class ApplicationTopologyModule extends React.Component {
     this.editor.setAnimatedScroll(true)
     this.editor.scrollToLine(line, true)
     this.editor.selection.moveCursorToPosition({ row: line, column: 0 })
-    this.editor.selection.selectLine()
+    this.editor.selection.selectLineEnd()
   }
 
   // text editor commands

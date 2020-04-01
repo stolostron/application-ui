@@ -886,6 +886,7 @@
   "topology.zoom.in": "Zoom in",
   "topology.zoom.out": "Zoom out",
   "topology.zoom.fit": "Zoom to fit",
+  "tooltips.console": "Console",
   "validation.missing.kind": "Missing resource kind: {0}",
   "validation.extra.kind": "Unexpected resource kind: {0}",
   "validation.ineffable.kind": "Custom resource kind: {0}",

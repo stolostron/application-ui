@@ -39,7 +39,6 @@ module.exports = {
 
   "Applications: Resources tab": () => {
     appsPage.verifyResourcesTab();
-    appsPage.verifyTechPreview();
     appsPage.verifyTerminology();
     appsPage.verifySearch();
     appsPage.verifyResourceCards();

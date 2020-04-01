@@ -66,16 +66,15 @@ describe("TagInput component 1", () => {
       .find(".tagInput-filterButton")
       .at(0)
       .simulate("click");
-    expect(component).toMatchSnapshot();
     component
       .find(".tagInput-cleanButton")
       .at(0)
       .simulate("click");
-    expect(component).toMatchSnapshot();
     component
       .find(".tagInput-copyButton")
       .at(0)
       .simulate("click");
-    expect(component).toMatchSnapshot();
+
+    component.find(".icon--close--outline").simulate("click");
   });
 });

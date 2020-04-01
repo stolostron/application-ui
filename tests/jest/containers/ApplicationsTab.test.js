@@ -54,6 +54,13 @@ describe("ApplicationsTab", () => {
       </BrowserRouter>
     );
     wrapper.find(".bx--btn--primary").simulate("click");
+    wrapper.find(".bx--search-input").simulate("change");
+    wrapper.find(".bx--search-close").simulate("click");
+    wrapper
+      .find(".bx--table-sort-v2--ascending")
+      .at(0)
+      .simulate("click");
+    wrapper.find(".bx--select-input").simulate("change");
   });
 
   it("ApplicationsTab renders correctly with data on single app.", () => {

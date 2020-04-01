@@ -25,7 +25,7 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
           <div
             className="totalDeployables"
           >
-            NaN 
+            undefined 
             subscriptions
           </div>
         </div>

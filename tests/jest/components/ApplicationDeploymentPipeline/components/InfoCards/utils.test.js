@@ -20,11 +20,15 @@ import {
 describe("getNumIncidents", () => {
   it("has application object", () => {
     const num = getNumIncidents(placementRuleSampleData);
-    expect(num).toEqual(1);
+    expect(num).toEqual(2);
+  });
+  it("empty items list", () => {
+    const num = getNumIncidents(emptyItemsData);
+    expect(num).toEqual(0); // empty string returned
   });
   it("empty list", () => {
     const num = getNumIncidents(emptyData);
-    expect(num).toEqual(0); // empty string returned
+    expect(num).toEqual(0);
   });
 });
 
@@ -36,8 +40,8 @@ describe("getSingleApplicationObject", () => {
     expect(firstAppObject.name).toEqual("app1");
     expect(firstAppObject.namespace).toEqual("default");
   });
-  it("empty list", () => {
-    const firstAppObject = getSingleApplicationObject(emptyData);
+  it("empty items list", () => {
+    const firstAppObject = getSingleApplicationObject(emptyItemsData);
     expect(firstAppObject).toHaveLength(0); // empty string returned
   });
 });
@@ -64,6 +68,17 @@ describe("getNumPlacementRules", () => {
     );
 
     expect(placementRuleCount).toEqual(6);
+  });
+
+  it("no subscription data", () => {
+    const placementRuleCount = getNumPlacementRules(
+      emptyItemsData,
+      true,
+      "app1",
+      "default"
+    );
+
+    expect(placementRuleCount).toEqual(0);
   });
 
   it("no subscription data", () => {
@@ -106,6 +121,20 @@ describe("getSubscriptionDataOnHub", () => {
     expect(subscriptionData.failed).toEqual(1);
     expect(subscriptionData.noStatus).toEqual(2);
     expect(subscriptionData.channels).toEqual(2);
+  });
+
+  it("no subscription data", () => {
+    const subscriptionData = getSubscriptionDataOnHub(
+      emptyItemsData,
+      true,
+      "app1",
+      "default"
+    );
+
+    expect(subscriptionData.total).toEqual(0);
+    expect(subscriptionData.failed).toEqual(0);
+    expect(subscriptionData.noStatus).toEqual(0);
+    expect(subscriptionData.channels).toEqual(0);
   });
 
   it("no subscription data", () => {
@@ -153,6 +182,19 @@ describe("getSubscriptionDataOnManagedClustersSingle", () => {
 
   it("no subscription data", () => {
     const subscriptionData = getSubscriptionDataOnManagedClustersSingle(
+      emptyItemsData,
+      "app1",
+      "default"
+    );
+
+    expect(subscriptionData.clusters).toEqual(0);
+    expect(subscriptionData.total).toEqual(0);
+    expect(subscriptionData.failed).toEqual(0);
+    expect(subscriptionData.noStatus).toEqual(0);
+  });
+
+  it("no subscription data", () => {
+    const subscriptionData = getSubscriptionDataOnManagedClustersSingle(
       emptyData,
       "app1",
       "default"
@@ -180,6 +222,17 @@ describe("getSubscriptionDataOnManagedClustersRoot", () => {
 
   it("no subscription data", () => {
     const subscriptionData = getSubscriptionDataOnManagedClustersRoot(
+      emptyItemsData
+    );
+
+    expect(subscriptionData.clusters).toEqual(0);
+    expect(subscriptionData.total).toEqual(0);
+    expect(subscriptionData.failed).toEqual(0);
+    expect(subscriptionData.noStatus).toEqual(0);
+  });
+
+  it("no subscription data", () => {
+    const subscriptionData = getSubscriptionDataOnManagedClustersRoot(
       emptyData
     );
 
@@ -195,9 +248,18 @@ describe("getPodData", () => {
   it("has pod data", () => {
     const podData = getPodData(podSampleData, "app1", "default");
 
-    expect(podData.total).toEqual(12);
+    expect(podData.total).toEqual(14);
     expect(podData.running).toEqual(4);
     expect(podData.failed).toEqual(5);
+    expect(podData.inProgress).toEqual(2);
+  });
+  it("no pod data", () => {
+    const podData = getPodData(emptyItemsData, "app1", "default");
+
+    expect(podData.total).toEqual(0);
+    expect(podData.running).toEqual(0);
+    expect(podData.failed).toEqual(0);
+    expect(podData.inProgress).toEqual(0);
   });
   it("no pod data", () => {
     const podData = getPodData(emptyData, "app1", "default");
@@ -205,16 +267,24 @@ describe("getPodData", () => {
     expect(podData.total).toEqual(0);
     expect(podData.running).toEqual(0);
     expect(podData.failed).toEqual(0);
+    expect(podData.inProgress).toEqual(0);
   });
 });
 
 // getIncidentsData
 describe("getIncidentsData", () => {
   it("get incidents from list", () => {
-    const incidentData = getIncidentsData(incidents);
+    const incidentData = getIncidentsData(incidentsData);
 
     expect(incidentData.priority1).toEqual(3);
     expect(incidentData.priority2).toEqual(2);
+  });
+
+  it("empty incident list", () => {
+    const incidentData = getIncidentsData(emptyItemsData);
+
+    expect(incidentData.priority1).toEqual(0);
+    expect(incidentData.priority2).toEqual(0);
   });
 
   it("empty incident list", () => {
@@ -225,7 +295,8 @@ describe("getIncidentsData", () => {
   });
 });
 
-const emptyData = {
+const emptyData = {};
+const emptyItemsData = {
   items: []
 };
 
@@ -255,6 +326,10 @@ const placementRuleSampleData = {
           ]
         }
       ]
+    },
+    {
+      name: "app2",
+      namespace: "test-ns"
     }
   ]
 };
@@ -339,6 +414,8 @@ const podSampleData = {
         Running: 2,
         Pass: 1,
         Deployed: 1,
+        Pending: 1,
+        InProgress: 1,
         Failed: 2,
         Error: 2,
         ImagePullBackoff: 1,
@@ -349,7 +426,7 @@ const podSampleData = {
   ]
 };
 
-const incidents = {
+const incidentsData = {
   items: [
     { priority: 1 },
     { priority: 2 },

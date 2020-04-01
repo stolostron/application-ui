@@ -155,7 +155,6 @@ const LeftColumnForApplicationNames = (
       </div>
     )
   }
-
   return (
     <div className="applicationColumnContainer">
       <div className="tileContainer">
@@ -172,7 +171,7 @@ const LeftColumnForApplicationNames = (
               subscriptionsForOneApp[0] &&
               subscriptionsForOneApp[0].items instanceof Array &&
               subscriptionsForOneApp[0].items.length > 0) ||
-              appSubscriptions.length + standaloneSubCount} `}
+              appSubscriptions.length} `}
             {appSubscriptions.length === 1
               ? subCountLabelSingle
               : subCountLabelMulti}

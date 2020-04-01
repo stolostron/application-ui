@@ -1382,7 +1382,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              5 
+              3 
               subscriptions
             </div>
           </div>
@@ -3472,7 +3472,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              5 
+              3 
               subscriptions
             </div>
           </div>
@@ -4633,7 +4633,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              5 
+              3 
               subscriptions
             </div>
           </div>
@@ -5794,7 +5794,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              5 
+              3 
               subscriptions
             </div>
           </div>
@@ -6955,7 +6955,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             <div
               className="totalDeployables"
             >
-              5 
+              3 
               subscriptions
             </div>
           </div>

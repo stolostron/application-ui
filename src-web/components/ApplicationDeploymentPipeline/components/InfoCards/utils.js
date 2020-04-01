@@ -21,6 +21,22 @@ export const getSingleApplicationObject = list => {
   return ''
 }
 
+const getPlacementRuleObjs = (subData, allPlacementRules) => {
+  Object.keys(subData).forEach(kindIndex => {
+    if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
+      const placementRules = subData[kindIndex].items
+      Object.keys(placementRules).forEach(prIndex => {
+        const prObj = {
+          name: placementRules[prIndex].name,
+          namespace: placementRules[prIndex].namespace
+        }
+        allPlacementRules = allPlacementRules.concat(prObj)
+      })
+    }
+  })
+  return allPlacementRules
+}
+
 export const getNumPlacementRules = (
   subscriptions,
   isSingleApplicationView,
@@ -47,18 +63,10 @@ export const getNumPlacementRules = (
           })
 
           if (isCurrentApp) {
-            Object.keys(subData).forEach(kindIndex => {
-              if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
-                const placementRules = subData[kindIndex].items
-                Object.keys(placementRules).forEach(prIndex => {
-                  const prObj = {
-                    name: placementRules[prIndex].name,
-                    namespace: placementRules[prIndex].namespace
-                  }
-                  allPlacementRules = allPlacementRules.concat(prObj)
-                })
-              }
-            })
+            allPlacementRules = getPlacementRuleObjs(
+              subData,
+              allPlacementRules
+            )
           }
         }
       })
@@ -68,19 +76,10 @@ export const getNumPlacementRules = (
       Object.keys(subscriptions.items).forEach(subIndex => {
         // Placement rule data found in "related" object
         if (subscriptions.items[subIndex].related) {
-          const subData = subscriptions.items[subIndex].related
-          Object.keys(subData).forEach(kindIndex => {
-            if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
-              const placementRules = subData[kindIndex].items
-              Object.keys(placementRules).forEach(prIndex => {
-                const prObj = {
-                  name: placementRules[prIndex].name,
-                  namespace: placementRules[prIndex].namespace
-                }
-                allPlacementRules = allPlacementRules.concat(prObj)
-              })
-            }
-          })
+          allPlacementRules = getPlacementRuleObjs(
+            subscriptions.items[subIndex].related,
+            allPlacementRules
+          )
         }
       })
     }
@@ -91,6 +90,18 @@ export const getNumPlacementRules = (
     return allPlacementRules.length
   }
   return 0
+}
+
+const getSubObjs = (subData, allSubscriptions, allChannels) => {
+  Object.keys(subData).forEach(subIndex => {
+    const subObj = {
+      status: subData[subIndex].status,
+      id: subData[subIndex]._uid
+    }
+    allSubscriptions = allSubscriptions.concat(subObj)
+    allChannels = allChannels.concat(subData[subIndex].channel)
+  })
+  return [allSubscriptions, allChannels]
 }
 
 export const getSubscriptionDataOnHub = (
@@ -114,16 +125,13 @@ export const getSubscriptionDataOnHub = (
           applications.items[appIndex].namespace === applicationNamespace &&
           applications.items[appIndex].hubSubscriptions
         ) {
-          const subData = applications.items[appIndex].hubSubscriptions
-          Object.keys(subData).forEach(subIndex => {
-            const subObj = {
-              status: subData[subIndex].status,
-              id: subData[subIndex]._uid
-            }
-            allSubscriptions = allSubscriptions.concat(subObj)
-            allChannels = allChannels.concat(subData[subIndex].channel)
-          })
-          return
+          const subObjs = getSubObjs(
+            applications.items[appIndex].hubSubscriptions,
+            allSubscriptions,
+            allChannels
+          )
+          allSubscriptions = subObjs[0]
+          allChannels = subObjs[1]
         }
       })
     } else {
@@ -131,15 +139,13 @@ export const getSubscriptionDataOnHub = (
       // Get subscription data for all applications
       Object.keys(applications.items).forEach(appIndex => {
         if (applications.items[appIndex].hubSubscriptions) {
-          const subData = applications.items[appIndex].hubSubscriptions
-          Object.keys(subData).forEach(subIndex => {
-            const subObj = {
-              status: subData[subIndex].status,
-              id: subData[subIndex]._uid
-            }
-            allSubscriptions = allSubscriptions.concat(subObj)
-            allChannels = allChannels.concat(subData[subIndex].channel)
-          })
+          const subObjs = getSubObjs(
+            applications.items[appIndex].hubSubscriptions,
+            allSubscriptions,
+            allChannels
+          )
+          allSubscriptions = subObjs[0]
+          allChannels = subObjs[1]
         }
       })
     }

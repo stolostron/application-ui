@@ -7,33 +7,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
   <div
     className="whiteSpacer"
   >
-    <span
-      className="tech-preview-tag"
-    >
-      <div
-        className="bx--tooltip--definition"
-      >
-        <button
-          aria-describedby="definition-tooltip-2"
-          className="bx--tooltip__trigger"
-        >
-          Technology Preview
-        </button>
-        <div
-          aria-label="These features are not fully supported, may not be functionally complete, and are not intended for production use."
-          className="bx--tooltip--definition__bottom"
-          id="definition-tooltip-2"
-          role="tooltip"
-        >
-          <span
-            className="bx--tooltip__caret"
-          />
-          <p>
-            These features are not fully supported, may not be functionally complete, and are not intended for production use.
-          </p>
-        </div>
-      </div>
-    </span>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}
@@ -142,33 +115,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
   <div
     className="whiteSpacer"
   >
-    <span
-      className="tech-preview-tag"
-    >
-      <div
-        className="bx--tooltip--definition"
-      >
-        <button
-          aria-describedby="definition-tooltip-3"
-          className="bx--tooltip__trigger"
-        >
-          Technology Preview
-        </button>
-        <div
-          aria-label="These features are not fully supported, may not be functionally complete, and are not intended for production use."
-          className="bx--tooltip--definition__bottom"
-          id="definition-tooltip-3"
-          role="tooltip"
-        >
-          <span
-            className="bx--tooltip__caret"
-          />
-          <p>
-            These features are not fully supported, may not be functionally complete, and are not intended for production use.
-          </p>
-        </div>
-      </div>
-    </span>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}
@@ -306,33 +252,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
   <div
     className="whiteSpacer"
   >
-    <span
-      className="tech-preview-tag"
-    >
-      <div
-        className="bx--tooltip--definition"
-      >
-        <button
-          aria-describedby="definition-tooltip-4"
-          className="bx--tooltip__trigger"
-        >
-          Technology Preview
-        </button>
-        <div
-          aria-label="These features are not fully supported, may not be functionally complete, and are not intended for production use."
-          className="bx--tooltip--definition__bottom"
-          id="definition-tooltip-4"
-          role="tooltip"
-        >
-          <span
-            className="bx--tooltip__caret"
-          />
-          <p>
-            These features are not fully supported, may not be functionally complete, and are not intended for production use.
-          </p>
-        </div>
-      </div>
-    </span>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}

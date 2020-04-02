@@ -50,6 +50,7 @@ function getFromState(state, root, attribute) {
   } else {
     //eslint-disable-next-line no-console
     console.error(`store root '${root}' does not exist`)
+    return undefined
   }
 }
 

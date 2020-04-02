@@ -111,6 +111,11 @@ describe("PipelineGrid", () => {
     );
 
     wrapper
+      .find(".channelEditIcon")
+      .at(0)
+      .simulate("click");
+
+    wrapper
       .find(".yamlEditSubContainer")
       .at(0)
       .simulate("click");

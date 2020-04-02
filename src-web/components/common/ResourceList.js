@@ -253,7 +253,7 @@ const mapStateToProps = (state, ownProps) => {
   const pendingActions = state[typeListName].pendingActions
   const items = visibleResources.normalizedItems
   if (items && pendingActions) {
-    Object.keys(items).map(key => {
+    Object.keys(items).forEach(key => {
       if (pendingActions.find(pending => pending.name === items[key].Name))
         items[key].hasPendingActions = true
     })

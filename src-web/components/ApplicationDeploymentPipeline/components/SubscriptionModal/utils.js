@@ -75,10 +75,10 @@ export const getClusterCountForSub = (uid, applications) => {
   var numClusters = 0
 
   if (applications && applications.items) {
-    Object.keys(applications.items).map(appIndex => {
+    Object.keys(applications.items).forEach(appIndex => {
       if (applications.items[appIndex].hubSubscriptions != undefined) {
         const subData = applications.items[appIndex].hubSubscriptions
-        Object.keys(subData).map(subIndex => {
+        Object.keys(subData).forEach(subIndex => {
           if (
             subData[subIndex]._uid != undefined &&
             subData[subIndex]._uid === uid &&

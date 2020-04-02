@@ -34,7 +34,7 @@ function getPlacementRuleUpdates(
   originalRaw,
   updates
 ) {
-  currentParsed.some(({ $raw: currentRaw }, idx) => {
+  return currentParsed.some(({ $raw: currentRaw }, idx) => {
     // assumes current and previous are in same order
     if (idx < previousParsed.length) {
       const { $raw: previousRaw } = previousParsed[idx]

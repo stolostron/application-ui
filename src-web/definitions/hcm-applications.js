@@ -162,7 +162,7 @@ export default {
 }
 
 export function createApplicationLink(item = {}, ...param) {
-  const { name, namespace = 'default' } = item ? item : item
+  const { name, namespace = 'default' } = item
   if (param[2]) return item.name
   const link = `${config.contextPath}/${encodeURIComponent(
     namespace

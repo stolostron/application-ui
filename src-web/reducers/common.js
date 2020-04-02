@@ -45,11 +45,13 @@ export const getSortDirection = (state, props) =>
 
 function getFromState(state, root, attribute) {
   const storeRoot = state[root]
-  if (storeRoot === undefined) {
+  if (storeRoot) {
+    return storeRoot[attribute]
+  } else {
     //eslint-disable-next-line no-console
     console.error(`store root '${root}' does not exist`)
+    return undefined
   }
-  return storeRoot[attribute]
 }
 
 let globalContext = { locale: 'en-US' }
@@ -86,7 +88,7 @@ export const INITIAL_STATE = {
  */
 function searchTableCell(item, tableKey, context, searchText) {
   const renderedElement = transform(item, tableKey, context.locale, true)
-  if (typeof renderedElement === String) {
+  if (typeof renderedElement === 'string') {
     return (
       renderedElement.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
     )

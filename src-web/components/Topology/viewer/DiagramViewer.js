@@ -133,7 +133,7 @@ class DiagramViewer extends React.Component {
           return false
         } else if (!currentLinkMap[link.uid]) {
           // only links between kube objects can be hidden
-          if (!nodeMap[source].isDesign && !nodeMap[source].isDesign) {
+          if (!nodeMap[source].isDesign) {
             hiddenLinks.add(link.uid)
           } else {
             return false

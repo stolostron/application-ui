@@ -161,7 +161,7 @@ class RemoveResourceModal extends React.Component {
       })
     } else {
       apolloClient
-        .remove({ cluster, selfLink, childResources: [] || [] })
+        .remove({ cluster, selfLink, childResources: [] })
         .then(res => {
           if (res.errors) {
             this.setState({

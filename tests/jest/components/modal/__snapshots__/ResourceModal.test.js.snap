@@ -102,219 +102,179 @@ exports[`ResourceModal test renders as expected 1 2`] = `
             </div>
           </div>
         </Loading>
-        <Modal
+        <ComposedModal
           aria-label="Delete application"
           className="modal-with-editor"
-          iconDescription="close the modal"
           id="resource-modal-[object Object]"
-          modalHeading="Delete application"
-          modalLabel=""
+          onClose={[Function]}
           onKeyDown={[Function]}
-          onRequestClose={[Function]}
-          onRequestSubmit={[Function]}
           open={true}
-          passiveModal={false}
-          primaryButtonDisabled={false}
-          primaryButtonText="Save"
           role="region"
-          secondaryButtonText="Cancel"
           selectorPrimaryFocus="[data-modal-primary-focus]"
         >
           <div
             aria-label="Delete application"
-            className="bx--modal bx--modal-tall is-visible modal-with-editor"
+            className="bx--modal is-visible modal-with-editor"
             id="resource-modal-[object Object]"
             onBlur={[Function]}
             onClick={[Function]}
+            onClose={[Function]}
             onKeyDown={[Function]}
             onTransitionEnd={[Function]}
+            open={true}
             role="presentation"
             tabIndex={-1}
           >
             <div
               className="bx--modal-container"
-              role="dialog"
             >
-              <div
-                className="bx--modal-header"
-              >
-                <h2
-                  className="bx--modal-header__heading"
-                >
-                  Delete application
-                </h2>
-                <button
-                  className="bx--modal-close"
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <Icon
-                    className="bx--modal-close__icon"
-                    description="close the modal"
-                    fillRule="evenodd"
-                    icon={
-                      Object {
-                        "height": "10",
-                        "id": "icon--close",
-                        "name": "icon--close",
-                        "styles": "",
-                        "svgData": Object {
-                          "circles": "",
-                          "ellipses": "",
-                          "paths": Array [
-                            Object {
-                              "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
-                              "fill-rule": "nonzero",
-                            },
-                          ],
-                          "polygons": "",
-                          "polylines": "",
-                          "rects": "",
-                        },
-                        "tags": "icon--close",
-                        "viewBox": "0 0 10 10",
-                        "width": "10",
-                      }
-                    }
-                    role="img"
-                  >
-                    <svg
-                      alt="close the modal"
-                      aria-label="close the modal"
-                      className="bx--modal-close__icon"
-                      fillRule="evenodd"
-                      height="10"
-                      role="img"
-                      viewBox="0 0 10 10"
-                      width="10"
-                    >
-                      <title>
-                        close the modal
-                      </title>
-                      <path
-                        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
-                        key="key0"
-                      />
-                    </svg>
-                  </Icon>
-                </button>
-              </div>
-              <div
-                className="bx--modal-content"
+              <ModalHeader
+                buttonOnClick={[Function]}
+                closeModal={[Function]}
+                iconDescription="Close the modal"
+                key=".0"
+                title="Delete application"
               >
                 <div
-                  className="help-link-edit"
+                  className="bx--modal-header"
                 >
-                  <a
-                    href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
-                    target="_blank"
+                  <p
+                    className="bx--modal-header__heading bx--type-beta"
                   >
-                    View doc
-                  </a>
-                  <a
-                    href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
-                    target="_blank"
+                    Delete application
+                  </p>
+                  <button
+                    className="bx--modal-close"
+                    onClick={[Function]}
+                    type="button"
                   >
                     <Icon
-                      className="helpLinkIcon"
-                      description=""
-                      fill="#6089bf"
+                      className="bx--modal-close__icon"
+                      description="Close the modal"
                       fillRule="evenodd"
-                      name="icon--launch"
+                      icon={
+                        Object {
+                          "height": "10",
+                          "id": "icon--close",
+                          "name": "icon--close",
+                          "styles": "",
+                          "svgData": Object {
+                            "circles": "",
+                            "ellipses": "",
+                            "paths": Array [
+                              Object {
+                                "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
+                                "fill-rule": "nonzero",
+                              },
+                            ],
+                            "polygons": "",
+                            "polylines": "",
+                            "rects": "",
+                          },
+                          "tags": "icon--close",
+                          "viewBox": "0 0 10 10",
+                          "width": "10",
+                        }
+                      }
                       role="img"
                     >
                       <svg
-                        alt=""
-                        aria-label=""
-                        className="helpLinkIcon"
-                        fill="#6089bf"
+                        alt="Close the modal"
+                        aria-label="Close the modal"
+                        className="bx--modal-close__icon"
                         fillRule="evenodd"
-                        height="16"
-                        name="icon--launch"
+                        height="10"
                         role="img"
-                        viewBox="0 0 16 16"
-                        width="16"
+                        viewBox="0 0 10 10"
+                        width="10"
                       >
-                        <title />
+                        <title>
+                          Close the modal
+                        </title>
                         <path
-                          d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                          d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
                           key="key0"
-                        />
-                        <path
-                          d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                          key="key1"
-                        />
-                        <path
-                          d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-                          key="key2"
                         />
                       </svg>
                     </Icon>
-                  </a>
+                  </button>
                 </div>
-                <div>
-                  <YamlEditor
-                    onYamlChange={[Function]}
-                    readOnly={false}
+              </ModalHeader>
+              <ModalBody
+                key=".1"
+              >
+                <div
+                  className="bx--modal-content"
+                >
+                  <div
+                    className="help-link-edit"
                   >
-                    <div
-                      className="yamlEditorContainer"
+                    <a
+                      href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
+                      target="_blank"
                     >
-                      <IsomorphicEditor
-                        editorProps={
-                          Object {
-                            "$blockScrolling": Infinity,
-                          }
-                        }
-                        fontSize={12}
-                        height="40vh"
-                        highlightActiveLine={true}
-                        mode="yaml"
-                        onChange={[Function]}
-                        setOptions={
-                          Object {
-                            "newLineMode": "unix",
-                            "readOnly": false,
-                            "showLineNumbers": true,
-                            "tabSize": 2,
-                          }
-                        }
-                        showGutter={true}
-                        showPrintMargin={false}
-                        theme="monokai"
-                        width="100%"
-                        wrapEnabled={false}
+                      View doc
+                    </a>
+                    <a
+                      href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
+                      target="_blank"
+                    >
+                      <Icon
+                        className="helpLinkIcon"
+                        description=""
+                        fill="#6089bf"
+                        fillRule="evenodd"
+                        name="icon--launch"
+                        role="img"
                       >
-                        <ReactAce
-                          cursorStart={1}
+                        <svg
+                          alt=""
+                          aria-label=""
+                          className="helpLinkIcon"
+                          fill="#6089bf"
+                          fillRule="evenodd"
+                          height="16"
+                          name="icon--launch"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            key="key0"
+                          />
+                          <path
+                            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            key="key1"
+                          />
+                          <path
+                            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                            key="key2"
+                          />
+                        </svg>
+                      </Icon>
+                    </a>
+                  </div>
+                  <div>
+                    <YamlEditor
+                      onYamlChange={[Function]}
+                      readOnly={false}
+                    >
+                      <div
+                        className="yamlEditorContainer"
+                      >
+                        <IsomorphicEditor
                           editorProps={
                             Object {
                               "$blockScrolling": Infinity,
                             }
                           }
-                          enableBasicAutocompletion={false}
-                          enableLiveAutocompletion={false}
-                          focus={false}
                           fontSize={12}
                           height="40vh"
                           highlightActiveLine={true}
-                          maxLines={null}
-                          minLines={null}
                           mode="yaml"
-                          name="brace-editor"
                           onChange={[Function]}
-                          onLoad={null}
-                          onPaste={null}
-                          onScroll={null}
-                          readOnly={false}
-                          scrollMargin={
-                            Array [
-                              0,
-                              0,
-                              0,
-                              0,
-                            ]
-                          }
                           setOptions={
                             Object {
                               "newLineMode": "unix",
@@ -325,35 +285,110 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                           }
                           showGutter={true}
                           showPrintMargin={false}
-                          style={Object {}}
-                          tabSize={4}
                           theme="monokai"
-                          value=""
                           width="100%"
                           wrapEnabled={false}
                         >
-                          <div
-                            id="brace-editor"
-                            style={
+                          <ReactAce
+                            cursorStart={1}
+                            editorProps={
                               Object {
-                                "height": "40vh",
-                                "width": "100%",
+                                "$blockScrolling": Infinity,
                               }
                             }
-                          />
-                        </ReactAce>
-                      </IsomorphicEditor>
-                    </div>
-                  </YamlEditor>
+                            enableBasicAutocompletion={false}
+                            enableLiveAutocompletion={false}
+                            focus={false}
+                            fontSize={12}
+                            height="40vh"
+                            highlightActiveLine={true}
+                            maxLines={null}
+                            minLines={null}
+                            mode="yaml"
+                            name="brace-editor"
+                            onChange={[Function]}
+                            onLoad={null}
+                            onPaste={null}
+                            onScroll={null}
+                            readOnly={false}
+                            scrollMargin={
+                              Array [
+                                0,
+                                0,
+                                0,
+                                0,
+                              ]
+                            }
+                            setOptions={
+                              Object {
+                                "newLineMode": "unix",
+                                "readOnly": false,
+                                "showLineNumbers": true,
+                                "tabSize": 2,
+                              }
+                            }
+                            showGutter={true}
+                            showPrintMargin={false}
+                            style={Object {}}
+                            tabSize={4}
+                            theme="monokai"
+                            value=""
+                            width="100%"
+                            wrapEnabled={false}
+                          >
+                            <div
+                              id="brace-editor"
+                              style={
+                                Object {
+                                  "height": "40vh",
+                                  "width": "100%",
+                                }
+                              }
+                            />
+                          </ReactAce>
+                        </IsomorphicEditor>
+                      </div>
+                    </YamlEditor>
+                  </div>
                 </div>
-              </div>
-              <div
-                className="bx--modal-footer"
+              </ModalBody>
+              <ModalFooter
+                closeModal={[Function]}
+                inputref={
+                  Object {
+                    "current": <button
+                      class="bx--btn bx--btn--primary"
+                      inputref="[object Object]"
+                      tabindex="0"
+                      type="button"
+                    >
+                      Save
+                    </button>,
+                  }
+                }
+                key=".2"
+                onRequestClose={[Function]}
+                onRequestSubmit={[Function]}
+                primaryButtonText="Save"
+                secondaryButtonText="Cancel"
               >
                 <div
-                  className="bx--modal__buttons-container"
+                  className="bx--modal-footer"
+                  inputref={
+                    Object {
+                      "current": <button
+                        class="bx--btn bx--btn--primary"
+                        inputref="[object Object]"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Save
+                      </button>,
+                    }
+                  }
                 >
                   <Button
+                    className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
                     kind="secondary"
@@ -373,6 +408,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                     </button>
                   </Button>
                   <Button
+                    className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
                     inputref={
@@ -416,10 +452,10 @@ exports[`ResourceModal test renders as expected 1 2`] = `
                     </button>
                   </Button>
                 </div>
-              </div>
+              </ModalFooter>
             </div>
           </div>
-        </Modal>
+        </ComposedModal>
       </div>
     </ResourceModal>
   </Router>
@@ -526,219 +562,179 @@ exports[`ResourceModal test renders as expected 1 3`] = `
             </div>
           </div>
         </Loading>
-        <Modal
+        <ComposedModal
           aria-label="Delete application"
           className="modal-with-editor"
-          iconDescription="close the modal"
           id="resource-modal-[object Object]"
-          modalHeading="Delete application"
-          modalLabel=""
+          onClose={[Function]}
           onKeyDown={[Function]}
-          onRequestClose={[Function]}
-          onRequestSubmit={[Function]}
           open={true}
-          passiveModal={false}
-          primaryButtonDisabled={false}
-          primaryButtonText="Save"
           role="region"
-          secondaryButtonText="Cancel"
           selectorPrimaryFocus="[data-modal-primary-focus]"
         >
           <div
             aria-label="Delete application"
-            className="bx--modal bx--modal-tall is-visible modal-with-editor"
+            className="bx--modal is-visible modal-with-editor"
             id="resource-modal-[object Object]"
             onBlur={[Function]}
             onClick={[Function]}
+            onClose={[Function]}
             onKeyDown={[Function]}
             onTransitionEnd={[Function]}
+            open={true}
             role="presentation"
             tabIndex={-1}
           >
             <div
               className="bx--modal-container"
-              role="dialog"
             >
-              <div
-                className="bx--modal-header"
-              >
-                <h2
-                  className="bx--modal-header__heading"
-                >
-                  Delete application
-                </h2>
-                <button
-                  className="bx--modal-close"
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <Icon
-                    className="bx--modal-close__icon"
-                    description="close the modal"
-                    fillRule="evenodd"
-                    icon={
-                      Object {
-                        "height": "10",
-                        "id": "icon--close",
-                        "name": "icon--close",
-                        "styles": "",
-                        "svgData": Object {
-                          "circles": "",
-                          "ellipses": "",
-                          "paths": Array [
-                            Object {
-                              "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
-                              "fill-rule": "nonzero",
-                            },
-                          ],
-                          "polygons": "",
-                          "polylines": "",
-                          "rects": "",
-                        },
-                        "tags": "icon--close",
-                        "viewBox": "0 0 10 10",
-                        "width": "10",
-                      }
-                    }
-                    role="img"
-                  >
-                    <svg
-                      alt="close the modal"
-                      aria-label="close the modal"
-                      className="bx--modal-close__icon"
-                      fillRule="evenodd"
-                      height="10"
-                      role="img"
-                      viewBox="0 0 10 10"
-                      width="10"
-                    >
-                      <title>
-                        close the modal
-                      </title>
-                      <path
-                        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
-                        key="key0"
-                      />
-                    </svg>
-                  </Icon>
-                </button>
-              </div>
-              <div
-                className="bx--modal-content"
+              <ModalHeader
+                buttonOnClick={[Function]}
+                closeModal={[Function]}
+                iconDescription="Close the modal"
+                key=".0"
+                title="Delete application"
               >
                 <div
-                  className="help-link-edit"
+                  className="bx--modal-header"
                 >
-                  <a
-                    href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
-                    target="_blank"
+                  <p
+                    className="bx--modal-header__heading bx--type-beta"
                   >
-                    View doc
-                  </a>
-                  <a
-                    href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
-                    target="_blank"
+                    Delete application
+                  </p>
+                  <button
+                    className="bx--modal-close"
+                    onClick={[Function]}
+                    type="button"
                   >
                     <Icon
-                      className="helpLinkIcon"
-                      description=""
-                      fill="#6089bf"
+                      className="bx--modal-close__icon"
+                      description="Close the modal"
                       fillRule="evenodd"
-                      name="icon--launch"
+                      icon={
+                        Object {
+                          "height": "10",
+                          "id": "icon--close",
+                          "name": "icon--close",
+                          "styles": "",
+                          "svgData": Object {
+                            "circles": "",
+                            "ellipses": "",
+                            "paths": Array [
+                              Object {
+                                "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
+                                "fill-rule": "nonzero",
+                              },
+                            ],
+                            "polygons": "",
+                            "polylines": "",
+                            "rects": "",
+                          },
+                          "tags": "icon--close",
+                          "viewBox": "0 0 10 10",
+                          "width": "10",
+                        }
+                      }
                       role="img"
                     >
                       <svg
-                        alt=""
-                        aria-label=""
-                        className="helpLinkIcon"
-                        fill="#6089bf"
+                        alt="Close the modal"
+                        aria-label="Close the modal"
+                        className="bx--modal-close__icon"
                         fillRule="evenodd"
-                        height="16"
-                        name="icon--launch"
+                        height="10"
                         role="img"
-                        viewBox="0 0 16 16"
-                        width="16"
+                        viewBox="0 0 10 10"
+                        width="10"
                       >
-                        <title />
+                        <title>
+                          Close the modal
+                        </title>
                         <path
-                          d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                          d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
                           key="key0"
-                        />
-                        <path
-                          d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-                          key="key1"
-                        />
-                        <path
-                          d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
-                          key="key2"
                         />
                       </svg>
                     </Icon>
-                  </a>
+                  </button>
                 </div>
-                <div>
-                  <YamlEditor
-                    onYamlChange={[Function]}
-                    readOnly={false}
+              </ModalHeader>
+              <ModalBody
+                key=".1"
+              >
+                <div
+                  className="bx--modal-content"
+                >
+                  <div
+                    className="help-link-edit"
                   >
-                    <div
-                      className="yamlEditorContainer"
+                    <a
+                      href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
+                      target="_blank"
                     >
-                      <IsomorphicEditor
-                        editorProps={
-                          Object {
-                            "$blockScrolling": Infinity,
-                          }
-                        }
-                        fontSize={12}
-                        height="40vh"
-                        highlightActiveLine={true}
-                        mode="yaml"
-                        onChange={[Function]}
-                        setOptions={
-                          Object {
-                            "newLineMode": "unix",
-                            "readOnly": false,
-                            "showLineNumbers": true,
-                            "tabSize": 2,
-                          }
-                        }
-                        showGutter={true}
-                        showPrintMargin={false}
-                        theme="monokai"
-                        width="100%"
-                        wrapEnabled={false}
+                      View doc
+                    </a>
+                    <a
+                      href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html"
+                      target="_blank"
+                    >
+                      <Icon
+                        className="helpLinkIcon"
+                        description=""
+                        fill="#6089bf"
+                        fillRule="evenodd"
+                        name="icon--launch"
+                        role="img"
                       >
-                        <ReactAce
-                          cursorStart={1}
+                        <svg
+                          alt=""
+                          aria-label=""
+                          className="helpLinkIcon"
+                          fill="#6089bf"
+                          fillRule="evenodd"
+                          height="16"
+                          name="icon--launch"
+                          role="img"
+                          viewBox="0 0 16 16"
+                          width="16"
+                        >
+                          <title />
+                          <path
+                            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            key="key0"
+                          />
+                          <path
+                            d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+                            key="key1"
+                          />
+                          <path
+                            d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+                            key="key2"
+                          />
+                        </svg>
+                      </Icon>
+                    </a>
+                  </div>
+                  <div>
+                    <YamlEditor
+                      onYamlChange={[Function]}
+                      readOnly={false}
+                    >
+                      <div
+                        className="yamlEditorContainer"
+                      >
+                        <IsomorphicEditor
                           editorProps={
                             Object {
                               "$blockScrolling": Infinity,
                             }
                           }
-                          enableBasicAutocompletion={false}
-                          enableLiveAutocompletion={false}
-                          focus={false}
                           fontSize={12}
                           height="40vh"
                           highlightActiveLine={true}
-                          maxLines={null}
-                          minLines={null}
                           mode="yaml"
-                          name="brace-editor"
                           onChange={[Function]}
-                          onLoad={null}
-                          onPaste={null}
-                          onScroll={null}
-                          readOnly={false}
-                          scrollMargin={
-                            Array [
-                              0,
-                              0,
-                              0,
-                              0,
-                            ]
-                          }
                           setOptions={
                             Object {
                               "newLineMode": "unix",
@@ -749,35 +745,110 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                           }
                           showGutter={true}
                           showPrintMargin={false}
-                          style={Object {}}
-                          tabSize={4}
                           theme="monokai"
-                          value=""
                           width="100%"
                           wrapEnabled={false}
                         >
-                          <div
-                            id="brace-editor"
-                            style={
+                          <ReactAce
+                            cursorStart={1}
+                            editorProps={
                               Object {
-                                "height": "40vh",
-                                "width": "100%",
+                                "$blockScrolling": Infinity,
                               }
                             }
-                          />
-                        </ReactAce>
-                      </IsomorphicEditor>
-                    </div>
-                  </YamlEditor>
+                            enableBasicAutocompletion={false}
+                            enableLiveAutocompletion={false}
+                            focus={false}
+                            fontSize={12}
+                            height="40vh"
+                            highlightActiveLine={true}
+                            maxLines={null}
+                            minLines={null}
+                            mode="yaml"
+                            name="brace-editor"
+                            onChange={[Function]}
+                            onLoad={null}
+                            onPaste={null}
+                            onScroll={null}
+                            readOnly={false}
+                            scrollMargin={
+                              Array [
+                                0,
+                                0,
+                                0,
+                                0,
+                              ]
+                            }
+                            setOptions={
+                              Object {
+                                "newLineMode": "unix",
+                                "readOnly": false,
+                                "showLineNumbers": true,
+                                "tabSize": 2,
+                              }
+                            }
+                            showGutter={true}
+                            showPrintMargin={false}
+                            style={Object {}}
+                            tabSize={4}
+                            theme="monokai"
+                            value=""
+                            width="100%"
+                            wrapEnabled={false}
+                          >
+                            <div
+                              id="brace-editor"
+                              style={
+                                Object {
+                                  "height": "40vh",
+                                  "width": "100%",
+                                }
+                              }
+                            />
+                          </ReactAce>
+                        </IsomorphicEditor>
+                      </div>
+                    </YamlEditor>
+                  </div>
                 </div>
-              </div>
-              <div
-                className="bx--modal-footer"
+              </ModalBody>
+              <ModalFooter
+                closeModal={[Function]}
+                inputref={
+                  Object {
+                    "current": <button
+                      class="bx--btn bx--btn--primary"
+                      inputref="[object Object]"
+                      tabindex="0"
+                      type="button"
+                    >
+                      Save
+                    </button>,
+                  }
+                }
+                key=".2"
+                onRequestClose={[Function]}
+                onRequestSubmit={[Function]}
+                primaryButtonText="Save"
+                secondaryButtonText="Cancel"
               >
                 <div
-                  className="bx--modal__buttons-container"
+                  className="bx--modal-footer"
+                  inputref={
+                    Object {
+                      "current": <button
+                        class="bx--btn bx--btn--primary"
+                        inputref="[object Object]"
+                        tabindex="0"
+                        type="button"
+                      >
+                        Save
+                      </button>,
+                    }
+                  }
                 >
                   <Button
+                    className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
                     kind="secondary"
@@ -797,6 +868,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                     </button>
                   </Button>
                   <Button
+                    className=""
                     disabled={false}
                     iconDescription="Provide icon description if icon is used"
                     inputref={
@@ -840,10 +912,10 @@ exports[`ResourceModal test renders as expected 1 3`] = `
                     </button>
                   </Button>
                 </div>
-              </div>
+              </ModalFooter>
             </div>
           </div>
-        </Modal>
+        </ComposedModal>
       </div>
     </ResourceModal>
   </Router>

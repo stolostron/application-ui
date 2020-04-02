@@ -110,3 +110,18 @@
 .hidden {
   display: none;
 }
+
+#modalFotterBtnDiv {
+  .bx--btn {
+    background-color: #4a79b7 !important;
+    color: white !important;
+    margin-left: 1rem;
+  }
+
+  .bx--btn--secondary {
+    background-color: transparent !important;
+    border: 2px solid #3d70b2;
+    color: #3d70b2 !important;
+  }
+}
+

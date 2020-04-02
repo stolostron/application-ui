@@ -11,7 +11,10 @@
 import React from 'react'
 import lodash from 'lodash'
 import {
-  Modal,
+  ComposedModal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Loading,
   InlineNotification,
   Icon
@@ -156,52 +159,60 @@ class ResourceModal extends React.PureComponent {
         {' '}
         {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
         {loading && <Loading />}
-        <Modal
+        <ComposedModal
           id={`resource-modal-${resourceType}`}
           className="modal-with-editor"
-          open={open}
-          primaryButtonText={msgs.get('modal.button.save', locale)}
-          secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          modalHeading={msgs.get(label.heading, locale)}
-          onRequestClose={this.handleClose}
-          onRequestSubmit={this.handleSubmit}
-          role="region"
           aria-label={msgs.get(label.heading, locale)}
+          open={open}
+          role="region"
+          onClose={() => false}
         >
-          {helpLink && (
-            <div className="help-link-edit">
-              <a href={helpLink} target="_blank">
-                {msgs.get('link.help.writing', this.context.locale)}
-              </a>
+          <ModalHeader
+            title={msgs.get(label.heading, locale)}
+            buttonOnClick={this.handleClose}
+          />
+          <ModalBody>
+            {helpLink && (
+              <div className="help-link-edit">
+                <a href={helpLink} target="_blank">
+                  {msgs.get('link.help.writing', this.context.locale)}
+                </a>
 
-              <a href={helpLink} target="_blank">
-                <Icon
-                  name="icon--launch"
-                  fill="#6089bf"
-                  description=""
-                  className="helpLinkIcon"
+                <a href={helpLink} target="_blank">
+                  <Icon
+                    name="icon--launch"
+                    fill="#6089bf"
+                    description=""
+                    className="helpLinkIcon"
+                  />
+                </a>
+              </div>
+            )}
+
+            <div>
+              {errors !== '' ? (
+                <InlineNotification
+                  key={`inline-notification-${errors}`}
+                  kind="error"
+                  title=""
+                  subtitle={errors}
+                  iconDescription={msgs.get('svg.description.error', locale)}
                 />
-              </a>
-            </div>
-          )}
-
-          <div>
-            {errors !== '' ? (
-              <InlineNotification
-                key={`inline-notification-${errors}`}
-                kind="error"
-                title=""
-                subtitle={errors}
-                iconDescription={msgs.get('svg.description.error', locale)}
+              ) : null}
+              <YamlEditor
+                readOnly={false}
+                onYamlChange={this.onChange}
+                yaml={data}
               />
-            ) : null}
-            <YamlEditor
-              readOnly={false}
-              onYamlChange={this.onChange}
-              yaml={data}
-            />
-          </div>
-        </Modal>
+            </div>
+          </ModalBody>
+          <ModalFooter
+            primaryButtonText={msgs.get('modal.button.save', locale)}
+            secondaryButtonText={msgs.get('modal.button.cancel', locale)}
+            onRequestClose={this.handleClose}
+            onRequestSubmit={this.handleSubmit}
+          />
+        </ComposedModal>
       </div>
     )
   }

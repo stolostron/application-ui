@@ -348,10 +348,6 @@ const SubscriptionTile = (
     subName,
     status,
     placementRule,
-    onClickEditResource,
-    onKeyPressEditResource,
-    onClickEditPlacementRule,
-    onKeyPressEditPlacementRule,
     getSubscriptionResource,
     getPlacementRuleResource
   },
@@ -386,8 +382,10 @@ const SubscriptionTile = (
       </div>
       <div
         className="yamlEditSubContainer"
-        onClick={onClickEditResource}
-        onKeyPress={onKeyPressEditResource}
+        onClick={() =>
+          editResourceClick(thisSubscriptionData, getSubscriptionResource)
+        }
+        onKeyPress={() => {}}
         tabIndex={0}
         role="button"
       >
@@ -411,9 +409,11 @@ const SubscriptionTile = (
         placementRule.name && (
           <div
             className="placementRuleDesc"
-            onClick={onClickEditPlacementRule}
-            onKeyPress={onKeyPressEditPlacementRule}
             tabIndex={placementRule._uid}
+            onClick={() =>
+              editResourceClick(placementRule, getPlacementRuleResource)
+            }
+            onKeyPress={() => {}}
             role="button"
           >
             {`${msgs.get('description.placement.rule', locale)}: ${
@@ -424,9 +424,6 @@ const SubscriptionTile = (
               fill="#6089bf"
               description=""
               className="placementEditIcon"
-              onClick={() =>
-                editResourceClick(placementRule, getPlacementRuleResource)
-              }
             />
           </div>
       )}
@@ -574,27 +571,6 @@ const ChannelColumnGrid = ({
                       const showBlankFiller =
                         row > 1 && displayStatus === undefined
                       const subName = thisSubscriptionData.name
-                      const onClickEditResource = () => {
-                        editResourceClick(subCol, getSubscriptionResource)
-                      }
-                      const onClickEditPlacementRule = () => {
-                        editResourceClick(
-                          placementRule,
-                          getPlacementRuleResource
-                        )
-                      }
-
-                      const onKeyPressEditPlacementRule = e => {
-                        if (e.key === 'Enter') {
-                          onClickEditPlacementRule()
-                        }
-                      }
-                      const onKeyPressEditResource = e => {
-                        if (e.key === 'Enter') {
-                          onClickEditResource()
-                        }
-                      }
-
                       return (
                         <div key={Math.random()} className="channelColumnDep">
                           {displayStatus && (
@@ -614,14 +590,6 @@ const ChannelColumnGrid = ({
                               subName={subName}
                               status={status}
                               placementRule={placementRule}
-                              onClickEditResource={onClickEditResource}
-                              onKeyPressEditResource={onKeyPressEditResource}
-                              onClickEditPlacementRule={
-                                onClickEditPlacementRule
-                              }
-                              onKeyPressEditPlacementRule={
-                                onKeyPressEditPlacementRule
-                              }
                               getSubscriptionResource={getSubscriptionResource}
                               getPlacementRuleResource={
                                 getPlacementRuleResource

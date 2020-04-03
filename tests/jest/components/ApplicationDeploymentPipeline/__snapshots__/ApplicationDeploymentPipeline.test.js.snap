@@ -1515,7 +1515,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -1570,7 +1569,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -1625,7 +1623,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -3623,7 +3620,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -3678,7 +3674,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -3733,7 +3728,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -4802,7 +4796,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -4857,7 +4850,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -4912,7 +4904,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -5981,7 +5972,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -6036,7 +6026,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -6091,7 +6080,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -7160,7 +7148,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -7215,7 +7202,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -7270,7 +7256,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -8269,7 +8254,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -8324,7 +8308,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -8379,7 +8362,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"

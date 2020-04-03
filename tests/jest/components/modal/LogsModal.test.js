@@ -50,5 +50,37 @@ describe("LogsModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--modal")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--modal")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--dropdown")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--dropdown")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--list-box__field")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--list-box__field")
+      .at(0)
+      .simulate("keydown");
   });
 });

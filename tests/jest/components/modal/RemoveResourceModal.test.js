@@ -55,6 +55,30 @@ describe("RemoveResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--tertiary")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--danger--primary")
+      .at(0)
+      .simulate("click");
   });
 
   it("renders as expected 2", () => {

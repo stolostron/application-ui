@@ -13,7 +13,6 @@ export const serverProps = {
   isICAMRunning: true,
   isCEMRunning: true,
   isGrafanaRunning: true,
-  jestTest: true,
   context: {
     locale: "en-US"
   },

@@ -27,9 +27,6 @@ import {
   serverProps
 } from "../../../../TestingData";
 
-const mockStore = configureMockStore();
-const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
-
 const preloadedState = window.__PRELOADED_STATE__;
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [thunkMiddleware];
@@ -39,6 +36,9 @@ const store = createStore(
   preloadedState,
   composeEnhancers(applyMiddleware(...middleware))
 );
+
+const mockStore = configureMockStore(middleware);
+const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
 
 describe("OverviewCards", () => {
   it("has functioning onclick, one app", () => {

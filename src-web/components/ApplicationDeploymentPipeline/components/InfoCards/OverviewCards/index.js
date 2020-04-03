@@ -224,10 +224,7 @@ const getOverviewCardsData = (
 
 class OverviewCards extends React.Component {
   componentWillMount() {
-    const { fetchApplications, serverProps } = this.props
-    if (serverProps && serverProps.jestTest) {
-      return //don't fetch resources on jest test
-    }
+    const { fetchApplications } = this.props
 
     fetchApplications()
 

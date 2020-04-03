@@ -46,7 +46,7 @@ class ResourceList extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, title, serverProps } = this.props
+    const { updateSecondaryHeader, tabs, title } = this.props
     updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -54,10 +54,6 @@ class ResourceList extends React.Component {
         config['featureFlags:liveUpdatesPollInterval']
       )
       this.setState({ intervalId: intervalId })
-    }
-
-    if (serverProps && serverProps.jestTest) {
-      return //don't fetch resources on jest test
     }
 
     const { fetchResources, selectedFilters = [] } = this.props

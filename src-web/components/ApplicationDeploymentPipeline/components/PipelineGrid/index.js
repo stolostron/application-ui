@@ -285,9 +285,6 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
                     fill="#6089bf"
                     description=""
                     className="channelEditIcon"
-                    onClick={() =>
-                      editResourceClick(channel, getChannelResource)
-                    }
                   />
                 </div>
                 <div className="channelTitle">

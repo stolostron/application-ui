@@ -32,7 +32,8 @@ import {
   prObjectForEdit
 } from "../TestingData";
 
-const mockStore = configureMockStore();
+const middleware = [thunkMiddleware];
+const mockStore = configureMockStore(middleware);
 const storeApp = mockStore(reduxStoreAppPipeline);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 const storeAllAppsNoChannels = mockStore(reduxStoreAllAppsPipelineNoChannels);

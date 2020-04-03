@@ -8,6 +8,7 @@
  *******************************************************************************/
 
 const React = require("../../../node_modules/react");
+import thunkMiddleware from "redux-thunk";
 
 import ApplicationsTab from "../../../src-web/containers/ApplicationsTab";
 
@@ -24,7 +25,8 @@ import {
   serverProps
 } from "../components/TestingData";
 
-const mockStore = configureMockStore();
+const middleware = [thunkMiddleware];
+const mockStore = configureMockStore(middleware);
 const storeApp = mockStore(reduxStoreAppPipeline);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 

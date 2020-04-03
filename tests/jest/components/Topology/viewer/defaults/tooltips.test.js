@@ -311,3 +311,18 @@ describe("getNodeTooltips default", () => {
     );
   });
 });
+
+describe("getNodeTooltips package", () => {
+  const defaultNode = {
+    name: "defaultnode",
+    namspace: "defaultnode",
+    type: "package"
+  };
+
+  const expectedResult = [];
+  it("should get nothing", () => {
+    expect(getNodeTooltips(searchUrl, defaultNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});

@@ -17,6 +17,8 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
   const { hasPods, pods } = layout
   if (type === 'pod') {
     addPodTooltips(node, tooltips, searchUrl, locale)
+  } else if (type === 'package') {
+    return []
   } else {
     let kind = undefined
     switch (type) {

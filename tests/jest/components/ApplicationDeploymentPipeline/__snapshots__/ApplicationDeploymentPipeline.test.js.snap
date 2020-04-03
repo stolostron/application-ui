@@ -1495,7 +1495,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -1509,7 +1515,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -1521,7 +1526,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -1544,7 +1549,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -1558,7 +1569,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -1570,7 +1580,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -1593,7 +1603,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -1607,7 +1623,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -1619,7 +1634,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -3585,7 +3600,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -3599,7 +3620,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -3611,7 +3631,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -3634,7 +3654,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -3648,7 +3674,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -3660,7 +3685,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -3683,7 +3708,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -3697,7 +3728,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -3709,7 +3739,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -4746,7 +4776,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -4760,7 +4796,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -4772,7 +4807,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -4795,7 +4830,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -4809,7 +4850,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -4821,7 +4861,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -4844,7 +4884,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -4858,7 +4904,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -4870,7 +4915,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -5907,7 +5952,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -5921,7 +5972,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -5933,7 +5983,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -5956,7 +6006,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -5970,7 +6026,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -5982,7 +6037,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -6005,7 +6060,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -6019,7 +6080,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -6031,7 +6091,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -7068,7 +7128,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -7082,7 +7148,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -7094,7 +7159,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -7117,7 +7182,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -7131,7 +7202,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -7143,7 +7213,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -7166,7 +7236,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -7180,7 +7256,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -7192,7 +7267,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -8159,7 +8234,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -8173,7 +8254,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -8185,7 +8265,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -8208,7 +8288,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -8222,7 +8308,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -8234,7 +8319,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >
@@ -8257,7 +8342,13 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               <div
                 className="channelNameHeader"
               >
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex={0}
+                >
                   <div
                     className="yamlTitle"
                   >
@@ -8271,7 +8362,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                     fillRule="evenodd"
                     height="16"
                     name="icon--edit"
-                    onClick={[Function]}
                     role="img"
                     viewBox="0 0 16 16"
                     width="16"
@@ -8283,7 +8373,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                       d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
                     />
                   </svg>
-                </span>
+                </div>
                 <div
                   className="channelTitle"
                 >

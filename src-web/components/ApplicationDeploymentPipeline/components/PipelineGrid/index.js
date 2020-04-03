@@ -270,7 +270,13 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
           <div key={Math.random()} className="channelColumn">
             <Tile className="channelColumnHeader">
               <div className="channelNameHeader">
-                <span>
+                <div
+                  className="yamlEditContainer"
+                  onClick={() => editResourceClick(channel, getChannelResource)}
+                  onKeyPress={() => {}}
+                  tabIndex={0}
+                  role="button"
+                >
                   <div className="yamlTitle">
                     {msgs.get('actions.yaml', locale)}
                   </div>
@@ -279,11 +285,8 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
                     fill="#6089bf"
                     description=""
                     className="channelEditIcon"
-                    onClick={() =>
-                      editResourceClick(channel, getChannelResource)
-                    }
                   />
-                </span>
+                </div>
                 <div className="channelTitle">
                   {msgs.get('description.Pipeline.channel', locale)}
                 </div>

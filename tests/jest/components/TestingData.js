@@ -222,7 +222,8 @@ export const QueryApplicationList = {
       dashboard: null,
       clusterCount: 0,
       created: "2020-02-11T23:26:18Z",
-      __typename: "Application"
+      __typename: "Application",
+      hubSubscriptions: []
     }
   ]
 };
@@ -444,6 +445,27 @@ export const HCMSubscriptionList = {
       label:
         "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
       related: [
+        {
+          kind: "placementrule",
+          items: [
+            {
+              kind: "placementrule",
+              name: "guestbook-placementrule",
+              namespace: "kube-system",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/placementrules/guestbook-placementrule",
+              created: "2020-02-11T23:26:17Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "kube-system_app.ibm.com_placementrules",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26",
+              label: "app=subscribed-guestbook-application"
+            }
+          ],
+          __typename: "SearchRelatedResult"
+        },
         {
           kind: "application",
           items: [

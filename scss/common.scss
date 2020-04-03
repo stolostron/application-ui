@@ -154,8 +154,8 @@ body {
 
 .yamlEditorContainer {
   #brace-editor {
-    min-width: 25rem;
-    min-height: 25rem;
+    min-width: unset;
+    min-height: unset;
   }
   font-family: monospace;
 

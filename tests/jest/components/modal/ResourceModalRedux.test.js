@@ -53,5 +53,32 @@ describe("ResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("keydown");
+    component
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("close");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--primary")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--btn--secondary")
+      .at(0)
+      .simulate("click");
   });
 });

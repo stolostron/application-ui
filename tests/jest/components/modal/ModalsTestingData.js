@@ -2145,6 +2145,10 @@ export const availableFilters = {
 export const resourceModalData = {
   kind: "HCMApplication",
   _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+  metadata: {
+    selfLink:
+      "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap"
+  },
   selfLink:
     "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
   name: "samplebook-gbap",

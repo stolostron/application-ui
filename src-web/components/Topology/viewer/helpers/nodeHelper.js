@@ -44,27 +44,30 @@ export const fixedD3 = Object.assign(select, { drag, zoom, zoomIdentity })
 //eslint-disable-next-line
 import { event as currentEvent } from "d3-selection";
 
+const opacity0 = () => {
+  return {
+    display: 'none',
+    opacity: 0
+  }
+}
+
 export const tooltip = d3
   .select('body')
   .append('div')
   .attr('class', 'tooltip')
   .styles(() => {
-    return {
-      display: 'none',
-      opacity: 0
-    }
+    return opacity0()
   })
   .on('mouseover', () => {
     tooltip.interrupt().style('opacity', 1)
   })
   .on('mouseleave', () => {
     tooltip.styles(() => {
-      return {
-        display: 'none',
-        opacity: 0
-      }
+      return opacity0()
     })
   })
+
+const useNodeIcon = 'use.nodeIcon'
 
 export default class NodeHelper {
   /**
@@ -232,10 +235,14 @@ export default class NodeHelper {
           .drag()
           .on('drag', this.dragNode)
           .on('start', () => {
-            if (nodeDragHandler) nodeDragHandler(true)
+            if (nodeDragHandler) {
+              nodeDragHandler(true)
+            }
           })
           .on('end', () => {
-            if (nodeDragHandler) nodeDragHandler(false)
+            if (nodeDragHandler) {
+              nodeDragHandler(false)
+            }
           })
       )
   };
@@ -343,9 +350,9 @@ export default class NodeHelper {
     const nodes = this.svg.select('g.nodes').selectAll('g.node')
 
     // svg icons
-    nodes.selectAll('use.nodeIcon').remove()
+    nodes.selectAll(useNodeIcon).remove()
     const svgIcons = nodes
-      .selectAll('use.nodeIcon')
+      .selectAll(useNodeIcon)
       .data(({ layout: { nodeIcons } }) => {
         return nodeIcons
           ? Object.values(nodeIcons).filter(({ icon }) => {
@@ -359,8 +366,8 @@ export default class NodeHelper {
       .attrs(({ icon, classType, width, height }) => {
         return {
           'xlink:href': `#diagramIcons_${icon}`,
-          width: width + 'px',
-          height: height + 'px',
+          width: `${width}px`,
+          height: `${height}px`,
           'pointer-events': 'none',
           tabindex: -1,
           class: `nodeIcon ${classType}`
@@ -384,8 +391,8 @@ export default class NodeHelper {
       .attrs(({ href, width, height }) => {
         return {
           'xlink:href': href,
-          width: width + 'px',
-          height: height + 'px',
+          width: `${width}px`,
+          height: `${height}px`,
           'pointer-events': 'none',
           tabindex: -1,
           class: 'nodeIcon'
@@ -807,7 +814,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
       })
 
     //////////// ICONS /////////////////////////////
-    nodeLayer.selectAll('use.nodeIcon').style('visibility', (d, i, ns) => {
+    nodeLayer.selectAll(useNodeIcon).style('visibility', (d, i, ns) => {
       const { layout: { search = FilterResults.nosearch } } = d3
         .select(ns[i].parentNode)
         .datum()
@@ -824,7 +831,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
         nodeStatus.attr('y', y + textBBox.dy).styles(() => {
           return {
             visibility: search === FilterResults.hidden ? 'hidden' : 'visible',
-            'font-size': fontSize + 'px'
+            'font-size': `${fontSize}px`
           }
         })
       })

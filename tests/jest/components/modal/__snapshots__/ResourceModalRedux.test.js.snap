@@ -36,6 +36,9 @@ exports[`ResourceModal test renders as expected 1 2`] = `
           "dashboard": null,
           "hubSubscriptions": Array [],
           "kind": "HCMApplication",
+          "metadata": Object {
+            "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+          },
           "name": "samplebook-gbap",
           "namespace": "sample",
           "podStatusCount": Object {},
@@ -81,6 +84,9 @@ exports[`ResourceModal test renders as expected 1 2`] = `
             "dashboard": null,
             "hubSubscriptions": Array [],
             "kind": "HCMApplication",
+            "metadata": Object {
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+            },
             "name": "samplebook-gbap",
             "namespace": "sample",
             "podStatusCount": Object {},
@@ -486,6 +492,9 @@ exports[`ResourceModal test renders as expected 1 3`] = `
           "dashboard": null,
           "hubSubscriptions": Array [],
           "kind": "HCMApplication",
+          "metadata": Object {
+            "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+          },
           "name": "samplebook-gbap",
           "namespace": "sample",
           "podStatusCount": Object {},
@@ -531,6 +540,9 @@ exports[`ResourceModal test renders as expected 1 3`] = `
             "dashboard": null,
             "hubSubscriptions": Array [],
             "kind": "HCMApplication",
+            "metadata": Object {
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+            },
             "name": "samplebook-gbap",
             "namespace": "sample",
             "podStatusCount": Object {},

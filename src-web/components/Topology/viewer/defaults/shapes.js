@@ -72,8 +72,8 @@ export const defaultShapes = Object.freeze({
     className: 'daemonset'
   },
   statefulset: {
-    shape: 'cylinder',
-    className: 'statefulset'
+    shape: 'circle',
+    className: 'default'
   },
   pod: {
     shape: 'pod',

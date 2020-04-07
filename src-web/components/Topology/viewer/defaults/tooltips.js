@@ -35,10 +35,15 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
       kind = type
       break
     }
-    const href =
-      searchUrl && kind
-        ? `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
-        : undefined
+    if (type === 'cluster' && name.includes(',')) {
+      var clusterList = name.replace(/\s/g, '')
+    }
+    var href = undefined
+    if (searchUrl && kind) {
+      href = clusterList
+        ? `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
+        : `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
+    }
     tooltips.push({ name: getType(type, locale), value: name, href })
     if (hasPods) {
       pods.forEach(pod => {

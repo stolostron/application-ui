@@ -144,9 +144,16 @@ export default class NodeHelper {
             })
             .styles((d, j, ts) => {
               const { width, height } = ts[j].getBoundingClientRect()
-              return {
-                top: bb.top - height + window.scrollY - 6 + 'px',
-                left: bb.left + bb.width / 2 - width / 2 + 'px'
+              if (navigator.userAgent.indexOf('Firefox') != -1) {
+                return {
+                  top: bb.top - height + window.scrollY - 6 + 'px',
+                  left: bb.left + bb.width * 0.72 / 2 - width * 1.02 / 2 + 'px'
+                }
+              } else {
+                return {
+                  top: bb.top - height + window.scrollY - 6 + 'px',
+                  left: bb.left + bb.width / 2 - width / 2 + 'px'
+                }
               }
             })
         } else {

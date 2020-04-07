@@ -1,3 +1,14 @@
+###############################################################################
+# Licensed Materials - Property of IBM
+# (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+# US Government Users Restricted Rights - Use, duplication or disclosure 
+# restricted by GSA ADP Schedule Contract with IBM Corp.
+# Copyright (c) 2020 Red Hat, Inc.
+#
+# Contributors:
+#  IBM Corporation - initial API and implementation
+###############################################################################
+
 sudo: required
 language: node_js
 
@@ -50,8 +61,8 @@ jobs:
       name: "Build and run unit tests"
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - chmod +x copyright-check.sh 
-        - make copyright-check
+        - chmod +x copyright-check.sh
+        - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH} TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} 
         - make sonar/js/jest-init
         - | 
           make 

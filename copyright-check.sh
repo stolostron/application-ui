@@ -1,9 +1,13 @@
+###############################################################################
 # Licensed Materials - Property of IBM
-# (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
-# Note to U.S. Government Users Restricted Rights:
-# Use, duplication or disclosure restricted by GSA ADP Schedule
-# Contract with IBM Corp.
+# (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+# US Government Users Restricted Rights - Use, duplication or disclosure 
+# restricted by GSA ADP Schedule Contract with IBM Corp.
 # Copyright (c) 2020 Red Hat, Inc.
+#
+# Contributors:
+#  IBM Corporation - initial API and implementation
+###############################################################################
 
 #!/bin/bash
 
@@ -42,27 +46,27 @@ lic_year_size=${#lic_year[@]}
 #lic_rest to scan for rest copyright format's correctness
 lic_rest=()
 lic_rest+=(" Licensed Materials - Property of IBM")
-lic_rest+=(" Note to U.S. Government Users Restricted Rights:")
-lic_rest+=(" Use, duplication or disclosure restricted by GSA ADP Schedule")
-lic_rest+=(" Contract with IBM Corp.")
+lic_rest+=(" restricted by GSA ADP Schedule Contract with IBM Corp.")
+lic_rest+=(" US Government Users Restricted Rights - Use, duplication or disclosure")
 lic_rest+=(" Copyright (c) 2020 Red Hat, Inc.")
 lic_rest_size=${#lic_rest[@]}
 
 #Used to signal an exit
 ERROR=0
 
-
 echo "##### Copyright check #####"
 #Loop through all files. Ignore .FILENAME types
 #for f in `find .. -type f ! -path "../.eslintrc.js" ! -path "../build-harness/*" ! -path "../auth-setup/*" ! -path "../sslcert/*" ! -path "../node_modules/*" ! -path "../coverage/*" ! -path "../test-output/*" ! -path "../build/*" ! -path "../nls/*" ! -path "../public/*"`; do
 for f in $CHANGED_FILES; do
+echo "looping $f"
   if [ ! -f "$f" ]; then
+  echo "oops"
     continue
   fi
 
   FILETYPE=$(basename ${f##*.})
   case "${FILETYPE}" in
-  	js | go | scss | java | rb)
+  	js | sh | scss | yml | yaml | json )
   		COMMENT_PREFIX=""
   		;;
   	*)

@@ -54,8 +54,22 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
   }
   if (type === 'cluster') {
     const label = msgs.get('tooltips.console', locale)
-    const href = _.get(node, 'specs.cluster.consoleURL')
-    tooltips.push({ name: label, value: `${name}-console`, href })
+    const clusters = _.get(node, 'specs.clusters')
+    if (clusters) {
+      clusters.forEach(n => {
+        if (n.consoleURL) {
+          const href = n.consoleURL
+          tooltips.push({
+            name: label,
+            value: `${n.metadata.name}-console`,
+            href
+          })
+        }
+      })
+    } else {
+      const href = _.get(node, 'specs.cluster.consoleURL')
+      tooltips.push({ name: label, value: `${name}-console`, href })
+    }
   }
   if (namespace) {
     const href = `${searchUrl}?filters={"textsearch":"kind:namespace name:${namespace}"}`

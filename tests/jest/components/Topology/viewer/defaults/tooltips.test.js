@@ -290,6 +290,38 @@ describe("getNodeTooltips cluster", () => {
   });
 });
 
+describe("getNodeTooltips clusterList", () => {
+  const clusterNode = {
+    name: "foonode, foonode2, foonode3",
+    namspace: "foo",
+    type: "cluster",
+    specs: {
+      cluster: {
+        consoleURL: "https://localhost"
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode,foonode2,foonode3"}',
+      name: "Cluster",
+      value: "foonode, foonode2, foonode3"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "foonode, foonode2, foonode3-console"
+    }
+  ];
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
 describe("getNodeTooltips clusters", () => {
   const clusterNode = {
     name: "foonode",

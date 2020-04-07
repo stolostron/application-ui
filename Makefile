@@ -22,7 +22,7 @@ install:
 
 .PHONY: copyright-check
 copyright-check:
-	./copyright-check.sh
+	./copyright-check.sh $(TRAVIS_BRANCH) $(TRAVIS_PULL_REQUEST_BRANCH)
 	
 lint:
 	npm run lint

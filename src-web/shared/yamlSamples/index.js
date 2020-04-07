@@ -8,7 +8,7 @@
 import msgs from '../../../nls/platform.properties'
 
 export const applicationSample =
-  'apiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: __________________________createApplication-metadata-name\n  namespace: _____________________createApplication-metadata-namespace\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values'
+  'apiVersion: v1______________________createApplication-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createApplication-namespace-metadata-name\n---\napiVersion: app.k8s.io/v1beta1\nkind: Application\nmetadata:\n  name: __________________________createApplication-metadata-name\n  namespace: _____________________createApplication-metadata-namespace\nspec:\n  componentKinds:\n  - group: apps.open-cluster-management.io\n    kind: Subscription\n  descriptor: {}\n  selector:\n    matchExpressions:\n      - key: _____________________createApplication-spec-selector-matchExpressions-key\n        operator: In\n        values: __________________createApplication-spec-selector-matchExpressions-key-values'
 export const channelNamespaceSample =
   'apiVersion: v1______________________createChannel-namespace-apiVersion\nkind: Namespace\nmetadata:\n  name: ____________________________createChannel-namespace-metadata-name\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ____________________________createChannel-metadata-name\n  namespace: _______________________createChannel-metadata-namespace\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace'
 export const channelHelmRepoSample =
@@ -165,6 +165,12 @@ export const getSubscriptionSample = locale => {
 
 export const getApplicationSample = locale => {
   const mapObj = {
+    'createApplication-namespace-apiVersion':
+      '# ' +
+      msgs.get('description.createApplication.namespace.apiVersion', locale),
+    'createApplication-namespace-metadata-name':
+      '# ' +
+      msgs.get('description.createApplication.namespace.metadata.name', locale),
     'createApplication-metadata-name':
       '# ' + msgs.get('description.createApplication.metadata.name', locale),
     'createApplication-metadata-namespace':
@@ -187,7 +193,7 @@ export const getApplicationSample = locale => {
   }
 
   var sample = applicationSample.replace(
-    /createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|null|_/gi,
+    /createApplication-namespace-apiVersion|createApplication-namespace-metadata-name|createApplication-metadata-namespace|createApplication-metadata-name|createApplication-spec-selector-matchExpressions-key-values|createApplication-spec-selector-matchExpressions-key|null|_/gi,
     matched => {
       return mapObj[matched]
     }

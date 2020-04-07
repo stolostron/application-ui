@@ -23,7 +23,7 @@ export const combineFilters = selectedFilters => {
         const { key, value, type } = item
         tempObject.push({ key, value, type })
       } else {
-        //TODO support customize tags
+        //TODO support customize tags;
       }
     })
   }

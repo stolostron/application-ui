@@ -35,10 +35,11 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
       kind = type
       break
     }
+    var clusterList
     if (type === 'cluster' && name.includes(',')) {
-      var clusterList = name.replace(/\s/g, '')
+      clusterList = name.replace(/\s/g, '')
     }
-    var href = undefined
+    var href
     if (searchUrl && kind) {
       href = clusterList
         ? `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`

@@ -6,141 +6,9 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import '../../../scss/variables';
+@import '../../../../scss/variables';
 
-#DeploymentPipeline {
-  padding-bottom: 20px;
-
-  .bx--tooltip__trigger {
-    font-size: 0.75rem;
-  }
-
-  .deploymentPipelineSearch {
-    margin-top: 20px;
-    display: inline-block;
-  }
-
-  .searchAndButtonContainer {
-    display: flex;
-  }
-
-  .card-container-title {
-    font-weight: 700;
-  }
-
-  .pipelineHeader,
-  .resource-list-header {
-    font-size: 18px;
-  }
-
-  // .AddResourceButton {
-  //   padding: 20px;
-  //   display: inline-block;
-  //   margin: 20px;
-
-  // }
-
-  .addChannelIcon {
-    fill: white;
-    margin-left: 20px;
-  }
-
-  .bx--btn {
-    background-color: white;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #4a79b7;
-    color: #4a79b7;
-    height: 40px;
-  }
-
-  .bx--btn__icon {
-    fill: #4a79b7;
-  }
-
-  // overrides for the pipeline buttons
-  .AddResourceButton {
-    display: inline-block;
-    margin: 5px;
-    width: 95%;
-  }
-
-  .AddResourceButton > * > .bx--btn {
-    text-align: left;
-    width: 100%;
-  }
-
-  .AddResourceButton > * > .bx--btn .bx--btn__icon {
-    float: right;
-  }
-
-  .bx--modal__buttons-container .bx--btn--primary {
-    background-color: #4a79b7;
-    color: #f4f7fb;
-  }
-
-  .resource-cards-container {
-    width: 100%;
-    height: 180px;
-    margin-bottom: 20px;
-  }
-
-  .resource-cards-info-container {
-    width: 73%;
-    height: 100%;
-    float: left;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
-  }
-
-  .resource-cards-create-container {
-    width: 25%;
-    height: 100%;
-    float: right;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
-  }
-
-  .resource-list-container {
-    width: 100%;
-    margin-top: 1em;
-    margin-bottom: 2em;
-  }
-
-  .resource-list-table {
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-
-    .bx--accordion__title {
-      color: #3d70b2;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .bx--accordion__item {
-      border: none;
-    }
-
-    .bx--accordion__content {
-      padding: 0;
-    }
-
-    .overview-content,
-    .bx--module {
-      padding: 0 1.5rem;
-    }
-
-    .bx--accordion__item--active > .bx--accordion__content {
-      padding: 1rem 0rem 1.5rem;
-    }
-
-    .bx--accordion__arrow {
-      fill: #3d70b2;
-    }
-  }
-
+#ResourceDetails {
   .app-info-and-dashboard-links {
     position: absolute;
     top: calc(#{$secondary-header-top} + 32px);
@@ -153,7 +21,7 @@
   .app-info-and-dashboard-links .bx--link {
     text-decoration: none;
     color: #3d70b2;
-    font-family: "Red Hat Text Regular";
+    /*font-family: "Red Hat Text Regular";*/
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;

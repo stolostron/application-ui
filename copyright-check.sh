@@ -66,7 +66,7 @@ echo "looping $f"
 
   FILETYPE=$(basename ${f##*.})
   case "${FILETYPE}" in
-  	js | sh | scss | yml | yaml )
+  	js | sh | scss | yml )
   		COMMENT_PREFIX=""
   		;;
   	*)

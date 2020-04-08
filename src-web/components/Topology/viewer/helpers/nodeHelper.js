@@ -1,11 +1,9 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
- *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * Copyright (c) 2020 Red Hat, Inc.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
 
@@ -145,15 +143,20 @@ export default class NodeHelper {
             })
             .styles((d, j, ts) => {
               const { width, height } = ts[j].getBoundingClientRect()
-              if (navigator.userAgent.indexOf('Firefox') != -1) {
+              if (navigator.userAgent.indexOf('Firefox') !== -1) {
                 return {
-                  top: bb.top - height + window.scrollY - 6 + 'px',
-                  left: bb.left + bb.width * 0.72 / 2 - width * 1.02 / 2 + 'px'
+                  top: (bb.top - height + window.scrollY - 6).toString() + 'px',
+                  left:
+                    (
+                      bb.left +
+                      bb.width * 0.72 / 2 -
+                      width * 1.02 / 2
+                    ).toString() + 'px'
                 }
               } else {
                 return {
-                  top: bb.top - height + window.scrollY - 6 + 'px',
-                  left: bb.left + bb.width / 2 - width / 2 + 'px'
+                  top: (bb.top - height + window.scrollY - 6).toString() + 'px',
+                  left: (bb.left + bb.width / 2 - width / 2).toString() + 'px'
                 }
               }
             })

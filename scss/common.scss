@@ -1,12 +1,10 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
- * Note to U.S. Government Users Restricted Rights:
- * Use, duplication or disclosure restricted by GSA ADP Schedule
- * Contract with IBM Corp.
+ * Copyright (c) 2020 Red Hat, Inc.
+ * US Government Users Restricted Rights - Use, duplication or disclosure
+ * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
-
 
 @import 'node_modules/carbon-components/scss/globals/scss/styles';
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
@@ -14,14 +12,102 @@
 @import 'header-carbon-v9-migration';
 @import 'variables';
 @import '_red-hat-font';
-
 @include redhat-font-face;
 
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   font-family: RedHatText;
 }
 
-.bx--link, .bx--label, .bx--search-input, .bx--overflow-menu-options__btn, .bx--pagination__text, .bx--text-input, .bx--tooltip--icon__top::before, .bx--tooltip--icon__top::after, .bx--tooltip--icon__bottom::before, .bx--tooltip--icon__bottom::after {
+.bx--link,
+.bx--label,
+.bx--search-input,
+.bx--overflow-menu-options__btn,
+.bx--pagination__text,
+.bx--text-input,
+.bx--tooltip--icon__top::before,
+.bx--tooltip--icon__top::after,
+.bx--tooltip--icon__bottom::before,
+.bx--tooltip--icon__bottom::after {
   font-family: RedHatText;
 }
 
@@ -157,9 +243,9 @@ body {
     min-width: unset;
     min-height: unset;
   }
-  font-family: monospace;
+  font-family: monospace !important;
 
   div > * {
-    font-family: monospace;
+    font-family: monospace !important;
   }
 }

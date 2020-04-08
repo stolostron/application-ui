@@ -90,7 +90,7 @@ echo "looping $f"
     fi
   done
 
-  #Must find and only find one line valid year, otherwise invalid copyright formart
+  #Must find max two lines of valid year, otherwise invalid copyright formart
   if [[ $year_line_count > 2 ]]; then
     printf "Missing copyright\n  >>Could not find correct copyright year in the file $f\n"
     ERROR=1

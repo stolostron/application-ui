@@ -3,6 +3,7 @@
  *******************************************************************************/
 
 import lodash from "lodash";
+import moment from "moment";
 import {
   transform,
   getLabelsToList,
@@ -291,7 +292,7 @@ describe("getAge", () => {
     selfLink:
       "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
     _uid: "local-cluster/0221dae9-b6b9-40cb-8cba-473011a750e0",
-    created: "2020-04-06T22:27:05Z",
+    created: `${moment().format()}`,
     apigroup: "app.k8s.io",
     cluster: "local-cluster",
     kind: "application",
@@ -382,12 +383,12 @@ describe("getAge", () => {
   it("return age", () => {
     const timestampKey = "created";
     const output = getAge(item, locale, timestampKey);
-    expect(output).toEqual("21 hours ago");
+    expect(output).toEqual("a few seconds ago");
   });
 
   it("return age", () => {
     const output = getAge(item, locale);
-    expect(output).toEqual("21 hours ago");
+    expect(output).toEqual("a few seconds ago");
   });
 
   it("return age", () => {

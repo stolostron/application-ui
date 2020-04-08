@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -137,36 +138,4 @@ export const getHashCode = str => {
     hash |= 0
   }
   return hash
-}
-
-export const getStoredObject = storageKey => {
-  try {
-    storageKey = `${storageKey} ${window.location.href}`
-    const sessionObject = JSON.parse(sessionStorage.getItem(storageKey))
-    if (
-      sessionObject &&
-      sessionObject.expiresAt &&
-      sessionObject.expiresAt > Date.now()
-    ) {
-      return sessionObject.sessionData
-    } else {
-      sessionStorage.removeItem(storageKey)
-    }
-  } catch (error) {
-    // no privileges
-  }
-  return null
-}
-
-export const saveStoredObject = (storageKey, object, expiring = 60) => {
-  try {
-    storageKey = `${storageKey} ${window.location.href}`
-    const sessionObject = {
-      expiresAt: Date.now() + expiring * 60 * 1000, // expire in 60 minutes
-      sessionData: object
-    }
-    sessionStorage.setItem(storageKey, JSON.stringify(sessionObject))
-  } catch (error) {
-    // no privileges
-  }
 }

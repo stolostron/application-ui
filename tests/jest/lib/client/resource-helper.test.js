@@ -120,16 +120,6 @@ describe("transform", () => {
     expect(output).toEqual("-");
   });
 
-  it("return timestamp value", () => {
-    const key = {
-      msgKey: "table.header.created",
-      resourceKey: "created",
-      type: "timestamp"
-    };
-    const output = transform(resource, key, locale, undefined);
-    expect(output).toEqual("Apr 7th 2020 at 1:13 PM");
-  });
-
   it("return transformFunction value", () => {
     const transformFun = (resource, locale, key, isSearch) => {
       let value = lodash.get(resource, key);

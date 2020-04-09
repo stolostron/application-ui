@@ -45,11 +45,6 @@ const optionalValues = {
     metadata: {
       name: ''
     }
-  },
-  Subscription: {
-    timeWindow: {
-      type: ''
-    }
   }
 }
 
@@ -69,9 +64,6 @@ const allValues = {
           name: ''
         }
       }
-    },
-    timeWindow: {
-      type: ''
     }
   },
   PlacementRule: {

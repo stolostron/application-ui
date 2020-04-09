@@ -15,6 +15,8 @@
 origin_year=2016
 #Back up year if system time is null or incorrect
 back_up_year=2019
+#Red Hat start year
+rh_origin_year=2020
 #Currrent year
 current_year=$(date +"%Y")
 
@@ -41,14 +43,15 @@ do
     lic_year+=(" (c) Copyright IBM Corporation ${start_year}, ${end_year}. All Rights Reserved.")
   done
 done
+lic_year+=(" Copyright (c) ${rh_origin_year} Red Hat, Inc.")
 lic_year_size=${#lic_year[@]}
 
 #lic_rest to scan for rest copyright format's correctness
 lic_rest=()
+lic_rest+=(" Copyright (c) 2020 Red Hat, Inc.")
 lic_rest+=(" Licensed Materials - Property of IBM")
 lic_rest+=(" restricted by GSA ADP Schedule Contract with IBM Corp.")
 lic_rest+=(" US Government Users Restricted Rights - Use, duplication or disclosure")
-lic_rest+=(" Copyright (c) 2020 Red Hat, Inc.")
 lic_rest_size=${#lic_rest[@]}
 
 #Used to signal an exit
@@ -87,15 +90,17 @@ echo "looping $f"
     fi
   done
 
-  #Must find and only find one line valid year, otherwise invalid copyright formart
-  if [[ $year_line_count != 1 ]]; then
+  #Must find max two lines of valid year, otherwise invalid copyright formart
+  if [[ $year_line_count > 2 ]]; then
     printf "Missing copyright\n  >>Could not find correct copyright year in the file $f\n"
     ERROR=1
     break 
   fi
 
   #Check for rest copyright lines
-  for ((i=0;i<${lic_rest_size};i++));
+  #for ((i=0;i<${lic_rest_size};i++));
+  #Check for Red Hat rest copyright lines
+  for ((i=0;i<1;i++));
   do
     #Validate the copyright line being checked is present
     if [[ "$header" != *"${lic_rest[$i]}"* ]]; then

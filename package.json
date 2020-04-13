@@ -16,7 +16,7 @@
     "lint": "eslint --ext .jsx,.js .",
     "lint:fix": "eslint --ext .jsx,.js --fix .",
     "test:unit": "jest --colors",
-    "test": "jest --silent",
+    "test": "jest -t 'yamlParser' --verbose false",
     "test:watch": "jest --watch",
     "test:e2e": "nightwatch ./tests/e2e -e chrome.headless",
     "test:update-snapshot": "jest --updateSnapshot",

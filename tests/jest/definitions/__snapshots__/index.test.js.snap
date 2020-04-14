@@ -67,57 +67,11 @@ Object {
       Object {
         "cells": Array [
           Object {
-            "resourceKey": "description.title.selector",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "selector",
-            "transformFunction": [Function],
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.annotations",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "annotations",
-            "transformFunction": [Function],
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
             "resourceKey": "description.title.resource.version",
             "type": "i18n",
           },
           Object {
             "resourceKey": "resourceVersion",
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.self.link",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "selfLink",
-          },
-        ],
-      },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.uid",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "_uid",
           },
         ],
       },

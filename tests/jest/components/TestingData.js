@@ -1,7 +1,7 @@
 /** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -1064,55 +1064,11 @@ export const staticResourceData = {
         {
           cells: [
             {
-              resourceKey: "description.title.selector",
-              type: "i18n"
-            },
-            {
-              resourceKey: "selector"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.annotations",
-              type: "i18n"
-            },
-            {
-              resourceKey: "annotations"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
               resourceKey: "description.title.resource.version",
               type: "i18n"
             },
             {
               resourceKey: "resourceVersion"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.self.link",
-              type: "i18n"
-            },
-            {
-              resourceKey: "selfLink"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.uid",
-              type: "i18n"
-            },
-            {
-              resourceKey: "_uid"
             }
           ]
         }
@@ -1213,55 +1169,11 @@ export const staticResourceDataApp = {
       {
         cells: [
           {
-            resourceKey: "description.title.selector",
-            type: "i18n"
-          },
-          {
-            resourceKey: "selector"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.annotations",
-            type: "i18n"
-          },
-          {
-            resourceKey: "annotations"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
             resourceKey: "description.title.resource.version",
             type: "i18n"
           },
           {
             resourceKey: "resourceVersion"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.self.link",
-            type: "i18n"
-          },
-          {
-            resourceKey: "selfLink"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.uid",
-            type: "i18n"
-          },
-          {
-            resourceKey: "_uid"
           }
         ]
       }

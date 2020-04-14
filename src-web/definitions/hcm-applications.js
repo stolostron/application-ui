@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import R from 'ramda'
 import React from 'react'
 import { TooltipIcon } from 'carbon-components-react'
-import { getAge, getLabelsToList } from '../../lib/client/resource-helper'
+import { getAge } from '../../lib/client/resource-helper'
 import { getNumClustersForApp } from '../components/common/ResourceOverview/utils'
 import msgs from '../../nls/platform.properties'
 import { Link } from 'react-router-dom'
@@ -103,57 +103,11 @@ export default {
       {
         cells: [
           {
-            resourceKey: 'description.title.selector',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'selector',
-            transformFunction: getLabelsToList
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.annotations',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'annotations',
-            transformFunction: getLabelsToList
-          }
-        ]
-      },
-      {
-        cells: [
-          {
             resourceKey: 'description.title.resource.version',
             type: 'i18n'
           },
           {
             resourceKey: 'resourceVersion'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.self.link',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'selfLink'
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.uid',
-            type: 'i18n'
-          },
-          {
-            resourceKey: '_uid'
           }
         ]
       }

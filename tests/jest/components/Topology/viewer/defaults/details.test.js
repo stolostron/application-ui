@@ -142,6 +142,9 @@ describe("getNodeDetails cluster node", () => {
       value: {
         name: "Violation2"
       }
+    },
+    {
+      type: "spacer"
     }
   ];
 

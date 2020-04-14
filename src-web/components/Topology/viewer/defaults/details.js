@@ -19,66 +19,72 @@ export const getNodeDetails = node => {
     switch (type) {
     case 'cluster':
       {
-        const { cluster = {}, violations = [] } = specs
-        const {
-          metadata = {},
-          capacity = {},
-          usage = {},
-          clusterip,
-          status
-        } = cluster
-        const { name, namespace, creationTimestamp } = metadata
-        void ({ labels } = metadata)
-        const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
-        const { pods, cpu: uc, memory: um, storage: us } = usage
+        const { cluster = {}, violations = [], clusters = [] } = specs
+        const clusterArr = cluster ? [cluster] : clusters
+        clusterArr.forEach(c => {
+          const {
+            metadata = {},
+            capacity = {},
+            usage = {},
+            clusterip,
+            status
+          } = c
+          const { name, namespace, creationTimestamp } = metadata
+          void ({ labels } = metadata)
+          const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
+          const { pods, cpu: uc, memory: um, storage: us } = usage
 
-        // general details
-        addDetails(details, [
-          { labelKey: 'resource.name', value: name },
-          { labelKey: 'resource.namespace', value: namespace },
-          { labelKey: 'resource.clusterip', value: clusterip },
-          { labelKey: 'resource.pods', value: pods },
-          { labelKey: 'resource.nodes', value: nodes },
-          { labelKey: 'resource.status', value: status },
-          {
-            labelKey: 'resource.cpu',
-            value: `${getPercentage(
-              inflateKubeValue(uc),
-              inflateKubeValue(cc)
-            )}%`
-          },
-          {
-            labelKey: 'resource.memory',
-            value: `${getPercentage(
-              inflateKubeValue(um),
-              inflateKubeValue(cm)
-            )}%`
-          },
-          {
-            labelKey: 'resource.storage',
-            value: `${getPercentage(
-              inflateKubeValue(us),
-              inflateKubeValue(cs)
-            )}%`
-          },
-          { labelKey: 'resource.created', value: getAge(creationTimestamp) }
-        ])
-
-        // violations
-        if (violations.length > 0) {
-          details.push({
-            type: 'label',
-            labelKey: 'resource.violations'
-          })
-          violations.forEach(name => {
-            const violationDetails = [{ value: name }]
-            addDetails(details, violationDetails)
-          })
-        } else {
+          // general details
           addDetails(details, [
-            { labelKey: 'resource.violations', value: '-' }
+            { labelKey: 'resource.name', value: name },
+            { labelKey: 'resource.namespace', value: namespace },
+            { labelKey: 'resource.clusterip', value: clusterip },
+            { labelKey: 'resource.pods', value: pods },
+            { labelKey: 'resource.nodes', value: nodes },
+            { labelKey: 'resource.status', value: status },
+            {
+              labelKey: 'resource.cpu',
+              value: `${getPercentage(
+                inflateKubeValue(uc),
+                inflateKubeValue(cc)
+              )}%`
+            },
+            {
+              labelKey: 'resource.memory',
+              value: `${getPercentage(
+                inflateKubeValue(um),
+                inflateKubeValue(cm)
+              )}%`
+            },
+            {
+              labelKey: 'resource.storage',
+              value: `${getPercentage(
+                inflateKubeValue(us),
+                inflateKubeValue(cs)
+              )}%`
+            },
+            { labelKey: 'resource.created', value: getAge(creationTimestamp) }
           ])
-        }
+
+          // violations
+          if (violations.length > 0) {
+            details.push({
+              type: 'label',
+              labelKey: 'resource.violations'
+            })
+            violations.forEach(name => {
+              const violationDetails = [{ value: name }]
+              addDetails(details, violationDetails)
+            })
+          } else {
+            addDetails(details, [
+              { labelKey: 'resource.violations', value: '-' }
+            ])
+          }
+          details.push({
+            type: 'spacer'
+          })
+        })
       }
       break
 

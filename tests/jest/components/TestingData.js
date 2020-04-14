@@ -1064,55 +1064,11 @@ export const staticResourceData = {
         {
           cells: [
             {
-              resourceKey: "description.title.selector",
-              type: "i18n"
-            },
-            {
-              resourceKey: "selector"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.annotations",
-              type: "i18n"
-            },
-            {
-              resourceKey: "annotations"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
               resourceKey: "description.title.resource.version",
               type: "i18n"
             },
             {
               resourceKey: "resourceVersion"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.self.link",
-              type: "i18n"
-            },
-            {
-              resourceKey: "selfLink"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.uid",
-              type: "i18n"
-            },
-            {
-              resourceKey: "_uid"
             }
           ]
         }
@@ -1213,55 +1169,11 @@ export const staticResourceDataApp = {
       {
         cells: [
           {
-            resourceKey: "description.title.selector",
-            type: "i18n"
-          },
-          {
-            resourceKey: "selector"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.annotations",
-            type: "i18n"
-          },
-          {
-            resourceKey: "annotations"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
             resourceKey: "description.title.resource.version",
             type: "i18n"
           },
           {
             resourceKey: "resourceVersion"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.self.link",
-            type: "i18n"
-          },
-          {
-            resourceKey: "selfLink"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.uid",
-            type: "i18n"
-          },
-          {
-            resourceKey: "_uid"
           }
         ]
       }

@@ -4,7 +4,7 @@
 
 import YamlParser from "../../../../lib/client/yaml-helper";
 
-describe("yamlParser", () => {
+describe("yamlParser parse", () => {
   it("null output", () => {
     const value = "";
     const row = 0;
@@ -576,5 +576,25 @@ describe("yamlParser", () => {
     };
     const output = new YamlParser().parse(value, row);
     expect(output).toEqual(result);
+  });
+});
+
+describe("yamlParser getRealCurrentLineNb", () => {
+  it("null output", () => {
+    const obj = undefined;
+    const output = new YamlParser().getRealCurrentLineNb(obj);
+    expect(output).toEqual(-1);
+  });
+
+  it("null output", () => {
+    const obj = {};
+    const output = new YamlParser().getRealCurrentLineNb(obj);
+    expect(output).toEqual(-1);
+  });
+
+  it("null output", () => {
+    const obj = { $v: "mortgage-app-mortgage" };
+    const output = new YamlParser().getRealCurrentLineNb(obj);
+    expect(output).toEqual(-1);
   });
 });

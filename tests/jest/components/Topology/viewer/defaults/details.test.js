@@ -3,7 +3,10 @@
  *******************************************************************************/
 "use strict";
 
-import { getNodeDetails } from "../../../../../../src-web/components/Topology/viewer/defaults/details";
+import {
+  getNodeDetails,
+  inflateKubeValue
+} from "../../../../../../src-web/components/Topology/viewer/defaults/details";
 import moment from "moment";
 
 const locale = "en-US";
@@ -113,6 +116,168 @@ describe("getNodeDetails cluster node", () => {
       labelValue: undefined,
       type: "label",
       value: "80%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      type: "label",
+      value: "-"
+    },
+    {
+      labelKey: "resource.violations",
+      type: "label"
+    },
+    {
+      indent: undefined,
+      labelKey: undefined,
+      labelValue: undefined,
+      type: "label",
+      value: {
+        name: "Violation1"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: undefined,
+      labelValue: undefined,
+      type: "label",
+      value: {
+        name: "Violation2"
+      }
+    },
+    {
+      type: "spacer"
+    }
+  ];
+
+  it("should process the node", () => {
+    expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
+  });
+});
+
+describe("getNodeDetails cluster node", () => {
+  const clusterNode = {
+    id: "member--clusters--braveman",
+    uid: "member--clusters--braveman",
+    name: "braveman",
+    cluster: null,
+    clusterName: null,
+    type: "cluster",
+    specs: {
+      clusters: [
+        {
+          metatdata: {
+            name: "braveman",
+            namespace: "default",
+            labels: {
+              cloud: "AWS",
+              env: "Dev"
+            }
+          },
+          capacity: {
+            nodes: [],
+            cpu: "10",
+            memory: "32Gi",
+            storage: "500Gi"
+          },
+          usage: {
+            pods: [],
+            cpu: "8",
+            memory: "24Ti",
+            storage: "400Ei"
+          }
+        },
+        {
+          metatdata: {
+            name: "possiblereptile",
+            namespace: "default",
+            labels: {
+              cloud: "AWS",
+              env: "Dev"
+            }
+          },
+          capacity: {
+            nodes: [],
+            cpu: "10",
+            memory: "32Gi",
+            storage: "500Gi"
+          },
+          usage: {
+            pods: [],
+            cpu: "8",
+            memory: "24Ti",
+            storage: "400Ei"
+          }
+        }
+      ],
+      clusterNames: ["braveman", "possiblereptile"],
+      violations: [
+        {
+          name: "Violation1"
+        },
+        {
+          name: "Violation2"
+        }
+      ]
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource",
+    layout: {
+      uid: "member--clusters--feng",
+      type: "cluster",
+      label: "feng",
+      compactLabel: "feng",
+      nodeIcons: {},
+      nodeStatus: "",
+      isDisabled: false,
+      title: "",
+      description: "",
+      tooltips: [
+        {
+          name: "Cluster",
+          value: "feng",
+          href:
+            "/multicloud/search?filters={'textsearch':'kind:cluster name:feng'}"
+        }
+      ],
+      x: 76.5,
+      y: 241.5,
+      section: { name: "preset", hashCode: 872479835, x: 0, y: 0 },
+      testBBox: {
+        x: -11.6875,
+        y: 5,
+        width: 23.375,
+        height: 13.669448852539062
+      },
+      lastPosition: { x: 76.5, y: 241.5 },
+      selected: true
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      labelKey: "resource.cpu",
+      labelValue: undefined,
+      type: "label",
+      value: "0%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.memory",
+      labelValue: undefined,
+      type: "label",
+      value: "0%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.storage",
+      labelValue: undefined,
+      type: "label",
+      value: "0%"
     },
     {
       indent: undefined,
@@ -552,5 +717,63 @@ describe("getNodeDetails helm node", () => {
 
   it("should process the node", () => {
     expect(getNodeDetails(policyNode, locale)).toEqual(expectedResult);
+  });
+});
+
+describe("getNodeDetails inflateKubeValue", () => {
+  it("process empty kube value", () => {
+    expect(inflateKubeValue()).toEqual("");
+  });
+
+  it("process Ki kube value", () => {
+    expect(inflateKubeValue("10Ki")).toEqual(10240);
+  });
+
+  it("process Mi kube value", () => {
+    expect(inflateKubeValue("10Mi")).toEqual(10485760);
+  });
+
+  it("process Gi kube value", () => {
+    expect(inflateKubeValue("10Gi")).toEqual(10737418240);
+  });
+
+  it("process Ti kube value", () => {
+    expect(inflateKubeValue("10Ti")).toEqual(10995116277760);
+  });
+
+  it("process Pi kube value", () => {
+    expect(inflateKubeValue("10Pi")).toEqual(11258999068426240);
+  });
+
+  it("process Ei kube value", () => {
+    expect(inflateKubeValue("10Ei")).toEqual(11529215046068470000);
+  });
+
+  it("process m kube value", () => {
+    expect(inflateKubeValue("10m")).toEqual(0.01);
+  });
+
+  it("process k kube value", () => {
+    expect(inflateKubeValue("10k")).toEqual(10000);
+  });
+
+  it("process M kube value", () => {
+    expect(inflateKubeValue("10M")).toEqual(10000000);
+  });
+
+  it("process G kube value", () => {
+    expect(inflateKubeValue("10G")).toEqual(10000000000);
+  });
+
+  it("process T kube value", () => {
+    expect(inflateKubeValue("10T")).toEqual(10000000000000);
+  });
+
+  it("process P kube value", () => {
+    expect(inflateKubeValue("10P")).toEqual(10000000000000000);
+  });
+
+  it("process E kube value", () => {
+    expect(inflateKubeValue("10E")).toEqual(10000000000000000000);
   });
 });

@@ -134,17 +134,17 @@ app.use(
   })
 )
 
-app.use(
-  appConfig.get('headerContextPath'),
-  cookieParser(),
-  proxy({
-    target: appConfig.get('headerUrl'),
-    changeOrigin: true,
-    secure: false,
-    ws: true,
-    saveUninitialized: false
-  })
-)
+// app.use(
+//   appConfig.get('headerContextPath'),
+//   cookieParser(),
+//   proxy({
+//     target: appConfig.get('headerUrl'),
+//     changeOrigin: true,
+//     secure: false,
+//     ws: true,
+//     saveUninitialized: false
+//   })
+// )
 
 if (process.env.NODE_ENV === 'development') {
   app.use(

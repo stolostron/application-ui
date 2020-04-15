@@ -60,7 +60,8 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
               {
                 metadata: {
                   name: "dep1",
-                  selfLink: "dep1SelfLink"
+                  selfLink: "dep1SelfLink",
+                  id: "id"
                 }
               }
             ],

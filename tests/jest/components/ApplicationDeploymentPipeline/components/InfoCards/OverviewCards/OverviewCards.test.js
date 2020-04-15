@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *  Copyright (c) 2020 Red Hat, Inc
+ *  Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -110,36 +110,6 @@ describe("OverviewCards", () => {
       </MockedProvider>
     );
   });
-  /*
-  it("OverviewCards makes apollo calls with error return", () => {
-
-    jest.mock('../../../../../../../lib/client/apollo-client', () => ({
-      getSearchClient: jest.fn(() => {
-        return null
-      }),
-      get: jest.fn(() => Promise.resolve(    
-        {'error': {'error': 'error message'}}
-      )
-      ),    
-      search: jest.fn((resourceType) => Promise.resolve({'response': resourceType})),
-      
-    }))
-
-    renderer
-      .create(
-        <MockedProvider mocks={[]} addTypename={false}>
-       <Provider store={storeApp}> 
-        <OverviewCards
-          selectedAppName="mortgage-app"
-          selectedAppNS="default"
-          CEMIncidentList={CEMIncidentList}
-          serverProps={serverProps}
-        />
-      </Provider>     
-      </MockedProvider>
-        
-      )
-  });*/
 
   it("has functioning onclick, one app", () => {
     const wrapper = mount(

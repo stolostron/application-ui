@@ -49,9 +49,6 @@ lic_year_size=${#lic_year[@]}
 #lic_rest to scan for rest copyright format's correctness
 lic_rest=()
 lic_rest+=(" Copyright (c) 2020 Red Hat, Inc.")
-lic_rest+=(" Licensed Materials - Property of IBM")
-lic_rest+=(" restricted by GSA ADP Schedule Contract with IBM Corp.")
-lic_rest+=(" US Government Users Restricted Rights - Use, duplication or disclosure")
 lic_rest_size=${#lic_rest[@]}
 
 #Used to signal an exit

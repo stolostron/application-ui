@@ -11,6 +11,99 @@ import moment from "moment";
 
 const locale = "en-US";
 
+describe("getNodeDetails no clusters or violation", () => {
+  const clusterNode = {
+    id: "member--clusters--c1",
+    uid: "member--clusters--c1",
+    name: "c2",
+    cluster: null,
+    clusterName: null,
+    type: "cluster",
+    specs: {
+      clusterNames: ["c2"]
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource",
+    layout: {
+      uid: "member--clusters--c1",
+      type: "cluster",
+      label: "c1",
+      compactLabel: "c1",
+      nodeIcons: {},
+      nodeStatus: "",
+      isDisabled: false,
+      title: "",
+      description: "",
+      tooltips: [
+        {
+          name: "Cluster",
+          value: "c1",
+          href:
+            "/multicloud/search?filters={'textsearch':'kind:cluster name:c1'}"
+        }
+      ],
+      x: 76.5,
+      y: 241.5,
+      section: { name: "preset", hashCode: 872479835, x: 0, y: 0 },
+      testBBox: {
+        x: -11.6875,
+        y: 5,
+        width: 23.375,
+        height: 13.669448852539062
+      },
+      lastPosition: { x: 76.5, y: 241.5 },
+      selected: true
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      labelKey: "resource.cpu",
+      labelValue: undefined,
+      type: "label",
+      value: "0%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.memory",
+      labelValue: undefined,
+      type: "label",
+      value: "0%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.storage",
+      labelValue: undefined,
+      type: "label",
+      value: "0%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      type: "label",
+      value: "-"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.violations",
+      labelValue: undefined,
+      type: "label",
+      value: "-"
+    },
+    {
+      type: "spacer"
+    }
+  ];
+
+  it("should process the node", () => {
+    expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
+  });
+});
+
 describe("getNodeDetails cluster node", () => {
   const clusterNode = {
     id: "member--clusters--feng",
@@ -156,7 +249,7 @@ describe("getNodeDetails cluster node", () => {
   });
 });
 
-describe("getNodeDetails cluster node", () => {
+describe("getNodeDetails clusters node", () => {
   const clusterNode = {
     id: "member--clusters--braveman",
     uid: "member--clusters--braveman",

@@ -1,27 +1,24 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
-
 import React from "react";
-import ResourceModal from "../../../../src-web/components/modals/ResourceModalRedux";
+import LogsModal from "../../../../src-web/components/modals/LogsModal";
 import { mount } from "enzyme";
 import * as reducers from "../../../../src-web/reducers";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
-import {
-  resourceModalData,
-  resourceModalReduxLabels
-} from "./ModalsTestingData";
+import { resourceModalData, resourceModalLabels } from "./ModalsTestingData";
 import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 
-describe("ResourceModalRedux test", () => {
+describe("LogsModal test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
@@ -35,14 +32,14 @@ describe("ResourceModalRedux test", () => {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-  it("renders as expected 1", () => {
+  it("renders as expected without mocked data, to cover this.client onClose", () => {
     const component = mount(
       <BrowserRouter>
-        <ResourceModal
+        <LogsModal
           data={resourceModalData}
           handleClose={handleModalClose}
           handleSubmit={handleModalSubmit}
-          label={resourceModalReduxLabels}
+          label={resourceModalLabels}
           locale={"en"}
           open={true}
           resourceType={resourceType}
@@ -55,17 +52,13 @@ describe("ResourceModalRedux test", () => {
     expect(toJson(component)).toMatchSnapshot();
 
     component
-      .find(".modal-with-editor")
+      .find(".bx--modal")
       .at(0)
       .simulate("click");
     component
-      .find(".modal-with-editor")
+      .find(".bx--modal")
       .at(0)
       .simulate("keydown");
-    component
-      .find(".modal-with-editor")
-      .at(0)
-      .simulate("close");
 
     component
       .find(".bx--modal-close")
@@ -73,12 +66,21 @@ describe("ResourceModalRedux test", () => {
       .simulate("click");
 
     component
-      .find(".bx--btn--primary")
+      .find(".bx--dropdown")
       .at(0)
       .simulate("click");
     component
-      .find(".bx--btn--secondary")
+      .find(".bx--dropdown")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--list-box__field")
       .at(0)
       .simulate("click");
+    component
+      .find(".bx--list-box__field")
+      .at(0)
+      .simulate("keydown");
   });
 });

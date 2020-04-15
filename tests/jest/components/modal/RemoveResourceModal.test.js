@@ -105,14 +105,7 @@ import { BrowserRouter } from "react-router-dom";
 
 describe("RemoveResourceModal test", () => {
   const handleModalClose = jest.fn();
-  const handleModalSubmit = jest.fn(() => {
-    const data = {
-      userAccess: {
-        allowed: true
-      }
-    };
-    console.log("handleModalSubmit !!!!!!!");
-  });
+  const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
   const preloadedState = window.__PRELOADED_STATE__;
   const composeEnhancers =
@@ -124,7 +117,7 @@ describe("RemoveResourceModal test", () => {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-  it("renders as expected 1", () => {
+  it("renders as expected with mocked apollo client data", () => {
     const component = mount(
       <BrowserRouter>
         <RemoveResourceModal

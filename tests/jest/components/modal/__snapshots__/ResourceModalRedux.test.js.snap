@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ResourceModal test renders as expected 1 1`] = `undefined`;
+exports[`ResourceModalRedux test renders as expected 1 1`] = `undefined`;
 
-exports[`ResourceModal test renders as expected 1 2`] = `
+exports[`ResourceModalRedux test renders as expected 1 2`] = `
 <BrowserRouter>
   <Router
     history={
@@ -462,7 +462,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
 </BrowserRouter>
 `;
 
-exports[`ResourceModal test renders as expected 1 3`] = `
+exports[`ResourceModalRedux test renders as expected 1 3`] = `
 <BrowserRouter>
   <Router
     history={

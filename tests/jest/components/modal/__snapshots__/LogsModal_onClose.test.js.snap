@@ -1,0 +1,707 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogsModal test renders as expected without mocked data, to cover this.client onClose 1`] = `undefined`;
+
+exports[`LogsModal test renders as expected without mocked data, to cover this.client onClose 2`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <LogsModal
+      data={
+        Object {
+          "__typename": "Application",
+          "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+          "clusterCount": 0,
+          "created": "2019-12-11T01:24:02Z",
+          "dashboard": null,
+          "hubSubscriptions": Array [],
+          "kind": "HCMApplication",
+          "metadata": Object {
+            "name": "samplebook-gbap",
+            "namespace": "sample",
+            "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+          },
+          "name": "samplebook-gbap",
+          "namespace": "sample",
+          "podStatusCount": Object {},
+          "remoteSubscriptionStatusCount": Object {},
+          "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+        }
+      }
+      handleClose={[MockFunction]}
+      handleSubmit={[MockFunction]}
+      label={
+        Object {
+          "heading": "modal.remove-hcmapplication.heading",
+          "label": "modal.remove-hcmapplication.label",
+          "primaryBtn": "modal.remove-hcmapplication.heading",
+        }
+      }
+      locale="en"
+      open={true}
+      resourceType={
+        Object {
+          "list": "HCMApplicationList",
+          "name": "HCMApplication",
+        }
+      }
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Modal
+        aria-label="logs"
+        className="logs"
+        iconDescription="close the modal"
+        id="view-logs-modal"
+        modalHeading=""
+        modalLabel="Pod"
+        onKeyDown={[Function]}
+        onRequestClose={[Function]}
+        onRequestSubmit={[Function]}
+        open={true}
+        passiveModal={true}
+        primaryButtonDisabled={true}
+        role="region"
+        selectorPrimaryFocus="[data-modal-primary-focus]"
+      >
+        <div
+          aria-label="logs"
+          className="bx--modal is-visible logs"
+          id="view-logs-modal"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          onTransitionEnd={[Function]}
+          role="presentation"
+          tabIndex={-1}
+        >
+          <div
+            className="bx--modal-container"
+            role="dialog"
+          >
+            <div
+              className="bx--modal-header"
+            >
+              <button
+                className="bx--modal-close"
+                onClick={[Function]}
+                type="button"
+              >
+                <Icon
+                  className="bx--modal-close__icon"
+                  description="close the modal"
+                  fillRule="evenodd"
+                  icon={
+                    Object {
+                      "height": "10",
+                      "id": "icon--close",
+                      "name": "icon--close",
+                      "styles": "",
+                      "svgData": Object {
+                        "circles": "",
+                        "ellipses": "",
+                        "paths": Array [
+                          Object {
+                            "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
+                            "fill-rule": "nonzero",
+                          },
+                        ],
+                        "polygons": "",
+                        "polylines": "",
+                        "rects": "",
+                      },
+                      "tags": "icon--close",
+                      "viewBox": "0 0 10 10",
+                      "width": "10",
+                    }
+                  }
+                  role="img"
+                >
+                  <svg
+                    alt="close the modal"
+                    aria-label="close the modal"
+                    className="bx--modal-close__icon"
+                    fillRule="evenodd"
+                    height="10"
+                    role="img"
+                    viewBox="0 0 10 10"
+                    width="10"
+                  >
+                    <title>
+                      close the modal
+                    </title>
+                    <path
+                      d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+                      key="key0"
+                    />
+                  </svg>
+                </Icon>
+              </button>
+              <h4
+                className="bx--modal-header__label"
+              >
+                Pod
+              </h4>
+              <h2
+                className="bx--modal-header__heading"
+              />
+            </div>
+            <div
+              className="bx--modal-content"
+            >
+              <div
+                className="logs-container"
+              >
+                <div
+                  className="logs-container__actions"
+                >
+                  <div
+                    className="dropdown-container"
+                  >
+                    <DropdownV2
+                      disabled={false}
+                      itemToElement={null}
+                      itemToString={[Function]}
+                      items={Array []}
+                      label=""
+                      light={false}
+                      onChange={[Function]}
+                      type="default"
+                    >
+                      <Downshift
+                        breakingChanges={Object {}}
+                        defaultHighlightedIndex={null}
+                        defaultInputValue=""
+                        defaultIsOpen={false}
+                        defaultSelectedItem={null}
+                        environment={[Window]}
+                        getA11yStatusMessage={[Function]}
+                        itemToString={[Function]}
+                        onChange={[Function]}
+                        onInputValueChange={[Function]}
+                        onOuterClick={[Function]}
+                        onSelect={[Function]}
+                        onStateChange={[Function]}
+                        onUserAction={[Function]}
+                        selectedItemChanged={[Function]}
+                        stateReducer={[Function]}
+                      >
+                        <ListBox
+                          ariaLabel="Choose an item"
+                          className="bx--dropdown"
+                          disabled={false}
+                          innerRef={[Function]}
+                          type="default"
+                        >
+                          <div
+                            aria-label="Choose an item"
+                            className="bx--dropdown bx--list-box"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="listbox"
+                            tabIndex="0"
+                          >
+                            <ListBoxField
+                              aria-expanded={false}
+                              aria-haspopup={true}
+                              aria-label="open menu"
+                              data-toggle={true}
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="button"
+                              type="button"
+                            >
+                              <div
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                aria-label="open menu"
+                                className="bx--list-box__field"
+                                data-toggle={true}
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="button"
+                                tabIndex="0"
+                                type="button"
+                              >
+                                <span
+                                  className="bx--list-box__label"
+                                  htmlFor="downshift-0-input"
+                                />
+                                <ListBoxMenuIcon
+                                  isOpen={false}
+                                  translateWithId={[Function]}
+                                >
+                                  <div
+                                    className="bx--list-box__menu-icon"
+                                  >
+                                    <Icon
+                                      alt="Open menu"
+                                      description="Open menu"
+                                      fillRule="evenodd"
+                                      icon={
+                                        Object {
+                                          "height": "5",
+                                          "id": "icon--caret--down",
+                                          "name": "icon--caret--down",
+                                          "styles": "",
+                                          "svgData": Object {
+                                            "circles": "",
+                                            "ellipses": "",
+                                            "paths": Array [
+                                              Object {
+                                                "d": "M0 0l5 4.998L10 0z",
+                                              },
+                                            ],
+                                            "polygons": "",
+                                            "polylines": "",
+                                            "rects": "",
+                                          },
+                                          "tags": "icon--caret--down",
+                                          "viewBox": "0 0 10 5",
+                                          "width": "10",
+                                        }
+                                      }
+                                      role="img"
+                                    >
+                                      <svg
+                                        alt="Open menu"
+                                        aria-label="Open menu"
+                                        fillRule="evenodd"
+                                        height="5"
+                                        role="img"
+                                        viewBox="0 0 10 5"
+                                        width="10"
+                                      >
+                                        <title>
+                                          Open menu
+                                        </title>
+                                        <path
+                                          d="M0 0l5 4.998L10 0z"
+                                          key="key0"
+                                        />
+                                      </svg>
+                                    </Icon>
+                                  </div>
+                                </ListBoxMenuIcon>
+                              </div>
+                            </ListBoxField>
+                          </div>
+                        </ListBox>
+                      </Downshift>
+                    </DropdownV2>
+                  </div>
+                </div>
+                <Loading
+                  active={true}
+                  className="content-spinner"
+                  small={false}
+                  withOverlay={false}
+                >
+                  <div
+                    aria-live="assertive"
+                    className="bx--loading content-spinner"
+                  >
+                    <svg
+                      className="bx--loading__svg"
+                      viewBox="-75 -75 150 150"
+                    >
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="37.5"
+                      />
+                    </svg>
+                  </div>
+                </Loading>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </LogsModal>
+  </Router>
+</BrowserRouter>
+`;
+
+exports[`LogsModal test renders as expected without mocked data, to cover this.client onClose 3`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <LogsModal
+      data={
+        Object {
+          "__typename": "Application",
+          "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+          "clusterCount": 0,
+          "created": "2019-12-11T01:24:02Z",
+          "dashboard": null,
+          "hubSubscriptions": Array [],
+          "kind": "HCMApplication",
+          "metadata": Object {
+            "name": "samplebook-gbap",
+            "namespace": "sample",
+            "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+          },
+          "name": "samplebook-gbap",
+          "namespace": "sample",
+          "podStatusCount": Object {},
+          "remoteSubscriptionStatusCount": Object {},
+          "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+        }
+      }
+      handleClose={[MockFunction]}
+      handleSubmit={[MockFunction]}
+      label={
+        Object {
+          "heading": "modal.remove-hcmapplication.heading",
+          "label": "modal.remove-hcmapplication.label",
+          "primaryBtn": "modal.remove-hcmapplication.heading",
+        }
+      }
+      locale="en"
+      open={true}
+      resourceType={
+        Object {
+          "list": "HCMApplicationList",
+          "name": "HCMApplication",
+        }
+      }
+      store={
+        Object {
+          "dispatch": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+          Symbol(observable): [Function],
+        }
+      }
+    >
+      <Modal
+        aria-label="logs"
+        className="logs"
+        iconDescription="close the modal"
+        id="view-logs-modal"
+        modalHeading=""
+        modalLabel="Pod"
+        onKeyDown={[Function]}
+        onRequestClose={[Function]}
+        onRequestSubmit={[Function]}
+        open={true}
+        passiveModal={true}
+        primaryButtonDisabled={true}
+        role="region"
+        selectorPrimaryFocus="[data-modal-primary-focus]"
+      >
+        <div
+          aria-label="logs"
+          className="bx--modal is-visible logs"
+          id="view-logs-modal"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          onTransitionEnd={[Function]}
+          role="presentation"
+          tabIndex={-1}
+        >
+          <div
+            className="bx--modal-container"
+            role="dialog"
+          >
+            <div
+              className="bx--modal-header"
+            >
+              <button
+                className="bx--modal-close"
+                onClick={[Function]}
+                type="button"
+              >
+                <Icon
+                  className="bx--modal-close__icon"
+                  description="close the modal"
+                  fillRule="evenodd"
+                  icon={
+                    Object {
+                      "height": "10",
+                      "id": "icon--close",
+                      "name": "icon--close",
+                      "styles": "",
+                      "svgData": Object {
+                        "circles": "",
+                        "ellipses": "",
+                        "paths": Array [
+                          Object {
+                            "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
+                            "fill-rule": "nonzero",
+                          },
+                        ],
+                        "polygons": "",
+                        "polylines": "",
+                        "rects": "",
+                      },
+                      "tags": "icon--close",
+                      "viewBox": "0 0 10 10",
+                      "width": "10",
+                    }
+                  }
+                  role="img"
+                >
+                  <svg
+                    alt="close the modal"
+                    aria-label="close the modal"
+                    className="bx--modal-close__icon"
+                    fillRule="evenodd"
+                    height="10"
+                    role="img"
+                    viewBox="0 0 10 10"
+                    width="10"
+                  >
+                    <title>
+                      close the modal
+                    </title>
+                    <path
+                      d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+                      key="key0"
+                    />
+                  </svg>
+                </Icon>
+              </button>
+              <h4
+                className="bx--modal-header__label"
+              >
+                Pod
+              </h4>
+              <h2
+                className="bx--modal-header__heading"
+              />
+            </div>
+            <div
+              className="bx--modal-content"
+            >
+              <div
+                className="logs-container"
+              >
+                <div
+                  className="logs-container__actions"
+                >
+                  <div
+                    className="dropdown-container"
+                  >
+                    <DropdownV2
+                      disabled={false}
+                      itemToElement={null}
+                      itemToString={[Function]}
+                      items={Array []}
+                      label=""
+                      light={false}
+                      onChange={[Function]}
+                      type="default"
+                    >
+                      <Downshift
+                        breakingChanges={Object {}}
+                        defaultHighlightedIndex={null}
+                        defaultInputValue=""
+                        defaultIsOpen={false}
+                        defaultSelectedItem={null}
+                        environment={[Window]}
+                        getA11yStatusMessage={[Function]}
+                        itemToString={[Function]}
+                        onChange={[Function]}
+                        onInputValueChange={[Function]}
+                        onOuterClick={[Function]}
+                        onSelect={[Function]}
+                        onStateChange={[Function]}
+                        onUserAction={[Function]}
+                        selectedItemChanged={[Function]}
+                        stateReducer={[Function]}
+                      >
+                        <ListBox
+                          ariaLabel="Choose an item"
+                          className="bx--dropdown"
+                          disabled={false}
+                          innerRef={[Function]}
+                          type="default"
+                        >
+                          <div
+                            aria-label="Choose an item"
+                            className="bx--dropdown bx--list-box"
+                            onClick={[Function]}
+                            onKeyDown={[Function]}
+                            role="listbox"
+                            tabIndex="0"
+                          >
+                            <ListBoxField
+                              aria-expanded={false}
+                              aria-haspopup={true}
+                              aria-label="open menu"
+                              data-toggle={true}
+                              disabled={false}
+                              onBlur={[Function]}
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              role="button"
+                              type="button"
+                            >
+                              <div
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                aria-label="open menu"
+                                className="bx--list-box__field"
+                                data-toggle={true}
+                                disabled={false}
+                                onBlur={[Function]}
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="button"
+                                tabIndex="0"
+                                type="button"
+                              >
+                                <span
+                                  className="bx--list-box__label"
+                                  htmlFor="downshift-0-input"
+                                />
+                                <ListBoxMenuIcon
+                                  isOpen={false}
+                                  translateWithId={[Function]}
+                                >
+                                  <div
+                                    className="bx--list-box__menu-icon"
+                                  >
+                                    <Icon
+                                      alt="Open menu"
+                                      description="Open menu"
+                                      fillRule="evenodd"
+                                      icon={
+                                        Object {
+                                          "height": "5",
+                                          "id": "icon--caret--down",
+                                          "name": "icon--caret--down",
+                                          "styles": "",
+                                          "svgData": Object {
+                                            "circles": "",
+                                            "ellipses": "",
+                                            "paths": Array [
+                                              Object {
+                                                "d": "M0 0l5 4.998L10 0z",
+                                              },
+                                            ],
+                                            "polygons": "",
+                                            "polylines": "",
+                                            "rects": "",
+                                          },
+                                          "tags": "icon--caret--down",
+                                          "viewBox": "0 0 10 5",
+                                          "width": "10",
+                                        }
+                                      }
+                                      role="img"
+                                    >
+                                      <svg
+                                        alt="Open menu"
+                                        aria-label="Open menu"
+                                        fillRule="evenodd"
+                                        height="5"
+                                        role="img"
+                                        viewBox="0 0 10 5"
+                                        width="10"
+                                      >
+                                        <title>
+                                          Open menu
+                                        </title>
+                                        <path
+                                          d="M0 0l5 4.998L10 0z"
+                                          key="key0"
+                                        />
+                                      </svg>
+                                    </Icon>
+                                  </div>
+                                </ListBoxMenuIcon>
+                              </div>
+                            </ListBoxField>
+                          </div>
+                        </ListBox>
+                      </Downshift>
+                    </DropdownV2>
+                  </div>
+                </div>
+                <Loading
+                  active={true}
+                  className="content-spinner"
+                  small={false}
+                  withOverlay={false}
+                >
+                  <div
+                    aria-live="assertive"
+                    className="bx--loading content-spinner"
+                  >
+                    <svg
+                      className="bx--loading__svg"
+                      viewBox="-75 -75 150 150"
+                    >
+                      <circle
+                        cx="0"
+                        cy="0"
+                        r="37.5"
+                      />
+                    </svg>
+                  </div>
+                </Loading>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </LogsModal>
+  </Router>
+</BrowserRouter>
+`;

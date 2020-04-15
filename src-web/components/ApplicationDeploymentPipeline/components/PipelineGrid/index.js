@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -99,7 +99,7 @@ const LeftColumnForApplicationNames = (
 
     // compute standalone Tile for Left Column
     standaloneTile = (
-      <div key={Math.random()} className="tileContainerApp">
+      <div key="standaloneTile" className="tileContainerApp">
         <Tile
           className={applicationTileClass}
           onClick={
@@ -149,7 +149,7 @@ const LeftColumnForApplicationNames = (
           style={expandRow ? { display: 'block' } : { display: 'none' }}
         >
           {longestStandaloneSubscriptionArray.map(() => {
-            return <Tile key={Math.random()} className="deployableTile" />
+            return <Tile key="standaloneSubsTile" className="deployableTile" />
           })}
         </div>
       </div>
@@ -210,9 +210,8 @@ const LeftColumnForApplicationNames = (
         const applicationTileClass = !expandRow
           ? 'applicationTile'
           : 'applicationTile noBottomBorder'
-
         return (
-          <div key={Math.random()} className="tileContainerApp">
+          <div key={application._uid} className="tileContainerApp">
             <Tile
               className={applicationTileClass}
               onClick={
@@ -248,7 +247,12 @@ const LeftColumnForApplicationNames = (
               style={expandRow ? { display: 'block' } : { display: 'none' }}
             >
               {longestSubscriptionArray.map(() => {
-                return <Tile key={Math.random()} className="deployableTile" />
+                return (
+                  <Tile
+                    key={`${application._uid}_l`}
+                    className="deployableTile"
+                  />
+                )
               })}
             </div>
           </div>
@@ -265,9 +269,8 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
       {/* This is the where the channel header information will go */}
       {channelList.map(channel => {
         const channelName = channel.name
-
         return (
-          <div key={Math.random()} className="channelColumn">
+          <div key={channel.id} className="channelColumn">
             <Tile className="channelColumnHeader">
               <div className="channelNameHeader">
                 <div
@@ -302,11 +305,13 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
 
 //show how many subscriptions under a channel, for a specific application
 const NbOfSubscriptionsTile = ({ subscriptionsUnderColumns }, locale) => {
+  let index = 0
   return (
     <div className="horizontalScrollRow">
       {subscriptionsUnderColumns.map(subscriptions => {
+        index = index + 1
         return (
-          <div key={Math.random()} className="channelColumn">
+          <div key={`SubsNbChannel_${index}`} className="channelColumn">
             <Tile className="channelColumnHeaderApplication">
               <div className="subTotal">{subscriptions.length}</div>
               <div className="subTotalDescription">
@@ -514,9 +519,8 @@ const ChannelColumnGrid = ({
         // I use this row counter for determining if I should show no subscription
         // tile or a blank tile
         let row = 0
-
         return (
-          <React.Fragment key={Math.random()}>
+          <React.Fragment key={`${application._uid}_nbOfSubs`}>
             <NbOfSubscriptionsTile
               subscriptionsUnderColumns={subscriptionsUnderColumns}
             />
@@ -529,9 +533,15 @@ const ChannelColumnGrid = ({
               {subscriptionsRowFormat.map(subRow => {
                 row = row + 1
 
+                let subColIndex = 0
+
                 return (
-                  <div key={Math.random()} className="deployableRow">
+                  <div
+                    key={`${application._uid}_Subs`}
+                    className="deployableRow"
+                  >
                     {subRow.map(subCol => {
+                      subColIndex = subColIndex + 1
                       // Gather the subscription data that contains the matching UID
                       const thisSubscriptionData = getDataByKind(
                         bulkSubscriptionList,
@@ -575,7 +585,12 @@ const ChannelColumnGrid = ({
                         row > 1 && displayStatus === undefined
                       const subName = thisSubscriptionData.name
                       return (
-                        <div key={Math.random()} className="channelColumnDep">
+                        <div
+                          key={`${
+                            application._uid
+                          }_${subName}_${row}_${subColIndex}`}
+                          className="channelColumnDep"
+                        >
                           {displayStatus && (
                             <SubscriptionTile
                               openSubscriptionModal={openSubscriptionModal}

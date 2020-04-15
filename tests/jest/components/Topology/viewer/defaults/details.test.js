@@ -318,7 +318,7 @@ describe("getNodeDetails cluster node", () => {
   });
 });
 
-describe("getNodeDetails deployment node", () => {
+describe("getNodeDetails placement node", () => {
   const placementNode = {
     id: "placement1",
     uid: "placement1",
@@ -424,6 +424,7 @@ describe("getNodeDetails deployment node", () => {
     labels: null,
     __typename: "Resource",
     layout: {
+      hasPods: true,
       uid:
         "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
       type: "deployment",
@@ -461,7 +462,40 @@ describe("getNodeDetails deployment node", () => {
           dx: 16,
           dy: -16
         }
-      }
+      },
+      pods: [
+        {
+          clusterName: "cluster1",
+          name: "pod1",
+          namespace: "default",
+          type: "pod",
+          layout: {
+            type: "layout1"
+          },
+          specs: {
+            podModel: {
+              "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+                cluster: {
+                  metadata: {
+                    name: "cluster1"
+                  }
+                },
+                containers: [
+                  {
+                    image: "test/mortgage:0.4.0",
+                    name: "mortgage-app-mortgage"
+                  }
+                ],
+                hostIP: "1.1.1.1",
+                status: "Running",
+                restarts: 0,
+                podIP: "1.1.1.1",
+                startedAt: "Monday"
+              }
+            }
+          }
+        }
+      ]
     }
   };
 
@@ -472,6 +506,89 @@ describe("getNodeDetails deployment node", () => {
       labelValue: undefined,
       type: "label",
       value: "deployment"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      labelKey: "resource.pod.deployed",
+      labelValue: undefined,
+      type: "label"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.name",
+      labelValue: undefined,
+      type: "label",
+      value: "pod1"
+    },
+    {
+      labelKey: "resource.container.logs",
+      type: "label"
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          clusterName: "cluster1",
+          containerName: "mortgage-app-mortgage",
+          containers: [
+            {
+              image: "test/mortgage:0.4.0",
+              name: "mortgage-app-mortgage"
+            }
+          ],
+          name: undefined,
+          namespace: undefined
+        },
+        label: "mortgage-app-mortgage"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      type: "label",
+      value: "cluster1"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      type: "label",
+      value: "1.1.1.1"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.podip",
+      labelValue: undefined,
+      type: "label",
+      value: "1.1.1.1"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      type: "label",
+      value: "Invalid date"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      type: "label",
+      value: 0
+    },
+    {
+      type: "spacer"
     },
     {
       labelKey: "resource.status",

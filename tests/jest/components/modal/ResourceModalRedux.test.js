@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -21,7 +22,7 @@ import {
 import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 
-describe("ResourceModal test", () => {
+describe("ResourceModalRedux test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };

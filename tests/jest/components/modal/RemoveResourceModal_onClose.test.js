@@ -8,44 +8,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
-jest.mock("../../../../lib/client/apollo-client", () => ({
-  getClient: jest.fn(() => {
-    return null;
-  }),
-  getLogs: jest.fn(() => {
-    const data = {
-      data: {
-        logs: [{ name: "aa" }]
-      }
-    };
-    return Promise.resolve(data);
-  }),
-  getResource: jest.fn(() => {
-    const data = {
-      data: {
-        items: [
-          {
-            containers: [{ name: "contName" }],
-            cluster: {
-              metadata: {
-                name: "clsName"
-              }
-            },
-            metadata: {
-              name: "guestbook-app",
-              namespace: "default"
-            }
-          }
-        ]
-      }
-    };
-
-    return Promise.resolve(data);
-  })
-}));
-
 import React from "react";
-import LogsModal from "../../../../src-web/components/modals/LogsModal";
+import RemoveResourceModal from "../../../../src-web/components/modals/RemoveResourceModal";
 import { mount } from "enzyme";
 import * as reducers from "../../../../src-web/reducers";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
@@ -54,7 +18,7 @@ import { resourceModalData, resourceModalLabels } from "./ModalsTestingData";
 import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 
-describe("LogsModal test", () => {
+describe("RemoveResourceModal test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
@@ -68,10 +32,10 @@ describe("LogsModal test", () => {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-  it("renders as expected 1", () => {
+  it("renders as expected without mocked data, to cover this.client onClose", () => {
     const component = mount(
       <BrowserRouter>
-        <LogsModal
+        <RemoveResourceModal
           data={resourceModalData}
           handleClose={handleModalClose}
           handleSubmit={handleModalSubmit}
@@ -88,11 +52,11 @@ describe("LogsModal test", () => {
     expect(toJson(component)).toMatchSnapshot();
 
     component
-      .find(".bx--modal")
+      .find(".bx--modal--danger")
       .at(0)
       .simulate("click");
     component
-      .find(".bx--modal")
+      .find(".bx--modal--danger")
       .at(0)
       .simulate("keydown");
 
@@ -102,21 +66,13 @@ describe("LogsModal test", () => {
       .simulate("click");
 
     component
-      .find(".bx--dropdown")
+      .find(".bx--btn--tertiary")
       .at(0)
       .simulate("click");
-    component
-      .find(".bx--dropdown")
-      .at(0)
-      .simulate("keydown");
 
     component
-      .find(".bx--list-box__field")
+      .find(".bx--btn--danger--primary")
       .at(0)
       .simulate("click");
-    component
-      .find(".bx--list-box__field")
-      .at(0)
-      .simulate("keydown");
   });
 });

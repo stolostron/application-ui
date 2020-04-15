@@ -8,53 +8,18 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
-jest.mock("../../../../lib/client/apollo-client", () => ({
-  getClient: jest.fn(() => {
-    return null;
-  }),
-  getLogs: jest.fn(() => {
-    const data = {
-      data: {
-        logs: [{ name: "aa" }]
-      }
-    };
-    return Promise.resolve(data);
-  }),
-  getResource: jest.fn(() => {
-    const data = {
-      data: {
-        items: [
-          {
-            containers: [{ name: "contName" }],
-            cluster: {
-              metadata: {
-                name: "clsName"
-              }
-            },
-            metadata: {
-              name: "guestbook-app",
-              namespace: "default"
-            }
-          }
-        ]
-      }
-    };
-
-    return Promise.resolve(data);
-  })
-}));
-
 import React from "react";
-import LogsModal from "../../../../src-web/components/modals/LogsModal";
+
+import ResourceModal from "../../../../src-web/components/modals/ResourceModal";
 import { mount } from "enzyme";
 import * as reducers from "../../../../src-web/reducers";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
-import { resourceModalData, resourceModalLabels } from "./ModalsTestingData";
+import { resourceModalLabels } from "./ModalsTestingData";
 import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 
-describe("LogsModal test", () => {
+describe("ResourceModal test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
@@ -68,11 +33,19 @@ describe("LogsModal test", () => {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-  it("renders as expected 1", () => {
+  const data = {
+    clusterName: "",
+    kind: "",
+    name: "guestbook-app",
+    namespace: "default",
+    selfLink:
+      "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+    _uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+  };
+  it("renders as expected without mocked data, to cover this.client onClose", () => {
     const component = mount(
       <BrowserRouter>
-        <LogsModal
-          data={resourceModalData}
+        <ResourceModal
           handleClose={handleModalClose}
           handleSubmit={handleModalSubmit}
           label={resourceModalLabels}
@@ -80,6 +53,7 @@ describe("LogsModal test", () => {
           open={true}
           resourceType={resourceType}
           store={store}
+          data={data}
         />
       </BrowserRouter>
     );
@@ -87,12 +61,18 @@ describe("LogsModal test", () => {
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
 
+    component.find({ id: "resource-modal-container" }).simulate("keydown");
+
     component
-      .find(".bx--modal")
+      .find(".modal-with-editor")
       .at(0)
       .simulate("click");
     component
-      .find(".bx--modal")
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("close");
+    component
+      .find(".modal-with-editor")
       .at(0)
       .simulate("keydown");
 
@@ -102,21 +82,12 @@ describe("LogsModal test", () => {
       .simulate("click");
 
     component
-      .find(".bx--dropdown")
+      .find(".bx--btn--primary")
       .at(0)
       .simulate("click");
     component
-      .find(".bx--dropdown")
-      .at(0)
-      .simulate("keydown");
-
-    component
-      .find(".bx--list-box__field")
+      .find(".bx--btn--secondary")
       .at(0)
       .simulate("click");
-    component
-      .find(".bx--list-box__field")
-      .at(0)
-      .simulate("keydown");
   });
 });

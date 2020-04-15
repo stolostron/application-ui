@@ -1,13 +1,155 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getSearchClient: jest.fn(() => {
+    return null;
+  }),
+  get: jest.fn(resourceType => {
+    const testData = {
+      data: {
+        globalAppData: {
+          clusterCount: 1
+        }
+      }
+    };
+    const errorEVENData = {
+      resourceType: resourceType,
+      error: "some EVEN error"
+    };
+    const errorsODDData = {
+      resourceType: resourceType,
+      errors: ["some ODD error"]
+    };
+    if (resourceType.list === "GlobalApplicationsData") {
+      return Promise.resolve(testData);
+    }
 
+    //random odd or even nb to allow covering different paths of the code
+    const val = Date.now();
+    if (val % 2 == 0) {
+      return Promise.resolve(errorEVENData);
+    } else {
+      return Promise.resolve(errorsODDData);
+    }
+  }),
+  search: jest.fn((searchQuery, searchInput) => {
+    const searchType = searchInput.input[0].filters[0].values[0];
+    //random odd or even nb to allow covering different paths of the code
+    const val = Date.now();
+    const errorsODDData = {
+      errors: ["some ODD error"]
+    };
+    const errorEVENData = {
+      error: "some EVEN error"
+    };
+
+    if (searchType === "channel") {
+      const channelData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "channel",
+                  name: "mortgage-channel",
+                  namespace: "mortgage-ch",
+                  _hubClusterResource: "true"
+                }
+              ]
+            }
+          ]
+        }
+      };
+      if (val % 2 == 0) {
+        return Promise.resolve(channelData);
+      } else {
+        return Promise.resolve(errorsODDData);
+      }
+    }
+
+    if (searchType === "subscription") {
+      const subscriptionData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      if (val % 2 == 0) {
+        return Promise.resolve(errorEVENData);
+      } else {
+        return Promise.resolve(subscriptionData);
+      }
+    }
+
+    return Promise.resolve({ response: "invalid resonse" });
+  }),
+  getResource: jest.fn((resourceType, { namespace }) => {
+    //random odd or even nb to allow covering different paths of the code
+    const val = Date.now();
+    const errorsODDData = {
+      errors: ["some ODD error"]
+    };
+    const errorEVENData = {
+      error: "some EVEN error"
+    };
+
+    if (resourceType === "channel") {
+      const channelData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "channel",
+                  name: "mortgage-channel",
+                  namespace: "mortgage-ch",
+                  _hubClusterResource: "true"
+                }
+              ]
+            }
+          ]
+        }
+      };
+      if (val % 2 == 0) {
+        return Promise.resolve(channelData);
+      } else {
+        return Promise.resolve(errorsODDData);
+      }
+    }
+
+    return Promise.resolve({ response: "invalid resonse" });
+  })
+}));
 const React = require("../../../../node_modules/react");
+import { MockedProvider } from "react-apollo/test-utils";
 
 import ApplicationDeploymentPipeline from "../../../../src-web/components/ApplicationDeploymentPipeline";
 
@@ -98,9 +240,11 @@ describe("ApplicationDeploymentPipeline", () => {
 
     const tree = renderer
       .create(
-        <Provider store={store}>
-          <ApplicationDeploymentPipeline serverProps={serverProps} />
-        </Provider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <Provider store={store}>
+            <ApplicationDeploymentPipeline serverProps={serverProps} />
+          </Provider>
+        </MockedProvider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -180,9 +324,11 @@ describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationDeploymentPipeline renders correctly with data on single app.", () => {
     const tree = renderer
       .create(
-        <Provider store={storeApp}>
-          <ApplicationDeploymentPipeline serverProps={serverProps} />
-        </Provider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <Provider store={storeApp}>
+            <ApplicationDeploymentPipeline serverProps={serverProps} />
+          </Provider>
+        </MockedProvider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -191,9 +337,11 @@ describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationDeploymentPipeline renders correctly with data on all apps.", () => {
     const tree = renderer
       .create(
-        <Provider store={storeAllApps}>
-          <ApplicationDeploymentPipeline serverProps={serverProps} />
-        </Provider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <Provider store={storeAllApps}>
+            <ApplicationDeploymentPipeline serverProps={serverProps} />
+          </Provider>
+        </MockedProvider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

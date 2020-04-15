@@ -55,7 +55,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
 }));
 import React from "react";
 
-import ResourceModal from "../../../../src-web/components/modals/ResourceModal";
+import CreateResourceModal from "../../../../src-web/components/modals/CreateResourceModal";
 import { mount } from "enzyme";
 import * as reducers from "../../../../src-web/reducers";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
@@ -64,7 +64,7 @@ import { resourceModalLabels } from "./ModalsTestingData";
 import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 
-describe("ResourceModal test", () => {
+describe("CreateResourceModal test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
@@ -90,7 +90,7 @@ describe("ResourceModal test", () => {
   it("renders as expected 1", () => {
     const component = mount(
       <BrowserRouter>
-        <ResourceModal
+        <CreateResourceModal
           handleClose={handleModalClose}
           handleSubmit={handleModalSubmit}
           label={resourceModalLabels}
@@ -105,34 +105,5 @@ describe("ResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
-
-    component.find({ id: "resource-modal-container" }).simulate("keydown");
-
-    component
-      .find(".modal-with-editor")
-      .at(0)
-      .simulate("click");
-    component
-      .find(".modal-with-editor")
-      .at(0)
-      .simulate("close");
-    component
-      .find(".modal-with-editor")
-      .at(0)
-      .simulate("keydown");
-
-    component
-      .find(".bx--modal-close")
-      .at(0)
-      .simulate("click");
-
-    component
-      .find(".bx--btn--primary")
-      .at(0)
-      .simulate("click");
-    component
-      .find(".bx--btn--secondary")
-      .at(0)
-      .simulate("click");
   });
 });

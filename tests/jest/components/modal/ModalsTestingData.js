@@ -2146,6 +2146,8 @@ export const resourceModalData = {
   kind: "HCMApplication",
   _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
   metadata: {
+    name: "samplebook-gbap",
+    namespace: "sample",
     selfLink:
       "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap"
   },

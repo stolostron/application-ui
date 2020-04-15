@@ -47,23 +47,6 @@ export const GET_SEARCH_INPUT_TEXT = gql`
   }
 `
 
-export const GET_SEARCH_TABS = gql`
-  {
-    searchQueryTabs @client {
-      unsavedCount
-      openedTabName
-      openedTabId
-      tabs {
-        queryName
-        searchText
-        description
-        updated
-        id
-      }
-    }
-  }
-`
-
 export const GET_RELATED_RESOURCES = gql`
   {
     relatedResources @client {

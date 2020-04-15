@@ -7,6 +7,76 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
+jest.mock("../../../../lib/client/access-helper", () => ({
+  canCallAction: jest.fn(() => {
+    const data = {
+      data: {
+        userAccess: {
+          allowed: true
+        }
+      }
+    };
+    return Promise.resolve(data);
+  })
+}));
+
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getClient: jest.fn(() => {
+    return null;
+  }),
+  remove: jest.fn(() => {
+    const data = {
+      userAccess: {
+        allowed: true
+      }
+    };
+    return Promise.resolve(data);
+  }),
+  getUserAccess: jest.fn(() => {
+    const data = {
+      userAccess: {
+        allowed: true
+      }
+    };
+    return Promise.resolve(data);
+  }),
+  getResource: jest.fn(() => {
+    const data = {
+      data: {
+        items: [
+          {
+            metadata: {
+              creationTimestamp: "2020-04-06T22:27:05Z",
+              generation: 2,
+              name: "guestbook-app",
+              namespace: "default",
+              resourceVersion: "840144",
+              selfLink:
+                "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+              uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+            },
+            raw: {
+              apiVersion: "app.k8s.io/v1beta1",
+              kind: "Application",
+              metadata: {
+                creationTimestamp: "2020-04-06T22:27:05Z",
+                generation: 2,
+                name: "guestbook-app",
+                namespace: "default",
+                resourceVersion: "840144",
+                selfLink:
+                  "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+                uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+              }
+            }
+          }
+        ]
+      }
+    };
+
+    return Promise.resolve(data);
+  })
+}));
 
 import React from "react";
 import RemoveResourceModal from "../../../../src-web/components/modals/RemoveResourceModal";
@@ -25,7 +95,14 @@ import { BrowserRouter } from "react-router-dom";
 
 describe("RemoveResourceModal test", () => {
   const handleModalClose = jest.fn();
-  const handleModalSubmit = jest.fn();
+  const handleModalSubmit = jest.fn(() => {
+    const data = {
+      userAccess: {
+        allowed: true
+      }
+    };
+    console.log("handleModalSubmit !!!!!!!");
+  });
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
   const preloadedState = window.__PRELOADED_STATE__;
   const composeEnhancers =
@@ -99,6 +176,30 @@ describe("RemoveResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--tertiary")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--danger--primary")
+      .at(0)
+      .simulate("click");
   });
 
   it("renders as expected dummy", () => {

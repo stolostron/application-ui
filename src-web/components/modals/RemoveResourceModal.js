@@ -126,28 +126,30 @@ class RemoveResourceModal extends React.Component {
 
   handleClose() {
     const { type } = this.props
-    this.client.mutate({
-      mutation: UPDATE_ACTION_MODAL,
-      variables: {
-        __typename: 'actionModal',
-        open: false,
-        type: type,
-        resourceType: {
-          __typename: 'resourceType',
-          name: '',
-          list: ''
-        },
-        data: {
-          __typename: 'ModalData',
-          name: '',
-          namespace: '',
-          clusterName: '',
-          selfLink: '',
-          _uid: '',
-          kind: ''
+    if (this.client) {
+      this.client.mutate({
+        mutation: UPDATE_ACTION_MODAL,
+        variables: {
+          __typename: 'actionModal',
+          open: false,
+          type: type,
+          resourceType: {
+            __typename: 'resourceType',
+            name: '',
+            list: ''
+          },
+          data: {
+            __typename: 'ModalData',
+            name: '',
+            namespace: '',
+            clusterName: '',
+            selfLink: '',
+            _uid: '',
+            kind: ''
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   handleSubmit() {

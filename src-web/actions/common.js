@@ -20,11 +20,6 @@ import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
 
-import {
-  ApplicationsList,
-  GlobalApplicationsData
-} from '../../lib/client/queries'
-
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
   page,
@@ -146,11 +141,10 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
 
 export const fetchGlobalAppsData = resourceType => {
   return dispatch => {
+    const resourceQuery = { list: 'GlobalApplicationsData' }
+
     apolloClient
-      .getSearchClient()
-      .query({
-        query: GlobalApplicationsData
-      })
+      .get(resourceQuery)
       .then(result => {
         if (result.data && result.data.globalAppData) {
           return dispatch(
@@ -176,13 +170,11 @@ export const fetchGlobalAppsData = resourceType => {
 
 export const fetchResources = resourceType => {
   if (resourceType.name == 'QueryApplications') {
+    const resourceQuery = { list: 'ApplicationsList' }
     //use Query api to get the data, instead of the generic searchResource
     return dispatch => {
       apolloClient
-        .getSearchClient()
-        .query({
-          query: ApplicationsList
-        })
+        .get(resourceQuery)
         .then(result => {
           if (result.data && result.data.applications) {
             return dispatch(
@@ -231,7 +223,6 @@ export const fetchResources = resourceType => {
           //remote cluster resources will be linked as related to these hub objects
           itemRes = itemRes.filter(elem => elem._hubClusterResource)
         }
-
         const combinedQuery = []
         itemRes.map(item => {
           //build query only with local resources, MCM subscription model has no Propagated subscription, filter those out
@@ -388,36 +379,6 @@ export const fetchUserInfo = resourceType => {
         )
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
-export const updateResourceLabels = (
-  resourceType,
-  namespace,
-  name,
-  labels,
-  selfLink
-) => {
-  return dispatch => {
-    dispatch(putResource(resourceType))
-    return apolloClient
-      .updateResourceLabels(
-        resourceType.name,
-        namespace,
-        name,
-        labels,
-        selfLink,
-        '/metadata/labels'
-      )
-      .then(response => {
-        if (response.errors) {
-          return dispatch(receivePutError(response.errors[0], resourceType))
-        }
-        dispatch(fetchResources(resourceType))
-        dispatch(updateModal({ open: false, type: 'label-editing' }))
-        return dispatch(receivePutResource(resourceType))
-      })
-      .catch(err => dispatch(receivePutError(err, resourceType)))
   }
 }
 

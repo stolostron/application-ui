@@ -55,11 +55,16 @@ class LogsModal extends React.PureComponent {
           loading: false,
           selectedContainer: item.containers[0].name,
           containers: item.containers,
-          containerName: item.containers[0].name,
           podName: item.metadata.name,
           podNamespace: item.metadata.namespace,
           clusterName: item.cluster.metadata.name
         })
+        this.fetchLogs(
+          item.containers[0].name,
+          item.metadata.name,
+          item.metadata.namespace,
+          item.cluster.metadata.name
+        )
       })
   }
 
@@ -81,18 +86,7 @@ class LogsModal extends React.PureComponent {
       })
   }
 
-  componentDidMount() {
-    const {
-      clusterName,
-      containerName,
-      loading,
-      podName,
-      podNamespace
-    } = this.state
-    if (!loading) {
-      this.fetchLogs(containerName, podName, podNamespace, clusterName)
-    }
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
@@ -100,28 +94,31 @@ class LogsModal extends React.PureComponent {
 
   handleClose() {
     const { type } = this.props
-    this.client.mutate({
-      mutation: UPDATE_ACTION_MODAL,
-      variables: {
-        __typename: 'actionModal',
-        open: false,
-        type: type,
-        resourceType: {
-          __typename: 'resourceType',
-          name: '',
-          list: ''
-        },
-        data: {
-          __typename: 'ModalData',
-          name: '',
-          namespace: '',
-          clusterName: '',
-          selfLink: '',
-          _uid: '',
-          kind: ''
+
+    if (this.client) {
+      this.client.mutate({
+        mutation: UPDATE_ACTION_MODAL,
+        variables: {
+          __typename: 'actionModal',
+          open: false,
+          type: type,
+          resourceType: {
+            __typename: 'resourceType',
+            name: '',
+            list: ''
+          },
+          data: {
+            __typename: 'ModalData',
+            name: '',
+            namespace: '',
+            clusterName: '',
+            selfLink: '',
+            _uid: '',
+            kind: ''
+          }
         }
-      }
-    })
+      })
+    }
   }
 
   render() {

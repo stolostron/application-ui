@@ -75,15 +75,11 @@ module.exports = {
             {
               loader: "sass-loader?sourceMap",
               options: {
-                data: `$font-path: "${config.get("contextPath")}/fonts";`
+                data: `$font-path: "${config.get("headerContextPath")}/fonts";`
               }
             }
           ]
         })
-      },
-      {
-        test: /\.woff2?$/,
-        loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
         test: /\.properties$/,
@@ -170,8 +166,7 @@ module.exports = {
             destination: "public/graphics"
           },
           { source: "graphics/*.svg", destination: "public/graphics" },
-          { source: "graphics/*.png", destination: "public/graphics" },
-          { source: "fonts", destination: "public/fonts" }
+          { source: "graphics/*.png", destination: "public/graphics" }
         ]
       }
     }),

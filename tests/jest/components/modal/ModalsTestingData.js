@@ -2092,19 +2092,19 @@ export const resourceType = {
 };
 
 export const resourceModalLabelsDummy = {
-  pprimaryBtn: "modal.remove-hcmpolicy.heading",
+  primaryBtn: "modal.remove-hcmpolicy.heading",
   label: "modal.remove-hcmpolicy.label",
   heading: "modal.remove-hcmpolicy.heading"
 };
 
 export const resourceModalLabels = {
-  pprimaryBtn: "modal.remove-hcmapplication.heading",
+  primaryBtn: "modal.remove-hcmapplication.heading",
   label: "modal.remove-hcmapplication.label",
   heading: "modal.remove-hcmapplication.heading"
 };
 
 export const resourceModalReduxLabels = {
-  pprimaryBtn: "modal.edit-hcmapplication.heading",
+  primaryBtn: "modal.edit-hcmapplication.heading",
   label: "modal.edit-hcmapplication.label",
   heading: "modal.edit-hcmapplication.heading"
 };

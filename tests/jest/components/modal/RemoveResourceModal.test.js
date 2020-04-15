@@ -56,6 +56,14 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
                 "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
               uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
             },
+            deployables: [
+              {
+                metadata: {
+                  name: "dep1",
+                  selfLink: "dep1SelfLink"
+                }
+              }
+            ],
             raw: {
               apiVersion: "app.k8s.io/v1beta1",
               kind: "Application",

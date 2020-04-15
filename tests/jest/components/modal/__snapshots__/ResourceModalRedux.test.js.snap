@@ -54,7 +54,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
         Object {
           "heading": "modal.edit-hcmapplication.heading",
           "label": "modal.edit-hcmapplication.label",
-          "pprimaryBtn": "modal.edit-hcmapplication.heading",
+          "primaryBtn": "modal.edit-hcmapplication.heading",
         }
       }
       locale="en"
@@ -104,7 +104,7 @@ exports[`ResourceModal test renders as expected 1 2`] = `
           Object {
             "heading": "modal.edit-hcmapplication.heading",
             "label": "modal.edit-hcmapplication.label",
-            "pprimaryBtn": "modal.edit-hcmapplication.heading",
+            "primaryBtn": "modal.edit-hcmapplication.heading",
           }
         }
         locale="en"
@@ -514,7 +514,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
         Object {
           "heading": "modal.edit-hcmapplication.heading",
           "label": "modal.edit-hcmapplication.label",
-          "pprimaryBtn": "modal.edit-hcmapplication.heading",
+          "primaryBtn": "modal.edit-hcmapplication.heading",
         }
       }
       locale="en"
@@ -564,7 +564,7 @@ exports[`ResourceModal test renders as expected 1 3`] = `
           Object {
             "heading": "modal.edit-hcmapplication.heading",
             "label": "modal.edit-hcmapplication.label",
-            "pprimaryBtn": "modal.edit-hcmapplication.heading",
+            "primaryBtn": "modal.edit-hcmapplication.heading",
           }
         }
         locale="en"

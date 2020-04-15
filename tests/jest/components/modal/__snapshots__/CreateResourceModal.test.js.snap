@@ -43,7 +43,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
         Object {
           "heading": "modal.remove-hcmapplication.heading",
           "label": "modal.remove-hcmapplication.label",
-          "pprimaryBtn": "modal.remove-hcmapplication.heading",
+          "primaryBtn": "modal.remove-hcmapplication.heading",
         }
       }
       locale="en"
@@ -81,7 +81,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
           Object {
             "heading": "modal.remove-hcmapplication.heading",
             "label": "modal.remove-hcmapplication.label",
-            "pprimaryBtn": "modal.remove-hcmapplication.heading",
+            "primaryBtn": "modal.remove-hcmapplication.heading",
           }
         }
         locale="en"
@@ -219,7 +219,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
         Object {
           "heading": "modal.remove-hcmapplication.heading",
           "label": "modal.remove-hcmapplication.label",
-          "pprimaryBtn": "modal.remove-hcmapplication.heading",
+          "primaryBtn": "modal.remove-hcmapplication.heading",
         }
       }
       locale="en"
@@ -257,7 +257,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
           Object {
             "heading": "modal.remove-hcmapplication.heading",
             "label": "modal.remove-hcmapplication.label",
-            "pprimaryBtn": "modal.remove-hcmapplication.heading",
+            "primaryBtn": "modal.remove-hcmapplication.heading",
           }
         }
         locale="en"

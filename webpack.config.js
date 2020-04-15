@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
+ *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
@@ -75,11 +75,15 @@ module.exports = {
             {
               loader: "sass-loader?sourceMap",
               options: {
-                data: `$font-path: "${config.get("contextPath")}/header/fonts";`
+                data: `$font-path: "${config.get("contextPath")}/fonts";`
               }
             }
           ]
         })
+      },
+      {
+        test: /\.woff2?$/,
+        loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
         test: /\.properties$/,
@@ -166,7 +170,8 @@ module.exports = {
             destination: "public/graphics"
           },
           { source: "graphics/*.svg", destination: "public/graphics" },
-          { source: "graphics/*.png", destination: "public/graphics" }
+          { source: "graphics/*.png", destination: "public/graphics" },
+          { source: "fonts", destination: "public/fonts" }
         ]
       }
     }),

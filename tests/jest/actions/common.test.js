@@ -257,6 +257,22 @@ describe("common actions ", () => {
     );
   });
 
+  it("should return getQueryStringForResources default app", () => {
+    const expectedValue = {
+      filters: [
+        {
+          property: "kind",
+          values: ["application"]
+        }
+      ],
+      keywords: [],
+      relatedKinds: ["placementrule"]
+    };
+
+    expect(actions.getQueryStringForResources("somevalue")).toEqual(
+      expectedValue
+    );
+  });
   it("should return getQueryStringForResources channel", () => {
     const expectedValue = {
       filters: [

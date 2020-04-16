@@ -160,6 +160,7 @@ export const fetchGlobalAppsData = resourceType => {
         if (result.errors) {
           return dispatch(receiveResourceError(result.errors[0], resourceType))
         }
+        return dispatch(receiveResourceError('invalid', resourceType))
       })
       .catch(error => {
         // catch graph connection error
@@ -169,7 +170,7 @@ export const fetchGlobalAppsData = resourceType => {
 }
 
 export const fetchResources = resourceType => {
-  if (resourceType.name == 'QueryApplications') {
+  if (resourceType.name === 'QueryApplications') {
     const resourceQuery = { list: 'ApplicationsList' }
     //use Query api to get the data, instead of the generic searchResource
     return dispatch => {
@@ -192,6 +193,7 @@ export const fetchResources = resourceType => {
               receiveResourceError(result.errors[0], resourceType)
             )
           }
+          return dispatch(receiveResourceError('invalid', resourceType))
         })
         .catch(error => {
           // catch graph connection error
@@ -216,8 +218,8 @@ export const fetchResources = resourceType => {
           response.data.searchResult[0] &&
           response.data.searchResult[0].items
         if (
-          resourceType.name == 'HCMChannel' ||
-          resourceType.name == 'HCMSubscription'
+          resourceType.name === 'HCMChannel' ||
+          resourceType.name === 'HCMSubscription'
         ) {
           //filter out remote cluster channels or subscriptions; here we only want hub resources
           //remote cluster resources will be linked as related to these hub objects
@@ -229,7 +231,7 @@ export const fetchResources = resourceType => {
           if (
             item &&
             !item._hostingSubscription &&
-            (!item.status || (item.status && item.status != 'Subscribed'))
+            (!item.status || (item.status && item.status !== 'Subscribed'))
           ) {
             combinedQuery.push(
               getQueryStringForResource(
@@ -438,7 +440,6 @@ export const updateModal = data => ({
 })
 
 export const postResource = resourceType => ({
-  // TODO: Consider renaming
   type: Actions.POST_REQUEST,
   postStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -459,7 +460,6 @@ export const receivePostError = (err, resourceType) => ({
 })
 
 export const putResource = resourceType => ({
-  // TODO: Consider renaming
   type: Actions.PUT_REQUEST,
   putStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -482,7 +482,6 @@ export const receivePutError = (err, resourceType) => ({
 })
 
 export const delResource = resourceType => ({
-  // TODO: Consider renaming
   type: Actions.DEL_REQUEST,
   delStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType

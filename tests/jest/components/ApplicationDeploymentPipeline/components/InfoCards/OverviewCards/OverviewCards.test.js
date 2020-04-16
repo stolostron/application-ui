@@ -11,53 +11,37 @@ jest.mock("../../../../../../../lib/client/apollo-client", () => ({
     return null;
   }),
   get: jest.fn(resourceType => {
-    if (resourceType.list === "ApplicationsList") {
-      return Promise.resolve({
-        data: {
-          applications: {
-            "mortgage-app-default": {
-              _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
-              name: "mortgage-app",
-              namespace: "default",
-              dashboard:
-                "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
-              clusterCount: 1,
-              remoteSubscriptionStatusCount: {
-                Subscribed: 1
-              },
-              podStatusCount: {
-                Running: 1
-              },
-              hubSubscriptions: [
-                {
-                  _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
-                  status: "Propagated",
-                  channel: "default/mortgage-channel",
-                  __typename: "Subscription"
-                }
-              ],
-              created: "2020-02-18T23:57:04Z",
-              __typename: "Application"
-            }
+    //resourceType.list is always ApplicationsList
+    return Promise.resolve({
+      data: {
+        applications: {
+          "mortgage-app-default": {
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
+            name: "mortgage-app",
+            namespace: "default",
+            dashboard:
+              "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+            clusterCount: 1,
+            remoteSubscriptionStatusCount: {
+              Subscribed: 1
+            },
+            podStatusCount: {
+              Running: 1
+            },
+            hubSubscriptions: [
+              {
+                _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
+                status: "Propagated",
+                channel: "default/mortgage-channel",
+                __typename: "Subscription"
+              }
+            ],
+            created: "2020-02-18T23:57:04Z",
+            __typename: "Application"
           }
         }
-      });
-    }
-    const errorEVENData = {
-      resourceType: resourceType,
-      error: "some EVEN error"
-    };
-    const errorsODDData = {
-      resourceType: resourceType,
-      errors: ["some ODD error"]
-    };
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-    if (val % 2 == 0) {
-      return Promise.resolve(errorEVENData);
-    } else {
-      return Promise.resolve(errorsODDData);
-    }
+      }
+    });
   }),
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));

@@ -211,6 +211,11 @@ describe("ApplicationDeploymentPipeline", () => {
     wrapper.find(".bx--search-input").simulate("change");
 
     wrapper.find(".bx--search-close").simulate("change");
+
+    wrapper
+      .find(".applicationTile")
+      .at(0)
+      .simulate("click");
   });
   it("ApplicationDeploymentPipeline renders spinner.", () => {
     const preloadedState = window.__PRELOADED_STATE__;

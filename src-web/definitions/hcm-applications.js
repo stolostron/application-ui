@@ -99,17 +99,6 @@ export default {
             resourceKey: 'label'
           }
         ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: 'description.title.resource.version',
-            type: 'i18n'
-          },
-          {
-            resourceKey: 'resourceVersion'
-          }
-        ]
       }
     ]
   }

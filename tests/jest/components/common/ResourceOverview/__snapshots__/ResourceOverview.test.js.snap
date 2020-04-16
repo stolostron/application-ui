@@ -554,24 +554,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                     </div>
                   </div>
                 </div>
-                <div
-                  className="bx--structured-list-row"
-                >
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      Resource version
-                    </div>
-                  </div>
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      -
-                    </div>
-                  </div>
-                </div>
               </div>
             </section>
           </div>

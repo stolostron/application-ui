@@ -7,9 +7,12 @@ import YamlParser from "../../../../lib/client/yaml-helper";
 describe("yamlParser parse", () => {
   it("null output", () => {
     const value = "";
-    const row = 0;
-    const output = new YamlParser().parse(value, row);
-    expect(output).toBeNull();
+
+    const output1 = new YamlParser().parse(value, 0);
+    expect(output1).toBeNull();
+
+    const output2 = new YamlParser().parse(value);
+    expect(output2).toBeNull();
   });
 
   it("output", () => {
@@ -67,8 +70,7 @@ describe("yamlParser parse", () => {
         }
       }
     };
-    const parser = new YamlParser();
-    const output = parser.parse(value, row);
+    const output = new YamlParser().parse(value, row);
     expect(output).toEqual(result);
   });
 
@@ -80,8 +82,45 @@ describe("yamlParser parse", () => {
       name: { $cmt: "3", $r: 0, $v: "mortgage-app" },
       namespace: { $cmt: "4", $r: 1, $v: "default" }
     };
+    const output = new YamlParser().parse(value);
+    expect(output).toEqual(result);
+  });
+
+  it("tab", () => {
+    const value =
+      " name: mortgage-app #3\nnamespace: default #4\ngeneration: 3 #5";
     const parser = new YamlParser();
-    const output = parser.parse(value);
+    try {
+      parser.parse(value);
+    } catch (e) {
+      expect(e.message).toEqual("Unable to parse.");
+    }
+  });
+
+  it("simple word", () => {
+    const value = " name ";
+    const parser = new YamlParser();
+    try {
+      parser.parse(value);
+    } catch (e) {
+      expect(e.message).toEqual("Unable to parse.");
+    }
+  });
+
+  it("colon", () => {
+    const value = " : ";
+    const parser = new YamlParser();
+    try {
+      parser.parse(value);
+    } catch (e) {
+      expect(e.message).toEqual("Unable to parse.");
+    }
+  });
+
+  it("simple key value", () => {
+    const value = "name: value";
+    const result = { name: { $r: 0, $v: "value" } };
+    const output = new YamlParser().parse(value);
     expect(output).toEqual(result);
   });
 
@@ -132,8 +171,7 @@ describe("yamlParser parse", () => {
         }
       }
     };
-    const parser = new YamlParser();
-    const output = parser.parse(value);
+    const output = new YamlParser().parse(value);
     expect(output).toEqual(result);
   });
 
@@ -220,8 +258,7 @@ describe("yamlParser parse", () => {
         }
       }
     };
-    const parser = new YamlParser();
-    const output = parser.parse(value, row);
+    const output = new YamlParser().parse(value, row);
     expect(output).toEqual(result);
   });
 

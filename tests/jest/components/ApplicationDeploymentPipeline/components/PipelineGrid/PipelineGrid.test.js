@@ -15,6 +15,7 @@ const PipelineGrid = require("../../../../../../src-web/components/ApplicationDe
   .default;
 import * as actions from "../../../../../../src-web/actions";
 
+import { getChannelsList } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/utils";
 import {
   QueryApplicationList,
   HCMChannelList,
@@ -53,7 +54,7 @@ describe("PipelineGrid", () => {
         <Provider store={store}>
           <PipelineGrid
             applications={QueryApplicationList.items}
-            channels={HCMChannelList.items}
+            channels={getChannelsList(HCMChannelList)}
             appSubscriptions={HCMSubscriptionList.items}
             getChannelResource={getChannelResource}
             getSubscriptionResource={getSubscriptionResource}
@@ -136,5 +137,14 @@ describe("PipelineGrid", () => {
       .find(".placementRuleDesc")
       .at(0)
       .simulate("keypress");
+    wrapper
+      .find(".channelColumnDeployable")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".applicationTile")
+      .at(0)
+      .simulate("click");
   });
 });

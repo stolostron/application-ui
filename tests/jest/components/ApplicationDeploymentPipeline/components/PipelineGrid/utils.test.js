@@ -4,7 +4,8 @@
 
 import {
   getStandaloneSubscriptions,
-  getDataByKind
+  getDataByKind,
+  determineStatus
 } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/components/PipelineGrid/utils";
 
 import {
@@ -17,6 +18,18 @@ describe("getDataByKind", () => {
 
   it("subscriptions empty", () => {
     expect(getDataByKind(undefined, "")).toEqual({});
+  });
+});
+
+describe("determineStatus", () => {
+  it("subscriptions empty", () => {
+    expect(determineStatus([0, 0, 0, 0, 0], "some other value")).toEqual([
+      0,
+      0,
+      0,
+      0,
+      1
+    ]);
   });
 });
 

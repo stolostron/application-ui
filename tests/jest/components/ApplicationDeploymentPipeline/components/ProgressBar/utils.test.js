@@ -9,6 +9,12 @@
 import { getStatusPercentages } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/components/ProgressBar/utils";
 
 describe("getStatusPercentages", () => {
+  it("an object with invalid values", () => {
+    const result = { pass: 0, completed: 0, inprogress: 0, fail: 0, total: 0 };
+
+    expect(getStatusPercentages(undefined)).toEqual(undefined);
+  });
+
   const input = [0, 0, 0, 0, 0];
 
   it("an object with 0 values", () => {

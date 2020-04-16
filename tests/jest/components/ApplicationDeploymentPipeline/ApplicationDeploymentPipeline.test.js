@@ -11,6 +11,9 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     return null;
   }),
   get: jest.fn(resourceType => {
+    //random odd or even nb to allow covering different paths of the code
+    const val = Date.now();
+
     const testData = {
       data: {
         globalAppData: {
@@ -26,16 +29,26 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
       resourceType: resourceType,
       errors: ["some ODD error"]
     };
-    if (resourceType.list === "GlobalApplicationsData") {
-      return Promise.resolve(testData);
+    const invalidData = {
+      resourceType: resourceType,
+      invalid: ["some ODD error"]
+    };
+    if (resourceType.list === "ApplicationsList") {
+      return Promise.resolve(invalidData);
     }
 
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-    if (val % 2 == 0) {
+    if (val % 5 == 0) {
+      return Promise.resolve(undefined);
+    }
+
+    if (val % 3 == 0) {
       return Promise.resolve(errorEVENData);
-    } else {
+    }
+
+    if (val % 2 == 0) {
       return Promise.resolve(errorsODDData);
+    } else {
+      return Promise.resolve(testData);
     }
   }),
   search: jest.fn((searchQuery, searchInput) => {
@@ -149,7 +162,6 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
   })
 }));
 const React = require("../../../../node_modules/react");
-import { MockedProvider } from "react-apollo/test-utils";
 
 import ApplicationDeploymentPipeline from "../../../../src-web/components/ApplicationDeploymentPipeline";
 
@@ -251,11 +263,9 @@ describe("ApplicationDeploymentPipeline", () => {
 
     const tree = renderer
       .create(
-        <MockedProvider mocks={[]} addTypename={false}>
-          <Provider store={store}>
-            <ApplicationDeploymentPipeline serverProps={serverProps} />
-          </Provider>
-        </MockedProvider>
+        <Provider store={store}>
+          <ApplicationDeploymentPipeline serverProps={serverProps} />
+        </Provider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -335,11 +345,9 @@ describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationDeploymentPipeline renders correctly with data on single app.", () => {
     const tree = renderer
       .create(
-        <MockedProvider mocks={[]} addTypename={false}>
-          <Provider store={storeApp}>
-            <ApplicationDeploymentPipeline serverProps={serverProps} />
-          </Provider>
-        </MockedProvider>
+        <Provider store={storeApp}>
+          <ApplicationDeploymentPipeline serverProps={serverProps} />
+        </Provider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -348,11 +356,20 @@ describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationDeploymentPipeline renders correctly with data on all apps.", () => {
     const tree = renderer
       .create(
-        <MockedProvider mocks={[]} addTypename={false}>
-          <Provider store={storeAllApps}>
-            <ApplicationDeploymentPipeline serverProps={serverProps} />
-          </Provider>
-        </MockedProvider>
+        <Provider store={storeAllApps}>
+          <ApplicationDeploymentPipeline serverProps={serverProps} />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationDeploymentPipeline renders correctly with data on all apps; call this again to allow more coverage on fecth calls.", () => {
+    const tree = renderer
+      .create(
+        <Provider store={storeAllApps}>
+          <ApplicationDeploymentPipeline serverProps={serverProps} />
+        </Provider>
       )
       .toJSON();
     expect(tree).toMatchSnapshot();

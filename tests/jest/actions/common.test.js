@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -257,6 +257,22 @@ describe("common actions ", () => {
     );
   });
 
+  it("should return getQueryStringForResources default app", () => {
+    const expectedValue = {
+      filters: [
+        {
+          property: "kind",
+          values: ["application"]
+        }
+      ],
+      keywords: [],
+      relatedKinds: ["placementrule"]
+    };
+
+    expect(actions.getQueryStringForResources("somevalue")).toEqual(
+      expectedValue
+    );
+  });
   it("should return getQueryStringForResources channel", () => {
     const expectedValue = {
       filters: [

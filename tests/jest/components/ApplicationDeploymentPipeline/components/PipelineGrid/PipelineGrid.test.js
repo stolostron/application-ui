@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -15,6 +16,7 @@ const PipelineGrid = require("../../../../../../src-web/components/ApplicationDe
   .default;
 import * as actions from "../../../../../../src-web/actions";
 
+import { getChannelsList } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/utils";
 import {
   QueryApplicationList,
   HCMChannelList,
@@ -53,7 +55,7 @@ describe("PipelineGrid", () => {
         <Provider store={store}>
           <PipelineGrid
             applications={QueryApplicationList.items}
-            channels={HCMChannelList.items}
+            channels={getChannelsList(HCMChannelList)}
             appSubscriptions={HCMSubscriptionList.items}
             getChannelResource={getChannelResource}
             getSubscriptionResource={getSubscriptionResource}
@@ -136,5 +138,14 @@ describe("PipelineGrid", () => {
       .find(".placementRuleDesc")
       .at(0)
       .simulate("keypress");
+    wrapper
+      .find(".channelColumnDeployable")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".applicationTile")
+      .at(0)
+      .simulate("click");
   });
 });

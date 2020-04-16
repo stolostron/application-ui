@@ -76,7 +76,7 @@ export const getDataByKind = (list, uid) => {
 // and the status. Add to the tally and return it
 // Pass, Fail, InProgress, Pending, Unidentified
 // statusPassFailInProgress = [0, 0, 0, 0, 0]
-const determineStatus = (statusPassFailInProgress, status) => {
+export const determineStatus = (statusPassFailInProgress, status) => {
   const statusTotals = statusPassFailInProgress
   if (
     status.includes('deployed') ||

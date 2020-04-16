@@ -216,7 +216,13 @@ describe("ApplicationDeploymentPipeline", () => {
       .find(".applicationTile")
       .at(0)
       .simulate("click");
+
+    wrapper
+      .find(".channelColumnDeployable")
+      .at(0)
+      .simulate("click");
   });
+
   it("ApplicationDeploymentPipeline renders spinner.", () => {
     const preloadedState = window.__PRELOADED_STATE__;
     const composeEnhancers =

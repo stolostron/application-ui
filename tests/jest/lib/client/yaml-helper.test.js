@@ -67,27 +67,27 @@ describe("yamlParser parse", () => {
         }
       }
     };
-    const output = new YamlParser().parse(value, row);
+    const parser = new YamlParser();
+    const output = parser.parse(value, row);
     expect(output).toEqual(result);
   });
 
   it("output", () => {
     const value =
       "name: mortgage-app #3\nnamespace: default #4\ngeneration: 3 #5";
-    const row = undefined;
     const result = {
       generation: { $cmt: "5", $r: 2, $v: 3 },
       name: { $cmt: "3", $r: 0, $v: "mortgage-app" },
       namespace: { $cmt: "4", $r: 1, $v: "default" }
     };
-    const output = new YamlParser().parse(value, row);
+    const parser = new YamlParser();
+    const output = parser.parse(value);
     expect(output).toEqual(result);
   });
 
   it("output", () => {
     const value =
       "componentKinds: #7\n  - group: apps.open-cluster-management.io #8\n    kind: Subscription #9\ndescriptor: {} #10\nselector: #11\n  matchExpressions: #12\n    - key: app #13\n      operator: In #14\n      values: #15\n        - mortgage-app-mortgage #16";
-    const row = undefined;
     const result = {
       componentKinds: {
         $cmt: "7",
@@ -132,26 +132,25 @@ describe("yamlParser parse", () => {
         }
       }
     };
-    const output = new YamlParser().parse(value, row);
+    const parser = new YamlParser();
+    const output = parser.parse(value);
     expect(output).toEqual(result);
   });
 
   it("output", () => {
     const value =
       "group: apps.open-cluster-management.io #8\nkind: Subscription #9\n";
-    const row = undefined;
     const result = {
       group: { $r: 0, $cmt: "8", $v: "apps.open-cluster-management.io" },
       kind: { $r: 1, $cmt: "9", $v: "Subscription" }
     };
-    const output = new YamlParser().parse(value, row);
+    const output = new YamlParser().parse(value);
     expect(output).toEqual(result);
   });
 
   it("output", () => {
     const value =
       "matchExpressions: #12\n  - key: app #13\n    operator: In #14\n    values: #15\n      - mortgage-app-mortgage #16\n";
-    const row = undefined;
     const result = {
       matchExpressions: {
         $r: 0,
@@ -172,13 +171,12 @@ describe("yamlParser parse", () => {
         ]
       }
     };
-    const output = new YamlParser().parse(value, row);
+    const output = new YamlParser().parse(value);
     expect(output).toEqual(result);
   });
 
   it("output", () => {
     const value = "- mortgage-app-mortgage #16\n";
-    const row = undefined;
     const result = [{ $cmt: "16", $r: 0, $v: "mortgage-app-mortgage" }];
     const output = new YamlParser().parse(value);
     expect(output).toEqual(result);
@@ -222,7 +220,8 @@ describe("yamlParser parse", () => {
         }
       }
     };
-    const output = new YamlParser().parse(value, row);
+    const parser = new YamlParser();
+    const output = parser.parse(value, row);
     expect(output).toEqual(result);
   });
 
@@ -258,159 +257,6 @@ describe("yamlParser parse", () => {
             }
           },
           clusterReplicas: { $r: 45, $v: 4 }
-        }
-      }
-    };
-    const output = new YamlParser().parse(value, row);
-    expect(output).toEqual(result);
-  });
-
-  it("output", () => {
-    const value =
-      "apiVersion: apps.open-cluster-management.io/v1\nkind: Deployable\nmetadata:\n  name: mortgage--mortgage-app-deploy-deployment\n  namespace: mortgage-ch\n  generation: 1\n  labels:\n    apps.open-cluster-management.io/channel: mortgage-channel\n    apps.open-cluster-management.io/channel-type: GitHub\n  ownerReferences:\n    - name: mortgage-channel\n      apiVersion: apps.open-cluster-management.io/v1\n      blockOwnerDeletion: true\n      controller: true\n      kind: Channel\nspec:\n  template:\n    apiVersion: apps/v1\n    kind: Deployment\n    metadata:\n      name: mortgage-app-deploy\n      labels:\n        app: mortgage-app-mortgage\n    spec:\n      replicas: 1\n      selector:\n        matchLabels:\n          app: mortgage-app-mortgage\n      template:\n        metadata:\n          labels:\n            app: mortgage-app-mortgage\n        spec:\n          containers:\n            - name: mortgage-app-mortgage\n              image: 'fxiang/mortgage:0.4.0'\n              imagePullPolicy: Always\n              ports:\n                - containerPort: 9080\n              resources:\n                limits:\n                  cpu: 200m\n                  memory: 256Mi\n                request:\n                  cpu: 200m\n                  memory: 256Mi\n";
-    const row = 47;
-    const result = {
-      apiVersion: { $r: 47, $v: "apps.open-cluster-management.io/v1" },
-      kind: { $r: 48, $v: "Deployable" },
-      metadata: {
-        $r: 49,
-        $v: {
-          name: { $r: 50, $v: "mortgage--mortgage-app-deploy-deployment" },
-          namespace: { $r: 51, $v: "mortgage-ch" },
-          generation: { $r: 52, $v: 1 },
-          labels: {
-            $r: 53,
-            $v: {
-              "apps.open-cluster-management.io/channel": {
-                $r: 54,
-                $v: "mortgage-channel"
-              },
-              "apps.open-cluster-management.io/channel-type": {
-                $r: 55,
-                $v: "GitHub"
-              }
-            }
-          },
-          ownerReferences: {
-            $r: 56,
-            $v: [
-              {
-                $r: 57,
-                $v: {
-                  name: { $r: 57, $v: "mortgage-channel" },
-                  apiVersion: {
-                    $r: 58,
-                    $v: "apps.open-cluster-management.io/v1"
-                  },
-                  blockOwnerDeletion: { $r: 59, $v: true },
-                  controller: { $r: 60, $v: true },
-                  kind: { $r: 61, $v: "Channel" }
-                }
-              }
-            ]
-          }
-        }
-      },
-      spec: {
-        $r: 62,
-        $v: {
-          template: {
-            $r: 63,
-            $v: {
-              apiVersion: { $r: 64, $v: "apps/v1" },
-              kind: { $r: 65, $v: "Deployment" },
-              metadata: {
-                $r: 66,
-                $v: {
-                  name: { $r: 67, $v: "mortgage-app-deploy" },
-                  labels: {
-                    $r: 68,
-                    $v: { app: { $r: 69, $v: "mortgage-app-mortgage" } }
-                  }
-                }
-              },
-              spec: {
-                $r: 70,
-                $v: {
-                  replicas: { $r: 71, $v: 1 },
-                  selector: {
-                    $r: 72,
-                    $v: {
-                      matchLabels: {
-                        $r: 73,
-                        $v: { app: { $r: 74, $v: "mortgage-app-mortgage" } }
-                      }
-                    }
-                  },
-                  template: {
-                    $r: 75,
-                    $v: {
-                      metadata: {
-                        $r: 76,
-                        $v: {
-                          labels: {
-                            $r: 77,
-                            $v: { app: { $r: 78, $v: "mortgage-app-mortgage" } }
-                          }
-                        }
-                      },
-                      spec: {
-                        $r: 79,
-                        $v: {
-                          containers: {
-                            $r: 80,
-                            $v: [
-                              {
-                                $r: 81,
-                                $v: {
-                                  name: { $r: 81, $v: "mortgage-app-mortgage" },
-                                  image: {
-                                    $r: 82,
-                                    $v: "fxiang/mortgage:0.4.0"
-                                  },
-                                  imagePullPolicy: { $r: 83, $v: "Always" },
-                                  ports: {
-                                    $r: 84,
-                                    $v: [
-                                      {
-                                        $r: 85,
-                                        $v: {
-                                          containerPort: { $r: 85, $v: 9080 }
-                                        }
-                                      }
-                                    ]
-                                  },
-                                  resources: {
-                                    $r: 86,
-                                    $v: {
-                                      limits: {
-                                        $r: 87,
-                                        $v: {
-                                          cpu: { $r: 88, $v: "200m" },
-                                          memory: { $r: 89, $v: "256Mi" }
-                                        }
-                                      },
-                                      request: {
-                                        $r: 90,
-                                        $v: {
-                                          cpu: { $r: 91, $v: "200m" },
-                                          memory: { $r: 92, $v: "256Mi" }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
         }
       }
     };
@@ -518,7 +364,6 @@ describe("yamlParser parse", () => {
   it("output", () => {
     const value =
       "- port: 9080 #194\n  protocol: TCP #195\n  targetPort: 9080 #196";
-    const row = undefined;
     const result = [
       {
         $r: 0,
@@ -529,7 +374,7 @@ describe("yamlParser parse", () => {
         }
       }
     ];
-    const output = new YamlParser().parse(value, row);
+    const output = new YamlParser().parse(value);
     expect(output).toEqual(result);
   });
 

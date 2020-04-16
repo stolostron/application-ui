@@ -64,17 +64,6 @@ Object {
           },
         ],
       },
-      Object {
-        "cells": Array [
-          Object {
-            "resourceKey": "description.title.resource.version",
-            "type": "i18n",
-          },
-          Object {
-            "resourceKey": "resourceVersion",
-          },
-        ],
-      },
     ],
     "title": "application.details",
   },

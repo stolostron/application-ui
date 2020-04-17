@@ -15,7 +15,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
   getLogs: jest.fn(() => {
     const data = {
       data: {
-        logs: [{ name: "aa" }]
+        logs: "log text"
       }
     };
     return Promise.resolve(data);
@@ -80,6 +80,7 @@ describe("LogsModal test", () => {
           open={true}
           resourceType={resourceType}
           store={store}
+          type={"actionModal"}
         />
       </BrowserRouter>
     );

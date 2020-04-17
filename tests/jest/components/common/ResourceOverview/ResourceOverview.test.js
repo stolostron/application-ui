@@ -52,8 +52,8 @@ describe("ResourceOverview", () => {
               staticResourceData={staticResourceDataApp}
               showExpandedTopology={false}
               showICAMAction={true}
-              namespaceAccountId={111}
               match={match}
+              locale={"en-US"}
             />
           </Provider>
         </BrowserRouter>
@@ -71,6 +71,7 @@ describe("ResourceOverview", () => {
               resourceType={resourceType}
               params={emptyParams}
               role={role}
+              locale={"en-US"}
             />
           </Provider>
         </BrowserRouter>

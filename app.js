@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -61,7 +62,7 @@ var morgan = require('morgan')
 if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
-      // in production these headers are set by icp-management-ingress
+      // in production these headers are set by ingress.open-cluster-management.io
       frameguard: false,
       noSniff: false,
       xssFilter: false,

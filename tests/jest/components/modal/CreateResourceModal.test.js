@@ -88,6 +88,35 @@ describe("CreateResourceModal test", () => {
       "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
     _uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
   };
+
+  it("renders as expected with error", () => {
+    const component = mount(
+      <BrowserRouter>
+        <CreateResourceModal
+          handleClose={handleModalClose}
+          handleSubmit={handleModalSubmit}
+          label={resourceModalLabels}
+          locale={"en"}
+          open={true}
+          resourceType={resourceType}
+          store={store}
+          data={data}
+          sampleContent={["aaaaa"]}
+        />
+      </BrowserRouter>
+    );
+    expect(toJson(component.instance())).toMatchSnapshot();
+    expect(toJson(component.update())).toMatchSnapshot();
+    expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--btn--primary")
+      .at(0)
+      .simulate("click");
+  });
+
+  store.dirty = true;
+
   it("renders as expected 1", () => {
     const component = mount(
       <BrowserRouter>
@@ -100,11 +129,17 @@ describe("CreateResourceModal test", () => {
           resourceType={resourceType}
           store={store}
           data={data}
+          sampleContent={["aaaaa"]}
         />
       </BrowserRouter>
     );
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--btn--primary")
+      .at(0)
+      .simulate("click");
   });
 });

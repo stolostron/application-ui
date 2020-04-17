@@ -87,7 +87,7 @@ describe("PipelineGrid", () => {
       <Provider store={store}>
         <PipelineGrid
           applications={QueryApplicationList.items}
-          channels={HCMChannelList.items}
+          channels={getChannelsList(HCMChannelList)}
           appSubscriptions={HCMSubscriptionList.items}
           getChannelResource={getChannelResource}
           getSubscriptionResource={getSubscriptionResource}

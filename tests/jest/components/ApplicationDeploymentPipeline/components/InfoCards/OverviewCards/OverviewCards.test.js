@@ -79,6 +79,8 @@ const store = createStore(
 const mockStore = configureMockStore(middleware);
 const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
 
+window.open = () => {}; // provide an empty implementation for window.open
+
 describe("OverviewCards", () => {
   it("OverviewCards makes apollo calls with success return", () => {
     renderer.create(

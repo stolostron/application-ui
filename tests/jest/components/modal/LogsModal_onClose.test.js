@@ -8,6 +8,42 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getClient: jest.fn(() => {
+    return null;
+  }),
+  getLogs: jest.fn(() => {
+    const data = {
+      data: {
+        logs: "log text"
+      }
+    };
+    return Promise.resolve(data);
+  }),
+  getResource: jest.fn(() => {
+    const data = {
+      data: {
+        items: [
+          {
+            containers: [{ name: "contName" }],
+            cluster: {
+              metadata: {
+                name: "clsName"
+              }
+            },
+            metadata: {
+              name: "guestbook-app",
+              namespace: "default"
+            }
+          }
+        ]
+      }
+    };
+
+    return Promise.resolve(data);
+  })
+}));
+
 import React from "react";
 import LogsModal from "../../../../src-web/components/modals/LogsModal";
 import { mount } from "enzyme";
@@ -44,6 +80,7 @@ describe("LogsModal test", () => {
           open={true}
           resourceType={resourceType}
           store={store}
+          type={"actionModal"}
         />
       </BrowserRouter>
     );

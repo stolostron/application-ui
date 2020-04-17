@@ -63,6 +63,7 @@ exports[`ResourceModal test renders as expected without mocked data, to cover th
           Symbol(observable): [Function],
         }
       }
+      type="actionModal"
     >
       <div
         id="resource-modal-container"
@@ -517,6 +518,7 @@ exports[`ResourceModal test renders as expected without mocked data, to cover th
           Symbol(observable): [Function],
         }
       }
+      type="actionModal"
     >
       <div
         id="resource-modal-container"

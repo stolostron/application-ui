@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -625,7 +625,7 @@ class ApplicationTopologyModule extends React.Component {
           list: resourceType.list
         },
         data: {
-          __typename: 'ModalData',
+          __typename: 'ActionModalData',
           name,
           namespace,
           clusterName,

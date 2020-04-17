@@ -145,7 +145,7 @@ class ResourceModal extends React.PureComponent {
     if (
       resourceType &&
       resourceType.name &&
-      resourceType.name == 'HCMApplication'
+      resourceType.name === 'HCMApplication'
     )
       helpLink =
         'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'

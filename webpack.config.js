@@ -75,7 +75,9 @@ module.exports = {
             {
               loader: "sass-loader?sourceMap",
               options: {
-                data: `$font-path: "${config.get("contextPath")}/header/fonts";`
+                data: `$font-path: "${config.get(
+                  "headerContextPath"
+                )}/header/fonts";`
               }
             }
           ]

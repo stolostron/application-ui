@@ -13,7 +13,7 @@ import R from 'ramda'
 // We go through each application and pull out each kind
 // and add it to the list to be returned
 const extractAllOfKind = (list, kind = '') => {
-  const filterKind = x => x.kind == kind
+  const filterKind = x => x.kind === kind
   // Get the totalKindList for All the applications
   const totalKindList =
     list &&

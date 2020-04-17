@@ -143,7 +143,7 @@ export function validator(parsed, exceptions, locale) {
         // pull out the namespace values after looping through
         if (
           raw &&
-          raw.kind == 'Namespace' &&
+          raw.kind === 'Namespace' &&
           raw.metadata &&
           raw.metadata.name
         ) {
@@ -151,7 +151,7 @@ export function validator(parsed, exceptions, locale) {
         }
         if (
           raw &&
-          raw.kind == 'Channel' &&
+          raw.kind === 'Channel' &&
           raw.metadata &&
           raw.metadata.namespace
         ) {
@@ -160,16 +160,16 @@ export function validator(parsed, exceptions, locale) {
         }
 
         // pull out the spec / type
-        if (raw && raw.kind && raw.kind == 'Channel') {
+        if (raw && raw.kind && raw.kind === 'Channel') {
           // for Channel if it is type Namespace, remove pathname to make field optional
-          if (raw.spec && raw.spec.type && raw.spec.type == 'Namespace')
+          if (raw.spec && raw.spec.type && raw.spec.type === 'Namespace')
             delete required.spec.pathname
           else required.spec.pathname = ''
         }
 
         if (
           raw &&
-          raw.kind == 'ConfigMap' &&
+          raw.kind === 'ConfigMap' &&
           raw.metadata &&
           raw.metadata.namespace
         ) {
@@ -204,7 +204,7 @@ export function validator(parsed, exceptions, locale) {
 
   // namespace values must match what is defined (if passed)
   if (namespace) {
-    if (channelNamespace && channelNamespace != namespace) {
+    if (channelNamespace && channelNamespace !== namespace) {
       // error
       exceptions.push({
         row: channelNamespaceRow,
@@ -213,7 +213,7 @@ export function validator(parsed, exceptions, locale) {
         type: 'error'
       })
     }
-    if (configMapNamespace && configMapNamespace != namespace) {
+    if (configMapNamespace && configMapNamespace !== namespace) {
       // error
       exceptions.push({
         row: configMapNamespaceRow,

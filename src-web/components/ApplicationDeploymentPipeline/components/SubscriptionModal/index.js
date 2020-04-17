@@ -100,7 +100,7 @@ const SubscriptionInfo = withLocale(
 
       channel = R.pathOr('', ['channel'], subscriptionModalSubscriptionInfo)
 
-      if (subscriptionModalSubscriptionInfo._uid != undefined) {
+      if (subscriptionModalSubscriptionInfo._uid !== undefined) {
         numClusters = getClusterCountForSub(
           subscriptionModalSubscriptionInfo._uid,
           applications

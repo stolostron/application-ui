@@ -26,7 +26,7 @@ export const mapBulkSubscriptions = subscriptions => {
         //filter out and return only hub subscriptions
         const isHubSubscr = item =>
           !item._hostingSubscription &&
-          (!item.status || (item.status && item.status != 'Subscribed'))
+          (!item.status || (item.status && item.status !== 'Subscribed'))
         const hubSubscriptions = R.filter(isHubSubscr, subscription.items)
 
         if (

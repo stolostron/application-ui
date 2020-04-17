@@ -130,7 +130,7 @@ export function getNumRemoteSubs(item = {}, locale) {
   return (
     <ul>
       <LabelWithOptionalTooltip key="1" labelText={total} />
-      {(failed != 0 || unknown != 0) && <span>{' | '}</span>}
+      {(failed !== 0 || unknown !== 0) && <span>{' | '}</span>}
       <LabelWithOptionalTooltip
         key="2"
         labelText={failed}

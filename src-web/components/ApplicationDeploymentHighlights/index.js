@@ -37,10 +37,10 @@ class ApplicationDeploymentHighlights extends React.Component {
     const { QueryApplicationList, secondaryHeader } = this.props
 
     const applications = R.pathOr([], ['items'])(QueryApplicationList)
-    let open = applications.length == 0
+    let open = applications.length === 0
     if (applications.length > 0) {
       const isSingleApplicationView =
-        R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+        R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
       let selectedAppName = ''
       let selectedAppNS = ''
 

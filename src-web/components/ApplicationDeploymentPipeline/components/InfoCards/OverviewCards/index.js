@@ -49,7 +49,7 @@ const mapStateToProps = state => {
     AppOverview
   } = state
   const isSingleApplicationView =
-    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length == 2
+    R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
   const enableCEM = AppOverview.showCEMAction
   return {
     QueryApplicationList,
@@ -93,12 +93,12 @@ const getOverviewCardsData = (
   const result = [
     {
       msgKey:
-        subscriptionDataOnHub.total == 1
+        subscriptionDataOnHub.total === 1
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptionDataOnHub.total,
       targetLink:
-        subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
+        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
         subscriptionDataOnHub.total > 0
@@ -121,19 +121,19 @@ const getOverviewCardsData = (
     },
     {
       msgKey:
-        subscriptionDataOnManagedClusters.clusters == 1
+        subscriptionDataOnManagedClusters.clusters === 1
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: subscriptionDataOnManagedClusters.clusters,
       targetLink:
-        subscriptionDataOnManagedClusters.clusters == 0
+        subscriptionDataOnManagedClusters.clusters === 0
           ? ''
           : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
           ' ',
-          subscriptionDataOnManagedClusters.total == 1
+          subscriptionDataOnManagedClusters.total === 1
             ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
@@ -158,11 +158,11 @@ const getOverviewCardsData = (
     },
     {
       msgKey:
-        podData.total == 1
+        podData.total === 1
           ? msgs.get('dashboard.card.deployment.pod', locale)
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
-      targetLink: podData.total == 0 ? '' : targetLinkForPods,
+      targetLink: podData.total === 0 ? '' : targetLinkForPods,
       subtextKeyFirst:
         podData.total > 0
           ? podData.running
@@ -187,12 +187,12 @@ const getOverviewCardsData = (
   if (enableCEM) {
     result.push({
       msgKey:
-        incidents == 1
+        incidents === 1
           ? msgs.get('dashboard.card.deployment.incident', locale)
           : msgs.get('dashboard.card.deployment.incidents', locale),
       count: incidents,
       alert: incidents > 0 ? true : false,
-      targetTab: incidents == 0 ? null : 2,
+      targetTab: incidents === 0 ? null : 2,
       subtextKeyFirst:
         incidents > 0
           ? incidentsData.priority1

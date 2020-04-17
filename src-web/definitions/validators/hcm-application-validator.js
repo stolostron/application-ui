@@ -97,7 +97,7 @@ export function validator(parsed, exceptions, locale) {
         //pull out the namespace values after looping through
         if (
           raw &&
-          raw.kind == 'Namespace' &&
+          raw.kind === 'Namespace' &&
           raw.metadata &&
           raw.metadata.name
         ) {
@@ -105,7 +105,7 @@ export function validator(parsed, exceptions, locale) {
         }
         if (
           raw &&
-          raw.kind == 'Application' &&
+          raw.kind === 'Application' &&
           raw.metadata &&
           raw.metadata.namespace
         ) {
@@ -140,7 +140,7 @@ export function validator(parsed, exceptions, locale) {
 
   //namespace values must match what is defined(if passed)
   if (namespace) {
-    if (applicationNamespace && applicationNamespace != namespace) {
+    if (applicationNamespace && applicationNamespace !== namespace) {
       // error
       exceptions.push({
         row: applicationNamespaceRow,

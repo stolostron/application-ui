@@ -162,8 +162,8 @@ export const getSubscriptionDataOnHub = (
       // Increment "no status" and "failed" counts using the new non-duplicated subscriptions list
       Object.keys(allSubscriptions).forEach(key => {
         if (
-          allSubscriptions[key].status == undefined ||
-          allSubscriptions[key].status == ''
+          allSubscriptions[key].status === undefined ||
+          allSubscriptions[key].status === ''
         ) {
           noStatusSubsCount++
         } else if (
@@ -200,16 +200,16 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
       ) {
-        applications.items[appIndex].clusterCount != undefined &&
+        applications.items[appIndex].clusterCount !== undefined &&
           (managedClusterCount = applications.items[appIndex].clusterCount)
         // Increment counts if the data exists
         if (applications.items[appIndex].remoteSubscriptionStatusCount) {
           const subData =
             applications.items[appIndex].remoteSubscriptionStatusCount
-          subData.Failed != undefined && (failedSubsCount = subData.Failed)
-          subData.null != undefined && (noStatusSubsCount = subData.null)
+          subData.Failed !== undefined && (failedSubsCount = subData.Failed)
+          subData.null !== undefined && (noStatusSubsCount = subData.null)
           allSubscriptions = failedSubsCount + noStatusSubsCount
-          subData.Subscribed != undefined &&
+          subData.Subscribed !== undefined &&
             (allSubscriptions += subData.Subscribed)
         }
       }
@@ -231,15 +231,15 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
   var noStatusSubsCount = 0
 
   if (applications && applications.items) {
-    applications.items.clusterCount != undefined &&
+    applications.items.clusterCount !== undefined &&
       (managedClusterCount = applications.items.clusterCount)
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount) {
       const subData = applications.items.remoteSubscriptionStatusCount
-      subData.Failed != undefined && (failedSubsCount = subData.Failed)
-      subData.null != undefined && (noStatusSubsCount = subData.null)
+      subData.Failed !== undefined && (failedSubsCount = subData.Failed)
+      subData.null !== undefined && (noStatusSubsCount = subData.null)
       allSubscriptions = failedSubsCount + noStatusSubsCount
-      subData.Subscribed != undefined &&
+      subData.Subscribed !== undefined &&
         (allSubscriptions += subData.Subscribed)
     }
   }

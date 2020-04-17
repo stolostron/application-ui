@@ -9,7 +9,7 @@
 // Incoming status looks like this
 // status = [0, 0, 0, 0, 0] // pass, fail, inprogress, pending, unidentifed
 export const getStatusPercentages = status => {
-  if (status && status.length == 5) {
+  if (status && status.length === 5) {
     // Get the total status count
     const total = status[0] + status[1] + status[2] + status[3] + status[4]
     // Get the percentage of pass
@@ -20,7 +20,7 @@ export const getStatusPercentages = status => {
     const inprogress = (status[2] + status[3]) / total * 100
     // Get the percentage of fail
     const fail = status[1] / total * 100
-    if (total == 0) {
+    if (total === 0) {
       return { pass: 0, completed: 0, inprogress: 0, fail: 0, total: 0 }
     } else {
       // The remaining percentage is then pending

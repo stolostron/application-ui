@@ -79,12 +79,12 @@ const getResourceCardsData = (
   const result = [
     {
       msgKey:
-        subscriptionDataOnHub.total == 1
+        subscriptionDataOnHub.total === 1
           ? msgs.get('dashboard.card.deployment.subscription', locale)
           : msgs.get('dashboard.card.deployment.subscriptions', locale),
       count: subscriptionDataOnHub.total,
       targetLink:
-        subscriptionDataOnHub.total == 0 ? '' : targetLinkForSubscriptions,
+        subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
         subscriptionDataOnHub.total > 0
@@ -107,19 +107,19 @@ const getResourceCardsData = (
     },
     {
       msgKey:
-        subscriptionDataOnManagedClusters.clusters == 1
+        subscriptionDataOnManagedClusters.clusters === 1
           ? msgs.get('dashboard.card.deployment.managedCluster', locale)
           : msgs.get('dashboard.card.deployment.managedClusters', locale),
       count: subscriptionDataOnManagedClusters.clusters,
       targetLink:
-        subscriptionDataOnManagedClusters.clusters == 0
+        subscriptionDataOnManagedClusters.clusters === 0
           ? ''
           : targetLinkForClusters,
       textKey: subscriptionDataOnManagedClusters.total
         .toString()
         .concat(
           ' ',
-          subscriptionDataOnManagedClusters.total == 1
+          subscriptionDataOnManagedClusters.total === 1
             ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
             : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
         ),
@@ -144,23 +144,23 @@ const getResourceCardsData = (
     },
     {
       msgKey:
-        subscriptionDataOnHub.channels == 1
+        subscriptionDataOnHub.channels === 1
           ? msgs.get('dashboard.card.deployment.channel', locale)
           : msgs.get('dashboard.card.deployment.channels', locale),
       count: subscriptionDataOnHub.channels,
       targetLink:
-        subscriptionDataOnHub.channels == 0 ? '' : targetLinkForChannels,
+        subscriptionDataOnHub.channels === 0 ? '' : targetLinkForChannels,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)
     },
     {
       msgKey:
-        placementRules == 1
+        placementRules === 1
           ? msgs.get('dashboard.card.deployment.placementRule', locale)
           : msgs.get('dashboard.card.deployment.placementRules', locale),
       count: placementRules,
-      targetLink: placementRules == 0 ? '' : targetLinkForPlacementRules,
+      targetLink: placementRules === 0 ? '' : targetLinkForPlacementRules,
       textKey: isSingleApplicationView
         ? msgs.get('dashboard.card.deployment.used', locale)
         : msgs.get('dashboard.card.deployment.total', locale)

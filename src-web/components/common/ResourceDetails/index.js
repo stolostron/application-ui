@@ -93,7 +93,9 @@ const withResource = Component => {
       }
 
       componentWillMount() {
-        if (this.props.showCEMAction) this.props.clearIncidents()
+        if (this.props.showCEMAction) {
+          this.props.clearIncidents()
+        }
         if (parseInt(config['featureFlags:liveUpdates']) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),
@@ -129,7 +131,9 @@ const withResource = Component => {
           showError = undefined
         }
         this.setState({ xhrPoll: true, retry, showError })
-        if (status !== Actions.REQUEST_STATUS.DONE) this.props.fetchResource()
+        if (status !== Actions.REQUEST_STATUS.DONE) {
+          this.props.fetchResource()
+        }
         const { params } = this.props
         const { showCEMAction } = this.props
         if (params && params.namespace && params.name && showCEMAction) {
@@ -375,8 +379,11 @@ const mapStateToProps = (state, ownProps) => {
 
   const items = visibleResources.normalizedItems
   let params = {}
-  if (ownProps.params) params = ownProps.params
-  else params = (ownProps.match && ownProps.match.params) || {}
+  if (ownProps.params) {
+    params = ownProps.params
+  } else {
+    params = (ownProps.match && ownProps.match.params) || {}
+  }
 
   const item_key =
     (params &&

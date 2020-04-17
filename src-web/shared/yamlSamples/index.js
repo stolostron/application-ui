@@ -25,13 +25,15 @@ export const placementRuleSample =
 
 export const getChannelSampleByType = channelSampleType => {
   let channelSample = ''
-  if (channelSampleType === 'Namespace') channelSample = channelNamespaceSample
-  else if (channelSampleType === 'HelmRepo')
+  if (channelSampleType === 'Namespace') {
+    channelSample = channelNamespaceSample
+  } else if (channelSampleType === 'HelmRepo') {
     channelSample = channelHelmRepoSample
-  else if (channelSampleType === 'ObjectBucket')
+  } else if (channelSampleType === 'ObjectBucket') {
     channelSample = channelObjectBucketSample
-  else if (channelSampleType === 'GitRepo')
+  } else if (channelSampleType === 'GitRepo') {
     channelSample = channelGitRepoSample
+  }
 
   return channelSample
 }

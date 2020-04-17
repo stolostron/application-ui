@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -54,7 +55,9 @@ const createSimpleMatchFilters = (filterMapObj = {}) => {
 }
 
 export const searchObjArr = (term, arr) => {
-  if (!term) return arr
+  if (!term) {
+    return arr
+  }
   const termWithoutSpaces = term.trim()
   const re = new RegExp(`\\b${termWithoutSpaces}`, 'i')
   return arr.filter(el => JSON.stringify(el).match(re))

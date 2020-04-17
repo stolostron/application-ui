@@ -61,7 +61,7 @@ var morgan = require('morgan')
 if (process.env.NODE_ENV === 'production') {
   app.use(
     helmet({
-      // in production these headers are set by icp-management-ingress
+      // in production these headers are set by ingress.open-cluster-management.io
       frameguard: false,
       noSniff: false,
       xssFilter: false,

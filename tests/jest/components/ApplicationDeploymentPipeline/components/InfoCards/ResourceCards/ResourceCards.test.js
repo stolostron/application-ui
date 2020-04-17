@@ -40,6 +40,8 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
+window.open = () => {}; // provide an empty implementation for window.alert
+
 describe("ResourceCards", () => {
   it("has functioning onclick, one app", () => {
     const wrapper = mount(

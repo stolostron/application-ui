@@ -8,6 +8,53 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getClient: jest.fn(() => {
+    return null;
+  }),
+  updateResource: jest.fn(
+    (resourceType, namespace, name, body, selfLink, resourcePath) => {
+      return Promise.resolve({});
+    }
+  ),
+  getResource: jest.fn((resourceType, variables) => {
+    const data = {
+      data: {
+        items: [
+          {
+            metadata: {
+              creationTimestamp: "2020-04-06T22:27:05Z",
+              generation: 2,
+              name: "guestbook-app",
+              namespace: "default",
+              resourceVersion: "840144",
+              selfLink:
+                "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+              uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+            },
+            raw: {
+              apiVersion: "app.k8s.io/v1beta1",
+              kind: "Application",
+              metadata: {
+                creationTimestamp: "2020-04-06T22:27:05Z",
+                generation: 2,
+                name: "guestbook-app",
+                namespace: "default",
+                resourceVersion: "840144",
+                selfLink:
+                  "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+                uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+              }
+            }
+          }
+        ]
+      }
+    };
+
+    return Promise.resolve(data);
+  })
+}));
+
 import React from "react";
 
 import ResourceModal from "../../../../src-web/components/modals/ResourceModal";
@@ -54,6 +101,7 @@ describe("ResourceModal test", () => {
           resourceType={resourceType}
           store={store}
           data={data}
+          type={"actionModal"}
         />
       </BrowserRouter>
     );

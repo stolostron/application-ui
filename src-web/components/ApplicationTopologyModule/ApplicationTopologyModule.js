@@ -625,7 +625,7 @@ class ApplicationTopologyModule extends React.Component {
           list: resourceType.list
         },
         data: {
-          __typename: 'ModalData',
+          __typename: 'ActionModalData',
           name,
           namespace,
           clusterName,

@@ -35,6 +35,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
               selectedNodeId={nodeID}
               showExpandedTopology={false}
               params={params}
+              locale={"en-US"}
             />
           </Provider>
         </BrowserRouter>
@@ -52,6 +53,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
               selectedNodeId={nodeID}
               showExpandedTopology={true}
               params={params}
+              locale={"en-US"}
             />
           </Provider>
         </BrowserRouter>

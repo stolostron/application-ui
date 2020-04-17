@@ -109,7 +109,7 @@ class LogsModal extends React.PureComponent {
             list: ''
           },
           data: {
-            __typename: 'ModalData',
+            __typename: 'ActionModalData',
             name: '',
             namespace: '',
             clusterName: '',

@@ -74,6 +74,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
           Symbol(observable): [Function],
         }
       }
+      type="actionModal"
     >
       <div>
         <Loading
@@ -364,6 +365,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
           Symbol(observable): [Function],
         }
       }
+      type="actionModal"
     >
       <div>
         <Loading

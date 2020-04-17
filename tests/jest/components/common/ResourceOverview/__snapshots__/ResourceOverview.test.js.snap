@@ -11,7 +11,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
     <span>
       <a
         className="bx--link"
-        href="#"
+        href=""
         rel="noopener noreferrer"
         target="_blank"
       >

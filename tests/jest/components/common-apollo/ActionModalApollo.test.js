@@ -28,6 +28,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "invalid",
+          __typename: "actionModal",
           resourceType: {
             _uid: "invalid",
             name: "invalid",
@@ -52,6 +53,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.edit",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMPod",
             list: "HCMPodList"
@@ -75,6 +77,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.applications.edit",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMApplication",
             list: "HCMApplicationList"
@@ -98,6 +101,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.applications.icam",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMApplication",
             list: "HCMApplicationList"
@@ -121,6 +125,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.applications.grafana",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMApplication",
             list: "HCMApplicationList"
@@ -144,6 +149,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.pod.logs",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMPod",
             list: "HCMPodList"
@@ -167,6 +173,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.remove",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMApplication",
             list: "HCMApplicationList"
@@ -190,6 +197,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.applications.remove",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMApplication",
             list: "HCMApplicationList"
@@ -214,6 +222,7 @@ const mocks = {
         actionModal: {
           open: true,
           type: "table.actions.applications.icam",
+          __typename: "actionModal",
           resourceType: {
             name: "HCMPod",
             list: "HCMPodList"
@@ -232,6 +241,7 @@ const mocks = {
   }
 };
 
+window.open = () => {}; // provide an empty implementation for window.alert
 describe("ActionModalApollo Testing", () => {
   it("To Return Null For Invalid Table Action", async () => {
     const component = renderer.create(

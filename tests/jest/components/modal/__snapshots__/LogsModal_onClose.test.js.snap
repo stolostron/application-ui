@@ -74,6 +74,7 @@ exports[`LogsModal test renders as expected without mocked data, to cover this.c
           Symbol(observable): [Function],
         }
       }
+      type="actionModal"
     >
       <Modal
         aria-label="logs"
@@ -426,6 +427,7 @@ exports[`LogsModal test renders as expected without mocked data, to cover this.c
           Symbol(observable): [Function],
         }
       }
+      type="actionModal"
     >
       <Modal
         aria-label="logs"

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -20,7 +21,8 @@ describe("YamlEditor", () => {
       readOnly: true,
       setEditor() {},
       width: "50vw",
-      yaml: "YamlEditorTestYaml1"
+      yaml: "YamlEditorTestYaml1",
+      value: "apiVersion: v1 "
     };
     const component = renderer.create(<YamlEditor {...props} />);
     expect(component.toJSON()).toMatchSnapshot();

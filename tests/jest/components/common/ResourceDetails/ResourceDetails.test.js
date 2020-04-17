@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -11,7 +11,6 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     return null;
   }),
   fetchResource: jest.fn((resourceType, namespace, name) => {
-    console.log("IN fetchResource SSSSS !!!!!", resourceType, name);
     const data = {
       data: {
         items: [
@@ -48,7 +47,6 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     return Promise.resolve(data);
   }),
   getResource: jest.fn((resourceType, variables) => {
-    console.log("IN RES SSSSS !!!!!", resourceType, variables);
     const data = {
       data: {
         items: [

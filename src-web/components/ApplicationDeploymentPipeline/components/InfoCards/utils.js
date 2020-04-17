@@ -163,6 +163,7 @@ export const getSubscriptionDataOnHub = (
       // Increment "no status" and "failed" counts using the new non-duplicated subscriptions list
       Object.keys(allSubscriptions).forEach(key => {
         if (
+          allSubscriptions[key].status === null ||
           allSubscriptions[key].status === undefined ||
           allSubscriptions[key].status === ''
         ) {
@@ -201,8 +202,9 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
       ) {
-        applications.items[appIndex].clusterCount !== undefined &&
-          (managedClusterCount = applications.items[appIndex].clusterCount)
+        if (applications.items[appIndex].clusterCount !== undefined) {
+          managedClusterCount = applications.items[appIndex].clusterCount
+        }
         // Increment counts if the data exists
         if (applications.items[appIndex].remoteSubscriptionStatusCount) {
           const subData =
@@ -237,8 +239,9 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
   var noStatusSubsCount = 0
 
   if (applications && applications.items) {
-    applications.items.clusterCount !== undefined &&
-      (managedClusterCount = applications.items.clusterCount)
+    if (applications.items.clusterCount !== undefined) {
+      managedClusterCount = applications.items.clusterCount
+    }
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount) {
       const subData = applications.items.remoteSubscriptionStatusCount

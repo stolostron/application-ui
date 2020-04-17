@@ -207,11 +207,16 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         if (applications.items[appIndex].remoteSubscriptionStatusCount) {
           const subData =
             applications.items[appIndex].remoteSubscriptionStatusCount
-          subData.Failed !== undefined && (failedSubsCount = subData.Failed)
-          subData.null !== undefined && (noStatusSubsCount = subData.null)
+          if (subData.Failed !== undefined) {
+            failedSubsCount = subData.Failed
+          }
+          if (subData.null !== undefined) {
+            noStatusSubsCount = subData.null
+          }
           allSubscriptions = failedSubsCount + noStatusSubsCount
-          subData.Subscribed !== undefined &&
-            (allSubscriptions += subData.Subscribed)
+          if (subData.Subscribed !== undefined) {
+            allSubscriptions += subData.Subscribed
+          }
         }
       }
     })
@@ -237,11 +242,16 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount) {
       const subData = applications.items.remoteSubscriptionStatusCount
-      subData.Failed !== undefined && (failedSubsCount = subData.Failed)
-      subData.null !== undefined && (noStatusSubsCount = subData.null)
+      if (subData.Failed !== undefined) {
+        failedSubsCount = subData.Failed
+      }
+      if (subData.null !== undefined) {
+        noStatusSubsCount = subData.null
+      }
       allSubscriptions = failedSubsCount + noStatusSubsCount
-      subData.Subscribed !== undefined &&
-        (allSubscriptions += subData.Subscribed)
+      if (subData.Subscribed !== undefined) {
+        allSubscriptions += subData.Subscribed
+      }
     }
   }
 

@@ -548,6 +548,7 @@
   "resource.channel": "Channel",
   "resource.cluster": "Cluster",
   "resource.clusters": "Clusters",
+  "resource.helmrelease": "Helmrelease",
   "resource.labels": "Labels",
   "resource.description": "Description",
   "resource.deployable": "Deployable",

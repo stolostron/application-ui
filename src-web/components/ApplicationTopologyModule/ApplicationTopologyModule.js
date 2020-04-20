@@ -175,7 +175,9 @@ class ApplicationTopologyModule extends React.Component {
 
   stopPolling() {
     const { intervalId } = this.state
-    if (intervalId) clearInterval(intervalId)
+    if (intervalId) {
+      clearInterval(intervalId)
+    }
     this.setState({ intervalId: undefined })
   }
 
@@ -681,26 +683,21 @@ class ApplicationTopologyModule extends React.Component {
     switch (command) {
     case 'next':
     case 'previous':
-      if (this.selectionIndex !== -1) {
-        if (this.selectionRanges.length > 1) {
-          switch (command) {
-          case 'next':
-            this.selectionIndex++
-            if (this.selectionIndex >= this.selectionRanges.length) {
-              this.selectionIndex = 0
-            }
-            break
-          case 'previous':
-            this.selectionIndex--
-            if (this.selectionIndex < 0) {
-              this.selectionIndex = this.selectionRanges.length - 1
-            }
-            break
+      if (this.selectionIndex !== -1 && this.selectionRanges.length > 1) {
+        if (command === 'next') {
+          this.selectionIndex++
+          if (this.selectionIndex >= this.selectionRanges.length) {
+            this.selectionIndex = 0
           }
-          const range = this.selectionRanges[this.selectionIndex]
-          this.editor.selection.setRange(range, true)
-          this.editor.scrollToLine(range.start.row, true)
+        } else if (command === 'previous') {
+          this.selectionIndex--
+          if (this.selectionIndex < 0) {
+            this.selectionIndex = this.selectionRanges.length - 1
+          }
         }
+        const range = this.selectionRanges[this.selectionIndex]
+        this.editor.selection.setRange(range, true)
+        this.editor.scrollToLine(range.start.row, true)
       }
       break
     case 'undo':

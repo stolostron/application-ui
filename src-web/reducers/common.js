@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -126,15 +126,20 @@ function searchTableCellHelper(search, tableKeys, item, context) {
     } else {
       let found = false
       const searchKeys = searchField.replace(/[{}]/g, '').split(',')
-      if (searchKeys && tableKey)
+      if (searchKeys && tableKey) {
         searchKeys.forEach(searchKey => {
-          if (searchTableCell(item, tableKey, context, searchKey)) found = true
+          if (searchTableCell(item, tableKey, context, searchKey)) {
+            found = true
+          }
         })
+      }
       return found
     }
   }
   // return all results when user types cluster=
-  if (searchField === '') return true
+  if (searchField === '') {
+    return true
+  }
 
   // by default, search all fields
   return tableKeys.find(tableKey =>
@@ -145,7 +150,9 @@ function searchTableCellHelper(search, tableKeys, item, context) {
 const makeGetFilteredItemsSelector = resourceType => {
   return createSelector([getItems, getSearch], (items, search) =>
     items.filter(item => {
-      if (lodash.isEmpty(search)) return true
+      if (lodash.isEmpty(search)) {
+        return true
+      }
 
       const tableKeys = ResourceDefinitions.getTableKeys(resourceType)
 

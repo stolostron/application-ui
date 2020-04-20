@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -94,7 +95,7 @@ class ResourceTableModule extends React.Component {
               sortDirection={sortDirection}
               tableActions={keys.tableActions}
               changeTablePage={this.changeTablePage}
-            />
+          />
           </ModuleBody>
         </Module>
       ) : null
@@ -139,7 +140,9 @@ class ResourceTableModule extends React.Component {
   formatResourceData(inputData) {
     let { tableResources } = this.props
     const { normalizedKey } = this.props
-    if (inputData) tableResources = inputData
+    if (inputData) {
+      tableResources = inputData
+    }
     const { searchValue } = this.state
     let normalizedItems = this.createNormalizedItems(
       tableResources,

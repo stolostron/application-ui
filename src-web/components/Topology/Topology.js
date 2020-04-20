@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -13,12 +14,16 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { Loading, Notification } from 'carbon-components-react'
 import SearchName from './viewer/SearchName'
-import TypeFilterBar, {setActiveTypeFilters} from './viewer/TypeFilterBar'
-import RefreshTimeSelect, {getPollInterval} from './viewer/RefreshTimeSelect'
+import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
+import RefreshTimeSelect, { getPollInterval } from './viewer/RefreshTimeSelect'
 import ResourceFilterModule from './viewer/ResourceFilterModule'
 import ChannelControl from './viewer/ChannelControl'
 import DiagramViewer from './viewer/DiagramViewer'
-import { REFRESH_TIMES, TOPOLOGY_REFRESH_INTERVAL_COOKIE, TOPOLOGY_TYPE_FILTER_COOKIE } from './viewer/constants'
+import {
+  REFRESH_TIMES,
+  TOPOLOGY_REFRESH_INTERVAL_COOKIE,
+  TOPOLOGY_TYPE_FILTER_COOKIE
+} from './viewer/constants'
 import { getResourceDefinitions } from './viewer/defaults'
 import './scss/topology-details.scss'
 import './scss/topology-diagram.scss'
@@ -26,19 +31,18 @@ import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 
 class Topology extends React.Component {
-
   static propTypes = {
     channelControl: PropTypes.shape({
       allChannels: PropTypes.array,
       activeChannel: PropTypes.string,
       isChangingChannel: PropTypes.bool,
-      changeTheChannel: PropTypes.func,
+      changeTheChannel: PropTypes.func
     }),
     fetchControl: PropTypes.shape({
       isLoaded: PropTypes.bool,
       isReloading: PropTypes.bool,
       isFailed: PropTypes.bool,
-      refetch: PropTypes.func,
+      refetch: PropTypes.func
     }),
     links: PropTypes.array.isRequired,
     locale: PropTypes.string.isRequired,
@@ -48,34 +52,43 @@ class Topology extends React.Component {
     searchUrl: PropTypes.string,
     selectionControl: PropTypes.shape({
       selectedNode: PropTypes.object,
-      handleNodeSelected: PropTypes.func,
+      handleNodeSelected: PropTypes.func
     }),
     showLogs: PropTypes.func,
     styles: PropTypes.shape({
-      shapes: PropTypes.object,
+      shapes: PropTypes.object
     }),
-    title: PropTypes.string,
-  }
+    title: PropTypes.string
+  };
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isLoaded: true,
       searchName: '',
       availableFilters: {},
       activeFilters: {},
-      otherTypeFilters: [],
+      otherTypeFilters: []
     }
     this.startPolling = this.startPolling.bind(this)
     this.stopPolling = this.stopPolling.bind(this)
 
     // merge styles and options with defaults
     const { styles, options, searchUrl } = props
-    this.staticResourceData = getResourceDefinitions(styles, options, searchUrl)
+    this.staticResourceData = getResourceDefinitions(
+      styles,
+      options,
+      searchUrl
+    )
 
     // what cookie to use to save/restore type filter bar changes
-    this.typeFilterCookie = `${TOPOLOGY_TYPE_FILTER_COOKIE}--${window.location.href}--${options.filtering}`
-    this.knownTypes = setActiveTypeFilters(this.typeFilterCookie, this.state.activeFilters)
+    this.typeFilterCookie = `${TOPOLOGY_TYPE_FILTER_COOKIE}--${
+      window.location.href
+    }--${options.filtering}`
+    this.knownTypes = setActiveTypeFilters(
+      this.typeFilterCookie,
+      this.state.activeFilters
+    )
   }
 
   componentWillMount() {
@@ -91,21 +104,23 @@ class Topology extends React.Component {
   startPolling(newInterval) {
     this.stopPolling()
     let intervalId = undefined
-    const interval = newInterval || getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
+    const interval =
+      newInterval || getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
     if (interval) {
-      const { fetchControl={} } = this.props
+      const { fetchControl = {} } = this.props
       const { refetch } = fetchControl
       if (refetch) {
-        intervalId = setInterval(refetch, Math.max(interval, 5*1000))
+        intervalId = setInterval(refetch, Math.max(interval, 5 * 1000))
       }
     }
     this.setState({ intervalId: intervalId })
   }
 
   stopPolling() {
-    const {intervalId} = this.state
-    if (intervalId)
+    const { intervalId } = this.state
+    if (intervalId) {
       clearInterval(intervalId)
+    }
     this.setState({ intervalId: undefined })
   }
 
@@ -113,43 +128,68 @@ class Topology extends React.Component {
     this.setState(prevState => {
       let { timestamp } = prevState
       const { userIsFiltering } = prevState
-      const { nodes, fetchControl={} } = nextProps
-      const { isLoaded=true, isReloading=false } = fetchControl
+      const { nodes, fetchControl = {} } = nextProps
+      const { isLoaded = true, isReloading = false } = fetchControl
       if (!_.isEqual(nodes, this.props.nodes) && !isReloading) {
         timestamp = new Date().toString()
       }
       this.staticResourceData.updateNodeStatus(nodes, this.props.locale)
-      const {availableFilters, activeFilters, otherTypeFilters} =
-        this.staticResourceData.getAllFilters(isLoaded, nodes, this.props.options,
-          prevState.activeFilters, this.knownTypes, userIsFiltering, this.props.locale)
+      const {
+        availableFilters,
+        activeFilters,
+        otherTypeFilters
+      } = this.staticResourceData.getAllFilters(
+        isLoaded,
+        nodes,
+        this.props.options,
+        prevState.activeFilters,
+        this.knownTypes,
+        userIsFiltering,
+        this.props.locale
+      )
       return {
-        isLoaded, timestamp, availableFilters, activeFilters, otherTypeFilters
+        isLoaded,
+        timestamp,
+        availableFilters,
+        activeFilters,
+        otherTypeFilters
       }
     })
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(this.props.nodes.map(n => n.uid), nextProps.nodes.map(n => n.uid)) ||
-       !_.isEqual(this.props.links.map(n => n.uid), nextProps.links.map(n => n.uid)) ||
-       !_.isEqual(this.props.fetchControl, nextProps.fetchControl) ||
-       !_.isEqual(this.props.channelControl, nextProps.channelControl) ||
-       !_.isEqual(this.state.availableFilters, nextState.availableFilters) ||
-       !_.isEqual(this.state.activeFilters, nextState.activeFilters) ||
-       this.state.searchName !== nextState.searchName ||
-       this.state.fetchChannel !== nextState.fetchChannel ||
-       this.state.isLoaded !== nextState.isLoaded
+    return (
+      !_.isEqual(
+        this.props.nodes.map(n => n.uid),
+        nextProps.nodes.map(n => n.uid)
+      ) ||
+      !_.isEqual(
+        this.props.links.map(n => n.uid),
+        nextProps.links.map(n => n.uid)
+      ) ||
+      !_.isEqual(this.props.fetchControl, nextProps.fetchControl) ||
+      !_.isEqual(this.props.channelControl, nextProps.channelControl) ||
+      !_.isEqual(this.state.availableFilters, nextState.availableFilters) ||
+      !_.isEqual(this.state.activeFilters, nextState.activeFilters) ||
+      this.state.searchName !== nextState.searchName ||
+      this.state.fetchChannel !== nextState.fetchChannel ||
+      this.state.isLoaded !== nextState.isLoaded
+    )
   }
 
   render() {
-    const { fetchControl={}, locale} = this.props
-    const { isFailed=false } = fetchControl
+    const { fetchControl = {}, locale } = this.props
+    const { isFailed = false } = fetchControl
 
     if (isFailed) {
-      return <Notification
-        title=''
-        className='persistent'
-        subtitle={msgs.get('error.default.description', locale)}
-        kind='error' />
+      return (
+        <Notification
+          title=""
+          className="persistent"
+          subtitle={msgs.get('error.default.description', locale)}
+          kind="error"
+        />
+      )
     }
 
     // if everything succeeds, show topology
@@ -163,17 +203,18 @@ class Topology extends React.Component {
       links,
       options,
       styles,
-      fetchControl={},
-      selectionControl={},
-      channelControl={},
+      fetchControl = {},
+      selectionControl = {},
+      channelControl = {},
       showLogs,
-      locale} = this.props
-    const { isLoaded=true, isReloading=false } = fetchControl
-    const { isChangingChannel=false } = channelControl
+      locale
+    } = this.props
+    const { isLoaded = true, isReloading = false } = fetchControl
+    const { isChangingChannel = false } = channelControl
     const { selectedNode, handleNodeSelected } = selectionControl
-    const { searchName='', activeFilters, availableFilters } = this.state
+    const { searchName = '', activeFilters, availableFilters } = this.state
     return (
-      <div className="topologyDiagramContainer" >
+      <div className="topologyDiagramContainer">
         {this.renderRefreshTime()}
         {this.renderRefreshTimeSelect()}
         {this.renderResourceFilterModule()}
@@ -202,15 +243,22 @@ class Topology extends React.Component {
   }
 
   renderRefreshTime() {
-    const { fetchControl={}, locale} = this.props
-    const { isLoaded=true, isReloading=false } = fetchControl
-    const { timestamp=new Date().toString() } = this.state
+    const { fetchControl = {}, locale } = this.props
+    const { isLoaded = true, isReloading = false } = fetchControl
+    const { timestamp = new Date().toString() } = this.state
     if (isLoaded) {
-      const time = msgs.get('overview.menu.last.update',
-        [new Date(timestamp).toLocaleTimeString(locale)], locale)
+      const time = msgs.get(
+        'overview.menu.last.update',
+        [new Date(timestamp).toLocaleTimeString(locale)],
+        locale
+      )
       return (
-        <div className='refresh-time-container'>
-          {isReloading && <div className='reloading-container'><Loading withOverlay={false} small /></div>}
+        <div className="refresh-time-container">
+          {isReloading && (
+            <div className="reloading-container">
+              <Loading withOverlay={false} small />
+            </div>
+          )}
           <div>{time}</div>
         </div>
       )
@@ -219,15 +267,15 @@ class Topology extends React.Component {
   }
 
   renderRefreshTimeSelect() {
-    const { portals={}, fetchControl } = this.props
+    const { portals = {}, fetchControl } = this.props
     const { refreshTimeSelectorPortal } = portals
     if (fetchControl && refreshTimeSelectorPortal) {
       var portal = document.getElementById(refreshTimeSelectorPortal)
       if (portal) {
-        const {isReloading, refetch} = fetchControl
+        const { isReloading, refetch } = fetchControl
         return ReactDOM.createPortal(
           <RefreshTimeSelect
-            refreshValues = {REFRESH_TIMES}
+            refreshValues={REFRESH_TIMES}
             refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
             isReloading={isReloading}
             startPolling={this.startPolling}
@@ -242,7 +290,7 @@ class Topology extends React.Component {
   }
 
   renderResourceFilterModule() {
-    const { portals={} } = this.props
+    const { portals = {} } = this.props
     const { assortedFilterOpenBtn } = portals
     if (assortedFilterOpenBtn) {
       var portal = document.getElementById(assortedFilterOpenBtn)
@@ -264,12 +312,16 @@ class Topology extends React.Component {
   }
 
   renderTypeFilterBar() {
-    const { portals={}, locale } = this.props
+    const { portals = {}, locale } = this.props
     const { typeFilterBar } = portals
     if (typeFilterBar) {
       var portal = document.getElementById(typeFilterBar)
       if (portal) {
-        const { availableFilters, activeFilters, otherTypeFilters } = this.state
+        const {
+          availableFilters,
+          activeFilters,
+          otherTypeFilters
+        } = this.state
         const filterBarTooltipMap = {
           other: otherTypeFilters.join('\n')
         }
@@ -291,21 +343,29 @@ class Topology extends React.Component {
   }
 
   onFilterChange(activeFilters) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       // update active filters
       activeFilters = Object.assign({}, prevState.activeFilters, activeFilters)
 
       // update available filter view filters
       const { nodes, options, locale } = this.props
-      const availableFilters = Object.assign({}, prevState.availableFilters,
-        this.staticResourceData.getAvailableFilters(nodes, options, activeFilters, locale))
+      const availableFilters = Object.assign(
+        {},
+        prevState.availableFilters,
+        this.staticResourceData.getAvailableFilters(
+          nodes,
+          options,
+          activeFilters,
+          locale
+        )
+      )
 
-      return {activeFilters, availableFilters, userIsFiltering:true}
+      return { activeFilters, availableFilters, userIsFiltering: true }
     })
   }
 
   renderSearchName() {
-    const { portals={}, locale } = this.props
+    const { portals = {}, locale } = this.props
     const { searchTextbox } = portals
     if (searchTextbox) {
       var portal = document.getElementById(searchTextbox)
@@ -325,22 +385,17 @@ class Topology extends React.Component {
   }
 
   onNameSearch(searchName) {
-    this.setState({searchName})
+    this.setState({ searchName })
   }
 
   renderChannelControls() {
-    const { channelControl={}, locale} = this.props
+    const { channelControl = {}, locale } = this.props
     const { allChannels } = channelControl
     if (allChannels) {
-      return (
-        <ChannelControl
-          channelControl={channelControl}
-          locale={locale}
-        />)
+      return <ChannelControl channelControl={channelControl} locale={locale} />
     }
     return null
   }
-
 }
 
 export default Topology

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -66,7 +67,9 @@ class TagInput extends React.Component {
         const suggestion = suggestions.find(
           element => element.name === item.name
         )
-        if (suggestion) tags[index] = suggestion
+        if (suggestion) {
+          tags[index] = suggestion
+        }
       }
     })
     this.setState({ tags: tags })
@@ -98,16 +101,18 @@ class TagInput extends React.Component {
           tempArray.push({ name: value, id: value })
         }
       })
-      if (tempArray.length > 0)
+      if (tempArray.length > 0) {
         this.updateSelectedTags([...tags, ...tempArray])
+      }
     } else {
       if (!input.type) {
         // user can only add a tag which exists in suggestions
         input = suggestions.find(element => element.name === input.name)
       }
       if (!tags.find(n => n.name === input.name)) {
-        if (input && !tags.find(n => n.name === input.name))
+        if (input && !tags.find(n => n.name === input.name)) {
           this.updateSelectedTags([...tags, input], input)
+        }
       }
     }
   }

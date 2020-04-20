@@ -12,11 +12,7 @@ jest.mock("../../../../../../../lib/client/apollo-client", () => ({
   }),
   get: jest.fn(resourceType => {
     //resourceType.list is always ApplicationsList
-    return Promise.resolve({
-      response: {
-        other_value: { test: "invalid resonse" }
-      }
-    });
+    return Promise.resolve(undefined);
   }),
   search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));

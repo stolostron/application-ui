@@ -5,6 +5,14 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getSearchClient: jest.fn(() => {
+    return null;
+  }),
+  getResource: jest.fn((resourceType, { namespace }) => {
+    return Promise.resolve(undefined);
+  })
+}));
 
 const React = require("../../../../node_modules/react");
 

@@ -358,32 +358,14 @@ export const fetchNamespace = (resourceType, namespace) => {
           )
         )
       })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
-export const fetchUserInfo = resourceType => {
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .getResource(resourceType)
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
-            resourceType
-          )
-        )
+      .catch(err => {
+        dispatch(receiveResourceError(err, resourceType))
       })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
 }
 
+//used only by the app topo; should be removed
+/*
 export const editResource = (
   resourceType,
   namespace,
@@ -425,7 +407,7 @@ export const removeResource = (resourceType, vars) => async dispatch => {
     return dispatch(receiveDelError(err, resourceType))
   }
 }
-
+*/
 export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,

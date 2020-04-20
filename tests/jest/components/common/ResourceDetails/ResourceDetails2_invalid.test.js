@@ -18,7 +18,13 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     };
     return Promise.resolve(data);
   }),
-  search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
+  search: jest.fn(resourceType => {
+    return Promise.resolve({
+      response: {
+        other_value: { test: "invalid resonse" }
+      }
+    });
+  })
 }));
 
 const React = require("../../../../../node_modules/react");
@@ -32,7 +38,7 @@ import { BrowserRouter } from "react-router-dom";
 import thunkMiddleware from "redux-thunk";
 
 import {
-  reduxStoreAppPipelineWithCEM,
+  reduxStoreAppPipelineWithCEM_Inception,
   resourceType,
   staticResourceDataApp,
   HCMApplication
@@ -40,7 +46,7 @@ import {
 
 const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);
-const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
+const storeApp = mockStore(reduxStoreAppPipelineWithCEM_Inception);
 
 const getVisibleResourcesFn = (state, store) => {
   const items = {
@@ -68,7 +74,7 @@ const mockData = {
 };
 
 describe("ResourceDetails", () => {
-  it("ResourceDetails renders correctly with data on single app.", () => {
+  it("ResourceDetails renders correctly with data on single app with fectch resource on reload.", () => {
     const tree = renderer
       .create(
         <BrowserRouter>

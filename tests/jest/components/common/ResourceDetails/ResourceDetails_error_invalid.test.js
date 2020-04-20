@@ -16,7 +16,8 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
         other_value: { test: "invalid resonse" }
       }
     });
-  })
+  }),
+  search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
 
 const React = require("../../../../../node_modules/react");

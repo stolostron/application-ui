@@ -11,9 +11,6 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     return null;
   }),
   get: jest.fn(resourceType => {
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-
     const testData = {
       data: {
         globalAppData: {
@@ -21,46 +18,15 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
         }
       }
     };
-    const errorEVENData = {
-      resourceType: resourceType,
-      error: "some EVEN error"
-    };
-    const errorsODDData = {
-      resourceType: resourceType,
-      errors: ["some ODD error"]
-    };
-    const invalidData = {
-      resourceType: resourceType,
-      invalid: ["some ODD error"]
-    };
-    if (resourceType.list === "ApplicationsList") {
-      return Promise.resolve(invalidData);
-    }
 
-    if (val % 5 == 0) {
+    if (resourceType.list === "ApplicationsList") {
       return Promise.resolve(undefined);
     }
 
-    if (val % 3 == 0) {
-      return Promise.resolve(errorEVENData);
-    }
-
-    if (val % 2 == 0) {
-      return Promise.resolve(errorsODDData);
-    } else {
-      return Promise.resolve(testData);
-    }
+    return Promise.resolve(testData);
   }),
   search: jest.fn((searchQuery, searchInput) => {
     const searchType = searchInput.input[0].filters[0].values[0];
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-    const errorsODDData = {
-      errors: ["some ODD error"]
-    };
-    const errorEVENData = {
-      error: "some EVEN error"
-    };
 
     if (searchType === "channel") {
       const channelData = {
@@ -79,11 +45,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
           ]
         }
       };
-      if (val % 2 == 0) {
-        return Promise.resolve(channelData);
-      } else {
-        return Promise.resolve(errorsODDData);
-      }
+      return Promise.resolve(channelData);
     }
 
     if (searchType === "subscription") {
@@ -115,25 +77,13 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
           ]
         }
       };
-      if (val % 2 == 0) {
-        return Promise.resolve(errorEVENData);
-      } else {
-        return Promise.resolve(subscriptionData);
-      }
+
+      return Promise.resolve(subscriptionData);
     }
 
     return Promise.resolve({ response: "invalid resonse" });
   }),
   getResource: jest.fn((resourceType, { namespace }) => {
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-    const errorsODDData = {
-      errors: ["some ODD error"]
-    };
-    const errorEVENData = {
-      error: "some EVEN error"
-    };
-
     if (resourceType === "channel") {
       const channelData = {
         data: {
@@ -151,11 +101,39 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
           ]
         }
       };
-      if (val % 2 == 0) {
-        return Promise.resolve(channelData);
-      } else {
-        return Promise.resolve(errorsODDData);
-      }
+      return Promise.resolve(channelData);
+    }
+
+    if (resourceType === "subscription") {
+      const subscriptionData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(subscriptionData);
     }
 
     return Promise.resolve({ response: "invalid resonse" });
@@ -192,11 +170,6 @@ const storeApp = mockStore(reduxStoreAppPipeline);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 const storeAllAppsNoChannels = mockStore(reduxStoreAllAppsPipelineNoChannels);
 const storeAppNoChannels = mockStore(reduxStoreAppPipelineNoChannels);
-
-// mock the Math.random() value
-const mockMath = Object.create(global.Math);
-mockMath.random = () => 0.5;
-global.Math = mockMath;
 
 describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationsTab renders correctly with data on single app, create channel error", () => {

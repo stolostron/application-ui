@@ -17,7 +17,8 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     };
 
     return Promise.resolve(error);
-  })
+  }),
+  search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
 
 const React = require("../../../../../node_modules/react");

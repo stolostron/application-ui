@@ -32,7 +32,7 @@ import { BrowserRouter } from "react-router-dom";
 import thunkMiddleware from "redux-thunk";
 
 import {
-  reduxStoreAppPipelineWithCEM,
+  reduxStoreAppPipelineWithCEM_Inception,
   resourceType,
   staticResourceDataApp,
   HCMApplication
@@ -40,7 +40,7 @@ import {
 
 const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);
-const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
+const storeApp = mockStore(reduxStoreAppPipelineWithCEM_Inception);
 
 const getVisibleResourcesFn = (state, store) => {
   const items = {
@@ -68,7 +68,7 @@ const mockData = {
 };
 
 describe("ResourceDetails", () => {
-  it("ResourceDetails renders correctly with data on single app.", () => {
+  it("ResourceDetails renders correctly with data on single app with fectch resource on reload.", () => {
     const tree = renderer
       .create(
         <BrowserRouter>

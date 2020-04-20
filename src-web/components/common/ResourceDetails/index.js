@@ -208,8 +208,7 @@ class ResourceDetails extends React.Component {
   }
 
   componentDidMount() {
-    const { match } = this.props
-    const params = match && match.params
+    const { params } = this.props
     if (params && params.namespace) {
       if (this.props.showICAMAction && this.props.showICAMAction === true) {
         this.props.fetchNamespace(params.namespace)
@@ -348,6 +347,7 @@ ResourceDetails.propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   namespaceAccountId: PropTypes.string,
+  params: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
@@ -383,7 +383,6 @@ const mapStateToProps = (state, ownProps) => {
   } else {
     params = (ownProps.match && ownProps.match.params) || {}
   }
-
   const item_key =
     (params &&
       params.name &&
@@ -402,7 +401,8 @@ const mapStateToProps = (state, ownProps) => {
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
     showICAMAction: AppOverview.showICAMAction,
-    showGrafanaAction: AppOverview.showGrafanaAction
+    showGrafanaAction: AppOverview.showGrafanaAction,
+    params: params
   }
 }
 

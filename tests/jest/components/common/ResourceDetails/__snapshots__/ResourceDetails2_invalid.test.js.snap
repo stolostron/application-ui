@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceDetails ResourceDetails renders correctly with data on single app with fectch resource on reload. 1`] = `
+<div
+  id="ResourceDetails"
+>
+  <div
+    aria-live="assertive"
+    className="bx--loading content-spinner"
+  >
+    <svg
+      className="bx--loading__svg"
+      viewBox="-75 -75 150 150"
+    >
+      <circle
+        cx="0"
+        cy="0"
+        r="37.5"
+      />
+    </svg>
+  </div>
+</div>
+`;

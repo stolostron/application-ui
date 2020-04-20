@@ -73,43 +73,49 @@ class RemoveResourceModal extends React.Component {
         .getResource(resourceType, { namespace, name, cluster })
         .then(response => {
           const resourceData = response.data.items[0]
-          // Create object specifying Application/Compliance resources that can be deleted
-          _.map(resourceData.deployables, (curr, idx) => {
-            children.push({
-              id: idx + '-deployable-' + curr.metadata.name,
-              selfLink: curr.metadata.selfLink,
-              label: curr.metadata.name + ' [Deployable]',
-              selected: true
+          if (resourceData) {
+            // Create object specifying Application/Compliance resources that can be deleted
+            _.map(resourceData.deployables, (curr, idx) => {
+              children.push({
+                id: idx + '-deployable-' + curr.metadata.name,
+                selfLink: curr.metadata.selfLink,
+                label: curr.metadata.name + ' [Deployable]',
+                selected: true
+              })
             })
-          })
-          _.map(resourceData.placementBindings, (curr, idx) => {
-            children.push({
-              id: idx + '-placementBinding-' + curr.metadata.name,
-              selfLink: curr.metadata.selfLink,
-              label: curr.metadata.name + ' [PlacementBinding]',
-              selected: true
+            _.map(resourceData.placementBindings, (curr, idx) => {
+              children.push({
+                id: idx + '-placementBinding-' + curr.metadata.name,
+                selfLink: curr.metadata.selfLink,
+                label: curr.metadata.name + ' [PlacementBinding]',
+                selected: true
+              })
             })
-          })
-          _.map(resourceData.placementPolicies, (curr, idx) => {
-            children.push({
-              id: idx + '-placementPolicy-' + curr.metadata.name,
-              selfLink: curr.metadata.selfLink,
-              label: curr.metadata.name + ' [PlacementPolicy]',
-              selected: true
+            _.map(resourceData.placementPolicies, (curr, idx) => {
+              children.push({
+                id: idx + '-placementPolicy-' + curr.metadata.name,
+                selfLink: curr.metadata.selfLink,
+                label: curr.metadata.name + ' [PlacementPolicy]',
+                selected: true
+              })
             })
-          })
-          _.map(resourceData.applicationRelationships, (curr, idx) => {
-            children.push({
-              id: idx + '-appRelationship-' + curr.metadata.name,
-              selfLink: curr.metadata.selfLink,
-              label: curr.metadata.name + ' [ApplicationRelationship]',
-              selected: true
+            _.map(resourceData.applicationRelationships, (curr, idx) => {
+              children.push({
+                id: idx + '-appRelationship-' + curr.metadata.name,
+                selfLink: curr.metadata.selfLink,
+                label: curr.metadata.name + ' [ApplicationRelationship]',
+                selected: true
+              })
             })
-          })
-          this.setState({
-            selected: children,
-            loading: false
-          })
+            this.setState({
+              selected: children,
+              loading: false
+            })
+          } else {
+            this.setState({
+              loading: false
+            })
+          }
         })
       : this.setState({
         loading: false

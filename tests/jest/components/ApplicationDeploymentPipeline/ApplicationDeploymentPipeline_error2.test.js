@@ -49,6 +49,11 @@ const middleware = [thunkMiddleware];
 const mockStore = configureMockStore(middleware);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 
+// mock the Math.random() value
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
+
 it("ApplicationDeploymentPipeline renders correctly with data on all apps; call this again to allow more coverage on fecth calls.", () => {
   const tree = renderer
     .create(

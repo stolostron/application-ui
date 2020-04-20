@@ -171,6 +171,11 @@ const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 const storeAllAppsNoChannels = mockStore(reduxStoreAllAppsPipelineNoChannels);
 const storeAppNoChannels = mockStore(reduxStoreAppPipelineNoChannels);
 
+// mock the Math.random() value
+const mockMath = Object.create(global.Math);
+mockMath.random = () => 0.5;
+global.Math = mockMath;
+
 describe("ApplicationDeploymentPipeline", () => {
   it("ApplicationsTab renders correctly with data on single app, create channel error", () => {
     const wrapper = mount(

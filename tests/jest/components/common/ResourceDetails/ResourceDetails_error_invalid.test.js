@@ -11,12 +11,11 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
     return null;
   }),
   getResource: jest.fn(resourceType => {
-    const data = {
-      data: {
-        items: []
+    return Promise.resolve({
+      response: {
+        other_value: { test: "invalid resonse" }
       }
-    };
-    return Promise.resolve(data);
+    });
   })
 }));
 

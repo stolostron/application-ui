@@ -134,9 +134,8 @@ const withResource = Component => {
         if (status !== Actions.REQUEST_STATUS.DONE) {
           this.props.fetchResource()
         }
-        const { params } = this.props
         const { showCEMAction } = this.props
-        if (params && params.namespace && params.name && showCEMAction) {
+        if (showCEMAction) {
           this.props.fetchIncidents()
         }
       }

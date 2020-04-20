@@ -105,7 +105,7 @@ class EditorBar extends React.Component {
       } else {
         exceptions.forEach(({ text, row }) => {
           if (text.length > 64) {
-            text = text.substr(0, 64) + '...'
+            text = `${text.substr(0, 64)}...`
           }
           menuItems.push({
             text,

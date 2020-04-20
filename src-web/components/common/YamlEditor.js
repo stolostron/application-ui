@@ -46,7 +46,7 @@ class IsomorphicEditor extends React.Component {
               })
               .join('; ')
             if (reason.length > 200) {
-              reason = reason.substr(0, 200) + '...'
+              reason = `${reason.substr(0, 200)}...`
             }
             handleParsingError(exceptions.length > 0 ? { reason } : null)
           })

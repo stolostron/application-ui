@@ -160,8 +160,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentDidMount() {}
-
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
   }

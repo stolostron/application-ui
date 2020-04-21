@@ -159,15 +159,6 @@ class ResourceList extends React.Component {
       }
       return (
         <div id="resource-list">
-          {/* {mutateStatus === REQUEST_STATUS.ERROR && (
-            <Notification
-              title=""
-              subtitle={
-                mutateErrorMsg || msgs.get('error.default.description', locale)
-              }
-              kind="error"
-            />
-          )} */}
           {mutateStatus === REQUEST_STATUS.DONE && (
             <Notification
               title=""

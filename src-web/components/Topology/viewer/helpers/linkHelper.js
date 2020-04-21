@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -179,7 +180,11 @@ export default class LinkHelper {
       }
     })
 
-    links.transition(transition).style(('opacity': 1.0))
+    links.transition(transition).style(() => {
+      return {
+        opacity: 1.0
+      }
+    })
 
     // move line labels
     if (this.diagramOptions.showLineLabels) {

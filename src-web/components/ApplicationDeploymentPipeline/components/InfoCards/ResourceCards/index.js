@@ -172,11 +172,6 @@ const getResourceCardsData = (
 }
 
 class ResourceCards extends React.Component {
-  componentWillMount() {}
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
   render() {
     const {
       HCMSubscriptionList,

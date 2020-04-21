@@ -217,12 +217,12 @@ const makeGetSortedItemsSelector = resourceType => {
         initialSortField === 'custom.age'
           ? 'metadata.creationTimestamp'
           : initialSortField // sort by the actual date, not formatted value
+      const direction =
+        sortDirection === Actions.SORT_DIRECTION_ASCENDING
+          ? Actions.SORT_DIRECTION_DESCENDING
+          : Actions.SORT_DIRECTION_ASCENDING
       const sortDir =
-        sortField === 'metadata.creationTimestamp'
-          ? sortDirection === Actions.SORT_DIRECTION_ASCENDING
-            ? Actions.SORT_DIRECTION_DESCENDING
-            : Actions.SORT_DIRECTION_ASCENDING
-          : sortDirection // date fields should initially sort from latest to oldest
+        sortField === 'metadata.creationTimestamp' ? direction : sortDirection // date fields should initially sort from latest to oldest
       return lodash.orderBy(items, item => lodash.get(item, sortField), [
         sortDir
       ])
@@ -266,8 +266,8 @@ export const makeGetVisibleTableItemsSelector = resourceType => {
 }
 
 export const secondaryHeader = (
-  state = { title: '', tabs: [], breadcrumbItems: [], links: [] },
-  action
+  action,
+  state = { title: '', tabs: [], breadcrumbItems: [], links: [] }
 ) => {
   switch (action.type) {
   case Actions.SECONDARY_HEADER_UPDATE:
@@ -304,7 +304,7 @@ export const resourceItemByNameAndNamespace = (items, props) => {
   )
 }
 
-export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
+export const resourceReducerFunction = (action, state = INITIAL_STATE) => {
   var items, index
   switch (action.type) {
   case Actions.RESOURCE_REQUEST:

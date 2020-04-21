@@ -463,19 +463,19 @@ export default class NodeHelper {
         const { x, y, lastPosition, search = FilterResults.nosearch } = layout
         if (
           !lastPosition ||
-          (lastPosition &&
-            (Math.abs(lastPosition.x - x) > 10 ||
-              Math.abs(lastPosition.y - y) > 10))
+          (Math.abs(lastPosition.x - x) > 10 ||
+            Math.abs(lastPosition.y - y) > 10)
         ) {
           opacity = 0.1
         }
         layout.lastPosition = { x, y }
 
+        const related =
+          search === FilterResults.related ? RELATED_OPACITY : opacity
+
         return {
           visibility: search === FilterResults.hidden ? 'hidden' : 'visible',
-          opacity: searchChanged
-            ? 0.0
-            : search === FilterResults.related ? RELATED_OPACITY : opacity
+          opacity: searchChanged ? 0.0 : related
         }
       })
       .attr('transform', currentZoom)
@@ -749,7 +749,6 @@ export const counterZoomLabels = (svg, currentZoom) => {
 
       // not in search mode, selectively show labels based on zoom
       let shownLabel
-      const hideDescription = false
       if (search === FilterResults.nosearch) {
         shownLabel = nodeLabel.selectAll(`text.${showClass}`)
         shownLabel.style('display', '')
@@ -785,7 +784,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
       // if description make smaller
       shownLabel
         .selectAll('tspan.description')
-        .style('font-size', hideDescription ? 0 : fontSize - 2 + 'px')
+        .style('font-size', fontSize - 2 + 'px')
 
       // fix leading between lines
       let height

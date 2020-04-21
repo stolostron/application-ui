@@ -50,7 +50,7 @@ export const initialStateDeployments = {
   openEditPlacementRuleModal: false,
   loading: false
 }
-export const AppDeployments = (state = initialStateDeployments, action) => {
+export const AppDeployments = (action, state = initialStateDeployments) => {
   switch (action.type) {
   case OPEN_DISPLAY_SUBSCRIPTION_MODAL: {
     return { ...state, displaySubscriptionModal: true }

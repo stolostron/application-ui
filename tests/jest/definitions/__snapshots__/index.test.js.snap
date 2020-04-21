@@ -60,7 +60,7 @@ Object {
             "type": "i18n",
           },
           Object {
-            "resourceKey": "label",
+            "resourceKey": "labels",
           },
         ],
       },

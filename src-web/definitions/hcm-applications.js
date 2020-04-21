@@ -97,7 +97,7 @@ export default {
             type: 'i18n'
           },
           {
-            resourceKey: 'label'
+            resourceKey: 'labels'
           }
         ]
       }

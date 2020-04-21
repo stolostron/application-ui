@@ -318,11 +318,11 @@ export const clearIncidents = resourceType => {
   }
 }
 
-export const fetchIncidents = (resourceType, namespace, name) => {
+const getGenericResource = (resourceType, variables) => {
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .getResource(resourceType, { namespace, name })
+      .getResource(resourceType, variables)
       .then(response => {
         if (response.errors) {
           return dispatch(
@@ -340,32 +340,14 @@ export const fetchIncidents = (resourceType, namespace, name) => {
   }
 }
 
-export const fetchNamespace = (resourceType, namespace) => {
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .getResource(resourceType, { namespace })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
-            resourceType
-          )
-        )
-      })
-      .catch(err => {
-        dispatch(receiveResourceError(err, resourceType))
-      })
-  }
+export const fetchIncidents = (resourceType, namespace, name) => {
+  return getGenericResource(resourceType, { namespace, name })
 }
 
-//used only by the app topo; should be removed
-/*
+export const fetchNamespace = (resourceType, namespace) => {
+  return getGenericResource(resourceType, { namespace })
+}
+
 export const editResource = (
   resourceType,
   namespace,
@@ -395,19 +377,6 @@ export const editResource = (
     })
 }
 
-export const removeResource = (resourceType, vars) => async dispatch => {
-  dispatch(delResource(resourceType))
-  try {
-    const response = await apolloClient.remove(resourceType, vars)
-    if (response.errors) {
-      return dispatch(receiveDelError(response.errors, resourceType))
-    }
-    dispatch(receiveDelResource(response, resourceType, vars))
-  } catch (err) {
-    return dispatch(receiveDelError(err, resourceType))
-  }
-}
-*/
 export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,
@@ -513,26 +482,5 @@ export const createResources = (resourceType, resourceJson) => {
       }
       return result
     })
-  }
-}
-
-export const createResource = (resourceType, variables) => {
-  return dispatch => {
-    dispatch(postResource(resourceType))
-    return apolloClient
-      .createResource(resourceType, variables)
-      .then(response => {
-        if (response.errors) {
-          return dispatch(receivePostError(response.errors[0], resourceType))
-        }
-
-        return dispatch(
-          receivePostResource(
-            lodash.cloneDeep(response.data.setHelmRepo),
-            resourceType
-          )
-        )
-      })
-      .catch(err => dispatch(receivePostError(err, resourceType)))
   }
 }

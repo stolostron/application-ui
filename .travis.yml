@@ -52,11 +52,10 @@ jobs:
       name: "Build the image and push it"
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
-        - |
-          make
-          make component/build
-          make component/push
-          make security/scans          
+        - make
+        - make component/build || travis_terminate 1
+        - make component/push
+        - make security/scans         
     - stage: unit-test
       name: "Build and run unit tests"
       script:

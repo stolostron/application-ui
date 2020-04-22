@@ -1,35 +1,12 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import R from 'ramda'
-
-import { getResourcesStatusPerChannel } from '../PipelineGrid/utils'
-// import { CEMIncidentList } from '../../../../../lib/client/queries'
-
-// Method will take in an object and return back the status of related objects
-// returns [completed + unidentified, fail, inprogress + pending]
-// Given the tall count of completed + unidentified, fail, inprogress + pending
-export const getAllDeployablesStatus = list => {
-  const statusPassFailInProgress = [0, 0, 0]
-  if (list && list.items instanceof Array && list.items.length > 0) {
-    list.items.map(item => {
-      // Will return back status as:
-      // [0, 0, 0, 0, 0]
-      // Pass, Fail, InProgress, Pending, Unidentified
-      const status = getResourcesStatusPerChannel(item, false)
-      statusPassFailInProgress[0] =
-        statusPassFailInProgress[0] + status[0] + status[4]
-      statusPassFailInProgress[1] = statusPassFailInProgress[1] + status[1]
-      statusPassFailInProgress[2] =
-        statusPassFailInProgress[2] + status[2] + status[3]
-    })
-  }
-  return statusPassFailInProgress
-}
 
 export const getNumIncidents = list => {
   if (list && list.items && Array.isArray(list.items)) {
@@ -45,6 +22,22 @@ export const getSingleApplicationObject = list => {
   return ''
 }
 
+const getPlacementRuleObjs = (subData, allPlacementRules) => {
+  Object.keys(subData).forEach(kindIndex => {
+    if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
+      const placementRules = subData[kindIndex].items
+      Object.keys(placementRules).forEach(prIndex => {
+        const prObj = {
+          name: placementRules[prIndex].name,
+          namespace: placementRules[prIndex].namespace
+        }
+        allPlacementRules = allPlacementRules.concat(prObj)
+      })
+    }
+  })
+  return allPlacementRules
+}
+
 export const getNumPlacementRules = (
   subscriptions,
   isSingleApplicationView,
@@ -56,7 +49,7 @@ export const getNumPlacementRules = (
 
     // Single application view
     if (isSingleApplicationView) {
-      Object.keys(subscriptions.items).map(subIndex => {
+      Object.keys(subscriptions.items).forEach(subIndex => {
         // Get number of placement rules for the current application opened
         if (
           subscriptions.items[subIndex].namespace === applicationNamespace &&
@@ -71,40 +64,23 @@ export const getNumPlacementRules = (
           })
 
           if (isCurrentApp) {
-            Object.keys(subData).map(kindIndex => {
-              if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
-                const placementRules = subData[kindIndex].items
-                Object.keys(placementRules).map(prIndex => {
-                  const prObj = {
-                    name: placementRules[prIndex].name,
-                    namespace: placementRules[prIndex].namespace
-                  }
-                  allPlacementRules = allPlacementRules.concat(prObj)
-                })
-              }
-            })
+            allPlacementRules = getPlacementRuleObjs(
+              subData,
+              allPlacementRules
+            )
           }
         }
       })
     } else {
       // Root application view
       // Get number of placement rules for all applications
-      Object.keys(subscriptions.items).map(subIndex => {
+      Object.keys(subscriptions.items).forEach(subIndex => {
         // Placement rule data found in "related" object
         if (subscriptions.items[subIndex].related) {
-          const subData = subscriptions.items[subIndex].related
-          Object.keys(subData).map(kindIndex => {
-            if (subData[kindIndex].kind.toLowerCase() === 'placementrule') {
-              const placementRules = subData[kindIndex].items
-              Object.keys(placementRules).map(prIndex => {
-                const prObj = {
-                  name: placementRules[prIndex].name,
-                  namespace: placementRules[prIndex].namespace
-                }
-                allPlacementRules = allPlacementRules.concat(prObj)
-              })
-            }
-          })
+          allPlacementRules = getPlacementRuleObjs(
+            subscriptions.items[subIndex].related,
+            allPlacementRules
+          )
         }
       })
     }
@@ -115,6 +91,18 @@ export const getNumPlacementRules = (
     return allPlacementRules.length
   }
   return 0
+}
+
+const getSubObjs = (subData, allSubscriptions, allChannels) => {
+  Object.keys(subData).forEach(subIndex => {
+    const subObj = {
+      status: subData[subIndex].status,
+      id: subData[subIndex]._uid
+    }
+    allSubscriptions = allSubscriptions.concat(subObj)
+    allChannels = allChannels.concat(subData[subIndex].channel)
+  })
+  return [allSubscriptions, allChannels]
 }
 
 export const getSubscriptionDataOnHub = (
@@ -131,39 +119,34 @@ export const getSubscriptionDataOnHub = (
   if (applications && applications.items) {
     // Single application view
     if (isSingleApplicationView) {
-      Object.keys(applications.items).map(appIndex => {
+      Object.keys(applications.items).forEach(appIndex => {
         // Get subscription data for the current application opened
         if (
           applications.items[appIndex].name === applicationName &&
           applications.items[appIndex].namespace === applicationNamespace &&
           applications.items[appIndex].hubSubscriptions
         ) {
-          const subData = applications.items[appIndex].hubSubscriptions
-          Object.keys(subData).map(subIndex => {
-            const subObj = {
-              status: subData[subIndex].status,
-              id: subData[subIndex]._uid
-            }
-            allSubscriptions = allSubscriptions.concat(subObj)
-            allChannels = allChannels.concat(subData[subIndex].channel)
-          })
-          return
+          const subObjs = getSubObjs(
+            applications.items[appIndex].hubSubscriptions,
+            allSubscriptions,
+            allChannels
+          )
+          allSubscriptions = subObjs[0]
+          allChannels = subObjs[1]
         }
       })
     } else {
       // Root application view
       // Get subscription data for all applications
-      Object.keys(applications.items).map(appIndex => {
+      Object.keys(applications.items).forEach(appIndex => {
         if (applications.items[appIndex].hubSubscriptions) {
-          const subData = applications.items[appIndex].hubSubscriptions
-          Object.keys(subData).map(subIndex => {
-            const subObj = {
-              status: subData[subIndex].status,
-              id: subData[subIndex]._uid
-            }
-            allSubscriptions = allSubscriptions.concat(subObj)
-            allChannels = allChannels.concat(subData[subIndex].channel)
-          })
+          const subObjs = getSubObjs(
+            applications.items[appIndex].hubSubscriptions,
+            allSubscriptions,
+            allChannels
+          )
+          allSubscriptions = subObjs[0]
+          allChannels = subObjs[1]
         }
       })
     }
@@ -178,10 +161,11 @@ export const getSubscriptionDataOnHub = (
       allSubscriptions = R.uniq(allSubscriptions)
 
       // Increment "no status" and "failed" counts using the new non-duplicated subscriptions list
-      Object.keys(allSubscriptions).map(key => {
+      Object.keys(allSubscriptions).forEach(key => {
         if (
-          allSubscriptions[key].status == undefined ||
-          allSubscriptions[key].status == ''
+          allSubscriptions[key].status === null ||
+          allSubscriptions[key].status === undefined ||
+          allSubscriptions[key].status === ''
         ) {
           noStatusSubsCount++
         } else if (
@@ -212,23 +196,29 @@ export const getSubscriptionDataOnManagedClustersSingle = (
   var noStatusSubsCount = 0
 
   if (applications && applications.items) {
-    Object.keys(applications.items).map(appIndex => {
+    Object.keys(applications.items).forEach(appIndex => {
       // Get subscription data for the current application opened
       if (
         applications.items[appIndex].name === applicationName &&
         applications.items[appIndex].namespace === applicationNamespace
       ) {
-        applications.items[appIndex].clusterCount != undefined &&
-          (managedClusterCount = applications.items[appIndex].clusterCount)
+        if (applications.items[appIndex].clusterCount !== undefined) {
+          managedClusterCount = applications.items[appIndex].clusterCount
+        }
         // Increment counts if the data exists
         if (applications.items[appIndex].remoteSubscriptionStatusCount) {
           const subData =
             applications.items[appIndex].remoteSubscriptionStatusCount
-          subData.Failed != undefined && (failedSubsCount = subData.Failed)
-          subData.null != undefined && (noStatusSubsCount = subData.null)
+          if (subData.Failed !== undefined) {
+            failedSubsCount = subData.Failed
+          }
+          if (subData.null !== undefined) {
+            noStatusSubsCount = subData.null
+          }
           allSubscriptions = failedSubsCount + noStatusSubsCount
-          subData.Subscribed != undefined &&
-            (allSubscriptions += subData.Subscribed)
+          if (subData.Subscribed !== undefined) {
+            allSubscriptions += subData.Subscribed
+          }
         }
       }
     })
@@ -249,16 +239,22 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
   var noStatusSubsCount = 0
 
   if (applications && applications.items) {
-    applications.items.clusterCount != undefined &&
-      (managedClusterCount = applications.items.clusterCount)
+    if (applications.items.clusterCount !== undefined) {
+      managedClusterCount = applications.items.clusterCount
+    }
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount) {
       const subData = applications.items.remoteSubscriptionStatusCount
-      subData.Failed != undefined && (failedSubsCount = subData.Failed)
-      subData.null != undefined && (noStatusSubsCount = subData.null)
+      if (subData.Failed !== undefined) {
+        failedSubsCount = subData.Failed
+      }
+      if (subData.null !== undefined) {
+        noStatusSubsCount = subData.null
+      }
       allSubscriptions = failedSubsCount + noStatusSubsCount
-      subData.Subscribed != undefined &&
-        (allSubscriptions += subData.Subscribed)
+      if (subData.Subscribed !== undefined) {
+        allSubscriptions += subData.Subscribed
+      }
     }
   }
 
@@ -281,7 +277,7 @@ export const getPodData = (
   var inProgressPods = 0
 
   if (applications && applications.items) {
-    Object.keys(applications.items).map(appIndex => {
+    Object.keys(applications.items).forEach(appIndex => {
       // Get pod data for the current application opened
       if (
         applications.items[appIndex].name === applicationName &&
@@ -332,11 +328,11 @@ export const getIncidentsData = CEMIncidentList => {
 
   // Get incidents data for the current application opened
   if (CEMIncidentList && CEMIncidentList.items) {
-    Object.keys(CEMIncidentList.items).map(listIndex => {
+    Object.keys(CEMIncidentList.items).forEach(listIndex => {
       const item = CEMIncidentList.items[listIndex]
-      if (item.priority == 1) {
+      if (item.priority === 1) {
         priority1++
-      } else if (item.priority == 2) {
+      } else if (item.priority === 2) {
         priority2++
       }
     })

@@ -104,4 +104,25 @@
           </g>
       </g>
     </symbol>
+    <symbol viewBox="0 0 32 32" id="daemonset">
+      <g id="Topology" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-654.000000, -154.000000)">
+            <g id="Daemonset" transform="translate(621.000000, 122.000000)">
+                <g id="Deamonset-01" transform="translate(34.000000, 33.000000)">
+                    <rect x="0" y="0" width="32" height="32" style="fill:rgba(0,0,0,0)" />
+                    <g id="icon/file/template/32-copy" stroke="#734098" transform="translate(7.000000, 7.000000)" fill="#000000" fill-rule="nonzero">
+                        <polygon id="Polygon" points="2 0 3.73205081 1 3.73205081 3 2 4 0.267949192 3 0.267949192 1"></polygon>
+                    </g>
+                    <g id="icon/file/template/32-copy-2" stroke="#734098" transform="translate(7.000000, 21.000000)" fill="#000000" fill-rule="nonzero">
+                        <polygon id="Polygon" points="2 0 3.73205081 1 3.73205081 3 2 4 0.267949192 3 0.267949192 1"></polygon>
+                    </g>
+                    <rect id="Rectangle-Copy-2" stroke="#734098" fill="#000000" fill-rule="nonzero" x="13" y="4" width="2" height="9"></rect>
+                    <rect id="Rectangle-Copy-3" stroke="#734098" fill="#000000" fill-rule="nonzero" x="13" y="18" width="2" height="9"></rect>
+                    <rect id="Rectangle" stroke="#734098" stroke-width="2" x="4" y="4" width="24" height="10" rx="2"></rect>
+                    <rect id="Rectangle-Copy" stroke="#734098" stroke-width="2" x="4" y="18" width="24" height="10" rx="2"></rect>
+                </g>
+            </g>
+        </g>
+      </g>
+    </symbol>
 </svg>

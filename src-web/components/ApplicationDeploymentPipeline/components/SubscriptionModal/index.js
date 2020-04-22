@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -99,7 +100,7 @@ const SubscriptionInfo = withLocale(
 
       channel = R.pathOr('', ['channel'], subscriptionModalSubscriptionInfo)
 
-      if (subscriptionModalSubscriptionInfo._uid != undefined) {
+      if (subscriptionModalSubscriptionInfo._uid !== undefined) {
         numClusters = getClusterCountForSub(
           subscriptionModalSubscriptionInfo._uid,
           applications
@@ -151,7 +152,7 @@ const SubscriptionInfo = withLocale(
                   deployableNames.length > 0 &&
                   deployableNames
                     .map(deployable => {
-                      return <span key={Math.random()}>{deployable}</span>
+                      return <span key={`${deployable}_D`}>{deployable}</span>
                     })
                     .reduce((prev, curr) => [prev, ', ', curr])}
               </div>
@@ -193,7 +194,7 @@ const SubscriptionInfo = withLocale(
                 {labels.map(label => {
                   return (
                     <LabelWithOptionalTooltip
-                      key={Math.random()}
+                      key={label}
                       labelText={label}
                       description={label_hover}
                     />

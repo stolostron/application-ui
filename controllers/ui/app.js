@@ -5,6 +5,9 @@
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+/* Copyright (c) 2020 Red Hat, Inc.
+*/
+
 'use strict'
 
 const ReactDOMServer = require('react-dom/server'),
@@ -119,6 +122,7 @@ router.get('*', (req, res) => {
               </Provider>
             ),
             contextPath: config.get('contextPath'),
+            headerContextPath: config.get('headerContextPath'),
             state: store.getState(),
             props: serverProps,
             header: header,

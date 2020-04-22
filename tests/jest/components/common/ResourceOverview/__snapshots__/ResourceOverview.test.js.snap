@@ -11,7 +11,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
     <span>
       <a
         className="bx--link"
-        href="#"
+        href=""
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -551,96 +551,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                   >
                     <div>
                       -
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="bx--structured-list-row"
-                >
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      Selector
-                    </div>
-                  </div>
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      -
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="bx--structured-list-row"
-                >
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      Annotations
-                    </div>
-                  </div>
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      -
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="bx--structured-list-row"
-                >
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      Resource version
-                    </div>
-                  </div>
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      -
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="bx--structured-list-row"
-                >
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      Self link
-                    </div>
-                  </div>
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      -
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="bx--structured-list-row"
-                >
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      UID
-                    </div>
-                  </div>
-                  <div
-                    className="bx--structured-list-td"
-                  >
-                    <div>
-                      local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26
                     </div>
                   </div>
                 </div>

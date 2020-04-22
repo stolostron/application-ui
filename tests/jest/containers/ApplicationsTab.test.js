@@ -1,13 +1,53 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+jest.mock("../../../lib/client/apollo-client", () => ({
+  getClient: jest.fn(() => {
+    return null;
+  }),
+  get: jest.fn(resourceType => {
+    //resourceType.list is always ApplicationsList
+    return Promise.resolve({
+      data: {
+        applications: {
+          "mortgage-app-default": {
+            _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
+            name: "mortgage-app",
+            namespace: "default",
+            dashboard:
+              "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+            clusterCount: 1,
+            remoteSubscriptionStatusCount: {
+              Subscribed: 1
+            },
+            podStatusCount: {
+              Running: 1
+            },
+            hubSubscriptions: [
+              {
+                _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
+                status: "Propagated",
+                channel: "default/mortgage-channel",
+                __typename: "Subscription"
+              }
+            ],
+            created: "2020-02-18T23:57:04Z",
+            __typename: "Application"
+          }
+        }
+      }
+    });
+  })
+}));
+
 const React = require("../../../node_modules/react");
+import thunkMiddleware from "redux-thunk";
 
 import ApplicationsTab from "../../../src-web/containers/ApplicationsTab";
 
@@ -24,7 +64,8 @@ import {
   serverProps
 } from "../components/TestingData";
 
-const mockStore = configureMockStore();
+const middleware = [thunkMiddleware];
+const mockStore = configureMockStore(middleware);
 const storeApp = mockStore(reduxStoreAppPipeline);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 
@@ -54,6 +95,13 @@ describe("ApplicationsTab", () => {
       </BrowserRouter>
     );
     wrapper.find(".bx--btn--primary").simulate("click");
+    wrapper.find(".bx--search-input").simulate("change");
+    wrapper.find(".bx--search-close").simulate("click");
+    wrapper
+      .find(".bx--table-sort-v2--ascending")
+      .at(0)
+      .simulate("click");
+    wrapper.find(".bx--select-input").simulate("change");
   });
 
   it("ApplicationsTab renders correctly with data on single app.", () => {

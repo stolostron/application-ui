@@ -1,11 +1,25 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+jest.mock("../../../../../lib/client/apollo-client", () => ({
+  getClient: jest.fn(() => {
+    return null;
+  }),
+  getResource: jest.fn(resourceType => {
+    const data = {
+      data: {
+        items: []
+      }
+    };
+    return Promise.resolve(data);
+  }),
+  search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
+}));
 
 const React = require("../../../../../node_modules/react");
 
@@ -15,16 +29,18 @@ import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import { BrowserRouter } from "react-router-dom";
+import thunkMiddleware from "redux-thunk";
 
 import {
-  reduxStoreAppPipeline,
+  reduxStoreAppPipelineWithCEM,
   resourceType,
   staticResourceDataApp,
   HCMApplication
 } from "../../../components/TestingData";
 
-const mockStore = configureMockStore();
-const storeApp = mockStore(reduxStoreAppPipeline);
+const middleware = [thunkMiddleware];
+const mockStore = configureMockStore(middleware);
+const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
 
 const getVisibleResourcesFn = (state, store) => {
   const items = {
@@ -41,6 +57,7 @@ const mockData = {
     pathname: "/multicloud/applications/sample/samplebook-gbapp"
   },
   match: {
+    isExact: true,
     path: "/multicloud/applications/:namespace/:name?",
     url: "/multicloud/applications/sample/samplebook-gbapp",
     params: {
@@ -57,6 +74,8 @@ describe("ResourceDetails", () => {
         <BrowserRouter>
           <Provider store={storeApp}>
             <ResourceDetails
+              item={HCMApplication}
+              match={mockData.match}
               loading={false}
               location={mockData.location}
               tabs={[]}

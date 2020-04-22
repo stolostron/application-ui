@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -226,7 +227,7 @@ export default class LayoutHelper {
           var edgeMap = {}
           for (var uid in nodeMap) {
             directions.forEach(({ map, next, other }) => {
-              if (map[uid]) {
+              if (map.hasOwnProperty(uid)) {
                 map[uid].forEach(entry => {
                   const { link } = entry
 
@@ -328,8 +329,12 @@ export default class LayoutHelper {
     const { edges } = details
     edges.forEach(
       ({ layout: { source: { uid: sid }, target: { uid: tid } } }) => {
-        if (targets[sid]) targets[sid].push(tid)
-        if (sources[tid]) sources[tid].push(sid)
+        if (targets[sid]) {
+          targets[sid].push(tid)
+        }
+        if (sources[tid]) {
+          sources[tid].push(sid)
+        }
       }
     )
 
@@ -494,17 +499,19 @@ export default class LayoutHelper {
 
   readdConsolidatedGroups = (connected, newGroups) => {
     for (const key in newGroups) {
-      const { nodeMap, edges, clusterName, typeMap } = newGroups[key]
-      const clusters = [clusterName]
-      const types = Object.keys(typeMap).sort()
-      connected.unshift({
-        nodeMap,
-        details: {
-          edges,
-          clusters: clusters.join('/'),
-          title: this.getSectionTitle(clusters, types)
-        }
-      })
+      if (newGroups.hasOwnProperty(key)) {
+        const { nodeMap, edges, clusterName, typeMap } = newGroups[key]
+        const clusters = [clusterName]
+        const types = Object.keys(typeMap).sort()
+        connected.unshift({
+          nodeMap,
+          details: {
+            edges,
+            clusters: clusters.join('/'),
+            title: this.getSectionTitle(clusters, types)
+          }
+        })
+      }
     }
   };
 
@@ -633,54 +640,56 @@ export default class LayoutHelper {
 
         // for each cluster
         for (var clusterName in detailMap) {
-          const { typeMap, nodes, environment } = detailMap[clusterName]
-          const clusters = [clusterName]
-          const types = Object.keys(typeMap).sort()
-          const details = {
-            title: this.getSectionTitle(clusters, types, environment),
-            clusters: clusters.join('/')
-          }
-
-          // break large unconnected groups into smaller groups
-          let unconnectArr = [nodes]
-          if (nodes.length > 48) {
-            nodes.sort(
-              (
-                { layout: { label: a = '', uid: au } },
-                { layout: { label: b = '', uid: bu } }
-              ) => {
-                const r = a.localeCompare(b)
-                if (r !== 0) {
-                  return r
-                } else {
-                  return au.localeCompare(bu)
-                }
-              }
-            )
-            unconnectArr = _.chunk(nodes, 32)
-          }
-          unconnectArr.forEach(arr => {
-            const uidArr = []
-            const elements = { nodes: [] }
-            arr.forEach(node => {
-              elements.nodes.push({
-                data: {
-                  id: node.uid,
-                  node
-                }
-              })
-              uidArr.push(node.uid)
-            })
-            if (elements.nodes.length > 0) {
-              collections.unconnected.push({
-                type,
-                title: type,
-                elements: cy.add(elements),
-                hashCode: getHashCode(uidArr.sort().join()),
-                details
-              })
+          if (detailMap.hasOwnProperty(clusterName)) {
+            const { typeMap, nodes, environment } = detailMap[clusterName]
+            const clusters = [clusterName]
+            const types = Object.keys(typeMap).sort()
+            const details = {
+              title: this.getSectionTitle(clusters, types, environment),
+              clusters: clusters.join('/')
             }
-          })
+
+            // break large unconnected groups into smaller groups
+            let unconnectArr = [nodes]
+            if (nodes.length > 48) {
+              nodes.sort(
+                (
+                  { layout: { label: a = '', uid: au } },
+                  { layout: { label: b = '', uid: bu } }
+                ) => {
+                  const r = a.localeCompare(b)
+                  if (r !== 0) {
+                    return r
+                  } else {
+                    return au.localeCompare(bu)
+                  }
+                }
+              )
+              unconnectArr = _.chunk(nodes, 32)
+            }
+            unconnectArr.forEach(arr => {
+              const uidArr = []
+              const elements = { nodes: [] }
+              arr.forEach(node => {
+                elements.nodes.push({
+                  data: {
+                    id: node.uid,
+                    node
+                  }
+                })
+                uidArr.push(node.uid)
+              })
+              if (elements.nodes.length > 0) {
+                collections.unconnected.push({
+                  type,
+                  title: type,
+                  elements: cy.add(elements),
+                  hashCode: getHashCode(uidArr.sort().join()),
+                  details
+                })
+              }
+            })
+          }
         }
       }
     })

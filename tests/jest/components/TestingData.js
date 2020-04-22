@@ -1,7 +1,7 @@
 /** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -221,11 +221,21 @@ export const QueryApplicationList = {
       dashboard: null,
       clusterCount: 0,
       created: "2020-02-11T23:26:18Z",
-      __typename: "Application"
+      __typename: "Application",
+      hubSubscriptions: []
     }
   ]
 };
 
+export const QueryApplicationList_INCEPTION = {
+  status: "INCEPTION",
+  itemsPerPage: 20,
+  page: 1,
+  search: "aa",
+  sortDirection: "asc",
+  sortColumn: "name",
+  items: []
+};
 export const HCMChannelList = {
   status: "DONE",
   items: [
@@ -246,6 +256,7 @@ export const HCMChannelList = {
       label:
         "app=mortgage-channel-mortgage; chart=mortgage-channel-1.0.0; heritage=Tiller; release=mortgage-channel",
       type: "Namespace",
+      data: {},
       related: [
         {
           kind: "subscription",
@@ -265,6 +276,25 @@ export const HCMChannelList = {
               _rbac: "default_app.ibm.com_subscriptions",
               _hubClusterResource: "true",
               _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
+              packageFilterVersion: ">=1.x",
+              label:
+                "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app"
+            },
+            {
+              kind: "subscription",
+              name: "orphan",
+              namespace: "default",
+              status: "Propagated",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/default/subscriptions/mortgage-app-subscription",
+              created: "2020-02-18T23:57:04Z",
+              cluster: "local-cluster",
+              channel: "default/mortgage-channel",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "default_app.ibm.com_subscriptions",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
               packageFilterVersion: ">=1.x",
               label:
                 "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app"
@@ -443,6 +473,27 @@ export const HCMSubscriptionList = {
       label:
         "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
       related: [
+        {
+          kind: "placementrule",
+          items: [
+            {
+              kind: "placementrule",
+              name: "guestbook-placementrule",
+              namespace: "kube-system",
+              selfLink:
+                "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/placementrules/guestbook-placementrule",
+              created: "2020-02-11T23:26:17Z",
+              cluster: "local-cluster",
+              apigroup: "app.ibm.com",
+              apiversion: "v1alpha1",
+              _rbac: "kube-system_app.ibm.com_placementrules",
+              _hubClusterResource: "true",
+              _uid: "local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26",
+              label: "app=subscribed-guestbook-application"
+            }
+          ],
+          __typename: "SearchRelatedResult"
+        },
         {
           kind: "application",
           items: [
@@ -867,7 +918,11 @@ export const secondaryHeaderAllApps = {
 
 export const reduxStoreAppPipeline = {
   AppDeployments: {
-    displaySubscriptionModal: false
+    displaySubscriptionModal: false,
+    subscriptionModalHeaderInfo: {
+      application: "app",
+      deployable: "depp"
+    }
   },
   resourceFilters: {
     filters: {},
@@ -894,6 +949,28 @@ export const reduxStoreAppPipelineWithCEM = {
   secondaryHeader: secondaryHeader,
   namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
+  HCMChannelList: HCMChannelList,
+  HCMSubscriptionList: HCMSubscriptionList,
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverviewWithCEM,
+  HCMNamespaceList: HCMNamespaceList,
+  CEMIncidentList: CEMIncidentList,
+  role: {
+    role: "ClusterAdministrator"
+  }
+};
+
+export const reduxStoreAppPipelineWithCEM_Inception = {
+  AppDeployments: {
+    displaySubscriptionModal: false
+  },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
+  secondaryHeader: secondaryHeader,
+  namespaceAccountId: namespaceAccountId,
+  QueryApplicationList: QueryApplicationList_INCEPTION,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   GlobalApplicationDataList: GlobalApplicationDataList,
@@ -1034,61 +1111,6 @@ export const staticResourceData = {
               resourceKey: "label"
             }
           ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.selector",
-              type: "i18n"
-            },
-            {
-              resourceKey: "selector"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.annotations",
-              type: "i18n"
-            },
-            {
-              resourceKey: "annotations"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.resource.version",
-              type: "i18n"
-            },
-            {
-              resourceKey: "resourceVersion"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.self.link",
-              type: "i18n"
-            },
-            {
-              resourceKey: "selfLink"
-            }
-          ]
-        },
-        {
-          cells: [
-            {
-              resourceKey: "description.title.uid",
-              type: "i18n"
-            },
-            {
-              resourceKey: "_uid"
-            }
-          ]
         }
       ]
     }
@@ -1181,61 +1203,6 @@ export const staticResourceDataApp = {
           },
           {
             resourceKey: "label"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.selector",
-            type: "i18n"
-          },
-          {
-            resourceKey: "selector"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.annotations",
-            type: "i18n"
-          },
-          {
-            resourceKey: "annotations"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.resource.version",
-            type: "i18n"
-          },
-          {
-            resourceKey: "resourceVersion"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.self.link",
-            type: "i18n"
-          },
-          {
-            resourceKey: "selfLink"
-          }
-        ]
-      },
-      {
-        cells: [
-          {
-            resourceKey: "description.title.uid",
-            type: "i18n"
-          },
-          {
-            resourceKey: "_uid"
           }
         ]
       }

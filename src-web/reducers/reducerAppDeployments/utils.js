@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -13,7 +14,7 @@ import R from 'ramda'
 // We go through each application and pull out each kind
 // and add it to the list to be returned
 const extractAllOfKind = (list, kind = '') => {
-  const filterKind = x => x.kind == kind
+  const filterKind = x => x.kind === kind
   // Get the totalKindList for All the applications
   const totalKindList =
     list &&

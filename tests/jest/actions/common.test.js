@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -15,6 +15,32 @@ const resourceType = {
 
 const item = {
   _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
+  name: "mortgage-app",
+  namespace: "default",
+  dashboard:
+    "https://localhost:443/grafana/dashboard/db/mortgage-app-dashboard-via-federated-prometheus?namespace=default",
+  clusterCount: 1,
+  remoteSubscriptionStatusCount: {
+    Subscribed: 1
+  },
+  podStatusCount: {
+    Running: 1
+  },
+  hubSubscriptions: [
+    {
+      _uid: "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26",
+      status: "Propagated",
+      channel: "default/mortgage-channel",
+      __typename: "Subscription"
+    }
+  ],
+  created: "2020-02-18T23:57:04Z",
+  __typename: "Application"
+};
+
+const item1 = {
+  _uid: "local-cluster/5cd1d4c7-52aa-11ea-bf05-00000a102d26",
+  kind: "application",
   name: "mortgage-app",
   namespace: "default",
   dashboard:
@@ -161,17 +187,22 @@ describe("common actions ", () => {
 
   it("should return deleteResource", () => {
     const expectedValue = {
-      item: {
-        list: "QueryApplicationList",
-        name: "QueryApplications"
-      },
-      resourceType: "resNameTest",
+      item: item,
+      resourceType: resourceType,
       type: "RESOURCE_DELETE"
     };
 
-    expect(actions.deleteResource(resourceType, "resNameTest")).toEqual(
-      expectedValue
-    );
+    expect(actions.deleteResource(item, resourceType)).toEqual(expectedValue);
+  });
+
+  it("should return deleteResource 1", () => {
+    const expectedValue = {
+      item: item1,
+      resourceType: "application",
+      type: "RESOURCE_DELETE"
+    };
+
+    expect(actions.deleteResource(item1, resourceType)).toEqual(expectedValue);
   });
 
   it("should return mutateResource", () => {
@@ -226,6 +257,22 @@ describe("common actions ", () => {
     );
   });
 
+  it("should return getQueryStringForResources default app", () => {
+    const expectedValue = {
+      filters: [
+        {
+          property: "kind",
+          values: ["application"]
+        }
+      ],
+      keywords: [],
+      relatedKinds: ["placementrule"]
+    };
+
+    expect(actions.getQueryStringForResources("somevalue")).toEqual(
+      expectedValue
+    );
+  });
   it("should return getQueryStringForResources channel", () => {
     const expectedValue = {
       filters: [

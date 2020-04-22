@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
@@ -17,6 +17,8 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
   const { hasPods, pods } = layout
   if (type === 'pod') {
     addPodTooltips(node, tooltips, searchUrl, locale)
+  } else if (type === 'package') {
+    return []
   } else {
     let kind = undefined
     switch (type) {
@@ -33,15 +35,44 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
       kind = type
       break
     }
-    const href =
-      searchUrl && kind
-        ? `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
-        : undefined
+    var clusterList
+    if (type === 'cluster' && name.includes(',')) {
+      clusterList = name.replace(/\s/g, '')
+    }
+    var href
+    if (searchUrl && kind) {
+      if (clusterList) {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
+      } else if (type === 'helmrelease') {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} ${name}"}`
+      } else {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
+      }
+    }
     tooltips.push({ name: getType(type, locale), value: name, href })
     if (hasPods) {
       pods.forEach(pod => {
         addPodTooltips(pod, tooltips, searchUrl, locale)
       })
+    }
+  }
+  if (type === 'cluster') {
+    const label = msgs.get('tooltips.console', locale)
+    const clusters = _.get(node, 'specs.clusters')
+    if (clusters) {
+      clusters.forEach(n => {
+        if (n.consoleURL) {
+          const href = n.consoleURL
+          tooltips.push({
+            name: label,
+            value: `${n.metadata.name}-console`,
+            href
+          })
+        }
+      })
+    } else {
+      const href = _.get(node, 'specs.cluster.consoleURL')
+      tooltips.push({ name: label, value: `${name}-console`, href })
     }
   }
   if (namespace) {

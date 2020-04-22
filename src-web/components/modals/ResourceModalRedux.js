@@ -12,7 +12,10 @@ import React from 'react'
 import lodash from 'lodash'
 import {
   Icon,
-  Modal,
+  ComposedModal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Loading,
   InlineNotification
 } from 'carbon-components-react'
@@ -136,62 +139,69 @@ class ResourceModal extends React.PureComponent {
         {' '}
         {/* eslint-disable-line jsx-a11y/no-noninteractive-element-interactions */}
         {reqCount && reqCount > 0 && <Loading />}
-        <Modal
+        <ComposedModal
           id={`resource-modal-${resourceType}`}
           className="modal-with-editor"
-          open={open}
-          primaryButtonText={msgs.get('modal.button.save', locale)}
-          secondaryButtonText={msgs.get('modal.button.cancel', locale)}
-          // modalLabel={msgs.get(label.label, locale)}
-          modalHeading={msgs.get(label.heading, locale)}
-          onRequestClose={this.handleClose}
-          onRequestSubmit={this.handleSubmit}
-          role="region"
           aria-label={msgs.get(label.heading, locale)}
+          open={open}
+          role="region"
+          onClose={() => false}
         >
-          {resourceDescriptionKey && (
-            <div className="yaml-instructions-edit">
-              {msgs.get(resourceDescriptionKey, this.context.locale)}
-            </div>
-          )}
-
-          {helpLink && (
-            <div className="help-link-edit">
-              <a href={helpLink} target="_blank">
-                {msgs.get('link.help.writing', this.context.locale)}
-              </a>
-
-              <a href={helpLink} target="_blank">
-                <Icon
-                  name="icon--launch"
-                  fill="#6089bf"
-                  description=""
-                  className="helpLinkIcon"
-                />
-              </a>
-            </div>
-          )}
-
-          {this.state.reqErrorMsg &&
-            this.state.reqErrorMsg.length > 0 &&
-            this.state.reqErrorMsg.map(err => (
-              <InlineNotification
-                key={`inline-notification-${err}`}
-                kind="error"
-                title=""
-                subtitle={err}
-                iconDescription={msgs.get('svg.description.error', locale)}
-              />
-            ))}
-
-          {/*{reqErrorMsg && reqErrorMsg.length > 0 && <InlineNotification key={`inline-notification-${reqErrorMsg}`} kind='error' title='' subtitle={reqErrorMsg} iconDescription={msgs.get('svg.description.error', locale)} />}*/}
-          <YamlEditor
-            //validator={validator}
-            onYamlChange={this.onChange}
-            //handleParsingError={this.handleParsingError}
-            yaml={this.state && this.state.data}
+          <ModalHeader
+            title={msgs.get(label.heading, locale)}
+            buttonOnClick={this.handleClose}
           />
-        </Modal>
+          <ModalBody>
+            {resourceDescriptionKey && (
+              <div className="yaml-instructions-edit">
+                {msgs.get(resourceDescriptionKey, this.context.locale)}
+              </div>
+            )}
+
+            {helpLink && (
+              <div className="help-link-edit">
+                <a href={helpLink} target="_blank">
+                  {msgs.get('link.help.writing', this.context.locale)}
+                </a>
+
+                <a href={helpLink} target="_blank">
+                  <Icon
+                    name="icon--launch"
+                    fill="#6089bf"
+                    description=""
+                    className="helpLinkIcon"
+                  />
+                </a>
+              </div>
+            )}
+
+            {this.state.reqErrorMsg &&
+              this.state.reqErrorMsg.length > 0 &&
+              this.state.reqErrorMsg.map(err => (
+                <InlineNotification
+                  key={`inline-notification-${err}`}
+                  kind="error"
+                  title=""
+                  subtitle={err}
+                  iconDescription={msgs.get('svg.description.error', locale)}
+                />
+              ))}
+
+            {/*{reqErrorMsg && reqErrorMsg.length > 0 && <InlineNotification key={`inline-notification-${reqErrorMsg}`} kind='error' title='' subtitle={reqErrorMsg} iconDescription={msgs.get('svg.description.error', locale)} />}*/}
+            <YamlEditor
+              //validator={validator}
+              onYamlChange={this.onChange}
+              //handleParsingError={this.handleParsingError}
+              yaml={this.state && this.state.data}
+            />
+          </ModalBody>
+          <ModalFooter
+            primaryButtonText={msgs.get('modal.button.save', locale)}
+            secondaryButtonText={msgs.get('modal.button.cancel', locale)}
+            onRequestClose={this.handleClose}
+            onRequestSubmit={this.handleSubmit}
+          />
+        </ComposedModal>
       </div>
     )
   }

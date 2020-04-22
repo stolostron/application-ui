@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -46,7 +47,7 @@ class ResourceList extends React.Component {
   }
 
   componentWillMount() {
-    const { updateSecondaryHeader, tabs, title, status } = this.props
+    const { updateSecondaryHeader, tabs, title } = this.props
     updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
@@ -56,10 +57,8 @@ class ResourceList extends React.Component {
       this.setState({ intervalId: intervalId })
     }
 
-    if (!status || status !== REQUEST_STATUS.DONE) {
-      const { fetchResources, selectedFilters = [] } = this.props
-      fetchResources(selectedFilters)
-    }
+    const { fetchResources, selectedFilters = [] } = this.props
+    fetchResources(selectedFilters)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -140,11 +139,14 @@ class ResourceList extends React.Component {
       )
     }
 
-    if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll)
+    if (status !== REQUEST_STATUS.DONE && !this.state.xhrPoll) {
       return <Loading withOverlay={false} className="content-spinner" />
+    }
 
     const actions = React.Children.map(children, action => {
-      if (action.props.disabled || !showCreate(userRole)) return null
+      if (action.props.disabled || !showCreate(userRole)) {
+        return null
+      }
       return React.cloneElement(action, { resourceType })
     })
     if (items || searchValue || clientSideFilters) {
@@ -251,9 +253,10 @@ const mapStateToProps = (state, ownProps) => {
   const pendingActions = state[typeListName].pendingActions
   const items = visibleResources.normalizedItems
   if (items && pendingActions) {
-    Object.keys(items).map(key => {
-      if (pendingActions.find(pending => pending.name === items[key].Name))
+    Object.keys(items).forEach(key => {
+      if (pendingActions.find(pending => pending.name === items[key].Name)) {
         items[key].hasPendingActions = true
+      }
     })
   }
   const userRole = state.role && state.role.role
@@ -289,7 +292,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     changeTablePage: page => dispatch(changeTablePage(page, resourceType)),
     searchTable: (search, updateURL) => {
-      if (updateURL !== false) updateBrowserURL && updateBrowserURL(search)
+      if (updateURL !== false) {
+        updateBrowserURL && updateBrowserURL(search)
+      }
       dispatch(searchTable(search, resourceType))
     },
     sortTable: (sortDirection, sortColumn) =>

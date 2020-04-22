@@ -153,7 +153,7 @@ export const getAvailableFilters = (mode, nodes, options, activeFilters, locale 
 //search filters also show related nodes, like searching on name
 export const getSearchFilter = (mode, filters={}) => {
   const ret = {filters:{}, search:undefined}
-  const searchTypes = _.get(TypeFilters, '${mode}.searchTypes', new Set())
+  const searchTypes = _.get(TypeFilters, `${mode}.searchTypes`, new Set())
   Object.entries(filters).forEach(([type, value])=>{
     if (searchTypes.has(type)) {
       if (value && value.size>0) {
@@ -425,7 +425,7 @@ const addAvailablePolicyFilters = (availableFilters, activeFilters, nodes, local
 export const filterNodes = (mode, nodes, activeFilters, availableFilters) => {
   switch (mode) {
   case 'cluster':
-    return filterClusterNodes(nodes, activeFilters, availableFilters)
+    return filterClusterNodes(nodes, activeFilters)
 
   case 'weave':
     return filterRelationshipNodes(nodes, activeFilters, availableFilters, mode)
@@ -434,7 +434,7 @@ export const filterNodes = (mode, nodes, activeFilters, availableFilters) => {
     return filterRelationshipNodes(nodes, activeFilters, availableFilters, mode)
 
   case 'policy':
-    return filterPolicyNodes(nodes, activeFilters, availableFilters)
+    return filterPolicyNodes(nodes, activeFilters)
 
   default:
     return nodes

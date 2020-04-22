@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -23,7 +24,7 @@ let LogsModal
 class ActionModalApollo extends React.PureComponent {
   getMatchedModal = ({ type, resourceType, open, data }) => {
     // remove the typename field
-    if (resourceType.name == RESOURCE_TYPES.QUERY_APPLICATIONS.name) {
+    if (resourceType.name === RESOURCE_TYPES.QUERY_APPLICATIONS.name) {
       resourceType = RESOURCE_TYPES.HCM_APPLICATIONS //use hcm app to edit, delete selection
     }
     resourceType = { name: resourceType.name, list: resourceType.list }
@@ -150,6 +151,7 @@ class ActionModalApollo extends React.PureComponent {
       <Query query={GET_ACTION_MODAL_STATE}>
         {({ data }) => {
           if (_.get(data, 'actionModal.open')) {
+            //console.log('will get', data, this.getMatchedModal(_.get(data, 'actionModal')))
             return this.getMatchedModal(_.get(data, 'actionModal'))
           } else {
             return null

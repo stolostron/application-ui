@@ -143,28 +143,14 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels,
       fetchSubscriptions,
       fetchApplications,
-      fetchApplicationsGlobalData,
-      QueryApplicationList,
-      HCMChannelList,
-      HCMSubscriptionList,
-      GlobalApplicationDataList
+      fetchApplicationsGlobalData
     } = this.props
 
-    if (
-      QueryApplicationList.status !== Actions.REQUEST_STATUS.DONE &&
-      QueryApplicationList.status !== Actions.REQUEST_STATUS.ERROR
-    ) {
-      fetchApplications()
-    }
-    if (HCMChannelList.status !== Actions.REQUEST_STATUS.DONE) {
-      fetchChannels()
-    }
-    if (HCMSubscriptionList.status !== Actions.REQUEST_STATUS.DONE) {
-      fetchSubscriptions()
-    }
-    if (GlobalApplicationDataList.status !== Actions.REQUEST_STATUS.DONE) {
-      fetchApplicationsGlobalData()
-    }
+    fetchApplications()
+    fetchChannels()
+    fetchSubscriptions()
+    fetchApplicationsGlobalData()
+
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
         this.reload.bind(this),
@@ -182,37 +168,24 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   reload() {
     const {
-      HCMSubscriptionList,
-      QueryApplicationList,
-      HCMChannelList,
       breadcrumbItems,
       fetchApplications,
       fetchApplicationsGlobalData,
       fetchSubscriptions,
-      fetchChannels,
-      AppDeployments
+      fetchChannels
     } = this.props
 
     // only reload data if there are nothing being fetched and no modals are open
-    if (
-      QueryApplicationList.status === Actions.REQUEST_STATUS.DONE &&
-      HCMSubscriptionList.status === Actions.REQUEST_STATUS.DONE &&
-      HCMChannelList.status === Actions.REQUEST_STATUS.DONE &&
-      !AppDeployments.openEditChannelModal &&
-      !AppDeployments.openEditApplicationModal &&
-      !AppDeployments.openEditSubscriptionModal &&
-      !AppDeployments.openEditPlacementRuleModal
-    ) {
-      this.setState({ xhrPoll: true })
-      const isSingleApplicationView = breadcrumbItems.length === 2
-      if (!isSingleApplicationView) {
-        // reload all the applications
-        fetchApplications()
-        fetchApplicationsGlobalData()
-        fetchSubscriptions()
-      }
-      fetchChannels()
+
+    this.setState({ xhrPoll: true })
+    const isSingleApplicationView = breadcrumbItems.length === 2
+    if (!isSingleApplicationView) {
+      // reload all the applications
+      fetchApplications()
+      fetchApplicationsGlobalData()
+      fetchSubscriptions()
     }
+    fetchChannels()
   }
 
   render() {

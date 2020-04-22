@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -41,7 +42,9 @@ export function getPrimaryKey(resourceType) {
   const def = getResourceData(resourceType)
   let pk = def.primaryKey
 
-  if (!pk) pk = 'metadata.uid'
+  if (!pk) {
+    pk = 'metadata.uid'
+  }
 
   return pk
 }
@@ -50,7 +53,9 @@ export function getSecondaryKey(resourceType) {
   const def = getResourceData(resourceType)
   let sk = def.secondaryKey
 
-  if (!sk) sk = 'cluster'
+  if (!sk) {
+    sk = 'cluster'
+  }
 
   return sk
 }
@@ -59,7 +64,9 @@ export function getURIKey(resourceType) {
   const def = getResourceData(resourceType)
   let uriKey = def.uriKey
 
-  if (!uriKey) uriKey = 'metadata.name'
+  if (!uriKey) {
+    uriKey = 'metadata.name'
+  }
 
   return uriKey
 }
@@ -67,30 +74,34 @@ export function getURIKey(resourceType) {
 export function getDefaultSearchField(resourceType) {
   var def = getResourceData(resourceType)
   let sf = def && def.defaultSearchField
-  if (!def || !def.tableKeys || (def && def.tableKeys.length < 1))
+  if (!def || !def.tableKeys || (def && def.tableKeys.length < 1)) {
     //eslint-disable-next-line no-console
     console.error(`No table keys found in ${resourceType} resource definition`)
-  if (!sf)
+  }
+  if (!sf) {
     sf =
       def && def.tableKeys && def.tableKeys[0] && def.tableKeys[0].resourceKey
+  }
   return sf
 }
 
 export function getDefaultSortField(resourceType) {
   var def = getResourceData(resourceType)
   let sf = def && def.defaultSortField
-  if (!def || !def.tableKeys || (def && def.tableKeys.length < 1))
+  if (!def || !def.tableKeys || (def && def.tableKeys.length < 1)) {
     //eslint-disable-next-line no-console
     console.error(`No table keys found in ${resourceType} resource definition`)
+  }
   if (!sf) {
     sf =
       def && def.tableKeys && def.tableKeys[0] && def.tableKeys[0].resourceKey
   }
-  if (!sf)
+  if (!sf) {
     //eslint-disable-next-line no-console
     console.error(
       `No sortable fields defined for '${resourceType}' resource definition`
     )
+  }
   return sf
 }
 

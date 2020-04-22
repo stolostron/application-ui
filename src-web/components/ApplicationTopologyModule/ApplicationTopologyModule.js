@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -175,7 +175,9 @@ class ApplicationTopologyModule extends React.Component {
 
   stopPolling() {
     const { intervalId } = this.state
-    if (intervalId) clearInterval(intervalId)
+    if (intervalId) {
+      clearInterval(intervalId)
+    }
     this.setState({ intervalId: undefined })
   }
 
@@ -533,6 +535,7 @@ class ApplicationTopologyModule extends React.Component {
             setContainerEditor={this.setContainerEditor}
             setEditor={this.setEditor}
             wrapEnabled={true}
+            readOnly={true}
             theme={'vibrant_ink'}
             onYamlChange={this.handleEditorChange}
             yaml={currentYaml}
@@ -624,7 +627,7 @@ class ApplicationTopologyModule extends React.Component {
           list: resourceType.list
         },
         data: {
-          __typename: 'ModalData',
+          __typename: 'ActionModalData',
           name,
           namespace,
           clusterName,
@@ -648,6 +651,7 @@ class ApplicationTopologyModule extends React.Component {
   // select text editor line associated with selected node/link
   selectTextLine(node) {
     if (this.editor) {
+      this.editor.clearSelection()
       node = node || this.selectedNode
       if (node) {
         const row = _.get(node, 'specs.row', 0)
@@ -671,7 +675,7 @@ class ApplicationTopologyModule extends React.Component {
     this.editor.setAnimatedScroll(true)
     this.editor.scrollToLine(line, true)
     this.editor.selection.moveCursorToPosition({ row: line, column: 0 })
-    this.editor.selection.selectLine()
+    this.editor.selection.selectLineEnd()
   }
 
   // text editor commands
@@ -679,26 +683,21 @@ class ApplicationTopologyModule extends React.Component {
     switch (command) {
     case 'next':
     case 'previous':
-      if (this.selectionIndex !== -1) {
-        if (this.selectionRanges.length > 1) {
-          switch (command) {
-          case 'next':
-            this.selectionIndex++
-            if (this.selectionIndex >= this.selectionRanges.length) {
-              this.selectionIndex = 0
-            }
-            break
-          case 'previous':
-            this.selectionIndex--
-            if (this.selectionIndex < 0) {
-              this.selectionIndex = this.selectionRanges.length - 1
-            }
-            break
+      if (this.selectionIndex !== -1 && this.selectionRanges.length > 1) {
+        if (command === 'next') {
+          this.selectionIndex++
+          if (this.selectionIndex >= this.selectionRanges.length) {
+            this.selectionIndex = 0
           }
-          const range = this.selectionRanges[this.selectionIndex]
-          this.editor.selection.setRange(range, true)
-          this.editor.scrollToLine(range.start.row, true)
+        } else if (command === 'previous') {
+          this.selectionIndex--
+          if (this.selectionIndex < 0) {
+            this.selectionIndex = this.selectionRanges.length - 1
+          }
         }
+        const range = this.selectionRanges[this.selectionIndex]
+        this.editor.selection.setRange(range, true)
+        this.editor.scrollToLine(range.start.row, true)
       }
       break
     case 'undo':

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -71,49 +72,5 @@ export const UPDATE_ACTION_MODAL = gql`
       resourceType: $resourceType
       data: $data
     ) @client
-  }
-`
-
-export const UPDATE_QUERY_TABS = gql`
-  mutation UpdateQueryTabs(
-    $__typename: String
-    $unsavedCount: Int
-    $openedTabName: String
-    $openedTabId: String
-    $data: JSON
-    $tabs: [JSON]
-  ) {
-    updateQueryTabs(
-      __typename: $__typename
-      unsavedCount: $unsavedCount
-      openedTabName: $openedTabName
-      openedTabId: $openedTabId
-      data: $data
-      tabs: $tabs
-    ) @client
-  }
-`
-
-export const UPDATE_SINGLE_QUERY_TAB = gql`
-  mutation UpdateSingleQueryTab(
-    $openedTabName: String
-    $openedTabId: String
-    $description: String
-    $searchText: String
-    $updateUnsavedOrExisting: Boolean
-  ) {
-    updateSingleQueryTab(
-      openedTabName: $openedTabName
-      openedTabId: $openedTabId
-      description: $description
-      searchText: $searchText
-      updateUnsavedOrExisting: $updateUnsavedOrExisting
-    ) @client
-  }
-`
-
-export const REMOVE_SINGLE_QUERY_TAB = gql`
-  mutation RemoveSingleQueryTab($id: String) {
-    removeSingleQueryTab(id: $id) @client
   }
 `

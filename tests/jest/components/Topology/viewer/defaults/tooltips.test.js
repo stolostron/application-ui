@@ -258,6 +258,182 @@ describe("getNodeTooltips rules", () => {
   });
 });
 
+describe("getNodeTooltips helmrelease", () => {
+  const clusterNode = {
+    name: "nginx-ingress",
+    namspace: "",
+    type: "helmrelease"
+  };
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:helmrelease nginx-ingress"}',
+      name: "Helmrelease",
+      value: "nginx-ingress"
+    }
+  ];
+
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe("getNodeTooltips cluster with pods", () => {
+  const clusterNode = {
+    name: "foonode",
+    namspace: "foo",
+    type: "cluster",
+    layout: {
+      hasPods: true,
+      pods: [
+        {
+          name: "testPod"
+        }
+      ]
+    },
+    specs: {
+      cluster: {
+        consoleURL: "https://localhost"
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+      name: "Cluster",
+      value: "foonode"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:deployment name:testPod"}&showrelated=pod',
+      name: "Pod",
+      value: "testPod"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "foonode-console"
+    }
+  ];
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe("getNodeTooltips cluster", () => {
+  const clusterNode = {
+    name: "foonode",
+    namspace: "foo",
+    type: "cluster",
+    specs: {
+      cluster: {
+        consoleURL: "https://localhost"
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+      name: "Cluster",
+      value: "foonode"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "foonode-console"
+    }
+  ];
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe("getNodeTooltips clusterList", () => {
+  const clusterNode = {
+    name: "foonode, foonode2, foonode3",
+    namspace: "foo",
+    type: "cluster",
+    specs: {
+      cluster: {
+        consoleURL: "https://localhost"
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode,foonode2,foonode3"}',
+      name: "Cluster",
+      value: "foonode, foonode2, foonode3"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "foonode, foonode2, foonode3-console"
+    }
+  ];
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe("getNodeTooltips clusters", () => {
+  const clusterNode = {
+    name: "foonode",
+    namspace: "foo",
+    type: "cluster",
+    specs: {
+      clusters: [
+        {
+          metadata: {
+            name: "ocpcluster1"
+          },
+          consoleURL: "https://localhost"
+        },
+        {
+          metadata: {
+            name: "ekscluster2"
+          },
+          consoleip: "111.11.11.11"
+        }
+      ]
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+      name: "Cluster",
+      value: "foonode"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "ocpcluster1-console"
+    }
+  ];
+
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
 describe("getNodeTooltips default", () => {
   const defaultNode = {
     name: "defaultnode",
@@ -274,6 +450,21 @@ describe("getNodeTooltips default", () => {
     }
   ];
   it("should get default node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, defaultNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe("getNodeTooltips package", () => {
+  const defaultNode = {
+    name: "defaultnode",
+    namspace: "defaultnode",
+    type: "package"
+  };
+
+  const expectedResult = [];
+  it("should get nothing", () => {
     expect(getNodeTooltips(searchUrl, defaultNode, locale)).toEqual(
       expectedResult
     );

@@ -22,6 +22,8 @@ COMPONENT_INIT_COMMAND ?= ${COMPONENT_SCRIPTS_PATH}/install-dependencies.sh
 COMPONENT_BUILD_COMMAND ?= ${COMPONENT_SCRIPTS_PATH}/build.sh
 # The command to run to execute unit tests
 COMPONENT_UNIT_TEST_COMMAND ?= ${COMPONENT_SCRIPTS_PATH}/run-unit-tests.sh
+# The command to run to execute functional tests
+COMPONENT_FUNCTIONAL_TEST_COMMAND ?= ${COMPONENT_SCRIPTS_PATH}/run-functional-tests.sh
 # The command to run to execute e2e tests
 COMPONENT_E2E_TEST_COMMAND ?= ${COMPONENT_SCRIPTS_PATH}/run-e2e-tests.sh
 # The command to run to deploy the newly built component
@@ -53,6 +55,14 @@ component/test/unit: %test/unit:
 	${COMPONENT_UNIT_TEST_COMMAND} ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION}
 	@echo "Run Unit Tests on the following image: ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION}"
 
+.PHONY: component/test/functional
+## Execute component's functional tests
+component/test/functional: %test/functional:
+	$(call assert-set,COMPONENT_NAME)
+	$(call assert-set,COMPONENT_VERSION)
+	@echo component/test/functional
+	${COMPONENT_FUNCTIONAL_TEST_COMMAND} ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION}
+	@echo "Run FUNCTIONAL Tests on the following image: ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION}"
 
 .PHONY: component/test/e2e
 ## Execute component's e2e tests
@@ -85,6 +95,18 @@ component/push: %push:
 	$(DOCKER) login ${COMPONENT_DOCKER_REPO} -u ${DOCKER_USER} -p ${DOCKER_PASS}
 	$(DOCKER) push ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION}
 	@echo "Pushed the following image: ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION}"
+
+.PHONY: component/tag
+## Tag the component into COMPONENT_NEWTAG
+component/tag: %tag:
+	$(call assert-set,DOCKER_USER)
+	$(call assert-set,DOCKER_PASS)
+	$(call assert-set,COMPONENT_NAME)
+	$(call assert-set,COMPONENT_VERSION)
+	$(call assert-set,COMPONENT_NEWTAG)
+	$(DOCKER) login ${COMPONENT_DOCKER_REPO} -u ${DOCKER_USER} -p ${DOCKER_PASS}
+	$(DOCKER) tag ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION} ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_NEWTAG}
+	@echo "Tagged the following image: ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_VERSION}${COMPONENT_TAG_EXTENSION} as ${COMPONENT_DOCKER_REPO}/${COMPONENT_NAME}:${COMPONENT_NEWTAG}"
 
 .PHONY: component/pull
 ## pull the component from COMPONENT_DOCKER_REPO

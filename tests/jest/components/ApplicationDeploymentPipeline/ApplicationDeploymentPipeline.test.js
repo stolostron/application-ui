@@ -393,6 +393,16 @@ describe("ApplicationDeploymentPipeline", () => {
       .find(".yamlEditSubContainer")
       .at(0)
       .simulate("click");
+
+    wrapper
+      .find(".bx--link")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find("#headerAppLink")
+      .at(0)
+      .simulate("click");
   });
 
   it("ApplicationDeploymentPipeline renders correctly with data on all apps.", () => {

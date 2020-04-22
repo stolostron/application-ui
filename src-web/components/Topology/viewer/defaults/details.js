@@ -20,7 +20,7 @@ export const getNodeDetails = node => {
     switch (type) {
     case 'cluster':
       {
-        const { cluster = {}, violations = [], clusters = [] } = specs
+        const { cluster, violations = [], clusters = [] } = specs
         const clusterArr = cluster ? [cluster] : clusters
         clusterArr.forEach(c => {
           const {

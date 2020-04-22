@@ -91,7 +91,24 @@ describe("hcmapplicationdiagram-tests", () => {
 
   // following function have no return as it is meant to be called in getDiagramElements as a helper function
   it("addDiagramDetails", () => {
-    const pods = [{ name: "p1-abc" }, { name: "p2-def" }];
+    const pods = [
+      {
+        name: "p1-abc",
+        cluster: {
+          metadata: {
+            name: "cluster1"
+          }
+        }
+      },
+      {
+        name: "p2-def",
+        cluster: {
+          metadata: {
+            name: "cluster2"
+          }
+        }
+      }
+    ];
     const topology = {
       detailsLoaded: true,
       status: "IN_PROGRESS",
@@ -108,7 +125,24 @@ describe("hcmapplicationdiagram-tests", () => {
   });
 
   it("addDiagramDetails2", () => {
-    const pods = [{ name: "p1" }, { name: "p2" }];
+    const pods = [
+      {
+        name: "p1",
+        cluster: {
+          metadata: {
+            name: "cluster1"
+          }
+        }
+      },
+      {
+        name: "p2",
+        cluster: {
+          metadata: {
+            name: "cluster2"
+          }
+        }
+      }
+    ];
     const topology = {
       detailsLoaded: true,
       status: "IN_PROGRESS",

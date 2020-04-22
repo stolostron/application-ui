@@ -50,6 +50,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
       aria-disabled={false}
       className="bx--link"
       href="#"
+      id="headerAppLink"
       onClick={[Function]}
     >
       <svg

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -238,8 +239,12 @@ const positionRowsDown = (
             let kindb = kindOrder.indexOf(
               _.get(b, 'specs.raw.spec.template.kind', 'other').toLowerCase()
             )
-            if (kinda < 0) kinda = 10
-            if (kindb < 0) kindb = 10
+            if (kinda < 0) {
+              kinda = 10
+            }
+            if (kindb < 0) {
+              kindb = 10
+            }
             return kinda - kindb
           }
           return 0

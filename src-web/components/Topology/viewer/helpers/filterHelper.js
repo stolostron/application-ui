@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
@@ -226,24 +226,30 @@ export default class FilterHelper {
           if (Object.keys(matchingMap).length > 0) {
             // mark srcs and tgts that have a path between them as matches
             for (const id in matchingMap) {
-              const { node: { layout } } = matchingMap[id].data()
-              layout.search = FilterResults.match
-              delete relatedMap[id]
-              delete elementMap[id]
+              if (matchingMap.hasOwnProperty(id)) {
+                const { node: { layout } } = matchingMap[id].data()
+                layout.search = FilterResults.match
+                delete relatedMap[id]
+                delete elementMap[id]
+              }
             }
 
             // mark elements between matched srcs and tgts as related
             for (const id in relatedMap) {
-              const element = relatedMap[id]
-              const data = element.data()
-              let layout
-              if (element.isNode()) {
-                ({ layout } = data.node)
-              } else {
-                ({ layout } = data.edge)
+              if (relatedMap.hasOwnProperty(id)) {
+                const element = relatedMap[id]
+                const data = element.data()
+                let layout
+                if (data) {
+                  if (element.isNode()) {
+                    ({ layout } = data.node)
+                  } else {
+                    ({ layout } = data.edge)
+                  }
+                  layout.search = FilterResults.match // FilterResults.related
+                  delete elementMap[id]
+                }
               }
-              layout.search = FilterResults.match // FilterResults.related
-              delete elementMap[id]
             }
           }
         }

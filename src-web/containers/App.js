@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -59,8 +60,12 @@ class App extends React.Component {
   }
 
   getServerProps() {
-    if (client && this.serverProps) return this.serverProps
-    if (this.props.serverProps) return this.props.serverProps
+    if (client && this.serverProps) {
+      return this.serverProps
+    }
+    if (this.props.serverProps) {
+      return this.props.serverProps
+    }
     return this.props.staticContext
   }
 

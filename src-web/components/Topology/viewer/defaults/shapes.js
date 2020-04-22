@@ -30,81 +30,81 @@ export const defaultShapes = Object.freeze({
     shape: 'cluster',
     className: 'container'
   },
-  'helmrelease': {
+  helmrelease: {
     shape: 'chart',
     className: 'container'
   },
-  'package': {
+  package: {
     shape: 'chart',
     className: 'container'
   },
-  'internet': {
+  internet: {
     shape: 'cloud',
     className: 'internet'
   },
-  'host': {
+  host: {
     shape: 'host',
     className: 'host'
   },
-  'policy': {
+  policy: {
     shape: 'roundedSq',
     className: 'design',
     nodeRadius: 30
   },
-  'placement': {
+  placement: {
     shape: 'placement',
     className: 'design'
   },
-  'cluster': {
+  cluster: {
     shape: 'cluster',
     className: 'container'
   },
-  'service': {
+  service: {
     shape: 'service',
     className: 'service'
   },
-  'deployment': {
+  deployment: {
     shape: 'deployment',
     className: 'deployment'
   },
-  'daemonset': {
-    shape: 'star4',
+  daemonset: {
+    shape: 'daemonset',
     className: 'daemonset'
   },
-  'statefulset': {
-    shape: 'cylinder',
-    className: 'statefulset'
+  statefulset: {
+    shape: 'circle',
+    className: 'default'
   },
-  'pod': {
+  pod: {
     shape: 'pod',
     className: 'pod'
   },
-  'container': {
+  container: {
     shape: 'irregularHexagon',
     className: 'container'
   },
-  'cronjob': {
+  cronjob: {
     shape: 'clock',
     className: 'default'
   },
-  'spare1': {
+  spare1: {
     shape: 'star4',
     className: 'daemonset'
   },
-  'spare2': {
+  spare2: {
     shape: 'roundedSq',
     className: 'daemonset'
   },
-  'spare3': {
+  spare3: {
     shape: 'hexagon',
     className: 'daemonset'
   },
-  'spare4': {
+  spare4: {
     shape: 'irregularHexagon',
     className: 'daemonset'
   },
-  'spare5': {
+  spare5: {
     shape: 'roundedRect',
     className: 'daemonset'
-  },
+  }
 })

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -44,7 +45,9 @@ class IsomorphicEditor extends React.Component {
                 return text
               })
               .join('; ')
-            if (reason.length > 200) reason = reason.substr(0, 200) + '...'
+            if (reason.length > 200) {
+              reason = `${reason.substr(0, 200)}...`
+            }
             handleParsingError(exceptions.length > 0 ? { reason } : null)
           })
         }

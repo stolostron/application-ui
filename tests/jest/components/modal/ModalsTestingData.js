@@ -1,6 +1,7 @@
 /** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -2091,19 +2092,19 @@ export const resourceType = {
 };
 
 export const resourceModalLabelsDummy = {
-  pprimaryBtn: "modal.remove-hcmpolicy.heading",
+  primaryBtn: "modal.remove-hcmpolicy.heading",
   label: "modal.remove-hcmpolicy.label",
   heading: "modal.remove-hcmpolicy.heading"
 };
 
 export const resourceModalLabels = {
-  pprimaryBtn: "modal.remove-hcmapplication.heading",
+  primaryBtn: "modal.remove-hcmapplication.heading",
   label: "modal.remove-hcmapplication.label",
   heading: "modal.remove-hcmapplication.heading"
 };
 
 export const resourceModalReduxLabels = {
-  pprimaryBtn: "modal.edit-hcmapplication.heading",
+  primaryBtn: "modal.edit-hcmapplication.heading",
   label: "modal.edit-hcmapplication.label",
   heading: "modal.edit-hcmapplication.heading"
 };
@@ -2145,6 +2146,12 @@ export const availableFilters = {
 export const resourceModalData = {
   kind: "HCMApplication",
   _uid: "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+  metadata: {
+    name: "samplebook-gbap",
+    namespace: "sample",
+    selfLink:
+      "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap"
+  },
   selfLink:
     "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
   name: "samplebook-gbap",

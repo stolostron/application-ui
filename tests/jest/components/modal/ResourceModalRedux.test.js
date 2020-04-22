@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -21,7 +22,7 @@ import {
 import toJson from "enzyme-to-json";
 import { BrowserRouter } from "react-router-dom";
 
-describe("ResourceModal test", () => {
+describe("ResourceModalRedux test", () => {
   const handleModalClose = jest.fn();
   const handleModalSubmit = jest.fn();
   const resourceType = { name: "HCMApplication", list: "HCMApplicationList" };
@@ -53,5 +54,32 @@ describe("ResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("keydown");
+    component
+      .find(".modal-with-editor")
+      .at(0)
+      .simulate("close");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--primary")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--btn--secondary")
+      .at(0)
+      .simulate("click");
   });
 });

@@ -1,12 +1,144 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getSearchClient: jest.fn(() => {
+    return null;
+  }),
+  get: jest.fn(resourceType => {
+    const testData = {
+      data: {
+        globalAppData: {
+          clusterCount: 1
+        }
+      }
+    };
 
+    if (resourceType.list === "ApplicationsList") {
+      return Promise.resolve(undefined);
+    }
+
+    return Promise.resolve(testData);
+  }),
+  search: jest.fn((searchQuery, searchInput) => {
+    const searchType = searchInput.input[0].filters[0].values[0];
+
+    if (searchType === "channel") {
+      const channelData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "channel",
+                  name: "mortgage-channel",
+                  namespace: "mortgage-ch",
+                  _hubClusterResource: "true"
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(channelData);
+    }
+
+    if (searchType === "subscription") {
+      const subscriptionData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+
+      return Promise.resolve(subscriptionData);
+    }
+
+    return Promise.resolve({ response: "invalid resonse" });
+  }),
+  getResource: jest.fn((resourceType, { namespace }) => {
+    if (resourceType === "channel") {
+      const channelData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "channel",
+                  name: "mortgage-channel",
+                  namespace: "mortgage-ch",
+                  _hubClusterResource: "true"
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(channelData);
+    }
+
+    if (resourceType === "subscription") {
+      const subscriptionData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(subscriptionData);
+    }
+
+    return Promise.resolve({ response: "invalid resonse" });
+  })
+}));
 const React = require("../../../../node_modules/react");
 
 import ApplicationDeploymentPipeline from "../../../../src-web/components/ApplicationDeploymentPipeline";
@@ -32,7 +164,8 @@ import {
   prObjectForEdit
 } from "../TestingData";
 
-const mockStore = configureMockStore();
+const middleware = [thunkMiddleware];
+const mockStore = configureMockStore(middleware);
 const storeApp = mockStore(reduxStoreAppPipeline);
 const storeAllApps = mockStore(reduxStoreAllAppsPipeline);
 const storeAllAppsNoChannels = mockStore(reduxStoreAllAppsPipelineNoChannels);
@@ -54,7 +187,32 @@ describe("ApplicationDeploymentPipeline", () => {
       .find(".bx--btn--primary")
       .find({ id: "Channel" })
       .simulate("click");
+
+    wrapper
+      .find(".bx--btn--primary")
+      .find({ id: "Subscription" })
+      .simulate("click");
+
+    wrapper
+      .find(".bx--btn--primary")
+      .find({ id: "Placement Rule" })
+      .simulate("click");
+
+    wrapper.find(".bx--search-input").simulate("change");
+
+    wrapper.find(".bx--search-close").simulate("change");
+
+    wrapper
+      .find(".applicationTile")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".channelColumnDeployable")
+      .at(0)
+      .simulate("click");
   });
+
   it("ApplicationDeploymentPipeline renders spinner.", () => {
     const preloadedState = window.__PRELOADED_STATE__;
     const composeEnhancers =
@@ -174,6 +332,17 @@ describe("ApplicationDeploymentPipeline", () => {
   });
 
   it("ApplicationDeploymentPipeline renders correctly with data on all apps.", () => {
+    const tree = renderer
+      .create(
+        <Provider store={storeAllApps}>
+          <ApplicationDeploymentPipeline serverProps={serverProps} />
+        </Provider>
+      )
+      .toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationDeploymentPipeline renders correctly with data on all apps; call this again to allow more coverage on fecth calls.", () => {
     const tree = renderer
       .create(
         <Provider store={storeAllApps}>

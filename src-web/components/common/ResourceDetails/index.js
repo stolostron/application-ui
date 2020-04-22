@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -92,7 +93,9 @@ const withResource = Component => {
       }
 
       componentWillMount() {
-        if (this.props.showCEMAction) this.props.clearIncidents()
+        if (this.props.showCEMAction) {
+          this.props.clearIncidents()
+        }
         if (parseInt(config['featureFlags:liveUpdates']) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),
@@ -128,10 +131,11 @@ const withResource = Component => {
           showError = undefined
         }
         this.setState({ xhrPoll: true, retry, showError })
-        if (status !== Actions.REQUEST_STATUS.DONE) this.props.fetchResource()
-        const { params } = this.props
+        if (status !== Actions.REQUEST_STATUS.DONE) {
+          this.props.fetchResource()
+        }
         const { showCEMAction } = this.props
-        if (params && params.namespace && params.name && showCEMAction) {
+        if (showCEMAction) {
           this.props.fetchIncidents()
         }
       }
@@ -204,11 +208,11 @@ class ResourceDetails extends React.Component {
   }
 
   componentDidMount() {
-    const { match } = this.props
-    const params = match && match.params
+    const { params } = this.props
     if (params && params.namespace) {
-      if (this.props.showICAMAction && this.props.showICAMAction == true)
+      if (this.props.showICAMAction && this.props.showICAMAction === true) {
         this.props.fetchNamespace(params.namespace)
+      }
     }
   }
 
@@ -343,6 +347,7 @@ ResourceDetails.propTypes = {
   location: PropTypes.object,
   match: PropTypes.object,
   namespaceAccountId: PropTypes.string,
+  params: PropTypes.object,
   resourceType: PropTypes.object,
   routes: PropTypes.array,
   selectedNodeId: PropTypes.string,
@@ -373,9 +378,11 @@ const mapStateToProps = (state, ownProps) => {
 
   const items = visibleResources.normalizedItems
   let params = {}
-  if (ownProps.params) params = ownProps.params
-  else params = (ownProps.match && ownProps.match.params) || {}
-
+  if (ownProps.params) {
+    params = ownProps.params
+  } else {
+    params = (ownProps.match && ownProps.match.params) || {}
+  }
   const item_key =
     (params &&
       params.name &&
@@ -394,7 +401,8 @@ const mapStateToProps = (state, ownProps) => {
     selectedNodeId: AppOverview.selectedNodeId,
     showExpandedTopology: AppOverview.showExpandedTopology,
     showICAMAction: AppOverview.showICAMAction,
-    showGrafanaAction: AppOverview.showGrafanaAction
+    showGrafanaAction: AppOverview.showGrafanaAction,
+    params: params
   }
 }
 

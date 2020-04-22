@@ -17,7 +17,10 @@ import {
   Icon,
   InlineNotification,
   Loading,
-  Modal,
+  ComposedModal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
   Tabs,
   Tab
 } from 'carbon-components-react'
@@ -140,119 +143,134 @@ class CreateResourceModal extends React.PureComponent {
           {msgs.get(this.props.resourceTypeName, this.context.locale)}
         </Button>
         {this.state.modalOpen && (
-          <Modal
+          <ComposedModal
             className="modal-with-editor"
             open={this.state.modalOpen}
-            modalHeading={msgs.get(
-              this.props.headingTextKey,
-              this.context.locale
-            )}
-            primaryButtonText={msgs.get(
-              'modal.button.save',
-              this.context.locale
-            )}
-            primaryButtonDisabled={this.isSubmitDisabled()}
-            secondaryButtonText={msgs.get(
-              'actions.cancel',
-              this.context.locale
-            )}
-            onRequestSubmit={this.handleModalSubmit}
-            onRequestClose={this.handleModalCancel}
+            role="region"
+            onClose={() => false}
           >
-            <div className="bx--modal-content-desc">
-              <div className="yaml-instructions">
-                {msgs.get(
-                  this.props.resourceDescriptionKey,
-                  this.context.locale
+            <ModalHeader
+              title={msgs.get(this.props.headingTextKey, this.context.locale)}
+              buttonOnClick={this.handleModalCancel}
+            />
+            <ModalBody>
+              <div className="bx--modal-content-desc">
+                <div className="yaml-instructions">
+                  {msgs.get(
+                    this.props.resourceDescriptionKey,
+                    this.context.locale
+                  )}
+                </div>
+
+                {this.props.helpLink && (
+                  <div className="help-link">
+                    <a href={this.props.helpLink} target="_blank">
+                      {msgs.get('link.help.writing', this.context.locale)}
+                    </a>
+
+                    <a href={this.props.helpLink} target="_blank">
+                      <Icon
+                        name="icon--launch"
+                        fill="#6089bf"
+                        description=""
+                        className="helpLinkIcon"
+                      />
+                    </a>
+                  </div>
                 )}
               </div>
-
-              {this.props.helpLink && (
-                <div className="help-link">
-                  <a href={this.props.helpLink} target="_blank">
-                    {msgs.get('link.help.writing', this.context.locale)}
-                  </a>
-
-                  <a href={this.props.helpLink} target="_blank">
-                    <Icon
-                      name="icon--launch"
-                      fill="#6089bf"
-                      description=""
-                      className="helpLinkIcon"
-                    />
-                  </a>
-                </div>
+              {this.state.dirty &&
+                this.state.yamlParsingError && (
+                  <InlineNotification
+                    kind="error"
+                    title={msgs.get('error.parse', this.context.locale)}
+                    iconDescription=""
+                    subtitle={msgs.get(
+                      'error.parse.reason',
+                      this.context.locale
+                    )}
+                    onCloseButtonClick={this.handleNotificationClosed}
+                  />
               )}
-            </div>
-            {this.state.dirty &&
-              this.state.yamlParsingError && (
-              <InlineNotification
-                kind="error"
-                title={msgs.get('error.parse', this.context.locale)}
-                iconDescription=""
-                subtitle={msgs.get('error.parse.reason', this.context.locale)}
-                onCloseButtonClick={this.handleNotificationClosed}
-              />
-            )}
-            {(this.state.createError || errorMsg) && (
-              <InlineNotification
-                kind="error"
-                title={msgs.get('error.create', this.context.locale)}
-                iconDescription=""
-                // show default msg if errorMsg is not set
-                subtitle={
-                  errorMsg ||
-                  msgs.get('error.create.reason', this.context.locale)
-                }
-                onCloseButtonClick={this.handleNotificationClosed}
-              />
-            )}
-            {this.props.sampleTabs ? (
-              <div className="yamlSampleTabsContainer">
-                <Tabs
-                  className={
-                    !this.state.dirty
-                      ? 'yamlSampleTabs'
-                      : 'yamlSampleTabs hidden'
+              {(this.state.createError || errorMsg) && (
+                <InlineNotification
+                  kind="error"
+                  title={msgs.get('error.create', this.context.locale)}
+                  iconDescription=""
+                  // show default msg if errorMsg is not set
+                  subtitle={
+                    errorMsg ||
+                    msgs.get('error.create.reason', this.context.locale)
                   }
-                >
-                  {Object.keys(tabs).map((key, i) => {
-                    return (
-                      <Tab
-                        onClick={() => {
-                          this.setState({ sample: tabsSampleContent[i] })
-                        }}
-                        onKeyDown={() => {}}
-                        key={tabs[key]}
-                        label={tabs[key]}
-                      />
-                    )
-                  })}
-                </Tabs>
+                  onCloseButtonClick={this.handleNotificationClosed}
+                />
+              )}
+              {this.props.sampleTabs ? (
+                <div className="yamlSampleTabsContainer">
+                  <Tabs
+                    className={
+                      !this.state.dirty
+                        ? 'yamlSampleTabs'
+                        : 'yamlSampleTabs hidden'
+                    }
+                  >
+                    {Object.keys(tabs).map((key, i) => {
+                      return (
+                        <Tab
+                          onClick={() => {
+                            this.setState({ sample: tabsSampleContent[i] })
+                          }}
+                          onKeyDown={() => {}}
+                          key={tabs[key]}
+                          label={tabs[key]}
+                        />
+                      )
+                    })}
+                  </Tabs>
+                  <YamlEditor
+                    validator={validator}
+                    onYamlChange={tabsHandleEditorChange}
+                    handleParsingError={tabsHandleParsingError}
+                    yaml={
+                      this.state.dirty
+                        ? tabsYaml
+                        : this.state.sample
+                          ? this.state.sample
+                          : tabsSampleContent[0]
+                    }
+                  />
+                </div>
+              ) : (
                 <YamlEditor
                   validator={validator}
                   onYamlChange={tabsHandleEditorChange}
-                  handleParsingError={tabsHandleParsingError}
+                  handleParsingError={this.handleParsingError}
                   yaml={
-                    this.state.dirty
-                      ? tabsYaml
-                      : this.state.sample
-                        ? this.state.sample
-                        : tabsSampleContent[0]
+                    this.state.dirty ? this.state.yaml : tabsSampleContent[0]
                   }
                 />
+              )}
+              {this.state.processing && <Loading />}
+            </ModalBody>
+            <ModalFooter>
+              <div id="modalFotterBtnDiv">
+                <Button
+                  className="bx--btn--secondary"
+                  type="button"
+                  onClick={this.handleModalCancel}
+                >
+                  {msgs.get('actions.cancel', this.context.locale)}
+                </Button>
+                <Button
+                  type="button"
+                  disabled={this.isSubmitDisabled()}
+                  onClick={this.handleModalSubmit}
+                >
+                  {msgs.get('modal.button.save', this.context.locale)}
+                </Button>
               </div>
-            ) : (
-              <YamlEditor
-                validator={validator}
-                onYamlChange={tabsHandleEditorChange}
-                handleParsingError={this.handleParsingError}
-                yaml={this.state.dirty ? this.state.yaml : tabsSampleContent[0]}
-              />
-            )}
-
-            {this.state.processing && <Loading />}
-          </Modal>
+            </ModalFooter>
+          </ComposedModal>
         )}
       </div>
     )

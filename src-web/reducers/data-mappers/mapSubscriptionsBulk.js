@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -26,7 +27,7 @@ export const mapBulkSubscriptions = subscriptions => {
         //filter out and return only hub subscriptions
         const isHubSubscr = item =>
           !item._hostingSubscription &&
-          (!item.status || (item.status && item.status != 'Subscribed'))
+          (!item.status || (item.status && item.status !== 'Subscribed'))
         const hubSubscriptions = R.filter(isHubSubscr, subscription.items)
 
         if (

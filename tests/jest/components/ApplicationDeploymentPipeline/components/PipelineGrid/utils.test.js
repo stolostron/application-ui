@@ -2,13 +2,36 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import { getStandaloneSubscriptions } from "../../../../../../src-web/components/ApplicationDeploymentPipeline/components/PipelineGrid/utils";
+import {
+  getStandaloneSubscriptions,
+  getDataByKind,
+  determineStatus
+} from "../../../../../../src-web/components/ApplicationDeploymentPipeline/components/PipelineGrid/utils";
 
 import {
-  subscriptions,
   resultSubscriptionsWithChannel,
   resultNoApps
 } from "../../../../components/ReducersTestingData";
+
+describe("getDataByKind", () => {
+  // basic test cases
+
+  it("subscriptions empty", () => {
+    expect(getDataByKind(undefined, "")).toEqual({});
+  });
+});
+
+describe("determineStatus", () => {
+  it("subscriptions empty", () => {
+    expect(determineStatus([0, 0, 0, 0, 0], "some other value")).toEqual([
+      0,
+      0,
+      0,
+      0,
+      1
+    ]);
+  });
+});
 
 // filter out subscriptions that have an app
 describe("getStandaloneSubscriptions", () => {

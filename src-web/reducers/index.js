@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -37,7 +38,9 @@ export { AppDeployments } from './reducerAppDeployments'
 export { AppOverview } from './reducerAppOverview'
 
 function predicate(resourceType, action) {
-  if (lodash.isEqual(resourceType, action.resourceType)) return true
+  if (lodash.isEqual(resourceType, action.resourceType)) {
+    return true
+  }
   return lodash.find(lodash.values(resourceType), type => {
     if (typeof type === 'string') {
       return type.indexOf(action.resourceType) > -1

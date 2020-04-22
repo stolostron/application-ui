@@ -1,12 +1,92 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
 "use strict";
+jest.mock("../../../../lib/client/access-helper", () => ({
+  canCallAction: jest.fn(() => {
+    const data = {
+      data: {
+        userAccess: {
+          allowed: true
+        }
+      }
+    };
+    return Promise.resolve(data);
+  })
+}));
+
+jest.mock("../../../../lib/client/apollo-client", () => ({
+  getClient: jest.fn(() => {
+    return null;
+  }),
+  remove: jest.fn(() => {
+    const data = {
+      userAccess: {
+        allowed: true
+      }
+    };
+    return Promise.resolve(data);
+  }),
+  getUserAccess: jest.fn(() => {
+    const data = {
+      userAccess: {
+        allowed: true
+      }
+    };
+    return Promise.resolve(data);
+  }),
+  getResource: jest.fn(() => {
+    const data = {
+      data: {
+        items: [
+          {
+            metadata: {
+              creationTimestamp: "2020-04-06T22:27:05Z",
+              generation: 2,
+              name: "guestbook-app",
+              namespace: "default",
+              resourceVersion: "840144",
+              selfLink:
+                "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+              uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+            },
+            deployables: [
+              {
+                metadata: {
+                  name: "dep1",
+                  selfLink: "dep1SelfLink",
+                  id: "id"
+                }
+              }
+            ],
+            raw: {
+              apiVersion: "app.k8s.io/v1beta1",
+              kind: "Application",
+              metadata: {
+                creationTimestamp: "2020-04-06T22:27:05Z",
+                generation: 2,
+                name: "guestbook-app",
+                namespace: "default",
+                resourceVersion: "840144",
+                selfLink:
+                  "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
+                uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
+              }
+            }
+          }
+        ]
+      }
+    };
+
+    return Promise.resolve(data);
+  })
+}));
 
 import React from "react";
 import RemoveResourceModal from "../../../../src-web/components/modals/RemoveResourceModal";
@@ -37,7 +117,7 @@ describe("RemoveResourceModal test", () => {
     composeEnhancers(applyMiddleware(...middleware))
   );
 
-  it("renders as expected 1", () => {
+  it("renders as expected with mocked apollo client data", () => {
     const component = mount(
       <BrowserRouter>
         <RemoveResourceModal
@@ -55,6 +135,30 @@ describe("RemoveResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--tertiary")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--danger--primary")
+      .at(0)
+      .simulate("click");
   });
 
   it("renders as expected 2", () => {
@@ -75,6 +179,30 @@ describe("RemoveResourceModal test", () => {
     expect(toJson(component.instance())).toMatchSnapshot();
     expect(toJson(component.update())).toMatchSnapshot();
     expect(toJson(component)).toMatchSnapshot();
+
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("click");
+    component
+      .find(".bx--modal--danger")
+      .at(0)
+      .simulate("keydown");
+
+    component
+      .find(".bx--modal-close")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--tertiary")
+      .at(0)
+      .simulate("click");
+
+    component
+      .find(".bx--btn--danger--primary")
+      .at(0)
+      .simulate("click");
   });
 
   it("renders as expected dummy", () => {

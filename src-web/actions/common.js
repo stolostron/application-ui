@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -19,11 +19,6 @@ import { convertStringToQuery } from '../../lib/client/search-helper'
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
-
-import {
-  ApplicationsList,
-  GlobalApplicationsData
-} from '../../lib/client/queries'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -146,11 +141,10 @@ export const getQueryStringForResource = (resourcename, name, namespace) => {
 
 export const fetchGlobalAppsData = resourceType => {
   return dispatch => {
+    const resourceQuery = { list: 'GlobalApplicationsData' }
+
     apolloClient
-      .getSearchClient()
-      .query({
-        query: GlobalApplicationsData
-      })
+      .get(resourceQuery)
       .then(result => {
         if (result.data && result.data.globalAppData) {
           return dispatch(
@@ -166,6 +160,7 @@ export const fetchGlobalAppsData = resourceType => {
         if (result.errors) {
           return dispatch(receiveResourceError(result.errors[0], resourceType))
         }
+        return dispatch(receiveResourceError('invalid', resourceType))
       })
       .catch(error => {
         // catch graph connection error
@@ -175,14 +170,12 @@ export const fetchGlobalAppsData = resourceType => {
 }
 
 export const fetchResources = resourceType => {
-  if (resourceType.name == 'QueryApplications') {
+  if (resourceType.name === 'QueryApplications') {
+    const resourceQuery = { list: 'ApplicationsList' }
     //use Query api to get the data, instead of the generic searchResource
     return dispatch => {
       apolloClient
-        .getSearchClient()
-        .query({
-          query: ApplicationsList
-        })
+        .get(resourceQuery)
         .then(result => {
           if (result.data && result.data.applications) {
             return dispatch(
@@ -200,6 +193,7 @@ export const fetchResources = resourceType => {
               receiveResourceError(result.errors[0], resourceType)
             )
           }
+          return dispatch(receiveResourceError('invalid', resourceType))
         })
         .catch(error => {
           // catch graph connection error
@@ -224,21 +218,20 @@ export const fetchResources = resourceType => {
           response.data.searchResult[0] &&
           response.data.searchResult[0].items
         if (
-          resourceType.name == 'HCMChannel' ||
-          resourceType.name == 'HCMSubscription'
+          resourceType.name === 'HCMChannel' ||
+          resourceType.name === 'HCMSubscription'
         ) {
           //filter out remote cluster channels or subscriptions; here we only want hub resources
           //remote cluster resources will be linked as related to these hub objects
           itemRes = itemRes.filter(elem => elem._hubClusterResource)
         }
-
         const combinedQuery = []
         itemRes.map(item => {
           //build query only with local resources, MCM subscription model has no Propagated subscription, filter those out
           if (
             item &&
             !item._hostingSubscription &&
-            (!item.status || (item.status && item.status != 'Subscribed'))
+            (!item.status || (item.status && item.status !== 'Subscribed'))
           ) {
             combinedQuery.push(
               getQueryStringForResource(
@@ -325,11 +318,11 @@ export const clearIncidents = resourceType => {
   }
 }
 
-export const fetchIncidents = (resourceType, namespace, name) => {
+const getGenericResource = (resourceType, variables) => {
   return dispatch => {
     dispatch(requestResource(resourceType))
     return apolloClient
-      .getResource(resourceType, { namespace, name })
+      .getResource(resourceType, variables)
       .then(response => {
         if (response.errors) {
           return dispatch(
@@ -345,80 +338,14 @@ export const fetchIncidents = (resourceType, namespace, name) => {
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))
   }
+}
+
+export const fetchIncidents = (resourceType, namespace, name) => {
+  return getGenericResource(resourceType, { namespace, name })
 }
 
 export const fetchNamespace = (resourceType, namespace) => {
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .getResource(resourceType, { namespace })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
-            resourceType
-          )
-        )
-      })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
-export const fetchUserInfo = resourceType => {
-  return dispatch => {
-    dispatch(requestResource(resourceType))
-    return apolloClient
-      .getResource(resourceType)
-      .then(response => {
-        if (response.errors) {
-          return dispatch(
-            receiveResourceError(response.errors[0], resourceType)
-          )
-        }
-        return dispatch(
-          receiveResourceSuccess(
-            { items: lodash.cloneDeep(response.data.items) },
-            resourceType
-          )
-        )
-      })
-      .catch(err => dispatch(receiveResourceError(err, resourceType)))
-  }
-}
-
-export const updateResourceLabels = (
-  resourceType,
-  namespace,
-  name,
-  labels,
-  selfLink
-) => {
-  return dispatch => {
-    dispatch(putResource(resourceType))
-    return apolloClient
-      .updateResourceLabels(
-        resourceType.name,
-        namespace,
-        name,
-        labels,
-        selfLink,
-        '/metadata/labels'
-      )
-      .then(response => {
-        if (response.errors) {
-          return dispatch(receivePutError(response.errors[0], resourceType))
-        }
-        dispatch(fetchResources(resourceType))
-        dispatch(updateModal({ open: false, type: 'label-editing' }))
-        return dispatch(receivePutResource(resourceType))
-      })
-      .catch(err => dispatch(receivePutError(err, resourceType)))
-  }
+  return getGenericResource(resourceType, { namespace })
 }
 
 export const editResource = (
@@ -450,19 +377,6 @@ export const editResource = (
     })
 }
 
-export const removeResource = (resourceType, vars) => async dispatch => {
-  dispatch(delResource(resourceType))
-  try {
-    const response = await apolloClient.remove(resourceType, vars)
-    if (response.errors) {
-      return dispatch(receiveDelError(response.errors, resourceType))
-    }
-    dispatch(receiveDelResource(response, resourceType, vars))
-  } catch (err) {
-    return dispatch(receiveDelError(err, resourceType))
-  }
-}
-
 export const updateSecondaryHeader = (title, tabs, breadcrumbItems, links) => ({
   type: Actions.SECONDARY_HEADER_UPDATE,
   title,
@@ -477,7 +391,6 @@ export const updateModal = data => ({
 })
 
 export const postResource = resourceType => ({
-  // TODO: Consider renaming
   type: Actions.POST_REQUEST,
   postStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -498,7 +411,6 @@ export const receivePostError = (err, resourceType) => ({
 })
 
 export const putResource = resourceType => ({
-  // TODO: Consider renaming
   type: Actions.PUT_REQUEST,
   putStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -521,7 +433,6 @@ export const receivePutError = (err, resourceType) => ({
 })
 
 export const delResource = resourceType => ({
-  // TODO: Consider renaming
   type: Actions.DEL_REQUEST,
   delStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType
@@ -571,26 +482,5 @@ export const createResources = (resourceType, resourceJson) => {
       }
       return result
     })
-  }
-}
-
-export const createResource = (resourceType, variables) => {
-  return dispatch => {
-    dispatch(postResource(resourceType))
-    return apolloClient
-      .createResource(resourceType, variables)
-      .then(response => {
-        if (response.errors) {
-          return dispatch(receivePostError(response.errors[0], resourceType))
-        }
-
-        return dispatch(
-          receivePostResource(
-            lodash.cloneDeep(response.data.setHelmRepo),
-            resourceType
-          )
-        )
-      })
-      .catch(err => dispatch(receivePostError(err, resourceType)))
   }
 }

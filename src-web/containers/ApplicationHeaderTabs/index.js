@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../actions'
 import loadable from 'loadable-components'
-import { Tabs, Tab, TooltipDefinition } from 'carbon-components-react'
+import { Tabs, Tab } from 'carbon-components-react'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
@@ -62,7 +62,7 @@ const ApplicationHeaderTabs = withLocale(
             <div className="some-content">
               <ApplicationsTab
                 secondaryHeaderProps={{ title: 'routes.applications' }}
-              />
+                />
             </div>
           )
         case 1:
@@ -85,11 +85,6 @@ const ApplicationHeaderTabs = withLocale(
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
-          <span className="tech-preview-tag">
-            <TooltipDefinition tooltipText={msgs.get('tech.preview.msg')}>
-              {msgs.get('tech.preview.tag')}
-            </TooltipDefinition>
-          </span>
           <Tabs
             className="some-class"
             selected={selectedAppTab}
@@ -123,14 +118,14 @@ const ApplicationHeaderTabs = withLocale(
             {showExtraTabs &&
               showIncidentsTab &&
               isAdminRole(userRole) && (
-              <Tab
-                disabled={false}
-                onClick={() => {}}
-                onKeyDown={() => {}}
-                label={msgs.get('description.title.incidents', locale)}
-              >
-                {renderTab(2)}
-              </Tab>
+                <Tab
+                  disabled={false}
+                  onClick={() => {}}
+                  onKeyDown={() => {}}
+                  label={msgs.get('description.title.incidents', locale)}
+                >
+                  {renderTab(2)}
+                </Tab>
             )}
           </Tabs>
         </div>

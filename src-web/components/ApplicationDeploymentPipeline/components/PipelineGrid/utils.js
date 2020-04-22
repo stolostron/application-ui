@@ -76,7 +76,7 @@ export const getDataByKind = (list, uid) => {
 // and the status. Add to the tally and return it
 // Pass, Fail, InProgress, Pending, Unidentified
 // statusPassFailInProgress = [0, 0, 0, 0, 0]
-const determineStatus = (statusPassFailInProgress, status) => {
+export const determineStatus = (statusPassFailInProgress, status) => {
   const statusTotals = statusPassFailInProgress
   if (
     status.includes('deployed') ||
@@ -235,9 +235,6 @@ export const createStandaloneSubscriptionPerChannel = (
             channelSub.items.forEach(item => {
               // if channel value is not set for standalone, fill it in
               if (sub._uid === item._uid) {
-                if (!sub.channel && sub.namespace && sub.name) {
-                  sub.channel = `${sub.namespace}/${sub.name}`
-                }
                 columnsUnderAChannel[i] = columnsUnderAChannel[i].concat([sub])
               }
             })
@@ -271,14 +268,6 @@ export const getLongestArray = list => {
     }
   })
   return longestArray
-}
-
-export const getTotalSubscriptions = list => {
-  let totalSubs = 0
-  list.map(x => {
-    totalSubs = totalSubs + x.length
-  })
-  return totalSubs
 }
 
 export const subscriptionsUnderColumnsGrid = subscriptionsUnderChannel => {

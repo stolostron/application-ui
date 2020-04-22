@@ -9,6 +9,7 @@ import ApplicationTopologyModule from "../../../../src-web/components/Applicatio
 
 import renderer from "react-test-renderer";
 import * as reducers from "../../../../src-web/reducers";
+import { mount } from "enzyme";
 
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
@@ -60,6 +61,26 @@ describe("ApplicationTopologyModule with selected node ID", () => {
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationTopologyModule renders correctly when topology is expanded click", () => {
+    const wrapper = mount(
+      <BrowserRouter>
+        <Provider store={store}>
+          <ApplicationTopologyModule
+            selectedNodeId={nodeID}
+            showExpandedTopology={true}
+            params={params}
+            locale={"en-US"}
+          />
+        </Provider>
+      </BrowserRouter>
+    );
+
+    wrapper
+      .find(".bx--search-input")
+      .at(0)
+      .simulate("change");
   });
 });
 

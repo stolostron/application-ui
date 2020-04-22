@@ -84,7 +84,10 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     return Promise.resolve({ response: "invalid resonse" });
   }),
   getResource: jest.fn((resourceType, { namespace }) => {
-    if (resourceType === "channel") {
+    if (
+      resourceType === "channel" ||
+      (resourceType.name && resourceType.name === "HCMChannel")
+    ) {
       const channelData = {
         data: {
           searchResult: [
@@ -104,7 +107,10 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
       return Promise.resolve(channelData);
     }
 
-    if (resourceType === "subscription") {
+    if (
+      resourceType === "subscription" ||
+      (resourceType.name && resourceType.name === "HCMSubscription")
+    ) {
       const subscriptionData = {
         data: {
           searchResult: [
@@ -134,6 +140,41 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
         }
       };
       return Promise.resolve(subscriptionData);
+    }
+
+    if (
+      resourceType === "placementrule" ||
+      (resourceType.name && resourceType.name === "HCMPlacementRule")
+    ) {
+      const prData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(prData);
     }
 
     return Promise.resolve({ response: "invalid resonse" });
@@ -204,11 +245,6 @@ describe("ApplicationDeploymentPipeline", () => {
 
     wrapper
       .find(".applicationTile")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find(".channelColumnDeployable")
       .at(0)
       .simulate("click");
   });
@@ -329,6 +365,34 @@ describe("ApplicationDeploymentPipeline", () => {
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationsTab renders correctly with data on single app with yaml actions", () => {
+    const wrapper = mount(
+      <Provider store={storeApp}>
+        <ApplicationDeploymentPipeline serverProps={serverProps} />
+      </Provider>
+    );
+
+    wrapper
+      .find(".placementRuleDesc")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".channelColumnDeployable")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".yamlEditContainer")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".yamlEditSubContainer")
+      .at(0)
+      .simulate("click");
   });
 
   it("ApplicationDeploymentPipeline renders correctly with data on all apps.", () => {

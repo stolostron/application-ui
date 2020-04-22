@@ -63,6 +63,9 @@ describe("ApplicationTopologyModule with selected node ID", () => {
     expect(tree).toMatchSnapshot();
   });
 
+  const actions = {
+    setShowExpandedTopology: jest.fn()
+  };
   it("ApplicationTopologyModule renders correctly when topology is expanded click", () => {
     const wrapper = mount(
       <BrowserRouter>
@@ -72,6 +75,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
             showExpandedTopology={true}
             params={params}
             locale={"en-US"}
+            actions={actions}
           />
         </Provider>
       </BrowserRouter>
@@ -81,6 +85,20 @@ describe("ApplicationTopologyModule with selected node ID", () => {
       .find(".bx--search-input")
       .at(0)
       .simulate("change");
+    wrapper
+      .find(".bx--search-close")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".diagram-collapse-button")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".diagram-collapse-button")
+      .at(0)
+      .simulate("keypress");
   });
 });
 

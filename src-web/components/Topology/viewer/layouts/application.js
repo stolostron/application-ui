@@ -233,8 +233,12 @@ const positionRowsDown = (
             let kindb = kindOrder.indexOf(
               _.get(b, 'specs.raw.spec.template.kind', 'other').toLowerCase()
             )
-            if (kinda < 0) kinda = 10
-            if (kindb < 0) kindb = 10
+            if (kinda < 0) {
+              kinda = 10
+            }
+            if (kindb < 0) {
+              kindb = 10
+            }
             return kinda - kindb
           }
           return 0

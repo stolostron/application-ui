@@ -17,7 +17,7 @@ const tapReporter = [
 
 const jestConfig = {
   collectCoverage: true,
-  collectCoverageFrom: ['src-web/**/*.{js,jsx}'],
+  collectCoverageFrom: ['src-web/**/*.{js,jsx}', '!**/src-web/index.js'],
   coverageDirectory: './test-output/coverage',
   coverageReporters: [
     'json-summary',

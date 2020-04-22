@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
@@ -41,9 +41,13 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
     }
     var href
     if (searchUrl && kind) {
-      href = clusterList
-        ? `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
-        : `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
+      if (clusterList) {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
+      } else if (type === 'helmrelease') {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} ${name}"}`
+      } else {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
+      }
     }
     tooltips.push({ name: getType(type, locale), value: name, href })
     if (hasPods) {

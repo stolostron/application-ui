@@ -10,79 +10,17 @@ jest.mock("../../../../../lib/client/apollo-client", () => ({
   getClient: jest.fn(() => {
     return null;
   }),
-  fetchResource: jest.fn((resourceType, namespace, name) => {
+  getResource: jest.fn(resourceType => {
     const data = {
       data: {
-        items: [
-          {
-            metadata: {
-              creationTimestamp: "2020-04-06T22:27:05Z",
-              generation: 2,
-              name: "guestbook-app",
-              namespace: "default",
-              resourceVersion: "840144",
-              selfLink:
-                "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-              uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
-            },
-            raw: {
-              apiVersion: "app.k8s.io/v1beta1",
-              kind: "Application",
-              metadata: {
-                creationTimestamp: "2020-04-06T22:27:05Z",
-                generation: 2,
-                name: "guestbook-app",
-                namespace: "default",
-                resourceVersion: "840144",
-                selfLink:
-                  "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-                uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
-              }
-            }
-          }
-        ]
+        items: []
       }
     };
-
     return Promise.resolve(data);
   }),
-  getResource: jest.fn((resourceType, variables) => {
-    const data = {
-      data: {
-        items: [
-          {
-            metadata: {
-              creationTimestamp: "2020-04-06T22:27:05Z",
-              generation: 2,
-              name: "guestbook-app",
-              namespace: "default",
-              resourceVersion: "840144",
-              selfLink:
-                "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-              uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
-            },
-            raw: {
-              apiVersion: "app.k8s.io/v1beta1",
-              kind: "Application",
-              metadata: {
-                creationTimestamp: "2020-04-06T22:27:05Z",
-                generation: 2,
-                name: "guestbook-app",
-                namespace: "default",
-                resourceVersion: "840144",
-                selfLink:
-                  "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
-                uid: "0221dae9-b6b9-40cb-8cba-473011a750e0"
-              }
-            }
-          }
-        ]
-      }
-    };
-
-    return Promise.resolve(data);
-  })
+  search: jest.fn(resourceType => Promise.resolve({ response: resourceType }))
 }));
+
 const React = require("../../../../../node_modules/react");
 
 import ResourceDetails from "../../../../../src-web/components/common/ResourceDetails";
@@ -91,16 +29,18 @@ import renderer from "react-test-renderer";
 import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
 import { BrowserRouter } from "react-router-dom";
+import thunkMiddleware from "redux-thunk";
 
 import {
-  reduxStoreAppPipeline,
+  reduxStoreAppPipelineWithCEM,
   resourceType,
   staticResourceDataApp,
   HCMApplication
 } from "../../../components/TestingData";
 
-const mockStore = configureMockStore();
-const storeApp = mockStore(reduxStoreAppPipeline);
+const middleware = [thunkMiddleware];
+const mockStore = configureMockStore(middleware);
+const storeApp = mockStore(reduxStoreAppPipelineWithCEM);
 
 const getVisibleResourcesFn = (state, store) => {
   const items = {
@@ -134,6 +74,7 @@ describe("ResourceDetails", () => {
         <BrowserRouter>
           <Provider store={storeApp}>
             <ResourceDetails
+              item={HCMApplication}
               match={mockData.match}
               loading={false}
               location={mockData.location}

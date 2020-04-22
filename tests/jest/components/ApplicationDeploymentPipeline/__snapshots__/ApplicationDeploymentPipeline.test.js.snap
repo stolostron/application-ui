@@ -3729,6 +3729,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       aria-disabled={false}
       className="bx--link"
       href="#"
+      id="headerAppLink"
       onClick={[Function]}
     >
       <svg
@@ -10174,6 +10175,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
       aria-disabled={false}
       className="bx--link"
       href="#"
+      id="headerAppLink"
       onClick={[Function]}
     >
       <svg

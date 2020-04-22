@@ -2,6 +2,7 @@
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  * Copyright (c) 2020 Red Hat, Inc.
+ *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
@@ -934,8 +935,12 @@ export const moveLabels = svg => {
     .each(({ layout }, i, ns) => {
       const { x, y, textBBox, scale = 1 } = layout
       let dy = NODE_RADIUS
-      if (scale > 1) dy *= scale
-      if (scale < 1) dy *= scale
+      if (scale > 1) {
+        dy *= scale
+      }
+      if (scale < 1) {
+        dy *= scale
+      }
       const nodeLabel = d3.select(ns[i])
       nodeLabel
         .selectAll('tspan')
@@ -964,8 +969,12 @@ export const moveLabels = svg => {
       .select(ns[i].parentNode)
       .datum()
     let dy = NODE_RADIUS + textBBox.height + 10
-    if (scale > 1) dy *= scale
-    if (scale < 1) dy *= scale
+    if (scale > 1) {
+      dy *= scale
+    }
+    if (scale < 1) {
+      dy *= scale
+    }
     return {
       x: x,
       y: y + dy

@@ -11,9 +11,6 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
     return null;
   }),
   get: jest.fn(resourceType => {
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-
     const testData = {
       data: {
         globalAppData: {
@@ -21,46 +18,15 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
         }
       }
     };
-    const errorEVENData = {
-      resourceType: resourceType,
-      error: "some EVEN error"
-    };
-    const errorsODDData = {
-      resourceType: resourceType,
-      errors: ["some ODD error"]
-    };
-    const invalidData = {
-      resourceType: resourceType,
-      invalid: ["some ODD error"]
-    };
-    if (resourceType.list === "ApplicationsList") {
-      return Promise.resolve(invalidData);
-    }
 
-    if (val % 5 == 0) {
+    if (resourceType.list === "ApplicationsList") {
       return Promise.resolve(undefined);
     }
 
-    if (val % 3 == 0) {
-      return Promise.resolve(errorEVENData);
-    }
-
-    if (val % 2 == 0) {
-      return Promise.resolve(errorsODDData);
-    } else {
-      return Promise.resolve(testData);
-    }
+    return Promise.resolve(testData);
   }),
   search: jest.fn((searchQuery, searchInput) => {
     const searchType = searchInput.input[0].filters[0].values[0];
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-    const errorsODDData = {
-      errors: ["some ODD error"]
-    };
-    const errorEVENData = {
-      error: "some EVEN error"
-    };
 
     if (searchType === "channel") {
       const channelData = {
@@ -79,11 +45,7 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
           ]
         }
       };
-      if (val % 2 == 0) {
-        return Promise.resolve(channelData);
-      } else {
-        return Promise.resolve(errorsODDData);
-      }
+      return Promise.resolve(channelData);
     }
 
     if (searchType === "subscription") {
@@ -115,26 +77,17 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
           ]
         }
       };
-      if (val % 2 == 0) {
-        return Promise.resolve(errorEVENData);
-      } else {
-        return Promise.resolve(subscriptionData);
-      }
+
+      return Promise.resolve(subscriptionData);
     }
 
     return Promise.resolve({ response: "invalid resonse" });
   }),
   getResource: jest.fn((resourceType, { namespace }) => {
-    //random odd or even nb to allow covering different paths of the code
-    const val = Date.now();
-    const errorsODDData = {
-      errors: ["some ODD error"]
-    };
-    const errorEVENData = {
-      error: "some EVEN error"
-    };
-
-    if (resourceType === "channel") {
+    if (
+      resourceType === "channel" ||
+      (resourceType.name && resourceType.name === "HCMChannel")
+    ) {
       const channelData = {
         data: {
           searchResult: [
@@ -151,11 +104,77 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
           ]
         }
       };
-      if (val % 2 == 0) {
-        return Promise.resolve(channelData);
-      } else {
-        return Promise.resolve(errorsODDData);
-      }
+      return Promise.resolve(channelData);
+    }
+
+    if (
+      resourceType === "subscription" ||
+      (resourceType.name && resourceType.name === "HCMSubscription")
+    ) {
+      const subscriptionData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(subscriptionData);
+    }
+
+    if (
+      resourceType === "placementrule" ||
+      (resourceType.name && resourceType.name === "HCMPlacementRule")
+    ) {
+      const prData = {
+        data: {
+          searchResult: [
+            {
+              items: [
+                {
+                  kind: "subscription",
+                  name: "orphan",
+                  namespace: "default",
+                  status: "Propagated",
+                  cluster: "local-cluster",
+                  channel: "default/mortgage-channel",
+                  apigroup: "app.ibm.com",
+                  apiversion: "v1alpha1",
+                  _rbac: "default_app.ibm.com_subscriptions",
+                  _hubClusterResource: "true",
+                  _uid:
+                    "local-cluster/5cdc0d8d-52aa-11ea-bf05-00000a102d26orphan",
+                  packageFilterVersion: ">=1.x",
+                  label:
+                    "app=mortgage-app-mortgage; chart=mortgage-1.0.3; heritage=Tiller; release=mortgage-app",
+                  related: []
+                }
+              ]
+            }
+          ]
+        }
+      };
+      return Promise.resolve(prData);
     }
 
     return Promise.resolve({ response: "invalid resonse" });
@@ -226,11 +245,6 @@ describe("ApplicationDeploymentPipeline", () => {
 
     wrapper
       .find(".applicationTile")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find(".channelColumnDeployable")
       .at(0)
       .simulate("click");
   });
@@ -351,6 +365,44 @@ describe("ApplicationDeploymentPipeline", () => {
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it("ApplicationsTab renders correctly with data on single app with yaml actions", () => {
+    const wrapper = mount(
+      <Provider store={storeApp}>
+        <ApplicationDeploymentPipeline serverProps={serverProps} />
+      </Provider>
+    );
+
+    wrapper
+      .find(".placementRuleDesc")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".channelColumnDeployable")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".yamlEditContainer")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".yamlEditSubContainer")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".bx--link")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find("#headerAppLink")
+      .at(0)
+      .simulate("click");
   });
 
   it("ApplicationDeploymentPipeline renders correctly with data on all apps.", () => {

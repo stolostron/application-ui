@@ -10,8 +10,8 @@
 {>"page" title="{title}" id="mcm-ui" trackAnalytics="true"/}
 {<head}
     <link rel='stylesheet' href="{contextPath}/{manifest.main.css}">
-    <link rel='icon' href="{headerContextPath}/graphics/RHACM-Favicon.svg">
-{/head}
+    <link rel='icon' href="{headerContextPath}/graphics/RHACM-Favicon.svg">    
+ {/head}
 {<script}
     <script src="{@properties href="nls/platform.properties" locale=context.locale/}"></script>
     <script charset="UTF-8">

@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -76,13 +77,13 @@ export const getClusterCountForSub = (uid, applications) => {
 
   if (applications && applications.items) {
     Object.keys(applications.items).forEach(appIndex => {
-      if (applications.items[appIndex].hubSubscriptions != undefined) {
+      if (applications.items[appIndex].hubSubscriptions !== undefined) {
         const subData = applications.items[appIndex].hubSubscriptions
         Object.keys(subData).forEach(subIndex => {
           if (
-            subData[subIndex]._uid != undefined &&
+            subData[subIndex]._uid !== undefined &&
             subData[subIndex]._uid === uid &&
-            applications.items[appIndex].clusterCount != undefined
+            applications.items[appIndex].clusterCount !== undefined
           ) {
             numClusters += applications.items[appIndex].clusterCount
           }

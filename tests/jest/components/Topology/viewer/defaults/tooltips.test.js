@@ -258,6 +258,74 @@ describe("getNodeTooltips rules", () => {
   });
 });
 
+describe("getNodeTooltips helmrelease", () => {
+  const clusterNode = {
+    name: "nginx-ingress",
+    namspace: "",
+    type: "helmrelease"
+  };
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:helmrelease nginx-ingress"}',
+      name: "Helmrelease",
+      value: "nginx-ingress"
+    }
+  ];
+
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
+describe("getNodeTooltips cluster with pods", () => {
+  const clusterNode = {
+    name: "foonode",
+    namspace: "foo",
+    type: "cluster",
+    layout: {
+      hasPods: true,
+      pods: [
+        {
+          name: "testPod"
+        }
+      ]
+    },
+    specs: {
+      cluster: {
+        consoleURL: "https://localhost"
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+      name: "Cluster",
+      value: "foonode"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:deployment name:testPod"}&showrelated=pod',
+      name: "Pod",
+      value: "testPod"
+    },
+    {
+      href: "https://localhost",
+      name: "Console",
+      value: "foonode-console"
+    }
+  ];
+  it("should get cluster node tooltips", () => {
+    expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
 describe("getNodeTooltips cluster", () => {
   const clusterNode = {
     name: "foonode",

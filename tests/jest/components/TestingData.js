@@ -227,6 +227,15 @@ export const QueryApplicationList = {
   ]
 };
 
+export const QueryApplicationList_INCEPTION = {
+  status: "INCEPTION",
+  itemsPerPage: 20,
+  page: 1,
+  search: "aa",
+  sortDirection: "asc",
+  sortColumn: "name",
+  items: []
+};
 export const HCMChannelList = {
   status: "DONE",
   items: [
@@ -940,6 +949,28 @@ export const reduxStoreAppPipelineWithCEM = {
   secondaryHeader: secondaryHeader,
   namespaceAccountId: namespaceAccountId,
   QueryApplicationList: QueryApplicationList,
+  HCMChannelList: HCMChannelList,
+  HCMSubscriptionList: HCMSubscriptionList,
+  GlobalApplicationDataList: GlobalApplicationDataList,
+  AppOverview: AppOverviewWithCEM,
+  HCMNamespaceList: HCMNamespaceList,
+  CEMIncidentList: CEMIncidentList,
+  role: {
+    role: "ClusterAdministrator"
+  }
+};
+
+export const reduxStoreAppPipelineWithCEM_Inception = {
+  AppDeployments: {
+    displaySubscriptionModal: false
+  },
+  resourceFilters: {
+    filters: {},
+    selectedFilters: {}
+  },
+  secondaryHeader: secondaryHeader,
+  namespaceAccountId: namespaceAccountId,
+  QueryApplicationList: QueryApplicationList_INCEPTION,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
   GlobalApplicationDataList: GlobalApplicationDataList,

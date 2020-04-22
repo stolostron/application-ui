@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -58,6 +59,26 @@ describe("AppDeployments reducer", () => {
       deploymentPipelineSearch: payload
     });
   });
+
+  it("handles SET_DEPLOYMENT_SEARCH no payload", () => {
+    const payload = undefined;
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          deploymentPipelineSearch: ""
+        },
+        {
+          payload,
+          type: "SET_DEPLOYMENT_SEARCH"
+        }
+      )
+    ).toEqual({
+      ...initialStateDeployments,
+      deploymentPipelineSearch: ""
+    });
+  });
+
   it("handles SET_SUBSCRIPTION_MODAL_HEADERS", () => {
     const payload = {
       application: "dart",
@@ -151,8 +172,16 @@ describe("AppDeployments reducer", () => {
       loading: false
     });
   });
-  it("handles SET_LOADING", () => {
-    const payload = true;
+  it("handles SET_CURRENT_CHANNEL_INFO", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.openEditChannelModal = true;
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.currentChannelInfo = payload;
+
     expect(
       reducerAppDeployments(
         {
@@ -161,12 +190,245 @@ describe("AppDeployments reducer", () => {
         },
         {
           payload,
-          type: "SET_LOADING"
+          type: "SET_CURRENT_CHANNEL_INFO"
         }
       )
-    ).toEqual({
-      ...initialStateDeployments,
-      loading: true
-    });
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_CURRENT_APPLICATION_INFO", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.openEditApplicationModal = true;
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.currentApplicationInfo = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_CURRENT_APPLICATION_INFO"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_CURRENT_SUBSCRIPTION_INFO", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.openEditSubscriptionModal = true;
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.currentSubscriptionInfo = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_CURRENT_SUBSCRIPTION_INFO"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_CURRENT_PLACEMENT_RULE_INFO", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.openEditPlacementRuleModal = true;
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.currentPlacementRuleInfo = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_CURRENT_PLACEMENT_RULE_INFO"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_BULK_SUBSCRIPTION_LIST", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.bulkSubscriptionList = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_BULK_SUBSCRIPTION_LIST"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_BULK_SUBSCRIPTION_ERROR", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.bulkSubscriptionError = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_BULK_SUBSCRIPTION_ERROR"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_DEPLOYABLE_SUBSCRIPTION_INFO", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.subscriptionModalSubscriptionInfo = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_DEPLOYABLE_SUBSCRIPTION_INFO"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles SET_SUBSCRIPTION_MODAL_DATA", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.subscriptionModalData = payload;
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "SET_SUBSCRIPTION_MODAL_DATA"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles CLEAR_APP_DROPDOWN_LIST", () => {
+    const payload = { data: "data" };
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.appDropDownList = [];
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "CLEAR_APP_DROPDOWN_LIST"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles UPDATE_APP_DROPDOWN_LIST", () => {
+    const payload = { data: "data" };
+    const initialStateDeploymentsClone = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone.loading = false;
+    initialStateDeploymentsClone.appDropDownList = [payload];
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeployments,
+          loading: false
+        },
+        {
+          payload,
+          type: "UPDATE_APP_DROPDOWN_LIST"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone);
+  });
+
+  it("handles UPDATE_APP_DROPDOWN_LIST 2", () => {
+    const payload = { data: "data" };
+
+    const initialStateDeploymentsClone1 = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone1.appDropDownList = [payload];
+
+    const initialStateDeploymentsClone2 = JSON.parse(
+      JSON.stringify(initialStateDeployments)
+    );
+    initialStateDeploymentsClone2.loading = false;
+    initialStateDeploymentsClone2.appDropDownList = [];
+
+    expect(
+      reducerAppDeployments(
+        {
+          ...initialStateDeploymentsClone1,
+          loading: false
+        },
+        {
+          payload,
+          type: "UPDATE_APP_DROPDOWN_LIST"
+        }
+      )
+    ).toEqual(initialStateDeploymentsClone2);
   });
 });

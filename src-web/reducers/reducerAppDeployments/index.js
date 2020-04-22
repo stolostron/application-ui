@@ -9,9 +9,6 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
-import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
-import { returnBulkQueryString } from './utils'
-import { mapBulkSubscriptions } from '../data-mappers/mapSubscriptionsBulk'
 
 import R from 'ramda'
 
@@ -303,29 +300,6 @@ export const fetchPlacementRuleResource = (
       .catch(err => {
         dispatch(setLoading(false))
         dispatch(setCurrentPlacementRuleInfo(err))
-      })
-  }
-}
-// This will fetch a bulk list of related information on deployables
-// we will use this data in order to relate deployables to each subscription which
-// cani then be related to the channel
-export const fetchBulkSubscriptionList = (apolloClient, applicationList) => {
-  const combinedQuery = returnBulkQueryString(applicationList, 'subscription')
-  return dispatch => {
-    return apolloClient
-      .search(SEARCH_QUERY_RELATED, { input: combinedQuery })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(setBulkSubscriptionError(response.errors))
-        }
-        dispatch(
-          setBulkSubscriptionList(
-            mapBulkSubscriptions(response.data.searchResult)
-          )
-        )
-      })
-      .catch(err => {
-        dispatch(setBulkSubscriptionError(err))
       })
   }
 }

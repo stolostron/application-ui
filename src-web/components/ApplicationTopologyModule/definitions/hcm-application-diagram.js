@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -9,7 +10,8 @@
 import jsYaml from 'js-yaml'
 import {
   getStoredObject,
-  saveStoredObject
+  saveStoredObject,
+  getClusterName
 } from '../../../../lib/client/resource-helper'
 import * as Actions from '../../../actions'
 import _ from 'lodash'
@@ -94,6 +96,8 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
     let channels = []
     const originalMap = {}
     const podMap = {}
+    let isClusterGrouped = false
+    let clusterName
     nodes.forEach(node => {
       const { type, name } = node
       switch (type) {
@@ -106,7 +110,13 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
         channels = _.get(node, 'specs.channels', [])
         break
       case 'pod':
-        podMap[name] = node
+        clusterName = getClusterName(node.id)
+        if (clusterName.indexOf(', ') > -1) {
+          podMap[name] = node
+          isClusterGrouped = true
+        } else {
+          podMap[`${name}-${clusterName}`] = node
+        }
         break
       }
 
@@ -137,7 +147,14 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
 
     // details are requested separately for faster load
     // if loaded, we add those details now
-    addDiagramDetails(topology, nodes, podMap, activeChannel, localStoreKey)
+    addDiagramDetails(
+      topology,
+      nodes,
+      podMap,
+      activeChannel,
+      localStoreKey,
+      isClusterGrouped
+    )
 
     return {
       clusters,
@@ -235,7 +252,8 @@ function addDiagramDetails(
   nodes,
   podMap,
   activeChannel,
-  localStoreKey
+  localStoreKey,
+  isClusterGrouped
 ) {
   const { status, detailsLoaded, detailsReloading } = topology
   // get extra details from topology or from localstore
@@ -270,10 +288,13 @@ function addDiagramDetails(
             name = name.substr(0, idx)
           }
         }
-        if (podMap[name]) {
+        const podName = isClusterGrouped
+          ? name
+          : `${name}-${pod.cluster.metadata.name}`
+        if (podMap[podName]) {
           const podModel = _.get(podMap[name], 'specs.podModel', {})
           podModel[pod.name] = pod
-          _.set(podMap[name], 'specs.podModel', podModel)
+          _.set(podMap[podName], 'specs.podModel', podModel)
         }
       }
     })

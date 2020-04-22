@@ -58,46 +58,7 @@ describe("getNodeDetails no clusters or violation", () => {
     }
   };
 
-  const expectedResult = [
-    {
-      indent: undefined,
-      labelKey: "resource.cpu",
-      labelValue: undefined,
-      type: "label",
-      value: "0%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.memory",
-      labelValue: undefined,
-      type: "label",
-      value: "0%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.storage",
-      labelValue: undefined,
-      type: "label",
-      value: "0%"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      type: "label",
-      value: "-"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.violations",
-      labelValue: undefined,
-      type: "label",
-      value: "-"
-    },
-    {
-      type: "spacer"
-    }
-  ];
+  const expectedResult = [];
 
   it("should process the node", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
@@ -353,24 +314,38 @@ describe("getNodeDetails clusters node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      labelKey: "resource.pods",
+      labelValue: undefined,
+      type: "label",
+      value: []
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.nodes",
+      labelValue: undefined,
+      type: "label",
+      value: []
+    },
+    {
+      indent: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
       type: "label",
-      value: "0%"
+      value: "80%"
     },
     {
       indent: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
       type: "label",
-      value: "0%"
+      value: "76800%"
     },
     {
       indent: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
       type: "label",
-      value: "0%"
+      value: "85899345920%"
     },
     {
       indent: undefined,
@@ -379,31 +354,80 @@ describe("getNodeDetails clusters node", () => {
       type: "label",
       value: "-"
     },
+    { labelKey: "resource.violations", type: "label" },
     {
-      labelKey: "resource.violations",
-      type: "label"
+      indent: undefined,
+      labelKey: undefined,
+      labelValue: undefined,
+      type: "label",
+      value: { name: "Violation1" }
     },
     {
       indent: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
-      value: {
-        name: "Violation1"
-      }
+      value: { name: "Violation2" }
+    },
+    { type: "spacer" },
+    {
+      indent: undefined,
+      labelKey: "resource.pods",
+      labelValue: undefined,
+      type: "label",
+      value: []
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.nodes",
+      labelValue: undefined,
+      type: "label",
+      value: []
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.cpu",
+      labelValue: undefined,
+      type: "label",
+      value: "80%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.memory",
+      labelValue: undefined,
+      type: "label",
+      value: "76800%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.storage",
+      labelValue: undefined,
+      type: "label",
+      value: "85899345920%"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      type: "label",
+      value: "-"
+    },
+    { labelKey: "resource.violations", type: "label" },
+    {
+      indent: undefined,
+      labelKey: undefined,
+      labelValue: undefined,
+      type: "label",
+      value: { name: "Violation1" }
     },
     {
       indent: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
-      value: {
-        name: "Violation2"
-      }
+      value: { name: "Violation2" }
     },
-    {
-      type: "spacer"
-    }
+    { type: "spacer" }
   ];
 
   it("should process the node", () => {

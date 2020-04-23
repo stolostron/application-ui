@@ -87,6 +87,8 @@ class LogsModal extends React.PureComponent {
       })
   }
 
+  componentDidMount() {}
+
   componentWillUnmount() {
     clearInterval(this.state.intervalId)
   }

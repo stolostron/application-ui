@@ -1,7 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -53,10 +52,6 @@ const ApplicationHeaderTabs = withLocale(
       actions.setSelectedAppTab(0)
     }
 
-    const noop = () => {
-      // no op function for optional properties
-    }
-
     const showIncidentsTab = serverProps && serverProps.isCEMRunning
 
     const renderTab = thisTab => {
@@ -93,8 +88,8 @@ const ApplicationHeaderTabs = withLocale(
           <Tabs
             className="some-class"
             selected={selectedAppTab}
-            onClick={noop}
-            onKeyDown={noop}
+            onClick={() => {}}
+            onKeyDown={() => {}}
             onSelectionChange={id => {
               actions.setSelectedAppTab(id)
               // Show app overview (instead of app information)
@@ -106,16 +101,16 @@ const ApplicationHeaderTabs = withLocale(
           >
             <Tab
               disabled={false}
-              onClick={noop}
-              onKeyDown={noop}
+              onClick={() => {}}
+              onKeyDown={() => {}}
               label={msgs.get('description.title.overview', locale)}
             >
               {renderTab(0)}
             </Tab>
             <Tab
               disabled={false}
-              onClick={noop}
-              onKeyDown={noop}
+              onClick={() => {}}
+              onKeyDown={() => {}}
               label={msgs.get('description.title.deployments', locale)}
             >
               {renderTab(1)}
@@ -125,8 +120,8 @@ const ApplicationHeaderTabs = withLocale(
               isAdminRole(userRole) && (
                 <Tab
                   disabled={false}
-                  onClick={noop}
-                  onKeyDown={noop}
+                  onClick={() => {}}
+                  onKeyDown={() => {}}
                   label={msgs.get('description.title.incidents', locale)}
                 >
                   {renderTab(2)}

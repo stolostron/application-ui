@@ -29,6 +29,11 @@ const mapStateToProps = state => {
 }
 
 class ApplicationDeploymentHighlights extends React.Component {
+  componentWillMount() {}
+  componentDidMount() {}
+
+  componentWillUnmount() {}
+
   render() {
     const { QueryApplicationList, secondaryHeader } = this.props
 

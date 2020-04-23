@@ -236,6 +236,7 @@ class OverviewCards extends React.Component {
       this.setState({ intervalId: intervalId })
     }
   }
+  componentDidMount() {}
 
   componentWillUnmount() {
     clearInterval(this.state.intervalId)

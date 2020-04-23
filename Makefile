@@ -13,7 +13,13 @@ include build/Configfile
 
 BROWSER ?= chrome
 
--include $(shell curl -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
+USE_VENDORIZED_BUILD_HARNESS ?=
+
+ifndef USE_VENDORIZED_BUILD_HARNESS
+-include $(shell curl -s -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
+else
+-include vbh/.build-harness-bootstrap
+endif
 
 default::
 	@echo "Build Harness Bootstrapped"
@@ -23,7 +29,7 @@ install:
 
 .PHONY: copyright-check
 copyright-check:
-	./copyright-check.sh $(TRAVIS_BRANCH) $(TRAVIS_PULL_REQUEST_BRANCH)
+	./copyright-check.sh $(TRAVIS_BRANCH)
 	
 lint:
 	npm run lint

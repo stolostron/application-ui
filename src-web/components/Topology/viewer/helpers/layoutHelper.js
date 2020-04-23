@@ -226,38 +226,40 @@ export default class LayoutHelper {
           // fill edges
           var edgeMap = {}
           for (var uid in nodeMap) {
-            directions.forEach(({ map, next, other }) => {
-              if (map.hasOwnProperty(uid)) {
-                map[uid].forEach(entry => {
-                  const { link } = entry
+            if (nodeMap.hasOwnProperty(uid)) {
+              directions.forEach(({ map, next, other }) => {
+                if (map.hasOwnProperty(uid)) {
+                  map[uid].forEach(entry => {
+                    const { link } = entry
 
-                  // add link-- use current layout if still relavent
-                  const theNext =
-                    this.nodesToBeCloned[link[next]] ||
-                    allNodeMap[link[next]].layout
-                  const theOther =
-                    this.nodesToBeCloned[link[other]] ||
-                    allNodeMap[link[other]].layout
-                  if (
-                    !link.layout ||
-                    link[next] !== theNext.uid ||
-                    link[other] !== theOther.uid
-                  ) {
-                    link.layout = {}
-                    link.layout[next] = theNext
-                    link.layout[other] = theOther
-                  }
-                  edgeMap[link.uid] = link
+                    // add link-- use current layout if still relavent
+                    const theNext =
+                      this.nodesToBeCloned[link[next]] ||
+                      allNodeMap[link[next]].layout
+                    const theOther =
+                      this.nodesToBeCloned[link[other]] ||
+                      allNodeMap[link[other]].layout
+                    if (
+                      !link.layout ||
+                      link[next] !== theNext.uid ||
+                      link[other] !== theOther.uid
+                    ) {
+                      link.layout = {}
+                      link.layout[next] = theNext
+                      link.layout[other] = theOther
+                    }
+                    edgeMap[link.uid] = link
 
-                  // remember clusters
-                  this.gatherSectionDetails(
-                    allNodeMap,
-                    [theNext, theOther],
-                    details
-                  )
-                })
-              }
-            })
+                    // remember clusters
+                    this.gatherSectionDetails(
+                      allNodeMap,
+                      [theNext, theOther],
+                      details
+                    )
+                  })
+                }
+              })
+            }
           }
           this.setSectionDetails(connect, details, edgeMap)
         })

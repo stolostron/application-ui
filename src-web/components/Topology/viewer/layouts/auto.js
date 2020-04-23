@@ -27,13 +27,16 @@ export const getConnectedAutoLayoutOptions = ({ elements }, options) => {
 
   // if there are less nodes in this group we have room to stretch out the nodes
   const numNodes = nodes.length
-  const grpStretch =
-    numNodes <= 10 ? 1.3 : numNodes <= 15 ? 1.2 : numNodes <= 20 ? 1.1 : 1
+  const less20 = numNodes <= 20 ? 1.1 : 1
+  const less15 = numNodes <= 15 ? 1.2 : less20
+  const grpStretch = numNodes <= 10 ? 1.3 : less15
   const otrStretch = ({ isMajorHub, isMinorHub }) => {
     if (isMajorHub) {
-      return numNodes <= 15 ? 1.2 : numNodes <= 20 ? 1.5 : 1.6
+      const less20 = numNodes <= 20 ? 1.5 : 1.6
+      return numNodes <= 15 ? 1.2 : less20
     } else if (isMinorHub) {
-      return numNodes <= 15 ? 1.1 : numNodes <= 20 ? 1.4 : 1.5
+      const less20 = numNodes <= 20 ? 1.4 : 1.5
+      return numNodes <= 15 ? 1.1 : less20
     }
     return 1
   }

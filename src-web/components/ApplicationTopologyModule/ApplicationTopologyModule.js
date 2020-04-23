@@ -349,7 +349,8 @@ class ApplicationTopologyModule extends React.Component {
       const editorSize =
         this.containerRef.getBoundingClientRect().width - diagramSize
       // change editor font size based on how much horiozontal space it has
-      const fontSize = editorSize <= 250 ? 6 : editorSize <= 400 ? 10 : 12
+      const less400 = editorSize <= 400 ? 10 : 12
+      const fontSize = editorSize <= 250 ? 6 : less400
       this.viewer.resize()
       this.editor.setFontSize(fontSize)
       this.editor.renderer.setShowGutter(editorSize > 250)

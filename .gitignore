@@ -13,10 +13,8 @@ test-output
 test/coverage
 test/out
 storybook-static
-build-harness-bootstrap
-build-harness
 test-report.xml
 tests/jest/config/platform-properties.json 
-# Files
-.build-harness
+build-harness-extensions/
+build-harness/
 .build-harness-bootstrap

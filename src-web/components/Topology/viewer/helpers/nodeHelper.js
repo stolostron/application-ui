@@ -771,20 +771,20 @@ export const counterZoomLabels = (svg, currentZoom) => {
       // apply counter zoom font
       shownLabel
         .selectAll('tspan.counter-zoom')
-        .style('font-size', fontSize + 'px')
+        .style('font-size', `${fontSize}px`)
 
       // if hub, make font even bigger
       shownLabel
         .selectAll('tspan.hub-label')
-        .style('font-size', fontSize + 4 + 'px')
+        .style('font-size', `${fontSize + 4}px`)
       shownLabel
         .selectAll('tspan.sub-label')
-        .style('font-size', fontSize - 2 + 'px')
+        .style('font-size', `${fontSize - 2}px`)
 
       // if description make smaller
       shownLabel
         .selectAll('tspan.description')
-        .style('font-size', fontSize - 2 + 'px')
+        .style('font-size', `${fontSize - 2}px`)
 
       // fix leading between lines
       let height
@@ -816,7 +816,7 @@ export const counterZoomLabels = (svg, currentZoom) => {
         // apply counter zoom font
         nodeTitle
           .selectAll('tspan.counter-zoom')
-          .style('font-size', fontSize + 4 + 'px')
+          .style('font-size', `${fontSize + 4}px`)
       })
 
     //////////// ICONS /////////////////////////////

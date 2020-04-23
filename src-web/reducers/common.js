@@ -266,8 +266,8 @@ export const makeGetVisibleTableItemsSelector = resourceType => {
 }
 
 export const secondaryHeader = (
-  action,
-  state = { title: '', tabs: [], breadcrumbItems: [], links: [] }
+  state = { title: '', tabs: [], breadcrumbItems: [], links: [] },
+  action
 ) => {
   switch (action.type) {
   case Actions.SECONDARY_HEADER_UPDATE:
@@ -304,7 +304,7 @@ export const resourceItemByNameAndNamespace = (items, props) => {
   )
 }
 
-export const resourceReducerFunction = (action, state = INITIAL_STATE) => {
+export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   var items, index
   switch (action.type) {
   case Actions.RESOURCE_REQUEST:

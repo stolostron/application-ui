@@ -125,10 +125,10 @@ export const counterZoomTitles = (svg, currentZoom) => {
   if (svg) {
     const fontSize = counterZoom(currentZoom.k, 0.2, 0.85, 14, 32)
     const titles = svg.select('g.titles')
-    titles.selectAll('tspan.counter-zoom').style('font-size', fontSize + 'px')
+    titles.selectAll('tspan.counter-zoom').style('font-size', `${fontSize}px`)
     titles
       .selectAll('tspan.first-line.counter-zoom')
-      .style('font-size', fontSize + 5 + 'px')
+      .style('font-size', `${fontSize + 5}px`)
       .style('font-weight', 'bold')
   }
 }

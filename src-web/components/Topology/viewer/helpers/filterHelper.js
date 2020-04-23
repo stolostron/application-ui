@@ -73,10 +73,10 @@ export default class FilterHelper {
   searchElements = (
     cy,
     collections,
+    searchName = '',
     activeFilters,
     numNodes,
-    cbs,
-    searchName = ''
+    cbs
   ) => {
     // reset previous search
     this.cy = cy

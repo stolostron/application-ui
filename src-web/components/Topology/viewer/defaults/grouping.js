@@ -14,9 +14,9 @@ import _ from 'lodash'
 
 export const getNodeGroups = (
   mode,
+  nodes = [],
   activeFilters,
-  diagramOptions = {},
-  nodes = []
+  diagramOptions = {}
 ) => {
   switch (mode) {
   case 'cluster':

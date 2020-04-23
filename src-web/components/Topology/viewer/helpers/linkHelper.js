@@ -180,11 +180,7 @@ export default class LinkHelper {
       }
     })
 
-    links.transition(transition).style(() => {
-      return {
-        opacity: 1.0
-      }
-    })
+    links.transition(transition).style(('opacity': 1.0))
 
     // move line labels
     if (this.diagramOptions.showLineLabels) {

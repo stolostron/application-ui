@@ -61,7 +61,7 @@ jobs:
       script:
         - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then export COMPONENT_TAG_EXTENSION="-PR${TRAVIS_PULL_REQUEST}-${TRAVIS_COMMIT}"; fi;
         - chmod +x copyright-check.sh
-        - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH} TRAVIS_PULL_REQUEST_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH} 
+        - make copyright-check TRAVIS_BRANCH=${TRAVIS_BRANCH} 
         - make sonar/js/jest-init
         - | 
           make 

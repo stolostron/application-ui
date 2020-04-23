@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -17,11 +18,6 @@ resources(() => {
 })
 
 export default class ApplicationDeploymentHighlightsTerminology extends React.Component {
-  componentWillMount() {}
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
   render() {
     const { open } = this.props
     const { locale } = this.context
@@ -128,5 +124,3 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
 ApplicationDeploymentHighlightsTerminology.propTypes = {
   open: PropTypes.bool
 }
-
-//export default withLocale(ApplicationDeploymentHighlightsTerminology)

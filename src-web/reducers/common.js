@@ -217,12 +217,12 @@ const makeGetSortedItemsSelector = resourceType => {
         initialSortField === 'custom.age'
           ? 'metadata.creationTimestamp'
           : initialSortField // sort by the actual date, not formatted value
+      const direction =
+        sortDirection === Actions.SORT_DIRECTION_ASCENDING
+          ? Actions.SORT_DIRECTION_DESCENDING
+          : Actions.SORT_DIRECTION_ASCENDING
       const sortDir =
-        sortField === 'metadata.creationTimestamp'
-          ? sortDirection === Actions.SORT_DIRECTION_ASCENDING
-            ? Actions.SORT_DIRECTION_DESCENDING
-            : Actions.SORT_DIRECTION_ASCENDING
-          : sortDirection // date fields should initially sort from latest to oldest
+        sortField === 'metadata.creationTimestamp' ? direction : sortDirection // date fields should initially sort from latest to oldest
       return lodash.orderBy(items, item => lodash.get(item, sortField), [
         sortDir
       ])
@@ -311,18 +311,18 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.IN_PROGRESS
     })
-  case Actions.RESOURCE_RECEIVE_SUCCESS:
+  case Actions.RESOURCE_RECEIVE_SUCCESS: {
+    const pageSize =
+        action.items.length > state.itemsPerPage * (state.page - 1)
+          ? state.page
+          : state.page - 1
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.DONE,
       items: action.items,
-      page:
-          action.items.length === 0
-            ? 1
-            : action.items.length > state.itemsPerPage * (state.page - 1)
-              ? state.page
-              : state.page - 1,
+      page: action.items.length === 0 ? 1 : pageSize,
       resourceVersion: action.resourceVersion
     })
+  }
   case Actions.RESOURCE_RECEIVE_FAILURE:
     return Object.assign({}, state, {
       status: Actions.REQUEST_STATUS.ERROR,
@@ -395,8 +395,8 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       page: action.page,
       itemsPerPage: action.pageSize
     })
-  case Actions.RESOURCE_ADD: /* eslint-disable no-case-declarations */
-  case Actions.RESOURCE_MODIFY:
+  case Actions.RESOURCE_ADD:
+  case Actions.RESOURCE_MODIFY: {
     const resourceTypeObj = !lodash.isObject(action.resourceType)
       ? RESOURCE_TYPES[
         lodash.findKey(RESOURCE_TYPES, { name: action.resourceType })
@@ -414,6 +414,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return Object.assign({}, state, {
       items: items
     })
+  }
   case Actions.RESOURCE_MUTATE:
     return Object.assign({}, state, {
       mutateStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
@@ -460,14 +461,15 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
   case Actions.DEL_RECEIVE_SUCCESS:
     items = [...state.items]
     switch (action.resourceType) {
-    case RESOURCE_TYPES.HCM_RELEASES:
+    case RESOURCE_TYPES.HCM_RELEASES: {
       const release = lodash.get(action, 'resource')
       index = lodash.findIndex(items, {
         name: release.name,
         cluster: release.cluster
       })
       break
-    case RESOURCE_TYPES.HCM_APPLICATIONS:
+    }
+    case RESOURCE_TYPES.HCM_APPLICATIONS: {
       const app = lodash.get(action, 'resource')
       index = lodash.findIndex(items, {
         metadata: {
@@ -476,6 +478,7 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
         }
       })
       break
+    }
     default:
       index = lodash.findIndex(
         items,

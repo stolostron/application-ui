@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -179,7 +180,11 @@ export default class LinkHelper {
       }
     })
 
-    links.transition(transition).style(('opacity': 1.0))
+    links.transition(transition).style(() => {
+      return {
+        opacity: 1.0
+      }
+    })
 
     // move line labels
     if (this.diagramOptions.showLineLabels) {
@@ -205,13 +210,10 @@ export default class LinkHelper {
         .selectAll('text')
         .selectAll('textPath')
         .text(({ layout = {}, label }) => {
-          return !label
-            ? ''
-            : layout.isParallel
-              ? '< both >'
-              : layout.isLoop
-                ? label
-                : layout.isSwapped ? `< ${label}` : `${label} >`
+          const isSwapped = layout.isSwapped ? `< ${label}` : `${label} >`
+          const isLoop = layout.isLoop ? label : isSwapped
+          const isParallel = layout.isParallel ? '< both >' : isLoop
+          return !label ? '' : isParallel
         })
         .attrs(() => {
           return {
@@ -328,8 +330,10 @@ export const getBackedOffPath = (svgPath, layout, typeToShapeMap) => {
     } = target
     const srcRadius = (typeToShapeMap[srcType] || {}).nodeRadius || NODE_RADIUS
     const tgtRadius = (typeToShapeMap[tgtType] || {}).nodeRadius || NODE_RADIUS
-    const srcBackoff = isMajorSrcHub ? 18 : isMinorSrcHub ? 15 : 0
-    const tgtBackoff = isMajorTgtHub ? 18 : isMinorTgtHub ? 15 : 5
+    const minorSrcHub = isMinorSrcHub ? 15 : 0
+    const minorTgtHub = isMinorTgtHub ? 15 : 5
+    const srcBackoff = isMajorSrcHub ? 18 : minorSrcHub
+    const tgtBackoff = isMajorTgtHub ? 18 : minorTgtHub
     lineData[0] = svgPath.getPointAtLength(srcRadius + srcBackoff)
     lineData[lineData.length - 1] = svgPath.getPointAtLength(
       svgPath.getTotalLength() - tgtRadius - tgtBackoff

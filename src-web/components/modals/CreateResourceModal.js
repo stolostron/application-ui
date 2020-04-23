@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -220,7 +221,9 @@ class CreateResourceModal extends React.PureComponent {
                           onClick={() => {
                             this.setState({ sample: tabsSampleContent[i] })
                           }}
-                          onKeyDown={() => {}}
+                          onKeyDown={() => {
+                            // noop function for optional property
+                          }}
                           key={tabs[key]}
                           label={tabs[key]}
                         />

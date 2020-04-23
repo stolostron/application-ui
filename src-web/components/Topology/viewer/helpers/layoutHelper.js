@@ -719,9 +719,9 @@ export default class LayoutHelper {
     // get rough idea how many to allocate for each collection based on # of nodes
     const columns = unconnected.map(collection => {
       const count = collection.elements.nodes().length
-      return count <= 3
-        ? count
-        : count <= 9 ? 3 : count <= 12 ? 4 : count <= 18 ? 6 : 8
+      const less18 = count <= 18 ? 6 : 8
+      const less12 = count <= 12 ? 4 : less18
+      return count <= 3 ? count : count <= 9 ? 3 : less12
     })
     unconnected.forEach((collection, index) => {
       collection.options =
@@ -1057,10 +1057,8 @@ export default class LayoutHelper {
       const { rowHeight } = rowDimensions[row]
 
       // dyCell centers row vertically
-      const dyCell =
-        row === 0
-          ? 0
-          : name === 'grid' ? ySpaceBetweenRows : (rowHeight - h) / 2
+      const isGrid = name === 'grid' ? ySpaceBetweenRows : (rowHeight - h) / 2
+      const dyCell = row === 0 ? 0 : isGrid
 
       // needed to saved dragged position of node based relative to its cell
       const section = { name, hashCode, x: currentX, y: currentY + dyCell }

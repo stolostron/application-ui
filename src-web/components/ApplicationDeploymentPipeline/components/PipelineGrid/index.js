@@ -276,7 +276,9 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
                 <div
                   className="yamlEditContainer"
                   onClick={() => editResourceClick(channel, getChannelResource)}
-                  onKeyPress={() => {}}
+                  onKeyPress={() => {
+                    // noop function
+                  }}
                   tabIndex={0}
                   role="button"
                 >
@@ -393,7 +395,9 @@ const SubscriptionTile = (
         onClick={() =>
           editResourceClick(thisSubscriptionData, getSubscriptionResource)
         }
-        onKeyPress={() => {}}
+        onKeyPress={() => {
+          // noop function
+        }}
         tabIndex={0}
         role="button"
       >
@@ -421,7 +425,9 @@ const SubscriptionTile = (
             onClick={() =>
               editResourceClick(placementRule, getPlacementRuleResource)
             }
-            onKeyPress={() => {}}
+            onKeyPress={() => {
+              // noop function
+            }}
             role="button"
           >
             {`${msgs.get('description.placement.rule', locale)}: ${

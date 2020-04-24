@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -22,18 +23,21 @@ class TableHelper {
   handleSort(prevSortDirection, prevSortColumn, cb, e) {
     const target = e.currentTarget
     if (target) {
-      const newSortColumn = target && target.getAttribute('data-key')
-      const defaultSortColumn =
-        target && target.getAttribute('data-default-key')
-      const newSortDirection = !prevSortColumn
-        ? defaultSortColumn === newSortColumn
+      const newSortColumn = target.getAttribute('data-key')
+      const defaultSortColumn = target.getAttribute('data-default-key')
+      const defaultSort =
+        defaultSortColumn === newSortColumn
           ? SORT_DIRECTION_DESCENDING
           : SORT_DIRECTION_ASCENDING
-        : prevSortColumn !== newSortColumn
+      const prevSortDir =
+        prevSortDirection === SORT_DIRECTION_ASCENDING
+          ? SORT_DIRECTION_DESCENDING
+          : SORT_DIRECTION_ASCENDING
+      const prevSort =
+        prevSortColumn !== newSortColumn
           ? SORT_DIRECTION_ASCENDING
-          : prevSortDirection === SORT_DIRECTION_ASCENDING
-            ? SORT_DIRECTION_DESCENDING
-            : SORT_DIRECTION_ASCENDING
+          : prevSortDir
+      const newSortDirection = prevSortColumn ? prevSort : defaultSort
       cb(newSortDirection, newSortColumn)
     }
   }

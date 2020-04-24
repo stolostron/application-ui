@@ -350,7 +350,6 @@ class ResourceTable extends React.Component {
   }
 
   getHeaders() {
-    //const { locale } = this.context
     const {
       staticResourceData,
       tableActions,
@@ -359,11 +358,11 @@ class ResourceTable extends React.Component {
       locale
     } = this.props
     let headers = staticResourceData.tableKeys.filter(tableKey => {
-      return tableKey.disabled
-        ? typeof tableKey.disabled === 'function'
+      const disabled =
+        typeof tableKey.disabled === 'function'
           ? tableKey.disabled(itemIds && itemIds.map(id => items[id]))
           : !tableKey.disabled
-        : tableKey
+      return tableKey.disabled ? disabled : tableKey
     })
     headers = headers.map(tableKey => ({
       key: tableKey.resourceKey,
@@ -418,7 +417,6 @@ class ResourceTable extends React.Component {
       locale
     } = this.props
 
-    //const { locale } = this.context
     const { normalizedKey } = staticResourceData
     const resources = this.getResources()
     if (resources && resources.length > 0) {

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * (c) Copyright 2020 Red Hat, Inc.
+ * Copyright (c) 2020 Red Hat, Inc.
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
@@ -69,6 +69,7 @@
     .resource-editor-toolbar {
       display: flex;
       align-items: center;
+      margin-top: 26px;
     }
 
     .bx--inline-notification {
@@ -83,12 +84,13 @@
       position: absolute;
       top: 3px;
       right: 4px;
-      z-index: 1000;
+      z-index: 10;
       font-size: 12px;
       cursor: pointer;
       color: #3d70b2;
       display: flex;
       align-items: center;
+      padding-top: 3px;
 
       .icon {
         margin-left: 8px;
@@ -101,7 +103,7 @@
 
   /* when editor is open */
   &.showExpandedTopology {
-    height: calc(100vh - 210px);
+    height: calc(100vh - 213px);
     margin: -30px -4rem -70px -3rem;
 
     /* when editor is open, diagram and control positions */
@@ -124,9 +126,6 @@
         border: none;
         background-color: unset;
         padding: 0 0 6px;
-
-        .diagram-type-filter-bar {
-        }
       }
     }
   }

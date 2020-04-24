@@ -98,7 +98,8 @@ describe("hcmapplicationdiagram-tests", () => {
           metadata: {
             name: "cluster1"
           }
-        }
+        },
+        namespace: "default"
       },
       {
         name: "p2-def",
@@ -106,7 +107,8 @@ describe("hcmapplicationdiagram-tests", () => {
           metadata: {
             name: "cluster2"
           }
-        }
+        },
+        namespace: "default"
       }
     ];
     const topology = {
@@ -120,7 +122,9 @@ describe("hcmapplicationdiagram-tests", () => {
       [],
       { p1: 1, p2: 2 },
       "channel",
-      "key"
+      "key",
+      true,
+      "default"
     );
   });
 
@@ -132,7 +136,8 @@ describe("hcmapplicationdiagram-tests", () => {
           metadata: {
             name: "cluster1"
           }
-        }
+        },
+        namespace: "default"
       },
       {
         name: "p2",
@@ -140,7 +145,8 @@ describe("hcmapplicationdiagram-tests", () => {
           metadata: {
             name: "cluster2"
           }
-        }
+        },
+        namespace: "default"
       }
     ];
     const topology = {
@@ -149,7 +155,15 @@ describe("hcmapplicationdiagram-tests", () => {
       detailsReloading: true,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(topology, [], [], "channel", "key");
+    hcmapplicationdiagram.addDiagramDetails(
+      topology,
+      [],
+      [],
+      "channel",
+      "key",
+      false,
+      "default"
+    );
   });
 
   it("addDiagramDetails3", () => {
@@ -160,6 +174,14 @@ describe("hcmapplicationdiagram-tests", () => {
       detailsReloading: true,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(topology, [], [], "channel", "key");
+    hcmapplicationdiagram.addDiagramDetails(
+      topology,
+      [],
+      [],
+      "channel",
+      "key",
+      true,
+      "default"
+    );
   });
 });

@@ -4,7 +4,7 @@ This repo is structured just like `build-harness`, and is pulled in via:
 
 ```BUILD_HARNESS_EXTENSIONS_PATH```
 
-In order to use the build harness and extensions, make yourself a [token](https://github.com/settings/tokens) that at least has `repo` access add the following to your `Makefile`:
+In order to use the build harness and extensions, make yourself a [token](https://github.com/settings/tokens) that at least has `repo` access, and add the following to your `Makefile`:
 
 ```
 # GITHUB_USER containing '@' char must be escaped with '%40'
@@ -19,3 +19,4 @@ Some OSes seem to have trouble with the V3 API for github - here is an alternate
 -include $(shell [ -f ".build-harness-bootstrap" ] || curl -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions-test/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
 
 ```
+

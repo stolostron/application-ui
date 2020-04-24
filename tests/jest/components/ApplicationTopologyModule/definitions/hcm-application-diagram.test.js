@@ -91,7 +91,26 @@ describe("hcmapplicationdiagram-tests", () => {
 
   // following function have no return as it is meant to be called in getDiagramElements as a helper function
   it("addDiagramDetails", () => {
-    const pods = [{ name: "p1-abc" }, { name: "p2-def" }];
+    const pods = [
+      {
+        name: "p1-abc",
+        cluster: {
+          metadata: {
+            name: "cluster1"
+          }
+        },
+        namespace: "default"
+      },
+      {
+        name: "p2-def",
+        cluster: {
+          metadata: {
+            name: "cluster2"
+          }
+        },
+        namespace: "default"
+      }
+    ];
     const topology = {
       detailsLoaded: true,
       status: "IN_PROGRESS",
@@ -103,19 +122,48 @@ describe("hcmapplicationdiagram-tests", () => {
       [],
       { p1: 1, p2: 2 },
       "channel",
-      "key"
+      "key",
+      true,
+      "default"
     );
   });
 
   it("addDiagramDetails2", () => {
-    const pods = [{ name: "p1" }, { name: "p2" }];
+    const pods = [
+      {
+        name: "p1",
+        cluster: {
+          metadata: {
+            name: "cluster1"
+          }
+        },
+        namespace: "default"
+      },
+      {
+        name: "p2",
+        cluster: {
+          metadata: {
+            name: "cluster2"
+          }
+        },
+        namespace: "default"
+      }
+    ];
     const topology = {
       detailsLoaded: true,
       status: "IN_PROGRESS",
       detailsReloading: true,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(topology, [], [], "channel", "key");
+    hcmapplicationdiagram.addDiagramDetails(
+      topology,
+      [],
+      [],
+      "channel",
+      "key",
+      false,
+      "default"
+    );
   });
 
   it("addDiagramDetails3", () => {
@@ -126,6 +174,14 @@ describe("hcmapplicationdiagram-tests", () => {
       detailsReloading: true,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(topology, [], [], "channel", "key");
+    hcmapplicationdiagram.addDiagramDetails(
+      topology,
+      [],
+      [],
+      "channel",
+      "key",
+      true,
+      "default"
+    );
   });
 });

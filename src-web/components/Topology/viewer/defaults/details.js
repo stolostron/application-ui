@@ -20,7 +20,7 @@ export const getNodeDetails = node => {
     switch (type) {
     case 'cluster':
       {
-        const { cluster = {}, violations = [], clusters = [] } = specs
+        const { cluster, violations = [], clusters = [] } = specs
         const clusterArr = cluster ? [cluster] : clusters
         clusterArr.forEach(c => {
           const {
@@ -422,8 +422,8 @@ function factorize(prefixes, unit, type) {
   for (var index = 0; index < prefixes.length; index++) {
     if (unit === prefixes[index]) {
       const base = type === 'binary' ? 1024 : 1000
-      const exponent =
-        type === 'binary' ? index + 1 : unit === 'm' ? -1 : index
+      const unitM = unit === 'm' ? -1 : index
+      const exponent = type === 'binary' ? index + 1 : unitM
       factorize = Math.pow(base, exponent)
     }
   }

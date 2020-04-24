@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2016, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -8,9 +9,6 @@
 
 // @flow
 import { createAction } from '../../shared/utils/state'
-import { SEARCH_QUERY_RELATED } from '../../apollo-client/queries/SearchQueries'
-import { returnBulkQueryString } from './utils'
-import { mapBulkSubscriptions } from '../data-mappers/mapSubscriptionsBulk'
 
 import R from 'ramda'
 
@@ -22,7 +20,7 @@ const SET_SUBSCRIPTION_MODAL_HEADERS = 'SET_SUBSCRIPTION_MODAL_HEADERS'
 const SET_DEPLOYABLE_SUBSCRIPTION_INFO = 'SET_DEPLOYABLE_SUBSCRIPTION_INFO'
 const SET_SUBSCRIPTION_MODAL_DATA = 'SET_SUBSCRIPTION_MODAL_DATA'
 const SET_DEPLOYMENT_SEARCH = 'SET_DEPLOYMENT_SEARCH'
-const SET_CURRENT_CHANNEL_INFO = 'SET_APPLICATION_INFO'
+const SET_CURRENT_CHANNEL_INFO = 'SET_CURRENT_CHANNEL_INFO'
 const SET_CURRENT_APPLICATION_INFO = 'SET_CURRENT_APPLICATION_INFO'
 const SET_CURRENT_SUBSCRIPTION_INFO = 'SET_CURRENT_SUBSCRIPTION_INFO'
 const SET_CURRENT_PLACEMENT_RULE_INFO = 'SET_CURRENT_PLACEMENT_RULE_INFO'
@@ -302,29 +300,6 @@ export const fetchPlacementRuleResource = (
       .catch(err => {
         dispatch(setLoading(false))
         dispatch(setCurrentPlacementRuleInfo(err))
-      })
-  }
-}
-// This will fetch a bulk list of related information on deployables
-// we will use this data in order to relate deployables to each subscription which
-// cani then be related to the channel
-export const fetchBulkSubscriptionList = (apolloClient, applicationList) => {
-  const combinedQuery = returnBulkQueryString(applicationList, 'subscription')
-  return dispatch => {
-    return apolloClient
-      .search(SEARCH_QUERY_RELATED, { input: combinedQuery })
-      .then(response => {
-        if (response.errors) {
-          return dispatch(setBulkSubscriptionError(response.errors))
-        }
-        dispatch(
-          setBulkSubscriptionList(
-            mapBulkSubscriptions(response.data.searchResult)
-          )
-        )
-      })
-      .catch(err => {
-        dispatch(setBulkSubscriptionError(err))
       })
   }
 }

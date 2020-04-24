@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -187,11 +188,8 @@ class ResourceModal extends React.PureComponent {
                 />
               ))}
 
-            {/*{reqErrorMsg && reqErrorMsg.length > 0 && <InlineNotification key={`inline-notification-${reqErrorMsg}`} kind='error' title='' subtitle={reqErrorMsg} iconDescription={msgs.get('svg.description.error', locale)} />}*/}
             <YamlEditor
-              //validator={validator}
               onYamlChange={this.onChange}
-              //handleParsingError={this.handleParsingError}
               yaml={this.state && this.state.data}
             />
           </ModalBody>

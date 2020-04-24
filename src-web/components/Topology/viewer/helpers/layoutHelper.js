@@ -226,38 +226,40 @@ export default class LayoutHelper {
           // fill edges
           var edgeMap = {}
           for (var uid in nodeMap) {
-            directions.forEach(({ map, next, other }) => {
-              if (map.hasOwnProperty(uid)) {
-                map[uid].forEach(entry => {
-                  const { link } = entry
+            if (nodeMap.hasOwnProperty(uid)) {
+              directions.forEach(({ map, next, other }) => {
+                if (map.hasOwnProperty(uid)) {
+                  map[uid].forEach(entry => {
+                    const { link } = entry
 
-                  // add link-- use current layout if still relavent
-                  const theNext =
-                    this.nodesToBeCloned[link[next]] ||
-                    allNodeMap[link[next]].layout
-                  const theOther =
-                    this.nodesToBeCloned[link[other]] ||
-                    allNodeMap[link[other]].layout
-                  if (
-                    !link.layout ||
-                    link[next] !== theNext.uid ||
-                    link[other] !== theOther.uid
-                  ) {
-                    link.layout = {}
-                    link.layout[next] = theNext
-                    link.layout[other] = theOther
-                  }
-                  edgeMap[link.uid] = link
+                    // add link-- use current layout if still relavent
+                    const theNext =
+                      this.nodesToBeCloned[link[next]] ||
+                      allNodeMap[link[next]].layout
+                    const theOther =
+                      this.nodesToBeCloned[link[other]] ||
+                      allNodeMap[link[other]].layout
+                    if (
+                      !link.layout ||
+                      link[next] !== theNext.uid ||
+                      link[other] !== theOther.uid
+                    ) {
+                      link.layout = {}
+                      link.layout[next] = theNext
+                      link.layout[other] = theOther
+                    }
+                    edgeMap[link.uid] = link
 
-                  // remember clusters
-                  this.gatherSectionDetails(
-                    allNodeMap,
-                    [theNext, theOther],
-                    details
-                  )
-                })
-              }
-            })
+                    // remember clusters
+                    this.gatherSectionDetails(
+                      allNodeMap,
+                      [theNext, theOther],
+                      details
+                    )
+                  })
+                }
+              })
+            }
           }
           this.setSectionDetails(connect, details, edgeMap)
         })
@@ -719,9 +721,9 @@ export default class LayoutHelper {
     // get rough idea how many to allocate for each collection based on # of nodes
     const columns = unconnected.map(collection => {
       const count = collection.elements.nodes().length
-      return count <= 3
-        ? count
-        : count <= 9 ? 3 : count <= 12 ? 4 : count <= 18 ? 6 : 8
+      const less18 = count <= 18 ? 6 : 8
+      const less12 = count <= 12 ? 4 : less18
+      return count <= 3 ? count : count <= 9 ? 3 : less12
     })
     unconnected.forEach((collection, index) => {
       collection.options =
@@ -1057,10 +1059,8 @@ export default class LayoutHelper {
       const { rowHeight } = rowDimensions[row]
 
       // dyCell centers row vertically
-      const dyCell =
-        row === 0
-          ? 0
-          : name === 'grid' ? ySpaceBetweenRows : (rowHeight - h) / 2
+      const isGrid = name === 'grid' ? ySpaceBetweenRows : (rowHeight - h) / 2
+      const dyCell = row === 0 ? 0 : isGrid
 
       // needed to saved dragged position of node based relative to its cell
       const section = { name, hashCode, x: currentX, y: currentY + dyCell }

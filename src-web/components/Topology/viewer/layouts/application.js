@@ -10,6 +10,7 @@
 'use strict'
 
 import { NODE_SIZE } from '../constants.js'
+import { getClusterName } from '../../../../../lib/client/resource-helper.js'
 import _ from 'lodash'
 
 export const getConnectedApplicationLayoutOptions = (
@@ -128,13 +129,6 @@ const positionApplicationRows = (row, typeToShapeMap) => {
       n.position({ x, y })
     }
   })
-}
-
-const getClusterName = nodeId => {
-  const startPos = nodeId.indexOf('--clusters--') + 12
-  const endPos = nodeId.indexOf('--', startPos)
-  const clusterName = nodeId.slice(startPos, endPos)
-  return clusterName
 }
 
 const positionRowsDown = (

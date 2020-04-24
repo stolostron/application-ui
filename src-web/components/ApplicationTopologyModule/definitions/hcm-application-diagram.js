@@ -153,7 +153,8 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
       podMap,
       activeChannel,
       localStoreKey,
-      isClusterGrouped
+      isClusterGrouped,
+      inamespace
     )
 
     return {
@@ -253,7 +254,8 @@ function addDiagramDetails(
   podMap,
   activeChannel,
   localStoreKey,
-  isClusterGrouped
+  isClusterGrouped,
+  inamespace
 ) {
   const { status, detailsLoaded, detailsReloading } = topology
   // get extra details from topology or from localstore
@@ -279,7 +281,7 @@ function addDiagramDetails(
   if (pods) {
     pods.forEach(pod => {
       const { name: pname } = pod
-      if (pname) {
+      if (pname && inamespace === pod.namespace) {
         // get pod name w/o uid suffix
         let name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
         if (name === pname) {

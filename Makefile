@@ -31,7 +31,6 @@ install:
 copyright-check:
 	./copyright-check.sh $(TRAVIS_BRANCH)
 
-
 lint:
 	npm run lint
 

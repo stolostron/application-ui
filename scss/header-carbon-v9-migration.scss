@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
- @import 'node_modules/carbon-components/scss/globals/scss/_colors';
- @import 'variables';
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
-.expand-vertically{
-  .secondary-header{
-    .bx--detail-page-header-content{
-      .bx--detail-page-header-title-container{
+.expand-vertically {
+  .secondary-header {
+    .bx--detail-page-header-content {
+      .bx--detail-page-header-title-container {
         display: flex;
         flex-direction: row;
       }
@@ -20,27 +20,27 @@
 
     .bx--detail-page-header-title {
       font-weight: 300;
-      color: $color__navy-gray-6;
+      font-size: 28px;
+      color: $color__blue-90;
     }
-
   }
 
   .policy-violation-tab #policyViolations-module-id .bx--module__inner {
     width: 100%;
   }
 
-  #yaml-template.compliance-templates .bx--module__inner  {
+  #yaml-template.compliance-templates .bx--module__inner {
     width: 100%;
   }
 
-  .bx--module{
+  .bx--module {
     font-family: RedHatText;
     padding: .625rem;
     margin: 0;
   }
 
   .bx--module .bx--module__inner {
-    box-shadow: 0 0.0625rem 0.125rem 0 rgba(0,0,0,.1);
+    box-shadow: 0 0.0625rem 0.125rem 0 rgba(0, 0, 0, .1);
     background-color: $color__white;
     border: 0.0625rem solid transparent;
   }

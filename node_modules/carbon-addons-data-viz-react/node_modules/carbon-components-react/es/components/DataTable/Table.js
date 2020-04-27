@@ -1,0 +1,7 @@
+import wrapComponent from '../../tools/wrapComponent';
+export var Table = wrapComponent({
+  name: 'Table',
+  className: ['bx--data-table-v2', 'bx--data-table-v2--zebra'],
+  type: 'table'
+});
+export default Table;

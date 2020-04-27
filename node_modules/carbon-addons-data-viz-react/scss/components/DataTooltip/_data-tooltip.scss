@@ -1,0 +1,88 @@
+.bx--data-tooltip {
+  padding: 0;
+}
+
+.bx--data-tooltip__label {
+  width: 100%;
+  height: rem(32px);
+  display: inline-flex;
+  align-items: center;
+  font-size: rem(14px);
+  color: $text-02;
+  padding: 0 1rem;
+  white-space: nowrap;
+  border-bottom: 1px solid $ui-04;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.bx--data-tooltip__label--no-margin {
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.bx--data-tooltip-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.bx--data-tooltip-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.bx--data-tooltip-list--block .bx--data-tooltip-list-item {
+  display: inline-block;
+  width: 100%;
+}
+
+.bx--data-tooltip-list--block .bx--data-tooltip__multiple--right {
+  padding-right: 1rem;
+  margin-right: 0;
+}
+
+.bx--data-tooltip-list-item__label {
+  color: $text-02;
+  font-size: rem(12px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.bx--data-tooltip-list-item__data {
+  font-weight: 600;
+}
+
+.bx--data-tooltip-list-item__data,
+.bx--data-tooltip-list-item__label {
+  display: inline-block;
+}
+
+.bx--data-tooltip__base {
+  min-height: 1.625rem;
+  padding: 0 0.625rem;
+}
+
+.bx--data-tooltip__single {
+  min-height: 2.625rem;
+  padding: 0 0.625rem;
+}
+
+.bx--data-tooltip__multiple {
+  margin: 0 1rem 1rem;
+  min-height: 2rem;
+  padding-left: 0.5rem;
+}
+
+.bx--data-tooltip__multiple--right {
+  margin-left: 0;
+}
+
+.bx--data-tooltip__multiple--left {
+  margin-right: 0;
+}

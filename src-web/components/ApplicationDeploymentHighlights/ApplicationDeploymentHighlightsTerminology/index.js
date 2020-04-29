@@ -68,20 +68,6 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
               <div className="terminology-item">
                 <p className="deployment-highlights-terminology-header">
                   {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.deployables',
-                    locale
-                  )}
-                </p>
-                <p className="deployment-highlights-terminology-content">
-                  {msgs.get(
-                    'description.title.deploymentHighlightsTerminology.deployablesSummary',
-                    locale
-                  )}
-                </p>
-              </div>
-              <div className="terminology-item">
-                <p className="deployment-highlights-terminology-header">
-                  {msgs.get(
                     'description.title.deploymentHighlightsTerminology.channels',
                     locale
                   )}

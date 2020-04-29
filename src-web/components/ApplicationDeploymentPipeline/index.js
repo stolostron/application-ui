@@ -135,7 +135,8 @@ class ApplicationDeploymentPipeline extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      xhrPoll: false
+      xhrPoll: false,
+      hideChannels: false
     }
   }
 
@@ -187,12 +188,8 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchChannels()
   }
 
-  toggleSelected() {
-    this.setState(prevState => {
-      const currState = prevState.selected
-      currState.selected = !currState.selected
-      return currState
-    })
+  toggleHideChannels() {
+    this.setState({ modalOpen: !modalOpen })
   }
 
   render() {
@@ -385,15 +382,12 @@ class ApplicationDeploymentPipeline extends React.Component {
           </div>
         )}
         {isSingleApplicationView && (
-          <div className="remove-app-modal-content-data">
+          <div>
             <Checkbox
-              id={'filter-channels'}
-              checked={this.state.selected.some(i => {
-                return i.id === child.id && child.selected === true
-              })}
-              onChange={this.toggleSelected}
+              id={'hide-channels'}
+              checked={this.state.hideChannels}
+              onChange={this.toggleHideChannels}
               labelText={'Show all channels'}
-              //aria-label={child.id}
             />
           </div>
         )}

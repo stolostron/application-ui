@@ -41,6 +41,7 @@ import {
 } from '../common/ResourceOverview/utils'
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
+import { createSubscriptionPerChannel } from './components/PipelineGrid/utils'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -186,6 +187,14 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchChannels()
   }
 
+  toggleSelected() {
+    this.setState(prevState => {
+      const currState = prevState.selected
+      currState.selected = !currState.selected
+      return currState
+    })
+  }
+
   render() {
     // wait for it
     const {
@@ -246,21 +255,39 @@ class ApplicationDeploymentPipeline extends React.Component {
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
-    const channels = getChannelsList(HCMChannelList)
+    let channels = getChannelsList(HCMChannelList)
 
     const isSingleApplicationView =
       breadcrumbItems && breadcrumbItems.length === 2
     let selectedAppName = ''
     let selectedAppNS = ''
     let app = null
-    if (
+    const selectedApp =
       applications &&
       applications instanceof Array &&
       applications.length === 1
-    ) {
+    if (selectedApp) {
       app = applications[0]
       selectedAppNS = app.namespace
       selectedAppName = app.name
+    }
+
+    if (isSingleApplicationView && selectedApp) {
+      const subscriptionsFetched = applications[0].hubSubscriptions
+      const subscriptionsForThisApplication = subscriptionsFetched || []
+      const subscriptionsUnderColumns = createSubscriptionPerChannel(
+        channels,
+        subscriptionsForThisApplication
+      )
+
+      const subscribedChannels = []
+      for (var i = 0; i < subscriptionsUnderColumns.length; i++) {
+        if (subscriptionsUnderColumns[i].length > 0) {
+          subscribedChannels.push(channels[i])
+        }
+      }
+      // for selected app, update channel list with only channels that it's subscribed to
+      channels = subscribedChannels
     }
 
     const subscriptionModalHeader =
@@ -354,6 +381,19 @@ class ApplicationDeploymentPipeline extends React.Component {
                 actions.setDeploymentSearch(event.target.value)
               }}
               id="search-1"
+            />
+          </div>
+        )}
+        {isSingleApplicationView && (
+          <div className="remove-app-modal-content-data">
+            <Checkbox
+              id={'filter-channels'}
+              checked={this.state.selected.some(i => {
+                return i.id === child.id && child.selected === true
+              })}
+              onChange={this.toggleSelected}
+              labelText={'Show all channels'}
+              //aria-label={child.id}
             />
           </div>
         )}

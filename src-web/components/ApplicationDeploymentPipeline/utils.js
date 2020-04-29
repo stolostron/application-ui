@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -23,15 +23,21 @@ export const getApplicationsForSelection = (
   AppDeployments
 ) => {
   let selectedAppName = ''
+  let selectedAppNamespace = ''
   const isSingleApplicationView = breadcrumbItems.length === 2
 
   let filteredApplications = ''
   if (isSingleApplicationView) {
     const urlArray = R.split('/', breadcrumbItems[1].url)
     selectedAppName = urlArray[urlArray.length - 1]
+    selectedAppNamespace = urlArray[urlArray.length - 2]
 
     // if there is only a single application, filter the list with the selectedAppName
-    filteredApplications = filterApps(list, selectedAppName)
+    filteredApplications = filterApps(
+      list,
+      selectedAppName,
+      selectedAppNamespace
+    )
   } else {
     // multi app view
     filteredApplications = filterApps(
@@ -109,16 +115,19 @@ export const getSubscriptionsList = subscriptions => {
   return []
 }
 
-// This takes in the applications list and searchText and filters down the applications
-export const filterApps = (applications, searchText) => {
+// This takes in the applications list, application name, and application namespace to filters down the applications
+export const filterApps = (applications, searchName, searchNamespace) => {
   if (
-    searchText !== '' &&
+    searchName !== '' &&
+    searchNamespace !== '' &&
     applications &&
     applications.items &&
     applications.items.length > 0
   ) {
-    const doesContainName = x => x.name.includes(searchText)
-    const filteredApps = R.filter(doesContainName, applications.items)
+    const doesContainName = x => x.name.includes(searchName)
+    const doesContainNamespace = y => y.namespace.includes(searchNamespace)
+    var filteredApps = R.filter(doesContainName, applications.items)
+    filteredApps = R.filter(doesContainNamespace, filteredApps)
     // The format is expecting it in an objects of items so keeping the format
     return { items: filteredApps }
   }

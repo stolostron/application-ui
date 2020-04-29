@@ -63,7 +63,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify deployables within channels by using annotations, labels and versions. Then, the subscription places the deployables (template or referenced Helm chart) on the subscribed target clusters.
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources in the same namespace where it is created on the subscribed target clusters.
               </p>
             </div>
             <div
@@ -77,21 +77,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered.
-              </p>
-            </div>
-            <div
-              className="terminology-item"
-            >
-              <p
-                className="deployment-highlights-terminology-header"
-              >
-                Deployables
-              </p>
-              <p
-                className="deployment-highlights-terminology-content"
-              >
-                Deployables are Kubernetes resources that contain templates that wrap other Kubernetes resources to be deployed. They are also used to represent Helm charts.
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
               </p>
             </div>
             <div
@@ -105,7 +91,7 @@ exports[`ApplicationDeploymentHighlights with an app selected ApplicationDeploym
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as a namespace, object store, or Helm repository. Channels use deployable resources to represent stored Kubernetes resources and Helm charts.
+                Channels point to repositories where Kubernetes resources are stored, such as a GitHubrepositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -219,7 +205,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify deployables within channels by using annotations, labels and versions. Then, the subscription places the deployables (template or referenced Helm chart) on the subscribed target clusters.
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources in the same namespace where it is created on the subscribed target clusters.
               </p>
             </div>
             <div
@@ -233,21 +219,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered.
-              </p>
-            </div>
-            <div
-              className="terminology-item"
-            >
-              <p
-                className="deployment-highlights-terminology-header"
-              >
-                Deployables
-              </p>
-              <p
-                className="deployment-highlights-terminology-content"
-              >
-                Deployables are Kubernetes resources that contain templates that wrap other Kubernetes resources to be deployed. They are also used to represent Helm charts.
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
               </p>
             </div>
             <div
@@ -261,7 +233,7 @@ exports[`ApplicationDeploymentHighlights with no app ApplicationDeploymentHighli
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as a namespace, object store, or Helm repository. Channels use deployable resources to represent stored Kubernetes resources and Helm charts.
+                Channels point to repositories where Kubernetes resources are stored, such as a GitHubrepositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div
@@ -375,7 +347,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Subscriptions identify deployables within channels by using annotations, labels and versions. Then, the subscription places the deployables (template or referenced Helm chart) on the subscribed target clusters.
+                Subscriptions identify kubernetes resources within channels (source repositories). Then, the subscription places the Kubernetes Resources in the same namespace where it is created on the subscribed target clusters.
               </p>
             </div>
             <div
@@ -389,21 +361,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Placement rules define the target clusters where subscriptions are delivered.
-              </p>
-            </div>
-            <div
-              className="terminology-item"
-            >
-              <p
-                className="deployment-highlights-terminology-header"
-              >
-                Deployables
-              </p>
-              <p
-                className="deployment-highlights-terminology-content"
-              >
-                Deployables are Kubernetes resources that contain templates that wrap other Kubernetes resources to be deployed. They are also used to represent Helm charts.
+                Placement rules define the target clusters where subscriptions are delivered. This is done by cluster name, cluster resource annotation(s) or cluster resource label(s).
               </p>
             </div>
             <div
@@ -417,7 +375,7 @@ exports[`ApplicationDeploymentHighlights with no app selection ApplicationDeploy
               <p
                 className="deployment-highlights-terminology-content"
               >
-                Channels point to repositories where Kubernetes resources are stored, such as a namespace, object store, or Helm repository. Channels use deployable resources to represent stored Kubernetes resources and Helm charts.
+                Channels point to repositories where Kubernetes resources are stored, such as a GitHubrepositories, Helm chart repositories, object store, or hub namespace. Channels support multiple subscriptions from multiple targets.
               </p>
             </div>
             <div

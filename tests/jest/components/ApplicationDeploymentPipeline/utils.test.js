@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -219,22 +219,36 @@ describe("getSubscriptionsList", () => {
 
 describe("filterApps", () => {
   const applicationList = {
-    items: [{ name: "dart" }, { name: "shanna" }, { name: "sheee" }]
+    items: [
+      { name: "dart", namespace: "default" },
+      { name: "shanna", namespace: "default" },
+      { name: "sheee", namespace: "default" },
+      { name: "sheee", namespace: "ocm" }
+    ]
   };
   const applicationDud = {
     itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }]
   };
   it("should return applicationList list of 2", () => {
     const result = {
-      items: [{ name: "shanna" }, { name: "sheee" }]
+      items: [
+        { name: "shanna", namespace: "default" },
+        { name: "sheee", namespace: "default" }
+      ]
     };
-    expect(filterApps(applicationList, "sh")).toEqual(result);
+    expect(filterApps(applicationList, "sh", "default")).toEqual(result);
+  });
+  it("should return applicationList list of 1", () => {
+    const result = {
+      items: [{ name: "sheee", namespace: "ocm" }]
+    };
+    expect(filterApps(applicationList, "sheee", "ocm")).toEqual(result);
   });
   it("should return applicationList list of 0", () => {
     const result = {
       items: []
     };
-    expect(filterApps(applicationList, "haschel")).toEqual(result);
+    expect(filterApps(applicationList, "haschel", "default")).toEqual(result);
   });
   it("should return what was inputed", () => {
     expect(filterApps(applicationDud)).toEqual(applicationDud);

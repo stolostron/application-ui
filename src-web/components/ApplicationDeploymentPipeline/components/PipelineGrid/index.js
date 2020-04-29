@@ -270,7 +270,7 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
       {channelList.map(channel => {
         const channelName = channel.name
         return (
-          <div key={channel.id} className="channelColumn">
+          <div key={channel.selfLink} className="channelColumn">
             <Tile className="channelColumnHeader">
               <div className="channelNameHeader">
                 <div

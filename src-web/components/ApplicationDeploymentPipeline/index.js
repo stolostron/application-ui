@@ -29,7 +29,7 @@ import {
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
 import { Search, Loading, Notification } from 'carbon-components-react'
-import { getChannelsList, getApplicationsForSelection } from './utils'
+import { getChannelsList, getApplicationsForSelection, getSubscribedChannels } from './utils'
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
@@ -41,7 +41,6 @@ import {
 } from '../common/ResourceOverview/utils'
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
-import { createSubscriptionPerChannel } from './components/PipelineGrid/utils'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -135,8 +134,7 @@ class ApplicationDeploymentPipeline extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      xhrPoll: false,
-      hideChannels: false
+      xhrPoll: false
     }
   }
 
@@ -186,10 +184,6 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions()
     }
     fetchChannels()
-  }
-
-  toggleHideChannels() {
-    this.setState({ modalOpen: !modalOpen })
   }
 
   render() {
@@ -252,7 +246,10 @@ class ApplicationDeploymentPipeline extends React.Component {
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
-    let channels = getChannelsList(HCMChannelList)
+    const channels = getSubscribedChannels(
+      getChannelsList(HCMChannelList), 
+      applications, 
+      AppDeployments)
 
     const isSingleApplicationView =
       breadcrumbItems && breadcrumbItems.length === 2
@@ -269,23 +266,23 @@ class ApplicationDeploymentPipeline extends React.Component {
       selectedAppName = app.name
     }
 
-    if (isSingleApplicationView && selectedApp) {
-      const subscriptionsFetched = applications[0].hubSubscriptions
-      const subscriptionsForThisApplication = subscriptionsFetched || []
-      const subscriptionsUnderColumns = createSubscriptionPerChannel(
-        channels,
-        subscriptionsForThisApplication
-      )
+    // if (isSingleApplicationView && selectedApp) {
+    //   const subscriptionsFetched = applications[0].hubSubscriptions
+    //   const subscriptionsForThisApplication = subscriptionsFetched || []
+    //   const subscriptionsUnderColumns = createSubscriptionPerChannel(
+    //     channels,
+    //     subscriptionsForThisApplication
+    //   )
 
-      const subscribedChannels = []
-      for (var i = 0; i < subscriptionsUnderColumns.length; i++) {
-        if (subscriptionsUnderColumns[i].length > 0) {
-          subscribedChannels.push(channels[i])
-        }
-      }
-      // for selected app, update channel list with only channels that it's subscribed to
-      channels = subscribedChannels
-    }
+    //   const subscribedChannels = []
+    //   for (var i = 0; i < subscriptionsUnderColumns.length; i++) {
+    //     if (subscriptionsUnderColumns[i].length > 0) {
+    //       subscribedChannels.push(channels[i])
+    //     }
+    //   }
+    //   // for selected app, update channel list with only channels that it's subscribed to
+    //   channels = subscribedChannels
+    // }
 
     const subscriptionModalHeader =
       AppDeployments.subscriptionModalHeaderInfo &&
@@ -386,7 +383,9 @@ class ApplicationDeploymentPipeline extends React.Component {
             <Checkbox
               id={'hide-channels'}
               checked={this.state.hideChannels}
-              onChange={this.toggleHideChannels}
+              onChange={event => {
+                actions.setHideChannels(event.target.value)
+              }}
               labelText={'Show all channels'}
             />
           </div>

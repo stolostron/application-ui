@@ -12,6 +12,7 @@ import {
   getSubscriptionsList,
   getChannelsList,
   getPlacementRuleFromBulkSubscription,
+  filterSingleApp,
   filterApps
 } from "../../../../src-web/components/ApplicationDeploymentPipeline/utils";
 
@@ -217,7 +218,7 @@ describe("getSubscriptionsList", () => {
   });
 });
 
-describe("filterApps", () => {
+describe("filterSingleApp", () => {
   const applicationList = {
     items: [
       { name: "dart", namespace: "default" },
@@ -236,19 +237,69 @@ describe("filterApps", () => {
         { name: "sheee", namespace: "default" }
       ]
     };
-    expect(filterApps(applicationList, "sh", "default")).toEqual(result);
+    expect(filterSingleApp(applicationList, "sh", "default")).toEqual(result);
   });
   it("should return applicationList list of 1", () => {
     const result = {
       items: [{ name: "sheee", namespace: "ocm" }]
     };
-    expect(filterApps(applicationList, "sheee", "ocm")).toEqual(result);
+    expect(filterSingleApp(applicationList, "sheee", "ocm")).toEqual(result);
   });
   it("should return applicationList list of 0", () => {
     const result = {
       items: []
     };
-    expect(filterApps(applicationList, "haschel", "default")).toEqual(result);
+    expect(filterSingleApp(applicationList, "haschel", "default")).toEqual(
+      result
+    );
+  });
+  it("should return what was inputed", () => {
+    expect(filterSingleApp(applicationDud)).toEqual(applicationDud);
+  });
+});
+
+describe("filterApps", () => {
+  const applicationList = {
+    items: [
+      { name: "dart", namespace: "default" },
+      { name: "shanna", namespace: "default" },
+      { name: "sheee", namespace: "default" },
+      { name: "sheee", namespace: "ocm" }
+    ]
+  };
+  const applicationDud = {
+    itteemmss: [{ deployables: [{}, {}] }, { deployables: [{}] }]
+  };
+  it("should return applicationList list of 3", () => {
+    const result = {
+      items: [
+        { name: "shanna", namespace: "default" },
+        { name: "sheee", namespace: "default" },
+        { name: "sheee", namespace: "ocm" }
+      ]
+    };
+    expect(filterApps(applicationList, "sh")).toEqual(result);
+  });
+  it("should return applicationList list of 2", () => {
+    const result = {
+      items: [
+        { name: "sheee", namespace: "default" },
+        { name: "sheee", namespace: "ocm" }
+      ]
+    };
+    expect(filterApps(applicationList, "she")).toEqual(result);
+  });
+  it("should return applicationList list of 1", () => {
+    const result = {
+      items: [{ name: "dart", namespace: "default" }]
+    };
+    expect(filterApps(applicationList, "d")).toEqual(result);
+  });
+  it("should return applicationList list of 0", () => {
+    const result = {
+      items: []
+    };
+    expect(filterApps(applicationList, "mortgage-app")).toEqual(result);
   });
   it("should return what was inputed", () => {
     expect(filterApps(applicationDud)).toEqual(applicationDud);

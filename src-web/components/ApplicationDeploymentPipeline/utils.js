@@ -32,8 +32,8 @@ export const getApplicationsForSelection = (
     selectedAppName = urlArray[urlArray.length - 1]
     selectedAppNamespace = urlArray[urlArray.length - 2]
 
-    // if there is only a single application, filter the list with the selectedAppName
-    filteredApplications = filterApps(
+    // if there is only a single application, filter the list with the selectedAppName and selectedAppNamespace
+    filteredApplications = filterSingleApp(
       list,
       selectedAppName,
       selectedAppNamespace
@@ -116,7 +116,7 @@ export const getSubscriptionsList = subscriptions => {
 }
 
 // This takes in the applications list, application name, and application namespace to filters down the applications
-export const filterApps = (applications, searchName, searchNamespace) => {
+export const filterSingleApp = (applications, searchName, searchNamespace) => {
   if (
     searchName !== '' &&
     searchNamespace !== '' &&
@@ -128,6 +128,22 @@ export const filterApps = (applications, searchName, searchNamespace) => {
     const doesContainNamespace = y => y.namespace.includes(searchNamespace)
     var filteredApps = R.filter(doesContainName, applications.items)
     filteredApps = R.filter(doesContainNamespace, filteredApps)
+    // The format is expecting it in an objects of items so keeping the format
+    return { items: filteredApps }
+  }
+  return applications
+}
+
+// This takes in the applications list and searchText and filters down the applications
+export const filterApps = (applications, searchText) => {
+  if (
+    searchText !== '' &&
+    applications &&
+    applications.items &&
+    applications.items.length > 0
+  ) {
+    const doesContainName = x => x.name.includes(searchText)
+    const filteredApps = R.filter(doesContainName, applications.items)
     // The format is expecting it in an objects of items so keeping the format
     return { items: filteredApps }
   }

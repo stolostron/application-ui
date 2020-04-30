@@ -28,8 +28,17 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading, Notification } from 'carbon-components-react'
-import { getChannelsList, getApplicationsForSelection, getSubscribedChannels } from './utils'
+import {
+  Search,
+  Loading,
+  Notification,
+  Checkbox
+} from 'carbon-components-react'
+import {
+  getChannelsList,
+  getApplicationsForSelection,
+  getSubscribedChannels
+} from './utils'
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
@@ -247,9 +256,13 @@ class ApplicationDeploymentPipeline extends React.Component {
       (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
     const channels = getSubscribedChannels(
-      getChannelsList(HCMChannelList), 
-      applications, 
-      AppDeployments)
+      getChannelsList(HCMChannelList),
+      applications,
+      breadcrumbItems,
+      AppDeployments
+    )
+
+    console.log('channels >>>>> ', JSON.stringify(channels))
 
     const isSingleApplicationView =
       breadcrumbItems && breadcrumbItems.length === 2
@@ -382,9 +395,9 @@ class ApplicationDeploymentPipeline extends React.Component {
           <div>
             <Checkbox
               id={'hide-channels'}
-              checked={this.state.hideChannels}
+              checked={AppDeployments.hideUnsubscribedChannels}
               onChange={event => {
-                actions.setHideChannels(event.target.value)
+                actions.setHideChannels(event)
               }}
               labelText={'Show all channels'}
             />

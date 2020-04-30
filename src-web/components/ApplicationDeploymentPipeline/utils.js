@@ -51,14 +51,17 @@ export const getApplicationsForSelection = (
 export const getSubscribedChannels = (
   channels,
   applications,
+  breadcrumbItems,
   AppDeployments
 ) => {
   const isSingleApplicationView = breadcrumbItems.length === 2
 
   if (isSingleApplicationView && AppDeployments.hideUnsubscribedChannels) {
     const selectedApp =
-      applications && applications instanceof Array && applications.length === 1
-    
+      applications &&
+      applications instanceof Array &&
+      applications.length === 1
+
     if (selectedApp) {
       const subscribedChannels = []
       const subscriptionsFetched = applications[0].hubSubscriptions

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
@@ -42,7 +42,10 @@ function getPlacementRuleUpdates(
         const name = _.get(currentRaw, 'metadata.name')
         const namespace = _.get(currentRaw, 'metadata.namespace')
         const selfLink = _.get(originalRaw, 'metadata.selfLink')
-        currentRaw.metadata.resourceVersion = _.get(originalRaw, 'metadata.resourceVersion')
+        currentRaw.metadata.resourceVersion = _.get(
+          originalRaw,
+          'metadata.resourceVersion'
+        )
         updates.push({
           resourceType: RESOURCE_TYPES.HCM_PLACEMENT_RULES,
           namespace,

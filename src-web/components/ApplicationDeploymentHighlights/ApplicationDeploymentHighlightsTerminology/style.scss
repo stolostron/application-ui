@@ -1,76 +1,97 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018. All Rights Reserved.
  *
- * US Government Users Restricted Rights - Use, duplication or disclosure 
- * restricted by GSA ADP Schedule Contract with IBM Corp.
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
  *******************************************************************************/
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
-#ApplicationDeploymentHighlightsTerminology {
-  .bx--tile {
-    border: 0;
-    box-shadow: none;
-    overflow: auto;
+.resource-toolbar {
+  //position: relative;
+  top: $secondary-header-top;
+  //right: 25px;
+  //z-index: 1001;
+  background-color: $color__white;
+  //display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  //height: $secondary-header-min-height;
+
+  &.hide {
+    display: none;
   }
 
-  .bx--tile:first-child {
-    border-left: 5px solid #dee3e6;
-    border-right: 5px solid #dee3e6;
-  }
+  .resource-toolbar-container {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    display: flex;
+    //min-height: $secondary-header-min-height;
+    flex-direction: column;
+    justify-content: center;
 
-  .bx--tile .terminology-item {
-    width: 25%;
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-    float: left;
-  }
-
-  .bx--tile .deployment-highlights-terminology-header {
-    color: #5a6872;
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 18px;
-    margin-bottom: 10px;
-  }
-
-  .bx--tile .deployment-highlights-terminology-content {
-    color: #5a6872;
-    font-size: 12px;
-    line-height: 20px;
-  }
-
-  .bx--accordion__content {
-    padding-left: 0;
-    padding-right: 0;
-
-    .bx--tile {
-      padding: 1.5rem 0.5rem 0.5rem;
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
-  }
 
-  .bx--accordion__title {
-    color: #4676b5;
-  }
+    .resource-toolbar-buttons {
+      height: 20px;
+      margin: 0px 0px 3px 0px;
 
-  .deployment-highlights-terminology-docs {
-    text-align: right;
-    padding-left: 1em;
-    padding-right: 1em;
-    width: 100%;
-  }
+      > div {
+        color: $color__blue-51;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        height: 26px;
 
-  .deployment-highlights-terminology-docs-text {
-    cursor: pointer;
-    display: none; //remove when docs are ready
-    // display: inline-block;
-    padding: 30px 10px 10px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #3d70b2;
-  }
+        .button-icon {
+          width: 12px;
+          height: 12px;
+          fill: $color__blue-51;
+          stroke: none;
+        }
 
-  .deployment-highlights-terminology-docs-icon {
-    visibility: hidden; //remove when docs are ready
-    cursor: pointer;
+        .button-label {
+          padding: 0 8px;
+          white-space: nowrap;
+        }
+      }
+
+      > div:not(:last-child) {
+        padding-right: 20px;
+        border-right: 2px solid $color__gray-1;
+      }
+
+      > div:last-child {
+        padding-left: 20px;
+      }
+    }
+
+    .resource-filter-bar {
+      .bx--tag.bx--tag--custom {
+        margin-left: 10px;
+        background-color: $mcm_view_filter;
+        color: $color__blue-90;
+        font-size: .9rem;
+        padding: .8rem;
+        line-height: 20px;
+        white-space: nowrap;
+
+        .closeIcon {
+          fill: $color__blue-90;
+          cursor: pointer;
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }

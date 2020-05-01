@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SearchName empty search render as expected 1`] = `
+exports[`SearchName search render as expected 1`] = `
 <div
   aria-label="Name"
   className="search-filter"
@@ -43,10 +43,10 @@ exports[`SearchName empty search render as expected 1`] = `
       onChange={[Function]}
       placeholder="Search [+Search]"
       type="text"
-      value=""
+      value="test"
     />
     <button
-      className="bx--search-close bx--search-close--hidden"
+      className="bx--search-close"
       onClick={[Function]}
       type="button"
     >

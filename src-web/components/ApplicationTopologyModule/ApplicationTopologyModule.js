@@ -44,13 +44,17 @@ import _ from 'lodash'
 
 resources(() => {
   require('./style.scss')
+  require('../Topology/scss/topology-controls.scss')
+  require('../Topology/scss/resource-toolbar.scss')
 })
 
 // set up Topology component
 const portals = {
-  //refreshTimeSelectorPortal: 'refresh-time-selector-portal-id',
-  typeFilterBar: 'type-filter-bar-portal-id'
-  //searchTextbox: 'search-textbox-portal-id',
+  assortedFilterOpenBtn: 'assorted-filter-open-portal-id',
+  assortedFilterCloseBtns: 'assorted-filter-close-portal-id',
+  refreshTimeSelectorPortal: 'refresh-time-selector-portal-id',
+  typeFilterBar: 'type-filter-bar-portal-id',
+  searchTextbox: 'search-textbox-portal-id'
 }
 
 const options = {
@@ -448,53 +452,73 @@ class ApplicationTopologyModule extends React.Component {
 
     const renderDiagramView = () => {
       return (
-        <div className="resourceDiagramControlsContainer">
-          <div className="diagram-title">{diagramTitle}</div>
-          {topologyLoadError && (
-            <InlineNotification
-              kind={'error'}
-              title={msgs.get('error.load.resource', this.context.locale)}
-              iconDescription=""
-              subtitle={msgs.get('error.load.topology', this.context.locale)}
-              onCloseButtonClick={this.handleTopologyErrorClosed}
-            />
-          )}
-          {showExpandedTopology ? (
+        <React.Fragment>
+          {!showExpandedTopology && (
             <React.Fragment>
-              <div className="diagram-controls-container">
-                <div
-                  className="diagram-type-filter-bar"
-                  id="type-filter-bar-portal-id"
-                />
+              <div className="topology-controls">
+                <div className="topology-control-container">
+                  <div id={portals.searchTextbox} />
+                </div>
               </div>
-              <div className="topology-container">{renderTopology()}</div>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {renderTopology()}
-              <div className="diagram-controls-container">
-                <div
-                  className="diagram-type-filter-bar"
-                  id="type-filter-bar-portal-id"
-                />
-                <div
-                  className="diagram-expand-button"
-                  tabIndex="0"
-                  role={'button'}
-                  title={viewFullMsg}
-                  aria-label={viewFullMsg}
-                  onClick={this.handleToggleSize}
-                  onKeyPress={this.handleToggleSize}
-                >
-                  <svg className="icon">
-                    <use href={'#diagramIcons_launch'} />
-                  </svg>
-                  {viewFullMsg}
+              <div id="resource-toolbar" className="resource-toolbar">
+                <div className="resource-toolbar-container">
+                  <div className="resource-toolbar-buttons">
+                    <div id={portals.refreshTimeSelectorPortal} />
+                    <div id={portals.assortedFilterOpenBtn} />
+                  </div>
+                  <div id={portals.assortedFilterCloseBtns} />
                 </div>
               </div>
             </React.Fragment>
           )}
-        </div>
+          <div className="resourceDiagramControlsContainer">
+            <div className="diagram-title">{diagramTitle}</div>
+            {topologyLoadError && (
+              <InlineNotification
+                kind={'error'}
+                title={msgs.get('error.load.resource', this.context.locale)}
+                iconDescription=""
+                subtitle={msgs.get('error.load.topology', this.context.locale)}
+                onCloseButtonClick={this.handleTopologyErrorClosed}
+              />
+            )}
+            {showExpandedTopology ? (
+              <React.Fragment>
+                <div className="diagram-controls-container">
+                  <div
+                    className="diagram-type-filter-bar"
+                    id="type-filter-bar-portal-id"
+                  />
+                </div>
+                <div className="topology-container">{renderTopology()}</div>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                {renderTopology()}
+                <div className="diagram-controls-container">
+                  <div
+                    className="diagram-type-filter-bar"
+                    id="type-filter-bar-portal-id"
+                  />
+                  <div
+                    className="diagram-expand-button"
+                    tabIndex="0"
+                    role={'button'}
+                    title={viewFullMsg}
+                    aria-label={viewFullMsg}
+                    onClick={this.handleToggleSize}
+                    onKeyPress={this.handleToggleSize}
+                  >
+                    <svg className="icon">
+                      <use href={'#diagramIcons_launch'} />
+                    </svg>
+                    {viewFullMsg}
+                  </div>
+                </div>
+              </React.Fragment>
+            )}
+          </div>
+        </React.Fragment>
       )
     }
 

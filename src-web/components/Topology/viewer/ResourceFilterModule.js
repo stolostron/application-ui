@@ -71,7 +71,7 @@ const FilterSection = ({
   )
 
   // show more/or less
-  const count = filters.length - showThreshold - 2
+  const count = filters.length - showThreshold
   const showMoreOrLess = count > 0
   if (showMoreOrLess) {
     if (!isExpanded) {
@@ -187,8 +187,8 @@ class ResourceFilterView extends React.Component {
           this.getSectionData(
             key,
             availableFilters[key],
-            activeFilters[key],
-            locale
+            locale,
+            activeFilters[key]
           )
         )
       }
@@ -338,19 +338,34 @@ ResourceFilterView.propTypes = {
 }
 
 const ResourceUnfilterBar = ({ boundFilters = [], locale }) => {
+  let filterCounter = 0
   return (
     <div className="resource-filter-bar">
       {boundFilters.map(({ name, onClick }) => {
+        filterCounter++
         return (
-          <Tag key={name} type="custom">
-            {name}
-            <Icon
-              className="closeIcon"
-              description={msgs.get('filter.remove.tag', locale)}
-              name="icon--close"
-              onClick={onClick}
-            />
-          </Tag>
+          <React.Fragment key={name}>
+            {filterCounter < 9 && (
+              <React.Fragment>
+                <Tag key={name} type="custom">
+                  {name}
+                  <Icon
+                    className="closeIcon"
+                    description={msgs.get('filter.remove.tag', locale)}
+                    name="icon--close"
+                    onClick={onClick}
+                  />
+                </Tag>
+              </React.Fragment>
+            )}
+            {filterCounter === 9 && (
+              <React.Fragment>
+                <Tag key={name} type="custom">
+                  ...
+                </Tag>
+              </React.Fragment>
+            )}
+          </React.Fragment>
         )
       })}
     </div>

@@ -513,6 +513,39 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
   className="resourceDiagramSourceContainer"
 >
   <div
+    className="topology-controls"
+  >
+    <div
+      className="topology-control-container"
+    >
+      <div
+        id="search-textbox-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resource-toolbar"
+    id="resource-toolbar"
+  >
+    <div
+      className="resource-toolbar-container"
+    >
+      <div
+        className="resource-toolbar-buttons"
+      >
+        <div
+          id="refresh-time-selector-portal-id"
+        />
+        <div
+          id="assorted-filter-open-portal-id"
+        />
+      </div>
+      <div
+        id="assorted-filter-close-portal-id"
+      />
+    </div>
+  </div>
+  <div
     className="resourceDiagramControlsContainer"
   >
     <div

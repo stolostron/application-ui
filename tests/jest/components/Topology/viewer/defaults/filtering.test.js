@@ -187,6 +187,14 @@ describe("getAllFilters", () => {
       type: ["application", "rules", "subscription"]
     },
     availableFilters: {
+      labels: {
+        availableSet: new Set(),
+        name: "Labels"
+      },
+      namespaces: {
+        availableSet: new Set(["<none>", "ns-sub-1"]),
+        name: "Namespaces"
+      },
       type: ["application", "rules", "subscription"]
     },
     otherTypeFilters: []
@@ -211,9 +219,9 @@ describe("getAllFilters", () => {
 
 describe("getAvailableFilters cluster", () => {
   const map = new Map([
-    ["recent", undefined],
-    ["offline", undefined],
-    ["violations", undefined]
+    ["recent", "Recent"],
+    ["offline", "Offline"],
+    ["violations", "Violations"]
   ]);
 
   const set1 = new Set();
@@ -222,23 +230,23 @@ describe("getAvailableFilters cluster", () => {
   const expectedResult = {
     clusterStatuses: {
       availableSet: map,
-      name: undefined
+      name: "Cluster status"
     },
     k8type: {
       availableSet: set1,
-      name: undefined
+      name: "Kubernetes type"
     },
     providers: {
       availableSet: set1,
-      name: undefined
+      name: "Cloud providers"
     },
     purpose: {
       availableSet: set1,
-      name: undefined
+      name: "Purpose"
     },
     region: {
       availableSet: set1,
-      name: undefined
+      name: "Region"
     }
   };
 
@@ -251,17 +259,28 @@ describe("getAvailableFilters cluster", () => {
 
 describe("getAvailableFilters weave", () => {
   it("should get available filters", () => {
+    const expectedResult = {
+      labels: {
+        availableSet: new Set(),
+        name: "Labels"
+      },
+      namespaces: {
+        availableSet: new Set(["<none>", "ns-sub-1"]),
+        name: "Namespaces"
+      }
+    };
+
     expect(
       getAvailableFilters("weave", nodes, options, activeFilters, locale)
-    ).toEqual({});
+    ).toEqual(expectedResult);
   });
 });
 
 describe("getAvailableFilters policy", () => {
   const map = new Map([
-    ["recent", undefined],
-    ["offline", undefined],
-    ["violations", undefined]
+    ["recent", "Recent"],
+    ["offline", "Offline"],
+    ["violations", "Violations"]
   ]);
 
   const set1 = new Set();
@@ -270,23 +289,23 @@ describe("getAvailableFilters policy", () => {
   const expectedResult = {
     clusterStatuses: {
       availableSet: map,
-      name: undefined
+      name: "Cluster status"
     },
     k8type: {
       availableSet: set1,
-      name: undefined
+      name: "Kubernetes type"
     },
     providers: {
       availableSet: set1,
-      name: undefined
+      name: "Cloud providers"
     },
     purpose: {
       availableSet: set1,
-      name: undefined
+      name: "Purpose"
     },
     region: {
       availableSet: set1,
-      name: undefined
+      name: "Region"
     }
   };
   it("should get available filters", () => {

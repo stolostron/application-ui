@@ -9,8 +9,11 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import moment from 'moment'
 import _ from 'lodash'
+
+import { getNodePropery } from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
   const details = []
@@ -268,8 +271,15 @@ export const getNodeDetails = node => {
 }
 
 function addK8Details(node, details, podOnly, index) {
-  const { clusterName, name, namespace, type, layout = {} } = node
+  const { clusterName, name, type, layout = {} } = node
   const { type: ltype } = layout
+
+  let namespace = node.namespace
+  if (!namespace) {
+    namespace = R.pathOr(undefined, ['specs', 'raw', 'metadata', 'namespace'])(
+      node
+    )
+  }
 
   // the main stuff
   if (!podOnly) {
@@ -287,6 +297,97 @@ function addK8Details(node, details, podOnly, index) {
         value: namespace ? namespace : undefined
       }
     ]
+
+    const labelSelector = getNodePropery(
+      node,
+      ['specs', 'raw', 'metadata', 'labels'],
+      'raw.spec.metadata.label',
+      'No labels'
+    )
+    mainDetails.push(labelSelector)
+
+    const replicas = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'replicas'],
+      'raw.spec.replicas'
+    )
+    if (replicas) {
+      mainDetails.push(replicas)
+    }
+
+    const specSelector = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'selector', 'matchLabels'],
+      'raw.spec.selector'
+    )
+    if (specSelector) {
+      mainDetails.push(specSelector)
+    }
+
+    const specPorts = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'ports'],
+      'raw.spec.ports'
+    )
+    if (specPorts) {
+      mainDetails.push(specPorts)
+    }
+
+    //subscription specific
+    const specChannels = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'channel'],
+      'raw.spec.channel'
+    )
+    if (specChannels) {
+      mainDetails.push(specChannels)
+    }
+    const specFilters = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'packageFilter', 'filterRef'],
+      'raw.spec.packageFilter'
+    )
+    if (specFilters) {
+      mainDetails.push(specFilters)
+    }
+    const specPlacement = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'placement', 'placementRef'],
+      'raw.spec.placementRef'
+    )
+    if (specPlacement) {
+      mainDetails.push(specPlacement)
+    }
+
+    //PR specific
+    const specClusters = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterLabels', 'matchLabels'],
+      'raw.spec.clusterLabels'
+    )
+    if (specClusters) {
+      mainDetails.push(specClusters)
+    }
+    const specClustersReplica = getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'clusterReplicas'],
+      'raw.spec.clusterReplicas'
+    )
+    if (specClustersReplica) {
+      mainDetails.push(specClustersReplica)
+    }
+
+    if (type === 'rules') {
+      const specNbOfClustersTarget = R.pathOr(
+        [],
+        ['specs', 'raw', 'status', 'decisions']
+      )(node)
+      mainDetails.push({
+        labelKey: 'raw.status.decisionCls',
+        value: specNbOfClustersTarget.length
+      })
+    }
+
     addDetails(details, mainDetails)
   } else {
     if (index) {

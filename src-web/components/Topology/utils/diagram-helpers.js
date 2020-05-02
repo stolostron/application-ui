@@ -163,3 +163,11 @@ export const getNodePropery = (node, propPath, key, defaultValue) => {
 
   return undefined
 }
+
+export const addPropertyToList = (list, data) => {
+  if (list && data) {
+    list.push(data)
+  }
+
+  return list
+}

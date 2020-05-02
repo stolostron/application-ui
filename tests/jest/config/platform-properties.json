@@ -608,6 +608,8 @@
   "raw.spec.clusterLabels": "Cluster Labels",
   "raw.spec.clusterReplicas": "Cluster Replicas",
   "raw.status.decisionCls": "Matched Remote Clusters ",
+  "raw.spec.to": "To",
+  "raw.spec.host": "Location",
   "routes.admin": "Admin",
   "routes.applications": "Applications",
   "routes.incidents": "Incidents",

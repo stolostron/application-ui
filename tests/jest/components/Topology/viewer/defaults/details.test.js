@@ -982,6 +982,69 @@ describe("getNodeDetails helm node 2", () => {
   });
 });
 
+describe("getNodeDetails placement rules node", () => {
+  const rulesNode = {
+    id: "rule1",
+    uid: "rule1",
+    name: "mortgage-rule",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {
+      raw: {
+        apiVersion: "app.ibm.com/v1alpha1",
+        kind: "PlacementRule",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          clusterLabels: {
+            matchLabels: {
+              environment: "Dev"
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      labelKey: "resource.type",
+      labelValue: undefined,
+      type: "label",
+      value: "rules"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      type: "label",
+      value: "app=mortgage-app-mortgage"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.clusterLabels",
+      labelValue: undefined,
+      type: "label",
+      value: "environment=Dev"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.status.decisionCls",
+      labelValue: undefined,
+      type: "label",
+      value: 0
+    }
+  ];
+
+  it("should process the node, placement rules node", () => {
+    expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
+  });
+});
+
 describe("getNodeDetails inflateKubeValue", () => {
   it("process empty kube value", () => {
     expect(inflateKubeValue()).toEqual("");

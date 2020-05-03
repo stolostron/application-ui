@@ -84,7 +84,6 @@ class ApplicationTopologyModule extends React.Component {
     putResource: PropTypes.func,
     resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
-    selectedNodeId: PropTypes.string,
     showExpandedTopology: PropTypes.bool,
     storedVersion: PropTypes.bool,
     topologyLoadError: PropTypes.bool,
@@ -121,7 +120,6 @@ class ApplicationTopologyModule extends React.Component {
     this.startPolling = this.startPolling.bind(this)
     this.stopPolling = this.stopPolling.bind(this)
     this.refetch = this.refetch.bind(this)
-    this.handleNodeSelected = this.handleNodeSelected.bind(this)
     this.handleEditorCommand = this.handleEditorCommand.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleToggleSize = this.handleToggleSize.bind(this)
@@ -141,25 +139,11 @@ class ApplicationTopologyModule extends React.Component {
     this.startPolling(60 * 1000) // poll at 60 seconds
   }
 
-  componentDidMount() {
-    const { selectedNodeId, nodes } = this.props
-    if (selectedNodeId) {
-      const node = nodes.find(({ id }) => id === selectedNodeId)
-      if (node) {
-        this.selectNode(node)
-      }
-    }
-  }
-
-  selectNode(node) {
-    this.handleNodeSelected(node)
-    this.setState({ selectedNode: node })
-  }
-
   componentWillUnmount() {
     if (this.state) {
       this.stopPolling()
     }
+
     const { actions, showExpandedTopology } = this.props
     if (actions && showExpandedTopology) {
       actions.setShowExpandedTopology({ showExpandedTopology: false })
@@ -399,10 +383,6 @@ class ApplicationTopologyModule extends React.Component {
       ? msgs.get('application.diagram.view.collapsed', locale)
       : msgs.get('application.diagram.view.full', locale)
 
-    const handleNodeSelected = node => {
-      return this.handleNodeSelected(node)
-    }
-
     const diagramClasses = classNames({
       resourceDiagramSourceContainer: true,
       showExpandedTopology,
@@ -423,8 +403,7 @@ class ApplicationTopologyModule extends React.Component {
         changeTheChannel: this.changeTheChannel.bind(this)
       }
       const selectionControl = {
-        selectedNode,
-        handleNodeSelected
+        selectedNode
       }
       options.scrollOnScroll = !showExpandedTopology
       return (
@@ -614,27 +593,6 @@ class ApplicationTopologyModule extends React.Component {
       showExpandedTopology: !showExpandedTopology,
       selectedNodeId: undefined
     })
-  }
-
-  // user clicked a node in diagram
-  handleNodeSelected(node) {
-    if (_.get(node, 'specs.isDesign')) {
-      const { actions, showExpandedTopology } = this.props
-      if (!showExpandedTopology) {
-        actions.setShowExpandedTopology({
-          showExpandedTopology: true,
-          selectedNodeId: node.id
-        })
-      } else {
-        this.setState(() => {
-          this.selectTextLine(node)
-          return {
-            selectedNode: node
-          }
-        })
-      }
-      return true
-    }
   }
 
   showLogs = ({ name, namespace, clusterName, containerName, containers }) => {

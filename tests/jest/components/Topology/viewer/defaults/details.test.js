@@ -60,7 +60,7 @@ describe("getNodeDetails no clusters or violation", () => {
 
   const expectedResult = [];
 
-  it("should process the node", () => {
+  it("should process the node, no clusters or violation", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
   });
 });
@@ -205,7 +205,7 @@ describe("getNodeDetails cluster node", () => {
     }
   ];
 
-  it("should process the node", () => {
+  it("should process the node, cluster node", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
   });
 });
@@ -474,7 +474,7 @@ describe("getNodeDetails placement node", () => {
     }
   ];
 
-  it("should process the node", () => {
+  it("should process the node, more cluster nodes", () => {
     expect(getNodeDetails(placementNode, locale)).toEqual(expectedValue);
   });
 });
@@ -625,6 +625,34 @@ describe("getNodeDetails deployment node", () => {
       value: "deployment"
     },
     {
+      indent: undefined,
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      type: "label",
+      value: "app=mortgage-app-mortgage"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.replicas",
+      labelValue: undefined,
+      type: "label",
+      value: "1"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.selector",
+      labelValue: undefined,
+      type: "label",
+      value: "app=mortgage-app-mortgage"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.selector",
+      labelValue: undefined,
+      type: "label",
+      value: "matchLabels=app=mortgage-app-mortgage"
+    },
+    {
       type: "spacer"
     },
     {
@@ -728,7 +756,7 @@ describe("getNodeDetails deployment node", () => {
       }
     }
   ];
-  it("should process the node", () => {
+  it("should process the node, deployment node", () => {
     expect(getNodeDetails(deploymentNode, locale)).toEqual(expectedResult);
   });
 });
@@ -785,12 +813,12 @@ describe("getNodeDetails helm node", () => {
     }
   ];
 
-  it("should process the node", () => {
+  it("should process the node, helm node", () => {
     expect(getNodeDetails(helmreleaseNode, locale)).toEqual(expectedResult);
   });
 });
 
-describe("getNodeDetails helm node", () => {
+describe("getNodeDetails helm node 2", () => {
   const policyNode = {
     id: "helmrelease1",
     uid: "helmrelease1",
@@ -949,8 +977,71 @@ describe("getNodeDetails helm node", () => {
     }
   ];
 
-  it("should process the node", () => {
+  it("should process the node, helm node 2", () => {
     expect(getNodeDetails(policyNode, locale)).toEqual(expectedResult);
+  });
+});
+
+describe("getNodeDetails placement rules node", () => {
+  const rulesNode = {
+    id: "rule1",
+    uid: "rule1",
+    name: "mortgage-rule",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {
+      raw: {
+        apiVersion: "app.ibm.com/v1alpha1",
+        kind: "PlacementRule",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          clusterLabels: {
+            matchLabels: {
+              environment: "Dev"
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      labelKey: "resource.type",
+      labelValue: undefined,
+      type: "label",
+      value: "rules"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      type: "label",
+      value: "app=mortgage-app-mortgage"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.clusterLabels",
+      labelValue: undefined,
+      type: "label",
+      value: "environment=Dev"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.status.decisionCls",
+      labelValue: undefined,
+      type: "label",
+      value: 0
+    }
+  ];
+
+  it("should process the node, placement rules node", () => {
+    expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
   });
 });
 

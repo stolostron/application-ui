@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 
@@ -137,4 +138,36 @@ export const getHashCode = str => {
     hash |= 0
   }
   return hash
+}
+
+export const getNodePropery = (node, propPath, key, defaultValue) => {
+  let data = R.pathOr(undefined, propPath)(node)
+  if (data) {
+    data = R.replace(/:/g, '=', R.toString(data))
+    data = R.replace(/{/g, '', data)
+    data = R.replace(/}/g, '', data)
+    data = R.replace(/"/g, '', data)
+    data = R.replace(/ /g, '', data)
+  } else {
+    if (defaultValue) {
+      data = defaultValue
+    }
+  }
+
+  if (data) {
+    return {
+      labelKey: key,
+      value: data
+    }
+  }
+
+  return undefined
+}
+
+export const addPropertyToList = (list, data) => {
+  if (list && data) {
+    list.push(data)
+  }
+
+  return list
 }

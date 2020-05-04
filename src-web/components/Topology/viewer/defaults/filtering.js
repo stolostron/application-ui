@@ -411,7 +411,9 @@ const addAvailableRelationshipFilters = (
                   podStatus.hostIPs.size > 0 &&
                   hasPodStatus(filterType, podStatus, podStatuses)
               ) {
-                filter.availableSet.add(...podStatus.hostIPs)
+                podStatus.hostIPs.forEach(ip => {
+                  filter.availableSet.add(ip)
+                })
               }
               break
 

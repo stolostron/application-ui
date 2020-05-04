@@ -134,6 +134,39 @@ const nodes = [
   }
 ];
 
+const podNodes = [
+  {
+    cluster: null,
+    clusterName: null,
+    type: "pod",
+    id:
+      "member--pod--member--deployable--member--clusters--possiblereptile, braveman, sharingpenguin, relievedox--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+    labels: null,
+    name: "frontend",
+    namespace: "",
+    specs: {
+      podStatus: {
+        hasFailure: false,
+        hasPending: false,
+        hasRestarts: true,
+        hostIPs: new Set([
+          "10.0.130.141",
+          "10.0.128.168",
+          "10.0.134.47",
+          "10.0.138.193",
+          "10.0.135.12",
+          "10.0.134.43",
+          "10.0.137.176",
+          "10.0.135.243",
+          "10.0.132.29",
+          "10.0.132.99",
+          "10.0.135.34",
+          "10.0.128.64"
+        ])
+      }
+    }
+  }
+];
 const options = {
   filtering: "application",
   layout: "application",
@@ -143,7 +176,7 @@ const options = {
 };
 
 const activeFilters = {
-  type: ["application", "rules", "subscription"]
+  type: ["application", "rules", "subscription", "pod"]
 };
 
 const locale = "en-US";
@@ -187,6 +220,14 @@ describe("getAllFilters", () => {
       type: ["application", "rules", "subscription"]
     },
     availableFilters: {
+      labels: {
+        availableSet: new Set(),
+        name: "Labels"
+      },
+      namespaces: {
+        availableSet: new Set(["<none>", "ns-sub-1"]),
+        name: "Namespaces"
+      },
       type: ["application", "rules", "subscription"]
     },
     otherTypeFilters: []
@@ -211,9 +252,9 @@ describe("getAllFilters", () => {
 
 describe("getAvailableFilters cluster", () => {
   const map = new Map([
-    ["recent", undefined],
-    ["offline", undefined],
-    ["violations", undefined]
+    ["recent", "Recent"],
+    ["offline", "Offline"],
+    ["violations", "Violations"]
   ]);
 
   const set1 = new Set();
@@ -222,23 +263,23 @@ describe("getAvailableFilters cluster", () => {
   const expectedResult = {
     clusterStatuses: {
       availableSet: map,
-      name: undefined
+      name: "Cluster status"
     },
     k8type: {
       availableSet: set1,
-      name: undefined
+      name: "Kubernetes type"
     },
     providers: {
       availableSet: set1,
-      name: undefined
+      name: "Cloud providers"
     },
     purpose: {
       availableSet: set1,
-      name: undefined
+      name: "Purpose"
     },
     region: {
       availableSet: set1,
-      name: undefined
+      name: "Region"
     }
   };
 
@@ -251,47 +292,100 @@ describe("getAvailableFilters cluster", () => {
 
 describe("getAvailableFilters weave", () => {
   it("should get available filters", () => {
+    const expectedResult = {
+      labels: {
+        availableSet: new Set(),
+        name: "Labels"
+      },
+      namespaces: {
+        availableSet: new Set(["<none>", "ns-sub-1"]),
+        name: "Namespaces"
+      }
+    };
+
     expect(
       getAvailableFilters("weave", nodes, options, activeFilters, locale)
-    ).toEqual({});
+    ).toEqual(expectedResult);
   });
 });
 
 describe("getAvailableFilters policy", () => {
-  const map = new Map([
-    ["recent", undefined],
-    ["offline", undefined],
-    ["violations", undefined]
-  ]);
-
   const set1 = new Set();
-  set1.add(undefined);
 
   const expectedResult = {
-    clusterStatuses: {
-      availableSet: map,
-      name: undefined
-    },
     k8type: {
       availableSet: set1,
-      name: undefined
+      name: "Kubernetes type"
     },
     providers: {
       availableSet: set1,
-      name: undefined
+      name: "Cloud providers"
     },
     purpose: {
       availableSet: set1,
-      name: undefined
+      name: "Purpose"
     },
     region: {
       availableSet: set1,
-      name: undefined
+      name: "Region"
     }
   };
   it("should get available filters", () => {
     expect(
-      getAvailableFilters("cluster", nodes, options, activeFilters, locale)
+      getAvailableFilters("policy", nodes, options, activeFilters, locale)
+    ).toEqual(expectedResult);
+  });
+});
+
+describe("getAvailableFilters application", () => {
+  const set1 = new Set();
+
+  const expectedResult = {
+    hostIPs: {
+      availableSet: new Set([
+        "10.0.130.141",
+        "10.0.128.168",
+        "10.0.134.47",
+        "10.0.138.193",
+        "10.0.135.12",
+        "10.0.134.43",
+        "10.0.137.176",
+        "10.0.135.243",
+        "10.0.132.29",
+        "10.0.132.99",
+        "10.0.135.34",
+        "10.0.128.64"
+      ]),
+      name: "Host IP"
+    },
+    labels: {
+      availableSet: set1,
+      name: "Labels"
+    },
+    namespaces: {
+      availableSet: new Set(["<none>"]),
+      name: "Namespaces"
+    },
+    podStatuses: {
+      availableSet: new Map([
+        ["recent", "Recent"],
+        ["restarts", "Restarted"],
+        ["pending", "Pending"],
+        ["failed", "Failed"]
+      ]),
+      name: "Pod status"
+    }
+  };
+
+  it("should get available filters", () => {
+    expect(
+      getAvailableFilters(
+        "application",
+        podNodes,
+        options,
+        activeFilters,
+        locale
+      )
     ).toEqual(expectedResult);
   });
 });

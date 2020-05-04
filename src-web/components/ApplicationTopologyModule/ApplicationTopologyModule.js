@@ -172,7 +172,17 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   refetch() {
-    this.props.fetchTopology(this.props.activeChannel, true)
+    const {
+      fetchTopology,
+      fetchHCMApplicationResource,
+      activeChannel,
+      params
+    } = this.props
+    fetchTopology(activeChannel, true)
+
+    if (params && params.name && params.namespace) {
+      fetchHCMApplicationResource(params.namespace, params.name)
+    }
   }
 
   componentWillReceiveProps(nextProps) {

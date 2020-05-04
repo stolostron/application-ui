@@ -67,7 +67,7 @@ export const getSubscribedChannels = (
       const subscriptionsFetched = applications[0].hubSubscriptions
       const subscriptionsForApp = subscriptionsFetched || []
       // Go through subscriptions of selected app and find the subscribed channels
-      for (var i = 0; i < channels.length; i++) {
+      for (let i = 0; i < channels.length; i++) {
         const columnChannelName = `${channels[i].namespace}/${
           channels[i].name
         }`

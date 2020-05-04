@@ -266,7 +266,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: ["placementrule"]
+      relatedKinds: []
     };
 
     expect(actions.getQueryStringForResources("somevalue")).toEqual(
@@ -316,7 +316,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: ["placementrule"]
+      relatedKinds: []
     };
 
     expect(actions.getQueryStringForResources("HCMApplication")).toEqual(
@@ -383,7 +383,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: ["placementrule"]
+      relatedKinds: []
     };
 
     expect(
@@ -462,7 +462,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: ["placementrule"]
+      relatedKinds: []
     };
 
     expect(actions.getQueryStringForResource("somename", "name", ns)).toEqual(

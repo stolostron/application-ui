@@ -6,6 +6,24 @@ jest.mock("../../../../lib/client/apollo-client", () => ({
   getSearchClient: jest.fn(() => {
     return null;
   }),
+  search: jest.fn((resourceType, namespace, name) => {
+    if (resourceType.name && resourceType.name === "HCMApplicationList") {
+      const appData = {
+        items: [
+          {
+            kind: "application",
+            name: "mortgage-channel",
+            namespace: "mortgage-ch",
+            _hubClusterResource: "true"
+          }
+        ]
+      };
+
+      return Promise.resolve(appData);
+    }
+
+    return Promise.resolve({ response: "invalid resonse" });
+  }),
   getResource: jest.fn((resourceType, { namespace }) => {
     if (
       resourceType === "channel" ||

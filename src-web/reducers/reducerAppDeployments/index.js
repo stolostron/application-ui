@@ -25,7 +25,7 @@ const SET_CURRENT_APPLICATION_INFO = 'SET_CURRENT_APPLICATION_INFO'
 const SET_CURRENT_SUBSCRIPTION_INFO = 'SET_CURRENT_SUBSCRIPTION_INFO'
 const SET_CURRENT_PLACEMENT_RULE_INFO = 'SET_CURRENT_PLACEMENT_RULE_INFO'
 const SET_LOADING = 'SET_LOADING'
-const SET_HIDE_CHANNELS = 'SET_HIDE_CHANNELS'
+const SET_SHOW_ALL_CHANNELS = 'SET_SHOW_ALL_CHANNELS'
 const CLOSE_MODALS = 'CLOSE_MODALS'
 const CLEAR_APP_DROPDOWN_LIST = 'CLEAR_APP_DROPDOWN_LIST'
 
@@ -50,7 +50,7 @@ export const initialStateDeployments = {
   openEditSubscriptionModal: false,
   openEditPlacementRuleModal: false,
   loading: false,
-  hideUnsubscribedChannels: false
+  showAllChannels: false
 }
 export const AppDeployments = (state = initialStateDeployments, action) => {
   switch (action.type) {
@@ -132,8 +132,8 @@ export const AppDeployments = (state = initialStateDeployments, action) => {
   case SET_LOADING: {
     return { ...state, loading: action.payload }
   }
-  case SET_HIDE_CHANNELS: {
-    return { ...state, hideUnsubscribedChannels: action.payload }
+  case SET_SHOW_ALL_CHANNELS: {
+    return { ...state, showAllChannels: action.payload }
   }
   case CLOSE_MODALS: {
     return {
@@ -177,7 +177,7 @@ const setCurrentPlacementRuleInfo = createAction(
   SET_CURRENT_PLACEMENT_RULE_INFO
 )
 const setLoading = createAction(SET_LOADING)
-export const setHideChannels = createAction(SET_HIDE_CHANNELS)
+export const setShowAllChannels = createAction(SET_SHOW_ALL_CHANNELS)
 export const closeModals = createAction(CLOSE_MODALS)
 
 // ApolloClient requires CONTEXT so I have to pass it in from a file where it

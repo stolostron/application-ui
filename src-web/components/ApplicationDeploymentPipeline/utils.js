@@ -56,7 +56,7 @@ export const getSubscribedChannels = (
 ) => {
   const isSingleApplicationView = breadcrumbItems.length === 2
 
-  if (isSingleApplicationView && AppDeployments.hideUnsubscribedChannels) {
+  if (isSingleApplicationView && !AppDeployments.showAllChannels) {
     const selectedApp =
       applications &&
       applications instanceof Array &&

@@ -32,7 +32,8 @@ import {
   Search,
   Loading,
   Notification,
-  Checkbox
+  Checkbox,
+  Tooltip
 } from 'carbon-components-react'
 import {
   getChannelsList,
@@ -262,40 +263,20 @@ class ApplicationDeploymentPipeline extends React.Component {
       AppDeployments
     )
 
-    console.log('channels >>>>> ', JSON.stringify(channels))
-
     const isSingleApplicationView =
       breadcrumbItems && breadcrumbItems.length === 2
     let selectedAppName = ''
     let selectedAppNS = ''
     let app = null
-    const selectedApp =
+    if (
       applications &&
       applications instanceof Array &&
       applications.length === 1
-    if (selectedApp) {
+    ) {
       app = applications[0]
       selectedAppNS = app.namespace
       selectedAppName = app.name
     }
-
-    // if (isSingleApplicationView && selectedApp) {
-    //   const subscriptionsFetched = applications[0].hubSubscriptions
-    //   const subscriptionsForThisApplication = subscriptionsFetched || []
-    //   const subscriptionsUnderColumns = createSubscriptionPerChannel(
-    //     channels,
-    //     subscriptionsForThisApplication
-    //   )
-
-    //   const subscribedChannels = []
-    //   for (var i = 0; i < subscriptionsUnderColumns.length; i++) {
-    //     if (subscriptionsUnderColumns[i].length > 0) {
-    //       subscribedChannels.push(channels[i])
-    //     }
-    //   }
-    //   // for selected app, update channel list with only channels that it's subscribed to
-    //   channels = subscribedChannels
-    // }
 
     const subscriptionModalHeader =
       AppDeployments.subscriptionModalHeaderInfo &&
@@ -392,15 +373,24 @@ class ApplicationDeploymentPipeline extends React.Component {
           </div>
         )}
         {isSingleApplicationView && (
-          <div>
-            <Checkbox
-              id={'hide-channels'}
-              checked={AppDeployments.hideUnsubscribedChannels}
-              onChange={event => {
-                actions.setHideChannels(event)
-              }}
-              labelText={'Show all channels'}
-            />
+          <div className="show-channels-container">
+            <div>
+              <Checkbox
+                id="ShowAllChannels"
+                checked={AppDeployments.showAllChannels}
+                onChange={event => {
+                  actions.setShowAllChannels(event)
+                }}
+                labelText={msgs.get('actions.showAllChannels', locale)}
+              />
+            </div>
+            <div className="show-channels-icon">
+              <Tooltip triggerText="">
+                <p>
+                  {msgs.get('description.show.all.channels.tooltip', locale)}
+                </p>
+              </Tooltip>
+            </div>
           </div>
         )}
         <PipelineGrid

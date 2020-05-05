@@ -243,7 +243,7 @@
   "description.createPlacementRule.kind": "Required. Set the value to PlacementRule to indicate that the resource is a placement rule.",
   "description.createPlacementRule.metadata.name": "Required. The name for identifying the placement rule.",
   "description.createPlacementRule.metadata.namespace": "Required. The namespace for the placement rule. The namespace must be the same namespace that is used for any subscription that references the placement rule.",
-  "description.createPlacementRule.spec.clusterLabels.matchLabels": "Optional. Labels that must exist for the target clusters.",
+  "description.createPlacementRule.spec.clusterSelector.matchLabels": "Optional. Labels that must exist for the target clusters.",
   "description.createPlacementRule.spec.clusterReplicas": "Optional. The number of replicas to create.",
   "description.title.name": "Name",
   "description.title.created": "Created",

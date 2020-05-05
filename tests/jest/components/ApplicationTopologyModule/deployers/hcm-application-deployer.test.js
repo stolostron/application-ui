@@ -23,7 +23,7 @@ metadata:
   selfLink: /apis/app.ibm.com/v1alpha1/namespaces/default/placementrules/mortgage-app-placement
   uid: 5cdaa081-52aa-11ea-bf05-00000a102d26
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 2
@@ -50,7 +50,7 @@ metadata:
   selfLink: /apis/app.ibm.com/v1alpha1/namespaces/default/placementrules/mortgage-app-placement
   uid: 5cdaa081-52aa-11ea-bf05-00000a102d26
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 3
@@ -77,7 +77,7 @@ metadata:
   selfLink: /apis/app.ibm.com/v1alpha1/namespaces/default/placementrules/mortgage-app-placement
   uid: 5cdaa081-52aa-11ea-bf05-00000a102d26
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 2
@@ -113,7 +113,7 @@ describe("hcm-application-deployer one resource", () => {
             uid: "5cdaa081-52aa-11ea-bf05-00000a102d26"
           },
           spec: {
-            clusterLabels: {
+            clusterSelector: {
               matchLabels: {
                 environment: "Dev"
               }

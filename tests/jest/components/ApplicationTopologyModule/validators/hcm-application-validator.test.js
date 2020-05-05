@@ -47,7 +47,7 @@ metadata:
   labels:
     app: mortgage-app-mortgage
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 2
@@ -116,7 +116,7 @@ metadata:
   labels:
     app: mortgage-app-mortgage
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 2
@@ -195,7 +195,7 @@ metadata:
   labels:
     app: mortgage-app-mortgage
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 2
@@ -275,7 +275,7 @@ metadata:
   labels:
     app: mortgage-app-mortgage
 spec:
-  clusterLabels:
+  clusterSelector:
     matchLabels:
       environment: Dev
   clusterReplicas: 2

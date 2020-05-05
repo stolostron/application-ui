@@ -21,7 +21,7 @@ export const channelGitRepoSample =
 export const subscriptionSample =
   'apiVersion: v1______________________createSubscription-namespace-resource\nkind: Namespace\nmetadata:\n  name: ____________________________createSubscription-name-resource\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Subscription\nmetadata:\n  name: ____________________________createSubscription-metadata-name\n  namespace: _______________________createSubscription-metadata-namespace\nspec:\n  channel: _________________________createSubscription-spec-channel\n  placement: \n    placementRef: \n      kind: PlacementRule\n      name: ________________________createSubscription-spec-placement-placementRef-name\ntimeWindow: \n  type: \'"active"\'\n  location: \'"America/Toronto"\'\n  weekdays: ________________________createSubscription-timeWindow-weekdays\n  hours: ___________________________createSubscription-timeWindow-hours'
 export const placementRuleSample =
-  'apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas'
+  'apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas'
 
 export const getChannelSampleByType = channelSampleType => {
   let channelSample = ''
@@ -216,10 +216,10 @@ export const getPlacementRuleSample = locale => {
     'createPlacementRule-metadata-namespace':
       '# ' +
       msgs.get('description.createPlacementRule.metadata.namespace', locale),
-    'createPlacementRule-spec-clusterLabels-matchLabels':
+    'createPlacementRule-spec-clusterSelector-matchLabels':
       '# ' +
       msgs.get(
-        'description.createPlacementRule.spec.clusterLabels.matchLabels',
+        'description.createPlacementRule.spec.clusterSelector.matchLabels',
         locale
       ),
     'createPlacementRule-spec-clusterReplicas':
@@ -229,7 +229,7 @@ export const getPlacementRuleSample = locale => {
     _: ' '
   }
   var sample = placementRuleSample.replace(
-    /createPlacementRule-apiVersion|createPlacementRule-kind|createPlacementRule-metadata-namespace|createPlacementRule-metadata-name|createPlacementRule-spec-clusterLabels-matchLabels|createPlacementRule-spec-clusterReplicas|null|_/gi,
+    /createPlacementRule-apiVersion|createPlacementRule-kind|createPlacementRule-metadata-namespace|createPlacementRule-metadata-name|createPlacementRule-spec-clusterSelector-matchLabels|createPlacementRule-spec-clusterReplicas|null|_/gi,
     matched => {
       return mapObj[matched]
     }

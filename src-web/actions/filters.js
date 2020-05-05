@@ -47,9 +47,9 @@ export const fetchFilters = inputType => {
           return dispatch(
             receiveFiltersSuccess(
               {
-                clusterLabels: lodash.get(
+                clusterSelector: lodash.get(
                   response,
-                  'data.filters.clusterLabels'
+                  'data.filters.clusterSelector'
                 ),
                 clusterNames: lodash.get(response, 'data.filters.clusterNames')
               },
@@ -66,7 +66,7 @@ export const receiveFiltersSuccess = (response, resourceType) => ({
   type: Actions.RESOURCE_FILTERS_RECEIVE_SUCCESS,
   status: Actions.REQUEST_STATUS.DONE,
   filters: {
-    clusterLabels: response.clusterLabels || [],
+    clusterSelector: response.clusterSelector || [],
     clusterNames: response.clusterNames || []
   },
   resourceType

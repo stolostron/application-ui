@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -17,7 +18,7 @@ export const resourceFilters = (state = {}, action) => {
         // disable cluster name filtering until server side fixes the issue
         // https://github.ibm.com/IBMPrivateCloud/roadmap/issues/10981
         // clusterNames: action.filters.clusterNames,
-        clusterLabels: action.filters.clusterLabels
+        clusterSelector: action.filters.clusterSelector
       }
     })
   case Actions.RESOURCE_FILTERS_UPDATE: {

@@ -1,6 +1,7 @@
 /** *****************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -3368,7 +3369,7 @@ export const staticResourceDataPolicyOverview = {
       },
       {
         key: "clusterSelector",
-        resourceKey: "clusterLabels",
+        resourceKey: "clusterSelector",
         msgKey: "table.header.cluster.selector"
       },
       {
@@ -3420,7 +3421,7 @@ export const staticResourceDataPolicyOverview = {
               type: "i18n"
             },
             {
-              resourceKey: "clusterLabels"
+              resourceKey: "clusterSelector"
             }
           ]
         },
@@ -4210,7 +4211,7 @@ export const itemPolicyOverview = [
             "/apis/mcm.ibm.com/v1alpha1/namespaces/mcm/placementpolicies/placement-1569249226915-policy-test",
           __typename: "Metadata"
         },
-        clusterLabels: [],
+        clusterSelector: [],
         clusterReplicas: null,
         resourceSelector: {},
         status: {
@@ -4241,7 +4242,7 @@ export const itemPolicyOverview = [
           },
           spec: {
             resourceSelector: {},
-            clusterLabels: [],
+            clusterSelector: [],
             resourceHint: {}
           },
           status: {

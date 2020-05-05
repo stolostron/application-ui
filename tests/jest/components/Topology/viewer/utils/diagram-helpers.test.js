@@ -19,7 +19,7 @@ const node = {
   }
 };
 
-const propPath = ["specs", "raw", "spec", "clusterLabels", "matchLabels"];
+const propPath = ["specs", "raw", "spec", "clusterSelector", "matchLabels"];
 const propPath_found = ["specs", "raw", "metadata", "namespace"];
 const key = "nskey";
 const defaultValue = "test";

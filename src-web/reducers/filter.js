@@ -17,7 +17,7 @@ export const resourceFilters = (state = {}, action) => {
         // disable cluster name filtering until server side fixes the issue
         // https://github.ibm.com/IBMPrivateCloud/roadmap/issues/10981
         // clusterNames: action.filters.clusterNames,
-        clusterLabels: action.filters.clusterLabels
+        clusterSelector: action.filters.clusterSelector
       }
     })
   case Actions.RESOURCE_FILTERS_UPDATE: {

@@ -999,7 +999,7 @@ describe("getNodeDetails placement rules node", () => {
           name: "mortgage-app-deploy"
         },
         spec: {
-          clusterLabels: {
+          clusterSelector: {
             matchLabels: {
               environment: "Dev"
             }
@@ -1026,7 +1026,7 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
-      labelKey: "raw.spec.clusterLabels",
+      labelKey: "raw.spec.clusterSelector",
       labelValue: undefined,
       type: "label",
       value: "environment=Dev"

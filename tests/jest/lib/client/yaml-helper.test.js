@@ -264,7 +264,7 @@ describe("yamlParser parse", () => {
 
   it("output", () => {
     const value =
-      "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: mortgage-app-placement\n  namespace: default\n  generation: 2\n  labels:\n    app: mortgage-app-mortgage\nspec:\n  clusterLabels:\n    matchLabels:\n      environment: Dev\n  clusterReplicas: 4\n";
+      "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: mortgage-app-placement\n  namespace: default\n  generation: 2\n  labels:\n    app: mortgage-app-mortgage\nspec:\n  clusterSelector:\n    matchLabels:\n      environment: Dev\n  clusterReplicas: 4\n";
     const row = 33;
     const result = {
       apiVersion: { $r: 33, $v: "apps.open-cluster-management.io/v1" },
@@ -284,7 +284,7 @@ describe("yamlParser parse", () => {
       spec: {
         $r: 41,
         $v: {
-          clusterLabels: {
+          clusterSelector: {
             $r: 42,
             $v: {
               matchLabels: {

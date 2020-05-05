@@ -30,7 +30,7 @@ describe("combineFilters ", () => {
     };
     const input = ["test"];
     const expectedValue = {
-      filters: { clusterLabels: [], clusterNames: [] },
+      filters: { clusterSelector: [], clusterNames: [] },
       resourceType: ["test"],
       status: "DONE",
       type: "RESOURCE_FILTERS_RECEIVE_SUCCESS"

@@ -24,11 +24,11 @@ describe("filter reducer", () => {
       type: Actions.RESOURCE_FILTERS_RECEIVE_SUCCESS,
       filters: {
         clusterName: "test",
-        clusterLabels: "test"
+        clusterSelector: "test"
       }
     };
     const expectedValue = {
-      filters: { clusterLabels: "test", clusterNames: undefined },
+      filters: { clusterSelector: "test", clusterNames: undefined },
       status: "DONE",
       test: "test"
     };

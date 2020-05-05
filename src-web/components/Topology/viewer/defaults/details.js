@@ -367,8 +367,8 @@ function addK8Details(node, details, podOnly, index) {
       mainDetails,
       getNodePropery(
         node,
-        ['specs', 'raw', 'spec', 'clusterLabels', 'matchLabels'],
-        'raw.spec.clusterLabels'
+        ['specs', 'raw', 'spec', 'clusterSelector', 'matchLabels'],
+        'raw.spec.clusterSelector'
       )
     )
 

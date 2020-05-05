@@ -6,25 +6,25 @@ import { parse } from "../../../../lib/client/design-helper";
 import { validator } from "../../../../src-web/definitions/validators/hcm-placementrule-validator";
 
 const placementRuleSample =
-  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 const noAPIVersionSample =
-  "kind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "kind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 const noPlacementruleKindSample =
-  "apiVersion: apps.open-cluster-management.io/v1\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "apiVersion: apps.open-cluster-management.io/v1\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 const noNameKeySample =
-  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  namespace: ns1\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  namespace: ns1\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 const noNamespaceKeySample =
-  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: n1\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: n1\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 const noRequiredValuesSample =
-  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name:\n  namespace:\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name:\n  namespace:\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 const unknownKeySample =
-  "bbbb\napiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterLabels:\n    matchLabels: ___________________createPlacementRule-spec-clusterLabels-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
+  "bbbb\napiVersion: apps.open-cluster-management.io/v1\nkind: PlacementRule\nmetadata:\n  name: ____________________________createPlacementRule-metadata-name\n  namespace: _______________________createPlacementRule-metadata-namespace\nspec:\n  clusterSelector:\n    matchLabels: ___________________createPlacementRule-spec-clusterSelector-matchLabels\n  clusterReplicas: _________________createPlacementRule-spec-clusterReplicas";
 
 describe("validator testing for hcm-placementrule", () => {
   it("validation failure without API version", () => {

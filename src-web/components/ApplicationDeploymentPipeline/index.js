@@ -28,8 +28,18 @@ import {
 } from '../../reducers/reducerAppDeployments'
 import PipelineGrid from './components/PipelineGrid'
 import SubscriptionModal from './components/SubscriptionModal'
-import { Search, Loading, Notification } from 'carbon-components-react'
-import { getChannelsList, getApplicationsForSelection } from './utils'
+import {
+  Search,
+  Loading,
+  Notification,
+  Checkbox,
+  Tooltip
+} from 'carbon-components-react'
+import {
+  getChannelsList,
+  getApplicationsForSelection,
+  getSubscribedChannels
+} from './utils'
 import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
@@ -246,7 +256,12 @@ class ApplicationDeploymentPipeline extends React.Component {
     const bulkSubscriptionList =
       (HCMSubscriptionList && HCMSubscriptionList.items) || []
 
-    const channels = getChannelsList(HCMChannelList)
+    const channels = getSubscribedChannels(
+      getChannelsList(HCMChannelList),
+      applications,
+      breadcrumbItems,
+      AppDeployments
+    )
 
     const isSingleApplicationView =
       breadcrumbItems && breadcrumbItems.length === 2
@@ -355,6 +370,27 @@ class ApplicationDeploymentPipeline extends React.Component {
               }}
               id="search-1"
             />
+          </div>
+        )}
+        {isSingleApplicationView && (
+          <div className="show-channels-container">
+            <div>
+              <Checkbox
+                id="ShowAllChannels"
+                checked={AppDeployments.showAllChannels}
+                onChange={event => {
+                  actions.setShowAllChannels(event)
+                }}
+                labelText={msgs.get('actions.showAllChannels', locale)}
+              />
+            </div>
+            <div className="show-channels-icon">
+              <Tooltip triggerText="">
+                <p>
+                  {msgs.get('description.show.all.channels.tooltip', locale)}
+                </p>
+              </Tooltip>
+            </div>
           </div>
         )}
         <PipelineGrid

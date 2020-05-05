@@ -10,6 +10,7 @@
 import {
   getApplicationsList,
   getSubscriptionsList,
+  getSubscribedChannels,
   getChannelsList,
   getPlacementRuleFromBulkSubscription,
   filterSingleApp,
@@ -317,6 +318,227 @@ describe("getChannelsList", () => {
   it("no channels", () => {
     const channels = getChannelsList({});
     expect(channels).toHaveLength(0);
+  });
+});
+
+describe("getSubscribedChannels", () => {
+  const channels = [
+    {
+      id: "guestbook-app-latest",
+      name: "guestbook-app-latest",
+      namespace: "open-cluster-management",
+      type: "GitHub"
+    },
+    {
+      id: "mortgage-channel",
+      name: "mortgage-channel",
+      namespace: "mortgage-ch",
+      type: "GitHub"
+    },
+    {
+      id: "mortgagedc-channel",
+      name: "mortgagedc-channel",
+      namespace: "mortgagedc-ch",
+      type: "GitHub"
+    },
+    {
+      id: "dev",
+      name: "dev",
+      namespace: "ch-obj",
+      type: "ObjectBucket"
+    },
+    {
+      id: "guestbook-app-latest",
+      name: "guestbook-app-latest",
+      namespace: "gbapp-ch",
+      type: "GitHub"
+    }
+  ];
+  const applications = [
+    {
+      name: "app-obj",
+      namespace: "obj-sub-ns",
+      dashboard: null,
+      clusterCount: 3,
+      hubSubscriptions: [
+        {
+          status: "Propagated",
+          channel: "ch-obj/dev"
+        }
+      ]
+    }
+  ];
+  const singleAppbreadcrumbs = [
+    {
+      label: "Applications",
+      url: "/multicloud/applications"
+    },
+    {
+      label: "app-obj",
+      url: "/multicloud/applications/obj-sub-ns/app-obj"
+    }
+  ];
+  const allAppbreadcrumbs = [
+    {
+      label: "Applications",
+      url: "/multicloud/applications"
+    }
+  ];
+  const hideAppDeployments = {
+    showAllChannels: false
+  };
+  const showAppDeployments = {
+    showAllChannels: true
+  };
+
+  const allChannelsResult = [
+    {
+      id: "guestbook-app-latest",
+      name: "guestbook-app-latest",
+      namespace: "open-cluster-management",
+      type: "GitHub"
+    },
+    {
+      id: "mortgage-channel",
+      name: "mortgage-channel",
+      namespace: "mortgage-ch",
+      type: "GitHub"
+    },
+    {
+      id: "mortgagedc-channel",
+      name: "mortgagedc-channel",
+      namespace: "mortgagedc-ch",
+      type: "GitHub"
+    },
+    { id: "dev", name: "dev", namespace: "ch-obj", type: "ObjectBucket" },
+    {
+      id: "guestbook-app-latest",
+      name: "guestbook-app-latest",
+      namespace: "gbapp-ch",
+      type: "GitHub"
+    }
+  ];
+
+  it("all applications view returns all channels", () => {
+    expect(
+      getSubscribedChannels(
+        channels,
+        applications,
+        allAppbreadcrumbs,
+        hideAppDeployments
+      )
+    ).toEqual(allChannelsResult);
+  });
+
+  it("all applications view returns all channels", () => {
+    expect(
+      getSubscribedChannels(
+        channels,
+        applications,
+        allAppbreadcrumbs,
+        showAppDeployments
+      )
+    ).toEqual(allChannelsResult);
+  });
+
+  it("single applications view returns all channels", () => {
+    expect(
+      getSubscribedChannels(
+        channels,
+        applications,
+        singleAppbreadcrumbs,
+        showAppDeployments
+      )
+    ).toEqual(allChannelsResult);
+  });
+
+  it("multiple applications returns all channels", () => {
+    const apps = [
+      {
+        name: "app-obj",
+        namespace: "obj-sub-ns",
+        dashboard: null,
+        clusterCount: 3,
+        hubSubscriptions: [
+          {
+            status: "Propagated",
+            channel: "ch-obj/dev"
+          }
+        ]
+      },
+      {
+        name: "app-obj2",
+        namespace: "obj-sub-ns2",
+        dashboard: null,
+        clusterCount: 3,
+        hubSubscriptions: [
+          {
+            status: "Propagated",
+            channel: "ch-obj2/dev2"
+          }
+        ]
+      }
+    ];
+    expect(
+      getSubscribedChannels(
+        channels,
+        apps,
+        singleAppbreadcrumbs,
+        showAppDeployments
+      )
+    ).toEqual(allChannelsResult);
+  });
+
+  it("single applications view returns subscribed channels", () => {
+    const result = [
+      { id: "dev", name: "dev", namespace: "ch-obj", type: "ObjectBucket" }
+    ];
+    expect(
+      getSubscribedChannels(
+        channels,
+        applications,
+        singleAppbreadcrumbs,
+        hideAppDeployments
+      )
+    ).toEqual(result);
+  });
+
+  it("single applications view returns subscribed channels", () => {
+    const breadcrumbs = [
+      {
+        label: "Applications",
+        url: "/multicloud/applications"
+      },
+      {
+        label: "guestbook-app",
+        url: "/multicloud/applications/open-cluster-management/guestbook-app"
+      }
+    ];
+    const apps = [
+      {
+        name: "guestbook-app",
+        namespace: "open-cluster-management",
+        dashboard: null,
+        clusterCount: 3,
+        hubSubscriptions: [
+          {
+            status: "Propagated",
+            channel: "open-cluster-management/guestbook-app-latest"
+          }
+        ]
+      }
+    ];
+    const result = [
+      {
+        id: "guestbook-app-latest",
+        name: "guestbook-app-latest",
+        namespace: "open-cluster-management",
+        type: "GitHub"
+      }
+    ];
+    expect(
+      getSubscribedChannels(channels, apps, breadcrumbs, hideAppDeployments)
+    ).toEqual(result);
   });
 });
 

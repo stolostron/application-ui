@@ -48,6 +48,45 @@ export const getApplicationsForSelection = (
   return getApplicationsList(filteredApplications)
 }
 
+export const getSubscribedChannels = (
+  channels,
+  applications,
+  breadcrumbItems,
+  AppDeployments
+) => {
+  const isSingleApplicationView = breadcrumbItems.length === 2
+
+  if (isSingleApplicationView && !AppDeployments.showAllChannels) {
+    const selectedApp =
+      applications &&
+      applications instanceof Array &&
+      applications.length === 1
+
+    if (selectedApp) {
+      const subscribedChannels = []
+      const subscriptionsFetched = applications[0].hubSubscriptions
+      const subscriptionsForApp = subscriptionsFetched || []
+      // Go through subscriptions of selected app and find the subscribed channels
+      for (let i = 0; i < channels.length; i++) {
+        const columnChannelName = `${channels[i].namespace}/${
+          channels[i].name
+        }`
+        subscriptionsForApp.forEach(sub => {
+          const subChannelName = sub.channel
+          // If the channel names match up we want to add that channel to the column
+          if (subChannelName === columnChannelName) {
+            subscribedChannels.push(channels[i])
+          }
+        })
+      }
+      // Update channel list by list of subscribed channels only
+      channels = subscribedChannels
+    }
+  }
+
+  return channels
+}
+
 export const pullOutKindPerApplication = (application, kind = '') => {
   const isKind = n => n.kind.toLowerCase() === kind.toLowerCase()
   if (application && application.related) {

@@ -4108,6 +4108,72 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
+    className="show-channels-container"
+  >
+    <div>
+      <div
+        className="bx--form-item bx--checkbox-wrapper"
+      >
+        <input
+          className="bx--checkbox"
+          id="ShowAllChannels"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          className="bx--checkbox-label"
+          htmlFor="ShowAllChannels"
+          title={null}
+        >
+          <span
+            className=""
+          >
+            Show all channels
+          </span>
+        </label>
+      </div>
+    </div>
+    <div
+      className="show-channels-icon"
+    >
+      <div
+        className="bx--tooltip__trigger"
+      >
+        
+        <div
+          aria-expanded={false}
+          aria-haspopup="true"
+          id="__carbon-tooltip-trigger_i"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <svg
+            alt="tooltip"
+            aria-label="tooltip"
+            fillRule="evenodd"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              
+            </title>
+            <path
+              d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 4c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm2 8H6v-1h1V8H6V7h3v4h1v1z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
     id="PipelineGrid"
   >
     <div
@@ -10095,7 +10161,7 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
      
     <span>
       (
-      3
+      1
       )
     </span>
   </div>
@@ -10484,6 +10550,72 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
     </div>
   </div>
   <div
+    className="show-channels-container"
+  >
+    <div>
+      <div
+        className="bx--form-item bx--checkbox-wrapper"
+      >
+        <input
+          className="bx--checkbox"
+          id="ShowAllChannels"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <label
+          className="bx--checkbox-label"
+          htmlFor="ShowAllChannels"
+          title={null}
+        >
+          <span
+            className=""
+          >
+            Show all channels
+          </span>
+        </label>
+      </div>
+    </div>
+    <div
+      className="show-channels-icon"
+    >
+      <div
+        className="bx--tooltip__trigger"
+      >
+        
+        <div
+          aria-expanded={false}
+          aria-haspopup="true"
+          id="__carbon-tooltip-trigger_i"
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <svg
+            alt="tooltip"
+            aria-label="tooltip"
+            fillRule="evenodd"
+            height="16"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              
+            </title>
+            <path
+              d="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 4c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm2 8H6v-1h1V8H6V7h3v4h1v1z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
     id="PipelineGrid"
   >
     <div
@@ -10549,114 +10681,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
               </div>
             </div>
           </div>
-          <div
-            className="channelColumn"
-          >
-            <div
-              className="bx--tile channelColumnHeader"
-            >
-              <div
-                className="channelNameHeader"
-              >
-                <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitle"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="channelTitle"
-                >
-                  Channel
-                </div>
-                <div
-                  className="channelNameTitle"
-                >
-                  hub-local-helm-repo
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="channelColumn"
-          >
-            <div
-              className="bx--tile channelColumnHeader"
-            >
-              <div
-                className="channelNameHeader"
-              >
-                <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitle"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className="channelTitle"
-                >
-                  Channel
-                </div>
-                <div
-                  className="channelNameTitle"
-                >
-                  guestbook
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div
           className="horizontalScrollRow"
@@ -10671,42 +10695,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="subTotal"
               >
                 1
-              </div>
-              <div
-                className="subTotalDescription"
-              >
-                Subscriptions in this channel
-              </div>
-            </div>
-          </div>
-          <div
-            className="channelColumn"
-          >
-            <div
-              className="bx--tile channelColumnHeaderApplication"
-            >
-              <div
-                className="subTotal"
-              >
-                0
-              </div>
-              <div
-                className="subTotalDescription"
-              >
-                Subscriptions in this channel
-              </div>
-            </div>
-          </div>
-          <div
-            className="channelColumn"
-          >
-            <div
-              className="bx--tile channelColumnHeaderApplication"
-            >
-              <div
-                className="subTotal"
-              >
-                0
               </div>
               <div
                 className="subTotalDescription"
@@ -10892,60 +10880,6 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                         }
                       }
                     />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="channelColumnDep"
-            >
-              <div
-                className="bx--tile channelColumnDeployable"
-              >
-                <img
-                  alt="You don't have any subscriptions for this channel."
-                  className="no-sub-icon"
-                  src="undefined/graphics/nothing-moon-copy.svg"
-                />
-                <div
-                  className="subDescriptionText"
-                >
-                  <div
-                    className="noSubTitle"
-                  >
-                    No subscriptions
-                  </div>
-                  <div
-                    className="noSubDescription"
-                  >
-                    You don't have any subscriptions for this channel.
                   </div>
                 </div>
               </div>

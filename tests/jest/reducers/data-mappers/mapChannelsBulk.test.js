@@ -297,7 +297,7 @@ describe("data-mappers testing for mapChannelsBulk", () => {
     expect(mapBulkChannels(channels)).toEqual(result);
   });
 
-  it("should mold the data properly with charts-v1 channel", () => {
+  it("should mold the data properly with charts-v1 channel - _hubClusterResource = true and status = Subscribed", () => {
     const channels = [
       {
         items: [
@@ -376,7 +376,7 @@ describe("data-mappers testing for mapChannelsBulk", () => {
                 kind: "subscription",
                 name: "guestbook-subscription",
                 namespace: "kube-system",
-                status: "Propagated",
+                status: "Subscribed",
                 selfLink:
                   "/apis/app.ibm.com/v1alpha1/namespaces/kube-system/subscriptions/guestbook-subscription",
                 created: "2020-02-19T01:38:58Z",
@@ -477,6 +477,53 @@ describe("data-mappers testing for mapChannelsBulk", () => {
 
     expect(mapBulkChannels(apiResponse)).toEqual([]);
   });
+
+  // it("should always return channel that has no related subscription data", () => {
+  //   const channels = [
+  //     {
+  //       items: [{
+  //       kind: "channel",
+  //       name: "mortgage-channel",
+  //       namespace: "default",
+  //       selfLink:
+  //         "/apis/app.ibm.com/v1alpha1/namespaces/default/channels/mortgage-channel",
+  //       created: "2020-02-18T23:56:15Z",
+  //       cluster: "local-cluster",
+  //       apigroup: "app.ibm.com",
+  //       apiversion: "v1alpha1",
+  //       _rbac: "default_app.ibm.com_channels",
+  //       _hubClusterResource: "true",
+  //       _uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+  //       pathname: "default",
+  //       label:
+  //         "app=mortgage-channel-mortgage; chart=mortgage-channel-1.0.0; heritage=Tiller; release=mortgage-channel",
+  //       type: "Namespace"
+  //     }],
+  //     related: []}
+  //   ];
+
+  //   const result = [
+  //     {
+
+  //         _hubClusterResource: "true",
+  //         _rbac: "default_app.ibm.com_channels",
+  //         _uid: "local-cluster/3fc2a87a-52aa-11ea-bf05-00000a102d26",
+  //         apigroup: "app.ibm.com",
+  //         cluster: "local-cluster",
+  //         created: "2020-02-18T23:56:15Z",
+  //         kind: "channel",
+  //         label:
+  //           "app=mortgage-channel-mortgage; chart=mortgage-channel-1.0.0; heritage=Tiller; release=mortgage-channel",
+  //         name: "mortgage-channel",
+  //         namespace: "default",
+  //         pathname: "default",
+  //         related: []
+
+  //     }
+  //   ];
+
+  //   expect(mapBulkChannels(channels).toEqual(result));
+  // })
 
   it("should not break on empty response", () => {
     const apiResponse = [];

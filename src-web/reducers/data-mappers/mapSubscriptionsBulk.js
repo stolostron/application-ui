@@ -8,17 +8,6 @@
  *******************************************************************************/
 import R from 'ramda'
 
-const isDataShown = channel => {
-  if (channel) {
-    const splitChannel = channel.split('/')
-    // revert when charts-v1 tag exists
-    if (splitChannel.length === 2 && splitChannel[1] === 'charts-v1') {
-      return false // don't show if it's charts-v1 channel
-    }
-  }
-  return true
-}
-
 // @flow
 export const mapBulkSubscriptions = subscriptions => {
   if (subscriptions) {
@@ -36,7 +25,7 @@ export const mapBulkSubscriptions = subscriptions => {
           hubSubscriptions.length > 0
         ) {
           const items = hubSubscriptions[0]
-          if (items.channel && isDataShown(items.channel)) {
+          if (items.channel) {
             const data = {
               name: items.name || '',
               namespace: items.namespace || '',

@@ -8,16 +8,32 @@
  *******************************************************************************/
 
 // @flow
+import R from 'ramda'
+
 export const mapBulkChannels = channels => {
   if (channels) {
     const mappedChannels = channels
       .filter(channel => {
         if (channel.items && channel.related) {
-          const items = channel.items[0]
-          // revert when charts-v1 tag exists
-          if (items.name === 'charts-v1') {
-            return false
+          // look inside channel.related
+          const related = channel.related
+
+          if (R.length(related) > 0) {
+            const relItems = related[0].items
+
+            // condition for excluding channel
+            const excludeChannel = item =>
+              item.status &&
+              item.status === 'Subscribed' &&
+              item._hubClusterResource &&
+              item._hubClusterResource === 'true'
+
+            // check to see if there is at least one channel that has status Subscribed and _hubClusterResource true, if yes, exclude
+            if (relItems.some(excludeChannel)) {
+              return false
+            }
           }
+
           return true
         }
         return false

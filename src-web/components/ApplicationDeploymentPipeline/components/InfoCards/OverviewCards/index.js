@@ -270,48 +270,6 @@ class OverviewCards extends React.Component {
   reload() {
     const { fetchApplications } = this.props
     fetchApplications()
-    // console.log("reload", this.props.QueryApplicationList)
-
-    // const { fetchApplications, QueryApplicationList } = this.props
-    // const temp = QueryApplicationList
-    // new Promise(function(resolve, reject) {
-    //   console.log("here")
-    //   setTimeout(function() {
-    //     if (QueryApplicationList !== temp) {
-    //       console.log("not the same")
-    //     }
-    //     resolve()
-    //   }, 2000)
-    // })
-    // fetchApplications()
-
-    // const { fetchApplications, QueryApplicationList } = this.props
-    // const temp = QueryApplicationList
-    // console.log("temp", temp)
-
-    // const isDone = new Promise(function(resolve, reject) {
-    //   console.log("checking...")
-    //   console.log("before", QueryApplicationList)
-    //   resolve(fetchApplications())
-    //   console.log("after", QueryApplicationList)
-    //   console.log("done checking...")
-    // })
-    // const checkIfDone = () => {
-    //   console.log("call isDone")
-    //   isDone
-    //     .then(ok => {
-    //       console.log("OK")
-    //       if (QueryApplicationList !== temp) {
-    //         console.log("DIFF")
-    //         console.log("DIFF QueryApplicationList", QueryApplicationList)
-    //         console.log("DIFF temp", temp)
-    //       }
-    //     })
-    //     .catch(error => {
-    //       console.log("error:", error)
-    //     })
-    // }
-    // checkIfDone()
   }
 
   render() {

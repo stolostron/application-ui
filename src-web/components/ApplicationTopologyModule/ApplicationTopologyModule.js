@@ -32,7 +32,11 @@ import {
 } from '../../../lib/shared/constants'
 import { InlineNotification } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
-import * as Actions from '../../actions'
+import {
+  TOPOLOGY_SET_ACTIVE_FILTERS,
+  DIAGRAM_RESTORE_FILTERS,
+  DIAGRAM_SAVE_FILTERS
+} from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
 import { getPollInterval } from '../Topology/viewer/RefreshTimeSelect'
@@ -73,9 +77,9 @@ class ApplicationTopologyModule extends React.Component {
     detailsLoaded: PropTypes.bool,
     detailsReloading: PropTypes.bool,
     diagramFilters: PropTypes.array,
+    fetchAppTopology: PropTypes.func,
     fetchError: PropTypes.object,
     fetchHCMApplicationResource: PropTypes.func,
-    fetchTopology: PropTypes.func,
     links: PropTypes.array,
     locale: PropTypes.string,
     nodes: PropTypes.array,
@@ -135,7 +139,7 @@ class ApplicationTopologyModule extends React.Component {
     const namespace = decodeURIComponent(params.namespace)
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
-    this.props.fetchTopology(activeChannel)
+    this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
     this.startPolling(60 * 1000) // poll at 60 seconds
@@ -173,12 +177,12 @@ class ApplicationTopologyModule extends React.Component {
 
   refetch() {
     const {
-      fetchTopology,
+      fetchAppTopology,
       fetchHCMApplicationResource,
       activeChannel,
       params
     } = this.props
-    fetchTopology(activeChannel, true)
+    fetchAppTopology(activeChannel, true)
 
     if (params && params.name && params.namespace) {
       fetchHCMApplicationResource(params.namespace, params.name)
@@ -596,7 +600,7 @@ class ApplicationTopologyModule extends React.Component {
 
   changeTheChannel(fetchChannel) {
     this.setState({ changingChannel: true, activeChannel: fetchChannel })
-    this.props.fetchTopology(fetchChannel)
+    this.props.fetchAppTopology(fetchChannel)
   }
 
   handleToggleSize() {
@@ -863,14 +867,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     resetFilters: () => {
       dispatch({
-        type: Actions.TOPOLOGY_SET_ACTIVE_FILTERS,
+        type: TOPOLOGY_SET_ACTIVE_FILTERS,
         activeFilters: {}
       })
     },
     fetchHCMApplicationResource: () => {
       dispatch(fetchResource(RESOURCE_TYPES.HCM_APPLICATIONS, namespace, name))
     },
-    fetchTopology: (fetchChannel, reloading) => {
+    fetchAppTopology: (fetchChannel, reloading) => {
       const fetchFilters = {
         application: { name, namespace, channel: fetchChannel }
       }
@@ -878,12 +882,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         fetchTopology({ filter: { ...fetchFilters } }, fetchFilters, reloading)
       )
     },
-    putResource: (resourceType, namespace, name, data, selfLink) => {
-      dispatch(editResource(resourceType, namespace, name, data, selfLink))
+    putResource: (resourceType, ns, resName, data, selfLink) => {
+      dispatch(editResource(resourceType, ns, resName, data, selfLink))
     },
     restoreSavedDiagramFilters: () => {
       dispatch({
-        type: Actions.DIAGRAM_RESTORE_FILTERS,
+        type: DIAGRAM_RESTORE_FILTERS,
         namespace,
         name,
         initialDiagramFilters: []
@@ -891,7 +895,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onDiagramFilterChange: (filterType, diagramFilters) => {
       dispatch({
-        type: Actions.DIAGRAM_SAVE_FILTERS,
+        type: DIAGRAM_SAVE_FILTERS,
         namespace,
         name,
         diagramFilters

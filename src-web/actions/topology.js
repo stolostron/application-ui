@@ -45,10 +45,14 @@ export const receiveTopologySuccess = (
   },
   resourceType,
   fetchFilters,
-  willLoadDetails,
+  willLoadDetails
 })
 
-export const requestResourceDetails = (resourceType, fetchFilters, reloading) => ({
+export const requestResourceDetails = (
+  resourceType,
+  fetchFilters,
+  reloading
+) => ({
   type: Actions.RESOURCE_DETAILS_REQUEST,
   status: Actions.REQUEST_STATUS.IN_PROGRESS,
   resourceType,
@@ -89,30 +93,9 @@ export const fetchTopology = (vars, fetchFilters, reloading) => {
               response.data.topology.relationships
             )
           }
-
-          // if there's a cluster, also fetch details
-          let clusterNames=[]
-          if (topology.resources.findIndex(({type})=>{return type==='pod'})!==-1) {
-            topology.resources.forEach(res=>{
-              if (res.type==='cluster') {
-                clusterNames = [...clusterNames, ...lodash.get(res, 'specs.clusterNames', [])]
-              }
-            })
-          }
-          const loadDetails = clusterNames.length>0
-          dispatch(receiveTopologySuccess(topology, resourceType, fetchFilters, loadDetails))
-          if (loadDetails) {
-            dispatch(requestResourceDetails(resourceType, fetchFilters, reloading))
-            apolloClient
-              .getResource({name: 'HCMTopologyDetails'}, {filter: {clusterNames}})
-              .then(response => {
-                if (!response.errors) {
-                  topology.pods = lodash.cloneDeep(response.data.topologyDetails.pods)
-                  dispatch(receiveTopologyDetailsSuccess(topology, resourceType, fetchFilters))
-                }
-              })
-              .catch(err => (err))
-          }
+          dispatch(
+            receiveTopologySuccess(topology, resourceType, fetchFilters, false)
+          )
         }
       })
       .catch(err => dispatch(receiveResourceError(err, resourceType)))

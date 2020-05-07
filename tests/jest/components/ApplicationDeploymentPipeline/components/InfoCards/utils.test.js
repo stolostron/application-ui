@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
- *
+ * Copyright (c) 2020 Red Hat, Inc.
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
@@ -26,9 +26,13 @@ describe("getNumIncidents", () => {
     const num = getNumIncidents(emptyItemsData);
     expect(num).toEqual(0); // empty string returned
   });
+  it("empty items obj", () => {
+    const num = getNumIncidents(emptyItemsDataNoList);
+    expect(num).toEqual(0);
+  });
   it("empty list", () => {
     const num = getNumIncidents(emptyData);
-    expect(num).toEqual(0);
+    expect(num).toEqual(-1); // -1 to identify when skeleton text load bar should appear
   });
 });
 
@@ -89,7 +93,8 @@ describe("getNumPlacementRules", () => {
       "default"
     );
 
-    expect(placementRuleCount).toEqual(0);
+    // -1 to identify when skeleton text load bar should appear
+    expect(placementRuleCount).toEqual(-1);
   });
 });
 
@@ -145,10 +150,9 @@ describe("getSubscriptionDataOnHub", () => {
       "default"
     );
 
-    expect(subscriptionData.total).toEqual(0);
-    expect(subscriptionData.failed).toEqual(0);
-    expect(subscriptionData.noStatus).toEqual(0);
-    expect(subscriptionData.channels).toEqual(0);
+    // -1 to identify when skeleton text load bar should appear
+    expect(subscriptionData.total).toEqual(-1);
+    expect(subscriptionData.channels).toEqual(-1);
   });
 });
 
@@ -200,10 +204,8 @@ describe("getSubscriptionDataOnManagedClustersSingle", () => {
       "default"
     );
 
-    expect(subscriptionData.clusters).toEqual(0);
-    expect(subscriptionData.total).toEqual(0);
-    expect(subscriptionData.failed).toEqual(0);
-    expect(subscriptionData.noStatus).toEqual(0);
+    // -1 to identify when skeleton text load bar should appear
+    expect(subscriptionData.clusters).toEqual(-1);
   });
 });
 
@@ -236,10 +238,8 @@ describe("getSubscriptionDataOnManagedClustersRoot", () => {
       emptyData
     );
 
-    expect(subscriptionData.clusters).toEqual(0);
-    expect(subscriptionData.total).toEqual(0);
-    expect(subscriptionData.failed).toEqual(0);
-    expect(subscriptionData.noStatus).toEqual(0);
+    // -1 to identify when skeleton text load bar should appear
+    expect(subscriptionData.clusters).toEqual(-1);
   });
 });
 
@@ -264,10 +264,8 @@ describe("getPodData", () => {
   it("no pod data", () => {
     const podData = getPodData(emptyData, "app1", "default");
 
-    expect(podData.total).toEqual(0);
-    expect(podData.running).toEqual(0);
-    expect(podData.failed).toEqual(0);
-    expect(podData.inProgress).toEqual(0);
+    // -1 to identify when skeleton text load bar should appear
+    expect(podData.total).toEqual(-1);
   });
 });
 
@@ -298,6 +296,9 @@ describe("getIncidentsData", () => {
 const emptyData = {};
 const emptyItemsData = {
   items: []
+};
+const emptyItemsDataNoList = {
+  items: {}
 };
 
 const placementRuleSampleData = {

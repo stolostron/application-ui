@@ -11,6 +11,7 @@ import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { SkeletonText } from 'carbon-components-react'
 import resources from '../../../../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../../../../lib/shared/constants'
 import { fetchResources } from '../../../../../actions/common'
@@ -22,7 +23,9 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  getIncidentsData
+  getIncidentsData,
+  concatDataForTextKey,
+  concatDataForSubTextKey
 } from '../utils'
 import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
 import config from '../../../../../../lib/shared/config'
@@ -71,6 +74,7 @@ const getOverviewCardsData = (
   targetLinkForPods,
   locale
 ) => {
+  // All functions will return -1 if data or data.items is undefined... this will be used for skeleton text load bar
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     QueryApplicationList,
     isSingleApplicationView,
@@ -100,24 +104,18 @@ const getOverviewCardsData = (
       targetLink:
         subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst:
-        subscriptionDataOnHub.total > 0
-          ? subscriptionDataOnHub.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : '',
-      subtextKeySecond:
-        subscriptionDataOnHub.noStatus > 0
-          ? subscriptionDataOnHub.noStatus
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.noStatus', locale)
-            )
-          : ''
+      subtextKeyFirst: concatDataForSubTextKey(
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.failed,
+        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.noStatus,
+        subscriptionDataOnHub.noStatus,
+        msgs.get('dashboard.card.deployment.noStatus', locale)
+      )
     },
     {
       msgKey:
@@ -129,32 +127,24 @@ const getOverviewCardsData = (
         subscriptionDataOnManagedClusters.clusters === 0
           ? ''
           : targetLinkForClusters,
-      textKey: subscriptionDataOnManagedClusters.total
-        .toString()
-        .concat(
-          ' ',
-          subscriptionDataOnManagedClusters.total === 1
-            ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
-            : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-        ),
-      subtextKeyFirst:
-        subscriptionDataOnManagedClusters.clusters > 0
-          ? subscriptionDataOnManagedClusters.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : '',
-      subtextKeySecond:
-        subscriptionDataOnManagedClusters.noStatus > 0
-          ? subscriptionDataOnManagedClusters.noStatus
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.noStatus', locale)
-            )
-          : ''
+      textKey: concatDataForTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.total,
+        msgs.get('dashboard.card.deployment.totalSubscription', locale),
+        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
+      ),
+      subtextKeyFirst: concatDataForSubTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.failed,
+        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.noStatus,
+        subscriptionDataOnManagedClusters.noStatus,
+        msgs.get('dashboard.card.deployment.noStatus', locale)
+      )
     },
     {
       msgKey:
@@ -163,24 +153,18 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
       targetLink: podData.total === 0 ? '' : targetLinkForPods,
-      subtextKeyFirst:
-        podData.total > 0
-          ? podData.running
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.running', locale)
-            )
-          : '',
-      subtextKeySecond:
-        podData.total > 0
-          ? podData.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : ''
+      subtextKeyFirst: concatDataForSubTextKey(
+        podData.total,
+        podData.total,
+        podData.running,
+        msgs.get('dashboard.card.deployment.running', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        podData.total,
+        podData.total,
+        podData.failed,
+        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+      )
     }
   ]
 
@@ -193,30 +177,18 @@ const getOverviewCardsData = (
       count: incidents,
       alert: incidents > 0 ? true : false,
       targetTab: incidents === 0 ? null : 2,
-      subtextKeyFirst:
-        incidents > 0
-          ? incidentsData.priority1
-            .toString()
-            .concat(
-              ' ',
-              msgs.get(
-                'dashboard.card.deployment.incidents.priority1',
-                locale
-              )
-            )
-          : '',
-      subtextKeySecond:
-        incidents > 0
-          ? incidentsData.priority2
-            .toString()
-            .concat(
-              ' ',
-              msgs.get(
-                'dashboard.card.deployment.incidents.priority2',
-                locale
-              )
-            )
-          : ''
+      subtextKeyFirst: concatDataForSubTextKey(
+        incidents,
+        incidents,
+        incidentsData.priority1,
+        msgs.get('dashboard.card.deployment.incidents.priority1', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        incidents,
+        incidents,
+        incidentsData.priority2,
+        msgs.get('dashboard.card.deployment.incidents.priority2', locale)
+      )
     })
   }
   return result
@@ -295,6 +267,14 @@ class OverviewCards extends React.Component {
   }
 }
 
+const showCardData = (cardCount, width, className) => {
+  return cardCount !== -1 ? (
+    cardCount
+  ) : (
+    <SkeletonText width={width} className={className} />
+  )
+}
+
 const InfoCards = ({ overviewCardsData, actions }) => {
   return (
     <React.Fragment>
@@ -334,18 +314,36 @@ const InfoCards = ({ overviewCardsData, actions }) => {
               onKeyPress={e => handleKeyPress(e, card)}
             >
               <div className={card.alert ? 'card-count alert' : 'card-count'}>
-                {card.count}
+                {showCardData(
+                  card.count,
+                  '60%',
+                  'loading-skeleton-text-header'
+                )}
               </div>
               <div className="card-type">{card.msgKey}</div>
-              <div className="card-text">{card.textKey}</div>
+              <div className="card-text">
+                {showCardData(card.textKey, '80%', 'loading-skeleton-text-lrg')}
+              </div>
               {(card.subtextKeyFirst || card.subtextKeySecond) && (
                 <div className="row-divider" />
               )}
               {card.subtextKeyFirst && (
-                <div className="card-subtext">{card.subtextKeyFirst}</div>
+                <div className="card-subtext">
+                  {showCardData(
+                    card.subtextKeyFirst,
+                    '40%',
+                    'loading-skeleton-text-sm'
+                  )}
+                </div>
               )}
               {card.subtextKeySecond && (
-                <div className="card-subtext">{card.subtextKeySecond}</div>
+                <div className="card-subtext">
+                  {showCardData(
+                    card.subtextKeySecond,
+                    '60%',
+                    'loading-skeleton-text-med'
+                  )}
+                </div>
               )}
             </div>
             {key < Object.keys(overviewCardsData).length - 1 && (

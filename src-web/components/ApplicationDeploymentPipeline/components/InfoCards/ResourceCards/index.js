@@ -16,7 +16,9 @@ import {
   getNumPlacementRules,
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
-  getSubscriptionDataOnManagedClustersRoot
+  getSubscriptionDataOnManagedClustersRoot,
+  concatDataForTextKey,
+  concatDataForSubTextKey
 } from '../utils'
 import {
   getSearchLinkForOneApplication,
@@ -78,30 +80,6 @@ const getResourceCardsData = (
     applicationName,
     applicationNamespace
   )
-
-  const concatDataForTextKey = (
-    mainCounter,
-    valueToShow,
-    textOption1,
-    textOption2
-  ) => {
-    return mainCounter === -1
-      ? -1
-      : valueToShow
-        .toString()
-        .concat(' ', valueToShow === 1 ? textOption1 : textOption2)
-  }
-
-  const concatDataForSubTextKey = (
-    mainCounter,
-    valueToCheck,
-    valueToShow,
-    text
-  ) => {
-    return mainCounter === -1
-      ? -1
-      : valueToCheck > 0 ? valueToShow.toString().concat(' ', text) : ''
-  }
 
   const result = [
     {

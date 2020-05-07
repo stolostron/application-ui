@@ -364,3 +364,27 @@ export const getIncidentsData = CEMIncidentList => {
     priority2: priority2
   }
 }
+
+export const concatDataForTextKey = (
+  mainCounter,
+  valueToShow,
+  textOption1,
+  textOption2
+) => {
+  return mainCounter === -1
+    ? -1
+    : valueToShow
+      .toString()
+      .concat(' ', valueToShow === 1 ? textOption1 : textOption2)
+}
+
+export const concatDataForSubTextKey = (
+  mainCounter,
+  valueToCheck,
+  valueToShow,
+  text
+) => {
+  return mainCounter === -1
+    ? -1
+    : valueToCheck > 0 ? valueToShow.toString().concat(' ', text) : ''
+}

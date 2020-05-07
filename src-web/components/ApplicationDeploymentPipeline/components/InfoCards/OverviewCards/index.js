@@ -23,7 +23,9 @@ import {
   getSubscriptionDataOnHub,
   getSubscriptionDataOnManagedClustersSingle,
   getPodData,
-  getIncidentsData
+  getIncidentsData,
+  concatDataForTextKey,
+  concatDataForSubTextKey
 } from '../utils'
 import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
 import config from '../../../../../../lib/shared/config'
@@ -91,30 +93,6 @@ const getOverviewCardsData = (
   )
   const incidents = getNumIncidents(CEMIncidentList)
   const incidentsData = getIncidentsData(CEMIncidentList)
-
-  const concatDataForTextKey = (
-    mainCounter,
-    valueToShow,
-    textOption1,
-    textOption2
-  ) => {
-    return mainCounter === -1
-      ? -1
-      : valueToShow
-        .toString()
-        .concat(' ', valueToShow === 1 ? textOption1 : textOption2)
-  }
-
-  const concatDataForSubTextKey = (
-    mainCounter,
-    valueToCheck,
-    valueToShow,
-    text
-  ) => {
-    return mainCounter === -1
-      ? -1
-      : valueToCheck > 0 ? valueToShow.toString().concat(' ', text) : ''
-  }
 
   const result = [
     {

@@ -259,14 +259,18 @@ describe("common actions ", () => {
 
   it("should return getQueryStringForResources default app", () => {
     const expectedValue = {
-      filters: [
-        {
-          property: "kind",
-          values: ["application"]
-        }
-      ],
+      filters: [{ property: "kind", values: ["application"] }],
       keywords: [],
-      relatedKinds: []
+      relatedKinds: [
+        "deployment",
+        "deploymentconfig",
+        "pod",
+        "route",
+        "replicationcontroller",
+        "replicaset",
+        "secret",
+        "service"
+      ]
     };
 
     expect(actions.getQueryStringForResources("somevalue")).toEqual(
@@ -316,7 +320,16 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: []
+      relatedKinds: [
+        "deployment",
+        "deploymentconfig",
+        "pod",
+        "route",
+        "replicationcontroller",
+        "replicaset",
+        "secret",
+        "service"
+      ]
     };
 
     expect(actions.getQueryStringForResources("HCMApplication")).toEqual(
@@ -383,7 +396,16 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: []
+      relatedKinds: [
+        "deployment",
+        "deploymentconfig",
+        "pod",
+        "route",
+        "replicationcontroller",
+        "replicaset",
+        "secret",
+        "service"
+      ]
     };
 
     expect(
@@ -462,7 +484,16 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: []
+      relatedKinds: [
+        "deployment",
+        "deploymentconfig",
+        "pod",
+        "route",
+        "replicationcontroller",
+        "replicaset",
+        "secret",
+        "service"
+      ]
     };
 
     expect(actions.getQueryStringForResource("somename", "name", ns)).toEqual(

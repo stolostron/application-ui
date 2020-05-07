@@ -10,6 +10,7 @@ import R from 'ramda'
 
 export const getNumIncidents = list => {
   if (!list || !list.items) {
+    // -1 is used to identify when skeleton text load bar should appear
     return -1
   } else if (list && list.items && Array.isArray(list.items)) {
     return list.items.length
@@ -92,6 +93,7 @@ export const getNumPlacementRules = (
 
     return allPlacementRules.length
   }
+  // -1 is used to identify when skeleton text load bar should appear
   return -1
 }
 
@@ -184,11 +186,11 @@ export const getSubscriptionDataOnHub = (
       noStatus: noStatusSubsCount,
       channels: allChannels.length
     }
-  } else {
-    return {
-      total: -1,
-      channels: -1
-    }
+  }
+  // data is undefined... -1 is used to identify when skeleton text load bar should appear
+  return {
+    total: -1,
+    channels: -1
   }
 }
 
@@ -236,10 +238,10 @@ export const getSubscriptionDataOnManagedClustersSingle = (
       failed: failedSubsCount,
       noStatus: noStatusSubsCount
     }
-  } else {
-    return {
-      clusters: -1
-    }
+  }
+  // data is undefined... -1 is used to identify when skeleton text load bar should appear
+  return {
+    clusters: -1
   }
 }
 
@@ -274,10 +276,10 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
       failed: failedSubsCount,
       noStatus: noStatusSubsCount
     }
-  } else {
-    return {
-      clusters: -1
-    }
+  }
+  // data is undefined... -1 is used to identify when skeleton text load bar should appear
+  return {
+    clusters: -1
   }
 }
 
@@ -334,10 +336,10 @@ export const getPodData = (
       failed: failedPods,
       inProgress: inProgressPods
     }
-  } else {
-    return {
-      total: -1
-    }
+  }
+  // data is undefined... -1 is used to identify when skeleton text load bar should appear
+  return {
+    total: -1
   }
 }
 

@@ -72,6 +72,7 @@ const getOverviewCardsData = (
   targetLinkForPods,
   locale
 ) => {
+  // All functions will return -1 if data or data.items is undefined... this will be used for skeleton text load bar
   const subscriptionDataOnHub = getSubscriptionDataOnHub(
     QueryApplicationList,
     isSingleApplicationView,

@@ -44,7 +44,8 @@ class ResourceModal extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      data: toString(props.data)
+      data: toString(props.data),
+      dirty: false
     }
   }
 
@@ -96,7 +97,7 @@ class ResourceModal extends React.PureComponent {
   };
 
   onChange = value => {
-    this.setState({ data: value })
+    this.setState({ data: value, dirty: true })
   };
 
   componentWillReceiveProps(nextProps) {
@@ -118,6 +119,14 @@ class ResourceModal extends React.PureComponent {
   componentDidMount() {
     this.resourceModal.focus()
   }
+
+  componentDidUpdate = () => {
+    if (this.state.dirty) {
+      window.onbeforeunload = () => true
+    } else {
+      window.onbeforeunload = undefined
+    }
+  };
 
   render() {
     const {

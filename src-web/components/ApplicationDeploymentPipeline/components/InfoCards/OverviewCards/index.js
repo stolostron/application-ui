@@ -92,6 +92,30 @@ const getOverviewCardsData = (
   const incidents = getNumIncidents(CEMIncidentList)
   const incidentsData = getIncidentsData(CEMIncidentList)
 
+  const concatDataForTextKey = (
+    mainCounter,
+    valueToShow,
+    textOption1,
+    textOption2
+  ) => {
+    return mainCounter === -1
+      ? -1
+      : valueToShow
+        .toString()
+        .concat(' ', valueToShow === 1 ? textOption1 : textOption2)
+  }
+
+  const concatDataForSubTextKey = (
+    mainCounter,
+    valueToCheck,
+    valueToShow,
+    text
+  ) => {
+    return mainCounter === -1
+      ? -1
+      : valueToCheck > 0 ? valueToShow.toString().concat(' ', text) : ''
+  }
+
   const result = [
     {
       msgKey:
@@ -102,28 +126,18 @@ const getOverviewCardsData = (
       targetLink:
         subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
-      subtextKeyFirst:
-        subscriptionDataOnHub.total === -1
-          ? -1
-          : subscriptionDataOnHub.total > 0
-            ? subscriptionDataOnHub.failed
-              .toString()
-              .concat(
-                ' ',
-                msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-              )
-            : '',
-      subtextKeySecond:
-        subscriptionDataOnHub.total === -1
-          ? -1
-          : subscriptionDataOnHub.noStatus > 0
-            ? subscriptionDataOnHub.noStatus
-              .toString()
-              .concat(
-                ' ',
-                msgs.get('dashboard.card.deployment.noStatus', locale)
-              )
-            : ''
+      subtextKeyFirst: concatDataForSubTextKey(
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.failed,
+        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        subscriptionDataOnHub.total,
+        subscriptionDataOnHub.noStatus,
+        subscriptionDataOnHub.noStatus,
+        msgs.get('dashboard.card.deployment.noStatus', locale)
+      )
     },
     {
       msgKey:
@@ -135,45 +149,24 @@ const getOverviewCardsData = (
         subscriptionDataOnManagedClusters.clusters === 0
           ? ''
           : targetLinkForClusters,
-      textKey:
-        subscriptionDataOnManagedClusters.clusters === -1
-          ? -1
-          : subscriptionDataOnManagedClusters.total
-            .toString()
-            .concat(
-              ' ',
-              subscriptionDataOnManagedClusters.total === 1
-                ? msgs.get(
-                  'dashboard.card.deployment.totalSubscription',
-                  locale
-                )
-                : msgs.get(
-                  'dashboard.card.deployment.totalSubscriptions',
-                  locale
-                )
-            ),
-      subtextKeyFirst:
-        subscriptionDataOnManagedClusters.clusters === -1
-          ? -1
-          : subscriptionDataOnManagedClusters.clusters > 0
-            ? subscriptionDataOnManagedClusters.failed
-              .toString()
-              .concat(
-                ' ',
-                msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-              )
-            : '',
-      subtextKeySecond:
-        subscriptionDataOnManagedClusters.clusters === -1
-          ? -1
-          : subscriptionDataOnManagedClusters.noStatus > 0
-            ? subscriptionDataOnManagedClusters.noStatus
-              .toString()
-              .concat(
-                ' ',
-                msgs.get('dashboard.card.deployment.noStatus', locale)
-              )
-            : ''
+      textKey: concatDataForTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.total,
+        msgs.get('dashboard.card.deployment.totalSubscription', locale),
+        msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
+      ),
+      subtextKeyFirst: concatDataForSubTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.failed,
+        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        subscriptionDataOnManagedClusters.clusters,
+        subscriptionDataOnManagedClusters.noStatus,
+        subscriptionDataOnManagedClusters.noStatus,
+        msgs.get('dashboard.card.deployment.noStatus', locale)
+      )
     },
     {
       msgKey:
@@ -182,28 +175,18 @@ const getOverviewCardsData = (
           : msgs.get('dashboard.card.deployment.pods', locale),
       count: podData.total,
       targetLink: podData.total === 0 ? '' : targetLinkForPods,
-      subtextKeyFirst:
-        podData.total === -1
-          ? -1
-          : podData.total > 0
-            ? podData.running
-              .toString()
-              .concat(
-                ' ',
-                msgs.get('dashboard.card.deployment.running', locale)
-              )
-            : '',
-      subtextKeySecond:
-        podData.total === -1
-          ? -1
-          : podData.total > 0
-            ? podData.failed
-              .toString()
-              .concat(
-                ' ',
-                msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-              )
-            : ''
+      subtextKeyFirst: concatDataForSubTextKey(
+        podData.total,
+        podData.total,
+        podData.running,
+        msgs.get('dashboard.card.deployment.running', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        podData.total,
+        podData.total,
+        podData.failed,
+        msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+      )
     }
   ]
 
@@ -216,34 +199,18 @@ const getOverviewCardsData = (
       count: incidents,
       alert: incidents > 0 ? true : false,
       targetTab: incidents === 0 ? null : 2,
-      subtextKeyFirst:
-        incidents === -1
-          ? -1
-          : incidents > 0
-            ? incidentsData.priority1
-              .toString()
-              .concat(
-                ' ',
-                msgs.get(
-                  'dashboard.card.deployment.incidents.priority1',
-                  locale
-                )
-              )
-            : '',
-      subtextKeySecond:
-        incidents === -1
-          ? -1
-          : incidents > 0
-            ? incidentsData.priority2
-              .toString()
-              .concat(
-                ' ',
-                msgs.get(
-                  'dashboard.card.deployment.incidents.priority2',
-                  locale
-                )
-              )
-            : ''
+      subtextKeyFirst: concatDataForSubTextKey(
+        incidents,
+        incidents,
+        incidentsData.priority1,
+        msgs.get('dashboard.card.deployment.incidents.priority1', locale)
+      ),
+      subtextKeySecond: concatDataForSubTextKey(
+        incidents,
+        incidents,
+        incidentsData.priority2,
+        msgs.get('dashboard.card.deployment.incidents.priority2', locale)
+      )
     })
   }
   return result
@@ -322,6 +289,14 @@ class OverviewCards extends React.Component {
   }
 }
 
+const showCardData = (cardCount, width, className) => {
+  return cardCount !== -1 ? (
+    cardCount
+  ) : (
+    <SkeletonText width={width} className={className} />
+  )
+}
+
 const InfoCards = ({ overviewCardsData, actions }) => {
   return (
     <React.Fragment>
@@ -361,50 +336,34 @@ const InfoCards = ({ overviewCardsData, actions }) => {
               onKeyPress={e => handleKeyPress(e, card)}
             >
               <div className={card.alert ? 'card-count alert' : 'card-count'}>
-                {card.count !== -1 ? (
-                  card.count
-                ) : (
-                  <SkeletonText
-                    width={'60%'}
-                    className="loading-skeleton-text-header"
-                  />
+                {showCardData(
+                  card.count,
+                  '60%',
+                  'loading-skeleton-text-header'
                 )}
               </div>
               <div className="card-type">{card.msgKey}</div>
               <div className="card-text">
-                {card.textKey !== -1 ? (
-                  card.textKey
-                ) : (
-                  <SkeletonText
-                    width={'80%'}
-                    className="loading-skeleton-text-lrg"
-                  />
-                )}
+                {showCardData(card.textKey, '80%', 'loading-skeleton-text-lrg')}
               </div>
               {(card.subtextKeyFirst || card.subtextKeySecond) && (
                 <div className="row-divider" />
               )}
               {card.subtextKeyFirst && (
                 <div className="card-subtext">
-                  {card.subtextKeyFirst !== -1 ? (
-                    card.subtextKeyFirst
-                  ) : (
-                    <SkeletonText
-                      width={'40%'}
-                      className="loading-skeleton-text-sm"
-                    />
+                  {showCardData(
+                    card.subtextKeyFirst,
+                    '40%',
+                    'loading-skeleton-text-sm'
                   )}
                 </div>
               )}
               {card.subtextKeySecond && (
                 <div className="card-subtext">
-                  {card.subtextKeySecond !== -1 ? (
-                    card.subtextKeySecond
-                  ) : (
-                    <SkeletonText
-                      width={'60%'}
-                      className="loading-skeleton-text-med"
-                    />
+                  {showCardData(
+                    card.subtextKeySecond,
+                    '60%',
+                    'loading-skeleton-text-med'
                   )}
                 </div>
               )}

@@ -11,6 +11,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import resources from '../../../../../../lib/shared/resources'
 import msgs from '../../../../../../nls/platform.properties'
+import { SkeletonText } from 'carbon-components-react'
 import {
   getNumPlacementRules,
   getSubscriptionDataOnHub,
@@ -88,23 +89,27 @@ const getResourceCardsData = (
         subscriptionDataOnHub.total === 0 ? '' : targetLinkForSubscriptions,
       textKey: msgs.get('dashboard.card.deployment.subscriptions.text', locale),
       subtextKeyFirst:
-        subscriptionDataOnHub.total > 0
-          ? subscriptionDataOnHub.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : '',
+        subscriptionDataOnHub.total === -1
+          ? -1
+          : subscriptionDataOnHub.total > 0
+            ? subscriptionDataOnHub.failed
+              .toString()
+              .concat(
+                ' ',
+                msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+              )
+            : '',
       subtextKeySecond:
-        subscriptionDataOnHub.noStatus > 0
-          ? subscriptionDataOnHub.noStatus
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.noStatus', locale)
-            )
-          : ''
+        subscriptionDataOnHub.total === -1
+          ? -1
+          : subscriptionDataOnHub.noStatus > 0
+            ? subscriptionDataOnHub.noStatus
+              .toString()
+              .concat(
+                ' ',
+                msgs.get('dashboard.card.deployment.noStatus', locale)
+              )
+            : ''
     },
     {
       msgKey:
@@ -116,32 +121,45 @@ const getResourceCardsData = (
         subscriptionDataOnManagedClusters.clusters === 0
           ? ''
           : targetLinkForClusters,
-      textKey: subscriptionDataOnManagedClusters.total
-        .toString()
-        .concat(
-          ' ',
-          subscriptionDataOnManagedClusters.total === 1
-            ? msgs.get('dashboard.card.deployment.totalSubscription', locale)
-            : msgs.get('dashboard.card.deployment.totalSubscriptions', locale)
-        ),
+      textKey:
+        subscriptionDataOnManagedClusters.clusters === -1
+          ? -1
+          : subscriptionDataOnManagedClusters.total
+            .toString()
+            .concat(
+              ' ',
+              subscriptionDataOnManagedClusters.total === 1
+                ? msgs.get(
+                  'dashboard.card.deployment.totalSubscription',
+                  locale
+                )
+                : msgs.get(
+                  'dashboard.card.deployment.totalSubscriptions',
+                  locale
+                )
+            ),
       subtextKeyFirst:
-        subscriptionDataOnManagedClusters.clusters > 0
-          ? subscriptionDataOnManagedClusters.failed
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.failed.lowercase', locale)
-            )
-          : '',
+        subscriptionDataOnManagedClusters.clusters === -1
+          ? -1
+          : subscriptionDataOnManagedClusters.clusters > 0
+            ? subscriptionDataOnManagedClusters.failed
+              .toString()
+              .concat(
+                ' ',
+                msgs.get('dashboard.card.deployment.failed.lowercase', locale)
+              )
+            : '',
       subtextKeySecond:
-        subscriptionDataOnManagedClusters.noStatus > 0
-          ? subscriptionDataOnManagedClusters.noStatus
-            .toString()
-            .concat(
-              ' ',
-              msgs.get('dashboard.card.deployment.noStatus', locale)
-            )
-          : ''
+        subscriptionDataOnManagedClusters.clusters === -1
+          ? -1
+          : subscriptionDataOnManagedClusters.noStatus > 0
+            ? subscriptionDataOnManagedClusters.noStatus
+              .toString()
+              .concat(
+                ' ',
+                msgs.get('dashboard.card.deployment.noStatus', locale)
+              )
+            : ''
     },
     {
       msgKey:
@@ -253,17 +271,53 @@ class ResourceCards extends React.Component {
                 onClick={e => handleClick(e, card)}
                 onKeyPress={e => handleKeyPress(e, card)}
               >
-                <div className="card-count">{card.count}</div>
+                <div className="card-count">
+                  {card.count !== -1 ? (
+                    card.count
+                  ) : (
+                    <SkeletonText
+                      width={'60%'}
+                      className="loading-skeleton-text-header"
+                    />
+                  )}
+                </div>
                 <div className="card-type">{card.msgKey}</div>
-                <div className="card-text">{card.textKey}</div>
+                <div className="card-text">
+                  {card.textKey !== -1 ? (
+                    card.textKey
+                  ) : (
+                    <SkeletonText
+                      width={'80%'}
+                      className="loading-skeleton-text-lrg"
+                    />
+                  )}
+                </div>
                 {(card.subtextKeyFirst || card.subtextKeySecond) && (
                   <div className="row-divider" />
                 )}
                 {card.subtextKeyFirst && (
-                  <div className="card-subtext">{card.subtextKeyFirst}</div>
+                  <div className="card-subtext">
+                    {card.subtextKeyFirst !== -1 ? (
+                      card.subtextKeyFirst
+                    ) : (
+                      <SkeletonText
+                        width={'40%'}
+                        className="loading-skeleton-text-sm"
+                      />
+                    )}
+                  </div>
                 )}
                 {card.subtextKeySecond && (
-                  <div className="card-subtext">{card.subtextKeySecond}</div>
+                  <div className="card-subtext">
+                    {card.subtextKeySecond !== -1 ? (
+                      card.subtextKeySecond
+                    ) : (
+                      <SkeletonText
+                        width={'60%'}
+                        className="loading-skeleton-text-med"
+                      />
+                    )}
+                  </div>
                 )}
               </div>
               {key < Object.keys(resourceCardsData).length - 1 && (

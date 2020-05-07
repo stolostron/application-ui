@@ -9,7 +9,9 @@
 import R from 'ramda'
 
 export const getNumIncidents = list => {
-  if (list && list.items && Array.isArray(list.items)) {
+  if (!list || !list.items) {
+    return -1
+  } else if (list && list.items && Array.isArray(list.items)) {
     return list.items.length
   }
   return 0
@@ -90,7 +92,7 @@ export const getNumPlacementRules = (
 
     return allPlacementRules.length
   }
-  return 0
+  return -1
 }
 
 const getSubObjs = (subData, allSubscriptions, allChannels) => {
@@ -111,12 +113,12 @@ export const getSubscriptionDataOnHub = (
   applicationName,
   applicationNamespace
 ) => {
-  var allSubscriptions = []
-  var failedSubsCount = 0
-  var noStatusSubsCount = 0
-  var allChannels = []
-
   if (applications && applications.items) {
+    var allSubscriptions = []
+    var failedSubsCount = 0
+    var noStatusSubsCount = 0
+    var allChannels = []
+
     // Single application view
     if (isSingleApplicationView) {
       Object.keys(applications.items).forEach(appIndex => {
@@ -175,13 +177,18 @@ export const getSubscriptionDataOnHub = (
         }
       })
     }
-  }
 
-  return {
-    total: allSubscriptions.length,
-    failed: failedSubsCount,
-    noStatus: noStatusSubsCount,
-    channels: allChannels.length
+    return {
+      total: allSubscriptions.length,
+      failed: failedSubsCount,
+      noStatus: noStatusSubsCount,
+      channels: allChannels.length
+    }
+  } else {
+    return {
+      total: -1,
+      channels: -1
+    }
   }
 }
 
@@ -190,12 +197,12 @@ export const getSubscriptionDataOnManagedClustersSingle = (
   applicationName,
   applicationNamespace
 ) => {
-  var managedClusterCount = 0
-  var allSubscriptions = 0
-  var failedSubsCount = 0
-  var noStatusSubsCount = 0
-
   if (applications && applications.items) {
+    var managedClusterCount = 0
+    var allSubscriptions = 0
+    var failedSubsCount = 0
+    var noStatusSubsCount = 0
+
     Object.keys(applications.items).forEach(appIndex => {
       // Get subscription data for the current application opened
       if (
@@ -222,23 +229,27 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         }
       }
     })
-  }
 
-  return {
-    clusters: managedClusterCount,
-    total: allSubscriptions,
-    failed: failedSubsCount,
-    noStatus: noStatusSubsCount
+    return {
+      clusters: managedClusterCount,
+      total: allSubscriptions,
+      failed: failedSubsCount,
+      noStatus: noStatusSubsCount
+    }
+  } else {
+    return {
+      clusters: -1
+    }
   }
 }
 
 export const getSubscriptionDataOnManagedClustersRoot = applications => {
-  var managedClusterCount = 0
-  var allSubscriptions = 0
-  var failedSubsCount = 0
-  var noStatusSubsCount = 0
-
   if (applications && applications.items) {
+    var managedClusterCount = 0
+    var allSubscriptions = 0
+    var failedSubsCount = 0
+    var noStatusSubsCount = 0
+
     if (applications.items.clusterCount !== undefined) {
       managedClusterCount = applications.items.clusterCount
     }
@@ -256,13 +267,17 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
         allSubscriptions += subData.Subscribed
       }
     }
-  }
 
-  return {
-    clusters: managedClusterCount,
-    total: allSubscriptions,
-    failed: failedSubsCount,
-    noStatus: noStatusSubsCount
+    return {
+      clusters: managedClusterCount,
+      total: allSubscriptions,
+      failed: failedSubsCount,
+      noStatus: noStatusSubsCount
+    }
+  } else {
+    return {
+      clusters: -1
+    }
   }
 }
 
@@ -271,12 +286,12 @@ export const getPodData = (
   applicationName,
   applicationNamespace
 ) => {
-  var allPods = 0
-  var runningPods = 0
-  var failedPods = 0
-  var inProgressPods = 0
-
   if (applications && applications.items) {
+    var allPods = 0
+    var runningPods = 0
+    var failedPods = 0
+    var inProgressPods = 0
+
     Object.keys(applications.items).forEach(appIndex => {
       // Get pod data for the current application opened
       if (
@@ -312,13 +327,17 @@ export const getPodData = (
         allPods += runningPods + failedPods + inProgressPods
       }
     })
-  }
 
-  return {
-    total: allPods,
-    running: runningPods,
-    failed: failedPods,
-    inProgress: inProgressPods
+    return {
+      total: allPods,
+      running: runningPods,
+      failed: failedPods,
+      inProgress: inProgressPods
+    }
+  } else {
+    return {
+      total: -1
+    }
   }
 }
 

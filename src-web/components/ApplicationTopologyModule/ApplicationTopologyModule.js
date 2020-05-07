@@ -21,7 +21,7 @@ import { validator } from './validators/hcm-application-validator'
 import { getUpdates } from './deployers/hcm-application-deployer'
 import hcmappdiagram from './definitions/hcm-application-diagram'
 import hcmtopology from './definitions/hcm-topology'
-import { editResource } from '../../actions/common'
+import { editResource, fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
 import {
@@ -74,6 +74,7 @@ class ApplicationTopologyModule extends React.Component {
     detailsReloading: PropTypes.bool,
     diagramFilters: PropTypes.array,
     fetchError: PropTypes.object,
+    fetchHCMApplicationResource: PropTypes.func,
     fetchTopology: PropTypes.func,
     links: PropTypes.array,
     locale: PropTypes.string,
@@ -135,6 +136,7 @@ class ApplicationTopologyModule extends React.Component {
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
     const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
     this.props.fetchTopology(activeChannel)
+    this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
     this.startPolling(60 * 1000) // poll at 60 seconds
   }
@@ -170,8 +172,17 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   refetch() {
-    const { fetchTopology, activeChannel } = this.props
+    const {
+      fetchTopology,
+      fetchHCMApplicationResource,
+      activeChannel,
+      params
+    } = this.props
     fetchTopology(activeChannel, true)
+
+    if (params && params.name && params.namespace) {
+      fetchHCMApplicationResource(params.namespace, params.name)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -811,6 +822,7 @@ class ApplicationTopologyModule extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps
+  const { HCMApplicationList, QueryApplicationList } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
   const staticResourceData = hcmappdiagram.mergeDefinitions(hcmtopology)
@@ -840,7 +852,9 @@ const mapStateToProps = (state, ownProps) => {
     activeFilters,
     fetchFilters,
     fetchError,
-    diagramFilters
+    diagramFilters,
+    HCMApplicationList,
+    QueryApplicationList
   }
 }
 
@@ -852,6 +866,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         type: Actions.TOPOLOGY_SET_ACTIVE_FILTERS,
         activeFilters: {}
       })
+    },
+    fetchHCMApplicationResource: () => {
+      dispatch(fetchResource(RESOURCE_TYPES.HCM_APPLICATIONS, namespace, name))
     },
     fetchTopology: (fetchChannel, reloading) => {
       const fetchFilters = {

@@ -643,6 +643,7 @@ describe("getNodeDetails deployment node", () => {
       value: "matchLabels=app=mortgage-app-mortgage"
     },
     { type: "spacer" },
+    { type: "spacer" },
     { labelKey: "resource.pod.deployed", labelValue: undefined, type: "label" },
     {
       indent: undefined,
@@ -651,12 +652,13 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "pod1"
     },
+    { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
       indent: true,
       type: "link",
       value: {
-        data: { name: undefined, namespace: undefined },
+        data: { cluster: "cluster1", name: undefined, namespace: undefined },
         label: "View Log"
       }
     },
@@ -989,7 +991,8 @@ describe("getNodeDetails placement rules node", () => {
       labelValue: undefined,
       type: "label",
       value: 0
-    }
+    },
+    { type: "spacer" }
   ];
 
   it("should process the node, placement rules node", () => {

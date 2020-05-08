@@ -429,6 +429,9 @@ function addK8Details(node, details, podOnly, index) {
     }
   }
 
+  details.push({
+    type: 'spacer'
+  })
   // kube model details
   let podModel = _.get(node, 'specs.podModel')
   if (podModel) {
@@ -448,7 +451,8 @@ function addK8Details(node, details, podOnly, index) {
           label: 'View Log',
           data: {
             name: pod.name,
-            namespace: pod.namespace
+            namespace: pod.namespace,
+            cluster: pod.cluster
           }
         },
         indent: true

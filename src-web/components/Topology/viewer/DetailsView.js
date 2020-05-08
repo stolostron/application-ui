@@ -109,7 +109,7 @@ class DetailsView extends React.Component {
     case 'spacer':
       return this.renderSpacer()
     case 'link':
-      return this.renderLink(detail)
+      return this.renderLink(detail, true)
     case 'number':
       return this.renderNumber(detail, locale)
     case 'selector':
@@ -158,7 +158,7 @@ class DetailsView extends React.Component {
     const handleKeyPress = this.handleKeyPress.bind(this, value)
     return (
       <div className="sectionContent" key={Math.random()}>
-        <div
+        <span
           className="link"
           tabIndex="0"
           role={'button'}
@@ -166,8 +166,14 @@ class DetailsView extends React.Component {
           onKeyPress={handleKeyPress}
         >
           {indent && <span className="indent" />}
-          {value.label}
-        </div>
+          {value.label}&nbsp;
+          <Icon
+            name="icon--launch"
+            fill="#6089bf"
+            description="Open Logs"
+            className="open-out-icon"
+          />
+        </span>
       </div>
     )
   }

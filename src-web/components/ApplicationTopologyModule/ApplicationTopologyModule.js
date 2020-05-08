@@ -848,7 +848,8 @@ const mapStateToProps = (state, ownProps) => {
     topology,
     localStoreKey,
     name,
-    namespace
+    namespace,
+    HCMApplicationList
   )
   return {
     ...diagramElements,

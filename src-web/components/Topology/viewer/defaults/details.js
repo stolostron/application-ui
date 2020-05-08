@@ -437,39 +437,27 @@ function addK8Details(node, details, podOnly, index) {
       podModel[podModel.name] = podModel
     }
     Object.values(podModel).forEach(pod => {
-      const {
-        status,
-        restarts,
-        hostIP,
-        podIP,
-        startedAt,
-        containers,
-        cluster
-      } = pod
+      const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
       details.push({
         type: 'label',
         labelKey: 'resource.container.logs'
       })
-      containers.forEach(({ name: containerName }) => {
-        details.push({
-          type: 'link',
-          value: {
-            label: `${containerName}`,
-            data: {
-              name: pod.name,
-              namespace: pod.namespace,
-              clusterName: _.get(cluster, 'metadata.name'),
-              containerName,
-              containers
-            }
-          },
-          indent: true
-        })
+      details.push({
+        type: 'link',
+        value: {
+          label: 'View Log',
+          data: {
+            name: pod.name,
+            namespace: pod.namespace
+          }
+        },
+        indent: true
       })
+
       addDetails(details, [
         {
           labelKey: 'resource.clustername',
-          value: cluster.metadata.name
+          value: cluster
         },
         {
           labelKey: 'resource.hostip',

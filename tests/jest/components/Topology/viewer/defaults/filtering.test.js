@@ -341,23 +341,6 @@ describe("getAvailableFilters application", () => {
   const set1 = new Set();
 
   const expectedResult = {
-    hostIPs: {
-      availableSet: new Set([
-        "10.0.130.141",
-        "10.0.128.168",
-        "10.0.134.47",
-        "10.0.138.193",
-        "10.0.135.12",
-        "10.0.134.43",
-        "10.0.137.176",
-        "10.0.135.243",
-        "10.0.132.29",
-        "10.0.132.99",
-        "10.0.135.34",
-        "10.0.128.64"
-      ]),
-      name: "Host IP"
-    },
     labels: {
       availableSet: set1,
       name: "Labels"
@@ -365,15 +348,6 @@ describe("getAvailableFilters application", () => {
     namespaces: {
       availableSet: new Set(["<none>"]),
       name: "Namespaces"
-    },
-    podStatuses: {
-      availableSet: new Map([
-        ["recent", "Recent"],
-        ["restarts", "Restarted"],
-        ["pending", "Pending"],
-        ["failed", "Failed"]
-      ]),
-      name: "Pod status"
     }
   };
 

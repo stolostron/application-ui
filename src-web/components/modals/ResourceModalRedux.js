@@ -116,17 +116,21 @@ class ResourceModal extends React.PureComponent {
     }
   }
 
+  onUnload = e => {
+    if (this.state.dirty) {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+  };
+
   componentDidMount() {
+    window.addEventListener('beforeunload', this.onUnload)
     this.resourceModal.focus()
   }
 
-  componentDidUpdate = () => {
-    if (this.state.dirty) {
-      window.onbeforeunload = () => true
-    } else {
-      window.onbeforeunload = undefined
-    }
-  };
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload)
+  }
 
   render() {
     const {

@@ -112,13 +112,20 @@ class CreateResourceModal extends React.PureComponent {
     })
   };
 
-  componentDidUpdate = () => {
+  onUnload = e => {
     if (this.state.dirty) {
-      window.onbeforeunload = () => true
-    } else {
-      window.onbeforeunload = undefined
+      e.preventDefault()
+      e.returnValue = ''
     }
   };
+
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.onUnload)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload)
+  }
 
   handleEditorChange = yaml => {
     this.setState({ yaml, dirty: true })

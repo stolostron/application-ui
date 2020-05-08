@@ -320,14 +320,16 @@ function addK8Details(node, details, podOnly, index) {
       )
     )
 
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'selector'],
-        'raw.spec.selector'
+    if (!R.pathOr(['specs', 'raw', 'spec', 'selector', 'matchLabels'])) {
+      addPropertyToList(
+        mainDetails,
+        getNodePropery(
+          node,
+          ['specs', 'raw', 'spec', 'selector'],
+          'raw.spec.selector'
+        )
       )
-    )
+    }
 
     addPropertyToList(
       mainDetails,

@@ -37,7 +37,8 @@ class ResourceModal extends React.PureComponent {
     this.client = apolloClient.getClient()
     this.state = {
       loading: true,
-      errors: ''
+      errors: '',
+      dirty: false
     }
   }
 
@@ -118,7 +119,7 @@ class ResourceModal extends React.PureComponent {
   };
 
   onChange = value => {
-    this.setState({ data: value })
+    this.setState({ data: value, dirty: true })
   };
 
   componentWillMount() {
@@ -133,8 +134,20 @@ class ResourceModal extends React.PureComponent {
       })
   }
 
+  onUnload = e => {
+    if (this.state.dirty) {
+      e.preventDefault()
+      e.returnValue = ''
+    }
+  };
+
   componentDidMount() {
+    window.addEventListener('beforeunload', this.onUnload)
     this.resourceModal.focus()
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.onUnload)
   }
 
   render() {

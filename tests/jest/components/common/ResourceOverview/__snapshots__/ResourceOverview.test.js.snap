@@ -453,13 +453,13 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             id="type-filter-bar-portal-id"
           />
           <div
-            aria-label="Edit topology"
+            aria-label="View topology"
             className="diagram-expand-button"
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
             tabIndex="0"
-            title="Edit topology"
+            title="View topology"
           >
             <svg
               className="icon"
@@ -468,7 +468,7 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
                 href="#diagramIcons_launch"
               />
             </svg>
-            Edit topology
+            View topology
           </div>
         </div>
       </div>

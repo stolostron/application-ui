@@ -18,7 +18,7 @@ import { getNodePropery, addPropertyToList } from '../../utils/diagram-helpers'
 export const getNodeDetails = node => {
   const details = []
   if (node) {
-    const { type, specs, layout = {} } = node
+    const { type, specs } = node
     let { labels = [] } = node
     switch (type) {
     case 'cluster':
@@ -105,33 +105,6 @@ export const getNodeDetails = node => {
             value: placement
           })
         })
-      }
-      break
-
-    case 'deployment':
-      {
-        addK8Details(node, details)
-        const { hasPods, pods } = layout
-
-        // pods
-        if (hasPods) {
-          const multiPods = pods.length > 1
-          details.push({
-            type: 'spacer'
-          })
-          details.push({
-            type: 'label',
-            labelKey: multiPods
-              ? 'resource.pods.deployed'
-              : 'resource.pod.deployed',
-            labelValue: multiPods ? pods.length : undefined
-          })
-
-          // the pod stuff
-          pods.forEach((pod, idx) => {
-            addK8Details(pod, details, true, multiPods ? idx + 1 : undefined)
-          })
-        }
       }
       break
 

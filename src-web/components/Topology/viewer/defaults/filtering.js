@@ -343,7 +343,7 @@ const addAvailableRelationshipFilters = (
   const activeTypes = new Set(activeFilters.type || [])
   const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
   const filterTypes = TypeFilters[mode].filterTypes
-  const showPods = activeTypes.has('pod')
+  const showPods = activeTypes.has('deployment')
   Object.keys(filterTypes).forEach(type => {
     let name = null
     let availableSet = new Set()
@@ -449,6 +449,7 @@ const addAvailableRelationshipFilters = (
 }
 
 const hasPodStatus = (filterType, podStatus, podStatuses, hostIPs) => {
+  //console.log('hasPodStatus', filterType, podStatus, podStatuses, hostIPs)
   const isFilteringPodStatus = podStatuses.size > 0
   if (podStatus) {
     // filter by pod status

@@ -443,33 +443,30 @@ function addK8Details(node, details, podOnly, index) {
         hostIP,
         podIP,
         startedAt,
-        containers,
+        name,
+        namespace,
         cluster
       } = pod
       details.push({
         type: 'label',
         labelKey: 'resource.container.logs'
       })
-      containers.forEach(({ name: containerName }) => {
-        details.push({
-          type: 'link',
-          value: {
-            label: `${containerName}`,
-            data: {
-              name: pod.name,
-              namespace: pod.namespace,
-              clusterName: _.get(cluster, 'metadata.name'),
-              containerName,
-              containers
-            }
-          },
-          indent: true
-        })
+      details.push({
+        type: 'link',
+        value: {
+          label: 'View Log',
+          data: {
+            name: name,
+            namespace: namespace
+          }
+        },
+        indent: true
       })
+
       addDetails(details, [
         {
           labelKey: 'resource.clustername',
-          value: cluster.metadata.name
+          value: cluster
         },
         {
           labelKey: 'resource.hostip',

@@ -15,6 +15,7 @@ import {
 } from '../../../../lib/client/resource-helper'
 import * as Actions from '../../../actions'
 import _ from 'lodash'
+import R from 'ramda'
 
 export default {
   // merge table/diagram/topology definitions
@@ -73,7 +74,13 @@ function getActiveChannel(localStoreKey) {
   }
 }
 
-function getDiagramElements(topology, localStoreKey, iname, inamespace) {
+function getDiagramElements(
+  topology,
+  localStoreKey,
+  iname,
+  inamespace,
+  applicationDetails
+) {
   const {
     status,
     loaded,
@@ -109,7 +116,7 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
         )
         channels = _.get(node, 'specs.channels', [])
         break
-      case 'pod':
+      case 'deployment':
         clusterName = getClusterName(node.id)
         if (clusterName.indexOf(', ') > -1) {
           podMap[name] = node
@@ -149,12 +156,11 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
     // if loaded, we add those details now
     addDiagramDetails(
       topology,
-      nodes,
       podMap,
       activeChannel,
       localStoreKey,
       isClusterGrouped,
-      inamespace
+      applicationDetails
     )
 
     return {
@@ -186,7 +192,6 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
       activeChannel = storedActiveChannel.activeChannel
       channels = storedActiveChannel.channels || []
     }
-    //console.log('localkey '+localStoreKey+ ' fetch '+ JSON.stringify(_.get(topology, 'fetchFilters.application')))
     activeChannel = _.get(
       topology,
       'fetchFilters.application.channel',
@@ -250,18 +255,27 @@ function getDiagramElements(topology, localStoreKey, iname, inamespace) {
 
 function addDiagramDetails(
   topology,
-  nodes,
   podMap,
   activeChannel,
   localStoreKey,
   isClusterGrouped,
-  inamespace
+  applicationDetails
 ) {
-  const { status, detailsLoaded, detailsReloading } = topology
+  const { detailsReloading } = topology
   // get extra details from topology or from localstore
   let pods = []
-  if (detailsLoaded && status !== Actions.REQUEST_STATUS.ERROR) {
-    pods = topology.pods
+  if (applicationDetails) {
+    if (!R.isEmpty(R.pathOr([], ['items'])(applicationDetails))) {
+      //get the app related pods
+      const related = R.pathOr([], ['related'])(applicationDetails.items[0])
+
+      const isPodList = R.propEq('kind', 'pod')
+      const podsList = R.filter(isPodList, related)
+      if (!R.isEmpty(podsList)) {
+        pods = R.pathOr([], ['items'])(podsList[0])
+      }
+    }
+
     // save in local store
     saveStoredObject(`${localStoreKey}-${activeChannel}-details`, {
       pods
@@ -280,24 +294,20 @@ function addDiagramDetails(
   // associate pods with status
   if (pods) {
     pods.forEach(pod => {
-      const { name: pname } = pod
-      if (pname && inamespace === pod.namespace) {
-        // get pod name w/o uid suffix
-        let name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-        if (name === pname) {
-          const idx = name.lastIndexOf('-')
-          if (idx !== -1) {
-            name = name.substr(0, idx)
-          }
+      const pname = pod.name
+      // get pod name w/o uid suffix
+      let name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+      if (name === pname) {
+        const idx = name.lastIndexOf('-')
+        if (idx !== -1) {
+          name = name.substr(0, idx)
         }
-        const podName = isClusterGrouped
-          ? name
-          : `${name}-${pod.cluster.metadata.name}`
-        if (podMap[podName]) {
-          const podModel = _.get(podMap[name], 'specs.podModel', {})
-          podModel[pod.name] = pod
-          _.set(podMap[podName], 'specs.podModel', podModel)
-        }
+      }
+      const podName = isClusterGrouped ? name : `${name}-${pod.cluster}`
+      if (podMap[podName]) {
+        const podModel = _.get(podMap[name], 'specs.podModel', {})
+        podModel[pod.name] = pod
+        _.set(podMap[podName], 'specs.podModel', podModel)
       }
     })
   }

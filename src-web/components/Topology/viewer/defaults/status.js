@@ -162,8 +162,8 @@ const updateGreenPulse = startedAts => {
     )
     const threshold = Math.min(Math.max(a - s, HOURS * 4), HOURS * 8) // at least 6 but not more then 24 hours ago
     startedAts
-      .sort(({ started: a }, { started: b }) => {
-        return a - b
+      .sort(({ started: s1 }, { started: s2 }) => {
+        return s1 - s2
       })
       .some(({ node, started }) => {
         if (started < threshold) {

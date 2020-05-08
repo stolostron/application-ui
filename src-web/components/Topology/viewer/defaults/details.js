@@ -437,16 +437,7 @@ function addK8Details(node, details, podOnly, index) {
       podModel[podModel.name] = podModel
     }
     Object.values(podModel).forEach(pod => {
-      const {
-        status,
-        restarts,
-        hostIP,
-        podIP,
-        startedAt,
-        name,
-        namespace,
-        cluster
-      } = pod
+      const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
       details.push({
         type: 'label',
         labelKey: 'resource.container.logs'
@@ -456,8 +447,8 @@ function addK8Details(node, details, podOnly, index) {
         value: {
           label: 'View Log',
           data: {
-            name: name,
-            namespace: namespace
+            name: pod.name,
+            namespace: pod.namespace
           }
         },
         indent: true

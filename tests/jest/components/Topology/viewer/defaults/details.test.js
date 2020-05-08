@@ -582,7 +582,7 @@ describe("getNodeDetails deployment node", () => {
       },
       pods: [
         {
-          clusterName: "cluster1",
+          cluster: "cluster1",
           name: "pod1",
           namespace: "default",
           type: "pod",
@@ -592,17 +592,7 @@ describe("getNodeDetails deployment node", () => {
           specs: {
             podModel: {
               "mortgage-app-deploy-55c65b9c8f-6v9bn": {
-                cluster: {
-                  metadata: {
-                    name: "cluster1"
-                  }
-                },
-                containers: [
-                  {
-                    image: "test/mortgage:0.4.0",
-                    name: "mortgage-app-mortgage"
-                  }
-                ],
+                cluster: "cluster1",
                 hostIP: "1.1.1.1",
                 status: "Running",
                 restarts: 0,
@@ -652,14 +642,8 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "matchLabels=app=mortgage-app-mortgage"
     },
-    {
-      type: "spacer"
-    },
-    {
-      labelKey: "resource.pod.deployed",
-      labelValue: undefined,
-      type: "label"
-    },
+    { type: "spacer" },
+    { labelKey: "resource.pod.deployed", labelValue: undefined, type: "label" },
     {
       indent: undefined,
       labelKey: "resource.name",
@@ -667,27 +651,13 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "pod1"
     },
-    {
-      labelKey: "resource.container.logs",
-      type: "label"
-    },
+    { labelKey: "resource.container.logs", type: "label" },
     {
       indent: true,
       type: "link",
       value: {
-        data: {
-          clusterName: "cluster1",
-          containerName: "mortgage-app-mortgage",
-          containers: [
-            {
-              image: "test/mortgage:0.4.0",
-              name: "mortgage-app-mortgage"
-            }
-          ],
-          name: undefined,
-          namespace: undefined
-        },
-        label: "mortgage-app-mortgage"
+        data: { name: undefined, namespace: undefined },
+        label: "View Log"
       }
     },
     {
@@ -732,29 +702,11 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: 0
     },
-    {
-      type: "spacer"
-    },
-    {
-      labelKey: "resource.status",
-      type: "label",
-      value: "Subscribed"
-    },
-    {
-      labelKey: "resource.status.last.updated",
-      type: "label",
-      value: "-"
-    },
-    {
-      labelKey: "resource.resource.status",
-      type: "label"
-    },
-    {
-      type: "snippet",
-      value: {
-        availableReplicas: 1
-      }
-    }
+    { type: "spacer" },
+    { labelKey: "resource.status", type: "label", value: "Subscribed" },
+    { labelKey: "resource.status.last.updated", type: "label", value: "-" },
+    { labelKey: "resource.resource.status", type: "label" },
+    { type: "snippet", value: { availableReplicas: 1 } }
   ];
   it("should process the node, deployment node", () => {
     expect(getNodeDetails(deploymentNode, locale)).toEqual(expectedResult);

@@ -56,6 +56,8 @@ export const getActiveChannel = localStoreKey => {
   if (storedActiveChannel) {
     return storedActiveChannel.activeChannel
   }
+
+  return undefined
 }
 
 export const getDiagramElements = (
@@ -188,16 +190,16 @@ export const getDiagramElements = (
       if (storedElements) {
         const {
           clusters = [],
-          links = [],
-          nodes = [],
+          empty_links = [],
+          empty_nodes = [],
           yaml = ''
         } = storedElements
         return {
           clusters,
           activeChannel,
           channels,
-          links,
-          nodes,
+          empty_links,
+          empty_nodes,
           yaml,
           topologyLoaded: true,
           storedVersion: true,

@@ -13,7 +13,8 @@ import {
   saveStoredObject,
   getClusterName
 } from '../../../../lib/client/resource-helper'
-import * as Actions from '../../../actions'
+import { nodeMustHavePods } from '../../Topology/utils/diagram-helpers'
+import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
 import R from 'ramda'
 
@@ -90,7 +91,7 @@ function getDiagramElements(
     detailsReloading
   } = topology
   const topologyReloading = reloading
-  const topologyLoadError = status === Actions.REQUEST_STATUS.ERROR
+  const topologyLoadError = status === REQUEST_STATUS.ERROR
   if (loaded && !topologyLoadError) {
     // topology from api will have raw k8 objects, pods status
     const { links, nodes } = this.getTopologyElements(topology)
@@ -107,16 +108,18 @@ function getDiagramElements(
     let clusterName
     nodes.forEach(node => {
       const { type, name } = node
-      switch (type) {
-      case 'application':
+
+      if (type === 'application') {
         activeChannel = _.get(
           node,
           'specs.activeChannel',
           '__ALL__/__ALL__//__ALL__/__ALL__'
         )
         channels = _.get(node, 'specs.channels', [])
-        break
-      case 'deployment':
+      }
+
+      if (nodeMustHavePods(node)) {
+        //must have pods
         clusterName = getClusterName(node.id)
         if (clusterName.indexOf(', ') > -1) {
           podMap[name] = node
@@ -124,7 +127,6 @@ function getDiagramElements(
         } else {
           podMap[`${name}-${clusterName}`] = node
         }
-        break
       }
 
       const raw = _.get(node, 'specs.raw')

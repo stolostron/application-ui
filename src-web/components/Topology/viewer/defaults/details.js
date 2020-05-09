@@ -439,6 +439,10 @@ function addK8Details(node, details, podOnly, index) {
           value: cluster
         },
         {
+          labelKey: 'resource.pod',
+          value: pod.name
+        },
+        {
           labelKey: 'resource.hostip',
           value: hostIP
         },

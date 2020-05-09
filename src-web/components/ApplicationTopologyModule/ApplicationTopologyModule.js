@@ -12,8 +12,6 @@ import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import apolloClient from '../../../lib/client/apollo-client'
-import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withLocale } from '../../providers/LocaleProvider'
@@ -611,31 +609,9 @@ class ApplicationTopologyModule extends React.Component {
     })
   }
 
-  showLogs = ({ name, namespace, clusterName, containerName, containers }) => {
-    const client = apolloClient.getClient()
-    const resourceType = RESOURCE_TYPES.HCM_PODS
-    client.mutate({
-      mutation: UPDATE_ACTION_MODAL,
-      variables: {
-        __typename: 'actionModal',
-        open: true,
-        type: 'table.actions.pod.logs',
-        resourceType: {
-          __typename: 'resourceType',
-          name: resourceType.name,
-          list: resourceType.list
-        },
-        data: {
-          __typename: 'ActionModalData',
-          name,
-          namespace,
-          clusterName,
-          containerName,
-          containers,
-          kind: ''
-        }
-      }
-    })
+  showLogs = ({ name, namespace, cluster }) => {
+    const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+    window.open(targetLink, '_blank')
   };
 
   closeTextView = () => {

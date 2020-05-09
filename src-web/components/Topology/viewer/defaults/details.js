@@ -18,7 +18,7 @@ import { getNodePropery, addPropertyToList } from '../../utils/diagram-helpers'
 export const getNodeDetails = node => {
   const details = []
   if (node) {
-    const { type, specs, layout = {} } = node
+    const { type, specs } = node
     let { labels = [] } = node
     switch (type) {
     case 'cluster':
@@ -105,33 +105,6 @@ export const getNodeDetails = node => {
             value: placement
           })
         })
-      }
-      break
-
-    case 'deployment':
-      {
-        addK8Details(node, details)
-        const { hasPods, pods } = layout
-
-        // pods
-        if (hasPods) {
-          const multiPods = pods.length > 1
-          details.push({
-            type: 'spacer'
-          })
-          details.push({
-            type: 'label',
-            labelKey: multiPods
-              ? 'resource.pods.deployed'
-              : 'resource.pod.deployed',
-            labelValue: multiPods ? pods.length : undefined
-          })
-
-          // the pod stuff
-          pods.forEach((pod, idx) => {
-            addK8Details(pod, details, true, multiPods ? idx + 1 : undefined)
-          })
-        }
       }
       break
 
@@ -320,14 +293,16 @@ function addK8Details(node, details, podOnly, index) {
       )
     )
 
-    addPropertyToList(
-      mainDetails,
-      getNodePropery(
-        node,
-        ['specs', 'raw', 'spec', 'selector'],
-        'raw.spec.selector'
+    if (!R.pathOr(['specs', 'raw', 'spec', 'selector', 'matchLabels'])) {
+      addPropertyToList(
+        mainDetails,
+        getNodePropery(
+          node,
+          ['specs', 'raw', 'spec', 'selector'],
+          'raw.spec.selector'
+        )
       )
-    )
+    }
 
     addPropertyToList(
       mainDetails,
@@ -429,6 +404,9 @@ function addK8Details(node, details, podOnly, index) {
     }
   }
 
+  details.push({
+    type: 'spacer'
+  })
   // kube model details
   let podModel = _.get(node, 'specs.podModel')
   if (podModel) {
@@ -448,7 +426,8 @@ function addK8Details(node, details, podOnly, index) {
           label: 'View Log',
           data: {
             name: pod.name,
-            namespace: pod.namespace
+            namespace: pod.namespace,
+            cluster: pod.cluster
           }
         },
         indent: true

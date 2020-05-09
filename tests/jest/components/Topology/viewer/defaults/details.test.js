@@ -635,73 +635,6 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
-    {
-      indent: undefined,
-      labelKey: "raw.spec.selector",
-      labelValue: undefined,
-      type: "label",
-      value: "matchLabels=app=mortgage-app-mortgage"
-    },
-    { type: "spacer" },
-    { labelKey: "resource.pod.deployed", labelValue: undefined, type: "label" },
-    {
-      indent: undefined,
-      labelKey: "resource.name",
-      labelValue: undefined,
-      type: "label",
-      value: "pod1"
-    },
-    { labelKey: "resource.container.logs", type: "label" },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: { name: undefined, namespace: undefined },
-        label: "View Log"
-      }
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.clustername",
-      labelValue: undefined,
-      type: "label",
-      value: "cluster1"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.hostip",
-      labelValue: undefined,
-      type: "label",
-      value: "1.1.1.1"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.podip",
-      labelValue: undefined,
-      type: "label",
-      value: "1.1.1.1"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      type: "label",
-      value: "Invalid date"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.status",
-      labelValue: undefined,
-      type: "label",
-      value: "Running"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.restarts",
-      labelValue: undefined,
-      type: "label",
-      value: 0
-    },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },
@@ -989,7 +922,8 @@ describe("getNodeDetails placement rules node", () => {
       labelValue: undefined,
       type: "label",
       value: 0
-    }
+    },
+    { type: "spacer" }
   ];
 
   it("should process the node, placement rules node", () => {

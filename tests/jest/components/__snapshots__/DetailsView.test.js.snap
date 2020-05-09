@@ -90,7 +90,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         <span
           className="label"
         >
-          Container logs
+          Pod logs
           : 
         </span>
         <span
@@ -100,7 +100,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       <div
         className="sectionContent"
       >
-        <div
+        <span
           className="link"
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -108,7 +108,33 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
           tabIndex="0"
         >
           mortgage-app-mortgage
-        </div>
+           
+          <svg
+            alt="Open Logs"
+            aria-label="Open Logs"
+            className="open-out-icon"
+            fill="#6089bf"
+            fillRule="evenodd"
+            height="16"
+            name="icon--launch"
+            role="img"
+            viewBox="0 0 16 16"
+            width="16"
+          >
+            <title>
+              Open Logs
+            </title>
+            <path
+              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+            />
+            <path
+              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
+            />
+            <path
+              d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+            />
+          </svg>
+        </span>
       </div>
       <div
         className="sectionContent"

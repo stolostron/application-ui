@@ -583,7 +583,7 @@
   "resource.status": "Status",
   "resource.service": "Service",
   "resource.subscription": "Subscription",
-  "resource.container.logs": "Container logs",
+  "resource.container.logs": "Pod logs",
   "resource.clustername": "Cluster",
   "resource.version": "Version",
   "resource.url": "URL",

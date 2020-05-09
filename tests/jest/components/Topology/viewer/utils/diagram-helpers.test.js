@@ -92,7 +92,15 @@ describe("nodeMustHavePods node with pods data", () => {
     specs: {
       raw: {
         spec: {
-          replicas: 2
+          template: {
+            spec: {
+              containers: [
+                {
+                  name: "c1"
+                }
+              ]
+            }
+          }
         }
       }
     }

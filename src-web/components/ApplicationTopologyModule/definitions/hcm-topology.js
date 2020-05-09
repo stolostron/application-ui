@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -9,11 +10,7 @@
 
 import _ from 'lodash'
 
-export default {
-  getTopologyElements,
-}
-
-export function getTopologyElements(resourceItem) {
+export const getTopologyElements = resourceItem => {
   const { nodes = [], links = [] } = resourceItem
 
   // We need to change "to/from" to "source/target" to satisfy D3's API.

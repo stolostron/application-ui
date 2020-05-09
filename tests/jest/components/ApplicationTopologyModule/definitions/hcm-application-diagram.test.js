@@ -2,26 +2,15 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import hcmapplicationdiagram from "../../../../../src-web/components/ApplicationTopologyModule/definitions/hcm-application-diagram";
-import hcmtopology from "../../../../../src-web/components/ApplicationTopologyModule/definitions/hcm-topology";
+import {
+  getActiveChannel,
+  getDiagramElements,
+  addDiagramDetails
+} from "../../../../../src-web/components/ApplicationTopologyModule/definitions/hcm-application-diagram";
 
-describe("hcmapplicationdiagram-tests", () => {
-  it("mergeDefinitions", () => {
-    const topologyDefs = { getTopologyElements: 123 };
-    expect(hcmapplicationdiagram.mergeDefinitions(topologyDefs)).toMatchObject({
-      getTopologyElements: 123
-    });
-  });
-
-  it("mergeDefinitions2", () => {
-    const topologyDefs = {};
-    expect(hcmapplicationdiagram.mergeDefinitions(topologyDefs)).toMatchObject(
-      {}
-    );
-  });
-
+describe("hcm-application-diagram-tests", () => {
   it("getActiveChannel", () => {
-    expect(hcmapplicationdiagram.getActiveChannel("key")).toBeUndefined();
+    expect(getActiveChannel("key")).toBeUndefined();
   });
 
   it("getDiagramElements", () => {
@@ -32,12 +21,7 @@ describe("hcmapplicationdiagram-tests", () => {
       fetchFilters: { application: { channel: "channel1" } }
     };
     expect(
-      hcmapplicationdiagram.getDiagramElements(
-        topology,
-        "key",
-        "name",
-        "namespace"
-      ).nodes
+      getDiagramElements(topology, "key", "name", "namespace").nodes
     ).toMatchObject([
       {
         name: "name",
@@ -52,12 +36,7 @@ describe("hcmapplicationdiagram-tests", () => {
   it("getDiagramElements2", () => {
     const topology = { loaded: true, status: "ERROR", reloading: true };
     expect(
-      hcmapplicationdiagram.getDiagramElements(
-        topology,
-        "key",
-        "name",
-        "namespace"
-      ).nodes
+      getDiagramElements(topology, "key", "name", "namespace").nodes
     ).toMatchObject([
       {
         name: "name",
@@ -72,12 +51,7 @@ describe("hcmapplicationdiagram-tests", () => {
   it("getDiagramElements3", () => {
     const topology = { loaded: false, status: "IN_PROGRESS", reloading: true };
     expect(
-      hcmapplicationdiagram.getDiagramElements(
-        topology,
-        "key",
-        "name",
-        "namespace"
-      ).nodes
+      getDiagramElements(topology, "key", "name", "namespace").nodes
     ).toMatchObject([
       {
         name: "name",
@@ -117,7 +91,7 @@ describe("hcmapplicationdiagram-tests", () => {
       detailsReloading: false,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(
+    addDiagramDetails(
       topology,
       [],
       { p1: 1, p2: 2 },
@@ -155,15 +129,7 @@ describe("hcmapplicationdiagram-tests", () => {
       detailsReloading: true,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(
-      topology,
-      [],
-      [],
-      "channel",
-      "key",
-      false,
-      "default"
-    );
+    addDiagramDetails(topology, [], [], "channel", "key", false, "default");
   });
 
   it("addDiagramDetails3", () => {
@@ -174,14 +140,65 @@ describe("hcmapplicationdiagram-tests", () => {
       detailsReloading: true,
       pods: pods
     };
-    hcmapplicationdiagram.addDiagramDetails(
-      topology,
-      [],
-      [],
-      "channel",
-      "key",
-      true,
-      "default"
-    );
+    addDiagramDetails(topology, [], [], "channel", "key", true, "default");
+  });
+
+  it("getDiagramElements with pods container info", () => {
+    const nodes = [
+      {
+        id: "--clusters--app",
+        type: "application",
+        name: "aa",
+        namespace: "ns"
+      },
+      {
+        type: "deployment",
+        id: "--clusters--depl",
+        name: "depl",
+        specs: {
+          raw: {
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      name: "c1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    ];
+
+    const topology = {
+      loaded: true,
+      detailsLoaded: true,
+      status: "DONE",
+      nodes: nodes
+    };
+    expect(
+      getDiagramElements(topology, "key", "name", "namespace").nodes
+    ).toMatchObject([
+      {
+        id: "--clusters--app",
+        name: "aa",
+        namespace: "ns",
+        type: "application"
+      },
+      {
+        id: "--clusters--depl",
+        name: "depl",
+        specs: {
+          raw: {
+            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+          },
+          row: 0
+        },
+        type: "deployment"
+      }
+    ]);
   });
 });

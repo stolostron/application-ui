@@ -14,27 +14,10 @@ import {
   getClusterName
 } from '../../../../lib/client/resource-helper'
 import { nodeMustHavePods } from '../../Topology/utils/diagram-helpers'
+import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
 import R from 'ramda'
-
-export default {
-  // merge table/diagram/topology definitions
-  mergeDefinitions,
-
-  // nodes, links and yaml
-  getActiveChannel,
-  getDiagramElements,
-  addDiagramDetails
-}
-
-// merge table/diagram/topology definitions
-function mergeDefinitions(topologyDefs) {
-  // merge diagram with table definitions
-  const defs = Object.assign(this, {})
-  defs.getTopologyElements = topologyDefs.getTopologyElements
-  return defs
-}
 
 // remove the system stuff
 const system = [
@@ -68,20 +51,20 @@ const sortKeys = (a, b) => {
   return a.localeCompare(b)
 }
 
-function getActiveChannel(localStoreKey) {
+export const getActiveChannel = localStoreKey => {
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
     return storedActiveChannel.activeChannel
   }
 }
 
-function getDiagramElements(
+export const getDiagramElements = (
   topology,
   localStoreKey,
   iname,
   inamespace,
   applicationDetails
-) {
+) => {
   const {
     status,
     loaded,
@@ -94,8 +77,7 @@ function getDiagramElements(
   const topologyLoadError = status === REQUEST_STATUS.ERROR
   if (loaded && !topologyLoadError) {
     // topology from api will have raw k8 objects, pods status
-    const { links, nodes } = this.getTopologyElements(topology)
-
+    const { links, nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node
     let row = 0
     const yamls = []
@@ -255,14 +237,14 @@ function getDiagramElements(
   }
 }
 
-function addDiagramDetails(
+export const addDiagramDetails = (
   topology,
   podMap,
   activeChannel,
   localStoreKey,
   isClusterGrouped,
   applicationDetails
-) {
+) => {
   const { detailsReloading } = topology
   // get extra details from topology or from localstore
   let pods = []

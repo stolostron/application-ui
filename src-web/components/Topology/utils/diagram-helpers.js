@@ -188,3 +188,28 @@ export const nodeMustHavePods = node => {
 
   return mustHavePods
 }
+
+export const createDeployableYamlLink = (node, details) => {
+  //returns yaml for the deployable
+  if (details && node) {
+    const row = R.pathOr(undefined, ['specs', 'row'])(node)
+    if (row) {
+      details.push({
+        type: 'link',
+        value: {
+          label: 'View YAML',
+          id: node.id,
+          data: {
+            specs: {
+              row: row,
+              isDesign: true
+            }
+          },
+          indent: true
+        }
+      })
+    }
+  }
+
+  return details
+}

@@ -43,11 +43,11 @@ class DiagramViewer extends React.Component {
     links: PropTypes.array,
     locale: PropTypes.string,
     nodes: PropTypes.array,
+    processActionLink: PropTypes.func,
     searchName: PropTypes.string,
     secondaryLoad: PropTypes.bool,
     selectedNode: PropTypes.object,
     setViewer: PropTypes.func,
-    showLogs: PropTypes.func,
     staticResourceData: PropTypes.object,
     title: PropTypes.string
   };
@@ -228,7 +228,7 @@ class DiagramViewer extends React.Component {
     const {
       staticResourceData,
       secondaryLoad,
-      showLogs,
+      processActionLink,
       title,
       locale
     } = this.props
@@ -274,7 +274,7 @@ class DiagramViewer extends React.Component {
             getLayoutNodes={this.getLayoutNodes}
             selectedNodeId={selectedNodeId}
             getViewContainer={this.getViewContainer}
-            showLogs={showLogs}
+            processActionLink={processActionLink}
           />
         )}
       </div>

@@ -10,6 +10,7 @@
 
 import React from "react";
 import renderer from "react-test-renderer";
+import { mount } from "enzyme";
 
 import DetailsView from "../../../src-web/components/Topology/viewer/DetailsView";
 
@@ -58,7 +59,7 @@ const mockDetails = {
       type: "label",
       labelKey: "resource.type",
       labelValue: undefined,
-      value: "pod",
+      value: "deployment",
       indent: undefined
     },
     { type: "label", labelKey: "resource.container.logs" },
@@ -459,7 +460,7 @@ const mockLaidoutNodes = {
       name: "mortgage-app-deploy",
       cluster: null,
       clusterName: null,
-      type: "pod",
+      type: "deployment",
       specs: {
         row: 141,
         podModel: {
@@ -708,5 +709,22 @@ describe("DetailsView 1 pod details", () => {
       />
     );
     expect(component.toJSON()).toMatchSnapshot();
+  });
+
+  it("render as expected with click", () => {
+    const wrapper = mount(
+      <DetailsView
+        locale={mockData.locale}
+        onClose={mockData.handleClose}
+        staticResourceData={mockData.staticResourceData}
+        getLayoutNodes={mockLayoutNodes}
+        selectedNodeId={mockData.selectedNodeId}
+        getViewContainer={viewContainer2}
+        showLogs={mockData.showLogs}
+        processActionLink={jest.fn}
+      />
+    );
+    wrapper.find(".link").simulate("click");
+    wrapper.find(".link").simulate("keypress");
   });
 });

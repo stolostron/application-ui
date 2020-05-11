@@ -6,7 +6,8 @@
 import {
   getNodePropery,
   addPropertyToList,
-  nodeMustHavePods
+  nodeMustHavePods,
+  createDeployableYamlLink
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -107,5 +108,54 @@ describe("nodeMustHavePods node with pods data", () => {
   };
   it("nodeMustHavePods", () => {
     expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+
+describe("createDeployableYamlLink for show logs with details", () => {
+  const details = [];
+  const node = {
+    id: "id",
+    specs: {
+      row: 20
+    }
+  };
+  const result = [
+    {
+      type: "link",
+      value: {
+        data: { specs: { isDesign: true, row: 20 } },
+        id: "id",
+        indent: true,
+        label: "View YAML"
+      }
+    }
+  ];
+  it("createDeployableYamlLink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual(result);
+  });
+});
+
+describe("createDeployableYamlLink for show logs with details no row", () => {
+  const details = [];
+  const node = {
+    id: "id",
+    specs: {
+      row_foo: 20
+    }
+  };
+  it("createDeployableYamlLink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual([]);
+  });
+});
+
+describe("createDeployableYamlLink for show logs with undefined details", () => {
+  const node = {
+    id: "id",
+    specs: {
+      row: 20
+    }
+  };
+  it("createDeployableYamlLink", () => {
+    expect(createDeployableYamlLink(node, undefined)).toEqual(undefined);
   });
 });

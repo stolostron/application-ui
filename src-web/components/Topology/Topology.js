@@ -49,12 +49,12 @@ class Topology extends React.Component {
     nodes: PropTypes.array.isRequired,
     options: PropTypes.object,
     portals: PropTypes.object,
+    processActionLink: PropTypes.func,
     searchUrl: PropTypes.string,
     selectionControl: PropTypes.shape({
       selectedNode: PropTypes.object,
       handleNodeSelected: PropTypes.func
     }),
-    showLogs: PropTypes.func,
     startPolling: PropTypes.func,
     stopPolling: PropTypes.func,
     styles: PropTypes.shape({
@@ -177,7 +177,7 @@ class Topology extends React.Component {
       fetchControl = {},
       selectionControl = {},
       channelControl = {},
-      showLogs,
+      processActionLink,
       locale
     } = this.props
     const { isLoaded = true, isReloading = false } = fetchControl
@@ -203,7 +203,7 @@ class Topology extends React.Component {
           selectedNode={selectedNode}
           handleNodeSelected={handleNodeSelected}
           searchName={searchName}
-          showLogs={showLogs}
+          processActionLink={processActionLink}
           locale={locale}
           activeFilters={activeFilters}
           availableFilters={availableFilters}

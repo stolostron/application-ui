@@ -13,7 +13,11 @@ import R from 'ramda'
 import moment from 'moment'
 import _ from 'lodash'
 
-import { getNodePropery, addPropertyToList } from '../../utils/diagram-helpers'
+import {
+  getNodePropery,
+  addPropertyToList,
+  createDeployableYamlLink
+} from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
   const details = []
@@ -377,6 +381,15 @@ function addK8Details(node, details, podOnly, index) {
       getNodePropery(node, ['specs', 'raw', 'spec', 'host'], 'raw.spec.host')
     )
 
+    //persistent volume claim
+    addPropertyToList(
+      mainDetails,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'spec', 'accessModes'],
+        'raw.spec.accessmode'
+      )
+    )
     addDetails(details, mainDetails)
   } else {
     if (index) {
@@ -403,6 +416,13 @@ function addK8Details(node, details, podOnly, index) {
       addDetails(details, podName)
     }
   }
+
+  details.push({
+    type: 'spacer'
+  })
+
+  //if resource has a row number add deployable yaml
+  createDeployableYamlLink(node, details)
 
   details.push({
     type: 'spacer'

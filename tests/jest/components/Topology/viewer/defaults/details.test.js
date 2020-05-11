@@ -636,6 +636,7 @@ describe("getNodeDetails deployment node", () => {
       value: "app=mortgage-app-mortgage"
     },
     { type: "spacer" },
+    { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },
     { labelKey: "resource.resource.status", type: "label" },
@@ -923,6 +924,7 @@ describe("getNodeDetails placement rules node", () => {
       type: "label",
       value: 0
     },
+    { type: "spacer" },
     { type: "spacer" }
   ];
 

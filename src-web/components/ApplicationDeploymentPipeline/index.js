@@ -148,7 +148,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       fetchChannels,
       fetchSubscriptions,
@@ -161,6 +161,16 @@ class ApplicationDeploymentPipeline extends React.Component {
     fetchSubscriptions()
     fetchApplicationsGlobalData()
 
+    this.startPolling()
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  componentWillUnmount() {
+    this.stopPolling()
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  startPolling() {
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
         this.reload.bind(this),
@@ -170,9 +180,17 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  stopPolling() {
     clearInterval(this.state.intervalId)
   }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      this.startPolling()
+    } else {
+      this.stopPolling()
+    }
+  };
 
   reload() {
     const {

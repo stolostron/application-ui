@@ -46,19 +46,15 @@ class ResourceList extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { updateSecondaryHeader, tabs, title } = this.props
     updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
-    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
-      var intervalId = setInterval(
-        this.reload.bind(this),
-        config['featureFlags:liveUpdatesPollInterval']
-      )
-      this.setState({ intervalId: intervalId })
-    }
 
     const { fetchResources, selectedFilters = [] } = this.props
     fetchResources(selectedFilters)
+
+    this.startPolling()
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,16 +64,39 @@ class ResourceList extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.stopPolling()
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  startPolling() {
+    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+      var intervalId = setInterval(
+        this.reload.bind(this),
+        config['featureFlags:liveUpdatesPollInterval']
+      )
+      this.setState({ intervalId: intervalId })
+    }
+  }
+
+  stopPolling() {
+    clearInterval(this.state.intervalId)
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      this.startPolling()
+    } else {
+      this.stopPolling()
+    }
+  };
+
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
       const { fetchResources, selectedFilters = [] } = this.props
       fetchResources(selectedFilters)
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.intervalId)
   }
 
   render() {

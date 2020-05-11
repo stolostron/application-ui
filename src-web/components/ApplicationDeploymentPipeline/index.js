@@ -190,7 +190,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     } else {
       this.stopPolling()
     }
-  };
+  }
 
   reload() {
     const {

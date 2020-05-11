@@ -35,15 +35,20 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
       kind = type
       break
     }
-    var clusterList
-    if (type === 'cluster' && name.includes(',')) {
-      clusterList = name.replace(/\s/g, '')
-    }
     var href
     if (searchUrl && kind) {
-      if (clusterList) {
+      if (
+        (kind === 'application' ||
+          kind === 'subscription' ||
+          kind === 'placementrule' ||
+          kind === 'deployable') &&
+        namespace
+      ) {
+        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
+      } else if (kind === 'cluster' && name.includes(',')) {
+        const clusterList = name.replace(/\s/g, '')
         href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
-      } else if (type === 'helmrelease') {
+      } else if (kind === 'helmrelease') {
         href = `${searchUrl}?filters={"textsearch":"kind:${kind} ${name}"}`
       } else {
         href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`

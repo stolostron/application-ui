@@ -126,7 +126,7 @@ describe("createDeployableYamlLink for show logs with details", () => {
         data: { specs: { isDesign: true, row: 20 } },
         id: "id",
         indent: true,
-        label: "View YAML"
+        label: "View Deployable YAML"
       }
     }
   ];

@@ -35,7 +35,7 @@ describe("DetailsView no components", () => {
     getLayoutNodes: returnEmptyArr,
     selectedNodeId: "",
     getViewContainer: viewContainer,
-    showLogs: jest.fn()
+    processActionLink: jest.fn()
   };
   it("renders as expected", () => {
     const component = renderer.create(
@@ -46,7 +46,7 @@ describe("DetailsView no components", () => {
         getLayoutNodes={mockData.getLayoutNodes}
         selectedNodeId={mockData.selectedNodeId}
         getViewContainer={mockData.getViewContainer}
-        showLogs={mockData.showLogs}
+        processActionLink={mockData.processActionLink}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -683,7 +683,7 @@ const mockData = {
   },
   selectedNodeId:
     "member--pod--member--deployable--member--clusters--localcluster--default--mortgage-app-deployable--mortgage-app-deploy",
-  showLogs: jest.fn()
+  processActionLink: jest.fn()
 };
 
 class MockViewContainer2 {
@@ -705,7 +705,7 @@ describe("DetailsView 1 pod details", () => {
         getLayoutNodes={mockLayoutNodes}
         selectedNodeId={mockData.selectedNodeId}
         getViewContainer={viewContainer2}
-        showLogs={mockData.showLogs}
+        processActionLink={mockData.processActionLink}
       />
     );
     expect(component.toJSON()).toMatchSnapshot();
@@ -720,8 +720,7 @@ describe("DetailsView 1 pod details", () => {
         getLayoutNodes={mockLayoutNodes}
         selectedNodeId={mockData.selectedNodeId}
         getViewContainer={viewContainer2}
-        showLogs={mockData.showLogs}
-        processActionLink={jest.fn}
+        processActionLink={mockData.processActionLink}
       />
     );
     wrapper.find(".link").simulate("click");

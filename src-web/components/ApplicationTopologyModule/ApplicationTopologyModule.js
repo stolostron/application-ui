@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
@@ -633,10 +634,17 @@ class ApplicationTopologyModule extends React.Component {
 
   processActionLink = resource => {
     if (_.get(resource, 'specs.isDesign')) {
+      //show node yaml
       this.showNodeYAML(resource)
-    } else {
+    } else if (R.pathOr('', 'type')(resource) === 'show_pod_log') {
+      //show pod logs
       const { name, namespace, cluster } = resource
       const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+      window.open(targetLink, '_blank')
+    } else {
+      //object search
+      const { name, namespace, kind } = resource
+      const targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
       window.open(targetLink, '_blank')
     }
   };

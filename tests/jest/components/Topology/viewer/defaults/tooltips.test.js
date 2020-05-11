@@ -206,7 +206,7 @@ describe("getNodeTooltips PV", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolume name:mynode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolume name:mynode namespace:default"}',
       name: "Persistent Volume",
       value: "mynode"
     },
@@ -232,7 +232,7 @@ describe("getNodeTooltips PVC", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolumeclaim name:foonode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolumeclaim name:foonode namespace:microservice"}',
       name: "Persistent Volume Claim",
       value: "foonode"
     },
@@ -321,7 +321,7 @@ describe("getNodeTooltips cluster with pods", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode namespace:foo"}',
       name: "Cluster",
       value: "foonode"
     },
@@ -365,7 +365,7 @@ describe("getNodeTooltips cluster", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode namespace:foo"}',
       name: "Cluster",
       value: "foonode"
     },
@@ -452,7 +452,7 @@ describe("getNodeTooltips clusters", () => {
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:cluster name:foonode namespace:foo"}',
       name: "Cluster",
       value: "foonode"
     },

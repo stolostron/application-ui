@@ -37,21 +37,15 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
     }
     var href
     if (searchUrl && kind) {
-      if (
-        (kind === 'application' ||
-          kind === 'subscription' ||
-          kind === 'placementrule' ||
-          kind === 'deployable') &&
-        namespace
-      ) {
-        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
-      } else if (kind === 'cluster' && name.includes(',')) {
+      if (kind === 'cluster' && name.includes(',')) {
         const clusterList = name.replace(/\s/g, '')
         href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
-      } else if (kind === 'helmrelease') {
-        href = `${searchUrl}?filters={"textsearch":"kind:${kind} ${name}"}`
       } else {
-        href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${name}"}`
+        const searchName = kind === 'helmrelease' ? name : `name:${name}`
+        const searchNS = namespace ? `namespace:${namespace}` : ''
+        href = namespace
+          ? `${searchUrl}?filters={"textsearch":"kind:${kind} ${searchName} ${searchNS}"}`
+          : `${searchUrl}?filters={"textsearch":"kind:${kind} ${searchName}"}`
       }
     }
     tooltips.push({ name: getType(type, locale), value: name, href })

@@ -726,5 +726,6 @@ describe("DetailsView 1 pod details", () => {
     );
     wrapper.find(".link").simulate("click");
     wrapper.find(".link").simulate("keypress");
+    wrapper.find(".link").simulate("keypress", { key: "Enter" });
   });
 });

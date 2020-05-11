@@ -91,10 +91,6 @@ class Topology extends React.Component {
     )
   }
 
-  componentWillMount() {}
-
-  componentWillUnmount() {}
-
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
       let { timestamp } = prevState

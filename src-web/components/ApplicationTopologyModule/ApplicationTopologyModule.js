@@ -636,7 +636,7 @@ class ApplicationTopologyModule extends React.Component {
     if (_.get(resource, 'specs.isDesign')) {
       //show node yaml
       this.showNodeYAML(resource)
-    } else if (R.pathOr('', 'type')(resource) === 'show_pod_log') {
+    } else if (R.pathOr('', ['action'])(resource) === 'show_pod_log') {
       //show pod logs
       const { name, namespace, cluster } = resource
       const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`

@@ -81,7 +81,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         <span
           className="value"
         >
-          pod
+          deployment
         </span>
       </div>
       <div
@@ -110,8 +110,8 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
           mortgage-app-mortgage
            
           <svg
-            alt="Open Logs"
-            aria-label="Open Logs"
+            alt=""
+            aria-label=""
             className="open-out-icon"
             fill="#6089bf"
             fillRule="evenodd"
@@ -122,7 +122,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
             width="16"
           >
             <title>
-              Open Logs
+              
             </title>
             <path
               d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"

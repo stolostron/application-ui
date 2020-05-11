@@ -429,7 +429,7 @@ class ApplicationTopologyModule extends React.Component {
           options={options}
           portals={portals}
           selectionControl={selectionControl}
-          showLogs={this.showLogs.bind(this)}
+          processActionLink={this.processActionLink.bind(this)}
           fetchControl={fetchControl}
           channelControl={channelControl}
           searchUrl={
@@ -611,9 +611,34 @@ class ApplicationTopologyModule extends React.Component {
     })
   }
 
-  showLogs = ({ name, namespace, cluster }) => {
-    const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-    window.open(targetLink, '_blank')
+  // user clicked a node in diagram
+  showNodeYAML(yamlNode) {
+    const { actions, showExpandedTopology } = this.props
+    if (!showExpandedTopology) {
+      this.selectedNode = yamlNode
+      actions.setShowExpandedTopology({
+        showExpandedTopology: true,
+        selectedNodeId: yamlNode.id
+      })
+    } else {
+      this.setState(() => {
+        this.selectTextLine(yamlNode)
+        return {
+          selectedNode: yamlNode
+        }
+      })
+    }
+    return true
+  }
+
+  processActionLink = resource => {
+    if (_.get(resource, 'specs.isDesign')) {
+      this.showNodeYAML(resource)
+    } else {
+      const { name, namespace, cluster } = resource
+      const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+      window.open(targetLink, '_blank')
+    }
   };
 
   closeTextView = () => {
@@ -626,12 +651,12 @@ class ApplicationTopologyModule extends React.Component {
   };
 
   // select text editor line associated with selected node/link
-  selectTextLine(node) {
+  selectTextLine(textNode) {
     if (this.editor) {
       this.editor.clearSelection()
-      node = node || this.selectedNode
-      if (node) {
-        const row = _.get(node, 'specs.row', 0)
+      textNode = textNode || this.selectedNode
+      if (textNode) {
+        const row = _.get(textNode, 'specs.row', 0)
         this.gotoEditorLine(row)
       } else if (this.selectAfterRender) {
         this.editor.scrollToLine(0)
@@ -643,7 +668,7 @@ class ApplicationTopologyModule extends React.Component {
       }
       delete this.selectedNode
     } else {
-      this.selectedNode = node
+      this.selectedNode = textNode
     }
   }
 

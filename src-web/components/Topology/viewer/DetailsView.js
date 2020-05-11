@@ -9,6 +9,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
@@ -44,20 +45,19 @@ class DetailsView extends React.Component {
   }
 
   handleClick(value) {
-    this.showLogs(value)
+    this.processActionLink(value)
   }
 
   handleKeyPress(value, e) {
     if (e.key === 'Enter') {
-      this.showLogs(value)
+      this.processActionLink(value)
     }
   }
 
-  showLogs(value) {
-    const { showLogs, onClose } = this.props
+  processActionLink(value) {
+    const { processActionLink } = this.props
     const { data } = value
-    showLogs(data)
-    onClose()
+    processActionLink(data)
   }
 
   render() {
@@ -157,6 +157,9 @@ class DetailsView extends React.Component {
   renderLink({ value, indent }) {
     const handleClick = this.handleClick.bind(this, value)
     const handleKeyPress = this.handleKeyPress.bind(this, value)
+    const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(
+      value
+    ) //if not show yaml
     return (
       <div className="sectionContent" key={Math.random()}>
         <span
@@ -168,12 +171,14 @@ class DetailsView extends React.Component {
         >
           {indent && <span className="indent" />}
           {value.label}&nbsp;
-          <Icon
-            name="icon--launch"
-            fill="#6089bf"
-            description="Open Logs"
-            className="open-out-icon"
-          />
+          {showLaunchOutIcon && (
+            <Icon
+              name="icon--launch"
+              fill="#6089bf"
+              description=""
+              className="open-out-icon"
+            />
+          )}
         </span>
       </div>
     )
@@ -273,8 +278,8 @@ DetailsView.propTypes = {
   getViewContainer: PropTypes.func,
   locale: PropTypes.string,
   onClose: PropTypes.func,
+  processActionLink: PropTypes.func,
   selectedNodeId: PropTypes.string,
-  showLogs: PropTypes.func,
   staticResourceData: PropTypes.object
 }
 

@@ -199,7 +199,7 @@ describe("getNodeTooltips pod", () => {
 describe("getNodeTooltips PV", () => {
   const pvNode = {
     name: "mynode",
-    namspace: "default",
+    namespace: "default",
     type: "persistent_volume"
   };
 
@@ -209,6 +209,12 @@ describe("getNodeTooltips PV", () => {
         'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolume name:mynode"}',
       name: "Persistent Volume",
       value: "mynode"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:default"}',
+      name: "Namespace",
+      value: "default"
     }
   ];
   it("should get PV node tooltips", () => {
@@ -219,7 +225,7 @@ describe("getNodeTooltips PV", () => {
 describe("getNodeTooltips PVC", () => {
   const pvcNode = {
     name: "foonode",
-    namspace: "microservice",
+    namespace: "microservice",
     type: "persistent_volume_claim"
   };
 
@@ -229,6 +235,12 @@ describe("getNodeTooltips PVC", () => {
         'https://localhost/multicloud/search?filters={"textsearch":"kind:persistentvolumeclaim name:foonode"}',
       name: "Persistent Volume Claim",
       value: "foonode"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:microservice"}',
+      name: "Namespace",
+      value: "microservice"
     }
   ];
   it("should get PVC node tooltips", () => {
@@ -239,16 +251,22 @@ describe("getNodeTooltips PVC", () => {
 describe("getNodeTooltips rules", () => {
   const rulesNode = {
     name: "barnode",
-    namspace: "bar",
+    namespace: "bar",
     type: "rules"
   };
 
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:placementrule name:barnode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:placementrule name:barnode namespace:bar"}',
       name: "Rules",
       value: "barnode"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:bar"}',
+      name: "Namespace",
+      value: "bar"
     }
   ];
   it("should get rules node tooltips", () => {
@@ -261,7 +279,7 @@ describe("getNodeTooltips rules", () => {
 describe("getNodeTooltips helmrelease", () => {
   const clusterNode = {
     name: "nginx-ingress",
-    namspace: "",
+    namespace: "",
     type: "helmrelease"
   };
   const expectedResult = [
@@ -283,7 +301,7 @@ describe("getNodeTooltips helmrelease", () => {
 describe("getNodeTooltips cluster with pods", () => {
   const clusterNode = {
     name: "foonode",
-    namspace: "foo",
+    namespace: "foo",
     type: "cluster",
     layout: {
       hasPods: true,
@@ -317,6 +335,12 @@ describe("getNodeTooltips cluster with pods", () => {
       href: "https://localhost",
       name: "Console",
       value: "foonode-console"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+      name: "Namespace",
+      value: "foo"
     }
   ];
   it("should get cluster node tooltips", () => {
@@ -329,7 +353,7 @@ describe("getNodeTooltips cluster with pods", () => {
 describe("getNodeTooltips cluster", () => {
   const clusterNode = {
     name: "foonode",
-    namspace: "foo",
+    namespace: "foo",
     type: "cluster",
     specs: {
       cluster: {
@@ -349,6 +373,12 @@ describe("getNodeTooltips cluster", () => {
       href: "https://localhost",
       name: "Console",
       value: "foonode-console"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+      name: "Namespace",
+      value: "foo"
     }
   ];
   it("should get cluster node tooltips", () => {
@@ -361,7 +391,7 @@ describe("getNodeTooltips cluster", () => {
 describe("getNodeTooltips clusterList", () => {
   const clusterNode = {
     name: "foonode, foonode2, foonode3",
-    namspace: "foo",
+    namespace: "foo",
     type: "cluster",
     specs: {
       cluster: {
@@ -381,6 +411,12 @@ describe("getNodeTooltips clusterList", () => {
       href: "https://localhost",
       name: "Console",
       value: "foonode, foonode2, foonode3-console"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+      name: "Namespace",
+      value: "foo"
     }
   ];
   it("should get cluster node tooltips", () => {
@@ -393,7 +429,7 @@ describe("getNodeTooltips clusterList", () => {
 describe("getNodeTooltips clusters", () => {
   const clusterNode = {
     name: "foonode",
-    namspace: "foo",
+    namespace: "foo",
     type: "cluster",
     specs: {
       clusters: [
@@ -424,6 +460,12 @@ describe("getNodeTooltips clusters", () => {
       href: "https://localhost",
       name: "Console",
       value: "ocpcluster1-console"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
+      name: "Namespace",
+      value: "foo"
     }
   ];
 
@@ -437,15 +479,21 @@ describe("getNodeTooltips clusters", () => {
 describe("getNodeTooltips default", () => {
   const defaultNode = {
     name: "defaultnode",
-    namspace: "defaultnode",
+    namespace: "defaultnode",
     type: "application"
   };
 
   const expectedResult = [
     {
       href:
-        'https://localhost/multicloud/search?filters={"textsearch":"kind:application name:defaultnode"}',
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:application name:defaultnode namespace:defaultnode"}',
       name: "Application",
+      value: "defaultnode"
+    },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:defaultnode"}',
+      name: "Namespace",
       value: "defaultnode"
     }
   ];
@@ -459,7 +507,7 @@ describe("getNodeTooltips default", () => {
 describe("getNodeTooltips package", () => {
   const defaultNode = {
     name: "defaultnode",
-    namspace: "defaultnode",
+    namespace: "defaultnode",
     type: "package"
   };
 

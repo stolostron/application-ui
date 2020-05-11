@@ -217,23 +217,20 @@ export const createDeployableYamlLink = (node, details) => {
 export const createResourceSearchLink = (node, details) => {
   //returns search link for resource
   if (details && node) {
-    const row = R.pathOr(undefined, ['specs', 'row'])(node)
-    if (row) {
-      details.push({
-        type: 'link',
-        value: {
-          label: 'Show resource in Search View',
-          id: node.id,
-          data: {
-            action: 'show_search',
-            name: node.name,
-            namespace: node.namespace,
-            kind: node.type
-          },
-          indent: true
-        }
-      })
-    }
+    details.push({
+      type: 'link',
+      value: {
+        label: 'Show resource in Search View',
+        id: node.id,
+        data: {
+          action: 'show_search',
+          name: node.name,
+          namespace: node.namespace,
+          kind: node.type
+        },
+        indent: true
+      }
+    })
   }
 
   return details

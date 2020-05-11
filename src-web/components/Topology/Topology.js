@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'
 import { Loading, Notification } from 'carbon-components-react'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
-import RefreshTimeSelect, { getPollInterval } from './viewer/RefreshTimeSelect'
+import RefreshTimeSelect from './viewer/RefreshTimeSelect'
 import ResourceFilterModule from './viewer/ResourceFilterModule'
 import ChannelControl from './viewer/ChannelControl'
 import DiagramViewer from './viewer/DiagramViewer'
@@ -55,6 +55,8 @@ class Topology extends React.Component {
       handleNodeSelected: PropTypes.func
     }),
     showLogs: PropTypes.func,
+    startPolling: PropTypes.func,
+    stopPolling: PropTypes.func,
     styles: PropTypes.shape({
       shapes: PropTypes.object
     }),
@@ -70,8 +72,6 @@ class Topology extends React.Component {
       activeFilters: {},
       otherTypeFilters: []
     }
-    this.startPolling = this.startPolling.bind(this)
-    this.stopPolling = this.stopPolling.bind(this)
 
     // merge styles and options with defaults
     const { styles, options, searchUrl } = props
@@ -91,38 +91,9 @@ class Topology extends React.Component {
     )
   }
 
-  componentWillMount() {
-    this.startPolling()
-  }
+  componentWillMount() {}
 
-  componentWillUnmount() {
-    if (this.state) {
-      this.stopPolling()
-    }
-  }
-
-  startPolling(newInterval) {
-    this.stopPolling()
-    let intervalId = undefined
-    const interval =
-      newInterval || getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
-    if (interval) {
-      const { fetchControl = {} } = this.props
-      const { refetch } = fetchControl
-      if (refetch) {
-        intervalId = setInterval(refetch, Math.max(interval, 5 * 1000))
-      }
-    }
-    this.setState({ intervalId: intervalId })
-  }
-
-  stopPolling() {
-    const { intervalId } = this.state
-    if (intervalId) {
-      clearInterval(intervalId)
-    }
-    this.setState({ intervalId: undefined })
-  }
+  componentWillUnmount() {}
 
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
@@ -267,7 +238,12 @@ class Topology extends React.Component {
   }
 
   renderRefreshTimeSelect() {
-    const { portals = {}, fetchControl } = this.props
+    const {
+      portals = {},
+      fetchControl,
+      startPolling,
+      stopPolling
+    } = this.props
     const { refreshTimeSelectorPortal } = portals
     if (fetchControl && refreshTimeSelectorPortal) {
       var portal = document.getElementById(refreshTimeSelectorPortal)
@@ -278,8 +254,8 @@ class Topology extends React.Component {
             refreshValues={REFRESH_TIMES}
             refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
             isReloading={isReloading}
-            startPolling={this.startPolling}
-            stopPolling={this.stopPolling}
+            startPolling={startPolling}
+            stopPolling={stopPolling}
             refetch={refetch}
           />,
           portal

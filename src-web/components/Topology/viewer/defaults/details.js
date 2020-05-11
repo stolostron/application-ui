@@ -16,7 +16,8 @@ import _ from 'lodash'
 import {
   getNodePropery,
   addPropertyToList,
-  createDeployableYamlLink
+  createDeployableYamlLink,
+  createResourceSearchLink
 } from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
@@ -416,14 +417,14 @@ function addK8Details(node, details, podOnly, index) {
       addDetails(details, podName)
     }
   }
+  //if the resource was deployed on any cluster, show search link here
+  createResourceSearchLink(node, details)
 
   details.push({
     type: 'spacer'
   })
-
   //if resource has a row number add deployable yaml
   createDeployableYamlLink(node, details)
-
   details.push({
     type: 'spacer'
   })
@@ -445,6 +446,7 @@ function addK8Details(node, details, podOnly, index) {
         value: {
           label: 'View Log',
           data: {
+            action: 'show_pod_log',
             name: pod.name,
             namespace: pod.namespace,
             cluster: pod.cluster

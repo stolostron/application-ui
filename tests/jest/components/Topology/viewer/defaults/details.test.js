@@ -635,6 +635,21 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_search",
+          kind: "deployment",
+          name: "mortgage-app-deploy",
+          namespace: ""
+        },
+        id:
+          "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+        indent: true,
+        label: "Show resource in Search View"
+      }
+    },
     { type: "spacer" },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
@@ -923,6 +938,20 @@ describe("getNodeDetails placement rules node", () => {
       labelValue: undefined,
       type: "label",
       value: 0
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_search",
+          kind: "rules",
+          name: "mortgage-rule",
+          namespace: undefined
+        },
+        id: "rule1",
+        indent: true,
+        label: "Show resource in Search View"
+      }
     },
     { type: "spacer" },
     { type: "spacer" }

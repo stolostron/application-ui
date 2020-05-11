@@ -7,7 +7,8 @@ import {
   getNodePropery,
   addPropertyToList,
   nodeMustHavePods,
-  createDeployableYamlLink
+  createDeployableYamlLink,
+  createResourceSearchLink
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -126,7 +127,7 @@ describe("createDeployableYamlLink for show logs with details", () => {
         data: { specs: { isDesign: true, row: 20 } },
         id: "id",
         indent: true,
-        label: "View YAML"
+        label: "View Deployable YAML"
       }
     }
   ];
@@ -157,5 +158,44 @@ describe("createDeployableYamlLink for show logs with undefined details", () => 
   };
   it("createDeployableYamlLink", () => {
     expect(createDeployableYamlLink(node, undefined)).toEqual(undefined);
+  });
+});
+
+describe("createResourceSearchLink for undefined details", () => {
+  const node = {
+    id: "id",
+    specs: {
+      row: 20
+    }
+  };
+  it("createResourceSearchLink", () => {
+    expect(createResourceSearchLink(node, undefined)).toEqual(undefined);
+  });
+});
+
+describe("createResourceSearchLink for details", () => {
+  const node = {
+    type: "deployment",
+    name: "name",
+    namespace: "ns"
+  };
+  const result = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_search",
+          kind: "deployment",
+          name: "name",
+          namespace: "ns"
+        },
+        id: undefined,
+        indent: true,
+        label: "Show resource in Search View"
+      }
+    }
+  ];
+  it("createResourceSearchLink", () => {
+    expect(createResourceSearchLink(node, [])).toEqual(result);
   });
 });

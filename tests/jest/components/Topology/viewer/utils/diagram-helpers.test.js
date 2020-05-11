@@ -5,7 +5,8 @@
 
 import {
   getNodePropery,
-  addPropertyToList
+  addPropertyToList,
+  nodeMustHavePods
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -64,5 +65,47 @@ describe("addPropertyToList undefined list", () => {
 describe("addPropertyToList undefined data", () => {
   it("addPropertyToList", () => {
     expect(addPropertyToList(list, undefined)).toEqual(list);
+  });
+});
+
+describe("nodeMustHavePods undefined data", () => {
+  it("nodeMustHavePods", () => {
+    expect(nodeMustHavePods(undefined)).toEqual(false);
+  });
+});
+
+describe("nodeMustHavePods node with no pods data", () => {
+  const node = {
+    specs: {
+      raw: {
+        spec: {}
+      }
+    }
+  };
+  it("nodeMustHavePods", () => {
+    expect(nodeMustHavePods(node)).toEqual(false);
+  });
+});
+
+describe("nodeMustHavePods node with pods data", () => {
+  const node = {
+    specs: {
+      raw: {
+        spec: {
+          template: {
+            spec: {
+              containers: [
+                {
+                  name: "c1"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  };
+  it("nodeMustHavePods", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
   });
 });

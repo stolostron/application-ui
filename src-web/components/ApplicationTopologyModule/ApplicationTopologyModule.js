@@ -17,8 +17,10 @@ import { connect } from 'react-redux'
 import { withLocale } from '../../providers/LocaleProvider'
 import { validator } from './validators/hcm-application-validator'
 import { getUpdates } from './deployers/hcm-application-deployer'
-import hcmappdiagram from './definitions/hcm-application-diagram'
-import hcmtopology from './definitions/hcm-topology'
+import {
+  getActiveChannel,
+  getDiagramElements
+} from './definitions/hcm-application-diagram'
 import { editResource, fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
@@ -136,7 +138,7 @@ class ApplicationTopologyModule extends React.Component {
     const name = decodeURIComponent(params.name)
     const namespace = decodeURIComponent(params.namespace)
     const localStoreKey = `${DIAGRAM_QUERY_COOKIE}\\${namespace}\\${name}`
-    const activeChannel = hcmappdiagram.getActiveChannel(localStoreKey)
+    const activeChannel = getActiveChannel(localStoreKey)
     this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
@@ -802,10 +804,9 @@ class ApplicationTopologyModule extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { params } = ownProps
-  const { HCMApplicationList, QueryApplicationList } = state
+  const { HCMApplicationList } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
-  const staticResourceData = hcmappdiagram.mergeDefinitions(hcmtopology)
   const { topology } = state
   const {
     activeFilters,
@@ -820,7 +821,7 @@ const mapStateToProps = (state, ownProps) => {
       fetchApplication.name
     }`
   }
-  const diagramElements = staticResourceData.getDiagramElements(
+  const diagramElements = getDiagramElements(
     topology,
     localStoreKey,
     name,
@@ -829,13 +830,11 @@ const mapStateToProps = (state, ownProps) => {
   )
   return {
     ...diagramElements,
-    staticResourceData,
     activeFilters,
     fetchFilters,
     fetchError,
     diagramFilters,
-    HCMApplicationList,
-    QueryApplicationList
+    HCMApplicationList
   }
 }
 

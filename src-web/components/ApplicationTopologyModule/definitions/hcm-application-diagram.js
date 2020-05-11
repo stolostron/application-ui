@@ -13,27 +13,11 @@ import {
   saveStoredObject,
   getClusterName
 } from '../../../../lib/client/resource-helper'
-import * as Actions from '../../../actions'
+import { nodeMustHavePods } from '../../Topology/utils/diagram-helpers'
+import { getTopologyElements } from './hcm-topology'
+import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
 import R from 'ramda'
-
-export default {
-  // merge table/diagram/topology definitions
-  mergeDefinitions,
-
-  // nodes, links and yaml
-  getActiveChannel,
-  getDiagramElements,
-  addDiagramDetails
-}
-
-// merge table/diagram/topology definitions
-function mergeDefinitions(topologyDefs) {
-  // merge diagram with table definitions
-  const defs = Object.assign(this, {})
-  defs.getTopologyElements = topologyDefs.getTopologyElements
-  return defs
-}
 
 // remove the system stuff
 const system = [
@@ -67,20 +51,22 @@ const sortKeys = (a, b) => {
   return a.localeCompare(b)
 }
 
-function getActiveChannel(localStoreKey) {
+export const getActiveChannel = localStoreKey => {
   const storedActiveChannel = getStoredObject(localStoreKey)
   if (storedActiveChannel) {
     return storedActiveChannel.activeChannel
   }
+
+  return undefined
 }
 
-function getDiagramElements(
+export const getDiagramElements = (
   topology,
   localStoreKey,
   iname,
   inamespace,
   applicationDetails
-) {
+) => {
   const {
     status,
     loaded,
@@ -90,11 +76,10 @@ function getDiagramElements(
     detailsReloading
   } = topology
   const topologyReloading = reloading
-  const topologyLoadError = status === Actions.REQUEST_STATUS.ERROR
+  const topologyLoadError = status === REQUEST_STATUS.ERROR
   if (loaded && !topologyLoadError) {
     // topology from api will have raw k8 objects, pods status
-    const { links, nodes } = this.getTopologyElements(topology)
-
+    const { links, nodes } = getTopologyElements(topology)
     // create yaml and what row links to what node
     let row = 0
     const yamls = []
@@ -107,16 +92,18 @@ function getDiagramElements(
     let clusterName
     nodes.forEach(node => {
       const { type, name } = node
-      switch (type) {
-      case 'application':
+
+      if (type === 'application') {
         activeChannel = _.get(
           node,
           'specs.activeChannel',
           '__ALL__/__ALL__//__ALL__/__ALL__'
         )
         channels = _.get(node, 'specs.channels', [])
-        break
-      case 'deployment':
+      }
+
+      if (nodeMustHavePods(node)) {
+        //must have pods
         clusterName = getClusterName(node.id)
         if (clusterName.indexOf(', ') > -1) {
           podMap[name] = node
@@ -124,7 +111,6 @@ function getDiagramElements(
         } else {
           podMap[`${name}-${clusterName}`] = node
         }
-        break
       }
 
       const raw = _.get(node, 'specs.raw')
@@ -204,16 +190,16 @@ function getDiagramElements(
       if (storedElements) {
         const {
           clusters = [],
-          links = [],
-          nodes = [],
+          empty_links = [],
+          empty_nodes = [],
           yaml = ''
         } = storedElements
         return {
           clusters,
           activeChannel,
           channels,
-          links,
-          nodes,
+          empty_links,
+          empty_nodes,
           yaml,
           topologyLoaded: true,
           storedVersion: true,
@@ -253,14 +239,14 @@ function getDiagramElements(
   }
 }
 
-function addDiagramDetails(
+export const addDiagramDetails = (
   topology,
   podMap,
   activeChannel,
   localStoreKey,
   isClusterGrouped,
   applicationDetails
-) {
+) => {
   const { detailsReloading } = topology
   // get extra details from topology or from localstore
   let pods = []

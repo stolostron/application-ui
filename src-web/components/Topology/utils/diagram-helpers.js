@@ -171,3 +171,20 @@ export const addPropertyToList = (list, data) => {
 
   return list
 }
+
+export const nodeMustHavePods = node => {
+  //returns true if the node should deploy pods
+  let mustHavePods = false
+  if (
+    node &&
+    R.length(
+      R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
+        node
+      )
+    ) > 0
+  ) {
+    mustHavePods = true
+  }
+
+  return mustHavePods
+}

@@ -2,7 +2,7 @@
  * Copyright (c) 2020 Red Hat, Inc.
  *******************************************************************************/
 
-import hcmtopology from "../../../../../src-web/components/ApplicationTopologyModule/definitions/hcm-topology";
+import { getTopologyElements } from "../../../../../src-web/components/ApplicationTopologyModule/definitions/hcm-topology";
 
 describe("hcmtopology-tests", () => {
   it("getTopologyElements", () => {
@@ -11,12 +11,8 @@ describe("hcmtopology-tests", () => {
       links: []
     };
 
-    expect(hcmtopology.getTopologyElements(resourceItem).links).toMatchObject(
-      []
-    );
-    expect(
-      hcmtopology.getTopologyElements(resourceItem).clusters
-    ).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).links).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
   });
 
   it("getTopologyElements-withLinks", () => {
@@ -25,12 +21,10 @@ describe("hcmtopology-tests", () => {
       links: [{ from: { uid: 123 }, to: { uid: 456 }, type: "testing" }]
     };
 
-    expect(hcmtopology.getTopologyElements(resourceItem).links).toMatchObject([
+    expect(getTopologyElements(resourceItem).links).toMatchObject([
       { label: "testing", source: 123, target: 456, type: "testing", uid: 579 }
     ]);
-    expect(
-      hcmtopology.getTopologyElements(resourceItem).clusters
-    ).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
   });
 
   it("getTopologyElements-oneNode", () => {
@@ -39,12 +33,8 @@ describe("hcmtopology-tests", () => {
       links: []
     };
 
-    expect(hcmtopology.getTopologyElements(resourceItem).links).toMatchObject(
-      []
-    );
-    expect(
-      hcmtopology.getTopologyElements(resourceItem).clusters
-    ).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).links).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
   });
 
   it("getTopologyElements-withNodes", () => {
@@ -58,11 +48,7 @@ describe("hcmtopology-tests", () => {
       links: []
     };
 
-    expect(hcmtopology.getTopologyElements(resourceItem).links).toMatchObject(
-      []
-    );
-    expect(
-      hcmtopology.getTopologyElements(resourceItem).clusters
-    ).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).links).toMatchObject([]);
+    expect(getTopologyElements(resourceItem).clusters).toMatchObject([]);
   });
 });

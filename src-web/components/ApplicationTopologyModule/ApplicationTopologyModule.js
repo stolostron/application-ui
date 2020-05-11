@@ -25,7 +25,6 @@ import { editResource, fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
 import {
-  DIAGRAM_REFRESH_INTERVAL_COOKIE,
   MCM_DESIGN_SPLITTER_SIZE_COOKIE,
   DIAGRAM_QUERY_COOKIE,
   RESOURCE_TYPES
@@ -45,6 +44,10 @@ import YamlEditor from '../common/YamlEditor'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
+import {
+  DEFAULT_REFRESH_TIME,
+  TOPOLOGY_REFRESH_INTERVAL_COOKIE
+} from '../Topology/viewer/constants'
 
 resources(() => {
   require('./style.scss')
@@ -142,7 +145,7 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
-    this.startPolling(60 * 1000) // poll at 60 seconds
+    this.startPolling(DEFAULT_REFRESH_TIME * 1000)
   }
 
   componentWillUnmount() {
@@ -160,7 +163,7 @@ class ApplicationTopologyModule extends React.Component {
     this.stopPolling()
     let intervalId = undefined
     const interval =
-      newInterval || getPollInterval(DIAGRAM_REFRESH_INTERVAL_COOKIE)
+      getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE) || newInterval
     if (interval) {
       intervalId = setInterval(this.refetch, Math.max(interval, 5 * 1000))
     }
@@ -441,6 +444,8 @@ class ApplicationTopologyModule extends React.Component {
               : ''
           }
           locale={locale}
+          startPolling={this.startPolling}
+          stopPolling={this.stopPolling}
         />
       )
     }

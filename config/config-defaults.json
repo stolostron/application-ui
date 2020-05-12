@@ -14,7 +14,6 @@
         "liveUpdates": 2,
         "liveUpdatesPollInterval": 15000,
         "search": true,
-        "enableSegment": false,
         "segmentKey": "foo",
         "enableAppcues": false,
         "appcuesScript": "38105.js"

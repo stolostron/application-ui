@@ -11,6 +11,6 @@ metadata:
 spec:
   gates:
     annotations:                    # Optional. The annotations that a deployable must have to be promoted to the channel. If no annotations are required, any deployable that is added to the channel namespace is promoted.
-  pathname:                         # Optional. The path for the namespace that includes the channel.
+  pathname: foo                     # Required. Do not change, it needs a non empty value and will be replaced with proper value on the backend.
   sourceNamespaces:                 # Optional. Identifies the namespace that the channel controller monitors for new or updated deployables to retrieve and promote to the channel. The namespace must be on the hub cluster.
   type: Namespace

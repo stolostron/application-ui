@@ -35,7 +35,6 @@ resources(() => {
   require('../../scss/common.scss')
 })
 
-/* global analytics: true */
 class App extends React.Component {
   /* FIXME: Please fix disabled eslint rules when making changes to this file. */
   /* eslint-disable react/prop-types, react/jsx-no-bind */
@@ -69,79 +68,13 @@ class App extends React.Component {
     return this.props.staticContext
   }
 
-  componentDidUpdate(prevProps) {
-    const hashedUserId = `IBMid-${this.props.user}`
-    const clusterUrl =
-      typeof window !== 'undefined' ? window.location.host : null
-
-    if (config['featureFlags:enableSegment']) {
-      // segment data collection on every page load
-      if (
-        this.props.history.location.pathname !== prevProps.location.pathname
-      ) {
-        this.segmentTrackEvent(
-          hashedUserId,
-          this.props.history.location.pathname,
-          clusterUrl
-        )
-      }
-    }
-  }
-
   componentDidMount() {
-    // If segment is enabled then send data to segment
-    // Hash userName, get current page url and cluster url
-    const hashedUserId = `IBMid-${this.props.user}`
-    const currentPage = this.props.location.pathname
-    const clusterUrl =
-      typeof window !== 'undefined' ? window.location.host : null
-
-    if (config['featureFlags:enableSegment']) {
-      // segment data collection on every page load
-      this.segmentDataCollection(hashedUserId, currentPage, clusterUrl)
-      this.segmentTrackEvent(hashedUserId, currentPage, clusterUrl)
-    }
-
-    if (config['featureFlags:enableAppcues']) {
-      this.appcuesDataCollection(this.props.user)
-    }
-
     const { actions } = this.props
     const serverProps = this.getServerProps()
 
     actions.setEnableICAMAction(serverProps && serverProps.isICAMRunning)
     actions.setEnableGrafanaAction(serverProps && serverProps.isGrafanaRunning)
     actions.setEnableCEMAction(serverProps && serverProps.isCEMRunning)
-  }
-
-  segmentTrackEvent(hashedUserId, currentPage, clusterUrl) {
-    analytics.track('ICP Unicorn Page Load', {
-      userId: hashedUserId,
-      clusterUrl: clusterUrl,
-      pageUrl: currentPage
-    })
-  }
-
-  segmentDataCollection(hashedUserId, currentPage, clusterUrl) {
-    if (
-      typeof hashedUserId != 'undefined' &&
-      typeof currentPage != 'undefined' &&
-      typeof clusterUrl != 'undefined'
-    ) {
-      analytics.identify(hashedUserId, {
-        clusterUrl: clusterUrl,
-        pageUrl: currentPage
-      })
-    }
-  }
-
-  appcuesDataCollection(userId, currentPage, clusterUrl) {
-    if (userId) {
-      window.Appcues.identify(`IBMid-${userId}`, {
-        clusterUrl: clusterUrl,
-        pageUrl: currentPage
-      })
-    }
   }
 
   render() {

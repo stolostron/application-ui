@@ -40,7 +40,7 @@ class LogsModal extends React.PureComponent {
   }
 
   componentWillMount() {
-    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       const intervalId = setInterval(
         this.reload.bind(this),
         config['featureFlags:liveUpdatesPollInterval']
@@ -88,9 +88,7 @@ class LogsModal extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.state && this.state.intervalId) {
-      clearInterval(this.state.intervalId)
-    }
+    clearInterval(this.state.intervalId)
   }
 
   handleClose() {

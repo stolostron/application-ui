@@ -163,17 +163,3 @@ describe("ResourceTableRowMenuItemActions component table.actions.cluster.edit.l
     ).toMatchSnapshot();
   });
 });
-
-describe("ResourceTableRowMenuItemActions component table.actions.pod.logs", () => {
-  it("renders as expected", () => {
-    const action = "table.actions.pod.logs";
-    const resourceType = {
-      name: "HCMCompliance",
-      list: "HCMComplianceList"
-    };
-    const dispatch = jest.fn();
-    expect(
-      resourceActions(action, dispatch, resourceType, {}, true, {})
-    ).toMatchSnapshot();
-  });
-});

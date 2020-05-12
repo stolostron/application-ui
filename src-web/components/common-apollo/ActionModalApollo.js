@@ -19,7 +19,6 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 let RemoveResourceModal
 let ResourceModal
-let LogsModal
 
 class ActionModalApollo extends React.PureComponent {
   getMatchedModal = ({ type, resourceType, open, data }) => {
@@ -98,30 +97,10 @@ class ActionModalApollo extends React.PureComponent {
           })
       )
     }
-    case 'table.actions.pod.logs': {
-      return (
-        open &&
-          this.getLogsModal({
-            open: true,
-            type: 'view-logs',
-            resourceType,
-            data: data
-          })
-      )
-    }
+
     default:
       return null
     }
-  };
-
-  getLogsModal = props => {
-    LogsModal =
-      LogsModal === undefined
-        ? loadable(() =>
-            import(/* webpackChunkName: "logs-modal" */ '../modals/LogsModal')
-        )
-        : LogsModal
-    return this.getModal(LogsModal, props)
   };
 
   getResourceModal = props => {

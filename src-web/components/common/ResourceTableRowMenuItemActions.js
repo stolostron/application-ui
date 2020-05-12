@@ -70,11 +70,6 @@ export const resourceActions = (action, dispatch, resourceType, data) => {
       })
     )
   }
-  case 'table.actions.pod.logs': {
-    return dispatch(
-      updateModal({ open: true, type: 'view-logs', resourceType, data })
-    )
-  }
 
   default:
   }

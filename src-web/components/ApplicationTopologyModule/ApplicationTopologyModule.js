@@ -149,6 +149,10 @@ class ApplicationTopologyModule extends React.Component {
     this.startPolling(DEFAULT_REFRESH_TIME * 1000)
   }
 
+  componentDidMount() {
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
   componentWillUnmount() {
     if (this.state) {
       this.stopPolling()
@@ -158,6 +162,8 @@ class ApplicationTopologyModule extends React.Component {
     if (actions && showExpandedTopology) {
       actions.setShowExpandedTopology({ showExpandedTopology: false })
     }
+
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
   startPolling(newInterval) {
@@ -177,6 +183,14 @@ class ApplicationTopologyModule extends React.Component {
       clearInterval(intervalId)
     }
     this.setState({ intervalId: undefined })
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      this.startPolling()
+    } else {
+      this.stopPolling()
+    }
   }
 
   refetch() {

@@ -195,11 +195,21 @@ const getOverviewCardsData = (
 }
 
 class OverviewCards extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const { fetchApplications } = this.props
 
     fetchApplications()
 
+    this.startPolling()
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  componentWillUnmount() {
+    this.stopPolling()
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  startPolling() {
     if (parseInt(config['featureFlags:liveUpdates']) === 2) {
       var intervalId = setInterval(
         this.reload.bind(this),
@@ -209,8 +219,16 @@ class OverviewCards extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  stopPolling() {
     clearInterval(this.state.intervalId)
+  }
+
+  onVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      this.startPolling()
+    } else {
+      this.stopPolling()
+    }
   }
 
   reload() {

@@ -92,10 +92,31 @@ const withResource = Component => {
         }
       }
 
-      componentWillMount() {
+      componentDidMount() {
         if (this.props.showCEMAction) {
           this.props.clearIncidents()
         }
+
+        // Clear the list of dropDowns
+        const { params, actions } = this.props
+        actions.clearAppDropDownList()
+        // Then add it back so only one will be displaying
+        actions.updateAppDropDownList(params.name)
+        this.reload()
+
+        this.startPolling()
+        document.addEventListener('visibilitychange', this.onVisibilityChange)
+      }
+
+      componentWillUnmount() {
+        this.stopPolling()
+        document.removeEventListener(
+          'visibilitychange',
+          this.onVisibilityChange
+        )
+      }
+
+      startPolling() {
         if (parseInt(config['featureFlags:liveUpdates']) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),
@@ -103,16 +124,18 @@ const withResource = Component => {
           )
           this.setState({ intervalId: intervalId })
         }
-        // Clear the list of dropDowns
-        const { params, actions } = this.props
-        actions.clearAppDropDownList()
-        // Then add it back so only one will be displaying
-        actions.updateAppDropDownList(params.name)
-        this.reload()
       }
 
-      componentWillUnmount() {
+      stopPolling() {
         clearInterval(this.state.intervalId)
+      }
+
+      onVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+          this.startPolling()
+        } else {
+          this.stopPolling()
+        }
       }
 
       reload() {

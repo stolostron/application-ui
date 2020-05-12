@@ -178,9 +178,8 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   stopPolling() {
-    const { intervalId } = this.state
-    if (intervalId) {
-      clearInterval(intervalId)
+    if (this.state && this.state.intervalId) {
+      clearInterval(this.state.intervalId)
     }
     this.setState({ intervalId: undefined })
   }
@@ -191,7 +190,7 @@ class ApplicationTopologyModule extends React.Component {
     } else {
       this.stopPolling()
     }
-  }
+  };
 
   refetch() {
     const {
@@ -317,7 +316,7 @@ class ApplicationTopologyModule extends React.Component {
 
   handleSplitterDefault = () => {
     const cookie = localStorage.getItem(`${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`)
-    let size = cookie ? parseInt(cookie) : 1000
+    let size = cookie ? parseInt(cookie, 10) : 1000
     const page = document.getElementById('page')
     if (page) {
       const width = page.getBoundingClientRect().width

@@ -210,7 +210,7 @@ class OverviewCards extends React.Component {
   }
 
   startPolling() {
-    if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
       var intervalId = setInterval(
         this.reload.bind(this),
         config['featureFlags:liveUpdatesPollInterval']
@@ -220,7 +220,9 @@ class OverviewCards extends React.Component {
   }
 
   stopPolling() {
-    clearInterval(this.state.intervalId)
+    if (this.state && this.state.intervalId) {
+      clearInterval(this.state.intervalId)
+    }
   }
 
   onVisibilityChange = () => {
@@ -229,7 +231,7 @@ class OverviewCards extends React.Component {
     } else {
       this.stopPolling()
     }
-  }
+  };
 
   reload() {
     const { fetchApplications } = this.props

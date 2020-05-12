@@ -54,7 +54,7 @@ const updateClusterNodeStatus = (node, locale, sizes, startedAts, now) => {
     // collect data to show how big cluster is
     if (usage) {
       const { pods = 0 } = usage
-      sizes.push({ pods: parseInt(pods), node })
+      sizes.push({ pods: parseInt(pods, 10), node })
     }
 
     // collect data to detemine if cluster started recently

@@ -13,7 +13,6 @@ import loadable from 'loadable-components'
 
 let RemoveResourceModal
 let ResourceModal
-let LogsModal
 
 const Modal = ({ type, open, ...rest }) => {
   switch (type) {
@@ -21,21 +20,9 @@ const Modal = ({ type, open, ...rest }) => {
     return open && getRemoveResourceModal({ type, open, ...rest })
   case 'resource-edit':
     return open && getResourceModal({ type, open, ...rest })
-  case 'view-logs':
-    return open && getLogsModal({ type, open, ...rest })
   default:
     return null
   }
-}
-
-const getLogsModal = props => {
-  LogsModal =
-    LogsModal === undefined
-      ? loadable(() =>
-          import(/* webpackChunkName: "logs-modal" */ '../modals/LogsModal')
-      )
-      : LogsModal
-  return getModal(LogsModal, props)
 }
 
 const getResourceModal = props => {

@@ -12,8 +12,6 @@ exports[`ResourceTableRowMenuItemActions component table.actions.compliance.remo
 
 exports[`ResourceTableRowMenuItemActions component table.actions.finding.sidepanel renders as expected 1`] = `undefined`;
 
-exports[`ResourceTableRowMenuItemActions component table.actions.pod.logs renders as expected 1`] = `undefined`;
-
 exports[`ResourceTableRowMenuItemActions component table.actions.policy.edit renders as expected 1`] = `undefined`;
 
 exports[`ResourceTableRowMenuItemActions component table.actions.policy.edit renders as expected 2`] = `undefined`;

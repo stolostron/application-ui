@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -153,20 +154,6 @@ describe("ResourceTableRowMenuItemActions component table.actions.cluster.view.p
 describe("ResourceTableRowMenuItemActions component table.actions.cluster.edit.labels", () => {
   it("renders as expected", () => {
     const action = "table.actions.cluster.edit.labels";
-    const resourceType = {
-      name: "HCMCompliance",
-      list: "HCMComplianceList"
-    };
-    const dispatch = jest.fn();
-    expect(
-      resourceActions(action, dispatch, resourceType, {}, true, {})
-    ).toMatchSnapshot();
-  });
-});
-
-describe("ResourceTableRowMenuItemActions component table.actions.pod.logs", () => {
-  it("renders as expected", () => {
-    const action = "table.actions.pod.logs";
     const resourceType = {
       name: "HCMCompliance",
       list: "HCMComplianceList"

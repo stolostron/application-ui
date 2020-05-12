@@ -32,8 +32,6 @@ export { role } from './role'
 
 export { modal } from './modal'
 
-export { logs } from './logs'
-
 export { AppDeployments } from './reducerAppDeployments'
 export { AppOverview } from './reducerAppOverview'
 
@@ -67,10 +65,6 @@ export const GlobalApplicationDataList = createResourceReducer(
   predicate.bind(null, RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)
 )
 
-export const HCMPodList = createResourceReducer(
-  resourceReducerFunction,
-  predicate.bind(null, RESOURCE_TYPES.HCM_PODS)
-)
 export const HCMChannelList = createResourceReducer(
   resourceReducerFunction,
   predicate.bind(null, RESOURCE_TYPES.HCM_CHANNELS)

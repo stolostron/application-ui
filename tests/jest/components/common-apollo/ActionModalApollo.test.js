@@ -143,30 +143,6 @@ const mocks = {
       }
     }
   },
-  podLogsMock: {
-    request: { query: GET_ACTION_MODAL_STATE },
-    result: {
-      data: {
-        actionModal: {
-          open: true,
-          type: "table.actions.pod.logs",
-          __typename: "actionModal",
-          resourceType: {
-            name: "HCMPod",
-            list: "HCMPodList"
-          },
-          data: {
-            _uid: "icp-mongodb-0",
-            name: "icp-mongodb-0",
-            namespace: "kube-system",
-            clusterName: "local-cluster",
-            selfLink: "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
-            kind: "pods"
-          }
-        }
-      }
-    }
-  },
   removeMock: {
     request: { query: GET_ACTION_MODAL_STATE },
     result: {
@@ -293,18 +269,6 @@ describe("ActionModalApollo Testing", () => {
   it("Changes Apollo Client Cache For Edit App Grafana Modal", async () => {
     const component = renderer.create(
       <MockedProvider mocks={[mocks.editAppGrafanaMock]} addTypename={false}>
-        <ActionModalApollo locale={"en-US"} />
-      </MockedProvider>
-    );
-    await delay(0);
-    expect(
-      component.getInstance().state.client.cache.data.data
-    ).toMatchSnapshot();
-  });
-
-  it("Changes Apollo Client Cache For Pod Logs Modal", async () => {
-    const component = renderer.create(
-      <MockedProvider mocks={[mocks.podLogsMock]} addTypename={false}>
         <ActionModalApollo locale={"en-US"} />
       </MockedProvider>
     );

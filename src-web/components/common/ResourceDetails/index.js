@@ -117,7 +117,7 @@ const withResource = Component => {
       }
 
       startPolling() {
-        if (parseInt(config['featureFlags:liveUpdates']) === 2) {
+        if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
           var intervalId = setInterval(
             this.reload.bind(this),
             config['featureFlags:liveUpdatesPollInterval']
@@ -127,7 +127,9 @@ const withResource = Component => {
       }
 
       stopPolling() {
-        clearInterval(this.state.intervalId)
+        if (this.state && this.state.intervalId) {
+          clearInterval(this.state.intervalId)
+        }
       }
 
       onVisibilityChange = () => {

@@ -138,7 +138,7 @@ const withResource = Component => {
         } else {
           this.stopPolling()
         }
-      };
+      }
 
       reload() {
         const { status } = this.props

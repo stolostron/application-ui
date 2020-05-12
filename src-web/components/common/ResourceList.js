@@ -91,7 +91,7 @@ class ResourceList extends React.Component {
     } else {
       this.stopPolling()
     }
-  };
+  }
 
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {

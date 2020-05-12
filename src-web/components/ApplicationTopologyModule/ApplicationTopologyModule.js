@@ -190,7 +190,7 @@ class ApplicationTopologyModule extends React.Component {
     } else {
       this.stopPolling()
     }
-  };
+  }
 
   refetch() {
     const {

@@ -231,7 +231,7 @@ class OverviewCards extends React.Component {
     } else {
       this.stopPolling()
     }
-  };
+  }
 
   reload() {
     const { fetchApplications } = this.props

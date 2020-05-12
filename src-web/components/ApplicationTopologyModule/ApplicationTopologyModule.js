@@ -166,11 +166,17 @@ class ApplicationTopologyModule extends React.Component {
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling(newInterval) {
+  startPolling(newInterval, isTimeSelect = false) {
     this.stopPolling()
     let intervalId = undefined
-    const interval =
-      getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE) || newInterval
+    const cookieInterval = getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
+    let interval
+    if (cookieInterval !== undefined && !isTimeSelect) {
+      interval = cookieInterval
+    } else {
+      interval = newInterval
+    }
+
     if (interval) {
       intervalId = setInterval(this.refetch, Math.max(interval, 5 * 1000))
     }
@@ -190,7 +196,7 @@ class ApplicationTopologyModule extends React.Component {
     } else {
       this.stopPolling()
     }
-  }
+  };
 
   refetch() {
     const {

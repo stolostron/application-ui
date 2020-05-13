@@ -324,7 +324,7 @@
   "success.update.resource": "Success:",
   "success.update.resource.check": "Check again later.",
   "success.default.description": "The request completed successfully.",
-  "succes.delete.description": "Delete resource {0} request completed successfully. The table will be updated momentarirly to reflect the change.",
+  "succes.delete.description": "Delete resource {0} was submitted successfully. The result will display in the table when ready.",
   "editor.bar.previous": "Previous",
   "editor.bar.next": "Next",
   "editor.bar.update": "Update",

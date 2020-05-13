@@ -231,7 +231,7 @@ class OverviewCards extends React.Component {
     } else {
       this.stopPolling()
     }
-  }
+  };
 
   reload() {
     const { fetchApplications } = this.props
@@ -255,14 +255,17 @@ class OverviewCards extends React.Component {
 
     const targetLinkForSubscriptions = getSearchLinkForOneApplication({
       name: encodeURIComponent(applicationName),
+      namespace: encodeURIComponent(applicationNamespace),
       showRelated: 'subscription'
     })
     const targetLinkForClusters = getSearchLinkForOneApplication({
       name: encodeURIComponent(applicationName),
+      namespace: encodeURIComponent(applicationNamespace),
       showRelated: 'cluster'
     })
     const targetLinkForPods = getSearchLinkForOneApplication({
       name: encodeURIComponent(applicationName),
+      namespace: encodeURIComponent(applicationNamespace),
       showRelated: 'pod'
     })
 

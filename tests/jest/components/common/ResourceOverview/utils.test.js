@@ -321,6 +321,7 @@ describe("getPoliciesLinkForOneApplication", () => {
 
 describe("getSearchLinkForOneApplication", () => {
   const appName = "test-app";
+  const appNamespace = "default";
   it("should return general search link for one application", () => {
     const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}"}`;
     expect(
@@ -335,6 +336,17 @@ describe("getSearchLinkForOneApplication", () => {
     expect(
       getSearchLinkForOneApplication({
         name: appName,
+        showRelated: related
+      })
+    ).toEqual(result);
+  });
+  it("should return subscription related search link for one application", () => {
+    const related = "subscription";
+    const result = `/multicloud/search?filters={"textsearch":"kind%3Aapplication%20name%3A${appName}%20namespace%3A${appNamespace}"}&showrelated=${related}`;
+    expect(
+      getSearchLinkForOneApplication({
+        name: appName,
+        namespace: appNamespace,
         showRelated: related
       })
     ).toEqual(result);

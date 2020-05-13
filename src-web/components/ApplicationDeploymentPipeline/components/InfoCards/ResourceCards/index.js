@@ -187,24 +187,28 @@ class ResourceCards extends React.Component {
     const targetLinkForSubscriptions = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName),
+        namespace: encodeURIComponent(applicationNamespace),
         showRelated: 'subscription'
       })
       : getSearchLinkForAllSubscriptions()
     const targetLinkForClusters = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName),
+        namespace: encodeURIComponent(applicationNamespace),
         showRelated: 'cluster'
       })
       : getSearchLinkForAllClusters()
     const targetLinkForChannels = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName),
+        namespace: encodeURIComponent(applicationNamespace),
         showRelated: 'channel'
       })
       : getSearchLinkForAllChannels()
     const targetLinkForPlacementRules = isSingleApplicationView
       ? getSearchLinkForOneApplication({
         name: encodeURIComponent(applicationName),
+        namespace: encodeURIComponent(applicationNamespace),
         showRelated: 'placementrule'
       })
       : getSearchLinkForAllPlacementRules()

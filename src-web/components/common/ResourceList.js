@@ -203,7 +203,7 @@ class ResourceList extends React.Component {
           {mutateStatus === REQUEST_STATUS.DONE && (
             <Notification
               title=""
-              subtitle={msgs.get('succes.create.description', locale)}
+              subtitle={msgs.get('success.create.description', locale)}
               kind="success"
             />
           )}

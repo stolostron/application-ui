@@ -20,7 +20,9 @@ import {
   sortTable,
   fetchResources,
   updateSecondaryHeader,
-  forcedResourceReloadFinished
+  forcedResourceReloadFinished,
+  delResourceSuccessFinished,
+  mutateResourceSuccessFinished
 } from '../../actions/common'
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import TableHelper from '../../util/table-helper'
@@ -92,6 +94,8 @@ class ResourceList extends React.Component {
     if (document.visibilityState === 'visible') {
       this.startPolling()
     } else {
+      this.props.mutateSuccessFinished()
+      this.props.deleteSuccessFinished()
       this.stopPolling()
     }
   };
@@ -199,7 +203,7 @@ class ResourceList extends React.Component {
           {mutateStatus === REQUEST_STATUS.DONE && (
             <Notification
               title=""
-              subtitle={msgs.get('success.default.description', locale)}
+              subtitle={msgs.get('succes.create.description', locale)}
               kind="success"
             />
           )}
@@ -310,7 +314,9 @@ const mapStateToProps = (state, ownProps) => {
     resourceFilters: state[typeListName].filters,
     selectedFilters:
       state['resourceFilters'].selectedFilters &&
-      state['resourceFilters'].selectedFilters[resourceName]
+      state['resourceFilters'].selectedFilters[resourceName],
+    deleteSuccessFinished: state.deleteSuccessFinished,
+    mutateSuccessFinished: state.mutateSuccessFinished
   }
 }
 
@@ -318,7 +324,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const { updateBrowserURL, resourceType } = ownProps
   return {
     fetchResources: selectedFilters => {
-      //TODO: searchTable if customized tags
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
     changeTablePage: page => dispatch(changeTablePage(page, resourceType)),
@@ -337,7 +342,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(updateResourceFilters(resourceType, selectedFilters))
     },
     forcedReloadFinished: () =>
-      dispatch(forcedResourceReloadFinished(ownProps.resourceType))
+      dispatch(forcedResourceReloadFinished(ownProps.resourceType)),
+    mutateSuccessFinished: () =>
+      dispatch(mutateResourceSuccessFinished(ownProps.resourceType)),
+    deleteSuccessFinished: () =>
+      dispatch(delResourceSuccessFinished(ownProps.resourceType))
   }
 }
 

@@ -486,6 +486,14 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     return Object.assign({}, state, {
       forceReload: false
     })
+  case Actions.DEL_RECEIVE_SUCCESS_FINISHED:
+    return Object.assign({}, state, {
+      deleteStatus: undefined
+    })
+  case Actions.RESOURCE_MUTATE_FINISHED:
+    return Object.assign({}, state, {
+      mutateStatus: undefined
+    })
   case Actions.RESOURCE_FORCE_RELOAD:
     return Object.assign({}, state, {
       forceReload: true

@@ -98,6 +98,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -109,6 +110,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -462,6 +464,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -473,6 +476,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {

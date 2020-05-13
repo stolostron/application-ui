@@ -303,6 +303,36 @@ describe("resourceReducerFunction", () => {
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
+  it("should return a state for resource delete action, no items", () => {
+    const state = {
+      test: "test",
+      items: []
+    };
+    const action = {
+      type: "RESOURCE_DELETE"
+    };
+    const expectedValue = { items: [], test: "test" };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+  it("should return a state for delete receive success action", () => {
+    const state = {
+      test: "test",
+      items: [{ name: "test" }]
+    };
+    const action = {
+      type: "DEL_RECEIVE_SUCCESS",
+      item: {
+        name: "test"
+      }
+    };
+    const expectedValue = {
+      deleteMsg: "test",
+      deleteStatus: "DONE",
+      items: [],
+      test: "test"
+    };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
   it("should return a state for non-existing action", () => {
     const state = {
       test: "test"

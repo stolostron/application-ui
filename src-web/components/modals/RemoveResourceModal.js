@@ -22,7 +22,12 @@ import {
   Notification
 } from 'carbon-components-react'
 import { canCallAction } from '../../../lib/client/access-helper'
-import { forceResourceReload, receiveDelResource } from '../../actions/common'
+import {
+  forceResourceReload,
+  receiveDelResource,
+  delResourceSuccessFinished,
+  mutateResourceSuccessFinished
+} from '../../actions/common'
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 class RemoveResourceModal extends React.Component {
@@ -134,6 +139,8 @@ class RemoveResourceModal extends React.Component {
     this.setState({
       loading: true
     })
+    this.props.mutateSucessFinished()
+    this.props.deleteSuccessFinished()
     if (!selfLink || selfLink === '') {
       this.setState({
         errors: msgs.get('modal.errors.querying.resource', this.context.locale)
@@ -228,12 +235,14 @@ class RemoveResourceModal extends React.Component {
 
 RemoveResourceModal.propTypes = {
   data: PropTypes.object,
+  deleteSuccessFinished: PropTypes.func,
   forceRefresh: PropTypes.func,
   label: PropTypes.shape({
     heading: PropTypes.string,
     label: PropTypes.string
   }),
   locale: PropTypes.string,
+  mutateSucessFinished: PropTypes.func,
   open: PropTypes.bool,
   resourceType: PropTypes.object,
   submitDeleteSuccess: PropTypes.func,
@@ -244,7 +253,14 @@ const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    forceRefresh: () => dispatch(forceResourceReload('QueryApplicationList')),
+    forceRefresh: () =>
+      dispatch(forceResourceReload(RESOURCE_TYPES.QUERY_APPLICATIONS)),
+    deleteSuccessFinished: () =>
+      dispatch(delResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)),
+    mutateSucessFinished: () =>
+      dispatch(
+        mutateResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+      ),
     submitDeleteSuccess: () =>
       dispatch(
         receiveDelResource(ownProps.data, RESOURCE_TYPES.QUERY_APPLICATIONS, {})

@@ -345,6 +345,111 @@ describe("resourceReducerFunction", () => {
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
+  it("should return a state for RESOURCE_MUTATE action", () => {
+    const state = {
+      pendingActions: {}
+    };
+    const action = {
+      type: "RESOURCE_MUTATE",
+      resourceName: "aaa",
+      item: {
+        name: "test"
+      }
+    };
+    const expectedValue = {
+      mutateErrorMsg: null,
+      mutateStatus: "IN_PROGRESS",
+      pendingActions: [{ action: "RESOURCE_MUTATE", name: "aaa" }]
+    };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+
+  it("should return a state for RESOURCE_MUTATE_FAILURE action", () => {
+    const state = {
+      pendingActions: {
+        filter: jest.fn(resourceType => {
+          const testData = {
+            data: {
+              globalAppData: {
+                clusterCount: 1
+              }
+            }
+          };
+
+          return testData;
+        })
+      }
+    };
+    const action = {
+      type: "RESOURCE_MUTATE_FAILURE",
+      err: {
+        error: {
+          message: "message"
+        }
+      },
+      item: {
+        name: "test"
+      }
+    };
+    const expectedValue = {
+      mutateErrorMsg: "message",
+      mutateStatus: "ERROR",
+      pendingActions: { data: { globalAppData: { clusterCount: 1 } } }
+    };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+
+  it("should return a state for RESOURCE_MUTATE_SUCCESS action", () => {
+    const state = {
+      pendingActions: {
+        filter: jest.fn(resourceType => {
+          const testData = {
+            data: {
+              globalAppData: {
+                clusterCount: 1
+              }
+            }
+          };
+
+          return testData;
+        })
+      }
+    };
+    const action = {
+      type: "RESOURCE_MUTATE_SUCCESS",
+      err: {
+        error: {
+          message: "message"
+        }
+      },
+      item: {
+        name: "test"
+      }
+    };
+    const expectedValue = {
+      mutateStatus: "DONE",
+      pendingActions: { data: { globalAppData: { clusterCount: 1 } } }
+    };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+
+  it("should return a state for DEL_RECEIVE_SUCCESS_FINISHED action", () => {
+    const state = {};
+    const action = {
+      type: "DEL_RECEIVE_SUCCESS_FINISHED"
+    };
+    const expectedValue = { deleteStatus: undefined };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+
+  it("should return a state for RESOURCE_MUTATE_FINISHED action", () => {
+    const state = {};
+    const action = {
+      type: "RESOURCE_MUTATE_FINISHED"
+    };
+    const expectedValue = { mutateStatus: undefined };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
 });
 
 const state = { QueryApplicationList: QueryApplicationList };

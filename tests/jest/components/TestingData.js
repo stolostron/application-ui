@@ -127,6 +127,9 @@ export const QueryApplicationList = {
   search: "aa",
   sortDirection: "asc",
   sortColumn: "name",
+  mutateStatus: "DONE",
+  deleteStatus: "DONE",
+  deleteMsg: "app123",
   items: [
     {
       _uid: "local-cluster/96218695-3798-4dac-b3d3-179fb86b6715",

@@ -103,6 +103,7 @@ exports[`RemoveResourceModal test renders as expected 2 2`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -114,6 +115,7 @@ exports[`RemoveResourceModal test renders as expected 2 2`] = `
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -471,6 +473,7 @@ exports[`RemoveResourceModal test renders as expected 2 3`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -482,6 +485,7 @@ exports[`RemoveResourceModal test renders as expected 2 3`] = `
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -835,6 +839,7 @@ exports[`RemoveResourceModal test renders as expected dummy 2`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -846,6 +851,7 @@ exports[`RemoveResourceModal test renders as expected dummy 2`] = `
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -1181,6 +1187,7 @@ exports[`RemoveResourceModal test renders as expected dummy 3`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -1192,6 +1199,7 @@ exports[`RemoveResourceModal test renders as expected dummy 3`] = `
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -1529,6 +1537,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -1540,6 +1549,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -1891,6 +1901,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
           }
         }
+        deleteSuccessFinished={[Function]}
         forceRefresh={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
@@ -1902,6 +1913,7 @@ exports[`RemoveResourceModal test renders as expected with mocked apollo client 
           }
         }
         locale="en"
+        mutateSucessFinished={[Function]}
         open={true}
         resourceType={
           Object {

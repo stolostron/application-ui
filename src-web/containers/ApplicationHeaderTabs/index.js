@@ -20,6 +20,11 @@ import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 import { isAdminRole } from '../../../lib/client/access-helper'
+import {
+  delResourceSuccessFinished,
+  mutateResourceSuccessFinished
+} from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 resources(() => {
   require('./style.scss')
@@ -47,7 +52,9 @@ const ApplicationHeaderTabs = withLocale(
     params,
     actions,
     locale,
-    serverProps
+    serverProps,
+    mutateSuccessFinished,
+    deleteSuccessFinished
   }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
@@ -71,6 +78,9 @@ const ApplicationHeaderTabs = withLocale(
             </div>
           )
         case 1:
+          mutateSuccessFinished()
+          deleteSuccessFinished()
+
           return (
             <div className="page-content-container">
               <ApplicationDeploymentPipeline serverProps={serverProps} />
@@ -141,14 +151,22 @@ const ApplicationHeaderTabs = withLocale(
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(Actions, dispatch)
+    actions: bindActionCreators(Actions, dispatch),
+    mutateSuccessFinished: () =>
+      dispatch(
+        mutateResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+      ),
+    deleteSuccessFinished: () =>
+      dispatch(delResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS))
   }
 }
 const mapStateToProps = state => {
   const { role, AppOverview } = state
   return {
     userRole: role && role.role,
-    selectedAppTab: AppOverview.selectedAppTab
+    selectedAppTab: AppOverview.selectedAppTab,
+    deleteSuccessFinished: state.deleteSuccessFinished,
+    mutateSuccessFinished: state.mutateSuccessFinished
   }
 }
 

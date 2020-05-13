@@ -11,13 +11,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import loadable from 'loadable-components'
 
-let RemoveResourceModal
 let ResourceModal
 
 const Modal = ({ type, open, ...rest }) => {
   switch (type) {
-  case 'resource-remove':
-    return open && getRemoveResourceModal({ type, open, ...rest })
   case 'resource-edit':
     return open && getResourceModal({ type, open, ...rest })
   default:
@@ -33,16 +30,6 @@ const getResourceModal = props => {
       )
       : ResourceModal
   return getModal(ResourceModal, props)
-}
-
-const getRemoveResourceModal = props => {
-  RemoveResourceModal =
-    RemoveResourceModal === undefined
-      ? loadable(() =>
-          import(/* webpackChunkName: "remove-resource-modal" */ '../modals/RemoveResourceModal')
-      )
-      : RemoveResourceModal
-  return getModal(RemoveResourceModal, props)
 }
 
 const getModal = (Component, props) => <Component {...props} />

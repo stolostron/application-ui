@@ -463,6 +463,16 @@ export const resetResource = resourceType => ({
   resourceType: resourceType
 })
 
+export const forceResourceReload = resourceType => ({
+  type: Actions.RESOURCE_FORCE_RELOAD,
+  resourceType
+})
+
+export const forcedResourceReloadFinished = resourceType => ({
+  type: Actions.RESOURCE_FORCE_RELOAD_FINISHED,
+  resourceType
+})
+
 export const createResources = (resourceType, resourceJson) => {
   return dispatch => {
     dispatch(mutateResource(resourceType))

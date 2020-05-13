@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -267,7 +267,26 @@ describe("resourceReducerFunction", () => {
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
-
+  it("should return a state for a RESOURCE_FORCE_RELOAD action", () => {
+    const state = {
+      test: "test"
+    };
+    const action = {
+      type: "RESOURCE_FORCE_RELOAD"
+    };
+    const expectedValue = { forceReload: true, test: "test" };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+  it("should return a state for a RESOURCE_FORCE_RELOAD_FINISHED action", () => {
+    const state = {
+      test: "test"
+    };
+    const action = {
+      type: "RESOURCE_FORCE_RELOAD_FINISHED"
+    };
+    const expectedValue = { forceReload: false, test: "test" };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
   it("should return a state for resource delete action", () => {
     const state = {
       test: "test",
@@ -277,8 +296,40 @@ describe("resourceReducerFunction", () => {
       type: "RESOURCE_DELETE"
     };
     const expectedValue = {
+      deleteMsg: null,
+      deleteStatus: "IN_PROGRESS",
+      items: [],
+      test: "test"
+    };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+  it("should return a state for resource delete action, no items", () => {
+    const state = {
       test: "test",
       items: []
+    };
+    const action = {
+      type: "RESOURCE_DELETE"
+    };
+    const expectedValue = { items: [], test: "test" };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+  it("should return a state for delete receive success action", () => {
+    const state = {
+      test: "test",
+      items: [{ name: "test" }]
+    };
+    const action = {
+      type: "DEL_RECEIVE_SUCCESS",
+      item: {
+        name: "test"
+      }
+    };
+    const expectedValue = {
+      deleteMsg: "test",
+      deleteStatus: "DONE",
+      items: [],
+      test: "test"
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });

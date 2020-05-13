@@ -19,7 +19,8 @@ import {
   searchTable,
   sortTable,
   fetchResources,
-  updateSecondaryHeader
+  updateSecondaryHeader,
+  forcedResourceReloadFinished
 } from '../../actions/common'
 import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import TableHelper from '../../util/table-helper'
@@ -62,6 +63,10 @@ class ResourceList extends React.Component {
       this.setState({ xhrPoll: false })
       this.props.fetchResources(nextProps.selectedFilters)
     }
+    if (nextProps.forceReload) {
+      this.reload()
+      this.props.forcedReloadFinished()
+    }
   }
 
   componentWillUnmount() {
@@ -91,7 +96,7 @@ class ResourceList extends React.Component {
     } else {
       this.stopPolling()
     }
-  }
+  };
 
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
@@ -107,6 +112,8 @@ class ResourceList extends React.Component {
       items,
       itemIds,
       mutateStatus,
+      deleteStatus,
+      deleteMsg,
       page,
       pageSize,
       sortDirection,
@@ -180,6 +187,17 @@ class ResourceList extends React.Component {
       }
       return (
         <div id="resource-list">
+          {deleteStatus === REQUEST_STATUS.DONE && (
+            <Notification
+              title={msgs.get('success.update.resource', locale)}
+              subtitle={msgs.get(
+                'succes.delete.description',
+                [deleteMsg],
+                locale
+              )}
+              kind="success"
+            />
+          )}
           {mutateStatus === REQUEST_STATUS.DONE && (
             <Notification
               title=""
@@ -288,7 +306,10 @@ const mapStateToProps = (state, ownProps) => {
     err: state[typeListName].err,
     mutateStatus: state[typeListName].mutateStatus,
     mutateErrorMsg: state[typeListName].mutateErrorMsg,
-    resourceFilters: state['resourceFilters'].filters,
+    deleteStatus: state[typeListName].deleteStatus,
+    deleteMsg: state[typeListName].deleteMsg,
+    forceReload: state[typeListName].forceReload,
+    resourceFilters: state[typeListName].filters,
     selectedFilters:
       state['resourceFilters'].selectedFilters &&
       state['resourceFilters'].selectedFilters[resourceName]
@@ -316,7 +337,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSelectedFilterChange: selectedFilters => {
       updateBrowserURL && updateBrowserURL(selectedFilters)
       dispatch(updateResourceFilters(resourceType, selectedFilters))
-    }
+    },
+    forcedReloadFinished: () =>
+      dispatch(forcedResourceReloadFinished(ownProps.resourceType))
   }
 }
 

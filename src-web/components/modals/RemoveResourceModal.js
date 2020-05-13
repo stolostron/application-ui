@@ -11,6 +11,7 @@
 import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import msgs from '../../../nls/platform.properties'
 import apolloClient from '../../../lib/client/apollo-client'
 import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
@@ -21,6 +22,8 @@ import {
   Notification
 } from 'carbon-components-react'
 import { canCallAction } from '../../../lib/client/access-helper'
+import { forceResourceReload, receiveDelResource } from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 class RemoveResourceModal extends React.Component {
   constructor(props) {
@@ -74,39 +77,6 @@ class RemoveResourceModal extends React.Component {
         .then(response => {
           const resourceData = response.data.items[0]
           if (resourceData) {
-            // Create object specifying Application/Compliance resources that can be deleted
-            _.map(resourceData.deployables, (curr, idx) => {
-              children.push({
-                id: idx + '-deployable-' + curr.metadata.name,
-                selfLink: curr.metadata.selfLink,
-                label: curr.metadata.name + ' [Deployable]',
-                selected: true
-              })
-            })
-            _.map(resourceData.placementBindings, (curr, idx) => {
-              children.push({
-                id: idx + '-placementBinding-' + curr.metadata.name,
-                selfLink: curr.metadata.selfLink,
-                label: curr.metadata.name + ' [PlacementBinding]',
-                selected: true
-              })
-            })
-            _.map(resourceData.placementPolicies, (curr, idx) => {
-              children.push({
-                id: idx + '-placementPolicy-' + curr.metadata.name,
-                selfLink: curr.metadata.selfLink,
-                label: curr.metadata.name + ' [PlacementPolicy]',
-                selected: true
-              })
-            })
-            _.map(resourceData.applicationRelationships, (curr, idx) => {
-              children.push({
-                id: idx + '-appRelationship-' + curr.metadata.name,
-                selfLink: curr.metadata.selfLink,
-                label: curr.metadata.name + ' [ApplicationRelationship]',
-                selected: true
-              })
-            })
             this.setState({
               selected: children,
               loading: false
@@ -179,6 +149,8 @@ class RemoveResourceModal extends React.Component {
             })
           } else {
             this.handleClose()
+            this.props.submitDeleteSuccess()
+            this.props.forceRefresh()
           }
         })
     }
@@ -256,6 +228,7 @@ class RemoveResourceModal extends React.Component {
 
 RemoveResourceModal.propTypes = {
   data: PropTypes.object,
+  forceRefresh: PropTypes.func,
   label: PropTypes.shape({
     heading: PropTypes.string,
     label: PropTypes.string
@@ -263,7 +236,22 @@ RemoveResourceModal.propTypes = {
   locale: PropTypes.string,
   open: PropTypes.bool,
   resourceType: PropTypes.object,
+  submitDeleteSuccess: PropTypes.func,
   type: PropTypes.string
 }
 
-export default RemoveResourceModal
+const mapStateToProps = () => ({})
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    forceRefresh: () => dispatch(forceResourceReload('QueryApplicationList')),
+    submitDeleteSuccess: () =>
+      dispatch(
+        receiveDelResource(ownProps.data, RESOURCE_TYPES.QUERY_APPLICATIONS, {})
+      )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  RemoveResourceModal
+)

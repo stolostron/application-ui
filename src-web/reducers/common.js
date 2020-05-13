@@ -75,7 +75,12 @@ export const INITIAL_STATE = {
   postStatusCode: undefined,
   postErrorMsg: '',
   pendingActions: [],
-  clientSideFilters: undefined
+  clientSideFilters: undefined,
+  forceReload: false,
+  mutateStatus: undefined,
+  mutateErrorMsg: undefined,
+  deleteMsg: undefined,
+  deleteStatus: undefined
 }
 
 /**
@@ -378,7 +383,9 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
       postStatusCode: undefined,
       postErrorMsg: undefined,
       putStatus: undefined,
-      putErrorMsg: undefined
+      putErrorMsg: undefined,
+      deleteMsg: undefined,
+      deleteStatus: undefined
     })
   case Actions.TABLE_SEARCH:
     return Object.assign({}, state, {
@@ -454,45 +461,35 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     if (index > -1) {
       items.splice(index, 1)
       return Object.assign({}, state, {
+        deleteStatus: Actions.REQUEST_STATUS.IN_PROGRESS,
+        deleteMsg: null,
         items: items
       })
     }
     return state
   case Actions.DEL_RECEIVE_SUCCESS:
     items = [...state.items]
-    switch (action.resourceType) {
-    case RESOURCE_TYPES.HCM_RELEASES: {
-      const release = lodash.get(action, 'resource')
-      index = lodash.findIndex(items, {
-        name: release.name,
-        cluster: release.cluster
-      })
-      break
-    }
-    case RESOURCE_TYPES.HCM_APPLICATIONS: {
-      const app = lodash.get(action, 'resource')
-      index = lodash.findIndex(items, {
-        metadata: {
-          name: app.metadata.name,
-          namespace: app.metadata.namespace
-        }
-      })
-      break
-    }
-    default:
-      index = lodash.findIndex(
-        items,
-        o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName')
-      )
-      break
-    }
+    index = lodash.findIndex(
+      items,
+      o => lodash.get(o, 'Name') === lodash.get(action, 'resourceName')
+    )
+
     if (index > -1) {
       items.splice(index, 1)
-      return Object.assign({}, state, {
-        items: items
-      })
     }
-    return state
+    return Object.assign({}, state, {
+      items: items,
+      deleteStatus: Actions.REQUEST_STATUS.DONE,
+      deleteMsg: action.item.name
+    })
+  case Actions.RESOURCE_FORCE_RELOAD_FINISHED:
+    return Object.assign({}, state, {
+      forceReload: false
+    })
+  case Actions.RESOURCE_FORCE_RELOAD:
+    return Object.assign({}, state, {
+      forceReload: true
+    })
   default:
     return state
   }

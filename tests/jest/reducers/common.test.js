@@ -267,7 +267,26 @@ describe("resourceReducerFunction", () => {
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
-
+  it("should return a state for a RESOURCE_FORCE_RELOAD action", () => {
+    const state = {
+      test: "test"
+    };
+    const action = {
+      type: "RESOURCE_FORCE_RELOAD"
+    };
+    const expectedValue = { forceReload: true, test: "test" };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
+  it("should return a state for a RESOURCE_FORCE_RELOAD_FINISHED action", () => {
+    const state = {
+      test: "test"
+    };
+    const action = {
+      type: "RESOURCE_FORCE_RELOAD_FINISHED"
+    };
+    const expectedValue = { forceReload: false, test: "test" };
+    expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
+  });
   it("should return a state for resource delete action", () => {
     const state = {
       test: "test",
@@ -277,8 +296,10 @@ describe("resourceReducerFunction", () => {
       type: "RESOURCE_DELETE"
     };
     const expectedValue = {
-      test: "test",
-      items: []
+      deleteMsg: null,
+      deleteStatus: "IN_PROGRESS",
+      items: [],
+      test: "test"
     };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });

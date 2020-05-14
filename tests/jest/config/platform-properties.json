@@ -549,6 +549,8 @@
   "refresh.interval.refreshed": "Refreshed {0}",
   "resource.topology": "Topology",
   "resource.application": "Application",
+  "resource.application.error": "Error",
+  "resource.application.error.msg": "This application is not subscribed to a channel",
   "resource.channel": "Channel",
   "resource.cluster": "Cluster",
   "resource.clusters": "Clusters",

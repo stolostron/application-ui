@@ -65,6 +65,100 @@ describe("getNodeDetails no clusters or violation", () => {
   });
 });
 
+describe("getNodeDetails application node", () => {
+  const applicationNode = {
+    cluster: null,
+    clusterName: null,
+    id: "application--nginx-app-3",
+    labels: null,
+    layout: {
+      uid: "application--nginx-app-3",
+      type: "application",
+      label: "nginx-app-3",
+      compactLabel: "nginx-app-3",
+      nodeIcons: {
+        classType: "failure",
+        dx: 16,
+        dy: -16,
+        height: 16,
+        icon: "failure",
+        width: 16
+      },
+      nodeStatus: "",
+      search: "",
+      title: "",
+      type: "application",
+      uid: "application--nginx-app-3",
+      x: 1.5,
+      y: 1.5
+    },
+    name: "nginx-app-3",
+    namespace: "ns-sub-1",
+    specs: {
+      isDesign: true,
+      row: 0
+    },
+    topology: null,
+    type: "application",
+    uid: "application--nginx-app-3",
+    __typename: "Resource"
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      labelKey: "resource.type",
+      labelValue: undefined,
+      type: "label",
+      value: "application"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.namespace",
+      labelValue: undefined,
+      type: "label",
+      value: "ns-sub-1"
+    },
+    {
+      indent: undefined,
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      type: "label",
+      value: "No labels"
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_search",
+          kind: "application",
+          name: "nginx-app-3",
+          namespace: "ns-sub-1"
+        },
+        id: "application--nginx-app-3",
+        indent: true,
+        label: "Show resource in Search View"
+      }
+    },
+    {
+      type: "spacer"
+    },
+    {
+      type: "spacer"
+    },
+    {
+      isError: true,
+      labelKey: "resource.application.error",
+      type: "label",
+      value: "This application is not subscribed to a channel"
+    }
+  ];
+
+  it("should process the node, application node", () => {
+    expect(getNodeDetails(applicationNode, locale)).toEqual(expectedResult);
+  });
+});
+
 describe("getNodeDetails cluster node", () => {
   const clusterNode = {
     id: "member--clusters--feng",

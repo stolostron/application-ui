@@ -32,7 +32,7 @@ export const getNodeDetails = node => {
           specs &&
             (!specs.channels || (specs.channels && specs.channels.length === 0))
         ) {
-          var appData = addK8Details(node, details)
+          const appData = addK8Details(node, details)
           addPropertyToList(appData, {
             labelKey: 'resource.application.error',
             type: 'label',

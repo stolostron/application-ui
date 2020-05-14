@@ -121,6 +121,7 @@ class CreateResourceModal extends React.PureComponent {
 
   componentDidMount() {
     window.addEventListener('beforeunload', this.onUnload)
+    window.addEventListener('resize',  this.layoutEditors.bind(this))
   }
 
   componentWillUnmount() {
@@ -136,6 +137,25 @@ class CreateResourceModal extends React.PureComponent {
   handleNotificationClosed = () => this.setState({ yamlParsingError: null });
 
   isSubmitDisabled = () => this.state.processing === true;
+
+  setContainerRef = container => {
+    this.containerRef = container
+    this.layoutEditors()
+  }
+
+  setEditor = (editor) => {
+    this.editor=editor
+    this.layoutEditors()
+  }
+
+  layoutEditors() {
+    if (this.containerRef && this.editor) {
+      const rect = this.containerRef.getBoundingClientRect()
+      const width = rect.width
+      const height = rect.height
+      this.editor.layout({width, height})
+    }
+  }
 
   render() {
     const { resourceType } = this.props
@@ -245,28 +265,34 @@ class CreateResourceModal extends React.PureComponent {
                       )
                     })}
                   </Tabs>
-                  <YamlEditor
-                    validator={validator}
-                    onYamlChange={tabsHandleEditorChange}
-                    handleParsingError={tabsHandleParsingError}
-                    yaml={
-                      this.state.dirty
-                        ? tabsYaml
-                        : this.state.sample
-                          ? this.state.sample
-                          : tabsSampleContent[0]
-                    }
-                  />
+                  <div className='yamlEditorContainerContainer' ref={this.setContainerRef} >
+                    <YamlEditor
+                      validator={validator}
+                      setEditor={this.setEditor}
+                      onYamlChange={tabsHandleEditorChange}
+                      handleParsingError={tabsHandleParsingError}
+                      yaml={
+                    this.state.dirty
+                      ? tabsYaml
+                      : this.state.sample
+                        ? this.state.sample
+                        : tabsSampleContent[0]
+                  }
+                />
+                  </div>
                 </div>
               ) : (
-                <YamlEditor
-                  validator={validator}
-                  onYamlChange={tabsHandleEditorChange}
-                  handleParsingError={this.handleParsingError}
-                  yaml={
+                <div className='yamlEditorContainerContainer' ref={this.setContainerRef} >
+                  <YamlEditor
+                    validator={validator}
+                    setEditor={this.setEditor}
+                    onYamlChange={tabsHandleEditorChange}
+                    handleParsingError={this.handleParsingError}
+                    yaml={
                     this.state.dirty ? this.state.yaml : tabsSampleContent[0]
                   }
                 />
+                </div>
               )}
               {this.state.processing && <Loading />}
             </ModalBody>

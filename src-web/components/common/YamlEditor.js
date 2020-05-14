@@ -114,6 +114,7 @@ class IsomorphicEditor extends React.Component {
 const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40vh', readOnly=false }) => (
   <div className="yamlEditorContainer">
     <IsomorphicEditor
+      key={!yaml ? 'loading' : 'loaded'}
       theme="console"
       language="yaml"
       width={width}

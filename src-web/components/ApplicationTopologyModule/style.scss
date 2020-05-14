@@ -158,21 +158,8 @@
   .yamlEditorContainer {
     height: calc(100% - 36px);
 
-    .ace-vibrant-ink {
-      .ace_marker-layer {
-        .ace_selection {
-          background: #459cf540;
-        }
-
-        .ace_selected-word {
-          border: none;
-          background: #459cf548;
-        }
-
-        .ace_active-line {
-          background: #33333370;
-        }
-      }
+    & * {
+      font-family: unset;
     }
   }
 

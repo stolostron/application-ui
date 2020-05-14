@@ -25,6 +25,8 @@ let NO_OP = () => {},
 
 process.env.BABEL_ENV = "client";
 
+const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
+
 const prodExternals = {};
 
 module.exports = {
@@ -86,6 +88,11 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]"
       },
       {
+        test: /\.css$/,
+        include: path.resolve(__dirname, './node_modules/monaco-editor'),
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.properties$/,
         loader: "properties-loader"
       },
@@ -104,7 +111,22 @@ module.exports = {
       {
         test: /\.yaml$/,
         loader: "js-yaml-loader"
-      }
+      },
+      {
+        test: /\.(woff2?|ttf|eot|otf)(\?.*$|$)/,
+        exclude: overpassTest,
+        loader: 'file-loader',
+        options: {
+          name: 'assets/[name].[ext]',
+        },
+      },
+      {
+        // Resolve to an empty module for overpass fonts included in SASS files.
+        // This way file-loader won't parse them. Make sure this is BELOW the
+        // file-loader rule.
+        test: overpassTest,
+        loader: 'null-loader',
+      },
     ],
     noParse: [
       // don't parse minified bundles (vendor libs) for faster builds

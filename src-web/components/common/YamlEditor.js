@@ -10,106 +10,142 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import AceEditor from 'react-ace'
-import { parse } from '../../../lib/client/design-helper'
+import MonacoEditor from 'react-monaco-editor'
+import {
+  global_BackgroundColor_100 as lineNumberActiveForeground,
+  global_BackgroundColor_300 as lineNumberForeground,
+  global_BackgroundColor_dark_100 as editorBackground,
+} from '@patternfly/react-tokens'
 
-import 'brace/mode/yaml'
-import 'brace/theme/monokai'
-import 'brace/theme/vibrant_ink'
+import 'monaco-editor/esm/vs/editor/editor.all.js'
+import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
+import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js'
+
+
+if (window.monaco) {
+  window.monaco.editor.defineTheme('console', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [
+    // avoid pf tokens for `rules` since tokens are opaque strings that might not be hex values
+      { token: 'number', foreground: 'ace12e' },
+      { token: 'type', foreground: '73bcf7' },
+      { token: 'string', foreground: 'f0ab00' },
+      { token: 'keyword', foreground: 'cbc0ff' },
+    ],
+    colors: {
+      'editor.background': editorBackground.value,
+      'editorGutter.background': '#292e34', // no pf token defined
+      'editorLineNumber.activeForeground': lineNumberActiveForeground.value,
+      'editorLineNumber.foreground': lineNumberForeground.value,
+    },
+  })
+}
 
 class IsomorphicEditor extends React.Component {
+
   static propTypes = {
-    handleParsingError: PropTypes.func,
     setEditor: PropTypes.func,
-    validator: PropTypes.func
-  };
+  }
 
   constructor(props) {
     super(props)
-    const { setEditor, handleParsingError, validator } = props
     this.setEditorRef = elem => {
-      if (elem) {
-        if (setEditor) {
-          setEditor(elem.editor)
-        }
-        if (handleParsingError) {
-          elem.editor.on('input', () => {
-            const yaml = elem.editor.getValue()
-            const { exceptions } =
-              yaml.length > 0
-                ? parse(yaml, validator, this.context.locale)
-                : { exceptions: [] }
-            elem.editor.session.setAnnotations(exceptions)
-            let reason = exceptions
-              .map(({ text }) => {
-                return text
-              })
-              .join('; ')
-            if (reason.length > 200) {
-              reason = `${reason.substr(0, 200)}...`
-            }
-            handleParsingError(exceptions.length > 0 ? { reason } : null)
-          })
-        }
+      if (elem && props.setEditor) {
+        props.setEditor(elem.editor)
       }
+    }
+    this.handleEscKeyPress = this.handleEscKeyPress.bind(this)
+  }
+
+  handleEscKeyPress(event) {
+    if(event.key === 'Escape' && event.target.className === 'ace_text-input') {
+      event.target.blur()
     }
   }
 
-  render = () => <AceEditor {...this.props} ref={this.setEditorRef} />;
+  componentDidMount() {
+    window.addEventListener('keydown',this.handleEscKeyPress)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleEscKeyPress)
+  }
+
+  editorWillMount() {
+    // Monaco uses <span> to measure character sizes
+    // therefore make sure <span> has the right font
+    let stylesheet = document.querySelector('link[href*=main]')
+    if (stylesheet) {
+      stylesheet = stylesheet.sheet
+      stylesheet.insertRule('span { font-family: monospace }', stylesheet.cssRules.length)
+    }
+  }
+
+  editorDidMount(editor, monaco) {
+    const { setEditor } = this.props
+    editor.layout()
+    editor.focus()
+    editor.monaco = monaco
+    editor.decorations = []
+    if (setEditor) {
+      setEditor(editor)
+    }
+    this.editor = editor
+
+    // remove the rule setting <span> font
+    let stylesheet = document.querySelector('link[href*=main]')
+    if (stylesheet) {
+      stylesheet = stylesheet.sheet
+      stylesheet.deleteRule(stylesheet.cssRules.length-1)
+    }
+
+    monaco.editor.setModelLanguage(editor.getModel(), 'yaml')
+  }
+
+  render = () => <MonacoEditor
+    {...this.props}
+    ref={this.setEditorRef}
+    editorDidMount={this.editorDidMount.bind(this)}
+    editorWillMount={this.editorWillMount.bind(this)}
+  />
 }
 
-const YamlEditor = ({
-  onYamlChange,
-  setEditor,
-  validator,
-  handleParsingError,
-  yaml,
-  theme = 'monokai',
-  width = '100%',
-  height = '40vh',
-  readOnly = false,
-  wrapEnabled = false
-}) => (
+const YamlEditor = ({ onYamlChange, setEditor, yaml, width='49.5vw', height='40vh', readOnly=false }) => (
   <div className="yamlEditorContainer">
     <IsomorphicEditor
-      theme={theme}
-      mode={'yaml'}
+      theme="console"
+      language="yaml"
       width={width}
       height={height}
-      wrapEnabled={wrapEnabled}
       onChange={onYamlChange}
       fontSize={12}
-      showPrintMargin={false}
-      showGutter={true}
-      highlightActiveLine={true}
       value={yaml}
-      validator={validator}
-      handleParsingError={handleParsingError}
-      setOptions={{
+      options={{
         readOnly,
-        showLineNumbers: true,
-        newLineMode: 'unix',
-        tabSize: 2
-      }}
-      editorProps={{
-        $blockScrolling: Infinity
+        wordWrap: 'wordWrapColumn',
+        wordWrapColumn: 132,
+        wordWrapMinified: false,
+        scrollBeyondLastLine: false,
+        smoothScrolling: true,
+        glyphMargin: true,
+        tabSize: 2,
+        scrollbar: {
+          verticalScrollbarSize: 17,
+          horizontalScrollbarSize: 17,
+        }
       }}
       setEditor={setEditor}
     />
-  </div>
-)
+  </div>)
 
 YamlEditor.propTypes = {
-  handleParsingError: PropTypes.func,
   height: PropTypes.string,
   onYamlChange: PropTypes.func,
   readOnly: PropTypes.bool,
   setEditor: PropTypes.func,
-  theme: PropTypes.string,
-  validator: PropTypes.func,
   width: PropTypes.string,
-  wrapEnabled: PropTypes.bool,
-  yaml: PropTypes.string
+  yaml: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 }
 
 export default YamlEditor

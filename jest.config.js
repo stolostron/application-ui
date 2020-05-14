@@ -48,7 +48,8 @@ const jestConfig = {
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   moduleNameMapper: {
-    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
+    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js',
+    'monaco-editor': '<rootDir>/node_modules/react-monaco-editor'
   }
 }
 

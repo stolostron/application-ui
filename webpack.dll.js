@@ -20,6 +20,8 @@ var NO_OP = () => {},
 
 process.env.BABEL_ENV = 'client'
 
+const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
+
 module.exports = {
   entry: {
     vendorhcm: [
@@ -33,6 +35,7 @@ module.exports = {
       'normalizr',
       'prop-types',
       'react-custom-scrollbars',
+      'react-monaco-editor',
       'react-dnd',
       'react-dnd-html5-backend',
       'react-dom',
@@ -49,6 +52,33 @@ module.exports = {
       'svg-loader'
     ]
   },
+
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        include: path.resolve(__dirname, './node_modules/monaco-editor'),
+        use: [{ loader: 'style-loader', options: { base: 2000 } },
+          { loader: 'css-loader', options: { base: 3000 } }],
+      },
+      {
+        test: /\.(woff2?|ttf|eot|otf)(\?.*$|$)/,
+        exclude: overpassTest,
+        loader: 'file-loader',
+        options: {
+          name: 'assets/[name].[ext]',
+        },
+      },
+      {
+        // Resolve to an empty module for overpass fonts included in SASS files.
+        // This way file-loader won't parse them. Make sure this is BELOW the
+        // file-loader rule.
+        test: overpassTest,
+        loader: 'null-loader',
+      },
+    ],
+  },
+
   output: {
     path: __dirname + '/public',
     filename: PRODUCTION ? 'dll.[name].[chunkhash].js' : 'dll.[name].js',

@@ -16,7 +16,8 @@ let path = require("path"),
   GitRevisionPlugin = require("git-revision-webpack-plugin"),
   VersionFile = require("webpack-version-file"),
   config = require("./config"),
-  CompressionPlugin = require("compression-webpack-plugin");
+  CompressionPlugin = require('compression-webpack-plugin'),
+  MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 let NO_OP = () => {},
   PRODUCTION = process.env.BUILD_ENV
@@ -34,7 +35,8 @@ module.exports = {
   devtool: PRODUCTION ? "source-map" : "cheap-module-source-map",
   stats: { children: false },
   entry: {
-    main: ["babel-polyfill", "./src-web/index.js"]
+    main: ["babel-polyfill", "./src-web/index.js"],
+    'editor.worker': ['monaco-editor/esm/vs/editor/editor.worker.js']
   },
 
   externals: Object.assign(PRODUCTION ? prodExternals : {}, {
@@ -173,6 +175,9 @@ module.exports = {
       algorithm: "gzip",
       test: /\.js$|\.css$/,
       minRatio: 1
+    }),
+    new MonacoWebpackPlugin({
+      languages: ['yaml'],
     }),
     new AssetsPlugin({
       path: path.join(__dirname, "public"),

@@ -698,6 +698,19 @@ export const HCMSubscriptionList = {
   ]
 };
 
+export const HCMPlacementRuleList = {
+  items: [],
+  itemsPerPage: 20,
+  page: 1,
+  search: "",
+  sortDirection: "asc",
+  status: "INCEPTION",
+  putErrorMsg: "",
+  postErrorMsg: "",
+  pendingActions: [],
+  forceReload: false
+};
+
 export const GlobalApplicationDataList = {
   status: "DONE",
   items: {
@@ -936,6 +949,7 @@ export const reduxStoreAppPipeline = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
+  HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview,
   HCMNamespaceList: HCMNamespaceList
@@ -954,6 +968,7 @@ export const reduxStoreAppPipelineWithCEM = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
+  HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   HCMNamespaceList: HCMNamespaceList,
@@ -976,6 +991,7 @@ export const reduxStoreAppPipelineWithCEM_Inception = {
   QueryApplicationList: QueryApplicationList_INCEPTION,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
+  HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverviewWithCEM,
   HCMNamespaceList: HCMNamespaceList,
@@ -998,6 +1014,7 @@ export const reduxStoreAllAppsPipeline = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelList,
   HCMSubscriptionList: HCMSubscriptionList,
+  HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList,
   AppOverview: AppOverview
 };
@@ -1011,6 +1028,7 @@ export const reduxStoreAllAppsPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
+  HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList
 };
 
@@ -1023,6 +1041,7 @@ export const reduxStoreAppPipelineNoChannels = {
   QueryApplicationList: QueryApplicationList,
   HCMChannelList: HCMChannelListEmpty,
   HCMSubscriptionList: HCMSubscriptionList,
+  HCMPlacementRuleList: HCMPlacementRuleList,
   GlobalApplicationDataList: GlobalApplicationDataList
 };
 

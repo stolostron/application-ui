@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "common.app.name": "Red Hat Advanced Cluster Management for Kubernetes",
   "action": "Action",
@@ -332,7 +331,7 @@
   "editor.bar.update": "Update",
   "editor.bar.undo": "Undo",
   "editor.bar.redo": "Redo",
-  "editor.bar.reset": "Reset",
+  "editor.bar.restore": "Restore",
   "editor.bar.errors": "Errors: {0}",
   "editor.bar.error": "Line: {0} Col: {1}: Reason: {2}",
   "filter.view.close": "Close filter view",
@@ -363,7 +362,6 @@
   "filterbar.type.policy": "policy",
   "filterbar.type.package": "package",
   "filterbar.type.other": "other",
-  "find.label": "Find",
   "helmRepo.addRepo": "Add repository",
   "helmRepo.name": "Name",
   "helmRepo.namePlaceholder": "Enter name helmRepo.",
@@ -551,6 +549,8 @@
   "refresh.interval.refreshed": "Refreshed {0}",
   "resource.topology": "Topology",
   "resource.application": "Application",
+  "resource.application.error": "Error",
+  "resource.application.error.msg": "This application is not subscribed to a channel",
   "resource.channel": "Channel",
   "resource.cluster": "Cluster",
   "resource.clusters": "Clusters",
@@ -982,6 +982,7 @@
   "channel.deployments.chart.title": "Resources by channels",
   "recent.deployments.chart.title": "Latest application updates"
 }
+<<<<<<< HEAD
 =======
 {
   "common.app.name": "Red Hat Advanced Cluster Management for Kubernetes",
@@ -1968,3 +1969,5 @@
   "recent.deployments.chart.title": "Latest application updates"
 }
 >>>>>>> branch 'master' of ssh://git@github.com/open-cluster-management/application-ui.git
+=======
+>>>>>>> branch 'monaco' of ssh://git@github.com/open-cluster-management/application-ui.git

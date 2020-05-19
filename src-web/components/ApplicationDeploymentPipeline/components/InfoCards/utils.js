@@ -218,16 +218,18 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         if (applications.items[appIndex].remoteSubscriptionStatusCount) {
           const subData =
             applications.items[appIndex].remoteSubscriptionStatusCount
-          if (subData.Failed !== undefined) {
-            failedSubsCount = subData.Failed
-          }
-          if (subData.null !== undefined) {
-            noStatusSubsCount = subData.null
-          }
-          allSubscriptions = failedSubsCount + noStatusSubsCount
-          if (subData.Subscribed !== undefined) {
-            allSubscriptions += subData.Subscribed
-          }
+
+          Object.keys(subData).forEach(key => {
+            if (key === 'Failed') {
+              failedSubsCount = subData[key]
+            } else if (key === 'Subscribed') {
+              allSubscriptions = subData[key]
+            } else {
+              // All statuses that are neither "Failed" or "Subscribed" belong to "No status"
+              noStatusSubsCount += subData[key]
+            }
+          })
+          allSubscriptions += failedSubsCount + noStatusSubsCount
         }
       }
     })

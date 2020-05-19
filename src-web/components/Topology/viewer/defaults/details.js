@@ -28,19 +28,15 @@ export const getNodeDetails = node => {
     switch (type) {
     case 'application':
       {
-        if (
-          specs &&
-            (!specs.channels || (specs.channels && specs.channels.length === 0))
-        ) {
-          const appData = addK8Details(node, details)
+        const appData = addK8Details(node, details)
+        // if app is not subscribed to a channel then add error msg
+        if (!R.pathOr(undefined, ['channels'], specs)) {
           addPropertyToList(appData, {
             labelKey: 'resource.application.error',
             type: 'label',
             value: msgs.get('resource.application.error.msg'),
             isError: true
           })
-        } else {
-          addK8Details(node, details)
         }
       }
       break

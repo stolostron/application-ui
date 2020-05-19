@@ -16,6 +16,7 @@ describe("convertStringToQuery", () => {
       relatedKinds: [
         "deployment",
         "deploymentconfig",
+        "daemonset",
         "pod",
         "route",
         "replicationcontroller",

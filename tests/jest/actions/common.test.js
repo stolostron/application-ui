@@ -264,6 +264,7 @@ describe("common actions ", () => {
       relatedKinds: [
         "deployment",
         "deploymentconfig",
+        "daemonset",
         "pod",
         "route",
         "replicationcontroller",
@@ -323,6 +324,7 @@ describe("common actions ", () => {
       relatedKinds: [
         "deployment",
         "deploymentconfig",
+        "daemonset",
         "pod",
         "route",
         "replicationcontroller",
@@ -399,6 +401,7 @@ describe("common actions ", () => {
       relatedKinds: [
         "deployment",
         "deploymentconfig",
+        "daemonset",
         "pod",
         "route",
         "replicationcontroller",
@@ -487,6 +490,7 @@ describe("common actions ", () => {
       relatedKinds: [
         "deployment",
         "deploymentconfig",
+        "daemonset",
         "pod",
         "route",
         "replicationcontroller",

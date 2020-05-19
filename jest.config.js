@@ -45,11 +45,13 @@ const jestConfig = {
     '**/tests/jest/**/*.test.js',
     '**/src-web/**/*.test.js'
   ],
+  transformIgnorePatterns: [
+    '/node_modules/(?!monaco-editor).+\\.js$'
+  ],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   moduleNameMapper: {
-    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js',
-    'monaco-editor': '<rootDir>/node_modules/react-monaco-editor'
+    '\\.(css|scss|svg)$': '<rootDir>/tests/jest/config/styleMock.js'
   }
 }
 

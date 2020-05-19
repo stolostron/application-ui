@@ -252,98 +252,83 @@ exports[`ResourceModal test renders as expected without mocked data, to cover th
                     </a>
                   </div>
                   <div>
-                    <YamlEditor
-                      onYamlChange={[Function]}
-                      readOnly={false}
+                    <div
+                      className="yamlEditorContainerContainer"
                     >
-                      <div
-                        className="yamlEditorContainer"
+                      <YamlEditor
+                        onYamlChange={[Function]}
+                        readOnly={false}
+                        setEditor={[Function]}
                       >
-                        <IsomorphicEditor
-                          editorProps={
-                            Object {
-                              "$blockScrolling": Infinity,
-                            }
-                          }
-                          fontSize={12}
-                          height="40vh"
-                          highlightActiveLine={true}
-                          mode="yaml"
-                          onChange={[Function]}
-                          setOptions={
-                            Object {
-                              "newLineMode": "unix",
-                              "readOnly": false,
-                              "showLineNumbers": true,
-                              "tabSize": 2,
-                            }
-                          }
-                          showGutter={true}
-                          showPrintMargin={false}
-                          theme="monokai"
-                          width="100%"
-                          wrapEnabled={false}
+                        <div
+                          className="yamlEditorContainer"
                         >
-                          <ReactAce
-                            cursorStart={1}
-                            editorProps={
-                              Object {
-                                "$blockScrolling": Infinity,
-                              }
-                            }
-                            enableBasicAutocompletion={false}
-                            enableLiveAutocompletion={false}
-                            focus={false}
+                          <IsomorphicEditor
                             fontSize={12}
                             height="40vh"
-                            highlightActiveLine={true}
-                            maxLines={null}
-                            minLines={null}
-                            mode="yaml"
-                            name="brace-editor"
+                            key="loading"
+                            language="yaml"
                             onChange={[Function]}
-                            onLoad={null}
-                            onPaste={null}
-                            onScroll={null}
-                            readOnly={false}
-                            scrollMargin={
-                              Array [
-                                0,
-                                0,
-                                0,
-                                0,
-                              ]
-                            }
-                            setOptions={
+                            options={
                               Object {
-                                "newLineMode": "unix",
+                                "glyphMargin": true,
                                 "readOnly": false,
-                                "showLineNumbers": true,
+                                "scrollBeyondLastLine": false,
+                                "scrollbar": Object {
+                                  "horizontalScrollbarSize": 17,
+                                  "verticalScrollbarSize": 17,
+                                },
+                                "smoothScrolling": true,
                                 "tabSize": 2,
+                                "wordWrapMinified": false,
                               }
                             }
-                            showGutter={true}
-                            showPrintMargin={false}
-                            style={Object {}}
-                            tabSize={4}
-                            theme="monokai"
-                            value=""
-                            width="100%"
-                            wrapEnabled={false}
+                            setEditor={[Function]}
+                            theme="console"
+                            width="49.5vw"
                           >
-                            <div
-                              id="brace-editor"
-                              style={
+                            <MonacoEditor
+                              defaultValue=""
+                              editorDidMount={[Function]}
+                              editorWillMount={[Function]}
+                              fontSize={12}
+                              height="40vh"
+                              language="yaml"
+                              onChange={[Function]}
+                              options={
                                 Object {
-                                  "height": "40vh",
-                                  "width": "100%",
+                                  "glyphMargin": true,
+                                  "readOnly": false,
+                                  "scrollBeyondLastLine": false,
+                                  "scrollbar": Object {
+                                    "horizontalScrollbarSize": 17,
+                                    "verticalScrollbarSize": 17,
+                                  },
+                                  "smoothScrolling": true,
+                                  "tabSize": 2,
+                                  "wordWrapMinified": false,
                                 }
                               }
-                            />
-                          </ReactAce>
-                        </IsomorphicEditor>
-                      </div>
-                    </YamlEditor>
+                              overrideServices={Object {}}
+                              setEditor={[Function]}
+                              theme="console"
+                              value={null}
+                              width="49.5vw"
+                            >
+                              <div
+                                className="react-monaco-editor-container"
+                                style={
+                                  Object {
+                                    "height": "40vh",
+                                    "width": "49.5vw",
+                                  }
+                                }
+                              />
+                            </MonacoEditor>
+                          </IsomorphicEditor>
+                        </div>
+                      </YamlEditor>
+                    </div>
                   </div>
                 </div>
               </ModalBody>
@@ -707,98 +692,83 @@ exports[`ResourceModal test renders as expected without mocked data, to cover th
                     </a>
                   </div>
                   <div>
-                    <YamlEditor
-                      onYamlChange={[Function]}
-                      readOnly={false}
+                    <div
+                      className="yamlEditorContainerContainer"
                     >
-                      <div
-                        className="yamlEditorContainer"
+                      <YamlEditor
+                        onYamlChange={[Function]}
+                        readOnly={false}
+                        setEditor={[Function]}
                       >
-                        <IsomorphicEditor
-                          editorProps={
-                            Object {
-                              "$blockScrolling": Infinity,
-                            }
-                          }
-                          fontSize={12}
-                          height="40vh"
-                          highlightActiveLine={true}
-                          mode="yaml"
-                          onChange={[Function]}
-                          setOptions={
-                            Object {
-                              "newLineMode": "unix",
-                              "readOnly": false,
-                              "showLineNumbers": true,
-                              "tabSize": 2,
-                            }
-                          }
-                          showGutter={true}
-                          showPrintMargin={false}
-                          theme="monokai"
-                          width="100%"
-                          wrapEnabled={false}
+                        <div
+                          className="yamlEditorContainer"
                         >
-                          <ReactAce
-                            cursorStart={1}
-                            editorProps={
-                              Object {
-                                "$blockScrolling": Infinity,
-                              }
-                            }
-                            enableBasicAutocompletion={false}
-                            enableLiveAutocompletion={false}
-                            focus={false}
+                          <IsomorphicEditor
                             fontSize={12}
                             height="40vh"
-                            highlightActiveLine={true}
-                            maxLines={null}
-                            minLines={null}
-                            mode="yaml"
-                            name="brace-editor"
+                            key="loading"
+                            language="yaml"
                             onChange={[Function]}
-                            onLoad={null}
-                            onPaste={null}
-                            onScroll={null}
-                            readOnly={false}
-                            scrollMargin={
-                              Array [
-                                0,
-                                0,
-                                0,
-                                0,
-                              ]
-                            }
-                            setOptions={
+                            options={
                               Object {
-                                "newLineMode": "unix",
+                                "glyphMargin": true,
                                 "readOnly": false,
-                                "showLineNumbers": true,
+                                "scrollBeyondLastLine": false,
+                                "scrollbar": Object {
+                                  "horizontalScrollbarSize": 17,
+                                  "verticalScrollbarSize": 17,
+                                },
+                                "smoothScrolling": true,
                                 "tabSize": 2,
+                                "wordWrapMinified": false,
                               }
                             }
-                            showGutter={true}
-                            showPrintMargin={false}
-                            style={Object {}}
-                            tabSize={4}
-                            theme="monokai"
-                            value=""
-                            width="100%"
-                            wrapEnabled={false}
+                            setEditor={[Function]}
+                            theme="console"
+                            width="49.5vw"
                           >
-                            <div
-                              id="brace-editor"
-                              style={
+                            <MonacoEditor
+                              defaultValue=""
+                              editorDidMount={[Function]}
+                              editorWillMount={[Function]}
+                              fontSize={12}
+                              height="40vh"
+                              language="yaml"
+                              onChange={[Function]}
+                              options={
                                 Object {
-                                  "height": "40vh",
-                                  "width": "100%",
+                                  "glyphMargin": true,
+                                  "readOnly": false,
+                                  "scrollBeyondLastLine": false,
+                                  "scrollbar": Object {
+                                    "horizontalScrollbarSize": 17,
+                                    "verticalScrollbarSize": 17,
+                                  },
+                                  "smoothScrolling": true,
+                                  "tabSize": 2,
+                                  "wordWrapMinified": false,
                                 }
                               }
-                            />
-                          </ReactAce>
-                        </IsomorphicEditor>
-                      </div>
-                    </YamlEditor>
+                              overrideServices={Object {}}
+                              setEditor={[Function]}
+                              theme="console"
+                              value={null}
+                              width="49.5vw"
+                            >
+                              <div
+                                className="react-monaco-editor-container"
+                                style={
+                                  Object {
+                                    "height": "40vh",
+                                    "width": "49.5vw",
+                                  }
+                                }
+                              />
+                            </MonacoEditor>
+                          </IsomorphicEditor>
+                        </div>
+                      </YamlEditor>
+                    </div>
                   </div>
                 </div>
               </ModalBody>

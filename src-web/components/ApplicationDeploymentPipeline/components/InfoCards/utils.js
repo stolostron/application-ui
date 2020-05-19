@@ -260,16 +260,18 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount) {
       const subData = applications.items.remoteSubscriptionStatusCount
-      if (subData.Failed !== undefined) {
-        failedSubsCount = subData.Failed
-      }
-      if (subData.null !== undefined) {
-        noStatusSubsCount = subData.null
-      }
-      allSubscriptions = failedSubsCount + noStatusSubsCount
-      if (subData.Subscribed !== undefined) {
-        allSubscriptions += subData.Subscribed
-      }
+
+      Object.keys(subData).forEach(key => {
+        if (key === 'Failed') {
+          failedSubsCount = subData[key]
+        } else if (key === 'Subscribed') {
+          allSubscriptions = subData[key]
+        } else {
+          // All statuses that are neither "Failed" or "Subscribed" belong to "No status"
+          noStatusSubsCount += subData[key]
+        }
+      })
+      allSubscriptions += failedSubsCount + noStatusSubsCount
     }
 
     return {

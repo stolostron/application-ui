@@ -26,366 +26,31 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          aria-label="Search"
-          className="editor-bar-search"
-          id="Search"
-          role="region"
+          className="editor-bar-title"
         >
-          <Search
-            aria-label="Search"
-            id="search-name"
-            labelText=""
-            light={false}
-            onChange={[Function]}
-            placeHolderText="Search"
-            small={true}
-            type="text"
-          />
+          YAML
         </div>,
-        Array [
-          <EditorButton
-            button={
-              Object {
-                "command": "previous",
-                "disabled": true,
-                "icon": "previous",
-                "tooltip": "Previous",
-              }
-            }
-            command="previous"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "next",
-                "disabled": true,
-                "icon": "next",
-                "tooltip": "Next",
-              }
-            }
-            command="next"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "spacer1",
-                "spacer": true,
-              }
-            }
-            command="spacer1"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "undo",
-                "disabled": true,
-                "icon": "undo",
-                "tooltip": "Undo",
-              }
-            }
-            command="undo"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "redo",
-                "disabled": true,
-                "icon": "redo",
-                "tooltip": "Redo",
-              }
-            }
-            command="redo"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "restore",
-                "disabled": true,
-                "icon": "restore",
-                "tooltip": "Restore",
-              }
-            }
-            command="restore"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "spacer2",
-                "spacer": true,
-              }
-            }
-            command="spacer2"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "update",
-                "disabled": true,
-                "icon": "deploy",
-                "tooltip": "Update",
-              }
-            }
-            command="update"
-            handleClick={[Function]}
-          />,
-        ],
-        false,
-      ],
-      "className": "editor-bar",
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "aria-label": "Search",
-          "children": <Search
-            aria-label="Search"
-            id="search-name"
-            labelText=""
-            light={false}
-            onChange={[Function]}
-            placeHolderText="Search"
-            small={true}
-            type="text"
-          />,
-          "className": "editor-bar-search",
-          "id": "Search",
-          "role": "region",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "aria-label": "Search",
-            "id": "search-name",
-            "labelText": "",
-            "light": false,
-            "onChange": [Function],
-            "placeHolderText": "Search",
-            "small": true,
-            "type": "text",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": "previous",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "previous",
-            "disabled": true,
-            "icon": "previous",
-            "tooltip": "Previous",
-          },
-          "command": "previous",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "next",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "next",
-            "disabled": true,
-            "icon": "next",
-            "tooltip": "Next",
-          },
-          "command": "next",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "spacer1",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "spacer1",
-            "spacer": true,
-          },
-          "command": "spacer1",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "undo",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "undo",
-            "disabled": true,
-            "icon": "undo",
-            "tooltip": "Undo",
-          },
-          "command": "undo",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "redo",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "redo",
-            "disabled": true,
-            "icon": "redo",
-            "tooltip": "Redo",
-          },
-          "command": "redo",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "restore",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "restore",
-            "disabled": true,
-            "icon": "restore",
-            "tooltip": "Restore",
-          },
-          "command": "restore",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "spacer2",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "spacer2",
-            "spacer": true,
-          },
-          "command": "spacer2",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "update",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "update",
-            "disabled": true,
-            "icon": "deploy",
-            "tooltip": "Update",
-          },
-          "command": "update",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      false,
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
+        <div
+          className="editor-bar-toolbar"
+        >
           <div
-            aria-label="Search"
-            className="editor-bar-search"
-            id="Search"
-            role="region"
+            className="editor-bar-section"
           >
-            <Search
-              aria-label="Search"
-              id="search-name"
-              labelText=""
-              light={false}
-              onChange={[Function]}
-              placeHolderText="Search"
-              small={true}
-              type="text"
+            <EditorButton
+              button={
+                Object {
+                  "command": "restore",
+                  "disabled": true,
+                  "tooltip": "Reset",
+                }
+              }
+              command="restore"
+              handleClick={[Function]}
             />
-          </div>,
-          Array [
-            <EditorButton
-              button={
-                Object {
-                  "command": "previous",
-                  "disabled": true,
-                  "icon": "previous",
-                  "tooltip": "Previous",
-                }
-              }
-              command="previous"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "next",
-                  "disabled": true,
-                  "icon": "next",
-                  "tooltip": "Next",
-                }
-              }
-              command="next"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "spacer1",
-                  "spacer": true,
-                }
-              }
-              command="spacer1"
-              handleClick={[Function]}
-            />,
+          </div>
+          <div
+            className="editor-bar-section"
+          >
             <EditorButton
               button={
                 Object {
@@ -397,7 +62,7 @@ ShallowWrapper {
               }
               command="undo"
               handleClick={[Function]}
-            />,
+            />
             <EditorButton
               button={
                 Object {
@@ -409,43 +74,647 @@ ShallowWrapper {
               }
               command="redo"
               handleClick={[Function]}
-            />,
+            />
+          </div>
+          <div
+            className="editor-bar-section"
+          >
+            <div
+              aria-label="Find"
+              className="editor-bar-search"
+              id="Find"
+              role="region"
+            >
+              <Search
+                aria-label="Find"
+                id="template-editor-search-undefined"
+                labelText=""
+                light={false}
+                onChange={[Function]}
+                placeHolderText="Find"
+                small={true}
+                spellCheck={false}
+                type="text"
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "previous",
+                    "disabled": true,
+                    "icon": "previous",
+                    "tooltip": "Previous",
+                  }
+                }
+                command="previous"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "next",
+                    "disabled": true,
+                    "icon": "next",
+                    "tooltip": "Next",
+                  }
+                }
+                command="next"
+                handleClick={[Function]}
+              />
+            </div>
+          </div>
+          <div
+            className="editor-bar-section"
+          >
             <EditorButton
               button={
                 Object {
-                  "command": "restore",
-                  "disabled": true,
-                  "icon": "restore",
-                  "tooltip": "Restore",
+                  "command": "close",
+                  "icon": "close",
+                  "tooltip": undefined,
                 }
               }
-              command="restore"
+              command="close"
               handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "spacer2",
-                  "spacer": true,
+            />
+          </div>
+        </div>,
+      ],
+      "className": "editor-bar",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "YAML",
+          "className": "editor-bar-title",
+        },
+        "ref": null,
+        "rendered": "YAML",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  }
                 }
-              }
-              command="spacer2"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "update",
-                  "disabled": true,
-                  "icon": "deploy",
-                  "tooltip": "Update",
+                command="restore"
+                handleClick={[Function]}
+              />
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
                 }
-              }
-              command="update"
-              handleClick={[Function]}
-            />,
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
+                }
+                command="redo"
+                handleClick={[Function]}
+              />
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
+                }
+                command="close"
+                handleClick={[Function]}
+              />
+            </div>,
           ],
-          false,
+          "className": "editor-bar-toolbar",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "restore",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  },
+                  "command": "restore",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />,
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "undo",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  },
+                  "command": "undo",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "redo",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  },
+                  "command": "redo",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "aria-label": "Find",
+                "children": Array [
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />,
+                  Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />,
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                ],
+                "className": "editor-bar-search",
+                "id": "Find",
+                "role": "region",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Find",
+                    "id": "template-editor-search-undefined",
+                    "labelText": "",
+                    "light": false,
+                    "onChange": [Function],
+                    "placeHolderText": "Find",
+                    "small": true,
+                    "spellCheck": false,
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "previous",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    },
+                    "command": "previous",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "next",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    },
+                    "command": "next",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "close",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  },
+                  "command": "close",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="editor-bar-title"
+          >
+            YAML
+          </div>,
+          <div
+            className="editor-bar-toolbar"
+          >
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  }
+                }
+                command="restore"
+                handleClick={[Function]}
+              />
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
+                }
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
+                }
+                command="redo"
+                handleClick={[Function]}
+              />
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
+                }
+                command="close"
+                handleClick={[Function]}
+              />
+            </div>
+          </div>,
         ],
         "className": "editor-bar",
       },
@@ -456,183 +725,450 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "aria-label": "Search",
-            "children": <Search
-              aria-label="Search"
-              id="search-name"
-              labelText=""
-              light={false}
-              onChange={[Function]}
-              placeHolderText="Search"
-              small={true}
-              type="text"
-            />,
-            "className": "editor-bar-search",
-            "id": "Search",
-            "role": "region",
+            "children": "YAML",
+            "className": "editor-bar-title",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "aria-label": "Search",
-              "id": "search-name",
-              "labelText": "",
-              "light": false,
-              "onChange": [Function],
-              "placeHolderText": "Search",
-              "small": true,
-              "type": "text",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
+          "rendered": "YAML",
           "type": "div",
         },
         Object {
           "instance": null,
-          "key": "previous",
-          "nodeType": "class",
+          "key": undefined,
+          "nodeType": "host",
           "props": Object {
-            "button": Object {
-              "command": "previous",
-              "disabled": true,
-              "icon": "previous",
-              "tooltip": "Previous",
-            },
-            "command": "previous",
-            "handleClick": [Function],
+            "children": Array [
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </div>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </div>,
+            ],
+            "className": "editor-bar-toolbar",
           },
           "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "next",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "next",
-              "disabled": true,
-              "icon": "next",
-              "tooltip": "Next",
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "restore",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    },
+                    "command": "restore",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            "command": "next",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "spacer1",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "spacer1",
-              "spacer": true,
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />,
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "undo",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    },
+                    "command": "undo",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "redo",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    },
+                    "command": "redo",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            "command": "spacer1",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "undo",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "undo",
-              "disabled": true,
-              "icon": "undo",
-              "tooltip": "Undo",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </div>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Find",
+                  "children": Array [
+                    <Search
+                      aria-label="Find"
+                      id="template-editor-search-undefined"
+                      labelText=""
+                      light={false}
+                      onChange={[Function]}
+                      placeHolderText="Find"
+                      small={true}
+                      spellCheck={false}
+                      type="text"
+                    />,
+                    Array [
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          }
+                        }
+                        command="previous"
+                        handleClick={[Function]}
+                      />,
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          }
+                        }
+                        command="next"
+                        handleClick={[Function]}
+                      />,
+                    ],
+                  ],
+                  "className": "editor-bar-search",
+                  "id": "Find",
+                  "role": "region",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "aria-label": "Find",
+                      "id": "template-editor-search-undefined",
+                      "labelText": "",
+                      "light": false,
+                      "onChange": [Function],
+                      "placeHolderText": "Find",
+                      "small": true,
+                      "spellCheck": false,
+                      "type": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "previous",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      },
+                      "command": "previous",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "next",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      },
+                      "command": "next",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              "type": "div",
             },
-            "command": "undo",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "redo",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "redo",
-              "disabled": true,
-              "icon": "redo",
-              "tooltip": "Redo",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "close",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    },
+                    "command": "close",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            "command": "redo",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
+          ],
+          "type": "div",
         },
-        Object {
-          "instance": null,
-          "key": "restore",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "restore",
-              "disabled": true,
-              "icon": "restore",
-              "tooltip": "Restore",
-            },
-            "command": "restore",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "spacer2",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "spacer2",
-              "spacer": true,
-            },
-            "command": "spacer2",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "update",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "update",
-              "disabled": true,
-              "icon": "deploy",
-              "tooltip": "Update",
-            },
-            "command": "update",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        false,
       ],
       "type": "div",
     },
@@ -676,336 +1212,31 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          aria-label="Search"
-          className="editor-bar-search"
-          id="Search"
-          role="region"
+          className="editor-bar-title"
         >
-          <Search
-            aria-label="Search"
-            id="search-name"
-            labelText=""
-            light={false}
-            onChange={[Function]}
-            placeHolderText="Search"
-            small={true}
-            type="text"
-          />
+          YAML
         </div>,
-        Array [
-          <EditorButton
-            button={
-              Object {
-                "command": "previous",
-                "disabled": true,
-                "icon": "previous",
-                "tooltip": "Previous",
-              }
-            }
-            command="previous"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "next",
-                "disabled": true,
-                "icon": "next",
-                "tooltip": "Next",
-              }
-            }
-            command="next"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "spacer1",
-                "spacer": true,
-              }
-            }
-            command="spacer1"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "undo",
-                "disabled": true,
-                "icon": "undo",
-                "tooltip": "Undo",
-              }
-            }
-            command="undo"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "redo",
-                "disabled": true,
-                "icon": "redo",
-                "tooltip": "Redo",
-              }
-            }
-            command="redo"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "restore",
-                "disabled": true,
-                "icon": "restore",
-                "tooltip": "Restore",
-              }
-            }
-            command="restore"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "spacer2",
-                "spacer": true,
-              }
-            }
-            command="spacer2"
-            handleClick={[Function]}
-          />,
-        ],
-        undefined,
-      ],
-      "className": "editor-bar",
-    },
-    "ref": null,
-    "rendered": Array [
-      Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "aria-label": "Search",
-          "children": <Search
-            aria-label="Search"
-            id="search-name"
-            labelText=""
-            light={false}
-            onChange={[Function]}
-            placeHolderText="Search"
-            small={true}
-            type="text"
-          />,
-          "className": "editor-bar-search",
-          "id": "Search",
-          "role": "region",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "aria-label": "Search",
-            "id": "search-name",
-            "labelText": "",
-            "light": false,
-            "onChange": [Function],
-            "placeHolderText": "Search",
-            "small": true,
-            "type": "text",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        "type": "div",
-      },
-      Object {
-        "instance": null,
-        "key": "previous",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "previous",
-            "disabled": true,
-            "icon": "previous",
-            "tooltip": "Previous",
-          },
-          "command": "previous",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "next",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "next",
-            "disabled": true,
-            "icon": "next",
-            "tooltip": "Next",
-          },
-          "command": "next",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "spacer1",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "spacer1",
-            "spacer": true,
-          },
-          "command": "spacer1",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "undo",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "undo",
-            "disabled": true,
-            "icon": "undo",
-            "tooltip": "Undo",
-          },
-          "command": "undo",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "redo",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "redo",
-            "disabled": true,
-            "icon": "redo",
-            "tooltip": "Redo",
-          },
-          "command": "redo",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "restore",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "restore",
-            "disabled": true,
-            "icon": "restore",
-            "tooltip": "Restore",
-          },
-          "command": "restore",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "spacer2",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "spacer2",
-            "spacer": true,
-          },
-          "command": "spacer2",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      undefined,
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
+        <div
+          className="editor-bar-toolbar"
+        >
           <div
-            aria-label="Search"
-            className="editor-bar-search"
-            id="Search"
-            role="region"
+            className="editor-bar-section"
           >
-            <Search
-              aria-label="Search"
-              id="search-name"
-              labelText=""
-              light={false}
-              onChange={[Function]}
-              placeHolderText="Search"
-              small={true}
-              type="text"
+            <EditorButton
+              button={
+                Object {
+                  "command": "restore",
+                  "disabled": true,
+                  "tooltip": "Reset",
+                }
+              }
+              command="restore"
+              handleClick={[Function]}
             />
-          </div>,
-          Array [
-            <EditorButton
-              button={
-                Object {
-                  "command": "previous",
-                  "disabled": true,
-                  "icon": "previous",
-                  "tooltip": "Previous",
-                }
-              }
-              command="previous"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "next",
-                  "disabled": true,
-                  "icon": "next",
-                  "tooltip": "Next",
-                }
-              }
-              command="next"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "spacer1",
-                  "spacer": true,
-                }
-              }
-              command="spacer1"
-              handleClick={[Function]}
-            />,
+          </div>
+          <div
+            className="editor-bar-section"
+          >
             <EditorButton
               button={
                 Object {
@@ -1017,7 +1248,7 @@ ShallowWrapper {
               }
               command="undo"
               handleClick={[Function]}
-            />,
+            />
             <EditorButton
               button={
                 Object {
@@ -1029,31 +1260,647 @@ ShallowWrapper {
               }
               command="redo"
               handleClick={[Function]}
-            />,
+            />
+          </div>
+          <div
+            className="editor-bar-section"
+          >
+            <div
+              aria-label="Find"
+              className="editor-bar-search"
+              id="Find"
+              role="region"
+            >
+              <Search
+                aria-label="Find"
+                id="template-editor-search-undefined"
+                labelText=""
+                light={false}
+                onChange={[Function]}
+                placeHolderText="Find"
+                small={true}
+                spellCheck={false}
+                type="text"
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "previous",
+                    "disabled": true,
+                    "icon": "previous",
+                    "tooltip": "Previous",
+                  }
+                }
+                command="previous"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "next",
+                    "disabled": true,
+                    "icon": "next",
+                    "tooltip": "Next",
+                  }
+                }
+                command="next"
+                handleClick={[Function]}
+              />
+            </div>
+          </div>
+          <div
+            className="editor-bar-section"
+          >
             <EditorButton
               button={
                 Object {
-                  "command": "restore",
-                  "disabled": true,
-                  "icon": "restore",
-                  "tooltip": "Restore",
+                  "command": "close",
+                  "icon": "close",
+                  "tooltip": undefined,
                 }
               }
-              command="restore"
+              command="close"
               handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "spacer2",
-                  "spacer": true,
+            />
+          </div>
+        </div>,
+      ],
+      "className": "editor-bar",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "YAML",
+          "className": "editor-bar-title",
+        },
+        "ref": null,
+        "rendered": "YAML",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  }
                 }
-              }
-              command="spacer2"
-              handleClick={[Function]}
-            />,
+                command="restore"
+                handleClick={[Function]}
+              />
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
+                }
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
+                }
+                command="redo"
+                handleClick={[Function]}
+              />
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
+                }
+                command="close"
+                handleClick={[Function]}
+              />
+            </div>,
           ],
-          undefined,
+          "className": "editor-bar-toolbar",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "restore",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  },
+                  "command": "restore",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />,
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "undo",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  },
+                  "command": "undo",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "redo",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  },
+                  "command": "redo",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "aria-label": "Find",
+                "children": Array [
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />,
+                  Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />,
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                ],
+                "className": "editor-bar-search",
+                "id": "Find",
+                "role": "region",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Find",
+                    "id": "template-editor-search-undefined",
+                    "labelText": "",
+                    "light": false,
+                    "onChange": [Function],
+                    "placeHolderText": "Find",
+                    "small": true,
+                    "spellCheck": false,
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "previous",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    },
+                    "command": "previous",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "next",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    },
+                    "command": "next",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "close",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  },
+                  "command": "close",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="editor-bar-title"
+          >
+            YAML
+          </div>,
+          <div
+            className="editor-bar-toolbar"
+          >
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  }
+                }
+                command="restore"
+                handleClick={[Function]}
+              />
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
+                }
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
+                }
+                command="redo"
+                handleClick={[Function]}
+              />
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
+                }
+                command="close"
+                handleClick={[Function]}
+              />
+            </div>
+          </div>,
         ],
         "className": "editor-bar",
       },
@@ -1064,165 +1911,450 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "aria-label": "Search",
-            "children": <Search
-              aria-label="Search"
-              id="search-name"
-              labelText=""
-              light={false}
-              onChange={[Function]}
-              placeHolderText="Search"
-              small={true}
-              type="text"
-            />,
-            "className": "editor-bar-search",
-            "id": "Search",
-            "role": "region",
+            "children": "YAML",
+            "className": "editor-bar-title",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "aria-label": "Search",
-              "id": "search-name",
-              "labelText": "",
-              "light": false,
-              "onChange": [Function],
-              "placeHolderText": "Search",
-              "small": true,
-              "type": "text",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
+          "rendered": "YAML",
           "type": "div",
         },
         Object {
           "instance": null,
-          "key": "previous",
-          "nodeType": "class",
+          "key": undefined,
+          "nodeType": "host",
           "props": Object {
-            "button": Object {
-              "command": "previous",
-              "disabled": true,
-              "icon": "previous",
-              "tooltip": "Previous",
-            },
-            "command": "previous",
-            "handleClick": [Function],
+            "children": Array [
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </div>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </div>,
+            ],
+            "className": "editor-bar-toolbar",
           },
           "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "next",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "next",
-              "disabled": true,
-              "icon": "next",
-              "tooltip": "Next",
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "restore",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    },
+                    "command": "restore",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            "command": "next",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "spacer1",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "spacer1",
-              "spacer": true,
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />,
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "undo",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    },
+                    "command": "undo",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "redo",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    },
+                    "command": "redo",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            "command": "spacer1",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "undo",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "undo",
-              "disabled": true,
-              "icon": "undo",
-              "tooltip": "Undo",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </div>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Find",
+                  "children": Array [
+                    <Search
+                      aria-label="Find"
+                      id="template-editor-search-undefined"
+                      labelText=""
+                      light={false}
+                      onChange={[Function]}
+                      placeHolderText="Find"
+                      small={true}
+                      spellCheck={false}
+                      type="text"
+                    />,
+                    Array [
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          }
+                        }
+                        command="previous"
+                        handleClick={[Function]}
+                      />,
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          }
+                        }
+                        command="next"
+                        handleClick={[Function]}
+                      />,
+                    ],
+                  ],
+                  "className": "editor-bar-search",
+                  "id": "Find",
+                  "role": "region",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "aria-label": "Find",
+                      "id": "template-editor-search-undefined",
+                      "labelText": "",
+                      "light": false,
+                      "onChange": [Function],
+                      "placeHolderText": "Find",
+                      "small": true,
+                      "spellCheck": false,
+                      "type": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "previous",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      },
+                      "command": "previous",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "next",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      },
+                      "command": "next",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              "type": "div",
             },
-            "command": "undo",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "redo",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "redo",
-              "disabled": true,
-              "icon": "redo",
-              "tooltip": "Redo",
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "close",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    },
+                    "command": "close",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
-            "command": "redo",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
+          ],
+          "type": "div",
         },
-        Object {
-          "instance": null,
-          "key": "restore",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "restore",
-              "disabled": true,
-              "icon": "restore",
-              "tooltip": "Restore",
-            },
-            "command": "restore",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "spacer2",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "spacer2",
-              "spacer": true,
-            },
-            "command": "spacer2",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        undefined,
       ],
       "type": "div",
     },
@@ -1280,149 +2412,118 @@ ShallowWrapper {
     "props": Object {
       "children": Array [
         <div
-          aria-label="Search"
-          className="editor-bar-search"
-          id="Search"
-          role="region"
+          className="editor-bar-title"
         >
-          <Search
-            aria-label="Search"
-            id="search-name"
-            labelText=""
-            light={false}
-            onChange={[Function]}
-            placeHolderText="Search"
-            small={true}
-            type="text"
-          />
+          YAML
         </div>,
-        Array [
-          <EditorButton
-            button={
-              Object {
-                "command": "previous",
-                "disabled": true,
-                "icon": "previous",
-                "tooltip": "Previous",
-              }
-            }
-            command="previous"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "next",
-                "disabled": true,
-                "icon": "next",
-                "tooltip": "Next",
-              }
-            }
-            command="next"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "spacer1",
-                "spacer": true,
-              }
-            }
-            command="spacer1"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "undo",
-                "disabled": false,
-                "icon": "undo",
-                "tooltip": "Undo",
-              }
-            }
-            command="undo"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "redo",
-                "disabled": false,
-                "icon": "redo",
-                "tooltip": "Redo",
-              }
-            }
-            command="redo"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "restore",
-                "disabled": false,
-                "icon": "restore",
-                "tooltip": "Restore",
-              }
-            }
-            command="restore"
-            handleClick={[Function]}
-          />,
-          <EditorButton
-            button={
-              Object {
-                "command": "spacer2",
-                "spacer": true,
-              }
-            }
-            command="spacer2"
-            handleClick={[Function]}
-          />,
-        ],
-        <OverflowMenu
-          ariaLabel="list of options"
-          direction="bottom"
-          flipped={true}
-          floatingMenu={true}
-          iconDescription="open and close list of options"
-          menuOffset={[Function]}
-          menuOffsetFlip={[Function]}
-          onClick={[Function]}
-          onClose={[Function]}
-          onKeyDown={[Function]}
-          onOpen={[Function]}
-          open={false}
-          renderIcon={[Function]}
-          tabIndex={0}
+        <div
+          className="editor-bar-toolbar"
         >
-          <OverflowMenuItem
-            className="editor-error-button-item"
-            disabled={false}
-            hasDivider={false}
-            isDelete={false}
-            itemText={
-              <div
-                className="item-container"
-              >
-                <div
-                  className="item-icon"
-                >
-                  <svg
-                    height="12px"
-                    width="12px"
-                  >
-                    <use
-                      href="#diagramIcons_failure"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  testing with a very long message with 64 characters weeeeeeeeeee...
-                </div>
-              </div>
-            }
-            onClick={[Function]}
-          />
-        </OverflowMenu>,
+          <div
+            className="editor-bar-section"
+          >
+            <EditorButton
+              button={
+                Object {
+                  "command": "restore",
+                  "disabled": false,
+                  "tooltip": "Reset",
+                }
+              }
+              command="restore"
+              handleClick={[Function]}
+            />
+          </div>
+          <div
+            className="editor-bar-section"
+          >
+            <EditorButton
+              button={
+                Object {
+                  "command": "undo",
+                  "disabled": false,
+                  "icon": "undo",
+                  "tooltip": "Undo",
+                }
+              }
+              command="undo"
+              handleClick={[Function]}
+            />
+            <EditorButton
+              button={
+                Object {
+                  "command": "redo",
+                  "disabled": false,
+                  "icon": "redo",
+                  "tooltip": "Redo",
+                }
+              }
+              command="redo"
+              handleClick={[Function]}
+            />
+          </div>
+          <div
+            className="editor-bar-section"
+          >
+            <div
+              aria-label="Find"
+              className="editor-bar-search"
+              id="Find"
+              role="region"
+            >
+              <Search
+                aria-label="Find"
+                id="template-editor-search-undefined"
+                labelText=""
+                light={false}
+                onChange={[Function]}
+                placeHolderText="Find"
+                small={true}
+                spellCheck={false}
+                type="text"
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "previous",
+                    "disabled": true,
+                    "icon": "previous",
+                    "tooltip": "Previous",
+                  }
+                }
+                command="previous"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "next",
+                    "disabled": true,
+                    "icon": "next",
+                    "tooltip": "Next",
+                  }
+                }
+                command="next"
+                handleClick={[Function]}
+              />
+            </div>
+          </div>
+          <div
+            className="editor-bar-section"
+          >
+            <EditorButton
+              button={
+                Object {
+                  "command": "close",
+                  "icon": "close",
+                  "tooltip": undefined,
+                }
+              }
+              command="close"
+              handleClick={[Function]}
+            />
+          </div>
+        </div>,
       ],
       "className": "editor-bar",
     },
@@ -1433,252 +2534,449 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "aria-label": "Search",
-          "children": <Search
-            aria-label="Search"
-            id="search-name"
-            labelText=""
-            light={false}
-            onChange={[Function]}
-            placeHolderText="Search"
-            small={true}
-            type="text"
-          />,
-          "className": "editor-bar-search",
-          "id": "Search",
-          "role": "region",
+          "children": "YAML",
+          "className": "editor-bar-title",
         },
         "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {
-            "aria-label": "Search",
-            "id": "search-name",
-            "labelText": "",
-            "light": false,
-            "onChange": [Function],
-            "placeHolderText": "Search",
-            "small": true,
-            "type": "text",
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
+        "rendered": "YAML",
         "type": "div",
       },
       Object {
         "instance": null,
-        "key": "previous",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "previous",
-            "disabled": true,
-            "icon": "previous",
-            "tooltip": "Previous",
-          },
-          "command": "previous",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "next",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "next",
-            "disabled": true,
-            "icon": "next",
-            "tooltip": "Next",
-          },
-          "command": "next",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "spacer1",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "spacer1",
-            "spacer": true,
-          },
-          "command": "spacer1",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "undo",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "undo",
-            "disabled": false,
-            "icon": "undo",
-            "tooltip": "Undo",
-          },
-          "command": "undo",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "redo",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "redo",
-            "disabled": false,
-            "icon": "redo",
-            "tooltip": "Redo",
-          },
-          "command": "redo",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "restore",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "restore",
-            "disabled": false,
-            "icon": "restore",
-            "tooltip": "Restore",
-          },
-          "command": "restore",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
-        "key": "spacer2",
-        "nodeType": "class",
-        "props": Object {
-          "button": Object {
-            "command": "spacer2",
-            "spacer": true,
-          },
-          "command": "spacer2",
-          "handleClick": [Function],
-        },
-        "ref": null,
-        "rendered": null,
-        "type": [Function],
-      },
-      Object {
-        "instance": null,
         "key": undefined,
-        "nodeType": "class",
+        "nodeType": "host",
         "props": Object {
-          "ariaLabel": "list of options",
           "children": Array [
-            <OverflowMenuItem
-              className="editor-error-button-item"
-              disabled={false}
-              hasDivider={false}
-              isDelete={false}
-              itemText={
-                <div
-                  className="item-container"
-                >
-                  <div
-                    className="item-icon"
-                  >
-                    <svg
-                      height="12px"
-                      width="12px"
-                    >
-                      <use
-                        href="#diagramIcons_failure"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    testing with a very long message with 64 characters weeeeeeeeeee...
-                  </div>
-                </div>
-              }
-              onClick={[Function]}
-            />,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": false,
+                    "tooltip": "Reset",
+                  }
+                }
+                command="restore"
+                handleClick={[Function]}
+              />
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": false,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
+                }
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": false,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
+                }
+                command="redo"
+                handleClick={[Function]}
+              />
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
+                }
+                command="close"
+                handleClick={[Function]}
+              />
+            </div>,
           ],
-          "direction": "bottom",
-          "flipped": true,
-          "floatingMenu": true,
-          "iconDescription": "open and close list of options",
-          "menuOffset": [Function],
-          "menuOffsetFlip": [Function],
-          "onClick": [Function],
-          "onClose": [Function],
-          "onKeyDown": [Function],
-          "onOpen": [Function],
-          "open": false,
-          "renderIcon": [Function],
-          "tabIndex": 0,
+          "className": "editor-bar-toolbar",
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
-            "key": "testing with a very long message with 64 characters weeeeeeeeeee...",
-            "nodeType": "function",
+            "key": undefined,
+            "nodeType": "host",
             "props": Object {
-              "className": "editor-error-button-item",
-              "disabled": false,
-              "hasDivider": false,
-              "isDelete": false,
-              "itemText": <div
-                className="item-container"
-              >
-                <div
-                  className="item-icon"
-                >
-                  <svg
-                    height="12px"
-                    width="12px"
-                  >
-                    <use
-                      href="#diagramIcons_failure"
-                    />
-                  </svg>
-                </div>
-                <div>
-                  testing with a very long message with 64 characters weeeeeeeeeee...
-                </div>
-              </div>,
-              "onClick": [Function],
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": false,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
             },
             "ref": null,
-            "rendered": null,
-            "type": [Function],
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "restore",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "restore",
+                    "disabled": false,
+                    "tooltip": "Reset",
+                  },
+                  "command": "restore",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": false,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />,
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": false,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "undo",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "undo",
+                    "disabled": false,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  },
+                  "command": "undo",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "redo",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "redo",
+                    "disabled": false,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  },
+                  "command": "redo",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "aria-label": "Find",
+                "children": Array [
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />,
+                  Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />,
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                ],
+                "className": "editor-bar-search",
+                "id": "Find",
+                "role": "region",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Find",
+                    "id": "template-editor-search-undefined",
+                    "labelText": "",
+                    "light": false,
+                    "onChange": [Function],
+                    "placeHolderText": "Find",
+                    "small": true,
+                    "spellCheck": false,
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "previous",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    },
+                    "command": "previous",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "next",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    },
+                    "command": "next",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />,
+              ],
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": "close",
+                "nodeType": "class",
+                "props": Object {
+                  "button": Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  },
+                  "command": "close",
+                  "handleClick": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+            ],
+            "type": "div",
           },
         ],
-        "type": [Function],
+        "type": "div",
       },
     ],
     "type": "div",
@@ -1691,149 +2989,118 @@ ShallowWrapper {
       "props": Object {
         "children": Array [
           <div
-            aria-label="Search"
-            className="editor-bar-search"
-            id="Search"
-            role="region"
+            className="editor-bar-title"
           >
-            <Search
-              aria-label="Search"
-              id="search-name"
-              labelText=""
-              light={false}
-              onChange={[Function]}
-              placeHolderText="Search"
-              small={true}
-              type="text"
-            />
+            YAML
           </div>,
-          Array [
-            <EditorButton
-              button={
-                Object {
-                  "command": "previous",
-                  "disabled": true,
-                  "icon": "previous",
-                  "tooltip": "Previous",
-                }
-              }
-              command="previous"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "next",
-                  "disabled": true,
-                  "icon": "next",
-                  "tooltip": "Next",
-                }
-              }
-              command="next"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "spacer1",
-                  "spacer": true,
-                }
-              }
-              command="spacer1"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "undo",
-                  "disabled": false,
-                  "icon": "undo",
-                  "tooltip": "Undo",
-                }
-              }
-              command="undo"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "redo",
-                  "disabled": false,
-                  "icon": "redo",
-                  "tooltip": "Redo",
-                }
-              }
-              command="redo"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "restore",
-                  "disabled": false,
-                  "icon": "restore",
-                  "tooltip": "Restore",
-                }
-              }
-              command="restore"
-              handleClick={[Function]}
-            />,
-            <EditorButton
-              button={
-                Object {
-                  "command": "spacer2",
-                  "spacer": true,
-                }
-              }
-              command="spacer2"
-              handleClick={[Function]}
-            />,
-          ],
-          <OverflowMenu
-            ariaLabel="list of options"
-            direction="bottom"
-            flipped={true}
-            floatingMenu={true}
-            iconDescription="open and close list of options"
-            menuOffset={[Function]}
-            menuOffsetFlip={[Function]}
-            onClick={[Function]}
-            onClose={[Function]}
-            onKeyDown={[Function]}
-            onOpen={[Function]}
-            open={false}
-            renderIcon={[Function]}
-            tabIndex={0}
+          <div
+            className="editor-bar-toolbar"
           >
-            <OverflowMenuItem
-              className="editor-error-button-item"
-              disabled={false}
-              hasDivider={false}
-              isDelete={false}
-              itemText={
-                <div
-                  className="item-container"
-                >
-                  <div
-                    className="item-icon"
-                  >
-                    <svg
-                      height="12px"
-                      width="12px"
-                    >
-                      <use
-                        href="#diagramIcons_failure"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    testing with a very long message with 64 characters weeeeeeeeeee...
-                  </div>
-                </div>
-              }
-              onClick={[Function]}
-            />
-          </OverflowMenu>,
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": false,
+                    "tooltip": "Reset",
+                  }
+                }
+                command="restore"
+                handleClick={[Function]}
+              />
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": false,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
+                }
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": false,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
+                }
+                command="redo"
+                handleClick={[Function]}
+              />
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
+                  }
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
+                  }
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </div>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
+                }
+                command="close"
+                handleClick={[Function]}
+              />
+            </div>
+          </div>,
         ],
         "className": "editor-bar",
       },
@@ -1844,252 +3111,449 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "host",
           "props": Object {
-            "aria-label": "Search",
-            "children": <Search
-              aria-label="Search"
-              id="search-name"
-              labelText=""
-              light={false}
-              onChange={[Function]}
-              placeHolderText="Search"
-              small={true}
-              type="text"
-            />,
-            "className": "editor-bar-search",
-            "id": "Search",
-            "role": "region",
+            "children": "YAML",
+            "className": "editor-bar-title",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {
-              "aria-label": "Search",
-              "id": "search-name",
-              "labelText": "",
-              "light": false,
-              "onChange": [Function],
-              "placeHolderText": "Search",
-              "small": true,
-              "type": "text",
-            },
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
+          "rendered": "YAML",
           "type": "div",
         },
         Object {
           "instance": null,
-          "key": "previous",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "previous",
-              "disabled": true,
-              "icon": "previous",
-              "tooltip": "Previous",
-            },
-            "command": "previous",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "next",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "next",
-              "disabled": true,
-              "icon": "next",
-              "tooltip": "Next",
-            },
-            "command": "next",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "spacer1",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "spacer1",
-              "spacer": true,
-            },
-            "command": "spacer1",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "undo",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "undo",
-              "disabled": false,
-              "icon": "undo",
-              "tooltip": "Undo",
-            },
-            "command": "undo",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "redo",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "redo",
-              "disabled": false,
-              "icon": "redo",
-              "tooltip": "Redo",
-            },
-            "command": "redo",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "restore",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "restore",
-              "disabled": false,
-              "icon": "restore",
-              "tooltip": "Restore",
-            },
-            "command": "restore",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
-          "key": "spacer2",
-          "nodeType": "class",
-          "props": Object {
-            "button": Object {
-              "command": "spacer2",
-              "spacer": true,
-            },
-            "command": "spacer2",
-            "handleClick": [Function],
-          },
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
-        Object {
-          "instance": null,
           "key": undefined,
-          "nodeType": "class",
+          "nodeType": "host",
           "props": Object {
-            "ariaLabel": "list of options",
             "children": Array [
-              <OverflowMenuItem
-                className="editor-error-button-item"
-                disabled={false}
-                hasDivider={false}
-                isDelete={false}
-                itemText={
-                  <div
-                    className="item-container"
-                  >
-                    <div
-                      className="item-icon"
-                    >
-                      <svg
-                        height="12px"
-                        width="12px"
-                      >
-                        <use
-                          href="#diagramIcons_failure"
-                        />
-                      </svg>
-                    </div>
-                    <div>
-                      testing with a very long message with 64 characters weeeeeeeeeee...
-                    </div>
-                  </div>
-                }
-                onClick={[Function]}
-              />,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": false,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": false,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": false,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </div>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </div>,
             ],
-            "direction": "bottom",
-            "flipped": true,
-            "floatingMenu": true,
-            "iconDescription": "open and close list of options",
-            "menuOffset": [Function],
-            "menuOffsetFlip": [Function],
-            "onClick": [Function],
-            "onClose": [Function],
-            "onKeyDown": [Function],
-            "onOpen": [Function],
-            "open": false,
-            "renderIcon": [Function],
-            "tabIndex": 0,
+            "className": "editor-bar-toolbar",
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": "testing with a very long message with 64 characters weeeeeeeeeee...",
-              "nodeType": "function",
+              "key": undefined,
+              "nodeType": "host",
               "props": Object {
-                "className": "editor-error-button-item",
-                "disabled": false,
-                "hasDivider": false,
-                "isDelete": false,
-                "itemText": <div
-                  className="item-container"
-                >
-                  <div
-                    className="item-icon"
-                  >
-                    <svg
-                      height="12px"
-                      width="12px"
-                    >
-                      <use
-                        href="#diagramIcons_failure"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    testing with a very long message with 64 characters weeeeeeeeeee...
-                  </div>
-                </div>,
-                "onClick": [Function],
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": false,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
               },
               "ref": null,
-              "rendered": null,
-              "type": [Function],
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "restore",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "restore",
+                      "disabled": false,
+                      "tooltip": "Reset",
+                    },
+                    "command": "restore",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": false,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />,
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": false,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "undo",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "undo",
+                      "disabled": false,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    },
+                    "command": "undo",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "redo",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "redo",
+                      "disabled": false,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    },
+                    "command": "redo",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </div>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Find",
+                  "children": Array [
+                    <Search
+                      aria-label="Find"
+                      id="template-editor-search-undefined"
+                      labelText=""
+                      light={false}
+                      onChange={[Function]}
+                      placeHolderText="Find"
+                      small={true}
+                      spellCheck={false}
+                      type="text"
+                    />,
+                    Array [
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          }
+                        }
+                        command="previous"
+                        handleClick={[Function]}
+                      />,
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          }
+                        }
+                        command="next"
+                        handleClick={[Function]}
+                      />,
+                    ],
+                  ],
+                  "className": "editor-bar-search",
+                  "id": "Find",
+                  "role": "region",
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "aria-label": "Find",
+                      "id": "template-editor-search-undefined",
+                      "labelText": "",
+                      "light": false,
+                      "onChange": [Function],
+                      "placeHolderText": "Find",
+                      "small": true,
+                      "spellCheck": false,
+                      "type": "text",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "previous",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      },
+                      "command": "previous",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "next",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      },
+                      "command": "next",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />,
+                ],
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "close",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    },
+                    "command": "close",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
             },
           ],
-          "type": [Function],
+          "type": "div",
         },
       ],
       "type": "div",

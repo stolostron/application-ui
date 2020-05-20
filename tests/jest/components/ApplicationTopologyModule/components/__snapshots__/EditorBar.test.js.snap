@@ -123,7 +123,7 @@ ShallowWrapper {
             </div>
           </div>
           <div
-            className="editor-bar-section"
+            className="editor-bar-section diagram-collapse-button"
           >
             <EditorButton
               button={
@@ -251,7 +251,7 @@ ShallowWrapper {
               </div>
             </div>,
             <div
-              className="editor-bar-section"
+              className="editor-bar-section diagram-collapse-button"
             >
               <EditorButton
                 button={
@@ -565,7 +565,7 @@ ShallowWrapper {
                   handleClick={[Function]}
                 />,
               ],
-              "className": "editor-bar-section",
+              "className": "editor-bar-section diagram-collapse-button",
             },
             "ref": null,
             "rendered": Array [
@@ -700,7 +700,7 @@ ShallowWrapper {
               </div>
             </div>
             <div
-              className="editor-bar-section"
+              className="editor-bar-section diagram-collapse-button"
             >
               <EditorButton
                 button={
@@ -828,7 +828,7 @@ ShallowWrapper {
                 </div>
               </div>,
               <div
-                className="editor-bar-section"
+                className="editor-bar-section diagram-collapse-button"
               >
                 <EditorButton
                   button={
@@ -1142,7 +1142,7 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
+                "className": "editor-bar-section diagram-collapse-button",
               },
               "ref": null,
               "rendered": Array [
@@ -1309,7 +1309,7 @@ ShallowWrapper {
             </div>
           </div>
           <div
-            className="editor-bar-section"
+            className="editor-bar-section diagram-collapse-button"
           >
             <EditorButton
               button={
@@ -1437,7 +1437,7 @@ ShallowWrapper {
               </div>
             </div>,
             <div
-              className="editor-bar-section"
+              className="editor-bar-section diagram-collapse-button"
             >
               <EditorButton
                 button={
@@ -1751,7 +1751,7 @@ ShallowWrapper {
                   handleClick={[Function]}
                 />,
               ],
-              "className": "editor-bar-section",
+              "className": "editor-bar-section diagram-collapse-button",
             },
             "ref": null,
             "rendered": Array [
@@ -1886,7 +1886,7 @@ ShallowWrapper {
               </div>
             </div>
             <div
-              className="editor-bar-section"
+              className="editor-bar-section diagram-collapse-button"
             >
               <EditorButton
                 button={
@@ -2014,7 +2014,7 @@ ShallowWrapper {
                 </div>
               </div>,
               <div
-                className="editor-bar-section"
+                className="editor-bar-section diagram-collapse-button"
               >
                 <EditorButton
                   button={
@@ -2328,7 +2328,7 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
+                "className": "editor-bar-section diagram-collapse-button",
               },
               "ref": null,
               "rendered": Array [
@@ -2509,7 +2509,7 @@ ShallowWrapper {
             </div>
           </div>
           <div
-            className="editor-bar-section"
+            className="editor-bar-section diagram-collapse-button"
           >
             <EditorButton
               button={
@@ -2637,7 +2637,7 @@ ShallowWrapper {
               </div>
             </div>,
             <div
-              className="editor-bar-section"
+              className="editor-bar-section diagram-collapse-button"
             >
               <EditorButton
                 button={
@@ -2951,7 +2951,7 @@ ShallowWrapper {
                   handleClick={[Function]}
                 />,
               ],
-              "className": "editor-bar-section",
+              "className": "editor-bar-section diagram-collapse-button",
             },
             "ref": null,
             "rendered": Array [
@@ -3086,7 +3086,7 @@ ShallowWrapper {
               </div>
             </div>
             <div
-              className="editor-bar-section"
+              className="editor-bar-section diagram-collapse-button"
             >
               <EditorButton
                 button={
@@ -3214,7 +3214,7 @@ ShallowWrapper {
                 </div>
               </div>,
               <div
-                className="editor-bar-section"
+                className="editor-bar-section diagram-collapse-button"
               >
                 <EditorButton
                   button={
@@ -3528,7 +3528,7 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
+                "className": "editor-bar-section diagram-collapse-button",
               },
               "ref": null,
               "rendered": Array [

@@ -194,6 +194,27 @@ export const getSubscriptionDataOnHub = (
   }
 }
 
+const getRemoteSubsCounts = (
+  subData,
+  allSubscriptions,
+  failedSubsCount,
+  noStatusSubsCount
+) => {
+  Object.keys(subData).forEach(key => {
+    if (key === 'Failed') {
+      failedSubsCount = subData[key]
+    } else if (key === 'Subscribed') {
+      allSubscriptions = subData[key]
+    } else {
+      // All statuses that are neither "Failed" or "Subscribed" belong to "No status"
+      noStatusSubsCount += subData[key]
+    }
+  })
+  allSubscriptions += failedSubsCount + noStatusSubsCount
+
+  return [allSubscriptions, failedSubsCount, noStatusSubsCount]
+}
+
 export const getSubscriptionDataOnManagedClustersSingle = (
   applications,
   applicationName,
@@ -216,20 +237,15 @@ export const getSubscriptionDataOnManagedClustersSingle = (
         }
         // Increment counts if the data exists
         if (applications.items[appIndex].remoteSubscriptionStatusCount) {
-          const subData =
-            applications.items[appIndex].remoteSubscriptionStatusCount
-
-          Object.keys(subData).forEach(key => {
-            if (key === 'Failed') {
-              failedSubsCount = subData[key]
-            } else if (key === 'Subscribed') {
-              allSubscriptions = subData[key]
-            } else {
-              // All statuses that are neither "Failed" or "Subscribed" belong to "No status"
-              noStatusSubsCount += subData[key]
-            }
-          })
-          allSubscriptions += failedSubsCount + noStatusSubsCount
+          const countData = getRemoteSubsCounts(
+            applications.items[appIndex].remoteSubscriptionStatusCount,
+            allSubscriptions,
+            failedSubsCount,
+            noStatusSubsCount
+          )
+          allSubscriptions = countData[0]
+          failedSubsCount = countData[1]
+          noStatusSubsCount = countData[2]
         }
       }
     })
@@ -259,19 +275,15 @@ export const getSubscriptionDataOnManagedClustersRoot = applications => {
     }
     // Increment counts if the data exists
     if (applications.items.remoteSubscriptionStatusCount) {
-      const subData = applications.items.remoteSubscriptionStatusCount
-
-      Object.keys(subData).forEach(key => {
-        if (key === 'Failed') {
-          failedSubsCount = subData[key]
-        } else if (key === 'Subscribed') {
-          allSubscriptions = subData[key]
-        } else {
-          // All statuses that are neither "Failed" or "Subscribed" belong to "No status"
-          noStatusSubsCount += subData[key]
-        }
-      })
-      allSubscriptions += failedSubsCount + noStatusSubsCount
+      const countData = getRemoteSubsCounts(
+        applications.items.remoteSubscriptionStatusCount,
+        allSubscriptions,
+        failedSubsCount,
+        noStatusSubsCount
+      )
+      allSubscriptions = countData[0]
+      failedSubsCount = countData[1]
+      noStatusSubsCount = countData[2]
     }
 
     return {

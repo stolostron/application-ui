@@ -605,6 +605,7 @@
   "resource.violations": "Violations",
   "resource.persistent_volume": "Persistent Volume",
   "resource.persistent_volume_claim": "Persistent Volume Claim",
+  "resource.deploy.statuses": "Cluster deploy status",
   "raw.spec.selector": "Pod Selector",
   "raw.spec.metadata.label": "Labels",
   "raw.spec.replicas": "Required Replicas",

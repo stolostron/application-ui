@@ -12,10 +12,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DropdownV2, Loading } from 'carbon-components-react'
-import '../../../../graphics/diagramIcons.svg'
-import { DEFAULT_REFRESH_TIME } from './constants'
-import '../scss/refresh-time-select.scss'
-import msgs from '../../../../nls/platform.properties'
+import '../../../graphics/diagramIcons.svg'
+import { DEFAULT_REFRESH_TIME } from '../Topology/viewer/constants'
+import '../../../scss/refresh-time-select.scss'
+import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
 
 export default class RefreshTimeSelect extends React.Component {

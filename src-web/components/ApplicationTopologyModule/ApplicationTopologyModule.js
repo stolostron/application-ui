@@ -39,7 +39,7 @@ import {
 } from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
-import { getPollInterval } from '../Topology/viewer/RefreshTimeSelect'
+import { getPollInterval } from '../../components/common/RefreshTimeSelect'
 import EditorBar from './components/EditorBar'
 import YamlEditor from '../common/YamlEditor'
 import config from '../../../lib/shared/config'

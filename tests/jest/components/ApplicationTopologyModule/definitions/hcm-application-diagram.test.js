@@ -65,6 +65,51 @@ describe("hcm-application-diagram-tests", () => {
 
   // following function have no return as it is meant to be called in getDiagramElements as a helper function
   it("addDiagramDetails", () => {
+    const topology = {
+      detailsLoaded: true,
+      status: "IN_PROGRESS",
+      detailsReloading: false
+    };
+    const podMap = {
+      "mortgagedc-deploy-braveman": {
+        id:
+          "member--member--deployable--member--clusters--braveman--default--mortgagedc-subscription-mortgagedc-mortgagedc-deploy-deploymentconfig--deploymentconfig--mortgagedc-deploy",
+        name: "mortgagedc-deploy",
+        namespace: "default",
+        type: "deploymentconfig"
+      }
+    };
+
+    const applicationDetails = {
+      items: [
+        {
+          related: [
+            {
+              kind: "pod",
+              items: [
+                {
+                  name: "mortgagedc-deploy-1111",
+                  namespace: "default",
+                  cluster: "braveman"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    addDiagramDetails(
+      topology,
+      podMap,
+      "__ALL__/__ALL__//__ALL__/__ALL__ mcm-diagram-query-cookiedefaultmortgagedc",
+      "",
+      false,
+      applicationDetails
+    );
+  });
+
+  // following function have no return as it is meant to be called in getDiagramElements as a helper function
+  it("addDiagramDetails", () => {
     const pods = [
       {
         name: "p1-abc",

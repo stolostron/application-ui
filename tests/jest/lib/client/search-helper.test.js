@@ -14,8 +14,10 @@ describe("convertStringToQuery", () => {
       filters: [{ property: "kind", values: ["application"] }],
       keywords: [],
       relatedKinds: [
+        "configmap",
         "deployment",
         "deploymentconfig",
+        "daemonset",
         "pod",
         "route",
         "replicationcontroller",

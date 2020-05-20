@@ -195,7 +195,7 @@ class ResourceList extends React.Component {
             <Notification
               title={msgs.get('success.update.resource', locale)}
               subtitle={msgs.get(
-                'succes.delete.description',
+                'success.delete.description',
                 [deleteMsg],
                 locale
               )}
@@ -316,9 +316,7 @@ const mapStateToProps = (state, ownProps) => {
     resourceFilters: state[typeListName].filters,
     selectedFilters:
       state['resourceFilters'].selectedFilters &&
-      state['resourceFilters'].selectedFilters[resourceName],
-    deleteSuccessFinished: state.deleteSuccessFinished,
-    mutateSuccessFinished: state.mutateSuccessFinished
+      state['resourceFilters'].selectedFilters[resourceName]
   }
 }
 

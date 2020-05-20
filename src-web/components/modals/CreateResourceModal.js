@@ -29,6 +29,11 @@ import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import getResourceDefinitions from '../../definitions'
 import YamlEditor from '../common/YamlEditor'
+import {
+  delResourceSuccessFinished,
+  mutateResourceSuccessFinished
+} from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 resources(() => {
   require('../../../scss/modal.scss')
@@ -56,9 +61,11 @@ const waitTime = ms => {
 
 class CreateResourceModal extends React.PureComponent {
   static propTypes = {
+    deleteSuccessFinished: PropTypes.func,
     headingTextKey: PropTypes.string,
     helpLink: PropTypes.string,
     iconDescription: PropTypes.string,
+    mutateSuccessFinished: PropTypes.func,
     onCreateResource: PropTypes.func,
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
@@ -77,6 +84,12 @@ class CreateResourceModal extends React.PureComponent {
     this.setState(initialState)
   };
   handleModalSubmit = () => {
+    // Remove previous success message if any
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     let resources
     try {
       // the next line code will split the yaml content into multi-parts
@@ -341,7 +354,11 @@ CreateResourceModal.contextType = {
 
 const mapDispatchToProps = (dispatch, { onCreateResource }) => {
   return {
-    onCreateResource: yaml => onCreateResource(dispatch, yaml)
+    onCreateResource: yaml => onCreateResource(dispatch, yaml),
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType))
   }
 }
 

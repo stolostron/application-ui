@@ -17,7 +17,8 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   fetchResources,
   fetchGlobalAppsData,
-  updateModal
+  updateModal,
+  mutateResourceSuccessFinished
 } from '../../actions/common'
 import {
   fetchChannelResource,
@@ -109,7 +110,9 @@ const mapDispatchToProps = dispatch => {
           cluster
         )
       ),
-    closeModal: () => dispatch(closeModals())
+    closeModal: () => dispatch(closeModals()),
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType))
   }
 }
 
@@ -136,7 +139,11 @@ const mapStateToProps = state => {
     GlobalApplicationDataList,
     HCMNamespaceList,
     loading: AppDeployments.loading,
-    breadcrumbItems: secondaryHeader.breadcrumbItems || []
+    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
+    mutateStatus:
+      state['HCMChannelList'].mutateStatus ||
+      state['HCMSubscriptionList'].mutateStatus ||
+      state['HCMPlacementRuleList'].mutateStatus
   }
 }
 
@@ -190,9 +197,12 @@ class ApplicationDeploymentPipeline extends React.Component {
     if (document.visibilityState === 'visible') {
       this.startPolling()
     } else {
+      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
       this.stopPolling()
     }
-  }
+  };
 
   reload() {
     const {
@@ -263,7 +273,8 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules,
-      closeModal
+      closeModal,
+      mutateStatus
     } = this.props
     const { locale } = this.context
 
@@ -343,6 +354,13 @@ class ApplicationDeploymentPipeline extends React.Component {
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
+        {mutateStatus === Actions.REQUEST_STATUS.DONE && (
+          <Notification
+            title=""
+            subtitle={msgs.get('success.create.description', locale)}
+            kind="success"
+          />
+        )}
         {isSingleApplicationView && (
           <HeaderActions
             serverProps={serverProps}

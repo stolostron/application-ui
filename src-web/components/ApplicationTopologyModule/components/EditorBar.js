@@ -122,30 +122,10 @@ class EditorBar extends React.Component {
         </div>
         <div className='editor-bar-toolbar'>
           <div className='editor-bar-section'>
-            {resetButtons.map((button) => {
-              const {command} = button
-              return (
-                <EditorButton
-                  key={command}
-                  command={command}
-                  button={button}
-                  handleClick={this.handleClick}
-                />
-              )
-            })}
+            {this.renderButtons(resetButtons)}
           </div>
           <div className='editor-bar-section'>
-            {undoButtons.map((button) => {
-              const {command} = button
-              return (
-                <EditorButton
-                  key={command}
-                  command={command}
-                  button={button}
-                  handleClick={this.handleClick}
-                />
-              )
-            })}
+            {this.renderButtons(undoButtons)}
           </div>
           <div className='editor-bar-section'>
             <div className='editor-bar-search' role='region' aria-label={searchTitle} id={searchTitle}>
@@ -157,35 +137,32 @@ class EditorBar extends React.Component {
                 placeHolderText={searchTitle}
                 small={true} onChange={this.handleSearch}
               />
-              {nextButtons.map((button) => {
-                const {command} = button
-                return (
-                  <EditorButton
-                    key={command}
-                    command={command}
-                    button={button}
-                    handleClick={this.handleClick}
-                  />
-                )
-              })}
+              {this.renderButtons(nextButtons)}
             </div>
           </div>
-          <div className='editor-bar-section diagram-collapse-button'>
-            {closeButtons.map((button) => {
-              const {command} = button
-              return (
-                <EditorButton
-                  key={command}
-                  command={command}
-                  button={button}
-                  handleClick={this.handleClick}
-                />
-              )
-            })}
+          <div className='editor-bar-section diagram-close-button'>
+            {this.renderButtons(closeButtons)}
           </div>
         </div>
       </div>
     )
+  }
+
+  renderButtons(buttons) {
+    return (
+      <React.Fragment>
+        {buttons.map((button) => {
+          const {command} = button
+          return (
+            <EditorButton
+              key={command}
+              command={command}
+              button={button}
+              handleClick={this.handleClick}
+            />
+          )
+        })}
+      </React.Fragment>)
   }
 }
 

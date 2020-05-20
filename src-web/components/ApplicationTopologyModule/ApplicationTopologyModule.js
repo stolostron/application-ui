@@ -422,7 +422,6 @@ class ApplicationTopologyModule extends React.Component {
         changeTheChannel: this.changeTheChannel.bind(this)
       }
       const selectionControl = {
-        handleNodeSelected: this.handleNodeSelected.bind(this),
         selectedNode
       }
       options.scrollOnScroll = !showExpandedTopology
@@ -593,6 +592,7 @@ class ApplicationTopologyModule extends React.Component {
         return true
       }
     }
+    return false
   }
 
   changeTheChannel(fetchChannel) {
@@ -616,13 +616,6 @@ class ApplicationTopologyModule extends React.Component {
       actions.setShowExpandedTopology({
         showExpandedTopology: true,
         selectedNodeId: yamlNode.id
-      })
-    } else {
-      this.setState(() => {
-        this.selectTextLine(yamlNode)
-        return {
-          selectedNode: yamlNode
-        }
       })
     }
     return true
@@ -688,19 +681,16 @@ class ApplicationTopologyModule extends React.Component {
     case 'next':
     case 'previous':
       if (this.selectionIndex !== -1 && this.selections && this.selections.length > 1) {
-        switch (command) {
-        case 'next':
+        if (command==='next') {
           this.selectionIndex++
           if (this.selectionIndex>=this.selections.length) {
             this.selectionIndex = 0
+          } else {
+            this.selectionIndex--
+            if (this.selectionIndex<0) {
+              this.selectionIndex = this.selections.length-1
+            }
           }
-          break
-        case 'previous':
-          this.selectionIndex--
-          if (this.selectionIndex<0) {
-            this.selectionIndex = this.selections.length-1
-          }
-          break
         }
         this.editor.revealLineInCenter(this.selections[this.selectionIndex].selectionStartLineNumber, 0)
       }

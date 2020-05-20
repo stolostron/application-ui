@@ -156,35 +156,41 @@ class IsomorphicEditor extends React.Component {
   />
 }
 
-const YamlEditor = ({ onYamlChange, setEditor, yaml,
-  validator, handleParsingError,  width='49.5vw', height='40vh', readOnly=false }) => (
-    <div className="yamlEditorContainer">
-      <IsomorphicEditor
-        key={!yaml ? 'loading' : 'loaded'}
-        theme="console"
-        language="yaml"
-        width={width}
-        height={height}
-        onChange={onYamlChange}
-        fontSize={12}
-        value={yaml}
-        validator={validator}
-        handleParsingError={handleParsingError}
-        options={{
-          readOnly,
-          wordWrapMinified: false,
-          scrollBeyondLastLine: false,
-          smoothScrolling: true,
-          glyphMargin: true,
-          tabSize: 2,
-          scrollbar: {
-            verticalScrollbarSize: 17,
-            horizontalScrollbarSize: 17,
-          }
-        }}
-        setEditor={setEditor}
-    />
-    </div>)
+class YamlEditor extends React.PureComponent {
+  render() {
+    const { onYamlChange, setEditor, yaml,
+      validator, handleParsingError,
+      width='49.5vw', height='40vh', readOnly=false } = this.props
+    return (
+      <div className="yamlEditorContainer">
+        <IsomorphicEditor
+          key={!yaml ? 'loading' : 'loaded'}
+          theme="console"
+          language="yaml"
+          width={width}
+          height={height}
+          onChange={onYamlChange}
+          fontSize={12}
+          value={yaml}
+          validator={validator}
+          handleParsingError={handleParsingError}
+          options={{
+            readOnly,
+            wordWrapMinified: false,
+            scrollBeyondLastLine: false,
+            smoothScrolling: true,
+            glyphMargin: true,
+            tabSize: 2,
+            scrollbar: {
+              verticalScrollbarSize: 17,
+              horizontalScrollbarSize: 17,
+            }
+          }}
+          setEditor={setEditor}
+      />
+      </div>)
+  }
+}
 
 YamlEditor.propTypes = {
   handleParsingError: PropTypes.func,

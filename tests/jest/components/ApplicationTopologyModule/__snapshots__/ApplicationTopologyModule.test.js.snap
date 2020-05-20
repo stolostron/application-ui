@@ -450,7 +450,7 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
                   </div>
                 </div>
                 <div
-                  className="editor-bar-section diagram-collapse-button"
+                  className="editor-bar-section diagram-close-button"
                 >
                   <div
                     className="editor-bar-button "

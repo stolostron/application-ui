@@ -219,12 +219,12 @@ describe("ApplicationTopologyModule with selected node ID", () => {
       .simulate("click");
 
     wrapper
-      .find(".diagram-collapse-button")
+      .find(".diagram-close-button")
       .at(0)
       .simulate("click");
 
     wrapper
-      .find(".diagram-collapse-button")
+      .find(".diagram-close-button")
       .at(0)
       .simulate("keypress");
   });

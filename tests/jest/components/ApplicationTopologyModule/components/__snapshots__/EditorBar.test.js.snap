@@ -36,45 +36,49 @@ ShallowWrapper {
           <div
             className="editor-bar-section"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "restore",
-                  "disabled": true,
-                  "tooltip": "Reset",
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  }
                 }
-              }
-              command="restore"
-              handleClick={[Function]}
-            />
+                command="restore"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
           <div
             className="editor-bar-section"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "undo",
-                  "disabled": true,
-                  "icon": "undo",
-                  "tooltip": "Undo",
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
                 }
-              }
-              command="undo"
-              handleClick={[Function]}
-            />
-            <EditorButton
-              button={
-                Object {
-                  "command": "redo",
-                  "disabled": true,
-                  "icon": "redo",
-                  "tooltip": "Redo",
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
                 }
-              }
-              command="redo"
-              handleClick={[Function]}
-            />
+                command="redo"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
           <div
             className="editor-bar-section"
@@ -96,46 +100,50 @@ ShallowWrapper {
                 spellCheck={false}
                 type="text"
               />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "previous",
-                    "disabled": true,
-                    "icon": "previous",
-                    "tooltip": "Previous",
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
                   }
-                }
-                command="previous"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "next",
-                    "disabled": true,
-                    "icon": "next",
-                    "tooltip": "Next",
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
                   }
-                }
-                command="next"
-                handleClick={[Function]}
-              />
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
             </div>
           </div>
           <div
-            className="editor-bar-section diagram-collapse-button"
+            className="editor-bar-section diagram-close-button"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "close",
-                  "icon": "close",
-                  "tooltip": undefined,
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
                 }
-              }
-              command="close"
-              handleClick={[Function]}
-            />
+                command="close"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
         </div>,
       ],
@@ -164,583 +172,7 @@ ShallowWrapper {
             <div
               className="editor-bar-section"
             >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "restore",
-                    "disabled": true,
-                    "tooltip": "Reset",
-                  }
-                }
-                command="restore"
-                handleClick={[Function]}
-              />
-            </div>,
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "undo",
-                    "disabled": true,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  }
-                }
-                command="undo"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "redo",
-                    "disabled": true,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  }
-                }
-                command="redo"
-                handleClick={[Function]}
-              />
-            </div>,
-            <div
-              className="editor-bar-section"
-            >
-              <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>
-            </div>,
-            <div
-              className="editor-bar-section diagram-collapse-button"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  }
-                }
-                command="close"
-                handleClick={[Function]}
-              />
-            </div>,
-          ],
-          "className": "editor-bar-toolbar",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "restore",
-                      "disabled": true,
-                      "tooltip": "Reset",
-                    }
-                  }
-                  command="restore"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "restore",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "restore",
-                    "disabled": true,
-                    "tooltip": "Reset",
-                  },
-                  "command": "restore",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "undo",
-                      "disabled": true,
-                      "icon": "undo",
-                      "tooltip": "Undo",
-                    }
-                  }
-                  command="undo"
-                  handleClick={[Function]}
-                />,
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "redo",
-                      "disabled": true,
-                      "icon": "redo",
-                      "tooltip": "Redo",
-                    }
-                  }
-                  command="redo"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "undo",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "undo",
-                    "disabled": true,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  },
-                  "command": "undo",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              Object {
-                "instance": null,
-                "key": "redo",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "redo",
-                    "disabled": true,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  },
-                  "command": "redo",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>,
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "aria-label": "Find",
-                "children": Array [
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />,
-                  Array [
-                    <EditorButton
-                      button={
-                        Object {
-                          "command": "previous",
-                          "disabled": true,
-                          "icon": "previous",
-                          "tooltip": "Previous",
-                        }
-                      }
-                      command="previous"
-                      handleClick={[Function]}
-                    />,
-                    <EditorButton
-                      button={
-                        Object {
-                          "command": "next",
-                          "disabled": true,
-                          "icon": "next",
-                          "tooltip": "Next",
-                        }
-                      }
-                      command="next"
-                      handleClick={[Function]}
-                    />,
-                  ],
-                ],
-                "className": "editor-bar-search",
-                "id": "Find",
-                "role": "region",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "aria-label": "Find",
-                    "id": "template-editor-search-undefined",
-                    "labelText": "",
-                    "light": false,
-                    "onChange": [Function],
-                    "placeHolderText": "Find",
-                    "small": true,
-                    "spellCheck": false,
-                    "type": "text",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "previous",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    },
-                    "command": "previous",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "next",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    },
-                    "command": "next",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-              ],
-              "type": "div",
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "close",
-                      "icon": "close",
-                      "tooltip": undefined,
-                    }
-                  }
-                  command="close"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section diagram-collapse-button",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "close",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  },
-                  "command": "close",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <div
-            className="editor-bar-title"
-          >
-            YAML
-          </div>,
-          <div
-            className="editor-bar-toolbar"
-          >
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "restore",
-                    "disabled": true,
-                    "tooltip": "Reset",
-                  }
-                }
-                command="restore"
-                handleClick={[Function]}
-              />
-            </div>
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "undo",
-                    "disabled": true,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  }
-                }
-                command="undo"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "redo",
-                    "disabled": true,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  }
-                }
-                command="redo"
-                handleClick={[Function]}
-              />
-            </div>
-            <div
-              className="editor-bar-section"
-            >
-              <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>
-            </div>
-            <div
-              className="editor-bar-section diagram-collapse-button"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  }
-                }
-                command="close"
-                handleClick={[Function]}
-              />
-            </div>
-          </div>,
-        ],
-        "className": "editor-bar",
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "YAML",
-            "className": "editor-bar-title",
-          },
-          "ref": null,
-          "rendered": "YAML",
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <div
-                className="editor-bar-section"
-              >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -752,10 +184,12 @@ ShallowWrapper {
                   command="restore"
                   handleClick={[Function]}
                 />
-              </div>,
-              <div
-                className="editor-bar-section"
-              >
+              </React.Fragment>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -780,27 +214,29 @@ ShallowWrapper {
                   command="redo"
                   handleClick={[Function]}
                 />
-              </div>,
+              </React.Fragment>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
               <div
-                className="editor-bar-section"
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
               >
-                <div
+                <Search
                   aria-label="Find"
-                  className="editor-bar-search"
-                  id="Find"
-                  role="region"
-                >
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -825,11 +261,13 @@ ShallowWrapper {
                     command="next"
                     handleClick={[Function]}
                   />
-                </div>
-              </div>,
-              <div
-                className="editor-bar-section diagram-collapse-button"
-              >
+                </React.Fragment>
+              </div>
+            </div>,
+            <div
+              className="editor-bar-section diagram-close-button"
+            >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -841,16 +279,38 @@ ShallowWrapper {
                   command="close"
                   handleClick={[Function]}
                 />
-              </div>,
-            ],
-            "className": "editor-bar-toolbar",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
+              </React.Fragment>
+            </div>,
+          ],
+          "className": "editor-bar-toolbar",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
                   <EditorButton
@@ -865,7 +325,6 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
               },
               "ref": null,
               "rendered": Array [
@@ -887,12 +346,48 @@ ShallowWrapper {
                   "type": [Function],
                 },
               ],
-              "type": "div",
+              "type": Symbol(react.fragment),
             },
-            Object {
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
                   <EditorButton
@@ -920,7 +415,6 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
               },
               "ref": null,
               "rendered": Array [
@@ -961,30 +455,33 @@ ShallowWrapper {
                   "type": [Function],
                 },
               ],
-              "type": "div",
+              "type": Symbol(react.fragment),
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <div
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
                   aria-label="Find"
-                  className="editor-bar-search"
-                  id="Find"
-                  role="region"
-                >
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -1009,29 +506,87 @@ ShallowWrapper {
                     command="next"
                     handleClick={[Function]}
                   />
-                </div>,
-                "className": "editor-bar-section",
+                </React.Fragment>
+              </div>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "aria-label": "Find",
+                "children": Array [
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />,
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>,
+                ],
+                "className": "editor-bar-search",
+                "id": "Find",
+                "role": "region",
               },
               "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "aria-label": "Find",
-                  "children": Array [
-                    <Search
-                      aria-label="Find"
-                      id="template-editor-search-undefined"
-                      labelText=""
-                      light={false}
-                      onChange={[Function]}
-                      placeHolderText="Find"
-                      small={true}
-                      spellCheck={false}
-                      type="text"
-                    />,
-                    Array [
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Find",
+                    "id": "template-editor-search-undefined",
+                    "labelText": "",
+                    "light": false,
+                    "onChange": [Function],
+                    "placeHolderText": "Find",
+                    "small": true,
+                    "spellCheck": false,
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": Array [
                       <EditorButton
                         button={
                           Object {
@@ -1057,6 +612,660 @@ ShallowWrapper {
                         handleClick={[Function]}
                       />,
                     ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": "previous",
+                      "nodeType": "class",
+                      "props": Object {
+                        "button": Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        },
+                        "command": "previous",
+                        "handleClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": "next",
+                      "nodeType": "class",
+                      "props": Object {
+                        "button": Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        },
+                        "command": "next",
+                        "handleClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": Symbol(react.fragment),
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section diagram-close-button",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "close",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    },
+                    "command": "close",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": Symbol(react.fragment),
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="editor-bar-title"
+          >
+            YAML
+          </div>,
+          <div
+            className="editor-bar-toolbar"
+          >
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>
+            </div>
+            <div
+              className="editor-bar-section diagram-close-button"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+          </div>,
+        ],
+        "className": "editor-bar",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "YAML",
+            "className": "editor-bar-title",
+          },
+          "ref": null,
+          "rendered": "YAML",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="editor-bar-section"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>
+                </div>
+              </div>,
+              <div
+                className="editor-bar-section diagram-close-button"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+            ],
+            "className": "editor-bar-toolbar",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "restore",
+                          "disabled": true,
+                          "tooltip": "Reset",
+                        }
+                      }
+                      command="restore"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "restore",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      },
+                      "command": "restore",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "undo",
+                          "disabled": true,
+                          "icon": "undo",
+                          "tooltip": "Undo",
+                        }
+                      }
+                      command="undo"
+                      handleClick={[Function]}
+                    />,
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "redo",
+                          "disabled": true,
+                          "icon": "redo",
+                          "tooltip": "Redo",
+                        }
+                      }
+                      command="redo"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "undo",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      },
+                      "command": "undo",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "redo",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      },
+                      "command": "redo",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>
+                </div>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Find",
+                  "children": Array [
+                    <Search
+                      aria-label="Find"
+                      id="template-editor-search-undefined"
+                      labelText=""
+                      light={false}
+                      onChange={[Function]}
+                      placeHolderText="Find"
+                      small={true}
+                      spellCheck={false}
+                      type="text"
+                    />,
+                    <React.Fragment>
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          }
+                        }
+                        command="previous"
+                        handleClick={[Function]}
+                      />
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          }
+                        }
+                        command="next"
+                        handleClick={[Function]}
+                      />
+                    </React.Fragment>,
                   ],
                   "className": "editor-bar-search",
                   "id": "Find",
@@ -1085,39 +1294,76 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": "previous",
-                    "nodeType": "class",
+                    "key": undefined,
+                    "nodeType": "function",
                     "props": Object {
-                      "button": Object {
-                        "command": "previous",
-                        "disabled": true,
-                        "icon": "previous",
-                        "tooltip": "Previous",
-                      },
-                      "command": "previous",
-                      "handleClick": [Function],
+                      "children": Array [
+                        <EditorButton
+                          button={
+                            Object {
+                              "command": "previous",
+                              "disabled": true,
+                              "icon": "previous",
+                              "tooltip": "Previous",
+                            }
+                          }
+                          command="previous"
+                          handleClick={[Function]}
+                        />,
+                        <EditorButton
+                          button={
+                            Object {
+                              "command": "next",
+                              "disabled": true,
+                              "icon": "next",
+                              "tooltip": "Next",
+                            }
+                          }
+                          command="next"
+                          handleClick={[Function]}
+                        />,
+                      ],
                     },
                     "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
-                  Object {
-                    "instance": null,
-                    "key": "next",
-                    "nodeType": "class",
-                    "props": Object {
-                      "button": Object {
-                        "command": "next",
-                        "disabled": true,
-                        "icon": "next",
-                        "tooltip": "Next",
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": "previous",
+                        "nodeType": "class",
+                        "props": Object {
+                          "button": Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          },
+                          "command": "previous",
+                          "handleClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
                       },
-                      "command": "next",
-                      "handleClick": [Function],
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
+                      Object {
+                        "instance": null,
+                        "key": "next",
+                        "nodeType": "class",
+                        "props": Object {
+                          "button": Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          },
+                          "command": "next",
+                          "handleClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                    ],
+                    "type": Symbol(react.fragment),
                   },
                 ],
                 "type": "div",
@@ -1129,7 +1375,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": Array [
+                "children": <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -1140,30 +1386,52 @@ ShallowWrapper {
                     }
                     command="close"
                     handleClick={[Function]}
-                  />,
-                ],
-                "className": "editor-bar-section diagram-collapse-button",
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section diagram-close-button",
               },
               "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": "close",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "close",
-                      "icon": "close",
-                      "tooltip": undefined,
-                    },
-                    "command": "close",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "close",
+                          "icon": "close",
+                          "tooltip": undefined,
+                        }
+                      }
+                      command="close"
+                      handleClick={[Function]}
+                    />,
+                  ],
                 },
-              ],
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "close",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      },
+                      "command": "close",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
               "type": "div",
             },
           ],
@@ -1222,45 +1490,49 @@ ShallowWrapper {
           <div
             className="editor-bar-section"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "restore",
-                  "disabled": true,
-                  "tooltip": "Reset",
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": true,
+                    "tooltip": "Reset",
+                  }
                 }
-              }
-              command="restore"
-              handleClick={[Function]}
-            />
+                command="restore"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
           <div
             className="editor-bar-section"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "undo",
-                  "disabled": true,
-                  "icon": "undo",
-                  "tooltip": "Undo",
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": true,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
                 }
-              }
-              command="undo"
-              handleClick={[Function]}
-            />
-            <EditorButton
-              button={
-                Object {
-                  "command": "redo",
-                  "disabled": true,
-                  "icon": "redo",
-                  "tooltip": "Redo",
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": true,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
                 }
-              }
-              command="redo"
-              handleClick={[Function]}
-            />
+                command="redo"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
           <div
             className="editor-bar-section"
@@ -1282,46 +1554,50 @@ ShallowWrapper {
                 spellCheck={false}
                 type="text"
               />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "previous",
-                    "disabled": true,
-                    "icon": "previous",
-                    "tooltip": "Previous",
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
                   }
-                }
-                command="previous"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "next",
-                    "disabled": true,
-                    "icon": "next",
-                    "tooltip": "Next",
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
                   }
-                }
-                command="next"
-                handleClick={[Function]}
-              />
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
             </div>
           </div>
           <div
-            className="editor-bar-section diagram-collapse-button"
+            className="editor-bar-section diagram-close-button"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "close",
-                  "icon": "close",
-                  "tooltip": undefined,
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
                 }
-              }
-              command="close"
-              handleClick={[Function]}
-            />
+                command="close"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
         </div>,
       ],
@@ -1350,583 +1626,7 @@ ShallowWrapper {
             <div
               className="editor-bar-section"
             >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "restore",
-                    "disabled": true,
-                    "tooltip": "Reset",
-                  }
-                }
-                command="restore"
-                handleClick={[Function]}
-              />
-            </div>,
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "undo",
-                    "disabled": true,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  }
-                }
-                command="undo"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "redo",
-                    "disabled": true,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  }
-                }
-                command="redo"
-                handleClick={[Function]}
-              />
-            </div>,
-            <div
-              className="editor-bar-section"
-            >
-              <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>
-            </div>,
-            <div
-              className="editor-bar-section diagram-collapse-button"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  }
-                }
-                command="close"
-                handleClick={[Function]}
-              />
-            </div>,
-          ],
-          "className": "editor-bar-toolbar",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "restore",
-                      "disabled": true,
-                      "tooltip": "Reset",
-                    }
-                  }
-                  command="restore"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "restore",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "restore",
-                    "disabled": true,
-                    "tooltip": "Reset",
-                  },
-                  "command": "restore",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "undo",
-                      "disabled": true,
-                      "icon": "undo",
-                      "tooltip": "Undo",
-                    }
-                  }
-                  command="undo"
-                  handleClick={[Function]}
-                />,
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "redo",
-                      "disabled": true,
-                      "icon": "redo",
-                      "tooltip": "Redo",
-                    }
-                  }
-                  command="redo"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "undo",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "undo",
-                    "disabled": true,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  },
-                  "command": "undo",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              Object {
-                "instance": null,
-                "key": "redo",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "redo",
-                    "disabled": true,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  },
-                  "command": "redo",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>,
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "aria-label": "Find",
-                "children": Array [
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />,
-                  Array [
-                    <EditorButton
-                      button={
-                        Object {
-                          "command": "previous",
-                          "disabled": true,
-                          "icon": "previous",
-                          "tooltip": "Previous",
-                        }
-                      }
-                      command="previous"
-                      handleClick={[Function]}
-                    />,
-                    <EditorButton
-                      button={
-                        Object {
-                          "command": "next",
-                          "disabled": true,
-                          "icon": "next",
-                          "tooltip": "Next",
-                        }
-                      }
-                      command="next"
-                      handleClick={[Function]}
-                    />,
-                  ],
-                ],
-                "className": "editor-bar-search",
-                "id": "Find",
-                "role": "region",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "aria-label": "Find",
-                    "id": "template-editor-search-undefined",
-                    "labelText": "",
-                    "light": false,
-                    "onChange": [Function],
-                    "placeHolderText": "Find",
-                    "small": true,
-                    "spellCheck": false,
-                    "type": "text",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "previous",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    },
-                    "command": "previous",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "next",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    },
-                    "command": "next",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-              ],
-              "type": "div",
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "close",
-                      "icon": "close",
-                      "tooltip": undefined,
-                    }
-                  }
-                  command="close"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section diagram-collapse-button",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "close",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  },
-                  "command": "close",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <div
-            className="editor-bar-title"
-          >
-            YAML
-          </div>,
-          <div
-            className="editor-bar-toolbar"
-          >
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "restore",
-                    "disabled": true,
-                    "tooltip": "Reset",
-                  }
-                }
-                command="restore"
-                handleClick={[Function]}
-              />
-            </div>
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "undo",
-                    "disabled": true,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  }
-                }
-                command="undo"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "redo",
-                    "disabled": true,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  }
-                }
-                command="redo"
-                handleClick={[Function]}
-              />
-            </div>
-            <div
-              className="editor-bar-section"
-            >
-              <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>
-            </div>
-            <div
-              className="editor-bar-section diagram-collapse-button"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  }
-                }
-                command="close"
-                handleClick={[Function]}
-              />
-            </div>
-          </div>,
-        ],
-        "className": "editor-bar",
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "YAML",
-            "className": "editor-bar-title",
-          },
-          "ref": null,
-          "rendered": "YAML",
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <div
-                className="editor-bar-section"
-              >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -1938,10 +1638,12 @@ ShallowWrapper {
                   command="restore"
                   handleClick={[Function]}
                 />
-              </div>,
-              <div
-                className="editor-bar-section"
-              >
+              </React.Fragment>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -1966,27 +1668,29 @@ ShallowWrapper {
                   command="redo"
                   handleClick={[Function]}
                 />
-              </div>,
+              </React.Fragment>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
               <div
-                className="editor-bar-section"
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
               >
-                <div
+                <Search
                   aria-label="Find"
-                  className="editor-bar-search"
-                  id="Find"
-                  role="region"
-                >
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -2011,11 +1715,13 @@ ShallowWrapper {
                     command="next"
                     handleClick={[Function]}
                   />
-                </div>
-              </div>,
-              <div
-                className="editor-bar-section diagram-collapse-button"
-              >
+                </React.Fragment>
+              </div>
+            </div>,
+            <div
+              className="editor-bar-section diagram-close-button"
+            >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -2027,16 +1733,38 @@ ShallowWrapper {
                   command="close"
                   handleClick={[Function]}
                 />
-              </div>,
-            ],
-            "className": "editor-bar-toolbar",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
+              </React.Fragment>
+            </div>,
+          ],
+          "className": "editor-bar-toolbar",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
                   <EditorButton
@@ -2051,7 +1779,6 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
               },
               "ref": null,
               "rendered": Array [
@@ -2073,12 +1800,48 @@ ShallowWrapper {
                   "type": [Function],
                 },
               ],
-              "type": "div",
+              "type": Symbol(react.fragment),
             },
-            Object {
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
                   <EditorButton
@@ -2106,7 +1869,6 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
               },
               "ref": null,
               "rendered": Array [
@@ -2147,30 +1909,33 @@ ShallowWrapper {
                   "type": [Function],
                 },
               ],
-              "type": "div",
+              "type": Symbol(react.fragment),
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <div
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
                   aria-label="Find"
-                  className="editor-bar-search"
-                  id="Find"
-                  role="region"
-                >
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -2195,29 +1960,87 @@ ShallowWrapper {
                     command="next"
                     handleClick={[Function]}
                   />
-                </div>,
-                "className": "editor-bar-section",
+                </React.Fragment>
+              </div>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "aria-label": "Find",
+                "children": Array [
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />,
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>,
+                ],
+                "className": "editor-bar-search",
+                "id": "Find",
+                "role": "region",
               },
               "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "aria-label": "Find",
-                  "children": Array [
-                    <Search
-                      aria-label="Find"
-                      id="template-editor-search-undefined"
-                      labelText=""
-                      light={false}
-                      onChange={[Function]}
-                      placeHolderText="Find"
-                      small={true}
-                      spellCheck={false}
-                      type="text"
-                    />,
-                    Array [
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Find",
+                    "id": "template-editor-search-undefined",
+                    "labelText": "",
+                    "light": false,
+                    "onChange": [Function],
+                    "placeHolderText": "Find",
+                    "small": true,
+                    "spellCheck": false,
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": Array [
                       <EditorButton
                         button={
                           Object {
@@ -2243,6 +2066,660 @@ ShallowWrapper {
                         handleClick={[Function]}
                       />,
                     ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": "previous",
+                      "nodeType": "class",
+                      "props": Object {
+                        "button": Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        },
+                        "command": "previous",
+                        "handleClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": "next",
+                      "nodeType": "class",
+                      "props": Object {
+                        "button": Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        },
+                        "command": "next",
+                        "handleClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": Symbol(react.fragment),
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section diagram-close-button",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "close",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    },
+                    "command": "close",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": Symbol(react.fragment),
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="editor-bar-title"
+          >
+            YAML
+          </div>,
+          <div
+            className="editor-bar-toolbar"
+          >
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": true,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": true,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": true,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>
+            </div>
+            <div
+              className="editor-bar-section diagram-close-button"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+          </div>,
+        ],
+        "className": "editor-bar",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "YAML",
+            "className": "editor-bar-title",
+          },
+          "ref": null,
+          "rendered": "YAML",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="editor-bar-section"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>
+                </div>
+              </div>,
+              <div
+                className="editor-bar-section diagram-close-button"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+            ],
+            "className": "editor-bar-toolbar",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "restore",
+                          "disabled": true,
+                          "tooltip": "Reset",
+                        }
+                      }
+                      command="restore"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "restore",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "restore",
+                        "disabled": true,
+                        "tooltip": "Reset",
+                      },
+                      "command": "restore",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "undo",
+                          "disabled": true,
+                          "icon": "undo",
+                          "tooltip": "Undo",
+                        }
+                      }
+                      command="undo"
+                      handleClick={[Function]}
+                    />,
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "redo",
+                          "disabled": true,
+                          "icon": "redo",
+                          "tooltip": "Redo",
+                        }
+                      }
+                      command="redo"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "undo",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "undo",
+                        "disabled": true,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      },
+                      "command": "undo",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "redo",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "redo",
+                        "disabled": true,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      },
+                      "command": "redo",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>
+                </div>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Find",
+                  "children": Array [
+                    <Search
+                      aria-label="Find"
+                      id="template-editor-search-undefined"
+                      labelText=""
+                      light={false}
+                      onChange={[Function]}
+                      placeHolderText="Find"
+                      small={true}
+                      spellCheck={false}
+                      type="text"
+                    />,
+                    <React.Fragment>
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          }
+                        }
+                        command="previous"
+                        handleClick={[Function]}
+                      />
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          }
+                        }
+                        command="next"
+                        handleClick={[Function]}
+                      />
+                    </React.Fragment>,
                   ],
                   "className": "editor-bar-search",
                   "id": "Find",
@@ -2271,39 +2748,76 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": "previous",
-                    "nodeType": "class",
+                    "key": undefined,
+                    "nodeType": "function",
                     "props": Object {
-                      "button": Object {
-                        "command": "previous",
-                        "disabled": true,
-                        "icon": "previous",
-                        "tooltip": "Previous",
-                      },
-                      "command": "previous",
-                      "handleClick": [Function],
+                      "children": Array [
+                        <EditorButton
+                          button={
+                            Object {
+                              "command": "previous",
+                              "disabled": true,
+                              "icon": "previous",
+                              "tooltip": "Previous",
+                            }
+                          }
+                          command="previous"
+                          handleClick={[Function]}
+                        />,
+                        <EditorButton
+                          button={
+                            Object {
+                              "command": "next",
+                              "disabled": true,
+                              "icon": "next",
+                              "tooltip": "Next",
+                            }
+                          }
+                          command="next"
+                          handleClick={[Function]}
+                        />,
+                      ],
                     },
                     "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
-                  Object {
-                    "instance": null,
-                    "key": "next",
-                    "nodeType": "class",
-                    "props": Object {
-                      "button": Object {
-                        "command": "next",
-                        "disabled": true,
-                        "icon": "next",
-                        "tooltip": "Next",
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": "previous",
+                        "nodeType": "class",
+                        "props": Object {
+                          "button": Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          },
+                          "command": "previous",
+                          "handleClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
                       },
-                      "command": "next",
-                      "handleClick": [Function],
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
+                      Object {
+                        "instance": null,
+                        "key": "next",
+                        "nodeType": "class",
+                        "props": Object {
+                          "button": Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          },
+                          "command": "next",
+                          "handleClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                    ],
+                    "type": Symbol(react.fragment),
                   },
                 ],
                 "type": "div",
@@ -2315,7 +2829,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": Array [
+                "children": <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -2326,30 +2840,52 @@ ShallowWrapper {
                     }
                     command="close"
                     handleClick={[Function]}
-                  />,
-                ],
-                "className": "editor-bar-section diagram-collapse-button",
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section diagram-close-button",
               },
               "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": "close",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "close",
-                      "icon": "close",
-                      "tooltip": undefined,
-                    },
-                    "command": "close",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "close",
+                          "icon": "close",
+                          "tooltip": undefined,
+                        }
+                      }
+                      command="close"
+                      handleClick={[Function]}
+                    />,
+                  ],
                 },
-              ],
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "close",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      },
+                      "command": "close",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
               "type": "div",
             },
           ],
@@ -2422,45 +2958,49 @@ ShallowWrapper {
           <div
             className="editor-bar-section"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "restore",
-                  "disabled": false,
-                  "tooltip": "Reset",
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "restore",
+                    "disabled": false,
+                    "tooltip": "Reset",
+                  }
                 }
-              }
-              command="restore"
-              handleClick={[Function]}
-            />
+                command="restore"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
           <div
             className="editor-bar-section"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "undo",
-                  "disabled": false,
-                  "icon": "undo",
-                  "tooltip": "Undo",
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "undo",
+                    "disabled": false,
+                    "icon": "undo",
+                    "tooltip": "Undo",
+                  }
                 }
-              }
-              command="undo"
-              handleClick={[Function]}
-            />
-            <EditorButton
-              button={
-                Object {
-                  "command": "redo",
-                  "disabled": false,
-                  "icon": "redo",
-                  "tooltip": "Redo",
+                command="undo"
+                handleClick={[Function]}
+              />
+              <EditorButton
+                button={
+                  Object {
+                    "command": "redo",
+                    "disabled": false,
+                    "icon": "redo",
+                    "tooltip": "Redo",
+                  }
                 }
-              }
-              command="redo"
-              handleClick={[Function]}
-            />
+                command="redo"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
           <div
             className="editor-bar-section"
@@ -2482,46 +3022,50 @@ ShallowWrapper {
                 spellCheck={false}
                 type="text"
               />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "previous",
-                    "disabled": true,
-                    "icon": "previous",
-                    "tooltip": "Previous",
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "previous",
+                      "disabled": true,
+                      "icon": "previous",
+                      "tooltip": "Previous",
+                    }
                   }
-                }
-                command="previous"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "next",
-                    "disabled": true,
-                    "icon": "next",
-                    "tooltip": "Next",
+                  command="previous"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "next",
+                      "disabled": true,
+                      "icon": "next",
+                      "tooltip": "Next",
+                    }
                   }
-                }
-                command="next"
-                handleClick={[Function]}
-              />
+                  command="next"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
             </div>
           </div>
           <div
-            className="editor-bar-section diagram-collapse-button"
+            className="editor-bar-section diagram-close-button"
           >
-            <EditorButton
-              button={
-                Object {
-                  "command": "close",
-                  "icon": "close",
-                  "tooltip": undefined,
+            <React.Fragment>
+              <EditorButton
+                button={
+                  Object {
+                    "command": "close",
+                    "icon": "close",
+                    "tooltip": undefined,
+                  }
                 }
-              }
-              command="close"
-              handleClick={[Function]}
-            />
+                command="close"
+                handleClick={[Function]}
+              />
+            </React.Fragment>
           </div>
         </div>,
       ],
@@ -2550,583 +3094,7 @@ ShallowWrapper {
             <div
               className="editor-bar-section"
             >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "restore",
-                    "disabled": false,
-                    "tooltip": "Reset",
-                  }
-                }
-                command="restore"
-                handleClick={[Function]}
-              />
-            </div>,
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "undo",
-                    "disabled": false,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  }
-                }
-                command="undo"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "redo",
-                    "disabled": false,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  }
-                }
-                command="redo"
-                handleClick={[Function]}
-              />
-            </div>,
-            <div
-              className="editor-bar-section"
-            >
-              <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>
-            </div>,
-            <div
-              className="editor-bar-section diagram-collapse-button"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  }
-                }
-                command="close"
-                handleClick={[Function]}
-              />
-            </div>,
-          ],
-          "className": "editor-bar-toolbar",
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "restore",
-                      "disabled": false,
-                      "tooltip": "Reset",
-                    }
-                  }
-                  command="restore"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "restore",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "restore",
-                    "disabled": false,
-                    "tooltip": "Reset",
-                  },
-                  "command": "restore",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "undo",
-                      "disabled": false,
-                      "icon": "undo",
-                      "tooltip": "Undo",
-                    }
-                  }
-                  command="undo"
-                  handleClick={[Function]}
-                />,
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "redo",
-                      "disabled": false,
-                      "icon": "redo",
-                      "tooltip": "Redo",
-                    }
-                  }
-                  command="redo"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "undo",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "undo",
-                    "disabled": false,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  },
-                  "command": "undo",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              Object {
-                "instance": null,
-                "key": "redo",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "redo",
-                    "disabled": false,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  },
-                  "command": "redo",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>,
-              "className": "editor-bar-section",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "aria-label": "Find",
-                "children": Array [
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />,
-                  Array [
-                    <EditorButton
-                      button={
-                        Object {
-                          "command": "previous",
-                          "disabled": true,
-                          "icon": "previous",
-                          "tooltip": "Previous",
-                        }
-                      }
-                      command="previous"
-                      handleClick={[Function]}
-                    />,
-                    <EditorButton
-                      button={
-                        Object {
-                          "command": "next",
-                          "disabled": true,
-                          "icon": "next",
-                          "tooltip": "Next",
-                        }
-                      }
-                      command="next"
-                      handleClick={[Function]}
-                    />,
-                  ],
-                ],
-                "className": "editor-bar-search",
-                "id": "Find",
-                "role": "region",
-              },
-              "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "class",
-                  "props": Object {
-                    "aria-label": "Find",
-                    "id": "template-editor-search-undefined",
-                    "labelText": "",
-                    "light": false,
-                    "onChange": [Function],
-                    "placeHolderText": "Find",
-                    "small": true,
-                    "spellCheck": false,
-                    "type": "text",
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "previous",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    },
-                    "command": "previous",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "next",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    },
-                    "command": "next",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-              ],
-              "type": "div",
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "close",
-                      "icon": "close",
-                      "tooltip": undefined,
-                    }
-                  }
-                  command="close"
-                  handleClick={[Function]}
-                />,
-              ],
-              "className": "editor-bar-section diagram-collapse-button",
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "close",
-                "nodeType": "class",
-                "props": Object {
-                  "button": Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  },
-                  "command": "close",
-                  "handleClick": [Function],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-    ],
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": Array [
-          <div
-            className="editor-bar-title"
-          >
-            YAML
-          </div>,
-          <div
-            className="editor-bar-toolbar"
-          >
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "restore",
-                    "disabled": false,
-                    "tooltip": "Reset",
-                  }
-                }
-                command="restore"
-                handleClick={[Function]}
-              />
-            </div>
-            <div
-              className="editor-bar-section"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "undo",
-                    "disabled": false,
-                    "icon": "undo",
-                    "tooltip": "Undo",
-                  }
-                }
-                command="undo"
-                handleClick={[Function]}
-              />
-              <EditorButton
-                button={
-                  Object {
-                    "command": "redo",
-                    "disabled": false,
-                    "icon": "redo",
-                    "tooltip": "Redo",
-                  }
-                }
-                command="redo"
-                handleClick={[Function]}
-              />
-            </div>
-            <div
-              className="editor-bar-section"
-            >
-              <div
-                aria-label="Find"
-                className="editor-bar-search"
-                id="Find"
-                role="region"
-              >
-                <Search
-                  aria-label="Find"
-                  id="template-editor-search-undefined"
-                  labelText=""
-                  light={false}
-                  onChange={[Function]}
-                  placeHolderText="Find"
-                  small={true}
-                  spellCheck={false}
-                  type="text"
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "previous",
-                      "disabled": true,
-                      "icon": "previous",
-                      "tooltip": "Previous",
-                    }
-                  }
-                  command="previous"
-                  handleClick={[Function]}
-                />
-                <EditorButton
-                  button={
-                    Object {
-                      "command": "next",
-                      "disabled": true,
-                      "icon": "next",
-                      "tooltip": "Next",
-                    }
-                  }
-                  command="next"
-                  handleClick={[Function]}
-                />
-              </div>
-            </div>
-            <div
-              className="editor-bar-section diagram-collapse-button"
-            >
-              <EditorButton
-                button={
-                  Object {
-                    "command": "close",
-                    "icon": "close",
-                    "tooltip": undefined,
-                  }
-                }
-                command="close"
-                handleClick={[Function]}
-              />
-            </div>
-          </div>,
-        ],
-        "className": "editor-bar",
-      },
-      "ref": null,
-      "rendered": Array [
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": "YAML",
-            "className": "editor-bar-title",
-          },
-          "ref": null,
-          "rendered": "YAML",
-          "type": "div",
-        },
-        Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <div
-                className="editor-bar-section"
-              >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -3138,10 +3106,12 @@ ShallowWrapper {
                   command="restore"
                   handleClick={[Function]}
                 />
-              </div>,
-              <div
-                className="editor-bar-section"
-              >
+              </React.Fragment>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -3166,27 +3136,29 @@ ShallowWrapper {
                   command="redo"
                   handleClick={[Function]}
                 />
-              </div>,
+              </React.Fragment>
+            </div>,
+            <div
+              className="editor-bar-section"
+            >
               <div
-                className="editor-bar-section"
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
               >
-                <div
+                <Search
                   aria-label="Find"
-                  className="editor-bar-search"
-                  id="Find"
-                  role="region"
-                >
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -3211,11 +3183,13 @@ ShallowWrapper {
                     command="next"
                     handleClick={[Function]}
                   />
-                </div>
-              </div>,
-              <div
-                className="editor-bar-section diagram-collapse-button"
-              >
+                </React.Fragment>
+              </div>
+            </div>,
+            <div
+              className="editor-bar-section diagram-close-button"
+            >
+              <React.Fragment>
                 <EditorButton
                   button={
                     Object {
@@ -3227,16 +3201,38 @@ ShallowWrapper {
                   command="close"
                   handleClick={[Function]}
                 />
-              </div>,
-            ],
-            "className": "editor-bar-toolbar",
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
+              </React.Fragment>
+            </div>,
+          ],
+          "className": "editor-bar-toolbar",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": false,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
                   <EditorButton
@@ -3251,7 +3247,6 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
               },
               "ref": null,
               "rendered": Array [
@@ -3273,12 +3268,48 @@ ShallowWrapper {
                   "type": [Function],
                 },
               ],
-              "type": "div",
+              "type": Symbol(react.fragment),
             },
-            Object {
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": false,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": false,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
                   <EditorButton
@@ -3306,7 +3337,6 @@ ShallowWrapper {
                     handleClick={[Function]}
                   />,
                 ],
-                "className": "editor-bar-section",
               },
               "ref": null,
               "rendered": Array [
@@ -3347,30 +3377,33 @@ ShallowWrapper {
                   "type": [Function],
                 },
               ],
-              "type": "div",
+              "type": Symbol(react.fragment),
             },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <div
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
                   aria-label="Find"
-                  className="editor-bar-search"
-                  id="Find"
-                  role="region"
-                >
-                  <Search
-                    aria-label="Find"
-                    id="template-editor-search-undefined"
-                    labelText=""
-                    light={false}
-                    onChange={[Function]}
-                    placeHolderText="Find"
-                    small={true}
-                    spellCheck={false}
-                    type="text"
-                  />
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -3395,29 +3428,87 @@ ShallowWrapper {
                     command="next"
                     handleClick={[Function]}
                   />
-                </div>,
-                "className": "editor-bar-section",
+                </React.Fragment>
+              </div>,
+              "className": "editor-bar-section",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "aria-label": "Find",
+                "children": Array [
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />,
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>,
+                ],
+                "className": "editor-bar-search",
+                "id": "Find",
+                "role": "region",
               },
               "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "aria-label": "Find",
-                  "children": Array [
-                    <Search
-                      aria-label="Find"
-                      id="template-editor-search-undefined"
-                      labelText=""
-                      light={false}
-                      onChange={[Function]}
-                      placeHolderText="Find"
-                      small={true}
-                      spellCheck={false}
-                      type="text"
-                    />,
-                    Array [
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Find",
+                    "id": "template-editor-search-undefined",
+                    "labelText": "",
+                    "light": false,
+                    "onChange": [Function],
+                    "placeHolderText": "Find",
+                    "small": true,
+                    "spellCheck": false,
+                    "type": "text",
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": Array [
                       <EditorButton
                         button={
                           Object {
@@ -3443,6 +3534,660 @@ ShallowWrapper {
                         handleClick={[Function]}
                       />,
                     ],
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": "previous",
+                      "nodeType": "class",
+                      "props": Object {
+                        "button": Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        },
+                        "command": "previous",
+                        "handleClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": "next",
+                      "nodeType": "class",
+                      "props": Object {
+                        "button": Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        },
+                        "command": "next",
+                        "handleClick": [Function],
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                  ],
+                  "type": Symbol(react.fragment),
+                },
+              ],
+              "type": "div",
+            },
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>,
+              "className": "editor-bar-section diagram-close-button",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />,
+                ],
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": "close",
+                  "nodeType": "class",
+                  "props": Object {
+                    "button": Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    },
+                    "command": "close",
+                    "handleClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+              ],
+              "type": Symbol(react.fragment),
+            },
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="editor-bar-title"
+          >
+            YAML
+          </div>,
+          <div
+            className="editor-bar-toolbar"
+          >
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "restore",
+                      "disabled": false,
+                      "tooltip": "Reset",
+                    }
+                  }
+                  command="restore"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "undo",
+                      "disabled": false,
+                      "icon": "undo",
+                      "tooltip": "Undo",
+                    }
+                  }
+                  command="undo"
+                  handleClick={[Function]}
+                />
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "redo",
+                      "disabled": false,
+                      "icon": "redo",
+                      "tooltip": "Redo",
+                    }
+                  }
+                  command="redo"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+            <div
+              className="editor-bar-section"
+            >
+              <div
+                aria-label="Find"
+                className="editor-bar-search"
+                id="Find"
+                role="region"
+              >
+                <Search
+                  aria-label="Find"
+                  id="template-editor-search-undefined"
+                  labelText=""
+                  light={false}
+                  onChange={[Function]}
+                  placeHolderText="Find"
+                  small={true}
+                  spellCheck={false}
+                  type="text"
+                />
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "previous",
+                        "disabled": true,
+                        "icon": "previous",
+                        "tooltip": "Previous",
+                      }
+                    }
+                    command="previous"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "next",
+                        "disabled": true,
+                        "icon": "next",
+                        "tooltip": "Next",
+                      }
+                    }
+                    command="next"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>
+            </div>
+            <div
+              className="editor-bar-section diagram-close-button"
+            >
+              <React.Fragment>
+                <EditorButton
+                  button={
+                    Object {
+                      "command": "close",
+                      "icon": "close",
+                      "tooltip": undefined,
+                    }
+                  }
+                  command="close"
+                  handleClick={[Function]}
+                />
+              </React.Fragment>
+            </div>
+          </div>,
+        ],
+        "className": "editor-bar",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "YAML",
+            "className": "editor-bar-title",
+          },
+          "ref": null,
+          "rendered": "YAML",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <div
+                className="editor-bar-section"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": false,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": false,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": false,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+              <div
+                className="editor-bar-section"
+              >
+                <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>
+                </div>
+              </div>,
+              <div
+                className="editor-bar-section diagram-close-button"
+              >
+                <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      }
+                    }
+                    command="close"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>
+              </div>,
+            ],
+            "className": "editor-bar-toolbar",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "restore",
+                        "disabled": false,
+                        "tooltip": "Reset",
+                      }
+                    }
+                    command="restore"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "restore",
+                          "disabled": false,
+                          "tooltip": "Reset",
+                        }
+                      }
+                      command="restore"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "restore",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "restore",
+                        "disabled": false,
+                        "tooltip": "Reset",
+                      },
+                      "command": "restore",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <React.Fragment>
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "undo",
+                        "disabled": false,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      }
+                    }
+                    command="undo"
+                    handleClick={[Function]}
+                  />
+                  <EditorButton
+                    button={
+                      Object {
+                        "command": "redo",
+                        "disabled": false,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      }
+                    }
+                    command="redo"
+                    handleClick={[Function]}
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "undo",
+                          "disabled": false,
+                          "icon": "undo",
+                          "tooltip": "Undo",
+                        }
+                      }
+                      command="undo"
+                      handleClick={[Function]}
+                    />,
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "redo",
+                          "disabled": false,
+                          "icon": "redo",
+                          "tooltip": "Redo",
+                        }
+                      }
+                      command="redo"
+                      handleClick={[Function]}
+                    />,
+                  ],
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "undo",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "undo",
+                        "disabled": false,
+                        "icon": "undo",
+                        "tooltip": "Undo",
+                      },
+                      "command": "undo",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "redo",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "redo",
+                        "disabled": false,
+                        "icon": "redo",
+                        "tooltip": "Redo",
+                      },
+                      "command": "redo",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <div
+                  aria-label="Find"
+                  className="editor-bar-search"
+                  id="Find"
+                  role="region"
+                >
+                  <Search
+                    aria-label="Find"
+                    id="template-editor-search-undefined"
+                    labelText=""
+                    light={false}
+                    onChange={[Function]}
+                    placeHolderText="Find"
+                    small={true}
+                    spellCheck={false}
+                    type="text"
+                  />
+                  <React.Fragment>
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "previous",
+                          "disabled": true,
+                          "icon": "previous",
+                          "tooltip": "Previous",
+                        }
+                      }
+                      command="previous"
+                      handleClick={[Function]}
+                    />
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "next",
+                          "disabled": true,
+                          "icon": "next",
+                          "tooltip": "Next",
+                        }
+                      }
+                      command="next"
+                      handleClick={[Function]}
+                    />
+                  </React.Fragment>
+                </div>,
+                "className": "editor-bar-section",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "aria-label": "Find",
+                  "children": Array [
+                    <Search
+                      aria-label="Find"
+                      id="template-editor-search-undefined"
+                      labelText=""
+                      light={false}
+                      onChange={[Function]}
+                      placeHolderText="Find"
+                      small={true}
+                      spellCheck={false}
+                      type="text"
+                    />,
+                    <React.Fragment>
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          }
+                        }
+                        command="previous"
+                        handleClick={[Function]}
+                      />
+                      <EditorButton
+                        button={
+                          Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          }
+                        }
+                        command="next"
+                        handleClick={[Function]}
+                      />
+                    </React.Fragment>,
                   ],
                   "className": "editor-bar-search",
                   "id": "Find",
@@ -3471,39 +4216,76 @@ ShallowWrapper {
                   },
                   Object {
                     "instance": null,
-                    "key": "previous",
-                    "nodeType": "class",
+                    "key": undefined,
+                    "nodeType": "function",
                     "props": Object {
-                      "button": Object {
-                        "command": "previous",
-                        "disabled": true,
-                        "icon": "previous",
-                        "tooltip": "Previous",
-                      },
-                      "command": "previous",
-                      "handleClick": [Function],
+                      "children": Array [
+                        <EditorButton
+                          button={
+                            Object {
+                              "command": "previous",
+                              "disabled": true,
+                              "icon": "previous",
+                              "tooltip": "Previous",
+                            }
+                          }
+                          command="previous"
+                          handleClick={[Function]}
+                        />,
+                        <EditorButton
+                          button={
+                            Object {
+                              "command": "next",
+                              "disabled": true,
+                              "icon": "next",
+                              "tooltip": "Next",
+                            }
+                          }
+                          command="next"
+                          handleClick={[Function]}
+                        />,
+                      ],
                     },
                     "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
-                  Object {
-                    "instance": null,
-                    "key": "next",
-                    "nodeType": "class",
-                    "props": Object {
-                      "button": Object {
-                        "command": "next",
-                        "disabled": true,
-                        "icon": "next",
-                        "tooltip": "Next",
+                    "rendered": Array [
+                      Object {
+                        "instance": null,
+                        "key": "previous",
+                        "nodeType": "class",
+                        "props": Object {
+                          "button": Object {
+                            "command": "previous",
+                            "disabled": true,
+                            "icon": "previous",
+                            "tooltip": "Previous",
+                          },
+                          "command": "previous",
+                          "handleClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
                       },
-                      "command": "next",
-                      "handleClick": [Function],
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
+                      Object {
+                        "instance": null,
+                        "key": "next",
+                        "nodeType": "class",
+                        "props": Object {
+                          "button": Object {
+                            "command": "next",
+                            "disabled": true,
+                            "icon": "next",
+                            "tooltip": "Next",
+                          },
+                          "command": "next",
+                          "handleClick": [Function],
+                        },
+                        "ref": null,
+                        "rendered": null,
+                        "type": [Function],
+                      },
+                    ],
+                    "type": Symbol(react.fragment),
                   },
                 ],
                 "type": "div",
@@ -3515,7 +4297,7 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": Array [
+                "children": <React.Fragment>
                   <EditorButton
                     button={
                       Object {
@@ -3526,30 +4308,52 @@ ShallowWrapper {
                     }
                     command="close"
                     handleClick={[Function]}
-                  />,
-                ],
-                "className": "editor-bar-section diagram-collapse-button",
+                  />
+                </React.Fragment>,
+                "className": "editor-bar-section diagram-close-button",
               },
               "ref": null,
-              "rendered": Array [
-                Object {
-                  "instance": null,
-                  "key": "close",
-                  "nodeType": "class",
-                  "props": Object {
-                    "button": Object {
-                      "command": "close",
-                      "icon": "close",
-                      "tooltip": undefined,
-                    },
-                    "command": "close",
-                    "handleClick": [Function],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": Array [
+                    <EditorButton
+                      button={
+                        Object {
+                          "command": "close",
+                          "icon": "close",
+                          "tooltip": undefined,
+                        }
+                      }
+                      command="close"
+                      handleClick={[Function]}
+                    />,
+                  ],
                 },
-              ],
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "close",
+                    "nodeType": "class",
+                    "props": Object {
+                      "button": Object {
+                        "command": "close",
+                        "icon": "close",
+                        "tooltip": undefined,
+                      },
+                      "command": "close",
+                      "handleClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": Symbol(react.fragment),
+              },
               "type": "div",
             },
           ],

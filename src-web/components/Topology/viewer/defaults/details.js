@@ -12,7 +12,7 @@
 import R from 'ramda'
 import moment from 'moment'
 import _ from 'lodash'
-
+import msgs from '../../../../../nls/platform.properties'
 import {
   getNodePropery,
   addPropertyToList,
@@ -26,6 +26,21 @@ export const getNodeDetails = node => {
     const { type, specs } = node
     let { labels = [] } = node
     switch (type) {
+    case 'application':
+      {
+        const appData = addK8Details(node, details)
+        // if app is not subscribed to a channel then add error msg
+        if (!R.pathOr(undefined, ['channels'], specs)) {
+          addPropertyToList(appData, {
+            labelKey: 'resource.application.error',
+            type: 'label',
+            value: msgs.get('resource.application.error.msg'),
+            isError: true
+          })
+        }
+      }
+      break
+
     case 'cluster':
       {
         const { cluster, violations = [], clusters = [] } = specs
@@ -509,6 +524,7 @@ function addK8Details(node, details, podOnly, index) {
       })
     })
   }
+  return details
 }
 
 const addDetails = (details, dets) => {

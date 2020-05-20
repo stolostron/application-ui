@@ -160,16 +160,6 @@ export function validator(parsed, exceptions, locale) {
           channelNamespaceRow = synced.metadata.$v.namespace.$r
         }
 
-        // pull out the spec / type
-        if (raw && raw.kind && raw.kind === 'Channel') {
-          // for Channel if it is type Namespace, remove pathname to make field optional
-          if (raw.spec && raw.spec.type && raw.spec.type === 'Namespace') {
-            delete required.spec.pathname
-          } else {
-            required.spec.pathname = ''
-          }
-        }
-
         if (
           raw &&
           raw.kind === 'ConfigMap' &&

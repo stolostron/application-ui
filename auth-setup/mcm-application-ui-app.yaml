@@ -77,7 +77,7 @@ items:
         serviceAccountName: application-ui-app
         containers:
           - name: application-ui-app
-            image: quay.io/open-cluster-management/application-ui:3.5.0-0f53dcbf876704a9d57a922ae6ef353f975a0685
+            image: quay.io/open-cluster-management/application-ui:latest
             imagePullPolicy: Always
             ports:
             - containerPort: 3001

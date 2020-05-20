@@ -19,6 +19,7 @@ import { convertStringToQuery } from '../../lib/client/search-helper'
 import { mapBulkChannels } from '../reducers/data-mappers/mapChannelsBulk'
 import { mapBulkSubscriptions } from '../reducers/data-mappers/mapSubscriptionsBulk'
 import { mapSingleApplication } from '../reducers/data-mappers/mapApplicationsSingle'
+import { RESOURCE_TYPES } from '../../lib/shared/constants'
 
 export const changeTablePage = ({ page, pageSize }, resourceType) => ({
   type: Actions.TABLE_PAGE_CHANGE,
@@ -446,6 +447,11 @@ export const receiveDelResource = (item, resourceType, resource) => ({
   resource
 })
 
+export const receiveDelResourceFinished = resourceType => ({
+  type: Actions.DEL_RECEIVE_SUCCESS_FINISHED,
+  resourceType
+})
+
 export const receiveDelError = (err, resourceType) => ({
   type: Actions.DEL_RECEIVE_FAILURE,
   delStatus: Actions.REQUEST_STATUS.ERROR,
@@ -463,7 +469,32 @@ export const resetResource = resourceType => ({
   resourceType: resourceType
 })
 
+export const forceResourceReload = resourceType => ({
+  type: Actions.RESOURCE_FORCE_RELOAD,
+  resourceType
+})
+
+export const forcedResourceReloadFinished = resourceType => ({
+  type: Actions.RESOURCE_FORCE_RELOAD_FINISHED,
+  resourceType
+})
+
+export const delResourceSuccessFinished = resourceType => ({
+  type: Actions.DEL_RECEIVE_SUCCESS_FINISHED,
+  resourceType
+})
+
+export const mutateResourceSuccessFinished = resourceType => ({
+  type: Actions.RESOURCE_MUTATE_FINISHED,
+  resourceType
+})
+
 export const createResources = (resourceType, resourceJson) => {
+  if (resourceType === RESOURCE_TYPES.HCM_APPLICATIONS) {
+    resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS
+  }
+  delResourceSuccessFinished(resourceType)
+  mutateResourceSuccessFinished(resourceType)
   return dispatch => {
     dispatch(mutateResource(resourceType))
     return apolloClient.createResources(resourceJson).then(result => {
@@ -479,6 +510,7 @@ export const createResources = (resourceType, resourceJson) => {
         )
       } else {
         dispatch(mutateResourceSuccess(resourceType))
+        dispatch(forceResourceReload(resourceType))
       }
       return result
     })

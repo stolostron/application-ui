@@ -20,6 +20,11 @@ import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
 import resources from '../../../lib/shared/resources'
 import { isAdminRole } from '../../../lib/client/access-helper'
+import {
+  delResourceSuccessFinished,
+  mutateResourceSuccessFinished
+} from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 resources(() => {
   require('./style.scss')
@@ -47,7 +52,9 @@ const ApplicationHeaderTabs = withLocale(
     params,
     actions,
     locale,
-    serverProps
+    serverProps,
+    mutateSuccessFinished,
+    deleteSuccessFinished
   }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
@@ -101,6 +108,12 @@ const ApplicationHeaderTabs = withLocale(
               // if the user clicks on another tab and then
               // goes back to the Overview tab
               actions.setShowAppDetails(false)
+              // Remove previous success message if any
+              mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+              mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+              mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+              mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+              deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
             }}
             tabcontentclassname="tab-content"
           >
@@ -141,7 +154,11 @@ const ApplicationHeaderTabs = withLocale(
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(Actions, dispatch)
+    actions: bindActionCreators(Actions, dispatch),
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType))
   }
 }
 const mapStateToProps = state => {

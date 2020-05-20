@@ -6,54 +6,100 @@ import { parse } from "../../../../lib/client/design-helper";
 import { validator } from "../../../../src-web/definitions/validators/hcm-channel-validator";
 
 const validNamespaceSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace";
+  "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n gates:\n annotations: foo\n pathname: foo\n sourceNamespaces: foo\n type: Namespace";
 const validHelmRepoSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  pathname: ________________________createChannel-specHelmRepo-pathname\n  configRef:\n    name: __________________________createChannel-specHelmRepo-configRef-name\n  type: HelmRepo\n---\napiVersion: v1______________________createChannel-configMap-apiVersion\nkind: ConfigMap\nmetadata:\n  name: ____________________________createChannel-configMap-metadata-name\n  namespace: ns1";
+  "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n configRef:\n name: foo\n type: HelmRepo\n---\napiVersion: v1\nkind: ConfigMap\nmetadata:\n name: cf1\n namespace: ns1";
 const validObjectBucketSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: ObjectBucket\n pathname: _________________________createChannel-specObjectBucket-pathname\n secretRef:\n   name: ___________________________createChannel-specObjectBucket-secretRef-name\n gates:\n   annotations: ____________________createChannel-specObjectBucket-gate-annotations";
+  "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: ObjectBucket\n pathname: foo\n secretRef:\n name: sr1\n gates:\n annotations: foo";
 const validGitRepoSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  type: GitHub\n  pathname: ________________________createChannel-specGitRepo-pathname";
+  "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: GitHub\n pathname: foo";
 
-const noAPIVersionSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace";
+const requiredNamespaceSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: Namespace";
+const requiredHelmRepoSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: HelmRepo";
+const requiredObjectBucketSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: ObjectBucket";
+const requiredGitRepoSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: GitHub";
 
-const noChannelKindSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace";
+const noPathnameKeySample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: Namespace";
+const noPathnameValueSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname:\n type: Namespace";
+
+const noAPIVersionKeySample =
+  "kind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: HelmRepo";
+const noAPIVersionValueSample =
+  "apiVersion:\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: HelmRepo";
+
+const noKindKeySample =
+  "apiVersion: apps.open-cluster-management.io/v1\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: ObjectBucket";
+const noKindValueSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind:\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: ObjectBucket";
 
 const noNameKeySample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace";
-
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n namespace: ns1\nspec:\n pathname: foo\n type: GitHub";
 const noNamespaceKeySample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace";
-
-const noRequiredValuesSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name:\n  namespace:\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: Namespace";
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\nspec:\n pathname: foo\n type: GitHub";
+const noNameNamespaceValueSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name:\n namespace:\nspec:\n pathname: foo\n type: GitHub";
 
 const noTypeKeySample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces";
-
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo";
 const noTypeValueSample =
-  "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type:";
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type:";
 
 const unknownTypeValueSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n  name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n  name: ch1\n  namespace: ns1\nspec:\n  gates:\n    annotations: ___________________createChannel-specNamespace-gates-annotations\n  pathname: ________________________createChannel-specNamespace-pathname\n  sourceNamespaces: ________________createChannel-specNamespace-sourceNamespaces\n  type: unknown";
 
 describe("validator testing for hcm-channel", () => {
-  it("validation failure without API version", () => {
-    const { exceptions } = parse(noAPIVersionSample, validator, "en-un");
+  it("validation failure without pathname key", () => {
+    const { exceptions } = parse(noPathnameKeySample, validator, "en-un");
     expect(exceptions.length).toEqual(1);
     expect(exceptions[0].text).toEqual(
       "The '{0}' resource is missing these keys: {1}"
     );
   });
 
+  it("validation failure without pathname value", () => {
+    const { exceptions } = parse(noPathnameValueSample, validator, "en-un");
+    expect(exceptions.length).toEqual(1);
+    expect(exceptions[0].text).toEqual(
+      "The '{0}' key must point to this value type: {1}"
+    );
+  });
+
+  it("validation failure without API version", () => {
+    const { exceptions } = parse(noAPIVersionKeySample, validator, "en-un");
+    expect(exceptions.length).toEqual(1);
+    expect(exceptions[0].text).toEqual(
+      "The '{0}' resource is missing these keys: {1}"
+    );
+  });
+
+  it("validation failure without API version", () => {
+    const { exceptions } = parse(noAPIVersionValueSample, validator, "en-un");
+    expect(exceptions.length).toEqual(1);
+    expect(exceptions[0].text).toEqual(
+      "The '{0}' key must point to this value type: {1}"
+    );
+  });
+
   it("validation failure without Channel kind", () => {
-    const { exceptions } = parse(noChannelKindSample, validator, "en-un");
+    const { exceptions } = parse(noKindKeySample, validator, "en-un");
     expect(exceptions.length).toEqual(2);
     expect(exceptions[0].text).toEqual("Missing resource kind: {0}");
     expect(exceptions[1].text).toEqual(
       "Resource is missing a kind declaration, such as kind: {0}"
     );
+  });
+
+  it("validation failure without Channel kind value", () => {
+    const { exceptions } = parse(noKindValueSample, validator, "en-un");
+    expect(exceptions.length).toEqual(2);
+    expect(exceptions[0].text).toEqual("Missing resource kind: {0}");
+    expect(exceptions[1].text).toEqual("Unexpected resource kind: {0}");
   });
 
   it("validation failure without name key", () => {
@@ -73,7 +119,11 @@ describe("validator testing for hcm-channel", () => {
   });
 
   it("validation failure without name and namespace values", () => {
-    const { exceptions } = parse(noRequiredValuesSample, validator, "en-un");
+    const { exceptions } = parse(
+      noNameNamespaceValueSample,
+      validator,
+      "en-un"
+    );
     expect(exceptions.length).toEqual(2);
     expect(exceptions[0].text).toEqual(
       "The '{0}' key must point to this value type: {1}"
@@ -124,6 +174,30 @@ describe("validator testing for hcm-channel", () => {
 
   it("validGitRepoSample should be validated successfully", () => {
     const { exceptions } = parse(validGitRepoSample, validator, "en-un");
+    expect(exceptions).toEqual([]);
+  });
+
+  it("requiredNamespaceSample should be validated successfully", () => {
+    const { exceptions } = parse(requiredNamespaceSample, validator, "en-un");
+    expect(exceptions).toEqual([]);
+  });
+
+  it("requiredHelmRepoSample should be validated successfully", () => {
+    const { exceptions } = parse(requiredHelmRepoSample, validator, "en-un");
+    expect(exceptions).toEqual([]);
+  });
+
+  it("requiredObjectBucketSample should be validated successfully", () => {
+    const { exceptions } = parse(
+      requiredObjectBucketSample,
+      validator,
+      "en-un"
+    );
+    expect(exceptions).toEqual([]);
+  });
+
+  it("requiredGitRepoSample should be validated successfully", () => {
+    const { exceptions } = parse(requiredGitRepoSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });
 });

@@ -179,9 +179,9 @@ describe("getSubscriptionDataOnManagedClustersSingle", () => {
     );
 
     expect(subscriptionData.clusters).toEqual(3);
-    expect(subscriptionData.total).toEqual(5);
-    expect(subscriptionData.failed).toEqual(0);
-    expect(subscriptionData.noStatus).toEqual(0);
+    expect(subscriptionData.total).toEqual(8);
+    expect(subscriptionData.failed).toEqual(1);
+    expect(subscriptionData.noStatus).toEqual(2);
   });
 
   it("no subscription data", () => {
@@ -388,7 +388,9 @@ const subscriptionSubscribedSampleDataSingleApp = {
       name: "app2",
       namespace: "default",
       remoteSubscriptionStatusCount: {
-        Subscribed: 5
+        Subscribed: 5,
+        Failed: 1,
+        undefined: 2
       }
     }
   ]

@@ -204,6 +204,17 @@ export const updateNodeIcons = nodes => {
     let nodeStatus = ''
     let disabled = false
 
+    // show error icon on application node if app is not subscribed to any channel
+    if (type === 'application') {
+      const { specs = {} } = node
+      if (
+        specs &&
+        (!specs.channels || (specs.channels && specs.channels.length === 0))
+      ) {
+        nodeIcons['status'] = Object.assign({}, StatusIcon.error)
+      }
+    }
+
     if (type === 'cluster') {
       // determine icon
       const { specs = {} } = node

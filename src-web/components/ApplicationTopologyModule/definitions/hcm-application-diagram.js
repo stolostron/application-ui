@@ -314,7 +314,7 @@ export const addDiagramDetails = (
       }
       const podName = isClusterGrouped ? name : `${name}-${pod.cluster}`
       if (podMap[podName]) {
-        const podModel = _.get(podMap[name], 'specs.podModel', {})
+        const podModel = _.get(podMap[podName], 'specs.podModel', {})
         podModel[pod.name] = pod
         _.set(podMap[podName], 'specs.podModel', podModel)
       }

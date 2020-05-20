@@ -29,6 +29,11 @@ import resources from '../../../lib/shared/resources'
 import msgs from '../../../nls/platform.properties'
 import getResourceDefinitions from '../../definitions'
 import YamlEditor from '../common/YamlEditor'
+import {
+  delResourceSuccessFinished,
+  mutateResourceSuccessFinished
+} from '../../actions/common'
+import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 
 resources(() => {
   require('../../../scss/modal.scss')
@@ -40,6 +45,7 @@ const initialState = {
   yaml: '',
   yamlParsingError: null,
   createError: null,
+  createSuccess: null,
   dirty: false,
   sample: null
 }
@@ -55,9 +61,11 @@ const waitTime = ms => {
 
 class CreateResourceModal extends React.PureComponent {
   static propTypes = {
+    deleteSuccessFinished: PropTypes.func,
     headingTextKey: PropTypes.string,
     helpLink: PropTypes.string,
     iconDescription: PropTypes.string,
+    mutateSuccessFinished: PropTypes.func,
     onCreateResource: PropTypes.func,
     onSubmitFunction: PropTypes.func,
     resourceDescriptionKey: PropTypes.string,
@@ -76,6 +84,12 @@ class CreateResourceModal extends React.PureComponent {
     this.setState(initialState)
   };
   handleModalSubmit = () => {
+    // Remove previous success message if any
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     let resources
     try {
       // the next line code will split the yaml content into multi-parts
@@ -88,25 +102,29 @@ class CreateResourceModal extends React.PureComponent {
     this.setState({ yamlParsingError: null, processing: true })
 
     this.props.onCreateResource(resources).then(result => {
-      // errors can be in createApplication and createResources depending on type of resource
-      const errors = R.concat(
-        R.pathOr([], ['data', 'createApplication', 'errors'], result),
-        R.pathOr([], ['data', 'createResources', 'errors'], result)
+      const results = R.pathOr(
+        [],
+        ['data', 'createResources', 'result'],
+        result
       )
-
-      if (errors && errors.length > 0) {
-        this.setState({
-          createError: {
-            message: errors[0].message
-          },
-          processing: false
-        })
-      } else {
-        this.setState(initialState)
-        // If there is a on Submit function passed in we want to execute it
-        if (this.props.onSubmitFunction) {
-          waitTime(7000)
-          this.props.onSubmitFunction()
+      if (results && results.length > 0) {
+        const failure = results.filter(
+          r => r.kind === 'Status' && r.status === 'Failure'
+        )
+        const success = results.filter(r => r.kind !== 'Status')
+        if (failure && failure.length > 0) {
+          this.setState({
+            createError: failure,
+            createSuccess: success && success.length > 0 ? success : null,
+            processing: false
+          })
+        } else {
+          this.setState(initialState)
+          // If there is a on Submit function passed in we want to execute it
+          if (this.props.onSubmitFunction) {
+            waitTime(7000)
+            this.props.onSubmitFunction()
+          }
         }
       }
     })
@@ -145,7 +163,6 @@ class CreateResourceModal extends React.PureComponent {
     const tabsHandleEditorChange = this.handleEditorChange
     const tabsHandleParsingError = this.handleParsingError
     const tabsYaml = this.state.yaml
-    const errorMsg = this.state.createError && this.state.createError.message
     return (
       <div>
         <Button
@@ -208,18 +225,54 @@ class CreateResourceModal extends React.PureComponent {
                     onCloseButtonClick={this.handleNotificationClosed}
                   />
               )}
-              {(this.state.createError || errorMsg) && (
-                <InlineNotification
-                  kind="error"
-                  title={msgs.get('error.create', this.context.locale)}
-                  iconDescription=""
-                  // show default msg if errorMsg is not set
-                  subtitle={
-                    errorMsg ||
-                    msgs.get('error.create.reason', this.context.locale)
-                  }
-                  onCloseButtonClick={this.handleNotificationClosed}
-                />
+              {this.state.createError && (
+                <div>
+                  {this.state.createError.map(error => {
+                    return (
+                      <InlineNotification
+                        key={Math.random()}
+                        kind="error"
+                        title={msgs.get('error.create', this.context.locale)}
+                        iconDescription=""
+                        // show default msg if errorMsg is not set
+                        subtitle={
+                          error.message ||
+                          msgs.get('error.create.reason', this.context.locale)
+                        }
+                        onCloseButtonClick={this.handleNotificationClosed}
+                      />
+                    )
+                  })}
+                  {this.state.createSuccess &&
+                    this.state.createSuccess.map(success => {
+                      return (
+                        <InlineNotification
+                          key={Math.random()}
+                          kind="success"
+                          title={msgs.get(
+                            'success.update.resource',
+                            this.context.locale
+                          )}
+                          iconDescription=""
+                          subtitle={
+                            success.kind &&
+                            success.metadata &&
+                            success.metadata.name
+                              ? msgs.get(
+                                'success.create.details',
+                                [success.kind, success.metadata.name],
+                                this.context.locale
+                              )
+                              : msgs.get(
+                                'success.create.description',
+                                this.context.locale
+                              )
+                          }
+                          onCloseButtonClick={this.handleNotificationClosed}
+                        />
+                      )
+                    })}
+                </div>
               )}
               {this.props.sampleTabs ? (
                 <div className="yamlSampleTabsContainer">
@@ -301,7 +354,11 @@ CreateResourceModal.contextType = {
 
 const mapDispatchToProps = (dispatch, { onCreateResource }) => {
   return {
-    onCreateResource: yaml => onCreateResource(dispatch, yaml)
+    onCreateResource: yaml => onCreateResource(dispatch, yaml),
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType))
   }
 }
 

@@ -124,7 +124,7 @@ class DetailsView extends React.Component {
     }
   }
 
-  renderLabel({ labelKey, labelValue, value, indent }, locale) {
+  renderLabel({ labelKey, labelValue, value, indent, isError }, locale) {
     let label = labelValue
     if (labelKey) {
       label = labelValue
@@ -133,7 +133,13 @@ class DetailsView extends React.Component {
     }
     return (
       <div className="sectionContent" key={Math.random()}>
-        {(labelKey || labelValue) && <span className="label">{label}: </span>}
+        {(labelKey || labelValue) && isError ? (
+          <span className="label" style={{ color: 'red' }}>
+            {label}:{' '}
+          </span>
+        ) : (
+          <span className="label">{label}: </span>
+        )}
         {indent && <span className="indent" />}
         <span className="value">{value}</span>
       </div>

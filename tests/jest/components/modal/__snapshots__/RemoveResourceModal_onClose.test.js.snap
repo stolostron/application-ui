@@ -26,7 +26,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
       }
     }
   >
-    <RemoveResourceModal
+    <Connect(RemoveResourceModal)
       data={
         Object {
           "__typename": "Application",
@@ -76,192 +76,244 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
       }
       type="actionModal"
     >
-      <div>
-        <Loading
-          active={true}
-          small={false}
-          withOverlay={true}
-        >
-          <div
-            className="bx--loading-overlay"
+      <RemoveResourceModal
+        data={
+          Object {
+            "__typename": "Application",
+            "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+            "clusterCount": 0,
+            "created": "2019-12-11T01:24:02Z",
+            "dashboard": null,
+            "hubSubscriptions": Array [],
+            "kind": "HCMApplication",
+            "metadata": Object {
+              "name": "samplebook-gbap",
+              "namespace": "sample",
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+            },
+            "name": "samplebook-gbap",
+            "namespace": "sample",
+            "podStatusCount": Object {},
+            "remoteSubscriptionStatusCount": Object {},
+            "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+          }
+        }
+        deleteSuccessFinished={[Function]}
+        forceRefresh={[Function]}
+        handleClose={[MockFunction]}
+        handleSubmit={[MockFunction]}
+        label={
+          Object {
+            "heading": "modal.remove-hcmapplication.heading",
+            "label": "modal.remove-hcmapplication.label",
+            "primaryBtn": "modal.remove-hcmapplication.heading",
+          }
+        }
+        locale="en"
+        mutateSucessFinished={[Function]}
+        open={true}
+        resourceType={
+          Object {
+            "list": "HCMApplicationList",
+            "name": "HCMApplication",
+          }
+        }
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+        storeSubscription={
+          Subscription {
+            "listeners": Object {
+              "clear": [Function],
+              "get": [Function],
+              "notify": [Function],
+              "subscribe": [Function],
+            },
+            "onStateChange": [Function],
+            "parentSub": undefined,
+            "store": Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            },
+            "unsubscribe": [Function],
+          }
+        }
+        submitDeleteSuccess={[Function]}
+        type="actionModal"
+      >
+        <div>
+          <Loading
+            active={true}
+            small={false}
+            withOverlay={true}
           >
             <div
-              aria-live="assertive"
-              className="bx--loading"
+              className="bx--loading-overlay"
             >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
+              <div
+                aria-live="assertive"
+                className="bx--loading"
               >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
+                <svg
+                  className="bx--loading__svg"
+                  viewBox="-75 -75 150 150"
+                >
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="37.5"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
-        </Loading>
-        <Modal
-          aria-label="Delete application"
-          danger={true}
-          iconDescription="close the modal"
-          id="remove-resource-modal"
-          modalHeading="Delete application"
-          modalLabel="Application"
-          onKeyDown={[Function]}
-          onRequestClose={[Function]}
-          onRequestSubmit={[Function]}
-          open={true}
-          passiveModal={false}
-          primaryButtonDisabled={true}
-          primaryButtonText="Delete application"
-          role="region"
-          secondaryButtonText="Cancel"
-          selectorPrimaryFocus="[data-modal-primary-focus]"
-        >
-          <div
+          </Loading>
+          <Modal
             aria-label="Delete application"
-            className="bx--modal bx--modal-tall is-visible bx--modal--danger"
+            danger={true}
+            iconDescription="close the modal"
             id="remove-resource-modal"
-            onBlur={[Function]}
-            onClick={[Function]}
+            modalHeading="Delete application"
+            modalLabel="Application"
             onKeyDown={[Function]}
-            onTransitionEnd={[Function]}
-            role="presentation"
-            tabIndex={-1}
+            onRequestClose={[Function]}
+            onRequestSubmit={[Function]}
+            open={true}
+            passiveModal={false}
+            primaryButtonDisabled={true}
+            primaryButtonText="Delete application"
+            role="region"
+            secondaryButtonText="Cancel"
+            selectorPrimaryFocus="[data-modal-primary-focus]"
           >
             <div
-              className="bx--modal-container"
-              role="dialog"
+              aria-label="Delete application"
+              className="bx--modal bx--modal-tall is-visible bx--modal--danger"
+              id="remove-resource-modal"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              onTransitionEnd={[Function]}
+              role="presentation"
+              tabIndex={-1}
             >
               <div
-                className="bx--modal-header"
-              >
-                <h4
-                  className="bx--modal-header__label"
-                >
-                  Application
-                </h4>
-                <h2
-                  className="bx--modal-header__heading"
-                >
-                  Delete application
-                </h2>
-                <button
-                  className="bx--modal-close"
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <Icon
-                    className="bx--modal-close__icon"
-                    description="close the modal"
-                    fillRule="evenodd"
-                    icon={
-                      Object {
-                        "height": "10",
-                        "id": "icon--close",
-                        "name": "icon--close",
-                        "styles": "",
-                        "svgData": Object {
-                          "circles": "",
-                          "ellipses": "",
-                          "paths": Array [
-                            Object {
-                              "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
-                              "fill-rule": "nonzero",
-                            },
-                          ],
-                          "polygons": "",
-                          "polylines": "",
-                          "rects": "",
-                        },
-                        "tags": "icon--close",
-                        "viewBox": "0 0 10 10",
-                        "width": "10",
-                      }
-                    }
-                    role="img"
-                  >
-                    <svg
-                      alt="close the modal"
-                      aria-label="close the modal"
-                      className="bx--modal-close__icon"
-                      fillRule="evenodd"
-                      height="10"
-                      role="img"
-                      viewBox="0 0 10 10"
-                      width="10"
-                    >
-                      <title>
-                        close the modal
-                      </title>
-                      <path
-                        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
-                        key="key0"
-                      />
-                    </svg>
-                  </Icon>
-                </button>
-              </div>
-              <div
-                className="bx--modal-content"
-              >
-                <div />
-                <p>
-                  Removing {0} cannot be undone. Are you sure that you want to continue?
-                </p>
-              </div>
-              <div
-                className="bx--modal-footer"
+                className="bx--modal-container"
+                role="dialog"
               >
                 <div
-                  className="bx--modal__buttons-container"
+                  className="bx--modal-header"
                 >
-                  <Button
-                    disabled={false}
-                    iconDescription="Provide icon description if icon is used"
-                    kind="tertiary"
+                  <h4
+                    className="bx--modal-header__label"
+                  >
+                    Application
+                  </h4>
+                  <h2
+                    className="bx--modal-header__heading"
+                  >
+                    Delete application
+                  </h2>
+                  <button
+                    className="bx--modal-close"
                     onClick={[Function]}
-                    small={false}
-                    tabIndex={0}
                     type="button"
                   >
-                    <button
-                      className="bx--btn bx--btn--tertiary"
+                    <Icon
+                      className="bx--modal-close__icon"
+                      description="close the modal"
+                      fillRule="evenodd"
+                      icon={
+                        Object {
+                          "height": "10",
+                          "id": "icon--close",
+                          "name": "icon--close",
+                          "styles": "",
+                          "svgData": Object {
+                            "circles": "",
+                            "ellipses": "",
+                            "paths": Array [
+                              Object {
+                                "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
+                                "fill-rule": "nonzero",
+                              },
+                            ],
+                            "polygons": "",
+                            "polylines": "",
+                            "rects": "",
+                          },
+                          "tags": "icon--close",
+                          "viewBox": "0 0 10 10",
+                          "width": "10",
+                        }
+                      }
+                      role="img"
+                    >
+                      <svg
+                        alt="close the modal"
+                        aria-label="close the modal"
+                        className="bx--modal-close__icon"
+                        fillRule="evenodd"
+                        height="10"
+                        role="img"
+                        viewBox="0 0 10 10"
+                        width="10"
+                      >
+                        <title>
+                          close the modal
+                        </title>
+                        <path
+                          d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+                          key="key0"
+                        />
+                      </svg>
+                    </Icon>
+                  </button>
+                </div>
+                <div
+                  className="bx--modal-content"
+                >
+                  <div />
+                  <p>
+                    Removing {0} cannot be undone. Are you sure that you want to continue?
+                  </p>
+                </div>
+                <div
+                  className="bx--modal-footer"
+                >
+                  <div
+                    className="bx--modal__buttons-container"
+                  >
+                    <Button
                       disabled={false}
+                      iconDescription="Provide icon description if icon is used"
+                      kind="tertiary"
                       onClick={[Function]}
+                      small={false}
                       tabIndex={0}
                       type="button"
                     >
-                      Cancel
-                    </button>
-                  </Button>
-                  <Button
-                    disabled={true}
-                    iconDescription="Provide icon description if icon is used"
-                    inputref={
-                      Object {
-                        "current": <button
-                          class="bx--btn bx--btn--danger--primary"
-                          disabled=""
-                          inputref="[object Object]"
-                          tabindex="0"
-                          type="button"
-                        >
-                          Delete application
-                        </button>,
-                      }
-                    }
-                    kind="danger--primary"
-                    onClick={[Function]}
-                    small={false}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <button
-                      className="bx--btn bx--btn--danger--primary"
+                      <button
+                        className="bx--btn bx--btn--tertiary"
+                        disabled={false}
+                        onClick={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        Cancel
+                      </button>
+                    </Button>
+                    <Button
                       disabled={true}
+                      iconDescription="Provide icon description if icon is used"
                       inputref={
                         Object {
                           "current": <button
@@ -275,20 +327,43 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                           </button>,
                         }
                       }
+                      kind="danger--primary"
                       onClick={[Function]}
+                      small={false}
                       tabIndex={0}
                       type="button"
                     >
-                      Delete application
-                    </button>
-                  </Button>
+                      <button
+                        className="bx--btn bx--btn--danger--primary"
+                        disabled={true}
+                        inputref={
+                          Object {
+                            "current": <button
+                              class="bx--btn bx--btn--danger--primary"
+                              disabled=""
+                              inputref="[object Object]"
+                              tabindex="0"
+                              type="button"
+                            >
+                              Delete application
+                            </button>,
+                          }
+                        }
+                        onClick={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        Delete application
+                      </button>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Modal>
-      </div>
-    </RemoveResourceModal>
+          </Modal>
+        </div>
+      </RemoveResourceModal>
+    </Connect(RemoveResourceModal)>
   </Router>
 </BrowserRouter>
 `;
@@ -317,7 +392,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
       }
     }
   >
-    <RemoveResourceModal
+    <Connect(RemoveResourceModal)
       data={
         Object {
           "__typename": "Application",
@@ -367,192 +442,244 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
       }
       type="actionModal"
     >
-      <div>
-        <Loading
-          active={true}
-          small={false}
-          withOverlay={true}
-        >
-          <div
-            className="bx--loading-overlay"
+      <RemoveResourceModal
+        data={
+          Object {
+            "__typename": "Application",
+            "_uid": "local-cluster/42d4c013-52b9-11ea-bf05-00000a102d26",
+            "clusterCount": 0,
+            "created": "2019-12-11T01:24:02Z",
+            "dashboard": null,
+            "hubSubscriptions": Array [],
+            "kind": "HCMApplication",
+            "metadata": Object {
+              "name": "samplebook-gbap",
+              "namespace": "sample",
+              "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+            },
+            "name": "samplebook-gbap",
+            "namespace": "sample",
+            "podStatusCount": Object {},
+            "remoteSubscriptionStatusCount": Object {},
+            "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/sample/applications/samplebook-gbap",
+          }
+        }
+        deleteSuccessFinished={[Function]}
+        forceRefresh={[Function]}
+        handleClose={[MockFunction]}
+        handleSubmit={[MockFunction]}
+        label={
+          Object {
+            "heading": "modal.remove-hcmapplication.heading",
+            "label": "modal.remove-hcmapplication.label",
+            "primaryBtn": "modal.remove-hcmapplication.heading",
+          }
+        }
+        locale="en"
+        mutateSucessFinished={[Function]}
+        open={true}
+        resourceType={
+          Object {
+            "list": "HCMApplicationList",
+            "name": "HCMApplication",
+          }
+        }
+        store={
+          Object {
+            "dispatch": [Function],
+            "getState": [Function],
+            "replaceReducer": [Function],
+            "subscribe": [Function],
+            Symbol(observable): [Function],
+          }
+        }
+        storeSubscription={
+          Subscription {
+            "listeners": Object {
+              "clear": [Function],
+              "get": [Function],
+              "notify": [Function],
+              "subscribe": [Function],
+            },
+            "onStateChange": [Function],
+            "parentSub": undefined,
+            "store": Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            },
+            "unsubscribe": [Function],
+          }
+        }
+        submitDeleteSuccess={[Function]}
+        type="actionModal"
+      >
+        <div>
+          <Loading
+            active={true}
+            small={false}
+            withOverlay={true}
           >
             <div
-              aria-live="assertive"
-              className="bx--loading"
+              className="bx--loading-overlay"
             >
-              <svg
-                className="bx--loading__svg"
-                viewBox="-75 -75 150 150"
+              <div
+                aria-live="assertive"
+                className="bx--loading"
               >
-                <circle
-                  cx="0"
-                  cy="0"
-                  r="37.5"
-                />
-              </svg>
+                <svg
+                  className="bx--loading__svg"
+                  viewBox="-75 -75 150 150"
+                >
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="37.5"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
-        </Loading>
-        <Modal
-          aria-label="Delete application"
-          danger={true}
-          iconDescription="close the modal"
-          id="remove-resource-modal"
-          modalHeading="Delete application"
-          modalLabel="Application"
-          onKeyDown={[Function]}
-          onRequestClose={[Function]}
-          onRequestSubmit={[Function]}
-          open={true}
-          passiveModal={false}
-          primaryButtonDisabled={true}
-          primaryButtonText="Delete application"
-          role="region"
-          secondaryButtonText="Cancel"
-          selectorPrimaryFocus="[data-modal-primary-focus]"
-        >
-          <div
+          </Loading>
+          <Modal
             aria-label="Delete application"
-            className="bx--modal bx--modal-tall is-visible bx--modal--danger"
+            danger={true}
+            iconDescription="close the modal"
             id="remove-resource-modal"
-            onBlur={[Function]}
-            onClick={[Function]}
+            modalHeading="Delete application"
+            modalLabel="Application"
             onKeyDown={[Function]}
-            onTransitionEnd={[Function]}
-            role="presentation"
-            tabIndex={-1}
+            onRequestClose={[Function]}
+            onRequestSubmit={[Function]}
+            open={true}
+            passiveModal={false}
+            primaryButtonDisabled={true}
+            primaryButtonText="Delete application"
+            role="region"
+            secondaryButtonText="Cancel"
+            selectorPrimaryFocus="[data-modal-primary-focus]"
           >
             <div
-              className="bx--modal-container"
-              role="dialog"
+              aria-label="Delete application"
+              className="bx--modal bx--modal-tall is-visible bx--modal--danger"
+              id="remove-resource-modal"
+              onBlur={[Function]}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              onTransitionEnd={[Function]}
+              role="presentation"
+              tabIndex={-1}
             >
               <div
-                className="bx--modal-header"
-              >
-                <h4
-                  className="bx--modal-header__label"
-                >
-                  Application
-                </h4>
-                <h2
-                  className="bx--modal-header__heading"
-                >
-                  Delete application
-                </h2>
-                <button
-                  className="bx--modal-close"
-                  onClick={[Function]}
-                  type="button"
-                >
-                  <Icon
-                    className="bx--modal-close__icon"
-                    description="close the modal"
-                    fillRule="evenodd"
-                    icon={
-                      Object {
-                        "height": "10",
-                        "id": "icon--close",
-                        "name": "icon--close",
-                        "styles": "",
-                        "svgData": Object {
-                          "circles": "",
-                          "ellipses": "",
-                          "paths": Array [
-                            Object {
-                              "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
-                              "fill-rule": "nonzero",
-                            },
-                          ],
-                          "polygons": "",
-                          "polylines": "",
-                          "rects": "",
-                        },
-                        "tags": "icon--close",
-                        "viewBox": "0 0 10 10",
-                        "width": "10",
-                      }
-                    }
-                    role="img"
-                  >
-                    <svg
-                      alt="close the modal"
-                      aria-label="close the modal"
-                      className="bx--modal-close__icon"
-                      fillRule="evenodd"
-                      height="10"
-                      role="img"
-                      viewBox="0 0 10 10"
-                      width="10"
-                    >
-                      <title>
-                        close the modal
-                      </title>
-                      <path
-                        d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
-                        key="key0"
-                      />
-                    </svg>
-                  </Icon>
-                </button>
-              </div>
-              <div
-                className="bx--modal-content"
-              >
-                <div />
-                <p>
-                  Removing {0} cannot be undone. Are you sure that you want to continue?
-                </p>
-              </div>
-              <div
-                className="bx--modal-footer"
+                className="bx--modal-container"
+                role="dialog"
               >
                 <div
-                  className="bx--modal__buttons-container"
+                  className="bx--modal-header"
                 >
-                  <Button
-                    disabled={false}
-                    iconDescription="Provide icon description if icon is used"
-                    kind="tertiary"
+                  <h4
+                    className="bx--modal-header__label"
+                  >
+                    Application
+                  </h4>
+                  <h2
+                    className="bx--modal-header__heading"
+                  >
+                    Delete application
+                  </h2>
+                  <button
+                    className="bx--modal-close"
                     onClick={[Function]}
-                    small={false}
-                    tabIndex={0}
                     type="button"
                   >
-                    <button
-                      className="bx--btn bx--btn--tertiary"
+                    <Icon
+                      className="bx--modal-close__icon"
+                      description="close the modal"
+                      fillRule="evenodd"
+                      icon={
+                        Object {
+                          "height": "10",
+                          "id": "icon--close",
+                          "name": "icon--close",
+                          "styles": "",
+                          "svgData": Object {
+                            "circles": "",
+                            "ellipses": "",
+                            "paths": Array [
+                              Object {
+                                "d": "M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z",
+                                "fill-rule": "nonzero",
+                              },
+                            ],
+                            "polygons": "",
+                            "polylines": "",
+                            "rects": "",
+                          },
+                          "tags": "icon--close",
+                          "viewBox": "0 0 10 10",
+                          "width": "10",
+                        }
+                      }
+                      role="img"
+                    >
+                      <svg
+                        alt="close the modal"
+                        aria-label="close the modal"
+                        className="bx--modal-close__icon"
+                        fillRule="evenodd"
+                        height="10"
+                        role="img"
+                        viewBox="0 0 10 10"
+                        width="10"
+                      >
+                        <title>
+                          close the modal
+                        </title>
+                        <path
+                          d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
+                          key="key0"
+                        />
+                      </svg>
+                    </Icon>
+                  </button>
+                </div>
+                <div
+                  className="bx--modal-content"
+                >
+                  <div />
+                  <p>
+                    Removing {0} cannot be undone. Are you sure that you want to continue?
+                  </p>
+                </div>
+                <div
+                  className="bx--modal-footer"
+                >
+                  <div
+                    className="bx--modal__buttons-container"
+                  >
+                    <Button
                       disabled={false}
+                      iconDescription="Provide icon description if icon is used"
+                      kind="tertiary"
                       onClick={[Function]}
+                      small={false}
                       tabIndex={0}
                       type="button"
                     >
-                      Cancel
-                    </button>
-                  </Button>
-                  <Button
-                    disabled={true}
-                    iconDescription="Provide icon description if icon is used"
-                    inputref={
-                      Object {
-                        "current": <button
-                          class="bx--btn bx--btn--danger--primary"
-                          disabled=""
-                          inputref="[object Object]"
-                          tabindex="0"
-                          type="button"
-                        >
-                          Delete application
-                        </button>,
-                      }
-                    }
-                    kind="danger--primary"
-                    onClick={[Function]}
-                    small={false}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    <button
-                      className="bx--btn bx--btn--danger--primary"
+                      <button
+                        className="bx--btn bx--btn--tertiary"
+                        disabled={false}
+                        onClick={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        Cancel
+                      </button>
+                    </Button>
+                    <Button
                       disabled={true}
+                      iconDescription="Provide icon description if icon is used"
                       inputref={
                         Object {
                           "current": <button
@@ -566,20 +693,43 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                           </button>,
                         }
                       }
+                      kind="danger--primary"
                       onClick={[Function]}
+                      small={false}
                       tabIndex={0}
                       type="button"
                     >
-                      Delete application
-                    </button>
-                  </Button>
+                      <button
+                        className="bx--btn bx--btn--danger--primary"
+                        disabled={true}
+                        inputref={
+                          Object {
+                            "current": <button
+                              class="bx--btn bx--btn--danger--primary"
+                              disabled=""
+                              inputref="[object Object]"
+                              tabindex="0"
+                              type="button"
+                            >
+                              Delete application
+                            </button>,
+                          }
+                        }
+                        onClick={[Function]}
+                        tabIndex={0}
+                        type="button"
+                      >
+                        Delete application
+                      </button>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Modal>
-      </div>
-    </RemoveResourceModal>
+          </Modal>
+        </div>
+      </RemoveResourceModal>
+    </Connect(RemoveResourceModal)>
   </Router>
 </BrowserRouter>
 `;

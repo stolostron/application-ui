@@ -262,6 +262,7 @@ describe("common actions ", () => {
       filters: [{ property: "kind", values: ["application"] }],
       keywords: [],
       relatedKinds: [
+        "configmap",
         "deployment",
         "deploymentconfig",
         "daemonset",
@@ -322,6 +323,7 @@ describe("common actions ", () => {
       ],
       keywords: [],
       relatedKinds: [
+        "configmap",
         "deployment",
         "deploymentconfig",
         "daemonset",
@@ -399,6 +401,7 @@ describe("common actions ", () => {
       ],
       keywords: [],
       relatedKinds: [
+        "configmap",
         "deployment",
         "deploymentconfig",
         "daemonset",
@@ -488,6 +491,7 @@ describe("common actions ", () => {
       ],
       keywords: [],
       relatedKinds: [
+        "configmap",
         "deployment",
         "deploymentconfig",
         "daemonset",

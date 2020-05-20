@@ -174,7 +174,6 @@ describe("ApplicationTopologyModule with selected node ID", () => {
   });
 
   it("ApplicationTopologyModule renders correctly when topology is expanded---bbb", () => {
-    debugger
     const tree = renderer
       .create(
         <BrowserRouter>
@@ -196,7 +195,6 @@ describe("ApplicationTopologyModule with selected node ID", () => {
     setShowExpandedTopology: jest.fn()
   };
   it("ApplicationTopologyModule renders correctly when topology is expanded click---ccc", () => {
-    debugger
     const wrapper = mount(
       <BrowserRouter>
         <Provider store={store}>

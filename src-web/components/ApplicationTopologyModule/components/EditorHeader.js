@@ -14,13 +14,12 @@ import '../scss/editor-header.scss'
 import msgs from '../../../../nls/platform.properties'
 
 class EditorHeader extends React.Component {
-
   static propTypes = {
     children: PropTypes.node,
-    locale: PropTypes.string,
-  }
+    locale: PropTypes.string
+  };
 
-  constructor (props) {
+  constructor(props) {
     super(props)
   }
 
@@ -28,14 +27,18 @@ class EditorHeader extends React.Component {
     const { children, locale } = this.props
     const editorToolbarTitle = msgs.get('editor.toolbar', locale)
     return (
-      <div className='creation-view-yaml-header' >
-        <div className='creation-view-yaml-header-toolbar' role='region' aria-label={editorToolbarTitle} id={editorToolbarTitle}>
+      <div className="creation-view-yaml-header">
+        <div
+          className="creation-view-yaml-header-toolbar"
+          role="region"
+          aria-label={editorToolbarTitle}
+          id={editorToolbarTitle}
+        >
           {children}
         </div>
       </div>
     )
   }
-
 }
 
 export default EditorHeader

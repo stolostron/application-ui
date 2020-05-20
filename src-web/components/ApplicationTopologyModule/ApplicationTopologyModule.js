@@ -145,7 +145,7 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
     this.startPolling(DEFAULT_REFRESH_TIME * 1000)
-    window.addEventListener('resize',  this.layoutEditors.bind(this))
+    window.addEventListener('resize', this.layoutEditors.bind(this))
   }
 
   componentDidMount() {
@@ -351,7 +351,7 @@ class ApplicationTopologyModule extends React.Component {
       const model = editor.getModel()
       const hasUndo = model.canUndo()
       const hasRedo = model.canRedo()
-      this.setState({hasUndo, hasRedo})
+      this.setState({ hasUndo, hasRedo })
     })
   };
 
@@ -360,14 +360,13 @@ class ApplicationTopologyModule extends React.Component {
     this.layoutEditors()
   };
 
-
   layoutEditors() {
     if (this.containerRef && this.editor) {
       const controlsSize = this.handleSplitterDefault()
       const rect = this.containerRef.getBoundingClientRect()
       const width = rect.width - controlsSize - 15
       const height = rect.height - 80
-      this.editor.layout({width, height})
+      this.editor.layout({ width, height })
     }
   }
 
@@ -525,9 +524,7 @@ class ApplicationTopologyModule extends React.Component {
     const renderTextView = () => {
       return (
         <div className="resourceEditorContainer">
-          <EditorHeader
-            locale={locale}
-      >
+          <EditorHeader locale={locale}>
             <EditorBar
               hasUndo={hasUndo}
               hasRedo={hasRedo}
@@ -652,13 +649,15 @@ class ApplicationTopologyModule extends React.Component {
     if (this.editor) {
       textNode = textNode || this.selectedNode
       if (textNode) {
-        const row = _.get(textNode, 'specs.row', 0)+1
-        this.editor.setSelections([{
-          positionColumn:132,
-          positionLineNumber:row,
-          selectionStartColumn:0,
-          selectionStartLineNumber:row
-        }])
+        const row = _.get(textNode, 'specs.row', 0) + 1
+        this.editor.setSelections([
+          {
+            positionColumn: 132,
+            positionLineNumber: row,
+            selectionStartColumn: 0,
+            selectionStartLineNumber: row
+          }
+        ])
         this.editor.revealLineInCenter(row, 0)
       }
       delete this.selectedNode
@@ -701,38 +700,53 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   handleSearch(command) {
-    if (this.selectionIndex !== -1 && this.selections && this.selections.length > 1) {
-      if (command==='next') {
+    if (
+      this.selectionIndex !== -1 &&
+      this.selections &&
+      this.selections.length > 1
+    ) {
+      if (command === 'next') {
         this.selectionIndex++
-        if (this.selectionIndex>=this.selections.length) {
+        if (this.selectionIndex >= this.selections.length) {
           this.selectionIndex = 0
         } else {
           this.selectionIndex--
-          if (this.selectionIndex<0) {
-            this.selectionIndex = this.selections.length-1
+          if (this.selectionIndex < 0) {
+            this.selectionIndex = this.selections.length - 1
           }
         }
       }
-      this.editor.revealLineInCenter(this.selections[this.selectionIndex].selectionStartLineNumber, 0)
+      this.editor.revealLineInCenter(
+        this.selections[this.selectionIndex].selectionStartLineNumber,
+        0
+      )
     }
   }
 
   handleSearchChange(searchName) {
-    if (searchName.length>1 || this.nameSearchMode) {
+    if (searchName.length > 1 || this.nameSearchMode) {
       if (searchName) {
         const found = this.editor.getModel().findMatches(searchName)
-        if (found.length>0) {
-          this.selections = found.map(({range})=>{
-            const {endColumn, endLineNumber, startColumn, startLineNumber} = range
-            return  {
-              positionColumn:endColumn,
-              positionLineNumber:endLineNumber,
-              selectionStartColumn:startColumn,
-              selectionStartLineNumber:startLineNumber
+        if (found.length > 0) {
+          this.selections = found.map(({ range }) => {
+            const {
+              endColumn,
+              endLineNumber,
+              startColumn,
+              startLineNumber
+            } = range
+            return {
+              positionColumn: endColumn,
+              positionLineNumber: endLineNumber,
+              selectionStartColumn: startColumn,
+              selectionStartLineNumber: startLineNumber
             }
           })
           this.editor.setSelections(this.selections)
-          this.editor.revealLineInCenter(this.selections[0].selectionStartLineNumber, 0)
+          this.editor.revealLineInCenter(
+            this.selections[0].selectionStartLineNumber,
+            0
+          )
           this.selectionIndex = 1
         } else {
           this.selections = null
@@ -743,7 +757,7 @@ class ApplicationTopologyModule extends React.Component {
         this.selectionIndex = -1
       }
       this.nameSearch = searchName
-      this.nameSearchMode = searchName.length>0
+      this.nameSearchMode = searchName.length > 0
     }
   }
 

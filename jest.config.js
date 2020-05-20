@@ -45,9 +45,7 @@ const jestConfig = {
     '**/tests/jest/**/*.test.js',
     '**/src-web/**/*.test.js'
   ],
-  transformIgnorePatterns: [
-    '/node_modules/(?!monaco-editor).+\\.js$'
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!monaco-editor).+\\.js$'],
   globalSetup: '<rootDir>/tests/jest/config/properties-to-json.js',
   setupFiles: ['<rootDir>/tests/jest/config/setup.js'],
   moduleNameMapper: {

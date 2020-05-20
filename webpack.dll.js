@@ -58,25 +58,27 @@ module.exports = {
       {
         test: /\.css$/,
         include: path.resolve(__dirname, './node_modules/monaco-editor'),
-        use: [{ loader: 'style-loader', options: { base: 2000 } },
-          { loader: 'css-loader', options: { base: 3000 } }],
+        use: [
+          { loader: 'style-loader', options: { base: 2000 } },
+          { loader: 'css-loader', options: { base: 3000 } }
+        ]
       },
       {
         test: /\.(woff2?|ttf|eot|otf)(\?.*$|$)/,
         exclude: overpassTest,
         loader: 'file-loader',
         options: {
-          name: 'assets/[name].[ext]',
-        },
+          name: 'assets/[name].[ext]'
+        }
       },
       {
         // Resolve to an empty module for overpass fonts included in SASS files.
         // This way file-loader won't parse them. Make sure this is BELOW the
         // file-loader rule.
         test: overpassTest,
-        loader: 'null-loader',
-      },
-    ],
+        loader: 'null-loader'
+      }
+    ]
   },
 
   output: {

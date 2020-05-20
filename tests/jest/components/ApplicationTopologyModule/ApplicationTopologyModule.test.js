@@ -147,10 +147,10 @@ const store = createStore(
 
 // need to mock a div w/i a div to be parent of monaco editor
 function createNodeMock() {
-  var iDiv = document.createElement('div');
-  var innerDiv = document.createElement('div');
+  var iDiv = document.createElement("div");
+  var innerDiv = document.createElement("div");
   iDiv.appendChild(innerDiv);
-  return innerDiv
+  return innerDiv;
 }
 
 const locale = "en-US";
@@ -185,8 +185,9 @@ describe("ApplicationTopologyModule with selected node ID", () => {
               locale={locale}
             />
           </Provider>
-        </BrowserRouter>
-        , {createNodeMock})
+        </BrowserRouter>,
+        { createNodeMock }
+      )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

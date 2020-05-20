@@ -60,6 +60,41 @@ export const getActiveChannel = localStoreKey => {
   return undefined
 }
 
+const processPodData = (node, podMap, isClusterGrouped, applicationDetails) => {
+  const { name, type } = node
+  //must have pods
+  const podStatusMap = {}
+  const clusterName = getClusterName(node.id)
+  let resourceArr = applicationDetails.items[0].related
+  resourceArr = resourceArr.find(resource => {
+    return resource.kind === type
+  })
+
+  if (resourceArr) {
+    resourceArr.items.forEach(workload => {
+      if (
+        workload.name === name &&
+        clusterName.indexOf(workload.cluster) > -1
+      ) {
+        podStatusMap[workload.cluster] = {
+          available: workload.available,
+          current: workload.current,
+          desired: workload.desired,
+          ready: workload.ready
+        }
+      }
+    })
+  }
+
+  _.set(node, 'podStatusMap', podStatusMap)
+  if (clusterName.indexOf(', ') > -1) {
+    podMap[name] = node
+    isClusterGrouped.value = true
+  } else {
+    podMap[`${name}-${clusterName}`] = node
+  }
+}
+
 export const getDiagramElements = (
   topology,
   localStoreKey,
@@ -88,10 +123,11 @@ export const getDiagramElements = (
     let channels = []
     const originalMap = {}
     const podMap = {}
-    let isClusterGrouped = false
-    let clusterName
+    const isClusterGrouped = {
+      value: false
+    }
     nodes.forEach(node => {
-      const { type, name } = node
+      const { type } = node
 
       if (type === 'application') {
         activeChannel = _.get(
@@ -103,14 +139,7 @@ export const getDiagramElements = (
       }
 
       if (nodeMustHavePods(node)) {
-        //must have pods
-        clusterName = getClusterName(node.id)
-        if (clusterName.indexOf(', ') > -1) {
-          podMap[name] = node
-          isClusterGrouped = true
-        } else {
-          podMap[`${name}-${clusterName}`] = node
-        }
+        processPodData(node, podMap, isClusterGrouped, applicationDetails)
       }
 
       const raw = _.get(node, 'specs.raw')
@@ -289,7 +318,7 @@ export const addDiagramDetails = (
           name = name.substr(0, idx)
         }
       }
-      const podName = isClusterGrouped ? name : `${name}-${pod.cluster}`
+      const podName = isClusterGrouped.value ? name : `${name}-${pod.cluster}`
       if (podMap[podName]) {
         const podModel = _.get(podMap[podName], 'specs.podModel', {})
         podModel[pod.name] = pod

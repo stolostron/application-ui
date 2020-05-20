@@ -10,11 +10,13 @@
 import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import "cross-fetch/polyfill";
-require('jest-canvas-mock')
+require("jest-canvas-mock");
 
 configure({ adapter: new Adapter() });
 
-document.queryCommandSupported=()=>{return true}
+document.queryCommandSupported = () => {
+  return true;
+};
 
 jest.mock("../../../nls/platform.properties", () => ({
   get: jest.fn(key => {

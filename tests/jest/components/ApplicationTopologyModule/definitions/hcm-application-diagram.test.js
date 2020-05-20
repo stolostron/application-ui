@@ -224,8 +224,177 @@ describe("hcm-application-diagram-tests", () => {
       status: "DONE",
       nodes: nodes
     };
+
+    const applicationDetails = {
+      forceReload: false,
+      items: [
+        {
+          apigroup: "app.k8s.io",
+          cluster: "local-cluster",
+          created: "2020-04-20T22:02:05Z",
+          dashboard: "",
+          kind: "application",
+          label: "",
+          name: "mortgage-app",
+          namespace: "default",
+          related: [
+            {
+              items: [
+                {
+                  apiversion: "v1",
+                  cluster: "sharingpenguin",
+                  container: "mortgage-app-mortgage",
+                  created: "2020-05-19T13:58:48Z",
+                  hostIP: "10.0.135.34",
+                  image: "fxiang/mortgage:0.4.0",
+                  kind: "pod",
+                  label:
+                    "app=mortgage-app-mortgage; pod-template-hash=55c65b9c8f",
+                  name: "mortgage-app-deploy-55c65b9c8f-nbwtj",
+                  namespace: "default",
+                  podIP: "10.131.0.243",
+                  restarts: 0,
+                  selfLink:
+                    "/api/v1/namespaces/default/pods/mortgage-app-deploy-55c65b9c8f-nbwtj",
+                  startedAt: "2020-05-19T13:58:48Z",
+                  status: "Running",
+                  _clusterNamespace: "sharingpenguin-ns",
+                  _rbac: "sharingpenguin-ns_null_pods",
+                  _uid: "sharingpenguin/1681eca1-10a4-451d-903b-26c2ed6e1cd6"
+                },
+                {
+                  apiversion: "v1",
+                  cluster: "sharingpenguin",
+                  container: "mortgage-app-mortgage",
+                  created: "2020-05-19T13:58:48Z",
+                  hostIP: "10.0.135.34",
+                  image: "fxiang/mortgage:0.4.0",
+                  kind: "pod",
+                  label:
+                    "app=mortgage-app-mortgage; pod-template-hash=55c65b9c8f",
+                  name: "mortgage-app-deploy-55c65b9c8f-nbwtj",
+                  namespace: "default",
+                  podIP: "10.131.0.243",
+                  restarts: 0,
+                  selfLink:
+                    "/api/v1/namespaces/default/pods/mortgage-app-deploy-55c65b9c8f-nbwtj",
+                  startedAt: "2020-05-19T13:58:48Z",
+                  status: "Running",
+                  _clusterNamespace: "sharingpenguin-ns",
+                  _rbac: "sharingpenguin-ns_null_pods",
+                  _uid: "sharingpenguin/1681eca1-10a4-451d-903b-26c2ed6e1cd6"
+                }
+              ],
+              kind: "pod",
+              __typename: "SearchRelatedResult"
+            },
+            {
+              items: [
+                {
+                  apigroup: "apps",
+                  apiversion: "v1",
+                  available: 1,
+                  cluster: "sharingpenguin",
+                  created: "2020-05-19T13:58:48Z",
+                  current: 1,
+                  desired: 1,
+                  kind: "deployment",
+                  label: "app=mortgage-app-mortgage",
+                  name: "mortgage-app-deploy",
+                  namespace: "default",
+                  ready: 1,
+                  selfLink:
+                    "/apis/apps/v1/namespaces/default/deployments/mortgage-app-deploy",
+                  _clusterNamespace: "sharingpenguin-ns",
+                  _hostingDeployable:
+                    "mortgage-ch/mortgage-channel-Deployment-mortgage-app-deploy",
+                  _hostingSubscription: "default/mortgage-app-subscription",
+                  _rbac: "sharingpenguin-ns_apps_deployments",
+                  _uid: "sharingpenguin/77b0f670-9335-4b62-aee3-95ba0d01c848"
+                }
+              ],
+              kind: "deployment",
+              __typename: "SearchRelatedResult"
+            },
+            {
+              items: [
+                {
+                  apiversion: "v1",
+                  cluster: "sharingpenguin",
+                  clusterIP: "172.30.8.11",
+                  created: "2020-05-19T13:59:49Z",
+                  kind: "service",
+                  label: "app=mortgage-app-mortgage",
+                  name: "mortgage-app-svc",
+                  namespace: "default",
+                  port: "9080:30871/TCP",
+                  selfLink:
+                    "/api/v1/namespaces/default/services/mortgage-app-svc",
+                  type: "NodePort",
+                  _clusterNamespace: "sharingpenguin-ns",
+                  _hostingDeployable:
+                    "mortgage-ch/mortgage-channel-Service-mortgage-app-svc",
+                  _hostingSubscription: "default/mortgage-app-subscription",
+                  _rbac: "sharingpenguin-ns_null_services",
+                  _uid: "sharingpenguin/ae883b30-a91c-43cb-a5fd-786799bc9d18"
+                }
+              ],
+              kind: "service",
+              __typename: "SearchRelatedResult"
+            },
+            {
+              items: [
+                {
+                  apigroup: "apps",
+                  apiversion: "v1",
+                  cluster: "sharingpenguin",
+                  created: "2020-05-19T13:58:48Z",
+                  current: 1,
+                  desired: 1,
+                  kind: "replicaset",
+                  label:
+                    "app=mortgage-app-mortgage; pod-template-hash=55c65b9c8f",
+                  name: "mortgage-app-deploy-55c65b9c8f",
+                  namespace: "default",
+                  selfLink:
+                    "/apis/apps/v1/namespaces/default/replicasets/mortgage-app-deploy-55c65b9c8f",
+                  _clusterNamespace: "sharingpenguin-ns",
+                  _hostingDeployable:
+                    "mortgage-ch/mortgage-channel-Deployment-mortgage-app-deploy",
+                  _hostingSubscription: "default/mortgage-app-subscription",
+                  _rbac: "sharingpenguin-ns_apps_replicasets",
+                  _uid: "sharingpenguin/fe832e17-aa0d-455c-b893-579da494ca82"
+                }
+              ],
+              kind: "replicaset",
+              __typename: "SearchRelatedResult"
+            }
+          ],
+          selfLink:
+            "/apis/app.k8s.io/v1beta1/namespaces/default/applications/mortgage-app",
+          _hubClusterResource: "true",
+          _rbac: "default_app.k8s.io_applications",
+          _uid: "local-cluster/687cfa53-db56-4744-b3a1-046045d8f338"
+        }
+      ],
+      itemsPerPage: 20,
+      page: 1,
+      pendingActions: [],
+      postErrorMsg: "",
+      putErrorMsg: "",
+      resourceVersion: undefined,
+      search: "",
+      sortDirection: "asc",
+      status: "DONE"
+    };
     expect(
-      getDiagramElements(topology, "key", "name", "namespace").nodes
+      getDiagramElements(
+        topology,
+        "key",
+        "name",
+        "namespace",
+        applicationDetails
+      ).nodes
     ).toMatchObject([
       {
         id: "--clusters--app",

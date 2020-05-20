@@ -14,7 +14,7 @@ import MonacoEditor from 'react-monaco-editor'
 import {
   global_BackgroundColor_100 as lineNumberActiveForeground,
   global_BackgroundColor_300 as lineNumberForeground,
-  global_BackgroundColor_dark_100 as editorBackground,
+  global_BackgroundColor_dark_100 as editorBackground
 } from '@patternfly/react-tokens'
 
 import 'monaco-editor/esm/vs/editor/editor.all.js'
@@ -28,34 +28,33 @@ if (window.monaco) {
     base: 'vs-dark',
     inherit: true,
     rules: [
-    // avoid pf tokens for `rules` since tokens are opaque strings that might not be hex values
+      // avoid pf tokens for `rules` since tokens are opaque strings that might not be hex values
       { token: 'number', foreground: 'ace12e' },
       { token: 'type', foreground: '73bcf7' },
       { token: 'string', foreground: 'f0ab00' },
-      { token: 'keyword', foreground: 'cbc0ff' },
+      { token: 'keyword', foreground: 'cbc0ff' }
     ],
     colors: {
       'editor.background': editorBackground.value,
       'editorGutter.background': '#292e34', // no pf token defined
       'editorLineNumber.activeForeground': lineNumberActiveForeground.value,
-      'editorLineNumber.foreground': lineNumberForeground.value,
-    },
+      'editorLineNumber.foreground': lineNumberForeground.value
+    }
   })
 }
 
 window.MonacoEnvironment = {
-  getWorkerUrl: function () {
+  getWorkerUrl: function() {
     return `${config.contextPath}/editor.worker.js`
   }
 }
 
 class IsomorphicEditor extends React.Component {
-
   static propTypes = {
     handleParsingError: PropTypes.func,
     setEditor: PropTypes.func,
-    validator: PropTypes.func,
-  }
+    validator: PropTypes.func
+  };
 
   constructor(props) {
     super(props)
@@ -63,13 +62,13 @@ class IsomorphicEditor extends React.Component {
   }
 
   handleEscKeyPress(event) {
-    if(event.key === 'Escape' && event.target.className === 'ace_text-input') {
+    if (event.key === 'Escape' && event.target.className === 'ace_text-input') {
       event.target.blur()
     }
   }
 
   componentDidMount() {
-    window.addEventListener('keydown',this.handleEscKeyPress)
+    window.addEventListener('keydown', this.handleEscKeyPress)
   }
 
   componentWillUnmount() {
@@ -82,7 +81,10 @@ class IsomorphicEditor extends React.Component {
     let stylesheet = document.querySelector('link[href*=main]')
     if (stylesheet) {
       stylesheet = stylesheet.sheet
-      stylesheet.insertRule('span { font-family: monospace }', stylesheet.cssRules.length)
+      stylesheet.insertRule(
+        'span { font-family: monospace }',
+        stylesheet.cssRules.length
+      )
     }
   }
 
@@ -101,7 +103,7 @@ class IsomorphicEditor extends React.Component {
     let stylesheet = document.querySelector('link[href*=main]')
     if (stylesheet) {
       stylesheet = stylesheet.sheet
-      stylesheet.deleteRule(stylesheet.cssRules.length-1)
+      stylesheet.deleteRule(stylesheet.cssRules.length - 1)
     }
 
     monaco.editor.setModelLanguage(editor.getModel(), 'yaml')
@@ -115,26 +117,29 @@ class IsomorphicEditor extends React.Component {
             ? parse(yaml, validator, this.context.locale)
             : { exceptions: [] }
         const decorationList = []
-        exceptions.forEach(({row, text})=>{
+        exceptions.forEach(({ row, text }) => {
           decorationList.push({
-            range: new monaco.Range(row+1, 0, row+1, 132),
+            range: new monaco.Range(row + 1, 0, row + 1, 132),
             options: {
               isWholeLine: true,
               glyphMarginClassName: 'errorDecoration',
-              glyphMarginHoverMessage: {value: text},
-              minimap: {color: 'red' , position:1}
+              glyphMarginHoverMessage: { value: text },
+              minimap: { color: 'red', position: 1 }
             }
           })
         })
-        exceptions.forEach(({row, column})=>{
+        exceptions.forEach(({ row, column }) => {
           decorationList.push({
-            range: new monaco.Range(row+1, column-6, row+1, column+6),
+            range: new monaco.Range(row + 1, column - 6, row + 1, column + 6),
             options: {
-              className: 'squiggly-error',
+              className: 'squiggly-error'
             }
           })
         })
-        editor.decorations = editor.deltaDecorations(editor.decorations, decorationList)
+        editor.decorations = editor.deltaDecorations(
+          editor.decorations,
+          decorationList
+        )
         let reason = exceptions
           .map(({ text }) => {
             return text
@@ -146,21 +151,29 @@ class IsomorphicEditor extends React.Component {
         handleParsingError(exceptions.length > 0 ? { reason } : null)
       })
     }
-
   }
 
-  render = () => <MonacoEditor
-    {...this.props}
-    editorDidMount={this.editorDidMount.bind(this)}
-    editorWillMount={this.editorWillMount.bind(this)}
-  />
+  render = () => (
+    <MonacoEditor
+      {...this.props}
+      editorDidMount={this.editorDidMount.bind(this)}
+      editorWillMount={this.editorWillMount.bind(this)}
+    />
+  );
 }
 
 class YamlEditor extends React.PureComponent {
   render() {
-    const { onYamlChange, setEditor, yaml,
-      validator, handleParsingError,
-      width='49.5vw', height='40vh', readOnly=false } = this.props
+    const {
+      onYamlChange,
+      setEditor,
+      yaml,
+      validator,
+      handleParsingError,
+      width = '49.5vw',
+      height = '40vh',
+      readOnly = false
+    } = this.props
     return (
       <div className="yamlEditorContainer">
         <IsomorphicEditor
@@ -183,12 +196,13 @@ class YamlEditor extends React.PureComponent {
             tabSize: 2,
             scrollbar: {
               verticalScrollbarSize: 17,
-              horizontalScrollbarSize: 17,
+              horizontalScrollbarSize: 17
             }
           }}
           setEditor={setEditor}
-      />
-      </div>)
+        />
+      </div>
+    )
   }
 }
 
@@ -200,7 +214,7 @@ YamlEditor.propTypes = {
   setEditor: PropTypes.func,
   validator: PropTypes.func,
   width: PropTypes.string,
-  yaml: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  yaml: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
 }
 
 export default YamlEditor

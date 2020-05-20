@@ -16,8 +16,8 @@ let path = require("path"),
   GitRevisionPlugin = require("git-revision-webpack-plugin"),
   VersionFile = require("webpack-version-file"),
   config = require("./config"),
-  CompressionPlugin = require('compression-webpack-plugin'),
-  MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+  CompressionPlugin = require("compression-webpack-plugin"),
+  MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 let NO_OP = () => {},
   PRODUCTION = process.env.BUILD_ENV
@@ -26,7 +26,7 @@ let NO_OP = () => {},
 
 process.env.BABEL_ENV = "client";
 
-const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/
+const overpassTest = /overpass-.*\.(woff2?|ttf|eot|otf)(\?.*$|$)/;
 
 const prodExternals = {};
 
@@ -36,7 +36,7 @@ module.exports = {
   stats: { children: false },
   entry: {
     main: ["babel-polyfill", "./src-web/index.js"],
-    'editor.worker': ['monaco-editor/esm/vs/editor/editor.worker.js']
+    "editor.worker": ["monaco-editor/esm/vs/editor/editor.worker.js"]
   },
 
   externals: Object.assign(PRODUCTION ? prodExternals : {}, {
@@ -91,8 +91,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: path.resolve(__dirname, './node_modules/monaco-editor'),
-        use: ['style-loader', 'css-loader'],
+        include: path.resolve(__dirname, "./node_modules/monaco-editor"),
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.properties$/,
@@ -117,18 +117,18 @@ module.exports = {
       {
         test: /\.(woff2?|ttf|eot|otf)(\?.*$|$)/,
         exclude: overpassTest,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          name: 'assets/[name].[ext]',
-        },
+          name: "assets/[name].[ext]"
+        }
       },
       {
         // Resolve to an empty module for overpass fonts included in SASS files.
         // This way file-loader won't parse them. Make sure this is BELOW the
         // file-loader rule.
         test: overpassTest,
-        loader: 'null-loader',
-      },
+        loader: "null-loader"
+      }
     ],
     noParse: [
       // don't parse minified bundles (vendor libs) for faster builds
@@ -177,7 +177,7 @@ module.exports = {
       minRatio: 1
     }),
     new MonacoWebpackPlugin({
-      languages: ['yaml'],
+      languages: ["yaml"]
     }),
     new AssetsPlugin({
       path: path.join(__dirname, "public"),

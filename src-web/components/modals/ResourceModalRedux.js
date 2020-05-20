@@ -125,11 +125,31 @@ class ResourceModal extends React.PureComponent {
 
   componentDidMount() {
     window.addEventListener('beforeunload', this.onUnload)
+    window.addEventListener('resize', this.layoutEditors.bind(this))
     this.resourceModal.focus()
   }
 
   componentWillUnmount() {
     window.removeEventListener('beforeunload', this.onUnload)
+  }
+
+  setContainerRef = container => {
+    this.containerRef = container
+    this.layoutEditors()
+  };
+
+  setEditor = editor => {
+    this.editor = editor
+    this.layoutEditors()
+  };
+
+  layoutEditors() {
+    if (this.containerRef && this.editor) {
+      const rect = this.containerRef.getBoundingClientRect()
+      const width = rect.width
+      const height = rect.height
+      this.editor.layout({ width, height })
+    }
   }
 
   render() {
@@ -200,11 +220,16 @@ class ResourceModal extends React.PureComponent {
                   iconDescription={msgs.get('svg.description.error', locale)}
                 />
               ))}
-
-            <YamlEditor
-              onYamlChange={this.onChange}
-              yaml={this.state && this.state.data}
-            />
+            <div
+              className="yamlEditorContainerContainer"
+              ref={this.setContainerRef}
+            >
+              <YamlEditor
+                setEditor={this.setEditor}
+                onYamlChange={this.onChange}
+                yaml={this.state && this.state.data}
+              />
+            </div>
           </ModalBody>
           <ModalFooter
             primaryButtonText={msgs.get('modal.button.save', locale)}

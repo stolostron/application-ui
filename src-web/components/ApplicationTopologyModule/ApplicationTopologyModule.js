@@ -40,6 +40,7 @@ import {
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
 import { getPollInterval } from '../Topology/viewer/RefreshTimeSelect'
+import EditorHeader from './components/EditorHeader'
 import EditorBar from './components/EditorBar'
 import YamlEditor from '../common/YamlEditor'
 import config from '../../../lib/shared/config'
@@ -120,9 +121,6 @@ class ApplicationTopologyModule extends React.Component {
       hasUndo: false,
       hasRedo: false
     }
-    this.layoutEditorsDebounced = _.debounce(() => {
-      this.layoutEditors()
-    }, 150)
     this.parseDebounced = _.debounce(() => {
       this.handleParse()
     }, 500)
@@ -147,6 +145,7 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
     this.startPolling(DEFAULT_REFRESH_TIME * 1000)
+    window.addEventListener('resize', this.layoutEditors.bind(this))
   }
 
   componentDidMount() {
@@ -337,7 +336,7 @@ class ApplicationTopologyModule extends React.Component {
 
   handleSplitterChange = size => {
     localStorage.setItem(`${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`, size)
-    this.layoutEditorsDebounced()
+    this.layoutEditors()
   };
 
   setContainerRef = container => {
@@ -348,17 +347,10 @@ class ApplicationTopologyModule extends React.Component {
   setEditor = editor => {
     this.editor = editor
     this.layoutEditors()
-    this.selectTextLine = this.selectTextLine.bind(this)
-    this.selectAfterRender = true
-    this.editor.renderer.on('afterRender', this.selectTextLine)
-    this.editor.on('input', () => {
-      const undoManager = this.editor.session.getUndoManager()
-      if (this.resetUndoManager) {
-        delete this.resetUndoManager
-        undoManager.reset()
-      }
-      const hasUndo = undoManager.hasUndo()
-      const hasRedo = undoManager.hasRedo()
+    editor.onDidChangeModelContent(() => {
+      const model = editor.getModel()
+      const hasUndo = model.canUndo()
+      const hasRedo = model.canRedo()
       this.setState({ hasUndo, hasRedo })
     })
   };
@@ -369,22 +361,12 @@ class ApplicationTopologyModule extends React.Component {
   };
 
   layoutEditors() {
-    if (this.containerRef && this.viewer && this.editor) {
-      const diagramSize = localStorage.getItem(
-        `${MCM_DESIGN_SPLITTER_SIZE_COOKIE}`
-      )
-      const editorSize =
-        this.containerRef.getBoundingClientRect().width - diagramSize
-      // change editor font size based on how much horiozontal space it has
-      const less400 = editorSize <= 400 ? 10 : 12
-      const fontSize = editorSize <= 250 ? 6 : less400
-      this.viewer.resize()
-      this.editor.setFontSize(fontSize)
-      this.editor.renderer.setShowGutter(editorSize > 250)
-      this.editor.resize()
-      this.editor.setAnimatedScroll(false)
-      const cursor = this.editor.selection.getCursor()
-      this.editor.scrollToLine(cursor.row, true)
+    if (this.containerRef && this.editor) {
+      const controlsSize = this.handleSplitterDefault()
+      const rect = this.containerRef.getBoundingClientRect()
+      const width = rect.width - controlsSize - 15
+      const height = rect.height - 80
+      this.editor.layout({ width, height })
     }
   }
 
@@ -414,13 +396,10 @@ class ApplicationTopologyModule extends React.Component {
       updateMessage,
       updateMsgKind
     } = this.state
-    const { locale } = this.props
+    const { locale } = this.context
 
-    const typeFilterTitle = msgs.get('type', locale)
     const diagramTitle = msgs.get('application.diagram', locale)
-    const viewFullMsg = showExpandedTopology
-      ? msgs.get('application.diagram.view.collapsed', locale)
-      : msgs.get('application.diagram.view.full', locale)
+    const viewFullMsg = msgs.get('application.diagram.view.full', locale)
 
     const diagramClasses = classNames({
       resourceDiagramSourceContainer: true,
@@ -545,12 +524,7 @@ class ApplicationTopologyModule extends React.Component {
     const renderTextView = () => {
       return (
         <div className="resourceEditorContainer">
-          <div
-            className="resource-editor-toolbar"
-            role="region"
-            aria-label={typeFilterTitle}
-            id={typeFilterTitle}
-          >
+          <EditorHeader locale={locale}>
             <EditorBar
               hasUndo={hasUndo}
               hasRedo={hasRedo}
@@ -559,7 +533,7 @@ class ApplicationTopologyModule extends React.Component {
               handleEditorCommand={this.handleEditorCommand}
               handleSearchChange={this.handleSearchChange}
             />
-          </div>
+          </EditorHeader>
           {updateMessage && (
             <InlineNotification
               kind={updateMsgKind}
@@ -579,26 +553,10 @@ class ApplicationTopologyModule extends React.Component {
             getViewer={this.getViewer}
             setContainerEditor={this.setContainerEditor}
             setEditor={this.setEditor}
-            wrapEnabled={true}
             readOnly={true}
-            theme={'vibrant_ink'}
             onYamlChange={this.handleEditorChange}
             yaml={currentYaml}
           />
-          <div
-            className="diagram-collapse-button"
-            tabIndex="0"
-            role={'button'}
-            title={viewFullMsg}
-            aria-label={viewFullMsg}
-            onClick={this.handleToggleSize}
-            onKeyPress={this.closeTextView}
-          >
-            {viewFullMsg}
-            <svg className="icon">
-              <use href={'#diagramIcons_launch'} />
-            </svg>
-          </div>
         </div>
       )
     }
@@ -623,6 +581,17 @@ class ApplicationTopologyModule extends React.Component {
     )
   }
 
+  handleNodeSelected(node) {
+    if (_.get(node, 'specs.isDesign')) {
+      const { showExpandedTopology } = this.props
+      if (showExpandedTopology) {
+        this.selectTextLine(node)
+        return true
+      }
+    }
+    return false
+  }
+
   changeTheChannel(fetchChannel) {
     this.setState({ changingChannel: true, activeChannel: fetchChannel })
     this.props.fetchAppTopology(fetchChannel)
@@ -644,13 +613,6 @@ class ApplicationTopologyModule extends React.Component {
       actions.setShowExpandedTopology({
         showExpandedTopology: true,
         selectedNodeId: yamlNode.id
-      })
-    } else {
-      this.setState(() => {
-        this.selectTextLine(yamlNode)
-        return {
-          selectedNode: yamlNode
-        }
       })
     }
     return true
@@ -685,18 +647,18 @@ class ApplicationTopologyModule extends React.Component {
   // select text editor line associated with selected node/link
   selectTextLine(textNode) {
     if (this.editor) {
-      this.editor.clearSelection()
       textNode = textNode || this.selectedNode
       if (textNode) {
-        const row = _.get(textNode, 'specs.row', 0)
-        this.gotoEditorLine(row)
-      } else if (this.selectAfterRender) {
-        this.editor.scrollToLine(0)
-        this.editor.selection.moveCursorToPosition({ row: 0, column: 0 })
-      }
-      if (this.selectAfterRender) {
-        this.editor.renderer.off('afterRender', this.selectTextLine)
-        delete this.selectAfterRender
+        const row = _.get(textNode, 'specs.row', 0) + 1
+        this.editor.setSelections([
+          {
+            positionColumn: 132,
+            positionLineNumber: row,
+            selectionStartColumn: 0,
+            selectionStartLineNumber: row
+          }
+        ])
+        this.editor.revealLineInCenter(row, 0)
       }
       delete this.selectedNode
     } else {
@@ -717,22 +679,7 @@ class ApplicationTopologyModule extends React.Component {
     switch (command) {
     case 'next':
     case 'previous':
-      if (this.selectionIndex !== -1 && this.selectionRanges.length > 1) {
-        if (command === 'next') {
-          this.selectionIndex++
-          if (this.selectionIndex >= this.selectionRanges.length) {
-            this.selectionIndex = 0
-          }
-        } else if (command === 'previous') {
-          this.selectionIndex--
-          if (this.selectionIndex < 0) {
-            this.selectionIndex = this.selectionRanges.length - 1
-          }
-        }
-        const range = this.selectionRanges[this.selectionIndex]
-        this.editor.selection.setRange(range, true)
-        this.editor.scrollToLine(range.start.row, true)
-      }
+      this.handleSearch(command)
       break
     case 'undo':
       this.editor.undo()
@@ -746,22 +693,67 @@ class ApplicationTopologyModule extends React.Component {
     case 'update':
       this.updateResources()
       break
+    case 'close':
+      this.handleToggleSize()
+      break
+    }
+  }
+
+  handleSearch(command) {
+    if (
+      this.selectionIndex !== -1 &&
+      this.selections &&
+      this.selections.length > 1
+    ) {
+      if (command === 'next') {
+        this.selectionIndex++
+        if (this.selectionIndex >= this.selections.length) {
+          this.selectionIndex = 0
+        } else {
+          this.selectionIndex--
+          if (this.selectionIndex < 0) {
+            this.selectionIndex = this.selections.length - 1
+          }
+        }
+      }
+      this.editor.revealLineInCenter(
+        this.selections[this.selectionIndex].selectionStartLineNumber,
+        0
+      )
     }
   }
 
   handleSearchChange(searchName) {
     if (searchName.length > 1 || this.nameSearchMode) {
-      this.editor.exitMultiSelectMode()
       if (searchName) {
-        const found = this.editor.findAll(searchName)
-        if (found > 0) {
-          const { start: { row } } = this.editor.getSelectionRange()
-          this.editor.setAnimatedScroll(true)
-          this.editor.scrollToLine(row, true)
-          this.selectionRanges = this.editor.selection.getAllRanges()
-          this.selectionIndex = 0
+        const found = this.editor.getModel().findMatches(searchName)
+        if (found.length > 0) {
+          this.selections = found.map(({ range }) => {
+            const {
+              endColumn,
+              endLineNumber,
+              startColumn,
+              startLineNumber
+            } = range
+            return {
+              positionColumn: endColumn,
+              positionLineNumber: endLineNumber,
+              selectionStartColumn: startColumn,
+              selectionStartLineNumber: startLineNumber
+            }
+          })
+          this.editor.setSelections(this.selections)
+          this.editor.revealLineInCenter(
+            this.selections[0].selectionStartLineNumber,
+            0
+          )
+          this.selectionIndex = 1
+        } else {
+          this.selections = null
+          this.selectionIndex = -1
         }
       } else {
+        this.selections = null
         this.selectionIndex = -1
       }
       this.nameSearch = searchName
@@ -803,9 +795,6 @@ class ApplicationTopologyModule extends React.Component {
       hasRedo: false,
       userChanges: false /* eslint-disable-line react/no-unused-state */
     })
-    if (this.editor) {
-      this.editor.scrollToLine(0, true)
-    }
     this.resetUndoManager = true
   }
 

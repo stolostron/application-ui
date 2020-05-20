@@ -1,203 +1,166 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
  * Copyright (c) 2020 Red Hat, Inc.
- * US Government Users Restricted Rights - Use, duplication or disclosure
+ * US Government Users Restricted Rights - Use, duplication or disclosure 
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
-@import 'scss/variables';
 
-.resourceDiagramSourceContainer {
-  position: relative;
+.overview-content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -.625rem;
+  margin-right: -.625rem;
 
-  /* diagram and controls */
-  .resourceDiagramControlsContainer {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
+  .bx--module {
+    flex: 1 0 50%;
+    max-width: 100%;
 
-    /* title */
-    .diagram-title {
-      background-color: #fff;
-      font-weight: bold;
-      font-size: 14px;
-      border-bottom: 1px solid #dfe3e6;
-      padding: 15px;
-    }
+    .bx--module__inner {
+      flex: 1 0 50%;
+      position: relative;
+      min-height: 250px;
+      overflow: auto;
 
-    /* filter bar */
-    .diagram-controls-container {
-      background-color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px 10px 10px;
-      border-top: 1px solid #dfe3e6;
+      .yaml-editor-button {
+        position: relative;
+        float: right;
+        margin: -2.5rem 0.5rem 0 0;
 
-      .diagram-type-filter-bar {
-        display: flex;
+        button {
+          margin: 0 0.3rem;
+          width: 5.5rem;
+          font-size: 0.7rem;
+        }
+
+        .read-only-button {
+          background-color: $ibm-colors__gray--40;
+        }
       }
 
-      .diagram-expand-button {
-        display: flex;
-        font-size: 12px;
-        cursor: pointer;
-        color: #3d70b2;
-
-        .icon {
-          margin-right: 8px;
-          width: 13px;
-          height: 13px;
-          stroke: #3d70b2;
+      .bx--module__content {
+        .bx--structured-list-tbody {
+          .bx--structured-list-row {
+            .bx--structured-list-td:nth-child(2) {
+              max-width: 20rem;
+              word-wrap: break-word;
+            }
+          }
         }
+      }
+
+      .bx--structured-list-th:first-child {
+        min-width: 150px;
       }
     }
   }
 
-  /* source editor */
-  .resourceEditorContainer {
-    width: 100%;
-    height: calc(100vh - 200px);
-    display: flex;
-    flex-direction: column;
-    position: relative;
+  .overview-content-header {
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
 
-    .resource-editor-toolbar {
-      display: flex;
-      align-items: center;
-      margin-top: 26px;
-    }
+  .overview-content-additional-details {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
 
-    .bx--inline-notification {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      z-index: 1000;
-      background-color: white;
-    }
-
-    .diagram-collapse-button {
-      position: absolute;
-      top: 3px;
-      right: 4px;
-      z-index: 10;
-      font-size: 12px;
-      cursor: pointer;
+    .bx--accordion__title {
       color: #3d70b2;
-      display: flex;
-      align-items: center;
-      padding-top: 3px;
+      font-size: 14px;
+      font-weight: bold;
+    }
 
-      .icon {
-        margin-left: 8px;
-        width: 13px;
-        height: 13px;
-        stroke: #3d70b2;
-      }
+    .bx--accordion__item {
+      border-bottom: none;
+    }
+
+    .bx--accordion__content {
+      padding: 0;
+    }
+
+    .overview-content,
+    .bx--module {
+      padding: 0;
+    }
+
+    .bx--accordion__item--active > .bx--accordion__content {
+      padding: 1rem 0rem 1.5rem;
+    }
+
+    .bx--accordion__arrow {
+      fill: #3d70b2;
     }
   }
 
-  /* when editor is open */
-  &.showExpandedTopology {
-    height: calc(100vh - 213px);
-    margin: -30px -4rem -70px -3rem;
-
-    /* when editor is open, diagram and control positions */
-    .resourceDiagramControlsContainer {
-      height: calc(100vh - 225px);
-      box-shadow: none;
-
-      /* title */
-      .diagram-title {
-        display: none;
-      }
-
-      .topology-container {
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
-      }
-
-
-      /* filter bar */
-      .diagram-controls-container {
-        border: none;
-        background-color: unset;
-        padding: 0 0 6px;
-      }
-    }
-  }
-
-  .last-update-container {
+  .module-spinner {
     position: absolute;
-    right: 20px;
-    top: 10px;
-    z-index: 1000;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .overview-cards-info-container {
+    width: 100%;
+    height: 180px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    padding: 15px 25px;
+  }
+
+  &-right {
+    flex: 1 0 50%;
     display: flex;
-    align-items: center;
-    font-size: 9px;
-    line-height: 12px;
+    flex-direction: column;
 
-    .bx--loading--small {
-      width: 1rem;
-      height: 1rem;
-      margin: -2px 0;
+    .bx--module {
+      min-height: 25rem;
     }
-  }
 
-  /* when view is split, show details view on other side of diagram */
-  &.split {
-    .topologyDetails {
-      left: -200px;
-      right: unset;
-    }
-  }
+    .yamlEditorContainer {
+      height: calc(100% - 3rem);
 
-  .yamlEditorContainer {
-    height: calc(100% - 36px);
-
-    .ace-vibrant-ink {
-      .ace_marker-layer {
-        .ace_selection {
-          background: #459cf540;
-        }
-
-        .ace_selected-word {
-          border: none;
-          background: #459cf548;
-        }
-
-        .ace_active-line {
-          background: #33333370;
-        }
+      & * {
+        font-family: unset;
       }
     }
   }
 
-  .Resizer {
-    width: 0;
-    opacity: .2;
-    z-index: 1;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding;
-    background-clip: padding-box;
-    border-left: 3px solid rgba(255, 255, 255, 0);
-    border-right: 3px solid rgba(255, 255, 255, 0);
-    cursor: col-resize;
-    margin: 0 5px;
+  &-bottom {
+    width: 100%;
+    flex: 1 0 100%;
   }
 
-  .Resizer:hover {
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
+  &-space-filler {
+    width: 100%;
+    display: inline-block;
+    min-height: 65px;
   }
 
-  .Resizer.vertical:hover {
-    background: rgba(0, 0, 0, 0.5);
+  &-with-padding {
+    padding: 0 10px 30px 10px;
+  }
+
+  &-with-padding-except-left {
+    padding: 0 10px 30px 0;
+  }
+
+  b {
+    font-weight: bold;
+  }
+
+  li {
+    margin-bottom: .3rem;
+  }
+
+  code {
+    font-size: .6rem;
+  }
+
+  .bx--snippet.bx--snippet--code {
+    margin-bottom: .3rem;
   }
 }

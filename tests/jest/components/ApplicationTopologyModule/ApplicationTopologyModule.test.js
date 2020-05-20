@@ -145,9 +145,17 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middleware))
 );
 
+// need to mock a div w/i a div to be parent of monaco editor
+function createNodeMock() {
+  var iDiv = document.createElement("div");
+  var innerDiv = document.createElement("div");
+  iDiv.appendChild(innerDiv);
+  return innerDiv;
+}
+
 const locale = "en-US";
 describe("ApplicationTopologyModule with selected node ID", () => {
-  it("ApplicationTopologyModule renders correctly when topology is not expanded", () => {
+  it("ApplicationTopologyModule renders correctly when topology is not expanded---aaa", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
@@ -165,7 +173,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("ApplicationTopologyModule renders correctly when topology is expanded", () => {
+  it("ApplicationTopologyModule renders correctly when topology is expanded---bbb", () => {
     const tree = renderer
       .create(
         <BrowserRouter>
@@ -177,7 +185,8 @@ describe("ApplicationTopologyModule with selected node ID", () => {
               locale={locale}
             />
           </Provider>
-        </BrowserRouter>
+        </BrowserRouter>,
+        { createNodeMock }
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
@@ -186,7 +195,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
   const actions = {
     setShowExpandedTopology: jest.fn()
   };
-  it("ApplicationTopologyModule renders correctly when topology is expanded click", () => {
+  it("ApplicationTopologyModule renders correctly when topology is expanded click---ccc", () => {
     const wrapper = mount(
       <BrowserRouter>
         <Provider store={store}>
@@ -211,12 +220,12 @@ describe("ApplicationTopologyModule with selected node ID", () => {
       .simulate("click");
 
     wrapper
-      .find(".diagram-collapse-button")
+      .find(".diagram-close-button")
       .at(0)
       .simulate("click");
 
     wrapper
-      .find(".diagram-collapse-button")
+      .find(".diagram-close-button")
       .at(0)
       .simulate("keypress");
   });

@@ -45,7 +45,7 @@ class Topology extends React.Component {
       refetch: PropTypes.func
     }),
     links: PropTypes.array.isRequired,
-    locale: PropTypes.string.isRequired,
+    locale: PropTypes.string,
     nodes: PropTypes.array.isRequired,
     options: PropTypes.object,
     portals: PropTypes.object,

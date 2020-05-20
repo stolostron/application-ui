@@ -680,20 +680,7 @@ class ApplicationTopologyModule extends React.Component {
     switch (command) {
     case 'next':
     case 'previous':
-      if (this.selectionIndex !== -1 && this.selections && this.selections.length > 1) {
-        if (command==='next') {
-          this.selectionIndex++
-          if (this.selectionIndex>=this.selections.length) {
-            this.selectionIndex = 0
-          } else {
-            this.selectionIndex--
-            if (this.selectionIndex<0) {
-              this.selectionIndex = this.selections.length-1
-            }
-          }
-        }
-        this.editor.revealLineInCenter(this.selections[this.selectionIndex].selectionStartLineNumber, 0)
-      }
+      this.handleSearch(command)
       break
     case 'undo':
       this.editor.undo()
@@ -710,6 +697,23 @@ class ApplicationTopologyModule extends React.Component {
     case 'close':
       this.handleToggleSize()
       break
+    }
+  }
+
+  handleSearch(command) {
+    if (this.selectionIndex !== -1 && this.selections && this.selections.length > 1) {
+      if (command==='next') {
+        this.selectionIndex++
+        if (this.selectionIndex>=this.selections.length) {
+          this.selectionIndex = 0
+        } else {
+          this.selectionIndex--
+          if (this.selectionIndex<0) {
+            this.selectionIndex = this.selections.length-1
+          }
+        }
+      }
+      this.editor.revealLineInCenter(this.selections[this.selectionIndex].selectionStartLineNumber, 0)
     }
   }
 

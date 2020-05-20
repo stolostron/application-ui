@@ -17,7 +17,7 @@ import {
   global_BackgroundColor_dark_100 as editorBackground,
 } from '@patternfly/react-tokens'
 
-//import 'monaco-editor/esm/vs/editor/editor.all.js'
+import 'monaco-editor/esm/vs/editor/editor.all.js'
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickOpen/quickCommand.js'
 import 'monaco-editor/esm/vs/basic-languages/yaml/yaml.contribution.js'
 import { parse } from '../../../lib/client/design-helper'

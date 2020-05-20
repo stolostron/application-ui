@@ -14,6 +14,8 @@ require('jest-canvas-mock')
 
 configure({ adapter: new Adapter() });
 
+document.queryCommandSupported=()=>{return true}
+
 jest.mock("../../../nls/platform.properties", () => ({
   get: jest.fn(key => {
     const msgs = require("./platform-properties.json");

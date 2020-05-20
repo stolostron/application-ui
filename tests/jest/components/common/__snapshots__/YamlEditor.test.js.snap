@@ -5,7 +5,7 @@ exports[`YamlEditor renders as expected 1`] = `
   className="yamlEditorContainer"
 >
   <div
-    id="brace-editor"
+    className="react-monaco-editor-container"
     style={
       Object {
         "height": "41vh",
@@ -21,11 +21,11 @@ exports[`YamlEditor renders as expected 2`] = `
   className="yamlEditorContainer"
 >
   <div
-    id="brace-editor"
+    className="react-monaco-editor-container"
     style={
       Object {
         "height": "40vh",
-        "width": "100%",
+        "width": "49.5vw",
       }
     }
   />

@@ -239,13 +239,28 @@ body {
 }
 
 .yamlEditorContainer {
-  #brace-editor {
-    min-width: unset;
-    min-height: unset;
+  width: 100%;
+  height: 100%;
+  & * {
+    font-family: unset;
   }
-  font-family: monospace !important;
+}
 
-  div > * {
-    font-family: monospace !important;
+.monaco-editor .monaco-editor-hover {
+  color: #cccccc;
+  padding: 6px 10px;
+  margin-left: 24px;
+  p {
+    font-size: 14px;
+    font-family: RedHatText;
   }
+}
+
+.errorDecoration {
+  margin-left: 6px;
+  height: 14px !important;
+  width: 14px !important;
+  cursor: pointer;
+  z-index: 1000;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='14' height='14'><g fill='red'><circle cx='8' cy='8' r='8' fill='white' fill-opacity='1'/><path d='M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zM5.1 13.3L3.5 12 11 2.6l1.5 1.2-7.4 9.5z'/> </g></svg>");  
 }

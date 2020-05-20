@@ -80,25 +80,6 @@
       background-color: white;
     }
 
-    .diagram-collapse-button {
-      position: absolute;
-      top: 3px;
-      right: 4px;
-      z-index: 10;
-      font-size: 12px;
-      cursor: pointer;
-      color: #3d70b2;
-      display: flex;
-      align-items: center;
-      padding-top: 3px;
-
-      .icon {
-        margin-left: 8px;
-        width: 13px;
-        height: 13px;
-        stroke: #3d70b2;
-      }
-    }
   }
 
   /* when editor is open */
@@ -158,21 +139,8 @@
   .yamlEditorContainer {
     height: calc(100% - 36px);
 
-    .ace-vibrant-ink {
-      .ace_marker-layer {
-        .ace_selection {
-          background: #459cf540;
-        }
-
-        .ace_selected-word {
-          border: none;
-          background: #459cf548;
-        }
-
-        .ace_active-line {
-          background: #33333370;
-        }
-      }
+    & * {
+      font-family: unset;
     }
   }
 

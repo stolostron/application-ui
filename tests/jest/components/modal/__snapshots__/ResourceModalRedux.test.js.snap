@@ -256,99 +256,84 @@ exports[`ResourceModalRedux test renders as expected 1 2`] = `
                   <div
                     className="bx--modal-content"
                   >
-                    <YamlEditor
-                      onYamlChange={[Function]}
-                      yaml=""
+                    <div
+                      className="yamlEditorContainerContainer"
                     >
-                      <div
-                        className="yamlEditorContainer"
+                      <YamlEditor
+                        onYamlChange={[Function]}
+                        setEditor={[Function]}
+                        yaml=""
                       >
-                        <IsomorphicEditor
-                          editorProps={
-                            Object {
-                              "$blockScrolling": Infinity,
-                            }
-                          }
-                          fontSize={12}
-                          height="40vh"
-                          highlightActiveLine={true}
-                          mode="yaml"
-                          onChange={[Function]}
-                          setOptions={
-                            Object {
-                              "newLineMode": "unix",
-                              "readOnly": false,
-                              "showLineNumbers": true,
-                              "tabSize": 2,
-                            }
-                          }
-                          showGutter={true}
-                          showPrintMargin={false}
-                          theme="monokai"
-                          value=""
-                          width="100%"
-                          wrapEnabled={false}
+                        <div
+                          className="yamlEditorContainer"
                         >
-                          <ReactAce
-                            cursorStart={1}
-                            editorProps={
-                              Object {
-                                "$blockScrolling": Infinity,
-                              }
-                            }
-                            enableBasicAutocompletion={false}
-                            enableLiveAutocompletion={false}
-                            focus={false}
+                          <IsomorphicEditor
                             fontSize={12}
                             height="40vh"
-                            highlightActiveLine={true}
-                            maxLines={null}
-                            minLines={null}
-                            mode="yaml"
-                            name="brace-editor"
+                            key="loading"
+                            language="yaml"
                             onChange={[Function]}
-                            onLoad={null}
-                            onPaste={null}
-                            onScroll={null}
-                            readOnly={false}
-                            scrollMargin={
-                              Array [
-                                0,
-                                0,
-                                0,
-                                0,
-                              ]
-                            }
-                            setOptions={
+                            options={
                               Object {
-                                "newLineMode": "unix",
+                                "glyphMargin": true,
                                 "readOnly": false,
-                                "showLineNumbers": true,
+                                "scrollBeyondLastLine": false,
+                                "scrollbar": Object {
+                                  "horizontalScrollbarSize": 17,
+                                  "verticalScrollbarSize": 17,
+                                },
+                                "smoothScrolling": true,
                                 "tabSize": 2,
+                                "wordWrapMinified": false,
                               }
                             }
-                            showGutter={true}
-                            showPrintMargin={false}
-                            style={Object {}}
-                            tabSize={4}
-                            theme="monokai"
+                            setEditor={[Function]}
+                            theme="console"
                             value=""
-                            width="100%"
-                            wrapEnabled={false}
+                            width="49.5vw"
                           >
-                            <div
-                              id="brace-editor"
-                              style={
+                            <MonacoEditor
+                              defaultValue=""
+                              editorDidMount={[Function]}
+                              editorWillMount={[Function]}
+                              fontSize={12}
+                              height="40vh"
+                              language="yaml"
+                              onChange={[Function]}
+                              options={
                                 Object {
-                                  "height": "40vh",
-                                  "width": "100%",
+                                  "glyphMargin": true,
+                                  "readOnly": false,
+                                  "scrollBeyondLastLine": false,
+                                  "scrollbar": Object {
+                                    "horizontalScrollbarSize": 17,
+                                    "verticalScrollbarSize": 17,
+                                  },
+                                  "smoothScrolling": true,
+                                  "tabSize": 2,
+                                  "wordWrapMinified": false,
                                 }
                               }
-                            />
-                          </ReactAce>
-                        </IsomorphicEditor>
-                      </div>
-                    </YamlEditor>
+                              overrideServices={Object {}}
+                              setEditor={[Function]}
+                              theme="console"
+                              value=""
+                              width="49.5vw"
+                            >
+                              <div
+                                className="react-monaco-editor-container"
+                                style={
+                                  Object {
+                                    "height": "40vh",
+                                    "width": "49.5vw",
+                                  }
+                                }
+                              />
+                            </MonacoEditor>
+                          </IsomorphicEditor>
+                        </div>
+                      </YamlEditor>
+                    </div>
                   </div>
                 </ModalBody>
                 <ModalFooter
@@ -716,99 +701,84 @@ exports[`ResourceModalRedux test renders as expected 1 3`] = `
                   <div
                     className="bx--modal-content"
                   >
-                    <YamlEditor
-                      onYamlChange={[Function]}
-                      yaml=""
+                    <div
+                      className="yamlEditorContainerContainer"
                     >
-                      <div
-                        className="yamlEditorContainer"
+                      <YamlEditor
+                        onYamlChange={[Function]}
+                        setEditor={[Function]}
+                        yaml=""
                       >
-                        <IsomorphicEditor
-                          editorProps={
-                            Object {
-                              "$blockScrolling": Infinity,
-                            }
-                          }
-                          fontSize={12}
-                          height="40vh"
-                          highlightActiveLine={true}
-                          mode="yaml"
-                          onChange={[Function]}
-                          setOptions={
-                            Object {
-                              "newLineMode": "unix",
-                              "readOnly": false,
-                              "showLineNumbers": true,
-                              "tabSize": 2,
-                            }
-                          }
-                          showGutter={true}
-                          showPrintMargin={false}
-                          theme="monokai"
-                          value=""
-                          width="100%"
-                          wrapEnabled={false}
+                        <div
+                          className="yamlEditorContainer"
                         >
-                          <ReactAce
-                            cursorStart={1}
-                            editorProps={
-                              Object {
-                                "$blockScrolling": Infinity,
-                              }
-                            }
-                            enableBasicAutocompletion={false}
-                            enableLiveAutocompletion={false}
-                            focus={false}
+                          <IsomorphicEditor
                             fontSize={12}
                             height="40vh"
-                            highlightActiveLine={true}
-                            maxLines={null}
-                            minLines={null}
-                            mode="yaml"
-                            name="brace-editor"
+                            key="loading"
+                            language="yaml"
                             onChange={[Function]}
-                            onLoad={null}
-                            onPaste={null}
-                            onScroll={null}
-                            readOnly={false}
-                            scrollMargin={
-                              Array [
-                                0,
-                                0,
-                                0,
-                                0,
-                              ]
-                            }
-                            setOptions={
+                            options={
                               Object {
-                                "newLineMode": "unix",
+                                "glyphMargin": true,
                                 "readOnly": false,
-                                "showLineNumbers": true,
+                                "scrollBeyondLastLine": false,
+                                "scrollbar": Object {
+                                  "horizontalScrollbarSize": 17,
+                                  "verticalScrollbarSize": 17,
+                                },
+                                "smoothScrolling": true,
                                 "tabSize": 2,
+                                "wordWrapMinified": false,
                               }
                             }
-                            showGutter={true}
-                            showPrintMargin={false}
-                            style={Object {}}
-                            tabSize={4}
-                            theme="monokai"
+                            setEditor={[Function]}
+                            theme="console"
                             value=""
-                            width="100%"
-                            wrapEnabled={false}
+                            width="49.5vw"
                           >
-                            <div
-                              id="brace-editor"
-                              style={
+                            <MonacoEditor
+                              defaultValue=""
+                              editorDidMount={[Function]}
+                              editorWillMount={[Function]}
+                              fontSize={12}
+                              height="40vh"
+                              language="yaml"
+                              onChange={[Function]}
+                              options={
                                 Object {
-                                  "height": "40vh",
-                                  "width": "100%",
+                                  "glyphMargin": true,
+                                  "readOnly": false,
+                                  "scrollBeyondLastLine": false,
+                                  "scrollbar": Object {
+                                    "horizontalScrollbarSize": 17,
+                                    "verticalScrollbarSize": 17,
+                                  },
+                                  "smoothScrolling": true,
+                                  "tabSize": 2,
+                                  "wordWrapMinified": false,
                                 }
                               }
-                            />
-                          </ReactAce>
-                        </IsomorphicEditor>
-                      </div>
-                    </YamlEditor>
+                              overrideServices={Object {}}
+                              setEditor={[Function]}
+                              theme="console"
+                              value=""
+                              width="49.5vw"
+                            >
+                              <div
+                                className="react-monaco-editor-container"
+                                style={
+                                  Object {
+                                    "height": "40vh",
+                                    "width": "49.5vw",
+                                  }
+                                }
+                              />
+                            </MonacoEditor>
+                          </IsomorphicEditor>
+                        </div>
+                      </YamlEditor>
+                    </div>
                   </div>
                 </ModalBody>
                 <ModalFooter

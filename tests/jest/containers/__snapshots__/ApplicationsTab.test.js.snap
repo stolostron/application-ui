@@ -45,7 +45,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
             <div
               className="bx--inline-notification__subtitle"
             >
-              Delete resource {0} was submitted successfully. The result will display in the table when ready.
+              Delete resource {0} was submitted successfully. The result will display on this page when ready.
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
             <div
               className="bx--inline-notification__subtitle"
             >
-              Create resource was submitted successfully. The result will display in the table when ready.
+              Create resource was submitted successfully. The result will display on this page when ready.
             </div>
           </div>
         </div>
@@ -658,7 +658,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
             <div
               className="bx--inline-notification__subtitle"
             >
-              Delete resource {0} was submitted successfully. The result will display in the table when ready.
+              Delete resource {0} was submitted successfully. The result will display on this page when ready.
             </div>
           </div>
         </div>
@@ -722,7 +722,7 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
             <div
               className="bx--inline-notification__subtitle"
             >
-              Create resource was submitted successfully. The result will display in the table when ready.
+              Create resource was submitted successfully. The result will display on this page when ready.
             </div>
           </div>
         </div>

@@ -166,6 +166,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
   });
 
   it("ApplicationTopologyModule renders correctly when topology is expanded", () => {
+    debugger
     const tree = renderer
       .create(
         <BrowserRouter>

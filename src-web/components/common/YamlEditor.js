@@ -59,11 +59,6 @@ class IsomorphicEditor extends React.Component {
 
   constructor(props) {
     super(props)
-    this.setEditorRef = elem => {
-      if (elem && props.setEditor) {
-        props.setEditor(elem.editor)
-      }
-    }
     this.handleEscKeyPress = this.handleEscKeyPress.bind(this)
   }
 
@@ -156,7 +151,6 @@ class IsomorphicEditor extends React.Component {
 
   render = () => <MonacoEditor
     {...this.props}
-    ref={this.setEditorRef}
     editorDidMount={this.editorDidMount.bind(this)}
     editorWillMount={this.editorWillMount.bind(this)}
   />

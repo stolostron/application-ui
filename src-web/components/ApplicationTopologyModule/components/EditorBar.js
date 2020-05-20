@@ -170,7 +170,7 @@ class EditorBar extends React.Component {
               })}
             </div>
           </div>
-          <div className='editor-bar-section'>
+          <div className='editor-bar-section diagram-collapse-button'>
             {closeButtons.map((button) => {
               const {command} = button
               return (

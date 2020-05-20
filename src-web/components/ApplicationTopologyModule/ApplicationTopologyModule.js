@@ -397,7 +397,7 @@ class ApplicationTopologyModule extends React.Component {
       updateMessage,
       updateMsgKind
     } = this.state
-    const { locale } = this.props
+    const { locale } = this.context
 
     const diagramTitle = msgs.get('application.diagram', locale)
     const viewFullMsg = msgs.get('application.diagram.view.full', locale)

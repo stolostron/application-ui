@@ -431,6 +431,25 @@ function addK8Details(node, details, podOnly, index) {
   // kube model details
   let podModel = _.get(node, 'specs.podModel')
   if (podModel) {
+    if (Object.keys(node.podStatusMap).length > 0) {
+      details.push({
+        type: 'label',
+        labelKey: 'resource.deploy.statuses'
+      })
+
+      Object.keys(node.podStatusMap).forEach(key => {
+        details.push({
+          labelValue: key,
+          value: `${node.podStatusMap[key].ready}/${
+            node.podStatusMap[key].desired
+          }`
+        })
+      })
+
+      details.push({
+        type: 'spacer'
+      })
+    }
     if (podModel.name) {
       podModel = {}
       podModel[podModel.name] = podModel

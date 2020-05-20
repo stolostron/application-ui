@@ -104,7 +104,30 @@ export const getDiagramElements = (
 
       if (nodeMustHavePods(node)) {
         //must have pods
+        const podStatusMap = {}
         clusterName = getClusterName(node.id)
+        let resourceArr = applicationDetails.items[0].related
+        resourceArr = resourceArr.find(resource => {
+          return resource.kind === type
+        })
+
+        if (resourceArr) {
+          resourceArr.items.forEach(workload => {
+            if (
+              workload.name === name &&
+              clusterName.indexOf(workload.cluster) > -1
+            ) {
+              podStatusMap[workload.cluster] = {
+                available: workload.available,
+                current: workload.current,
+                desired: workload.desired,
+                ready: workload.ready
+              }
+            }
+          })
+        }
+
+        _.set(node, 'podStatusMap', podStatusMap)
         if (clusterName.indexOf(', ') > -1) {
           podMap[name] = node
           isClusterGrouped = true

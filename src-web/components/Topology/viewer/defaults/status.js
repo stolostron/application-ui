@@ -83,6 +83,10 @@ const updateNodeWithPodsStatus = (node, startedAts, now) => {
       podModel = {}
       podModel[podModel.name] = podModel
     }
+
+    //loop through pod list calculating ready / failed
+    // need to separate for each cluster
+
     Object.values(podModel).forEach(pod => {
       const { restarts, status, hostIP, startedAt } = pod
       if (status) {
@@ -273,7 +277,7 @@ const updatePodIcon = (node, nodeIcons) => {
   }
 
   if (anyFailure) {
-    statusIcon = StatusIcon.error
+    statusIcon = StatusIcon.warning
     pulse = 'red'
   } else if (anyPending) {
     statusIcon = StatusIcon.pending

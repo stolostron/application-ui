@@ -237,6 +237,32 @@ export const createResourceSearchLink = (node, details) => {
   return details
 }
 
+const computeResourceName = (
+  relatedKind,
+  deployableName,
+  name,
+  isClusterGrouped
+) => {
+  if (relatedKind.kind === 'pod' && !deployableName) {
+    const pname = name
+    // get pod name w/o uid suffix
+    name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+    if (name === pname) {
+      const idx = name.lastIndexOf('-')
+      if (idx !== -1) {
+        name = name.substr(0, idx)
+      }
+    }
+  }
+
+  if (relatedKind.kind !== 'subscription') {
+    //expect for subscriptions, use cluster name to group resources
+    name = isClusterGrouped.value ? name : `${name}-${relatedKind.cluster}`
+  }
+
+  return name
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
   if (list && resourceMap) {
@@ -246,57 +272,40 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
       relatedKindList.forEach(relatedKind => {
         let name = relatedKind.name
         const kind = relatedKind.kind
-        let podHash = undefined
-        let deployableName = undefined
+        let podHash = null
+        let deployableName = null
 
         //look for pod template hash and remove it from the name if there
-        const labels = relatedKind.label ? R.split(';')(relatedKind.label) : []
-        if (labels.length > 0) {
-          labels.forEach(label => {
-            const values = R.split('=')(label)
-            if (values.length === 2) {
-              const label = values[0].trim()
-              if (label === 'pod-template-hash') {
-                podHash = values[1].trim()
-              } else if (
-                label === 'openshift.io/deployment-config.name' ||
-                R.contains('deploymentconfig')(label)
-              ) {
-                deployableName = values[1].trim()
-              }
+        const labelsList = relatedKind.label
+          ? R.split(';')(relatedKind.label)
+          : []
+        labelsList.forEach(resLabel => {
+          const values = R.split('=')(resLabel)
+          if (values.length === 2) {
+            const labelKey = values[0].trim()
+            if (labelKey === 'pod-template-hash') {
+              podHash = values[1].trim()
+              name = R.replace(`-${podHash}`, '')(name)
             }
-          })
-        }
-        if (deployableName) {
-          name = deployableName
-        }
-        if (podHash) {
-          name = R.replace(`-${podHash}`, '')(name)
-        }
-
-        //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
-        //openshift.io/deployment-config.name
-        if (relatedKind.kind === 'pod' && !deployableName) {
-          const pname = name
-          // get pod name w/o uid suffix
-          name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-          if (name === pname) {
-            const idx = name.lastIndexOf('-')
-            if (idx !== -1) {
-              name = name.substr(0, idx)
+            if (
+              labelKey === 'openshift.io/deployment-config.name' ||
+              R.contains('deploymentconfig')(resLabel)
+            ) {
+              //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
+              //openshift.io/deployment-config.name
+              deployableName = values[1].trim()
+              name = deployableName
             }
           }
-        }
+        })
 
-        if (relatedKind.kind !== 'subscription') {
-          //expect for subscriptions, use cluster name to group resources
-          name = isClusterGrouped.value
-            ? name
-            : `${name}-${relatedKind.cluster}`
-        }
-        if (!resourceMap[name]) {
-          resourceMap[name] = {}
-        }
+        name = computeResourceName(
+          relatedKind,
+          deployableName,
+          name,
+          isClusterGrouped
+        )
+
         if (resourceMap[name]) {
           const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
           kindModel[`${relatedKind.name}-${relatedKind.cluster}`] = relatedKind

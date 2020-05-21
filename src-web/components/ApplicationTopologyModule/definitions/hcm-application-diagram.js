@@ -72,7 +72,9 @@ export const processNodeData = (
 ) => {
   const { name, type } = node
 
-  if (type === 'cluster' || type === 'application' || type === 'rules') return //ignore these types
+  if (type === 'cluster' || type === 'application' || type === 'rules') {
+    return //ignore these types
+  }
 
   const clusterName = getClusterName(node.id)
 
@@ -158,9 +160,7 @@ export const getDiagramElements = (
         channels = _.get(node, 'specs.channels', [])
       }
 
-      if (nodeMustHavePods(node)) {
-        processNodeData(node, podMap, isClusterGrouped, applicationDetails)
-      }
+      processNodeData(node, podMap, isClusterGrouped, applicationDetails)
 
       const raw = _.get(node, 'specs.raw')
       if (raw) {

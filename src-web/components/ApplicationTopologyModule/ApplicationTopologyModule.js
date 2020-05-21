@@ -379,7 +379,7 @@ class ApplicationTopologyModule extends React.Component {
   handleUpdateMessageClosed = () => this.setState({ updateMessage: '' });
 
   render() {
-    const { showExpandedTopology, channels } = this.props
+    const { showExpandedTopology, channels, locale } = this.props
     const {
       nodes,
       links,
@@ -396,7 +396,6 @@ class ApplicationTopologyModule extends React.Component {
       updateMessage,
       updateMsgKind
     } = this.state
-    const { locale } = this.context
 
     const diagramTitle = msgs.get('application.diagram', locale)
     const viewFullMsg = msgs.get('application.diagram.view.full', locale)

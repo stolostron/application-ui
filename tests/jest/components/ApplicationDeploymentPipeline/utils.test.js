@@ -327,7 +327,7 @@ describe("getSubscribedChannels", () => {
       id: "guestbook-app-latest",
       name: "guestbook-app-latest",
       namespace: "open-cluster-management",
-      type: "GitHub"
+      type: "Git"
     },
     {
       id: "mortgage-channel",
@@ -396,7 +396,7 @@ describe("getSubscribedChannels", () => {
       id: "guestbook-app-latest",
       name: "guestbook-app-latest",
       namespace: "open-cluster-management",
-      type: "GitHub"
+      type: "Git"
     },
     {
       id: "mortgage-channel",
@@ -533,7 +533,7 @@ describe("getSubscribedChannels", () => {
         id: "guestbook-app-latest",
         name: "guestbook-app-latest",
         namespace: "open-cluster-management",
-        type: "GitHub"
+        type: "Git"
       }
     ];
     expect(

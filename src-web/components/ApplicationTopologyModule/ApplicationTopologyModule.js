@@ -365,8 +365,8 @@ class ApplicationTopologyModule extends React.Component {
       const controlsSize = this.handleSplitterDefault()
       const rect = this.containerRef.getBoundingClientRect()
       const width = rect.width - controlsSize - 15
-      const height = rect.height - 80
-      this.editor.layout({ width, height })
+      const height = rect.height - 40
+      this.editor.layout({width, height})
     }
   }
 

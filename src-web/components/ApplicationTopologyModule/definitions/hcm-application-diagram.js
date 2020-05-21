@@ -13,7 +13,10 @@ import {
   saveStoredObject,
   getClusterName
 } from '../../../../lib/client/resource-helper'
-import { nodeMustHavePods } from '../../Topology/utils/diagram-helpers'
+import {
+  nodeMustHavePods,
+  setupResourceModel
+} from '../../Topology/utils/diagram-helpers'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
@@ -60,34 +63,51 @@ export const getActiveChannel = localStoreKey => {
   return undefined
 }
 
-const processPodData = (node, podMap, isClusterGrouped, applicationDetails) => {
+//link the search objects to this node; set the pods status if the node has pods
+export const processNodeData = (
+  node,
+  podMap,
+  isClusterGrouped,
+  applicationDetails
+) => {
   const { name, type } = node
-  //must have pods
-  const podStatusMap = {}
-  const clusterName = getClusterName(node.id)
-  let resourceArr = applicationDetails.items[0].related
-  resourceArr = resourceArr.find(resource => {
-    return resource.kind === type
-  })
 
-  if (resourceArr) {
-    resourceArr.items.forEach(workload => {
-      if (
-        workload.name === name &&
-        clusterName.indexOf(workload.cluster) > -1
-      ) {
-        podStatusMap[workload.cluster] = {
-          available: workload.available,
-          current: workload.current,
-          desired: workload.desired,
-          ready: workload.ready
-        }
-      }
+  if (type === 'cluster' || type === 'application' || type === 'rules') return //ignore these types
+
+  const clusterName = getClusterName(node.id)
+
+  if (nodeMustHavePods(node)) {
+    //must have pods, set the pods status here
+    const podStatusMap = {}
+
+    let resourceArr = applicationDetails.items[0].related
+    resourceArr = resourceArr.find(resource => {
+      return resource.kind === type
     })
+
+    if (resourceArr) {
+      resourceArr.items.forEach(workload => {
+        if (
+          workload.name === name &&
+          clusterName.indexOf(workload.cluster) > -1
+        ) {
+          podStatusMap[workload.cluster] = {
+            available: workload.available,
+            current: workload.current,
+            desired: workload.desired,
+            ready: workload.ready
+          }
+        }
+      })
+    }
+
+    _.set(node, 'podStatusMap', podStatusMap)
   }
 
-  _.set(node, 'podStatusMap', podStatusMap)
-  if (clusterName.indexOf(', ') > -1) {
+  if (type === 'subscription') {
+    //don't use cluster name when grouping subscriptions
+    podMap[name] = node
+  } else if (clusterName.indexOf(', ') > -1) {
     podMap[name] = node
     isClusterGrouped.value = true
   } else {
@@ -139,7 +159,7 @@ export const getDiagramElements = (
       }
 
       if (nodeMustHavePods(node)) {
-        processPodData(node, podMap, isClusterGrouped, applicationDetails)
+        processNodeData(node, podMap, isClusterGrouped, applicationDetails)
       }
 
       const raw = _.get(node, 'specs.raw')
@@ -278,52 +298,21 @@ export const addDiagramDetails = (
 ) => {
   const { detailsReloading } = topology
   // get extra details from topology or from localstore
-  let pods = []
+  let related = []
   if (applicationDetails) {
     if (!R.isEmpty(R.pathOr([], ['items'])(applicationDetails))) {
-      //get the app related pods
-      const related = R.pathOr([], ['related'])(applicationDetails.items[0])
-
-      const isPodList = R.propEq('kind', 'pod')
-      const podsList = R.filter(isPodList, related)
-      if (!R.isEmpty(podsList)) {
-        pods = R.pathOr([], ['items'])(podsList[0])
-      }
+      //get the app related objects
+      related = R.pathOr([], ['related'])(applicationDetails.items[0])
     }
-
     // save in local store
     saveStoredObject(`${localStoreKey}-${activeChannel}-details`, {
-      pods
+      related
     })
   } else if (!detailsReloading) {
     // if not loaded yet, see if there's a stored version
     // with the same diagram filters
-    const storedElements = getStoredObject(
-      `${localStoreKey}-${activeChannel}-details`
-    )
-    if (storedElements) {
-      ({ pods = [] } = storedElements)
-    }
+    related = getStoredObject(`${localStoreKey}-${activeChannel}-details`)
   }
-
-  // associate pods with status
-  if (pods) {
-    pods.forEach(pod => {
-      const pname = pod.name
-      // get pod name w/o uid suffix
-      let name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-      if (name === pname) {
-        const idx = name.lastIndexOf('-')
-        if (idx !== -1) {
-          name = name.substr(0, idx)
-        }
-      }
-      const podName = isClusterGrouped.value ? name : `${name}-${pod.cluster}`
-      if (podMap[podName]) {
-        const podModel = _.get(podMap[podName], 'specs.podModel', {})
-        podModel[pod.name] = pod
-        _.set(podMap[podName], 'specs.podModel', podModel)
-      }
-    })
-  }
+  //link search objects with topology deployable objects displayed in the tree
+  setupResourceModel(related, podMap, isClusterGrouped)
 }

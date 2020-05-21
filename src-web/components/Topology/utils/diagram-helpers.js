@@ -11,6 +11,7 @@
 import R from 'ramda'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
+import _ from 'lodash'
 
 /*
 * UI helpers to help with data transformations
@@ -234,4 +235,76 @@ export const createResourceSearchLink = (node, details) => {
   }
 
   return details
+}
+
+//creates a map with all related kinds for this app, not only pod types
+export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
+  if (list && resourceMap) {
+    list.forEach(kindArray => {
+      const relatedKindList = R.pathOr([], ['items'])(kindArray)
+
+      relatedKindList.forEach(relatedKind => {
+        let name = relatedKind.name
+        const kind = relatedKind.kind
+        let podHash = undefined
+        let deployableName = undefined
+
+        //look for pod template hash and remove it from the name if there
+        const labels = relatedKind.label ? R.split(';')(relatedKind.label) : []
+        if (labels.length > 0) {
+          labels.forEach(label => {
+            const values = R.split('=')(label)
+            if (values.length === 2) {
+              const label = values[0].trim()
+              if (label === 'pod-template-hash') {
+                podHash = values[1].trim()
+              } else if (
+                label === 'openshift.io/deployment-config.name' ||
+                R.contains('deploymentconfig')(label)
+              ) {
+                deployableName = values[1].trim()
+              }
+            }
+          })
+        }
+        if (deployableName) {
+          name = deployableName
+        }
+        if (podHash) {
+          name = R.replace(`-${podHash}`, '')(name)
+        }
+
+        //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
+        //openshift.io/deployment-config.name
+        if (relatedKind.kind === 'pod' && !deployableName) {
+          const pname = name
+          // get pod name w/o uid suffix
+          name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+          if (name === pname) {
+            const idx = name.lastIndexOf('-')
+            if (idx !== -1) {
+              name = name.substr(0, idx)
+            }
+          }
+        }
+
+        if (relatedKind.kind !== 'subscription') {
+          //expect for subscriptions, use cluster name to group resources
+          name = isClusterGrouped.value
+            ? name
+            : `${name}-${relatedKind.cluster}`
+        }
+        if (!resourceMap[name]) {
+          resourceMap[name] = {}
+        }
+        if (resourceMap[name]) {
+          const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
+          kindModel[`${relatedKind.name}-${relatedKind.cluster}`] = relatedKind
+          _.set(resourceMap[name], `specs.${kind}Model`, kindModel)
+        }
+      })
+    })
+  }
+
+  return resourceMap
 }

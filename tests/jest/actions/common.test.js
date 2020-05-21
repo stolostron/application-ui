@@ -271,7 +271,8 @@ describe("common actions ", () => {
         "replicationcontroller",
         "replicaset",
         "secret",
-        "service"
+        "service",
+        "subscription"
       ]
     };
 
@@ -332,7 +333,8 @@ describe("common actions ", () => {
         "replicationcontroller",
         "replicaset",
         "secret",
-        "service"
+        "service",
+        "subscription"
       ]
     };
 
@@ -410,7 +412,8 @@ describe("common actions ", () => {
         "replicationcontroller",
         "replicaset",
         "secret",
-        "service"
+        "service",
+        "subscription"
       ]
     };
 
@@ -500,7 +503,8 @@ describe("common actions ", () => {
         "replicationcontroller",
         "replicaset",
         "secret",
-        "service"
+        "service",
+        "subscription"
       ]
     };
 

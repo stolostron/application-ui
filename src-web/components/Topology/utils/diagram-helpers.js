@@ -11,6 +11,7 @@
 import R from 'ramda'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
+import _ from 'lodash'
 
 /*
 * UI helpers to help with data transformations
@@ -234,4 +235,85 @@ export const createResourceSearchLink = (node, details) => {
   }
 
   return details
+}
+
+const computeResourceName = (
+  relatedKind,
+  deployableName,
+  name,
+  isClusterGrouped
+) => {
+  if (relatedKind.kind === 'pod' && !deployableName) {
+    const pname = name
+    // get pod name w/o uid suffix
+    name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
+    if (name === pname) {
+      const idx = name.lastIndexOf('-')
+      if (idx !== -1) {
+        name = name.substr(0, idx)
+      }
+    }
+  }
+
+  if (relatedKind.kind !== 'subscription') {
+    //expect for subscriptions, use cluster name to group resources
+    name = isClusterGrouped.value ? name : `${name}-${relatedKind.cluster}`
+  }
+
+  return name
+}
+
+//creates a map with all related kinds for this app, not only pod types
+export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
+  if (list && resourceMap) {
+    list.forEach(kindArray => {
+      const relatedKindList = R.pathOr([], ['items'])(kindArray)
+
+      relatedKindList.forEach(relatedKind => {
+        let name = relatedKind.name
+        const kind = relatedKind.kind
+        let podHash = null
+        let deployableName = null
+
+        //look for pod template hash and remove it from the name if there
+        const labelsList = relatedKind.label
+          ? R.split(';')(relatedKind.label)
+          : []
+        labelsList.forEach(resLabel => {
+          const values = R.split('=')(resLabel)
+          if (values.length === 2) {
+            const labelKey = values[0].trim()
+            if (labelKey === 'pod-template-hash') {
+              podHash = values[1].trim()
+              name = R.replace(`-${podHash}`, '')(name)
+            }
+            if (
+              labelKey === 'openshift.io/deployment-config.name' ||
+              R.contains('deploymentconfig')(resLabel)
+            ) {
+              //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
+              //openshift.io/deployment-config.name
+              deployableName = values[1].trim()
+              name = deployableName
+            }
+          }
+        })
+
+        name = computeResourceName(
+          relatedKind,
+          deployableName,
+          name,
+          isClusterGrouped
+        )
+
+        if (resourceMap[name]) {
+          const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
+          kindModel[`${relatedKind.name}-${relatedKind.cluster}`] = relatedKind
+          _.set(resourceMap[name], `specs.${kind}Model`, kindModel)
+        }
+      })
+    })
+  }
+
+  return resourceMap
 }

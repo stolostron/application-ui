@@ -23,7 +23,8 @@ describe("convertStringToQuery", () => {
         "replicationcontroller",
         "replicaset",
         "secret",
-        "service"
+        "service",
+        "subscription"
       ]
     };
     const output = convertStringToQuery(input);

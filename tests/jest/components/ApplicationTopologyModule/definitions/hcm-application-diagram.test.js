@@ -198,8 +198,49 @@ describe("hcm-application-diagram-tests", () => {
       },
       {
         type: "deployment",
-        id: "--clusters--depl",
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl",
+        specs: {
+          raw: {
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      name: "c1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        type: "deployment",
+        id: "--clusters--depl",
+        name: "depl2",
+        specs: {
+          raw: {
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      name: "c1"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      {
+        type: "subscription",
+        id: "--clusters--subs",
+        name: "subsname",
         specs: {
           raw: {
             spec: {
@@ -272,12 +313,12 @@ describe("hcm-application-diagram-tests", () => {
                   kind: "pod",
                   label:
                     "app=mortgage-app-mortgage; pod-template-hash=55c65b9c8f",
-                  name: "mortgage-app-deploy-55c65b9c8f-nbwtj",
+                  name: "mortgage-app-deploy-55c65b9c8f",
                   namespace: "default",
                   podIP: "10.131.0.243",
                   restarts: 0,
                   selfLink:
-                    "/api/v1/namespaces/default/pods/mortgage-app-deploy-55c65b9c8f-nbwtj",
+                    "/api/v1/namespaces/default/pods/mortgage-app-deploy-55c65b9c8f",
                   startedAt: "2020-05-19T13:58:48Z",
                   status: "Running",
                   _clusterNamespace: "sharingpenguin-ns",
@@ -314,6 +355,34 @@ describe("hcm-application-diagram-tests", () => {
                 }
               ],
               kind: "deployment",
+              __typename: "SearchRelatedResult"
+            },
+            {
+              items: [
+                {
+                  apigroup: "apps",
+                  apiversion: "v1",
+                  available: 1,
+                  cluster: "sharingpenguin",
+                  created: "2020-05-19T13:58:48Z",
+                  current: 1,
+                  desired: 1,
+                  kind: "subscription",
+                  label: "app=mortgage-app-mortgage-subs",
+                  name: "mortgage-app-deploy-subs",
+                  namespace: "default",
+                  ready: 1,
+                  selfLink:
+                    "/apis/apps/v1/namespaces/default/deployments/mortgage-app-deploy",
+                  _clusterNamespace: "sharingpenguin-ns",
+                  _hostingDeployable:
+                    "mortgage-ch/mortgage-channel-Deployment-mortgage-app-deploy",
+                  _hostingSubscription: "default/mortgage-app-subscription",
+                  _rbac: "sharingpenguin-ns_apps_deployments",
+                  _uid: "sharingpenguin/77b0f670-9335-4b62-aee3-95ba0d01c848"
+                }
+              ],
+              kind: "subscription",
               __typename: "SearchRelatedResult"
             },
             {
@@ -387,6 +456,51 @@ describe("hcm-application-diagram-tests", () => {
       sortDirection: "asc",
       status: "DONE"
     };
+    const res = [
+      {
+        id: "--clusters--app",
+        name: "aa",
+        namespace: "ns",
+        type: "application"
+      },
+      {
+        id:
+          "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
+        name: "depl",
+        podStatusMap: {},
+        specs: {
+          raw: {
+            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+          },
+          row: 0
+        },
+        type: "deployment"
+      },
+      {
+        id: "--clusters--depl",
+        name: "depl2",
+        podStatusMap: {},
+        specs: {
+          raw: {
+            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+          },
+          row: 6
+        },
+        type: "deployment"
+      },
+      {
+        id: "--clusters--subs",
+        name: "subsname",
+        podStatusMap: {},
+        specs: {
+          raw: {
+            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+          },
+          row: 12
+        },
+        type: "subscription"
+      }
+    ];
     expect(
       getDiagramElements(
         topology,
@@ -395,24 +509,6 @@ describe("hcm-application-diagram-tests", () => {
         "namespace",
         applicationDetails
       ).nodes
-    ).toMatchObject([
-      {
-        id: "--clusters--app",
-        name: "aa",
-        namespace: "ns",
-        type: "application"
-      },
-      {
-        id: "--clusters--depl",
-        name: "depl",
-        specs: {
-          raw: {
-            spec: { template: { spec: { containers: [{ name: "c1" }] } } }
-          },
-          row: 0
-        },
-        type: "deployment"
-      }
-    ]);
+    ).toMatchObject(res);
   });
 });

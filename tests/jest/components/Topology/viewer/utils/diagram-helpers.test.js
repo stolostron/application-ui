@@ -8,7 +8,8 @@ import {
   addPropertyToList,
   nodeMustHavePods,
   createDeployableYamlLink,
-  createResourceSearchLink
+  createResourceSearchLink,
+  setupResourceModel
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -26,6 +27,165 @@ const propPath = ["specs", "raw", "spec", "clusterSelector", "matchLabels"];
 const propPath_found = ["specs", "raw", "metadata", "namespace"];
 const key = "nskey";
 const defaultValue = "test";
+
+const resourceList = [
+  {
+    kind: "pod",
+    items: [
+      {
+        name: "mortgagedc-deploy-1-q9b5r",
+        namespace: "default",
+        cluster: "braveman",
+        kind: "pod"
+      }
+    ]
+  },
+  {
+    kind: "service",
+    items: [
+      {
+        kind: "service",
+        label: "app=mortgagedc-mortgage",
+        name: "mortgagedc-svc",
+        namespace: "default",
+        port: "9080:32749/TCP",
+        cluster: "braveman"
+      }
+    ]
+  },
+  {
+    kind: '"deploymentconfig"',
+    items: [
+      {
+        kind: "deploymentconfig",
+        label: "app=mortgagedc-mortgage",
+        name: "mortgagedc-deploy",
+        namespace: "default",
+        cluster: "braveman"
+      }
+    ]
+  },
+  {
+    kind: "route",
+    items: [
+      {
+        kind: "route",
+        name: "route-unsecured",
+        namespace: "default",
+        cluster: "braveman"
+      }
+    ]
+  },
+  {
+    kind: "subscriptions",
+    items: [
+      {
+        kind: "subscription",
+        label:
+          "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+        name: "mortgagedc-subscription",
+        namespace: "default",
+        selfLink:
+          "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgagedc-subscription",
+        status: "Subscribed",
+        cluster: "braveman"
+      }
+    ]
+  },
+  {
+    kind: "replicationcontroller",
+    items: [
+      {
+        created: "2020-04-20T22:03:50Z",
+        kind: "replicationcontroller",
+        label:
+          "app=mortgagedc-mortgage; openshift.io/deployment-config.name=mortgagedc-deploy",
+        name: "mortgagedc-deploy-1",
+        namespace: "default",
+        cluster: "braveman"
+      }
+    ]
+  }
+];
+
+const resourceMap = {
+  "mortgagedc-deploy-braveman": { type: "deploymentconfig" },
+  "mortgagedc-subscription": { type: "subscription" },
+  "mortgagedc-svc-braveman": {},
+  "route-unsecured-braveman": {}
+};
+
+const modelResult = {
+  "mortgagedc-deploy-braveman": {
+    specs: {
+      deploymentconfigModel: {
+        "mortgagedc-deploy-braveman": {
+          cluster: "braveman",
+          kind: "deploymentconfig",
+          label: "app=mortgagedc-mortgage",
+          name: "mortgagedc-deploy",
+          namespace: "default"
+        }
+      },
+      replicationcontrollerModel: {
+        "mortgagedc-deploy-1-braveman": {
+          cluster: "braveman",
+          created: "2020-04-20T22:03:50Z",
+          kind: "replicationcontroller",
+          label:
+            "app=mortgagedc-mortgage; openshift.io/deployment-config.name=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1",
+          namespace: "default"
+        }
+      }
+    },
+    type: "deploymentconfig"
+  },
+  "mortgagedc-subscription": {
+    specs: {
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {
+          cluster: "braveman",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/default/subscriptions/mortgagedc-subscription",
+          status: "Subscribed"
+        }
+      }
+    },
+    type: "subscription"
+  },
+  "mortgagedc-svc-braveman": {
+    specs: {
+      serviceModel: {
+        "mortgagedc-svc-braveman": {
+          cluster: "braveman",
+          kind: "service",
+          label: "app=mortgagedc-mortgage",
+          name: "mortgagedc-svc",
+          namespace: "default",
+          port: "9080:32749/TCP"
+        }
+      }
+    }
+  },
+  "route-unsecured-braveman": {
+    specs: {
+      routeModel: {
+        "route-unsecured-braveman": {
+          cluster: "braveman",
+          kind: "route",
+          name: "route-unsecured",
+          namespace: "default"
+        }
+      }
+    }
+  }
+};
 
 describe("getNodePropery ", () => {
   const result = { labelKey: "nskey", value: "test" };
@@ -197,5 +357,37 @@ describe("createResourceSearchLink for details", () => {
   ];
   it("createResourceSearchLink", () => {
     expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("setupResourceModel ", () => {
+  it("setupResourceModel", () => {
+    expect(setupResourceModel(resourceList, resourceMap, false)).toEqual(
+      modelResult
+    );
+  });
+});
+
+describe("setupResourceModel ", () => {
+  it("return setupResourceModel for grouped objects", () => {
+    expect(setupResourceModel(resourceList, resourceMap, true)).toEqual(
+      modelResult
+    );
+  });
+});
+
+describe("setupResourceModel undefined 1", () => {
+  it("return setupResourceModel for undefined 1 ", () => {
+    expect(setupResourceModel(undefined, resourceMap, true)).toEqual(
+      modelResult
+    );
+  });
+});
+
+describe("setupResourceModel undefined 2", () => {
+  it("return setupResourceModel for undefined 2 ", () => {
+    expect(setupResourceModel(resourceList, undefined, true)).toEqual(
+      undefined
+    );
   });
 });

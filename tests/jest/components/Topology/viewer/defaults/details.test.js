@@ -790,7 +790,7 @@ describe("getNodeDetails deployment node", () => {
     },
     { type: "spacer" },
     { type: "spacer" },
-    { labelKey: "resource.deploy.statuses", type: "label" },
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
     { labelValue: "feng", value: "3/3" },
     { labelValue: "cluster1", value: "0/1" },
     { labelValue: "cluster2", value: "0/1" },

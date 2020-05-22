@@ -45,8 +45,8 @@ export const addDetails = (details, dets) => {
 export const getClusterName = nodeId => {
   const startPos = nodeId.indexOf('--clusters--') + 12
   const endPos = nodeId.indexOf('--', startPos)
-  const clusterName = nodeId.slice(startPos, endPos)
-  return clusterName
+
+  return nodeId.slice(startPos, endPos)
 }
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {
@@ -224,21 +224,10 @@ export const nodeMustHavePods = node => {
 
 export const computePodStatus = node => {
   if (nodeMustHavePods(node)) {
-    const clusterName = getClusterName(node.id)
     //must have pods, set the pods status here
     const podStatusMap = {}
 
     const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
-    let podsReady = 0
-    const podList = _.get(node, 'specs.podModel', {})
-    Object.values(podList).forEach(workload => {
-      if (
-        clusterName.indexOf(workload.cluster) > -1 &&
-        workload.status === 'Running'
-      ) {
-        podsReady = podsReady + 1
-      }
-    })
 
     const resourceName = _.get(node, 'specs.raw.metadata.name', '')
     const resourceMap = _.get(node, `specs.${node.type}Model`, {})
@@ -250,11 +239,33 @@ export const computePodStatus = node => {
       const workload = resourceMap[`${resourceName}-${clusterName}`]
 
       if (workload) {
-        podStatusMap[clusterName] = {
-          available: workload.available,
-          current: workload.current,
-          desired: workload.desired || desired,
-          ready: workload.ready || podsReady
+        if (workload.ready) {
+          podStatusMap[clusterName] = {
+            available: workload.available,
+            current: workload.current,
+            desired: workload.desired,
+            ready: workload.ready
+          }
+        } else {
+          //the resource doesn't have the pods info, it must be an embedded object between resource and pods
+          //get the pods info from the pods model
+          let podsReady = 0
+          const podList = _.get(node, 'specs.podModel', {})
+          Object.values(podList).forEach(workload => {
+            if (
+              clusterName.indexOf(workload.cluster) > -1 &&
+              workload.status === 'Running'
+            ) {
+              podsReady = podsReady + 1
+            }
+          })
+
+          podStatusMap[clusterName] = {
+            available: 0,
+            current: 0,
+            desired: desired,
+            ready: podsReady
+          }
         }
       } else {
         podStatusMap[clusterName] = {

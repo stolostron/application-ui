@@ -236,25 +236,25 @@ export const computePodStatus = node => {
     //go through all clusters to make sure all pods are counted, even if they are not deployed there
     clusterNames.forEach(clusterName => {
       clusterName = R.trim(clusterName)
-      const workload = resourceMap[`${resourceName}-${clusterName}`]
+      const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
 
-      if (workload) {
-        if (workload.ready) {
+      if (resourceItem) {
+        if (resourceItem.ready) {
           podStatusMap[clusterName] = {
-            available: workload.available,
-            current: workload.current,
-            desired: workload.desired,
-            ready: workload.ready
+            available: resourceItem.available,
+            current: resourceItem.current,
+            desired: resourceItem.desired,
+            ready: resourceItem.ready
           }
         } else {
           //the resource doesn't have the pods info, it must be an embedded object between resource and pods
           //get the pods info from the pods model
           let podsReady = 0
           const podList = _.get(node, 'specs.podModel', {})
-          Object.values(podList).forEach(workload => {
+          Object.values(podList).forEach(podItem => {
             if (
-              clusterName.indexOf(workload.cluster) > -1 &&
-              workload.status === 'Running'
+              clusterName.indexOf(podItem.cluster) > -1 &&
+              podItem.status === 'Running'
             ) {
               podsReady = podsReady + 1
             }

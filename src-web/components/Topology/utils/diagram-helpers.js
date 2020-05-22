@@ -463,7 +463,7 @@ export const setPodDeployStatus = (node, details) => {
 
   details.push({
     type: 'label',
-    labelKey: 'resource.deploy.statuses'
+    labelKey: 'resource.deploy.pods.statuses'
   })
 
   const podModel = _.get(node, 'specs.podModel', {})

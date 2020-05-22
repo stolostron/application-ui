@@ -10,11 +10,10 @@
 import jsYaml from 'js-yaml'
 import {
   getStoredObject,
-  saveStoredObject,
-  getClusterName
+  saveStoredObject
 } from '../../../../lib/client/resource-helper'
 import {
-  nodeMustHavePods,
+  getClusterName,
   setupResourceModel
 } from '../../Topology/utils/diagram-helpers'
 import { getTopologyElements } from './hcm-topology'
@@ -64,48 +63,14 @@ export const getActiveChannel = localStoreKey => {
 }
 
 //link the search objects to this node; set the pods status if the node has pods
-export const processNodeData = (
-  node,
-  podMap,
-  isClusterGrouped,
-  applicationDetails
-) => {
+export const processNodeData = (node, podMap, isClusterGrouped) => {
   const { name, type } = node
 
-  if (type === 'cluster' || type === 'application' || type === 'rules') {
+  if (R.contains(type, ['cluster', 'application', 'rules'])) {
     return //ignore these types
   }
 
   const clusterName = getClusterName(node.id)
-
-  if (nodeMustHavePods(node)) {
-    //must have pods, set the pods status here
-    const podStatusMap = {}
-
-    let resourceArr = applicationDetails.items[0].related
-    resourceArr = resourceArr.find(resource => {
-      return resource.kind === type
-    })
-
-    if (resourceArr) {
-      resourceArr.items.forEach(workload => {
-        if (
-          workload.name === name &&
-          clusterName.indexOf(workload.cluster) > -1
-        ) {
-          podStatusMap[workload.cluster] = {
-            available: workload.available,
-            current: workload.current,
-            desired: workload.desired,
-            ready: workload.ready
-          }
-        }
-      })
-    }
-
-    _.set(node, 'podStatusMap', podStatusMap)
-  }
-
   if (type === 'subscription') {
     //don't use cluster name when grouping subscriptions
     podMap[name] = node
@@ -160,7 +125,7 @@ export const getDiagramElements = (
         channels = _.get(node, 'specs.channels', [])
       }
 
-      processNodeData(node, podMap, isClusterGrouped, applicationDetails)
+      processNodeData(node, podMap, isClusterGrouped)
 
       const raw = _.get(node, 'specs.raw')
       if (raw) {

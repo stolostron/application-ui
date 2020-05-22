@@ -25,7 +25,6 @@ import {
 } from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
-  //console.log('details', node)
   const details = []
   if (node) {
     const { type, specs } = node

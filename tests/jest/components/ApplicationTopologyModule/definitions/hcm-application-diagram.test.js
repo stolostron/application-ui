@@ -467,7 +467,6 @@ describe("hcm-application-diagram-tests", () => {
         id:
           "--clusters--possiblereptile, braveman, sharingpenguin, relievedox--depl",
         name: "depl",
-        podStatusMap: {},
         specs: {
           raw: {
             spec: { template: { spec: { containers: [{ name: "c1" }] } } }
@@ -479,7 +478,6 @@ describe("hcm-application-diagram-tests", () => {
       {
         id: "--clusters--depl",
         name: "depl2",
-        podStatusMap: {},
         specs: {
           raw: {
             spec: { template: { spec: { containers: [{ name: "c1" }] } } }
@@ -491,7 +489,6 @@ describe("hcm-application-diagram-tests", () => {
       {
         id: "--clusters--subs",
         name: "subsname",
-        podStatusMap: {},
         specs: {
           raw: {
             spec: { template: { spec: { containers: [{ name: "c1" }] } } }

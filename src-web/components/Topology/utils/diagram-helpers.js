@@ -12,10 +12,42 @@ import R from 'ramda'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
+import moment from 'moment'
 
 /*
 * UI helpers to help with data transformations
 * */
+export const getAge = value => {
+  if (value) {
+    if (value.includes('T')) {
+      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
+    } else {
+      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
+    }
+  }
+  return '-'
+}
+
+export const addDetails = (details, dets) => {
+  dets.forEach(({ labelKey, labelValue, value, indent }) => {
+    if (value !== undefined) {
+      details.push({
+        type: 'label',
+        labelKey,
+        labelValue,
+        value,
+        indent
+      })
+    }
+  })
+}
+
+export const getClusterName = nodeId => {
+  const startPos = nodeId.indexOf('--clusters--') + 12
+  const endPos = nodeId.indexOf('--', startPos)
+
+  return nodeId.slice(startPos, endPos)
+}
 
 export const getWrappedNodeLabel = (label, width, rows = 3) => {
   // if too long, add elipse and split the rest
@@ -190,6 +222,65 @@ export const nodeMustHavePods = node => {
   return mustHavePods
 }
 
+export const computePodStatus = node => {
+  if (nodeMustHavePods(node)) {
+    //must have pods, set the pods status here
+    const podStatusMap = {}
+
+    const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
+
+    const resourceName = _.get(node, 'specs.raw.metadata.name', '')
+    const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+    const clusterNames = R.split(',', getClusterName(node.id))
+
+    //go through all clusters to make sure all pods are counted, even if they are not deployed there
+    clusterNames.forEach(clusterName => {
+      clusterName = R.trim(clusterName)
+      const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
+
+      if (resourceItem) {
+        if (resourceItem.ready) {
+          podStatusMap[clusterName] = {
+            available: resourceItem.available,
+            current: resourceItem.current,
+            desired: resourceItem.desired,
+            ready: resourceItem.ready
+          }
+        } else {
+          //the resource doesn't have the pods info, it must be an embedded object between resource and pods
+          //get the pods info from the pods model
+          let podsReady = 0
+          const podList = _.get(node, 'specs.podModel', {})
+          Object.values(podList).forEach(podItem => {
+            if (
+              clusterName.indexOf(podItem.cluster) > -1 &&
+              podItem.status === 'Running'
+            ) {
+              podsReady = podsReady + 1
+            }
+          })
+
+          podStatusMap[clusterName] = {
+            available: 0,
+            current: 0,
+            desired: desired,
+            ready: podsReady
+          }
+        }
+      } else {
+        podStatusMap[clusterName] = {
+          available: 0,
+          current: 0,
+          desired: desired,
+          ready: 0
+        }
+      }
+    })
+
+    _.set(node, 'podStatusMap', podStatusMap)
+  }
+}
+
 export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
   if (details && node) {
@@ -316,4 +407,134 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
   }
 
   return resourceMap
+}
+
+//show resource deployed status on the remote clusters
+//for resources not producing pods
+export const setResourceDeployStatus = (node, details) => {
+  if (
+    nodeMustHavePods(node) ||
+    R.contains(node.type, [
+      'application',
+      'rules',
+      'cluster',
+      'subscription',
+      'package'
+    ])
+  ) {
+    //resource with pods info is processed separately
+    //ignore packages
+    return
+  }
+
+  const resourceName = _.get(node, 'specs.raw.metadata.name', '')
+  const clusterNames = R.split(',', getClusterName(node.id))
+  const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+
+  const clusterStatusMap = {}
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const res = resourceMap[`${resourceName}-${clusterName}`]
+    clusterStatusMap[clusterName] = res ? 'Deployed' : 'Not Deployed'
+  })
+
+  details.push({
+    type: 'label',
+    labelKey: 'resource.deploy.statuses'
+  })
+
+  Object.keys(clusterStatusMap).forEach(key => {
+    details.push({
+      labelValue: key,
+      value: clusterStatusMap[key]
+    })
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+}
+
+//show resource deployed status for resources producing pods
+export const setPodDeployStatus = (node, details) => {
+  if (!nodeMustHavePods(node)) {
+    return //process only resources with pods
+  }
+
+  details.push({
+    type: 'label',
+    labelKey: 'resource.deploy.pods.statuses'
+  })
+
+  const podModel = _.get(node, 'specs.podModel', {})
+  const podStatusModel = _.get(node, 'podStatusMap', {})
+
+  const clusterNames = R.split(',', getClusterName(node.id))
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const res = podStatusModel[clusterName]
+    details.push({
+      labelValue: clusterName,
+      value: res ? `${res.ready}/${res.desired}` : 'Not Deployed'
+    })
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+
+  Object.values(podModel).forEach(pod => {
+    const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
+    details.push({
+      type: 'label',
+      labelKey: 'resource.container.logs'
+    })
+    details.push({
+      type: 'link',
+      value: {
+        label: 'View Log',
+        data: {
+          action: 'show_pod_log',
+          name: pod.name,
+          namespace: pod.namespace,
+          cluster: pod.cluster
+        }
+      },
+      indent: true
+    })
+
+    addDetails(details, [
+      {
+        labelKey: 'resource.clustername',
+        value: cluster
+      },
+      {
+        labelKey: 'resource.pod',
+        value: pod.name
+      },
+      {
+        labelKey: 'resource.hostip',
+        value: hostIP
+      },
+      {
+        labelKey: 'resource.podip',
+        value: podIP
+      },
+      {
+        labelKey: 'resource.created',
+        value: getAge(startedAt)
+      },
+      {
+        labelKey: 'resource.status',
+        value: status
+      },
+      {
+        labelKey: 'resource.restarts',
+        value: restarts
+      }
+    ])
+    details.push({
+      type: 'spacer'
+    })
+  })
 }

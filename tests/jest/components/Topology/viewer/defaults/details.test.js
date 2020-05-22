@@ -576,7 +576,7 @@ describe("getNodeDetails placement node", () => {
 describe("getNodeDetails deployment node", () => {
   const deploymentNode = {
     id:
-      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
       "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     name: "mortgage-app-deploy",
@@ -584,6 +584,49 @@ describe("getNodeDetails deployment node", () => {
     clusterName: null,
     type: "deployment",
     specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 3,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      podModel: {
+        "mortgagedc-deploy-1-q9b5r-feng": {
+          cluster: "feng",
+          container: "mortgagedc-mortgage",
+          created: "2020-04-20T22:03:52Z",
+          hostIP: "1.1.1.1",
+          image: "fxiang/mortgage:0.4.0",
+          kind: "pod",
+          label:
+            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1-q9b5r",
+          namespace: "default",
+          podIP: "10.128.2.80",
+          restarts: 0,
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+          startedAt: "2020-04-20T22:03:52Z",
+          status: "Running"
+        },
+        "mortgagedc-deploy-1-q9b5rr-feng": {
+          cluster: "feng",
+          container: "mortgagedc-mortgage",
+          created: "2020-04-20T22:03:52Z",
+          hostIP: "1.1.1.1",
+          image: "fxiang/mortgage:0.4.0",
+          kind: "pod",
+          label:
+            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1-q9b5rr",
+          namespace: "default",
+          podIP: "10.128.2.80",
+          restarts: 0,
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+          startedAt: "2020-04-20",
+          status: "Running"
+        }
+      },
       raw: {
         apiVersion: "apps/v1",
         kind: "Deployment",
@@ -689,6 +732,7 @@ describe("getNodeDetails deployment node", () => {
                 cluster: "cluster1",
                 hostIP: "1.1.1.1",
                 status: "Running",
+                startedAt: "2020-04-20T22:03:52Z",
                 restarts: 0,
                 podIP: "1.1.1.1",
                 startedAt: "Monday"
@@ -739,12 +783,145 @@ describe("getNodeDetails deployment node", () => {
           namespace: ""
         },
         id:
-          "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+          "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
         indent: true,
         label: "Show resource in Search View"
       }
     },
     { type: "spacer" },
+    { type: "spacer" },
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "feng", value: "3/3" },
+    { labelValue: "cluster1", value: "0/1" },
+    { labelValue: "cluster2", value: "0/1" },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "feng",
+          name: "mortgagedc-deploy-1-q9b5r",
+          namespace: "default"
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      type: "label",
+      value: "feng"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.pod",
+      labelValue: undefined,
+      type: "label",
+      value: "mortgagedc-deploy-1-q9b5r"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      type: "label",
+      value: "1.1.1.1"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.podip",
+      labelValue: undefined,
+      type: "label",
+      value: "10.128.2.80"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      type: "label",
+      value: "a month ago"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      type: "label",
+      value: 0
+    },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "feng",
+          name: "mortgagedc-deploy-1-q9b5rr",
+          namespace: "default"
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      type: "label",
+      value: "feng"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.pod",
+      labelValue: undefined,
+      type: "label",
+      value: "mortgagedc-deploy-1-q9b5rr"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      type: "label",
+      value: "1.1.1.1"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.podip",
+      labelValue: undefined,
+      type: "label",
+      value: "10.128.2.80"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      type: "label",
+      value: "a month ago"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      type: "label",
+      value: 0
+    },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },

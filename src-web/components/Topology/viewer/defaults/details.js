@@ -10,14 +10,18 @@
 'use strict'
 
 import R from 'ramda'
-import moment from 'moment'
 import _ from 'lodash'
 import msgs from '../../../../../nls/platform.properties'
 import {
   getNodePropery,
   addPropertyToList,
   createDeployableYamlLink,
-  createResourceSearchLink
+  createResourceSearchLink,
+  computePodStatus,
+  setResourceDeployStatus,
+  setPodDeployStatus,
+  addDetails,
+  getAge
 } from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
@@ -443,103 +447,18 @@ function addK8Details(node, details, podOnly, index) {
   details.push({
     type: 'spacer'
   })
+
+  computePodStatus(node)
+
+  //show error if the resource doesn't produce pods and was not deployed on remote clusters
+  setResourceDeployStatus(node, details)
+
   // kube model details
-  let podModel = _.get(node, 'specs.podModel')
-  if (podModel) {
-    if (Object.keys(node.podStatusMap).length > 0) {
-      details.push({
-        type: 'label',
-        labelKey: 'resource.deploy.statuses'
-      })
+  setPodDeployStatus(node, details)
 
-      Object.keys(node.podStatusMap).forEach(key => {
-        details.push({
-          labelValue: key,
-          value: `${node.podStatusMap[key].ready}/${
-            node.podStatusMap[key].desired
-          }`
-        })
-      })
-
-      details.push({
-        type: 'spacer'
-      })
-    }
-    if (podModel.name) {
-      podModel = {}
-      podModel[podModel.name] = podModel
-    }
-    Object.values(podModel).forEach(pod => {
-      const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
-      details.push({
-        type: 'label',
-        labelKey: 'resource.container.logs'
-      })
-      details.push({
-        type: 'link',
-        value: {
-          label: 'View Log',
-          data: {
-            action: 'show_pod_log',
-            name: pod.name,
-            namespace: pod.namespace,
-            cluster: pod.cluster
-          }
-        },
-        indent: true
-      })
-
-      addDetails(details, [
-        {
-          labelKey: 'resource.clustername',
-          value: cluster
-        },
-        {
-          labelKey: 'resource.pod',
-          value: pod.name
-        },
-        {
-          labelKey: 'resource.hostip',
-          value: hostIP
-        },
-        {
-          labelKey: 'resource.podip',
-          value: podIP
-        },
-        {
-          labelKey: 'resource.created',
-          value: getAge(startedAt)
-        },
-        {
-          labelKey: 'resource.status',
-          value: status
-        },
-        {
-          labelKey: 'resource.restarts',
-          value: restarts
-        }
-      ])
-      details.push({
-        type: 'spacer'
-      })
-    })
-  }
   return details
 }
 
-const addDetails = (details, dets) => {
-  dets.forEach(({ labelKey, labelValue, value, indent }) => {
-    if (value !== undefined) {
-      details.push({
-        type: 'label',
-        labelKey,
-        labelValue,
-        value,
-        indent
-      })
-    }
-  })
-}
 export const inflateKubeValue = value => {
   if (value) {
     const match = value.match(/\D/g)
@@ -575,15 +494,4 @@ function factorize(prefixes, unit, type) {
 
 export const getPercentage = (value, total) => {
   return Math.floor(100 * value / total) || 0
-}
-
-const getAge = value => {
-  if (value) {
-    if (value.includes('T')) {
-      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-    } else {
-      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
-    }
-  }
-  return '-'
 }

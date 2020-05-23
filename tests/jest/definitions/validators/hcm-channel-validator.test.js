@@ -11,8 +11,10 @@ const validHelmRepoSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n configRef:\n name: foo\n type: HelmRepo\n---\napiVersion: v1\nkind: ConfigMap\nmetadata:\n name: cf1\n namespace: ns1";
 const validObjectBucketSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: ObjectBucket\n pathname: foo\n secretRef:\n name: sr1\n gates:\n annotations: foo";
-const validGitRepoSample =
+const validGitHubRepoSample =
   "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: GitHub\n pathname: foo";
+const validGitRepoSample =
+  "apiVersion: v1\nkind: Namespace\nmetadata:\n name: ns1\n---\napiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: Git\n pathname: foo";
 
 const requiredNamespaceSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: Namespace";
@@ -20,8 +22,10 @@ const requiredHelmRepoSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: HelmRepo";
 const requiredObjectBucketSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: ObjectBucket";
-const requiredGitRepoSample =
+const requiredGitHubRepoSample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: GitHub";
+const requiredGitRepoSample =
+  "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n pathname: foo\n type: Git";
 
 const noPathnameKeySample =
   "apiVersion: apps.open-cluster-management.io/v1\nkind: Channel\nmetadata:\n name: ch1\n namespace: ns1\nspec:\n type: Namespace";
@@ -172,6 +176,11 @@ describe("validator testing for hcm-channel", () => {
     expect(exceptions).toEqual([]);
   });
 
+  it("validGitHubRepoSample should be validated successfully", () => {
+    const { exceptions } = parse(validGitHubRepoSample, validator, "en-un");
+    expect(exceptions).toEqual([]);
+  });
+
   it("validGitRepoSample should be validated successfully", () => {
     const { exceptions } = parse(validGitRepoSample, validator, "en-un");
     expect(exceptions).toEqual([]);
@@ -193,6 +202,11 @@ describe("validator testing for hcm-channel", () => {
       validator,
       "en-un"
     );
+    expect(exceptions).toEqual([]);
+  });
+
+  it("requiredGitHubRepoSample should be validated successfully", () => {
+    const { exceptions } = parse(requiredGitHubRepoSample, validator, "en-un");
     expect(exceptions).toEqual([]);
   });
 

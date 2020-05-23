@@ -14,6 +14,7 @@ import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
 import moment from 'moment'
 
+const metadataName = 'specs.raw.metadata.name'
 /*
 * UI helpers to help with data transformations
 * */
@@ -258,7 +259,7 @@ const getPulseStatusForSubscription = node => {
 const getPulseStatusForGenericNode = node => {
   let pulse = 'green'
 
-  const resourceName = _.get(node, 'specs.raw.metadata.name', '')
+  const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   if (!resourceMap) {
     pulse = 'orange' //resource not available
@@ -285,7 +286,7 @@ const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
   const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
 
-  const resourceName = _.get(node, 'specs.raw.metadata.name', '')
+  const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
 
   if (!resourceMap) {
@@ -529,7 +530,7 @@ export const setResourceDeployStatus = (node, details) => {
     return
   }
 
-  const resourceName = _.get(node, 'specs.raw.metadata.name', '')
+  const resourceName = _.get(node, metadataName, '')
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 

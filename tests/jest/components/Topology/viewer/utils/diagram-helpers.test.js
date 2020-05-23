@@ -575,6 +575,26 @@ describe("computeNodeStatus ", () => {
     }
   };
 
+  const deploymentNodeYellow2 = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 3,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      }
+    }
+  };
+
   const deploymentNodeGreen = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
@@ -594,7 +614,7 @@ describe("computeNodeStatus ", () => {
       },
       podModel: {
         "mortgagedc-deploy-1-q9b5r-feng": {
-          cluster: "feng",
+          cluster: "cluster1",
           container: "mortgagedc-mortgage",
           created: "2020-04-20T22:03:52Z",
           hostIP: "1.1.1.1",
@@ -799,6 +819,48 @@ describe("computeNodeStatus ", () => {
     type: "rules",
     specs: {}
   };
+
+  const ruleNodeRed2 = {
+    name: "mortgage-app-deploy2",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {
+      raw: {
+        status: {
+          decisions: {
+            cls1: {}
+          }
+        }
+      }
+    }
+  };
+
+  const appNoChannelRed = {
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "application",
+    specs: {}
+  };
+
+  const appNoChannelRed1 = {
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "application",
+    specs: {
+      channels: ["aaa"]
+    }
+  };
+
+  it("return appNnoChannelRed red", () => {
+    expect(computeNodeStatus(appNoChannelRed)).toEqual(undefined);
+  });
+
+  it("return appNnoChannelRed1 red", () => {
+    expect(computeNodeStatus(appNoChannelRed1)).toEqual(undefined);
+  });
   it("return computeNodeStatus green", () => {
     expect(computeNodeStatus(subscriptionInputGreen)).toEqual(undefined);
   });
@@ -835,8 +897,15 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(ruleNodeRed)).toEqual(undefined);
   });
 
+  it("return computeNodeStatus rules node red2", () => {
+    expect(computeNodeStatus(ruleNodeRed2)).toEqual(undefined);
+  });
   it("return computeNodeStatus deploymentNodeYellow", () => {
     expect(computeNodeStatus(deploymentNodeYellow)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus deploymentNodeYellow2", () => {
+    expect(computeNodeStatus(deploymentNodeYellow2)).toEqual(undefined);
   });
 
   it("return computeNodeStatus subscriptionGreenNotPlacedYellow", () => {

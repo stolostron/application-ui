@@ -91,7 +91,8 @@ const clusterNodes = [
         hasViolations: false,
         hasFailure: false,
         isRecent: false,
-        isDisabled: false
+        isDisabled: false,
+        hasWarning: true
       },
       scale: 1
     },
@@ -110,8 +111,8 @@ const clusterNodes = [
     specs: {
       cluster: {
         metadata: {
-          name: "cluster1",
-          namespace: "cluster1",
+          name: "cluster2",
+          namespace: "cluster2",
           selfLink:
             "/apis/clusterregistry.k8s.io/v1alpha1/namespaces/cluster2/clusters/cluster2",
           uid: "98a0e1b0-519c-11ea-9c87-965ebc50d5a3",
@@ -147,10 +148,64 @@ const clusterNodes = [
     topology: null,
     labels: null,
     __typename: "Resource"
+  },
+  {
+    id: "member--clusters--cluster3",
+    uid: "member--clusters--cluster3",
+    name: "cluster3",
+    cluster: null,
+    clusterName: null,
+    type: "cluster",
+    specs: {
+      cluster: {
+        metadata: {
+          name: "cluster3",
+          namespace: "cluster3",
+          selfLink:
+            "/apis/clusterregistry.k8s.io/v1alpha1/namespaces/cluster2/clusters/cluster2",
+          uid: "98a0e1b0-519c-11ea-9c87-965ebc50d5a3",
+          resourceVersion: "796601",
+          creationTimestamp: "2020-02-17T15:46:00Z",
+          labels: {
+            cloud: "IBM",
+            env: "prod",
+            name: "cluster2",
+            region: "paris",
+            vendor: "RHOCP"
+          }
+        },
+        usage: {
+          cpu: "2808m",
+          memory: "5543Mi",
+          pods: "65",
+          storage: "20Gi"
+        },
+        status: "offline"
+      },
+      clusterNames: ["cluster3"],
+      scale: 1
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource"
   }
 ];
 
 const podNodes = [
+  {
+    id:
+      "member--pod--member--deployable--member--clusters--az01--pacmangitchannel--pacmangitchannel-deployment--pacmangit--pacmangit1",
+    uid:
+      "member--pod--member--deployable--member--clusters--az01--pacmangitchannel--pacmangitchannel-deployment--pacmangit--pacmangit1",
+    name: "pacmangit",
+    cluster: null,
+    clusterName: null,
+    type: "pod",
+    specs: {
+      pulse: "something else"
+    }
+  },
   {
     id:
       "member--pod--member--deployable--member--clusters--az01--pacmangitchannel--pacmangitchannel-deployment--pacmangit--pacmangit",

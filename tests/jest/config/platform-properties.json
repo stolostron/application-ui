@@ -607,6 +607,7 @@
   "resource.persistent_volume": "Persistent Volume",
   "resource.persistent_volume_claim": "Persistent Volume Claim",
   "resource.deploy.statuses": "Cluster deploy status",
+  "resource.deploy.pods.statuses": "Cluster deploy status for pods",
   "raw.spec.selector": "Pod Selector",
   "raw.spec.metadata.label": "Labels",
   "raw.spec.replicas": "Required Replicas",

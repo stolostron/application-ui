@@ -8,10 +8,11 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 'use strict'
+
+import R from 'ramda'
 import { StatusIcon } from '../constants.js'
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
-import { nodeMustHavePods } from '../../utils/diagram-helpers'
 
 const HOURS = 1000 * 60 * 60
 
@@ -67,51 +68,6 @@ const updateClusterNodeStatus = (node, locale, sizes, startedAts, now) => {
   }
 }
 
-const updateNodeWithPodsStatus = (node, startedAts, now) => {
-  let podModel = _.get(node, 'specs.podModel')
-  let pulse = 'red'
-
-  if (podModel) {
-    const podStatus = {
-      hasPending: false,
-      hasFailure: false,
-      hasRestarts: false,
-      hostIPs: new Set()
-    }
-
-    if (podModel.name) {
-      podModel = {}
-      podModel[podModel.name] = podModel
-    }
-
-    //loop through pod list calculating ready / failed
-    // need to separate for each cluster
-
-    Object.values(podModel).forEach(pod => {
-      const { restarts, status, hostIP, startedAt } = pod
-      if (status) {
-        if (status === 'Pending') {
-          podStatus.hasPending = true
-          pulse = 'yellow'
-        } else if (status !== 'Running' && status !== 'Succeeded') {
-          podStatus.hasFailure = true
-          pulse = 'red'
-        }
-      }
-      podStatus.hasRestarts = podStatus.hasRestarts || restarts > 5
-      if (startedAt) {
-        startedAts.push({
-          started: now - new Date(startedAt).getTime(),
-          node
-        })
-      }
-      podStatus.hostIPs.add(hostIP || '<none>')
-    })
-    _.set(node, 'specs.podStatus', podStatus)
-  }
-  _.set(node, 'specs.pulse', pulse)
-}
-
 export const updateNodeStatus = (nodes, locale) => {
   // collect statistics
   const sizes = []
@@ -122,10 +78,6 @@ export const updateNodeStatus = (nodes, locale) => {
 
     if (type === 'cluster') {
       updateClusterNodeStatus(node, locale, sizes, startedAts, now)
-    }
-
-    if (nodeMustHavePods(node)) {
-      updateNodeWithPodsStatus(node, startedAts, now)
     }
   })
 
@@ -204,17 +156,6 @@ export const updateNodeIcons = nodes => {
     let nodeStatus = ''
     let disabled = false
 
-    // show error icon on application node if app is not subscribed to any channel
-    if (type === 'application') {
-      const { specs = {} } = node
-      if (
-        specs &&
-        (!specs.channels || (specs.channels && specs.channels.length === 0))
-      ) {
-        nodeIcons['status'] = Object.assign({}, StatusIcon.error)
-      }
-    }
-
     if (type === 'cluster') {
       // determine icon
       const { specs = {} } = node
@@ -223,10 +164,12 @@ export const updateNodeIcons = nodes => {
           hasWarning,
           hasFailure,
           status,
-          isDisabled
+          isDisabled,
+          hasViolations,
+          isOffline
         } = specs.clusterStatus
         let statusIcon = StatusIcon.success
-        if (hasFailure) {
+        if (hasFailure || hasViolations || isOffline) {
           statusIcon = StatusIcon.error
         } else if (hasWarning) {
           statusIcon = StatusIcon.pending
@@ -234,31 +177,24 @@ export const updateNodeIcons = nodes => {
         nodeIcons['status'] = Object.assign({}, statusIcon)
         nodeStatus = status
         disabled = isDisabled
-      } else if (specs.cluster) {
-        const compliant = node.specs.compliance.compliant
-        const noncompliant =
-          !compliant || compliant.toLowerCase() === 'noncompliant'
-        let statusIcon = StatusIcon.success
-        if (noncompliant) {
-          statusIcon = StatusIcon.error
-        }
-        nodeIcons['status'] = Object.assign({}, statusIcon)
       }
     }
 
-    if (nodeMustHavePods(node)) {
-      updatePodIcon(node, nodeIcons)
-    }
+    if (!R.contains(node.type, ['cluster', 'package'])) {
+      const pulse = _.get(node, 'specs.pulse', 'red')
 
-    // get deplyable status
-    if (!nodeIcons['status']) {
-      const deployStatuses = _.get(node, 'specs.deployStatuses')
-      if (deployStatuses && deployStatuses.length > 0) {
-        let statusIcon = StatusIcon.success
-        if (deployStatuses.some(({ phase }) => phase === 'Failed')) {
-          statusIcon = StatusIcon.error
-        }
-        nodeIcons['status'] = Object.assign({}, statusIcon)
+      switch (pulse) {
+      case 'red':
+        nodeIcons['status'] = Object.assign({}, StatusIcon.error)
+        break
+      case 'yellow':
+        nodeIcons['status'] = Object.assign({}, StatusIcon.pending)
+        break
+      case 'orange':
+        nodeIcons['status'] = Object.assign({}, StatusIcon.warning)
+        break
+      default:
+        nodeIcons['status'] = Object.assign({}, StatusIcon.success)
       }
     }
 
@@ -266,43 +202,4 @@ export const updateNodeIcons = nodes => {
     layout.nodeStatus = nodeStatus // description under label
     layout.isDisabled = disabled // show node grayed out
   })
-}
-
-const updatePodIcon = (node, nodeIcons) => {
-  let pulse
-  let statusIcon
-  let anySuccess = false
-  let anyPending = false
-  let anyFailure = false
-  let anyRecent = false
-  const podStatus = _.get(node, 'specs.podStatus')
-  if (podStatus) {
-    const { hasPending, hasFailure, isRecent } = podStatus
-    anyFailure = anyFailure || hasFailure
-    anyPending = anyPending || hasPending
-    anyRecent = anyRecent || isRecent
-    anySuccess = true
-  } else {
-    pulse = 'red'
-    statusIcon = StatusIcon.error
-  }
-
-  if (anyFailure) {
-    statusIcon = StatusIcon.warning
-    pulse = 'red'
-  } else if (anyPending) {
-    statusIcon = StatusIcon.pending
-    pulse = 'yellow'
-  } else if (anySuccess) {
-    statusIcon = StatusIcon.success
-    if (anyRecent) {
-      pulse = 'green'
-    }
-  }
-  if (statusIcon) {
-    nodeIcons['status'] = Object.assign({}, statusIcon)
-  }
-  if (pulse) {
-    _.set(node, 'specs.pulse', pulse)
-  }
 }

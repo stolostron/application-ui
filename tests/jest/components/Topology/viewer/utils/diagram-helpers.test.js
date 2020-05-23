@@ -9,7 +9,8 @@ import {
   nodeMustHavePods,
   createDeployableYamlLink,
   createResourceSearchLink,
-  setupResourceModel
+  setupResourceModel,
+  computeNodeStatus
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -387,6 +388,528 @@ describe("setupResourceModel undefined 1", () => {
 describe("setupResourceModel undefined 2", () => {
   it("return setupResourceModel for undefined 2 ", () => {
     expect(setupResourceModel(resourceList, undefined, true)).toEqual(
+      undefined
+    );
+  });
+});
+
+describe("computeNodeStatus ", () => {
+  const subscriptionInputGreen = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {
+          apigroup: "apps.open-cluster-management.io",
+          apiversion: "v1",
+          channel: "mortgagedc-ch/mortgagedc-channel",
+          cluster: "braveman",
+          created: "2020-04-20T22:02:46Z",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          status: "Subscribed",
+          _clusterNamespace: "braveman-ns"
+        },
+        "mortgagedc-subscription-braveman2": {
+          apigroup: "apps.open-cluster-management.io",
+          apiversion: "v1",
+          channel: "mortgagedc-ch/mortgagedc-channel",
+          cluster: "braveman2",
+          created: "2020-04-20T22:02:46Z",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          status: "SubscribedFailed",
+          _clusterNamespace: "braveman-ns"
+        }
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+  const subscriptionInputRed = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+  const subscriptionInputYellow = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {
+          apigroup: "apps.open-cluster-management.io",
+          apiversion: "v1",
+          channel: "mortgagedc-ch/mortgagedc-channel",
+          cluster: "braveman",
+          created: "2020-04-20T22:02:46Z",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          status: "Subscribed",
+          _clusterNamespace: "braveman-ns"
+        },
+        "mortgagedc-subscription-braveman2": {
+          apigroup: "apps.open-cluster-management.io",
+          apiversion: "v1",
+          channel: "mortgagedc-ch/mortgagedc-channel",
+          cluster: "braveman2",
+          created: "2020-04-20T22:02:46Z",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          status: "SomeOtherState",
+          _clusterNamespace: "braveman-ns"
+        }
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  const subscriptionGreenNotPlacedYellow = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      subscriptionModel: {},
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  const subscriptionInputNotPlaced = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {
+          apigroup: "apps.open-cluster-management.io",
+          apiversion: "v1",
+          channel: "mortgagedc-ch/mortgagedc-channel",
+          cluster: "braveman",
+          created: "2020-04-20T22:02:46Z",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          status: "Subscribed",
+          _clusterNamespace: "braveman-ns"
+        },
+        "mortgagedc-subscription-braveman2": {
+          apigroup: "apps.open-cluster-management.io",
+          apiversion: "v1",
+          channel: "mortgagedc-ch/mortgagedc-channel",
+          cluster: "braveman2",
+          created: "2020-04-20T22:02:46Z",
+          kind: "subscription",
+          label:
+            "app=mortgagedc; hosting-deployable-name=mortgagedc-subscription-deployable; subscription-pause=false",
+          name: "mortgagedc-subscription",
+          namespace: "default",
+          status: "Propagated",
+          _clusterNamespace: "braveman-ns"
+        }
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  const genericNodeInputRed = {
+    id: "member--pod--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      row: 12
+    },
+    type: "pod"
+  };
+
+  const deploymentNodeYellow = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      }
+    }
+  };
+
+  const deploymentNodeYellow2 = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 3,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      }
+    }
+  };
+
+  const deploymentNodeGreen = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 3,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      podModel: {
+        "mortgagedc-deploy-1-q9b5r-feng": {
+          cluster: "cluster1",
+          container: "mortgagedc-mortgage",
+          created: "2020-04-20T22:03:52Z",
+          hostIP: "1.1.1.1",
+          image: "fxiang/mortgage:0.4.0",
+          kind: "pod",
+          label:
+            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1-q9b5r",
+          namespace: "default",
+          podIP: "10.128.2.80",
+          restarts: 0,
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+          startedAt: "2020-04-20T22:03:52Z",
+          status: "Running"
+        },
+        "mortgagedc-deploy-1-q9b5rr-feng": {
+          cluster: "feng2",
+          container: "mortgagedc-mortgage",
+          created: "2020-04-20T22:03:52Z",
+          hostIP: "1.1.1.1",
+          image: "fxiang/mortgage:0.4.0",
+          kind: "pod",
+          label:
+            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1-q9b5rr",
+          namespace: "default",
+          podIP: "10.128.2.80",
+          restarts: 0,
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+          startedAt: "2020-04-20",
+          status: "Running"
+        }
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource",
+    layout: {
+      hasPods: true,
+      uid:
+        "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+      type: "deployment",
+      label: "mortgage-app-↵deploy",
+      compactLabel: "mortgage-app-↵deploy",
+      nodeStatus: "",
+      isDisabled: false,
+      title: "",
+      description: "",
+      tooltips: [
+        {
+          name: "Deployment",
+          value: "mortgage-app-deploy",
+          href:
+            "/multicloud/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
+        }
+      ],
+      x: 151.5,
+      y: 481.5,
+      section: { name: "preset", hashCode: 872479835, x: 0, y: 0 },
+      textBBox: {
+        x: -39.359375,
+        y: 5,
+        width: 78.71875,
+        height: 27.338897705078125
+      },
+      lastPosition: { x: 151.5, y: 481.5 },
+      selected: true,
+      nodeIcons: {
+        status: {
+          icon: "success",
+          classType: "success",
+          width: 16,
+          height: 16,
+          dx: 16,
+          dy: -16
+        }
+      },
+      pods: [
+        {
+          cluster: "cluster1",
+          name: "pod1",
+          namespace: "default",
+          type: "pod",
+          layout: {
+            type: "layout1"
+          },
+          specs: {
+            podModel: {
+              "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+                cluster: "cluster1",
+                hostIP: "1.1.1.1",
+                status: "Running",
+                startedAt: "2020-04-20T22:03:52Z",
+                restarts: 0,
+                podIP: "1.1.1.1",
+                startedAt: "Monday"
+              }
+            }
+          }
+        }
+      ]
+    }
+  };
+
+  const genericNodeGreen = {
+    id:
+      "member--member--service--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--service--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "service",
+    specs: {
+      serviceModel: {
+        "mortgage-app-service-feng": {},
+        "mortgage-app-service-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Service",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const packageNodeGreen = {
+    id:
+      "member--member--package--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--package--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "package",
+    specs: {}
+  };
+
+  const ruleNodeRed = {
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {}
+  };
+
+  const ruleNodeRed2 = {
+    name: "mortgage-app-deploy2",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {
+      raw: {
+        status: {
+          decisions: {
+            cls1: {}
+          }
+        }
+      }
+    }
+  };
+
+  const appNoChannelRed = {
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "application",
+    specs: {}
+  };
+
+  const appNoChannelRed1 = {
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "application",
+    specs: {
+      channels: ["aaa"]
+    }
+  };
+
+  it("return appNnoChannelRed red", () => {
+    expect(computeNodeStatus(appNoChannelRed)).toEqual(undefined);
+  });
+
+  it("return appNnoChannelRed1 red", () => {
+    expect(computeNodeStatus(appNoChannelRed1)).toEqual(undefined);
+  });
+  it("return computeNodeStatus green", () => {
+    expect(computeNodeStatus(subscriptionInputGreen)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus red", () => {
+    expect(computeNodeStatus(subscriptionInputRed)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus yellow", () => {
+    expect(computeNodeStatus(subscriptionInputYellow)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus not places", () => {
+    expect(computeNodeStatus(subscriptionInputNotPlaced)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus generic node red", () => {
+    expect(computeNodeStatus(genericNodeInputRed)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus generic node red", () => {
+    expect(computeNodeStatus(deploymentNodeGreen)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus generic node green", () => {
+    expect(computeNodeStatus(genericNodeGreen)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus package node green", () => {
+    expect(computeNodeStatus(packageNodeGreen)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus rules node red", () => {
+    expect(computeNodeStatus(ruleNodeRed)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus rules node red2", () => {
+    expect(computeNodeStatus(ruleNodeRed2)).toEqual(undefined);
+  });
+  it("return computeNodeStatus deploymentNodeYellow", () => {
+    expect(computeNodeStatus(deploymentNodeYellow)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus deploymentNodeYellow2", () => {
+    expect(computeNodeStatus(deploymentNodeYellow2)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus subscriptionGreenNotPlacedYellow", () => {
+    expect(computeNodeStatus(subscriptionGreenNotPlacedYellow)).toEqual(
       undefined
     );
   });

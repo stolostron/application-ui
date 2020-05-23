@@ -17,7 +17,6 @@ import {
   addPropertyToList,
   createDeployableYamlLink,
   createResourceSearchLink,
-  computePodStatus,
   setResourceDeployStatus,
   setPodDeployStatus,
   addDetails,
@@ -447,8 +446,6 @@ function addK8Details(node, details, podOnly, index) {
   details.push({
     type: 'spacer'
   })
-
-  computePodStatus(node)
 
   //show error if the resource doesn't produce pods and was not deployed on remote clusters
   setResourceDeployStatus(node, details)

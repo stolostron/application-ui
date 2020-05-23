@@ -488,6 +488,19 @@ describe("computeNodeStatus ", () => {
     type: "subscription"
   };
 
+  const subscriptionGreenNotPlacedYellow = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      subscriptionModel: {},
+      row: 12
+    },
+    type: "subscription"
+  };
+
   const subscriptionInputNotPlaced = {
     id: "member--subscription--default--mortgagedc-subscription",
     name: "mortgagedc",
@@ -542,6 +555,26 @@ describe("computeNodeStatus ", () => {
     type: "pod"
   };
 
+  const deploymentNodeYellow = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      }
+    }
+  };
+
   const deploymentNodeGreen = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
@@ -578,7 +611,7 @@ describe("computeNodeStatus ", () => {
           status: "Running"
         },
         "mortgagedc-deploy-1-q9b5rr-feng": {
-          cluster: "feng",
+          cluster: "feng2",
           container: "mortgagedc-mortgage",
           created: "2020-04-20T22:03:52Z",
           hostIP: "1.1.1.1",
@@ -800,5 +833,15 @@ describe("computeNodeStatus ", () => {
 
   it("return computeNodeStatus rules node red", () => {
     expect(computeNodeStatus(ruleNodeRed)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus deploymentNodeYellow", () => {
+    expect(computeNodeStatus(deploymentNodeYellow)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus subscriptionGreenNotPlacedYellow", () => {
+    expect(computeNodeStatus(subscriptionGreenNotPlacedYellow)).toEqual(
+      undefined
+    );
   });
 });

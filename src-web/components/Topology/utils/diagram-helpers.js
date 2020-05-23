@@ -222,86 +222,66 @@ export const nodeMustHavePods = node => {
   return mustHavePods
 }
 
-export const computeNodeStatus = node => {
-  if (nodeMustHavePods(node)) {
-    computeNodeWithPodStatus(node)
-    return
-  }
-
+const getPulseStatusForSubscription = node => {
   let pulse = 'green'
 
-  if (node.type === 'package') {
-    //should do this separately
-    return
+  const resourceMap = _.get(node, `specs.${node.type}Model`)
+  if (!resourceMap) {
+    pulse = 'orange' //resource not available
+    return pulse
   }
 
-  if (node.type === 'application') {
-    if (!_.get(node, 'specs.channels')) {
+  let isPlaced = false
+  Object.values(resourceMap).forEach(subscriptionItem => {
+    if (R.contains('Failed', subscriptionItem.status)) {
       pulse = 'red'
     }
-    _.set(node, 'specs.pulse', pulse)
-    return
-  }
-
-  if (node.type === 'rules') {
-    const clusterPlacements = _.get(node, 'specs.raw.status.decisions')
-
-    if (!clusterPlacements) {
-      pulse = 'red'
+    if (subscriptionItem.status === 'Subscribed') {
+      isPlaced = true // at least one cluster placed
     }
-    _.set(node, 'specs.pulse', pulse)
-    return
+
+    if (
+      subscriptionItem.status !== 'Subscribed' &&
+      subscriptionItem.status !== 'Propagated' &&
+      pulse !== 'red'
+    ) {
+      pulse = 'yellow' // anything but failed or subscribed
+    }
+  })
+  if (pulse === 'green' && !isPlaced) {
+    pulse = 'yellow' // set to yellow if not placed
   }
+
+  return pulse
+}
+
+const getPulseStatusForGenericNode = node => {
+  let pulse = 'green'
 
   const resourceName = _.get(node, 'specs.raw.metadata.name', '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   if (!resourceMap) {
     pulse = 'orange' //resource not available
-    _.set(node, 'specs.pulse', pulse)
-    return
+    return pulse
   }
 
-  if (node.type === 'subscription') {
-    let isPlaced = false
-    Object.values(resourceMap).forEach(subscriptionItem => {
-      if (R.contains('Failed', subscriptionItem.status)) {
-        pulse = 'red'
-      }
-      if (subscriptionItem.status === 'Subscribed') {
-        isPlaced = true // at least one cluster placed
-      }
+  const clusterNames = R.split(',', getClusterName(node.id))
 
-      if (
-        subscriptionItem.status !== 'Subscribed' &&
-        subscriptionItem.status !== 'Propagated'
-      ) {
-        if (pulse !== 'red') {
-          pulse = 'yellow' // anything but failed or subscribed
-        }
-      }
-    })
-    if (pulse === 'green' && !isPlaced) {
-      pulse = 'yellow' // set to yellow if not placed
+  //go through all clusters to make sure all pods are counted, even if they are not deployed there
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
+
+    if (!resourceItem) {
+      // resource not created on a cluster
+      pulse = 'yellow'
     }
-  } else {
-    const clusterNames = R.split(',', getClusterName(node.id))
+  })
 
-    //go through all clusters to make sure all pods are counted, even if they are not deployed there
-    clusterNames.forEach(clusterName => {
-      clusterName = R.trim(clusterName)
-      const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
-
-      if (!resourceItem) {
-        // resource not created on a cluster
-        pulse = 'yellow'
-      }
-    })
-  }
-
-  _.set(node, 'specs.pulse', pulse)
+  return pulse
 }
 
-const computeNodeWithPodStatus = node => {
+const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
   const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
 
@@ -310,8 +290,7 @@ const computeNodeWithPodStatus = node => {
 
   if (!resourceMap) {
     pulse = 'orange' //resource not available
-    _.set(node, 'specs.pulse', pulse)
-    return
+    return pulse
   }
 
   const clusterNames = R.split(',', getClusterName(node.id))
@@ -369,8 +348,39 @@ const computeNodeWithPodStatus = node => {
     }
   })
 
-  _.set(node, 'specs.pulse', pulse)
   _.set(node, 'podStatusMap', podStatusMap)
+
+  return pulse
+}
+
+export const computeNodeStatus = node => {
+  let pulse = 'green'
+
+  if (nodeMustHavePods(node)) {
+    pulse = getPulseForNodeWithPodStatus(node)
+  }
+
+  switch (node.type) {
+  case 'package':
+    break
+  case 'application':
+    if (!_.get(node, 'specs.channels')) {
+      pulse = 'red'
+    }
+    break
+  case 'rules':
+    if (!_.get(node, 'specs.raw.status.decisions')) {
+      pulse = 'red'
+    }
+    break
+  case 'subscription':
+    pulse = getPulseStatusForSubscription(node)
+    break
+  default:
+    pulse = getPulseStatusForGenericNode(node)
+  }
+
+  _.set(node, 'specs.pulse', pulse)
 }
 
 export const createDeployableYamlLink = (node, details) => {

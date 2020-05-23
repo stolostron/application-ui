@@ -14,7 +14,8 @@ import {
 } from '../../../../lib/client/resource-helper'
 import {
   getClusterName,
-  setupResourceModel
+  setupResourceModel,
+  computeNodeStatus
 } from '../../Topology/utils/diagram-helpers'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
@@ -162,6 +163,10 @@ export const getDiagramElements = (
       isClusterGrouped,
       applicationDetails
     )
+
+    nodes.forEach(node => {
+      computeNodeStatus(node)
+    })
 
     return {
       clusters,

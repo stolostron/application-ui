@@ -13,8 +13,12 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import _ from 'lodash'
 import moment from 'moment'
+import msgs from '../../../../nls/platform.properties'
 
 const metadataName = 'specs.raw.metadata.name'
+const notDeployedStr = msgs.get('spec.deploy.not.deployed')
+const deployedStr = msgs.get('spec.deploy.deployed')
+
 /*
 * UI helpers to help with data transformations
 * */
@@ -30,14 +34,15 @@ export const getAge = value => {
 }
 
 export const addDetails = (details, dets) => {
-  dets.forEach(({ labelKey, labelValue, value, indent }) => {
+  dets.forEach(({ labelKey, labelValue, value, indent, isError }) => {
     if (value !== undefined) {
       details.push({
         type: 'label',
         labelKey,
         labelValue,
         value,
-        indent
+        indent,
+        isError: isError
       })
     }
   })
@@ -174,8 +179,16 @@ export const getHashCode = str => {
   return hash
 }
 
-export const getNodePropery = (node, propPath, key, defaultValue) => {
-  let data = R.pathOr(undefined, propPath)(node)
+export const getNodePropery = (
+  node,
+  propPath,
+  key,
+  defaultValue,
+  showAsError
+) => {
+  const dataObj = R.pathOr(undefined, propPath)(node)
+
+  let data = dataObj
   if (data) {
     data = R.replace(/:/g, '=', R.toString(data))
     data = R.replace(/{/g, '', data)
@@ -191,7 +204,8 @@ export const getNodePropery = (node, propPath, key, defaultValue) => {
   if (data) {
     return {
       labelKey: key,
-      value: data
+      value: data,
+      isError: showAsError && !dataObj //show as error message if data not defined and marked for error
     }
   }
 
@@ -388,11 +402,11 @@ export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
   if (details && node) {
     const row = R.pathOr(undefined, ['specs', 'row'])(node)
-    if (row) {
+    if (row !== undefined) {
       details.push({
         type: 'link',
         value: {
-          label: 'View Deployable YAML',
+          label: msgs.get('props.view.yaml'),
           id: node.id,
           data: {
             specs: {
@@ -416,7 +430,7 @@ export const createResourceSearchLink = (node, details) => {
     details.push({
       type: 'link',
       value: {
-        label: 'Show resource in Search View',
+        label: msgs.get('props.show.search.view'),
         id: node.id,
         data: {
           action: 'show_search',
@@ -539,7 +553,7 @@ export const setResourceDeployStatus = (node, details) => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
-    clusterStatusMap[clusterName] = res ? 'Deployed' : 'Not Deployed'
+    clusterStatusMap[clusterName] = res ? deployedStr : notDeployedStr
   })
 
   details.push({
@@ -550,7 +564,8 @@ export const setResourceDeployStatus = (node, details) => {
   Object.keys(clusterStatusMap).forEach(key => {
     details.push({
       labelValue: key,
-      value: clusterStatusMap[key]
+      value: clusterStatusMap[key],
+      isError: clusterStatusMap[key] === notDeployedStr
     })
   })
 
@@ -577,9 +592,12 @@ export const setPodDeployStatus = (node, details) => {
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
     const res = podStatusModel[clusterName]
+    const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
+    const isErrorMsg = valueStr === notDeployedStr || res.ready < res.desired
     details.push({
       labelValue: clusterName,
-      value: res ? `${res.ready}/${res.desired}` : 'Not Deployed'
+      value: valueStr,
+      isError: isErrorMsg
     })
   })
 
@@ -589,6 +607,13 @@ export const setPodDeployStatus = (node, details) => {
 
   Object.values(podModel).forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
+    const podError = R.contains(pod.status, [
+      'CrashLoopBackOff',
+      'ImageLoopBackOff',
+      'Error',
+      'InvalidImageName',
+      'OOMKilled'
+    ])
     details.push({
       type: 'label',
       labelKey: 'resource.container.logs'
@@ -596,7 +621,7 @@ export const setPodDeployStatus = (node, details) => {
     details.push({
       type: 'link',
       value: {
-        label: 'View Log',
+        label: msgs.get('props.show.log'),
         data: {
           action: 'show_pod_log',
           name: pod.name,
@@ -630,7 +655,8 @@ export const setPodDeployStatus = (node, details) => {
       },
       {
         labelKey: 'resource.status',
-        value: status
+        value: status,
+        isError: podError
       },
       {
         labelKey: 'resource.restarts',
@@ -647,7 +673,6 @@ export const setSubscriptionDeployStatus = (node, details) => {
   if (node.type !== 'subscription') {
     return
   }
-
   details.push({
     type: 'label',
     labelKey: 'resource.deploy.statuses'
@@ -657,11 +682,43 @@ export const setSubscriptionDeployStatus = (node, details) => {
   Object.values(resourceMap).forEach(subscription => {
     details.push({
       labelValue: subscription.cluster,
-      value: subscription.status
+      value: subscription.status,
+      isError: R.contains('Fail', subscription.status)
     })
   })
 
   details.push({
     type: 'spacer'
   })
+}
+
+export const setApplicationDeployStatus = (node, details) => {
+  if (node.type !== 'application') {
+    return
+  }
+  addPropertyToList(
+    details,
+    getNodePropery(
+      node,
+      ['specs', 'raw', 'spec', 'selector'],
+      'spec.selector.matchExpressions',
+      msgs.get('spec.selector.matchExpressions.err'),
+      true
+    )
+  )
+
+  details.push({
+    type: 'spacer'
+  })
+
+  addPropertyToList(
+    details,
+    getNodePropery(
+      node,
+      ['specs', 'channels'],
+      'spec.app.channels',
+      msgs.get('resource.application.error.msg'),
+      true
+    )
+  )
 }

@@ -107,6 +107,7 @@ describe("getNodeDetails application node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -114,6 +115,7 @@ describe("getNodeDetails application node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.namespace",
       labelValue: undefined,
       type: "label",
@@ -121,6 +123,7 @@ describe("getNodeDetails application node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
@@ -140,17 +143,28 @@ describe("getNodeDetails application node", () => {
         label: "Show resource in Search View"
       }
     },
+    { type: "spacer" },
     {
-      type: "spacer"
+      type: "link",
+      value: {
+        data: { specs: { isDesign: true, row: 0 } },
+        id: "application--nginx-app-3",
+        indent: true,
+        label: "View Topology YAML"
+      }
     },
-    {
-      type: "spacer"
-    },
+    { type: "spacer" },
     {
       isError: true,
-      labelKey: "resource.application.error",
-      type: "label",
-      value: "This application is not subscribed to a channel"
+      labelKey: "spec.selector.matchExpressions",
+      value:
+        "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" },
+    {
+      isError: true,
+      labelKey: "spec.app.channels",
+      value: "This application has no matched subscription"
     }
   ];
 
@@ -747,6 +761,7 @@ describe("getNodeDetails deployment node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -754,6 +769,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
@@ -761,6 +777,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.replicas",
       labelValue: undefined,
       type: "label",
@@ -768,6 +785,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.selector",
       labelValue: undefined,
       type: "label",
@@ -791,9 +809,9 @@ describe("getNodeDetails deployment node", () => {
     { type: "spacer" },
     { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
-    { labelValue: "feng", value: "Not Deployed" },
-    { labelValue: "cluster1", value: "Not Deployed" },
-    { labelValue: "cluster2", value: "Not Deployed" },
+    { isError: true, labelValue: "feng", value: "Not Deployed" },
+    { isError: true, labelValue: "cluster1", value: "Not Deployed" },
+    { isError: true, labelValue: "cluster2", value: "Not Deployed" },
     { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
@@ -811,6 +829,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.clustername",
       labelValue: undefined,
       type: "label",
@@ -818,6 +837,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.pod",
       labelValue: undefined,
       type: "label",
@@ -825,6 +845,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.hostip",
       labelValue: undefined,
       type: "label",
@@ -832,6 +853,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.podip",
       labelValue: undefined,
       type: "label",
@@ -839,6 +861,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
@@ -846,6 +869,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: false,
       labelKey: "resource.status",
       labelValue: undefined,
       type: "label",
@@ -853,6 +877,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.restarts",
       labelValue: undefined,
       type: "label",
@@ -875,6 +900,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.clustername",
       labelValue: undefined,
       type: "label",
@@ -882,6 +908,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.pod",
       labelValue: undefined,
       type: "label",
@@ -889,6 +916,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.hostip",
       labelValue: undefined,
       type: "label",
@@ -896,6 +924,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.podip",
       labelValue: undefined,
       type: "label",
@@ -903,6 +932,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
@@ -910,6 +940,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: false,
       labelKey: "resource.status",
       labelValue: undefined,
       type: "label",
@@ -917,6 +948,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.restarts",
       labelValue: undefined,
       type: "label",

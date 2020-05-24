@@ -11,7 +11,10 @@ import {
   createResourceSearchLink,
   setupResourceModel,
   computeNodeStatus,
-  setSubscriptionDeployStatus
+  setSubscriptionDeployStatus,
+  setResourceDeployStatus,
+  setApplicationDeployStatus,
+  setPodDeployStatus
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -289,7 +292,7 @@ describe("createDeployableYamlLink for show logs with details", () => {
         data: { specs: { isDesign: true, row: 20 } },
         id: "id",
         indent: true,
-        label: "View Deployable YAML"
+        label: "View Topology YAML"
       }
     }
   ];
@@ -951,5 +954,234 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(subscriptionGreenNotPlacedYellow)).toEqual(
       undefined
     );
+  });
+});
+
+describe("setResourceDeployStatus 1 ", () => {
+  const node = {
+    type: "service",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {}
+  };
+  it("setResourceDeployStatus not deployed", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setResourceDeployStatus 2 ", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-svc",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-svc-service--service--mortgage-app-svc",
+
+    specs: {
+      raw: {
+        metadata: {
+          name: "mortgage-app-svc"
+        }
+      },
+      serviceModel: {
+        "mortgage-app-svc-possiblereptile": {
+          cluster: "possiblereptile",
+          clusterIP: "172.30.140.196",
+          created: "2020-04-20T22:03:01Z",
+          kind: "service",
+          label: "app=mortgage-app-mortgage",
+          name: "mortgage-app-svc",
+          namespace: "default",
+          port: "9080:31558/TCP"
+        }
+      }
+    }
+  };
+  it("setResourceDeployStatus deployed", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setResourceDeployStatus 2 ", () => {
+  const node = {
+    type: "service",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      serviceModel: {
+        service1: {
+          cluster: "someOtherCluster",
+          status: "Failed"
+        }
+      }
+    }
+  };
+  it("setResourceDeployStatus deployed", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus 1 ", () => {
+  const node = {
+    type: "service",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      serviceModel: {
+        service1: {
+          cluster: "braveman",
+          status: "Failed"
+        }
+      }
+    }
+  };
+  it("setApplicationDeployStatus deployed 1", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus 2 ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      raw: {
+        spec: {
+          selector: "test"
+        }
+      }
+    }
+  };
+  it("setApplicationDeployStatus deployed selector 2", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus no selector ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {}
+  };
+  it("setApplicationDeployStatus deployed no selector 2", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus channels ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      channels: ["subsdata"]
+    }
+  };
+  it("setApplicationDeployStatus channels", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setPodDeployStatus  1", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      channels: ["subsdata"]
+    }
+  };
+  it("setPodDeployStatus 1", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setPodDeployStatus  with pod less then desired", () => {
+  const node = {
+    type: "deployment",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    podStatusMap: {
+      possiblereptile: {
+        ready: 1,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      },
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
+          cluster: "possiblereptile",
+          status: "Running"
+        }
+      }
+    }
+  };
+  it("setPodDeployStatus with pod", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setPodDeployStatus  with pod as desired", () => {
+  const node = {
+    type: "deployment",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      },
+      podModel: {
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
+          cluster: "possiblereptile",
+          status: "Running"
+        }
+      }
+    }
+  };
+  it("setPodDeployStatus with pod", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(undefined);
   });
 });

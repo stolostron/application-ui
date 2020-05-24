@@ -181,7 +181,7 @@ export const updateNodeIcons = nodes => {
     }
 
     if (!R.contains(node.type, ['cluster', 'package'])) {
-      const pulse = _.get(node, 'specs.pulse', 'red')
+      const pulse = _.get(node, 'specs.pulse', '')
 
       switch (pulse) {
       case 'red':
@@ -193,8 +193,11 @@ export const updateNodeIcons = nodes => {
       case 'orange':
         nodeIcons['status'] = Object.assign({}, StatusIcon.warning)
         break
-      default:
+      case 'green':
         nodeIcons['status'] = Object.assign({}, StatusIcon.success)
+        break
+      default:
+        break
       }
     }
 

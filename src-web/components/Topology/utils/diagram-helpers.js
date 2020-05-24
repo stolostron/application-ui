@@ -411,7 +411,8 @@ export const createDeployableYamlLink = (node, details) => {
 
 export const createResourceSearchLink = (node, details) => {
   //returns search link for resource
-  if (details && node) {
+  if (details && node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
+    //pulse orange means not deployed on any cluster so don't show link to search page
     details.push({
       type: 'link',
       value: {

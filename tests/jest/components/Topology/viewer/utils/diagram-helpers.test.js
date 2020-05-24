@@ -10,7 +10,8 @@ import {
   createDeployableYamlLink,
   createResourceSearchLink,
   setupResourceModel,
-  computeNodeStatus
+  computeNodeStatus,
+  setSubscriptionDeployStatus
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -358,6 +359,44 @@ describe("createResourceSearchLink for details", () => {
   ];
   it("createResourceSearchLink", () => {
     expect(createResourceSearchLink(node, [])).toEqual(result);
+  });
+});
+
+describe("setSubscriptionDeployStatus for details", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Failed"
+        }
+      }
+    }
+  };
+  it("setSubscriptionDeployStatus", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setSubscriptionDeployStatus for details2 ", () => {
+  const node = {
+    type: "subscription2",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Failed"
+        }
+      }
+    }
+  };
+  it("setSubscriptionDeployStatus", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(undefined);
   });
 });
 

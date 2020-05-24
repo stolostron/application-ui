@@ -573,6 +573,12 @@ describe("updateNodeStatus cluster nodes", () => {
   });
 });
 
+describe("updateNodeIcons cluster nodes", () => {
+  it("should update cluster node", () => {
+    expect(updateNodeIcons(clusterNodes, locale)).toEqual(undefined);
+  });
+});
+
 describe("updateNodeIcons application nodes", () => {
   it("should update application node icon", () => {
     expect(updateNodeIcons(applicationNodes, locale)).toEqual(undefined);
@@ -594,5 +600,62 @@ describe("updateNodeIcons pod nodes", () => {
 describe("updateNodeIcons package nodes", () => {
   it("should update package node icon", () => {
     expect(updateNodeIcons(packageNodes, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons application nodes green", () => {
+  const applicationNodesGreen = [
+    {
+      labels: null,
+      name: "nginx-app-3",
+      namespace: "ns-sub-1",
+      specs: {
+        isDesign: true,
+        row: 0,
+        pulse: "green"
+      },
+      type: "application"
+    }
+  ];
+  it("should update application node", () => {
+    expect(updateNodeIcons(applicationNodesGreen, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons application nodes green2", () => {
+  const applicationNodesGreen2 = [
+    {
+      id: "application--nginx-app-3",
+      name: "nginx-app-3",
+      namespace: "ns-sub-1",
+      specs: {
+        isDesign: true,
+        row: 0,
+        pulse: "green2"
+      },
+      type: "application"
+    }
+  ];
+  it("should update application node", () => {
+    expect(updateNodeIcons(applicationNodesGreen2, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons application nodes red", () => {
+  const applicationNodesRed = [
+    {
+      id: "application--nginx-app-3",
+      name: "nginx-app-3",
+      namespace: "ns-sub-1",
+      specs: {
+        isDesign: true,
+        row: 0,
+        pulse: "red"
+      },
+      type: "application"
+    }
+  ];
+  it("should update application node", () => {
+    expect(updateNodeIcons(applicationNodesRed, locale)).toEqual(undefined);
   });
 });

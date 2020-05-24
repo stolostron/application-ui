@@ -19,6 +19,7 @@ import {
   createResourceSearchLink,
   setResourceDeployStatus,
   setPodDeployStatus,
+  setSubscriptionDeployStatus,
   addDetails,
   getAge
 } from '../../utils/diagram-helpers'
@@ -446,6 +447,9 @@ function addK8Details(node, details, podOnly, index) {
   details.push({
     type: 'spacer'
   })
+
+  //subscriptions status
+  setSubscriptionDeployStatus(node, details)
 
   //show error if the resource doesn't produce pods and was not deployed on remote clusters
   setResourceDeployStatus(node, details)

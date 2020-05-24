@@ -8,6 +8,32 @@ import { getNodeTooltips } from "../../../../../../src-web/components/Topology/v
 const locale = "en-US";
 const searchUrl = "https://localhost/multicloud/search";
 
+describe("getNodeTooltips PV orange", () => {
+  const pvNodeOrange = {
+    name: "mynode",
+    namespace: "default",
+    type: "persistent_volume",
+    specs: {
+      pulse: "orange"
+    }
+  };
+
+  const expectedResult = [
+    { name: "Persistent Volume", value: "mynode" },
+    {
+      href:
+        'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:default"}',
+      name: "Namespace",
+      value: "default"
+    }
+  ];
+  it("should get PV node tooltips with no ref to search", () => {
+    expect(getNodeTooltips(searchUrl, pvNodeOrange, locale)).toEqual(
+      expectedResult
+    );
+  });
+});
+
 describe("getNodeTooltips PV", () => {
   const pvNode = {
     name: "mynode",

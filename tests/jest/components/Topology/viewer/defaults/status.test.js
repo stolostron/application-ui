@@ -51,6 +51,88 @@ const applicationNodes = [
   }
 ];
 
+const applicationNodesGreen = [
+  {
+    cluster: null,
+    clusterName: null,
+    id: "application--nginx-app-3",
+    labels: null,
+    layout: {
+      uid: "application--nginx-app-3",
+      type: "application",
+      label: "nginx-app-3",
+      compactLabel: "nginx-app-3",
+      nodeIcons: {
+        classType: "failure",
+        dx: 16,
+        dy: -16,
+        height: 16,
+        icon: "failure",
+        width: 16
+      },
+      nodeStatus: "",
+      search: "",
+      title: "",
+      type: "application",
+      uid: "application--nginx-app-3",
+      x: 1.5,
+      y: 1.5
+    },
+    name: "nginx-app-3",
+    namespace: "ns-sub-1",
+    specs: {
+      isDesign: true,
+      row: 0,
+      pulse: "green"
+    },
+    topology: null,
+    type: "application",
+    uid: "application--nginx-app-3",
+    __typename: "Resource"
+  }
+];
+
+const applicationNodesGreen2 = [
+  {
+    cluster: null,
+    clusterName: null,
+    id: "application--nginx-app-3",
+    labels: null,
+    layout: {
+      uid: "application--nginx-app-3",
+      type: "application",
+      label: "nginx-app-3",
+      compactLabel: "nginx-app-3",
+      nodeIcons: {
+        classType: "failure",
+        dx: 16,
+        dy: -16,
+        height: 16,
+        icon: "failure",
+        width: 16
+      },
+      nodeStatus: "",
+      search: "",
+      title: "",
+      type: "application",
+      uid: "application--nginx-app-3",
+      x: 1.5,
+      y: 1.5
+    },
+    name: "nginx-app-3",
+    namespace: "ns-sub-1",
+    specs: {
+      isDesign: true,
+      row: 0,
+      pulse: "green2"
+    },
+    topology: null,
+    type: "application",
+    uid: "application--nginx-app-3",
+    __typename: "Resource"
+  }
+];
+
 const clusterNodes = [
   {
     id: "member--clusters--cluster1",
@@ -558,6 +640,18 @@ const packageNodes = [
 describe("updateNodeStatus application nodes", () => {
   it("should update application node", () => {
     expect(updateNodeStatus(applicationNodes, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeStatus application nodes green", () => {
+  it("should update application node", () => {
+    expect(updateNodeStatus(applicationNodesGreen, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeStatus application nodes green2", () => {
+  it("should update application node", () => {
+    expect(updateNodeStatus(applicationNodesGreen2, locale)).toEqual(undefined);
   });
 });
 

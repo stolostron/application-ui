@@ -642,3 +642,26 @@ export const setPodDeployStatus = (node, details) => {
     })
   })
 }
+
+export const setSubscriptionDeployStatus = (node, details) => {
+  if (node.type !== 'subscription') {
+    return
+  }
+
+  details.push({
+    type: 'label',
+    labelKey: 'resource.deploy.statuses'
+  })
+
+  const resourceMap = _.get(node, 'specs.subscriptionModel', {})
+  Object.values(resourceMap).forEach(subscription => {
+    details.push({
+      labelValue: subscription.cluster,
+      value: subscription.status
+    })
+  })
+
+  details.push({
+    type: 'spacer'
+  })
+}

@@ -51,88 +51,6 @@ const applicationNodes = [
   }
 ];
 
-const applicationNodesGreen = [
-  {
-    cluster: null,
-    clusterName: null,
-    id: "application--nginx-app-3",
-    labels: null,
-    layout: {
-      uid: "application--nginx-app-3",
-      type: "application",
-      label: "nginx-app-3",
-      compactLabel: "nginx-app-3",
-      nodeIcons: {
-        classType: "failure",
-        dx: 16,
-        dy: -16,
-        height: 16,
-        icon: "failure",
-        width: 16
-      },
-      nodeStatus: "",
-      search: "",
-      title: "",
-      type: "application",
-      uid: "application--nginx-app-3",
-      x: 1.5,
-      y: 1.5
-    },
-    name: "nginx-app-3",
-    namespace: "ns-sub-1",
-    specs: {
-      isDesign: true,
-      row: 0,
-      pulse: "green"
-    },
-    topology: null,
-    type: "application",
-    uid: "application--nginx-app-3",
-    __typename: "Resource"
-  }
-];
-
-const applicationNodesGreen2 = [
-  {
-    cluster: null,
-    clusterName: null,
-    id: "application--nginx-app-3",
-    labels: null,
-    layout: {
-      uid: "application--nginx-app-3",
-      type: "application",
-      label: "nginx-app-3",
-      compactLabel: "nginx-app-3",
-      nodeIcons: {
-        classType: "failure",
-        dx: 16,
-        dy: -16,
-        height: 16,
-        icon: "failure",
-        width: 16
-      },
-      nodeStatus: "",
-      search: "",
-      title: "",
-      type: "application",
-      uid: "application--nginx-app-3",
-      x: 1.5,
-      y: 1.5
-    },
-    name: "nginx-app-3",
-    namespace: "ns-sub-1",
-    specs: {
-      isDesign: true,
-      row: 0,
-      pulse: "green2"
-    },
-    topology: null,
-    type: "application",
-    uid: "application--nginx-app-3",
-    __typename: "Resource"
-  }
-];
-
 const clusterNodes = [
   {
     id: "member--clusters--cluster1",
@@ -643,18 +561,6 @@ describe("updateNodeStatus application nodes", () => {
   });
 });
 
-describe("updateNodeStatus application nodes green", () => {
-  it("should update application node", () => {
-    expect(updateNodeStatus(applicationNodesGreen, locale)).toEqual(undefined);
-  });
-});
-
-describe("updateNodeStatus application nodes green2", () => {
-  it("should update application node", () => {
-    expect(updateNodeStatus(applicationNodesGreen2, locale)).toEqual(undefined);
-  });
-});
-
 describe("updateNodeStatus cluster nodes", () => {
   it("should update cluster node", () => {
     expect(updateNodeStatus(clusterNodes, locale)).toEqual(undefined);
@@ -664,6 +570,12 @@ describe("updateNodeStatus cluster nodes", () => {
 describe("updateNodeStatus cluster nodes", () => {
   it("should update pod node", () => {
     expect(updateNodeStatus(podNodes, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons cluster nodes", () => {
+  it("should update cluster node", () => {
+    expect(updateNodeIcons(clusterNodes, locale)).toEqual(undefined);
   });
 });
 
@@ -688,5 +600,62 @@ describe("updateNodeIcons pod nodes", () => {
 describe("updateNodeIcons package nodes", () => {
   it("should update package node icon", () => {
     expect(updateNodeIcons(packageNodes, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons application nodes green", () => {
+  const applicationNodesGreen = [
+    {
+      labels: null,
+      name: "nginx-app-3",
+      namespace: "ns-sub-1",
+      specs: {
+        isDesign: true,
+        row: 0,
+        pulse: "green"
+      },
+      type: "application"
+    }
+  ];
+  it("should update application node", () => {
+    expect(updateNodeIcons(applicationNodesGreen, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons application nodes green2", () => {
+  const applicationNodesGreen2 = [
+    {
+      id: "application--nginx-app-3",
+      name: "nginx-app-3",
+      namespace: "ns-sub-1",
+      specs: {
+        isDesign: true,
+        row: 0,
+        pulse: "green2"
+      },
+      type: "application"
+    }
+  ];
+  it("should update application node", () => {
+    expect(updateNodeIcons(applicationNodesGreen2, locale)).toEqual(undefined);
+  });
+});
+
+describe("updateNodeIcons application nodes red", () => {
+  const applicationNodesRed = [
+    {
+      id: "application--nginx-app-3",
+      name: "nginx-app-3",
+      namespace: "ns-sub-1",
+      specs: {
+        isDesign: true,
+        row: 0,
+        pulse: "red"
+      },
+      type: "application"
+    }
+  ];
+  it("should update application node", () => {
+    expect(updateNodeIcons(applicationNodesRed, locale)).toEqual(undefined);
   });
 });

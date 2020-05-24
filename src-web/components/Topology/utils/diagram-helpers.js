@@ -402,7 +402,7 @@ export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
   if (details && node) {
     const row = R.pathOr(undefined, ['specs', 'row'])(node)
-    if (row) {
+    if (row !== undefined) {
       details.push({
         type: 'link',
         value: {
@@ -673,7 +673,6 @@ export const setSubscriptionDeployStatus = (node, details) => {
   if (node.type !== 'subscription') {
     return
   }
-
   details.push({
     type: 'label',
     labelKey: 'resource.deploy.statuses'
@@ -697,7 +696,6 @@ export const setApplicationDeployStatus = (node, details) => {
   if (node.type !== 'application') {
     return
   }
-
   addPropertyToList(
     details,
     getNodePropery(

@@ -11,7 +11,9 @@ import {
   createResourceSearchLink,
   setupResourceModel,
   computeNodeStatus,
-  setSubscriptionDeployStatus
+  setSubscriptionDeployStatus,
+  setResourceDeployStatus,
+  setApplicationDeployStatus
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -289,7 +291,7 @@ describe("createDeployableYamlLink for show logs with details", () => {
         data: { specs: { isDesign: true, row: 20 } },
         id: "id",
         indent: true,
-        label: "View Deployable YAML"
+        label: "View Topology YAML"
       }
     }
   ];
@@ -951,5 +953,111 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(subscriptionGreenNotPlacedYellow)).toEqual(
       undefined
     );
+  });
+});
+
+describe("setResourceDeployStatus 1 ", () => {
+  const node = {
+    type: "service",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {}
+  };
+  it("setResourceDeployStatus not deployed", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setResourceDeployStatus 2 ", () => {
+  const node = {
+    type: "service",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      serviceModel: {
+        service1: {
+          cluster: "braveman",
+          status: "Failed"
+        }
+      }
+    }
+  };
+  it("setResourceDeployStatus deployed", () => {
+    expect(setResourceDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus 1 ", () => {
+  const node = {
+    type: "service",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      serviceModel: {
+        service1: {
+          cluster: "braveman",
+          status: "Failed"
+        }
+      }
+    }
+  };
+  it("setApplicationDeployStatus deployed 1", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus 2 ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      raw: {
+        spec: {
+          selector: "test"
+        }
+      }
+    }
+  };
+  it("setApplicationDeployStatus deployed selector 2", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus no selector ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {}
+  };
+  it("setApplicationDeployStatus deployed no selector 2", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("setApplicationDeployStatus channels ", () => {
+  const node = {
+    type: "application",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      channels: ["subsdata"]
+    }
+  };
+  it("setApplicationDeployStatus channels", () => {
+    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
   });
 });

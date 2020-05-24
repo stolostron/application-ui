@@ -144,6 +144,15 @@ describe("getNodeDetails application node", () => {
       }
     },
     { type: "spacer" },
+    {
+      type: "link",
+      value: {
+        data: { specs: { isDesign: true, row: 0 } },
+        id: "application--nginx-app-3",
+        indent: true,
+        label: "View Topology YAML"
+      }
+    },
     { type: "spacer" },
     {
       isError: true,

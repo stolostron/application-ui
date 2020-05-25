@@ -1202,15 +1202,15 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(genericNodeInputRed2)).toEqual(undefined);
   });
 
-  it("return computeNodeStatus generic node red", () => {
+  it("return computeNodeStatus generic node green", () => {
     expect(computeNodeStatus(deploymentNodeGreen)).toEqual(undefined);
   });
 
-  it("return computeNodeStatus generic node red", () => {
+  it("return computeNodeStatus generic node no pods", () => {
     expect(computeNodeStatus(deploymentNodeNoPODS)).toEqual(undefined);
   });
 
-  it("return computeNodeStatus generic node red", () => {
+  it("return computeNodeStatus generic node no pods res", () => {
     expect(computeNodeStatus(deploymentNodeNoPODSNoRes)).toEqual(undefined);
   });
 

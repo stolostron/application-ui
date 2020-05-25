@@ -18,7 +18,7 @@ import msgs from '../../../../nls/platform.properties'
 const metadataName = 'specs.raw.metadata.name'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
-const specPulse = specPulse
+const specPulse = 'specs.pulse'
 
 const podErrorStates = [
   'CrashLoopBackOff',
@@ -310,12 +310,37 @@ const getPulseStatusForGenericNode = node => {
   return pulse
 }
 
+//count pod state
+const getPodState = (podItem, clusterName, types) => {
+  if (
+    clusterName.indexOf(podItem.cluster) > -1 &&
+    R.contains(podItem.status, types)
+  ) {
+    return 1
+  }
+
+  return 0
+}
+
+const getPulseForData = (available, desired, podsUnavailable) => {
+  if (podsUnavailable > 0) {
+    return 'red'
+  }
+
+  if (available < desired) {
+    return 'red'
+  }
+
+  if (desired <= 0) {
+    return 'yellow'
+  }
+}
+
 const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
-  const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
-
-  const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
+  const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
+  const resourceName = _.get(node, metadataName, '')
 
   if (!resourceMap) {
     pulse = 'orange' //resource not available
@@ -326,70 +351,44 @@ const getPulseForNodeWithPodStatus = node => {
 
   //must have pods, set the pods status here
   const podStatusMap = {}
-  const podList = _.get(node, 'specs.podModel')
+  const podList = _.get(node, 'specs.podModel', {})
 
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
 
+    const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
+    const processItem = podList === {} && resourceItem
+
     let podsReady = 0
     let podsUnavailable = 0
     //find pods status and pulse from pods model, if available
-    if (podList) {
-      Object.values(podList).forEach(podItem => {
-        if (R.contains(podItem.status, podErrorStates)) {
-          podsUnavailable = podsUnavailable + 1
-          pulse = 'red'
-        }
+    Object.values(podList).forEach(podItem => {
+      podsUnavailable =
+        podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
+      podsReady = podsReady + getPodState(podItem, clusterName, 'Running')
+    })
 
-        if (
-          clusterName.indexOf(podItem.cluster) > -1 &&
-          podItem.status === 'Running'
-        ) {
-          podsReady = podsReady + 1
-        }
-      })
+    podStatusMap[clusterName] = {
+      available: 0,
+      current: 0,
+      desired: desired,
+      ready: podsReady,
+      unavailable: podsUnavailable
+    }
 
-      podStatusMap[clusterName] = {
-        available: 0,
-        current: 0,
-        desired: desired,
-        ready: podsReady,
-        unavailable: podsUnavailable
-      }
+    pulse = getPulseForData(podsReady, desired, podsUnavailable)
 
-      if (pulse === 'green' && podsReady < desired) {
-        pulse = 'yellow'
-      }
-    } else {
+    if (processItem) {
       //no pods linked to the resource, check if we have enough information on the actual resource
-      const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
-
-      if (resourceItem) {
-        if (resourceItem.desired) {
-          podStatusMap[clusterName] = {
-            available: resourceItem.available,
-            current: resourceItem.current,
-            desired: resourceItem.desired,
-            ready: resourceItem.ready
-          }
-
-          if (resourceItem.available < resourceItem.desired) {
-            pulse = 'red'
-          }
-        }
-      } else {
-        podStatusMap[clusterName] = {
-          available: 0,
-          current: 0,
-          desired: desired,
-          ready: 0
-        }
-
-        if (pulse === 'green') {
-          pulse = 'yellow'
-        }
+      podStatusMap[clusterName] = {
+        available: resourceItem.available || 0,
+        current: resourceItem.current || 0,
+        desired: resourceItem.desired || 0,
+        ready: resourceItem.ready || 0
       }
+
+      pulse = getPulseForData(resourceItem.available, resourceItem.desired, 0)
     }
   })
 

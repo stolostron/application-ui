@@ -72,7 +72,7 @@ export const processNodeData = (node, topoResourceMap, isClusterGrouped) => {
     return //ignore these types
   }
 
-  let podsKeyForThisNode = undefined
+  let podsKeyForThisNode = null
   const clusterName = getClusterName(node.id)
   if (type === 'subscription') {
     //don't use cluster name when grouping subscriptions

@@ -549,6 +549,19 @@ describe("computeNodeStatus ", () => {
     type: "pod"
   };
 
+  const genericNodeInputRed2 = {
+    id: "member--pod--default--mortgagedc-subscription",
+    name: "mortgagedc",
+    specs: {
+      raw: {
+        spec: { template: { spec: { containers: [{ name: "c1" }] } } }
+      },
+      pulse: "red",
+      row: 12
+    },
+    type: "pod"
+  };
+
   const deploymentNodeYellow = {
     id:
       "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
@@ -561,6 +574,48 @@ describe("computeNodeStatus ", () => {
     specs: {
       deploymentModel: {
         "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      }
+    }
+  };
+
+  const deploymentNodeRed = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      pulse: "red",
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      }
+    }
+  };
+
+  const deploymentNodeRed2 = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      pulse: "green",
+      deploymentModel: {
+        "mortgage-app-deployable-feng": {
           ready: 2,
           desired: 3
         },
@@ -586,6 +641,274 @@ describe("computeNodeStatus ", () => {
         },
         "mortgage-app-deploy-cluster1": {}
       }
+    }
+  };
+
+  const deploymentNodeNoPODS = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource",
+    layout: {
+      hasPods: true,
+      uid:
+        "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+      type: "deployment",
+      label: "mortgage-app-↵deploy",
+      compactLabel: "mortgage-app-↵deploy",
+      nodeStatus: "",
+      isDisabled: false,
+      title: "",
+      description: "",
+      tooltips: [
+        {
+          name: "Deployment",
+          value: "mortgage-app-deploy",
+          href:
+            "/multicloud/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
+        }
+      ],
+      x: 151.5,
+      y: 481.5,
+      section: { name: "preset", hashCode: 872479835, x: 0, y: 0 },
+      textBBox: {
+        x: -39.359375,
+        y: 5,
+        width: 78.71875,
+        height: 27.338897705078125
+      },
+      lastPosition: { x: 151.5, y: 481.5 },
+      selected: true,
+      nodeIcons: {
+        status: {
+          icon: "success",
+          classType: "success",
+          width: 16,
+          height: 16,
+          dx: 16,
+          dy: -16
+        }
+      },
+      pods: [
+        {
+          cluster: "cluster1",
+          name: "pod1",
+          namespace: "default",
+          type: "pod",
+          layout: {
+            type: "layout1"
+          },
+          specs: {
+            podModel: {
+              "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+                cluster: "cluster1",
+                hostIP: "1.1.1.1",
+                status: "Running",
+                startedAt: "2020-04-20T22:03:52Z",
+                restarts: 0,
+                podIP: "1.1.1.1",
+                startedAt: "Monday"
+              }
+            }
+          }
+        }
+      ]
+    }
+  };
+
+  const deploymentNodeNoPODSNoRes = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng4": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource",
+    layout: {
+      hasPods: true,
+      uid:
+        "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+      type: "deployment",
+      label: "mortgage-app-↵deploy",
+      compactLabel: "mortgage-app-↵deploy",
+      nodeStatus: "",
+      isDisabled: false,
+      title: "",
+      description: "",
+      tooltips: [
+        {
+          name: "Deployment",
+          value: "mortgage-app-deploy",
+          href:
+            "/multicloud/search?filters={'textsearch':'kind:deployment name:mortgage-app-deploy'}"
+        }
+      ],
+      x: 151.5,
+      y: 481.5,
+      section: { name: "preset", hashCode: 872479835, x: 0, y: 0 },
+      textBBox: {
+        x: -39.359375,
+        y: 5,
+        width: 78.71875,
+        height: 27.338897705078125
+      },
+      lastPosition: { x: 151.5, y: 481.5 },
+      selected: true,
+      nodeIcons: {
+        status: {
+          icon: "success",
+          classType: "success",
+          width: 16,
+          height: 16,
+          dx: 16,
+          dy: -16
+        }
+      },
+      pods: [
+        {
+          cluster: "cluster1",
+          name: "pod1",
+          namespace: "default",
+          type: "pod",
+          layout: {
+            type: "layout1"
+          },
+          specs: {
+            podModel: {
+              "mortgage-app-deploy-55c65b9c8f-6v9bn": {
+                cluster: "cluster1",
+                hostIP: "1.1.1.1",
+                status: "Running",
+                startedAt: "2020-04-20T22:03:52Z",
+                restarts: 0,
+                podIP: "1.1.1.1",
+                startedAt: "Monday"
+              }
+            }
+          }
+        }
+      ]
     }
   };
 
@@ -622,7 +945,7 @@ describe("computeNodeStatus ", () => {
           restarts: 0,
           selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
           startedAt: "2020-04-20T22:03:52Z",
-          status: "Running"
+          status: "CrashLoopBackOff"
         },
         "mortgagedc-deploy-1-q9b5rr-feng": {
           cluster: "feng2",
@@ -875,8 +1198,20 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(genericNodeInputRed)).toEqual(undefined);
   });
 
+  it("return computeNodeStatus generic node red2", () => {
+    expect(computeNodeStatus(genericNodeInputRed2)).toEqual(undefined);
+  });
+
   it("return computeNodeStatus generic node red", () => {
     expect(computeNodeStatus(deploymentNodeGreen)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus generic node red", () => {
+    expect(computeNodeStatus(deploymentNodeNoPODS)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus generic node red", () => {
+    expect(computeNodeStatus(deploymentNodeNoPODSNoRes)).toEqual(undefined);
   });
 
   it("return computeNodeStatus generic node green", () => {
@@ -897,7 +1232,12 @@ describe("computeNodeStatus ", () => {
   it("return computeNodeStatus deploymentNodeYellow", () => {
     expect(computeNodeStatus(deploymentNodeYellow)).toEqual(undefined);
   });
-
+  it("return computeNodeStatus deploymentNodeRed", () => {
+    expect(computeNodeStatus(deploymentNodeRed)).toEqual(undefined);
+  });
+  it("return computeNodeStatus deploymentNodeRed2", () => {
+    expect(computeNodeStatus(deploymentNodeRed2)).toEqual(undefined);
+  });
   it("return computeNodeStatus deploymentNodeYellow2", () => {
     expect(computeNodeStatus(deploymentNodeYellow2)).toEqual(undefined);
   });

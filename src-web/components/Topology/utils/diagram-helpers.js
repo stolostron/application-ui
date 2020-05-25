@@ -18,6 +18,7 @@ import msgs from '../../../../nls/platform.properties'
 const metadataName = 'specs.raw.metadata.name'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
+const specPulse = specPulse
 
 const podErrorStates = [
   'CrashLoopBackOff',
@@ -281,7 +282,7 @@ const getPulseStatusForSubscription = node => {
 }
 
 const getPulseStatusForGenericNode = node => {
-  let pulse = _.get(node, 'specs.pulse', 'green')
+  let pulse = _.get(node, specPulse, 'green')
   if (pulse === 'red') {
     return pulse //no need to check anything else, return red
   }
@@ -402,7 +403,7 @@ export const computeNodeStatus = node => {
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
-    _.set(node, 'specs.pulse', pulse)
+    _.set(node, specPulse, pulse)
   }
 
   switch (node.type) {
@@ -425,7 +426,7 @@ export const computeNodeStatus = node => {
     pulse = getPulseStatusForGenericNode(node)
   }
 
-  _.set(node, 'specs.pulse', pulse)
+  _.set(node, specPulse, pulse)
 }
 
 export const createDeployableYamlLink = (node, details) => {

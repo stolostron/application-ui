@@ -121,31 +121,7 @@ const resourceMap = {
 };
 
 const modelResult = {
-  "mortgagedc-deploy-braveman": {
-    specs: {
-      deploymentconfigModel: {
-        "mortgagedc-deploy-braveman": {
-          cluster: "braveman",
-          kind: "deploymentconfig",
-          label: "app=mortgagedc-mortgage",
-          name: "mortgagedc-deploy",
-          namespace: "default"
-        }
-      },
-      replicationcontrollerModel: {
-        "mortgagedc-deploy-1-braveman": {
-          cluster: "braveman",
-          created: "2020-04-20T22:03:50Z",
-          kind: "replicationcontroller",
-          label:
-            "app=mortgagedc-mortgage; openshift.io/deployment-config.name=mortgagedc-deploy",
-          name: "mortgagedc-deploy-1",
-          namespace: "default"
-        }
-      }
-    },
-    type: "deploymentconfig"
-  },
+  "mortgagedc-deploy-braveman": { type: "deploymentconfig" },
   "mortgagedc-subscription": {
     specs: {
       subscriptionModel: {
@@ -164,32 +140,8 @@ const modelResult = {
     },
     type: "subscription"
   },
-  "mortgagedc-svc-braveman": {
-    specs: {
-      serviceModel: {
-        "mortgagedc-svc-braveman": {
-          cluster: "braveman",
-          kind: "service",
-          label: "app=mortgagedc-mortgage",
-          name: "mortgagedc-svc",
-          namespace: "default",
-          port: "9080:32749/TCP"
-        }
-      }
-    }
-  },
-  "route-unsecured-braveman": {
-    specs: {
-      routeModel: {
-        "route-unsecured-braveman": {
-          cluster: "braveman",
-          kind: "route",
-          name: "route-unsecured",
-          namespace: "default"
-        }
-      }
-    }
-  }
+  "mortgagedc-svc-braveman": {},
+  "route-unsecured-braveman": {}
 };
 
 describe("getNodePropery ", () => {

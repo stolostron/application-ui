@@ -15,7 +15,8 @@ import {
 import {
   getClusterName,
   setupResourceModel,
-  computeNodeStatus
+  computeNodeStatus,
+  nodeMustHavePods
 } from '../../Topology/utils/diagram-helpers'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
@@ -63,23 +64,34 @@ export const getActiveChannel = localStoreKey => {
   return undefined
 }
 
-//link the search objects to this node; set the pods status if the node has pods
-export const processNodeData = (node, podMap, isClusterGrouped) => {
+//link the search objects to this node;
+export const processNodeData = (node, topoResourceMap, isClusterGrouped) => {
   const { name, type } = node
 
   if (R.contains(type, ['cluster', 'application', 'rules'])) {
     return //ignore these types
   }
 
+  let podsKeyForThisNode = undefined
   const clusterName = getClusterName(node.id)
   if (type === 'subscription') {
     //don't use cluster name when grouping subscriptions
-    podMap[name] = node
+    topoResourceMap[name] = node
   } else if (clusterName.indexOf(', ') > -1) {
-    podMap[name] = node
+    topoResourceMap[`${type}-${name}`] = node
+    podsKeyForThisNode = `pod-${name}`
     isClusterGrouped.value = true
   } else {
-    podMap[`${name}-${clusterName}`] = node
+    topoResourceMap[`${type}-${name}-${clusterName}`] = node
+    podsKeyForThisNode = `pod-${name}-${clusterName}`
+  }
+  if (nodeMustHavePods(node)) {
+    //keep a map with the nodes names that could have pods
+    //since we don't have a link between pods and parent, we rely on pod name vs resource name to find pod's parents
+    //if resources have the same name, try to solve conflicts by setting this map name for resources that could have pods
+    //assuming we don't have resources with same name and producing pods, this workaorund will function
+    //for the future need to set a relation between pods and parents
+    topoResourceMap[podsKeyForThisNode] = node
   }
 }
 
@@ -110,7 +122,7 @@ export const getDiagramElements = (
     let activeChannel
     let channels = []
     const originalMap = {}
-    const podMap = {}
+    const allResourcesMap = {}
     const isClusterGrouped = {
       value: false
     }
@@ -126,7 +138,7 @@ export const getDiagramElements = (
         channels = _.get(node, 'specs.channels', [])
       }
 
-      processNodeData(node, podMap, isClusterGrouped)
+      processNodeData(node, allResourcesMap, isClusterGrouped)
 
       const raw = _.get(node, 'specs.raw')
       if (raw) {
@@ -157,7 +169,7 @@ export const getDiagramElements = (
     // if loaded, we add those details now
     addDiagramDetails(
       topology,
-      podMap,
+      allResourcesMap,
       activeChannel,
       localStoreKey,
       isClusterGrouped,
@@ -260,7 +272,7 @@ export const getDiagramElements = (
 
 export const addDiagramDetails = (
   topology,
-  podMap,
+  allResourcesMap,
   activeChannel,
   localStoreKey,
   isClusterGrouped,
@@ -284,5 +296,5 @@ export const addDiagramDetails = (
     related = getStoredObject(`${localStoreKey}-${activeChannel}-details`)
   }
   //link search objects with topology deployable objects displayed in the tree
-  setupResourceModel(related, podMap, isClusterGrouped)
+  setupResourceModel(related, allResourcesMap, isClusterGrouped, topology)
 }

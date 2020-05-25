@@ -19,6 +19,14 @@ const metadataName = 'specs.raw.metadata.name'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
 
+const podErrorStates = [
+  'CrashLoopBackOff',
+  'ImageLoopBackOff',
+  'Error',
+  'InvalidImageName',
+  'OOMKilled'
+]
+
 /*
 * UI helpers to help with data transformations
 * */
@@ -225,11 +233,13 @@ export const nodeMustHavePods = node => {
   let mustHavePods = false
   if (
     node &&
-    R.length(
+    !R.contains(node.type, ['application', 'rules', 'subscription']) &&
+    (R.length(
       R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
         node
       )
-    ) > 0
+    ) > 0 ||
+      R.pathOr(undefined, ['specs', 'raw', 'spec', 'replicas'])(node)) //for chart packages, where the containers info is not available
   ) {
     mustHavePods = true
   }
@@ -271,7 +281,10 @@ const getPulseStatusForSubscription = node => {
 }
 
 const getPulseStatusForGenericNode = node => {
-  let pulse = 'green'
+  let pulse = _.get(node, 'specs.pulse', 'green')
+  if (pulse === 'red') {
+    return pulse //no need to check anything else, return red
+  }
 
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
@@ -312,54 +325,70 @@ const getPulseForNodeWithPodStatus = node => {
 
   //must have pods, set the pods status here
   const podStatusMap = {}
+  const podList = _.get(node, 'specs.podModel')
 
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
-    const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
 
-    if (resourceItem) {
-      if (resourceItem.ready) {
-        podStatusMap[clusterName] = {
-          available: resourceItem.available,
-          current: resourceItem.current,
-          desired: resourceItem.desired,
-          ready: resourceItem.ready
-        }
-      } else {
-        //the resource doesn't have the pods info, it must be an embedded object between resource and pods
-        //get the pods info from the pods model
-        let podsReady = 0
-        const podList = _.get(node, 'specs.podModel', {})
-        Object.values(podList).forEach(podItem => {
-          if (
-            clusterName.indexOf(podItem.cluster) > -1 &&
-            podItem.status === 'Running'
-          ) {
-            podsReady = podsReady + 1
-          }
-        })
-
-        podStatusMap[clusterName] = {
-          available: 0,
-          current: 0,
-          desired: desired,
-          ready: podsReady
+    let podsReady = 0
+    let podsUnavailable = 0
+    //find pods status and pulse from pods model, if available
+    if (podList) {
+      Object.values(podList).forEach(podItem => {
+        if (R.contains(podItem.status, podErrorStates)) {
+          podsUnavailable = podsUnavailable + 1
+          pulse = 'red'
         }
 
-        if (podsReady < desired) {
-          pulse = 'yellow'
+        if (
+          clusterName.indexOf(podItem.cluster) > -1 &&
+          podItem.status === 'Running'
+        ) {
+          podsReady = podsReady + 1
         }
-      }
-    } else {
+      })
+
       podStatusMap[clusterName] = {
         available: 0,
         current: 0,
         desired: desired,
-        ready: 0
+        ready: podsReady,
+        unavailable: podsUnavailable
       }
 
-      pulse = 'yellow'
+      if (pulse === 'green' && podsReady < desired) {
+        pulse = 'yellow'
+      }
+    } else {
+      //no pods linked to the resource, check if we have enough information on the actual resource
+      const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
+
+      if (resourceItem) {
+        if (resourceItem.desired) {
+          podStatusMap[clusterName] = {
+            available: resourceItem.available,
+            current: resourceItem.current,
+            desired: resourceItem.desired,
+            ready: resourceItem.ready
+          }
+
+          if (resourceItem.available < resourceItem.desired) {
+            pulse = 'red'
+          }
+        }
+      } else {
+        podStatusMap[clusterName] = {
+          available: 0,
+          current: 0,
+          desired: desired,
+          ready: 0
+        }
+
+        if (pulse === 'green') {
+          pulse = 'yellow'
+        }
+      }
     }
   })
 
@@ -373,6 +402,7 @@ export const computeNodeStatus = node => {
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
+    _.set(node, 'specs.pulse', pulse)
   }
 
   switch (node.type) {
@@ -466,7 +496,9 @@ const computeResourceName = (
 
   if (relatedKind.kind !== 'subscription') {
     //expect for subscriptions, use cluster name to group resources
-    name = isClusterGrouped.value ? name : `${name}-${relatedKind.cluster}`
+    name = isClusterGrouped.value
+      ? `${relatedKind.kind}-${name}`
+      : `${relatedKind.kind}-${name}-${relatedKind.cluster}`
   }
 
   return name
@@ -607,13 +639,7 @@ export const setPodDeployStatus = (node, details) => {
 
   Object.values(podModel).forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
-    const podError = R.contains(pod.status, [
-      'CrashLoopBackOff',
-      'ImageLoopBackOff',
-      'Error',
-      'InvalidImageName',
-      'OOMKilled'
-    ])
+    const podError = R.contains(pod.status, podErrorStates)
     details.push({
       type: 'label',
       labelKey: 'resource.container.logs'

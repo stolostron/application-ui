@@ -815,7 +815,6 @@ const addNodeOCPRouteLocationForCluster = (
     Object.values(clustersList).forEach(clusterObject => {
       if (R.pathOr('NA', ['metadata', 'name'])(clusterObject) === clusterName) {
         hostName = `${node.name}-${node.namespace}.${clusterObject.clusterip}`
-        return
       }
     })
   }
@@ -840,19 +839,27 @@ const addNodeOCPRouteLocationForCluster = (
 
 //route
 export const addOCPRouteLocation = (node, details) => {
-  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) !== 'Route') {
-    return details //process only routes
+  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Route') {
+    return addNodeInfoPerCluster(
+      node,
+      details,
+      addNodeOCPRouteLocationForCluster
+    )
   }
-  return addNodeInfoPerCluster(
-    node,
-    details,
-    addNodeOCPRouteLocationForCluster
-  )
+
+  return details //process only routes
 }
 
 //for service
 export const addNodeServiceLocation = (node, details) => {
-  return addNodeInfoPerCluster(node, details, addNodeServiceLocationForCluster)
+  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) == 'Service') {
+    return addNodeInfoPerCluster(
+      node,
+      details,
+      addNodeServiceLocationForCluster
+    ) //process only services
+  }
+  return details
 }
 
 //generic function to write location info

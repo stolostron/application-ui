@@ -322,7 +322,16 @@ const getPodState = (podItem, clusterName, types) => {
   return 0
 }
 
-const getPulseForData = (available, desired, podsUnavailable) => {
+const getPulseForData = (
+  previousPulse,
+  available,
+  desired,
+  podsUnavailable
+) => {
+  if (previousPulse === 'red') {
+    return 'red' //don't overwrite a red state
+  }
+
   if (podsUnavailable > 0) {
     return 'red'
   }
@@ -334,6 +343,8 @@ const getPulseForData = (available, desired, podsUnavailable) => {
   if (desired <= 0) {
     return 'yellow'
   }
+
+  return 'green'
 }
 
 const getPulseForNodeWithPodStatus = node => {
@@ -377,7 +388,7 @@ const getPulseForNodeWithPodStatus = node => {
       unavailable: podsUnavailable
     }
 
-    pulse = getPulseForData(podsReady, desired, podsUnavailable)
+    pulse = getPulseForData(pulse, podsReady, desired, podsUnavailable)
 
     if (processItem) {
       //no pods linked to the resource, check if we have enough information on the actual resource
@@ -388,7 +399,12 @@ const getPulseForNodeWithPodStatus = node => {
         ready: resourceItem.ready || 0
       }
 
-      pulse = getPulseForData(resourceItem.available, resourceItem.desired, 0)
+      pulse = getPulseForData(
+        pulse,
+        resourceItem.available,
+        resourceItem.desired,
+        0
+      )
     }
   })
 

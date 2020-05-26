@@ -612,18 +612,21 @@ export const setResourceDeployStatus = (node, details) => {
       value: deployedKey,
       isError: deployedKey === notDeployedStr
     })
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.yaml'),
-        data: {
-          action: 'show_resource_yaml',
-          cluster: res.cluster,
-          selfLink: res.selfLink
-        }
-      },
-      indent: true
-    })
+
+    if (res) {
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml'),
+          data: {
+            action: 'show_resource_yaml',
+            cluster: res.cluster,
+            selfLink: res.selfLink
+          }
+        },
+        indent: true
+      })
+    }
   })
 
   details.push({

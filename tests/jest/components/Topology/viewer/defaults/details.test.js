@@ -129,6 +129,7 @@ describe("getNodeDetails application node", () => {
       type: "label",
       value: "No labels"
     },
+    { type: "spacer" },
     {
       type: "link",
       value: {
@@ -143,7 +144,6 @@ describe("getNodeDetails application node", () => {
         label: "Show resource in Search View"
       }
     },
-    { type: "spacer" },
     {
       type: "link",
       value: {
@@ -167,7 +167,6 @@ describe("getNodeDetails application node", () => {
       value: "This application has no matched subscription"
     }
   ];
-
   it("should process the node, application node", () => {
     expect(getNodeDetails(applicationNode, locale)).toEqual(expectedResult);
   });
@@ -791,6 +790,7 @@ describe("getNodeDetails deployment node", () => {
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
+    { type: "spacer" },
     {
       type: "link",
       value: {
@@ -806,7 +806,6 @@ describe("getNodeDetails deployment node", () => {
         label: "Show resource in Search View"
       }
     },
-    { type: "spacer" },
     { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
     { isError: true, labelValue: "feng", value: "Not Deployed" },
@@ -960,6 +959,7 @@ describe("getNodeDetails deployment node", () => {
     { labelKey: "resource.resource.status", type: "label" },
     { type: "snippet", value: { availableReplicas: 1 } }
   ];
+
   it("should process the node, deployment node", () => {
     expect(getNodeDetails(deploymentNode, locale)).toEqual(expectedResult);
   });
@@ -1216,6 +1216,7 @@ describe("getNodeDetails placement rules node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -1223,6 +1224,7 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
@@ -1230,6 +1232,7 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.clusterSelector",
       labelValue: undefined,
       type: "label",
@@ -1237,11 +1240,13 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.status.decisionCls",
       labelValue: undefined,
       type: "label",
       value: 0
     },
+    { type: "spacer" },
     {
       type: "link",
       value: {
@@ -1256,10 +1261,8 @@ describe("getNodeDetails placement rules node", () => {
         label: "Show resource in Search View"
       }
     },
-    { type: "spacer" },
     { type: "spacer" }
   ];
-
   it("should process the node, placement rules node", () => {
     expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
   });

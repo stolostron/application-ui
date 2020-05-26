@@ -640,7 +640,9 @@ class ApplicationTopologyModule extends React.Component {
     default:
       targetLink = R.pathOr('', ['targetLink'])(resource)
     }
-    if (targetLink !== '') window.open(targetLink, '_blank')
+    if (targetLink !== '') {
+      window.open(targetLink, '_blank')
+    }
   };
 
   closeTextView = () => {

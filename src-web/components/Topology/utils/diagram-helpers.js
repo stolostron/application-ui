@@ -788,3 +788,84 @@ export const setApplicationDeployStatus = (node, details) => {
     )
   )
 }
+
+export const addHostLocation = (node, details) => {
+  const hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
+  if (hostName) {
+    //compute host location
+    const transport = R.pathOr(undefined, ['specs', 'raw', 'spec', 'tls'])(node)
+      ? 'https'
+      : 'http'
+    const hostLink = `${transport}://${hostName}`
+
+    details.push({
+      type: 'label',
+      labelKey: 'raw.spec.host.location'
+    })
+
+    details.push({
+      type: 'link',
+      value: {
+        label: hostLink,
+        id: `${node.id}-location`,
+        data: {
+          action: 'open_link',
+          targetLink: hostLink
+        },
+        indent: true
+      }
+    })
+  }
+}
+
+//for service, ingress
+export const addNodePortLocation = (node, details) => {
+  const resourceName = _.get(node, metadataName, '')
+  const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+  const clusterNames = R.split(',', getClusterName(node.id))
+
+  const locationDetails = []
+
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const typeObject = resourceMap[`${resourceName}-${clusterName}`]
+
+    if (typeObject) {
+      addNodePortLocationForCluster(typeObject, clusterName, locationDetails)
+    }
+  })
+
+  if (locationDetails.length > 0) {
+    details.push({
+      type: 'spacer'
+    })
+
+    details.push({
+      type: 'label',
+      labelKey: 'raw.spec.host.location'
+    })
+
+    locationDetails.forEach(locationDetail => {
+      details.push(locationDetail)
+    })
+
+    details.push({
+      type: 'spacer'
+    })
+  }
+}
+
+const addNodePortLocationForCluster = (typeObject, clusterName, details) => {
+  if (typeObject.clusterIP && typeObject.port) {
+    let port = R.split(':', typeObject.port)[0] // take care of 80:etc format
+    port = R.split('/', port)[0] //now remove any 80/TCP
+
+    const location = `${typeObject.clusterIP}:${port}`
+
+    details.push({
+      type: 'label',
+      labelValue: clusterName,
+      value: location
+    })
+  }
+}

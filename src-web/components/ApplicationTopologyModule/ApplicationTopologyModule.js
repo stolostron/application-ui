@@ -621,22 +621,23 @@ class ApplicationTopologyModule extends React.Component {
     if (_.get(resource, 'specs.isDesign')) {
       //show node yaml
       this.showNodeYAML(resource)
-    } else if (R.pathOr('', ['action'])(resource) === 'show_pod_log') {
-      //show pod logs
-      const { name, namespace, cluster } = resource
-      const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-      window.open(targetLink, '_blank')
-    } else if (R.pathOr('', ['action'])(resource) === 'show_resource_yaml') {
-      //show resource yaml in search view
-      const { cluster, selfLink } = resource
-      const targetLink = `/multicloud/details/${cluster}${selfLink}`
-      window.open(targetLink, '_blank')
-    } else {
-      //object search
-      const { name, namespace, kind } = resource
-      const targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
-      window.open(targetLink, '_blank')
+      return
     }
+
+    let targetLink = ''
+    const linkPath = R.pathOr('', ['action'])(resource)
+    const { name, namespace, cluster, selfLink } = resource
+    switch (linkPath) {
+    case 'show_pod_log':
+      targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+      break
+    case 'show_resource_yaml':
+      targetLink = `/multicloud/details/${cluster}${selfLink}`
+      break
+    default:
+      targetLink = R.pathOr('', ['targetLink'])(resource)
+    }
+    if (targetLink !== '') window.open(targetLink, '_blank')
   };
 
   closeTextView = () => {

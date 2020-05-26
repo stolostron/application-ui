@@ -21,7 +21,9 @@ import {
   setSubscriptionDeployStatus,
   setApplicationDeployStatus,
   addDetails,
-  getAge
+  getAge,
+  addHostLocation,
+  addNodePortLocation
 } from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
@@ -381,6 +383,7 @@ function addK8Details(node, details, podOnly, index) {
       mainDetails,
       getNodePropery(node, ['specs', 'raw', 'spec', 'to'], 'raw.spec.to')
     )
+
     addPropertyToList(
       mainDetails,
       getNodePropery(node, ['specs', 'raw', 'spec', 'host'], 'raw.spec.host')
@@ -421,6 +424,10 @@ function addK8Details(node, details, podOnly, index) {
       addDetails(details, podName)
     }
   }
+
+  //for routes, services show location info
+  addHostLocation(node, details)
+  addNodePortLocation(node, details)
 
   details.push({
     type: 'spacer'

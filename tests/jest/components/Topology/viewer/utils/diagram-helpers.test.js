@@ -1909,3 +1909,14 @@ describe("processResourceActionLink search view", () => {
     expect(processResourceActionLink(genericLink)).toEqual(result);
   });
 });
+
+describe("processResourceActionLink dummy link", () => {
+  const genericLink = {
+    action: "open_link",
+    targetLink1: "http://www.example.com"
+  };
+  const result = "";
+  it("processResourceActionLink opens search view", () => {
+    expect(processResourceActionLink(genericLink)).toEqual(result);
+  });
+});

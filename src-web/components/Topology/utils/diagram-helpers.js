@@ -725,7 +725,7 @@ export const setPodDeployStatus = (node, details) => {
 
 export const setSubscriptionDeployStatus = (node, details) => {
   if (node.type !== 'subscription') {
-    return
+    return details
   }
   details.push({
     type: 'label',
@@ -753,9 +753,19 @@ export const setSubscriptionDeployStatus = (node, details) => {
     })
   })
 
+  if (Object.keys(resourceMap).length === 1) {
+    //no remote subscriptions
+    details.push({
+      labelValue: msgs.get('resource.subscription.remote'),
+      value: msgs.get('resource.subscription.placed.error', [node.namespace]),
+      isError: true
+    })
+  }
   details.push({
     type: 'spacer'
   })
+
+  return details
 }
 
 export const setApplicationDeployStatus = (node, details) => {

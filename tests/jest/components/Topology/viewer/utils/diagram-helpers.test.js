@@ -458,7 +458,7 @@ describe("createResourceSearchLink for details", () => {
   });
 });
 
-describe("setSubscriptionDeployStatus for details", () => {
+describe("setSubscriptionDeployStatus with error", () => {
   const node = {
     type: "subscription",
     name: "name",
@@ -468,16 +468,92 @@ describe("setSubscriptionDeployStatus for details", () => {
         sub1: {
           cluster: "local",
           status: "Failed"
+        },
+        sub2: {
+          cluster: "local",
+          status: "Propagated"
         }
       }
     }
   };
-  it("setSubscriptionDeployStatus", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(undefined);
+  const response = [
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { isError: true, labelValue: "local", value: "Failed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
+    { isError: false, labelValue: "local", value: "Propagated" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus with error", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
   });
 });
 
-describe("setSubscriptionDeployStatus for details2 ", () => {
+describe("setSubscriptionDeployStatus for details yellow", () => {
+  const node = {
+    type: "subscription",
+    name: "name",
+    namespace: "ns",
+    specs: {
+      subscriptionModel: {
+        sub1: {
+          cluster: "local",
+          status: "Propagated"
+        }
+      }
+    }
+  };
+  const response = [
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { isError: false, labelValue: "local", value: "Propagated" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local",
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
+    {
+      isError: true,
+      labelValue: "Remote subscriptions",
+      value:
+        "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
+    },
+    { type: "spacer" }
+  ];
+  it("setSubscriptionDeployStatus yellow", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual(response);
+  });
+});
+
+describe("setSubscriptionDeployStatus for node type different then subscription ", () => {
   const node = {
     type: "subscription2",
     name: "name",
@@ -491,8 +567,8 @@ describe("setSubscriptionDeployStatus for details2 ", () => {
       }
     }
   };
-  it("setSubscriptionDeployStatus", () => {
-    expect(setSubscriptionDeployStatus(node, [])).toEqual(undefined);
+  it("setSubscriptionDeployStatus for node type different then subscription should return []", () => {
+    expect(setSubscriptionDeployStatus(node, [])).toEqual([]);
   });
 });
 

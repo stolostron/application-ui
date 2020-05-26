@@ -626,13 +626,16 @@ class ApplicationTopologyModule extends React.Component {
 
     let targetLink = ''
     const linkPath = R.pathOr('', ['action'])(resource)
-    const { name, namespace, cluster, selfLink } = resource
+    const { name, namespace, cluster, selfLink, kind } = resource
     switch (linkPath) {
     case 'show_pod_log':
       targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
       break
     case 'show_resource_yaml':
       targetLink = `/multicloud/details/${cluster}${selfLink}`
+      break
+    case 'show_search':
+      targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
       break
     default:
       targetLink = R.pathOr('', ['targetLink'])(resource)

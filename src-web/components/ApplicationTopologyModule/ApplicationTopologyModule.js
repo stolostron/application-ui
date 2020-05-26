@@ -8,7 +8,6 @@
  *******************************************************************************/
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
@@ -25,6 +24,7 @@ import {
 import { editResource, fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
+import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
 import {
   MCM_DESIGN_SPLITTER_SIZE_COOKIE,
   DIAGRAM_QUERY_COOKIE,
@@ -621,27 +621,8 @@ class ApplicationTopologyModule extends React.Component {
     if (_.get(resource, 'specs.isDesign')) {
       //show node yaml
       this.showNodeYAML(resource)
-      return
-    }
-
-    let targetLink = ''
-    const linkPath = R.pathOr('', ['action'])(resource)
-    const { name, namespace, cluster, selfLink, kind } = resource
-    switch (linkPath) {
-    case 'show_pod_log':
-      targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-      break
-    case 'show_resource_yaml':
-      targetLink = `/multicloud/details/${cluster}${selfLink}`
-      break
-    case 'show_search':
-      targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
-      break
-    default:
-      targetLink = R.pathOr('', ['targetLink'])(resource)
-    }
-    if (targetLink !== '') {
-      window.open(targetLink, '_blank')
+    } else {
+      processResourceActionLink(resource)
     }
   };
 

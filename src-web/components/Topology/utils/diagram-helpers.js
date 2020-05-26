@@ -852,7 +852,7 @@ export const addOCPRouteLocation = (node, details) => {
 
 //for service
 export const addNodeServiceLocation = (node, details) => {
-  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) == 'Service') {
+  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Service') {
     return addNodeInfoPerCluster(
       node,
       details,

@@ -366,7 +366,7 @@ class ApplicationTopologyModule extends React.Component {
       const rect = this.containerRef.getBoundingClientRect()
       const width = rect.width - controlsSize - 15
       const height = rect.height - 40
-      this.editor.layout({width, height})
+      this.editor.layout({ width, height })
     }
   }
 
@@ -625,6 +625,11 @@ class ApplicationTopologyModule extends React.Component {
       //show pod logs
       const { name, namespace, cluster } = resource
       const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+      window.open(targetLink, '_blank')
+    } else if (R.pathOr('', ['action'])(resource) === 'show_resource_yaml') {
+      //show resource yaml in search view
+      const { cluster, selfLink } = resource
+      const targetLink = `/multicloud/details/${cluster}${selfLink}`
       window.open(targetLink, '_blank')
     } else {
       //object search

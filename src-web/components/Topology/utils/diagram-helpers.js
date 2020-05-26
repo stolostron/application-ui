@@ -204,6 +204,7 @@ export const getNodePropery = (
     data = R.replace(/}/g, '', data)
     data = R.replace(/"/g, '', data)
     data = R.replace(/ /g, '', data)
+    data = R.replace(/\/\//g, ',', data)
   } else {
     if (defaultValue) {
       data = defaultValue
@@ -596,23 +597,32 @@ export const setResourceDeployStatus = (node, details) => {
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
-  const clusterStatusMap = {}
-  clusterNames.forEach(clusterName => {
-    clusterName = R.trim(clusterName)
-    const res = resourceMap[`${resourceName}-${clusterName}`]
-    clusterStatusMap[clusterName] = res ? deployedStr : notDeployedStr
-  })
-
   details.push({
     type: 'label',
     labelKey: 'resource.deploy.statuses'
   })
 
-  Object.keys(clusterStatusMap).forEach(key => {
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const res = resourceMap[`${resourceName}-${clusterName}`]
+    const deployedKey = res ? deployedStr : notDeployedStr
+
     details.push({
-      labelValue: key,
-      value: clusterStatusMap[key],
-      isError: clusterStatusMap[key] === notDeployedStr
+      labelValue: clusterName,
+      value: deployedKey,
+      isError: deployedKey === notDeployedStr
+    })
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml'),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: res.cluster,
+          selfLink: res.selfLink
+        }
+      },
+      indent: true
     })
   })
 
@@ -725,6 +735,18 @@ export const setSubscriptionDeployStatus = (node, details) => {
       labelValue: subscription.cluster,
       value: subscription.status,
       isError: R.contains('Fail', subscription.status)
+    })
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml'),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: subscription.cluster,
+          selfLink: subscription.selfLink
+        }
+      },
+      indent: true
     })
   })
 

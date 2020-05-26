@@ -421,14 +421,7 @@ function addK8Details(node, details, podOnly, index) {
       addDetails(details, podName)
     }
   }
-  //if the resource was deployed on any cluster, show search link here
-  createResourceSearchLink(node, details)
 
-  details.push({
-    type: 'spacer'
-  })
-  //if resource has a row number add deployable yaml
-  createDeployableYamlLink(node, details)
   details.push({
     type: 'spacer'
   })
@@ -439,6 +432,14 @@ function addK8Details(node, details, podOnly, index) {
 
   //show error if the resource doesn't produce pods and was not deployed on remote clusters
   setResourceDeployStatus(node, details)
+
+  details.push({
+    type: 'spacer'
+  })
+  //if the resource was deployed on any cluster, show search link here
+  createResourceSearchLink(node, details)
+  //if resource has a row number add deployable yaml
+  createDeployableYamlLink(node, details)
 
   // kube model details
   setPodDeployStatus(node, details)

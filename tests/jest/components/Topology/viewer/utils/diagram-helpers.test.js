@@ -16,7 +16,10 @@ import {
   setApplicationDeployStatus,
   setPodDeployStatus,
   getPulseForData,
-  getPulseForNodeWithPodStatus
+  getPulseForNodeWithPodStatus,
+  addHostLocation,
+  addNodePortLocation,
+  processResourceActionLink
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -1714,5 +1717,206 @@ describe("setPodDeployStatus  with pod as desired", () => {
   };
   it("setPodDeployStatus with pod", () => {
     expect(setPodDeployStatus(node, [])).toEqual(undefined);
+  });
+});
+
+describe("addHostLocation no host spec", () => {
+  const node = {
+    type: "deployment",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  it("addHostLocation no host spec", () => {
+    expect(addHostLocation(node, [])).toEqual(undefined);
+  });
+});
+
+describe("addHostLocation spec no tls", () => {
+  const node = {
+    type: "deployment",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          host: "1.1.1",
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  it("addHostLocation no tls", () => {
+    expect(addHostLocation(node, [])).toEqual(undefined);
+  });
+});
+
+describe("addHostLocation spec with tls", () => {
+  const node = {
+    type: "deployment",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      raw: {
+        spec: {
+          tls: {},
+          host: "1.1.1",
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  it("addHostLocation with tls", () => {
+    expect(addHostLocation(node, [])).toEqual(undefined);
+  });
+});
+
+describe("addNodePortLocation 1", () => {
+  const node = {
+    type: "deployment",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    podStatusMap: {
+      possiblereptile: {
+        ready: 3,
+        desired: 3
+      }
+    },
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          clusterIP: "1.1",
+          port: "80:65/TCP"
+        }
+      },
+      raw: {
+        metadata: {
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          tls: {},
+          host: "1.1.1",
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  it("addHostLocation 1", () => {
+    expect(addNodePortLocation(node, [])).toEqual(undefined);
+  });
+});
+
+describe("processResourceActionLink search view", () => {
+  const openSearchView = {
+    action: "show_search",
+    kind: "service",
+    name: "frontend",
+    namespace: "open-cluster-management"
+  };
+  const result =
+    '/multicloud/search?filters={"textsearch":"kind:service name:frontend namespace:open-cluster-management"}';
+  it("processResourceActionLink opens search view", () => {
+    expect(processResourceActionLink(openSearchView)).toEqual(result);
+  });
+});
+
+describe("processResourceActionLink openRemoteresourceYaml", () => {
+  const openRemoteresourceYaml = {
+    action: "show_resource_yaml",
+    cluster: "possiblereptile",
+    selfLink: "/api/v1/namespaces/open-cluster-management/services/frontend"
+  };
+  const result =
+    "/multicloud/details/possiblereptile/api/v1/namespaces/open-cluster-management/services/frontend";
+  it("processResourceActionLink openRemoteresourceYaml", () => {
+    expect(processResourceActionLink(openRemoteresourceYaml)).toEqual(result);
+  });
+});
+
+describe("processResourceActionLink openPodLog", () => {
+  const openPodLog = {
+    action: "show_pod_log",
+    cluster: "braveman",
+    name: "frontend-6cb7f8bd65-8d9x2",
+    namespace: "open-cluster-management"
+  };
+  const result =
+    "/multicloud/details/braveman/api/v1/namespaces/open-cluster-management/pods/frontend-6cb7f8bd65-8d9x2/logs";
+  it("processResourceActionLink openPodLog", () => {
+    expect(processResourceActionLink(openPodLog)).toEqual(result);
+  });
+});
+
+describe("processResourceActionLink search view", () => {
+  const genericLink = {
+    action: "open_link",
+    targetLink: "http://www.example.com"
+  };
+  const result = "http://www.example.com";
+  it("processResourceActionLink opens search view", () => {
+    expect(processResourceActionLink(genericLink)).toEqual(result);
+  });
+});
+
+describe("processResourceActionLink dummy link", () => {
+  const genericLink = {
+    action: "open_link",
+    targetLink1: "http://www.example.com"
+  };
+  const result = "";
+  it("processResourceActionLink opens search view", () => {
+    expect(processResourceActionLink(genericLink)).toEqual(result);
   });
 });

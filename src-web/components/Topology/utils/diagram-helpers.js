@@ -204,6 +204,7 @@ export const getNodePropery = (
     data = R.replace(/}/g, '', data)
     data = R.replace(/"/g, '', data)
     data = R.replace(/ /g, '', data)
+    data = R.replace(/\/\//g, ',', data)
   } else {
     if (defaultValue) {
       data = defaultValue
@@ -596,24 +597,36 @@ export const setResourceDeployStatus = (node, details) => {
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
-  const clusterStatusMap = {}
-  clusterNames.forEach(clusterName => {
-    clusterName = R.trim(clusterName)
-    const res = resourceMap[`${resourceName}-${clusterName}`]
-    clusterStatusMap[clusterName] = res ? deployedStr : notDeployedStr
-  })
-
   details.push({
     type: 'label',
     labelKey: 'resource.deploy.statuses'
   })
 
-  Object.keys(clusterStatusMap).forEach(key => {
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const res = resourceMap[`${resourceName}-${clusterName}`]
+    const deployedKey = res ? deployedStr : notDeployedStr
+
     details.push({
-      labelValue: key,
-      value: clusterStatusMap[key],
-      isError: clusterStatusMap[key] === notDeployedStr
+      labelValue: clusterName,
+      value: deployedKey,
+      isError: deployedKey === notDeployedStr
     })
+
+    if (res) {
+      details.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.yaml'),
+          data: {
+            action: 'show_resource_yaml',
+            cluster: res.cluster,
+            selfLink: res.selfLink
+          }
+        },
+        indent: true
+      })
+    }
   })
 
   details.push({
@@ -726,6 +739,18 @@ export const setSubscriptionDeployStatus = (node, details) => {
       value: subscription.status,
       isError: R.contains('Fail', subscription.status)
     })
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml'),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: subscription.cluster,
+          selfLink: subscription.selfLink
+        }
+      },
+      indent: true
+    })
   })
 
   details.push({
@@ -762,4 +787,108 @@ export const setApplicationDeployStatus = (node, details) => {
       true
     )
   )
+}
+
+export const addHostLocation = (node, details) => {
+  const hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
+  if (hostName) {
+    //compute host location
+    const transport = R.pathOr(undefined, ['specs', 'raw', 'spec', 'tls'])(node)
+      ? 'https'
+      : 'http'
+    const hostLink = `${transport}://${hostName}`
+
+    details.push({
+      type: 'label',
+      labelKey: 'raw.spec.host.location'
+    })
+
+    details.push({
+      type: 'link',
+      value: {
+        label: hostLink,
+        id: `${node.id}-location`,
+        data: {
+          action: 'open_link',
+          targetLink: hostLink
+        },
+        indent: true
+      }
+    })
+  }
+}
+
+//for service, ingress
+export const addNodePortLocation = (node, details) => {
+  const resourceName = _.get(node, metadataName, '')
+  const resourceMap = _.get(node, `specs.${node.type}Model`, {})
+  const clusterNames = R.split(',', getClusterName(node.id))
+
+  const locationDetails = []
+
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+    const typeObject = resourceMap[`${resourceName}-${clusterName}`]
+
+    if (typeObject) {
+      addNodePortLocationForCluster(typeObject, clusterName, locationDetails)
+    }
+  })
+
+  if (locationDetails.length > 0) {
+    details.push({
+      type: 'spacer'
+    })
+
+    details.push({
+      type: 'label',
+      labelKey: 'raw.spec.host.location'
+    })
+
+    locationDetails.forEach(locationDetail => {
+      details.push(locationDetail)
+    })
+
+    details.push({
+      type: 'spacer'
+    })
+  }
+}
+
+const addNodePortLocationForCluster = (typeObject, clusterName, details) => {
+  if (typeObject.clusterIP && typeObject.port) {
+    let port = R.split(':', typeObject.port)[0] // take care of 80:etc format
+    port = R.split('/', port)[0] //now remove any 80/TCP
+
+    const location = `${typeObject.clusterIP}:${port}`
+
+    details.push({
+      type: 'label',
+      labelValue: clusterName,
+      value: location
+    })
+  }
+}
+
+export const processResourceActionLink = resource => {
+  let targetLink = ''
+  const linkPath = R.pathOr('', ['action'])(resource)
+  const { name, namespace, cluster, selfLink, kind } = resource
+  switch (linkPath) {
+  case 'show_pod_log':
+    targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
+    break
+  case 'show_resource_yaml':
+    targetLink = `/multicloud/details/${cluster}${selfLink}`
+    break
+  case 'show_search':
+    targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
+    break
+  default:
+    targetLink = R.pathOr('', ['targetLink'])(resource)
+  }
+  if (targetLink !== '') {
+    window.open(targetLink, '_blank')
+  }
+  return targetLink
 }

@@ -8,7 +8,6 @@
  *******************************************************************************/
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
@@ -25,6 +24,7 @@ import {
 import { editResource, fetchResource } from '../../actions/common'
 import { fetchTopology } from '../../actions/topology'
 import { parse } from '../../../lib/client/design-helper'
+import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
 import {
   MCM_DESIGN_SPLITTER_SIZE_COOKIE,
   DIAGRAM_QUERY_COOKIE,
@@ -366,7 +366,7 @@ class ApplicationTopologyModule extends React.Component {
       const rect = this.containerRef.getBoundingClientRect()
       const width = rect.width - controlsSize - 15
       const height = rect.height - 40
-      this.editor.layout({width, height})
+      this.editor.layout({ width, height })
     }
   }
 
@@ -621,16 +621,8 @@ class ApplicationTopologyModule extends React.Component {
     if (_.get(resource, 'specs.isDesign')) {
       //show node yaml
       this.showNodeYAML(resource)
-    } else if (R.pathOr('', ['action'])(resource) === 'show_pod_log') {
-      //show pod logs
-      const { name, namespace, cluster } = resource
-      const targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
-      window.open(targetLink, '_blank')
     } else {
-      //object search
-      const { name, namespace, kind } = resource
-      const targetLink = `/multicloud/search?filters={"textsearch":"kind:${kind} name:${name} namespace:${namespace}"}`
-      window.open(targetLink, '_blank')
+      processResourceActionLink(resource)
     }
   };
 

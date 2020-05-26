@@ -17,8 +17,8 @@ import {
   setPodDeployStatus,
   getPulseForData,
   getPulseForNodeWithPodStatus,
-  addHostLocation,
-  addNodePortLocation,
+  addOCPRouteLocation,
+  addNodeServiceLocation,
   processResourceActionLink
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
@@ -1796,21 +1796,36 @@ describe("setPodDeployStatus  with pod as desired", () => {
   });
 });
 
-describe("addHostLocation no host spec", () => {
+describe("addOCPRouteLocation no host spec", () => {
   const node = {
-    type: "deployment",
+    type: "route",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
-    podStatusMap: {
-      possiblereptile: {
-        ready: 3,
-        desired: 3
+
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            clusterip: "aaa"
+          }
+        ]
       }
     },
     specs: {
+      routeMap: {
+        "mortgage-app-deploy-possiblereptile": {
+          cluster: "possiblereptile",
+          ready: 3,
+          desired: 3
+        }
+      },
       raw: {
+        kind: "Route",
         spec: {
           replicas: 1,
           template: {
@@ -1822,26 +1837,40 @@ describe("addHostLocation no host spec", () => {
       }
     }
   };
-  it("addHostLocation no host spec", () => {
-    expect(addHostLocation(node, [])).toEqual(undefined);
+  it("addOCPRouteLocation no host spec", () => {
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
   });
 });
 
-describe("addHostLocation spec no tls", () => {
+describe("addOCPRouteLocation spec no tls", () => {
   const node = {
-    type: "deployment",
+    type: "route",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
-    podStatusMap: {
-      possiblereptile: {
-        ready: 3,
-        desired: 3
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            clusterip: "aaa"
+          }
+        ]
       }
     },
     specs: {
+      routeMap: {
+        "mortgage-app-deploy-possiblereptile": {
+          cluster: "possiblereptile",
+          ready: 3,
+          desired: 3
+        }
+      },
       raw: {
+        kind: "Route",
         spec: {
           host: "1.1.1",
           replicas: 1,
@@ -1854,12 +1883,47 @@ describe("addHostLocation spec no tls", () => {
       }
     }
   };
-  it("addHostLocation no tls", () => {
-    expect(addHostLocation(node, [])).toEqual(undefined);
+  it("addOCPRouteLocation no tls", () => {
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
   });
 });
 
-describe("addHostLocation spec with tls", () => {
+describe("addOCPRouteLocation spec no route", () => {
+  const node = {
+    type: "route",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+
+    specs: {
+      routeMap: {
+        "mortgage-app-deploy-possiblereptile": {
+          cluster: "possiblereptile",
+          ready: 3,
+          desired: 3
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          host: "1.1.1",
+          replicas: 1,
+          template: {
+            spec: {
+              containers: [{ c1: "aa" }]
+            }
+          }
+        }
+      }
+    }
+  };
+  it("addOCPRouteLocation no route", () => {
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
+  });
+});
+
+describe("addOCPRouteLocation spec with tls", () => {
   const node = {
     type: "deployment",
     name: "mortgage-app-deploy",
@@ -1887,8 +1951,8 @@ describe("addHostLocation spec with tls", () => {
       }
     }
   };
-  it("addHostLocation with tls", () => {
-    expect(addHostLocation(node, [])).toEqual(undefined);
+  it("addOCPRouteLocation with tls", () => {
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
   });
 });
 
@@ -1929,8 +1993,14 @@ describe("addNodePortLocation 1", () => {
       }
     }
   };
-  it("addHostLocation 1", () => {
-    expect(addNodePortLocation(node, [])).toEqual(undefined);
+  const result = [
+    { type: "spacer" },
+    { labelKey: "raw.spec.host.location", type: "label" },
+    { labelValue: "possiblereptile", type: "label", value: "1.1:80" },
+    { type: "spacer" }
+  ];
+  it("addOCPRouteLocation 1", () => {
+    expect(addNodeServiceLocation(node, [])).toEqual(result);
   });
 });
 

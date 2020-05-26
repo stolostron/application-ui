@@ -799,49 +799,79 @@ export const setApplicationDeployStatus = (node, details) => {
   )
 }
 
-export const addHostLocation = (node, details) => {
-  const hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
-  if (hostName) {
-    //compute host location
-    const transport = R.pathOr(undefined, ['specs', 'raw', 'spec', 'tls'])(node)
-      ? 'https'
-      : 'http'
-    const hostLink = `${transport}://${hostName}`
+const addNodeOCPRouteLocationForCluster = (
+  node,
+  typeObject,
+  clusterName,
+  details
+) => {
+  const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
 
-    details.push({
-      type: 'label',
-      labelKey: 'raw.spec.host.location'
-    })
+  let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
 
-    details.push({
-      type: 'link',
-      value: {
-        label: hostLink,
-        id: `${node.id}-location`,
-        data: {
-          action: 'open_link',
-          targetLink: hostLink
-        },
-        indent: true
+  let hostLink = 'NA'
+  if (!hostName) {
+    //build up the name using <route_name>-<ns>.router.default.svc.cluster.local
+    Object.values(clustersList).forEach(clusterObject => {
+      if (R.pathOr('NA', ['metadata', 'name'])(clusterObject) === clusterName) {
+        hostName = `${node.name}-${node.namespace}.${clusterObject.clusterip}`
+        return
       }
     })
   }
+  const transport = R.pathOr(undefined, ['specs', 'raw', 'spec', 'tls'])(node)
+    ? 'https'
+    : 'http'
+  hostLink = `${transport}://${hostName}/`
+
+  details.push({
+    type: 'link',
+    value: {
+      label: hostLink,
+      id: `${typeObject.id}-location`,
+      data: {
+        action: 'open_link',
+        targetLink: hostLink
+      },
+      indent: true
+    }
+  })
 }
 
-//for service, ingress
-export const addNodePortLocation = (node, details) => {
+//route
+export const addOCPRouteLocation = (node, details) => {
+  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) !== 'Route') {
+    return details //process only routes
+  }
+  return addNodeInfoPerCluster(
+    node,
+    details,
+    addNodeOCPRouteLocationForCluster
+  )
+}
+
+//for service
+export const addNodeServiceLocation = (node, details) => {
+  return addNodeInfoPerCluster(node, details, addNodeServiceLocationForCluster)
+}
+
+//generic function to write location info
+const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterNames = R.split(',', getClusterName(node.id))
-
   const locationDetails = []
 
+  let counter = 0
   clusterNames.forEach(clusterName => {
+    if (counter > 2) {
+      return //too much info for the dialog, show first 5 clusters
+    }
+    counter = counter + 1
     clusterName = R.trim(clusterName)
     const typeObject = resourceMap[`${resourceName}-${clusterName}`]
-
     if (typeObject) {
-      addNodePortLocationForCluster(typeObject, clusterName, locationDetails)
+      getDetailsFunction(node, typeObject, clusterName, locationDetails)
     }
   })
 
@@ -863,10 +893,17 @@ export const addNodePortLocation = (node, details) => {
       type: 'spacer'
     })
   }
+
+  return details
 }
 
-const addNodePortLocationForCluster = (typeObject, clusterName, details) => {
-  if (typeObject.clusterIP && typeObject.port) {
+const addNodeServiceLocationForCluster = (
+  node,
+  typeObject,
+  clusterName,
+  details
+) => {
+  if (node && typeObject.clusterIP && typeObject.port) {
     let port = R.split(':', typeObject.port)[0] // take care of 80:etc format
     port = R.split('/', port)[0] //now remove any 80/TCP
 

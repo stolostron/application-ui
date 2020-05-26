@@ -22,11 +22,12 @@ import {
   setApplicationDeployStatus,
   addDetails,
   getAge,
-  addHostLocation,
-  addNodePortLocation
+  addOCPRouteLocation,
+  addNodeServiceLocation
 } from '../../utils/diagram-helpers'
 
 export const getNodeDetails = node => {
+  //console.log(node)
   const details = []
   if (node) {
     const { type, specs } = node
@@ -425,9 +426,11 @@ function addK8Details(node, details, podOnly, index) {
     }
   }
 
-  //for routes, services show location info
-  addHostLocation(node, details)
-  addNodePortLocation(node, details)
+  //for open shift routes show location info
+  addOCPRouteLocation(node, details)
+
+  //for service
+  addNodeServiceLocation(node, details)
 
   details.push({
     type: 'spacer'

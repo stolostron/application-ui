@@ -322,7 +322,7 @@ const getPodState = (podItem, clusterName, types) => {
   return 0
 }
 
-const getPulseForData = (
+export const getPulseForData = (
   previousPulse,
   available,
   desired,
@@ -347,7 +347,7 @@ const getPulseForData = (
   return 'green'
 }
 
-const getPulseForNodeWithPodStatus = node => {
+export const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
@@ -369,7 +369,7 @@ const getPulseForNodeWithPodStatus = node => {
     clusterName = R.trim(clusterName)
 
     const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
-    const processItem = podList === {} && resourceItem
+    const processItem = Object.keys(podList).length === 0 && resourceItem
 
     let podsReady = 0
     let podsUnavailable = 0
@@ -389,7 +389,6 @@ const getPulseForNodeWithPodStatus = node => {
     }
 
     pulse = getPulseForData(pulse, podsReady, desired, podsUnavailable)
-
     if (processItem) {
       //no pods linked to the resource, check if we have enough information on the actual resource
       podStatusMap[clusterName] = {

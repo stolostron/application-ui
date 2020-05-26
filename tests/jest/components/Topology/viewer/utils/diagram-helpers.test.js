@@ -14,7 +14,9 @@ import {
   setSubscriptionDeployStatus,
   setResourceDeployStatus,
   setApplicationDeployStatus,
-  setPodDeployStatus
+  setPodDeployStatus,
+  getPulseForData,
+  getPulseForNodeWithPodStatus
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -143,6 +145,142 @@ const modelResult = {
   "mortgagedc-svc-braveman": {},
   "route-unsecured-braveman": {}
 };
+
+describe("getPulseForNodeWithPodStatus ", () => {
+  const podItem = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    }
+  };
+
+  it("getPulseForNodeWithPodStatus pulse red", () => {
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("red");
+  });
+});
+
+describe("getPulseForData ", () => {
+  const previousPulse = "red";
+  const available = 1;
+  const desired = 2;
+  const podsUnavailable = 3;
+
+  it("getPulseForData pulse red", () => {
+    expect(
+      getPulseForData(previousPulse, available, desired, podsUnavailable)
+    ).toEqual("red");
+  });
+});
+
+describe("getPulseForData ", () => {
+  const previousPulse = "green";
+  const available = 1;
+  const desired = 2;
+  const podsUnavailable = 3;
+
+  it("getPulseForData pulse red pod unavailable", () => {
+    expect(
+      getPulseForData(previousPulse, available, desired, podsUnavailable)
+    ).toEqual("red");
+  });
+});
+
+describe("getPulseForData ", () => {
+  const previousPulse = "green";
+  const available = 1;
+  const desired = 2;
+  const podsUnavailable = 0;
+
+  it("getPulseForData pulse red pod desired less then available", () => {
+    expect(
+      getPulseForData(previousPulse, available, desired, podsUnavailable)
+    ).toEqual("red");
+  });
+});
+
+describe("getPulseForData ", () => {
+  const previousPulse = "green";
+  const available = 1;
+  const desired = 0;
+  const podsUnavailable = 0;
+
+  it("getPulseForData pulse yellow pod desired is 0", () => {
+    expect(
+      getPulseForData(previousPulse, available, desired, podsUnavailable)
+    ).toEqual("yellow");
+  });
+});
+
+describe("getPulseForData ", () => {
+  const previousPulse = "green";
+  const available = 1;
+  const desired = 1;
+  const podsUnavailable = 0;
+
+  it("getPulseForData pulse green pod desired is equal with available", () => {
+    expect(
+      getPulseForData(previousPulse, available, desired, podsUnavailable)
+    ).toEqual("green");
+  });
+});
 
 describe("getNodePropery ", () => {
   const result = { labelKey: "nskey", value: "test" };
@@ -1082,6 +1220,75 @@ describe("computeNodeStatus ", () => {
     }
   };
 
+  const deploymentNodeNoPodModel = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 3,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          replicas: 1,
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    },
+    namespace: "",
+    topology: null,
+    labels: null,
+    __typename: "Resource"
+  };
+
   const genericNodeGreen = {
     id:
       "member--member--service--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
@@ -1171,6 +1378,34 @@ describe("computeNodeStatus ", () => {
     }
   };
 
+  const podCrash = {
+    id:
+      "member--deployable--member--clusters--possiblereptile, braveman, sharingpenguin, relievedox--deployment--frontend",
+    uid:
+      "member--deployable--member--clusters--possiblereptile, braveman, sharingpenguin, relievedox--deployment--frontend",
+    specs: {
+      podModel: {
+        "frontend-6cb7f8bd65-g25j6-possiblereptile": {
+          apiversion: "v1",
+          cluster: "braveman",
+          kind: "pod",
+          label: "app=guestbook; pod-template-hash=6cb7f8bd65; tier=frontend",
+          name: "frontend-6cb7f8bd65-8d9x2",
+          namespace: "open-cluster-management",
+          status: "CrashLoopBackOff"
+        }
+      },
+      raw: {
+        spec: {
+          replicas: 1
+        }
+      }
+    }
+  };
+  it("return appNnoChannelRed crash error", () => {
+    expect(computeNodeStatus(podCrash)).toEqual(undefined);
+  });
+
   it("return appNnoChannelRed red", () => {
     expect(computeNodeStatus(appNoChannelRed)).toEqual(undefined);
   });
@@ -1204,6 +1439,10 @@ describe("computeNodeStatus ", () => {
 
   it("return computeNodeStatus generic node green", () => {
     expect(computeNodeStatus(deploymentNodeGreen)).toEqual(undefined);
+  });
+
+  it("return computeNodeStatus generic no  pod", () => {
+    expect(computeNodeStatus(deploymentNodeNoPodModel)).toEqual(undefined);
   });
 
   it("return computeNodeStatus generic node no pods", () => {

@@ -170,6 +170,7 @@ class DetailsView extends React.Component {
       <div className="sectionContent" key={Math.random()}>
         <span
           className="link"
+          id="linkForNodeAction"
           tabIndex="0"
           role={'button'}
           onClick={handleClick}

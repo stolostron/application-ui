@@ -633,6 +633,8 @@
   "props.view.yaml": "View Topology YAML",
   "spec.app.channels": "Subscriptions Channels",
   "resource.application.error.msg": "This application has no matched subscription",
+  "resource.subscription.placed.error": "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace.",
+  "resource.subscription.remote": "Remote subscriptions",
   "routes.admin": "Admin",
   "routes.applications": "Applications",
   "routes.incidents": "Incidents",

@@ -18,6 +18,15 @@ import msgs from '../../../../nls/platform.properties'
 const metadataName = 'specs.raw.metadata.name'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
+const specPulse = 'specs.pulse'
+
+const podErrorStates = [
+  'CrashLoopBackOff',
+  'ImageLoopBackOff',
+  'Error',
+  'InvalidImageName',
+  'OOMKilled'
+]
 
 /*
 * UI helpers to help with data transformations
@@ -225,11 +234,13 @@ export const nodeMustHavePods = node => {
   let mustHavePods = false
   if (
     node &&
-    R.length(
+    !R.contains(node.type, ['application', 'rules', 'subscription']) &&
+    (R.length(
       R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
         node
       )
-    ) > 0
+    ) > 0 ||
+      R.pathOr(undefined, ['specs', 'raw', 'spec', 'replicas'])(node)) //for chart packages, where the containers info is not available
   ) {
     mustHavePods = true
   }
@@ -271,7 +282,10 @@ const getPulseStatusForSubscription = node => {
 }
 
 const getPulseStatusForGenericNode = node => {
-  let pulse = 'green'
+  let pulse = _.get(node, specPulse, 'green')
+  if (pulse === 'red') {
+    return pulse //no need to check anything else, return red
+  }
 
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`)
@@ -296,12 +310,48 @@ const getPulseStatusForGenericNode = node => {
   return pulse
 }
 
-const getPulseForNodeWithPodStatus = node => {
-  let pulse = 'green'
-  const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
+//count pod state
+const getPodState = (podItem, clusterName, types) => {
+  if (
+    clusterName.indexOf(podItem.cluster) > -1 &&
+    R.contains(podItem.status, types)
+  ) {
+    return 1
+  }
 
-  const resourceName = _.get(node, metadataName, '')
+  return 0
+}
+
+export const getPulseForData = (
+  previousPulse,
+  available,
+  desired,
+  podsUnavailable
+) => {
+  if (previousPulse === 'red') {
+    return 'red' //don't overwrite a red state
+  }
+
+  if (podsUnavailable > 0) {
+    return 'red'
+  }
+
+  if (available < desired) {
+    return 'red'
+  }
+
+  if (desired <= 0) {
+    return 'yellow'
+  }
+
+  return 'green'
+}
+
+export const getPulseForNodeWithPodStatus = node => {
+  let pulse = 'green'
   const resourceMap = _.get(node, `specs.${node.type}Model`)
+  const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
+  const resourceName = _.get(node, metadataName, '')
 
   if (!resourceMap) {
     pulse = 'orange' //resource not available
@@ -312,54 +362,48 @@ const getPulseForNodeWithPodStatus = node => {
 
   //must have pods, set the pods status here
   const podStatusMap = {}
+  const podList = _.get(node, 'specs.podModel', {})
 
   //go through all clusters to make sure all pods are counted, even if they are not deployed there
   clusterNames.forEach(clusterName => {
     clusterName = R.trim(clusterName)
+
     const resourceItem = resourceMap[`${resourceName}-${clusterName}`]
+    const processItem = Object.keys(podList).length === 0 && resourceItem
 
-    if (resourceItem) {
-      if (resourceItem.ready) {
-        podStatusMap[clusterName] = {
-          available: resourceItem.available,
-          current: resourceItem.current,
-          desired: resourceItem.desired,
-          ready: resourceItem.ready
-        }
-      } else {
-        //the resource doesn't have the pods info, it must be an embedded object between resource and pods
-        //get the pods info from the pods model
-        let podsReady = 0
-        const podList = _.get(node, 'specs.podModel', {})
-        Object.values(podList).forEach(podItem => {
-          if (
-            clusterName.indexOf(podItem.cluster) > -1 &&
-            podItem.status === 'Running'
-          ) {
-            podsReady = podsReady + 1
-          }
-        })
+    let podsReady = 0
+    let podsUnavailable = 0
+    //find pods status and pulse from pods model, if available
+    Object.values(podList).forEach(podItem => {
+      podsUnavailable =
+        podsUnavailable + getPodState(podItem, clusterName, podErrorStates) //podsUnavailable + 1
+      podsReady = podsReady + getPodState(podItem, clusterName, 'Running')
+    })
 
-        podStatusMap[clusterName] = {
-          available: 0,
-          current: 0,
-          desired: desired,
-          ready: podsReady
-        }
+    podStatusMap[clusterName] = {
+      available: 0,
+      current: 0,
+      desired: desired,
+      ready: podsReady,
+      unavailable: podsUnavailable
+    }
 
-        if (podsReady < desired) {
-          pulse = 'yellow'
-        }
-      }
-    } else {
+    pulse = getPulseForData(pulse, podsReady, desired, podsUnavailable)
+    if (processItem) {
+      //no pods linked to the resource, check if we have enough information on the actual resource
       podStatusMap[clusterName] = {
-        available: 0,
-        current: 0,
-        desired: desired,
-        ready: 0
+        available: resourceItem.available || 0,
+        current: resourceItem.current || 0,
+        desired: resourceItem.desired || 0,
+        ready: resourceItem.ready || 0
       }
 
-      pulse = 'yellow'
+      pulse = getPulseForData(
+        pulse,
+        resourceItem.available,
+        resourceItem.desired,
+        0
+      )
     }
   })
 
@@ -373,6 +417,7 @@ export const computeNodeStatus = node => {
 
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
+    _.set(node, specPulse, pulse)
   }
 
   switch (node.type) {
@@ -395,7 +440,7 @@ export const computeNodeStatus = node => {
     pulse = getPulseStatusForGenericNode(node)
   }
 
-  _.set(node, 'specs.pulse', pulse)
+  _.set(node, specPulse, pulse)
 }
 
 export const createDeployableYamlLink = (node, details) => {
@@ -466,7 +511,9 @@ const computeResourceName = (
 
   if (relatedKind.kind !== 'subscription') {
     //expect for subscriptions, use cluster name to group resources
-    name = isClusterGrouped.value ? name : `${name}-${relatedKind.cluster}`
+    name = isClusterGrouped.value
+      ? `${relatedKind.kind}-${name}`
+      : `${relatedKind.kind}-${name}-${relatedKind.cluster}`
   }
 
   return name
@@ -607,13 +654,7 @@ export const setPodDeployStatus = (node, details) => {
 
   Object.values(podModel).forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
-    const podError = R.contains(pod.status, [
-      'CrashLoopBackOff',
-      'ImageLoopBackOff',
-      'Error',
-      'InvalidImageName',
-      'OOMKilled'
-    ])
+    const podError = R.contains(pod.status, podErrorStates)
     details.push({
       type: 'label',
       labelKey: 'resource.container.logs'

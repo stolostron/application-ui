@@ -799,14 +799,13 @@ export const setApplicationDeployStatus = (node, details) => {
   )
 }
 
-const addNodeOCPRouteLocationForCluster = (
+export const addNodeOCPRouteLocationForCluster = (
   node,
   typeObject,
   clusterName,
   details
 ) => {
   const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
-
   let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
 
   let hostLink = 'NA'
@@ -835,6 +834,8 @@ const addNodeOCPRouteLocationForCluster = (
       indent: true
     }
   })
+
+  return details
 }
 
 //route
@@ -904,7 +905,7 @@ const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
   return details
 }
 
-const addNodeServiceLocationForCluster = (
+export const addNodeServiceLocationForCluster = (
   node,
   typeObject,
   clusterName,
@@ -922,6 +923,8 @@ const addNodeServiceLocationForCluster = (
       value: location
     })
   }
+
+  return details
 }
 
 export const processResourceActionLink = resource => {

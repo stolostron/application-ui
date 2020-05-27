@@ -827,6 +827,18 @@ describe("getNodeDetails deployment node", () => {
       }
     },
     {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "feng",
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
+        },
+        label: "View Remote Resource"
+      }
+    },
+    {
       indent: undefined,
       isError: undefined,
       labelKey: "resource.clustername",
@@ -895,6 +907,18 @@ describe("getNodeDetails deployment node", () => {
           namespace: "default"
         },
         label: "View Log"
+      }
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "feng",
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
+        },
+        label: "View Remote Resource"
       }
     },
     {

@@ -685,7 +685,18 @@ export const setPodDeployStatus = (node, details) => {
       },
       indent: true
     })
-
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml'),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: pod.cluster,
+          selfLink: pod.selfLink
+        }
+      },
+      indent: true
+    })
     addDetails(details, [
       {
         labelKey: 'resource.clustername',
@@ -742,7 +753,9 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       type: 'link',
       value: {
-        label: msgs.get('props.show.yaml'),
+        label: subscription._hubClusterResource
+          ? msgs.get('props.show.local.yaml')
+          : msgs.get('props.show.yaml'),
         data: {
           action: 'show_resource_yaml',
           cluster: subscription.cluster,

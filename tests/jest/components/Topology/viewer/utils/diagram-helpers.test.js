@@ -473,7 +473,8 @@ describe("setSubscriptionDeployStatus with error", () => {
         },
         sub2: {
           cluster: "local",
-          status: "Propagated"
+          status: "Propagated",
+          _hubClusterResource: true
         }
       }
     }
@@ -503,7 +504,7 @@ describe("setSubscriptionDeployStatus with error", () => {
           cluster: "local",
           selfLink: undefined
         },
-        label: "View Remote Resource"
+        label: "View Local Resource"
       }
     },
     { type: "spacer" }

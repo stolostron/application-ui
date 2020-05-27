@@ -19,6 +19,7 @@ const metadataName = 'specs.raw.metadata.name'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
 const specPulse = 'specs.pulse'
+const specsPropsYaml = 'props.show.yaml'
 
 const podErrorStates = [
   'CrashLoopBackOff',
@@ -617,7 +618,7 @@ export const setResourceDeployStatus = (node, details) => {
       details.push({
         type: 'link',
         value: {
-          label: msgs.get('props.show.yaml'),
+          label: msgs.get(specsPropsYaml),
           data: {
             action: 'show_resource_yaml',
             cluster: res.cluster,
@@ -685,7 +686,18 @@ export const setPodDeployStatus = (node, details) => {
       },
       indent: true
     })
-
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get(specsPropsYaml),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: pod.cluster,
+          selfLink: pod.selfLink
+        }
+      },
+      indent: true
+    })
     addDetails(details, [
       {
         labelKey: 'resource.clustername',
@@ -742,7 +754,9 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       type: 'link',
       value: {
-        label: msgs.get('props.show.yaml'),
+        label: subscription._hubClusterResource
+          ? msgs.get('props.show.local.yaml')
+          : msgs.get(specsPropsYaml),
         data: {
           action: 'show_resource_yaml',
           cluster: subscription.cluster,

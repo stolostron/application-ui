@@ -629,6 +629,7 @@
   "spec.deploy.not.deployed": "Not Deployed",
   "props.show.log": "View Log",
   "props.show.yaml": "View Remote Resource",
+  "props.show.local.yaml": "View Local Resource",
   "props.show.search.view": "Show resource in Search View",
   "props.view.yaml": "View Topology YAML",
   "spec.app.channels": "Subscriptions Channels",

@@ -107,6 +107,12 @@ class CreateResourceModal extends React.PureComponent {
         ['data', 'createResources', 'result'],
         result
       )
+      const errors = R.pathOr(
+        [],
+        ['data', 'createResources', 'errors'],
+        result
+      )
+
       if (results && results.length > 0) {
         const failure = results.filter(
           r => r.kind === 'Status' && r.status === 'Failure'
@@ -126,6 +132,11 @@ class CreateResourceModal extends React.PureComponent {
             this.props.onSubmitFunction()
           }
         }
+      } else if (errors && errors.length > 0) {
+        this.setState({
+          createError: errors,
+          processing: false
+        })
       }
     })
   };

@@ -17,9 +17,11 @@ import {
   setPodDeployStatus,
   getPulseForData,
   getPulseForNodeWithPodStatus,
-  addHostLocation,
-  addNodePortLocation,
-  processResourceActionLink
+  addOCPRouteLocation,
+  addNodeServiceLocation,
+  processResourceActionLink,
+  addNodeServiceLocationForCluster,
+  addNodeOCPRouteLocationForCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -1796,117 +1798,226 @@ describe("setPodDeployStatus  with pod as desired", () => {
   });
 });
 
-describe("addHostLocation no host spec", () => {
+describe("addNodeOCPRouteLocationForCluster no host spec", () => {
   const node = {
-    type: "deployment",
+    type: "route",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
       "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
-    podStatusMap: {
-      possiblereptile: {
-        ready: 3,
-        desired: 3
+
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            clusterip: "aaa"
+          }
+        ]
       }
     },
     specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          cluster: "possiblereptile"
+        }
+      },
       raw: {
-        spec: {
-          replicas: 1,
-          template: {
-            spec: {
-              containers: [{ c1: "aa" }]
-            }
+        kind: "Route"
+      }
+    }
+  };
+  const obj = {
+    id: "objID"
+  };
+  const result = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink: "http://mortgage-app-deploy-default.aaa/"
+        },
+        id: "objID-location",
+        indent: true,
+        label: "http://mortgage-app-deploy-default.aaa/"
+      }
+    }
+  ];
+  it("addNodeOCPRouteLocationForCluster no host spec", () => {
+    expect(
+      addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
+    ).toEqual(result);
+  });
+});
+
+describe("addOCPRouteLocation spec no tls", () => {
+  const node = {
+    type: "route",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            metadata: {
+              name: "possiblereptile"
+            },
+            clusterip: "aaa"
           }
+        ]
+      }
+    },
+    specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          host: "1.1.1"
         }
       }
     }
   };
-  it("addHostLocation no host spec", () => {
-    expect(addHostLocation(node, [])).toEqual(undefined);
+  it("addOCPRouteLocation no tls", () => {
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
   });
 });
 
-describe("addHostLocation spec no tls", () => {
+describe("addNodeOCPRouteLocationForCluster spec no route", () => {
   const node = {
-    type: "deployment",
+    type: "route",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
-      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
-    podStatusMap: {
-      possiblereptile: {
-        ready: 3,
-        desired: 3
-      }
-    },
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
+
     specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
       raw: {
+        kind: "Route",
         spec: {
-          host: "1.1.1",
-          replicas: 1,
-          template: {
-            spec: {
-              containers: [{ c1: "aa" }]
-            }
-          }
+          host: "1.1.1"
         }
       }
     }
   };
-  it("addHostLocation no tls", () => {
-    expect(addHostLocation(node, [])).toEqual(undefined);
+  const obj = {
+    id: "objID"
+  };
+  const result = [
+    {
+      type: "link",
+      value: {
+        data: { action: "open_link", targetLink: "http://1.1.1/" },
+        id: "objID-location",
+        indent: true,
+        label: "http://1.1.1/"
+      }
+    }
+  ];
+  it("addNodeOCPRouteLocationForCluster no route", () => {
+    expect(
+      addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
+    ).toEqual(result);
   });
 });
 
-describe("addHostLocation spec with tls", () => {
+describe("addOCPRouteLocation spec with tls", () => {
   const node = {
-    type: "deployment",
+    type: "route",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
-      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
-    podStatusMap: {
-      possiblereptile: {
-        ready: 3,
-        desired: 3
-      }
-    },
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
     specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
       raw: {
+        kind: "Route",
         spec: {
           tls: {},
-          host: "1.1.1",
-          replicas: 1,
-          template: {
-            spec: {
-              containers: [{ c1: "aa" }]
-            }
-          }
+          host: "1.1.1"
         }
       }
     }
   };
-  it("addHostLocation with tls", () => {
-    expect(addHostLocation(node, [])).toEqual(undefined);
+  it("addOCPRouteLocation with tls", () => {
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
   });
 });
 
-describe("addNodePortLocation 1", () => {
+describe("addNodeOCPRouteLocationForCluster", () => {
   const node = {
-    type: "deployment",
+    type: "route",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
-      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-deployment--deployment--mortgage-app-deploy",
-    podStatusMap: {
-      possiblereptile: {
-        ready: 3,
-        desired: 3
-      }
-    },
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
     specs: {
-      deploymentModel: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          tls: {},
+          host: "1.1.1"
+        }
+      }
+    }
+  };
+
+  const obj = {
+    id: "objID"
+  };
+  const result = [
+    {
+      type: "link",
+      value: {
+        data: { action: "open_link", targetLink: "https://1.1.1/" },
+        id: "objID-location",
+        indent: true,
+        label: "https://1.1.1/"
+      }
+    }
+  ];
+  it("addNodeOCPRouteLocationForCluster with tls", () => {
+    expect(
+      addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
+    ).toEqual(result);
+  });
+});
+
+describe("addNodeServiceLocation 1", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-service--service--mortgage-app-deploy",
+    specs: {
+      serviceModel: {
         "mortgage-app-deploy-possiblereptile": {
           clusterIP: "1.1",
           port: "80:65/TCP"
@@ -1916,21 +2027,70 @@ describe("addNodePortLocation 1", () => {
         metadata: {
           name: "mortgage-app-deploy"
         },
+        kind: "Service",
         spec: {
           tls: {},
-          host: "1.1.1",
-          replicas: 1,
-          template: {
-            spec: {
-              containers: [{ c1: "aa" }]
-            }
-          }
+          host: "1.1.1"
         }
       }
     }
   };
-  it("addHostLocation 1", () => {
-    expect(addNodePortLocation(node, [])).toEqual(undefined);
+  const result = [
+    { type: "spacer" },
+    { labelKey: "raw.spec.host.location", type: "label" },
+    { labelValue: "possiblereptile", type: "label", value: "1.1:80" },
+    { type: "spacer" }
+  ];
+  it("addNodeServiceLocation 1", () => {
+    expect(addNodeServiceLocation(node, [])).toEqual(result);
+  });
+});
+
+describe("addNodeServiceLocationForCluster 1", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-service--service--mortgage-app-deploy",
+    specs: {
+      serviceModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          clusterIP: "1.1",
+          port: "80:65/TCP"
+        }
+      },
+      raw: {
+        metadata: {
+          name: "mortgage-app-deploy"
+        },
+        kind: "Service",
+        spec: {
+          tls: {},
+          host: "1.1.1"
+        }
+      }
+    }
+  };
+  const obj = {
+    cluster: "possiblereptile",
+    clusterIP: "172.30.129.147",
+    created: "2020-05-26T19:18:18Z",
+    kind: "service",
+    label: "app=guestbook; tier=frontend",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    port: "80:31021/TCP",
+    selfLink: "/api/v1/namespaces/app-guestbook-git-ns/services/frontend",
+    type: "NodePort"
+  };
+  const result = [
+    { labelValue: "possiblereptile", type: "label", value: "172.30.129.147:80" }
+  ];
+  it("addNodeServiceLocationForCluster 1", () => {
+    expect(
+      addNodeServiceLocationForCluster(node, obj, "possiblereptile", [])
+    ).toEqual(result);
   });
 });
 

@@ -65,7 +65,12 @@ export const getActiveChannel = localStoreKey => {
 }
 
 //link the search objects to this node;
-export const processNodeData = (node, topoResourceMap, isClusterGrouped) => {
+export const processNodeData = (
+  node,
+  topoResourceMap,
+  isClusterGrouped,
+  topology
+) => {
   const { name, type } = node
 
   if (R.contains(type, ['cluster', 'application', 'rules'])) {
@@ -85,6 +90,11 @@ export const processNodeData = (node, topoResourceMap, isClusterGrouped) => {
     topoResourceMap[`${type}-${name}-${clusterName}`] = node
     podsKeyForThisNode = `pod-${name}-${clusterName}`
   }
+  if (type === 'route') {
+    //keep clusters info to create route host
+    node['clusters'] = R.find(R.propEq('type', 'cluster'))(topology.nodes)
+  }
+
   if (nodeMustHavePods(node)) {
     //keep a map with the nodes names that could have pods
     //since we don't have a link between pods and parent, we rely on pod name vs resource name to find pod's parents
@@ -138,7 +148,7 @@ export const getDiagramElements = (
         channels = _.get(node, 'specs.channels', [])
       }
 
-      processNodeData(node, allResourcesMap, isClusterGrouped)
+      processNodeData(node, allResourcesMap, isClusterGrouped, topology)
 
       const raw = _.get(node, 'specs.raw')
       if (raw) {

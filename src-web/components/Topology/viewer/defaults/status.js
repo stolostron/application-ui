@@ -180,7 +180,7 @@ export const updateNodeIcons = nodes => {
       }
     }
 
-    if (!R.contains(node.type, ['cluster', 'package'])) {
+    if (!R.contains(node.type, ['cluster'])) {
       const pulse = _.get(node, 'specs.pulse', '')
 
       switch (pulse) {

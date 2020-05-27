@@ -25,6 +25,7 @@ import {
   addOCPRouteLocation,
   addNodeServiceLocation
 } from '../../utils/diagram-helpers'
+import msgs from '../../../../../nls/platform.properties'
 
 export const getNodeDetails = node => {
   const details = []
@@ -117,6 +118,19 @@ export const getNodeDetails = node => {
           })
         })
       }
+      break
+
+    case 'package':
+      addDetails(details, [
+        {
+          labelKey: 'resource.name',
+          value: _.get(node, 'specs.raw.metadata.name', '')
+        },
+        {
+          labelKey: 'resource.message',
+          value: msgs.get('resource.helm.nodata.message')
+        }
+      ])
       break
 
     case 'helmrelease':

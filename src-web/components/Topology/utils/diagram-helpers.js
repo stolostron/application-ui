@@ -423,8 +423,6 @@ export const computeNodeStatus = node => {
   }
 
   switch (node.type) {
-  case 'package':
-    break
   case 'application':
     if (!_.get(node, 'specs.channels')) {
       pulse = 'red'

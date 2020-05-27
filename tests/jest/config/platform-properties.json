@@ -586,6 +586,8 @@
   "resource.resource.status": "Resource status",
   "resource.rules": "Rules",
   "resource.status": "Status",
+  "resource.message": "Message",
+  "resource.helm.nodata.message": "This subscription is using a HelmChart but there is no information in the subscription to retrive deployed objects data",
   "resource.service": "Service",
   "resource.subscription": "Subscription",
   "resource.container.logs": "Pod logs",

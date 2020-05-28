@@ -1046,6 +1046,59 @@ describe("getNodeDetails helm node", () => {
   });
 });
 
+describe("getNodeDetails helm node", () => {
+  const packageNode = {
+    id: "helmrelease1",
+    uid: "helmrelease1",
+    name: "mortgage-helmrelease",
+    cluster: null,
+    clusterName: null,
+    type: "package",
+    specs: {
+      raw: {
+        apiVersion: "app.ibm.com/v1alpha1",
+        kind: "Package",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          chartName: "mortgage-chart",
+          urls: "https://mortgage-chart",
+          version: "1.0.0",
+          node: {
+            name: "node1"
+          }
+        }
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "resource.name",
+      labelValue: undefined,
+      type: "label",
+      value: "mortgage-app-deploy"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "resource.message",
+      labelValue: undefined,
+      type: "label",
+      value:
+        "This subscription is using a HelmChart but there is no information in the subscription to retrive deployed objects data"
+    }
+  ];
+
+  it("should process the node, packageNode node", () => {
+    expect(getNodeDetails(packageNode, locale)).toEqual(expectedResult);
+  });
+});
+
 describe("getNodeDetails helm node 2", () => {
   const policyNode = {
     id: "helmrelease1",

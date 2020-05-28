@@ -684,6 +684,35 @@ const PipelineGrid = withLocale(
               <div className="noResDescription">
                 {msgs.get('description.noChannelsDescr', locale)}
               </div>
+              <div className="deployment-highlights-terminology-docs">
+                <a
+                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <span className="deployment-highlights-terminology-docs-text">
+                    View documentation
+                  </span>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="deployment-highlights-terminology-docs-icon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--launch"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title />
+                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
+                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
+                    <path d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         )}

@@ -24,7 +24,14 @@ import {
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
-import { RESOURCE_TYPES } from '../../../lib/shared/constants'
+import { refetchIntervalUpdate } from '../../actions/refetch'
+import {
+  RESOURCE_TYPES,
+  REFRESH_TIMES,
+  TOPOLOGY_REFRESH_INTERVAL_COOKIE
+} from '../../../lib/shared/constants'
+
+import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
 
 resources(() => {
   require('./style.scss')
@@ -54,7 +61,8 @@ const ApplicationHeaderTabs = withLocale(
     locale,
     serverProps,
     mutateSuccessFinished,
-    deleteSuccessFinished
+    deleteSuccessFinished,
+    refetchIntervalUpdate
   }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
@@ -100,6 +108,18 @@ const ApplicationHeaderTabs = withLocale(
     return (
       <div id="applicationheadertabs">
         <div className="whiteSpacer">
+          <RefreshTimeSelect
+            refreshValues={REFRESH_TIMES}
+            refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
+            // isReloading={isReloading}
+            // startPolling={startPolling}
+            // stopPolling={stopPolling}
+            // refetch={refetch} //
+            params={params}
+            refetchIntervalUpdate={refetchIntervalUpdate}
+            // refetch={refetch} // value is set by RefreshTimeSelect if a change is made to trigger refresh
+          />
+
           <Tabs
             className="some-class"
             selected={selectedAppTab}
@@ -157,7 +177,8 @@ const mapDispatchToProps = dispatch => {
         mutateResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
       ),
     deleteSuccessFinished: () =>
-      dispatch(delResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS))
+      dispatch(delResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)),
+    refetchIntervalUpdate: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 const mapStateToProps = state => {

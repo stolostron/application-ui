@@ -22,18 +22,20 @@ export default class RefreshTimeSelect extends React.Component {
   static propTypes = {
     isReloading: PropTypes.bool,
     locale: PropTypes.string,
-    refetch: PropTypes.func,
+    refetchIntervalUpdate: PropTypes.func,
     refreshCookie: PropTypes.string,
-    refreshValues: PropTypes.array,
-    startPolling: PropTypes.func,
-    stopPolling: PropTypes.func
+    refreshValues: PropTypes.array
+    // startPolling: PropTypes.func,
+    // stopPolling: PropTypes.func
   };
 
   constructor(props) {
     super(props)
-    const { refreshCookie } = props
+    const { refreshCookie, refetchIntervalUpdate } = props
+
     this.state = {
-      pollInterval: getPollInterval(refreshCookie)
+      pollInterval: getPollInterval(refreshCookie),
+      refetchIntervalUpdate
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -58,28 +60,26 @@ export default class RefreshTimeSelect extends React.Component {
     })
   }
 
-  handleClick = () => {
-    const { refetch } = this.props
-    refetch()
-  };
+  // handleClick = () => {
+  //   const { refetch } = this.props
+  //   refetch()
+  // };
 
-  handleKeyPress(e) {
-    if (e.key === 'Enter') {
-      const { refetch } = this.props
-      refetch()
-    }
-  }
+  // handleKeyPress(e) {
+  //   if (e.key === 'Enter') {
+  //     const { refetch } = this.props
+  //     refetch()
+  //   }
+  // }
 
   handleChange = e => {
     const { selectedItem: { pollInterval } } = e
-    const { refreshCookie, startPolling, stopPolling } = this.props
-    if (pollInterval === 0) {
-      stopPolling()
-    } else {
-      startPolling(pollInterval, true)
-    }
+    const { refreshCookie } = this.props
+    const { refetchIntervalUpdate } = this.state
+    // save interval to cookie
     savePollInterval(refreshCookie, pollInterval)
-    this.setState({ pollInterval })
+    // update state with the new poll interval and trigger refetch
+    refetchIntervalUpdate({ doRefetch: true, value: pollInterval })
   };
 
   componentWillReceiveProps() {

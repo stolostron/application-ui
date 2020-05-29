@@ -181,7 +181,7 @@ class ResourceModal extends React.PureComponent {
       resourceType.name === 'HCMApplication'
     ) {
       helpLink =
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
     }
 
     return (

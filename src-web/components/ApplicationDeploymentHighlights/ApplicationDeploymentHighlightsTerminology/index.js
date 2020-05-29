@@ -81,7 +81,7 @@ export default class ApplicationDeploymentHighlightsTerminology extends React.Co
               </div>
               <div className="deployment-highlights-terminology-docs">
                 <a
-                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
+                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#application-model-and-definitions"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

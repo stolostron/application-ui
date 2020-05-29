@@ -324,7 +324,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_CHANNELS,
         AppDeployments.currentChannelInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels'
       )
     } else if (AppDeployments.openEditApplicationModal) {
       showEditModalByType(
@@ -332,7 +332,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_APPLICATIONS,
         AppDeployments.currentApplicationInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
       )
     } else if (AppDeployments.openEditSubscriptionModal) {
       showEditModalByType(
@@ -340,7 +340,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
         AppDeployments.currentSubscriptionInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-subscriptions'
       )
     } else if (AppDeployments.openEditPlacementRuleModal) {
       showEditModalByType(
@@ -348,7 +348,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_PLACEMENT_RULES,
         AppDeployments.currentPlacementRuleInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-placement-rules'
       )
     }
     return (

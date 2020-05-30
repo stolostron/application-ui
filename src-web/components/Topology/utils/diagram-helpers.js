@@ -353,7 +353,9 @@ export const getPulseForData = (
 export const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
+  const desired =
+    _.get(node, 'specs.raw.spec.replicas') ||
+    _.get(node, 'specs.raw.spec.containers', []).length
   const resourceName = _.get(node, metadataName, '')
 
   if (!resourceMap) {

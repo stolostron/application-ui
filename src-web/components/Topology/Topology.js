@@ -15,15 +15,9 @@ import PropTypes from 'prop-types'
 import { Loading, Notification } from 'carbon-components-react'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
-import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
 import ResourceFilterModule from './viewer/ResourceFilterModule'
 import ChannelControl from './viewer/ChannelControl'
 import DiagramViewer from './viewer/DiagramViewer'
-import {
-  REFRESH_TIMES,
-  TOPOLOGY_REFRESH_INTERVAL_COOKIE,
-  TOPOLOGY_TYPE_FILTER_COOKIE
-} from './viewer/constants'
 import { getResourceDefinitions } from './viewer/defaults'
 import './scss/topology-details.scss'
 import './scss/topology-diagram.scss'
@@ -55,8 +49,6 @@ class Topology extends React.Component {
       selectedNode: PropTypes.object,
       handleNodeSelected: PropTypes.func
     }),
-    startPolling: PropTypes.func,
-    stopPolling: PropTypes.func,
     styles: PropTypes.shape({
       shapes: PropTypes.object
     }),
@@ -81,10 +73,6 @@ class Topology extends React.Component {
       searchUrl
     )
 
-    // what cookie to use to save/restore type filter bar changes
-    this.typeFilterCookie = `${TOPOLOGY_TYPE_FILTER_COOKIE}--${
-      window.location.href
-    }--${options.filtering}`
     this.knownTypes = setActiveTypeFilters(
       this.typeFilterCookie,
       this.state.activeFilters
@@ -183,7 +171,6 @@ class Topology extends React.Component {
     return (
       <div className="topologyDiagramContainer">
         {this.renderRefreshTime()}
-        {this.renderRefreshTimeSelect()}
         {this.renderResourceFilterModule()}
         {this.renderSearchName()}
         {this.renderTypeFilterBar()}
@@ -229,34 +216,6 @@ class Topology extends React.Component {
           <div>{time}</div>
         </div>
       )
-    }
-    return null
-  }
-
-  renderRefreshTimeSelect() {
-    const {
-      portals = {},
-      fetchControl,
-      startPolling,
-      stopPolling
-    } = this.props
-    const { refreshTimeSelectorPortal } = portals
-    if (fetchControl && refreshTimeSelectorPortal) {
-      var portal = document.getElementById(refreshTimeSelectorPortal)
-      if (portal) {
-        const { isReloading, refetch } = fetchControl
-        return ReactDOM.createPortal(
-          <RefreshTimeSelect
-            refreshValues={REFRESH_TIMES}
-            refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
-            isReloading={isReloading}
-            startPolling={startPolling}
-            stopPolling={stopPolling}
-            refetch={refetch}
-          />,
-          portal
-        )
-      }
     }
     return null
   }

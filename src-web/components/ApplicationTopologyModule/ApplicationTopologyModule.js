@@ -39,16 +39,12 @@ import {
 } from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
-import { getPollInterval } from '../../components/common/RefreshTimeSelect'
 import EditorBar from './components/EditorBar'
 import YamlEditor from '../common/YamlEditor'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
-import {
-  DEFAULT_REFRESH_TIME,
-  TOPOLOGY_REFRESH_INTERVAL_COOKIE
-} from '../Topology/viewer/constants'
+import { refetchIntervalUpdate } from '../../actions/refetch'
 
 resources(() => {
   require('./style.scss')
@@ -91,6 +87,7 @@ class ApplicationTopologyModule extends React.Component {
     params: PropTypes.object,
     pods: PropTypes.array,
     putResource: PropTypes.func,
+    refetch: PropTypes.object,
     resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
     showExpandedTopology: PropTypes.bool,
@@ -128,7 +125,7 @@ class ApplicationTopologyModule extends React.Component {
     }, 500)
     this.startPolling = this.startPolling.bind(this)
     this.stopPolling = this.stopPolling.bind(this)
-    this.refetch = this.refetch.bind(this)
+    this.refetchData = this.refetchData.bind(this)
     this.handleEditorCommand = this.handleEditorCommand.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleToggleSize = this.handleToggleSize.bind(this)
@@ -136,7 +133,12 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   componentWillMount() {
-    const { restoreSavedDiagramFilters, resetFilters, params } = this.props
+    const {
+      restoreSavedDiagramFilters,
+      resetFilters,
+      params,
+      refetch
+    } = this.props
     restoreSavedDiagramFilters()
     resetFilters()
     const name = decodeURIComponent(params.name)
@@ -146,7 +148,11 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
-    this.startPolling(DEFAULT_REFRESH_TIME * 1000)
+
+    // use the refresh value from the dropdown
+    const refreshTime = refetch.value
+
+    this.startPolling(refreshTime)
   }
 
   componentDidMount() {
@@ -166,19 +172,11 @@ class ApplicationTopologyModule extends React.Component {
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling(newInterval, isTimeSelect = false) {
+  startPolling(newInterval) {
     this.stopPolling()
     let intervalId = undefined
-    const cookieInterval = getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
-    let interval
-    if (cookieInterval !== undefined && !isTimeSelect) {
-      interval = cookieInterval
-    } else {
-      interval = newInterval
-    }
-
-    if (interval) {
-      intervalId = setInterval(this.refetch, Math.max(interval, 5 * 1000))
+    if (newInterval) {
+      intervalId = setInterval(this.refetchData, newInterval)
     }
     this.setState({ intervalId })
   }
@@ -198,7 +196,8 @@ class ApplicationTopologyModule extends React.Component {
     }
   };
 
-  refetch() {
+  // call to actually refetch the new data
+  refetchData() {
     const {
       fetchAppTopology,
       fetchHCMApplicationResource,
@@ -228,8 +227,23 @@ class ApplicationTopologyModule extends React.Component {
         detailsLoaded,
         detailsReloading,
         storedVersion,
-        fetchError
+        fetchError,
+        refetch
       } = nextProps
+
+      // updated refresh interval from dropdown
+      if (prevState.refetch && prevState.refetch.value != refetch.value) {
+        this.refetchData()
+        this.startPolling(refetch.value)
+      }
+
+      // manual refresh clicked
+      if (refetch.doRefetch === true) {
+        refetch.doRefetch = false
+        this.refetchData()
+        this.startPolling(prevState.refetch.value)
+      }
+
       const showSpinner =
         !fetchError &&
         (topologyReloading ||
@@ -274,7 +288,8 @@ class ApplicationTopologyModule extends React.Component {
         showSpinner,
         lastTimeUpdate,
         topologyLoaded: nextProps.topologyLoaded,
-        topologyLoadError: nextProps.topologyLoadError
+        topologyLoadError: nextProps.topologyLoadError,
+        refetch
       }
     })
   }
@@ -464,8 +479,6 @@ class ApplicationTopologyModule extends React.Component {
               : ''
           }
           locale={locale}
-          startPolling={this.startPolling}
-          stopPolling={this.stopPolling}
         />
       )
     }
@@ -864,7 +877,7 @@ const mapStateToProps = (state, ownProps) => {
   const { HCMApplicationList } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
-  const { topology } = state
+  const { topology, refetch } = state
   const {
     activeFilters,
     fetchFilters,
@@ -885,13 +898,15 @@ const mapStateToProps = (state, ownProps) => {
     namespace,
     HCMApplicationList
   )
+
   return {
     ...diagramElements,
     activeFilters,
     fetchFilters,
     fetchError,
     diagramFilters,
-    HCMApplicationList
+    HCMApplicationList,
+    refetch
   }
 }
 
@@ -933,7 +948,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         name,
         diagramFilters
       })
-    }
+    },
+    refetchIntervalUpdate: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 

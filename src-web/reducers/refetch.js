@@ -8,7 +8,7 @@
 
 import { REFETCH_INTERVAL_UPDATE } from '../actions'
 
-export const refetch = (state = { value: 123, doRefetch: false }, action) => {
+export const refetch = (state = { value: 15000, doRefetch: false }, action) => {
   switch (action.type) {
   case REFETCH_INTERVAL_UPDATE:
     return action.data

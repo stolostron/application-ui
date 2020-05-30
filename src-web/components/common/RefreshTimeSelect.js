@@ -33,11 +33,15 @@ export default class RefreshTimeSelect extends React.Component {
     super(props)
     const { refreshCookie, refetchIntervalUpdate } = props
 
+    const pollInterval = getPollInterval(refreshCookie)
+
     this.state = {
-      pollInterval: getPollInterval(refreshCookie),
+      pollInterval,
       refetchIntervalUpdate
     }
     this.handleChange = this.handleChange.bind(this)
+
+    refetchIntervalUpdate({ value: pollInterval })
   }
 
   componentWillMount() {
@@ -60,17 +64,17 @@ export default class RefreshTimeSelect extends React.Component {
     })
   }
 
-  // handleClick = () => {
-  //   const { refetch } = this.props
-  //   refetch()
-  // };
+  handleClick = () => {
+    const { refetchIntervalUpdate } = this.state
+    refetchIntervalUpdate({ doRefetch: true })
+  };
 
-  // handleKeyPress(e) {
-  //   if (e.key === 'Enter') {
-  //     const { refetch } = this.props
-  //     refetch()
-  //   }
-  // }
+  handleKeyPress(e) {
+    const { refetchIntervalUpdate } = this.state
+    if (e.key === 'Enter') {
+      refetchIntervalUpdate({ doRefetch: true })
+    }
+  }
 
   handleChange = e => {
     const { selectedItem: { pollInterval } } = e
@@ -79,13 +83,13 @@ export default class RefreshTimeSelect extends React.Component {
     // save interval to cookie
     savePollInterval(refreshCookie, pollInterval)
     // update state with the new poll interval and trigger refetch
-    refetchIntervalUpdate({ doRefetch: true, value: pollInterval })
+    refetchIntervalUpdate({ doRefetch: false, value: pollInterval })
   };
 
   componentWillReceiveProps() {
     this.setState((prevState, props) => {
       const { refreshCookie } = props
-      return { pollInterval: getPollInterval(refreshCookie) }
+      return { doRefetch: false, pollInterval: getPollInterval(refreshCookie) }
     })
   }
 

@@ -83,8 +83,6 @@ const HeaderActions = withLocale(
           />
           {msgs.get('application.edit.app', locale)}
         </Link>
-
-        <p>Show the dropdown for the refresh here</p>
       </div>
     )
   }

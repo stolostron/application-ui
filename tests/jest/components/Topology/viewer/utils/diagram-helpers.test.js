@@ -21,7 +21,8 @@ import {
   addNodeServiceLocation,
   processResourceActionLink,
   addNodeServiceLocationForCluster,
-  addNodeOCPRouteLocationForCluster
+  addNodeOCPRouteLocationForCluster,
+  computeResourceName
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -369,6 +370,61 @@ describe("nodeMustHavePods node with pods data", () => {
   };
   it("nodeMustHavePods", () => {
     expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+describe("nodeMustHavePods node with pods POD object", () => {
+  const node = {
+    type: "pod"
+  };
+  it("nodeMustHavePods POD object", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+
+describe("computeResourceName node with pods no _hostingDeployable", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label: "app=redis; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
+    name: "redis-slave-5bdcfd74c7-22ljj",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+  it("nodeMustHavePods POD no _hostingDeployable", () => {
+    expect(
+      computeResourceName(node, null, "redis-slave", { value: "true" })
+    ).toEqual("pod-redis");
+  });
+});
+
+describe("computeResourceName node with pods with _hostingDeployable", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label: "app=redis; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
+    name: "redis-slave-5bdcfd74c7-22ljj",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    _hostingDeployable: "aaa",
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+  it("nodeMustHavePods POD with _hostingDeployable", () => {
+    expect(
+      computeResourceName(node, null, "redis-slave", { value: "true" })
+    ).toEqual("pod-redis-slave");
   });
 });
 

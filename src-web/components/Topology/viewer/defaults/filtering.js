@@ -388,46 +388,47 @@ const addAvailableRelationshipFilters = (
   nodes.forEach(node => {
     const { type, labels = [] } = node
     let { namespace } = node
-    if (!ignoreNodeTypes.has(type)) {
-      if (activeTypes.has(type) || activeTypes.has('other')) {
-        namespace = namespace && namespace.length > 0 ? namespace : '<none>'
+    if (
+      !ignoreNodeTypes.has(type) &&
+      (activeTypes.has(type) || activeTypes.has('other'))
+    ) {
+      namespace = namespace && namespace.length > 0 ? namespace : '<none>'
 
-        // filter filters
-        const podStatus = _.get(node, 'specs.podModel')
-        hasPods |= !!podStatus
-        Object.keys(filterTypes).forEach(filterType => {
-          const filter = availableFilters[filterType]
-          if (filter) {
-            switch (filterType) {
-            case 'hostIPs':
-              if (podStatus && Object.keys(podStatus).length > 0) {
-                Object.values(podStatus).forEach(pod => {
-                  filter.availableSet.add(pod.hostIP)
-                })
-              }
-              break
-
-            case 'namespaces':
-              if (podStatus) {
-                filter.availableSet.add(namespace)
-              }
-              break
-
-            case 'labels':
-              if (
-                labels &&
-                  podStatus &&
-                  (namespaces.size === 0 || namespaces.has(namespace))
-              ) {
-                labels.forEach(({ name, value }) => {
-                  filter.availableSet.add(`${name}: ${value}`)
-                })
-              }
-              break
+      // filter filters
+      const podStatus = _.get(node, 'specs.podModel')
+      hasPods |= !!podStatus
+      Object.keys(filterTypes).forEach(filterType => {
+        const filter = availableFilters[filterType]
+        if (filter) {
+          switch (filterType) {
+          case 'hostIPs':
+            if (podStatus && Object.keys(podStatus).length > 0) {
+              Object.values(podStatus).forEach(pod => {
+                filter.availableSet.add(pod.hostIP)
+              })
             }
+            break
+
+          case 'namespaces':
+            if (podStatus) {
+              filter.availableSet.add(namespace)
+            }
+            break
+
+          case 'labels':
+            if (
+              labels &&
+                podStatus &&
+                (namespaces.size === 0 || namespaces.has(namespace))
+            ) {
+              labels.forEach(({ name, value }) => {
+                filter.availableSet.add(`${name}: ${value}`)
+              })
+            }
+            break
           }
-        })
-      }
+        }
+      })
     }
   })
 
@@ -616,15 +617,14 @@ const filterRelationshipNodes = (
     // filter for resource statuses
     let hasResourceStatus = true
     if (resourceStatuses.size !== 0) {
-      hasResourceStatus = false
       const resourceStatus = _.get(node, 'specs.pulse')
-      if (resourceStatus) {
+      hasResourceStatus = type !== 'cluster'
+      if (resourceStatus && hasResourceStatus) {
         hasResourceStatus =
-          type !== 'cluster' &&
-          ((resourceStatuses.has('green') && resourceStatus === 'green') ||
-            (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
-            (resourceStatuses.has('orange') && resourceStatus === 'orange') ||
-            (resourceStatuses.has('red') && resourceStatus === 'red'))
+          (resourceStatuses.has('green') && resourceStatus === 'green') ||
+          (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
+          (resourceStatuses.has('orange') && resourceStatus === 'orange') ||
+          (resourceStatuses.has('red') && resourceStatus === 'red')
       }
     }
 

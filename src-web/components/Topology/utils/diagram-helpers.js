@@ -601,8 +601,6 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
           const kindModel = _.get(resourceMap[name], `specs.${kind}Model`, {})
           kindModel[`${relatedKind.name}-${relatedKind.cluster}`] = relatedKind
           _.set(resourceMap[name], `specs.${kind}Model`, kindModel)
-        } else {
-          //console.log('NOT FOUND', kind, name, relatedKind, resourceMap)
         }
       })
     })

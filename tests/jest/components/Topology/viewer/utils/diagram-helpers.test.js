@@ -289,7 +289,7 @@ describe("getPulseForNodeWithPodStatus no replica", () => {
   };
 
   it("getPulseForNodeWithPodStatus pulse no replica", () => {
-    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("green");
   });
 });
 
@@ -422,6 +422,7 @@ describe("nodeMustHavePods node with no pods data", () => {
 
 describe("nodeMustHavePods node with pods data", () => {
   const node = {
+    type: "deployment",
     specs: {
       raw: {
         spec: {

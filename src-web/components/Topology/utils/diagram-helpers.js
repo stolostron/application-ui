@@ -234,7 +234,11 @@ export const addPropertyToList = (list, data) => {
 export const nodeMustHavePods = node => {
   //returns true if the node should deploy pods
 
-  if (R.contains(node.type, ['application', 'rules', 'subscription'])) {
+  if (
+    !node ||
+    !node.type ||
+    R.contains(node.type, ['application', 'rules', 'subscription'])
+  ) {
     return false
   }
 
@@ -253,7 +257,6 @@ export const nodeMustHavePods = node => {
   const hasDesired = R.pathOr(undefined, ['specs', 'raw', 'spec', 'desired'])(
     node
   ) //deployables from subscription package have this set only, not containers
-
   if ((hasContainers || hasDesired) && !hasReplicas) {
     return true
   }

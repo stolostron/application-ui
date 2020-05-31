@@ -242,6 +242,7 @@ export const nodeMustHavePods = node => {
         node
       )
     ) > 0 ||
+    R.pathOr('', ['type'])(node) === 'pod' || //pod deployables must have pods
       R.pathOr(undefined, ['specs', 'raw', 'spec', 'replicas'])(node)) //for chart packages, where the containers info is not available
   ) {
     mustHavePods = true
@@ -352,7 +353,9 @@ export const getPulseForData = (
 export const getPulseForNodeWithPodStatus = node => {
   let pulse = 'green'
   const resourceMap = _.get(node, `specs.${node.type}Model`)
-  const desired = _.get(node, 'specs.raw.spec.replicas', 'NA')
+  const desired =
+    _.get(node, 'specs.raw.spec.replicas') ||
+    _.get(node, 'specs.raw.spec.containers', []).length
   const resourceName = _.get(node, metadataName, '')
 
   if (!resourceMap) {
@@ -491,13 +494,18 @@ export const createResourceSearchLink = (node, details) => {
   return details
 }
 
-const computeResourceName = (
+export const computeResourceName = (
   relatedKind,
   deployableName,
   name,
   isClusterGrouped
 ) => {
-  if (relatedKind.kind === 'pod' && !deployableName) {
+  if (
+    relatedKind.kind === 'pod' &&
+    !_.get(relatedKind, '_hostingDeployable') &&
+    !deployableName
+  ) {
+    //if pod has hosting deployable it is owned by a pod object; don't remove suffix
     const pname = name
     // get pod name w/o uid suffix
     name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')

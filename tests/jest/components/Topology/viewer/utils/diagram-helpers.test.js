@@ -21,7 +21,8 @@ import {
   addNodeServiceLocation,
   processResourceActionLink,
   addNodeServiceLocationForCluster,
-  addNodeOCPRouteLocationForCluster
+  addNodeOCPRouteLocationForCluster,
+  computeResourceName
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -222,6 +223,76 @@ describe("getPulseForNodeWithPodStatus ", () => {
   });
 });
 
+describe("getPulseForNodeWithPodStatus no replica", () => {
+  const podItem = {
+    id:
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    uid:
+      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+    name: "mortgage-app-deploy",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 2,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      raw: {
+        apiVersion: "apps/v1",
+        kind: "Deployment",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          selector: {
+            matchLabels: { app: "mortgage-app-mortgage" }
+          },
+          template: {
+            metadata: {
+              labels: { app: "mortgage-app-mortgage" }
+            },
+            spec: {
+              containers: [
+                {
+                  image: "fxiang/mortgage:0.4.0",
+                  imagePullPolicy: "Always",
+                  name: "mortgage-app-mortgage",
+                  ports: [
+                    {
+                      containerPort: 9080
+                    }
+                  ],
+                  resources: {
+                    limits: { cpu: "200m", memory: "256Mi" },
+                    request: { cpu: "200m", memory: "256Mi" }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      deployStatuses: [
+        {
+          phase: "Subscribed",
+          resourceStatus: {
+            availableReplicas: 1
+          }
+        }
+      ]
+    }
+  };
+
+  it("getPulseForNodeWithPodStatus pulse no replica", () => {
+    expect(getPulseForNodeWithPodStatus(podItem)).toEqual("yellow");
+  });
+});
+
 describe("getPulseForData ", () => {
   const previousPulse = "red";
   const available = 1;
@@ -369,6 +440,61 @@ describe("nodeMustHavePods node with pods data", () => {
   };
   it("nodeMustHavePods", () => {
     expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+describe("nodeMustHavePods node with pods POD object", () => {
+  const node = {
+    type: "pod"
+  };
+  it("nodeMustHavePods POD object", () => {
+    expect(nodeMustHavePods(node)).toEqual(true);
+  });
+});
+
+describe("computeResourceName node with pods no _hostingDeployable", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label: "app=redis; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
+    name: "redis-slave-5bdcfd74c7-22ljj",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+  it("nodeMustHavePods POD no _hostingDeployable", () => {
+    expect(
+      computeResourceName(node, null, "redis-slave", { value: "true" })
+    ).toEqual("pod-redis");
+  });
+});
+
+describe("computeResourceName node with pods with _hostingDeployable", () => {
+  const node = {
+    apiversion: "v1",
+    cluster: "sharingpenguin",
+    container: "slave",
+    created: "2020-05-26T19:18:21Z",
+    kind: "pod",
+    label: "app=redis; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
+    name: "redis-slave-5bdcfd74c7-22ljj",
+    namespace: "app-guestbook-git-ns",
+    restarts: 0,
+    _hostingDeployable: "aaa",
+    selfLink:
+      "/api/v1/namespaces/app-guestbook-git-ns/pods/redis-slave-5bdcfd74c7-22ljj",
+    startedAt: "2020-05-26T19:18:21Z",
+    status: "Running"
+  };
+  it("nodeMustHavePods POD with _hostingDeployable", () => {
+    expect(
+      computeResourceName(node, null, "redis-slave", { value: "true" })
+    ).toEqual("pod-redis-slave");
   });
 });
 

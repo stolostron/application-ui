@@ -264,7 +264,7 @@ export const nodeMustHavePods = node => {
   return false
 }
 
-const getPulseStatusForSubscription = node => {
+export const getPulseStatusForSubscription = node => {
   let pulse = 'green'
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
@@ -543,6 +543,36 @@ export const computeResourceName = (
   return name
 }
 
+//look for pod template hash and remove it from the name if there
+export const getNameWithoutPodHash = relatedKind => {
+  let nameNoHash = relatedKind.name
+  let podHash = null
+  let deployableName = null
+
+  const labelsList = relatedKind.label ? R.split(';')(relatedKind.label) : []
+  labelsList.forEach(resLabel => {
+    const values = R.split('=')(resLabel)
+    if (values.length === 2) {
+      const labelKey = values[0].trim()
+      if (labelKey === 'pod-template-hash') {
+        podHash = values[1].trim()
+        nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
+      }
+      if (
+        labelKey === 'openshift.io/deployment-config.name' ||
+        R.contains('deploymentconfig')(resLabel)
+      ) {
+        //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
+        //openshift.io/deployment-config.name
+        deployableName = values[1].trim()
+        nameNoHash = deployableName
+      }
+    }
+  })
+
+  return { nameNoHash, deployableName }
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
   if (list && resourceMap) {
@@ -561,39 +591,17 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
       const relatedKindList = R.pathOr([], ['items'])(kindArray)
 
       relatedKindList.forEach(relatedKind => {
-        let name = relatedKind.name
         const kind = relatedKind.kind
-        let podHash = null
-        let deployableName = null
 
         //look for pod template hash and remove it from the name if there
-        const labelsList = relatedKind.label
-          ? R.split(';')(relatedKind.label)
-          : []
-        labelsList.forEach(resLabel => {
-          const values = R.split('=')(resLabel)
-          if (values.length === 2) {
-            const labelKey = values[0].trim()
-            if (labelKey === 'pod-template-hash') {
-              podHash = values[1].trim()
-              name = R.replace(`-${podHash}`, '')(name)
-            }
-            if (
-              labelKey === 'openshift.io/deployment-config.name' ||
-              R.contains('deploymentconfig')(resLabel)
-            ) {
-              //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
-              //openshift.io/deployment-config.name
-              deployableName = values[1].trim()
-              name = deployableName
-            }
-          }
-        })
+        const { nameNoHash, deployableName } = getNameWithoutPodHash(
+          relatedKind
+        )
 
-        name = computeResourceName(
+        const name = computeResourceName(
           relatedKind,
           deployableName,
-          name,
+          nameNoHash,
           isClusterGrouped
         )
 
@@ -605,7 +613,6 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
       })
     })
   }
-  //console.log('resourceMap', resourceMap)
   return resourceMap
 }
 

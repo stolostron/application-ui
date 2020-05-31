@@ -22,7 +22,8 @@ import {
   processResourceActionLink,
   addNodeServiceLocationForCluster,
   addNodeOCPRouteLocationForCluster,
-  computeResourceName
+  computeResourceName,
+  getPulseStatusForSubscription
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -42,6 +43,17 @@ const key = "nskey";
 const defaultValue = "test";
 
 const resourceList = [
+  {
+    kind: "placementrule",
+    items: [
+      {
+        name: "pr",
+        namespace: "default",
+        cluster: "braveman",
+        kind: "rules"
+      }
+    ]
+  },
   {
     kind: "pod",
     items: [
@@ -151,6 +163,26 @@ const modelResult = {
   "mortgagedc-svc-braveman": {},
   "route-unsecured-braveman": {}
 };
+
+describe("getPulseStatusForSubscription no subscriptionItem.status", () => {
+  const node = {
+    id: "member--subscription--default--mortgagedc-subscription",
+    name: "mortgagedcNOStatus",
+    specs: {
+      raw: { spec: {} },
+      subscriptionModel: {
+        "mortgagedc-subscription-braveman": {},
+        "mortgagedc-subscription-braveman2": {}
+      },
+      row: 12
+    },
+    type: "subscription"
+  };
+
+  it("getPulseStatusForSubscription no subscriptionItem.status", () => {
+    expect(getPulseStatusForSubscription(node)).toEqual("yellow");
+  });
+});
 
 describe("getPulseForNodeWithPodStatus ", () => {
   const podItem = {
@@ -459,7 +491,7 @@ describe("computeResourceName node with pods no _hostingDeployable", () => {
     container: "slave",
     created: "2020-05-26T19:18:21Z",
     kind: "pod",
-    label: "app=redis; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
+    label: "app; pod-template-hash=5bdcfd74c7; role=slave; tier=backend",
     name: "redis-slave-5bdcfd74c7-22ljj",
     namespace: "app-guestbook-git-ns",
     restarts: 0,

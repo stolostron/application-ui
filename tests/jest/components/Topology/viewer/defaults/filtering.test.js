@@ -225,8 +225,17 @@ describe("getAllFilters", () => {
         name: "Labels"
       },
       namespaces: {
-        availableSet: new Set(["<none>", "ns-sub-1"]),
+        availableSet: new Set(),
         name: "Namespaces"
+      },
+      resourceStatuses: {
+        availableSet: new Map([
+          ["green", "Success"],
+          ["yellow", "Pending"],
+          ["orange", "Warning"],
+          ["red", "Error"]
+        ]),
+        name: "Resource status"
       },
       type: ["application", "rules", "subscription"]
     },
@@ -298,7 +307,7 @@ describe("getAvailableFilters weave", () => {
         name: "Labels"
       },
       namespaces: {
-        availableSet: new Set(["<none>", "ns-sub-1"]),
+        availableSet: new Set(),
         name: "Namespaces"
       }
     };
@@ -346,8 +355,17 @@ describe("getAvailableFilters application", () => {
       name: "Labels"
     },
     namespaces: {
-      availableSet: new Set(["<none>"]),
+      availableSet: new Set(),
       name: "Namespaces"
+    },
+    resourceStatuses: {
+      availableSet: new Map([
+        ["green", "Success"],
+        ["yellow", "Pending"],
+        ["orange", "Warning"],
+        ["red", "Error"]
+      ]),
+      name: "Resource status"
     }
   };
 

@@ -34,10 +34,10 @@ const TypeFilters = {
   },
   application: {
     filterTypes: {
-      podStatuses: 'podStatuses',
       hostIPs: 'hostIPs',
       namespaces: 'namespaces',
-      labels: 'labels'
+      labels: 'labels',
+      resourceStatuses: 'resourceStatuses'
     },
     searchTypes: new Set(['podStatuses', 'labels'])
   },
@@ -343,38 +343,36 @@ const addAvailableRelationshipFilters = (
   const activeTypes = new Set(activeFilters.type || [])
   const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
   const filterTypes = TypeFilters[mode].filterTypes
-  const showPods = activeTypes.has('deployment')
   Object.keys(filterTypes).forEach(type => {
     let name = null
     let availableSet = new Set()
     switch (type) {
-    case 'podStatuses':
-      name =
-          showPods && msgs.get('topology.filter.category.podStatuses', locale)
-      availableSet = new Map([
-        [
-          'recent',
-          msgs.get('topology.filter.category.status.recent', locale)
-        ],
-        [
-          'restarts',
-          msgs.get('topology.filter.category.status.restarts', locale)
-        ],
-        [
-          'pending',
-          msgs.get('topology.filter.category.status.pending', locale)
-        ],
-        ['failed', msgs.get('topology.filter.category.status.failed', locale)]
-      ])
-      break
     case 'hostIPs':
-      name = showPods && msgs.get('topology.filter.category.hostIPs', locale)
+      name = msgs.get('topology.filter.category.hostIPs', locale)
       break
     case 'namespaces':
       name = msgs.get('topology.filter.category.namespaces', locale)
       break
     case 'labels':
       name = msgs.get('topology.filter.category.labels', locale)
+      break
+    case 'resourceStatuses':
+      name = msgs.get('topology.filter.category.resourceStatuses', locale)
+      availableSet = new Map([
+        [
+          'green',
+          msgs.get('topology.filter.category.status.success', locale)
+        ],
+        [
+          'yellow',
+          msgs.get('topology.filter.category.status.pending', locale)
+        ],
+        [
+          'orange',
+          msgs.get('topology.filter.category.status.warning', locale)
+        ],
+        ['red', msgs.get('topology.filter.category.status.error', locale)]
+      ])
       break
     }
     if (name) {
@@ -386,109 +384,58 @@ const addAvailableRelationshipFilters = (
   })
 
   let hasPods = false
-  const {
-    podStatuses = new Set(),
-    hostIPs = new Set(),
-    namespaces = new Set()
-  } = activeFilters
+  const { namespaces = new Set() } = activeFilters
   nodes.forEach(node => {
     const { type, labels = [] } = node
     let { namespace } = node
-    if (!ignoreNodeTypes.has(type)) {
-      if (activeTypes.has(type) || activeTypes.has('other')) {
-        namespace = namespace && namespace.length > 0 ? namespace : '<none>'
+    if (
+      !ignoreNodeTypes.has(type) &&
+      (activeTypes.has(type) || activeTypes.has('other'))
+    ) {
+      namespace = namespace && namespace.length > 0 ? namespace : '<none>'
 
-        // filter filters
-        const podStatus = _.get(node, 'specs.podStatus')
-        hasPods |= !!podStatus
-        Object.keys(filterTypes).forEach(filterType => {
-          const filter = availableFilters[filterType]
-          if (filter) {
-            switch (filterType) {
-            case 'hostIPs':
-              if (
-                podStatus &&
-                  podStatus.hostIPs.size > 0 &&
-                  hasPodStatus(filterType, podStatus, podStatuses)
-              ) {
-                podStatus.hostIPs.forEach(ip => {
-                  filter.availableSet.add(ip)
-                })
-              }
-              break
-
-            case 'namespaces':
-              if (hasPodStatus(filterType, podStatus, podStatuses, hostIPs)) {
-                filter.availableSet.add(namespace)
-              }
-              break
-
-            case 'labels':
-              if (
-                labels &&
-                  hasPodStatus(filterType, podStatus, podStatuses, hostIPs) &&
-                  (namespaces.size === 0 || namespaces.has(namespace))
-              ) {
-                labels.forEach(({ name, value }) => {
-                  filter.availableSet.add(`${name}: ${value}`)
-                })
-              }
-              break
+      // filter filters
+      const podStatus = _.get(node, 'specs.podModel')
+      hasPods |= !!podStatus
+      Object.keys(filterTypes).forEach(filterType => {
+        const filter = availableFilters[filterType]
+        if (filter) {
+          switch (filterType) {
+          case 'hostIPs':
+            if (podStatus && Object.keys(podStatus).length > 0) {
+              Object.values(podStatus).forEach(pod => {
+                filter.availableSet.add(pod.hostIP)
+              })
             }
+            break
+
+          case 'namespaces':
+            if (podStatus) {
+              filter.availableSet.add(namespace)
+            }
+            break
+
+          case 'labels':
+            if (
+              labels &&
+                podStatus &&
+                (namespaces.size === 0 || namespaces.has(namespace))
+            ) {
+              labels.forEach(({ name, value }) => {
+                filter.availableSet.add(`${name}: ${value}`)
+              })
+            }
+            break
           }
-        })
-      }
+        }
+      })
     }
   })
 
   // if no pods, remove pod filters
-  if (showPods && !hasPods) {
-    delete availableFilters['podStatuses']
+  if (!hasPods) {
     delete availableFilters['hostIPs']
   }
-}
-
-const hasPodStatus = (filterType, podStatus, podStatuses, hostIPs) => {
-  //console.log('hasPodStatus', filterType, podStatus, podStatuses, hostIPs)
-  const isFilteringPodStatus = podStatuses.size > 0
-  if (podStatus) {
-    // filter by pod status
-    if (isFilteringPodStatus) {
-      const { hasPending, hasFailure, hasRestarts, isRecent } = podStatus
-      if (
-        !(
-          (podStatuses.has('failed') && hasFailure) ||
-          (podStatuses.has('pending') && hasPending) ||
-          (podStatuses.has('restarts') && hasRestarts) ||
-          (podStatuses.has('recent') && isRecent)
-        )
-      ) {
-        return false
-      }
-    }
-
-    // if filtering by ip, don't show ips of nodes that don't have that ip
-    const { hostIPs: hips } = podStatus
-    const hasIP = (fips, ips) => {
-      if (fips.size > 0) {
-        if (
-          !Array.from(fips).some(ip => {
-            return ips.has(ip)
-          })
-        ) {
-          return false
-        }
-      }
-      return true
-    }
-    switch (filterType) {
-    case 'namespaces':
-    case 'labels':
-      return hasIP(hostIPs, hips)
-    }
-    return true
-  }
-  return !isFilteringPodStatus
 }
 
 const addAvailablePolicyFilters = (
@@ -641,10 +588,10 @@ const filterRelationshipNodes = (
 ) => {
   const {
     type,
-    podStatuses = new Set(),
     hostIPs = new Set(),
     namespaces = new Set(),
-    labels = new Set()
+    labels = new Set(),
+    resourceStatuses = new Set()
   } = activeFilters
   const activeTypeSet = new Set(type)
   const availableTypeSet = new Set(availableFilters.type)
@@ -667,18 +614,17 @@ const filterRelationshipNodes = (
       hasType = true
     }
 
-    // if pod status filter is on, only let pods and deployments with pods of that host ip
-    let hasPodStatus = true
-    if (podStatuses.size !== 0) {
-      hasPodStatus = false
-      const podStatus = _.get(node, 'specs.podStatus')
-      if (podStatus) {
-        const { hasPending, hasFailure, hasRestarts, isRecent } = podStatus
-        hasPodStatus =
-          (podStatuses.has('failed') && hasFailure) ||
-          (podStatuses.has('pending') && hasPending) ||
-          (podStatuses.has('restarts') && hasRestarts) ||
-          (podStatuses.has('recent') && isRecent)
+    // filter for resource statuses
+    let hasResourceStatus = true
+    if (resourceStatuses.size !== 0) {
+      const resourceStatus = _.get(node, 'specs.pulse')
+      hasResourceStatus = type !== 'cluster'
+      if (resourceStatus && hasResourceStatus) {
+        hasResourceStatus =
+          (resourceStatuses.has('green') && resourceStatus === 'green') ||
+          (resourceStatuses.has('yellow') && resourceStatus === 'yellow') ||
+          (resourceStatuses.has('orange') && resourceStatus === 'orange') ||
+          (resourceStatuses.has('red') && resourceStatus === 'red')
       }
     }
 
@@ -686,11 +632,13 @@ const filterRelationshipNodes = (
     let hasHostIps = true
     if (hostIPs.size !== 0) {
       hasHostIps = false
-      const podStatus = _.get(node, 'specs.podStatus')
+      const podStatus = _.get(node, 'specs.podModel')
       if (podStatus) {
-        const { hostIPs: hips } = podStatus
         hasHostIps = Array.from(hostIPs).some(ip => {
-          return hips.has(ip)
+          return (
+            Object.values(podStatus).find(pod => pod.hostIP === ip) !==
+            undefined
+          )
         })
       }
     }
@@ -706,7 +654,9 @@ const filterRelationshipNodes = (
       hasLabel = _.difference(alabels, nlabels).length < alabels.length
     }
 
-    return hasType && hasPodStatus && hasNamespace && hasHostIps && hasLabel
+    return (
+      hasType && hasNamespace && hasHostIps && hasLabel && hasResourceStatus
+    )
   })
 }
 

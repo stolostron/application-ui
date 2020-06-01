@@ -500,7 +500,10 @@ export const createResourceSearchLink = (node, details) => {
           action: 'show_search',
           name: node.name,
           namespace: node.namespace,
-          kind: node.type
+          kind:
+            _.get(node, 'type', '') === 'rules'
+              ? 'placementrule'
+              : _.get(node, 'type', '')
         },
         indent: true
       }
@@ -776,7 +779,7 @@ export const setPodDeployStatus = (node, details) => {
 }
 
 export const setSubscriptionDeployStatus = (node, details) => {
-  if (node.type !== 'subscription') {
+  if (R.pathOr('', ['type'])(node) !== 'subscription') {
     return details
   }
   details.push({
@@ -789,7 +792,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       labelValue: subscription.cluster,
       value: subscription.status,
-      isError: R.contains('Fail', subscription.status)
+      isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
     })
     details.push({
       type: 'link',
@@ -812,6 +815,31 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
+      isError: true
+    })
+  }
+  details.push({
+    type: 'spacer'
+  })
+
+  return details
+}
+
+export const setPlacementRuleDeployStatus = (node, details) => {
+  if (R.pathOr('', ['type'])(node) !== 'rules') {
+    return details
+  }
+
+  const clusterStatus = _.get(node, 'specs.raw.status.decisions', [])
+  details.push({
+    labelValue: msgs.get('resource.rule.clusters'),
+    value: clusterStatus.length,
+    isError: clusterStatus.length === 0
+  })
+  if (clusterStatus.length === 0) {
+    details.push({
+      labelValue: msgs.get('resource.rule.clusters.error.label'),
+      value: msgs.get('resource.rule.placed.error.msg'),
       isError: true
     })
   }

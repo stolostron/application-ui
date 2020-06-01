@@ -1122,7 +1122,7 @@ describe("getNodeDetails helm node 2", () => {
   });
 });
 
-describe("getNodeDetails placement rules node", () => {
+describe("getNodeDetails placement rules node with error", () => {
   const rulesNode = {
     id: "rule1",
     uid: "rule1",
@@ -1188,7 +1188,7 @@ describe("getNodeDetails placement rules node", () => {
       value: {
         data: {
           action: "show_search",
-          kind: "rules",
+          kind: "placementrule",
           name: "mortgage-rule",
           namespace: undefined
         },
@@ -1197,9 +1197,104 @@ describe("getNodeDetails placement rules node", () => {
         label: "Show resource in Search View"
       }
     },
+    { type: "spacer" },
+    { isError: true, labelValue: "Number of placed clusters", value: 0 },
+    {
+      isError: true,
+      labelValue: "Error",
+      value:
+        "This Placement Rule doesn not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+    },
     { type: "spacer" }
   ];
-  it("should process the node, placement rules node", () => {
+  it("should process the node, placement rules node with error", () => {
+    expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
+  });
+});
+
+describe("getNodeDetails placement rules node with success", () => {
+  const rulesNode = {
+    id: "rule1",
+    uid: "rule1",
+    name: "mortgage-rule",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {
+      raw: {
+        apiVersion: "app.ibm.com/v1alpha1",
+        kind: "PlacementRule",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        status: {
+          decisions: [{ name: "cls1", namespace: "ns" }]
+        },
+        spec: {
+          clusterSelector: {
+            matchLabels: {
+              environment: "Dev"
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "resource.type",
+      labelValue: undefined,
+      type: "label",
+      value: "rules"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      type: "label",
+      value: "app=mortgage-app-mortgage"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "raw.spec.clusterSelector",
+      labelValue: undefined,
+      type: "label",
+      value: "environment=Dev"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "raw.status.decisionCls",
+      labelValue: undefined,
+      type: "label",
+      value: 1
+    },
+    { type: "spacer" },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_search",
+          kind: "placementrule",
+          name: "mortgage-rule",
+          namespace: undefined
+        },
+        id: "rule1",
+        indent: true,
+        label: "Show resource in Search View"
+      }
+    },
+    { type: "spacer" },
+    { isError: false, labelValue: "Number of placed clusters", value: 1 },
+    { type: "spacer" }
+  ];
+  it("should process the node, placement rules node with success", () => {
     expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
   });
 });

@@ -20,6 +20,7 @@ import {
   setPodDeployStatus,
   setSubscriptionDeployStatus,
   setApplicationDeployStatus,
+  setPlacementRuleDeployStatus,
   addDetails,
   getAge,
   addOCPRouteLocation,
@@ -460,6 +461,8 @@ function addK8Details(node, details, podOnly, index) {
   setApplicationDeployStatus(node, details)
   //subscriptions status
   setSubscriptionDeployStatus(node, details)
+  //placement rule details
+  setPlacementRuleDeployStatus(node, details)
 
   //show error if the resource doesn't produce pods and was not deployed on remote clusters
   setResourceDeployStatus(node, details)

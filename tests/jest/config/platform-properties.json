@@ -302,6 +302,7 @@
   "description.title.deployables": "deployables",
   "description.title.standaloneSubscriptions": "Standalone subscriptions",
   "description.title.standaloneSubscriptionsTooltip": "If you have created subscriptions that are not affiliated with any applications, you can view those subscriptions here.",
+  "description.title.standaloneSubscriptionsNoChannelTooltip": "{0} out of these {1} subscriptions point to a channel that doesn't exist so they don't show up in the pipeline.",
   "description.title.subscriptions": "subscriptions",
   "description.title.subscription": "subscription",
   "description.title.selectPod": "Select pod",

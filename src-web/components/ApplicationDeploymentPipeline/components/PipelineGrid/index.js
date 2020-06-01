@@ -20,6 +20,8 @@ import {
   getLongestArray,
   sortChannelsBySubscriptionLength,
   getStandaloneSubscriptions,
+  getStandaloneSubsWithInvalidChannel,
+  getSearchLinkForFailedSubscriptions,
   createStandaloneSubscriptionPerChannel
 } from './utils'
 import {
@@ -92,6 +94,11 @@ const LeftColumnForApplicationNames = (
       subscriptionsUnderColumns
     )
 
+    const subsWithInvalidChannel = getStandaloneSubsWithInvalidChannel(
+      channelList,
+      standaloneSubscriptions
+    )
+
     const expandRow = appDropDownList.includes('standalone')
     const applicationTileClass = !expandRow
       ? 'applicationTile'
@@ -127,12 +134,26 @@ const LeftColumnForApplicationNames = (
               {msgs.get('description.title.standaloneSubscriptions', locale)}
 
               <Tooltip triggerText="" iconName="info">
-                <span>
+                <span style={{ display: 'block' }}>
                   {msgs.get(
                     'description.title.standaloneSubscriptionsTooltip',
                     locale
                   )}
                 </span>
+                {subsWithInvalidChannel.length > 0 && (
+                  <span>
+                    <a
+                      href={getSearchLinkForFailedSubscriptions()}
+                      target="_blank"
+                    >
+                      {msgs.get(
+                        'description.title.standaloneSubscriptionsNoChannelTooltip',
+                        [subsWithInvalidChannel.length, standaloneSubCount],
+                        locale
+                      )}
+                    </a>
+                  </span>
+                )}
               </Tooltip>
             </div>
             <div className="appDeployables">

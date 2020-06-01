@@ -224,12 +224,8 @@ export const createStandaloneSubscriptionPerChannel = (
 ) => {
   const columnsUnderAChannel = Array(channelList.length).fill([])
   for (var i = 0; i < channelList.length; i++) {
-    subscriptions.map(sub => {
-      if (
-        channelList[i].data &&
-        channelList[i].data.related &&
-        channelList[i].data.related
-      ) {
+    subscriptions.forEach(sub => {
+      if (channelList[i].data && channelList[i].data.related) {
         channelList[i].data.related.forEach(channelSub => {
           if (channelSub.items) {
             channelSub.items.forEach(item => {
@@ -244,6 +240,32 @@ export const createStandaloneSubscriptionPerChannel = (
     })
   }
   return columnsUnderAChannel
+}
+
+export const getStandaloneSubsWithInvalidChannel = (
+  channelList,
+  subscriptions
+) => {
+  const subsWithNoChannel = []
+  subscriptions.forEach(sub => {
+    let channelFound = false
+    for (var i = 0; i < channelList.length && !channelFound; i++) {
+      if (channelList[i].data && channelList[i].data.related) {
+        const channelSub = channelList[i].data.related
+        for (var j = 0; j < channelSub.length && !channelFound; j++) {
+          if (channelSub[j].items) {
+            channelFound = channelSub[j].items.some(
+              item => sub._uid === item._uid
+            )
+          }
+        }
+      }
+    }
+    if (!channelFound) {
+      subsWithNoChannel.push(sub)
+    }
+  })
+  return subsWithNoChannel
 }
 
 // This method takes in a list of lists and returns the longest length possilble
@@ -306,4 +328,8 @@ export const getStandaloneSubscriptions = subscriptions => {
   )
 
   return subscriptions
+}
+
+export const getSearchLinkForFailedSubscriptions = () => {
+  return '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20status%3APropagationFailed"}'
 }

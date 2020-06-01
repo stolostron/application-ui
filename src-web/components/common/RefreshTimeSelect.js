@@ -13,7 +13,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DropdownV2, Loading } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
-import { DEFAULT_REFRESH_TIME } from '../Topology/viewer/constants'
+import { DEFAULT_REFRESH_TIME } from '../../../lib/shared/constants'
 import '../../../scss/refresh-time-select.scss'
 import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
@@ -25,8 +25,6 @@ export default class RefreshTimeSelect extends React.Component {
     refetchIntervalUpdate: PropTypes.func,
     refreshCookie: PropTypes.string,
     refreshValues: PropTypes.array
-    // startPolling: PropTypes.func,
-    // stopPolling: PropTypes.func
   };
 
   constructor(props) {
@@ -41,7 +39,7 @@ export default class RefreshTimeSelect extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
 
-    refetchIntervalUpdate({ value: pollInterval })
+    refetchIntervalUpdate({ interval: pollInterval })
   }
 
   componentWillMount() {
@@ -83,13 +81,13 @@ export default class RefreshTimeSelect extends React.Component {
     // save interval to cookie
     savePollInterval(refreshCookie, pollInterval)
     // update state with the new poll interval and trigger refetch
-    refetchIntervalUpdate({ doRefetch: false, value: pollInterval })
+    refetchIntervalUpdate({ doRefetch: false, interval: pollInterval })
   };
 
   componentWillReceiveProps() {
     this.setState((prevState, props) => {
       const { refreshCookie } = props
-      return { doRefetch: false, pollInterval: getPollInterval(refreshCookie) }
+      return { doRefetch: false, interval: getPollInterval(refreshCookie) }
     })
   }
 

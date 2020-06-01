@@ -150,7 +150,7 @@ class ApplicationTopologyModule extends React.Component {
     this.setState({ activeChannel })
 
     // use the refresh value from the dropdown
-    const refreshTime = refetch.value
+    const refreshTime = refetch.interval
 
     this.startPolling(refreshTime)
   }
@@ -190,7 +190,7 @@ class ApplicationTopologyModule extends React.Component {
 
   onVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
-      this.startPolling(this.state.refetch.value)
+      this.startPolling(this.state.refetch.interval)
     } else {
       this.stopPolling()
     }
@@ -232,15 +232,15 @@ class ApplicationTopologyModule extends React.Component {
       } = nextProps
 
       // updated refresh interval from dropdown
-      if (prevState.refetch && prevState.refetch.value != refetch.value) {
-        this.startPolling(refetch.value)
+      if (prevState.refetch && prevState.refetch.interval != refetch.interval) {
+        this.startPolling(refetch.interval)
       }
 
       // manual refresh clicked
       if (refetch.doRefetch === true) {
         refetch.doRefetch = false
         this.refetchData()
-        this.startPolling(prevState.refetch.value)
+        this.startPolling(prevState.refetch.interval)
       }
 
       const showSpinner =

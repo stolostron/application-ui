@@ -44,7 +44,6 @@ import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
 import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
-import config from '../../../lib/shared/config'
 import {
   handleEditResource,
   showEditModalByType
@@ -122,7 +121,8 @@ const mapStateToProps = state => {
     secondaryHeader,
     QueryApplicationList,
     GlobalApplicationDataList,
-    role
+    role,
+    refetch
   } = state
   // Filter Application List based on search input
   // Currently just filterin on application name
@@ -136,7 +136,8 @@ const mapStateToProps = state => {
     GlobalApplicationDataList,
     HCMNamespaceList,
     loading: AppDeployments.loading,
-    breadcrumbItems: secondaryHeader.breadcrumbItems || []
+    breadcrumbItems: secondaryHeader.breadcrumbItems || [],
+    refetch
   }
 }
 
@@ -171,10 +172,10 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 
   startPolling() {
-    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+    if (this.props.refetch && this.props.refetch.interval) {
       var intervalId = setInterval(
         this.reload.bind(this),
-        config['featureFlags:liveUpdatesPollInterval']
+        this.props.refetch.interval
       )
       this.setState({ intervalId: intervalId })
     }
@@ -192,7 +193,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     } else {
       this.stopPolling()
     }
-  }
+  };
 
   reload() {
     const {
@@ -204,6 +205,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
 
     // only reload data if there are nothing being fetched and no modals are open
+    // console.log('last reload time', new Date().toLocaleString())
 
     this.setState({ xhrPoll: true })
     const isSingleApplicationView = breadcrumbItems.length === 2

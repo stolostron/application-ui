@@ -175,7 +175,7 @@ class ApplicationTopologyModule extends React.Component {
   startPolling(newInterval) {
     this.stopPolling()
     let intervalId = undefined
-    if (newInterval) {
+    if (newInterval > 0) {
       intervalId = setInterval(this.refetchData, newInterval)
     }
     this.setState({ intervalId })
@@ -233,7 +233,6 @@ class ApplicationTopologyModule extends React.Component {
 
       // updated refresh interval from dropdown
       if (prevState.refetch && prevState.refetch.value != refetch.value) {
-        this.refetchData()
         this.startPolling(refetch.value)
       }
 

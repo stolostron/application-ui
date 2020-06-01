@@ -1203,7 +1203,7 @@ describe("getNodeDetails placement rules node with error", () => {
       isError: true,
       labelValue: "Error",
       value:
-        "This Placement Rule doesn not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
     },
     { type: "spacer" }
   ];

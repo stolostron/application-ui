@@ -776,7 +776,7 @@ export const setPodDeployStatus = (node, details) => {
 }
 
 export const setSubscriptionDeployStatus = (node, details) => {
-  if (node.type !== 'subscription') {
+  if (R.pathOr('', ['type'])(node) !== 'subscription') {
     return details
   }
   details.push({
@@ -789,7 +789,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       labelValue: subscription.cluster,
       value: subscription.status,
-      isError: R.contains('Fail', subscription.status)
+      isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
     })
     details.push({
       type: 'link',

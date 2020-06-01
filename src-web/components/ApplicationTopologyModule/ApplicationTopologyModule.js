@@ -190,7 +190,7 @@ class ApplicationTopologyModule extends React.Component {
 
   onVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
-      this.startPolling()
+      this.startPolling(this.state.refetch.value)
     } else {
       this.stopPolling()
     }

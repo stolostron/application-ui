@@ -808,176 +808,34 @@ describe("getNodeDetails deployment node", () => {
       }
     },
     { type: "spacer" },
-    { labelKey: "resource.deploy.pods.statuses", type: "label" },
-    { isError: true, labelValue: "feng", value: "Not Deployed" },
-    { isError: true, labelValue: "cluster1", value: "Not Deployed" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { isError: false, labelValue: "feng", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
+    { isError: false, labelValue: "cluster1", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
     { isError: true, labelValue: "cluster2", value: "Not Deployed" },
-    { type: "spacer" },
-    { labelKey: "resource.container.logs", type: "label" },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "show_pod_log",
-          cluster: "feng",
-          name: "mortgagedc-deploy-1-q9b5r",
-          namespace: "default"
-        },
-        label: "View Log"
-      }
-    },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "show_resource_yaml",
-          cluster: "feng",
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
-        },
-        label: "View Remote Resource"
-      }
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.clustername",
-      labelValue: undefined,
-      type: "label",
-      value: "feng"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.pod",
-      labelValue: undefined,
-      type: "label",
-      value: "mortgagedc-deploy-1-q9b5r"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.hostip",
-      labelValue: undefined,
-      type: "label",
-      value: "1.1.1.1"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.podip",
-      labelValue: undefined,
-      type: "label",
-      value: "10.128.2.80"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      type: "label",
-      value: "a month ago"
-    },
-    {
-      indent: undefined,
-      isError: false,
-      labelKey: "resource.status",
-      labelValue: undefined,
-      type: "label",
-      value: "Running"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.restarts",
-      labelValue: undefined,
-      type: "label",
-      value: 0
-    },
-    { type: "spacer" },
-    { labelKey: "resource.container.logs", type: "label" },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "show_pod_log",
-          cluster: "feng",
-          name: "mortgagedc-deploy-1-q9b5rr",
-          namespace: "default"
-        },
-        label: "View Log"
-      }
-    },
-    {
-      indent: true,
-      type: "link",
-      value: {
-        data: {
-          action: "show_resource_yaml",
-          cluster: "feng",
-          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r"
-        },
-        label: "View Remote Resource"
-      }
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.clustername",
-      labelValue: undefined,
-      type: "label",
-      value: "feng"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.pod",
-      labelValue: undefined,
-      type: "label",
-      value: "mortgagedc-deploy-1-q9b5rr"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.hostip",
-      labelValue: undefined,
-      type: "label",
-      value: "1.1.1.1"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.podip",
-      labelValue: undefined,
-      type: "label",
-      value: "10.128.2.80"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      type: "label",
-      value: "a month ago"
-    },
-    {
-      indent: undefined,
-      isError: false,
-      labelKey: "resource.status",
-      labelValue: undefined,
-      type: "label",
-      value: "Running"
-    },
-    {
-      indent: undefined,
-      isError: undefined,
-      labelKey: "resource.restarts",
-      labelValue: undefined,
-      type: "label",
-      value: 0
-    },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },
@@ -1091,7 +949,7 @@ describe("getNodeDetails helm node", () => {
       labelValue: undefined,
       type: "label",
       value:
-        "This subscription is using a HelmChart but there is no information in the subscription to retrive deployed objects data"
+        "There is not enough information in the subscription to retrive deployed objects data."
     }
   ];
 

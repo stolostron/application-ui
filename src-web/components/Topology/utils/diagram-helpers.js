@@ -233,25 +233,38 @@ export const addPropertyToList = (list, data) => {
 
 export const nodeMustHavePods = node => {
   //returns true if the node should deploy pods
-  let mustHavePods = false
+
   if (
-    node &&
-    !R.contains(node.type, ['application', 'rules', 'subscription']) &&
-    (R.length(
-      R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
-        node
-      )
-    ) > 0 ||
-    R.pathOr('', ['type'])(node) === 'pod' || //pod deployables must have pods
-      R.pathOr(undefined, ['specs', 'raw', 'spec', 'replicas'])(node)) //for chart packages, where the containers info is not available
+    !node ||
+    !node.type ||
+    R.contains(node.type, ['application', 'rules', 'subscription'])
   ) {
-    mustHavePods = true
+    return false
   }
 
-  return mustHavePods
+  if (R.pathOr('', ['type'])(node) === 'pod') {
+    //pod deployables must have pods
+    return true
+  }
+
+  const hasContainers =
+    R.pathOr([], ['specs', 'raw', 'spec', 'template', 'spec', 'containers'])(
+      node
+    ).length > 0
+  const hasReplicas = R.pathOr(undefined, ['specs', 'raw', 'spec', 'replicas'])(
+    node
+  ) //pods will go under replica object
+  const hasDesired = R.pathOr(undefined, ['specs', 'raw', 'spec', 'desired'])(
+    node
+  ) //deployables from subscription package have this set only, not containers
+  if ((hasContainers || hasDesired) && !hasReplicas) {
+    return true
+  }
+
+  return false
 }
 
-const getPulseStatusForSubscription = node => {
+export const getPulseStatusForSubscription = node => {
   let pulse = 'green'
 
   const resourceMap = _.get(node, `specs.${node.type}Model`)
@@ -262,19 +275,21 @@ const getPulseStatusForSubscription = node => {
 
   let isPlaced = false
   Object.values(resourceMap).forEach(subscriptionItem => {
-    if (R.contains('Failed', subscriptionItem.status)) {
-      pulse = 'red'
-    }
-    if (subscriptionItem.status === 'Subscribed') {
-      isPlaced = true // at least one cluster placed
-    }
+    if (subscriptionItem.status) {
+      if (R.contains('Failed', subscriptionItem.status)) {
+        pulse = 'red'
+      }
+      if (subscriptionItem.status === 'Subscribed') {
+        isPlaced = true // at least one cluster placed
+      }
 
-    if (
-      subscriptionItem.status !== 'Subscribed' &&
-      subscriptionItem.status !== 'Propagated' &&
-      pulse !== 'red'
-    ) {
-      pulse = 'yellow' // anything but failed or subscribed
+      if (
+        subscriptionItem.status !== 'Subscribed' &&
+        subscriptionItem.status !== 'Propagated' &&
+        pulse !== 'red'
+      ) {
+        pulse = 'yellow' // anything but failed or subscribed
+      }
     }
   })
   if (pulse === 'green' && !isPlaced) {
@@ -355,7 +370,7 @@ export const getPulseForNodeWithPodStatus = node => {
   const resourceMap = _.get(node, `specs.${node.type}Model`)
   const desired =
     _.get(node, 'specs.raw.spec.replicas') ||
-    _.get(node, 'specs.raw.spec.containers', []).length
+    _.get(node, 'specs.raw.spec.desired', 'NA')
   const resourceName = _.get(node, metadataName, '')
 
   if (!resourceMap) {
@@ -423,6 +438,7 @@ export const computeNodeStatus = node => {
   if (nodeMustHavePods(node)) {
     pulse = getPulseForNodeWithPodStatus(node)
     _.set(node, specPulse, pulse)
+    return
   }
 
   switch (node.type) {
@@ -527,46 +543,65 @@ export const computeResourceName = (
   return name
 }
 
+//look for pod template hash and remove it from the name if there
+export const getNameWithoutPodHash = relatedKind => {
+  let nameNoHash = relatedKind.name
+  let podHash = null
+  let deployableName = null
+
+  const labelsList = relatedKind.label ? R.split(';')(relatedKind.label) : []
+  labelsList.forEach(resLabel => {
+    const values = R.split('=')(resLabel)
+    if (values.length === 2) {
+      const labelKey = values[0].trim()
+      if (labelKey === 'pod-template-hash') {
+        podHash = values[1].trim()
+        nameNoHash = R.replace(`-${podHash}`, '')(nameNoHash)
+      }
+      if (
+        labelKey === 'openshift.io/deployment-config.name' ||
+        R.contains('deploymentconfig')(resLabel)
+      ) {
+        //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
+        //openshift.io/deployment-config.name
+        deployableName = values[1].trim()
+        nameNoHash = deployableName
+      }
+    }
+  })
+
+  return { nameNoHash, deployableName }
+}
+
 //creates a map with all related kinds for this app, not only pod types
 export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
   if (list && resourceMap) {
     list.forEach(kindArray => {
+      if (
+        R.contains(_.get(kindArray, 'kind', ''), [
+          'cluster',
+          'placementrule',
+          'channel',
+          'deployable'
+        ])
+      ) {
+        return //ignore these type of resources
+      }
+
       const relatedKindList = R.pathOr([], ['items'])(kindArray)
 
       relatedKindList.forEach(relatedKind => {
-        let name = relatedKind.name
         const kind = relatedKind.kind
-        let podHash = null
-        let deployableName = null
 
         //look for pod template hash and remove it from the name if there
-        const labelsList = relatedKind.label
-          ? R.split(';')(relatedKind.label)
-          : []
-        labelsList.forEach(resLabel => {
-          const values = R.split('=')(resLabel)
-          if (values.length === 2) {
-            const labelKey = values[0].trim()
-            if (labelKey === 'pod-template-hash') {
-              podHash = values[1].trim()
-              name = R.replace(`-${podHash}`, '')(name)
-            }
-            if (
-              labelKey === 'openshift.io/deployment-config.name' ||
-              R.contains('deploymentconfig')(resLabel)
-            ) {
-              //look for deployment config info in the label; the name of the resource could be different than the one defined by the deployable
-              //openshift.io/deployment-config.name
-              deployableName = values[1].trim()
-              name = deployableName
-            }
-          }
-        })
+        const { nameNoHash, deployableName } = getNameWithoutPodHash(
+          relatedKind
+        )
 
-        name = computeResourceName(
+        const name = computeResourceName(
           relatedKind,
           deployableName,
-          name,
+          nameNoHash,
           isClusterGrouped
         )
 
@@ -578,7 +613,6 @@ export const setupResourceModel = (list, resourceMap, isClusterGrouped) => {
       })
     })
   }
-
   return resourceMap
 }
 

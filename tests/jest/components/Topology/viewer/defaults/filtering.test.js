@@ -220,12 +220,16 @@ describe("getAllFilters", () => {
       type: ["application", "rules", "subscription"]
     },
     availableFilters: {
+      clusterNames: {
+        availableSet: new Set(),
+        name: "Cluster name"
+      },
       labels: {
         availableSet: new Set(),
         name: "Labels"
       },
       namespaces: {
-        availableSet: new Set(),
+        availableSet: new Set(["<none>", "ns-sub-1"]),
         name: "Namespaces"
       },
       resourceStatuses: {
@@ -307,7 +311,7 @@ describe("getAvailableFilters weave", () => {
         name: "Labels"
       },
       namespaces: {
-        availableSet: new Set(),
+        availableSet: new Set(["<none>", "ns-sub-1"]),
         name: "Namespaces"
       }
     };
@@ -350,12 +354,16 @@ describe("getAvailableFilters application", () => {
   const set1 = new Set();
 
   const expectedResult = {
+    clusterNames: {
+      availableSet: new Set(),
+      name: "Cluster name"
+    },
     labels: {
       availableSet: set1,
       name: "Labels"
     },
     namespaces: {
-      availableSet: new Set(),
+      availableSet: new Set(["<none>"]),
       name: "Namespaces"
     },
     resourceStatuses: {

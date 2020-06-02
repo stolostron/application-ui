@@ -232,6 +232,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels
     } = this.props
 
+    // console.log("reloading app topology", new Date().toUTCString())
     // only reload data if there are nothing being fetched and no modals are open
     this.setState({ xhrPoll: true })
     const isSingleApplicationView = breadcrumbItems.length === 2

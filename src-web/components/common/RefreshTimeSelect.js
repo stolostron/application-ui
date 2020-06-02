@@ -65,20 +65,40 @@ export default class RefreshTimeSelect extends React.Component {
   handleClick = () => {
     const { refreshCookie } = this.props
     const { refetchIntervalUpdate } = this.state
+    const pollInterval = getPollInterval(refreshCookie)
+
     refetchIntervalUpdate({
       doRefetch: true,
-      interval: getPollInterval(refreshCookie)
+      interval: pollInterval
     })
+
+    // resets the "doRefetch" flag after 1 second
+    setTimeout(() => {
+      refetchIntervalUpdate({
+        doRefetch: false,
+        interval: pollInterval
+      })
+    }, 1000)
   };
 
   handleKeyPress = e => {
     const { refreshCookie } = this.props
     const { refetchIntervalUpdate } = this.state
+    const pollInterval = getPollInterval(refreshCookie)
+
     if (e.key === 'Enter') {
       refetchIntervalUpdate({
         doRefetch: true,
-        interval: getPollInterval(refreshCookie)
+        interval: pollInterval
       })
+
+      // resets the "doRefetch" flag after 1 second
+      setTimeout(() => {
+        refetchIntervalUpdate({
+          doRefetch: false,
+          interval: pollInterval
+        })
+      }, 1000)
     }
   };
 

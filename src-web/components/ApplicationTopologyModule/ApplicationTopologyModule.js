@@ -133,12 +133,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   componentWillMount() {
-    const {
-      restoreSavedDiagramFilters,
-      resetFilters,
-      params,
-      refetch
-    } = this.props
+    const { restoreSavedDiagramFilters, resetFilters, params } = this.props
     restoreSavedDiagramFilters()
     resetFilters()
     const name = decodeURIComponent(params.name)
@@ -148,11 +143,7 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
-
-    // use the refresh value from the dropdown
-    const refreshTime = refetch.interval
-
-    this.startPolling(refreshTime)
+    this.startPolling()
   }
 
   componentDidMount() {
@@ -172,13 +163,18 @@ class ApplicationTopologyModule extends React.Component {
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling(newInterval) {
-    this.stopPolling()
-    let intervalId = undefined
-    if (newInterval > 0) {
-      intervalId = setInterval(this.refetchData, newInterval)
+  startPolling() {
+    if (
+      this.props.refetch &&
+      this.props.refetch.interval &&
+      this.props.refetch.interval > 0
+    ) {
+      var intervalId = setInterval(
+        this.refetchData,
+        this.props.refetch.interval
+      )
+      this.setState({ intervalId: intervalId })
     }
-    this.setState({ intervalId })
   }
 
   stopPolling() {
@@ -190,11 +186,33 @@ class ApplicationTopologyModule extends React.Component {
 
   onVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
-      this.startPolling(this.state.refetch.interval)
+      this.startPolling()
     } else {
       this.stopPolling()
     }
   };
+
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (
+      R.path(['refetch', 'interval'], prevProps) !=
+      R.path(['refetch', 'interval'], this.props)
+    ) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (
+      R.path(['refetch', 'doRefetch'], prevProps) === false &&
+      R.path(['refetch', 'doRefetch'], this.props) === true
+    ) {
+      this.refetchData()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+    }
+  }
 
   // call to actually refetch the new data
   refetchData() {
@@ -204,6 +222,7 @@ class ApplicationTopologyModule extends React.Component {
       activeChannel,
       params
     } = this.props
+    // console.log('reloading app topology', new Date().toUTCString())
     fetchAppTopology(activeChannel, true)
 
     if (params && params.name && params.namespace) {
@@ -231,18 +250,6 @@ class ApplicationTopologyModule extends React.Component {
         refetch
       } = nextProps
 
-      // updated refresh interval from dropdown
-      if (prevState.refetch && prevState.refetch.interval != refetch.interval) {
-        this.startPolling(refetch.interval)
-      }
-
-      // manual refresh clicked
-      if (refetch.doRefetch === true) {
-        refetch.doRefetch = false
-        this.refetchData()
-        this.startPolling(prevState.refetch.interval)
-      }
-
       const showSpinner =
         !fetchError &&
         (topologyReloading ||
@@ -253,12 +260,33 @@ class ApplicationTopologyModule extends React.Component {
 
       // update last time refreshed
       const { changingChannel } = prevState
+      // console.log("fetchError", fetchError)
+      // console.log("changingChannel", changingChannel)
+      // console.log("topologyReloading", topologyReloading)
+      // console.log("willLoadDetails", willLoadDetails)
+      // console.log("detailsLoaded", detailsLoaded)
+      // console.log("detailsReloading", detailsReloading)
+      // console.log("storedVersion", storedVersion)
+      // console.log("showSpinner", showSpinner)
+      // console.log("!showSpinner", !showSpinner)
+      // console.log("prevState.showSpinner", prevState.showSpinner)
+      // console.log("lastTimeUpdate", prevState.lastTimeUpdate)
+      // console.log("nextProps.topologyLoaded", nextProps.topologyLoaded)
+
       let lastTimeUpdate = prevState.lastTimeUpdate
+
       if (
         changingChannel ||
         (!showSpinner && prevState.showSpinner) ||
         (!lastTimeUpdate && nextProps.topologyLoaded)
       ) {
+        // console.log("**updating time")
+        // console.log("changingChannel", changingChannel)
+        // console.log("!showSpinner", !showSpinner)
+        // console.log("prevState.showSpinner",prevState.showSpinner)
+        // console.log("!lastTimeUpdate", !lastTimeUpdate)
+        // console.log("nextProps.topologyLoaded",nextProps.topologyLoaded)
+
         const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get(
           'application.diagram.view.last.time',
@@ -330,7 +358,9 @@ class ApplicationTopologyModule extends React.Component {
       this.props.yaml.localeCompare(nextProps.yaml) !== 0 ||
       this.state.currentYaml.localeCompare(nextState.currentYaml) !== 0 ||
       this.state.hasUndo !== nextState.hasUndo ||
-      this.state.hasRedo !== nextState.hasRedo
+      this.state.hasRedo !== nextState.hasRedo ||
+      this.props.refetch.interval !== nextState.refetch.interval ||
+      this.props.refetch.doRefetch !== nextState.refetch.doRefetch
     )
   }
 
@@ -877,6 +907,8 @@ const mapStateToProps = (state, ownProps) => {
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
   const { topology, refetch } = state
+  // console.log("ownProps",ownProps)
+  // console.log("** mapStateToProps refetch",refetch)
   const {
     activeFilters,
     fetchFilters,

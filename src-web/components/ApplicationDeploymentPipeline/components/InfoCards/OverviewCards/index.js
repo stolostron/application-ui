@@ -28,7 +28,6 @@ import {
   concatDataForSubTextKey
 } from '../utils'
 import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
-import config from '../../../../../../lib/shared/config'
 
 /* eslint-disable react/prop-types */
 
@@ -49,7 +48,8 @@ const mapStateToProps = state => {
     QueryApplicationList,
     CEMIncidentList,
     secondaryHeader,
-    AppOverview
+    AppOverview,
+    refetch
   } = state
   const isSingleApplicationView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
@@ -58,7 +58,8 @@ const mapStateToProps = state => {
     QueryApplicationList,
     CEMIncidentList,
     isSingleApplicationView,
-    enableCEM
+    enableCEM,
+    refetch
   }
 }
 
@@ -210,10 +211,14 @@ class OverviewCards extends React.Component {
   }
 
   startPolling() {
-    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+    if (
+      this.props.refetch &&
+      this.props.refetch.interval &&
+      this.props.refetch.interval > 0
+    ) {
       var intervalId = setInterval(
         this.reload.bind(this),
-        config['featureFlags:liveUpdatesPollInterval']
+        this.props.refetch.interval
       )
       this.setState({ intervalId: intervalId })
     }
@@ -233,7 +238,30 @@ class OverviewCards extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (
+      R.path(['refetch', 'interval'], prevProps) !=
+      R.path(['refetch', 'interval'], this.props)
+    ) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (
+      R.path(['refetch', 'doRefetch'], prevProps) === false &&
+      R.path(['refetch', 'doRefetch'], this.props) === true
+    ) {
+      this.reload()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+    }
+  }
+
   reload() {
+    // console.log("reloading overview cards", new Date().toUTCString())
     const { fetchApplications } = this.props
     fetchApplications()
   }

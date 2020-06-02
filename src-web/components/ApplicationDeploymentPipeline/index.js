@@ -7,6 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
@@ -172,7 +173,11 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 
   startPolling() {
-    if (this.props.refetch && this.props.refetch.interval) {
+    if (
+      this.props.refetch &&
+      this.props.refetch.interval &&
+      this.props.refetch.interval > 0
+    ) {
       var intervalId = setInterval(
         this.reload.bind(this),
         this.props.refetch.interval
@@ -195,6 +200,29 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (
+      R.path(['refetch', 'interval'], prevProps) !=
+      R.path(['refetch', 'interval'], this.props)
+    ) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (
+      R.path(['refetch', 'doRefetch'], prevProps) !=
+      R.path(['refetch', 'doRefetch'], this.props)
+    ) {
+      this.reload()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+      this.props.refetch.doRefetch = false
+    }
+  }
+
   reload() {
     const {
       breadcrumbItems,
@@ -205,8 +233,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
 
     // only reload data if there are nothing being fetched and no modals are open
-    // console.log('last reload time', new Date().toLocaleString())
-
     this.setState({ xhrPoll: true })
     const isSingleApplicationView = breadcrumbItems.length === 2
     if (!isSingleApplicationView) {

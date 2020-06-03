@@ -268,10 +268,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     forceRefresh: () => dispatch(forceResourceReload(resourceType)),
-    deleteSuccessFinished: resourceType =>
-      dispatch(delResourceSuccessFinished(resourceType)),
-    mutateSuccessFinished: resourceType =>
-      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resType =>
+      dispatch(delResourceSuccessFinished(resType)),
+    mutateSuccessFinished: resType =>
+      dispatch(mutateResourceSuccessFinished(resType)),
     submitDeleteSuccess: () =>
       dispatch(receiveDelResource(ownProps.data, resourceType, {}))
   }

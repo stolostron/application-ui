@@ -9,6 +9,7 @@
 
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import ResourceTable from './ResourceTable'
 import { REQUEST_STATUS } from '../../actions/index'
@@ -77,10 +78,14 @@ class ResourceList extends React.Component {
   }
 
   startPolling() {
-    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+    if (
+      this.props.refetch &&
+      this.props.refetch.interval &&
+      this.props.refetch.interval > 0
+    ) {
       var intervalId = setInterval(
         this.reload.bind(this),
-        config['featureFlags:liveUpdatesPollInterval']
+        this.props.refetch.interval
       )
       this.setState({ intervalId: intervalId })
     }
@@ -101,6 +106,28 @@ class ResourceList extends React.Component {
       this.stopPolling()
     }
   };
+
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (
+      R.path(['refetch', 'interval'], prevProps) !=
+      R.path(['refetch', 'interval'], this.props)
+    ) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (
+      R.path(['refetch', 'doRefetch'], prevProps) === false &&
+      R.path(['refetch', 'doRefetch'], this.props) === true
+    ) {
+      this.reload()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+    }
+  }
 
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
@@ -318,7 +345,8 @@ const mapStateToProps = (state, ownProps) => {
       state['resourceFilters'].selectedFilters &&
       state['resourceFilters'].selectedFilters[resourceName],
     deleteSuccessFinished: state.deleteSuccessFinished,
-    mutateSuccessFinished: state.mutateSuccessFinished
+    mutateSuccessFinished: state.mutateSuccessFinished,
+    refetch: state.refetch
   }
 }
 

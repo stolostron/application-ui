@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import { Notification, Loading } from 'carbon-components-react'
@@ -29,7 +30,6 @@ import resources from '../../../../lib/shared/resources'
 import { RESOURCE_TYPES } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'
 import ResourceOverview from '../ResourceOverview'
-import config from '../../../../lib/shared/config'
 
 resources(() => {
   require('./style.scss')
@@ -58,12 +58,13 @@ const withResource = Component => {
   const mapStateToProps = (state, ownProps) => {
     const { list: typeListName } = ownProps.resourceType,
           error = state[typeListName].err
-    const { AppOverview, CEMIncidentList } = state
+    const { AppOverview, CEMIncidentList, refetch } = state
     return {
       status: state[typeListName].status,
       statusCode: error && error.response && error.response.status,
       incidentCount: getIncidentCount(CEMIncidentList),
-      showCEMAction: AppOverview.showCEMAction
+      showCEMAction: AppOverview.showCEMAction,
+      refetch
     }
   }
 
@@ -80,6 +81,7 @@ const withResource = Component => {
           PropTypes.string
         ]),
         params: PropTypes.object,
+        refetch: PropTypes.object,
         showCEMAction: PropTypes.bool,
         status: PropTypes.string,
         statusCode: PropTypes.object
@@ -117,10 +119,14 @@ const withResource = Component => {
       }
 
       startPolling() {
-        if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+        if (
+          this.props.refetch &&
+          this.props.refetch.interval &&
+          this.props.refetch.interval > 0
+        ) {
           var intervalId = setInterval(
             this.reload.bind(this),
-            config['featureFlags:liveUpdatesPollInterval']
+            this.props.refetch.interval
           )
           this.setState({ intervalId: intervalId })
         }
@@ -137,6 +143,28 @@ const withResource = Component => {
           this.startPolling()
         } else {
           this.stopPolling()
+        }
+      };
+
+      componentDidUpdate(prevProps) {
+        // if old and new interval are different, restart polling
+        if (
+          R.path(['refetch', 'interval'], prevProps) !=
+          R.path(['refetch', 'interval'], this.props)
+        ) {
+          this.stopPolling()
+          this.startPolling()
+        }
+
+        // manual refetch
+        if (
+          R.path(['refetch', 'doRefetch'], prevProps) === false &&
+          R.path(['refetch', 'doRefetch'], this.props) === true
+        ) {
+          this.reload()
+          // reset polling after manual refetch
+          this.stopPolling()
+          this.startPolling()
         }
       }
 

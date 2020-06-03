@@ -222,7 +222,6 @@ class ApplicationTopologyModule extends React.Component {
       activeChannel,
       params
     } = this.props
-    // console.log('reloading app topology', new Date().toUTCString())
     fetchAppTopology(activeChannel, true)
 
     if (params && params.name && params.namespace) {
@@ -260,19 +259,6 @@ class ApplicationTopologyModule extends React.Component {
 
       // update last time refreshed
       const { changingChannel } = prevState
-      // console.log("fetchError", fetchError)
-      // console.log("changingChannel", changingChannel)
-      // console.log("topologyReloading", topologyReloading)
-      // console.log("willLoadDetails", willLoadDetails)
-      // console.log("detailsLoaded", detailsLoaded)
-      // console.log("detailsReloading", detailsReloading)
-      // console.log("storedVersion", storedVersion)
-      // console.log("showSpinner", showSpinner)
-      // console.log("!showSpinner", !showSpinner)
-      // console.log("prevState.showSpinner", prevState.showSpinner)
-      // console.log("lastTimeUpdate", prevState.lastTimeUpdate)
-      // console.log("nextProps.topologyLoaded", nextProps.topologyLoaded)
-
       let lastTimeUpdate = prevState.lastTimeUpdate
 
       if (
@@ -280,13 +266,6 @@ class ApplicationTopologyModule extends React.Component {
         (!showSpinner && prevState.showSpinner) ||
         (!lastTimeUpdate && nextProps.topologyLoaded)
       ) {
-        // console.log("**updating time")
-        // console.log("changingChannel", changingChannel)
-        // console.log("!showSpinner", !showSpinner)
-        // console.log("prevState.showSpinner",prevState.showSpinner)
-        // console.log("!lastTimeUpdate", !lastTimeUpdate)
-        // console.log("nextProps.topologyLoaded",nextProps.topologyLoaded)
-
         const time = new Date().toLocaleTimeString(locale)
         lastTimeUpdate = msgs.get(
           'application.diagram.view.last.time',
@@ -907,8 +886,6 @@ const mapStateToProps = (state, ownProps) => {
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
   const { topology, refetch } = state
-  // console.log("ownProps",ownProps)
-  // console.log("** mapStateToProps refetch",refetch)
   const {
     activeFilters,
     fetchFilters,

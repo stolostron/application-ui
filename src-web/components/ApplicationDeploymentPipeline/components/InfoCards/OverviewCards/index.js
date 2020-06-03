@@ -261,7 +261,6 @@ class OverviewCards extends React.Component {
   }
 
   reload() {
-    // console.log("reloading overview cards", new Date().toUTCString())
     const { fetchApplications } = this.props
     fetchApplications()
   }

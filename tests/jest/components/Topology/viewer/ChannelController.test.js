@@ -10,6 +10,7 @@
 
 import React from "react";
 import { shallow } from "enzyme";
+import { mount } from "enzyme";
 
 import ChannelController from "../../../../../src-web/components/Topology/viewer/ChannelControl";
 
@@ -30,11 +31,31 @@ describe("EditorBar components", () => {
 
   it("default", () => {
     const component = shallow(
-      <ChannelController
-        channelController={channelController}
-        locale={"en-US"}
-      />
+      <ChannelController channelControl={channelController} locale={"en-US"} />
     );
     expect(component).toMatchSnapshot();
+  });
+});
+
+describe("EditorBar components", () => {
+  it("empty", () => {
+    const component = shallow(<ChannelController />);
+    expect(component).toMatchSnapshot();
+  });
+
+  it("default", () => {
+    const wrapper = mount(
+      <ChannelController channelControl={channelController} locale={"en-US"} />
+    );
+
+    wrapper
+      .find(".channel-control-subchannel")
+      .at(0)
+      .simulate("click");
+
+    wrapper
+      .find(".channel-control-subchannel")
+      .at(0)
+      .simulate("keypress");
   });
 });

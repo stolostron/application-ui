@@ -107,19 +107,6 @@ const ApplicationHeaderTabs = withLocale(
 
     return (
       <div id="applicationheadertabs">
-        {/* <div className="whiteSpacer">
-          <RefreshTimeSelect
-            refreshValues={REFRESH_TIMES}
-            refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
-            // isReloading={isReloading}
-            // startPolling={startPolling}
-            // stopPolling={stopPolling}
-            // refetch={refetch} //
-            params={params}
-            refetchIntervalUpdate={refetchIntervalUpdate}
-            // refetch={refetch} // value is set by RefreshTimeSelect if a change is made to trigger refresh
-          />
-          </div> */}
         <div className="whiteSpacer">
           <Tabs
             className="some-class"
@@ -167,13 +154,8 @@ const ApplicationHeaderTabs = withLocale(
             <RefreshTimeSelect
               refreshValues={REFRESH_TIMES}
               refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
-              // isReloading={isReloading}
-              // startPolling={startPolling}
-              // stopPolling={stopPolling}
-              // refetch={refetch} //
               params={params}
               refetchIntervalUpdate={refetchIntervalUpdate}
-              // refetch={refetch} // value is set by RefreshTimeSelect if a change is made to trigger refresh
             />
           </Tabs>
         </div>

@@ -363,7 +363,8 @@ class Topology extends React.Component {
   renderChannelControls() {
     const { channelControl = {}, locale } = this.props
     const { allChannels } = channelControl
-    if (allChannels) {
+    if (allChannels && _.get(channelControl, 'allChannels', []).length > 1) {
+      // show slices only if more then one slice
       return <ChannelControl channelControl={channelControl} locale={locale} />
     }
     return null

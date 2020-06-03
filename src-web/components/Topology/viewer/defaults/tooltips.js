@@ -43,7 +43,8 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
     }
   }
 
-  if (namespace) {
+  if (type !== 'namespace' && namespace) {
+    //don't show this for Namespace resources
     const href = `${searchUrl}?filters={"textsearch":"kind:namespace name:${namespace}"}`
     tooltips.push({
       name: msgs.get('resource.namespace', locale),

@@ -334,7 +334,7 @@ const addAvailableClusterFilters = (availableFilters, nodes, locale) => {
   })
 }
 
-const addAvailableRelationshipFilters = (
+export const addAvailableRelationshipFilters = (
   mode,
   availableFilters,
   activeFilters,

@@ -40,7 +40,7 @@ class RemoveResourceModal extends React.Component {
       cluster: '',
       selfLink: '',
       errors: undefined,
-      loading: true,
+      loading: false,
       selected: []
     }
   }
@@ -48,7 +48,6 @@ class RemoveResourceModal extends React.Component {
   componentWillMount() {
     if (this.props.data) {
       const { data } = this.props
-      this.getChildResources(data.name, data.namespace, data.clusterName)
       const kind = data.selfLink.split('/')
       const apiGroup = kind[1] === 'apis' ? kind[2] : ''
       canCallAction(
@@ -139,9 +138,16 @@ class RemoveResourceModal extends React.Component {
     this.setState({
       loading: true
     })
-    this.props.mutateSucessFinished()
-    this.props.deleteSuccessFinished()
-    if (!selfLink || selfLink === '') {
+    // Remove previous success message if any
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+    if (!selfLink) {
       this.setState({
         errors: msgs.get('modal.errors.querying.resource', this.context.locale)
       })
@@ -242,7 +248,7 @@ RemoveResourceModal.propTypes = {
     label: PropTypes.string
   }),
   locale: PropTypes.string,
-  mutateSucessFinished: PropTypes.func,
+  mutateSuccessFinished: PropTypes.func,
   open: PropTypes.bool,
   resourceType: PropTypes.object,
   submitDeleteSuccess: PropTypes.func,
@@ -252,19 +258,22 @@ RemoveResourceModal.propTypes = {
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+  let resourceType = ownProps.resourceType
+  if (
+    resourceType &&
+    resourceType.name === RESOURCE_TYPES.HCM_APPLICATIONS.name
+  ) {
+    resourceType = RESOURCE_TYPES.QUERY_APPLICATIONS
+  }
+
   return {
-    forceRefresh: () =>
-      dispatch(forceResourceReload(RESOURCE_TYPES.QUERY_APPLICATIONS)),
-    deleteSuccessFinished: () =>
-      dispatch(delResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)),
-    mutateSucessFinished: () =>
-      dispatch(
-        mutateResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-      ),
+    forceRefresh: () => dispatch(forceResourceReload(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType)),
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType)),
     submitDeleteSuccess: () =>
-      dispatch(
-        receiveDelResource(ownProps.data, RESOURCE_TYPES.QUERY_APPLICATIONS, {})
-      )
+      dispatch(receiveDelResource(ownProps.data, resourceType, {}))
   }
 }
 

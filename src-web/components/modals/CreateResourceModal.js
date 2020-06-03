@@ -89,6 +89,9 @@ class CreateResourceModal extends React.PureComponent {
     this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
     this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
     this.props.mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+    this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
     this.props.deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
     let resources
     try {

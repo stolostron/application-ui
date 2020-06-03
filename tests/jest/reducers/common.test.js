@@ -438,7 +438,7 @@ describe("resourceReducerFunction", () => {
     const action = {
       type: "DEL_RECEIVE_SUCCESS_FINISHED"
     };
-    const expectedValue = { deleteStatus: undefined };
+    const expectedValue = { deleteMsg: null, deleteStatus: undefined };
     expect(resourceReducerFunction(state, action)).toEqual(expectedValue);
   });
 

@@ -442,7 +442,7 @@ export const delResource = resourceType => ({
 export const receiveDelResource = (item, resourceType, resource) => ({
   type: Actions.DEL_RECEIVE_SUCCESS,
   delStatus: Actions.REQUEST_STATUS.DONE,
-  resourceType: item.kind || resourceType,
+  resourceType: resourceType || item.kind,
   item,
   resource
 })

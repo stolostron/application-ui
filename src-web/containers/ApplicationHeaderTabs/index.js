@@ -113,6 +113,9 @@ const ApplicationHeaderTabs = withLocale(
               mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
               mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
               mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+              deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+              deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+              deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
               deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
             }}
             tabcontentclassname="tab-content"

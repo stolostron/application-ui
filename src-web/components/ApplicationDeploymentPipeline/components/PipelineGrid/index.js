@@ -147,11 +147,15 @@ const LeftColumnForApplicationNames = (
                       target="_blank"
                     >
                       {msgs.get(
-                        'description.title.standaloneSubscriptionsNoChannelTooltip',
+                        'description.title.standaloneSubscriptionsNoChannelCount',
                         [subsWithInvalidChannel.length, standaloneSubCount],
                         locale
                       )}
                     </a>
+                    {` ${msgs.get(
+                      'description.title.standaloneSubscriptionsNoChannelTooltip',
+                      locale
+                    )}`}
                   </span>
                 )}
               </Tooltip>

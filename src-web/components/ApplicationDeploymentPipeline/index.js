@@ -48,6 +48,7 @@ import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import config from '../../../lib/shared/config'
 import {
   handleEditResource,
+  handleDeleteResource,
   showEditModalByType
 } from '../common/ResourceOverview/utils'
 import HeaderActions from '../common/HeaderActions'
@@ -68,6 +69,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, updateModal, resourceType, data),
+    deleteResource: (resourceType, data) =>
+      handleDeleteResource(apolloClient.getClient(), resourceType, data),
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     fetchPlacementRules: () =>
@@ -143,7 +146,15 @@ const mapStateToProps = state => {
     mutateStatus:
       state['HCMChannelList'].mutateStatus ||
       state['HCMSubscriptionList'].mutateStatus ||
-      state['HCMPlacementRuleList'].mutateStatus
+      state['HCMPlacementRuleList'].mutateStatus,
+    deleteStatus:
+      state['HCMChannelList'].deleteStatus ||
+      state['HCMSubscriptionList'].deleteStatus ||
+      state['HCMPlacementRuleList'].deleteStatus,
+    deleteMsg:
+      state['HCMChannelList'].deleteMsg ||
+      state['HCMSubscriptionList'].deleteMsg ||
+      state['HCMPlacementRuleList'].deleteMsg
   }
 }
 
@@ -200,6 +211,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
       this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
       this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
       this.stopPolling()
     }
   };
@@ -262,6 +276,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       AppDeployments,
       actions,
       editResource,
+      deleteResource,
       getChannelResource,
       getApplicationResource,
       getSubscriptionResource,
@@ -274,7 +289,9 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchChannels,
       fetchPlacementRules,
       closeModal,
-      mutateStatus
+      mutateStatus,
+      deleteStatus,
+      deleteMsg
     } = this.props
     const { locale } = this.context
 
@@ -354,6 +371,17 @@ class ApplicationDeploymentPipeline extends React.Component {
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
+        {deleteStatus === Actions.REQUEST_STATUS.DONE && (
+          <Notification
+            title={msgs.get('success.update.resource', locale)}
+            subtitle={msgs.get(
+              'success.delete.description',
+              [deleteMsg],
+              locale
+            )}
+            kind="success"
+          />
+        )}
         {mutateStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification
             title=""
@@ -452,6 +480,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={AppDeployments.appDropDownList || []}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
+          deleteResource={deleteResource}
           breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal

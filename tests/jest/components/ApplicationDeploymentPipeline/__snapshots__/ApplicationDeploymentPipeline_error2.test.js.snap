@@ -635,6 +635,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   </svg>
                 </div>
                 <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
+                <div
                   className="channelTitle"
                 >
                   Channel
@@ -689,6 +700,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   </svg>
                 </div>
                 <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
+                <div
                   className="channelTitle"
                 >
                   Channel
@@ -742,6 +764,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     />
                   </svg>
                 </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
                 <div
                   className="channelTitle"
                 >
@@ -871,6 +904,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     />
                   </svg>
                 </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
                 <div
                   className="subColName"
                 >

@@ -10,6 +10,7 @@
 
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
+import { getClusterName } from '../../utils/diagram-helpers'
 
 const TypeFilters = {
   cluster: {
@@ -37,7 +38,8 @@ const TypeFilters = {
       hostIPs: 'hostIPs',
       namespaces: 'namespaces',
       labels: 'labels',
-      resourceStatuses: 'resourceStatuses'
+      resourceStatuses: 'resourceStatuses',
+      clusterNames: 'clusterNames'
     },
     searchTypes: new Set(['podStatuses', 'labels'])
   },
@@ -332,7 +334,7 @@ const addAvailableClusterFilters = (availableFilters, nodes, locale) => {
   })
 }
 
-const addAvailableRelationshipFilters = (
+export const addAvailableRelationshipFilters = (
   mode,
   availableFilters,
   activeFilters,
@@ -374,6 +376,9 @@ const addAvailableRelationshipFilters = (
         ['red', msgs.get('topology.filter.category.status.error', locale)]
       ])
       break
+    case 'clusterNames':
+      name = msgs.get('topology.filter.category.clustername', locale)
+      break
     }
     if (name) {
       availableFilters[type] = {
@@ -386,7 +391,7 @@ const addAvailableRelationshipFilters = (
   let hasPods = false
   const { namespaces = new Set() } = activeFilters
   nodes.forEach(node => {
-    const { type, labels = [] } = node
+    const { type, labels = [], name: nodeName } = node
     let { namespace } = node
     if (
       !ignoreNodeTypes.has(type) &&
@@ -410,20 +415,23 @@ const addAvailableRelationshipFilters = (
             break
 
           case 'namespaces':
-            if (podStatus) {
-              filter.availableSet.add(namespace)
-            }
+            filter.availableSet.add(namespace)
             break
 
           case 'labels':
             if (
               labels &&
-                podStatus &&
                 (namespaces.size === 0 || namespaces.has(namespace))
             ) {
               labels.forEach(({ name, value }) => {
                 filter.availableSet.add(`${name}: ${value}`)
               })
+            }
+            break
+
+          case 'clusterNames':
+            if (type === 'cluster') {
+              filter.availableSet.add(nodeName)
             }
             break
           }
@@ -591,7 +599,8 @@ const filterRelationshipNodes = (
     hostIPs = new Set(),
     namespaces = new Set(),
     labels = new Set(),
-    resourceStatuses = new Set()
+    resourceStatuses = new Set(),
+    clusterNames = new Set()
   } = activeFilters
   const activeTypeSet = new Set(type)
   const availableTypeSet = new Set(availableFilters.type)
@@ -599,17 +608,17 @@ const filterRelationshipNodes = (
   const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
   const alabels = [...labels]
   return nodes.filter(node => {
-    const { type, namespace } = node
+    const { type: nodeType, namespace, id, name } = node
     let nlabels = node.labels || []
 
     // include type if a direct match
     // or if 'other' type is selected and this isn't an ignored type
-    let hasType = activeTypeSet.has(type)
+    let hasType = activeTypeSet.has(nodeType)
     if (
       !hasType &&
       includeOther &&
-      !ignoreNodeTypes.has(type) &&
-      !availableTypeSet.has(type)
+      !ignoreNodeTypes.has(nodeType) &&
+      !availableTypeSet.has(nodeType)
     ) {
       hasType = true
     }
@@ -618,7 +627,7 @@ const filterRelationshipNodes = (
     let hasResourceStatus = true
     if (resourceStatuses.size !== 0) {
       const resourceStatus = _.get(node, 'specs.pulse')
-      hasResourceStatus = type !== 'cluster'
+      hasResourceStatus = nodeType !== 'cluster'
       if (resourceStatus && hasResourceStatus) {
         hasResourceStatus =
           (resourceStatuses.has('green') && resourceStatus === 'green') ||
@@ -650,12 +659,29 @@ const filterRelationshipNodes = (
     // filter labels
     let hasLabel = labels.size === 0
     if (!hasLabel) {
-      nlabels = nlabels.map(({ name, value }) => `${name}: ${value}`)
+      nlabels = nlabels.map(({ labelName, value }) => `${labelName}: ${value}`)
       hasLabel = _.difference(alabels, nlabels).length < alabels.length
     }
 
+    // filter by cluster name
+    let hasClustername = true
+    if (
+      nodeType !== 'application' &&
+      nodeType !== 'subscription' &&
+      nodeType !== 'rules' &&
+      clusterNames.size !== 0
+    ) {
+      const clusterName = nodeType === 'cluster' ? name : getClusterName(id)
+      hasClustername = clusterNames.has(clusterName)
+    }
+
     return (
-      hasType && hasNamespace && hasHostIps && hasLabel && hasResourceStatus
+      hasType &&
+      hasNamespace &&
+      hasHostIps &&
+      hasLabel &&
+      hasResourceStatus &&
+      hasClustername
     )
   })
 }

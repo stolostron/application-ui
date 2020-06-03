@@ -608,17 +608,17 @@ const filterRelationshipNodes = (
   const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
   const alabels = [...labels]
   return nodes.filter(node => {
-    const { type, namespace, id, name } = node
+    const { type: nodeType, namespace, id, name } = node
     let nlabels = node.labels || []
 
     // include type if a direct match
     // or if 'other' type is selected and this isn't an ignored type
-    let hasType = activeTypeSet.has(type)
+    let hasType = activeTypeSet.has(nodeType)
     if (
       !hasType &&
       includeOther &&
-      !ignoreNodeTypes.has(type) &&
-      !availableTypeSet.has(type)
+      !ignoreNodeTypes.has(nodeType) &&
+      !availableTypeSet.has(nodeType)
     ) {
       hasType = true
     }
@@ -627,7 +627,7 @@ const filterRelationshipNodes = (
     let hasResourceStatus = true
     if (resourceStatuses.size !== 0) {
       const resourceStatus = _.get(node, 'specs.pulse')
-      hasResourceStatus = type !== 'cluster'
+      hasResourceStatus = nodeType !== 'cluster'
       if (resourceStatus && hasResourceStatus) {
         hasResourceStatus =
           (resourceStatuses.has('green') && resourceStatus === 'green') ||
@@ -659,17 +659,20 @@ const filterRelationshipNodes = (
     // filter labels
     let hasLabel = labels.size === 0
     if (!hasLabel) {
-      nlabels = nlabels.map(({ name, value }) => `${name}: ${value}`)
+      nlabels = nlabels.map(({ labelName, value }) => `${labelName}: ${value}`)
       hasLabel = _.difference(alabels, nlabels).length < alabels.length
     }
 
     // filter by cluster name
     let hasClustername = true
-    if (type !== 'application' && type !== 'subscription' && type !== 'rules') {
-      if (clusterNames.size !== 0) {
-        const clusterName = type === 'cluster' ? name : getClusterName(id)
-        hasClustername = clusterNames.has(clusterName)
-      }
+    if (
+      nodeType !== 'application' &&
+      nodeType !== 'subscription' &&
+      nodeType !== 'rules' &&
+      clusterNames.size !== 0
+    ) {
+      const clusterName = nodeType === 'cluster' ? name : getClusterName(id)
+      hasClustername = clusterNames.has(clusterName)
     }
 
     return (

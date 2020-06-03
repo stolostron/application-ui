@@ -56,7 +56,6 @@ resources(() => {
 const portals = {
   assortedFilterOpenBtn: 'assorted-filter-open-portal-id',
   assortedFilterCloseBtns: 'assorted-filter-close-portal-id',
-  refreshTimeSelectorPortal: 'refresh-time-selector-portal-id',
   typeFilterBar: 'type-filter-bar-portal-id',
   searchTextbox: 'search-textbox-portal-id'
 }
@@ -504,7 +503,6 @@ class ApplicationTopologyModule extends React.Component {
               <div id="resource-toolbar" className="resource-toolbar">
                 <div className="resource-toolbar-container">
                   <div className="resource-toolbar-buttons">
-                    <div id={portals.refreshTimeSelectorPortal} />
                     <div id={portals.assortedFilterOpenBtn} />
                   </div>
                   <div id={portals.assortedFilterCloseBtns} />

@@ -167,7 +167,6 @@ const podNodes = [
     }
   },
   {
-    __typename: "Resource",
     cluster: null,
     clusterName: null,
     id:
@@ -190,7 +189,7 @@ const options = {
 };
 
 const activeFilters = {
-  type: ["application", "rules", "subscription", "pod"]
+  type: ["application", "rules", "subscription", "pod", "cluster"]
 };
 
 const locale = "en-US";
@@ -369,7 +368,9 @@ describe("getAvailableFilters application", () => {
 
   const expectedResult = {
     clusterNames: {
-      availableSet: new Set(),
+      availableSet: new Set([
+        "possiblereptile, braveman, relievedox, sharingpenguin"
+      ]),
       name: "Cluster name"
     },
     labels: {

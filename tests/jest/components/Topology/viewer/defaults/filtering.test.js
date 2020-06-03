@@ -165,6 +165,20 @@ const podNodes = [
         ])
       }
     }
+  },
+  {
+    __typename: "Resource",
+    cluster: null,
+    clusterName: null,
+    id:
+      "member--clusters--possiblereptile, braveman, relievedox, sharingpenguin",
+    labels: null,
+    name: "possiblereptile, braveman, relievedox, sharingpenguin",
+    namespace: "",
+    topology: null,
+    type: "cluster",
+    uid:
+      "member--clusters--possiblereptile, braveman, relievedox, sharingpenguin"
   }
 ];
 const options = {

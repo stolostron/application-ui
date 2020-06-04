@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -137,65 +138,66 @@ class ChannelControl extends React.Component {
                   )
                 }
 
-                if (!isSubchannel && !showMainChannel) {
-                  return // show subscription name only when more than one
-                }
-                const isSelected = idx === selectedIdx
-                const classes = classNames({
-                  'channel-control': true,
-                  'channel-control-title': hasSubchannels,
-                  'channel-control-subchannel': isSubchannel,
-                  selected: isSelected
-                })
-                const handleClick = () => {
-                  this.changeTheChannel(chn)
-                }
-                const handleKeyPress = e => {
-                  if (e.key === 'Enter') {
+                if (isSubchannel || showMainChannel) {
+                  // show subscription name only when more than one
+
+                  const isSelected = idx === selectedIdx
+                  const classes = classNames({
+                    'channel-control': true,
+                    'channel-control-title': hasSubchannels,
+                    'channel-control-subchannel': isSubchannel,
+                    selected: isSelected
+                  })
+                  const handleClick = () => {
                     this.changeTheChannel(chn)
                   }
-                }
-                const tooltip = isSubchannel
-                  ? `${idx}`
-                  : msgs.get(
-                    'application.diagram.channel.tooltip',
-                    [
-                      `${subNamespace}/${subName}`,
-                      `${chnNamespace}/${chnName}`
-                    ],
-                    locale
-                  )
-
-                const scrollIntoViewChn = ref => {
-                  if (ref && isSelected) {
-                    this.scrollIntoViewChn = ref
+                  const handleKeyPress = e => {
+                    if (e.key === 'Enter') {
+                      this.changeTheChannel(chn)
+                    }
                   }
-                }
+                  const tooltip = isSubchannel
+                    ? `${idx}`
+                    : msgs.get(
+                      'application.diagram.channel.tooltip',
+                      [
+                        `${subNamespace}/${subName}`,
+                        `${chnNamespace}/${chnName}`
+                      ],
+                      locale
+                    )
 
-                return (
-                  <div
-                    className={classes}
-                    key={chn ? chn : splitChn.join()}
-                    tabIndex="0"
-                    role={'button'}
-                    aria-label={tooltip}
-                    onClick={handleClick}
-                    ref={scrollIntoViewChn}
-                    onKeyPress={handleKeyPress}
-                  >
-                    {isSubchannel ? (
-                      <React.Fragment>
-                        <div className="channel-control-start">{idx}</div>
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <div className="channel-control-subscripion">
-                          {subName}
-                        </div>
-                      </React.Fragment>
-                    )}
-                  </div>
-                )
+                  const scrollIntoViewChn = ref => {
+                    if (ref && isSelected) {
+                      this.scrollIntoViewChn = ref
+                    }
+                  }
+
+                  return (
+                    <div
+                      className={classes}
+                      key={chn ? chn : splitChn.join()}
+                      tabIndex="0"
+                      role={'button'}
+                      aria-label={tooltip}
+                      onClick={handleClick}
+                      ref={scrollIntoViewChn}
+                      onKeyPress={handleKeyPress}
+                    >
+                      {isSubchannel ? (
+                        <React.Fragment>
+                          <div className="channel-control-start">{idx}</div>
+                        </React.Fragment>
+                      ) : (
+                        <React.Fragment>
+                          <div className="channel-control-subscripion">
+                            {subName}
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </div>
+                  )
+                }
               }
             )}
           </div>

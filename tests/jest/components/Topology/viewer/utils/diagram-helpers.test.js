@@ -24,7 +24,8 @@ import {
   addNodeOCPRouteLocationForCluster,
   computeResourceName,
   getPulseStatusForSubscription,
-  addIngressNodeInfo
+  addIngressNodeInfo,
+  setPlacementRuleDeployStatus
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -1798,6 +1799,50 @@ describe("setResourceDeployStatus 2 ", () => {
   });
 });
 
+describe("setPlacementRuleDeployStatus 1 ", () => {
+  const node = {
+    type: "rules",
+    name: "cassandra",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
+    specs: {
+      raw: {
+        metadata: {
+          selfLink: "aaa"
+        },
+        spec: {
+          selector: "test"
+        }
+      }
+    }
+  };
+  const result = [
+    { isError: true, labelValue: "Number of placed clusters", value: 0 },
+    {
+      isError: true,
+      labelValue: "Error",
+      value:
+        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+    },
+    { type: "spacer" },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink: "aaa"
+        },
+        label: "View Local Resource"
+      }
+    }
+  ];
+  it("setPlacementRuleDeployStatus deployed 1", () => {
+    expect(setPlacementRuleDeployStatus(node, [])).toEqual(result);
+  });
+});
+
 describe("setApplicationDeployStatus 1 ", () => {
   const node = {
     type: "service",
@@ -1828,6 +1873,9 @@ describe("setApplicationDeployStatus 2 ", () => {
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {
       raw: {
+        metadata: {
+          selfLink: "aaa"
+        },
         spec: {
           selector: "test"
         }

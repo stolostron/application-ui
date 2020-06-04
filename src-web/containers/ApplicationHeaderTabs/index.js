@@ -24,6 +24,7 @@ import {
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
+import { refetchIntervalUpdate } from '../../actions/refetch'
 import {
   RESOURCE_TYPES,
   REFRESH_TIMES,
@@ -175,7 +176,8 @@ const mapDispatchToProps = dispatch => {
     mutateSuccessFinished: resourceType =>
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
-      dispatch(delResourceSuccessFinished(resourceType))
+      dispatch(delResourceSuccessFinished(resourceType)),
+    refetchIntervalUpdate: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 const mapStateToProps = state => {

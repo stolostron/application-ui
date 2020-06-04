@@ -8,7 +8,6 @@
  *******************************************************************************/
 'use strict'
 
-import R from 'ramda'
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
@@ -47,6 +46,10 @@ import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 import { refetchIntervalUpdate } from '../../actions/refetch'
+import {
+  refetchIntervalChanged,
+  manualRefetchTriggered
+} from '../../shared/utils/refetch'
 
 resources(() => {
   require('./style.scss')
@@ -193,19 +196,13 @@ class ApplicationTopologyModule extends React.Component {
 
   componentDidUpdate(prevProps) {
     // if old and new interval are different, restart polling
-    if (
-      R.path(['refetch', 'interval'], prevProps) !==
-      R.path(['refetch', 'interval'], this.props)
-    ) {
+    if (refetchIntervalChanged(prevProps, this.props)) {
       this.stopPolling()
       this.startPolling()
     }
 
     // manual refetch
-    if (
-      R.path(['refetch', 'doRefetch'], prevProps) === false &&
-      R.path(['refetch', 'doRefetch'], this.props) === true
-    ) {
+    if (manualRefetchTriggered(prevProps, this.props)) {
       this.refetchData()
       // reset polling after manual refetch
       this.stopPolling()

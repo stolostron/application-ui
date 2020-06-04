@@ -7,7 +7,6 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
-import R from 'ramda'
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
@@ -53,6 +52,10 @@ import {
 } from '../common/ResourceOverview/utils'
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
+import {
+  refetchIntervalChanged,
+  manualRefetchTriggered
+} from '../../shared/utils/refetch'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -226,24 +229,17 @@ class ApplicationDeploymentPipeline extends React.Component {
 
   componentDidUpdate(prevProps) {
     // if old and new interval are different, restart polling
-    if (
-      R.path(['refetch', 'interval'], prevProps) !==
-      R.path(['refetch', 'interval'], this.props)
-    ) {
+    if (refetchIntervalChanged(prevProps, this.props)) {
       this.stopPolling()
       this.startPolling()
     }
 
     // manual refetch
-    if (
-      R.path(['refetch', 'doRefetch'], prevProps) === false &&
-      R.path(['refetch', 'doRefetch'], this.props) === true
-    ) {
+    if (manualRefetchTriggered(prevProps, this.props)) {
       this.reload()
       // reset polling after manual refetch
       this.stopPolling()
       this.startPolling()
-      this.props.refetch.doRefetch = false
     }
   }
 

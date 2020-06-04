@@ -28,6 +28,10 @@ import {
   concatDataForSubTextKey
 } from '../utils'
 import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
+import {
+  refetchIntervalChanged,
+  manualRefetchTriggered
+} from '../../../../../shared/utils/refetch'
 
 /* eslint-disable react/prop-types */
 
@@ -240,19 +244,13 @@ class OverviewCards extends React.Component {
 
   componentDidUpdate(prevProps) {
     // if old and new interval are different, restart polling
-    if (
-      R.path(['refetch', 'interval'], prevProps) !==
-      R.path(['refetch', 'interval'], this.props)
-    ) {
+    if (refetchIntervalChanged(prevProps, this.props)) {
       this.stopPolling()
       this.startPolling()
     }
 
     // manual refetch
-    if (
-      R.path(['refetch', 'doRefetch'], prevProps) === false &&
-      R.path(['refetch', 'doRefetch'], this.props) === true
-    ) {
+    if (manualRefetchTriggered(prevProps, this.props)) {
       this.reload()
       // reset polling after manual refetch
       this.stopPolling()

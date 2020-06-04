@@ -1,166 +1,307 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
- * (c) Copyright IBM Corporation 2017, 2019. All Rights Reserved.
+ * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
  * Copyright (c) 2020 Red Hat, Inc.
- * US Government Users Restricted Rights - Use, duplication or disclosure 
- * restricted by GSA ADP Schedule Contract with IBM Corp.
+ *
+ * Note to U.S. Government Users Restricted Rights:
+ * Use, duplication or disclosure restricted by GSA ADP Schedule
+ * Contract with IBM Corp.
  *******************************************************************************/
 @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'variables';
 
-.overview-content {
+
+/********************************************
+  ****   PURE TOPOLOGY PAGE ********
+  ********************************************/
+
+.bx--tabs.topologyDiagramTabs {
+  padding-left: 5%;
+  background-color: white;
+  min-height: 3rem;
+  overflow: hidden;
+}
+
+.topologyDiagramContainer {
+  height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  margin-left: -.625rem;
-  margin-right: -.625rem;
+  background-color: #fff;
+  position: relative;
 
-  .bx--module {
-    flex: 1 0 50%;
-    max-width: 100%;
-
-    .bx--module__inner {
-      flex: 1 0 50%;
-      position: relative;
-      min-height: 250px;
-      overflow: auto;
-
-      .yaml-editor-button {
-        position: relative;
-        float: right;
-        margin: -2.5rem 0.5rem 0 0;
-
-        button {
-          margin: 0 0.3rem;
-          width: 5.5rem;
-          font-size: 0.7rem;
-        }
-
-        .read-only-button {
-          background-color: $ibm-colors__gray--40;
-        }
-      }
-
-      .bx--module__content {
-        .bx--structured-list-tbody {
-          .bx--structured-list-row {
-            .bx--structured-list-td:nth-child(2) {
-              max-width: 20rem;
-              word-wrap: break-word;
-            }
-          }
-        }
-      }
-
-      .bx--structured-list-th:first-child {
-        min-width: 150px;
-      }
-    }
-  }
-
-  .overview-content-header {
-    font-size: 18px;
-    margin-bottom: 1rem;
-  }
-
-  .overview-content-additional-details {
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-
-    .bx--accordion__title {
-      color: #3d70b2;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .bx--accordion__item {
-      border-bottom: none;
-    }
-
-    .bx--accordion__content {
-      padding: 0;
-    }
-
-    .overview-content,
-    .bx--module {
-      padding: 0;
-    }
-
-    .bx--accordion__item--active > .bx--accordion__content {
-      padding: 1rem 0rem 1.5rem;
-    }
-
-    .bx--accordion__arrow {
-      fill: #3d70b2;
-    }
-  }
-
-  .module-spinner {
+  .refresh-time-container {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    height: 20px;
+    margin-right: 10px;
     position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: auto;
+    right: 14px;
+    top: 4px;
+
+    .bx--loading--small {
+      width: 1rem;
+      height: 1rem;
+      margin: -2px 0;
+    }
   }
 
-  .overview-cards-info-container {
-    width: 100%;
-    height: 180px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-    padding: 15px 25px;
-  }
-
-  &-right {
-    flex: 1 0 50%;
+  .channel-controls-container {
+    width: 20px;
+    border-right: 1px solid #dfe3e6;
     display: flex;
     flex-direction: column;
+    padding-top: 2px;
 
-    .bx--module {
-      min-height: 25rem;
-    }
+    .channel-control {
+      padding: 2px 0 2px 3px;
+      position: relative;
+      color: #152935;
+      line-height: 10px;
 
-    .yamlEditorContainer {
-      height: calc(100% - 3rem);
+      &-subscripion {
+        font-size: 8px;
+      }
 
-      & * {
-        font-family: unset;
+      &-channel {
+        font-size: 10px;
+        font-weight: 600;
+      }
+
+      &-start {
+        font-size: 0.3rem;
+        font-weight: 600;
+      }
+
+      &-end {
+        font-size: 8px;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: #f3f7fb;
+      }
+
+      &.selected {
+        border-left: 4px solid #3d70b2;
+        background-color: #f3f7fb;
       }
     }
   }
 
-  &-bottom {
-    width: 100%;
-    flex: 1 0 100%;
+  .diagramViewerDiagram {
+    position: relative;
+    flex-grow: 1;
+
+    .diagramViewerContainerContainer {
+      width: 100%;
+      height: calc(100vh - 240px);
+      overflow: hidden;
+      position: relative;
+
+      .secondaryLoad {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.scrolled {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .diagramViewerContainer {
+        width: 100%;
+      }
+
+      .layoutLoadingContainer {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+
+/********************************************
+  ***   HYBRID RESOURCE/TOPOLOGY PAGE ******
+  ********************************************/
+
+.resourceDiagramContainer {
+  position: relative;
+
+  .diagramViewerDiagram {
+    .diagramViewerContainerContainer {
+      width: 100%;
+      height: calc(100vh - 220px);
+      background-color: #fff;
+      position: relative;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.10);
+      overflow: hidden;
+
+      .secondaryLoad {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.scrolled {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .diagramViewerContainer {
+        margin-right: 0;
+      }
+
+      .bx--inline-notification--error {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+      }
+    }
+  }
+}
+
+.diagramViewerDiagram {
+  .diagramRefreshContainer {
+    position: absolute;
+    top: 32px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    .bx--loading--small {
+      width: 1rem;
+      height: 1rem;
+      margin: -2px 0;
+      visibility: hidden;
+    }
+
+    &.refreshing {
+      .bx--loading--small {
+        visibility: visible;
+      }
+    }
   }
 
-  &-space-filler {
-    width: 100%;
-    display: inline-block;
-    min-height: 65px;
+  .diagramTitle {
+    position: absolute;
+    z-index: 1000;
+    font-size: 28px;
+    font-weight: 600;
+    color: #80808080;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 16px;
   }
+}
 
-  &-with-padding {
-    padding: 0 10px 30px 10px;
-  }
-
-  &-with-padding-except-left {
-    padding: 0 10px 30px 0;
-  }
-
-  b {
+.diagramViewerContainer {
+  .hub-label {
     font-weight: bold;
   }
 
-  li {
-    margin-bottom: .3rem;
-  }
+  &.search-mode {
+    .matched {
+      fill: #d8124b;
+      stroke-width: 0;
+    }
 
-  code {
-    font-size: .6rem;
-  }
-
-  .bx--snippet.bx--snippet--code {
-    margin-bottom: .3rem;
+    .hub-label {
+      font-weight: normal;
+    }
   }
 }
+
+/********************************************
+  *****  SHOW FILTER BAR  *****
+  ********************************************/
+.topologyPage {
+  .filter-bar {
+    visibility: hidden;
+  }
+}
+
+.topologyPage.first-load {
+  .filter-bar {
+    visibility: visible;
+  }
+}
+
+.topologyTab {
+  margin: 0 .5rem 0 .5rem;
+
+  .topology-type-filter-bar {
+    visibility: hidden;
+  }
+
+  .topology-diagram-toolbar {
+    position: fixed;
+    top: calc(#{$secondary-header-top} + 10px);
+    right: 30px;
+    z-index: 1001;
+    background-color: $color__white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .no-information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 20rem;
+
+    .no-information-icon {
+      width: 175px;
+      height: 240px;
+    }
+
+    .no-information-title {
+      font-weight: bold;
+      margin-bottom: 9px;
+      font-size: 18px;
+      text-align: center;
+      color: $mcm_color_blue;
+    }
+
+    .no-information-detail {
+      font-weight: 300;
+      font-size: 14px;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.2;
+      color: $color__navy-gray-6;
+    }
+  }
+}
+
+.topologyTab.first-load.diagram-shown {
+  .topology-type-filter-bar {
+    visibility: visible;
+    height: 100%;
+  }
+}
+
+.title {
+  text {
+    text-anchor: middle;
+    fill: $color__navy-gray-4;
+    cursor: default;
+  }
+}
+
+.topologyNoCluster {
+  margin-top: 54px;
+}
+
+svg.topologyDiagram {
+  height: 100%;
+  width: 100%;
+}
+ 

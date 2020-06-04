@@ -19,16 +19,24 @@ const channelController = {
   isChangingChannel: undefined,
   changeTheChannel: jest.fn,
   allChannels: [
+    "__ALL__/__ALL__//__ALL__/__ALL__",
     "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
     "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount"
   ]
 };
-describe("EditorBar components", () => {
-  it("empty", () => {
-    const component = shallow(<ChannelController />);
-    expect(component).toMatchSnapshot();
-  });
 
+const channelController2 = {
+  activeChannel:
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///elasticsearch-es-replicationcontroller///persistent-volume-provisioning-glusterfs-heketi-secret-secret",
+  isChangingChannel: undefined,
+  changeTheChannel: jest.fn,
+  allChannels: [
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
+    "default/guestbook-app//gbapp-ch/guestbook-app-latest///mysql-wordpress-pd-wordpress-mysql-service///staging-elasticsearch-elasticsearch-serviceaccount"
+  ]
+};
+describe("ChannelController components 1", () => {
   it("default", () => {
     const component = shallow(
       <ChannelController channelControl={channelController} locale={"en-US"} />
@@ -37,13 +45,17 @@ describe("EditorBar components", () => {
   });
 });
 
-describe("EditorBar components", () => {
-  it("empty", () => {
-    const component = shallow(<ChannelController />);
+describe("ChannelController components 2", () => {
+  it("ChannelController components 2", () => {
+    const component = shallow(
+      <ChannelController channelControl={channelController2} locale={"en-US"} />
+    );
     expect(component).toMatchSnapshot();
   });
+});
 
-  it("default", () => {
+describe("ChannelController components 3", () => {
+  it("ChannelController components 3", () => {
     const wrapper = mount(
       <ChannelController channelControl={channelController} locale={"en-US"} />
     );

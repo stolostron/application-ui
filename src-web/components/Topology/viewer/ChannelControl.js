@@ -1,7 +1,6 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
- * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
@@ -13,6 +12,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Scrollbars } from 'react-custom-scrollbars'
 import classNames from 'classnames'
+import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
 class ChannelControl extends React.Component {
@@ -63,9 +63,10 @@ class ChannelControl extends React.Component {
   }
 
   render() {
-    const { channelControl = {} } = this.props
+    const { channelControl = {}, locale } = this.props
     const { diagramHeight = 0 } = this.state
     const { allChannels } = channelControl
+
     if (allChannels) {
       let { activeChannel } = channelControl
       const { fetchChannel } = this.state
@@ -89,6 +90,8 @@ class ChannelControl extends React.Component {
 
       // determine displayed channels
       const displayChannels = []
+      const showMainChannel = Object.keys(channelMap).length > 2
+
       Object.values(channelMap).forEach(({ chnl, splitChn, subchannels }) => {
         const hasSubchannels = subchannels.length > 0
         displayChannels.push({
@@ -114,7 +117,7 @@ class ChannelControl extends React.Component {
       }
       return (
         <Scrollbars
-          style={{ width: 20, height: diagramHeight }}
+          style={{ width: 60, height: diagramHeight }}
           renderView={this.renderView}
           renderThumbVertical={this.renderThumbVertical}
           renderThumbHorizontal={this.renderThumbHorizontal}
@@ -122,49 +125,79 @@ class ChannelControl extends React.Component {
           className="channel-controls-container"
         >
           <div className="channel-controls-container" ref={this.setControlRef}>
-            {displayChannels.map(({ chn, splitChn, isSubchannel }, idx) => {
-              const isSelected = idx === selectedIdx
-              const classes = classNames({
-                'channel-control': true,
-                'channel-control-title': false,
-                'channel-control-subchannel': isSubchannel,
-                selected: isSelected
-              })
-              const handleClick = () => {
-                this.changeTheChannel(chn)
-              }
-              const handleKeyPress = e => {
-                if (e.key === 'Enter') {
+            {displayChannels.map(
+              ({ chn, splitChn, hasSubchannels, isSubchannel }, idx) => {
+                const chnName = splitChn
+                let [, subNamespace, subName, chnNamespace] = splitChn
+                if (subName === '__ALL__' && chnName === '__ALL__') {
+                  subNamespace = chnNamespace = ''
+                  subName = msgs.get(
+                    'application.diagram.all.subscriptions',
+                    locale
+                  )
+                }
+
+                if (!isSubchannel && !showMainChannel) {
+                  return // show subscription name only when more than one
+                }
+                const isSelected = idx === selectedIdx
+                const classes = classNames({
+                  'channel-control': true,
+                  'channel-control-title': hasSubchannels,
+                  'channel-control-subchannel': isSubchannel,
+                  selected: isSelected
+                })
+                const handleClick = () => {
                   this.changeTheChannel(chn)
                 }
-              }
-              const tooltip = `${idx}`
-
-              const scrollIntoViewChn = ref => {
-                if (ref && isSelected) {
-                  this.scrollIntoViewChn = ref
+                const handleKeyPress = e => {
+                  if (e.key === 'Enter') {
+                    this.changeTheChannel(chn)
+                  }
                 }
-              }
+                const tooltip = isSubchannel
+                  ? `${idx}`
+                  : msgs.get(
+                    'application.diagram.channel.tooltip',
+                    [
+                      `${subNamespace}/${subName}`,
+                      `${chnNamespace}/${chnName}`
+                    ],
+                    locale
+                  )
 
-              return (
-                <div
-                  className={classes}
-                  key={chn ? chn : splitChn.join()}
-                  tabIndex="0"
-                  role={'button'}
-                  aria-label={tooltip}
-                  onClick={handleClick}
-                  ref={scrollIntoViewChn}
-                  onKeyPress={handleKeyPress}
-                >
-                  {isSubchannel && (
-                    <React.Fragment>
-                      <div className="channel-control-start">{idx}</div>
-                    </React.Fragment>
-                  )}
-                </div>
-              )
-            })}
+                const scrollIntoViewChn = ref => {
+                  if (ref && isSelected) {
+                    this.scrollIntoViewChn = ref
+                  }
+                }
+
+                return (
+                  <div
+                    className={classes}
+                    key={chn ? chn : splitChn.join()}
+                    tabIndex="0"
+                    role={'button'}
+                    aria-label={tooltip}
+                    onClick={handleClick}
+                    ref={scrollIntoViewChn}
+                    onKeyPress={handleKeyPress}
+                  >
+                    {isSubchannel ? (
+                      <React.Fragment>
+                        <div className="channel-control-start">{idx}</div>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <div className="channel-control-subscripion">
+                          {subName}
+                        </div>
+                      </React.Fragment>
+                    )}
+                  </div>
+                )
+              }
+            )}
           </div>
         </Scrollbars>
       )

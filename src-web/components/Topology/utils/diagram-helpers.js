@@ -847,6 +847,20 @@ export const setPlacementRuleDeployStatus = (node, details) => {
     type: 'spacer'
   })
 
+  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+  selfLink &&
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.local.yaml'),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: 'local-cluster',
+          selfLink: selfLink
+        }
+      }
+    })
+
   return details
 }
 
@@ -865,20 +879,19 @@ export const setApplicationDeployStatus = (node, details) => {
     )
   )
 
-  details.push({
-    type: 'spacer'
-  })
-
-  addPropertyToList(
-    details,
-    getNodePropery(
-      node,
-      ['specs', 'channels'],
-      'spec.app.channels',
-      msgs.get('resource.application.error.msg'),
-      true
-    )
-  )
+  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+  selfLink &&
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.local.yaml'),
+        data: {
+          action: 'show_resource_yaml',
+          cluster: 'local-cluster',
+          selfLink: selfLink
+        }
+      }
+    })
 }
 
 export const addNodeOCPRouteLocationForCluster = (

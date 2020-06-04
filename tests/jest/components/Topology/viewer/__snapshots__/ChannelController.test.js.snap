@@ -40,14 +40,6 @@ ShallowWrapper {
         className="channel-controls-container"
       >
         <div
-          aria-label="0"
-          className="channel-control"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          tabIndex="0"
-        />
-        <div
           aria-label="1"
           className="channel-control channel-control-subchannel selected"
           onClick={[Function]}
@@ -89,7 +81,7 @@ ShallowWrapper {
       "renderView": [Function],
       "style": Object {
         "height": 0,
-        "width": 20,
+        "width": 60,
       },
       "tagName": "div",
       "thumbMinSize": 30,
@@ -102,14 +94,7 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": Array [
-          <div
-            aria-label="0"
-            className="channel-control"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          />,
+          undefined,
           <div
             aria-label="1"
             className="channel-control channel-control-subchannel selected"
@@ -147,23 +132,7 @@ ShallowWrapper {
       },
       "ref": null,
       "rendered": Array [
-        Object {
-          "instance": null,
-          "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest,default,guestbook-app,gbapp-ch,guestbook-app-latest",
-          "nodeType": "host",
-          "props": Object {
-            "aria-label": "0",
-            "children": undefined,
-            "className": "channel-control",
-            "onClick": [Function],
-            "onKeyPress": [Function],
-            "role": "button",
-            "tabIndex": "0",
-          },
-          "ref": [Function],
-          "rendered": null,
-          "type": "div",
-        },
+        undefined,
         Object {
           "instance": null,
           "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",
@@ -281,14 +250,6 @@ ShallowWrapper {
           className="channel-controls-container"
         >
           <div
-            aria-label="0"
-            className="channel-control"
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="button"
-            tabIndex="0"
-          />
-          <div
             aria-label="1"
             className="channel-control channel-control-subchannel selected"
             onClick={[Function]}
@@ -330,7 +291,7 @@ ShallowWrapper {
         "renderView": [Function],
         "style": Object {
           "height": 0,
-          "width": 20,
+          "width": 60,
         },
         "tagName": "div",
         "thumbMinSize": 30,
@@ -343,14 +304,7 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <div
-              aria-label="0"
-              className="channel-control"
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="button"
-              tabIndex="0"
-            />,
+            undefined,
             <div
               aria-label="1"
               className="channel-control channel-control-subchannel selected"
@@ -388,23 +342,7 @@ ShallowWrapper {
         },
         "ref": null,
         "rendered": Array [
-          Object {
-            "instance": null,
-            "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest,default,guestbook-app,gbapp-ch,guestbook-app-latest",
-            "nodeType": "host",
-            "props": Object {
-              "aria-label": "0",
-              "children": undefined,
-              "className": "channel-control",
-              "onClick": [Function],
-              "onKeyPress": [Function],
-              "role": "button",
-              "tabIndex": "0",
-            },
-            "ref": [Function],
-            "rendered": null,
-            "type": "div",
-          },
+          undefined,
           Object {
             "instance": null,
             "key": "default/guestbook-app//gbapp-ch/guestbook-app-latest///cassandra-cassandra-service///mysql-wordpress-pd-wordpress-mysql-deployment",

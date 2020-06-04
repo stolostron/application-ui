@@ -46,7 +46,7 @@
   }
 
   .channel-controls-container {
-    width: 20px;
+    width: 60px;
     border-right: 1px solid #dfe3e6;
     display: flex;
     flex-direction: column;
@@ -60,6 +60,7 @@
 
       &-subscripion {
         font-size: 8px;
+        font-weight: bold;
       }
 
       &-channel {

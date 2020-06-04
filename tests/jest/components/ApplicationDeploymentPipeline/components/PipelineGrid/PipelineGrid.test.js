@@ -113,29 +113,29 @@ describe("PipelineGrid", () => {
     );
 
     wrapper
-      .find(".channelEditIcon")
-      .at(0)
-      .simulate("click");
-
-    wrapper
-      .find(".yamlEditSubContainer")
+      .find(".channelMenueContainer")
       .at(0)
       .simulate("click");
     wrapper
-      .find(".yamlEditSubContainer")
+      .find(".channelMenueContainer")
       .at(0)
       .simulate("keypress");
-    wrapper
-      .find(".subscriptionEditIcon")
-      .at(0)
-      .simulate("click");
 
     wrapper
-      .find(".placementRuleDesc")
+      .find(".subscriptionMenueContainer")
       .at(0)
       .simulate("click");
     wrapper
-      .find(".placementRuleDesc")
+      .find(".subscriptionMenueContainer")
+      .at(0)
+      .simulate("keypress");
+
+    wrapper
+      .find(".placementRuleDescEdit")
+      .at(0)
+      .simulate("click");
+    wrapper
+      .find(".placementRuleDescEdit")
       .at(0)
       .simulate("keypress");
     wrapper

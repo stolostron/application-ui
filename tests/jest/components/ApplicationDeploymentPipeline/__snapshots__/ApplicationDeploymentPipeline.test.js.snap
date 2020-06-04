@@ -1472,48 +1472,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -1537,48 +1530,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -1602,48 +1588,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -1733,57 +1712,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -2881,48 +2851,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -2946,48 +2909,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -3011,48 +2967,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -3142,57 +3091,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -5272,48 +5212,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -5337,48 +5270,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -5402,48 +5328,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -5533,57 +5452,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -6681,48 +6591,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -6746,48 +6649,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -6811,48 +6707,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -6942,57 +6831,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -8090,48 +7970,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -8155,48 +8028,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -8220,48 +8086,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -8351,57 +8210,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -9499,48 +9349,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -9564,48 +9407,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -9629,48 +9465,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -9760,57 +9589,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -10901,48 +10721,41 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 className="channelNameHeader"
               >
                 <div
-                  className="yamlEditContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
+                  className="channelMenueContainer"
                 >
                   <div
-                    className="yamlTitle"
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
                   >
-                    YAML
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
                   </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="channelEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
                 </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="channelTitle"
                 >
@@ -10996,57 +10809,48 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
             >
               <div
                 className="bx--tile channelColumnDeployable addHover"
-                onClick={[Function]}
               >
+                <div
+                  className="subscriptionMenueContainer"
+                >
+                  <div
+                    aria-expanded={false}
+                    aria-haspopup={true}
+                    aria-label="Overflow-menu"
+                    className="bx--overflow-menu"
+                    onClose={[Function]}
+                    onKeyDown={[Function]}
+                    open={false}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <svg
+                      alt="Open and close list of options"
+                      aria-label="Open and close list of options"
+                      className="bx--overflow-menu__icon"
+                      fillRule="evenodd"
+                      focusable="false"
+                      height="15"
+                      onClick={[Function]}
+                      onKeyDown={[Function]}
+                      role="img"
+                      viewBox="0 0 3 15"
+                      width="3"
+                    >
+                      <title>
+                        Open and close list of options
+                      </title>
+                      <path
+                        d="M0 1.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 7.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0M0 13.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 1 1-3 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
                 <div
                   className="subColHeader"
                 >
                   Subscription
                 </div>
-                <div
-                  className="yamlEditSubContainer"
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <div
-                    className="yamlTitleSub"
-                  >
-                    YAML
-                  </div>
-                  <svg
-                    alt=""
-                    aria-label=""
-                    className="subscriptionEditIcon"
-                    fill="#6089bf"
-                    fillRule="evenodd"
-                    height="16"
-                    name="icon--edit"
-                    onClick={[Function]}
-                    role="img"
-                    viewBox="0 0 16 16"
-                    width="16"
-                  >
-                    <title>
-                      
-                    </title>
-                    <path
-                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                    />
-                  </svg>
-                </div>
-                <div
-                  onClick={[Function]}
-                  onKeyPress={[Function]}
-                  role="button"
-                  style={
-                    Object {
-                      "visibility": "hidden",
-                    }
-                  }
-                  tabIndex={0}
-                />
                 <div
                   className="subColName"
                 >
@@ -11060,43 +10864,17 @@ exports[`ApplicationDeploymentPipeline ApplicationDeploymentPipeline renders cor
                 <div>
                   <div
                     className="placementRuleDesc"
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
                   >
-                    Placement Rule: guestbook-placementrule 
-                    <svg
-                      alt=""
-                      aria-label=""
-                      className="placementEditIcon"
-                      fill="#6089bf"
-                      fillRule="evenodd"
-                      height="16"
-                      name="icon--edit"
-                      role="img"
-                      viewBox="0 0 16 16"
-                      width="16"
+                    <span
+                      className="placementRuleDescEdit"
+                      onClick={[Function]}
+                      onKeyPress={[Function]}
+                      role="button"
+                      tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
                     >
-                      <title>
-                        
-                      </title>
-                      <path
-                        d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                      />
-                    </svg>
+                      Placement Rule: guestbook-placementrule 
+                    </span>
                   </div>
-                  <div
-                    onClick={[Function]}
-                    onKeyPress={[Function]}
-                    role="button"
-                    style={
-                      Object {
-                        "visibility": "hidden",
-                      }
-                    }
-                    tabIndex={0}
-                  />
                 </div>
                 <div
                   className="progressBarContainer"

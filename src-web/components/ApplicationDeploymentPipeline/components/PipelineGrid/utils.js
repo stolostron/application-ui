@@ -249,10 +249,10 @@ export const getStandaloneSubsWithInvalidChannel = (
   const subsWithNoChannel = []
   subscriptions.forEach(sub => {
     let channelFound = false
-    for (var i = 0; i < channelList.length && !channelFound; i++) {
+    for (let i = 0; i < channelList.length && !channelFound; i++) {
       if (channelList[i].data && channelList[i].data.related) {
         const channelSub = channelList[i].data.related
-        for (var j = 0; j < channelSub.length && !channelFound; j++) {
+        for (let j = 0; j < channelSub.length && !channelFound; j++) {
           if (channelSub[j].items) {
             channelFound = channelSub[j].items.some(
               item => sub._uid === item._uid

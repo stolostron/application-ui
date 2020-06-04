@@ -294,9 +294,11 @@ const LeftColumnForApplicationNames = (
   )
 }
 
+const editChannelAction = 'actions.edit.channel'
+const deleteChannelAction = 'actions.delete.channel'
+
 const getChannelMenuActions = () => {
-  const actions = ['actions.edit.channel', 'actions.delete.channel']
-  return actions
+  return [editChannelAction, deleteChannelAction]
 }
 
 const handleChannelActions = (
@@ -305,9 +307,9 @@ const handleChannelActions = (
   getChannelResource,
   deleteResource
 ) => {
-  if (action === 'actions.edit.channel') {
+  if (action === editChannelAction) {
     editResourceClick(channel, getChannelResource)
-  } else if (action === 'actions.delete.channel') {
+  } else if (action === deleteChannelAction) {
     deleteResource(RESOURCE_TYPES.HCM_CHANNELS, channel)
   }
 }
@@ -416,15 +418,20 @@ const EmptySubscriptionTile = locale => {
   )
 }
 
+const editSubAction = 'actions.edit.subscription'
+const deleteSubAction = 'actions.delete.subscription'
+const editPRAction = 'actions.edit.placementrule'
+const deletePRAction = 'actions.delete.placementrule'
+const viewDetailsAction = 'actions.view.details'
+
 const getSubscriptionMenuActions = () => {
-  const actions = [
-    'actions.view.details',
-    'actions.edit.subscription',
-    'actions.edit.placementrule',
-    'actions.delete.subscription',
-    'actions.delete.placementrule'
+  return [
+    viewDetailsAction,
+    editSubAction,
+    editPRAction,
+    deleteSubAction,
+    deletePRAction
   ]
-  return actions
 }
 
 const handleSubscriptionActions = (
@@ -436,16 +443,16 @@ const handleSubscriptionActions = (
   deleteResource
 ) => {
   switch (action) {
-  case 'actions.edit.subscription':
+  case editSubAction:
     editResourceClick(subscription, getSubscriptionResource)
     break
-  case 'actions.delete.subscription':
+  case deleteSubAction:
     deleteResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, subscription)
     break
-  case 'actions.edit.placementrule':
+  case editPRAction:
     editResourceClick(placementRule, getPlacementRuleResource)
     break
-  case 'actions.delete.placementrule':
+  case deletePRAction:
     deleteResource(RESOURCE_TYPES.HCM_PLACEMENT_RULES, placementRule)
     break
   }
@@ -481,16 +488,13 @@ const SubscriptionTile = (
           {subscriptionMenuActions.map(action => (
             <OverflowMenuItem
               data-table-action={action}
-              isDelete={
-                action === 'actions.delete.subscription' ||
-                action === 'actions.delete.placementrule'
-              }
+              isDelete={action === deleteSubAction || action === deletePRAction}
               disabled={
                 action.includes('placementrule') &&
                 !(placementRule && placementRule.name)
               }
               onClick={() => {
-                if (action === 'actions.view.details') {
+                if (action === viewDetailsAction) {
                   onSubscriptionClick(
                     openSubscriptionModal,
                     setSubscriptionModalHeaderInfo,

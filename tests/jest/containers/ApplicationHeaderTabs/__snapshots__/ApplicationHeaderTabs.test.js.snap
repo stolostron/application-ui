@@ -7,77 +7,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
   <div
     className="whiteSpacer"
   >
-    <div
-      className="refresh-time-selection"
-    >
-      <div
-        aria-label="Refresh"
-        className="button"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        tabIndex="0"
-        title="Refresh"
-      >
-        <svg
-          className="button-icon"
-        >
-          <use
-            href="#diagramIcons_autoRefresh"
-          />
-        </svg>
-      </div>
-      <div
-        aria-label="Choose refresh"
-        className="bx--dropdown selection bx--list-box"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        role="listbox"
-        tabIndex="0"
-      >
-        <div
-          aria-expanded={false}
-          aria-haspopup={true}
-          aria-label="open menu"
-          className="bx--list-box__field"
-          data-toggle={true}
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onKeyDown={[Function]}
-          role="button"
-          tabIndex="0"
-          type="button"
-        >
-          <span
-            className="bx--list-box__label"
-            htmlFor="downshift-1-input"
-          >
-            Refresh every {0}s
-          </span>
-          <div
-            className="bx--list-box__menu-icon"
-          >
-            <svg
-              alt="Open menu"
-              aria-label="Open menu"
-              fillRule="evenodd"
-              height="5"
-              role="img"
-              viewBox="0 0 10 5"
-              width="10"
-            >
-              <title>
-                Open menu
-              </title>
-              <path
-                d="M0 0l5 4.998L10 0z"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}
@@ -99,9 +28,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
           href="#"
           onClick={[Function]}
           tabIndex={-1}
-        >
-          
-        </a>
+        />
         <svg
           alt="show menu options"
           aria-label="show menu options"
@@ -161,6 +88,77 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
             Resources
           </a>
         </li>
+        <div
+          className="refresh-time-selection"
+        >
+          <div
+            aria-label="Refresh"
+            className="button"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+            title="Refresh"
+          >
+            <svg
+              className="button-icon"
+            >
+              <use
+                href="#diagramIcons_autoRefresh"
+              />
+            </svg>
+          </div>
+          <div
+            aria-label="Choose refresh"
+            className="bx--dropdown selection bx--list-box"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="listbox"
+            tabIndex="0"
+          >
+            <div
+              aria-expanded={false}
+              aria-haspopup={true}
+              aria-label="open menu"
+              className="bx--list-box__field"
+              data-toggle={true}
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+              type="button"
+            >
+              <span
+                className="bx--list-box__label"
+                htmlFor="downshift-1-input"
+              >
+                Refresh every {0}s
+              </span>
+              <div
+                className="bx--list-box__menu-icon"
+              >
+                <svg
+                  alt="Open menu"
+                  aria-label="Open menu"
+                  fillRule="evenodd"
+                  height="5"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Open menu
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </ul>
     </nav>
     <div
@@ -175,6 +173,12 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
       hidden={true}
       selected={false}
     />
+    <div
+      aria-hidden={false}
+      className="tab-content"
+      hidden={false}
+      selected={true}
+    />
   </div>
 </div>
 `;
@@ -186,77 +190,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
   <div
     className="whiteSpacer"
   >
-    <div
-      className="refresh-time-selection"
-    >
-      <div
-        aria-label="Refresh"
-        className="button"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        tabIndex="0"
-        title="Refresh"
-      >
-        <svg
-          className="button-icon"
-        >
-          <use
-            href="#diagramIcons_autoRefresh"
-          />
-        </svg>
-      </div>
-      <div
-        aria-label="Choose refresh"
-        className="bx--dropdown selection bx--list-box"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        role="listbox"
-        tabIndex="0"
-      >
-        <div
-          aria-expanded={false}
-          aria-haspopup={true}
-          aria-label="open menu"
-          className="bx--list-box__field"
-          data-toggle={true}
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onKeyDown={[Function]}
-          role="button"
-          tabIndex="0"
-          type="button"
-        >
-          <span
-            className="bx--list-box__label"
-            htmlFor="downshift-2-input"
-          >
-            Refresh every {0}s
-          </span>
-          <div
-            className="bx--list-box__menu-icon"
-          >
-            <svg
-              alt="Open menu"
-              aria-label="Open menu"
-              fillRule="evenodd"
-              height="5"
-              role="img"
-              viewBox="0 0 10 5"
-              width="10"
-            >
-              <title>
-                Open menu
-              </title>
-              <path
-                d="M0 0l5 4.998L10 0z"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}
@@ -359,6 +292,77 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
             Incidents
           </a>
         </li>
+        <div
+          className="refresh-time-selection"
+        >
+          <div
+            aria-label="Refresh"
+            className="button"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+            title="Refresh"
+          >
+            <svg
+              className="button-icon"
+            >
+              <use
+                href="#diagramIcons_autoRefresh"
+              />
+            </svg>
+          </div>
+          <div
+            aria-label="Choose refresh"
+            className="bx--dropdown selection bx--list-box"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="listbox"
+            tabIndex="0"
+          >
+            <div
+              aria-expanded={false}
+              aria-haspopup={true}
+              aria-label="open menu"
+              className="bx--list-box__field"
+              data-toggle={true}
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+              type="button"
+            >
+              <span
+                className="bx--list-box__label"
+                htmlFor="downshift-2-input"
+              >
+                Refresh every {0}s
+              </span>
+              <div
+                className="bx--list-box__menu-icon"
+              >
+                <svg
+                  alt="Open menu"
+                  aria-label="Open menu"
+                  fillRule="evenodd"
+                  height="5"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Open menu
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </ul>
     </nav>
     <div
@@ -383,6 +387,12 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
       hidden={true}
       selected={false}
     />
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
   </div>
 </div>
 `;
@@ -394,77 +404,6 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
   <div
     className="whiteSpacer"
   >
-    <div
-      className="refresh-time-selection"
-    >
-      <div
-        aria-label="Refresh"
-        className="button"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        tabIndex="0"
-        title="Refresh"
-      >
-        <svg
-          className="button-icon"
-        >
-          <use
-            href="#diagramIcons_autoRefresh"
-          />
-        </svg>
-      </div>
-      <div
-        aria-label="Choose refresh"
-        className="bx--dropdown selection bx--list-box"
-        onClick={[Function]}
-        onKeyDown={[Function]}
-        role="listbox"
-        tabIndex="0"
-      >
-        <div
-          aria-expanded={false}
-          aria-haspopup={true}
-          aria-label="open menu"
-          className="bx--list-box__field"
-          data-toggle={true}
-          disabled={false}
-          onBlur={[Function]}
-          onClick={[Function]}
-          onKeyDown={[Function]}
-          role="button"
-          tabIndex="0"
-          type="button"
-        >
-          <span
-            className="bx--list-box__label"
-            htmlFor="downshift-3-input"
-          >
-            Refresh every {0}s
-          </span>
-          <div
-            className="bx--list-box__menu-icon"
-          >
-            <svg
-              alt="Open menu"
-              aria-label="Open menu"
-              fillRule="evenodd"
-              height="5"
-              role="img"
-              viewBox="0 0 10 5"
-              width="10"
-            >
-              <title>
-                Open menu
-              </title>
-              <path
-                d="M0 0l5 4.998L10 0z"
-              />
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
     <nav
       className="bx--tabs some-class"
       onClick={[Function]}
@@ -567,6 +506,77 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
             Incidents
           </a>
         </li>
+        <div
+          className="refresh-time-selection"
+        >
+          <div
+            aria-label="Refresh"
+            className="button"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+            title="Refresh"
+          >
+            <svg
+              className="button-icon"
+            >
+              <use
+                href="#diagramIcons_autoRefresh"
+              />
+            </svg>
+          </div>
+          <div
+            aria-label="Choose refresh"
+            className="bx--dropdown selection bx--list-box"
+            onClick={[Function]}
+            onKeyDown={[Function]}
+            role="listbox"
+            tabIndex="0"
+          >
+            <div
+              aria-expanded={false}
+              aria-haspopup={true}
+              aria-label="open menu"
+              className="bx--list-box__field"
+              data-toggle={true}
+              disabled={false}
+              onBlur={[Function]}
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="button"
+              tabIndex="0"
+              type="button"
+            >
+              <span
+                className="bx--list-box__label"
+                htmlFor="downshift-3-input"
+              >
+                Refresh every {0}s
+              </span>
+              <div
+                className="bx--list-box__menu-icon"
+              >
+                <svg
+                  alt="Open menu"
+                  aria-label="Open menu"
+                  fillRule="evenodd"
+                  height="5"
+                  role="img"
+                  viewBox="0 0 10 5"
+                  width="10"
+                >
+                  <title>
+                    Open menu
+                  </title>
+                  <path
+                    d="M0 0l5 4.998L10 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
       </ul>
     </nav>
     <div
@@ -591,6 +601,12 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
         className="some-content"
       />
     </div>
+    <div
+      aria-hidden={true}
+      className="tab-content"
+      hidden={true}
+      selected={false}
+    />
   </div>
 </div>
 `;

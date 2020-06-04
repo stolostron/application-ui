@@ -306,7 +306,7 @@ exports[`DetailsView no components renders as expected 1`] = `
     >
       <use
         className="default detailsIcon"
-        href="#diagramShapes_circle"
+        href="#diagramShapes_other"
       />
     </svg>
     <span

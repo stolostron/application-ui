@@ -47,7 +47,7 @@ class FilterButton extends React.Component {
 
   render() {
     const { label, tooltip, selected, typeToShapeMap, locale } = this.props
-    const { shape = 'circle', className = 'default' } =
+    const { shape = 'other', className = 'default' } =
       typeToShapeMap[label] || {}
     return (
       <div

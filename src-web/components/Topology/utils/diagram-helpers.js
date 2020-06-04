@@ -20,6 +20,8 @@ const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
 const specPulse = 'specs.pulse'
 const specsPropsYaml = 'props.show.yaml'
+const showLocalYaml = 'props.show.local.yaml'
+const showResourceYaml = 'show_resource_yaml'
 
 const podErrorStates = [
   'CrashLoopBackOff',
@@ -663,7 +665,7 @@ export const setResourceDeployStatus = (node, details) => {
         value: {
           label: msgs.get(specsPropsYaml),
           data: {
-            action: 'show_resource_yaml',
+            action: showResourceYaml,
             cluster: res.cluster,
             selfLink: res.selfLink
           }
@@ -734,7 +736,7 @@ export const setPodDeployStatus = (node, details) => {
       value: {
         label: msgs.get(specsPropsYaml),
         data: {
-          action: 'show_resource_yaml',
+          action: showResourceYaml,
           cluster: pod.cluster,
           selfLink: pod.selfLink
         }
@@ -798,10 +800,10 @@ export const setSubscriptionDeployStatus = (node, details) => {
       type: 'link',
       value: {
         label: subscription._hubClusterResource
-          ? msgs.get('props.show.local.yaml')
+          ? msgs.get(showLocalYaml)
           : msgs.get(specsPropsYaml),
         data: {
-          action: 'show_resource_yaml',
+          action: showResourceYaml,
           cluster: subscription.cluster,
           selfLink: subscription.selfLink
         }
@@ -847,6 +849,20 @@ export const setPlacementRuleDeployStatus = (node, details) => {
     type: 'spacer'
   })
 
+  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+  selfLink &&
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get(showLocalYaml),
+        data: {
+          action: showResourceYaml,
+          cluster: 'local-cluster',
+          selfLink: selfLink
+        }
+      }
+    })
+
   return details
 }
 
@@ -865,20 +881,19 @@ export const setApplicationDeployStatus = (node, details) => {
     )
   )
 
-  details.push({
-    type: 'spacer'
-  })
-
-  addPropertyToList(
-    details,
-    getNodePropery(
-      node,
-      ['specs', 'channels'],
-      'spec.app.channels',
-      msgs.get('resource.application.error.msg'),
-      true
-    )
-  )
+  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+  selfLink &&
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get(showLocalYaml),
+        data: {
+          action: showResourceYaml,
+          cluster: 'local-cluster',
+          selfLink: selfLink
+        }
+      }
+    })
 }
 
 export const addNodeOCPRouteLocationForCluster = (
@@ -1065,7 +1080,7 @@ export const processResourceActionLink = resource => {
   case 'show_pod_log':
     targetLink = `/multicloud/details/${cluster}/api/v1/namespaces/${namespace}/pods/${name}/logs`
     break
-  case 'show_resource_yaml':
+  case showResourceYaml:
     targetLink = `/multicloud/details/${cluster}${selfLink}`
     break
   case 'show_search':

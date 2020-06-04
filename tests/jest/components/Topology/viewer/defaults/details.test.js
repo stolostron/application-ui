@@ -159,13 +159,6 @@ describe("getNodeDetails application node", () => {
       labelKey: "spec.selector.matchExpressions",
       value:
         "This application has no subscription match selector (spec.selector.matchExpressions)"
-    },
-    { type: "spacer" },
-    {
-      isError: true,
-      labelKey: "spec.app.channels",
-      value:
-        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
     }
   ];
   it("should process the node, application node", () => {

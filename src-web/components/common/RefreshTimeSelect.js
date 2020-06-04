@@ -13,10 +13,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { DropdownV2, Loading } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
-import { DEFAULT_REFRESH_TIME } from '../../../lib/shared/constants'
 import '../../../scss/refresh-time-select.scss'
 import msgs from '../../../nls/platform.properties'
 import moment from 'moment'
+import config from '../../../lib/shared/config'
 
 export default class RefreshTimeSelect extends React.Component {
   static propTypes = {
@@ -164,7 +164,7 @@ export default class RefreshTimeSelect extends React.Component {
 }
 
 export const getPollInterval = cookieKey => {
-  let pollInterval = DEFAULT_REFRESH_TIME * 1000
+  let pollInterval = config['featureFlags:liveUpdatesPollInterval']
   if (cookieKey) {
     const savedInterval = localStorage.getItem(cookieKey)
     if (savedInterval) {

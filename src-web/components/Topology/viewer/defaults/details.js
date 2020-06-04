@@ -34,6 +34,19 @@ export const getNodeDetails = node => {
   if (node) {
     const { type, specs } = node
     let { labels = [] } = node
+
+    //if the resource was deployed on any cluster, show search link here
+    createResourceSearchLink(node, details)
+    //if resource has a row number add deployable yaml
+    createDeployableYamlLink(node, details)
+    details.push({
+      type: 'spacer'
+    })
+    details.push({
+      type: 'label',
+      labelKey: 'prop.details.section'
+    })
+
     switch (type) {
     case 'cluster':
       {
@@ -450,14 +463,6 @@ function addK8Details(node, details, podOnly, index) {
   //for service
   addNodeServiceLocation(node, details)
 
-  details.push({
-    type: 'spacer'
-  })
-
-  //if the resource was deployed on any cluster, show search link here
-  createResourceSearchLink(node, details)
-  //if resource has a row number add deployable yaml
-  createDeployableYamlLink(node, details)
   details.push({
     type: 'spacer'
   })

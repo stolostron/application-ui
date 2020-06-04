@@ -612,7 +612,7 @@ describe("createResourceSearchLink for details", () => {
         },
         id: undefined,
         indent: true,
-        label: "Show resource in Search View"
+        label: "Launch resource in Search"
       }
     }
   ];
@@ -644,7 +644,6 @@ describe("setSubscriptionDeployStatus with error", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { isError: true, labelValue: "local", value: "Failed" },
     {
-      indent: true,
       type: "link",
       value: {
         data: {
@@ -657,7 +656,6 @@ describe("setSubscriptionDeployStatus with error", () => {
     },
     { isError: false, labelValue: "local", value: "Propagated" },
     {
-      indent: true,
       type: "link",
       value: {
         data: {
@@ -693,7 +691,6 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     { labelKey: "resource.deploy.statuses", type: "label" },
     { isError: false, labelValue: "local", value: "Propagated" },
     {
-      indent: true,
       type: "link",
       value: {
         data: {
@@ -2096,8 +2093,9 @@ describe("addOCPRouteLocation spec no tls", () => {
       }
     }
   };
+  const result = [{ labelKey: "prop.details.section.service", type: "label" }];
   it("addOCPRouteLocation no tls", () => {
-    expect(addOCPRouteLocation(node, [])).toEqual([]);
+    expect(addOCPRouteLocation(node, [])).toEqual(result);
   });
 });
 
@@ -2168,8 +2166,9 @@ describe("addOCPRouteLocation spec with tls", () => {
       }
     }
   };
+  const result = [{ labelKey: "prop.details.section.service", type: "label" }];
   it("addOCPRouteLocation with tls", () => {
-    expect(addOCPRouteLocation(node, [])).toEqual([]);
+    expect(addOCPRouteLocation(node, [])).toEqual(result);
   });
 });
 
@@ -2276,6 +2275,7 @@ describe("addIngressNodeInfo 1", () => {
   };
   const result = [
     { type: "spacer" },
+    { labelKey: "prop.details.section.service", type: "label" },
     { labelKey: "raw.spec.ingress.host", value: "aaa" },
     { labelKey: "raw.spec.ingress.service", value: "n1" },
     { labelKey: "raw.spec.ingress.service.port", value: "p1" },
@@ -2286,7 +2286,8 @@ describe("addIngressNodeInfo 1", () => {
     { labelKey: "raw.spec.ingress.service", value: "bn1" },
     { labelKey: "raw.spec.ingress.service.port", value: "bp1" },
     { labelKey: "raw.spec.ingress.service", value: "bn2" },
-    { labelKey: "raw.spec.ingress.service.port", value: "bp2" }
+    { labelKey: "raw.spec.ingress.service.port", value: "bp2" },
+    { type: "spacer" }
   ];
   it("addIngressNodeInfo 1", () => {
     expect(addIngressNodeInfo(node, [])).toEqual(result);
@@ -2338,6 +2339,7 @@ describe("addNodeServiceLocation 1", () => {
     }
   };
   const result = [
+    { labelKey: "prop.details.section.service", type: "label" },
     { type: "spacer" },
     { labelKey: "raw.spec.host.location", type: "label" },
     { labelValue: "possiblereptile", type: "label", value: "1.1:80" },

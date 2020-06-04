@@ -723,8 +723,16 @@ describe("DetailsView 1 pod details", () => {
         processActionLink={mockData.processActionLink}
       />
     );
-    wrapper.find(".link").simulate("click");
-    wrapper.find(".link").simulate("keypress");
-    wrapper.find(".link").simulate("keypress", { key: "Enter" });
+    const payload = {
+      data: {
+        action: "show_resource_yaml",
+        cluster: "braveman",
+        selfLink: "/api/"
+      },
+      label: "show link"
+    };
+    wrapper.find("#linkForNodeAction").simulate("click", payload);
+    wrapper.find("#linkForNodeAction").simulate("keypress");
+    wrapper.find("#linkForNodeAction").simulate("keypress", { key: "Enter" });
   });
 });

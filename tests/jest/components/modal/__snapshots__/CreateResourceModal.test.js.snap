@@ -81,6 +81,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
           }
         }
+        deleteSuccessFinished={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
         label={
@@ -91,6 +92,7 @@ exports[`CreateResourceModal test renders as expected 1 2`] = `
           }
         }
         locale="en"
+        mutateSuccessFinished={[Function]}
         onCreateResource={[Function]}
         open={true}
         resourceType={
@@ -270,6 +272,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
           }
         }
+        deleteSuccessFinished={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
         label={
@@ -280,6 +283,7 @@ exports[`CreateResourceModal test renders as expected 1 3`] = `
           }
         }
         locale="en"
+        mutateSuccessFinished={[Function]}
         onCreateResource={[Function]}
         open={true}
         resourceType={
@@ -461,6 +465,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
           }
         }
+        deleteSuccessFinished={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
         label={
@@ -471,6 +476,7 @@ exports[`CreateResourceModal test renders as expected with error 2`] = `
           }
         }
         locale="en"
+        mutateSuccessFinished={[Function]}
         onCreateResource={[Function]}
         open={true}
         resourceType={
@@ -650,6 +656,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
             "selfLink": "/apis/app.k8s.io/v1beta1/namespaces/default/applications/guestbook-app",
           }
         }
+        deleteSuccessFinished={[Function]}
         handleClose={[MockFunction]}
         handleSubmit={[MockFunction]}
         label={
@@ -660,6 +667,7 @@ exports[`CreateResourceModal test renders as expected with error 3`] = `
           }
         }
         locale="en"
+        mutateSuccessFinished={[Function]}
         onCreateResource={[Function]}
         open={true}
         resourceType={

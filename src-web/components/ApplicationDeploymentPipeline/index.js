@@ -18,7 +18,8 @@ import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import {
   fetchResources,
   fetchGlobalAppsData,
-  updateModal
+  updateModal,
+  mutateResourceSuccessFinished
 } from '../../actions/common'
 import {
   fetchChannelResource,
@@ -47,6 +48,7 @@ import ResourceCards from './components/InfoCards/ResourceCards'
 import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
 import {
   handleEditResource,
+  handleDeleteResource,
   showEditModalByType
 } from '../common/ResourceOverview/utils'
 import HeaderActions from '../common/HeaderActions'
@@ -67,6 +69,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchGlobalAppsData(RESOURCE_TYPES.GLOBAL_APPLICATIONS_DATA)),
     editResource: (resourceType, data) =>
       handleEditResource(dispatch, updateModal, resourceType, data),
+    deleteResource: (resourceType, data) =>
+      handleDeleteResource(apolloClient.getClient(), resourceType, data),
     fetchSubscriptions: () =>
       dispatch(fetchResources(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)),
     fetchPlacementRules: () =>
@@ -109,7 +113,9 @@ const mapDispatchToProps = dispatch => {
           cluster
         )
       ),
-    closeModal: () => dispatch(closeModals())
+    closeModal: () => dispatch(closeModals()),
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType))
   }
 }
 
@@ -138,6 +144,18 @@ const mapStateToProps = state => {
     HCMNamespaceList,
     loading: AppDeployments.loading,
     breadcrumbItems: secondaryHeader.breadcrumbItems || [],
+    mutateStatus:
+      state['HCMChannelList'].mutateStatus ||
+      state['HCMSubscriptionList'].mutateStatus ||
+      state['HCMPlacementRuleList'].mutateStatus,
+    deleteStatus:
+      state['HCMChannelList'].deleteStatus ||
+      state['HCMSubscriptionList'].deleteStatus ||
+      state['HCMPlacementRuleList'].deleteStatus,
+    deleteMsg:
+      state['HCMChannelList'].deleteMsg ||
+      state['HCMSubscriptionList'].deleteMsg ||
+      state['HCMPlacementRuleList'].deleteMsg,
     refetch
   }
 }
@@ -196,6 +214,12 @@ class ApplicationDeploymentPipeline extends React.Component {
     if (document.visibilityState === 'visible') {
       this.startPolling()
     } else {
+      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+      this.props.mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+      this.props.deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
       this.stopPolling()
     }
   };
@@ -280,6 +304,7 @@ class ApplicationDeploymentPipeline extends React.Component {
       AppDeployments,
       actions,
       editResource,
+      deleteResource,
       getChannelResource,
       getApplicationResource,
       getSubscriptionResource,
@@ -291,7 +316,10 @@ class ApplicationDeploymentPipeline extends React.Component {
       fetchSubscriptions,
       fetchChannels,
       fetchPlacementRules,
-      closeModal
+      closeModal,
+      mutateStatus,
+      deleteStatus,
+      deleteMsg
     } = this.props
     const { locale } = this.context
 
@@ -341,7 +369,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_CHANNELS,
         AppDeployments.currentChannelInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels'
       )
     } else if (AppDeployments.openEditApplicationModal) {
       showEditModalByType(
@@ -349,7 +377,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_APPLICATIONS,
         AppDeployments.currentApplicationInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
       )
     } else if (AppDeployments.openEditSubscriptionModal) {
       showEditModalByType(
@@ -357,7 +385,7 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_SUBSCRIPTIONS,
         AppDeployments.currentSubscriptionInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-subscriptions'
       )
     } else if (AppDeployments.openEditPlacementRuleModal) {
       showEditModalByType(
@@ -365,12 +393,30 @@ class ApplicationDeploymentPipeline extends React.Component {
         editResource,
         RESOURCE_TYPES.HCM_PLACEMENT_RULES,
         AppDeployments.currentPlacementRuleInfo || {},
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-placement-rules'
       )
     }
     return (
       <div id="DeploymentPipeline">
         {loading && <Loading withOverlay={true} />}
+        {deleteStatus === Actions.REQUEST_STATUS.DONE && (
+          <Notification
+            title={msgs.get('success.update.resource', locale)}
+            subtitle={msgs.get(
+              'success.delete.description',
+              [deleteMsg],
+              locale
+            )}
+            kind="success"
+          />
+        )}
+        {mutateStatus === Actions.REQUEST_STATUS.DONE && (
+          <Notification
+            title=""
+            subtitle={msgs.get('success.create.description', locale)}
+            kind="success"
+          />
+        )}
         {isSingleApplicationView && (
           <HeaderActions
             serverProps={serverProps}
@@ -462,6 +508,7 @@ class ApplicationDeploymentPipeline extends React.Component {
           appDropDownList={AppDeployments.appDropDownList || []}
           bulkSubscriptionList={bulkSubscriptionList}
           editResource={editResource}
+          deleteResource={deleteResource}
           breadcrumbItems={breadcrumbItems}
         />
         <SubscriptionModal

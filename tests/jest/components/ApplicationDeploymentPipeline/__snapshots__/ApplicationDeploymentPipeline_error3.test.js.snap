@@ -112,7 +112,7 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                 className="deployment-highlights-terminology-docs"
               >
                 <a
-                  href="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/overview.html"
+                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#application-model-and-definitions"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -635,6 +635,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   </svg>
                 </div>
                 <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
+                <div
                   className="channelTitle"
                 >
                   Channel
@@ -689,6 +700,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                   </svg>
                 </div>
                 <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
+                <div
                   className="channelTitle"
                 >
                   Channel
@@ -742,6 +764,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     />
                   </svg>
                 </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
                 <div
                   className="channelTitle"
                 >
@@ -871,6 +904,17 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
                     />
                   </svg>
                 </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
                 <div
                   className="subColName"
                 >

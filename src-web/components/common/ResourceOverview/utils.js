@@ -7,11 +7,13 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 import R from 'ramda'
+import _ from 'lodash'
 
 import {
   kindsToExcludeForDeployments,
   getResourcesStatusPerChannel
 } from '../../ApplicationDeploymentPipeline/components/PipelineGrid/utils'
+import { UPDATE_ACTION_MODAL } from '../../../apollo-client/queries/StateQueries'
 
 export const showEditModalByType = (
   closeModal,
@@ -57,6 +59,33 @@ export const handleEditResource = (
       resourceDescriptionKey: (data && data.resourceDescriptionKey) || ''
     })
   )
+}
+
+export const handleDeleteResource = (client, resourceType, item) => {
+  const name = _.get(item, 'name', '')
+  const namespace = _.get(item, 'namespace', '')
+  client.mutate({
+    mutation: UPDATE_ACTION_MODAL,
+    variables: {
+      __typename: 'actionModal',
+      open: true,
+      type: 'table.actions.remove',
+      resourceType: {
+        __typename: 'resourceType',
+        name: resourceType.name,
+        list: resourceType.list
+      },
+      data: {
+        __typename: 'ModalData',
+        name,
+        namespace,
+        clusterName: _.get(item, 'cluster', ''),
+        selfLink: _.get(item, 'selfLink', ''),
+        _uid: _.get(item, '_uid', ''),
+        kind: _.get(item, 'kind', '')
+      }
+    }
+  })
 }
 
 export const getNumClustersForApp = data => {

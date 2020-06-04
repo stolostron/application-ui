@@ -110,7 +110,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
           }
         }
         locale="en"
-        mutateSucessFinished={[Function]}
+        mutateSuccessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -151,31 +151,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <div>
-          <Loading
-            active={true}
-            small={false}
-            withOverlay={true}
-          >
-            <div
-              className="bx--loading-overlay"
-            >
-              <div
-                aria-live="assertive"
-                className="bx--loading"
-              >
-                <svg
-                  className="bx--loading__svg"
-                  viewBox="-75 -75 150 150"
-                >
-                  <circle
-                    cx="0"
-                    cy="0"
-                    r="37.5"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Loading>
           <Modal
             aria-label="Delete application"
             danger={true}
@@ -283,7 +258,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                 >
                   <div />
                   <p>
-                    Removing {0} cannot be undone. Are you sure that you want to continue?
+                    Removing {0} is irreversible. Are you sure that you want to continue?
                   </p>
                 </div>
                 <div
@@ -476,7 +451,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
           }
         }
         locale="en"
-        mutateSucessFinished={[Function]}
+        mutateSuccessFinished={[Function]}
         open={true}
         resourceType={
           Object {
@@ -517,31 +492,6 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
         type="actionModal"
       >
         <div>
-          <Loading
-            active={true}
-            small={false}
-            withOverlay={true}
-          >
-            <div
-              className="bx--loading-overlay"
-            >
-              <div
-                aria-live="assertive"
-                className="bx--loading"
-              >
-                <svg
-                  className="bx--loading__svg"
-                  viewBox="-75 -75 150 150"
-                >
-                  <circle
-                    cx="0"
-                    cy="0"
-                    r="37.5"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Loading>
           <Modal
             aria-label="Delete application"
             danger={true}
@@ -649,7 +599,7 @@ exports[`RemoveResourceModal test renders as expected without mocked data, to co
                 >
                   <div />
                   <p>
-                    Removing {0} cannot be undone. Are you sure that you want to continue?
+                    Removing {0} is irreversible. Are you sure that you want to continue?
                   </p>
                 </div>
                 <div

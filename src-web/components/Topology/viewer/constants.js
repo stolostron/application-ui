@@ -60,6 +60,14 @@ export const StatusIcon = Object.freeze({
     height: 16,
     dx: 16,
     dy: -16
+  },
+  warning: {
+    icon: 'warning',
+    classType: 'warning',
+    width: 16,
+    height: 16,
+    dx: 16,
+    dy: -16
   }
 })
 

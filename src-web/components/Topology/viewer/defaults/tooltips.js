@@ -28,16 +28,23 @@ export const getNodeTooltips = (searchUrl, node, locale) => {
   if (kind === 'cluster') {
     addClustersTooltip(node, searchUrl, name, tooltips, locale)
   } else {
-    let href = ''
-    const searchName = kind === 'helmrelease' ? name : `name:${name}`
-    href = namespace
-      ? `${searchUrl}?filters={"textsearch":"kind:${kind} ${searchName} namespace:${namespace}"}`
-      : `${searchUrl}?filters={"textsearch":"kind:${kind} ${searchName}"}`
+    const pulse = _.get(node, 'specs.pulse', '')
+    if (pulse === 'orange') {
+      //not created, don't set the href to search page
+      tooltips.push({ name: getType(type, locale), value: name })
+    } else {
+      let href = ''
+      const searchName = kind === 'helmrelease' ? name : `name:${name}`
+      href = namespace
+        ? `${searchUrl}?filters={"textsearch":"kind:${kind} ${searchName} namespace:${namespace}"}`
+        : `${searchUrl}?filters={"textsearch":"kind:${kind} ${searchName}"}`
 
-    tooltips.push({ name: getType(type, locale), value: name, href })
+      tooltips.push({ name: getType(type, locale), value: name, href })
+    }
   }
 
-  if (namespace) {
+  if (type !== 'namespace' && namespace) {
+    //don't show this for Namespace resources
     const href = `${searchUrl}?filters={"textsearch":"kind:namespace name:${namespace}"}`
     tooltips.push({
       name: msgs.get('resource.namespace', locale),

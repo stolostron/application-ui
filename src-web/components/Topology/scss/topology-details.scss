@@ -1,19 +1,20 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2018, 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * Note to U.S. Government Users Restricted Rights:
  * Use, duplication or disclosure restricted by GSA ADP Schedule
  * Contract with IBM Corp.
  *******************************************************************************/
- @import 'node_modules/carbon-components/scss/globals/scss/_colors';
+@import 'node_modules/carbon-components/scss/globals/scss/_colors';
 
 .topologyDetails {
   position: absolute;
   top: 0;
   right: 0;
   background-color: $color__white;
-  box-shadow: -1px 0 7px 0 rgba(0,0,0,0.10);
+  box-shadow: -1px 0 7px 0 rgba(0, 0, 0, 0.10);
   z-index: 1001;
   width: 320px;
   padding-bottom: 20px;
@@ -23,11 +24,12 @@
     display: flex;
     align-items: center;
 
-    .detailsIcon{
+    .detailsIcon {
       border-top: 0;
       stroke-width: 3px;
       fill: $color__white;
     }
+
     .closeIcon {
       position: absolute;
       top: .5rem;
@@ -78,7 +80,6 @@
           color: $color__navy-gray-6;
           text-overflow: ellipsis;
         }
-
       }
     }
 
@@ -88,7 +89,7 @@
       display: flex;
       justify-content: flex-end;
     }
- }
+  }
 
   .label {
     font-size: .75rem;
@@ -113,9 +114,15 @@
     font-size: .75rem;
     color: $color__blue-51;
     cursor: pointer;
+
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .open-out-icon {
+    width: 10px;
+    height: 10px;
   }
 
   .spacer {
@@ -134,5 +141,4 @@
       visibility: visible;
     }
   }
-
 }

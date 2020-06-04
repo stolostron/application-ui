@@ -488,7 +488,8 @@ export const resourceReducerFunction = (state = INITIAL_STATE, action) => {
     })
   case Actions.DEL_RECEIVE_SUCCESS_FINISHED:
     return Object.assign({}, state, {
-      deleteStatus: undefined
+      deleteStatus: undefined,
+      deleteMsg: null
     })
   case Actions.RESOURCE_MUTATE_FINISHED:
     return Object.assign({}, state, {

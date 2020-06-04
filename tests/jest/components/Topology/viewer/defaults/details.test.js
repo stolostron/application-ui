@@ -107,6 +107,7 @@ describe("getNodeDetails application node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -114,6 +115,7 @@ describe("getNodeDetails application node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.namespace",
       labelValue: undefined,
       type: "label",
@@ -121,11 +123,13 @@ describe("getNodeDetails application node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
       value: "No labels"
     },
+    { type: "spacer" },
     {
       type: "link",
       value: {
@@ -141,19 +145,29 @@ describe("getNodeDetails application node", () => {
       }
     },
     {
-      type: "spacer"
+      type: "link",
+      value: {
+        data: { specs: { isDesign: true, row: 0 } },
+        id: "application--nginx-app-3",
+        indent: true,
+        label: "View Topology YAML"
+      }
     },
-    {
-      type: "spacer"
-    },
+    { type: "spacer" },
     {
       isError: true,
-      labelKey: "resource.application.error",
-      type: "label",
-      value: "This application is not subscribed to a channel"
+      labelKey: "spec.selector.matchExpressions",
+      value:
+        "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" },
+    {
+      isError: true,
+      labelKey: "spec.app.channels",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
     }
   ];
-
   it("should process the node, application node", () => {
     expect(getNodeDetails(applicationNode, locale)).toEqual(expectedResult);
   });
@@ -576,7 +590,7 @@ describe("getNodeDetails placement node", () => {
 describe("getNodeDetails deployment node", () => {
   const deploymentNode = {
     id:
-      "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+      "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     uid:
       "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
     name: "mortgage-app-deploy",
@@ -584,6 +598,49 @@ describe("getNodeDetails deployment node", () => {
     clusterName: null,
     type: "deployment",
     specs: {
+      deploymentModel: {
+        "mortgage-app-deploy-feng": {
+          ready: 3,
+          desired: 3
+        },
+        "mortgage-app-deploy-cluster1": {}
+      },
+      podModel: {
+        "mortgagedc-deploy-1-q9b5r-feng": {
+          cluster: "feng",
+          container: "mortgagedc-mortgage",
+          created: "2020-04-20T22:03:52Z",
+          hostIP: "1.1.1.1",
+          image: "fxiang/mortgage:0.4.0",
+          kind: "pod",
+          label:
+            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1-q9b5r",
+          namespace: "default",
+          podIP: "10.128.2.80",
+          restarts: 0,
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+          startedAt: "2020-04-20T22:03:52Z",
+          status: "Running"
+        },
+        "mortgagedc-deploy-1-q9b5rr-feng": {
+          cluster: "feng",
+          container: "mortgagedc-mortgage",
+          created: "2020-04-20T22:03:52Z",
+          hostIP: "1.1.1.1",
+          image: "fxiang/mortgage:0.4.0",
+          kind: "pod",
+          label:
+            "app=mortgagedc-mortgage; deployment=mortgagedc-deploy-1; deploymentConfig=mortgagedc-mortgage; deploymentconfig=mortgagedc-deploy",
+          name: "mortgagedc-deploy-1-q9b5rr",
+          namespace: "default",
+          podIP: "10.128.2.80",
+          restarts: 0,
+          selfLink: "/api/v1/namespaces/default/pods/mortgagedc-deploy-1-q9b5r",
+          startedAt: "2020-04-20",
+          status: "Running"
+        }
+      },
       raw: {
         apiVersion: "apps/v1",
         kind: "Deployment",
@@ -689,6 +746,7 @@ describe("getNodeDetails deployment node", () => {
                 cluster: "cluster1",
                 hostIP: "1.1.1.1",
                 status: "Running",
+                startedAt: "2020-04-20T22:03:52Z",
                 restarts: 0,
                 podIP: "1.1.1.1",
                 startedAt: "Monday"
@@ -703,6 +761,7 @@ describe("getNodeDetails deployment node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -710,6 +769,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
@@ -717,6 +777,7 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.replicas",
       labelValue: undefined,
       type: "label",
@@ -724,11 +785,13 @@ describe("getNodeDetails deployment node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.selector",
       labelValue: undefined,
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
+    { type: "spacer" },
     {
       type: "link",
       value: {
@@ -739,18 +802,47 @@ describe("getNodeDetails deployment node", () => {
           namespace: ""
         },
         id:
-          "member--member--deployable--member--clusters--feng--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
+          "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
         indent: true,
         label: "Show resource in Search View"
       }
     },
     { type: "spacer" },
+    { labelKey: "resource.deploy.statuses", type: "label" },
+    { isError: false, labelValue: "feng", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
+    { isError: false, labelValue: "cluster1", value: "Deployed" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: undefined,
+          selfLink: undefined
+        },
+        label: "View Remote Resource"
+      }
+    },
+    { isError: true, labelValue: "cluster2", value: "Not Deployed" },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },
     { labelKey: "resource.resource.status", type: "label" },
     { type: "snippet", value: { availableReplicas: 1 } }
   ];
+
   it("should process the node, deployment node", () => {
     expect(getNodeDetails(deploymentNode, locale)).toEqual(expectedResult);
   });
@@ -810,6 +902,59 @@ describe("getNodeDetails helm node", () => {
 
   it("should process the node, helm node", () => {
     expect(getNodeDetails(helmreleaseNode, locale)).toEqual(expectedResult);
+  });
+});
+
+describe("getNodeDetails helm node", () => {
+  const packageNode = {
+    id: "helmrelease1",
+    uid: "helmrelease1",
+    name: "mortgage-helmrelease",
+    cluster: null,
+    clusterName: null,
+    type: "package",
+    specs: {
+      raw: {
+        apiVersion: "app.ibm.com/v1alpha1",
+        kind: "Package",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        spec: {
+          chartName: "mortgage-chart",
+          urls: "https://mortgage-chart",
+          version: "1.0.0",
+          node: {
+            name: "node1"
+          }
+        }
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "resource.name",
+      labelValue: undefined,
+      type: "label",
+      value: "mortgage-app-deploy"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "resource.message",
+      labelValue: undefined,
+      type: "label",
+      value:
+        "There is not enough information in the subscription to retrive deployed objects data."
+    }
+  ];
+
+  it("should process the node, packageNode node", () => {
+    expect(getNodeDetails(packageNode, locale)).toEqual(expectedResult);
   });
 });
 
@@ -977,7 +1122,7 @@ describe("getNodeDetails helm node 2", () => {
   });
 });
 
-describe("getNodeDetails placement rules node", () => {
+describe("getNodeDetails placement rules node with error", () => {
   const rulesNode = {
     id: "rule1",
     uid: "rule1",
@@ -1007,6 +1152,7 @@ describe("getNodeDetails placement rules node", () => {
   const expectedResult = [
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -1014,6 +1160,7 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
@@ -1021,6 +1168,7 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.spec.clusterSelector",
       labelValue: undefined,
       type: "label",
@@ -1028,17 +1176,19 @@ describe("getNodeDetails placement rules node", () => {
     },
     {
       indent: undefined,
+      isError: undefined,
       labelKey: "raw.status.decisionCls",
       labelValue: undefined,
       type: "label",
       value: 0
     },
+    { type: "spacer" },
     {
       type: "link",
       value: {
         data: {
           action: "show_search",
-          kind: "rules",
+          kind: "placementrule",
           name: "mortgage-rule",
           namespace: undefined
         },
@@ -1048,10 +1198,103 @@ describe("getNodeDetails placement rules node", () => {
       }
     },
     { type: "spacer" },
+    { isError: true, labelValue: "Number of placed clusters", value: 0 },
+    {
+      isError: true,
+      labelValue: "Error",
+      value:
+        "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
+    },
     { type: "spacer" }
   ];
+  it("should process the node, placement rules node with error", () => {
+    expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
+  });
+});
 
-  it("should process the node, placement rules node", () => {
+describe("getNodeDetails placement rules node with success", () => {
+  const rulesNode = {
+    id: "rule1",
+    uid: "rule1",
+    name: "mortgage-rule",
+    cluster: null,
+    clusterName: null,
+    type: "rules",
+    specs: {
+      raw: {
+        apiVersion: "app.ibm.com/v1alpha1",
+        kind: "PlacementRule",
+        metadata: {
+          labels: { app: "mortgage-app-mortgage" },
+          name: "mortgage-app-deploy"
+        },
+        status: {
+          decisions: [{ name: "cls1", namespace: "ns" }]
+        },
+        spec: {
+          clusterSelector: {
+            matchLabels: {
+              environment: "Dev"
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const expectedResult = [
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "resource.type",
+      labelValue: undefined,
+      type: "label",
+      value: "rules"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "raw.spec.metadata.label",
+      labelValue: undefined,
+      type: "label",
+      value: "app=mortgage-app-mortgage"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "raw.spec.clusterSelector",
+      labelValue: undefined,
+      type: "label",
+      value: "environment=Dev"
+    },
+    {
+      indent: undefined,
+      isError: undefined,
+      labelKey: "raw.status.decisionCls",
+      labelValue: undefined,
+      type: "label",
+      value: 1
+    },
+    { type: "spacer" },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "show_search",
+          kind: "placementrule",
+          name: "mortgage-rule",
+          namespace: undefined
+        },
+        id: "rule1",
+        indent: true,
+        label: "Show resource in Search View"
+      }
+    },
+    { type: "spacer" },
+    { isError: false, labelValue: "Number of placed clusters", value: 1 },
+    { type: "spacer" }
+  ];
+  it("should process the node, placement rules node with success", () => {
     expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
   });
 });

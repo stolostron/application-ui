@@ -19,7 +19,7 @@ const requiredValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo|Namespace|GitHub',
+      type: 'ObjectBucket|HelmRepo|Namespace|GitHub|Git',
       pathname: ''
     }
   }
@@ -67,7 +67,7 @@ const allValues = {
       namespace: ''
     },
     spec: {
-      type: 'ObjectBucket|HelmRepo|Namespace|GitHub',
+      type: 'ObjectBucket|HelmRepo|Namespace|GitHub|Git',
       pathname: '' // pathname by default will be required field
     }
   },

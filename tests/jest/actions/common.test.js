@@ -261,16 +261,7 @@ describe("common actions ", () => {
     const expectedValue = {
       filters: [{ property: "kind", values: ["application"] }],
       keywords: [],
-      relatedKinds: [
-        "deployment",
-        "deploymentconfig",
-        "pod",
-        "route",
-        "replicationcontroller",
-        "replicaset",
-        "secret",
-        "service"
-      ]
+      relatedKinds: []
     };
 
     expect(actions.getQueryStringForResources("somevalue")).toEqual(
@@ -320,16 +311,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: [
-        "deployment",
-        "deploymentconfig",
-        "pod",
-        "route",
-        "replicationcontroller",
-        "replicaset",
-        "secret",
-        "service"
-      ]
+      relatedKinds: []
     };
 
     expect(actions.getQueryStringForResources("HCMApplication")).toEqual(
@@ -396,16 +378,7 @@ describe("common actions ", () => {
         }
       ],
       keywords: [],
-      relatedKinds: [
-        "deployment",
-        "deploymentconfig",
-        "pod",
-        "route",
-        "replicationcontroller",
-        "replicaset",
-        "secret",
-        "service"
-      ]
+      relatedKinds: []
     };
 
     expect(
@@ -470,32 +443,13 @@ describe("common actions ", () => {
   it("should return getQueryStringForResource app 1", () => {
     const expectedValue = {
       filters: [
-        {
-          property: "kind",
-          values: ["application"]
-        },
-        {
-          property: "name",
-          values: ["name"]
-        },
-        {
-          property: "namespace",
-          values: ["default-ns"]
-        }
+        { property: "kind", values: ["application"] },
+        { property: "name", values: ["name"] },
+        { property: "namespace", values: ["default-ns"] }
       ],
       keywords: [],
-      relatedKinds: [
-        "deployment",
-        "deploymentconfig",
-        "pod",
-        "route",
-        "replicationcontroller",
-        "replicaset",
-        "secret",
-        "service"
-      ]
+      relatedKinds: []
     };
-
     expect(actions.getQueryStringForResource("somename", "name", ns)).toEqual(
       expectedValue
     );

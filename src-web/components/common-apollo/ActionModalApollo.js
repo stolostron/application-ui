@@ -130,7 +130,6 @@ class ActionModalApollo extends React.PureComponent {
       <Query query={GET_ACTION_MODAL_STATE}>
         {({ data }) => {
           if (_.get(data, 'actionModal.open')) {
-            //console.log('will get', data, this.getMatchedModal(_.get(data, 'actionModal')))
             return this.getMatchedModal(_.get(data, 'actionModal'))
           } else {
             return null

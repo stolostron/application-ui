@@ -122,6 +122,10 @@
 
     .yamlEditorContainer {
       height: calc(100% - 3rem);
+      
+      & * {
+        font-family: unset;
+      }
     }
   }
 

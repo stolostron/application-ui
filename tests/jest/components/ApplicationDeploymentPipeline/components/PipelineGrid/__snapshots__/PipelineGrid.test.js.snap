@@ -412,6 +412,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 </svg>
               </div>
               <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
+              <div
                 className="channelTitle"
               >
                 Channel
@@ -466,6 +477,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 </svg>
               </div>
               <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
+              <div
                 className="channelTitle"
               >
                 Channel
@@ -519,6 +541,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   />
                 </svg>
               </div>
+              <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
               <div
                 className="channelTitle"
               >
@@ -648,6 +681,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                   />
                 </svg>
               </div>
+              <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
               <div
                 className="subColName"
               >
@@ -915,6 +959,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 </svg>
               </div>
               <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
+              <div
                 className="subColName"
               >
                 mortgage-app-subscription
@@ -924,33 +979,46 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               >
                 Namespace: default
               </div>
-              <div
-                className="placementRuleDesc"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-              >
-                Placement Rule: guestbook-placementrule 
-                <svg
-                  alt=""
-                  aria-label=""
-                  className="placementEditIcon"
-                  fill="#6089bf"
-                  fillRule="evenodd"
-                  height="16"
-                  name="icon--edit"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+              <div>
+                <div
+                  className="placementRuleDesc"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
                 >
-                  <title>
-                    
-                  </title>
-                  <path
-                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                  />
-                </svg>
+                  Placement Rule: guestbook-placementrule 
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="placementEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
               </div>
               <div
                 className="progressBarContainer"
@@ -1263,6 +1331,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 </svg>
               </div>
               <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
+              <div
                 className="subColName"
               >
                 guestbook-subscription
@@ -1272,33 +1351,46 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               >
                 Namespace: kube-system
               </div>
-              <div
-                className="placementRuleDesc"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-              >
-                Placement Rule: guestbook-placementrule 
-                <svg
-                  alt=""
-                  aria-label=""
-                  className="placementEditIcon"
-                  fill="#6089bf"
-                  fillRule="evenodd"
-                  height="16"
-                  name="icon--edit"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+              <div>
+                <div
+                  className="placementRuleDesc"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
                 >
-                  <title>
-                    
-                  </title>
-                  <path
-                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                  />
-                </svg>
+                  Placement Rule: guestbook-placementrule 
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="placementEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
               </div>
               <div
                 className="progressBarContainer"
@@ -1597,6 +1689,17 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
                 </svg>
               </div>
               <div
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                style={
+                  Object {
+                    "visibility": "hidden",
+                  }
+                }
+                tabIndex={0}
+              />
+              <div
                 className="subColName"
               >
                 guestbook-subscription
@@ -1606,33 +1709,46 @@ exports[`PipelineGrid PipelineGrid renders correctly. 1`] = `
               >
                 Namespace: kube-system
               </div>
-              <div
-                className="placementRuleDesc"
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="button"
-                tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
-              >
-                Placement Rule: guestbook-placementrule 
-                <svg
-                  alt=""
-                  aria-label=""
-                  className="placementEditIcon"
-                  fill="#6089bf"
-                  fillRule="evenodd"
-                  height="16"
-                  name="icon--edit"
-                  role="img"
-                  viewBox="0 0 16 16"
-                  width="16"
+              <div>
+                <div
+                  className="placementRuleDesc"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="local-cluster/e72e6c06-4d25-11ea-a229-00000a102d26"
                 >
-                  <title>
-                    
-                  </title>
-                  <path
-                    d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
-                  />
-                </svg>
+                  Placement Rule: guestbook-placementrule 
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="placementEditIcon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--edit"
+                    role="img"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title>
+                      
+                    </title>
+                    <path
+                      d="M7.926 3.38L1.002 9.72V12h2.304l6.926-6.316L7.926 3.38zm.738-.675l2.308 2.304 1.451-1.324-2.308-2.309-1.451 1.329zM.002 9.28L9.439.639a1 1 0 0 1 1.383.03l2.309 2.309a1 1 0 0 1-.034 1.446L3.694 13H.002V9.28zM0 16.013v-1h16v1z"
+                    />
+                  </svg>
+                </div>
+                <div
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  style={
+                    Object {
+                      "visibility": "hidden",
+                    }
+                  }
+                  tabIndex={0}
+                />
               </div>
               <div
                 className="progressBarContainer"

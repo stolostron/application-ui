@@ -10,7 +10,7 @@
 'use strict'
 
 import { NODE_SIZE } from '../constants.js'
-import { getClusterName } from '../../../../../lib/client/resource-helper.js'
+import { getClusterName } from '../../utils/diagram-helpers'
 import _ from 'lodash'
 
 export const getConnectedApplicationLayoutOptions = (

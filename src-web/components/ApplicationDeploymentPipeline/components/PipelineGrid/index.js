@@ -10,6 +10,7 @@ import React from 'react'
 import msgs from '../../../../../nls/platform.properties'
 import { withLocale } from '../../../../providers/LocaleProvider'
 import resources from '../../../../../lib/shared/resources'
+import { RESOURCE_TYPES } from '../../../../../lib/shared/constants'
 import ProgressBar from '../ProgressBar/index'
 import {
   onSubscriptionClick,
@@ -263,7 +264,10 @@ const LeftColumnForApplicationNames = (
 }
 
 //show channel header columns
-const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
+const ChannelColumnsHeader = (
+  { channelList, getChannelResource, deleteResource },
+  locale
+) => {
   return (
     <div className="horizontalScrollRow">
       {/* This is the where the channel header information will go */}
@@ -292,6 +296,17 @@ const ChannelColumnsHeader = ({ channelList, getChannelResource }, locale) => {
                     className="channelEditIcon"
                   />
                 </div>
+                <div
+                  style={{ visibility: 'hidden' }}
+                  onClick={() =>
+                    deleteResource(RESOURCE_TYPES.HCM_CHANNELS, channel)
+                  }
+                  onKeyPress={() => {
+                    // noop function
+                  }}
+                  tabIndex={0}
+                  role="button"
+                />
                 <div className="channelTitle">
                   {msgs.get('description.Pipeline.channel', locale)}
                 </div>
@@ -359,7 +374,8 @@ const SubscriptionTile = (
     status,
     placementRule,
     getSubscriptionResource,
-    getPlacementRuleResource
+    getPlacementRuleResource,
+    deleteResource
   },
   locale
 ) => {
@@ -412,6 +428,17 @@ const SubscriptionTile = (
           }
         />
       </div>
+      <div
+        style={{ visibility: 'hidden' }}
+        onClick={() =>
+          deleteResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, thisSubscriptionData)
+        }
+        onKeyPress={() => {
+          // noop function
+        }}
+        tabIndex={0}
+        role="button"
+      />
       <div className="subColName">{thisSubscriptionData.name}</div>
       <div className="namespaceDesc">{`${msgs.get(
         'description.namespace',
@@ -419,25 +446,41 @@ const SubscriptionTile = (
       )}: ${thisSubscriptionData.namespace}`}</div>
       {placementRule &&
         placementRule.name && (
-          <div
-            className="placementRuleDesc"
-            tabIndex={placementRule._uid}
-            onClick={() =>
-              editResourceClick(placementRule, getPlacementRuleResource)
-            }
-            onKeyPress={() => {
-              // noop function
-            }}
-            role="button"
-          >
-            {`${msgs.get('description.placement.rule', locale)}: ${
-              placementRule.name
-            } `}
-            <Icon
-              name="icon--edit"
-              fill="#6089bf"
-              description=""
-              className="placementEditIcon"
+          <div>
+            <div
+              className="placementRuleDesc"
+              tabIndex={placementRule._uid}
+              onClick={() =>
+                editResourceClick(placementRule, getPlacementRuleResource)
+              }
+              onKeyPress={() => {
+                // noop function
+              }}
+              role="button"
+            >
+              {`${msgs.get('description.placement.rule', locale)}: ${
+                placementRule.name
+              } `}
+              <Icon
+                name="icon--edit"
+                fill="#6089bf"
+                description=""
+                className="placementEditIcon"
+              />
+            </div>
+            <div
+              style={{ visibility: 'hidden' }}
+              onClick={() =>
+                deleteResource(
+                  RESOURCE_TYPES.HCM_PLACEMENT_RULES,
+                  placementRule
+                )
+              }
+              onKeyPress={() => {
+                // noop function
+              }}
+              tabIndex={0}
+              role="button"
             />
           </div>
       )}
@@ -461,7 +504,8 @@ const ChannelColumnGrid = ({
   setCurrentDeployableSubscriptionData,
   setCurrentsubscriptionModalData,
   getSubscriptionResource,
-  getPlacementRuleResource
+  getPlacementRuleResource,
+  deleteResource
 }) => {
   const containerClass =
     (oneApplication && 'channelGridContainerSingleApp') ||
@@ -484,6 +528,7 @@ const ChannelColumnGrid = ({
       <ChannelColumnsHeader
         channelList={channelList}
         getChannelResource={getChannelResource}
+        deleteResource={deleteResource}
       />
 
       {/* All the application totals and the subscription information is found here */}
@@ -618,6 +663,7 @@ const ChannelColumnGrid = ({
                               getPlacementRuleResource={
                                 getPlacementRuleResource
                               }
+                              deleteResource={deleteResource}
                             />
                           )}
                           {showNoSubsTile && <EmptySubscriptionTile />}
@@ -655,7 +701,8 @@ const PipelineGrid = withLocale(
       appDropDownList,
       bulkSubscriptionList,
       hasAdminRole,
-      breadcrumbItems
+      breadcrumbItems,
+      deleteResource
     },
     locale
   ) => {
@@ -683,6 +730,35 @@ const PipelineGrid = withLocale(
               </div>
               <div className="noResDescription">
                 {msgs.get('description.noChannelsDescr', locale)}
+              </div>
+              <div className="deployment-highlights-terminology-docs">
+                <a
+                  href="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <span className="deployment-highlights-terminology-docs-text">
+                    View documentation
+                  </span>
+                  <svg
+                    alt=""
+                    aria-label=""
+                    className="deployment-highlights-terminology-docs-icon"
+                    fill="#6089bf"
+                    fillRule="evenodd"
+                    height="16"
+                    name="icon--launch"
+                    role="img"
+                    style={undefined}
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <title />
+                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
+                    <path d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z" />
+                    <path d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z" />
+                  </svg>
+                </a>
               </div>
             </div>
           </div>
@@ -718,6 +794,7 @@ const PipelineGrid = withLocale(
               setCurrentsubscriptionModalData={setCurrentsubscriptionModalData}
               getSubscriptionResource={getSubscriptionResource}
               getPlacementRuleResource={getPlacementRuleResource}
+              deleteResource={deleteResource}
             />
           )}
         </div>

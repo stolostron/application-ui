@@ -165,6 +165,19 @@ const podNodes = [
         ])
       }
     }
+  },
+  {
+    cluster: null,
+    clusterName: null,
+    id:
+      "member--clusters--possiblereptile, braveman, relievedox, sharingpenguin",
+    labels: null,
+    name: "possiblereptile, braveman, relievedox, sharingpenguin",
+    namespace: "",
+    topology: null,
+    type: "cluster",
+    uid:
+      "member--clusters--possiblereptile, braveman, relievedox, sharingpenguin"
   }
 ];
 const options = {
@@ -176,7 +189,7 @@ const options = {
 };
 
 const activeFilters = {
-  type: ["application", "rules", "subscription", "pod"]
+  type: ["application", "rules", "subscription", "pod", "cluster"]
 };
 
 const locale = "en-US";
@@ -220,6 +233,10 @@ describe("getAllFilters", () => {
       type: ["application", "rules", "subscription"]
     },
     availableFilters: {
+      clusterNames: {
+        availableSet: new Set(),
+        name: "Cluster name"
+      },
       labels: {
         availableSet: new Set(),
         name: "Labels"
@@ -227,6 +244,15 @@ describe("getAllFilters", () => {
       namespaces: {
         availableSet: new Set(["<none>", "ns-sub-1"]),
         name: "Namespaces"
+      },
+      resourceStatuses: {
+        availableSet: new Map([
+          ["green", "Success"],
+          ["yellow", "Pending"],
+          ["orange", "Warning"],
+          ["red", "Error"]
+        ]),
+        name: "Resource status"
       },
       type: ["application", "rules", "subscription"]
     },
@@ -341,6 +367,12 @@ describe("getAvailableFilters application", () => {
   const set1 = new Set();
 
   const expectedResult = {
+    clusterNames: {
+      availableSet: new Set([
+        "possiblereptile, braveman, relievedox, sharingpenguin"
+      ]),
+      name: "Cluster name"
+    },
     labels: {
       availableSet: set1,
       name: "Labels"
@@ -348,6 +380,15 @@ describe("getAvailableFilters application", () => {
     namespaces: {
       availableSet: new Set(["<none>"]),
       name: "Namespaces"
+    },
+    resourceStatuses: {
+      availableSet: new Map([
+        ["green", "Success"],
+        ["yellow", "Pending"],
+        ["orange", "Warning"],
+        ["red", "Error"]
+      ]),
+      name: "Resource status"
     }
   };
 

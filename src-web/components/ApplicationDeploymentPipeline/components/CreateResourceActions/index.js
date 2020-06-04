@@ -37,7 +37,7 @@ const CreateSubscriptionModal = (fetchSubscriptions, locale) => {
       onCreateResource={handleCreateSubscriptionResource}
       onSubmitFunction={fetchSubscriptions}
       resourceDescriptionKey="modal.createresource.subscription"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_subscriptions.html"
+      helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-subscriptions"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -57,7 +57,7 @@ const CreatePlacementRuleModal = (fetchPlacementRuleResource, locale) => {
       onCreateResource={handleCreatePlacementRuleResource}
       onSubmitFunction={fetchPlacementRuleResource}
       resourceDescriptionKey="modal.createresource.placementrule"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_placement_rules.html"
+      helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-placement-rules"
       iconDescription={msgs.get(
         'actions.add.subscription.iconDescription',
         locale
@@ -84,7 +84,7 @@ const CreateChannelModal = (fetchChannels, locale) => {
       onCreateResource={handleCreateChannelResource}
       onSubmitFunction={fetchChannels}
       resourceDescriptionKey="modal.createresource.channel"
-      helpLink="https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_channels.html"
+      helpLink="https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#creating-and-managing-channels"
       iconDescription={msgs.get('actions.add.channel.iconDescription', locale)}
       sampleTabs={channelTabs}
       sampleContent={[

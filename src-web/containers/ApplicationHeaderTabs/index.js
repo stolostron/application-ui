@@ -24,7 +24,6 @@ import {
   delResourceSuccessFinished,
   mutateResourceSuccessFinished
 } from '../../actions/common'
-import { refetchIntervalUpdate } from '../../actions/refetch'
 import {
   RESOURCE_TYPES,
   REFRESH_TIMES,
@@ -86,9 +85,6 @@ const ApplicationHeaderTabs = withLocale(
             </div>
           )
         case 1:
-          mutateSuccessFinished()
-          deleteSuccessFinished()
-
           return (
             <div className="page-content-container">
               <ApplicationDeploymentPipeline serverProps={serverProps} />
@@ -119,6 +115,15 @@ const ApplicationHeaderTabs = withLocale(
               // if the user clicks on another tab and then
               // goes back to the Overview tab
               actions.setShowAppDetails(false)
+              // Remove previous success message if any
+              mutateSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+              mutateSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+              mutateSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+              mutateSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
+              deleteSuccessFinished(RESOURCE_TYPES.HCM_CHANNELS)
+              deleteSuccessFinished(RESOURCE_TYPES.HCM_SUBSCRIPTIONS)
+              deleteSuccessFinished(RESOURCE_TYPES.HCM_PLACEMENT_RULES)
+              deleteSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
             }}
             tabcontentclassname="tab-content"
           >
@@ -167,22 +172,17 @@ const ApplicationHeaderTabs = withLocale(
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(Actions, dispatch),
-    mutateSuccessFinished: () =>
-      dispatch(
-        mutateResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)
-      ),
-    deleteSuccessFinished: () =>
-      dispatch(delResourceSuccessFinished(RESOURCE_TYPES.QUERY_APPLICATIONS)),
-    refetchIntervalUpdate: data => dispatch(refetchIntervalUpdate(data))
+    mutateSuccessFinished: resourceType =>
+      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType))
   }
 }
 const mapStateToProps = state => {
   const { role, AppOverview } = state
   return {
     userRole: role && role.role,
-    selectedAppTab: AppOverview.selectedAppTab,
-    deleteSuccessFinished: state.deleteSuccessFinished,
-    mutateSuccessFinished: state.mutateSuccessFinished
+    selectedAppTab: AppOverview.selectedAppTab
   }
 }
 

@@ -446,7 +446,7 @@ class ResourceFilterModule extends React.Component {
     if (assortedFilterCloseBtns) {
       var portal = document.getElementById(assortedFilterCloseBtns)
       if (portal) {
-        const boundFilters = this.getBoundFilters()
+        const boundFilters = this.getBoundFilters(locale)
         return ReactDOM.createPortal(
           <ResourceUnfilterBar boundFilters={boundFilters} locale={locale} />,
           portal
@@ -476,7 +476,13 @@ class ResourceFilterModule extends React.Component {
     this.updateActiveFilter(key, value, checked)
   };
 
-  getBoundFilters() {
+  getBoundFilters(locale) {
+    const resourceStatusMap = new Map([
+      ['green', msgs.get('topology.filter.category.status.success', locale)],
+      ['yellow', msgs.get('topology.filter.category.status.pending', locale)],
+      ['orange', msgs.get('topology.filter.category.status.warning', locale)],
+      ['red', msgs.get('topology.filter.category.status.error', locale)]
+    ])
     const boundFilters = []
     const { activeFilters = {} } = this.props
     Object.keys(activeFilters).forEach(key => {
@@ -484,6 +490,9 @@ class ResourceFilterModule extends React.Component {
         const activeSet = activeFilters[key]
         activeSet.forEach(value => {
           let name = value
+          if (key === 'resourceStatuses') {
+            name = resourceStatusMap.get(value)
+          }
           if (name.length > 26) {
             name = name.substr(0, 12) + '..' + name.substr(-12)
           }

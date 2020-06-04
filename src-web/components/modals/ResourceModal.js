@@ -122,6 +122,25 @@ class ResourceModal extends React.PureComponent {
     this.setState({ data: value, dirty: true })
   };
 
+  setContainerRef = container => {
+    this.containerRef = container
+    this.layoutEditors()
+  };
+
+  setEditor = editor => {
+    this.editor = editor
+    this.layoutEditors()
+  };
+
+  layoutEditors() {
+    if (this.containerRef && this.editor) {
+      const rect = this.containerRef.getBoundingClientRect()
+      const width = rect.width
+      const height = rect.height
+      this.editor.layout({ width, height })
+    }
+  }
+
   componentWillMount() {
     const { resourceType, data: { namespace, name, clusterName } } = this.props
     apolloClient
@@ -132,6 +151,7 @@ class ResourceModal extends React.PureComponent {
           loading: false
         })
       })
+    window.addEventListener('resize', this.layoutEditors.bind(this))
   }
 
   onUnload = e => {
@@ -161,7 +181,7 @@ class ResourceModal extends React.PureComponent {
       resourceType.name === 'HCMApplication'
     ) {
       helpLink =
-        'https://www.ibm.com/support/knowledgecenter/SSFC4F_1.2.0/mcm/applications/managing_apps.html'
+        'https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/1.0/html/manage_applications/managing-applications#managing-application-resources'
     }
 
     return (
@@ -216,11 +236,17 @@ class ResourceModal extends React.PureComponent {
                   iconDescription={msgs.get('svg.description.error', locale)}
                 />
               ) : null}
-              <YamlEditor
-                readOnly={false}
-                onYamlChange={this.onChange}
-                yaml={data}
-              />
+              <div
+                className="yamlEditorContainerContainer"
+                ref={this.setContainerRef}
+              >
+                <YamlEditor
+                  readOnly={false}
+                  setEditor={this.setEditor}
+                  onYamlChange={this.onChange}
+                  yaml={data}
+                />
+              </div>
             </div>
           </ModalBody>
           <ModalFooter

@@ -102,6 +102,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       >
         <span
           className="link"
+          id="linkForNodeAction"
           onClick={[Function]}
           onKeyPress={[Function]}
           role="button"

@@ -10,10 +10,14 @@
 import jsYaml from 'js-yaml'
 import {
   getStoredObject,
-  saveStoredObject,
-  getClusterName
+  saveStoredObject
 } from '../../../../lib/client/resource-helper'
-import { nodeMustHavePods } from '../../Topology/utils/diagram-helpers'
+import {
+  getClusterName,
+  setupResourceModel,
+  computeNodeStatus,
+  nodeMustHavePods
+} from '../../Topology/utils/diagram-helpers'
 import { getTopologyElements } from './hcm-topology'
 import { REQUEST_STATUS } from '../../../actions'
 import _ from 'lodash'
@@ -60,6 +64,47 @@ export const getActiveChannel = localStoreKey => {
   return undefined
 }
 
+//link the search objects to this node;
+export const processNodeData = (
+  node,
+  topoResourceMap,
+  isClusterGrouped,
+  topology
+) => {
+  const { name, type } = node
+
+  if (R.contains(type, ['cluster', 'application', 'rules'])) {
+    return //ignore these types
+  }
+
+  let podsKeyForThisNode = null
+  const clusterName = getClusterName(node.id)
+  if (type === 'subscription') {
+    //don't use cluster name when grouping subscriptions
+    topoResourceMap[name] = node
+  } else if (clusterName.indexOf(', ') > -1) {
+    topoResourceMap[`${type}-${name}`] = node
+    podsKeyForThisNode = `pod-${name}`
+    isClusterGrouped.value = true
+  } else {
+    topoResourceMap[`${type}-${name}-${clusterName}`] = node
+    podsKeyForThisNode = `pod-${name}-${clusterName}`
+  }
+  if (type === 'route') {
+    //keep clusters info to create route host
+    node['clusters'] = R.find(R.propEq('type', 'cluster'))(topology.nodes)
+  }
+
+  if (nodeMustHavePods(node)) {
+    //keep a map with the nodes names that could have pods
+    //since we don't have a link between pods and parent, we rely on pod name vs resource name to find pod's parents
+    //if resources have the same name, try to solve conflicts by setting this map name for resources that could have pods
+    //assuming we don't have resources with same name and producing pods, this workaorund will function
+    //for the future need to set a relation between pods and parents
+    topoResourceMap[podsKeyForThisNode] = node
+  }
+}
+
 export const getDiagramElements = (
   topology,
   localStoreKey,
@@ -87,11 +132,12 @@ export const getDiagramElements = (
     let activeChannel
     let channels = []
     const originalMap = {}
-    const podMap = {}
-    let isClusterGrouped = false
-    let clusterName
+    const allResourcesMap = {}
+    const isClusterGrouped = {
+      value: false
+    }
     nodes.forEach(node => {
-      const { type, name } = node
+      const { type } = node
 
       if (type === 'application') {
         activeChannel = _.get(
@@ -102,16 +148,7 @@ export const getDiagramElements = (
         channels = _.get(node, 'specs.channels', [])
       }
 
-      if (nodeMustHavePods(node)) {
-        //must have pods
-        clusterName = getClusterName(node.id)
-        if (clusterName.indexOf(', ') > -1) {
-          podMap[name] = node
-          isClusterGrouped = true
-        } else {
-          podMap[`${name}-${clusterName}`] = node
-        }
-      }
+      processNodeData(node, allResourcesMap, isClusterGrouped, topology)
 
       const raw = _.get(node, 'specs.raw')
       if (raw) {
@@ -142,12 +179,16 @@ export const getDiagramElements = (
     // if loaded, we add those details now
     addDiagramDetails(
       topology,
-      podMap,
+      allResourcesMap,
       activeChannel,
       localStoreKey,
       isClusterGrouped,
       applicationDetails
     )
+
+    nodes.forEach(node => {
+      computeNodeStatus(node)
+    })
 
     return {
       clusters,
@@ -241,7 +282,7 @@ export const getDiagramElements = (
 
 export const addDiagramDetails = (
   topology,
-  podMap,
+  allResourcesMap,
   activeChannel,
   localStoreKey,
   isClusterGrouped,
@@ -249,52 +290,21 @@ export const addDiagramDetails = (
 ) => {
   const { detailsReloading } = topology
   // get extra details from topology or from localstore
-  let pods = []
+  let related = []
   if (applicationDetails) {
     if (!R.isEmpty(R.pathOr([], ['items'])(applicationDetails))) {
-      //get the app related pods
-      const related = R.pathOr([], ['related'])(applicationDetails.items[0])
-
-      const isPodList = R.propEq('kind', 'pod')
-      const podsList = R.filter(isPodList, related)
-      if (!R.isEmpty(podsList)) {
-        pods = R.pathOr([], ['items'])(podsList[0])
-      }
+      //get the app related objects
+      related = R.pathOr([], ['related'])(applicationDetails.items[0])
     }
-
     // save in local store
     saveStoredObject(`${localStoreKey}-${activeChannel}-details`, {
-      pods
+      related
     })
   } else if (!detailsReloading) {
     // if not loaded yet, see if there's a stored version
     // with the same diagram filters
-    const storedElements = getStoredObject(
-      `${localStoreKey}-${activeChannel}-details`
-    )
-    if (storedElements) {
-      ({ pods = [] } = storedElements)
-    }
+    related = getStoredObject(`${localStoreKey}-${activeChannel}-details`)
   }
-
-  // associate pods with status
-  if (pods) {
-    pods.forEach(pod => {
-      const pname = pod.name
-      // get pod name w/o uid suffix
-      let name = pname.replace(/-[0-9a-fA-F]{8,10}-[0-9a-zA-Z]{4,5}$/, '')
-      if (name === pname) {
-        const idx = name.lastIndexOf('-')
-        if (idx !== -1) {
-          name = name.substr(0, idx)
-        }
-      }
-      const podName = isClusterGrouped ? name : `${name}-${pod.cluster}`
-      if (podMap[podName]) {
-        const podModel = _.get(podMap[name], 'specs.podModel', {})
-        podModel[pod.name] = pod
-        _.set(podMap[podName], 'specs.podModel', podModel)
-      }
-    })
-  }
+  //link search objects with topology deployable objects displayed in the tree
+  setupResourceModel(related, allResourcesMap, isClusterGrouped, topology)
 }

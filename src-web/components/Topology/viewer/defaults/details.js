@@ -10,15 +10,23 @@
 'use strict'
 
 import R from 'ramda'
-import moment from 'moment'
 import _ from 'lodash'
-import msgs from '../../../../../nls/platform.properties'
 import {
   getNodePropery,
   addPropertyToList,
   createDeployableYamlLink,
-  createResourceSearchLink
+  createResourceSearchLink,
+  setResourceDeployStatus,
+  setPodDeployStatus,
+  setSubscriptionDeployStatus,
+  setApplicationDeployStatus,
+  setPlacementRuleDeployStatus,
+  addDetails,
+  getAge,
+  addOCPRouteLocation,
+  addNodeServiceLocation
 } from '../../utils/diagram-helpers'
+import msgs from '../../../../../nls/platform.properties'
 
 export const getNodeDetails = node => {
   const details = []
@@ -26,25 +34,6 @@ export const getNodeDetails = node => {
     const { type, specs } = node
     let { labels = [] } = node
     switch (type) {
-    case 'application':
-      {
-        if (
-          specs &&
-            (!specs.channels || (specs.channels && specs.channels.length === 0))
-        ) {
-          const appData = addK8Details(node, details)
-          addPropertyToList(appData, {
-            labelKey: 'resource.application.error',
-            type: 'label',
-            value: msgs.get('resource.application.error.msg'),
-            isError: true
-          })
-        } else {
-          addK8Details(node, details)
-        }
-      }
-      break
-
     case 'cluster':
       {
         const { cluster, violations = [], clusters = [] } = specs
@@ -130,6 +119,19 @@ export const getNodeDetails = node => {
           })
         })
       }
+      break
+
+    case 'package':
+      addDetails(details, [
+        {
+          labelKey: 'resource.name',
+          value: _.get(node, 'specs.raw.metadata.name', '')
+        },
+        {
+          labelKey: 'resource.message',
+          value: msgs.get('resource.helm.nodata.message')
+        }
+      ])
       break
 
     case 'helmrelease':
@@ -396,6 +398,7 @@ function addK8Details(node, details, podOnly, index) {
       mainDetails,
       getNodePropery(node, ['specs', 'raw', 'spec', 'to'], 'raw.spec.to')
     )
+
     addPropertyToList(
       mainDetails,
       getNodePropery(node, ['specs', 'raw', 'spec', 'host'], 'raw.spec.host')
@@ -436,95 +439,40 @@ function addK8Details(node, details, podOnly, index) {
       addDetails(details, podName)
     }
   }
-  //if the resource was deployed on any cluster, show search link here
-  createResourceSearchLink(node, details)
+
+  //for open shift routes show location info
+  addOCPRouteLocation(node, details)
+
+  //for service
+  addNodeServiceLocation(node, details)
 
   details.push({
     type: 'spacer'
   })
+
+  //if the resource was deployed on any cluster, show search link here
+  createResourceSearchLink(node, details)
   //if resource has a row number add deployable yaml
   createDeployableYamlLink(node, details)
   details.push({
     type: 'spacer'
   })
-  // kube model details
-  let podModel = _.get(node, 'specs.podModel')
-  if (podModel) {
-    if (podModel.name) {
-      podModel = {}
-      podModel[podModel.name] = podModel
-    }
-    Object.values(podModel).forEach(pod => {
-      const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
-      details.push({
-        type: 'label',
-        labelKey: 'resource.container.logs'
-      })
-      details.push({
-        type: 'link',
-        value: {
-          label: 'View Log',
-          data: {
-            action: 'show_pod_log',
-            name: pod.name,
-            namespace: pod.namespace,
-            cluster: pod.cluster
-          }
-        },
-        indent: true
-      })
 
-      addDetails(details, [
-        {
-          labelKey: 'resource.clustername',
-          value: cluster
-        },
-        {
-          labelKey: 'resource.pod',
-          value: pod.name
-        },
-        {
-          labelKey: 'resource.hostip',
-          value: hostIP
-        },
-        {
-          labelKey: 'resource.podip',
-          value: podIP
-        },
-        {
-          labelKey: 'resource.created',
-          value: getAge(startedAt)
-        },
-        {
-          labelKey: 'resource.status',
-          value: status
-        },
-        {
-          labelKey: 'resource.restarts',
-          value: restarts
-        }
-      ])
-      details.push({
-        type: 'spacer'
-      })
-    })
-  }
+  setApplicationDeployStatus(node, details)
+  //subscriptions status
+  setSubscriptionDeployStatus(node, details)
+  //placement rule details
+  setPlacementRuleDeployStatus(node, details)
+
+  //show error if the resource doesn't produce pods and was not deployed on remote clusters
+  setResourceDeployStatus(node, details)
+
+  // kube model details
+  setPodDeployStatus(node, details)
+
   return details
 }
 
-const addDetails = (details, dets) => {
-  dets.forEach(({ labelKey, labelValue, value, indent }) => {
-    if (value !== undefined) {
-      details.push({
-        type: 'label',
-        labelKey,
-        labelValue,
-        value,
-        indent
-      })
-    }
-  })
-}
 export const inflateKubeValue = value => {
   if (value) {
     const match = value.match(/\D/g)
@@ -560,15 +508,4 @@ function factorize(prefixes, unit, type) {
 
 export const getPercentage = (value, total) => {
   return Math.floor(100 * value / total) || 0
-}
-
-const getAge = value => {
-  if (value) {
-    if (value.includes('T')) {
-      return moment(value, 'YYYY-MM-DDTHH:mm:ssZ').fromNow()
-    } else {
-      return moment(value, 'YYYY-MM-DD HH:mm:ss').fromNow()
-    }
-  }
-  return '-'
 }

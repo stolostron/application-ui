@@ -28,7 +28,11 @@
     font-weight: 700;
   }
 
-  .pipelineHeader,
+  .pipelineHeader {
+    font-size: 18px;
+    padding-top: 10px;
+  }
+
   .resource-list-header {
     font-size: 18px;
   }

@@ -39,7 +39,7 @@ class Topology extends React.Component {
       refetch: PropTypes.func
     }),
     links: PropTypes.array.isRequired,
-    locale: PropTypes.string.isRequired,
+    locale: PropTypes.string,
     nodes: PropTypes.array.isRequired,
     options: PropTypes.object,
     portals: PropTypes.object,
@@ -322,7 +322,8 @@ class Topology extends React.Component {
   renderChannelControls() {
     const { channelControl = {}, locale } = this.props
     const { allChannels } = channelControl
-    if (allChannels) {
+    if (allChannels && _.get(channelControl, 'allChannels', []).length > 1) {
+      // show slices only if more then one slice
       return <ChannelControl channelControl={channelControl} locale={locale} />
     }
     return null

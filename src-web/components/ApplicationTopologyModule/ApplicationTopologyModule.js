@@ -45,7 +45,6 @@ import YamlEditor from '../common/YamlEditor'
 import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
-import { refetchIntervalUpdate } from '../../actions/refetch'
 import {
   refetchIntervalChanged,
   manualRefetchTriggered
@@ -932,8 +931,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         name,
         diagramFilters
       })
-    },
-    refetchIntervalUpdate: data => dispatch(refetchIntervalUpdate(data))
+    }
   }
 }
 

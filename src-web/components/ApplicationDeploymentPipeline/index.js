@@ -18,7 +18,8 @@ import {
   fetchResources,
   fetchGlobalAppsData,
   updateModal,
-  mutateResourceSuccessFinished
+  mutateResourceSuccessFinished,
+  delResourceSuccessFinished
 } from '../../actions/common'
 import {
   fetchChannelResource,
@@ -118,7 +119,9 @@ const mapDispatchToProps = dispatch => {
       ),
     closeModal: () => dispatch(closeModals()),
     mutateSuccessFinished: resourceType =>
-      dispatch(mutateResourceSuccessFinished(resourceType))
+      dispatch(mutateResourceSuccessFinished(resourceType)),
+    deleteSuccessFinished: resourceType =>
+      dispatch(delResourceSuccessFinished(resourceType))
   }
 }
 

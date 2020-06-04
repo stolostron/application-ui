@@ -160,7 +160,6 @@ const ApplicationHeaderTabs = withLocale(
             <RefreshTimeSelect
               refreshValues={REFRESH_TIMES}
               refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
-              params={params}
               refetchIntervalUpdate={refetchIntervalUpdate}
             />
           </Tabs>

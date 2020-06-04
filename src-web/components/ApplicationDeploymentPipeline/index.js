@@ -227,7 +227,7 @@ class ApplicationDeploymentPipeline extends React.Component {
   componentDidUpdate(prevProps) {
     // if old and new interval are different, restart polling
     if (
-      R.path(['refetch', 'interval'], prevProps) !=
+      R.path(['refetch', 'interval'], prevProps) !==
       R.path(['refetch', 'interval'], this.props)
     ) {
       this.stopPolling()
@@ -236,8 +236,8 @@ class ApplicationDeploymentPipeline extends React.Component {
 
     // manual refetch
     if (
-      R.path(['refetch', 'doRefetch'], prevProps) !=
-      R.path(['refetch', 'doRefetch'], this.props)
+      R.path(['refetch', 'doRefetch'], prevProps) === false &&
+      R.path(['refetch', 'doRefetch'], this.props) === true
     ) {
       this.reload()
       // reset polling after manual refetch

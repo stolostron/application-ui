@@ -168,7 +168,7 @@ class ApplicationTopologyModule extends React.Component {
       this.props.refetch.interval &&
       this.props.refetch.interval > 0
     ) {
-      var intervalId = setInterval(
+      const intervalId = setInterval(
         this.refetchData,
         this.props.refetch.interval
       )
@@ -194,7 +194,7 @@ class ApplicationTopologyModule extends React.Component {
   componentDidUpdate(prevProps) {
     // if old and new interval are different, restart polling
     if (
-      R.path(['refetch', 'interval'], prevProps) !=
+      R.path(['refetch', 'interval'], prevProps) !==
       R.path(['refetch', 'interval'], this.props)
     ) {
       this.stopPolling()

@@ -933,6 +933,54 @@ export const addOCPRouteLocation = (node, details) => {
   return details //process only routes
 }
 
+//ingress
+export const addIngressNodeInfo = (node, details) => {
+  if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Ingress') {
+    //ingress - single service
+    addPropertyToList(
+      details,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'spec', 'backend', 'serviceName'],
+        'raw.spec.ingress.service'
+      )
+    )
+    addPropertyToList(
+      details,
+      getNodePropery(
+        node,
+        ['specs', 'raw', 'spec', 'backend', 'servicePort'],
+        'raw.spec.ingress.service.port'
+      )
+    )
+
+    const rules = R.pathOr([], ['specs', 'raw', 'spec', 'rules'])(node)
+    rules.forEach(ruleInfo => {
+      details.push({
+        type: 'spacer'
+      })
+      const hostName = R.pathOr('NA', ['host'])(ruleInfo)
+      details.push({
+        labelKey: 'raw.spec.ingress.host',
+        value: hostName
+      })
+      const paths = R.pathOr([], ['http', 'paths'])(ruleInfo)
+      paths.forEach(pathInfo => {
+        details.push({
+          labelKey: 'raw.spec.ingress.service',
+          value: R.pathOr('NA', ['backend', 'serviceName'])(pathInfo)
+        })
+        details.push({
+          labelKey: 'raw.spec.ingress.service.port',
+          value: R.pathOr('NA', ['backend', 'servicePort'])(pathInfo)
+        })
+      })
+    })
+  }
+
+  return details //process only routes
+}
+
 //for service
 export const addNodeServiceLocation = (node, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Service') {

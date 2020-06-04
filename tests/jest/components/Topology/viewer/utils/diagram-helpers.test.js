@@ -23,7 +23,8 @@ import {
   addNodeServiceLocationForCluster,
   addNodeOCPRouteLocationForCluster,
   computeResourceName,
-  getPulseStatusForSubscription
+  getPulseStatusForSubscription,
+  addIngressNodeInfo
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -2166,6 +2167,99 @@ describe("addNodeOCPRouteLocationForCluster", () => {
     expect(
       addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
     ).toEqual(result);
+  });
+});
+
+describe("addIngressNodeInfo 1", () => {
+  const node = {
+    type: "ingress",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-service--service--mortgage-app-deploy",
+    specs: {
+      raw: {
+        kind: "Ingress",
+        spec: {
+          rules: [
+            {
+              host: "aaa",
+              http: {
+                paths: [
+                  {
+                    backend: {
+                      serviceName: "n1",
+                      servicePort: "p1"
+                    }
+                  },
+                  {
+                    backend: {
+                      serviceName: "n2",
+                      servicePort: "p2"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              host: "bbb",
+              http: {
+                paths: [
+                  {
+                    backend: {
+                      serviceName: "bn1",
+                      servicePort: "bp1"
+                    }
+                  },
+                  {
+                    backend: {
+                      serviceName: "bn2",
+                      servicePort: "bp2"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          host: "1.1.1"
+        }
+      }
+    }
+  };
+  const result = [
+    { type: "spacer" },
+    { labelKey: "raw.spec.ingress.host", value: "aaa" },
+    { labelKey: "raw.spec.ingress.service", value: "n1" },
+    { labelKey: "raw.spec.ingress.service.port", value: "p1" },
+    { labelKey: "raw.spec.ingress.service", value: "n2" },
+    { labelKey: "raw.spec.ingress.service.port", value: "p2" },
+    { type: "spacer" },
+    { labelKey: "raw.spec.ingress.host", value: "bbb" },
+    { labelKey: "raw.spec.ingress.service", value: "bn1" },
+    { labelKey: "raw.spec.ingress.service.port", value: "bp1" },
+    { labelKey: "raw.spec.ingress.service", value: "bn2" },
+    { labelKey: "raw.spec.ingress.service.port", value: "bp2" }
+  ];
+  it("addIngressNodeInfo 1", () => {
+    expect(addIngressNodeInfo(node, [])).toEqual(result);
+  });
+});
+
+describe("addIngressNodeInfo other node type", () => {
+  const node = {
+    type: "ingress22",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-service--service--mortgage-app-deploy",
+    specs: {
+      raw: {
+        kind: "Ingress22"
+      }
+    }
+  };
+  it("addIngressNodeInfo 1", () => {
+    expect(addIngressNodeInfo(node, [])).toEqual([]);
   });
 });
 

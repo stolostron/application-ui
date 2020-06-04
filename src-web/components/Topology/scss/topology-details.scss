@@ -45,6 +45,11 @@
       color: $color__blue-90;
       font-weight: bold;
     }
+
+    .titleNameText {
+      font-size: 2ex;
+      color: #5a6872;
+    }
   }
 
   hr {
@@ -96,7 +101,15 @@
     font-weight: bold;
     color: $color__blue-90;
     letter-spacing: 1.27px;
-    line-height: 1rem;
+    line-height: 1.3rem;
+  }
+
+  .sectionLabel {
+    margin-left: 1rem;
+  }
+
+  .borderLeft {
+    border-left: 3px solid #dfe6eb;
   }
 
   .indent {

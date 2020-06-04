@@ -127,7 +127,7 @@ class ChannelControl extends React.Component {
           <div className="channel-controls-container" ref={this.setControlRef}>
             {displayChannels.map(
               ({ chn, splitChn, hasSubchannels, isSubchannel }, idx) => {
-                const chnName = splitChn
+                const [, , , , chnName] = splitChn
                 let [, subNamespace, subName, chnNamespace] = splitChn
                 if (subName === '__ALL__' && chnName === '__ALL__') {
                   subNamespace = chnNamespace = ''

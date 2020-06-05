@@ -22,6 +22,7 @@ const specPulse = 'specs.pulse'
 const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
+const specLocation = 'raw.spec.host.location'
 
 const podErrorStates = [
   'CrashLoopBackOff',
@@ -897,7 +898,7 @@ export const addNodeOCPRouteLocationForCluster = (
 
     details.push({
       type: 'label',
-      labelKey: 'raw.spec.host.location'
+      labelKey: specLocation
     })
   }
 
@@ -957,7 +958,7 @@ export const addIngressNodeInfo = (node, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Ingress') {
     details.push({
       type: 'label',
-      labelKey: 'raw.spec.host.location'
+      labelKey: specLocation
     })
 
     //ingress - single service
@@ -1048,7 +1049,7 @@ export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
 
     const location = `${typeObject.clusterIP}:${port}`
     details.push({
-      labelKey: 'raw.spec.host.location',
+      labelKey: specLocation,
       value: location
     })
   }

@@ -2487,6 +2487,40 @@ describe("addNodeServiceLocationForCluster 1", () => {
   });
 });
 
+describe("addNodeServiceLocationForCluster 1", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-service--service--mortgage-app-deploy",
+    specs: {
+      serviceModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          clusterIP: "1.1",
+          port: "80:65/TCP"
+        }
+      },
+      raw: {
+        metadata: {
+          name: "mortgage-app-deploy"
+        },
+        kind: "Service",
+        spec: {
+          tls: {},
+          host: "1.1.1"
+        }
+      }
+    }
+  };
+  const result = [];
+  it("addNodeServiceLocationForCluster no obj", () => {
+    expect(addNodeServiceLocationForCluster(node, undefined, [])).toEqual(
+      result
+    );
+  });
+});
+
 describe("processResourceActionLink search view", () => {
   const openSearchView = {
     action: "show_search",

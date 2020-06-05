@@ -2028,20 +2028,15 @@ describe("addNodeOCPRouteLocationForCluster no host spec", () => {
     {
       type: "link",
       value: {
-        data: {
-          action: "open_link",
-          targetLink: "http://mortgage-app-deploy-default.aaa/"
-        },
+        data: { action: "open_link", targetLink: "http://undefined/" },
         id: "objID-location",
         indent: true,
-        label: "http://mortgage-app-deploy-default.aaa/"
+        label: "http://undefined/"
       }
     }
   ];
   it("addNodeOCPRouteLocationForCluster no host spec", () => {
-    expect(
-      addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
-    ).toEqual(result);
+    expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
   });
 });
 
@@ -2081,7 +2076,7 @@ describe("addOCPRouteLocation spec no tls", () => {
   };
   const result = [];
   it("addOCPRouteLocation no tls", () => {
-    expect(addOCPRouteLocation(node, [])).toEqual(result);
+    expect(addOCPRouteLocation(node, "possiblereptile", [])).toEqual(result);
   });
 });
 
@@ -2111,21 +2106,9 @@ describe("addNodeOCPRouteLocationForCluster spec no route", () => {
   const obj = {
     id: "objID"
   };
-  const result = [
-    {
-      type: "link",
-      value: {
-        data: { action: "open_link", targetLink: "http://1.1.1/" },
-        id: "objID-location",
-        indent: true,
-        label: "http://1.1.1/"
-      }
-    }
-  ];
+  const result = [];
   it("addNodeOCPRouteLocationForCluster no route", () => {
-    expect(
-      addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
-    ).toEqual(result);
+    expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
   });
 });
 
@@ -2153,7 +2136,7 @@ describe("addOCPRouteLocation spec with tls", () => {
     }
   };
   it("addOCPRouteLocation with tls", () => {
-    expect(addOCPRouteLocation(node, [])).toEqual([]);
+    expect(addOCPRouteLocation(node, "possiblereptile", [])).toEqual([]);
   });
 });
 
@@ -2184,21 +2167,111 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   const obj = {
     id: "objID"
   };
+  const result = [];
+  it("addNodeOCPRouteLocationForCluster with tls and host", () => {
+    expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
+  });
+});
+
+describe("addNodeOCPRouteLocationForCluster", () => {
+  const node = {
+    type: "route",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
+    specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          tls: {},
+          host: "1.1.1"
+        }
+      }
+    }
+  };
+
   const result = [
+    { labelKey: "raw.spec.host.location", type: "label" },
     {
       type: "link",
       value: {
         data: { action: "open_link", targetLink: "https://1.1.1/" },
-        id: "objID-location",
+        id: "0-location",
         indent: true,
         label: "https://1.1.1/"
       }
+    },
+    { type: "spacer" }
+  ];
+  it("addNodeOCPRouteLocationForCluster with tls and no obj", () => {
+    expect(addNodeOCPRouteLocationForCluster(node, undefined, [])).toEqual(
+      result
+    );
+  });
+});
+
+describe("addNodeOCPRouteLocationForCluster", () => {
+  const node = {
+    type: "route",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-route--route--mortgage-app-deploy",
+    clusters: {
+      specs: {
+        clusters: [
+          {
+            clusterip: "222",
+            metadata: {
+              name: "possiblereptile"
+            }
+          }
+        ]
+      }
+    },
+    specs: {
+      routeModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          kind: "route",
+          cluster: "possiblereptile"
+        }
+      },
+      raw: {
+        kind: "Route",
+        spec: {
+          tls: {}
+        }
+      }
+    }
+  };
+
+  const obj = {
+    id: "objID",
+    cluster: "possiblereptile"
+  };
+  const result = [
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink: "https://mortgage-app-deploy-default.222/"
+        },
+        id: "objID-location",
+        indent: true,
+        label: "https://mortgage-app-deploy-default.222/"
+      }
     }
   ];
-  it("addNodeOCPRouteLocationForCluster with tls", () => {
-    expect(
-      addNodeOCPRouteLocationForCluster(node, obj, "possiblereptile", [])
-    ).toEqual(result);
+  it("addNodeOCPRouteLocationForCluster with tls and no host", () => {
+    expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
   });
 });
 
@@ -2259,8 +2332,7 @@ describe("addIngressNodeInfo 1", () => {
     }
   };
   const result = [
-    { type: "spacer" },
-    { labelKey: "prop.details.section.service", type: "label" },
+    { labelKey: "raw.spec.host.location", type: "label" },
     { labelKey: "raw.spec.ingress.host", value: "aaa" },
     { labelKey: "raw.spec.ingress.service", value: "n1" },
     { labelKey: "raw.spec.ingress.service.port", value: "p1" },
@@ -2323,15 +2395,9 @@ describe("addNodeServiceLocation 1", () => {
       }
     }
   };
-  const result = [
-    { labelKey: "prop.details.section.service", type: "label" },
-    { type: "spacer" },
-    { labelKey: "raw.spec.host.location", type: "label" },
-    { labelValue: "possiblereptile", type: "label", value: "1.1:80" },
-    { type: "spacer" }
-  ];
+  const result = [{ labelKey: "raw.spec.host.location", value: "1.1:80" }];
   it("addNodeServiceLocation 1", () => {
-    expect(addNodeServiceLocation(node, [])).toEqual(result);
+    expect(addNodeServiceLocation(node, "possiblereptile", [])).toEqual(result);
   });
 });
 
@@ -2369,7 +2435,9 @@ describe("addNodeInfoPerCluster 1", () => {
     };
   });
   it("addNodeInfoPerCluster 1", () => {
-    expect(addNodeInfoPerCluster(node, [], testFn)).toEqual([]);
+    expect(addNodeInfoPerCluster(node, "possiblereptile", [], testFn)).toEqual(
+      []
+    );
   });
 });
 
@@ -2412,12 +2480,10 @@ describe("addNodeServiceLocationForCluster 1", () => {
     type: "NodePort"
   };
   const result = [
-    { labelValue: "possiblereptile", type: "label", value: "172.30.129.147:80" }
+    { labelKey: "raw.spec.host.location", value: "172.30.129.147:80" }
   ];
   it("addNodeServiceLocationForCluster 1", () => {
-    expect(
-      addNodeServiceLocationForCluster(node, obj, "possiblereptile", [])
-    ).toEqual(result);
+    expect(addNodeServiceLocationForCluster(node, obj, [])).toEqual(result);
   });
 });
 

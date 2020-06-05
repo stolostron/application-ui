@@ -23,8 +23,7 @@ import {
   setPlacementRuleDeployStatus,
   addDetails,
   getAge,
-  addOCPRouteLocation,
-  addNodeServiceLocation,
+  addNodeOCPRouteLocationForCluster,
   addIngressNodeInfo
 } from '../../utils/diagram-helpers'
 import msgs from '../../../../../nls/platform.properties'
@@ -454,18 +453,15 @@ function addK8Details(node, details, podOnly, index) {
     }
   }
 
-  //for open shift routes show location info
-  addOCPRouteLocation(node, details)
-
-  //add Ingress service info
-  addIngressNodeInfo(node, details)
-
-  //for service
-  addNodeServiceLocation(node, details)
-
   details.push({
     type: 'spacer'
   })
+
+  //if Route with host, show it here
+  addNodeOCPRouteLocationForCluster(node, null, details)
+
+  //add Ingress service info
+  addIngressNodeInfo(node, details)
 
   setApplicationDeployStatus(node, details)
   //subscriptions status

@@ -15,7 +15,6 @@ import { DropdownV2, Loading } from 'carbon-components-react'
 import '../../../graphics/diagramIcons.svg'
 import '../../../scss/refresh-time-select.scss'
 import msgs from '../../../nls/platform.properties'
-import moment from 'moment'
 import config from '../../../lib/shared/config'
 
 export default class RefreshTimeSelect extends React.Component {
@@ -134,6 +133,7 @@ export default class RefreshTimeSelect extends React.Component {
             </div>
           ) : (
             <div
+              id="refreshButton"
               className="button"
               tabIndex="0"
               role={'button'}
@@ -148,6 +148,7 @@ export default class RefreshTimeSelect extends React.Component {
             </div>
           )}
           <DropdownV2
+            id="refreshDropdown"
             className="selection"
             label={label}
             ariaLabel={label}
@@ -185,29 +186,4 @@ export const getPollInterval = cookieKey => {
 
 export const savePollInterval = (cookieKey, pollInterval) => {
   localStorage.setItem(cookieKey, JSON.stringify({ pollInterval }))
-}
-
-export const getTimeAgoMsg = (msgKey, startTime, endTime, locale) => {
-  let ago = ''
-  const seconds =
-    Math.abs(moment(new Date(startTime)).diff(new Date(endTime))) / 1000
-  let interval = Math.floor(seconds / 86400)
-  if (interval >= 1) {
-    ago = msgs.get('time.days.ago', [interval], locale)
-  } else {
-    interval = Math.floor(seconds / 3600)
-    if (interval >= 1) {
-      ago = msgs.get('time.hours.ago', [interval], locale)
-    } else {
-      interval = Math.floor(seconds / 60)
-      if (interval >= 1) {
-        ago = msgs.get('time.minutes.ago', [interval], locale)
-      } else if (seconds > 1) {
-        ago = msgs.get('time.seconds.ago', [seconds], locale)
-      } else {
-        ago = msgs.get('time.just.now', locale)
-      }
-    }
-  }
-  return msgs.get(msgKey, [ago], locale)
 }

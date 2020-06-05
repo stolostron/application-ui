@@ -199,7 +199,7 @@ describe("ApplicationTopologyModule with selected node ID", () => {
         <Provider store={store}>
           <ApplicationTopologyModule
             selectedNodeId={nodeID}
-            showExpandedTopology={false}
+            showExpandedTopology={true}
             params={params}
             locale={locale}
           />
@@ -207,7 +207,9 @@ describe("ApplicationTopologyModule with selected node ID", () => {
       </BrowserRouter>
     );
 
-    wrapper.setState({ refetch: { interval: 30000, doRefetch: true } });
+    wrapper.setProps({ refetch: { interval: 30000, doRefetch: false } });
+    wrapper.setProps({ refetch: { interval: 30000, doRefetch: true } });
+    wrapper.setProps({ refetch: { interval: 15000, doRefetch: false } });
   });
 
   const actions = {

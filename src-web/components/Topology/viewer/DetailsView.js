@@ -83,7 +83,7 @@ class DetailsView extends React.Component {
     const height = getViewContainer().getBoundingClientRect().height
     const scrollHeight = height * 0.75
     return (
-      <section className={`topologyDetails ${className}`}>
+      <section className="topologyDetails">
         <div className="detailsHeader">
           <DetailsViewDecorator shape={shape} className={className} />
           <div>
@@ -153,7 +153,7 @@ class DetailsView extends React.Component {
     return (
       <div className={mainSectionClasses} key={Math.random()}>
         {(labelKey || labelValue) && isError ? (
-          <span className="label" style={{ color: 'red' }}>
+          <span className="label sectionLabel" style={{ color: 'red' }}>
             {label}
           </span>
         ) : (
@@ -199,7 +199,7 @@ class DetailsView extends React.Component {
           {value.label}&nbsp;
           {showLaunchOutIcon && (
             <Icon
-              name="icon--launch"
+              name="icon--arrow--right"
               fill="#6089bf"
               description=""
               className="open-out-icon"

@@ -466,24 +466,28 @@ export const computeNodeStatus = node => {
 
 export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
-  if (details && node) {
-    const row = R.pathOr(undefined, ['specs', 'row'])(node)
-    if (row !== undefined) {
+  if (
+    details &&
+    node &&
+    R.contains(_.get(node, 'type', ''), [
+      'application',
+      'rules',
+      'subscription'
+    ])
+  ) {
+    const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+    selfLink &&
       details.push({
         type: 'link',
         value: {
-          label: msgs.get('props.view.yaml'),
-          id: node.id,
+          label: msgs.get(showLocalYaml),
           data: {
-            specs: {
-              row: row,
-              isDesign: true
-            }
-          },
-          indent: true
+            action: showResourceYaml,
+            cluster: 'local-cluster',
+            selfLink: selfLink
+          }
         }
       })
-    }
   }
 
   return details
@@ -789,24 +793,24 @@ export const setSubscriptionDeployStatus = (node, details) => {
 
   const resourceMap = _.get(node, 'specs.subscriptionModel', {})
   Object.values(resourceMap).forEach(subscription => {
-    details.push({
-      labelValue: subscription.cluster,
-      value: subscription.status,
-      isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
-    })
-    details.push({
-      type: 'link',
-      value: {
-        label: subscription._hubClusterResource
-          ? msgs.get(showLocalYaml)
-          : msgs.get(specsPropsYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: subscription.cluster,
-          selfLink: subscription.selfLink
-        }
-      }
-    })
+    if (!subscription._hubClusterResource) {
+      details.push({
+        labelValue: subscription.cluster,
+        value: subscription.status,
+        isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
+      }) &&
+        details.push({
+          type: 'link',
+          value: {
+            label: msgs.get(specsPropsYaml),
+            data: {
+              action: showResourceYaml,
+              cluster: subscription.cluster,
+              selfLink: subscription.selfLink
+            }
+          }
+        })
+    }
   })
 
   if (Object.keys(resourceMap).length === 1) {
@@ -842,23 +846,6 @@ export const setPlacementRuleDeployStatus = (node, details) => {
       isError: true
     })
   }
-  details.push({
-    type: 'spacer'
-  })
-
-  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
-  selfLink &&
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get(showLocalYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: 'local-cluster',
-          selfLink: selfLink
-        }
-      }
-    })
 
   return details
 }
@@ -877,20 +864,6 @@ export const setApplicationDeployStatus = (node, details) => {
       true
     )
   )
-
-  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
-  selfLink &&
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get(showLocalYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: 'local-cluster',
-          selfLink: selfLink
-        }
-      }
-    })
 }
 
 export const addNodeOCPRouteLocationForCluster = (
@@ -1015,19 +988,15 @@ export const addNodeServiceLocation = (node, details) => {
 }
 
 //generic function to write location info
-const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
+export const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
   const clusterNames = R.split(',', getClusterName(node.id))
   const locationDetails = []
 
+  let serviceSectionDisplayed = false
+
   let counter = 0
-  if (clusterNames.length > 0) {
-    details.push({
-      type: 'label',
-      labelKey: 'prop.details.section.service'
-    })
-  }
   clusterNames.forEach(clusterName => {
     if (counter > 2) {
       return //too much info for the dialog, show first 5 clusters
@@ -1039,8 +1008,15 @@ const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
       getDetailsFunction(node, typeObject, clusterName, locationDetails)
     }
   })
-
   if (locationDetails.length > 0) {
+    if (!serviceSectionDisplayed) {
+      details.push({
+        type: 'label',
+        labelKey: 'prop.details.section.service'
+      })
+    }
+    serviceSectionDisplayed = true
+
     details.push({
       type: 'spacer'
     })

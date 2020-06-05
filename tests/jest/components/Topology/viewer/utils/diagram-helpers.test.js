@@ -25,7 +25,8 @@ import {
   computeResourceName,
   getPulseStatusForSubscription,
   addIngressNodeInfo,
-  setPlacementRuleDeployStatus
+  setPlacementRuleDeployStatus,
+  addNodeInfoPerCluster
 } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 
 const node = {
@@ -533,31 +534,52 @@ describe("computeResourceName node with pods with _hostingDeployable", () => {
   });
 });
 
-describe("createDeployableYamlLink for show logs with details", () => {
+describe("createDeployableYamlLink for application no selflink", () => {
   const details = [];
   const node = {
+    type: "application",
     id: "id",
     specs: {
       row: 20
+    }
+  };
+  it("createDeployableYamlLink for application selflink", () => {
+    expect(createDeployableYamlLink(node, details)).toEqual([]);
+  });
+});
+
+describe("createDeployableYamlLink for application with selflink", () => {
+  const details = [];
+  const node = {
+    type: "application",
+    id: "id",
+    specs: {
+      raw: {
+        metadata: {
+          selfLink: "appLink"
+        }
+      }
     }
   };
   const result = [
     {
       type: "link",
       value: {
-        data: { specs: { isDesign: true, row: 20 } },
-        id: "id",
-        indent: true,
-        label: "View Topology YAML"
+        data: {
+          action: "show_resource_yaml",
+          cluster: "local-cluster",
+          selfLink: "appLink"
+        },
+        label: "View Resource YAML"
       }
     }
   ];
-  it("createDeployableYamlLink", () => {
+  it("createDeployableYamlLink for application with selflink", () => {
     expect(createDeployableYamlLink(node, details)).toEqual(result);
   });
 });
 
-describe("createDeployableYamlLink for show logs with details no row", () => {
+describe("createDeployableYamlLink for other", () => {
   const details = [];
   const node = {
     id: "id",
@@ -565,20 +587,8 @@ describe("createDeployableYamlLink for show logs with details no row", () => {
       row_foo: 20
     }
   };
-  it("createDeployableYamlLink", () => {
+  it("createDeployableYamlLink for other", () => {
     expect(createDeployableYamlLink(node, details)).toEqual([]);
-  });
-});
-
-describe("createDeployableYamlLink for show logs with undefined details", () => {
-  const node = {
-    id: "id",
-    specs: {
-      row: 20
-    }
-  };
-  it("createDeployableYamlLink", () => {
-    expect(createDeployableYamlLink(node, undefined)).toEqual(undefined);
   });
 });
 
@@ -651,19 +661,7 @@ describe("setSubscriptionDeployStatus with error", () => {
           cluster: "local",
           selfLink: undefined
         },
-        label: "View Remote Resource"
-      }
-    },
-    { isError: false, labelValue: "local", value: "Propagated" },
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_resource_yaml",
-          cluster: "local",
-          selfLink: undefined
-        },
-        label: "View Local Resource"
+        label: "View Resource YAML"
       }
     },
     { type: "spacer" }
@@ -698,7 +696,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
           cluster: "local",
           selfLink: undefined
         },
-        label: "View Remote Resource"
+        label: "View Resource YAML"
       }
     },
     {
@@ -1821,18 +1819,6 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
       labelValue: "Error",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
-    },
-    { type: "spacer" },
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_resource_yaml",
-          cluster: "local-cluster",
-          selfLink: "aaa"
-        },
-        label: "View Local Resource"
-      }
     }
   ];
   it("setPlacementRuleDeployStatus deployed 1", () => {
@@ -2093,7 +2079,7 @@ describe("addOCPRouteLocation spec no tls", () => {
       }
     }
   };
-  const result = [{ labelKey: "prop.details.section.service", type: "label" }];
+  const result = [];
   it("addOCPRouteLocation no tls", () => {
     expect(addOCPRouteLocation(node, [])).toEqual(result);
   });
@@ -2166,9 +2152,8 @@ describe("addOCPRouteLocation spec with tls", () => {
       }
     }
   };
-  const result = [{ labelKey: "prop.details.section.service", type: "label" }];
   it("addOCPRouteLocation with tls", () => {
-    expect(addOCPRouteLocation(node, [])).toEqual(result);
+    expect(addOCPRouteLocation(node, [])).toEqual([]);
   });
 });
 
@@ -2347,6 +2332,44 @@ describe("addNodeServiceLocation 1", () => {
   ];
   it("addNodeServiceLocation 1", () => {
     expect(addNodeServiceLocation(node, [])).toEqual(result);
+  });
+});
+
+describe("addNodeInfoPerCluster 1", () => {
+  const node = {
+    type: "service",
+    name: "mortgage-app-deploy",
+    namespace: "default",
+    id:
+      "member--member--deployable--member--clusters--possiblereptile--default--mortgage-app-subscription-mortgage-mortgage-app-deploy-service--service--mortgage-app-deploy",
+    specs: {
+      serviceModel: {
+        "mortgage-app-deploy-possiblereptile": {
+          clusterIP: "1.1",
+          port: "80:65/TCP"
+        }
+      },
+      raw: {
+        metadata: {
+          name: "mortgage-app-deploy"
+        },
+        kind: "Service",
+        spec: {
+          tls: {},
+          host: "1.1.1"
+        }
+      }
+    }
+  };
+  const testFn = (jest.fn = () => {
+    return {
+      type: "label",
+      labelValue: "clusterName",
+      value: "location"
+    };
+  });
+  it("addNodeInfoPerCluster 1", () => {
+    expect(addNodeInfoPerCluster(node, [], testFn)).toEqual([]);
   });
 });
 

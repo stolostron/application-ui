@@ -1,6 +1,7 @@
 /*******************************************************************************
  * Licensed Materials - Property of IBM
  * (c) Copyright IBM Corporation 2019. All Rights Reserved.
+ * Copyright (c) 2020 Red Hat, Inc.
  *
  * US Government Users Restricted Rights - Use, duplication or disclosure
  * restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -44,7 +45,6 @@
     color: black;
     height: 223px;
     position: relative;
-    cursor: pointer;
     border-style: solid;
     border-width: 1px;
     border-color: #4a79b7;
@@ -300,18 +300,12 @@
     border-bottom-color: #dfe3e6;
     padding-top: 10px;
     padding-bottom: 20px;
+  }
+
+  .placementRuleDescEdit:hover {
     cursor: pointer;
     text-decoration: underline;
     color: #3d70b2;
-  }
-
-  .placementEditIcon {
-    fill: #3d70b2;
-    display: inline-block;
-    width: 7%;
-    vertical-align: bottom;
-    padding-left: 5px;
-    cursor: pointer;
   }
 
   .namespaceDesc {
@@ -424,47 +418,22 @@
     padding-left: 10px;
   }
 
-  .channelEditIcon {
-    fill: white;
-    margin-left: 36px;
-    cursor: pointer;
-    float: right;
-  }
-
-  .yamlEditContainer {
+  .channelMenueContainer {
     position: absolute;
-    margin-left: 300px;
-  }
+    margin-left: 330px;
 
-  .yamlEditContainer:hover {
-    cursor: pointer;
-  }
+    .bx--overflow-menu__icon {
+      fill: #ffffff;
+    }
 
-  .yamlEditSubContainer {
-    display: inline-block;
-    margin-left: 240px;
-
-    .subscriptionEditIcon {
-      fill: black;
-      display: inline-block;
-      margin-left: 35px;
-      float: right;
-      cursor: pointer;
+    .bx--overflow-menu__icon:hover {
+      fill: #3d70b2;
     }
   }
 
-  .yamlEditSubContainer:hover {
-    display: inline-block;
-    margin-left: 240px;
-    color: #4a79b7;
-
-    .subscriptionEditIcon {
-      fill: #4a79b7;
-      display: inline-block;
-      margin-left: 35px;
-      float: right;
-      cursor: pointer;
-    }
+  .subscriptionMenueContainer {
+    position: absolute;
+    margin-left: 340px;
   }
 
   .yamlTitle {

@@ -375,7 +375,7 @@ describe("ApplicationDeploymentPipeline", () => {
     );
 
     wrapper
-      .find(".placementRuleDesc")
+      .find(".placementRuleDescEdit")
       .at(0)
       .simulate("click");
 
@@ -385,12 +385,12 @@ describe("ApplicationDeploymentPipeline", () => {
       .simulate("click");
 
     wrapper
-      .find(".yamlEditContainer")
+      .find(".channelMenueContainer")
       .at(0)
       .simulate("click");
 
     wrapper
-      .find(".yamlEditSubContainer")
+      .find(".subscriptionMenueContainer")
       .at(0)
       .simulate("click");
 

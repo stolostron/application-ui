@@ -30,7 +30,13 @@ import {
   getPlacementRuleFromBulkSubscription
 } from '../../utils'
 import { getPodData } from '../../../ApplicationDeploymentPipeline/components/InfoCards/utils'
-import { Tile, Icon, Tooltip } from 'carbon-components-react'
+import {
+  Tile,
+  Icon,
+  Tooltip,
+  OverflowMenu,
+  OverflowMenuItem
+} from 'carbon-components-react'
 import config from '../../../../../lib/shared/config'
 import R from 'ramda'
 
@@ -288,11 +294,32 @@ const LeftColumnForApplicationNames = (
   )
 }
 
+const editChannelAction = 'actions.edit.channel'
+const deleteChannelAction = 'actions.delete.channel'
+
+const getChannelMenuActions = () => {
+  return [editChannelAction, deleteChannelAction]
+}
+
+const handleChannelActions = (
+  action,
+  channel,
+  getChannelResource,
+  deleteResource
+) => {
+  if (action === editChannelAction) {
+    editResourceClick(channel, getChannelResource)
+  } else if (action === deleteChannelAction) {
+    deleteResource(RESOURCE_TYPES.HCM_CHANNELS, channel)
+  }
+}
+
 //show channel header columns
 const ChannelColumnsHeader = (
   { channelList, getChannelResource, deleteResource },
   locale
 ) => {
+  const channelMenuActions = getChannelMenuActions()
   return (
     <div className="horizontalScrollRow">
       {/* This is the where the channel header information will go */}
@@ -302,36 +329,40 @@ const ChannelColumnsHeader = (
           <div key={channel.selfLink} className="channelColumn">
             <Tile className="channelColumnHeader">
               <div className="channelNameHeader">
-                <div
-                  className="yamlEditContainer"
-                  onClick={() => editResourceClick(channel, getChannelResource)}
-                  onKeyPress={() => {
-                    // noop function
-                  }}
-                  tabIndex={0}
-                  role="button"
-                >
-                  <div className="yamlTitle">
-                    {msgs.get('actions.yaml', locale)}
-                  </div>
-                  <Icon
-                    name="icon--edit"
-                    fill="#6089bf"
-                    description=""
-                    className="channelEditIcon"
-                  />
+                <div className="channelMenueContainer">
+                  <OverflowMenu
+                    floatingMenu
+                    flipped
+                    iconDescription={msgs.get(
+                      'svg.description.overflowMenu',
+                      locale
+                    )}
+                    ariaLabel="Overflow-menu"
+                  >
+                    {channelMenuActions.map(action => (
+                      <OverflowMenuItem
+                        data-table-action={action}
+                        isDelete={action === 'actions.delete.channel'}
+                        onClick={() => {
+                          handleChannelActions(
+                            action,
+                            channel,
+                            getChannelResource,
+                            deleteResource
+                          )
+                        }}
+                        key={action}
+                        itemText={
+                          <div className="item-container">
+                            <div className="menu-item">
+                              {msgs.get(action, locale)}
+                            </div>
+                          </div>
+                        }
+                      />
+                    ))}
+                  </OverflowMenu>
                 </div>
-                <div
-                  style={{ visibility: 'hidden' }}
-                  onClick={() =>
-                    deleteResource(RESOURCE_TYPES.HCM_CHANNELS, channel)
-                  }
-                  onKeyPress={() => {
-                    // noop function
-                  }}
-                  tabIndex={0}
-                  role="button"
-                />
                 <div className="channelTitle">
                   {msgs.get('description.Pipeline.channel', locale)}
                 </div>
@@ -387,6 +418,46 @@ const EmptySubscriptionTile = locale => {
   )
 }
 
+const editSubAction = 'actions.edit.subscription'
+const deleteSubAction = 'actions.delete.subscription'
+const editPRAction = 'actions.edit.placementrule'
+const deletePRAction = 'actions.delete.placementrule'
+const viewDetailsAction = 'actions.view.details'
+
+const getSubscriptionMenuActions = () => {
+  return [
+    viewDetailsAction,
+    editSubAction,
+    editPRAction,
+    deleteSubAction,
+    deletePRAction
+  ]
+}
+
+const handleSubscriptionActions = (
+  action,
+  subscription,
+  placementRule,
+  getSubscriptionResource,
+  getPlacementRuleResource,
+  deleteResource
+) => {
+  switch (action) {
+  case editSubAction:
+    editResourceClick(subscription, getSubscriptionResource)
+    break
+  case deleteSubAction:
+    deleteResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, subscription)
+    break
+  case editPRAction:
+    editResourceClick(placementRule, getPlacementRuleResource)
+    break
+  case deletePRAction:
+    deleteResource(RESOURCE_TYPES.HCM_PLACEMENT_RULES, placementRule)
+    break
+  }
+}
+
 const SubscriptionTile = (
   {
     openSubscriptionModal,
@@ -404,66 +475,60 @@ const SubscriptionTile = (
   },
   locale
 ) => {
+  const subscriptionMenuActions = getSubscriptionMenuActions()
   return (
-    <Tile
-      className="channelColumnDeployable addHover"
-      onClick={event => {
-        const eClass = event.target.className
-        const proceed =
-          typeof eClass != 'object' &&
-          eClass !== 'yamlEditSubContainer' &&
-          eClass !== 'yamlTitleSub' &&
-          eClass !== 'placementRuleDesc'
-        if (proceed) {
-          onSubscriptionClick(
-            openSubscriptionModal,
-            setSubscriptionModalHeaderInfo,
-            setCurrentDeployableSubscriptionData,
-            setCurrentsubscriptionModalData,
-            thisSubscriptionData,
-            applicationName,
-            subName,
-            status
-          )
-        }
-      }}
-    >
+    <Tile className="channelColumnDeployable addHover">
+      <div className="subscriptionMenueContainer">
+        <OverflowMenu
+          floatingMenu
+          flipped
+          iconDescription={msgs.get('svg.description.overflowMenu', locale)}
+          ariaLabel="Overflow-menu"
+        >
+          {subscriptionMenuActions.map(action => (
+            <OverflowMenuItem
+              data-table-action={action}
+              isDelete={action === deleteSubAction || action === deletePRAction}
+              disabled={
+                action.includes('placementrule') &&
+                !(placementRule && placementRule.name)
+              }
+              onClick={() => {
+                if (action === viewDetailsAction) {
+                  onSubscriptionClick(
+                    openSubscriptionModal,
+                    setSubscriptionModalHeaderInfo,
+                    setCurrentDeployableSubscriptionData,
+                    setCurrentsubscriptionModalData,
+                    thisSubscriptionData,
+                    applicationName,
+                    subName,
+                    status
+                  )
+                } else {
+                  handleSubscriptionActions(
+                    action,
+                    thisSubscriptionData,
+                    placementRule,
+                    getSubscriptionResource,
+                    getPlacementRuleResource,
+                    deleteResource
+                  )
+                }
+              }}
+              key={action}
+              itemText={
+                <div className="item-container">
+                  <div className="menu-item">{msgs.get(action, locale)}</div>
+                </div>
+              }
+            />
+          ))}
+        </OverflowMenu>
+      </div>
       <div className="subColHeader">
         {msgs.get('description.subscription', locale)}
       </div>
-      <div
-        className="yamlEditSubContainer"
-        onClick={() =>
-          editResourceClick(thisSubscriptionData, getSubscriptionResource)
-        }
-        onKeyPress={() => {
-          // noop function
-        }}
-        tabIndex={0}
-        role="button"
-      >
-        <div className="yamlTitleSub">{msgs.get('actions.yaml', locale)}</div>
-        <Icon
-          name="icon--edit"
-          fill="#6089bf"
-          description=""
-          className="subscriptionEditIcon"
-          onClick={() =>
-            editResourceClick(thisSubscriptionData, getSubscriptionResource)
-          }
-        />
-      </div>
-      <div
-        style={{ visibility: 'hidden' }}
-        onClick={() =>
-          deleteResource(RESOURCE_TYPES.HCM_SUBSCRIPTIONS, thisSubscriptionData)
-        }
-        onKeyPress={() => {
-          // noop function
-        }}
-        tabIndex={0}
-        role="button"
-      />
       <div className="subColName">{thisSubscriptionData.name}</div>
       <div className="namespaceDesc">{`${msgs.get(
         'description.namespace',
@@ -472,41 +537,23 @@ const SubscriptionTile = (
       {placementRule &&
         placementRule.name && (
           <div>
-            <div
-              className="placementRuleDesc"
-              tabIndex={placementRule._uid}
-              onClick={() =>
-                editResourceClick(placementRule, getPlacementRuleResource)
-              }
-              onKeyPress={() => {
-                // noop function
-              }}
-              role="button"
-            >
-              {`${msgs.get('description.placement.rule', locale)}: ${
-                placementRule.name
-              } `}
-              <Icon
-                name="icon--edit"
-                fill="#6089bf"
-                description=""
-                className="placementEditIcon"
-              />
+            <div className="placementRuleDesc">
+              <span
+                className="placementRuleDescEdit"
+                tabIndex={placementRule._uid}
+                onClick={() =>
+                  editResourceClick(placementRule, getPlacementRuleResource)
+                }
+                onKeyPress={() => {
+                  // noop function
+                }}
+                role="button"
+              >
+                {`${msgs.get('description.placement.rule', locale)}: ${
+                  placementRule.name
+                } `}
+              </span>
             </div>
-            <div
-              style={{ visibility: 'hidden' }}
-              onClick={() =>
-                deleteResource(
-                  RESOURCE_TYPES.HCM_PLACEMENT_RULES,
-                  placementRule
-                )
-              }
-              onKeyPress={() => {
-                // noop function
-              }}
-              tabIndex={0}
-              role="button"
-            />
           </div>
       )}
 

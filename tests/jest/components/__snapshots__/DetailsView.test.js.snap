@@ -4,7 +4,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
 <section
   className="topologyDetails pod"
 >
-  <h3
+  <div
     className="detailsHeader"
   >
     <svg
@@ -17,11 +17,26 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         href="#diagramShapes_pod"
       />
     </svg>
-    <span
-      className="titleText"
-    >
-      mortgage-app-deploy
-    </span>
+    <div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Pod
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="titleNameText"
+        >
+          mortgage-app-deploy
+        </span>
+      </div>
+    </div>
     <svg
       alt="Close topology details view"
       aria-label="Close topology details view"
@@ -41,7 +56,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
       />
     </svg>
-  </h3>
+  </div>
   <hr />
   <div
     className="details-view-container"
@@ -70,13 +85,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       }
     >
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Type
-          : 
+          Type:
+           
         </span>
         <span
           className="value"
@@ -91,7 +106,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
           className="label"
         >
           Pod logs
-          : 
+           
         </span>
         <span
           className="value"
@@ -138,13 +153,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Cluster
-          : 
+          Cluster:
+           
         </span>
         <span
           className="value"
@@ -153,13 +168,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Host IP
-          : 
+          Host IP:
+           
         </span>
         <span
           className="value"
@@ -168,13 +183,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Pod IP
-          : 
+          Pod IP:
+           
         </span>
         <span
           className="value"
@@ -183,13 +198,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Created
-          : 
+          Created:
+           
         </span>
         <span
           className="value"
@@ -198,13 +213,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Status
-          : 
+          Status:
+           
         </span>
         <span
           className="value"
@@ -213,13 +228,13 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
-        className="sectionContent"
+        className="sectionContent borderLeft"
       >
         <span
-          className="label"
+          className="label sectionLabel"
         >
-          Restarts
-          : 
+          Restarts:
+           
         </span>
         <span
           className="value"
@@ -296,7 +311,7 @@ exports[`DetailsView no components renders as expected 1`] = `
 <section
   className="topologyDetails default"
 >
-  <h3
+  <div
     className="detailsHeader"
   >
     <svg
@@ -309,9 +324,24 @@ exports[`DetailsView no components renders as expected 1`] = `
         href="#diagramShapes_other"
       />
     </svg>
-    <span
-      className="titleText"
-    />
+    <div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="titleNameText"
+        />
+      </div>
+    </div>
     <svg
       alt="Close topology details view"
       aria-label="Close topology details view"
@@ -331,7 +361,7 @@ exports[`DetailsView no components renders as expected 1`] = `
         d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z"
       />
     </svg>
-  </h3>
+  </div>
   <hr />
   <div
     className="details-view-container"

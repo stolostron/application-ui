@@ -669,8 +669,7 @@ export const setResourceDeployStatus = (node, details) => {
             cluster: res.cluster,
             selfLink: res.selfLink
           }
-        },
-        indent: true
+        }
       })
     }
   })
@@ -740,8 +739,7 @@ export const setPodDeployStatus = (node, details) => {
           cluster: pod.cluster,
           selfLink: pod.selfLink
         }
-      },
-      indent: true
+      }
     })
     addDetails(details, [
       {
@@ -807,8 +805,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
           cluster: subscription.cluster,
           selfLink: subscription.selfLink
         }
-      },
-      indent: true
+      }
     })
   })
 
@@ -951,6 +948,15 @@ export const addOCPRouteLocation = (node, details) => {
 //ingress
 export const addIngressNodeInfo = (node, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Ingress') {
+    details.push({
+      type: 'spacer'
+    })
+
+    details.push({
+      type: 'label',
+      labelKey: 'prop.details.section.service'
+    })
+
     //ingress - single service
     addPropertyToList(
       details,
@@ -971,9 +977,6 @@ export const addIngressNodeInfo = (node, details) => {
 
     const rules = R.pathOr([], ['specs', 'raw', 'spec', 'rules'])(node)
     rules.forEach(ruleInfo => {
-      details.push({
-        type: 'spacer'
-      })
       const hostName = R.pathOr('NA', ['host'])(ruleInfo)
       details.push({
         labelKey: 'raw.spec.ingress.host',
@@ -989,6 +992,9 @@ export const addIngressNodeInfo = (node, details) => {
           labelKey: 'raw.spec.ingress.service.port',
           value: R.pathOr('NA', ['backend', 'servicePort'])(pathInfo)
         })
+      })
+      details.push({
+        type: 'spacer'
       })
     })
   }
@@ -1016,6 +1022,12 @@ const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
   const locationDetails = []
 
   let counter = 0
+  if (clusterNames.length > 0) {
+    details.push({
+      type: 'label',
+      labelKey: 'prop.details.section.service'
+    })
+  }
   clusterNames.forEach(clusterName => {
     if (counter > 2) {
       return //too much info for the dialog, show first 5 clusters

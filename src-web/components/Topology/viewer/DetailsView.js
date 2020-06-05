@@ -9,9 +9,11 @@
  *******************************************************************************/
 'use strict'
 
+import _ from 'lodash'
 import R from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {
   Icon,
@@ -82,16 +84,23 @@ class DetailsView extends React.Component {
     const scrollHeight = height * 0.75
     return (
       <section className={`topologyDetails ${className}`}>
-        <h3 className="detailsHeader">
+        <div className="detailsHeader">
           <DetailsViewDecorator shape={shape} className={className} />
-          <span className="titleText">{name}</span>
+          <div>
+            <div className="sectionContent">
+              <span className="label">{_.capitalize(resourceType)}</span>
+            </div>
+            <div className="sectionContent">
+              <span className="titleNameText">{name}</span>
+            </div>
+          </div>
           <Icon
             className="closeIcon"
             description={msgs.get('topology.details.close', locale)}
             name="icon--close"
             onClick={onClose}
           />
-        </h3>
+        </div>
         <hr />
         <Scrollbars
           style={{ width: 310, height: scrollHeight }}
@@ -131,14 +140,24 @@ class DetailsView extends React.Component {
         ? msgs.get(labelKey, [labelValue], locale)
         : msgs.get(labelKey, locale)
     }
+    label = value ? `${label}:` : label
+
+    const mainSectionClasses = classNames({
+      sectionContent: true,
+      borderLeft: value ? true : false
+    })
+    const labelClass = classNames({
+      label: true,
+      sectionLabel: value ? true : false
+    })
     return (
-      <div className="sectionContent" key={Math.random()}>
+      <div className={mainSectionClasses} key={Math.random()}>
         {(labelKey || labelValue) && isError ? (
           <span className="label" style={{ color: 'red' }}>
-            {label}:{' '}
+            {label}
           </span>
         ) : (
-          <span className="label">{label}: </span>
+          <span className={labelClass}>{label} </span>
         )}
         {indent && <span className="indent" />}
         <span className="value">{value}</span>

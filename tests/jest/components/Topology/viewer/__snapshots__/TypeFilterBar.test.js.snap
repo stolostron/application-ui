@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterButton basic render renders as expected 1`] = `
+<div
+  className="filter-bar-button-container"
+  title=""
+>
+  <div
+    aria-checked={false}
+    className="filter-bar-button"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="checkbox"
+    tabIndex="0"
+  >
+    <svg
+      height="16px"
+      width="16px"
+    >
+      <use
+        className="design filter-bar-button-icon"
+        href="#diagramShapes_application"
+      />
+    </svg>
+    <div
+      className="filter-bar-button-label"
+    >
+      application
+    </div>
+  </div>
+</div>
+`;

@@ -17,7 +17,7 @@ import '../scss/diagram-filter-bar.scss'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
-class FilterButton extends React.Component {
+export class FilterButton extends React.Component {
   static propTypes = {
     handleClick: PropTypes.func,
     label: PropTypes.string,

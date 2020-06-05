@@ -215,11 +215,7 @@ class OverviewCards extends React.Component {
   }
 
   startPolling() {
-    if (
-      this.props.refetch &&
-      this.props.refetch.interval &&
-      this.props.refetch.interval > 0
-    ) {
+    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
       var intervalId = setInterval(
         this.reload.bind(this),
         this.props.refetch.interval

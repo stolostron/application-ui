@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
@@ -165,11 +166,7 @@ class ApplicationTopologyModule extends React.Component {
   }
 
   startPolling() {
-    if (
-      this.props.refetch &&
-      this.props.refetch.interval &&
-      this.props.refetch.interval > 0
-    ) {
+    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
       const intervalId = setInterval(
         this.refetchData,
         this.props.refetch.interval

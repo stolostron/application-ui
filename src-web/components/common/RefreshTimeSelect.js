@@ -44,6 +44,7 @@ export default class RefreshTimeSelect extends React.Component {
   componentWillMount() {
     const { refreshValues = [], locale } = this.props
     this.autoRefreshChoices = refreshValues.map(pollInterval => {
+      // console.log("in componentWillMount autoRefreshChoices")
       let label
       if (pollInterval >= 60) {
         label = msgs.get(
@@ -165,7 +166,7 @@ export default class RefreshTimeSelect extends React.Component {
 }
 
 export const getPollInterval = cookieKey => {
-  let pollInterval = config['featureFlags:liveUpdatesPollInterval']
+  let pollInterval = config['featureFlags:liveUpdatesPollInterval'] || 0
   if (cookieKey) {
     const savedInterval = localStorage.getItem(cookieKey)
     if (savedInterval) {

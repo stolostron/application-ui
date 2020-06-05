@@ -62,7 +62,7 @@ const ApplicationHeaderTabs = withLocale(
     serverProps,
     mutateSuccessFinished,
     deleteSuccessFinished,
-    refetchIntervalUpdate
+    refetchIntervalUpdateDispatch
   }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
@@ -160,7 +160,7 @@ const ApplicationHeaderTabs = withLocale(
             <RefreshTimeSelect
               refreshValues={REFRESH_TIMES}
               refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
-              refetchIntervalUpdate={refetchIntervalUpdate}
+              refetchIntervalUpdate={refetchIntervalUpdateDispatch}
             />
           </Tabs>
         </div>
@@ -176,7 +176,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(mutateResourceSuccessFinished(resourceType)),
     deleteSuccessFinished: resourceType =>
       dispatch(delResourceSuccessFinished(resourceType)),
-    refetchIntervalUpdate: data => dispatch(refetchIntervalUpdate(data))
+    refetchIntervalUpdateDispatch: data => dispatch(refetchIntervalUpdate(data))
   }
 }
 const mapStateToProps = state => {

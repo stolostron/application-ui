@@ -22,6 +22,7 @@ const specPulse = 'specs.pulse'
 const specsPropsYaml = 'props.show.yaml'
 const showLocalYaml = 'props.show.local.yaml'
 const showResourceYaml = 'show_resource_yaml'
+const specLocation = 'raw.spec.host.location'
 
 const podErrorStates = [
   'CrashLoopBackOff',
@@ -466,24 +467,28 @@ export const computeNodeStatus = node => {
 
 export const createDeployableYamlLink = (node, details) => {
   //returns yaml for the deployable
-  if (details && node) {
-    const row = R.pathOr(undefined, ['specs', 'row'])(node)
-    if (row !== undefined) {
+  if (
+    details &&
+    node &&
+    R.contains(_.get(node, 'type', ''), [
+      'application',
+      'rules',
+      'subscription'
+    ])
+  ) {
+    const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
+    selfLink &&
       details.push({
         type: 'link',
         value: {
-          label: msgs.get('props.view.yaml'),
-          id: node.id,
+          label: msgs.get(showLocalYaml),
           data: {
-            specs: {
-              row: row,
-              isDesign: true
-            }
-          },
-          indent: true
+            action: showResourceYaml,
+            cluster: 'local-cluster',
+            selfLink: selfLink
+          }
         }
       })
-    }
   }
 
   return details
@@ -638,7 +643,6 @@ export const setResourceDeployStatus = (node, details) => {
     //ignore packages
     return
   }
-
   const resourceName = _.get(node, metadataName, '')
   const clusterNames = R.split(',', getClusterName(node.id))
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
@@ -660,6 +664,12 @@ export const setResourceDeployStatus = (node, details) => {
     })
 
     if (res) {
+      //for open shift routes show location info
+      addOCPRouteLocation(node, clusterName, details)
+
+      //for service
+      addNodeServiceLocation(node, clusterName, details)
+
       details.push({
         type: 'link',
         value: {
@@ -739,7 +749,8 @@ export const setPodDeployStatus = (node, details) => {
           cluster: pod.cluster,
           selfLink: pod.selfLink
         }
-      }
+      },
+      indent: true
     })
     addDetails(details, [
       {
@@ -789,24 +800,24 @@ export const setSubscriptionDeployStatus = (node, details) => {
 
   const resourceMap = _.get(node, 'specs.subscriptionModel', {})
   Object.values(resourceMap).forEach(subscription => {
-    details.push({
-      labelValue: subscription.cluster,
-      value: subscription.status,
-      isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
-    })
-    details.push({
-      type: 'link',
-      value: {
-        label: subscription._hubClusterResource
-          ? msgs.get(showLocalYaml)
-          : msgs.get(specsPropsYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: subscription.cluster,
-          selfLink: subscription.selfLink
-        }
-      }
-    })
+    if (!subscription._hubClusterResource) {
+      details.push({
+        labelValue: subscription.cluster,
+        value: subscription.status,
+        isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
+      }) &&
+        details.push({
+          type: 'link',
+          value: {
+            label: msgs.get(specsPropsYaml),
+            data: {
+              action: showResourceYaml,
+              cluster: subscription.cluster,
+              selfLink: subscription.selfLink
+            }
+          }
+        })
+    }
   })
 
   if (Object.keys(resourceMap).length === 1) {
@@ -842,23 +853,6 @@ export const setPlacementRuleDeployStatus = (node, details) => {
       isError: true
     })
   }
-  details.push({
-    type: 'spacer'
-  })
-
-  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
-  selfLink &&
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get(showLocalYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: 'local-cluster',
-          selfLink: selfLink
-        }
-      }
-    })
 
   return details
 }
@@ -877,36 +871,44 @@ export const setApplicationDeployStatus = (node, details) => {
       true
     )
   )
-
-  const selfLink = _.get(node, 'specs.raw.metadata.selfLink')
-  selfLink &&
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get(showLocalYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: 'local-cluster',
-          selfLink: selfLink
-        }
-      }
-    })
 }
 
 export const addNodeOCPRouteLocationForCluster = (
   node,
   typeObject,
-  clusterName,
   details
 ) => {
   const clustersList = R.pathOr([], ['clusters', 'specs', 'clusters'])(node)
   let hostName = R.pathOr(undefined, ['specs', 'raw', 'spec', 'host'])(node)
 
+  if (hostName && typeObject) {
+    return details // this info is in the main Location status since we have a spec host
+  }
+
   let hostLink = 'NA'
-  if (!hostName) {
+  const linkId = typeObject
+    ? _.get(typeObject, 'id', '0')
+    : _.get(node, 'uid', '0')
+
+  if (!typeObject) {
+    //this is called from the main details
+    if (!hostName) {
+      return details //return since there is no global host
+    }
+
+    details.push({
+      type: 'label',
+      labelKey: specLocation
+    })
+  }
+
+  if (!hostName && typeObject) {
     //build up the name using <route_name>-<ns>.router.default.svc.cluster.local
     Object.values(clustersList).forEach(clusterObject => {
-      if (R.pathOr('NA', ['metadata', 'name'])(clusterObject) === clusterName) {
+      if (
+        R.pathOr('NA', ['metadata', 'name'])(clusterObject) ===
+        _.get(typeObject, 'cluster', '')
+      ) {
         hostName = `${node.name}-${node.namespace}.${clusterObject.clusterip}`
       }
     })
@@ -920,7 +922,7 @@ export const addNodeOCPRouteLocationForCluster = (
     type: 'link',
     value: {
       label: hostLink,
-      id: `${typeObject.id}-location`,
+      id: `${linkId}-location`,
       data: {
         action: 'open_link',
         targetLink: hostLink
@@ -929,14 +931,20 @@ export const addNodeOCPRouteLocationForCluster = (
     }
   })
 
+  !typeObject &&
+    details.push({
+      type: 'spacer'
+    })
+
   return details
 }
 
 //route
-export const addOCPRouteLocation = (node, details) => {
+export const addOCPRouteLocation = (node, clusterName, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Route') {
     return addNodeInfoPerCluster(
       node,
+      clusterName,
       details,
       addNodeOCPRouteLocationForCluster
     )
@@ -949,12 +957,8 @@ export const addOCPRouteLocation = (node, details) => {
 export const addIngressNodeInfo = (node, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Ingress') {
     details.push({
-      type: 'spacer'
-    })
-
-    details.push({
       type: 'label',
-      labelKey: 'prop.details.section.service'
+      labelKey: specLocation
     })
 
     //ingress - single service
@@ -1003,10 +1007,11 @@ export const addIngressNodeInfo = (node, details) => {
 }
 
 //for service
-export const addNodeServiceLocation = (node, details) => {
+export const addNodeServiceLocation = (node, clusterName, details) => {
   if (R.pathOr('', ['specs', 'raw', 'kind'])(node) === 'Service') {
     return addNodeInfoPerCluster(
       node,
+      clusterName,
       details,
       addNodeServiceLocationForCluster
     ) //process only services
@@ -1015,68 +1020,36 @@ export const addNodeServiceLocation = (node, details) => {
 }
 
 //generic function to write location info
-const addNodeInfoPerCluster = (node, details, getDetailsFunction) => {
+export const addNodeInfoPerCluster = (
+  node,
+  clusterName,
+  details,
+  getDetailsFunction
+) => {
   const resourceName = _.get(node, metadataName, '')
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
-  const clusterNames = R.split(',', getClusterName(node.id))
   const locationDetails = []
+  const typeObject = resourceMap[`${resourceName}-${clusterName}`]
 
-  let counter = 0
-  if (clusterNames.length > 0) {
-    details.push({
-      type: 'label',
-      labelKey: 'prop.details.section.service'
-    })
+  if (typeObject) {
+    getDetailsFunction(node, typeObject, locationDetails)
   }
-  clusterNames.forEach(clusterName => {
-    if (counter > 2) {
-      return //too much info for the dialog, show first 5 clusters
-    }
-    counter = counter + 1
-    clusterName = R.trim(clusterName)
-    const typeObject = resourceMap[`${resourceName}-${clusterName}`]
-    if (typeObject) {
-      getDetailsFunction(node, typeObject, clusterName, locationDetails)
-    }
+
+  locationDetails.forEach(locationDetail => {
+    details.push(locationDetail)
   })
-
-  if (locationDetails.length > 0) {
-    details.push({
-      type: 'spacer'
-    })
-
-    details.push({
-      type: 'label',
-      labelKey: 'raw.spec.host.location'
-    })
-
-    locationDetails.forEach(locationDetail => {
-      details.push(locationDetail)
-    })
-
-    details.push({
-      type: 'spacer'
-    })
-  }
 
   return details
 }
 
-export const addNodeServiceLocationForCluster = (
-  node,
-  typeObject,
-  clusterName,
-  details
-) => {
-  if (node && typeObject.clusterIP && typeObject.port) {
+export const addNodeServiceLocationForCluster = (node, typeObject, details) => {
+  if (node && typeObject && typeObject.clusterIP && typeObject.port) {
     let port = R.split(':', typeObject.port)[0] // take care of 80:etc format
     port = R.split('/', port)[0] //now remove any 80/TCP
 
     const location = `${typeObject.clusterIP}:${port}`
-
     details.push({
-      type: 'label',
-      labelValue: clusterName,
+      labelKey: specLocation,
       value: location
     })
   }

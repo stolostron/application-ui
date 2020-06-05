@@ -136,15 +136,6 @@ describe("getNodeDetails application node", () => {
         label: "Launch resource in Search"
       }
     },
-    {
-      type: "link",
-      value: {
-        data: { specs: { isDesign: true, row: 0 } },
-        id: "application--nginx-app-3",
-        indent: true,
-        label: "View Topology YAML"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     {
@@ -881,7 +872,7 @@ describe("getNodeDetails deployment node", () => {
           cluster: undefined,
           selfLink: undefined
         },
-        label: "View Remote Resource"
+        label: "View Resource YAML"
       }
     },
     { isError: false, labelValue: "cluster1", value: "Deployed" },
@@ -893,7 +884,7 @@ describe("getNodeDetails deployment node", () => {
           cluster: undefined,
           selfLink: undefined
         },
-        label: "View Remote Resource"
+        label: "View Resource YAML"
       }
     },
     { isError: true, labelValue: "cluster2", value: "Not Deployed" },
@@ -1319,8 +1310,7 @@ describe("getNodeDetails placement rules node with error", () => {
       labelValue: "Error",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
-    },
-    { type: "spacer" }
+    }
   ];
   it("should process the node, placement rules node with error", () => {
     expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
@@ -1407,8 +1397,7 @@ describe("getNodeDetails placement rules node with success", () => {
       value: 1
     },
     { type: "spacer" },
-    { isError: false, labelValue: "Number of placed clusters", value: 1 },
-    { type: "spacer" }
+    { isError: false, labelValue: "Number of placed clusters", value: 1 }
   ];
   it("should process the node, placement rules node with success", () => {
     expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);

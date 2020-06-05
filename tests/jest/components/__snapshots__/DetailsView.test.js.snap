@@ -2,7 +2,7 @@
 
 exports[`DetailsView 1 pod details render as expected 1`] = `
 <section
-  className="topologyDetails pod"
+  className="topologyDetails"
 >
   <div
     className="detailsHeader"
@@ -131,23 +131,17 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
             className="open-out-icon"
             fill="#6089bf"
             fillRule="evenodd"
-            height="16"
-            name="icon--launch"
+            height="14"
+            name="icon--arrow--right"
             role="img"
-            viewBox="0 0 16 16"
+            viewBox="0 0 16 14"
             width="16"
           >
             <title>
               
             </title>
             <path
-              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-            />
-            <path
-              d="M14.3 1h-3.8V0H16v5.5h-1V1.7L9.7 7 9 6.3 14.3 1z"
-            />
-            <path
-              d="M13 9h1v6c0 .6-.4 1-1 1H1c-.6 0-1-.4-1-1V3c0-.6.4-1 1-1h7v1H1v12h12V9z"
+              d="M11.95 5.997L7.86 2.092 9.233.639l6.763 6.356-6.763 6.366L7.86 11.91l4.092-3.912H-.003v-2h11.952z"
             />
           </svg>
         </span>
@@ -309,7 +303,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
 
 exports[`DetailsView no components renders as expected 1`] = `
 <section
-  className="topologyDetails default"
+  className="topologyDetails"
 >
   <div
     className="detailsHeader"

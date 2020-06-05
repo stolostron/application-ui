@@ -443,9 +443,6 @@ exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModu
         className="resource-toolbar-buttons"
       >
         <div
-          id="refresh-time-selector-portal-id"
-        />
-        <div
           id="assorted-filter-open-portal-id"
         />
       </div>

@@ -12,35 +12,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DropdownV2, Loading } from 'carbon-components-react'
-import '../../../../graphics/diagramIcons.svg'
-import { DEFAULT_REFRESH_TIME } from './constants'
-import '../scss/refresh-time-select.scss'
-import msgs from '../../../../nls/platform.properties'
-import moment from 'moment'
+import '../../../graphics/diagramIcons.svg'
+import '../../../scss/refresh-time-select.scss'
+import msgs from '../../../nls/platform.properties'
+import config from '../../../lib/shared/config'
 
 export default class RefreshTimeSelect extends React.Component {
   static propTypes = {
     isReloading: PropTypes.bool,
     locale: PropTypes.string,
-    refetch: PropTypes.func,
+    refetchIntervalUpdate: PropTypes.func,
     refreshCookie: PropTypes.string,
-    refreshValues: PropTypes.array,
-    startPolling: PropTypes.func,
-    stopPolling: PropTypes.func
+    refreshValues: PropTypes.array
   };
 
   constructor(props) {
     super(props)
-    const { refreshCookie } = props
+    const { refreshCookie, refetchIntervalUpdate } = props
+
+    const pollInterval = getPollInterval(refreshCookie)
+
     this.state = {
-      pollInterval: getPollInterval(refreshCookie)
+      pollInterval,
+      refetchIntervalUpdate
     }
     this.handleChange = this.handleChange.bind(this)
+
+    refetchIntervalUpdate({ doRefetch: false, interval: pollInterval })
   }
 
   componentWillMount() {
     const { refreshValues = [], locale } = this.props
     this.autoRefreshChoices = refreshValues.map(pollInterval => {
+      // console.log("in componentWillMount autoRefreshChoices")
       let label
       if (pollInterval >= 60) {
         label = msgs.get(
@@ -59,33 +63,53 @@ export default class RefreshTimeSelect extends React.Component {
   }
 
   handleClick = () => {
-    const { refetch } = this.props
-    refetch()
+    const { refreshCookie } = this.props
+    const { refetchIntervalUpdate } = this.state
+    const pollInterval = getPollInterval(refreshCookie)
+
+    this.doRefetchAction(refetchIntervalUpdate, pollInterval)
   };
 
-  handleKeyPress(e) {
+  handleKeyPress = e => {
+    const { refreshCookie } = this.props
+    const { refetchIntervalUpdate } = this.state
+    const pollInterval = getPollInterval(refreshCookie)
+
     if (e.key === 'Enter') {
-      const { refetch } = this.props
-      refetch()
+      this.doRefetchAction(refetchIntervalUpdate, pollInterval)
     }
-  }
+  };
+
+  // this call does the actual refetch logic
+  doRefetchAction = (refetchIntervalUpdate, pollInterval) => {
+    refetchIntervalUpdate({
+      doRefetch: true,
+      interval: pollInterval
+    })
+
+    // resets the "doRefetch" flag after 1 second
+    setTimeout(() => {
+      refetchIntervalUpdate({
+        doRefetch: false,
+        interval: pollInterval
+      })
+    }, 1000)
+  };
 
   handleChange = e => {
     const { selectedItem: { pollInterval } } = e
-    const { refreshCookie, startPolling, stopPolling } = this.props
-    if (pollInterval === 0) {
-      stopPolling()
-    } else {
-      startPolling(pollInterval, true)
-    }
+    const { refreshCookie } = this.props
+    const { refetchIntervalUpdate } = this.state
+    // save interval to cookie
     savePollInterval(refreshCookie, pollInterval)
-    this.setState({ pollInterval })
+    // update state with the new poll interval and trigger refetch
+    refetchIntervalUpdate({ doRefetch: false, interval: pollInterval })
   };
 
   componentWillReceiveProps() {
     this.setState((prevState, props) => {
       const { refreshCookie } = props
-      return { pollInterval: getPollInterval(refreshCookie) }
+      return { doRefetch: false, interval: getPollInterval(refreshCookie) }
     })
   }
 
@@ -110,6 +134,7 @@ export default class RefreshTimeSelect extends React.Component {
             </div>
           ) : (
             <div
+              id="refreshButton"
               className="button"
               tabIndex="0"
               role={'button'}
@@ -124,6 +149,7 @@ export default class RefreshTimeSelect extends React.Component {
             </div>
           )}
           <DropdownV2
+            id="refreshDropdown"
             className="selection"
             label={label}
             ariaLabel={label}
@@ -140,7 +166,7 @@ export default class RefreshTimeSelect extends React.Component {
 }
 
 export const getPollInterval = cookieKey => {
-  let pollInterval = DEFAULT_REFRESH_TIME * 1000
+  let pollInterval = config['featureFlags:liveUpdatesPollInterval'] || 0
   if (cookieKey) {
     const savedInterval = localStorage.getItem(cookieKey)
     if (savedInterval) {
@@ -161,29 +187,4 @@ export const getPollInterval = cookieKey => {
 
 export const savePollInterval = (cookieKey, pollInterval) => {
   localStorage.setItem(cookieKey, JSON.stringify({ pollInterval }))
-}
-
-export const getTimeAgoMsg = (msgKey, startTime, endTime, locale) => {
-  let ago = ''
-  const seconds =
-    Math.abs(moment(new Date(startTime)).diff(new Date(endTime))) / 1000
-  let interval = Math.floor(seconds / 86400)
-  if (interval >= 1) {
-    ago = msgs.get('time.days.ago', [interval], locale)
-  } else {
-    interval = Math.floor(seconds / 3600)
-    if (interval >= 1) {
-      ago = msgs.get('time.hours.ago', [interval], locale)
-    } else {
-      interval = Math.floor(seconds / 60)
-      if (interval >= 1) {
-        ago = msgs.get('time.minutes.ago', [interval], locale)
-      } else if (seconds > 1) {
-        ago = msgs.get('time.seconds.ago', [seconds], locale)
-      } else {
-        ago = msgs.get('time.just.now', locale)
-      }
-    }
-  }
-  return msgs.get(msgKey, [ago], locale)
 }

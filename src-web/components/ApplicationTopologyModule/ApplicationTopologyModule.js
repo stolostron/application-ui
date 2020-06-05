@@ -8,6 +8,7 @@
  *******************************************************************************/
 'use strict'
 
+import R from 'ramda'
 import React from 'react'
 import SplitPane from 'react-split-pane'
 import PropTypes from 'prop-types'
@@ -39,7 +40,6 @@ import {
 } from '../../actions'
 import resources from '../../../lib/shared/resources'
 import { Topology } from '../Topology'
-import { getPollInterval } from '../Topology/viewer/RefreshTimeSelect'
 import EditorHeader from './components/EditorHeader'
 import EditorBar from './components/EditorBar'
 import YamlEditor from '../common/YamlEditor'
@@ -47,9 +47,9 @@ import config from '../../../lib/shared/config'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
 import {
-  DEFAULT_REFRESH_TIME,
-  TOPOLOGY_REFRESH_INTERVAL_COOKIE
-} from '../Topology/viewer/constants'
+  refetchIntervalChanged,
+  manualRefetchTriggered
+} from '../../shared/utils/refetch'
 
 resources(() => {
   require('./style.scss')
@@ -61,7 +61,6 @@ resources(() => {
 const portals = {
   assortedFilterOpenBtn: 'assorted-filter-open-portal-id',
   assortedFilterCloseBtns: 'assorted-filter-close-portal-id',
-  refreshTimeSelectorPortal: 'refresh-time-selector-portal-id',
   typeFilterBar: 'type-filter-bar-portal-id',
   searchTextbox: 'search-textbox-portal-id'
 }
@@ -92,6 +91,7 @@ class ApplicationTopologyModule extends React.Component {
     params: PropTypes.object,
     pods: PropTypes.array,
     putResource: PropTypes.func,
+    refetch: PropTypes.object,
     resetFilters: PropTypes.func,
     restoreSavedDiagramFilters: PropTypes.func,
     showExpandedTopology: PropTypes.bool,
@@ -126,7 +126,7 @@ class ApplicationTopologyModule extends React.Component {
     }, 500)
     this.startPolling = this.startPolling.bind(this)
     this.stopPolling = this.stopPolling.bind(this)
-    this.refetch = this.refetch.bind(this)
+    this.refetchData = this.refetchData.bind(this)
     this.handleEditorCommand = this.handleEditorCommand.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleToggleSize = this.handleToggleSize.bind(this)
@@ -144,7 +144,7 @@ class ApplicationTopologyModule extends React.Component {
     this.props.fetchAppTopology(activeChannel)
     this.props.fetchHCMApplicationResource(namespace, name)
     this.setState({ activeChannel })
-    this.startPolling(DEFAULT_REFRESH_TIME * 1000)
+    this.startPolling()
     window.addEventListener('resize', this.layoutEditors.bind(this))
   }
 
@@ -165,21 +165,14 @@ class ApplicationTopologyModule extends React.Component {
     document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
-  startPolling(newInterval, isTimeSelect = false) {
-    this.stopPolling()
-    let intervalId = undefined
-    const cookieInterval = getPollInterval(TOPOLOGY_REFRESH_INTERVAL_COOKIE)
-    let interval
-    if (cookieInterval !== undefined && !isTimeSelect) {
-      interval = cookieInterval
-    } else {
-      interval = newInterval
+  startPolling() {
+    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
+      const intervalId = setInterval(
+        this.refetchData,
+        this.props.refetch.interval
+      )
+      this.setState({ intervalId: intervalId })
     }
-
-    if (interval) {
-      intervalId = setInterval(this.refetch, Math.max(interval, 5 * 1000))
-    }
-    this.setState({ intervalId })
   }
 
   stopPolling() {
@@ -197,7 +190,24 @@ class ApplicationTopologyModule extends React.Component {
     }
   };
 
-  refetch() {
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (refetchIntervalChanged(prevProps, this.props)) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (manualRefetchTriggered(prevProps, this.props)) {
+      this.refetchData()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+    }
+  }
+
+  // call to actually refetch the new data
+  refetchData() {
     const {
       fetchAppTopology,
       fetchHCMApplicationResource,
@@ -227,8 +237,10 @@ class ApplicationTopologyModule extends React.Component {
         detailsLoaded,
         detailsReloading,
         storedVersion,
-        fetchError
+        fetchError,
+        refetch
       } = nextProps
+
       const showSpinner =
         !fetchError &&
         (topologyReloading ||
@@ -240,6 +252,7 @@ class ApplicationTopologyModule extends React.Component {
       // update last time refreshed
       const { changingChannel } = prevState
       let lastTimeUpdate = prevState.lastTimeUpdate
+
       if (
         changingChannel ||
         (!showSpinner && prevState.showSpinner) ||
@@ -273,7 +286,8 @@ class ApplicationTopologyModule extends React.Component {
         showSpinner,
         lastTimeUpdate,
         topologyLoaded: nextProps.topologyLoaded,
-        topologyLoadError: nextProps.topologyLoadError
+        topologyLoadError: nextProps.topologyLoadError,
+        refetch
       }
     })
   }
@@ -315,7 +329,9 @@ class ApplicationTopologyModule extends React.Component {
       this.props.yaml.localeCompare(nextProps.yaml) !== 0 ||
       this.state.currentYaml.localeCompare(nextState.currentYaml) !== 0 ||
       this.state.hasUndo !== nextState.hasUndo ||
-      this.state.hasRedo !== nextState.hasRedo
+      this.state.hasRedo !== nextState.hasRedo ||
+      this.props.refetch.interval !== nextState.refetch.interval ||
+      this.props.refetch.doRefetch !== nextState.refetch.doRefetch
     )
   }
 
@@ -442,8 +458,6 @@ class ApplicationTopologyModule extends React.Component {
               : ''
           }
           locale={locale}
-          startPolling={this.startPolling}
-          stopPolling={this.stopPolling}
         />
       )
     }
@@ -461,7 +475,6 @@ class ApplicationTopologyModule extends React.Component {
               <div id="resource-toolbar" className="resource-toolbar">
                 <div className="resource-toolbar-container">
                   <div className="resource-toolbar-buttons">
-                    <div id={portals.refreshTimeSelectorPortal} />
                     <div id={portals.assortedFilterOpenBtn} />
                   </div>
                   <div id={portals.assortedFilterCloseBtns} />
@@ -844,7 +857,7 @@ const mapStateToProps = (state, ownProps) => {
   const { HCMApplicationList } = state
   const name = decodeURIComponent(params.name)
   const namespace = decodeURIComponent(params.namespace)
-  const { topology } = state
+  const { topology, refetch } = state
   const {
     activeFilters,
     fetchFilters,
@@ -865,13 +878,15 @@ const mapStateToProps = (state, ownProps) => {
     namespace,
     HCMApplicationList
   )
+
   return {
     ...diagramElements,
     activeFilters,
     fetchFilters,
     fetchError,
     diagramFilters,
-    HCMApplicationList
+    HCMApplicationList,
+    refetch
   }
 }
 

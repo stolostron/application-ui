@@ -227,9 +227,6 @@ exports[`ResourceOverview ResourceOverview renders  1`] = `
             className="resource-toolbar-buttons"
           >
             <div
-              id="refresh-time-selector-portal-id"
-            />
-            <div
               id="assorted-filter-open-portal-id"
             />
           </div>

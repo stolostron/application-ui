@@ -28,7 +28,10 @@ import {
   concatDataForSubTextKey
 } from '../utils'
 import { getSearchLinkForOneApplication } from '../../../../common/ResourceOverview/utils'
-import config from '../../../../../../lib/shared/config'
+import {
+  refetchIntervalChanged,
+  manualRefetchTriggered
+} from '../../../../../shared/utils/refetch'
 
 /* eslint-disable react/prop-types */
 
@@ -49,7 +52,8 @@ const mapStateToProps = state => {
     QueryApplicationList,
     CEMIncidentList,
     secondaryHeader,
-    AppOverview
+    AppOverview,
+    refetch
   } = state
   const isSingleApplicationView =
     R.pathOr([], ['breadcrumbItems'])(secondaryHeader).length === 2
@@ -58,7 +62,8 @@ const mapStateToProps = state => {
     QueryApplicationList,
     CEMIncidentList,
     isSingleApplicationView,
-    enableCEM
+    enableCEM,
+    refetch
   }
 }
 
@@ -210,10 +215,10 @@ class OverviewCards extends React.Component {
   }
 
   startPolling() {
-    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
       var intervalId = setInterval(
         this.reload.bind(this),
-        config['featureFlags:liveUpdatesPollInterval']
+        this.props.refetch.interval
       )
       this.setState({ intervalId: intervalId })
     }
@@ -232,6 +237,22 @@ class OverviewCards extends React.Component {
       this.stopPolling()
     }
   };
+
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (refetchIntervalChanged(prevProps, this.props)) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (manualRefetchTriggered(prevProps, this.props)) {
+      this.reload()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+    }
+  }
 
   reload() {
     const { fetchApplications } = this.props

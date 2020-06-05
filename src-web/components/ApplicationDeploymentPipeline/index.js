@@ -7,6 +7,7 @@
  * restricted by GSA ADP Schedule Contract with IBM Corp.
  *******************************************************************************/
 
+import R from 'ramda'
 import React from 'react'
 import msgs from '../../../nls/platform.properties'
 import { connect } from 'react-redux'
@@ -46,7 +47,6 @@ import apolloClient from '../../../lib/client/apollo-client'
 import ApplicationDeploymentHighlights from '../ApplicationDeploymentHighlights'
 import ResourceCards from './components/InfoCards/ResourceCards'
 import { getNamespaceAccountId } from '../common/ResourceDetails/utils'
-import config from '../../../lib/shared/config'
 import {
   handleEditResource,
   handleDeleteResource,
@@ -54,6 +54,10 @@ import {
 } from '../common/ResourceOverview/utils'
 import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
+import {
+  refetchIntervalChanged,
+  manualRefetchTriggered
+} from '../../shared/utils/refetch'
 /* eslint-disable react/prop-types */
 
 resources(() => {
@@ -131,7 +135,8 @@ const mapStateToProps = state => {
     secondaryHeader,
     QueryApplicationList,
     GlobalApplicationDataList,
-    role
+    role,
+    refetch
   } = state
   // Filter Application List based on search input
   // Currently just filterin on application name
@@ -157,7 +162,8 @@ const mapStateToProps = state => {
     deleteMsg:
       state['HCMChannelList'].deleteMsg ||
       state['HCMSubscriptionList'].deleteMsg ||
-      state['HCMPlacementRuleList'].deleteMsg
+      state['HCMPlacementRuleList'].deleteMsg,
+    refetch
   }
 }
 
@@ -192,10 +198,10 @@ class ApplicationDeploymentPipeline extends React.Component {
   }
 
   startPolling() {
-    if (parseInt(config['featureFlags:liveUpdates'], 10) === 2) {
+    if (R.pathOr(-1, ['refetch', 'interval'], this.props) > 0) {
       var intervalId = setInterval(
         this.reload.bind(this),
-        config['featureFlags:liveUpdatesPollInterval']
+        this.props.refetch.interval
       )
       this.setState({ intervalId: intervalId })
     }
@@ -221,6 +227,22 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    // if old and new interval are different, restart polling
+    if (refetchIntervalChanged(prevProps, this.props)) {
+      this.stopPolling()
+      this.startPolling()
+    }
+
+    // manual refetch
+    if (manualRefetchTriggered(prevProps, this.props)) {
+      this.reload()
+      // reset polling after manual refetch
+      this.stopPolling()
+      this.startPolling()
+    }
+  }
+
   reload() {
     const {
       breadcrumbItems,
@@ -231,7 +253,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
 
     // only reload data if there are nothing being fetched and no modals are open
-
     this.setState({ xhrPoll: true })
     const isSingleApplicationView = breadcrumbItems.length === 2
     if (!isSingleApplicationView) {

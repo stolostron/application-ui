@@ -129,4 +129,22 @@ describe("OverviewCards", () => {
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it("OverviewCards successfully handles change in props to refetch", () => {
+    const wrapper = mount(
+      <Provider store={storeApp}>
+        <OverviewCards
+          selectedAppName="mortgage-app"
+          selectedAppNS="default"
+          CEMIncidentList={CEMIncidentList}
+          serverProps={serverProps}
+        />
+      </Provider>
+    );
+
+    // change interval to 30000
+    wrapper.setState({ refetch: { doRefetch: false, interval: 30000 } });
+    // manual refetch data
+    wrapper.setState({ refetch: { doRefetch: true, interval: 30000 } });
+  });
 });

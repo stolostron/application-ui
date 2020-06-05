@@ -364,6 +364,14 @@ describe("getSubscribedChannels", () => {
         {
           status: "Propagated",
           channel: "ch-obj/dev"
+        },
+        {
+          status: "Propagated",
+          channel: "ch-obj/dev"
+        },
+        {
+          status: "Propagated",
+          channel: "ch-obj/dev"
         }
       ]
     }
@@ -521,6 +529,14 @@ describe("getSubscribedChannels", () => {
         dashboard: null,
         clusterCount: 3,
         hubSubscriptions: [
+          {
+            status: "Propagated",
+            channel: "open-cluster-management/guestbook-app-latest"
+          },
+          {
+            status: "Propagated",
+            channel: "open-cluster-management/guestbook-app-latest"
+          },
           {
             status: "Propagated",
             channel: "open-cluster-management/guestbook-app-latest"

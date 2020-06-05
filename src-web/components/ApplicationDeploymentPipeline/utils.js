@@ -67,18 +67,17 @@ export const getSubscribedChannels = (
       const subscriptionsFetched = applications[0].hubSubscriptions
       const subscriptionsForApp = subscriptionsFetched || []
       // Go through subscriptions of selected app and find the subscribed channels
-      for (let i = 0; i < channels.length; i++) {
-        const columnChannelName = `${channels[i].namespace}/${
-          channels[i].name
-        }`
-        subscriptionsForApp.forEach(sub => {
-          const subChannelName = sub.channel
+      channels.forEach(channel => {
+        const columnChannelName = `${channel.namespace}/${channel.name}`
+        for (let i = 0; i < subscriptionsForApp.length; i++) {
+          const subChannelName = subscriptionsForApp[i].channel
           // If the channel names match up we want to add that channel to the column
           if (subChannelName === columnChannelName) {
-            subscribedChannels.push(channels[i])
+            subscribedChannels.push(channel)
+            break
           }
-        })
-      }
+        }
+      })
       // Update channel list by list of subscribed channels only
       channels = subscribedChannels
     }

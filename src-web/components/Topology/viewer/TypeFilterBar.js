@@ -17,7 +17,7 @@ import '../scss/diagram-filter-bar.scss'
 import msgs from '../../../../nls/platform.properties'
 import _ from 'lodash'
 
-class FilterButton extends React.Component {
+export class FilterButton extends React.Component {
   static propTypes = {
     handleClick: PropTypes.func,
     label: PropTypes.string,
@@ -47,7 +47,7 @@ class FilterButton extends React.Component {
 
   render() {
     const { label, tooltip, selected, typeToShapeMap, locale } = this.props
-    const { shape = 'circle', className = 'default' } =
+    const { shape = 'other', className = 'default' } =
       typeToShapeMap[label] || {}
     return (
       <div

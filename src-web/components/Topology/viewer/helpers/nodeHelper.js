@@ -225,7 +225,7 @@ export default class NodeHelper {
         const { type } = layout
         const shape = this.typeToShapeMap[type]
           ? this.typeToShapeMap[type].shape
-          : 'circle'
+          : 'other'
         const classType = this.typeToShapeMap[type]
           ? this.typeToShapeMap[type].className
           : 'default'

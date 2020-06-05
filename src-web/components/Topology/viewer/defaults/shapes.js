@@ -14,78 +14,126 @@ export const defaultShapes = Object.freeze({
     className: 'design',
     nodeRadius: 30
   },
-  deployable: {
-    shape: 'deployable',
-    className: 'design'
-  },
-  subscription: {
-    shape: 'subscription',
-    className: 'design'
-  },
-  rules: {
-    shape: 'rules',
-    className: 'design'
+  cluster: {
+    shape: 'cluster',
+    className: 'container'
   },
   clusters: {
     shape: 'cluster',
     className: 'container'
   },
-  helmrelease: {
-    shape: 'chart',
+  configmap: {
+    shape: 'configmap',
     className: 'container'
-  },
-  package: {
-    shape: 'chart',
-    className: 'container'
-  },
-  internet: {
-    shape: 'cloud',
-    className: 'internet'
-  },
-  host: {
-    shape: 'host',
-    className: 'host'
-  },
-  policy: {
-    shape: 'roundedSq',
-    className: 'design',
-    nodeRadius: 30
-  },
-  placement: {
-    shape: 'placement',
-    className: 'design'
-  },
-  cluster: {
-    shape: 'cluster',
-    className: 'container'
-  },
-  service: {
-    shape: 'service',
-    className: 'service'
-  },
-  deployment: {
-    shape: 'deployment',
-    className: 'deployment'
-  },
-  daemonset: {
-    shape: 'daemonset',
-    className: 'daemonset'
-  },
-  statefulset: {
-    shape: 'circle',
-    className: 'default'
-  },
-  pod: {
-    shape: 'pod',
-    className: 'pod'
   },
   container: {
-    shape: 'irregularHexagon',
+    shape: 'container',
     className: 'container'
   },
   cronjob: {
     shape: 'clock',
     className: 'default'
+  },
+  customresource: {
+    shape: 'customresource',
+    className: 'container'
+  },
+  daemonset: {
+    shape: 'daemonset',
+    className: 'daemonset'
+  },
+  deployable: {
+    shape: 'deployable',
+    className: 'design'
+  },
+  deployment: {
+    shape: 'deployment',
+    className: 'deployment'
+  },
+  deploymentconfig: {
+    shape: 'deploymentconfig',
+    className: 'deployment'
+  },
+  helmrelease: {
+    shape: 'chart',
+    className: 'container'
+  },
+  host: {
+    shape: 'host',
+    className: 'host'
+  },
+  ingress: {
+    shape: 'ingress',
+    className: 'host'
+  },
+  internet: {
+    shape: 'cloud',
+    className: 'internet'
+  },
+  namespace: {
+    shape: 'namespace',
+    className: 'host'
+  },
+  node: {
+    shape: 'node',
+    className: 'host'
+  },
+  other: {
+    shape: 'other',
+    className: 'default'
+  },
+  package: {
+    shape: 'chart',
+    className: 'container'
+  },
+  placement: {
+    shape: 'placement',
+    className: 'design'
+  },
+  pod: {
+    shape: 'pod',
+    className: 'pod'
+  },
+  policy: {
+    shape: 'policy',
+    className: 'design',
+    nodeRadius: 30
+  },
+  replicaset: {
+    shape: 'replicaset',
+    className: 'container'
+  },
+  replicationcontroller: {
+    shape: 'replicationcontroller',
+    className: 'container'
+  },
+  route: {
+    shape: 'route',
+    className: 'container'
+  },
+  rules: {
+    shape: 'rules',
+    className: 'design'
+  },
+  secret: {
+    shape: 'secret',
+    className: 'service'
+  },
+  service: {
+    shape: 'service',
+    className: 'service'
+  },
+  statefulset: {
+    shape: 'statefulset',
+    className: 'default'
+  },
+  storageclass: {
+    shape: 'storageclass',
+    className: 'default'
+  },
+  subscription: {
+    shape: 'subscription',
+    className: 'design'
   },
   spare1: {
     shape: 'star4',

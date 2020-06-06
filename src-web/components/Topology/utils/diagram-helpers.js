@@ -690,7 +690,7 @@ export const setResourceDeployStatus = (node, details) => {
 //show resource deployed status for resources producing pods
 export const setPodDeployStatus = (node, details) => {
   if (!nodeMustHavePods(node)) {
-    return //process only resources with pods
+    return details //process only resources with pods
   }
 
   details.push({
@@ -789,6 +789,8 @@ export const setPodDeployStatus = (node, details) => {
       type: 'spacer'
     })
   })
+
+  return details
 }
 
 export const setSubscriptionDeployStatus = (node, details) => {

@@ -66,7 +66,7 @@ const mockDetails = {
     {
       type: "link",
       value: {
-        label: "mortgage-app-mortgage",
+        label: "http://mortgage-app-mortgage",
         data: {
           name: "mortgage-app-deploy-5578f5675b-krqs8",
           namespace: "default",

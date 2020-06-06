@@ -2021,7 +2021,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     },
     { type: "spacer" }
   ];
-  it("setPodDeployStatus with pod", () => {
+  it("setPodDeployStatus with pod less then desired ", () => {
     expect(setPodDeployStatus(node, [])).toEqual(result);
   });
 });
@@ -2058,6 +2058,10 @@ describe("setPodDeployStatus  with pod as desired", () => {
         "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile2": {
           cluster: "possiblereptile",
           status: "Pending"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile3": {
+          cluster: "possiblereptile",
+          status: "CrashLoopBackOff"
         }
       }
     }
@@ -2199,9 +2203,76 @@ describe("setPodDeployStatus  with pod as desired", () => {
       type: "label",
       value: "-"
     },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "possiblereptile",
+          name: undefined,
+          namespace: undefined
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "possiblereptile"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "error",
+      type: "label",
+      value: "CrashLoopBackOff"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
     { type: "spacer" }
   ];
-  it("setPodDeployStatus with pod", () => {
+  it("setPodDeployStatus with pod as desired", () => {
     expect(setPodDeployStatus(node, [])).toEqual(result);
   });
 });

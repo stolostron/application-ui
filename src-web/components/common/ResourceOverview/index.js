@@ -15,7 +15,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../../../actions'
 import { ApplicationTopologyModule } from '../../ApplicationTopologyModule'
-import StructuredListModule from '../../../components/common/StructuredListModule'
 import {
   getSingleResourceItem,
   resourceItemByName
@@ -47,7 +46,6 @@ resources(() => {
 
 const ResourceOverview = withLocale(
   ({
-    staticResourceData,
     item,
     params,
     actions,
@@ -192,17 +190,6 @@ const ResourceOverview = withLocale(
             <div className="overview-content-space-filler" />
           </React.Fragment>
         )}
-        <div className="overview-content-bottom overview-content-with-padding ">
-          <div className="overview-content-additional-details">
-            <React.Fragment>
-              <StructuredListModule
-                headerRows={staticResourceData.detailKeys.headerRows}
-                rows={staticResourceData.detailKeys.rows}
-                data={item}
-              />
-            </React.Fragment>
-          </div>
-        </div>
       </div>
     )
   }

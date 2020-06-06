@@ -2027,11 +2027,11 @@ describe("addNodeOCPRouteLocationForCluster no host spec", () => {
   };
   const result = [
     {
+      indent: true,
       type: "link",
       value: {
         data: { action: "open_link", targetLink: "http://undefined/" },
         id: "objID-location",
-        indent: true,
         label: "http://undefined/"
       }
     }
@@ -2201,11 +2201,11 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   const result = [
     { labelKey: "raw.spec.host.location", type: "label" },
     {
+      indent: true,
       type: "link",
       value: {
         data: { action: "open_link", targetLink: "https://1.1.1/" },
         id: "0-location",
-        indent: true,
         label: "https://1.1.1/"
       }
     },
@@ -2259,6 +2259,7 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   };
   const result = [
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -2266,11 +2267,11 @@ describe("addNodeOCPRouteLocationForCluster", () => {
           targetLink: "https://mortgage-app-deploy-default.222/"
         },
         id: "objID-location",
-        indent: true,
         label: "https://mortgage-app-deploy-default.222/"
       }
     }
   ];
+
   it("addNodeOCPRouteLocationForCluster with tls and no host", () => {
     expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
   });

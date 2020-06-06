@@ -926,9 +926,9 @@ export const addNodeOCPRouteLocationForCluster = (
       data: {
         action: 'open_link',
         targetLink: hostLink
-      },
-      indent: true
-    }
+      }
+    },
+    indent: true
   })
 
   !typeObject &&

@@ -141,7 +141,6 @@ class DetailsView extends React.Component {
         : msgs.get(labelKey, locale)
     }
     label = value ? `${label}:` : label
-
     const mainSectionClasses = classNames({
       sectionContent: true,
       borderLeft: value !== undefined ? true : false
@@ -150,10 +149,9 @@ class DetailsView extends React.Component {
       label: true,
       sectionLabel: value ? true : false
     })
-
     const statusIcon = status ? `icon--${status}` : undefined
     return (
-      <div className={mainSectionClasses} key={`label-${label}`}>
+      <div className={mainSectionClasses} key={Math.random()}>
         {(labelKey || labelValue) && statusIcon ? (
           <span className="label sectionLabel">
             <Icon
@@ -209,7 +207,7 @@ class DetailsView extends React.Component {
     })
 
     return (
-      <div className={mainSectionClasses} key={`link-${value}`}>
+      <div className={mainSectionClasses} key={Math.random()}>
         <span
           className={linkLabelClasses}
           id="linkForNodeAction"

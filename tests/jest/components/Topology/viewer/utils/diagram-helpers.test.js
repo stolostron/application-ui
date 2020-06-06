@@ -688,7 +688,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
   };
   const response = [
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { labelValue: "local", status: "success", value: "Propagated" },
+    { labelValue: "local", status: "checkmark", value: "Propagated" },
     {
       indent: true,
       type: "link",

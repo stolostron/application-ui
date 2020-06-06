@@ -112,7 +112,6 @@ const mockDetails = {
     {
       type: "label",
       labelKey: "resource.hostip",
-      labelValue: undefined,
       value: "10.16.44.146",
       indent: undefined
     },

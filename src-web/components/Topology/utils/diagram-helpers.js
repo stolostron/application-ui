@@ -810,7 +810,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
         value: subscription.status,
         status: R.contains('Fail', R.pathOr('', ['status'])(subscription))
           ? 'error'
-          : 'success'
+          : 'checkmark'
       }) &&
         details.push({
           type: 'link',

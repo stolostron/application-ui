@@ -83,11 +83,31 @@ const mockDetails = {
       }
     },
     {
+      type: "link",
+      value: {
+        label: "mortgage-app-mortgage",
+        data: {
+          name: "mortgage-app-deploy-5578f5675b-krqs8",
+          namespace: "default",
+          clusterName: "localcluster",
+          containerName: "mortgage-app-mortgage",
+          containers: [
+            {
+              name: "mortgage-app-mortgage",
+              image: "fxiang/mortgage:0.4.0"
+            }
+          ]
+        },
+        indent: true
+      }
+    },
+    {
       type: "label",
-      labelKey: "resource.clustername",
+      label: "resource.clustername",
       labelValue: undefined,
       value: "localcluster",
-      indent: undefined
+      indent: undefined,
+      status: "error"
     },
     {
       type: "label",
@@ -731,8 +751,17 @@ describe("DetailsView 1 pod details", () => {
       },
       label: "show link"
     };
-    wrapper.find("#linkForNodeAction").simulate("click", payload);
-    wrapper.find("#linkForNodeAction").simulate("keypress");
-    wrapper.find("#linkForNodeAction").simulate("keypress", { key: "Enter" });
+    wrapper
+      .find("#linkForNodeAction")
+      .at(0)
+      .simulate("click", payload);
+    wrapper
+      .find("#linkForNodeAction")
+      .at(0)
+      .simulate("keypress");
+    wrapper
+      .find("#linkForNodeAction")
+      .at(0)
+      .simulate("keypress", { key: "Enter" });
   });
 });

@@ -153,7 +153,7 @@ class DetailsView extends React.Component {
 
     const statusIcon = status ? `icon--${status}` : undefined
     return (
-      <div className={mainSectionClasses} key={Math.random()}>
+      <div className={mainSectionClasses} key={`label-${label}`}>
         {(labelKey || labelValue) && statusIcon ? (
           <span className="label sectionLabel">
             <Icon
@@ -209,7 +209,7 @@ class DetailsView extends React.Component {
     })
 
     return (
-      <div className={mainSectionClasses} key={Math.random()}>
+      <div className={mainSectionClasses} key={`link-${value}`}>
         <span
           className={linkLabelClasses}
           id="linkForNodeAction"

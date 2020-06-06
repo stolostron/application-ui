@@ -152,12 +152,45 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         </span>
       </div>
       <div
+        className="sectionContent"
+      >
+        <span
+          className="link"
+          id="linkForNodeAction"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          mortgage-app-mortgage
+          <svg
+            alt=""
+            aria-label=""
+            className="label-icon"
+            fill="#6089bf"
+            fillRule="evenodd"
+            height="14"
+            name="icon--arrow--right"
+            role="img"
+            viewBox="0 0 16 14"
+            width="16"
+          >
+            <title>
+              
+            </title>
+            <path
+              d="M11.95 5.997L7.86 2.092 9.233.639l6.763 6.356-6.763 6.366L7.86 11.91l4.092-3.912H-.003v-2h11.952z"
+            />
+          </svg>
+        </span>
+      </div>
+      <div
         className="sectionContent borderLeft"
       >
         <span
           className="label sectionLabel"
         >
-          Cluster:
+          undefined:
            
         </span>
         <span

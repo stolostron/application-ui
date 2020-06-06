@@ -652,8 +652,9 @@ describe("setSubscriptionDeployStatus with error", () => {
   };
   const response = [
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { isError: true, labelValue: "local", value: "Failed" },
+    { labelValue: "local", status: "error", value: "Failed" },
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -687,8 +688,9 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
   };
   const response = [
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { isError: false, labelValue: "local", value: "Propagated" },
+    { labelValue: "local", status: "success", value: "Propagated" },
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -700,8 +702,8 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       }
     },
     {
-      isError: true,
       labelValue: "Remote subscriptions",
+      status: "error",
       value:
         "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
     },
@@ -1813,10 +1815,9 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
     }
   };
   const result = [
-    { isError: true, labelValue: "Number of placed clusters", value: 0 },
     {
-      isError: true,
       labelValue: "Error",
+      status: "error",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
     }

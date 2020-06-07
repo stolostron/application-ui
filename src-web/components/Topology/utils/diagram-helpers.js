@@ -16,6 +16,7 @@ import moment from 'moment'
 import msgs from '../../../../nls/platform.properties'
 
 const metadataName = 'specs.raw.metadata.name'
+const metadataNamespace = 'specs.raw.metadata.namespace'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
 const specPulse = 'specs.pulse'
@@ -879,12 +880,26 @@ export const setApplicationDeployStatus = (node, details) => {
   })
 
   //show error if no channel, meaning there is no linked subscription
-  !_.get(node, 'specs.channels') &&
+  if (!_.get(node, 'specs.channels')) {
     details.push({
       labelKey: 'resource.rule.clusters.error.label',
-      value: msgs.get('resource.application.error.msg'),
+      value: msgs.get('resource.application.error.msg', [appNS]),
       status: 'error'
     })
+    const appNS = _.get(node, metadataNamespace, 'NA')
+    const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3Alocal-cluster"}`
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
+        id: `${node.id}-subscrSearch`,
+        data: {
+          action: 'open_link',
+          targetLink: subscrSearchLink
+        }
+      }
+    })
+  }
 
   return details
 }

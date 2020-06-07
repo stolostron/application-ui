@@ -1877,7 +1877,20 @@ describe("setApplicationDeployStatus 2 ", () => {
       labelKey: "resource.rule.clusters.error.label",
       status: "error",
       value:
-        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+        },
+        id:
+          "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
+        label: "View all subscriptions in {0} namespace"
+      }
     }
   ];
   it("setApplicationDeployStatus deployed selector 2", () => {
@@ -1906,7 +1919,20 @@ describe("setApplicationDeployStatus no selector ", () => {
       labelKey: "resource.rule.clusters.error.label",
       status: "error",
       value:
-        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+        },
+        id:
+          "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
+        label: "View all subscriptions in {0} namespace"
+      }
     }
   ];
   it("setApplicationDeployStatus deployed no selector 2", () => {

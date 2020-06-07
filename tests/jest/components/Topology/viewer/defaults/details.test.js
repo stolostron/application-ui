@@ -174,7 +174,19 @@ describe("getNodeDetails application node", () => {
       labelKey: "resource.rule.clusters.error.label",
       status: "error",
       value:
-        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+        },
+        id: "application--nginx-app-3-subscrSearch",
+        label: "View all subscriptions in {0} namespace"
+      }
     }
   ];
 

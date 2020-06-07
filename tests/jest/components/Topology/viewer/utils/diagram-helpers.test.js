@@ -1866,8 +1866,22 @@ describe("setApplicationDeployStatus 2 ", () => {
       }
     }
   };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: false,
+      value: "test"
+    },
+    { type: "spacer" },
+    {
+      labelKey: "resource.rule.clusters.error.label",
+      status: "error",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
+    }
+  ];
   it("setApplicationDeployStatus deployed selector 2", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
 
@@ -1880,8 +1894,23 @@ describe("setApplicationDeployStatus no selector ", () => {
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {}
   };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: true,
+      value:
+        "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" },
+    {
+      labelKey: "resource.rule.clusters.error.label",
+      status: "error",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
+    }
+  ];
   it("setApplicationDeployStatus deployed no selector 2", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
 
@@ -1896,8 +1925,17 @@ describe("setApplicationDeployStatus channels ", () => {
       channels: ["subsdata"]
     }
   };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: true,
+      value:
+        "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" }
+  ];
   it("setApplicationDeployStatus channels", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
 

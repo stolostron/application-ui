@@ -140,34 +140,41 @@ describe("getNodeDetails application node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "application"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.namespace",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "ns-sub-1"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "No labels"
     },
     { type: "spacer" },
     {
-      status: true,
       labelKey: "spec.selector.matchExpressions",
+      status: true,
       value:
         "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" },
+    {
+      labelKey: "resource.rule.clusters.error.label",
+      status: "error",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the application namespace."
     }
   ];
 

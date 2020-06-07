@@ -873,6 +873,20 @@ export const setApplicationDeployStatus = (node, details) => {
       true
     )
   )
+
+  details.push({
+    type: 'spacer'
+  })
+
+  //show error if no channel, meaning there is no linked subscription
+  !_.get(node, 'specs.channels') &&
+    details.push({
+      labelKey: 'resource.rule.clusters.error.label',
+      value: msgs.get('resource.application.error.msg'),
+      status: 'error'
+    })
+
+  return details
 }
 
 export const addNodeOCPRouteLocationForCluster = (

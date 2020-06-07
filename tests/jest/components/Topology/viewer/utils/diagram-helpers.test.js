@@ -1844,7 +1844,7 @@ describe("setApplicationDeployStatus 1 ", () => {
     }
   };
   it("setApplicationDeployStatus deployed 1", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual([]);
   });
 });
 

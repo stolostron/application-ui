@@ -862,7 +862,7 @@ export const setPlacementRuleDeployStatus = (node, details) => {
 
 export const setApplicationDeployStatus = (node, details) => {
   if (node.type !== 'application') {
-    return
+    return details
   }
   addPropertyToList(
     details,
@@ -881,12 +881,13 @@ export const setApplicationDeployStatus = (node, details) => {
 
   //show error if no channel, meaning there is no linked subscription
   if (!_.get(node, 'specs.channels')) {
+    const appNS = _.get(node, metadataNamespace, 'NA')
+
     details.push({
       labelKey: 'resource.rule.clusters.error.label',
       value: msgs.get('resource.application.error.msg', [appNS]),
       status: 'error'
     })
-    const appNS = _.get(node, metadataNamespace, 'NA')
     const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3Alocal-cluster"}`
     details.push({
       type: 'link',

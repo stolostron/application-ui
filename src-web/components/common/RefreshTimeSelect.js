@@ -170,20 +170,18 @@ export default class RefreshTimeSelect extends React.Component {
 
 export const getPollInterval = () => {
   let pollInterval = config['featureFlags:liveUpdatesPollInterval'] || 0
-  if (ACM_REFRESH_INTERVAL_COOKIE) {
-    const savedInterval = localStorage.getItem(ACM_REFRESH_INTERVAL_COOKIE)
-    if (savedInterval) {
-      try {
-        const saved = JSON.parse(savedInterval)
-        if (saved.pollInterval !== undefined) {
-          pollInterval = saved.pollInterval
-        }
-      } catch (e) {
-        //
+  const savedInterval = localStorage.getItem(ACM_REFRESH_INTERVAL_COOKIE)
+  if (savedInterval) {
+    try {
+      const saved = JSON.parse(savedInterval)
+      if (saved.pollInterval !== undefined) {
+        pollInterval = saved.pollInterval
       }
-    } else {
-      savePollInterval(pollInterval)
+    } catch (e) {
+      //
     }
+  } else {
+    savePollInterval(pollInterval)
   }
   return pollInterval
 }

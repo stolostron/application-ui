@@ -8,9 +8,9 @@ import React from "react";
 // import Tag from "../../../../src-web/components/common/FilterTag";
 // import renderer from "react-test-renderer";
 import { mount, shallow } from "enzyme";
-import { Provider } from "react-redux";
+// import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 import { REFRESH_TIMES } from "../../../../lib/shared/constants";
 import { reduxStoreAppPipeline } from "../../components/TestingData";
 import RefreshTimeSelect from "../../../../src-web/components/common/RefreshTimeSelect";
@@ -28,7 +28,6 @@ describe("RefreshTimeSelect component", () => {
         locale="en"
         isReloading={false}
         refetchIntervalUpdate={refetchIntervalUpdate}
-        refreshCookie="test-cookie-refresh"
         refreshValues={REFRESH_TIMES}
       />
     );
@@ -41,7 +40,6 @@ describe("RefreshTimeSelect component", () => {
         locale="en"
         isReloading={true}
         refetchIntervalUpdate={refetchIntervalUpdate}
-        refreshCookie="test-cookie-refresh"
         refreshValues={REFRESH_TIMES}
       />
     );
@@ -54,12 +52,10 @@ describe("RefreshTimeSelect component", () => {
         locale="en"
         isReloading={false}
         refetchIntervalUpdate={refetchIntervalUpdate}
-        refreshCookie="test-cookie-refresh"
         refreshValues={REFRESH_TIMES}
       />
     );
 
-    // refreshTimeSelect.find("#refreshButton").invoke("onClick")().then();
     // manually trigger a props update
     refreshTimeSelect.setProps({ abc: 123 });
 
@@ -74,18 +70,24 @@ describe("RefreshTimeSelect component", () => {
     refreshTimeSelect.find("#refreshButton").simulate("keyPress", { key: "x" });
     refreshTimeSelect.update();
 
-    // console.log("refreshButton",refreshTimeSelect.find("#refreshButton").debug())
-
-    // console.log("DropdownV2",refreshTimeSelect.find("DropdownV2").debug())
-
-    refreshTimeSelect
-      .find("DropdownV2")
-      .simulate("change", {
-        selectedItem: { label: "Refresh every 5m", pollInterval: 300000 }
-      });
+    refreshTimeSelect.find("DropdownV2").simulate("change", {
+      selectedItem: { label: "Refresh every 5m", pollInterval: 300000 }
+    });
     refreshTimeSelect.update();
 
     refreshTimeSelect.find("#refreshButton").simulate("click");
     refreshTimeSelect.update();
+  });
+
+  it("renders as expected - empty refresh values", () => {
+    const component = renderer.create(
+      <RefreshTimeSelect
+        locale="en"
+        isReloading={true}
+        refetchIntervalUpdate={refetchIntervalUpdate}
+        refreshValues={null}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
   });
 });

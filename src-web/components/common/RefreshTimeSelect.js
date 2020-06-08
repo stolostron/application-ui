@@ -44,23 +44,25 @@ export default class RefreshTimeSelect extends React.Component {
   }
 
   componentWillMount() {
-    const { refreshValues = [], locale } = this.props
-    this.autoRefreshChoices = refreshValues.map(pollInterval => {
-      let label
-      if (pollInterval >= 60) {
-        label = msgs.get(
-          'refresh.interval.minutes',
-          [pollInterval / 60],
-          locale
-        )
-      } else if (pollInterval !== 0) {
-        label = msgs.get('refresh.interval.seconds', [pollInterval], locale)
-      } else {
-        label = msgs.get('refresh.interval.never', locale)
-      }
-      pollInterval *= 1000
-      return { label, pollInterval }
-    })
+    const { refreshValues, locale } = this.props
+    if (refreshValues && refreshValues.length > 0) {
+      this.autoRefreshChoices = refreshValues.map(pollInterval => {
+        let label
+        if (pollInterval >= 60) {
+          label = msgs.get(
+            'refresh.interval.minutes',
+            [pollInterval / 60],
+            locale
+          )
+        } else if (pollInterval !== 0) {
+          label = msgs.get('refresh.interval.seconds', [pollInterval], locale)
+        } else {
+          label = msgs.get('refresh.interval.never', locale)
+        }
+        pollInterval *= 1000
+        return { label, pollInterval }
+      })
+    }
   }
 
   handleClick = () => {
@@ -113,7 +115,11 @@ export default class RefreshTimeSelect extends React.Component {
   render() {
     const { locale } = this.props
     const { pollInterval } = this.state
-    if (pollInterval !== undefined) {
+    if (
+      pollInterval !== undefined &&
+      this.autoRefreshChoices &&
+      this.autoRefreshChoices.length > 0
+    ) {
       const refresh = msgs.get('refresh', locale)
       const { isReloading } = this.props
       const label = msgs.get('refresh.choose', locale)

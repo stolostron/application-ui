@@ -475,10 +475,10 @@ class ApplicationDeploymentPipeline extends React.Component {
               />
             </div>
             <div className="show-channels-icon">
-              <Tooltip triggerText="">
-                <p>
+              <Tooltip triggerText="" iconName="info">
+                <span className="showAllChannelsTooltip">
                   {msgs.get('description.show.all.channels.tooltip', locale)}
-                </p>
+                </span>
               </Tooltip>
             </div>
           </div>

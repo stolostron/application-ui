@@ -3,17 +3,16 @@
  *******************************************************************************/
 
 import { REFETCH_INTERVAL_UPDATE } from '../actions'
-
-// get the refetch default from the config file
-import config from '../../lib/shared/config'
+import { getPollInterval } from '../components/common/RefreshTimeSelect'
 
 export const refetch = (state, action) => {
   switch (action.type) {
   case REFETCH_INTERVAL_UPDATE:
     return action.data
   default:
+    // get the poll interval from RefreshTimeSelect component
     return Object.assign({}, state, {
-      interval: config['featureFlags:liveUpdatesPollInterval'],
+      interval: getPollInterval(),
       doRefetch: false
     })
   }

@@ -141,14 +141,14 @@ const LeftColumnForApplicationNames = (
               {msgs.get('description.title.standaloneSubscriptions', locale)}
 
               <Tooltip triggerText="" iconName="info">
-                <span style={{ display: 'block' }}>
+                <span className="standaloneTooltip">
                   {msgs.get(
                     'description.title.standaloneSubscriptionsTooltip',
                     locale
                   )}
                 </span>
                 {subsWithInvalidChannel.length > 0 && (
-                  <span>
+                  <span className="standaloneTooltip">
                     <a
                       href={getSearchLinkForFailedSubscriptions()}
                       target="_blank"

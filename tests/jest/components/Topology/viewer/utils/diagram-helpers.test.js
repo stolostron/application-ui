@@ -652,7 +652,7 @@ describe("setSubscriptionDeployStatus with error", () => {
   };
   const response = [
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { labelValue: "local", status: "error", value: "Failed" },
+    { labelValue: "local", status: "failure", value: "Failed" },
     {
       indent: true,
       type: "link",
@@ -703,7 +703,7 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     },
     {
       labelValue: "Remote subscriptions",
-      status: "error",
+      status: "failure",
       value:
         "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
     },
@@ -1817,7 +1817,7 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
   const result = [
     {
       labelValue: "Error",
-      status: "error",
+      status: "failure",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
     }
@@ -1875,7 +1875,7 @@ describe("setApplicationDeployStatus 2 ", () => {
     { type: "spacer" },
     {
       labelKey: "resource.rule.clusters.error.label",
-      status: "error",
+      status: "failure",
       value:
         "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
     },
@@ -1917,7 +1917,7 @@ describe("setApplicationDeployStatus no selector ", () => {
     { type: "spacer" },
     {
       labelKey: "resource.rule.clusters.error.label",
-      status: "error",
+      status: "failure",
       value:
         "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
     },
@@ -2015,7 +2015,7 @@ describe("setPodDeployStatus  with pod less then desired", () => {
   };
   const result = [
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
-    { labelValue: "possiblereptile", status: "error", value: "1/3" },
+    { labelValue: "possiblereptile", status: "failure", value: "1/3" },
     { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
@@ -2306,7 +2306,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
       indent: undefined,
       labelKey: "resource.status",
       labelValue: undefined,
-      status: "error",
+      status: "failure",
       type: "label",
       value: "CrashLoopBackOff"
     },

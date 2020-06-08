@@ -172,7 +172,7 @@ describe("getNodeDetails application node", () => {
     { type: "spacer" },
     {
       labelKey: "resource.rule.clusters.error.label",
-      status: "error",
+      status: "failure",
       value:
         "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
     },
@@ -908,7 +908,7 @@ describe("getNodeDetails deployment node", () => {
         label: "View Resource YAML"
       }
     },
-    { labelValue: "cluster2", status: "error", value: "Not Deployed" },
+    { labelValue: "cluster2", status: "failure", value: "Not Deployed" },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },
@@ -1326,7 +1326,7 @@ describe("getNodeDetails placement rules node with error", () => {
     },
     { type: "spacer" },
     {
-      status: "error",
+      status: "failure",
       labelValue: "Error",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."

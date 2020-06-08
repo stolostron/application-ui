@@ -653,7 +653,7 @@ export const setResourceDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
     const deployedKey = res ? deployedStr : notDeployedStr
-    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'error'
+    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'failure'
 
     details.push({
       labelValue: clusterName,
@@ -709,7 +709,7 @@ export const setPodDeployStatus = (node, details) => {
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
     const isErrorMsg = valueStr === notDeployedStr || res.ready < res.desired
 
-    const statusStr = isErrorMsg ? 'error' : 'checkmark'
+    const statusStr = isErrorMsg ? 'failure' : 'checkmark'
 
     details.push({
       labelValue: clusterName,
@@ -732,7 +732,9 @@ export const setPodDeployStatus = (node, details) => {
       labelKey: 'resource.container.logs'
     })
 
-    const statusStr = podError ? 'error' : podWarning ? 'warning' : 'checkmark'
+    const statusStr = podError
+      ? 'failure'
+      : podWarning ? 'warning' : 'checkmark'
 
     details.push({
       type: 'link',
@@ -810,7 +812,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
         labelValue: subscription.cluster,
         value: subscription.status,
         status: R.contains('Fail', R.pathOr('', ['status'])(subscription))
-          ? 'error'
+          ? 'failure'
           : 'checkmark'
       }) &&
         details.push({
@@ -833,7 +835,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
-      status: 'error'
+      status: 'failure'
     })
   }
   details.push({
@@ -853,7 +855,7 @@ export const setPlacementRuleDeployStatus = (node, details) => {
     details.push({
       labelValue: msgs.get('resource.rule.clusters.error.label'),
       value: msgs.get('resource.rule.placed.error.msg'),
-      status: 'error'
+      status: 'failure'
     })
   }
 
@@ -886,7 +888,7 @@ export const setApplicationDeployStatus = (node, details) => {
     details.push({
       labelKey: 'resource.rule.clusters.error.label',
       value: msgs.get('resource.application.error.msg', [appNS]),
-      status: 'error'
+      status: 'failure'
     })
     const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3Alocal-cluster"}`
     details.push({

@@ -23,6 +23,7 @@ import {
 } from 'carbon-components-react'
 import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
+import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
 
 const DetailsViewDecorator = ({ shape, className }) => {
@@ -135,6 +136,12 @@ class DetailsView extends React.Component {
 
   renderLabel({ labelKey, labelValue, value, indent, status }, locale) {
     let label = labelValue
+    const fillMap = new Map([
+      ['checkmark', '#3E8635'],
+      ['failure', '#C9190B'],
+      ['warning', '#F0AB00'],
+      ['pending', '#878D96']
+    ])
     if (labelKey) {
       label = labelValue
         ? msgs.get(labelKey, [labelValue], locale)
@@ -149,17 +156,23 @@ class DetailsView extends React.Component {
       label: true,
       sectionLabel: value ? true : false
     })
-    const statusIcon = status ? `icon--${status}` : undefined
+    const statusIcon = status ? status : undefined
+    const iconFill = statusIcon ? fillMap.get(statusIcon) : '#FFFFFF'
     return (
       <div className={mainSectionClasses} key={Math.random()}>
         {(labelKey || labelValue) && statusIcon ? (
           <span className="label sectionLabel">
-            <Icon
-              name={statusIcon}
-              fill="#6089bf"
-              description=""
-              className="label-icon"
-            />
+            <svg
+              width="10px"
+              height="10px"
+              fill={iconFill}
+              style={{ marginRight: '8px' }}
+            >
+              <use
+                href={`#diagramIcons_${statusIcon}`}
+                className="label-icon"
+              />
+            </svg>
             {label}
           </span>
         ) : (

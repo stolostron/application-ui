@@ -46,6 +46,7 @@ describe("RefreshTimeSelect component", () => {
     expect(component.toJSON()).toMatchSnapshot();
   });
 
+  jest.useFakeTimers();
   it("Click and Keydown actions", () => {
     const refreshTimeSelect = shallow(
       <RefreshTimeSelect
@@ -61,11 +62,16 @@ describe("RefreshTimeSelect component", () => {
 
     refreshTimeSelect.find("#refreshButton").simulate("click");
     refreshTimeSelect.update();
+    // wait 1 second for refresh button to be ready again
+    jest.runOnlyPendingTimers();
 
     refreshTimeSelect
       .find("#refreshButton")
       .simulate("keyPress", { key: "Enter" });
     refreshTimeSelect.update();
+    // wait 1 second for refresh button to be ready again
+    jest.runOnlyPendingTimers();
+
     // not enter key
     refreshTimeSelect.find("#refreshButton").simulate("keyPress", { key: "x" });
     refreshTimeSelect.update();
@@ -77,6 +83,8 @@ describe("RefreshTimeSelect component", () => {
 
     refreshTimeSelect.find("#refreshButton").simulate("click");
     refreshTimeSelect.update();
+
+    expect(setTimeout).toHaveBeenCalledTimes(3);
   });
 
   it("renders as expected - empty refresh values", () => {

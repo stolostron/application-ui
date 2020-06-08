@@ -837,7 +837,22 @@ export const setSubscriptionDeployStatus = (node, details) => {
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
       status: 'failure'
     })
+    const ruleSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3A${
+      node.namespace
+    }%20cluster%3Alocal-cluster"}`
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml.rules.ns', [node.namespace]),
+        id: `${node.id}-subscrSearch`,
+        data: {
+          action: 'open_link',
+          targetLink: ruleSearchLink
+        }
+      }
+    })
   }
+
   details.push({
     type: 'spacer'
   })

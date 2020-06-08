@@ -16,6 +16,7 @@ import moment from 'moment'
 import msgs from '../../../../nls/platform.properties'
 
 const metadataName = 'specs.raw.metadata.name'
+const metadataNamespace = 'specs.raw.metadata.namespace'
 const notDeployedStr = msgs.get('spec.deploy.not.deployed')
 const deployedStr = msgs.get('spec.deploy.deployed')
 const specPulse = 'specs.pulse'
@@ -32,6 +33,8 @@ const podErrorStates = [
   'OOMKilled'
 ]
 
+const podWarningStates = ['Pending']
+
 /*
 * UI helpers to help with data transformations
 * */
@@ -47,7 +50,7 @@ export const getAge = value => {
 }
 
 export const addDetails = (details, dets) => {
-  dets.forEach(({ labelKey, labelValue, value, indent, isError }) => {
+  dets.forEach(({ labelKey, labelValue, value, indent, status }) => {
     if (value !== undefined) {
       details.push({
         type: 'label',
@@ -55,7 +58,7 @@ export const addDetails = (details, dets) => {
         labelValue,
         value,
         indent,
-        isError: isError
+        status: status
       })
     }
   })
@@ -192,13 +195,7 @@ export const getHashCode = str => {
   return hash
 }
 
-export const getNodePropery = (
-  node,
-  propPath,
-  key,
-  defaultValue,
-  showAsError
-) => {
+export const getNodePropery = (node, propPath, key, defaultValue, status) => {
   const dataObj = R.pathOr(undefined, propPath)(node)
 
   let data = dataObj
@@ -219,7 +216,7 @@ export const getNodePropery = (
     return {
       labelKey: key,
       value: data,
-      isError: showAsError && !dataObj //show as error message if data not defined and marked for error
+      status: status && !dataObj //show as error message if data not defined and marked for error
     }
   }
 
@@ -656,11 +653,12 @@ export const setResourceDeployStatus = (node, details) => {
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
     const deployedKey = res ? deployedStr : notDeployedStr
+    const statusStr = deployedKey === deployedStr ? 'checkmark' : 'error'
 
     details.push({
       labelValue: clusterName,
       value: deployedKey,
-      isError: deployedKey === notDeployedStr
+      status: statusStr
     })
 
     if (res) {
@@ -679,7 +677,8 @@ export const setResourceDeployStatus = (node, details) => {
             cluster: res.cluster,
             selfLink: res.selfLink
           }
-        }
+        },
+        indent: true
       })
     }
   })
@@ -692,7 +691,7 @@ export const setResourceDeployStatus = (node, details) => {
 //show resource deployed status for resources producing pods
 export const setPodDeployStatus = (node, details) => {
   if (!nodeMustHavePods(node)) {
-    return //process only resources with pods
+    return details //process only resources with pods
   }
 
   details.push({
@@ -709,10 +708,13 @@ export const setPodDeployStatus = (node, details) => {
     const res = podStatusModel[clusterName]
     const valueStr = res ? `${res.ready}/${res.desired}` : notDeployedStr
     const isErrorMsg = valueStr === notDeployedStr || res.ready < res.desired
+
+    const statusStr = isErrorMsg ? 'error' : 'checkmark'
+
     details.push({
       labelValue: clusterName,
       value: valueStr,
-      isError: isErrorMsg
+      status: statusStr
     })
   })
 
@@ -723,10 +725,15 @@ export const setPodDeployStatus = (node, details) => {
   Object.values(podModel).forEach(pod => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
     const podError = R.contains(pod.status, podErrorStates)
+    const podWarning = R.contains(pod.status, podWarningStates)
+
     details.push({
       type: 'label',
       labelKey: 'resource.container.logs'
     })
+
+    const statusStr = podError ? 'error' : podWarning ? 'warning' : 'checkmark'
+
     details.push({
       type: 'link',
       value: {
@@ -762,31 +769,29 @@ export const setPodDeployStatus = (node, details) => {
         value: pod.name
       },
       {
-        labelKey: 'resource.hostip',
-        value: hostIP
+        labelKey: 'resource.status',
+        value: status,
+        status: statusStr
       },
       {
-        labelKey: 'resource.podip',
-        value: podIP
+        labelKey: 'resource.restarts',
+        value: `${restarts}`
+      },
+      {
+        labelKey: 'resource.hostip',
+        value: `${hostIP}, ${podIP}`
       },
       {
         labelKey: 'resource.created',
         value: getAge(startedAt)
-      },
-      {
-        labelKey: 'resource.status',
-        value: status,
-        isError: podError
-      },
-      {
-        labelKey: 'resource.restarts',
-        value: restarts
       }
     ])
     details.push({
       type: 'spacer'
     })
   })
+
+  return details
 }
 
 export const setSubscriptionDeployStatus = (node, details) => {
@@ -804,7 +809,9 @@ export const setSubscriptionDeployStatus = (node, details) => {
       details.push({
         labelValue: subscription.cluster,
         value: subscription.status,
-        isError: R.contains('Fail', R.pathOr('', ['status'])(subscription))
+        status: R.contains('Fail', R.pathOr('', ['status'])(subscription))
+          ? 'error'
+          : 'checkmark'
       }) &&
         details.push({
           type: 'link',
@@ -815,7 +822,8 @@ export const setSubscriptionDeployStatus = (node, details) => {
               cluster: subscription.cluster,
               selfLink: subscription.selfLink
             }
-          }
+          },
+          indent: true
         })
     }
   })
@@ -825,7 +833,7 @@ export const setSubscriptionDeployStatus = (node, details) => {
     details.push({
       labelValue: msgs.get('resource.subscription.remote'),
       value: msgs.get('resource.subscription.placed.error', [node.namespace]),
-      isError: true
+      status: 'error'
     })
   }
   details.push({
@@ -841,16 +849,11 @@ export const setPlacementRuleDeployStatus = (node, details) => {
   }
 
   const clusterStatus = _.get(node, 'specs.raw.status.decisions', [])
-  details.push({
-    labelValue: msgs.get('resource.rule.clusters'),
-    value: clusterStatus.length,
-    isError: clusterStatus.length === 0
-  })
   if (clusterStatus.length === 0) {
     details.push({
       labelValue: msgs.get('resource.rule.clusters.error.label'),
       value: msgs.get('resource.rule.placed.error.msg'),
-      isError: true
+      status: 'error'
     })
   }
 
@@ -859,7 +862,7 @@ export const setPlacementRuleDeployStatus = (node, details) => {
 
 export const setApplicationDeployStatus = (node, details) => {
   if (node.type !== 'application') {
-    return
+    return details
   }
   addPropertyToList(
     details,
@@ -871,6 +874,35 @@ export const setApplicationDeployStatus = (node, details) => {
       true
     )
   )
+
+  details.push({
+    type: 'spacer'
+  })
+
+  //show error if no channel, meaning there is no linked subscription
+  if (!_.get(node, 'specs.channels')) {
+    const appNS = _.get(node, metadataNamespace, 'NA')
+
+    details.push({
+      labelKey: 'resource.rule.clusters.error.label',
+      value: msgs.get('resource.application.error.msg', [appNS]),
+      status: 'error'
+    })
+    const subscrSearchLink = `/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3A${appNS}%20cluster%3Alocal-cluster"}`
+    details.push({
+      type: 'link',
+      value: {
+        label: msgs.get('props.show.yaml.subscr.ns', [appNS]),
+        id: `${node.id}-subscrSearch`,
+        data: {
+          action: 'open_link',
+          targetLink: subscrSearchLink
+        }
+      }
+    })
+  }
+
+  return details
 }
 
 export const addNodeOCPRouteLocationForCluster = (
@@ -926,9 +958,9 @@ export const addNodeOCPRouteLocationForCluster = (
       data: {
         action: 'open_link',
         targetLink: hostLink
-      },
-      indent: true
-    }
+      }
+    },
+    indent: true
   })
 
   !typeObject &&

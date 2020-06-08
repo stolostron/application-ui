@@ -103,7 +103,7 @@ class DetailsView extends React.Component {
         </div>
         <hr />
         <Scrollbars
-          style={{ width: 310, height: scrollHeight }}
+          style={{ height: scrollHeight }}
           renderView={this.renderView}
           renderThumbVertical={this.renderThumbVertical}
           className="details-view-container"
@@ -133,7 +133,7 @@ class DetailsView extends React.Component {
     }
   }
 
-  renderLabel({ labelKey, labelValue, value, indent, isError }, locale) {
+  renderLabel({ labelKey, labelValue, value, indent, status }, locale) {
     let label = labelValue
     if (labelKey) {
       label = labelValue
@@ -141,19 +141,25 @@ class DetailsView extends React.Component {
         : msgs.get(labelKey, locale)
     }
     label = value ? `${label}:` : label
-
     const mainSectionClasses = classNames({
       sectionContent: true,
-      borderLeft: value ? true : false
+      borderLeft: value !== undefined ? true : false
     })
     const labelClass = classNames({
       label: true,
       sectionLabel: value ? true : false
     })
+    const statusIcon = status ? `icon--${status}` : undefined
     return (
       <div className={mainSectionClasses} key={Math.random()}>
-        {(labelKey || labelValue) && isError ? (
-          <span className="label sectionLabel" style={{ color: 'red' }}>
+        {(labelKey || labelValue) && statusIcon ? (
+          <span className="label sectionLabel">
+            <Icon
+              name={statusIcon}
+              fill="#6089bf"
+              description=""
+              className="label-icon"
+            />
             {label}
           </span>
         ) : (
@@ -185,24 +191,38 @@ class DetailsView extends React.Component {
     const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(
       value
     ) //if not show yaml
+
+    let iconName = 'icon--arrow--right'
+    if (_.get(value, 'label', '').startsWith('http')) {
+      iconName = 'icon--launch'
+    }
+    const mainSectionClasses = classNames({
+      sectionContent: true,
+      borderLeft: indent ? true : false
+    })
+
+    const linkLabelClasses = classNames({
+      link: true,
+      sectionLabel: indent ? true : false
+    })
+
     return (
-      <div className="sectionContent" key={Math.random()}>
+      <div className={mainSectionClasses} key={Math.random()}>
         <span
-          className="link"
+          className={linkLabelClasses}
           id="linkForNodeAction"
           tabIndex="0"
           role={'button'}
           onClick={handleClick}
           onKeyPress={handleKeyPress}
         >
-          {indent && <span className="indent" />}
-          {value.label}&nbsp;
+          {value.label}
           {showLaunchOutIcon && (
             <Icon
-              name="icon--arrow--right"
+              name={iconName}
               fill="#6089bf"
               description=""
-              className="open-out-icon"
+              className="label-icon"
             />
           )}
         </span>

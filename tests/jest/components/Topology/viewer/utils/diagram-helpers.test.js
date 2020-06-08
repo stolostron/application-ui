@@ -652,8 +652,9 @@ describe("setSubscriptionDeployStatus with error", () => {
   };
   const response = [
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { isError: true, labelValue: "local", value: "Failed" },
+    { labelValue: "local", status: "error", value: "Failed" },
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -687,8 +688,9 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
   };
   const response = [
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { isError: false, labelValue: "local", value: "Propagated" },
+    { labelValue: "local", status: "checkmark", value: "Propagated" },
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -700,8 +702,8 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       }
     },
     {
-      isError: true,
       labelValue: "Remote subscriptions",
+      status: "error",
       value:
         "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
     },
@@ -1813,10 +1815,9 @@ describe("setPlacementRuleDeployStatus 1 ", () => {
     }
   };
   const result = [
-    { isError: true, labelValue: "Number of placed clusters", value: 0 },
     {
-      isError: true,
       labelValue: "Error",
+      status: "error",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
     }
@@ -1843,7 +1844,7 @@ describe("setApplicationDeployStatus 1 ", () => {
     }
   };
   it("setApplicationDeployStatus deployed 1", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual([]);
   });
 });
 
@@ -1865,8 +1866,35 @@ describe("setApplicationDeployStatus 2 ", () => {
       }
     }
   };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: false,
+      value: "test"
+    },
+    { type: "spacer" },
+    {
+      labelKey: "resource.rule.clusters.error.label",
+      status: "error",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+        },
+        id:
+          "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
+        label: "View all subscriptions in {0} namespace"
+      }
+    }
+  ];
   it("setApplicationDeployStatus deployed selector 2", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
 
@@ -1879,8 +1907,36 @@ describe("setApplicationDeployStatus no selector ", () => {
       "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra",
     specs: {}
   };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: true,
+      value:
+        "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" },
+    {
+      labelKey: "resource.rule.clusters.error.label",
+      status: "error",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+        },
+        id:
+          "member--member--deployable--member--clusters--braveman, possiblereptile, sharingpenguin, relievedox--default--guestbook-app-cassandra-cassandra-service--service--cassandra-subscrSearch",
+        label: "View all subscriptions in {0} namespace"
+      }
+    }
+  ];
   it("setApplicationDeployStatus deployed no selector 2", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
 
@@ -1895,12 +1951,21 @@ describe("setApplicationDeployStatus channels ", () => {
       channels: ["subsdata"]
     }
   };
+  const result = [
+    {
+      labelKey: "spec.selector.matchExpressions",
+      status: true,
+      value:
+        "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" }
+  ];
   it("setApplicationDeployStatus channels", () => {
-    expect(setApplicationDeployStatus(node, [])).toEqual(undefined);
+    expect(setApplicationDeployStatus(node, [])).toEqual(result);
   });
 });
 
-describe("setPodDeployStatus  1", () => {
+describe("setPodDeployStatus  node does not have pods", () => {
   const node = {
     type: "application",
     name: "cassandra",
@@ -1911,14 +1976,14 @@ describe("setPodDeployStatus  1", () => {
       channels: ["subsdata"]
     }
   };
-  it("setPodDeployStatus 1", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(undefined);
+  it("setPodDeployStatus node does not have pods", () => {
+    expect(setPodDeployStatus(node, [])).toEqual([]);
   });
 });
 
 describe("setPodDeployStatus  with pod less then desired", () => {
   const node = {
-    type: "deployment",
+    type: "pod",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -1948,14 +2013,86 @@ describe("setPodDeployStatus  with pod less then desired", () => {
       }
     }
   };
-  it("setPodDeployStatus with pod", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(undefined);
+  const result = [
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "possiblereptile", status: "error", value: "1/3" },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "possiblereptile",
+          name: undefined,
+          namespace: undefined
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "possiblereptile"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "checkmark",
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
+    { type: "spacer" }
+  ];
+  it("setPodDeployStatus with pod less then desired ", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(result);
   });
 });
 
 describe("setPodDeployStatus  with pod as desired", () => {
   const node = {
-    type: "deployment",
+    type: "pod",
     name: "mortgage-app-deploy",
     namespace: "default",
     id:
@@ -1981,12 +2118,226 @@ describe("setPodDeployStatus  with pod as desired", () => {
         "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile": {
           cluster: "possiblereptile",
           status: "Running"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile2": {
+          cluster: "possiblereptile",
+          status: "Pending"
+        },
+        "mortgage-app-deploy-55c65b9c8f-r84f4-possiblereptile3": {
+          cluster: "possiblereptile",
+          status: "CrashLoopBackOff"
         }
       }
     }
   };
-  it("setPodDeployStatus with pod", () => {
-    expect(setPodDeployStatus(node, [])).toEqual(undefined);
+  const result = [
+    { labelKey: "resource.deploy.pods.statuses", type: "label" },
+    { labelValue: "possiblereptile", status: "checkmark", value: "3/3" },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "possiblereptile",
+          name: undefined,
+          namespace: undefined
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "possiblereptile"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "checkmark",
+      type: "label",
+      value: "Running"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "possiblereptile",
+          name: undefined,
+          namespace: undefined
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "possiblereptile"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "warning",
+      type: "label",
+      value: "Pending"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
+    { type: "spacer" },
+    { labelKey: "resource.container.logs", type: "label" },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_pod_log",
+          cluster: "possiblereptile",
+          name: undefined,
+          namespace: undefined
+        },
+        label: "View Log"
+      }
+    },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: {
+          action: "show_resource_yaml",
+          cluster: "possiblereptile",
+          selfLink: undefined
+        },
+        label: "View Resource YAML"
+      }
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.clustername",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "possiblereptile"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.status",
+      labelValue: undefined,
+      status: "error",
+      type: "label",
+      value: "CrashLoopBackOff"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.restarts",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.hostip",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "undefined, undefined"
+    },
+    {
+      indent: undefined,
+      labelKey: "resource.created",
+      labelValue: undefined,
+      status: undefined,
+      type: "label",
+      value: "-"
+    },
+    { type: "spacer" }
+  ];
+  it("setPodDeployStatus with pod as desired", () => {
+    expect(setPodDeployStatus(node, [])).toEqual(result);
   });
 });
 
@@ -2026,11 +2377,11 @@ describe("addNodeOCPRouteLocationForCluster no host spec", () => {
   };
   const result = [
     {
+      indent: true,
       type: "link",
       value: {
         data: { action: "open_link", targetLink: "http://undefined/" },
         id: "objID-location",
-        indent: true,
         label: "http://undefined/"
       }
     }
@@ -2200,11 +2551,11 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   const result = [
     { labelKey: "raw.spec.host.location", type: "label" },
     {
+      indent: true,
       type: "link",
       value: {
         data: { action: "open_link", targetLink: "https://1.1.1/" },
         id: "0-location",
-        indent: true,
         label: "https://1.1.1/"
       }
     },
@@ -2258,6 +2609,7 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   };
   const result = [
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -2265,11 +2617,11 @@ describe("addNodeOCPRouteLocationForCluster", () => {
           targetLink: "https://mortgage-app-deploy-default.222/"
         },
         id: "objID-location",
-        indent: true,
         label: "https://mortgage-app-deploy-default.222/"
       }
     }
   ];
+
   it("addNodeOCPRouteLocationForCluster with tls and no host", () => {
     expect(addNodeOCPRouteLocationForCluster(node, obj, [])).toEqual(result);
   });

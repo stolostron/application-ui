@@ -140,34 +140,53 @@ describe("getNodeDetails application node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "application"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "resource.namespace",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "ns-sub-1"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "No labels"
     },
     { type: "spacer" },
     {
-      isError: true,
       labelKey: "spec.selector.matchExpressions",
+      status: true,
       value:
         "This application has no subscription match selector (spec.selector.matchExpressions)"
+    },
+    { type: "spacer" },
+    {
+      labelKey: "resource.rule.clusters.error.label",
+      status: "error",
+      value:
+        "This application has no matched subscription. Make sure the subscription match selector spec.selector.matchExpressions exists and matches a Subscription resource created in the {0} namespace."
+    },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Asubscription%20namespace%3ANA%20cluster%3Alocal-cluster"}'
+        },
+        id: "application--nginx-app-3-subscrSearch",
+        label: "View all subscriptions in {0} namespace"
+      }
     }
   ];
 
@@ -265,7 +284,7 @@ describe("getNodeDetails cluster node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.pods",
       labelValue: undefined,
       type: "label",
@@ -273,7 +292,7 @@ describe("getNodeDetails cluster node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
       type: "label",
@@ -281,7 +300,7 @@ describe("getNodeDetails cluster node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
       type: "label",
@@ -289,7 +308,7 @@ describe("getNodeDetails cluster node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
       type: "label",
@@ -297,7 +316,7 @@ describe("getNodeDetails cluster node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
       type: "label",
@@ -305,7 +324,7 @@ describe("getNodeDetails cluster node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
@@ -314,7 +333,7 @@ describe("getNodeDetails cluster node", () => {
     { labelKey: "resource.violations", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -322,7 +341,7 @@ describe("getNodeDetails cluster node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -456,7 +475,7 @@ describe("getNodeDetails clusters node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.pods",
       labelValue: undefined,
       type: "label",
@@ -464,7 +483,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
       type: "label",
@@ -472,7 +491,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
       type: "label",
@@ -480,7 +499,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
       type: "label",
@@ -488,7 +507,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
       type: "label",
@@ -496,7 +515,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
@@ -505,7 +524,7 @@ describe("getNodeDetails clusters node", () => {
     { labelKey: "resource.violations", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -513,7 +532,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -522,7 +541,7 @@ describe("getNodeDetails clusters node", () => {
     { type: "spacer" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.pods",
       labelValue: undefined,
       type: "label",
@@ -530,7 +549,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
       type: "label",
@@ -538,7 +557,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
       type: "label",
@@ -546,7 +565,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
       type: "label",
@@ -554,7 +573,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
       type: "label",
@@ -562,7 +581,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
@@ -571,7 +590,7 @@ describe("getNodeDetails clusters node", () => {
     { labelKey: "resource.violations", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -579,7 +598,7 @@ describe("getNodeDetails clusters node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -831,40 +850,41 @@ describe("getNodeDetails deployment node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "deployment"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.spec.replicas",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "1"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.spec.selector",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
     { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
-    { isError: false, labelValue: "feng", value: "Deployed" },
+    { labelValue: "feng", status: "checkmark", value: "Deployed" },
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -875,8 +895,9 @@ describe("getNodeDetails deployment node", () => {
         label: "View Resource YAML"
       }
     },
-    { isError: false, labelValue: "cluster1", value: "Deployed" },
+    { labelValue: "cluster1", status: "checkmark", value: "Deployed" },
     {
+      indent: true,
       type: "link",
       value: {
         data: {
@@ -887,7 +908,7 @@ describe("getNodeDetails deployment node", () => {
         label: "View Resource YAML"
       }
     },
-    { isError: true, labelValue: "cluster2", value: "Not Deployed" },
+    { labelValue: "cluster2", status: "error", value: "Not Deployed" },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
     { labelKey: "resource.status.last.updated", type: "label", value: "-" },
@@ -947,7 +968,7 @@ describe("getNodeDetails helm node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.name",
       labelValue: undefined,
       type: "label",
@@ -955,7 +976,7 @@ describe("getNodeDetails helm node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.url",
       labelValue: undefined,
       type: "label",
@@ -963,7 +984,7 @@ describe("getNodeDetails helm node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.version",
       labelValue: undefined,
       type: "label",
@@ -1023,7 +1044,7 @@ describe("getNodeDetails helm node", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.name",
       labelValue: undefined,
       type: "label",
@@ -1031,7 +1052,7 @@ describe("getNodeDetails helm node", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.message",
       labelValue: undefined,
       type: "label",
@@ -1106,7 +1127,7 @@ describe("getNodeDetails helm node 2", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.name",
       labelValue: undefined,
       type: "label",
@@ -1114,7 +1135,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.namespace",
       labelValue: undefined,
       type: "label",
@@ -1122,7 +1143,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
       type: "label",
@@ -1130,7 +1151,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.remediation",
       labelValue: undefined,
       type: "label",
@@ -1139,7 +1160,7 @@ describe("getNodeDetails helm node 2", () => {
     { labelKey: "resource.categories", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1147,7 +1168,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1155,7 +1176,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1163,7 +1184,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1171,7 +1192,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1179,7 +1200,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.controls",
       labelValue: undefined,
       type: "label",
@@ -1187,7 +1208,7 @@ describe("getNodeDetails helm node 2", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.standards",
       labelValue: undefined,
       type: "label",
@@ -1196,7 +1217,7 @@ describe("getNodeDetails helm node 2", () => {
     { labelKey: "resource.object.templates", type: "label" },
     {
       indent: true,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1205,7 +1226,7 @@ describe("getNodeDetails helm node 2", () => {
     { labelKey: "resource.role.templates", type: "label" },
     {
       indent: true,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1214,7 +1235,7 @@ describe("getNodeDetails helm node 2", () => {
     { labelKey: "resource.policy.templates", type: "label" },
     {
       indent: true,
-      isError: undefined,
+      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
       type: "label",
@@ -1273,7 +1294,7 @@ describe("getNodeDetails placement rules node with error", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
       type: "label",
@@ -1281,7 +1302,7 @@ describe("getNodeDetails placement rules node with error", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
       type: "label",
@@ -1289,7 +1310,7 @@ describe("getNodeDetails placement rules node with error", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "raw.spec.clusterSelector",
       labelValue: undefined,
       type: "label",
@@ -1297,16 +1318,15 @@ describe("getNodeDetails placement rules node with error", () => {
     },
     {
       indent: undefined,
-      isError: undefined,
+      status: undefined,
       labelKey: "raw.status.decisionCls",
       labelValue: undefined,
       type: "label",
       value: 0
     },
     { type: "spacer" },
-    { isError: true, labelValue: "Number of placed clusters", value: 0 },
     {
-      isError: true,
+      status: "error",
       labelValue: "Error",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
@@ -1366,39 +1386,39 @@ describe("getNodeDetails placement rules node with success", () => {
     { labelKey: "prop.details.section", type: "label" },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "rules"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.spec.clusterSelector",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "environment=Dev"
     },
     {
       indent: undefined,
-      isError: undefined,
       labelKey: "raw.status.decisionCls",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: 1
     },
-    { type: "spacer" },
-    { isError: false, labelValue: "Number of placed clusters", value: 1 }
+    { type: "spacer" }
   ];
+
   it("should process the node, placement rules node with success", () => {
     expect(getNodeDetails(rulesNode, locale)).toEqual(expectedResult);
   });

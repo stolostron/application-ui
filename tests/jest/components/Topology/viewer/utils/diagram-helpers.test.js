@@ -707,6 +707,18 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
       value:
         "This subscription has not been placed to any remote cluster. Make sure the Placement Rule resource is valid and exists in the {0} namespace."
     },
+    {
+      type: "link",
+      value: {
+        data: {
+          action: "open_link",
+          targetLink:
+            '/multicloud/search?filters={"textsearch":"kind%3Aplacementrule%20namespace%3Ans%20cluster%3Alocal-cluster"}'
+        },
+        id: "undefined-subscrSearch",
+        label: "View all rules in {0} namespace"
+      }
+    },
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus yellow", () => {

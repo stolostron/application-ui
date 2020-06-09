@@ -7,41 +7,95 @@
 import React from "react";
 // import Tag from "../../../../src-web/components/common/FilterTag";
 // import renderer from "react-test-renderer";
-import { mount } from "enzyme";
-import { Provider } from "react-redux";
+import { mount, shallow } from "enzyme";
+// import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
-import { BrowserRouter } from "react-router-dom";
+// import { BrowserRouter } from "react-router-dom";
 import { REFRESH_TIMES } from "../../../../lib/shared/constants";
 import { reduxStoreAppPipeline } from "../../components/TestingData";
 import RefreshTimeSelect from "../../../../src-web/components/common/RefreshTimeSelect";
+import renderer from "react-test-renderer";
 
 const mockStore = configureMockStore();
 const storeApp = mockStore(reduxStoreAppPipeline);
 
 describe("RefreshTimeSelect component", () => {
-  it("Click and Keydown actions", () => {
-    const refetchIntervalUpdate = jest.fn();
+  const refetchIntervalUpdate = jest.fn();
 
-    const wrapper = mount(
-      <BrowserRouter>
-        <Provider store={storeApp}>
-          <RefreshTimeSelect
-            locale="en"
-            isReloading={false}
-            refetchIntervalUpdate={refetchIntervalUpdate}
-            refreshCookie="test-cookie-refresh"
-            refreshValues={REFRESH_TIMES}
-          />
-        </Provider>
-      </BrowserRouter>
+  it("renders as expected", () => {
+    const component = renderer.create(
+      <RefreshTimeSelect
+        locale="en"
+        isReloading={false}
+        refetchIntervalUpdate={refetchIntervalUpdate}
+        refreshValues={REFRESH_TIMES}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+
+  it("renders as expected - reloading = true", () => {
+    const component = renderer.create(
+      <RefreshTimeSelect
+        locale="en"
+        isReloading={true}
+        refetchIntervalUpdate={refetchIntervalUpdate}
+        refreshValues={REFRESH_TIMES}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+
+  jest.useFakeTimers();
+  it("Click and Keydown actions", () => {
+    const refreshTimeSelect = shallow(
+      <RefreshTimeSelect
+        locale="en"
+        isReloading={false}
+        refetchIntervalUpdate={refetchIntervalUpdate}
+        refreshValues={REFRESH_TIMES}
+      />
     );
 
-    wrapper.find("#refreshButton").simulate("click");
-    wrapper.find("#refreshButton").simulate("keydown", { keyCode: 13 });
+    // manually trigger a props update
+    refreshTimeSelect.setProps({ abc: 123 });
+
+    refreshTimeSelect.find("#refreshButton").simulate("click");
+    refreshTimeSelect.update();
+    // wait 1 second for refresh button to be ready again
+    jest.runOnlyPendingTimers();
+
+    refreshTimeSelect
+      .find("#refreshButton")
+      .simulate("keyPress", { key: "Enter" });
+    refreshTimeSelect.update();
+    // wait 1 second for refresh button to be ready again
+    jest.runOnlyPendingTimers();
 
     // not enter key
-    wrapper.find("#refreshButton").simulate("keydown", { keyCode: 11 });
+    refreshTimeSelect.find("#refreshButton").simulate("keyPress", { key: "x" });
+    refreshTimeSelect.update();
 
-    // wrapper.find("#refreshDropdown").simulate('change',{ selectedItem:  {label: "Refresh every 5m", pollInterval: 300000}} );
+    refreshTimeSelect.find("DropdownV2").simulate("change", {
+      selectedItem: { label: "Refresh every 5m", pollInterval: 300000 }
+    });
+    refreshTimeSelect.update();
+
+    refreshTimeSelect.find("#refreshButton").simulate("click");
+    refreshTimeSelect.update();
+
+    expect(setTimeout).toHaveBeenCalledTimes(3);
+  });
+
+  it("renders as expected - empty refresh values", () => {
+    const component = renderer.create(
+      <RefreshTimeSelect
+        locale="en"
+        isReloading={true}
+        refetchIntervalUpdate={refetchIntervalUpdate}
+        refreshValues={null}
+      />
+    );
+    expect(component.toJSON()).toMatchSnapshot();
   });
 });

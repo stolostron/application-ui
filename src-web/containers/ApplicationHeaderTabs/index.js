@@ -25,11 +25,7 @@ import {
   mutateResourceSuccessFinished
 } from '../../actions/common'
 import { refetchIntervalUpdate } from '../../actions/refetch'
-import {
-  RESOURCE_TYPES,
-  REFRESH_TIMES,
-  TOPOLOGY_REFRESH_INTERVAL_COOKIE
-} from '../../../lib/shared/constants'
+import { RESOURCE_TYPES, REFRESH_TIMES } from '../../../lib/shared/constants'
 
 import RefreshTimeSelect from '../../components/common/RefreshTimeSelect'
 
@@ -159,7 +155,6 @@ const ApplicationHeaderTabs = withLocale(
 
             <RefreshTimeSelect
               refreshValues={REFRESH_TIMES}
-              refreshCookie={TOPOLOGY_REFRESH_INTERVAL_COOKIE}
               refetchIntervalUpdate={refetchIntervalUpdateDispatch}
             />
           </Tabs>

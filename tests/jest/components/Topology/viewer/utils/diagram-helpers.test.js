@@ -599,8 +599,22 @@ describe("createResourceSearchLink for undefined details", () => {
       row: 20
     }
   };
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "",
+        name: undefined,
+        namespace: undefined
+      },
+      id: "id",
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
   it("createResourceSearchLink", () => {
-    expect(createResourceSearchLink(node, undefined)).toEqual(undefined);
+    expect(createResourceSearchLink(node, undefined)).toEqual(result);
   });
 });
 
@@ -610,22 +624,20 @@ describe("createResourceSearchLink for details", () => {
     name: "name",
     namespace: "ns"
   };
-  const result = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "deployment",
-          name: "name",
-          namespace: "ns"
-        },
-        id: undefined,
-        indent: true,
-        label: "Launch resource in Search"
-      }
+  const result = {
+    type: "link",
+    value: {
+      data: {
+        action: "show_search",
+        kind: "deployment",
+        name: "name",
+        namespace: "ns"
+      },
+      id: undefined,
+      indent: true,
+      label: "Launch resource in Search"
     }
-  ];
+  };
   it("createResourceSearchLink", () => {
     expect(createResourceSearchLink(node, [])).toEqual(result);
   });
@@ -651,7 +663,9 @@ describe("setSubscriptionDeployStatus with error", () => {
     }
   };
   const response = [
+    { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
     { labelValue: "local", status: "failure", value: "Failed" },
     {
       indent: true,
@@ -665,6 +679,7 @@ describe("setSubscriptionDeployStatus with error", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { type: "spacer" }
   ];
   it("setSubscriptionDeployStatus with error", () => {
@@ -687,7 +702,9 @@ describe("setSubscriptionDeployStatus for details yellow", () => {
     }
   };
   const response = [
+    { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
     { labelValue: "local", status: "checkmark", value: "Propagated" },
     {
       indent: true,
@@ -2026,8 +2043,10 @@ describe("setPodDeployStatus  with pod less then desired", () => {
     }
   };
   const result = [
+    { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
     { labelValue: "possiblereptile", status: "failure", value: "1/3" },
+    { type: "spacer" },
     { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
@@ -2143,8 +2162,10 @@ describe("setPodDeployStatus  with pod as desired", () => {
     }
   };
   const result = [
+    { type: "spacer" },
     { labelKey: "resource.deploy.pods.statuses", type: "label" },
     { labelValue: "possiblereptile", status: "checkmark", value: "3/3" },
+    { type: "spacer" },
     { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
@@ -2213,6 +2234,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
       value: "-"
     },
     { type: "spacer" },
+    { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
       indent: true,
@@ -2279,6 +2301,7 @@ describe("setPodDeployStatus  with pod as desired", () => {
       type: "label",
       value: "-"
     },
+    { type: "spacer" },
     { type: "spacer" },
     { labelKey: "resource.container.logs", type: "label" },
     {
@@ -2561,6 +2584,7 @@ describe("addNodeOCPRouteLocationForCluster", () => {
   };
 
   const result = [
+    { type: "spacer" },
     { labelKey: "raw.spec.host.location", type: "label" },
     {
       indent: true,

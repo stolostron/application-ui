@@ -5,18 +5,23 @@
   "screenshotsFolder" : "tests/cypress/screenshots",
   "supportFile": "tests/cypress/support/index.js",
   "videosFolder": "tests/cypress/videos",
-  "baseUrl": "https://multicloud-console.apps.ocp443-aws.dev01.red-chesterfield.com",
+  "baseUrl": "https://localhost:3000",
   "nodeVersion": "system",
   "env": {
-    "OC_IDP": "ocp",
-    "OC_CLUSTER_USER": "ocpadmin",
-	"OC_CLUSTER_PASS": "Test4ACM"
+    "OC_IDP": "kube:admin",
+    "OC_CLUSTER_USER": "kubeadmin"
   },
-  "reporter": "mochawesome",
+  "reporter": "cypress-multi-reporters",
   "reporterOptions": {
-    "reportDir": "tests/test-output/cypress",
-    "overwrite": false,
-    "html": false,
-    "json": true
+    "reporterEnabled": "mochawesome, mocha-junit-reporter",
+    "mochawesomeReporterOptions": {
+      "reportDir": "tests/test-output/cypress/json",
+      "overwrite": false,
+      "html": false,
+      "json": true
+    },
+    "mochaJunitReporterReporterOptions": {
+      "mochaFile": "tests/test-output/cypress/xml/cypress-[hash].xml"
+    }
   }
 }

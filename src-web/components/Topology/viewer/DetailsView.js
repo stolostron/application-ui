@@ -205,9 +205,9 @@ class DetailsView extends React.Component {
       value
     ) //if not show yaml
 
-    let iconName = 'icon--arrow--right'
+    let iconName = 'arrowRight'
     if (_.get(value, 'label', '').startsWith('http')) {
-      iconName = 'icon--launch'
+      iconName = 'carbonLaunch'
     }
     const mainSectionClasses = classNames({
       sectionContent: true,
@@ -231,12 +231,9 @@ class DetailsView extends React.Component {
         >
           {value.label}
           {showLaunchOutIcon && (
-            <Icon
-              name={iconName}
-              fill="#6089bf"
-              description=""
-              className="label-icon"
-            />
+            <svg width="11px" height="8px" style={{ marginLeft: '9px' }}>
+              <use href={`#diagramIcons_${iconName}`} className="label-icon" />
+            </svg>
           )}
         </span>
       </div>

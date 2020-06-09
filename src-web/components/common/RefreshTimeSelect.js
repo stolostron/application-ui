@@ -17,22 +17,20 @@ import '../../../scss/refresh-time-select.scss'
 import msgs from '../../../nls/platform.properties'
 import config from '../../../lib/shared/config'
 
-// get the cookie name from constants
-
-import { ACM_REFRESH_INTERVAL_COOKIE } from '../../../lib/shared/constants'
-
 export default class RefreshTimeSelect extends React.Component {
   static propTypes = {
     isReloading: PropTypes.bool,
     locale: PropTypes.string,
     refetchIntervalUpdate: PropTypes.func,
+    refreshCookie: PropTypes.string,
     refreshValues: PropTypes.array
   };
 
   constructor(props) {
     super(props)
-    const { refetchIntervalUpdate } = props
-    const pollInterval = getPollInterval()
+    const { refreshCookie, refetchIntervalUpdate } = props
+
+    const pollInterval = getPollInterval(refreshCookie)
 
     this.state = {
       pollInterval,
@@ -44,37 +42,38 @@ export default class RefreshTimeSelect extends React.Component {
   }
 
   componentWillMount() {
-    const { refreshValues, locale } = this.props
-    if (refreshValues && refreshValues.length > 0) {
-      this.autoRefreshChoices = refreshValues.map(pollInterval => {
-        let label
-        if (pollInterval >= 60) {
-          label = msgs.get(
-            'refresh.interval.minutes',
-            [pollInterval / 60],
-            locale
-          )
-        } else if (pollInterval !== 0) {
-          label = msgs.get('refresh.interval.seconds', [pollInterval], locale)
-        } else {
-          label = msgs.get('refresh.interval.never', locale)
-        }
-        pollInterval *= 1000
-        return { label, pollInterval }
-      })
-    }
+    const { refreshValues = [], locale } = this.props
+    this.autoRefreshChoices = refreshValues.map(pollInterval => {
+      // console.log("in componentWillMount autoRefreshChoices")
+      let label
+      if (pollInterval >= 60) {
+        label = msgs.get(
+          'refresh.interval.minutes',
+          [pollInterval / 60],
+          locale
+        )
+      } else if (pollInterval !== 0) {
+        label = msgs.get('refresh.interval.seconds', [pollInterval], locale)
+      } else {
+        label = msgs.get('refresh.interval.never', locale)
+      }
+      pollInterval *= 1000
+      return { label, pollInterval }
+    })
   }
 
   handleClick = () => {
+    const { refreshCookie } = this.props
     const { refetchIntervalUpdate } = this.state
-    const pollInterval = getPollInterval()
+    const pollInterval = getPollInterval(refreshCookie)
 
     this.doRefetchAction(refetchIntervalUpdate, pollInterval)
   };
 
   handleKeyPress = e => {
+    const { refreshCookie } = this.props
     const { refetchIntervalUpdate } = this.state
-    const pollInterval = getPollInterval()
+    const pollInterval = getPollInterval(refreshCookie)
 
     if (e.key === 'Enter') {
       this.doRefetchAction(refetchIntervalUpdate, pollInterval)
@@ -99,27 +98,25 @@ export default class RefreshTimeSelect extends React.Component {
 
   handleChange = e => {
     const { selectedItem: { pollInterval } } = e
+    const { refreshCookie } = this.props
     const { refetchIntervalUpdate } = this.state
     // save interval to cookie
-    savePollInterval(pollInterval)
+    savePollInterval(refreshCookie, pollInterval)
     // update state with the new poll interval and trigger refetch
     refetchIntervalUpdate({ doRefetch: false, interval: pollInterval })
   };
 
   componentWillReceiveProps() {
-    this.setState(() => {
-      return { doRefetch: false, interval: getPollInterval() }
+    this.setState((prevState, props) => {
+      const { refreshCookie } = props
+      return { doRefetch: false, interval: getPollInterval(refreshCookie) }
     })
   }
 
   render() {
     const { locale } = this.props
     const { pollInterval } = this.state
-    if (
-      pollInterval !== undefined &&
-      this.autoRefreshChoices &&
-      this.autoRefreshChoices.length > 0
-    ) {
+    if (pollInterval !== undefined) {
       const refresh = msgs.get('refresh', locale)
       const { isReloading } = this.props
       const label = msgs.get('refresh.choose', locale)
@@ -168,27 +165,26 @@ export default class RefreshTimeSelect extends React.Component {
   }
 }
 
-export const getPollInterval = () => {
+export const getPollInterval = cookieKey => {
   let pollInterval = config['featureFlags:liveUpdatesPollInterval'] || 0
-  const savedInterval = localStorage.getItem(ACM_REFRESH_INTERVAL_COOKIE)
-  if (savedInterval) {
-    try {
-      const saved = JSON.parse(savedInterval)
-      if (saved.pollInterval !== undefined) {
-        pollInterval = saved.pollInterval
+  if (cookieKey) {
+    const savedInterval = localStorage.getItem(cookieKey)
+    if (savedInterval) {
+      try {
+        const saved = JSON.parse(savedInterval)
+        if (saved.pollInterval !== undefined) {
+          pollInterval = saved.pollInterval
+        }
+      } catch (e) {
+        //
       }
-    } catch (e) {
-      //
+    } else {
+      savePollInterval(cookieKey, pollInterval)
     }
-  } else {
-    savePollInterval(pollInterval)
   }
   return pollInterval
 }
 
-export const savePollInterval = pollInterval => {
-  localStorage.setItem(
-    ACM_REFRESH_INTERVAL_COOKIE,
-    JSON.stringify({ pollInterval })
-  )
+export const savePollInterval = (cookieKey, pollInterval) => {
+  localStorage.setItem(cookieKey, JSON.stringify({ pollInterval }))
 }

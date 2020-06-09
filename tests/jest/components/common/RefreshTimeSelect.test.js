@@ -5,12 +5,8 @@
 "use strict";
 
 import React from "react";
-// import Tag from "../../../../src-web/components/common/FilterTag";
-// import renderer from "react-test-renderer";
 import { mount, shallow } from "enzyme";
-// import { Provider } from "react-redux";
 import configureMockStore from "redux-mock-store";
-// import { BrowserRouter } from "react-router-dom";
 import { REFRESH_TIMES } from "../../../../lib/shared/constants";
 import { reduxStoreAppPipeline } from "../../components/TestingData";
 import RefreshTimeSelect from "../../../../src-web/components/common/RefreshTimeSelect";

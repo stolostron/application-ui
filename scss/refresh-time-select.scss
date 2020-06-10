@@ -12,9 +12,10 @@
 .refresh-time-selection {
   display: flex;
   align-items: center;
-  padding-right: 10px;
   position: absolute;
+  top: -50px;
   right: 0;
+  width: 180px;
 
   > div {
     outline: none;
@@ -77,5 +78,10 @@
       height: 1.4rem;
     }
   }
+}
+// special logic for the case with a secondary header 
+.hasBreadcrumbs {
+  position: absolute;
+  top: -112px;
 }
 

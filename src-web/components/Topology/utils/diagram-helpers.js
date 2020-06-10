@@ -491,11 +491,20 @@ export const createDeployableYamlLink = (node, details) => {
   return details
 }
 
-export const createResourceSearchLink = (node, details) => {
+export const createResourceSearchLink = node => {
+  let result = {
+    type: 'link',
+    value: null
+  }
+
+  if (_.get(node, 'type', '') === 'cluster') {
+    return result
+  }
+
   //returns search link for resource
-  if (details && node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
+  if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
     //pulse orange means not deployed on any cluster so don't show link to search page
-    details.push({
+    result = {
       type: 'link',
       value: {
         label: msgs.get('props.show.search.view'),
@@ -511,10 +520,9 @@ export const createResourceSearchLink = (node, details) => {
         },
         indent: true
       }
-    })
+    }
   }
-
-  return details
+  return result
 }
 
 export const computeResourceName = (
@@ -645,11 +653,17 @@ export const setResourceDeployStatus = (node, details) => {
   const resourceMap = _.get(node, `specs.${node.type}Model`, {})
 
   details.push({
+    type: 'spacer'
+  })
+  details.push({
     type: 'label',
     labelKey: 'resource.deploy.statuses'
   })
 
   clusterNames.forEach(clusterName => {
+    details.push({
+      type: 'spacer'
+    })
     clusterName = R.trim(clusterName)
     const res = resourceMap[`${resourceName}-${clusterName}`]
     const deployedKey = res ? deployedStr : notDeployedStr
@@ -695,6 +709,9 @@ export const setPodDeployStatus = (node, details) => {
   }
 
   details.push({
+    type: 'spacer'
+  })
+  details.push({
     type: 'label',
     labelKey: 'resource.deploy.pods.statuses'
   })
@@ -726,6 +743,10 @@ export const setPodDeployStatus = (node, details) => {
     const { status, restarts, hostIP, podIP, startedAt, cluster } = pod
     const podError = R.contains(pod.status, podErrorStates)
     const podWarning = R.contains(pod.status, podWarningStates)
+
+    details.push({
+      type: 'spacer'
+    })
 
     details.push({
       type: 'label',
@@ -801,12 +822,18 @@ export const setSubscriptionDeployStatus = (node, details) => {
     return details
   }
   details.push({
+    type: 'spacer'
+  })
+  details.push({
     type: 'label',
     labelKey: 'resource.deploy.statuses'
   })
 
   const resourceMap = _.get(node, 'specs.subscriptionModel', {})
   Object.values(resourceMap).forEach(subscription => {
+    details.push({
+      type: 'spacer'
+    })
     if (!subscription._hubClusterResource) {
       details.push({
         labelValue: subscription.cluster,
@@ -944,6 +971,10 @@ export const addNodeOCPRouteLocationForCluster = (
     if (!hostName) {
       return details //return since there is no global host
     }
+
+    details.push({
+      type: 'spacer'
+    })
 
     details.push({
       type: 'label',

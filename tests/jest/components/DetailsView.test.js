@@ -705,6 +705,8 @@ const mockData = {
   processActionLink: jest.fn()
 };
 
+const clusterSelectedNodeId = "member--clusters--localcluster";
+
 class MockViewContainer2 {
   getBoundingClientRect() {
     return { height: 667 };
@@ -722,7 +724,7 @@ describe("DetailsView 1 pod details", () => {
         onClose={mockData.handleClose}
         staticResourceData={mockData.staticResourceData}
         getLayoutNodes={mockLayoutNodes}
-        selectedNodeId={mockData.selectedNodeId}
+        selectedNodeId={clusterSelectedNodeId}
         getViewContainer={viewContainer2}
         processActionLink={mockData.processActionLink}
       />

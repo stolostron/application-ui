@@ -59,24 +59,10 @@ describe("getNodeDetails no clusters or violation", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "cluster",
-          name: "c2",
-          namespace: ""
-        },
-        id: "member--clusters--c1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" }
+    { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" }
   ];
-
   it("should process the node, no clusters or violation", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
   });
@@ -122,22 +108,9 @@ describe("getNodeDetails application node", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "application",
-          name: "nginx-app-3",
-          namespace: "ns-sub-1"
-        },
-        id: "application--nginx-app-3",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
       labelKey: "resource.type",
@@ -266,84 +239,71 @@ describe("getNodeDetails cluster node", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "cluster",
-          name: "feng",
-          namespace: ""
-        },
-        id: "member--clusters--feng",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.pods",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: []
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: []
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "80%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "75%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "80%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "-"
     },
     { labelKey: "resource.violations", type: "label" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: { name: "Violation1" }
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: { name: "Violation2" }
     },
@@ -457,150 +417,137 @@ describe("getNodeDetails clusters node", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "cluster",
-          name: "braveman",
-          namespace: ""
-        },
-        id: "member--clusters--braveman",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.pods",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: []
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: []
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "80%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "76800%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "85899345920%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "-"
     },
     { labelKey: "resource.violations", type: "label" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: { name: "Violation1" }
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: { name: "Violation2" }
     },
     { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.pods",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: []
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.nodes",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: []
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.cpu",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "80%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.memory",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "76800%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.storage",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "85899345920%"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "-"
     },
     { labelKey: "resource.violations", type: "label" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: { name: "Violation1" }
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: { name: "Violation2" }
     },
@@ -633,22 +580,9 @@ describe("getNodeDetails placement node", () => {
   };
 
   const expectedValue = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "placement",
-          name: "mortgage-placement",
-          namespace: undefined
-        },
-        id: "placement1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     { labelKey: "resource.placement", type: "label" },
     { type: "snippet", value: { name: "placement1" } },
     { type: "snippet", value: { name: "placement2" } }
@@ -831,23 +765,9 @@ describe("getNodeDetails deployment node", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "deployment",
-          name: "mortgage-app-deploy",
-          namespace: ""
-        },
-        id:
-          "member--member--deployable--member--clusters--feng, cluster1, cluster2--default--mortgage-app-deployable--deployment--mortgage-app-deploy",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
       labelKey: "resource.type",
@@ -881,7 +801,9 @@ describe("getNodeDetails deployment node", () => {
       value: "app=mortgage-app-mortgage"
     },
     { type: "spacer" },
+    { type: "spacer" },
     { labelKey: "resource.deploy.statuses", type: "label" },
+    { type: "spacer" },
     { labelValue: "feng", status: "checkmark", value: "Deployed" },
     {
       indent: true,
@@ -895,6 +817,7 @@ describe("getNodeDetails deployment node", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { labelValue: "cluster1", status: "checkmark", value: "Deployed" },
     {
       indent: true,
@@ -908,6 +831,7 @@ describe("getNodeDetails deployment node", () => {
         label: "View Resource YAML"
       }
     },
+    { type: "spacer" },
     { labelValue: "cluster2", status: "failure", value: "Not Deployed" },
     { type: "spacer" },
     { labelKey: "resource.status", type: "label", value: "Subscribed" },
@@ -950,43 +874,30 @@ describe("getNodeDetails helm node", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "helmrelease",
-          name: "mortgage-helmrelease",
-          namespace: undefined
-        },
-        id: "helmrelease1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.name",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "mortgage-chart"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.url",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "https://mortgage-chart"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.version",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "1.0.0"
     }
@@ -1026,35 +937,22 @@ describe("getNodeDetails helm node", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "package",
-          name: "mortgage-helmrelease",
-          namespace: undefined
-        },
-        id: "helmrelease1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.name",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "mortgage-app-deploy"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.message",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value:
         "There is not enough information in the subscription to retrive deployed objects data."
@@ -1109,135 +1007,122 @@ describe("getNodeDetails helm node 2", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "policy",
-          name: "mortgage-helmrelease",
-          namespace: undefined
-        },
-        id: "helmrelease1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.name",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "policy1"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.namespace",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "default"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.created",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "a few seconds ago"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.remediation",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "Fix security issue"
     },
     { labelKey: "resource.categories", type: "label" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "1"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "2"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "3"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "4"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "5"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.controls",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "1,2,3,4,5"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.standards",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "1,2,3,4,5"
     },
     { labelKey: "resource.object.templates", type: "label" },
     {
       indent: true,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "kind1"
     },
     { labelKey: "resource.role.templates", type: "label" },
     {
       indent: true,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "kind2"
     },
     { labelKey: "resource.policy.templates", type: "label" },
     {
       indent: true,
-      status: undefined,
       labelKey: undefined,
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "kind3"
     }
@@ -1276,58 +1161,45 @@ describe("getNodeDetails placement rules node with error", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "placementrule",
-          name: "mortgage-rule",
-          namespace: undefined
-        },
-        id: "rule1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "resource.type",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "rules"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "raw.spec.metadata.label",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "app=mortgage-app-mortgage"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "raw.spec.clusterSelector",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: "environment=Dev"
     },
     {
       indent: undefined,
-      status: undefined,
       labelKey: "raw.status.decisionCls",
       labelValue: undefined,
+      status: undefined,
       type: "label",
       value: 0
     },
     { type: "spacer" },
     {
-      status: "failure",
       labelValue: "Error",
+      status: "failure",
       value:
         "This Placement Rule does not match any remote clusters. Make sure the clusterSelector property is valid and matches your clusters."
     }
@@ -1368,22 +1240,9 @@ describe("getNodeDetails placement rules node with success", () => {
   };
 
   const expectedResult = [
-    {
-      type: "link",
-      value: {
-        data: {
-          action: "show_search",
-          kind: "placementrule",
-          name: "mortgage-rule",
-          namespace: undefined
-        },
-        id: "rule1",
-        indent: true,
-        label: "Launch resource in Search"
-      }
-    },
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
+    { type: "spacer" },
     {
       indent: undefined,
       labelKey: "resource.type",

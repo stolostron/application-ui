@@ -72,7 +72,7 @@ export default class ZoomHelper {
             this.viewer.viewerContainerContainerRef.classList.add('scrolled')
             this.viewer.viewerContainerRef.setAttribute(
               'style',
-              `height: ${height * scale + 60}px;`
+              `height: ${availableHeight}px;`
             )
           } else {
             this.viewer.viewerContainerContainerRef.classList.remove(

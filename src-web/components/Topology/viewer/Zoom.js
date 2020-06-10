@@ -15,79 +15,101 @@ import '../scss/diagram-controls.scss'
 import msgs from '../../../../nls/platform.properties'
 
 const MAX_ZOOM = 2
-const MIN_ZOOM = .1
+const MIN_ZOOM = 0.1
 
 export default class Zoom extends React.PureComponent {
-
-  setZoomInRef = ref => {this.zoomInRef = ref}
-  setZoomOutRef = ref => {this.zoomOutRef = ref}
+  setZoomInRef = ref => {
+    this.zoomInRef = ref
+  };
+  setZoomOutRef = ref => {
+    this.zoomOutRef = ref
+  };
 
   render() {
-    const {locale} = this.props
+    const { locale } = this.props
     const zoomIn = msgs.get('topology.zoom.in', locale)
     const zoomOut = msgs.get('topology.zoom.out', locale)
     const zoomFit = msgs.get('topology.zoom.fit', locale)
     return (
-      <div className='diagram-controls'>
-        <div className='zoom-buttons'>
-          {/* zoom target */}
-          <div className='zoom-target-button' tabIndex='0' role={'button'}
-            title={zoomFit} aria-label={zoomFit}
-            onClick={this.handleZoomToTarget} onKeyPress={this.handleZoomToTarget}>
-            <svg className='icon'>
-              <use href={'#diagramIcons_zoomTarget'} ></use>
-            </svg>
-          </div>
-          {/* zoom in */}
-          <div className='zoom-in-button' tabIndex='0' role={'button'} ref={this.setZoomInRef}
-            title={zoomIn} aria-label={zoomIn}
-            onClick={this.handleZoomIn} onKeyPress={this.handleZoomIn}>
-            <svg className='icon'>
-              <use href={'#diagramIcons_zoomIn'} ></use>
-            </svg>
-          </div>
-          {/* zoom out */}
-          <div className='zoom-out-button' tabIndex='0' role={'button'} ref={this.setZoomOutRef}
-            title={zoomOut} aria-label={zoomOut}
-            onClick={this.handleZoomOut} onKeyPress={this.handleZoomOut}>
-            <svg className='icon'>
-              <use href={'#diagramIcons_zoomOut'} ></use>
-            </svg>
-          </div>
+      <div className="diagram-controls">
+        {/* zoom in */}
+        <div
+          className="zoom-in-button rectangle-zoom"
+          tabIndex="0"
+          role={'button'}
+          ref={this.setZoomInRef}
+          title={zoomIn}
+          aria-label={zoomIn}
+          onClick={this.handleZoomIn}
+          onKeyPress={this.handleZoomIn}
+        >
+          <svg className="icon">
+            <use href={'#diagramIcons_zoomIn'} />
+          </svg>
         </div>
-      </div>)
+        {/* zoom out */}
+        <div
+          className="zoom-out-button rectangle-zoom"
+          tabIndex="0"
+          role={'button'}
+          ref={this.setZoomOutRef}
+          title={zoomOut}
+          aria-label={zoomOut}
+          onClick={this.handleZoomOut}
+          onKeyPress={this.handleZoomOut}
+        >
+          <svg className="icon">
+            <use href={'#diagramIcons_zoomOut'} />
+          </svg>
+        </div>
+        {/* zoom target */}
+        <div
+          className="zoom-target-button rectangle-zoom"
+          tabIndex="0"
+          role={'button'}
+          title={zoomFit}
+          aria-label={zoomFit}
+          onClick={this.handleZoomToTarget}
+          onKeyPress={this.handleZoomToTarget}
+        >
+          <svg className="icon_target">
+            <use href={'#diagramIcons_zoomTarget'} />
+          </svg>
+        </div>
+      </div>
+    )
   }
 
-  handleZoomIn = (e) => {
-    if ( e.type==='click' || e.key === 'Enter') {
+  handleZoomIn = e => {
+    if (e.type === 'click' || e.key === 'Enter') {
       this.props.getZoomHelper().buttonZoom(1.3, this.updateZoomButtons)
     }
-  }
+  };
 
-  handleZoomOut = (e) => {
-    if ( e.type==='click' || e.key === 'Enter') {
+  handleZoomOut = e => {
+    if (e.type === 'click' || e.key === 'Enter') {
       this.props.getZoomHelper().buttonZoom(1 / 1.3, this.updateZoomButtons)
     }
-  }
+  };
 
-  handleZoomToTarget = (e) => {
-    if ( e.type==='click' || e.key === 'Enter') {
-      const {getViewContainer, getZoomHelper} = this.props
+  handleZoomToTarget = e => {
+    if (e.type === 'click' || e.key === 'Enter') {
+      const { getViewContainer, getZoomHelper } = this.props
       getViewContainer().scrollTo(0, 0)
       getZoomHelper().zoomFit(true, false, this.updateZoomButtons)
     }
-  }
+  };
 
-  updateZoomButtons = (zoom) => {
-    this.zoomInRef.disabled = zoom.k>=MAX_ZOOM
-    this.zoomInRef.classList.toggle('disabled', zoom.k>=MAX_ZOOM)
-    this.zoomOutRef.disabled = zoom.k<=MIN_ZOOM
-    this.zoomOutRef.classList.toggle('disabled', zoom.k<=MIN_ZOOM)
-  }
+  updateZoomButtons = zoom => {
+    this.zoomInRef.disabled = zoom.k >= MAX_ZOOM
+    this.zoomInRef.classList.toggle('disabled', zoom.k >= MAX_ZOOM)
+    this.zoomOutRef.disabled = zoom.k <= MIN_ZOOM
+    this.zoomOutRef.classList.toggle('disabled', zoom.k <= MIN_ZOOM)
+  };
 }
 
 Zoom.propTypes = {
   getViewContainer: PropTypes.func,
   getZoomHelper: PropTypes.func,
-  locale: PropTypes.string,
+  locale: PropTypes.string
 }

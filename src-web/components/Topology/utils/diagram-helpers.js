@@ -496,6 +496,11 @@ export const createResourceSearchLink = node => {
     type: 'link',
     value: null
   }
+
+  if (_.get(node, 'type', '') === 'cluster') {
+    return result
+  }
+
   //returns search link for resource
   if (node && R.pathOr('', ['specs', 'pulse'])(node) !== 'orange') {
     //pulse orange means not deployed on any cluster so don't show link to search page

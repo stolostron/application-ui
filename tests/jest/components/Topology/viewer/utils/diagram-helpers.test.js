@@ -596,24 +596,23 @@ describe("createResourceSearchLink for undefined details", () => {
   const node = {
     id: "id",
     specs: {
-      row: 20
+      row: 20,
+      pulse: "orange"
     }
   };
-  const result = {
-    type: "link",
-    value: {
-      data: {
-        action: "show_search",
-        kind: "",
-        name: undefined,
-        namespace: undefined
-      },
-      id: "id",
-      indent: true,
-      label: "Launch resource in Search"
-    }
-  };
+  const result = { type: "link", value: null };
   it("createResourceSearchLink", () => {
+    expect(createResourceSearchLink(node, undefined)).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for cluster node", () => {
+  const node = {
+    id: "id",
+    type: "cluster"
+  };
+  const result = { type: "link", value: null };
+  it("createResourceSearchLink for cluster node", () => {
     expect(createResourceSearchLink(node, undefined)).toEqual(result);
   });
 });

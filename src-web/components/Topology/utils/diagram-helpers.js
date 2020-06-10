@@ -28,6 +28,7 @@ const specLocation = 'raw.spec.host.location'
 const podErrorStates = [
   'CrashLoopBackOff',
   'ImageLoopBackOff',
+  'ErrImagePull',
   'Error',
   'InvalidImageName',
   'OOMKilled'
@@ -721,6 +722,7 @@ export const setPodDeployStatus = (node, details) => {
 
   const podModel = _.get(node, 'specs.podModel', {})
   const podStatusModel = _.get(node, 'podStatusMap', {})
+  const podDataPerCluster = {} //pod details list for each cluster name
 
   const clusterNames = R.split(',', getClusterName(node.id))
   clusterNames.forEach(clusterName => {
@@ -736,6 +738,8 @@ export const setPodDeployStatus = (node, details) => {
       value: valueStr,
       status: statusStr
     })
+
+    podDataPerCluster[clusterName] = []
   })
 
   details.push({
@@ -747,74 +751,74 @@ export const setPodDeployStatus = (node, details) => {
     const podError = R.contains(pod.status, podErrorStates)
     const podWarning = R.contains(pod.status, podWarningStates)
 
-    details.push({
-      type: 'spacer'
-    })
+    const clusterDetails = podDataPerCluster[cluster]
+    if (clusterDetails) {
+      const statusStr = podError
+        ? 'failure'
+        : podWarning ? 'warning' : 'checkmark'
 
-    details.push({
-      type: 'label',
-      labelKey: 'resource.container.logs'
-    })
-
-    const statusStr = podError
-      ? 'failure'
-      : podWarning ? 'warning' : 'checkmark'
-
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get('props.show.log'),
-        data: {
-          action: 'show_pod_log',
-          name: pod.name,
-          namespace: pod.namespace,
-          cluster: pod.cluster
+      addDetails(clusterDetails, [
+        {
+          labelKey: 'resource.pod',
+          value: pod.name
+        },
+        {
+          labelKey: 'resource.status',
+          value: status,
+          status: statusStr
         }
-      },
-      indent: true
-    })
-    details.push({
-      type: 'link',
-      value: {
-        label: msgs.get(specsPropsYaml),
-        data: {
-          action: showResourceYaml,
-          cluster: pod.cluster,
-          selfLink: pod.selfLink
+      ])
+      clusterDetails.push({
+        type: 'link',
+        value: {
+          label: msgs.get('props.show.log'),
+          data: {
+            action: showResourceYaml,
+            cluster: pod.cluster,
+            selfLink: pod.selfLink
+          }
+        },
+        indent: true
+      })
+      addDetails(clusterDetails, [
+        {
+          labelKey: 'resource.restarts',
+          value: `${restarts}`
+        },
+        {
+          labelKey: 'resource.hostip',
+          value: `${hostIP}, ${podIP}`
+        },
+        {
+          labelKey: 'resource.created',
+          value: getAge(startedAt)
         }
-      },
-      indent: true
-    })
-    addDetails(details, [
-      {
-        labelKey: 'resource.clustername',
-        value: cluster
-      },
-      {
-        labelKey: 'resource.pod',
-        value: pod.name
-      },
-      {
-        labelKey: 'resource.status',
-        value: status,
-        status: statusStr
-      },
-      {
-        labelKey: 'resource.restarts',
-        value: `${restarts}`
-      },
-      {
-        labelKey: 'resource.hostip',
-        value: `${hostIP}, ${podIP}`
-      },
-      {
-        labelKey: 'resource.created',
-        value: getAge(startedAt)
-      }
-    ])
-    details.push({
-      type: 'spacer'
-    })
+      ])
+      clusterDetails.push({
+        type: 'spacer'
+      })
+    }
+  })
+
+  clusterNames.forEach(clusterName => {
+    clusterName = R.trim(clusterName)
+
+    const clusterDetails = podDataPerCluster[clusterName]
+
+    if (clusterDetails && clusterDetails.length > 0) {
+      details.push({
+        type: 'spacer'
+      })
+
+      details.push({
+        type: 'label',
+        labelValue: msgs.get('resource.container.logs', [clusterName])
+      })
+
+      clusterDetails.forEach(podDetail => {
+        details.push(podDetail)
+      })
+    }
   })
 
   return details

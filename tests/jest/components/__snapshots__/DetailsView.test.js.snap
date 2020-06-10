@@ -110,7 +110,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
         <span
           className="label"
         >
-          Pod Details
+          Pod details for {0}
            
         </span>
         <span

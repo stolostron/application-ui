@@ -35,11 +35,11 @@ const TypeFilters = {
   },
   application: {
     filterTypes: {
-      hostIPs: 'hostIPs',
-      namespaces: 'namespaces',
-      labels: 'labels',
       resourceStatuses: 'resourceStatuses',
-      clusterNames: 'clusterNames'
+      clusterNames: 'clusterNames',
+      namespaces: 'namespaces',
+      hostIPs: 'hostIPs',
+      labels: 'labels'
     },
     searchTypes: new Set(['podStatuses', 'labels'])
   },
@@ -607,10 +607,20 @@ const filterRelationshipNodes = (
   const includeOther = activeTypeSet.has('other')
   const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
   const alabels = [...labels]
-  return nodes.filter(node => {
+  const parentList = new Set()
+  const includedNodes = new Set()
+  const filteredNodes = nodes.filter(node => {
     const { type: nodeType, namespace, id, name } = node
     let nlabels = node.labels || []
 
+    if (
+      nodeType === 'application' ||
+      nodeType === 'subscription' ||
+      nodeType === 'rules' ||
+      nodeType === 'cluster'
+    ) {
+      return true
+    }
     // include type if a direct match
     // or if 'other' type is selected and this isn't an ignored type
     let hasType = activeTypeSet.has(nodeType)
@@ -675,15 +685,35 @@ const filterRelationshipNodes = (
       hasClustername = clusterNames.has(clusterName)
     }
 
-    return (
+    const result =
       hasType &&
       hasNamespace &&
       hasHostIps &&
       hasLabel &&
       hasResourceStatus &&
       hasClustername
-    )
+
+    const nodeParent = _.get(node, 'specs.parent')
+
+    if (result) {
+      includedNodes.add(id)
+      if (nodeParent && !includedNodes.has(nodeParent.parentId)) {
+        parentList.add(nodeParent.parentId)
+      }
+    }
+
+    return result
   })
+
+  if (parentList.size > 0) {
+    nodes.forEach(node => {
+      const { id } = node
+      if (parentList.has(id)) {
+        filteredNodes.push(node)
+      }
+    })
+  }
+  return filteredNodes
 }
 
 const filterPolicyNodes = (nodes, activeFilters) => {

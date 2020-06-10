@@ -237,10 +237,6 @@ describe("getAllFilters", () => {
         availableSet: new Set(),
         name: "Cluster name"
       },
-      labels: {
-        availableSet: new Set(),
-        name: "Labels"
-      },
       namespaces: {
         availableSet: new Set(["<none>", "ns-sub-1"]),
         name: "Namespaces"
@@ -319,10 +315,6 @@ describe("getAvailableFilters cluster", () => {
 describe("getAvailableFilters weave", () => {
   it("should get available filters", () => {
     const expectedResult = {
-      labels: {
-        availableSet: new Set(),
-        name: "Labels"
-      },
       namespaces: {
         availableSet: new Set(["<none>", "ns-sub-1"]),
         name: "Namespaces"
@@ -372,10 +364,6 @@ describe("getAvailableFilters application", () => {
         "possiblereptile, braveman, relievedox, sharingpenguin"
       ]),
       name: "Cluster name"
-    },
-    labels: {
-      availableSet: set1,
-      name: "Labels"
     },
     namespaces: {
       availableSet: new Set(["<none>"]),

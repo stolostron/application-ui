@@ -25,6 +25,7 @@ import jsYaml from 'js-yaml'
 import '../../../../graphics/diagramShapes.svg'
 import '../../../../graphics/diagramIcons.svg'
 import msgs from '../../../../nls/platform.properties'
+import { createResourceSearchLink } from '../utils/diagram-helpers'
 
 const DetailsViewDecorator = ({ shape, className }) => {
   return (
@@ -80,9 +81,10 @@ class DetailsView extends React.Component {
     const { shape = 'other', className = 'default' } =
       typeToShapeMap[resourceType] || {}
     const details = getNodeDetails(currentNode, locale)
-    const name = currentNode.name
+    const name = currentNode.type === 'cluster' ? '' : currentNode.name
     const height = getViewContainer().getBoundingClientRect().height
     const scrollHeight = height * 0.75
+    const searchLink = createResourceSearchLink(currentNode)
     return (
       <section className="topologyDetails">
         <div className="detailsHeader">
@@ -94,6 +96,7 @@ class DetailsView extends React.Component {
             <div className="sectionContent">
               <span className="titleNameText">{name}</span>
             </div>
+            <div className="openSearchLink">{this.renderLink(searchLink)}</div>
           </div>
           <Icon
             className="closeIcon"
@@ -156,6 +159,11 @@ class DetailsView extends React.Component {
       label: true,
       sectionLabel: value ? true : false
     })
+    const valueClass = classNames({
+      value: true,
+      ksLabelBackground:
+        label && label === `${msgs.get('resource.labels')}:` ? true : false
+    })
     const statusIcon = status ? status : undefined
     const iconFill = statusIcon ? fillMap.get(statusIcon) : '#FFFFFF'
     return (
@@ -173,13 +181,13 @@ class DetailsView extends React.Component {
                 className="label-icon"
               />
             </svg>
-            {label}
+            <span>{label} </span>
           </span>
         ) : (
           <span className={labelClass}>{label} </span>
         )}
         {indent && <span className="indent" />}
-        <span className="value">{value}</span>
+        <span className={valueClass}>{value}</span>
       </div>
     )
   }
@@ -199,6 +207,9 @@ class DetailsView extends React.Component {
   }
 
   renderLink({ value, indent }) {
+    if (!value) {
+      return <div />
+    }
     const handleClick = this.handleClick.bind(this, value)
     const handleKeyPress = this.handleKeyPress.bind(this, value)
     const showLaunchOutIcon = !R.pathOr(false, ['data', 'specs', 'isDesign'])(

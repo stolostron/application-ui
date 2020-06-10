@@ -125,6 +125,18 @@
     word-break: break-all;
   }
 
+  .ksLabelBackground {
+    background-color: #dfe3e6;
+    border-radius: 35px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    height: 1rem;
+  }
+
+  .openSearchLink {
+    padding-top: 0.5rem;
+  }
+
   .link {
     font-size: .75rem;
     color: $color__blue-51;

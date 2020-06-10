@@ -15,7 +15,6 @@ import {
   getNodePropery,
   addPropertyToList,
   createDeployableYamlLink,
-  createResourceSearchLink,
   setResourceDeployStatus,
   setPodDeployStatus,
   setSubscriptionDeployStatus,
@@ -34,8 +33,6 @@ export const getNodeDetails = node => {
     const { type, specs } = node
     let { labels = [] } = node
 
-    //if the resource was deployed on any cluster, show search link here
-    createResourceSearchLink(node, details)
     //if resource has a row number add deployable yaml
     createDeployableYamlLink(node, details)
     details.push({
@@ -44,6 +41,9 @@ export const getNodeDetails = node => {
     details.push({
       type: 'label',
       labelKey: 'prop.details.section'
+    })
+    details.push({
+      type: 'spacer'
     })
 
     switch (type) {

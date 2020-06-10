@@ -38,8 +38,8 @@ const TypeFilters = {
       resourceStatuses: 'resourceStatuses',
       clusterNames: 'clusterNames',
       namespaces: 'namespaces',
-      hostIPs: 'hostIPs',
-      labels: 'labels'
+      hostIPs: 'hostIPs'
+      //labels: 'labels'
     },
     searchTypes: new Set(['podStatuses', 'labels'])
   },
@@ -355,9 +355,9 @@ export const addAvailableRelationshipFilters = (
     case 'namespaces':
       name = msgs.get('topology.filter.category.namespaces', locale)
       break
-    case 'labels':
-      name = msgs.get('topology.filter.category.labels', locale)
-      break
+      // case 'labels':
+      //   name = msgs.get('topology.filter.category.labels', locale)
+      //   break
     case 'resourceStatuses':
       name = msgs.get('topology.filter.category.resourceStatuses', locale)
       availableSet = new Map([
@@ -389,9 +389,8 @@ export const addAvailableRelationshipFilters = (
   })
 
   let hasPods = false
-  const { namespaces = new Set() } = activeFilters
   nodes.forEach(node => {
-    const { type, labels = [], name: nodeName } = node
+    const { type, name: nodeName } = node
     let { namespace } = node
     if (
       !ignoreNodeTypes.has(type) &&
@@ -418,16 +417,16 @@ export const addAvailableRelationshipFilters = (
             filter.availableSet.add(namespace)
             break
 
-          case 'labels':
-            if (
-              labels &&
-                (namespaces.size === 0 || namespaces.has(namespace))
-            ) {
-              labels.forEach(({ name, value }) => {
-                filter.availableSet.add(`${name}: ${value}`)
-              })
-            }
-            break
+            // case 'labels':
+            //   if (
+            //     labels &&
+            //       (namespaces.size === 0 || namespaces.has(namespace))
+            //   ) {
+            //     labels.forEach(({ name, value }) => {
+            //       filter.availableSet.add(`${name}: ${value}`)
+            //     })
+            //   }
+            //   break
 
           case 'clusterNames':
             if (type === 'cluster') {
@@ -598,7 +597,7 @@ const filterRelationshipNodes = (
     type,
     hostIPs = new Set(),
     namespaces = new Set(),
-    labels = new Set(),
+    // labels = new Set(),
     resourceStatuses = new Set(),
     clusterNames = new Set()
   } = activeFilters
@@ -606,19 +605,13 @@ const filterRelationshipNodes = (
   const availableTypeSet = new Set(availableFilters.type)
   const includeOther = activeTypeSet.has('other')
   const ignoreNodeTypes = TypeFilters[mode].ignored || new Set()
-  const alabels = [...labels]
+  // const alabels = [...labels]
   const parentList = new Set()
   const includedNodes = new Set()
   const filteredNodes = nodes.filter(node => {
     const { type: nodeType, namespace, id, name } = node
-    let nlabels = node.labels || []
 
-    if (
-      nodeType === 'application' ||
-      nodeType === 'subscription' ||
-      nodeType === 'rules' ||
-      nodeType === 'cluster'
-    ) {
+    if (node.specs.isDesign === true || nodeType === 'cluster') {
       return true
     }
     // include type if a direct match
@@ -667,11 +660,11 @@ const filterRelationshipNodes = (
       namespaces.size === 0 || namespaces.has(namespace || '<none>')
 
     // filter labels
-    let hasLabel = labels.size === 0
-    if (!hasLabel) {
-      nlabels = nlabels.map(({ labelName, value }) => `${labelName}: ${value}`)
-      hasLabel = _.difference(alabels, nlabels).length < alabels.length
-    }
+    // let hasLabel = labels.size === 0
+    // if (!hasLabel) {
+    //   nlabels = nlabels.map(({ labelName, value }) => `${labelName}: ${value}`)
+    //   hasLabel = _.difference(alabels, nlabels).length < alabels.length
+    // }
 
     // filter by cluster name
     let hasClustername = true
@@ -689,7 +682,6 @@ const filterRelationshipNodes = (
       hasType &&
       hasNamespace &&
       hasHostIps &&
-      hasLabel &&
       hasResourceStatus &&
       hasClustername
 

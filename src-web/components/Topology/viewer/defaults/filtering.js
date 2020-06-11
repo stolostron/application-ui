@@ -592,6 +592,14 @@ export const notDesignNode = nodeType => {
   )
 }
 
+export const isDesignOrCluster = (isDesign, nodeType) => {
+  return isDesign === true || nodeType === 'cluster'
+}
+
+export const nodeParentExists = (nodeParent, includedNodes) => {
+  return nodeParent && !includedNodes.has(nodeParent.parentId)
+}
+
 export const filterRelationshipNodes = (
   nodes,
   activeFilters,
@@ -614,9 +622,10 @@ export const filterRelationshipNodes = (
   const filteredNodes = nodes.filter(node => {
     const { type: nodeType, namespace, id } = node
 
-    if (node.specs.isDesign === true || nodeType === 'cluster') {
+    if (isDesignOrCluster(node.specs.isDesign, nodeType)) {
       return true
     }
+
     // include type if a direct match
     // or if 'other' type is selected and this isn't an ignored type
     let hasType = activeTypeSet.has(nodeType)
@@ -678,7 +687,7 @@ export const filterRelationshipNodes = (
 
     if (result) {
       includedNodes.add(id)
-      if (nodeParent && !includedNodes.has(nodeParent.parentId)) {
+      if (nodeParentExists(nodeParent, includedNodes)) {
         parentList.add(nodeParent.parentId)
       }
     }

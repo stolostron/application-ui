@@ -56,7 +56,8 @@ import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
   refetchIntervalChanged,
-  manualRefetchTriggered
+  manualRefetchTriggered,
+  renderRefreshTime
 } from '../../shared/utils/refetch'
 /* eslint-disable react/prop-types */
 
@@ -319,6 +320,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
     const { locale } = this.context
 
+    const { isLoaded = true, isReloading = false } = fetchChannels
+    const { timestamp = new Date().toString() } = this.state
+
     const applications = getApplicationsForSelection(
       QueryApplicationList,
       breadcrumbItems,
@@ -394,6 +398,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
     return (
       <div id="DeploymentPipeline">
+        {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
         {loading && <Loading withOverlay={true} />}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification

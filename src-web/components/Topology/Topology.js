@@ -12,7 +12,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { Loading, Notification } from 'carbon-components-react'
+import { Notification } from 'carbon-components-react'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
 import ResourceFilterModule from './viewer/ResourceFilterModule'
@@ -23,6 +23,7 @@ import './scss/topology-details.scss'
 import './scss/topology-diagram.scss'
 import msgs from '../../../nls/platform.properties'
 import _ from 'lodash'
+import { renderRefreshTime } from '../../shared/utils/refetch'
 
 class Topology extends React.Component {
   static propTypes = {
@@ -168,9 +169,11 @@ class Topology extends React.Component {
     const { isChangingChannel = false } = channelControl
     const { selectedNode, handleNodeSelected } = selectionControl
     const { searchName = '', activeFilters, availableFilters } = this.state
+    const { timestamp = new Date().toString() } = this.state
+
     return (
       <div className="topologyDiagramContainer">
-        {this.renderRefreshTime()}
+        {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
         {this.renderResourceFilterModule()}
         {this.renderSearchName()}
         {this.renderTypeFilterBar()}
@@ -194,30 +197,6 @@ class Topology extends React.Component {
         />
       </div>
     )
-  }
-
-  renderRefreshTime() {
-    const { fetchControl = {}, locale } = this.props
-    const { isLoaded = true, isReloading = false } = fetchControl
-    const { timestamp = new Date().toString() } = this.state
-    if (isLoaded) {
-      const time = msgs.get(
-        'overview.menu.last.update',
-        [new Date(timestamp).toLocaleTimeString(locale)],
-        locale
-      )
-      return (
-        <div className="refresh-time-container">
-          {isReloading && (
-            <div className="reloading-container">
-              <Loading withOverlay={false} small />
-            </div>
-          )}
-          <div>{time}</div>
-        </div>
-      )
-    }
-    return null
   }
 
   renderResourceFilterModule() {

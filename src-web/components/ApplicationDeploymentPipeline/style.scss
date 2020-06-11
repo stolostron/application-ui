@@ -148,7 +148,7 @@
   .app-info-and-dashboard-links {
     position: absolute;
     top: calc(#{$secondary-header-top} + 32px);
-    right: calc(5% + 180px);
+    right: calc(5% + 160px);
     z-index: 1001;
     background-color: $color__white;
     display: inline-block;
@@ -222,3 +222,14 @@
   font-size: 14px;
 }
  
+
+.refresh-time-container {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  height: 20px;
+  position: absolute;
+  right: 0px;
+  top: 120px;
+  padding: 1rem 6% 3.375rem;
+}

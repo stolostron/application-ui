@@ -15,7 +15,7 @@
   position: absolute;
   top: -50px;
   right: 0;
-  width: 180px;
+  width: 160px;
 
   > div {
     outline: none;
@@ -85,3 +85,15 @@
   top: -112px;
 }
 
+.refresh-time-container {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  height: 20px;
+  position: absolute;
+  right: 0px;
+  top: 120px;
+  padding: 1rem 6% 3.375rem;
+}
+
+ 

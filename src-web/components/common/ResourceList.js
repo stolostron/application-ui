@@ -36,7 +36,8 @@ import { showCreate } from '../../../lib/client/access-helper'
 import resources from '../../../lib/shared/resources'
 import {
   refetchIntervalChanged,
-  manualRefetchTriggered
+  manualRefetchTriggered,
+  renderRefreshTime
 } from '../../shared/utils/refetch'
 
 resources(() => {
@@ -58,8 +59,8 @@ class ResourceList extends React.Component {
     const { updateSecondaryHeader, tabs, title } = this.props
     updateSecondaryHeader(msgs.get(title, this.context.locale), tabs)
 
-    const { fetchResources, selectedFilters = [] } = this.props
-    fetchResources(selectedFilters)
+    const { fetchTableResources, selectedFilters = [] } = this.props
+    fetchTableResources(selectedFilters)
 
     this.startPolling()
     document.addEventListener('visibilitychange', this.onVisibilityChange)
@@ -68,7 +69,7 @@ class ResourceList extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedFilters !== this.props.selectedFilters) {
       this.setState({ xhrPoll: false })
-      this.props.fetchResources(nextProps.selectedFilters)
+      this.props.fetchTableResources(nextProps.selectedFilters)
     }
     if (nextProps.forceReload) {
       this.reload()
@@ -126,8 +127,8 @@ class ResourceList extends React.Component {
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
-      const { fetchResources, selectedFilters = [] } = this.props
-      fetchResources(selectedFilters)
+      const { fetchTableResources, selectedFilters = [] } = this.props
+      fetchTableResources(selectedFilters)
     }
   }
 
@@ -159,8 +160,12 @@ class ResourceList extends React.Component {
       updateBrowserURL,
       clientSideFilters,
       tableTitle,
-      tableName
+      tableName,
+      fetchTableResources
     } = this.props
+
+    const { isLoaded = true, isReloading = false } = fetchTableResources
+    const { timestamp = new Date().toString() } = this.state
 
     let locale = 'en-US'
     try {
@@ -241,6 +246,7 @@ class ResourceList extends React.Component {
                 />
               </div>
           )}
+          {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
           <ResourceTable
             actions={actions}
             staticResourceData={staticResourceData}
@@ -346,7 +352,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   const { updateBrowserURL, resourceType } = ownProps
   return {
-    fetchResources: selectedFilters => {
+    fetchTableResources: selectedFilters => {
       dispatch(fetchResources(resourceType, combineFilters(selectedFilters)))
     },
     changeTablePage: page => dispatch(changeTablePage(page, resourceType)),

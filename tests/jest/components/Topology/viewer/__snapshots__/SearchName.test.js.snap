@@ -41,7 +41,7 @@ exports[`SearchName search render as expected 1`] = `
       className="bx--search-input"
       id="search-name"
       onChange={[Function]}
-      placeholder="Find [+Find]"
+      placeholder="Search [+Search]"
       type="text"
       value="test"
     />

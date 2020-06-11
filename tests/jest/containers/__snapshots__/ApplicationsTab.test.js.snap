@@ -138,13 +138,6 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on all app.
         </button>
       </div>
       <div
-        className="refresh-time-container"
-      >
-        <div>
-          Last update: {0}
-        </div>
-      </div>
-      <div
         className="bx--data-table-v2-container"
         id="undefined-table-container"
       >
@@ -756,13 +749,6 @@ exports[`ApplicationsTab ApplicationsTab renders correctly with data on single a
             />
           </svg>
         </button>
-      </div>
-      <div
-        className="refresh-time-container"
-      >
-        <div>
-          Last update: {0}
-        </div>
       </div>
       <div
         className="bx--data-table-v2-container"

@@ -4,7 +4,7 @@ exports[`RefreshTimeSelect component renders as expected - empty refresh values 
 
 exports[`RefreshTimeSelect component renders as expected - reloading = true 1`] = `
 <div
-  className="refresh-time-selection"
+  className="refresh-time-selection "
 >
   <div
     className="reloading-container"
@@ -80,7 +80,7 @@ exports[`RefreshTimeSelect component renders as expected - reloading = true 1`] 
 
 exports[`RefreshTimeSelect component renders as expected 1`] = `
 <div
-  className="refresh-time-selection"
+  className="refresh-time-selection "
 >
   <div
     aria-label="Refresh"

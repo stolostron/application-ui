@@ -83,6 +83,8 @@ const HeaderActions = withLocale(
           />
           {msgs.get('application.edit.app', locale)}
         </Link>
+
+        <span className="app-info-and-dashboard-links-separator" />
       </div>
     )
   }

@@ -89,7 +89,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 1`] = `
           </a>
         </li>
         <div
-          className="refresh-time-selection"
+          className="refresh-time-selection hasBreadcrumbs"
         >
           <div
             aria-label="Refresh"
@@ -294,7 +294,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 2`] = `
           </a>
         </li>
         <div
-          className="refresh-time-selection"
+          className="refresh-time-selection hasBreadcrumbs"
         >
           <div
             aria-label="Refresh"
@@ -509,7 +509,7 @@ exports[`ApplicationHeaderTabs ApplicationHeaderTabs renders correctly. 3`] = `
           </a>
         </li>
         <div
-          className="refresh-time-selection"
+          className="refresh-time-selection hasBreadcrumbs"
         >
           <div
             aria-label="Refresh"

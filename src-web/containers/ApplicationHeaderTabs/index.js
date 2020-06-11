@@ -58,7 +58,8 @@ const ApplicationHeaderTabs = withLocale(
     serverProps,
     mutateSuccessFinished,
     deleteSuccessFinished,
-    refetchIntervalUpdateDispatch
+    refetchIntervalUpdateDispatch,
+    hasBreadcrumbs
   }) => {
     if (!showExtraTabs && selectedAppTab > 1) {
       actions.setSelectedAppTab(0)
@@ -156,6 +157,7 @@ const ApplicationHeaderTabs = withLocale(
             <RefreshTimeSelect
               refreshValues={REFRESH_TIMES}
               refetchIntervalUpdate={refetchIntervalUpdateDispatch}
+              hasBreadcrumbs={hasBreadcrumbs}
             />
           </Tabs>
         </div>
@@ -175,10 +177,13 @@ const mapDispatchToProps = dispatch => {
   }
 }
 const mapStateToProps = state => {
-  const { role, AppOverview } = state
+  const { role, AppOverview, secondaryHeader } = state
   return {
     userRole: role && role.role,
-    selectedAppTab: AppOverview.selectedAppTab
+    selectedAppTab: AppOverview.selectedAppTab,
+    hasBreadcrumbs:
+      secondaryHeader.breadcrumbItems &&
+      secondaryHeader.breadcrumbItems.length > 0
   }
 }
 

@@ -11,6 +11,7 @@
 import R from 'ramda'
 import msgs from '../../../../../nls/platform.properties'
 import _ from 'lodash'
+import { getType } from '../../utils/diagram-helpers'
 
 export const getNodeTooltips = (searchUrl, node, locale) => {
   const tooltips = []
@@ -64,30 +65,11 @@ const addClustersTooltip = (node, searchUrl, name, tooltips, locale) => {
     href = `${searchUrl}?filters={"textsearch":"kind:${kind} name:${clusterList}"}`
   }
 
-  tooltips.push({ name: getType(kind, locale), value: name, href })
-
-  const label = msgs.get('tooltips.console', locale)
-  const clusters = _.get(node, 'specs.clusters')
-  if (clusters) {
-    clusters.forEach(n => {
-      if (n.consoleURL) {
-        const href = n.consoleURL
-        tooltips.push({
-          name: label,
-          value: `${n.metadata.name}-console`,
-          href
-        })
-      }
-    })
-  } else {
-    const href = _.get(node, 'specs.cluster.consoleURL')
-    tooltips.push({ name: label, value: `${name}-console`, href })
-  }
-}
-
-const getType = (type, locale) => {
-  const nlsType = msgs.get(`resource.${type}`, locale)
-  return !nlsType.startsWith('!resource.')
-    ? nlsType
-    : _.capitalize(_.startCase(type))
+  const clusterNames = _.get(node, 'specs.clusterNames', [])
+  //show only first 2 names
+  const showName =
+    clusterNames.length > 2
+      ? `${clusterNames[0]},${clusterNames[1]}...+${clusterNames.length - 2}`
+      : name
+  tooltips.push({ name: getType(kind, locale), value: showName, href })
 }

@@ -39,7 +39,34 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
       <div
         className="openSearchLink"
       >
-        <div />
+        <div
+          className="sectionContent"
+        >
+          <span
+            className="link"
+            id="linkForNodeAction"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Launch resource in Search
+            <svg
+              height="8px"
+              style={
+                Object {
+                  "marginLeft": "9px",
+                }
+              }
+              width="11px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_arrowRight"
+              />
+            </svg>
+          </span>
+        </div>
       </div>
     </div>
     <svg
@@ -140,7 +167,7 @@ exports[`DetailsView 1 pod details render as expected 1`] = `
           >
             <use
               className="label-icon"
-              href="#diagramIcons_carbonLaunch"
+              href="#diagramIcons_arrowRight"
             />
           </svg>
         </span>

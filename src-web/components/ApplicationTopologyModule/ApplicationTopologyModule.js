@@ -414,7 +414,6 @@ class ApplicationTopologyModule extends React.Component {
     } = this.state
 
     const diagramTitle = msgs.get('application.diagram', locale)
-    const viewFullMsg = msgs.get('application.diagram.view.full', locale)
 
     const diagramClasses = classNames({
       resourceDiagramSourceContainer: true,
@@ -511,20 +510,6 @@ class ApplicationTopologyModule extends React.Component {
                     className="diagram-type-filter-bar"
                     id="type-filter-bar-portal-id"
                   />
-                  <div
-                    className="diagram-expand-button"
-                    tabIndex="0"
-                    role={'button'}
-                    title={viewFullMsg}
-                    aria-label={viewFullMsg}
-                    onClick={this.handleToggleSize}
-                    onKeyPress={this.handleToggleSize}
-                  >
-                    <svg className="icon">
-                      <use href={'#diagramIcons_launch'} />
-                    </svg>
-                    {viewFullMsg}
-                  </div>
                 </div>
               </React.Fragment>
             )}

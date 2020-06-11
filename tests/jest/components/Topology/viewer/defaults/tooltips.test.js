@@ -129,7 +129,7 @@ describe("getNodeTooltips helmrelease", () => {
     }
   ];
 
-  it("should get cluster node tooltips", () => {
+  it("should get cluster node tooltips helmrelease", () => {
     expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
       expectedResult
     );
@@ -156,18 +156,13 @@ describe("getNodeTooltips cluster", () => {
       value: "foonode"
     },
     {
-      href: "https://localhost",
-      name: "Console",
-      value: "foonode-console"
-    },
-    {
       href:
         'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
       name: "Namespace",
       value: "foo"
     }
   ];
-  it("should get cluster node tooltips", () => {
+  it("should get cluster node tooltips cluster", () => {
     expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
       expectedResult
     );
@@ -194,18 +189,13 @@ describe("getNodeTooltips clusterList", () => {
       value: "foonode, foonode2, foonode3"
     },
     {
-      href: "https://localhost",
-      name: "Console",
-      value: "foonode, foonode2, foonode3-console"
-    },
-    {
       href:
         'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
       name: "Namespace",
       value: "foo"
     }
   ];
-  it("should get cluster node tooltips", () => {
+  it("should get cluster node tooltips clusterList", () => {
     expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
       expectedResult
     );
@@ -243,19 +233,13 @@ describe("getNodeTooltips clusters", () => {
       value: "foonode"
     },
     {
-      href: "https://localhost",
-      name: "Console",
-      value: "ocpcluster1-console"
-    },
-    {
       href:
         'https://localhost/multicloud/search?filters={"textsearch":"kind:namespace name:foo"}',
       name: "Namespace",
       value: "foo"
     }
   ];
-
-  it("should get cluster node tooltips", () => {
+  it("should get cluster node tooltips clusters", () => {
     expect(getNodeTooltips(searchUrl, clusterNode, locale)).toEqual(
       expectedResult
     );
@@ -283,7 +267,7 @@ describe("getNodeTooltips default", () => {
       value: "defaultnode"
     }
   ];
-  it("should get default node tooltips", () => {
+  it("should get default node tooltips default", () => {
     expect(getNodeTooltips(searchUrl, defaultNode, locale)).toEqual(
       expectedResult
     );

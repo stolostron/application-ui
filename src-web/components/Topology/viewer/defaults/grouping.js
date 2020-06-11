@@ -9,7 +9,7 @@
  *******************************************************************************/
 'use strict'
 
-import { getWrappedNodeLabel } from '../../utils/diagram-helpers'
+import { getWrappedNodeLabel, getType } from '../../utils/diagram-helpers'
 import _ from 'lodash'
 
 export const getNodeGroups = (
@@ -67,7 +67,7 @@ function getTypeNodeGroups(nodes, activeFilters, diagramOptions) {
     if (!group) {
       group = groupMap[type] = { nodes: [] }
     }
-    const label = node.shortName || node.name || ''
+    const label = getType(node.type) || ''
     node.layout = Object.assign(node.layout || {}, {
       uid: node.uid,
       type: node.type,

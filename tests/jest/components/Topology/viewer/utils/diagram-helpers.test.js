@@ -606,13 +606,41 @@ describe("createResourceSearchLink for undefined details", () => {
   });
 });
 
-describe("createResourceSearchLink for cluster node", () => {
+describe("createResourceSearchLink for cluster node no name", () => {
   const node = {
     id: "id",
     type: "cluster"
   };
-  const result = { type: "link", value: null };
-  it("createResourceSearchLink for cluster node", () => {
+  const result = {
+    type: "link",
+    value: {
+      data: { action: "show_search", kind: "cluster", name: "undefined" },
+      id: "id",
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for cluster node no name", () => {
+    expect(createResourceSearchLink(node, undefined)).toEqual(result);
+  });
+});
+
+describe("createResourceSearchLink for cluster node w name", () => {
+  const node = {
+    id: "id",
+    type: "cluster",
+    name: "a, b, c"
+  };
+  const result = {
+    type: "link",
+    value: {
+      data: { action: "show_search", kind: "cluster", name: "a,b,c" },
+      id: "id",
+      indent: true,
+      label: "Launch resource in Search"
+    }
+  };
+  it("createResourceSearchLink for cluster node w name", () => {
     expect(createResourceSearchLink(node, undefined)).toEqual(result);
   });
 });

@@ -3,10 +3,9 @@
  *******************************************************************************/
 "use strict";
 
-import {
-  getNodeDetails,
-  inflateKubeValue
-} from "../../../../../../src-web/components/Topology/viewer/defaults/details";
+import { getNodeDetails } from "../../../../../../src-web/components/Topology/viewer/defaults/details";
+
+import { inflateKubeValue } from "../../../../../../src-web/components/Topology/utils/diagram-helpers";
 import moment from "moment";
 
 const locale = "en-US";
@@ -168,7 +167,7 @@ describe("getNodeDetails application node", () => {
   });
 });
 
-describe("getNodeDetails cluster node", () => {
+describe("getNodeDetails cluster node 1", () => {
   const clusterNode = {
     id: "member--clusters--feng",
     uid: "member--clusters--feng",
@@ -242,6 +241,8 @@ describe("getNodeDetails cluster node", () => {
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
+    { labelKey: "resource.name", value: undefined },
+    { labelKey: "resource.namespace", value: undefined },
     {
       indent: undefined,
       labelKey: "resource.pods",
@@ -290,27 +291,10 @@ describe("getNodeDetails cluster node", () => {
       type: "label",
       value: "-"
     },
-    { labelKey: "resource.violations", type: "label" },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: { name: "Violation1" }
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: { name: "Violation2" }
-    },
     { type: "spacer" }
   ];
 
-  it("should process the node, cluster node", () => {
+  it("should process the node, cluster node 2", () => {
     expect(getNodeDetails(clusterNode, locale)).toEqual(expectedResult);
   });
 });
@@ -420,6 +404,8 @@ describe("getNodeDetails clusters node", () => {
     { type: "spacer" },
     { labelKey: "prop.details.section", type: "label" },
     { type: "spacer" },
+    { labelKey: "resource.name", value: undefined },
+    { labelKey: "resource.namespace", value: undefined },
     {
       indent: undefined,
       labelKey: "resource.pods",
@@ -467,25 +453,10 @@ describe("getNodeDetails clusters node", () => {
       status: undefined,
       type: "label",
       value: "-"
-    },
-    { labelKey: "resource.violations", type: "label" },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: { name: "Violation1" }
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: { name: "Violation2" }
     },
     { type: "spacer" },
+    { labelKey: "resource.name", value: undefined },
+    { labelKey: "resource.namespace", value: undefined },
     {
       indent: undefined,
       labelKey: "resource.pods",
@@ -533,23 +504,6 @@ describe("getNodeDetails clusters node", () => {
       status: undefined,
       type: "label",
       value: "-"
-    },
-    { labelKey: "resource.violations", type: "label" },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: { name: "Violation1" }
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: { name: "Violation2" }
     },
     { type: "spacer" }
   ];
@@ -961,175 +915,6 @@ describe("getNodeDetails helm node", () => {
 
   it("should process the node, packageNode node", () => {
     expect(getNodeDetails(packageNode, locale)).toEqual(expectedResult);
-  });
-});
-
-describe("getNodeDetails helm node 2", () => {
-  const policyNode = {
-    id: "helmrelease1",
-    uid: "helmrelease1",
-    name: "mortgage-helmrelease",
-    cluster: null,
-    clusterName: null,
-    type: "policy",
-    specs: {
-      policy: {
-        metadata: {
-          name: "policy1",
-          namespace: "default",
-          creationTimestamp: `${moment().format()}`,
-          annotations: {
-            "policy.mcm.ibm.com/categories": "1,2,3,4,5",
-            "policy.mcm.ibm.com/controls": "1,2,3,4,5",
-            "policy.mcm.ibm.com/standards": "1,2,3,4,5"
-          }
-        },
-        remediation: "Fix security issue",
-        spec: {
-          "object-templates": [
-            {
-              "objectDefinition.kind": "kind1"
-            }
-          ],
-          "role-templates": [
-            {
-              "objectDefinition.kind": "kind2"
-            }
-          ],
-          "policy-templates": [
-            {
-              "objectDefinition.kind": "kind3"
-            }
-          ]
-        }
-      }
-    }
-  };
-
-  const expectedResult = [
-    { type: "spacer" },
-    { labelKey: "prop.details.section", type: "label" },
-    { type: "spacer" },
-    {
-      indent: undefined,
-      labelKey: "resource.name",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "policy1"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.namespace",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "default"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.created",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "a few seconds ago"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.remediation",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "Fix security issue"
-    },
-    { labelKey: "resource.categories", type: "label" },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "1"
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "2"
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "3"
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "4"
-    },
-    {
-      indent: undefined,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "5"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.controls",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "1,2,3,4,5"
-    },
-    {
-      indent: undefined,
-      labelKey: "resource.standards",
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "1,2,3,4,5"
-    },
-    { labelKey: "resource.object.templates", type: "label" },
-    {
-      indent: true,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "kind1"
-    },
-    { labelKey: "resource.role.templates", type: "label" },
-    {
-      indent: true,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "kind2"
-    },
-    { labelKey: "resource.policy.templates", type: "label" },
-    {
-      indent: true,
-      labelKey: undefined,
-      labelValue: undefined,
-      status: undefined,
-      type: "label",
-      value: "kind3"
-    }
-  ];
-
-  it("should process the node, helm node 2", () => {
-    expect(getNodeDetails(policyNode, locale)).toEqual(expectedResult);
   });
 });
 

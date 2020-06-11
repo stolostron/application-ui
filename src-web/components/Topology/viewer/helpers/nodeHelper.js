@@ -297,16 +297,21 @@ export default class NodeHelper {
                 add
                   .tspan(line)
                   .addClass('counter-zoom beg')
+                  .font({ 'font-weight': 'bold' })
                   .newLine()
               }
             })
             if (layout.description) {
-              add
-                .tspan(layout.description)
-                .fill('gray')
-                .font({ size: 9 })
-                .addClass('description beg')
-                .newLine()
+              layout.description.split('\n').forEach(line => {
+                if (line) {
+                  add
+                    .tspan(line)
+                    .addClass('description beg')
+                    .font({ size: 14 })
+
+                    .newLine()
+                }
+              })
             }
           })
           .addClass('regularLabel')

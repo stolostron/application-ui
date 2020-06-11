@@ -23,7 +23,8 @@ import {
   addDetails,
   getAge,
   addNodeOCPRouteLocationForCluster,
-  addIngressNodeInfo
+  addIngressNodeInfo,
+  setClusterStatus
 } from '../../utils/diagram-helpers'
 import msgs from '../../../../../nls/platform.properties'
 
@@ -31,7 +32,7 @@ export const getNodeDetails = node => {
   const details = []
   if (node) {
     const { type, specs } = node
-    let { labels = [] } = node
+    const { labels = [] } = node
 
     //if resource has a row number add deployable yaml
     createDeployableYamlLink(node, details)
@@ -48,74 +49,7 @@ export const getNodeDetails = node => {
 
     switch (type) {
     case 'cluster':
-      {
-        const { cluster, violations = [], clusters = [] } = specs
-        const clusterArr = cluster ? [cluster] : clusters
-        clusterArr.forEach(c => {
-          const {
-            metadata = {},
-            capacity = {},
-            usage = {},
-            clusterip,
-            status
-          } = c
-          const { name, namespace, creationTimestamp } = metadata
-          void ({ labels } = metadata)
-          const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
-          const { pods, cpu: uc, memory: um, storage: us } = usage
-
-          // general details
-          addDetails(details, [
-            { labelKey: 'resource.name', value: name },
-            { labelKey: 'resource.namespace', value: namespace },
-            { labelKey: 'resource.clusterip', value: clusterip },
-            { labelKey: 'resource.pods', value: pods },
-            { labelKey: 'resource.nodes', value: nodes },
-            { labelKey: 'resource.status', value: status },
-            {
-              labelKey: 'resource.cpu',
-              value: `${getPercentage(
-                inflateKubeValue(uc),
-                inflateKubeValue(cc)
-              )}%`
-            },
-            {
-              labelKey: 'resource.memory',
-              value: `${getPercentage(
-                inflateKubeValue(um),
-                inflateKubeValue(cm)
-              )}%`
-            },
-            {
-              labelKey: 'resource.storage',
-              value: `${getPercentage(
-                inflateKubeValue(us),
-                inflateKubeValue(cs)
-              )}%`
-            },
-            { labelKey: 'resource.created', value: getAge(creationTimestamp) }
-          ])
-
-          // violations
-          if (violations.length > 0) {
-            details.push({
-              type: 'label',
-              labelKey: 'resource.violations'
-            })
-            violations.forEach(name => {
-              const violationDetails = [{ value: name }]
-              addDetails(details, violationDetails)
-            })
-          } else {
-            addDetails(details, [
-              { labelKey: 'resource.violations', value: '-' }
-            ])
-          }
-          details.push({
-            type: 'spacer'
-          })
-        })
-      }
+      setClusterStatus(node, details)
       break
 
     case 'placement':
@@ -162,69 +96,6 @@ export const getNodeDetails = node => {
         }
       }
       break
-
-    case 'policy': {
-      const {
-        policy: {
-          metadata: { name, namespace, creationTimestamp, annotations },
-          remediation,
-          spec
-        }
-      } = specs
-      addDetails(details, [
-        { labelKey: 'resource.name', value: name },
-        { labelKey: 'resource.namespace', value: namespace },
-        { labelKey: 'resource.created', value: getAge(creationTimestamp) },
-        { labelKey: 'resource.remediation', value: remediation }
-      ])
-
-      Object.entries(annotations).forEach(([name, value]) => {
-        switch (name) {
-        case 'policy.mcm.ibm.com/categories': {
-          details.push({
-            type: 'label',
-            labelKey: 'resource.categories'
-          })
-          value.split(',').forEach(type => {
-            type = type.trim()
-            if (type) {
-              addDetails(details, [
-                { value: _.capitalize(_.startCase(type)) }
-              ])
-            }
-          })
-          break
-        }
-        case 'policy.mcm.ibm.com/controls':
-          addDetails(details, [{ labelKey: 'resource.controls', value }])
-          break
-        case 'policy.mcm.ibm.com/standards':
-          addDetails(details, [{ labelKey: 'resource.standards', value }])
-          break
-        }
-      })
-      const addTemplates = key => {
-        const templates = spec[key]
-        if (templates) {
-          details.push({
-            type: 'label',
-            labelKey: `resource.${key.replace('-', '.')}`
-          })
-          templates.forEach(template => {
-            addDetails(details, [
-              {
-                value: _.get(template, 'objectDefinition.kind', '-'),
-                indent: true
-              }
-            ])
-          })
-        }
-      }
-      addTemplates('object-templates')
-      addTemplates('role-templates')
-      addTemplates('policy-templates')
-      break
-    }
 
     default:
       addK8Details(node, details)
@@ -476,41 +347,4 @@ function addK8Details(node, details, podOnly, index) {
   setPodDeployStatus(node, details)
 
   return details
-}
-
-export const inflateKubeValue = value => {
-  if (value) {
-    const match = value.match(/\D/g)
-    if (match) {
-      // if value has suffix
-      const unit = match.join('')
-      const val = value.match(/\d+/g).map(Number)[0]
-      const BINARY_PREFIXES = ['Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei']
-      const SI_PREFIXES = ['m', 'k', 'M', 'G', 'T', 'P', 'E']
-      const num =
-        unit && unit.length === 2
-          ? factorize(BINARY_PREFIXES, unit, 'binary')
-          : factorize(SI_PREFIXES, unit, 'si')
-      return val * num
-    }
-    return parseFloat(value)
-  }
-  return ''
-}
-
-function factorize(prefixes, unit, type) {
-  let factorize = 1
-  for (var index = 0; index < prefixes.length; index++) {
-    if (unit === prefixes[index]) {
-      const base = type === 'binary' ? 1024 : 1000
-      const unitM = unit === 'm' ? -1 : index
-      const exponent = type === 'binary' ? index + 1 : unitM
-      factorize = Math.pow(base, exponent)
-    }
-  }
-  return factorize
-}
-
-export const getPercentage = (value, total) => {
-  return Math.floor(100 * value / total) || 0
 }

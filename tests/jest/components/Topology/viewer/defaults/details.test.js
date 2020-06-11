@@ -176,9 +176,20 @@ describe("getNodeDetails cluster node 1", () => {
     clusterName: null,
     type: "cluster",
     specs: {
-      clusters: [],
+      clusters: [
+        {
+          consoleURL: "aaa",
+          consoleip: "api",
+          metadata: {
+            name: "feng",
+            namespace: "ns"
+          }
+        }
+      ],
       clusterNames: ["feng"],
       cluster: {
+        consoleURL: "aaa",
+        consoleip: "api",
         capacity: {
           nodes: [],
           cpu: "10",
@@ -243,6 +254,15 @@ describe("getNodeDetails cluster node 1", () => {
     { type: "spacer" },
     { labelKey: "resource.name", value: undefined },
     { labelKey: "resource.namespace", value: undefined },
+    {
+      indent: true,
+      type: "link",
+      value: {
+        data: { action: "open_link", targetLink: "aaa" },
+        id: "aaa-location",
+        label: "Open cluster console"
+      }
+    },
     {
       indent: undefined,
       labelKey: "resource.pods",

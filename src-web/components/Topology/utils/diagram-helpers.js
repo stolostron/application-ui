@@ -517,16 +517,16 @@ export const inflateKubeValue = value => {
 }
 
 function factorize(prefixes, unit, type) {
-  let factorize = 1
-  for (var index = 0; index < prefixes.length; index++) {
+  let factorizeNb = 1
+  for (let index = 0; index < prefixes.length; index++) {
     if (unit === prefixes[index]) {
       const base = type === 'binary' ? 1024 : 1000
       const unitM = unit === 'm' ? -1 : index
       const exponent = type === 'binary' ? index + 1 : unitM
-      factorize = Math.pow(base, exponent)
+      factorizeNb = Math.pow(base, exponent)
     }
   }
-  return factorize
+  return factorizeNb
 }
 
 export const getPercentage = (value, total) => {
@@ -543,7 +543,6 @@ export const setClusterStatus = (node, details) => {
     //void ({ labels } = metadata)
     const { nodes, cpu: cc, memory: cm, storage: cs } = capacity
     const { pods, cpu: uc, memory: um, storage: us } = usage
-
     details.push({ labelKey: 'resource.name', value: name })
     details.push({ labelKey: 'resource.namespace', value: namespace })
     if (c.consoleURL) {

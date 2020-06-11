@@ -28,6 +28,8 @@ import {
 } from '../../utils/diagram-helpers'
 import msgs from '../../../../../nls/platform.properties'
 
+const resName = 'resource.name'
+
 export const getNodeDetails = node => {
   const details = []
   if (node) {
@@ -71,7 +73,7 @@ export const getNodeDetails = node => {
     case 'package':
       addDetails(details, [
         {
-          labelKey: 'resource.name',
+          labelKey: resName,
           value: _.get(node, 'specs.raw.metadata.name', '')
         },
         {
@@ -87,7 +89,7 @@ export const getNodeDetails = node => {
         if (spec) {
           const { chartName, urls, version } = spec
           addDetails(details, [
-            { labelKey: 'resource.name', value: chartName },
+            { labelKey: resName, value: chartName },
             { labelKey: 'resource.url', value: urls },
             { labelKey: 'resource.version', value: version }
           ])
@@ -316,7 +318,7 @@ function addK8Details(node, details, podOnly, index) {
     } else {
       const podName = [
         {
-          labelKey: 'resource.name',
+          labelKey: resName,
           value: name
         }
       ]

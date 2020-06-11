@@ -597,7 +597,7 @@ export const isDesignOrCluster = (isDesign, nodeType) => {
 }
 
 export const nodeParentExists = (nodeParent, includedNodes) => {
-  return nodeParent && !includedNodes.has(nodeParent.parentId)
+  return nodeParent !== undefined && !includedNodes.has(nodeParent.parentId)
 }
 
 export const filterRelationshipNodes = (

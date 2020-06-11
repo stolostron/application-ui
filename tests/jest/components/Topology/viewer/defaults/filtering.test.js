@@ -7,7 +7,12 @@ import {
   getAllFilters,
   getAvailableFilters,
   getSearchFilter,
-  filterNodes
+  filterNodes,
+  processResourceStatus,
+  notDesignNode,
+  isDesignOrCluster,
+  nodeParentExists,
+  filterRelationshipNodes
 } from "../../../../../../src-web/components/Topology/viewer/defaults/filtering";
 
 const nodes = [
@@ -131,6 +136,37 @@ const nodes = [
     topology: null,
     labels: null,
     __typename: "Resource"
+  },
+  {
+    id: "deployment1",
+    uid: "deployment1",
+    name: "deployment1",
+    cluster: null,
+    clusterName: null,
+    type: "deployment",
+    specs: {
+      isDesign: false,
+      raw: {
+        apiVersion: "apps.open-cluster-management.io/v1",
+        kind: "deployment",
+        metadata: {
+          name: "deployment",
+          namespace: "default",
+          resourceVersion: "1487942",
+          selfLink:
+            "/apis/apps.open-cluster-management.io/v1/namespaces/ns-sub-1/placementrules/towhichcluster",
+          uid: "49788e0c-c540-49be-9e65-a1c46e4ac485"
+        },
+        spec: {
+          clusterSelector: {}
+        }
+      },
+      row: 35
+    },
+    namespace: "default",
+    topology: null,
+    labels: null,
+    __typename: "Resource"
   }
 ];
 
@@ -230,7 +266,7 @@ describe("getAllFilters", () => {
 
   const expectedResults = {
     activeFilters: {
-      type: ["application", "rules", "subscription"]
+      type: ["application", "deployment", "rules", "subscription"]
     },
     availableFilters: {
       clusterNames: {
@@ -238,7 +274,7 @@ describe("getAllFilters", () => {
         name: "Cluster name"
       },
       namespaces: {
-        availableSet: new Set(["<none>", "ns-sub-1"]),
+        availableSet: new Set(["<none>", "ns-sub-1", "default"]),
         name: "Namespaces"
       },
       resourceStatuses: {
@@ -250,7 +286,7 @@ describe("getAllFilters", () => {
         ]),
         name: "Resource status"
       },
-      type: ["application", "rules", "subscription"]
+      type: ["application", "deployment", "rules", "subscription"]
     },
     otherTypeFilters: []
   };
@@ -628,5 +664,158 @@ describe("filterNodes policy", () => {
     expect(filterNodes("policy", nodes, activeFilters, {})).toEqual(
       expectedFilterNodeResult
     );
+  });
+});
+
+describe("processResourceStatus", () => {
+  const resourceStatuses = new Set(["green", "yellow", "orange", "red"]);
+  it("green", () => {
+    expect(processResourceStatus(resourceStatuses, "green")).toEqual(true);
+  });
+
+  it("yellow", () => {
+    expect(processResourceStatus(resourceStatuses, "yellow")).toEqual(true);
+  });
+
+  it("orange", () => {
+    expect(processResourceStatus(resourceStatuses, "orange")).toEqual(true);
+  });
+
+  it("red", () => {
+    expect(processResourceStatus(resourceStatuses, "red")).toEqual(true);
+  });
+
+  it("no match", () => {
+    expect(processResourceStatus(new Set(), "yellow")).toEqual(false);
+  });
+});
+
+describe("notDesignNode", () => {
+  it("match", () => {
+    expect(notDesignNode("application")).toEqual(false);
+  });
+
+  it("no match", () => {
+    expect(notDesignNode("deployment")).toEqual(true);
+  });
+});
+
+describe("isDesignOrCluster", () => {
+  it("design and cluster", () => {
+    expect(isDesignOrCluster(true, "cluster")).toEqual(true);
+  });
+
+  it("not design but cluster", () => {
+    expect(isDesignOrCluster(false, "cluster")).toEqual(true);
+  });
+
+  it("not design nor cluster", () => {
+    expect(isDesignOrCluster(false, "deployment")).toEqual(false);
+  });
+});
+
+describe("nodeParentExists", () => {
+  const nodeParent = {
+    parentId: "test"
+  };
+  const includedNodes = new Set(["test"]);
+
+  it("nodeParent undefined", () => {
+    expect(nodeParentExists(undefined, new Set())).toEqual(false);
+  });
+
+  it("nodeParent exists", () => {
+    expect(nodeParentExists(nodeParent, includedNodes)).toEqual(false);
+  });
+
+  it("nodeParent exists", () => {
+    expect(nodeParentExists(nodeParent, new Set())).toEqual(true);
+  });
+});
+
+describe("filterRelationshipNodes", () => {
+  const mockDataRelationshipNodes = {
+    nodes: [
+      {
+        id:
+          "member--deployable--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+        type: "deployment",
+        namespace: "default",
+        specs: {
+          isDesign: false,
+          pulse: "green",
+          parent: {
+            parentId: "member-cluster"
+          }
+        }
+      },
+      {
+        id:
+          "member--replicaset--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+        type: "replicaset",
+        namespace: "default",
+        specs: {
+          isDesign: false,
+          pulse: "green",
+          parent: {
+            parentId:
+              "member--deployable--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+            type: "deployment",
+            name: "deployment1"
+          }
+        }
+      }
+    ],
+    activeFilters: {
+      resourceStatuses: new Set(["green"]),
+      clusterNames: new Set(["braveman"]),
+      type: ["application", "deployment", "rules", "subscription", "replicaset"]
+    },
+    availableFilters: {
+      type: ["application", "deployment", "rules", "subscription", "replicaset"]
+    },
+    mode: "application"
+  };
+
+  const expectedValue = [
+    {
+      id:
+        "member--deployable--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+      namespace: "default",
+      specs: {
+        isDesign: false,
+        parent: {
+          parentId: "member-cluster"
+        },
+        pulse: "green"
+      },
+      type: "deployment"
+    },
+    {
+      id:
+        "member--replicaset--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+      namespace: "default",
+      specs: {
+        isDesign: false,
+        parent: {
+          name: "deployment1",
+          parentId:
+            "member--deployable--member--deployable--member--clusters--braveman--open-cluster-management--guestbook-app-guestbook-frontend-deployment--frontend",
+          type: "deployment"
+        },
+        pulse: "green"
+      },
+      type: "replicaset"
+    }
+  ];
+  it("filter node", () => {
+    expect(
+      filterRelationshipNodes(
+        mockDataRelationshipNodes.nodes,
+        mockDataRelationshipNodes.activeFilters,
+        mockDataRelationshipNodes.availableFilters,
+        mockDataRelationshipNodes.mode
+      )
+    ).toEqual(expectedValue);
   });
 });

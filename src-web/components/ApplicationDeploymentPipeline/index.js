@@ -56,7 +56,8 @@ import HeaderActions from '../common/HeaderActions'
 import CreateResourceActions from './components/CreateResourceActions'
 import {
   refetchIntervalChanged,
-  manualRefetchTriggered
+  manualRefetchTriggered,
+  renderRefreshTime
 } from '../../shared/utils/refetch'
 /* eslint-disable react/prop-types */
 
@@ -243,30 +244,6 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
   }
 
-  renderRefreshTime() {
-    const { fetchChannels = {}, locale } = this.props
-    const { isLoaded = true, isReloading = false } = fetchChannels
-    const { timestamp = new Date().toString() } = this.state
-    if (isLoaded) {
-      const time = msgs.get(
-        'overview.menu.last.update',
-        [new Date(timestamp).toLocaleTimeString(locale)],
-        locale
-      )
-      return (
-        <div className="refresh-time-container">
-          {isReloading && (
-            <div className="reloading-container">
-              <Loading withOverlay={false} small />
-            </div>
-          )}
-          <div>{time}</div>
-        </div>
-      )
-    }
-    return null
-  }
-
   reload() {
     const {
       breadcrumbItems,
@@ -343,6 +320,9 @@ class ApplicationDeploymentPipeline extends React.Component {
     } = this.props
     const { locale } = this.context
 
+    const { isLoaded = true, isReloading = false } = fetchChannels
+    const { timestamp = new Date().toString() } = this.state
+
     const applications = getApplicationsForSelection(
       QueryApplicationList,
       breadcrumbItems,
@@ -418,7 +398,7 @@ class ApplicationDeploymentPipeline extends React.Component {
     }
     return (
       <div id="DeploymentPipeline">
-        {this.renderRefreshTime()}
+        {renderRefreshTime(isLoaded, isReloading, timestamp, locale)}
         {loading && <Loading withOverlay={true} />}
         {deleteStatus === Actions.REQUEST_STATUS.DONE && (
           <Notification

@@ -123,6 +123,30 @@ class ResourceList extends React.Component {
     }
   }
 
+  renderRefreshTime() {
+    const { fetchResources = {}, locale } = this.props
+    const { isLoaded = true, isReloading = false } = fetchResources
+    const { timestamp = new Date().toString() } = this.state
+    if (isLoaded) {
+      const time = msgs.get(
+        'overview.menu.last.update',
+        [new Date(timestamp).toLocaleTimeString(locale)],
+        locale
+      )
+      return (
+        <div className="refresh-time-container">
+          {isReloading && (
+            <div className="reloading-container">
+              <Loading withOverlay={false} small />
+            </div>
+          )}
+          <div>{time}</div>
+        </div>
+      )
+    }
+    return null
+  }
+
   reload() {
     if (this.props.status === REQUEST_STATUS.DONE) {
       this.setState({ xhrPoll: true })
@@ -241,6 +265,7 @@ class ResourceList extends React.Component {
                 />
               </div>
           )}
+          {this.renderRefreshTime()}
           <ResourceTable
             actions={actions}
             staticResourceData={staticResourceData}

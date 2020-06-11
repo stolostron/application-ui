@@ -5,6 +5,13 @@ exports[`ApplicationDeploymentPipeline renders correctly with data on all apps; 
   id="DeploymentPipeline"
 >
   <div
+    className="refresh-time-container"
+  >
+    <div>
+      Last update: {0}
+    </div>
+  </div>
+  <div
     className="pipelineHeader"
   >
     Resource pipeline
